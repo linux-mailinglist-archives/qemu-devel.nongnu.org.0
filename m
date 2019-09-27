@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551E2C0C32
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 21:46:39 +0200 (CEST)
-Received: from localhost ([::1]:56806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EA4C0C2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 21:43:10 +0200 (CEST)
+Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDwCL-0000bi-Gq
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 15:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46378)
+	id 1iDw8z-00055D-9t
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 15:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDw5W-000391-LO
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:39:36 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDw5Y-0003A9-In
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:39:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDw5V-0006BL-8G
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:39:34 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39940)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDw5X-0006Co-1q
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:39:36 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:45292)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDw5V-0006Ay-2C
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:39:33 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id w10so4002787pgj.7
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 12:39:32 -0700 (PDT)
+ id 1iDw5W-0006Bp-Sj
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:39:34 -0400
+Received: by mail-pf1-x434.google.com with SMTP id y72so2118151pfb.12
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 12:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=w2Q9PJQfueojRR+QKppS6QU37PaRJeAezOuF/SJtJSk=;
- b=bARj/F152KNyjvJ9HpAQMsNuD8coka1Aqez1QksdNMkKVM9LEVJJjQ0fgdP3uRQ0WO
- zJ1f4Ksi7g+R9rnzz8J8NAvRfFzMZxkUw4Gl4BwfgMsCt9aaa7pHdOZplD8mJUnxzW5o
- 4TqLfHpPT0L+JEB+km5PgSl80Pix278710A16a8XswxyAT/a8rfB/LyZVolFeX3F7VR1
- GqZ7zthy17FAgRlPEpUNvsbPpqlOD1uMuclzwZSgEDNyufx8IhtacCCAXpBPzK+tQRqQ
- /NM26OhND6/vUjByRvN/OFU68a4Dspef2GWORmlwMYMGbKrfF85vIO2up+6XOTqgmQ0i
- /40w==
+ bh=mEJpPDOXw0D5Zksw9BQVNR7N9VOlOrM1zivyUmzXqRI=;
+ b=jsTR0IyCMuEVZx9Lx8RFssEvG/ohK4uRRxVYFjzEWqTlxb3UnWmDVNRTUCupuFxeP1
+ xWiTFh8WIjC9w3EhBfSsA8wVsL/AgY92ajqYoF2fJHsV9Rk83ow0T1B2HXIvFOfBPBoa
+ DtoTQpFqf4WmE9DJPdc+0uztksJe2Bqy5BV7zpz6yFefhvsRXP798KSSaqvc/WZ+deKG
+ dX86WiR1/4vt6t6/M6E+/itdLiToKLhMyy33zyoE2Ow+acOvczMMxr+brTe05AIISmg+
+ dYxKkmUF8wbtiWYWpOx87Vk6/a6F3qcququ+5LrDNnOiTM4JwkZ8Iyze/84b1czIpdFC
+ +w8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=w2Q9PJQfueojRR+QKppS6QU37PaRJeAezOuF/SJtJSk=;
- b=n8yhx9WTLxQJ9+8ojyHCWRqCka5ss+JOwxRnbtAOHXekm2PQS2GplhNEBPl5P8anhI
- x7duNe9GkXo1TTQd7CtcKuXSglvbFKf25SMRGAUuJYadDWBKxlAH3KmciXLsDSK9Mdxm
- 5f4ZDFInMIayv5gd95xGsahji/B0CvEw1QHgANH+WjTX2vou9v/PpaEZelzQMKrM8N0C
- jSj82ai18VRt8+FZLHNxpWDEGZWdoKclFR5/garFZhAwovAK58gkSBW1aMKIK7jZZfRk
- pMx9zmreHaru+Oli9gT8kI9ZEIU2Iik9Al/yqZQTALqmgWhlecRLmrtroMy3PlqSibom
- hdiQ==
-X-Gm-Message-State: APjAAAXIkwMaMviI4adVZU3kerul0JnBlRMqjIpLAXgRMIy5mX/eSsuB
- ER/izDK82KEGEsMP21DcAQpuQOOHQ1s=
-X-Google-Smtp-Source: APXvYqypAM5/JCXubU4AD1mP6sCaptS5ItHMD29GAn3PlqOjr+01s5KNTIv+WCENQeyouSEhCnCkwA==
-X-Received: by 2002:a62:64ca:: with SMTP id y193mr6380720pfb.164.1569613171657; 
- Fri, 27 Sep 2019 12:39:31 -0700 (PDT)
+ bh=mEJpPDOXw0D5Zksw9BQVNR7N9VOlOrM1zivyUmzXqRI=;
+ b=g2kOJV7U6VyHJ7qkDsIcuv5Hh2UusvY4tEdznuK/pZdzYma8E5wrTwx0s2Ng8JcBTM
+ wqqP9AGLDz98LspkccVOSBc3HqXHp2fGiShRWjm1uSewN0vgeLniJxPyiyx0xDTvBXKW
+ VXZKVj1ZD9CpawptrJHYqTRX8INsjlrxGucb/qtBRwxwGlgQQPN5qbK3Y+HaJvPcdu+V
+ /FLAf8NHliOtKLU0wL9GXRCK9SH4UBT0AJzpdUE0Z0bdprjHQ9TkWPUm4FKrCAm5KSI6
+ PvsSHL+bASR4oP8IMRWq+rSfNRyKALNSM20FzjWHiZNIIeLcoYtqKv8WksUR+mSYfHZW
+ EkGw==
+X-Gm-Message-State: APjAAAXLCFH6Le35xIRmCGodY/TetRq/4vOt33DBmDScFYBvEXWQwXSm
+ QdtAZdJ2ZJd9YV5EcNN7NJ/Nbcy0OsQ=
+X-Google-Smtp-Source: APXvYqwYYbM8jO9Vi/lRdNZ/7LivPL9oETd9esgPbLd9IFKBO93WdB6LCzUlA8ilON3XoUFkx5mc3A==
+X-Received: by 2002:a63:1d02:: with SMTP id d2mr11106385pgd.190.1569613173324; 
+ Fri, 27 Sep 2019 12:39:33 -0700 (PDT)
 Received: from localhost.localdomain ([12.206.46.62])
- by smtp.gmail.com with ESMTPSA id 192sm3676403pfb.110.2019.09.27.12.39.30
+ by smtp.gmail.com with ESMTPSA id 192sm3676403pfb.110.2019.09.27.12.39.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 12:39:30 -0700 (PDT)
+ Fri, 27 Sep 2019 12:39:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/18] target/s390x: Add ilen to unwind data
-Date: Fri, 27 Sep 2019 12:39:08 -0700
-Message-Id: <20190927193925.23567-2-richard.henderson@linaro.org>
+Subject: [PATCH v4 02/18] target/s390x: Remove ilen parameter from
+ tcg_s390_program_interrupt
+Date: Fri, 27 Sep 2019 12:39:09 -0700
+Message-Id: <20190927193925.23567-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190927193925.23567-1-richard.henderson@linaro.org>
 References: <20190927193925.23567-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52a
+X-Received-From: 2607:f8b0:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,114 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>,
- david@redhat.com
+Cc: qemu-s390x@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <rth@twiddle.net>
+Since we begin the operation with an unwind, we have the proper
+value of ilen immediately available.
 
-Use ILEN_UNWIND to signal that we have in fact that cpu_restore_state
-will have been called by the time we arrive in do_program_interrupt.
-
-Signed-off-by: Richard Henderson <rth@twiddle.net>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/cpu.h       |  4 +++-
- target/s390x/interrupt.c |  5 ++++-
- target/s390x/translate.c | 20 +++++++++++++++++---
- 3 files changed, 24 insertions(+), 5 deletions(-)
+ target/s390x/tcg_s390x.h   | 4 ++--
+ target/s390x/excp_helper.c | 8 ++++----
+ target/s390x/interrupt.c   | 2 +-
+ target/s390x/tcg-stub.c    | 4 ++--
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 1996f44baa..b7d408bf81 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -30,7 +30,7 @@
- /* The z/Architecture has a strong memory model with some store-after-load re-ordering */
- #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
+diff --git a/target/s390x/tcg_s390x.h b/target/s390x/tcg_s390x.h
+index 2813f9d48e..2f54ccb027 100644
+--- a/target/s390x/tcg_s390x.h
++++ b/target/s390x/tcg_s390x.h
+@@ -14,8 +14,8 @@
+ #define TCG_S390X_H
  
--#define TARGET_INSN_START_EXTRA_WORDS 1
-+#define TARGET_INSN_START_EXTRA_WORDS 2
+ void tcg_s390_tod_updated(CPUState *cs, run_on_cpu_data opaque);
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+-                                              int ilen, uintptr_t ra);
++void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
++                                              uint32_t code, uintptr_t ra);
+ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t dxc,
+                                            uintptr_t ra);
+ void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_t vxc,
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 892f659d5a..681a9c59e1 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -34,15 +34,15 @@
+ #include "hw/boards.h"
+ #endif
  
- #define MMU_MODE0_SUFFIX _primary
- #define MMU_MODE1_SUFFIX _secondary
-@@ -803,6 +803,8 @@ int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
- void s390_crw_mchk(void);
- void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
-                        uint32_t io_int_parm, uint32_t io_int_word);
-+/* instruction length set by unwind info */
-+#define ILEN_UNWIND                 0
- /* automatically detect the instruction length */
- #define ILEN_AUTO                   0xff
- #define RA_IGNORED                  0
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+-                                              int ilen, uintptr_t ra)
++void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
++                                              uint32_t code, uintptr_t ra)
+ {
+     CPUState *cs = env_cpu(env);
+ 
+     cpu_restore_state(cs, ra, true);
+     qemu_log_mask(CPU_LOG_INT, "program interrupt at %#" PRIx64 "\n",
+                   env->psw.addr);
+-    trigger_pgm_exception(env, code, ilen);
++    trigger_pgm_exception(env, code, ILEN_UNWIND);
+     cpu_loop_exit(cs);
+ }
+ 
+@@ -60,7 +60,7 @@ void QEMU_NORETURN tcg_s390_data_exception(CPUS390XState *env, uint32_t dxc,
+     if (env->cregs[0] & CR0_AFP) {
+         env->fpc = deposit32(env->fpc, 8, 8, dxc);
+     }
+-    tcg_s390_program_interrupt(env, PGM_DATA, ILEN_AUTO, ra);
++    tcg_s390_program_interrupt(env, PGM_DATA, ra);
+ }
+ 
+ void QEMU_NORETURN tcg_s390_vector_exception(CPUS390XState *env, uint32_t vxc,
 diff --git a/target/s390x/interrupt.c b/target/s390x/interrupt.c
-index a841f7187d..30a9fb8852 100644
+index 30a9fb8852..b798e2ecbe 100644
 --- a/target/s390x/interrupt.c
 +++ b/target/s390x/interrupt.c
-@@ -28,7 +28,10 @@ void trigger_pgm_exception(CPUS390XState *env, uint32_t code, uint32_t ilen)
- 
-     cs->exception_index = EXCP_PGM;
-     env->int_pgm_code = code;
--    env->int_pgm_ilen = ilen;
-+    /* If ILEN_UNWIND, int_pgm_ilen already has the correct value.  */
-+    if (ilen != ILEN_UNWIND) {
-+        env->int_pgm_ilen = ilen;
-+    }
- }
- 
- void s390_program_interrupt(CPUS390XState *env, uint32_t code, int ilen,
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index a3e43ff9ec..151dfa91fb 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -6309,6 +6309,9 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
-     /* Search for the insn in the table.  */
-     insn = extract_insn(env, s, &f);
- 
-+    /* Emit insn_start now that we know the ILEN.  */
-+    tcg_gen_insn_start(s->base.pc_next, s->cc_op, s->ilen);
-+
-     /* Not found means unimplemented/illegal opcode.  */
-     if (insn == NULL) {
-         qemu_log_mask(LOG_UNIMP, "unimplemented opcode 0x%02x%02x\n",
-@@ -6463,9 +6466,6 @@ static void s390x_tr_tb_start(DisasContextBase *db, CPUState *cs)
- 
- static void s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
- {
--    DisasContext *dc = container_of(dcbase, DisasContext, base);
--
--    tcg_gen_insn_start(dc->base.pc_next, dc->cc_op);
- }
- 
- static bool s390x_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
-@@ -6473,6 +6473,14 @@ static bool s390x_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
- 
-+    /*
-+     * Emit an insn_start to accompany the breakpoint exception.
-+     * The ILEN value is a dummy, since this does not result in
-+     * an s390x exception, but an internal qemu exception which
-+     * brings us back to interact with the gdbstub.
-+     */
-+    tcg_gen_insn_start(dc->base.pc_next, dc->cc_op, 2);
-+
-     dc->base.is_jmp = DISAS_PC_STALE;
-     dc->do_debug = true;
-     /* The address covered by the breakpoint must be included in
-@@ -6567,8 +6575,14 @@ void restore_state_to_opc(CPUS390XState *env, TranslationBlock *tb,
-                           target_ulong *data)
- {
-     int cc_op = data[1];
-+
-     env->psw.addr = data[0];
-+
-+    /* Update the CC opcode if it is not already up-to-date.  */
-     if ((cc_op != CC_OP_DYNAMIC) && (cc_op != CC_OP_STATIC)) {
-         env->cc_op = cc_op;
+@@ -40,7 +40,7 @@ void s390_program_interrupt(CPUS390XState *env, uint32_t code, int ilen,
+     if (kvm_enabled()) {
+         kvm_s390_program_interrupt(env_archcpu(env), code);
+     } else if (tcg_enabled()) {
+-        tcg_s390_program_interrupt(env, code, ilen, ra);
++        tcg_s390_program_interrupt(env, code, ra);
+     } else {
+         g_assert_not_reached();
      }
-+
-+    /* Record ILEN.  */
-+    env->int_pgm_ilen = data[2];
+diff --git a/target/s390x/tcg-stub.c b/target/s390x/tcg-stub.c
+index 32adb7276a..d22c898802 100644
+--- a/target/s390x/tcg-stub.c
++++ b/target/s390x/tcg-stub.c
+@@ -18,8 +18,8 @@
+ void tcg_s390_tod_updated(CPUState *cs, run_on_cpu_data opaque)
+ {
+ }
+-void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+-                                              int ilen, uintptr_t ra)
++void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env,
++                                              uint32_t code, uintptr_t ra)
+ {
+     g_assert_not_reached();
  }
 -- 
 2.17.1
