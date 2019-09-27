@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8C0C09BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:42:16 +0200 (CEST)
-Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97CAC09CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:47:20 +0200 (CEST)
+Received: from localhost ([::1]:53532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtJv-0006vb-7F
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51277)
+	id 1iDtOp-0002VT-Fu
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSg-0002Wy-Os
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrT0-0002nx-4q
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSd-00089u-7P
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:09 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35097)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrSy-0008Cn-S4
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:29 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39269)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDrSb-00087x-5j
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:05 -0400
-Received: by mail-wr1-x442.google.com with SMTP id v8so3153945wrt.2
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:43:01 -0700 (PDT)
+ id 1iDrSy-0008Cj-MI
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:28 -0400
+Received: by mail-oi1-x241.google.com with SMTP id w144so5400392oia.6
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Nfr1PbQT0Jo9Bvco8Z/MdDyJj7lbe3iyjg+htmYoZyk=;
- b=lvZ7kUgPYDeisfp8Kul6oDEt308mX3gDVEeShL3OAvE0ikqkAM78ZqzEOwcS8/2q1V
- H3/UuVhse+sKqC+yTesLgflqc5LaZAqxufUUoUJXiOCOb3QCuDC9SZIx8LLGcInOIv+J
- Gj96fSNInS+C96wNiBLHOFgSm5wdaUZmKbTDmsr2eXmgbnSPErKL86fJtigojUkXQHJg
- GCAxW9HgiD2jVeDV/BJCkFv2BLDjHxYSiaXx2/nwRovyKU1Yh1C1F4EiPu8RvR7Ly1AR
- se98U++rYmN/OcikJVbGTYsohB8JdhNJ91bhrtdT8bp6RYw6OY0IcRRgKoPiYyUY2C1J
- DDhQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PR/cuSkpFNsE9HTjNaJ/eiyMiny+wW2GXOgwyGaTx+M=;
+ b=rSj3u1dfqWtremJEcWt5E5dgGjPVQIoZ7+I2/yiWOGgWo7gBwhwqJPpSq0gs2pj1/w
+ 3xigTc2Hm7keA2DJDNcsaC5eOLWw/fvOsHA0pbdMCoB2h0t1ZBRCSr/O12cqu0+aSWQ7
+ o6OuNqlVXcM8jq1/mphsPT5Vbpp0m7HL4oWDlf/7U59Vxs7sg3gV74ra6wlkEOxoBE5Y
+ 6sEptp57C5TNssyIotgLYUWuh6Q+G8GIN5sY1yAco69Yq+pDjZtvd0ioZ4H0i7UM9322
+ lSi6Dd1oOOVdwUsOZCLDzVTuV2+ol2wwW0vOxALt/xas4WHbKvSIv5CPWPzTLRAGtfmh
+ yDdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Nfr1PbQT0Jo9Bvco8Z/MdDyJj7lbe3iyjg+htmYoZyk=;
- b=eGVVZlqFz0Qi/EV20wTzX3i9knh0II3o2kuwsHAVNjZf2Xfaw/I0acDX33vbo7SrSg
- jfSoIW3iUw2+ofls+p2paKZSu2vyN5gZG03+iGem/trmuGiFhQJ6Py8gTuldzyjVIK8L
- fn2aIiw7DkLCyA1yO2b9m0pl3BUYlpjoO/3RmAL36AlOHzUtvLM1LpSmfU/TFnXl1sTi
- iLZp+P3WG2UIbiYPKRziV7vye8e6WQPlanLkpod2Hxj4SaGcHZ/fvqFWLh6Avz27NkhN
- hFd9kORhxJi4FS1KXe3KHDcy80AdZ+Sy8fVF/rQjNFJzv+U9nN+IzeqfruJcLcwH5Wfx
- 4H1g==
-X-Gm-Message-State: APjAAAWhY4/cxBjBefcosu8Drv8lBJ+jAYXBzu1xft3y7UshJziOyP+o
- rF/beBHgNXR8sNHJcdW5GvJr9MTX1GwAKw==
-X-Google-Smtp-Source: APXvYqzOSanJqfFoC3rXuZ4CzXmYdQ7qNdQZaqAo32D33UouQyfeVUaCrsKTr/UWYld91qNTo14BwA==
-X-Received: by 2002:a1c:2144:: with SMTP id h65mr7924062wmh.114.1569595380311; 
- Fri, 27 Sep 2019 07:43:00 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.59
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 07:42:59 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 9/9] hw/arm/boot: Use the IEC binary prefix definitions
-Date: Fri, 27 Sep 2019 15:42:49 +0100
-Message-Id: <20190927144249.29999-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
-References: <20190927144249.29999-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PR/cuSkpFNsE9HTjNaJ/eiyMiny+wW2GXOgwyGaTx+M=;
+ b=NdZUHeKvBiGBBGgaogf0yOFRoD/gko85z/FrFo+ieAQnshBX9wdVtHXOfrCCPvr9eX
+ vw8Y0GsjOTpaE/LKvbKzNp5/cpDPNc9eAAaFaq5b7fJdkHG5ZYOHoG1D0DUHOY56poKB
+ nXWB5GyEqqpemT0+s0JfHQmbRiRZqR+Q0Tp8zQmjnA/3XLVp6WGNYgZQOlrlsWRVOvUZ
+ j/qUzg13uYEPyIXJ8dZSInCfdCwgLShV0/sDOLJb53p/Nwxx0sA/QxKv7aekUJ93JOVI
+ pz28YF1sJRFw3zeGFnNQhyvHAs4aHjyQp+uhVOvH22DICB+GXKPFZ0ePQLO1sj5uljqa
+ uJiA==
+X-Gm-Message-State: APjAAAWAFY2fHQqWbyDbCHaHHfZZxigutYNnWcQyaIGqq4xdFKQCNs99
+ MLFAkI9MLTzOsUOUIlH30VTgWGLRfruxw1jx4tkwww==
+X-Google-Smtp-Source: APXvYqwPfjfwp8lFiPyV8HmPX/KvR/R5h7aSTGG52TWcyGoZYMCaEhWeB/ND8+AS2TipCP0L72d7D+vgw1kqIbI687c=
+X-Received: by 2002:aca:50d8:: with SMTP id e207mr6948460oib.48.1569595407816; 
+ Fri, 27 Sep 2019 07:43:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190925184548.30673-1-richard.henderson@linaro.org>
+In-Reply-To: <20190925184548.30673-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 15:43:16 +0100
+Message-ID: <CAFEAcA_=uCTL5jSJFMvALKRSy2rrNq00ighm6z1zD8jxwUFMUw@mail.gmail.com>
+Subject: Re: [PULL 00/16] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,71 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, 25 Sep 2019 at 19:45, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is v4 of my notdirty + rom patch set with two suggested name
+> changes (qemu_build_not_reached, TLB_DISCARD_WRITE) from David and Alex.
+>
+>
+> r~
+>
+>
+> The following changes since commit 240ab11fb72049d6373cbbec8d788f8e411a00bc:
+>
+>   Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20190924' into staging (2019-09-24 15:36:31 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/rth7680/qemu.git tags/pull-tcg-20190925
+>
+> for you to fetch changes up to ae57db63acf5a0399232f852acc5c1d83ef63400:
+>
+>   cputlb: Pass retaddr to tb_check_watchpoint (2019-09-25 10:56:28 -0700)
+>
+> ----------------------------------------------------------------
+> Fixes for TLB_BSWAP
+> Coversion of NOTDIRTY and ROM handling to cputlb
+> Followup cleanups to cputlb
+>
 
-IEC binary prefixes ease code review: the unit is explicit.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190923131108.21459-1-philmd@redhat.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/boot.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Applied, thanks.
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 25422660545..c264864c11d 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -575,7 +575,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-         goto fail;
-     }
- 
--    if (scells < 2 && binfo->ram_size >= (1ULL << 32)) {
-+    if (scells < 2 && binfo->ram_size >= 4 * GiB) {
-         /* This is user error so deserves a friendlier error message
-          * than the failure of setprop_sized_cells would provide
-          */
-@@ -1097,7 +1097,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-      * we might still make a bad choice here.
-      */
-     info->initrd_start = info->loader_start +
--        MIN(info->ram_size / 2, 128 * 1024 * 1024);
-+        MIN(info->ram_size / 2, 128 * MiB);
-     if (image_high_addr) {
-         info->initrd_start = MAX(info->initrd_start, image_high_addr);
-     }
-@@ -1157,13 +1157,13 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-                  *
-                  * Let's play safe and prealign it to 2MB to give us some space.
-                  */
--                align = 2 * 1024 * 1024;
-+                align = 2 * MiB;
-             } else {
-                 /*
-                  * Some 32bit kernels will trash anything in the 4K page the
-                  * initrd ends in, so make sure the DTB isn't caught up in that.
-                  */
--                align = 4096;
-+                align = 4 * KiB;
-             }
- 
-             /* Place the DTB after the initrd in memory with alignment. */
-@@ -1180,7 +1180,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-                 info->loader_start + KERNEL_ARGS_ADDR;
-             fixupcontext[FIXUP_ARGPTR_HI] =
-                 (info->loader_start + KERNEL_ARGS_ADDR) >> 32;
--            if (info->ram_size >= (1ULL << 32)) {
-+            if (info->ram_size >= 4 * GiB) {
-                 error_report("RAM size must be less than 4GB to boot"
-                              " Linux kernel using ATAGS (try passing a device tree"
-                              " using -dtb)");
--- 
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
+-- PMM
 
