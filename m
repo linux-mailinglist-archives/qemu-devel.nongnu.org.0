@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4757DC0C45
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 21:53:32 +0200 (CEST)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491F5C0C47
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 21:55:49 +0200 (CEST)
+Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDwJ0-00081g-MX
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 15:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46853)
+	id 1iDwLD-0002pb-VS
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 15:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDw61-0003Zo-T0
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:40:07 -0400
+ (envelope-from <estebanbosse@gmail.com>) id 1iDwCJ-0001tN-1m
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:46:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDw60-0006h9-37
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:40:05 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:34827)
+ (envelope-from <estebanbosse@gmail.com>) id 1iDwCH-0001sT-EP
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:46:34 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:33442)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDw5y-0006f2-I8
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 15:40:03 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id y10so1479372plp.2
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 12:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mTFuitZe7hi832mSOd5Lm6Rc+DkzGOsmyco0ZFUycTI=;
- b=qGPsmrXG54x+Oh96kLbPCff8uASvb7FkRmjJGHrM3YlW1HAhbxc4NzbdkbPU2H1Dln
- rRFZLEshhkmJk3PUgTZ20h8vVFo8cz8DJv5zU/zXz5ST0zwNJw6TJdJGUIqdQCBfYYZw
- 7jGaEdRGVnENlNvdcUe/IxwGtvOnpzYICn6l/10WmiyKlO7qSDwgQui+V26O0erTF20D
- QDXDaRKF5+ClvSEF7SXVo6R9Yz4c4j6l0mryU8xgd4/+m6zHtrSBgCYtj7ip9DiiY1L5
- 0n8KNI+K9C5AvB2BNayL4VlIipvkaeEj0FW6Ncf1bxyVYnxzC27i64CW4Ne9921xUQ4s
- GXSg==
+ (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
+ id 1iDwCH-0001qk-6N; Fri, 27 Sep 2019 15:46:33 -0400
+Received: by mail-ed1-x543.google.com with SMTP id c4so3384411edl.0;
+ Fri, 27 Sep 2019 12:46:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jOwWvrN151x0DDEdrQrY3RB+nObetgY3tjAATY489o8=;
+ b=rPJrpEsUyphW5X37v+48Dkx72u4xiMqAU2tI4jAKEBQV+MIH35D2nfkDyoI4de254o
+ FFI/j3jlL/a2kG/TykTqP95lQHWJ0QxxqLWafxAxoZDH3Q4jkLxYgUYDwQUN6k5CfLyH
+ Y4EsE7Ujtj9BsG1r3tyTzIJ024PRYC4fJTmjXlHm3sVsYOY+9wVa/qwc4gOiZm785aK5
+ 4JIij+IWFirG+kZ676W5slSVCcUlas00YN7Iok6w6BxerdrCrri4gZ3jADgLyeNuFKJ1
+ cgOZUZfgI0kBn4JqsGDLCbefSpdncoDotOUrB35HQ+134YpfIT7p7LW/kXT1znEoVbZj
+ Q0+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=mTFuitZe7hi832mSOd5Lm6Rc+DkzGOsmyco0ZFUycTI=;
- b=FO7VaoJJjPvMTKJjDu2xTH0gGCB3Z84w2DDsbegIInoqjflowz4VflIfdXdtz21D6w
- SOFV0NFC3mLkeTseJZCp73qP3U+LbJfW0OMrUHvxr8VrJSPIpmhcBAB/VOQ4ICVF7uRE
- IunGRoII6PuffKNyWurVhZjfOEez900WeItqdSKP8hxmX8tbzo0OlTzhrG6kTr9c+PDx
- tSR4fXTGap1PI2zTAMycWbiErYqU6Whs/B3VvCKusXnpxCRItw8rsWBReyF07zC9qjOK
- 2T0pqWtVRjjgUu+3lJqt8QOmVdGiq1v/rd2gRYSjtJ1y7vMAQVQ0KWPI0MrI2CiEmBti
- m83w==
-X-Gm-Message-State: APjAAAVWtmM2dNvweimrttwVlHWHXC33hLeDZTDdhq5a2/OtypGpdSFu
- tQeqYvueZf1SnrnjKfTb+qrUh1MHEm4=
-X-Google-Smtp-Source: APXvYqxqyr1a9cesbgZUjPzO/XJ0lQKjO/1tpyGA7dvk/nEMdjE8b3CAXR0uwYo1NriviHYS0CPeyA==
-X-Received: by 2002:a17:902:7401:: with SMTP id
- g1mr6588734pll.20.1569613200545; 
- Fri, 27 Sep 2019 12:40:00 -0700 (PDT)
-Received: from localhost.localdomain ([12.206.46.62])
- by smtp.gmail.com with ESMTPSA id 192sm3676403pfb.110.2019.09.27.12.39.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 12:39:59 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/18] target/s390x: Remove ILEN_UNWIND
-Date: Fri, 27 Sep 2019 12:39:25 -0700
-Message-Id: <20190927193925.23567-19-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190927193925.23567-1-richard.henderson@linaro.org>
-References: <20190927193925.23567-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jOwWvrN151x0DDEdrQrY3RB+nObetgY3tjAATY489o8=;
+ b=DO87aiv+qsyCOtWBsg5UT40XUU+rhv3hrZuz68iEfWjIJPhADiSV3BU+LnIU/YIwnO
+ tqd2qM0sYG00qNe5TnKMRSLJv8Zqu9sWQUO8THRLU4U2khbHUEXXGI6WnTpfjQOlA43h
+ ucVitOO0fep2Sp2cXxAb8mtzKvGmBj3sCeVuA1I+IZz4avUiXESjYO5Js6wkIv7CaOz6
+ t4N0m3jzJRCB/B9nEnUTVmGgRbsRfR/9J5Rj+qTtf7dq+GYKAHQPLMuuI+Wua+QwfBpF
+ YnmYQj7IyxZpH5UyfhQ0n2o5UHgDUh3+XwNTGW4YCJhiybuYpBK2l1wztxJqzzvmwz72
+ FfRA==
+X-Gm-Message-State: APjAAAX8QBWj48GTEstg7MZYb03n5a0inoX4SqX6kDSrimjXf/JRc7SU
+ DE9axZCSTCBCSAqxUds2JWoLHd7wYgSQA/vK/g8=
+X-Google-Smtp-Source: APXvYqziPUpoXDAVoZ8oJ5a55BD0r4I6fULcHp2Wskqi9Qir2FMVrmQjKVwS2qVE6S/7GuCMtK/p40AtFyev6iyaTrw=
+X-Received: by 2002:a17:906:ecb6:: with SMTP id
+ qh22mr9266527ejb.114.1569613590259; 
+ Fri, 27 Sep 2019 12:46:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190904171315.8354-1-f4bug@amsat.org>
+ <20190904171315.8354-2-f4bug@amsat.org>
+In-Reply-To: <20190904171315.8354-2-f4bug@amsat.org>
+From: Esteban Bosse <estebanbosse@gmail.com>
+Date: Fri, 27 Sep 2019 21:46:19 +0200
+Message-ID: <CAGbAg_Du+eVRgZp+ue6zwMknAgJx8zFF6W7DaD8BB5MUkkMoDQ@mail.gmail.com>
+Subject: Re: [PATCH 01/14] hw/arm/raspi: Use the IEC binary prefix definitions
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000007b6ca105938e24d2"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
+X-Received-From: 2a00:1450:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,31 +72,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This setting is no longer used.
+--0000000000007b6ca105938e24d2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/cpu.h | 2 --
- 1 file changed, 2 deletions(-)
+Reviewed-by: Esteban
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 686cbe41e0..fe1bf746f3 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -803,8 +803,6 @@ int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
- void s390_crw_mchk(void);
- void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
-                        uint32_t io_int_parm, uint32_t io_int_word);
--/* instruction length set by unwind info */
--#define ILEN_UNWIND                 0
- #define RA_IGNORED                  0
- void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
- /* service interrupts are floating therefore we must not pass an cpustate */
--- 
-2.17.1
+El mi=C3=A9., 4 sept. 2019 a las 19:13, Philippe Mathieu-Daud=C3=A9 (<f4bug=
+@amsat.org>)
+escribi=C3=B3:
 
+> IEC binary prefixes ease code review: the unit is explicit.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/arm/raspi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 74c062d05e..615d755879 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -230,7 +230,7 @@ static void raspi2_machine_init(MachineClass *mc)
+>      mc->max_cpus =3D BCM283X_NCPUS;
+>      mc->min_cpus =3D BCM283X_NCPUS;
+>      mc->default_cpus =3D BCM283X_NCPUS;
+> -    mc->default_ram_size =3D 1024 * 1024 * 1024;
+> +    mc->default_ram_size =3D 1 * GiB;
+>      mc->ignore_memory_transaction_failures =3D true;
+>  };
+>  DEFINE_MACHINE("raspi2", raspi2_machine_init)
+> @@ -252,7 +252,7 @@ static void raspi3_machine_init(MachineClass *mc)
+>      mc->max_cpus =3D BCM283X_NCPUS;
+>      mc->min_cpus =3D BCM283X_NCPUS;
+>      mc->default_cpus =3D BCM283X_NCPUS;
+> -    mc->default_ram_size =3D 1024 * 1024 * 1024;
+> +    mc->default_ram_size =3D 1 * GiB;
+>  }
+>  DEFINE_MACHINE("raspi3", raspi3_machine_init)
+>  #endif
+> --
+> 2.20.1
+>
+>
+
+--0000000000007b6ca105938e24d2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Esteban<br></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">El mi=C3=A9., 4 sept. 2019 a las 1=
+9:13, Philippe Mathieu-Daud=C3=A9 (&lt;<a href=3D"mailto:f4bug@amsat.org">f=
+4bug@amsat.org</a>&gt;) escribi=C3=B3:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">IEC binary prefixes ease code review: the unit is ex=
+plicit.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+---<br>
+=C2=A0hw/arm/raspi.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c<br>
+index 74c062d05e..615d755879 100644<br>
+--- a/hw/arm/raspi.c<br>
++++ b/hw/arm/raspi.c<br>
+@@ -230,7 +230,7 @@ static void raspi2_machine_init(MachineClass *mc)<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;max_cpus =3D BCM283X_NCPUS;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;min_cpus =3D BCM283X_NCPUS;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;default_cpus =3D BCM283X_NCPUS;<br>
+-=C2=A0 =C2=A0 mc-&gt;default_ram_size =3D 1024 * 1024 * 1024;<br>
++=C2=A0 =C2=A0 mc-&gt;default_ram_size =3D 1 * GiB;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;ignore_memory_transaction_failures =3D true;<br>
+=C2=A0};<br>
+=C2=A0DEFINE_MACHINE(&quot;raspi2&quot;, raspi2_machine_init)<br>
+@@ -252,7 +252,7 @@ static void raspi3_machine_init(MachineClass *mc)<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;max_cpus =3D BCM283X_NCPUS;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;min_cpus =3D BCM283X_NCPUS;<br>
+=C2=A0 =C2=A0 =C2=A0mc-&gt;default_cpus =3D BCM283X_NCPUS;<br>
+-=C2=A0 =C2=A0 mc-&gt;default_ram_size =3D 1024 * 1024 * 1024;<br>
++=C2=A0 =C2=A0 mc-&gt;default_ram_size =3D 1 * GiB;<br>
+=C2=A0}<br>
+=C2=A0DEFINE_MACHINE(&quot;raspi3&quot;, raspi3_machine_init)<br>
+=C2=A0#endif<br>
+-- <br>
+2.20.1<br>
+<br>
+</blockquote></div>
+
+--0000000000007b6ca105938e24d2--
 
