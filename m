@@ -2,47 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66629C0729
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:20:18 +0200 (CEST)
-Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FF5C074A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:26:00 +0200 (CEST)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDr6W-0002Nv-Nh
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:20:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37809)
+	id 1iDrC3-0000Uy-Ao
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iDqRl-0001bi-3H
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:38:10 -0400
+ (envelope-from <david@redhat.com>) id 1iDqFW-0006fc-EZ
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:25:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iDqRj-0003G5-UD
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:38:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33884)
+ (envelope-from <david@redhat.com>) id 1iDqFS-0000yX-WF
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:25:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33352)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDqRj-0003F2-Oh
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:38:07 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iDqFS-0000yR-NV; Fri, 27 Sep 2019 09:25:26 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B92E310C0931
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:32 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
- [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DF78608C2;
- Fri, 27 Sep 2019 09:59:31 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 02/11] qcrypto-luks: don't overwrite cipher_mode in header
-Date: Fri, 27 Sep 2019 10:59:17 +0100
-Message-Id: <20190927095926.22230-3-berrange@redhat.com>
-In-Reply-To: <20190927095926.22230-1-berrange@redhat.com>
-References: <20190927095926.22230-1-berrange@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 64D88306E200;
+ Fri, 27 Sep 2019 10:57:18 +0000 (UTC)
+Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B6A46012C;
+ Fri, 27 Sep 2019 10:57:17 +0000 (UTC)
+Subject: Re: [PATCH v3 13/18] target/s390x: Simplify helper_lra
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190926162615.31168-1-richard.henderson@linaro.org>
+ <20190926162615.31168-14-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <b9c1b88b-4236-1280-6e77-cadb7a3b3e66@redhat.com>
+Date: Fri, 27 Sep 2019 12:57:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Fri, 27 Sep 2019 09:59:32 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190926162615.31168-14-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Fri, 27 Sep 2019 10:57:18 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -57,69 +105,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+On 26.09.19 18:26, Richard Henderson wrote:
+> We currently call trigger_pgm_exception to set cs->exception_index
+> and env->int_pgm_code and then read the values back and then
+> reset cs->exception_index so that the exception is not delivered.
+> 
+> Instead, use the exception type that we already have directly
+> without ever triggering an exception that must be suppressed.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/mem_helper.c | 17 +++--------------
+>  1 file changed, 3 insertions(+), 14 deletions(-)
+> 
+> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+> index e15aa296dd..4254548935 100644
+> --- a/target/s390x/mem_helper.c
+> +++ b/target/s390x/mem_helper.c
+> @@ -2361,34 +2361,23 @@ void HELPER(sturg)(CPUS390XState *env, uint64_t addr, uint64_t v1)
+>  /* load real address */
+>  uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
+>  {
+> -    CPUState *cs = env_cpu(env);
+> -    uint32_t cc = 0;
+>      uint64_t asc = env->psw.mask & PSW_MASK_ASC;
+>      uint64_t ret, tec;
+> -    int old_exc, flags, exc;
+> +    int flags, exc, cc;
+>  
+>      /* XXX incomplete - has more corner cases */
+>      if (!(env->psw.mask & PSW_MASK_64) && (addr >> 32)) {
+>          tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
+>      }
+>  
+> -    old_exc = cs->exception_index;
+>      exc = mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
+>      if (exc) {
+> -        /*
+> -         * We don't care about ILEN or TEC, as we're not going to
+> -         * deliver the exception -- thus resetting exception_index below.
+> -         * TODO: clean this up.
+> -         */
+> -        trigger_pgm_exception(env, exc, ILEN_UNWIND);
+>          cc = 3;
+> -    }
+> -    if (cs->exception_index == EXCP_PGM) {
+> -        ret = env->int_pgm_code | 0x80000000;
+> +        ret = exc | 0x80000000;
+>      } else {
+> +        cc = 0;
+>          ret |= addr & ~TARGET_PAGE_MASK;
+>      }
+> -    cs->exception_index = old_exc;
+>  
+>      env->cc_op = cc;
+>      return ret;
+> 
 
-This way we can store the header we loaded, which
-will be used in key management code
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- crypto/block-luks.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Much better
 
-diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index f12fa2d270..25f8a9f1c4 100644
---- a/crypto/block-luks.c
-+++ b/crypto/block-luks.c
-@@ -645,6 +645,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-     QCryptoHashAlgorithm hash;
-     QCryptoHashAlgorithm ivhash;
-     g_autofree char *password =3D NULL;
-+    g_autofree char *cipher_mode =3D NULL;
-=20
-     if (!(flags & QCRYPTO_BLOCK_OPEN_NO_IO)) {
-         if (!options->u.luks.key_secret) {
-@@ -701,6 +702,8 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-         goto fail;
-     }
-=20
-+    cipher_mode =3D g_strdup(luks->header.cipher_mode);
-+
-     /*
-      * The cipher_mode header contains a string that we have
-      * to further parse, of the format
-@@ -709,11 +712,11 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-      *
-      * eg  cbc-essiv:sha256, cbc-plain64
-      */
--    ivgen_name =3D strchr(luks->header.cipher_mode, '-');
-+    ivgen_name =3D strchr(cipher_mode, '-');
-     if (!ivgen_name) {
-         ret =3D -EINVAL;
-         error_setg(errp, "Unexpected cipher mode string format %s",
--                   luks->header.cipher_mode);
-+                   cipher_mode);
-         goto fail;
-     }
-     *ivgen_name =3D '\0';
-@@ -735,7 +738,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-         }
-     }
-=20
--    ciphermode =3D qcrypto_block_luks_cipher_mode_lookup(luks->header.ci=
-pher_mode,
-+    ciphermode =3D qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
-                                                        &local_err);
-     if (local_err) {
-         ret =3D -ENOTSUP;
---=20
-2.21.0
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
+-- 
+
+Thanks,
+
+David / dhildenb
 
