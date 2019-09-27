@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB440C06AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:51:24 +0200 (CEST)
-Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D828C06BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:54:58 +0200 (CEST)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqeY-00049U-NK
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
+	id 1iDqi0-00082Z-A9
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDpuq-0005Cn-8M
+ (envelope-from <berrange@redhat.com>) id 1iDpuq-0005Cu-Hu
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDpuo-0004EI-F1
+ (envelope-from <berrange@redhat.com>) id 1iDpuo-0004EO-Vc
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53836)
+Received: from mx1.redhat.com ([209.132.183.28]:45304)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDpum-0004DD-Dt; Fri, 27 Sep 2019 09:04:05 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDpum-0004DC-E7
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:06 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 023F1796E9;
- Fri, 27 Sep 2019 09:58:54 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0299E1001B20;
- Fri, 27 Sep 2019 09:58:49 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id A52C0796FC
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:50 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
+ [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABBC460A9F;
+ Fri, 27 Sep 2019 09:59:47 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/7] s390x/mmu: Use TARGET_PAGE_MASK in mmu_translate_pte()
-Date: Fri, 27 Sep 2019 11:58:29 +0200
-Message-Id: <20190927095831.23543-6-david@redhat.com>
-In-Reply-To: <20190927095831.23543-1-david@redhat.com>
-References: <20190927095831.23543-1-david@redhat.com>
+Subject: [PULL 11/11] qcrypto-luks: more rigorous header checking
+Date: Fri, 27 Sep 2019 10:59:26 +0100
+Message-Id: <20190927095926.22230-12-berrange@redhat.com>
+In-Reply-To: <20190927095926.22230-1-berrange@redhat.com>
+References: <20190927095926.22230-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 27 Sep 2019 09:58:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 27 Sep 2019 09:59:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -55,36 +57,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While ASCE_ORIGIN is not wrong, it is certainly confusing. We want a
-page frame address.
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+Check that keyslots don't overlap with the data,
+and check that keyslots don't overlap with each other.
+(this is done using naive O(n^2) nested loops,
+but since there are just 8 keyslots, this doesn't really matter.
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- target/s390x/mmu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ crypto/block-luks.c | 52 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 71dee0a5d9..aaf5b23513 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -129,7 +129,7 @@ static int mmu_translate_pte(CPUS390XState *env, targ=
-et_ulong vaddr,
-         *flags &=3D ~PAGE_WRITE;
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index a53d5d1916..4861db810c 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -530,6 +530,11 @@ qcrypto_block_luks_load_header(QCryptoBlock *block,
+ static int
+ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **er=
+rp)
+ {
++    size_t i, j;
++
++    unsigned int header_sectors =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET /
++        QCRYPTO_BLOCK_LUKS_SECTOR_SIZE;
++
+     if (memcmp(luks->header.magic, qcrypto_block_luks_magic,
+                QCRYPTO_BLOCK_LUKS_MAGIC_LEN) !=3D 0) {
+         error_setg(errp, "Volume is not in LUKS format");
+@@ -541,6 +546,53 @@ qcrypto_block_luks_check_header(const QCryptoBlockLU=
+KS *luks, Error **errp)
+                    luks->header.version);
+         return -1;
      }
-=20
--    *raddr =3D pt_entry & ASCE_ORIGIN;
-+    *raddr =3D pt_entry & TARGET_PAGE_MASK;
++
++    /* Check all keyslots for corruption  */
++    for (i =3D 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
++
++        const QCryptoBlockLUKSKeySlot *slot1 =3D &luks->header.key_slots=
+[i];
++        unsigned int start1 =3D slot1->key_offset_sector;
++        unsigned int len1 =3D
++            qcrypto_block_luks_splitkeylen_sectors(luks,
++                                                   header_sectors,
++                                                   slot1->stripes);
++
++        if (slot1->stripes =3D=3D 0) {
++            error_setg(errp, "Keyslot %zu is corrupted (stripes =3D=3D 0=
+)", i);
++            return -1;
++        }
++
++        if (slot1->active !=3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED &&
++            slot1->active !=3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED) {
++            error_setg(errp,
++                       "Keyslot %zu state (active/disable) is corrupted"=
+, i);
++            return -1;
++        }
++
++        if (start1 + len1 > luks->header.payload_offset_sector) {
++            error_setg(errp,
++                       "Keyslot %zu is overlapping with the encrypted pa=
+yload",
++                       i);
++            return -1;
++        }
++
++        for (j =3D i + 1 ; j < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; j++) {
++            const QCryptoBlockLUKSKeySlot *slot2 =3D &luks->header.key_s=
+lots[j];
++            unsigned int start2 =3D slot2->key_offset_sector;
++            unsigned int len2 =3D
++                qcrypto_block_luks_splitkeylen_sectors(luks,
++                                                       header_sectors,
++                                                       slot2->stripes);
++
++            if (start1 + len1 > start2 && start2 + len2 > start1) {
++                error_setg(errp,
++                           "Keyslots %zu and %zu are overlapping in the =
+header",
++                           i, j);
++                return -1;
++            }
++        }
++
++    }
      return 0;
  }
 =20
