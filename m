@@ -2,55 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9172CC05E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:00:58 +0200 (CEST)
-Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69B1C05EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:02:53 +0200 (CEST)
+Received: from localhost ([::1]:49910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDprk-0001mU-P0
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:00:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52370)
+	id 1iDptb-00036M-Sq
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:02:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iDpky-0003IZ-US
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:53:59 -0400
+ (envelope-from <groug@kaod.org>) id 1iDpk6-00030n-48
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:53:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iDpkv-0001fL-VK
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:53:56 -0400
-Resent-Date: Fri, 27 Sep 2019 08:53:56 -0400
-Resent-Message-Id: <E1iDpkv-0001fL-VK@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21498)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iDpku-0001eP-4Z
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:53:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569586096; cv=none; d=zoho.com; s=zohoarc; 
- b=oHJnOzYBD5vev/+EPAD2t1ddBiOakJECS4S6eTTB/6rWyB6S0/Z7XuZslhlpaYpQQrg0IuA4VDExhwgRL2qWxha09Wbm9B3463mB/Ge6bYrkAxDQ7EUn8kNTDehmU90A529bBwMIQCAYlXkS+YzKoQjLTI1hKIesir5uDL0meUo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569586096;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=p2LLEID7T7aPRf+AuCCIwXRy03ex9IbElOLlrD4qcVw=; 
- b=lioia7EBX7qtWbtsW8oxNBHTUmg1cGwUJpuYbhwwaVdDjmKF8CtVRtiou2lWkB2a9ZGbqMu2c49EZ2r5xpv+MSX4FDgBb87TGjt2j0lYTVm1hkZR0SVzAubPk/0iAEqho5vXs/erCdwFJ8iEUDTdb48lKNzVzgBmwA7RxzANcZ8=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569586094712394.9809313931838;
- Fri, 27 Sep 2019 05:08:14 -0700 (PDT)
-Subject: Re: [PATCH  v3 00/33] testing/next (docker,tcg, alpha ;-)
-In-Reply-To: <20190924210106.27117-1-alex.bennee@linaro.org>
-Message-ID: <156958609337.27524.6350358422739308446@8230166b0665>
+ (envelope-from <groug@kaod.org>) id 1iDpk2-0001Qk-AH
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:53:00 -0400
+Received: from 9.mo7.mail-out.ovh.net ([46.105.60.248]:36852)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDpk1-0001Po-QW
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:52:58 -0400
+Received: from player788.ha.ovh.net (unknown [10.108.35.110])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 6137A134F9A
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 14:16:24 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player788.ha.ovh.net (Postfix) with ESMTPSA id C80BEA46E123;
+ Fri, 27 Sep 2019 12:16:13 +0000 (UTC)
+Date: Fri, 27 Sep 2019 14:16:12 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 22/33] spapr, xics, xive: Move irq claim and free
+ from SpaprIrq to SpaprInterruptController
+Message-ID: <20190927141612.4acb340c@bahia.lan>
+In-Reply-To: <20190927055028.11493-23-david@gibson.dropbear.id.au>
+References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
+ <20190927055028.11493-23-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Fri, 27 Sep 2019 05:08:14 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 18273074014143355366
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 46.105.60.248
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,289 +58,412 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: jsnow@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- f4bug@amsat.org
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ clg@kaod.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNDIxMDEwNi4yNzEx
-Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5MDkyNDIxMDEwNi4y
-NzExNy0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENIICB2MyAwMC8zM10g
-dGVzdGluZy9uZXh0IChkb2NrZXIsdGNnLCBhbHBoYSA7LSkKCj09PSBURVNUIFNDUklQVCBCRUdJ
-TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
-dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
-IFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
-cWVtdQogICBlYjEzZDFjLi4xMzI5MTMyICBtYXN0ZXIgICAgIC0+IG1hc3RlcgpTd2l0Y2hlZCB0
-byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmZmZDIwZjQgdGVzdHMvZG9ja2VyOiByZW1vdmUgZGViaWFu
-LXBvd2VycGMtdXNlci1jcm9zcwpkZDIxZmUyIGRvY2tlcjogbW92ZSB0ZXN0cyBmcm9tIHB5dGhv
-bjIgdG8gcHl0aG9uMwo4ODMyYmRlIGRvY2tlcjogcmVtb3ZlIHVudXNlZCBkZWJpYW4tc2lkCjY1
-ZjFjOTcgZG9ja2VyOiByZW1vdmUgdW51c2VkIGRlYmlhbi1wb3J0cwphMjliMWNiIGRvY2tlcjog
-cmVtb3ZlICdkZXByZWNhdGVkJyBpbWFnZSBkZWZpbml0aW9ucwphOTMxMzY4IGRvY2tlcjogcmVt
-b3ZlZCB1bnVzZWQgZGViaWFuOCBwYXJ0aWFsIGltYWdlCmY0NTY3YjggZG9ja2VyOiByZW1vdmUg
-ZGViaWFuOC1teGUgZGVmaW5pdGlvbnMKOTNlODlmOSAuc2hpcHBhYmxlLnltbDogQnVpbGQgV0hQ
-WCBlbmFibGVkIGJpbmFyaWVzCjNhNzExNGUgdGVzdHMvZG9ja2VyOiBBZGQgZmVkb3JhLXdpbjEw
-c2RrLWNyb3NzIGltYWdlCjNjYmQ0YmQgdGFyZ2V0L2kzODY6IEZpeCBicm9rZW4gYnVpbGQgd2l0
-aCBXSFBYIGVuYWJsZWQKNTBmZTZiMSBkb2NzL2RldmVsOiBhZGQgImNoZWNrLXRjZyIgdG8gdGVz
-dGluZy5yc3QKOGQxYzhmZiBjb25maWd1cmU6IHByZXNlcnZlIFBLR19DT05GSUcgZm9yIHN1YmRp
-ciBidWlsZHMKYzdlZGM5MSB0ZXN0cy90Y2c6IGFkZCBzaW1wbGUgcmVjb3JkL3JlcGxheSBzbW9r
-ZSB0ZXN0IGZvciBhYXJjaDY0CmVhYWJjNGMgdGVzdHMvdGNnOiBhZGQgZ2VuZXJpYyB2ZXJzaW9u
-IG9mIGZsb2F0X2NvbnZzCjk2ZWRiYjMgdGVzdHMvdGNnOiBhZGQgZmxvYXRfbWFkZHMgdGVzdCB0
-byBtdWx0aWFyY2gKMzFiNDQ4MyB0ZXN0cy90Y2c6IHJlLWVuYWJsZSBsaW51eC10ZXN0IGZvciBw
-cGM2NGFiaTMyCjI0YjRmNzggdGVzdHMvdGNnOiBjbGVhbi11cCBzb21lIGNvbW1lbnRzIGFmdGVy
-IHRoZSBkZS10YW5nbGluZwoyZjk0ZjRmIHBvZG1hbjogZml4IGNvbW1hbmQgaW52b2NhdGlvbgo5
-MTU2MzcwIHRlc3RzL2RvY2tlcjogcmVkdWNlIHNjYXJ5IHdhcm5pbmdzIGJ5IGNsZWFuaW5nIHVw
-IGNsZWFuIHVwCmNjMzljZjAgdGVzdHMvZG9ja2VyOiByZW1vdmUgcHl0aG9uMi43IGZyb20gZGVi
-aWFuOS1teGUKMzVhOTNiNiB0ZXN0cy9kb2NrZXI6IGZpeCBET0NLRVJfUEFSVElBTF9JTUFHRVMK
-ZDYxNTU4MCB0ZXN0cy9kb2NrZXI6IGFkZCBzYW5pdGl6ZXJzIGJhY2sgdG8gY2xhbmcgYnVpbGQK
-NjFlZGY5MCB0YXJnZXQvcHBjOiBmaXggc2lnbmFsIGRlbGl2ZXJ5IGZvciBwcGM2NGFiaTMyCmE3
-Mjc0MTYgdGFyZ2V0L2FscGhhOiBUaWR5IGhlbHBlcl9mcF9leGNfcmFpc2VfcwplNjA4NDYyIHRh
-cmdldC9hbHBoYTogTWFzayBJT1YgZXhjZXB0aW9uIHdpdGggSU5WIGZvciB1c2VyLW9ubHkKMmZi
-YmJmOSB0YXJnZXQvYWxwaGE6IFdyaXRlIHRvIGZwY3JfZmx1c2hfdG9femVybyBvbmNlCmZlNTU5
-YjQgdGFyZ2V0L2FscGhhOiBIYW5kbGUgU1dDUl9NQVBfRE1aIGVhcmxpZXIKN2NhOTY0MSB0YXJn
-ZXQvYWxwaGE6IEZpeCBTV0NSX1RSQVBfRU5BQkxFX01BU0sKNzVhN2VhMSB0YXJnZXQvYWxwaGE6
-IEZpeCBTV0NSX01BUF9VTVoKNzc4N2Y3ZiB0YXJnZXQvYWxwaGE6IFVzZSBhcnJheSBmb3IgRlBD
-Ul9EWU4gY29udmVyc2lvbgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8zMCBDaGVja2luZyBjb21t
-aXQgNzc4N2Y3ZjUwOTgyICh0YXJnZXQvYWxwaGE6IFVzZSBhcnJheSBmb3IgRlBDUl9EWU4gY29u
-dmVyc2lvbikKMi8zMCBDaGVja2luZyBjb21taXQgNzVhN2VhMTBlZGQ2ICh0YXJnZXQvYWxwaGE6
-IEZpeCBTV0NSX01BUF9VTVopCjMvMzAgQ2hlY2tpbmcgY29tbWl0IDdjYTk2NDFhNmU2MSAodGFy
-Z2V0L2FscGhhOiBGaXggU1dDUl9UUkFQX0VOQUJMRV9NQVNLKQo0LzMwIENoZWNraW5nIGNvbW1p
-dCBmZTU1OWI0MTdmZDkgKHRhcmdldC9hbHBoYTogSGFuZGxlIFNXQ1JfTUFQX0RNWiBlYXJsaWVy
-KQo1LzMwIENoZWNraW5nIGNvbW1pdCAyZmJiYmY5ZjczNmQgKHRhcmdldC9hbHBoYTogV3JpdGUg
-dG8gZnBjcl9mbHVzaF90b196ZXJvIG9uY2UpCjYvMzAgQ2hlY2tpbmcgY29tbWl0IGU2MDg0NjI2
-MjdmOSAodGFyZ2V0L2FscGhhOiBNYXNrIElPViBleGNlcHRpb24gd2l0aCBJTlYgZm9yIHVzZXIt
-b25seSkKNy8zMCBDaGVja2luZyBjb21taXQgYTcyNzQxNmIyYzc4ICh0YXJnZXQvYWxwaGE6IFRp
-ZHkgaGVscGVyX2ZwX2V4Y19yYWlzZV9zKQo4LzMwIENoZWNraW5nIGNvbW1pdCA2MWVkZjkwZDJi
-MGYgKHRhcmdldC9wcGM6IGZpeCBzaWduYWwgZGVsaXZlcnkgZm9yIHBwYzY0YWJpMzIpCjkvMzAg
-Q2hlY2tpbmcgY29tbWl0IGQ2MTU1ODAwOWE3NyAodGVzdHMvZG9ja2VyOiBhZGQgc2FuaXRpemVy
-cyBiYWNrIHRvIGNsYW5nIGJ1aWxkKQoxMC8zMCBDaGVja2luZyBjb21taXQgMzVhOTNiNjRhYTNk
-ICh0ZXN0cy9kb2NrZXI6IGZpeCBET0NLRVJfUEFSVElBTF9JTUFHRVMpCjExLzMwIENoZWNraW5n
-IGNvbW1pdCBjYzM5Y2YwYjc0NjIgKHRlc3RzL2RvY2tlcjogcmVtb3ZlIHB5dGhvbjIuNyBmcm9t
-IGRlYmlhbjktbXhlKQoxMi8zMCBDaGVja2luZyBjb21taXQgOTE1NjM3MGUxMGRjICh0ZXN0cy9k
-b2NrZXI6IHJlZHVjZSBzY2FyeSB3YXJuaW5ncyBieSBjbGVhbmluZyB1cCBjbGVhbiB1cCkKMTMv
-MzAgQ2hlY2tpbmcgY29tbWl0IDJmOTRmNGY4N2NkNCAocG9kbWFuOiBmaXggY29tbWFuZCBpbnZv
-Y2F0aW9uKQoxNC8zMCBDaGVja2luZyBjb21taXQgMjRiNGY3OGUyN2MzICh0ZXN0cy90Y2c6IGNs
-ZWFuLXVwIHNvbWUgY29tbWVudHMgYWZ0ZXIgdGhlIGRlLXRhbmdsaW5nKQoxNS8zMCBDaGVja2lu
-ZyBjb21taXQgMzFiNDQ4M2YxNzAzICh0ZXN0cy90Y2c6IHJlLWVuYWJsZSBsaW51eC10ZXN0IGZv
-ciBwcGM2NGFiaTMyKQoxNi8zMCBDaGVja2luZyBjb21taXQgOTZlZGJiMzY4ZjM5ICh0ZXN0cy90
-Y2c6IGFkZCBmbG9hdF9tYWRkcyB0ZXN0IHRvIG11bHRpYXJjaCkKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-NDE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmlj
-IGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzE3MTc6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFy
-Y2gvZmxvYXRfaGVscGVycy5jOjgyOgorIyBpZiBfX0dOVUNfUFJFUkVRKDMsIDMpCgpFUlJPUjog
-c3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVz
-aXMgJygnCiMxNzE4OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMuYzo4
-MzoKKyMgIGRlZmluZSBTTkFORiAoX19idWlsdGluX25hbnNmICgiIikpCgpFUlJPUjogc3BhY2Ug
-cHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygn
-CiMxNzE5OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMuYzo4NDoKKyMg
-IGRlZmluZSBTTkFOIChfX2J1aWx0aW5fbmFucyAoIiIpKQoKRVJST1I6IHNwYWNlIHByb2hpYml0
-ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMTcyMDog
-RklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9oZWxwZXJzLmM6ODU6CisjICBkZWZpbmUg
-U05BTkwgKF9fYnVpbHRpbl9uYW5zbCAoIiIpKQoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91
-bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMxNzI5OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zs
-b2F0X2hlbHBlcnMuYzo5NDoKKyAgICAtMHgxLjE4NzRiMnArMTAzLAogICAgICAgICAgICAgICAg
-IF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQojMTcz
-MDogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9oZWxwZXJzLmM6OTU6CisgICAgLTB4
-MS5jMGJhYjZwKzk5LAogICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
-YXJvdW5kIHRoYXQgJy0nIChjdHg6VnhWKQojMTczMTogRklMRTogdGVzdHMvdGNnL211bHRpYXJj
-aC9mbG9hdF9oZWxwZXJzLmM6OTY6CisgICAgLTB4MS4zMWY3NXAtNDAsCiAgICAgICAgICAgICAg
-ICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzE3
-MzI6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjk3OgorICAgIC0w
-eDEuNTA1NDQ0cC02NiwKICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVk
-IGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzE3MzY6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFy
-Y2gvZmxvYXRfaGVscGVycy5jOjEwMToKKyAgICAweDFwLTI1LAogICAgICAgICBeCgpFUlJPUjog
-c3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzE3Mzc6IEZJTEU6IHRl
-c3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjEwMjoKKyAgICAweDEuZmZmZmU2cC0y
-NSwgLyogbWluIHBvc2l0aXZlIEZQMTYgc3Vibm9ybWFsICovCiAgICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzE3Mzg6IEZJ
-TEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjEwMzoKKyAgICAweDEuZmY4
-MDFhcC0xNSwgLyogbWF4IHN1Ym5vcm1hbCBGUDE2ICovCiAgICAgICAgICAgICAgICBeCgpFUlJP
-Ujogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzE3Mzk6IEZJTEU6
-IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjEwNDoKKyAgICAweDEuMDAwMDBj
-cC0xNCwgLyogbWluIHBvc2l0aXZlIG5vcm1hbCBGUDE2ICovCiAgICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzE3NDE6IEZJ
-TEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjEwNjoKKyAgICAweDEuMDA0
-cCswLCAvKiBzbWFsbGVzdCBmbG9hdCBhZnRlciAxLjAgRlAxNiAqLwogICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMxNzQ0OiBG
-SUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMuYzoxMDk6CisgICAgMHgxLmZm
-YmVwKzE1LAogICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
-YXQgJysnIChjdHg6VnhWKQojMTc0NTogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9o
-ZWxwZXJzLmM6MTEwOgorICAgIDB4MS5mZmNwKzE1LCAvKiBtYXggRlAxNiAqLwogICAgICAgICAg
-ICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMx
-NzQ2OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMuYzoxMTE6CisgICAg
-MHgxLmZmYzJwKzE1LAogICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJv
-dW5kIHRoYXQgJysnIChjdHg6VnhWKQojMTc0NzogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9m
-bG9hdF9oZWxwZXJzLmM6MTEyOgorICAgIDB4MS5mZmJmcCsxNiwKICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzE3NDg6IEZJ
-TEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjExMzoKKyAgICAweDEuZmZj
-cCsxNiwgLyogbWF4IEFGUCAqLwogICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJl
-ZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMxNzQ5OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlh
-cmNoL2Zsb2F0X2hlbHBlcnMuYzoxMTQ6CisgICAgMHgxLmZmYzFwKzE2LAogICAgICAgICAgICAg
-IF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQojMTc1
-MDogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9oZWxwZXJzLmM6MTE1OgorICAgIDB4
-MS5jMGJhYjZwKzk5LAogICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnLScgKGN0eDpWeFYpCiMxNzg5OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNo
-L2Zsb2F0X2hlbHBlcnMuYzoxNTQ6CisgICAgey1GTFRfTUFYLTEuMH0sCiAgICAgICAgICAgICAg
-XgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMxNzkx
-OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMuYzoxNTY6CisgICAgey0x
-LjExMUUrMzF9LAogICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQg
-dGhhdCAnKycgKGN0eDpWeFYpCiMxNzkyOiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0
-X2hlbHBlcnMuYzoxNTc6CisgICAgey0xLjExMUUrMzB9LCAvKiBoYWxmIHByZWMgKi8KICAgICAg
-ICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJy0nIChjdHg6VnhW
-KQojMTc5ODogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9oZWxwZXJzLmM6MTYzOgor
-ICAgIHsyLjk4MDIzMjI0ZS0wOH0sCiAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyBy
-ZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0eDpWeFYpCiMxNzk5OiBGSUxFOiB0ZXN0cy90Y2cv
-bXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMuYzoxNjQ6CisgICAgezUuOTYwNDZFLTh9LCAvKiBtaW4g
-cG9zaXRpdmUgRlAxNiBzdWJub3JtYWwgKi8KICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzE4MDA6IEZJTEU6IHRlc3RzL3Rj
-Zy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5jOjE2NToKKyAgICB7Ni4wOTc1NkUtNX0sIC8qIG1h
-eCBzdWJub3JtYWwgRlAxNiAqLwogICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWly
-ZWQgYXJvdW5kIHRoYXQgJy0nIChjdHg6VnhWKQojMTgwMTogRklMRTogdGVzdHMvdGNnL211bHRp
-YXJjaC9mbG9hdF9oZWxwZXJzLmM6MTY2OgorICAgIHs2LjEwMzUyRS01fSwgLyogbWluIHBvc2l0
-aXZlIG5vcm1hbCBGUDE2ICovCiAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJl
-ZCBhcm91bmQgdGhhdCAnLScgKGN0eDpWeFYpCiMxODA1OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlh
-cmNoL2Zsb2F0X2hlbHBlcnMuYzoxNzA6CisgICAgezEuMzc4OTk3Mjg0ODYwNzIyOGUtMzA4fSwK
-ICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5k
-IHRoYXQgJy0nIChjdHg6VnhWKQojMTgwNjogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9h
-dF9oZWxwZXJzLmM6MTcxOgorICAgIHsxLjQ5MTQ3Mzg3MzY2ODE2MjRlLTMwOH0sCiAgICAgICAg
-ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogImZvbyAqIGJhciIgc2hvdWxkIGJlICJmb28gKmJh
-ciIKIzE4OTM6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfaGVscGVycy5oOjIyOgor
-Y2hhciAqIGZtdF9mMTYodWludDE2X3QpOwoKRVJST1I6ICJmb28gKiBiYXIiIHNob3VsZCBiZSAi
-Zm9vICpiYXIiCiMxODk0OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X2hlbHBlcnMu
-aDoyMzoKK2NoYXIgKiBmbXRfZjMyKGZsb2F0KTsKCkVSUk9SOiAiZm9vICogYmFyIiBzaG91bGQg
-YmUgImZvbyAqYmFyIgojMTg5NTogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9oZWxw
-ZXJzLmg6MjQ6CitjaGFyICogZm10X2Y2NChkb3VibGUpOwoKRVJST1I6ICJmb28gKiBiYXIiIHNo
-b3VsZCBiZSAiZm9vICpiYXIiCiMxODk3OiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0
-X2hlbHBlcnMuaDoyNjoKK2NoYXIgKiBmbXRfZmxhZ3Modm9pZCk7CgpFUlJPUjogc3BhY2VzIHJl
-cXVpcmVkIGFyb3VuZCB0aGF0ICclJyAoY3R4OlZ4VikKIzE5OTI6IEZJTEU6IHRlc3RzL3RjZy9t
-dWx0aWFyY2gvZmxvYXRfbWFkZHMuYzo4OToKKyAgICAgICAgICAgICAgICBhID0gZ2V0X2YzMihq
-ICsgKChrKSUzKSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJP
-Ujogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcrJyAoY3R4OlZ4VikKIzE5OTM6IEZJTEU6
-IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfbWFkZHMuYzo5MDoKKyAgICAgICAgICAgICAgICBi
-ID0gZ2V0X2YzMihqICsgKChrKzEpJTMpKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnJScgKGN0eDpWeFYp
-CiMxOTkzOiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X21hZGRzLmM6OTA6CisgICAg
-ICAgICAgICAgICAgYiA9IGdldF9mMzIoaiArICgoaysxKSUzKSk7CiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
-YXQgJysnIChjdHg6VnhWKQojMTk5NDogRklMRTogdGVzdHMvdGNnL211bHRpYXJjaC9mbG9hdF9t
-YWRkcy5jOjkxOgorICAgICAgICAgICAgICAgIGMgPSBnZXRfZjMyKGogKyAoKGsrMiklMykpOwog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVp
-cmVkIGFyb3VuZCB0aGF0ICclJyAoY3R4OlZ4VikKIzE5OTQ6IEZJTEU6IHRlc3RzL3RjZy9tdWx0
-aWFyY2gvZmxvYXRfbWFkZHMuYzo5MToKKyAgICAgICAgICAgICAgICBjID0gZ2V0X2YzMihqICsg
-KChrKzIpJTMpKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJS
-T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyMDAxOiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlh
-cmNoL2Zsb2F0X21hZGRzLmM6OTg6CisgICAgICAgIGRvX21hZGRzKDB4MS5mZmZmZmZmZmZmZmZj
-cC0xMDIyLCAweDEuMDAwMDAwMDAwMDAwMXAtMSwgMHgwLjAwMDAwMDAwMDAwMDFwLTEwMjIsIGos
-IDApOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0eDpWeFYpCiMy
-MDAxOiBGSUxFOiB0ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X21hZGRzLmM6OTg6CisgICAgICAg
-IGRvX21hZGRzKDB4MS5mZmZmZmZmZmZmZmZjcC0xMDIyLCAweDEuMDAwMDAwMDAwMDAwMXAtMSwg
-MHgwLjAwMDAwMDAwMDAwMDFwLTEwMjIsIGosIDApOwogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4
-OlZ4VikKIzIwMDE6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfbWFkZHMuYzo5ODoK
-KyAgICAgICAgZG9fbWFkZHMoMHgxLmZmZmZmZmZmZmZmZmNwLTEwMjIsIDB4MS4wMDAwMDAwMDAw
-MDAxcC0xLCAweDAuMDAwMDAwMDAwMDAwMXAtMTAyMiwgaiwgMCk7CiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzIwMDE6IEZJTEU6IHRlc3Rz
-L3RjZy9tdWx0aWFyY2gvZmxvYXRfbWFkZHMuYzo5ODoKKyAgICAgICAgZG9fbWFkZHMoMHgxLmZm
-ZmZmZmZmZmZmZmNwLTEwMjIsIDB4MS4wMDAwMDAwMDAwMDAxcC0xLCAweDAuMDAwMDAwMDAwMDAw
-MXAtMTAyMiwgaiwgMCk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNl
-cyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0eDpWeFYpCiMyMDAyOiBGSUxFOiB0ZXN0cy90
-Y2cvbXVsdGlhcmNoL2Zsb2F0X21hZGRzLmM6OTk6CisgICAgICAgIGRvX21hZGRzKDB4OHAtMTUy
-LCAweDhwLTE1MiwgMHg4cC0xNTIsIGorMSwgMCk7CiAgICAgICAgICAgICAgICAgICAgICBeCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzIwMDI6IEZJ
-TEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfbWFkZHMuYzo5OToKKyAgICAgICAgZG9fbWFk
-ZHMoMHg4cC0xNTIsIDB4OHAtMTUyLCAweDhwLTE1MiwgaisxLCAwKTsKICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICct
-JyAoY3R4OlZ4VikKIzIwMDI6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfbWFkZHMu
-Yzo5OToKKyAgICAgICAgZG9fbWFkZHMoMHg4cC0xNTIsIDB4OHAtMTUyLCAweDhwLTE1Miwgaisx
-LCAwKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6
-IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiMyMDAyOiBGSUxFOiB0
-ZXN0cy90Y2cvbXVsdGlhcmNoL2Zsb2F0X21hZGRzLmM6OTk6CisgICAgICAgIGRvX21hZGRzKDB4
-OHAtMTUyLCAweDhwLTE1MiwgMHg4cC0xNTIsIGorMSwgMCk7CiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogNDUgZXJyb3JzLCAyIHdhcm5p
-bmdzLCAxOTQyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzMwIGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCgoxNy8zMCBDaGVja2luZyBjb21taXQgZWFhYmM0Yzg5ZGEwICh0ZXN0cy90Y2c6IGFk
-ZCBnZW5lcmljIHZlcnNpb24gb2YgZmxvYXRfY29udnMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
-ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE3OiAK
-bmV3IGZpbGUgbW9kZSAxMDA3NTUKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQg
-b3BlbiBwYXJlbnRoZXNpcyAnKCcKIzE2MjM6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxv
-YXRfY29udnMuYzo3NToKK0NPTlZFUlRfU0lOR0xFX1RPX0lOVCggaW50MzIsIFBSSWQzMikKCkVS
-Uk9SOiBzcGFjZSBwcm9oaWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzE2
-MjU6IEZJTEU6IHRlc3RzL3RjZy9tdWx0aWFyY2gvZmxvYXRfY29udnMuYzo3NzoKK0NPTlZFUlRf
-U0lOR0xFX1RPX0lOVCggaW50NjQsIFBSSWQ2NCkKCnRvdGFsOiAyIGVycm9ycywgMSB3YXJuaW5n
-cywgMTYxNSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8zMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoKMTgvMzAgQ2hlY2tpbmcgY29tbWl0IGM3ZWRjOTEwMDc3NSAodGVzdHMvdGNnOiBhZGQg
-c2ltcGxlIHJlY29yZC9yZXBsYXkgc21va2UgdGVzdCBmb3IgYWFyY2g2NCkKMTkvMzAgQ2hlY2tp
-bmcgY29tbWl0IDhkMWM4ZmZkZDY0NCAoY29uZmlndXJlOiBwcmVzZXJ2ZSBQS0dfQ09ORklHIGZv
-ciBzdWJkaXIgYnVpbGRzKQoyMC8zMCBDaGVja2luZyBjb21taXQgNTBmZTZiMTZkMDA1IChkb2Nz
-L2RldmVsOiBhZGQgImNoZWNrLXRjZyIgdG8gdGVzdGluZy5yc3QpCjIxLzMwIENoZWNraW5nIGNv
-bW1pdCAzY2JkNGJkZmY0NDkgKHRhcmdldC9pMzg2OiBGaXggYnJva2VuIGJ1aWxkIHdpdGggV0hQ
-WCBlbmFibGVkKQoyMi8zMCBDaGVja2luZyBjb21taXQgM2E3MTE0ZWU5M2YwICh0ZXN0cy9kb2Nr
-ZXI6IEFkZCBmZWRvcmEtd2luMTBzZGstY3Jvc3MgaW1hZ2UpCldBUk5JTkc6IGFkZGVkLCBtb3Zl
-ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQw
-OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwoj
-ODU6IEZJTEU6IHRlc3RzL2RvY2tlci9kb2NrZXJmaWxlcy93aW4xMHNkay1kbC5zaDoxMjoKK0JB
-U0VfVVJMPSQoY3VybCAtLXNpbGVudCAtLWluY2x1ZGUgJ2h0dHA6Ly9nby5taWNyb3NvZnQuY29t
-L2Z3bGluay8/cHJkPTExOTY2JnB2ZXI9MS4wJnBsY2lkPTB4NDA5JmNsY2lkPTB4NDA5JmFyPVdp
-bmRvd3MxMCZzYXI9U0RLJm8xPTEwLjAuMTgzNjIuMScgfCBzZWQgLW5FICdzX0xvY2F0aW9uOiAo
-LiopL1xyX1wxX3AnKS9JbnN0YWxsZXJzCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMK
-IzkwOiBGSUxFOiB0ZXN0cy9kb2NrZXIvZG9ja2VyZmlsZXMvd2luMTBzZGstZGwuc2g6MTc6Cisg
-ICAgQ0FCX05BTUU9JChtc2lleHRyYWN0IFdpbmRvd3NcIFNES1wgRGVza3RvcFwgSGVhZGVyc1wg
-eDg2LXg4Nl9lbi11cy5tc2kgMz4mMSAyPiYzIDM+Ji18IHNlZCAtbkUgInNfLipFcnJvciBvcGVu
-aW5nIGZpbGUgJFBXRC8oLiopOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5X1wxX3AiKQoKV0FS
-TklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzk3OiBGSUxFOiB0ZXN0cy9kb2NrZXIvZG9j
-a2VyZmlsZXMvd2luMTBzZGstZGwuc2g6MjQ6Citmb3IgaW5jIGluICIke1dJTkRJUn0vUHJvZ3Jh
-bSBGaWxlcy9XaW5kb3dzIEtpdHMvMTAvSW5jbHVkZS8xMC4wLjE4MzYyLjAvdW0iL1dpbkh2Kjsg
-ZG8KCnRvdGFsOiAyIGVycm9ycywgMiB3YXJuaW5ncywgNTggbGluZXMgY2hlY2tlZAoKUGF0Y2gg
-MjIvMzAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIzLzMwIENoZWNraW5nIGNvbW1pdCA5
-M2U4OWY5MTg2ZWEgKC5zaGlwcGFibGUueW1sOiBCdWlsZCBXSFBYIGVuYWJsZWQgYmluYXJpZXMp
-CjI0LzMwIENoZWNraW5nIGNvbW1pdCBmNDU2N2I4NTA5YzAgKGRvY2tlcjogcmVtb3ZlIGRlYmlh
-bjgtbXhlIGRlZmluaXRpb25zKQoyNS8zMCBDaGVja2luZyBjb21taXQgYTkzMTM2ODczZTE3IChk
-b2NrZXI6IHJlbW92ZWQgdW51c2VkIGRlYmlhbjggcGFydGlhbCBpbWFnZSkKV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojMzE6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
-YXJuaW5ncywgOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyNS8zMCBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoyNi8zMCBDaGVja2luZyBjb21taXQgYTI5YjFjYmYwOWU2IChkb2NrZXI6IHJlbW92
-ZSAnZGVwcmVjYXRlZCcgaW1hZ2UgZGVmaW5pdGlvbnMpCjI3LzMwIENoZWNraW5nIGNvbW1pdCA2
-NWYxYzk3YmQ3YWUgKGRvY2tlcjogcmVtb3ZlIHVudXNlZCBkZWJpYW4tcG9ydHMpCldBUk5JTkc6
-IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
-cGRhdGluZz8KIzMwOiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMs
-IDEgd2FybmluZ3MsIDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjcvMzAgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KMjgvMzAgQ2hlY2tpbmcgY29tbWl0IDg4MzJiZGVjYzBiMyAoZG9ja2VyOiBy
-ZW1vdmUgdW51c2VkIGRlYmlhbi1zaWQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMwOiAKZGVsZXRlZCBm
-aWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDggbGluZXMgY2hl
-Y2tlZAoKUGF0Y2ggMjgvMzAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMjkvMzAgQ2hlY2tp
-bmcgY29tbWl0IGRkMjFmZTI1MjE2NCAoZG9ja2VyOiBtb3ZlIHRlc3RzIGZyb20gcHl0aG9uMiB0
-byBweXRob24zKQozMC8zMCBDaGVja2luZyBjb21taXQgZmZkMjBmNDgwNTNiICh0ZXN0cy9kb2Nr
-ZXI6IHJlbW92ZSBkZWJpYW4tcG93ZXJwYy11c2VyLWNyb3NzKQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0
-MTogCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdz
-LCAxNSBsaW5lcyBjaGVja2VkCgpQYXRjaCAzMC8zMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-Lgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5
-MDkyNDIxMDEwNi4yNzExNy0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3Bh
-dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
-YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
-dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Fri, 27 Sep 2019 15:50:17 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> These methods, like cpu_intc_create, really belong to the interrupt
+> controller, but need to be called on all possible intcs.
+> 
+> Like cpu_intc_create, therefore, make them methods on the intc and
+> always call it for all existing intcs.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  hw/intc/spapr_xive.c        |  71 +++++++++++-----------
+>  hw/intc/xics_spapr.c        |  29 +++++++++
+>  hw/ppc/spapr_irq.c          | 114 ++++++++++++------------------------
+>  include/hw/ppc/spapr_irq.h  |   5 +-
+>  include/hw/ppc/spapr_xive.h |   2 -
+>  5 files changed, 107 insertions(+), 114 deletions(-)
+> 
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index 9338daba3d..ff1a175b44 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -487,6 +487,42 @@ static const VMStateDescription vmstate_spapr_xive = {
+>      },
+>  };
+>  
+> +static int spapr_xive_claim_irq(SpaprInterruptController *intc, int lisn,
+> +                                bool lsi, Error **errp)
+> +{
+> +    SpaprXive *xive = SPAPR_XIVE(intc);
+> +    XiveSource *xsrc = &xive->source;
+> +
+> +    assert(lisn < xive->nr_irqs);
+> +
+> +    if (xive_eas_is_valid(&xive->eat[lisn])) {
+> +        error_setg(errp, "IRQ %d is not free", lisn);
+> +        return -EBUSY;
+> +    }
+> +
+> +    /*
+> +     * Set default values when allocating an IRQ number
+> +     */
+> +    xive->eat[lisn].w |= cpu_to_be64(EAS_VALID | EAS_MASKED);
+> +    if (lsi) {
+> +        xive_source_irq_set_lsi(xsrc, lisn);
+> +    }
+> +
+> +    if (kvm_irqchip_in_kernel()) {
+> +        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void spapr_xive_free_irq(SpaprInterruptController *intc, int lisn)
+> +{
+> +    SpaprXive *xive = SPAPR_XIVE(intc);
+> +    assert(lisn < xive->nr_irqs);
+> +
+> +    xive->eat[lisn].w &= cpu_to_be64(~EAS_VALID);
+> +}
+> +
+>  static Property spapr_xive_properties[] = {
+>      DEFINE_PROP_UINT32("nr-irqs", SpaprXive, nr_irqs, 0),
+>      DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
+> @@ -536,6 +572,8 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
+>      xrc->get_tctx = spapr_xive_get_tctx;
+>  
+>      sicc->cpu_intc_create = spapr_xive_cpu_intc_create;
+> +    sicc->claim_irq = spapr_xive_claim_irq;
+> +    sicc->free_irq = spapr_xive_free_irq;
+>  }
+>  
+>  static const TypeInfo spapr_xive_info = {
+> @@ -557,39 +595,6 @@ static void spapr_xive_register_types(void)
+>  
+>  type_init(spapr_xive_register_types)
+>  
+> -int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **errp)
+> -{
+> -    XiveSource *xsrc = &xive->source;
+> -
+> -    assert(lisn < xive->nr_irqs);
+> -
+> -    if (xive_eas_is_valid(&xive->eat[lisn])) {
+> -        error_setg(errp, "IRQ %d is not free", lisn);
+> -        return -EBUSY;
+> -    }
+> -
+> -    /*
+> -     * Set default values when allocating an IRQ number
+> -     */
+> -    xive->eat[lisn].w |= cpu_to_be64(EAS_VALID | EAS_MASKED);
+> -    if (lsi) {
+> -        xive_source_irq_set_lsi(xsrc, lisn);
+> -    }
+> -
+> -    if (kvm_irqchip_in_kernel()) {
+> -        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+> -    }
+> -
+> -    return 0;
+> -}
+> -
+> -void spapr_xive_irq_free(SpaprXive *xive, int lisn)
+> -{
+> -    assert(lisn < xive->nr_irqs);
+> -
+> -    xive->eat[lisn].w &= cpu_to_be64(~EAS_VALID);
+> -}
+> -
+>  /*
+>   * XIVE hcalls
+>   *
+> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> index 946311b858..224fe1efcd 100644
+> --- a/hw/intc/xics_spapr.c
+> +++ b/hw/intc/xics_spapr.c
+> @@ -346,6 +346,33 @@ static int xics_spapr_cpu_intc_create(SpaprInterruptController *intc,
+>      return 0;
+>  }
+>  
+> +static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
+> +                                bool lsi, Error **errp)
+> +{
+> +    ICSState *ics = ICS_SPAPR(intc);
+> +
+> +    assert(ics);
+> +    assert(ics_valid_irq(ics, irq));
+> +
+> +    if (!ics_irq_free(ics, irq - ics->offset)) {
+> +        error_setg(errp, "IRQ %d is not free", irq);
+> +        return -EBUSY;
+> +    }
+> +
+> +    ics_set_irq_type(ics, irq - ics->offset, lsi);
+> +    return 0;
+> +}
+> +
+> +static void xics_spapr_free_irq(SpaprInterruptController *intc, int irq)
+> +{
+> +    ICSState *ics = ICS_SPAPR(intc);
+> +    uint32_t srcno = irq - ics->offset;
+> +
+> +    assert(ics_valid_irq(ics, irq));
+> +
+> +    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+> +}
+> +
+>  static void ics_spapr_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -355,6 +382,8 @@ static void ics_spapr_class_init(ObjectClass *klass, void *data)
+>      device_class_set_parent_realize(dc, ics_spapr_realize,
+>                                      &isc->parent_realize);
+>      sicc->cpu_intc_create = xics_spapr_cpu_intc_create;
+> +    sicc->claim_irq = xics_spapr_claim_irq;
+> +    sicc->free_irq = xics_spapr_free_irq;
+>  }
+>  
+>  static const TypeInfo ics_spapr_info = {
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index a855dfe4e9..ea44378d8c 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -98,33 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spapr,
+>   * XICS IRQ backend.
+>   */
+>  
+> -static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool lsi,
+> -                                Error **errp)
+> -{
+> -    ICSState *ics = spapr->ics;
+> -
+> -    assert(ics);
+> -    assert(ics_valid_irq(ics, irq));
+> -
+> -    if (!ics_irq_free(ics, irq - ics->offset)) {
+> -        error_setg(errp, "IRQ %d is not free", irq);
+> -        return -1;
+> -    }
+> -
+> -    ics_set_irq_type(ics, irq - ics->offset, lsi);
+> -    return 0;
+> -}
+> -
+> -static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
+> -{
+> -    ICSState *ics = spapr->ics;
+> -    uint32_t srcno = irq - ics->offset;
+> -
+> -    assert(ics_valid_irq(ics, irq));
+> -
+> -    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+> -}
+> -
+>  static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor *mon)
+>  {
+>      CPUState *cs;
+> @@ -182,8 +155,6 @@ SpaprIrq spapr_irq_xics = {
+>      .xics        = true,
+>      .xive        = false,
+>  
+> -    .claim       = spapr_irq_claim_xics,
+> -    .free        = spapr_irq_free_xics,
+>      .print_info  = spapr_irq_print_info_xics,
+>      .dt_populate = spapr_dt_xics,
+>      .post_load   = spapr_irq_post_load_xics,
+> @@ -196,17 +167,6 @@ SpaprIrq spapr_irq_xics = {
+>   * XIVE IRQ backend.
+>   */
+>  
+> -static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool lsi,
+> -                                Error **errp)
+> -{
+> -    return spapr_xive_irq_claim(spapr->xive, irq, lsi, errp);
+> -}
+> -
+> -static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
+> -{
+> -    spapr_xive_irq_free(spapr->xive, irq);
+> -}
+> -
+>  static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
+>                                        Monitor *mon)
+>  {
+> @@ -272,8 +232,6 @@ SpaprIrq spapr_irq_xive = {
+>      .xics        = false,
+>      .xive        = true,
+>  
+> -    .claim       = spapr_irq_claim_xive,
+> -    .free        = spapr_irq_free_xive,
+>      .print_info  = spapr_irq_print_info_xive,
+>      .dt_populate = spapr_dt_xive,
+>      .post_load   = spapr_irq_post_load_xive,
+> @@ -301,33 +259,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState *spapr)
+>          &spapr_irq_xive : &spapr_irq_xics;
+>  }
+>  
+> -static int spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, bool lsi,
+> -                                Error **errp)
+> -{
+> -    Error *local_err = NULL;
+> -    int ret;
+> -
+> -    ret = spapr_irq_xics.claim(spapr, irq, lsi, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return ret;
+> -    }
+> -
+> -    ret = spapr_irq_xive.claim(spapr, irq, lsi, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return ret;
+> -    }
+> -
+> -    return ret;
+> -}
+> -
+> -static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
+> -{
+> -    spapr_irq_xics.free(spapr, irq);
+> -    spapr_irq_xive.free(spapr, irq);
+> -}
+> -
+>  static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor *mon)
+>  {
+>      spapr_irq_current(spapr)->print_info(spapr, mon);
+> @@ -401,8 +332,6 @@ SpaprIrq spapr_irq_dual = {
+>      .xics        = true,
+>      .xive        = true,
+>  
+> -    .claim       = spapr_irq_claim_dual,
+> -    .free        = spapr_irq_free_dual,
+>      .print_info  = spapr_irq_print_info_dual,
+>      .dt_populate = spapr_irq_dt_populate_dual,
+>      .post_load   = spapr_irq_post_load_dual,
+> @@ -567,10 +496,12 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+>  
+>          /* Enable the CPU IPIs */
+>          for (i = 0; i < nr_servers; ++i) {
+> +            SpaprInterruptControllerClass *sicc
+> +                = SPAPR_INTC_GET_CLASS(spapr->xive);
+>              Error *local_err = NULL;
+>  
+> -            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i,
+> -                                 false, &local_err);
+> +            sicc->claim_irq(SPAPR_INTC(spapr->xive), SPAPR_IRQ_IPI + i,
+> +                            false, &local_err);
+>              if (local_err) {
+>                  goto out;
+>              }
+> @@ -588,10 +519,30 @@ out:
+>  
+>  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error **errp)
+>  {
+> +    int rc;
+> +
+>      assert(irq >= SPAPR_XIRQ_BASE);
+>      assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+>  
+> -    return spapr->irq->claim(spapr, irq, lsi, errp);
+> +    if (spapr->xive) {
+> +        SpaprInterruptControllerClass *sicc = SPAPR_INTC_GET_CLASS(spapr->xive);
+> +
+> +        rc = sicc->claim_irq(SPAPR_INTC(spapr->xive), irq, lsi, errp);
+> +        if (rc < 0) {
+> +            return rc;
+> +        }
+> +    }
+> +
+> +    if (spapr->ics) {
+> +        SpaprInterruptControllerClass *sicc = SPAPR_INTC_GET_CLASS(spapr->ics);
+> +
+> +        rc = sicc->claim_irq(SPAPR_INTC(spapr->ics), irq, lsi, errp);
+> +        if (rc < 0) {
+> +            return rc;
+> +        }
+> +    }
+> +
+
+We don't really need an indirection here since we explicitly check
+spapr->xive and spapr->ics. Calling directly spapr_xive_claim_irq() and
+xics_spapr_claim_irq() would allow to avoid the method boiler plate and
+be more explicit IMHO.
+
+> +    return 0;
+>  }
+>  
+>  void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
+> @@ -602,7 +553,18 @@ void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
+>      assert((irq + num) <= (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+>  
+>      for (i = irq; i < (irq + num); i++) {
+> -        spapr->irq->free(spapr, irq);
+> +        if (spapr->xive) {
+> +            SpaprInterruptController *intc = SPAPR_INTC(spapr->xive);
+> +            SpaprInterruptControllerClass *sicc = SPAPR_INTC_GET_CLASS(intc);
+> +
+> +            sicc->free_irq(intc, irq);
+> +        }
+> +        if (spapr->ics) {
+> +            SpaprInterruptController *intc = SPAPR_INTC(spapr->ics);
+> +            SpaprInterruptControllerClass *sicc = SPAPR_INTC_GET_CLASS(intc);
+> +
+> +            sicc->free_irq(intc, irq);
+> +        }
+
+Same here.
+
+>      }
+>  }
+>  
+> @@ -727,8 +689,6 @@ SpaprIrq spapr_irq_xics_legacy = {
+>      .xics        = true,
+>      .xive        = false,
+>  
+> -    .claim       = spapr_irq_claim_xics,
+> -    .free        = spapr_irq_free_xics,
+>      .print_info  = spapr_irq_print_info_xics,
+>      .dt_populate = spapr_dt_xics,
+>      .post_load   = spapr_irq_post_load_xics,
+> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> index 30d660ff1e..616086f9bb 100644
+> --- a/include/hw/ppc/spapr_irq.h
+> +++ b/include/hw/ppc/spapr_irq.h
+> @@ -50,6 +50,9 @@ typedef struct SpaprInterruptControllerClass {
+>       */
+>      int (*cpu_intc_create)(SpaprInterruptController *intc,
+>                              PowerPCCPU *cpu, Error **errp);
+> +    int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
+> +                     Error **errp);
+> +    void (*free_irq)(SpaprInterruptController *intc, int irq);
+>  } SpaprInterruptControllerClass;
+>  
+>  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
+> @@ -70,8 +73,6 @@ typedef struct SpaprIrq {
+>      bool        xics;
+>      bool        xive;
+>  
+> -    int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **errp);
+> -    void (*free)(SpaprMachineState *spapr, int irq);
+>      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
+>      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
+>                          void *fdt, uint32_t phandle);
+> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> index 0df20a6590..8f875673f5 100644
+> --- a/include/hw/ppc/spapr_xive.h
+> +++ b/include/hw/ppc/spapr_xive.h
+> @@ -54,8 +54,6 @@ typedef struct SpaprXive {
+>   */
+>  #define SPAPR_XIVE_BLOCK_ID 0x0
+>  
+> -int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **errp);
+> -void spapr_xive_irq_free(SpaprXive *xive, int lisn);
+>  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+>  int spapr_xive_post_load(SpaprXive *xive, int version_id);
+>  
 
 
