@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC28C022D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:20:53 +0200 (CEST)
-Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F87CC0231
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:23:42 +0200 (CEST)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmQl-0008Uc-TL
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:20:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
+	id 1iDmTU-0003re-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iDmCE-0002Tp-LT
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:05:57 -0400
+ (envelope-from <tgolembi@redhat.com>) id 1iDmFu-0006ws-3Q
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:09:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iDmC5-00036G-Bz
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:05:50 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:55665)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iDmC4-00033K-Qw; Fri, 27 Sep 2019 05:05:41 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MtfRp-1hsxgD24ml-00v4ts; Fri, 27 Sep 2019 11:05:15 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <tgolembi@redhat.com>) id 1iDmFs-00029A-Mm
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:09:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58376)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tgolembi@redhat.com>) id 1iDmFs-00026k-EW
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:09:36 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 16A8F641C2
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:09:35 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id f63so1961959wma.7
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 02:09:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=sVtwfNmgEZ0sSn8j3G1vfEiZOqawpU0nyVrUe8q0sWg=;
+ b=Q+dD1cbEo74JWyIEH/z5D0kzAsz8bro/jmhGyV4095ObXqb0W5JA8tpz3IABbhK3hN
+ ow7HA+4ZtUYygNxxylPoO9kM7leIP2+ZbMfZUZl5+sRzCDLBKa5NT9KwUcGL85tUH8U6
+ aN1VdWPZPQpvFDI9233YtU8C4FZzAzvJtzXuGCZdzWHRKt7+g362aY07vcMd3fcTacpq
+ uvBjWN9cIbcM19fZutWV/u+L+NSFYl2Fn4ylHcQ9udMZVy23PvmEKFPxyAYpwz1WJ9A4
+ 60gt0hej62yk7ZdDIQZOXxhWKHnB+KjhY12cxooO25/29KFL0pqAs8IxFC/VPoactiZr
+ JNgA==
+X-Gm-Message-State: APjAAAWZakqkPUp/NJ1FcOf3sMEADWCD8E4a005rWbj3ZmgyQUMdzJOJ
+ WXfUN8flYAV5yLDcYqsgrJK1XGLhNz4bjBnyKGyG43CMaPi5en5mCKDNC79EfxGtR9Q+L6tt3Xn
+ AbRfPXjjeB4TzWG0=
+X-Received: by 2002:a1c:e906:: with SMTP id q6mr5889792wmc.136.1569575373512; 
+ Fri, 27 Sep 2019 02:09:33 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzsy2DSCkbcifdrZPQ+6vNphEeRwpSwKrwaoHlw+1Y+5LUZTOHPVNPKSxWaAeiOWKJ90tGVPg==
+X-Received: by 2002:a1c:e906:: with SMTP id q6mr5889777wmc.136.1569575373289; 
+ Fri, 27 Sep 2019 02:09:33 -0700 (PDT)
+Received: from auriga.localdomain (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ g13sm6480630wrm.42.2019.09.27.02.09.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Sep 2019 02:09:32 -0700 (PDT)
+Date: Fri, 27 Sep 2019 11:09:32 +0200
+From: =?utf-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 8/9] hw/m68k: define Macintosh Quadra 800
-Date: Fri, 27 Sep 2019 11:04:52 +0200
-Message-Id: <20190927090453.24712-9-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190927090453.24712-1-laurent@vivier.eu>
-References: <20190927090453.24712-1-laurent@vivier.eu>
+Subject: Re: [PATCH v3] qga: add command guest-get-devices for reporting
+ VirtIO devices
+Message-ID: <20190927090931.rbzujfb2t35hfx2q@auriga.localdomain>
+References: <919bbd6e0557d2fe2d9c17de394cc0b4c6fa4426.1569445204.git.tgolembi@redhat.com>
+ <156954674521.23674.9914013622784989955@8230166b0665>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yfs0Zl5ilTw9xOxpU1Jgi598sVvEyW2BmmCPBCaitPGQA3L6mXm
- qacvIVrD1+TtYLzImQf+l0GATqCIPji4Y7+5KfJ+eXudv/cJ25uw9BD6nQuDdvOUGf19NDm
- f0uvfmO1Da+6t1rHumoEU6hzwSi9qwF1vyxOgjRD0+RUZHrJeH/uDiyi5NTj0IckG0Rlg/A
- gjAj0J7kUUUMN0Bc9kG6g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X5uu1OtvYoo=:TXYE++zD4rhWzdVhN3b2ud
- 8m4UkKBKk/9amsDTeS26Dx695jiEF70Uc81znrUYYhcL0odVTHfVd2o/3eOgKXY/ruBWij3XJ
- vuivOy13wBGxF9RIpxkExSOhSBjPBgSINAZZhaJdWqL/y/IDzmKmtB5e4b2qgsy6IdxOScqBa
- IKDOuptGR+eCZtSunxc4PDd8CcXELo3wCT0DXsnmQAZBXwSAkEGPsq/fu65kXymD1HljopM3N
- HbHBzhRWWUxFnphd4qVPB8xnLAthmlkuIi0abMD7u3qj3wm+G3ozZZ20t3PYu1Q32eAw4Blem
- cXHaARooxajNdOW53J7T2BlxH7wc19GFjyJEDhzpoU4N9zs1kFUhrYXC7NwGdcjALY1wA3fpI
- qOcFozX8Guk8QDki/LyxzXBkX2VxjR5aIfZ4StsCjAZXTwyhWqyLN4DZZzlGTmAlb45DY2Nk3
- 3BlJj9jH4Oqe9OCmpY39zIR39j/Uqs0sOnDSsxj3IBl4hDqc0QzB+nboV+0vPcjug6I6UqE5O
- XIPDsfCtSv9XH21avB0guYoCsqCbprW3Fpk3XBZ2UVzLi4qRxywHOVr7gsQBiB65zwuLXO53O
- C1QEHM8zUEoUZE6U9jJnwsU/qQMA2z+cTkbYvyj2d8d5Sh2XVG/nqssDcb7E+NJNliW4On2YY
- /lrpNRVUlDu8pzYFr4sbEbQ6vCSEEyLrttc/57EwmSpua+mpfrt1ahQ6D1B6mWad3axXpJekX
- iU81AoIFobV/q98KPrOyOiq/hFljz4K5tbtkso5f/0vdVqGkO5gKPR05c0BOjujAoS5lT2amh
- lgoAkGRAxws0q3gOefKALMiPt782CMKPHXJTRWFlMrkYwak94d8erchji4vsU3VKK+s+blOX9
- bxP387BfIx84yqvKMCYw==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <156954674521.23674.9914013622784989955@8230166b0665>
+User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.10
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,609 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you want to test the machine, it doesn't yet boot a MacROM, but you can
-boot a linux kernel from the command line.
+already fixed in v4
 
-You can install your own disk using debian-installer with:
+On Thu, Sep 26, 2019 at 06:12:26PM -0700, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/919bbd6e0557d2fe2d9c17de394cc0b4c=
+6fa4426.1569445204.git.tgolembi@redhat.com/
+>=20
+>=20
+>=20
+> Hi,
+>=20
+> This series seems to have some coding style problems. See output below =
+for
+> more information:
+>=20
+> Type: series
+> Message-id: 919bbd6e0557d2fe2d9c17de394cc0b4c6fa4426.1569445204.git.tgo=
+lembi@redhat.com
+> Subject: [PATCH v3] qga: add command guest-get-devices for reporting Vi=
+rtIO devices
+>=20
+> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+>=20
+> Switched to a new branch 'test'
+> 42c2919 qga: add command guest-get-devices for reporting VirtIO devices
+>=20
+> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
+> ERROR: "(foo*)" should be "(foo *)"
+> #155: FILE: qga/commands-win32.c:2316:
+> +    values =3D g_array_new(TRUE, TRUE, sizeof(gchar*));
+>=20
+> ERROR: "foo* bar" should be "foo *bar"
+> #157: FILE: qga/commands-win32.c:2318:
+> +        gchar* id8 =3D g_utf16_to_utf8(id, -1, NULL, NULL, NULL);
+>=20
+> total: 2 errors, 0 warnings, 281 lines checked
+>=20
+> Commit 42c2919fb935 (qga: add command guest-get-devices for reporting V=
+irtIO devices) has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> =3D=3D=3D OUTPUT END =3D=3D=3D
+>=20
+> Test command exited with code: 1
+>=20
+>=20
+> The full log is available at
+> http://patchew.org/logs/919bbd6e0557d2fe2d9c17de394cc0b4c6fa4426.156944=
+5204.git.tgolembi@redhat.com/testing.checkpatch/?type=3Dmessage.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
-    ./qemu-system-m68k \
-    -M q800 \
-    -serial none -serial mon:stdio \
-    -m 1000M -drive file=m68k.qcow2,format=qcow2 \
-    -net nic,model=dp83932,addr=09:00:07:12:34:57 \
-    -append "console=ttyS0 vga=off" \
-    -kernel vmlinux-4.15.0-2-m68k \
-    -initrd initrd.gz \
-    -drive file=debian-9.0-m68k-NETINST-1.iso \
-    -drive file=m68k.qcow2,format=qcow2 \
-    -nographic
-
-If you use a graphic adapter instead of "-nographic", you can use "-g"
-to set the size of the display (I use "-g 1600x800x24").
-
-Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- MAINTAINERS           |   2 +
- hw/m68k/Kconfig       |   3 +
- hw/m68k/Makefile.objs |   1 +
- hw/m68k/bootinfo.h    | 114 ++++++++++++
- hw/m68k/q800.c        | 394 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 514 insertions(+)
- create mode 100644 hw/m68k/bootinfo.h
- create mode 100644 hw/m68k/q800.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c20f6bd4cb..d4a6b2c9b7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -920,10 +920,12 @@ F: include/hw/m68k/next-cube.h
- q800
- M: Laurent Vivier <laurent@vivier.eu>
- S: Maintained
-+F: hw/m68k/q800.c
- F: hw/misc/mac_via.c
- F: hw/nubus/*
- F: hw/display/macfb.c
- F: hw/block/swim.c
-+F: hw/m68k/bootinfo.h
- F: include/hw/misc/mac_via.h
- F: include/hw/nubus/*
- F: include/hw/display/macfb.h
-diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index bab4885ca5..c757e7dfa4 100644
---- a/hw/m68k/Kconfig
-+++ b/hw/m68k/Kconfig
-@@ -19,3 +19,6 @@ config Q800
-     select NUBUS
-     select MACFB
-     select SWIM
-+    select ESCC
-+    select ESP
-+    select DP8393X
-diff --git a/hw/m68k/Makefile.objs b/hw/m68k/Makefile.objs
-index f25854730d..b2c9e5ab12 100644
---- a/hw/m68k/Makefile.objs
-+++ b/hw/m68k/Makefile.objs
-@@ -1,3 +1,4 @@
- obj-$(CONFIG_AN5206) += an5206.o mcf5206.o
- obj-$(CONFIG_MCF5208) += mcf5208.o mcf_intc.o
- obj-$(CONFIG_NEXTCUBE) += next-kbd.o next-cube.o
-+obj-$(CONFIG_Q800) += q800.o
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-new file mode 100644
-index 0000000000..5f8ded2686
---- /dev/null
-+++ b/hw/m68k/bootinfo.h
-@@ -0,0 +1,114 @@
-+/*
-+ * SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
-+ *
-+ * Bootinfo tags from linux bootinfo.h and bootinfo-mac.h:
-+ * This is an easily parsable and extendable structure containing all
-+ * information to be passed from the bootstrap to the kernel
-+ *
-+ * This structure is copied right after the kernel by the bootstrap
-+ * routine.
-+ */
-+
-+#ifndef HW_M68K_BOOTINFO_H
-+#define HW_M68K_BOOTINFO_H
-+struct bi_record {
-+    uint16_t tag;        /* tag ID */
-+    uint16_t size;       /* size of record */
-+    uint32_t data[0];    /* data */
-+};
-+
-+/* machine independent tags */
-+
-+#define BI_LAST         0x0000 /* last record */
-+#define BI_MACHTYPE     0x0001 /* machine type (u_long) */
-+#define BI_CPUTYPE      0x0002 /* cpu type (u_long) */
-+#define BI_FPUTYPE      0x0003 /* fpu type (u_long) */
-+#define BI_MMUTYPE      0x0004 /* mmu type (u_long) */
-+#define BI_MEMCHUNK     0x0005 /* memory chunk address and size */
-+                               /* (struct mem_info) */
-+#define BI_RAMDISK      0x0006 /* ramdisk address and size */
-+                               /* (struct mem_info) */
-+#define BI_COMMAND_LINE 0x0007 /* kernel command line parameters */
-+                               /* (string) */
-+
-+/*  Macintosh-specific tags (all u_long) */
-+
-+#define BI_MAC_MODEL    0x8000  /* Mac Gestalt ID (model type) */
-+#define BI_MAC_VADDR    0x8001  /* Mac video base address */
-+#define BI_MAC_VDEPTH   0x8002  /* Mac video depth */
-+#define BI_MAC_VROW     0x8003  /* Mac video rowbytes */
-+#define BI_MAC_VDIM     0x8004  /* Mac video dimensions */
-+#define BI_MAC_VLOGICAL 0x8005  /* Mac video logical base */
-+#define BI_MAC_SCCBASE  0x8006  /* Mac SCC base address */
-+#define BI_MAC_BTIME    0x8007  /* Mac boot time */
-+#define BI_MAC_GMTBIAS  0x8008  /* Mac GMT timezone offset */
-+#define BI_MAC_MEMSIZE  0x8009  /* Mac RAM size (sanity check) */
-+#define BI_MAC_CPUID    0x800a  /* Mac CPU type (sanity check) */
-+#define BI_MAC_ROMBASE  0x800b  /* Mac system ROM base address */
-+
-+/*  Macintosh hardware profile data */
-+
-+#define BI_MAC_VIA1BASE 0x8010  /* Mac VIA1 base address (always present) */
-+#define BI_MAC_VIA2BASE 0x8011  /* Mac VIA2 base address (type varies) */
-+#define BI_MAC_VIA2TYPE 0x8012  /* Mac VIA2 type (VIA, RBV, OSS) */
-+#define BI_MAC_ADBTYPE  0x8013  /* Mac ADB interface type */
-+#define BI_MAC_ASCBASE  0x8014  /* Mac Apple Sound Chip base address */
-+#define BI_MAC_SCSI5380 0x8015  /* Mac NCR 5380 SCSI (base address, multi) */
-+#define BI_MAC_SCSIDMA  0x8016  /* Mac SCSI DMA (base address) */
-+#define BI_MAC_SCSI5396 0x8017  /* Mac NCR 53C96 SCSI (base address, multi) */
-+#define BI_MAC_IDETYPE  0x8018  /* Mac IDE interface type */
-+#define BI_MAC_IDEBASE  0x8019  /* Mac IDE interface base address */
-+#define BI_MAC_NUBUS    0x801a  /* Mac Nubus type (none, regular, pseudo) */
-+#define BI_MAC_SLOTMASK 0x801b  /* Mac Nubus slots present */
-+#define BI_MAC_SCCTYPE  0x801c  /* Mac SCC serial type (normal, IOP) */
-+#define BI_MAC_ETHTYPE  0x801d  /* Mac builtin ethernet type (Sonic, MACE */
-+#define BI_MAC_ETHBASE  0x801e  /* Mac builtin ethernet base address */
-+#define BI_MAC_PMU      0x801f  /* Mac power management / poweroff hardware */
-+#define BI_MAC_IOP_SWIM 0x8020  /* Mac SWIM floppy IOP */
-+#define BI_MAC_IOP_ADB  0x8021  /* Mac ADB IOP */
-+
-+#define BOOTINFO0(as, base, id) \
-+    do { \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, sizeof(struct bi_record)); \
-+        base += 2; \
-+    } while (0)
-+
-+#define BOOTINFO1(as, base, id, value) \
-+    do { \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, sizeof(struct bi_record) + 4); \
-+        base += 2; \
-+        stl_phys(as, base, value); \
-+        base += 4; \
-+    } while (0)
-+
-+#define BOOTINFO2(as, base, id, value1, value2) \
-+    do { \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, sizeof(struct bi_record) + 8); \
-+        base += 2; \
-+        stl_phys(as, base, value1); \
-+        base += 4; \
-+        stl_phys(as, base, value2); \
-+        base += 4; \
-+    } while (0)
-+
-+#define BOOTINFOSTR(as, base, id, string) \
-+    do { \
-+        int i; \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, \
-+                 (sizeof(struct bi_record) + strlen(string) + 2) & ~1); \
-+        base += 2; \
-+        for (i = 0; string[i]; i++) { \
-+            stb_phys(as, base++, string[i]); \
-+        } \
-+        stb_phys(as, base++, 0); \
-+        base = (parameters_base + 1) & ~1; \
-+    } while (0)
-+#endif
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-new file mode 100644
-index 0000000000..039bfbd88b
---- /dev/null
-+++ b/hw/m68k/q800.c
-@@ -0,0 +1,394 @@
-+/*
-+ * QEMU Motorla 680x0 Macintosh hardware System Emulator
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "sysemu/sysemu.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "hw/boards.h"
-+#include "hw/irq.h"
-+#include "elf.h"
-+#include "hw/loader.h"
-+#include "ui/console.h"
-+#include "exec/address-spaces.h"
-+#include "hw/char/escc.h"
-+#include "hw/sysbus.h"
-+#include "hw/scsi/esp.h"
-+#include "bootinfo.h"
-+#include "hw/misc/mac_via.h"
-+#include "hw/input/adb.h"
-+#include "hw/nubus/mac-nubus-bridge.h"
-+#include "hw/display/macfb.h"
-+#include "hw/block/swim.h"
-+#include "net/net.h"
-+#include "qapi/error.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/runstate.h"
-+#include "sysemu/reset.h"
-+
-+#define MACROM_ADDR     0x40000000
-+#define MACROM_SIZE     0x00100000
-+
-+#define MACROM_FILENAME "MacROM.bin"
-+
-+#define Q800_MACHINE_ID 35
-+#define Q800_CPU_ID (1 << 2)
-+#define Q800_FPU_ID (1 << 2)
-+#define Q800_MMU_ID (1 << 2)
-+
-+#define MACH_MAC        3
-+#define Q800_MAC_CPU_ID 2
-+
-+#define VIA_BASE              0x50f00000
-+#define SONIC_PROM_BASE       0x50f08000
-+#define SONIC_BASE            0x50f0a000
-+#define SCC_BASE              0x50f0c020
-+#define ESP_BASE              0x50f10000
-+#define ESP_PDMA              0x50f10100
-+#define ASC_BASE              0x50F14000
-+#define SWIM_BASE             0x50F1E000
-+#define NUBUS_SUPER_SLOT_BASE 0x60000000
-+#define NUBUS_SLOT_BASE       0xf0000000
-+
-+/*
-+ * the video base, whereas it a Nubus address,
-+ * is needed by the kernel to have early display and
-+ * thus provided by the bootloader
-+ */
-+#define VIDEO_BASE            0xf9001000
-+
-+#define MAC_CLOCK  3686418
-+
-+/*
-+ * The GLUE (General Logic Unit) is an Apple custom integrated circuit chip
-+ * that performs a variety of functions (RAM management, clock generation, ...).
-+ * The GLUE chip receives interrupt requests from various devices,
-+ * assign priority to each, and asserts one or more interrupt line to the
-+ * CPU.
-+ */
-+
-+typedef struct {
-+    M68kCPU *cpu;
-+    uint8_t ipr;
-+} GLUEState;
-+
-+static void GLUE_set_irq(void *opaque, int irq, int level)
-+{
-+    GLUEState *s = opaque;
-+    int i;
-+
-+    if (level) {
-+        s->ipr |= 1 << irq;
-+    } else {
-+        s->ipr &= ~(1 << irq);
-+    }
-+
-+    for (i = 7; i >= 0; i--) {
-+        if ((s->ipr >> i) & 1) {
-+            m68k_set_irq_level(s->cpu, i + 1, i + 25);
-+            return;
-+        }
-+    }
-+    m68k_set_irq_level(s->cpu, 0, 0);
-+}
-+
-+static void main_cpu_reset(void *opaque)
-+{
-+    M68kCPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+
-+    cpu_reset(cs);
-+    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
-+    cpu->env.pc = ldl_phys(cs->as, 4);
-+}
-+
-+static void q800_init(MachineState *machine)
-+{
-+    M68kCPU *cpu = NULL;
-+    int linux_boot;
-+    int32_t kernel_size;
-+    uint64_t elf_entry;
-+    char *filename;
-+    int bios_size;
-+    ram_addr_t initrd_base;
-+    int32_t initrd_size;
-+    MemoryRegion *rom;
-+    MemoryRegion *ram;
-+    ram_addr_t ram_size = machine->ram_size;
-+    const char *kernel_filename = machine->kernel_filename;
-+    const char *initrd_filename = machine->initrd_filename;
-+    const char *kernel_cmdline = machine->kernel_cmdline;
-+    hwaddr parameters_base;
-+    CPUState *cs;
-+    DeviceState *dev;
-+    DeviceState *via_dev;
-+    SysBusESPState *sysbus_esp;
-+    ESPState *esp;
-+    SysBusDevice *sysbus;
-+    BusState *adb_bus;
-+    NubusBus *nubus;
-+    GLUEState *irq;
-+    qemu_irq *pic;
-+
-+    linux_boot = (kernel_filename != NULL);
-+
-+    /* init CPUs */
-+    cpu = M68K_CPU(cpu_create(machine->cpu_type));
-+    qemu_register_reset(main_cpu_reset, cpu);
-+
-+    ram = g_malloc(sizeof(*ram));
-+    memory_region_init_ram(ram, NULL, "m68k_mac.ram", ram_size, &error_abort);
-+    memory_region_add_subregion(get_system_memory(), 0, ram);
-+
-+    /* IRQ Glue */
-+
-+    irq = g_new0(GLUEState, 1);
-+    irq->cpu = cpu;
-+    pic = qemu_allocate_irqs(GLUE_set_irq, irq, 8);
-+
-+    /* VIA */
-+
-+    via_dev = qdev_create(NULL, TYPE_MAC_VIA);
-+    qdev_init_nofail(via_dev);
-+    sysbus = SYS_BUS_DEVICE(via_dev);
-+    sysbus_mmio_map(sysbus, 0, VIA_BASE);
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0, pic[0]);
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1, pic[1]);
-+
-+
-+    adb_bus = qdev_get_child_bus(via_dev, "adb.0");
-+    dev = qdev_create(adb_bus, TYPE_ADB_KEYBOARD);
-+    qdev_init_nofail(dev);
-+    dev = qdev_create(adb_bus, TYPE_ADB_MOUSE);
-+    qdev_init_nofail(dev);
-+
-+    /* MACSONIC */
-+
-+    if (nb_nics > 1) {
-+        error_report("q800 can only have one ethernet interface");
-+        exit(1);
-+    }
-+
-+    qemu_check_nic_model(&nd_table[0], "dp83932");
-+
-+    /*
-+     * MacSonic driver needs an Apple MAC address
-+     * Valid prefix are:
-+     * 00:05:02 Apple
-+     * 00:80:19 Dayna Communications, Inc.
-+     * 00:A0:40 Apple
-+     * 08:00:07 Apple
-+     * (Q800 use the last one)
-+     */
-+    nd_table[0].macaddr.a[0] = 0x08;
-+    nd_table[0].macaddr.a[1] = 0x00;
-+    nd_table[0].macaddr.a[2] = 0x07;
-+
-+    dev = qdev_create(NULL, "dp8393x");
-+    qdev_set_nic_properties(dev, &nd_table[0]);
-+    qdev_prop_set_uint8(dev, "it_shift", 2);
-+    qdev_prop_set_bit(dev, "big_endian", true);
-+    qdev_prop_set_ptr(dev, "dma_mr", get_system_memory());
-+    qdev_init_nofail(dev);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_mmio_map(sysbus, 0, SONIC_BASE);
-+    sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
-+    sysbus_connect_irq(sysbus, 0, pic[2]);
-+
-+    /* SCC */
-+
-+    dev = qdev_create(NULL, TYPE_ESCC);
-+    qdev_prop_set_uint32(dev, "disabled", 0);
-+    qdev_prop_set_uint32(dev, "frequency", MAC_CLOCK);
-+    qdev_prop_set_uint32(dev, "it_shift", 1);
-+    qdev_prop_set_bit(dev, "bit_swap", true);
-+    qdev_prop_set_chr(dev, "chrA", serial_hd(0));
-+    qdev_prop_set_chr(dev, "chrB", serial_hd(1));
-+    qdev_prop_set_uint32(dev, "chnBtype", 0);
-+    qdev_prop_set_uint32(dev, "chnAtype", 0);
-+    qdev_init_nofail(dev);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_connect_irq(sysbus, 0, pic[3]);
-+    sysbus_connect_irq(sysbus, 1, pic[3]);
-+    sysbus_mmio_map(sysbus, 0, SCC_BASE);
-+
-+    /* SCSI */
-+
-+    dev = qdev_create(NULL, TYPE_ESP);
-+    sysbus_esp = ESP_STATE(dev);
-+    esp = &sysbus_esp->esp;
-+    esp->dma_memory_read = NULL;
-+    esp->dma_memory_write = NULL;
-+    esp->dma_opaque = NULL;
-+    sysbus_esp->it_shift = 4;
-+    esp->dma_enabled = 1;
-+    qdev_init_nofail(dev);
-+
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in_named(via_dev,
-+                                                         "via2-irq",
-+                                                         VIA2_IRQ_SCSI_BIT));
-+    sysbus_connect_irq(sysbus, 1,
-+                       qdev_get_gpio_in_named(via_dev, "via2-irq",
-+                                              VIA2_IRQ_SCSI_DATA_BIT));
-+    sysbus_mmio_map(sysbus, 0, ESP_BASE);
-+    sysbus_mmio_map(sysbus, 1, ESP_PDMA);
-+
-+    scsi_bus_legacy_handle_cmdline(&esp->bus);
-+
-+    /* SWIM floppy controller */
-+
-+    dev = qdev_create(NULL, TYPE_SWIM);
-+    qdev_init_nofail(dev);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, SWIM_BASE);
-+
-+    /* NuBus */
-+
-+    dev = qdev_create(NULL, TYPE_MAC_NUBUS_BRIDGE);
-+    qdev_init_nofail(dev);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, NUBUS_SUPER_SLOT_BASE);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE);
-+
-+    nubus = MAC_NUBUS_BRIDGE(dev)->bus;
-+
-+    /* framebuffer in nubus slot #9 */
-+
-+    dev = qdev_create(BUS(nubus), TYPE_NUBUS_MACFB);
-+    qdev_prop_set_uint32(dev, "width", graphic_width);
-+    qdev_prop_set_uint32(dev, "height", graphic_height);
-+    qdev_prop_set_uint8(dev, "depth", graphic_depth);
-+    qdev_init_nofail(dev);
-+
-+    cs = CPU(cpu);
-+    if (linux_boot) {
-+        uint64_t high;
-+        kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-+                               &elf_entry, NULL, &high, 1,
-+                               EM_68K, 0, 0);
-+        if (kernel_size < 0) {
-+            error_report("could not load kernel '%s'", kernel_filename);
-+            exit(1);
-+        }
-+        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
-+        parameters_base = (high + 1) & ~1;
-+
-+        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
-+        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, Q800_FPU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, Q800_MMU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, Q800_CPU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, Q800_MAC_CPU_ID);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, Q800_MACHINE_ID);
-+        BOOTINFO1(cs->as, parameters_base,
-+                  BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
-+        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR, VIDEO_BASE);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
-+                  (graphic_height << 16) | graphic_width);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW,
-+                  (graphic_width * graphic_depth + 7) / 8);
-+        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
-+
-+        if (kernel_cmdline) {
-+            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-+                        kernel_cmdline);
-+        }
-+
-+        /* load initrd */
-+        if (initrd_filename) {
-+            initrd_size = get_image_size(initrd_filename);
-+            if (initrd_size < 0) {
-+                error_report("could not load initial ram disk '%s'",
-+                             initrd_filename);
-+                exit(1);
-+            }
-+
-+            initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
-+            load_image_targphys(initrd_filename, initrd_base,
-+                                ram_size - initrd_base);
-+            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
-+                      initrd_size);
-+        } else {
-+            initrd_base = 0;
-+            initrd_size = 0;
-+        }
-+        BOOTINFO0(cs->as, parameters_base, BI_LAST);
-+    } else {
-+        uint8_t *ptr;
-+        /* allocate and load BIOS */
-+        rom = g_malloc(sizeof(*rom));
-+        memory_region_init_ram(rom, NULL, "m68k_mac.rom", MACROM_SIZE,
-+                               &error_abort);
-+        if (bios_name == NULL) {
-+            bios_name = MACROM_FILENAME;
-+        }
-+        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-+        memory_region_set_readonly(rom, true);
-+        memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
-+
-+        /* Load MacROM binary */
-+        if (filename) {
-+            bios_size = load_image_targphys(filename, MACROM_ADDR, MACROM_SIZE);
-+            g_free(filename);
-+        } else {
-+            bios_size = -1;
-+        }
-+
-+        /* Remove qtest_enabled() check once firmware files are in the tree */
-+        if (!qtest_enabled()) {
-+            if (bios_size < 0 || bios_size > MACROM_SIZE) {
-+                error_report("could not load MacROM '%s'", bios_name);
-+                exit(1);
-+            }
-+
-+            ptr = rom_ptr(MACROM_ADDR, MACROM_SIZE);
-+            stl_phys(cs->as, 0, ldl_p(ptr));    /* reset initial SP */
-+            stl_phys(cs->as, 4,
-+                     MACROM_ADDR + ldl_p(ptr + 4)); /* reset initial PC */
-+        }
-+    }
-+}
-+
-+static void q800_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    mc->desc = "Macintosh Quadra 800";
-+    mc->init = q800_init;
-+    mc->default_cpu_type = M68K_CPU_TYPE_NAME("m68040");
-+    mc->max_cpus = 1;
-+    mc->is_default = 0;
-+    mc->block_default_type = IF_SCSI;
-+}
-+
-+static const TypeInfo q800_machine_typeinfo = {
-+    .name       = MACHINE_TYPE_NAME("q800"),
-+    .parent     = TYPE_MACHINE,
-+    .class_init = q800_machine_class_init,
-+};
-+
-+static void q800_machine_register_types(void)
-+{
-+    type_register_static(&q800_machine_typeinfo);
-+}
-+
-+type_init(q800_machine_register_types)
--- 
-2.21.0
-
+--=20
+Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
 
