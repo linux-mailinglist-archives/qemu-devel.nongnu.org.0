@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA89C05C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 14:54:53 +0200 (CEST)
-Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0017FC05DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 14:58:07 +0200 (CEST)
+Received: from localhost ([::1]:49846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDpls-00035i-6m
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 08:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51291)
+	id 1iDpp0-0007Ce-EQ
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 08:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iDpgU-0006sp-H2
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:49:20 -0400
+ (envelope-from <david@redhat.com>) id 1iDphy-0000RB-9Y
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:50:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iDpgR-0000n4-Iv
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:49:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35138)
+ (envelope-from <david@redhat.com>) id 1iDphx-00014H-1P
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 08:50:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36902)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iDpgR-0000mc-8u; Fri, 27 Sep 2019 08:49:15 -0400
+ id 1iDphw-000147-Ol; Fri, 27 Sep 2019 08:50:48 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B7D610DCC8F;
- Fri, 27 Sep 2019 10:55:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F38673065450;
+ Fri, 27 Sep 2019 10:56:29 +0000 (UTC)
 Received: from [10.36.116.169] (ovpn-116-169.ams2.redhat.com [10.36.116.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B10055C21F;
- Fri, 27 Sep 2019 10:55:04 +0000 (UTC)
-Subject: Re: [PATCH v3 10/18] target/s390: Return exception from mmu_translate
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 252CF5C21F;
+ Fri, 27 Sep 2019 10:56:28 +0000 (UTC)
+Subject: Re: [PATCH v3 12/18] target/s390x: Remove fail variable from
+ s390_cpu_tlb_fill
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190926162615.31168-1-richard.henderson@linaro.org>
- <20190926162615.31168-11-richard.henderson@linaro.org>
+ <20190926162615.31168-13-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,18 +80,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <55bd537c-5d62-ee48-6636-b1b386adeee8@redhat.com>
-Date: Fri, 27 Sep 2019 12:55:03 +0200
+Message-ID: <f203ed3c-993c-f797-d3e4-c2dcb7df4c1f@redhat.com>
+Date: Fri, 27 Sep 2019 12:56:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190926162615.31168-11-richard.henderson@linaro.org>
+In-Reply-To: <20190926162615.31168-13-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 27 Sep 2019 10:55:05 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 27 Sep 2019 10:56:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -110,195 +111,85 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26.09.19 18:26, Richard Henderson wrote:
-> Do not raise the exception directly within mmu_translate,
-> but pass it back so that caller may do so.
->=20
+> Now that excp always contains a real exception number, we can
+> use that instead of a separate fail variable.  This allows a
+> redundant test to be removed.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/s390x/internal.h    |  2 +-
->  target/s390x/excp_helper.c |  4 ++--
->  target/s390x/mem_helper.c  | 13 ++++++++++---
->  target/s390x/mmu_helper.c  | 36 ++++++++++++++----------------------
->  4 files changed, 27 insertions(+), 28 deletions(-)
->=20
-> diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-> index c4388aaf23..c993c3ef40 100644
-> --- a/target/s390x/internal.h
-> +++ b/target/s390x/internal.h
-> @@ -360,7 +360,7 @@ void probe_write_access(CPUS390XState *env, uint64_=
-t addr, uint64_t len,
-> =20
->  /* mmu_helper.c */
->  int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint=
-64_t asc,
-> -                  target_ulong *raddr, int *flags, bool exc);
-> +                  target_ulong *raddr, int *flags, uint64_t *tec);
->  int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
->                         target_ulong *addr, int *flags, uint64_t *tec);
-> =20
+>  target/s390x/excp_helper.c | 19 +++++++------------
+>  1 file changed, 7 insertions(+), 12 deletions(-)
+> 
 > diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-> index 906b87c071..6a0728b65f 100644
+> index 6a0728b65f..98a1ee8317 100644
 > --- a/target/s390x/excp_helper.c
 > +++ b/target/s390x/excp_helper.c
-> @@ -140,8 +140,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address,=
- int size,
->          if (!(env->psw.mask & PSW_MASK_64)) {
->              vaddr &=3D 0x7fffffff;
+> @@ -127,7 +127,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      CPUS390XState *env = &cpu->env;
+>      target_ulong vaddr, raddr;
+>      uint64_t asc, tec;
+> -    int prot, fail, excp;
+> +    int prot, excp;
+>  
+>      qemu_log_mask(CPU_LOG_MMU, "%s: addr 0x%" VADDR_PRIx " rw %d mmu_idx %d\n",
+>                    __func__, address, access_type, mmu_idx);
+> @@ -141,20 +141,18 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>              vaddr &= 0x7fffffff;
 >          }
-> -        fail =3D mmu_translate(env, vaddr, access_type, asc, &raddr, &=
-prot, true);
-> -        excp =3D 0; /* exception already raised */
-> +        excp =3D mmu_translate(env, vaddr, access_type, asc, &raddr, &=
-prot, &tec);
-> +        fail =3D excp;
-
-... so what about instruction fetches? I assume this works as designed
-as we set  env->int_pgm_ilen =3D 2 in s390_cpu_tlb_fill() in case of
-MMU_INST_FETCH. But the comment indicates that "we may remove this
-entirely".
-
-Can you paint me the big picture? :)
-
-
->      } else if (mmu_idx =3D=3D MMU_REAL_IDX) {
+>          excp = mmu_translate(env, vaddr, access_type, asc, &raddr, &prot, &tec);
+> -        fail = excp;
+>      } else if (mmu_idx == MMU_REAL_IDX) {
 >          /* 31-Bit mode */
 >          if (!(env->psw.mask & PSW_MASK_64)) {
-> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-> index 7d2a652823..e15aa296dd 100644
-> --- a/target/s390x/mem_helper.c
-> +++ b/target/s390x/mem_helper.c
-> @@ -2364,8 +2364,8 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t=
- addr)
->      CPUState *cs =3D env_cpu(env);
->      uint32_t cc =3D 0;
->      uint64_t asc =3D env->psw.mask & PSW_MASK_ASC;
-> -    uint64_t ret;
-> -    int old_exc, flags;
-> +    uint64_t ret, tec;
-> +    int old_exc, flags, exc;
-> =20
->      /* XXX incomplete - has more corner cases */
->      if (!(env->psw.mask & PSW_MASK_64) && (addr >> 32)) {
-> @@ -2373,7 +2373,14 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_=
-t addr)
->      }
-> =20
->      old_exc =3D cs->exception_index;
-> -    if (mmu_translate(env, addr, 0, asc, &ret, &flags, true)) {
-> +    exc =3D mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
-> +    if (exc) {
-> +        /*
-> +         * We don't care about ILEN or TEC, as we're not going to
-> +         * deliver the exception -- thus resetting exception_index bel=
-ow.
-> +         * TODO: clean this up.
-> +         */
-> +        trigger_pgm_exception(env, exc, ILEN_UNWIND);
-
-Yeah, this needs a cleanup.
-
->          cc =3D 3;
->      }
->      if (cs->exception_index =3D=3D EXCP_PGM) {
-> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-> index ed6570db62..a9219942b1 100644
-> --- a/target/s390x/mmu_helper.c
-> +++ b/target/s390x/mmu_helper.c
-> @@ -349,17 +349,15 @@ static void mmu_handle_skey(target_ulong addr, in=
-t rw, int *flags)
->   * @return       0 if the translation was successful, -1 if a fault oc=
-curred
->   */
->  int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint=
-64_t asc,
-> -                  target_ulong *raddr, int *flags, bool exc)
-> +                  target_ulong *raddr, int *flags, uint64_t *tec)
->  {
-> -    /* Code accesses have an undefined ilc, let's use 2 bytes. */
-> -    const int ilen =3D (rw =3D=3D MMU_INST_FETCH) ? 2 : ILEN_AUTO;
-
-Now I realize that this ilen currently gets overwritten in
-s390_cpu_tlb_fill().
-
-> -    uint64_t tec =3D (vaddr & TARGET_PAGE_MASK) | (asc >> 46) |
-> -                   (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ);
->      uint64_t asce;
->      int r;
-> =20
-> -
-> +    *tec =3D (vaddr & TARGET_PAGE_MASK) | (asc >> 46) |
-> +            (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ);
->      *flags =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-> +
->      if (is_low_address(vaddr & TARGET_PAGE_MASK) && lowprot_enabled(en=
-v, asc)) {
->          /*
->           * If any part of this page is currently protected, make sure =
-the
-> @@ -371,10 +369,7 @@ int mmu_translate(CPUS390XState *env, target_ulong=
- vaddr, int rw, uint64_t asc,
->           */
->          *flags |=3D PAGE_WRITE_INV;
->          if (is_low_address(vaddr) && rw =3D=3D MMU_DATA_STORE) {
-> -            if (exc) {
-> -                trigger_access_exception(env, PGM_PROTECTION, ILEN_AUT=
-O, 0);
-> -            }
-> -            return -EACCES;
-> +            return PGM_PROTECTION;
+>              vaddr &= 0x7fffffff;
 >          }
+>          excp = mmu_translate_real(env, vaddr, access_type, &raddr, &prot, &tec);
+> -        fail = excp;
+>      } else {
+>          g_assert_not_reached();
 >      }
-> =20
-> @@ -404,20 +399,14 @@ int mmu_translate(CPUS390XState *env, target_ulon=
-g vaddr, int rw, uint64_t asc,
->      /* perform the DAT translation */
->      r =3D mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
->      if (unlikely(r)) {
-> -        if (exc) {
-> -            trigger_access_exception(env, r, ilen, tec);
+>  
+>      /* check out of RAM access */
+> -    if (!fail &&
+> +    if (!excp &&
+>          !address_space_access_valid(&address_space_memory, raddr,
+>                                      TARGET_PAGE_SIZE, access_type,
+>                                      MEMTXATTRS_UNSPECIFIED)) {
+> @@ -163,10 +161,9 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                        __func__, (uint64_t)raddr, (uint64_t)ram_size);
+>          excp = PGM_ADDRESSING;
+>          tec = 0; /* unused */
+> -        fail = 1;
+>      }
+>  
+> -    if (!fail) {
+> +    if (!excp) {
+>          qemu_log_mask(CPU_LOG_MMU,
+>                        "%s: set tlb %" PRIx64 " -> %" PRIx64 " (%x)\n",
+>                        __func__, (uint64_t)vaddr, (uint64_t)raddr, prot);
+> @@ -178,13 +175,11 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>          return false;
+>      }
+>  
+> -    if (excp) {
+> -        if (excp != PGM_ADDRESSING) {
+> -            stq_phys(env_cpu(env)->as,
+> -                     env->psa + offsetof(LowCore, trans_exc_code), tec);
 > -        }
-> -        return -1;
-> +        return r;
+> -        trigger_pgm_exception(env, excp, ILEN_AUTO);
+> +    if (excp != PGM_ADDRESSING) {
+> +        stq_phys(env_cpu(env)->as,
+> +                 env->psa + offsetof(LowCore, trans_exc_code), tec);
 >      }
-> =20
->      /* check for DAT protection */
->      if (unlikely(rw =3D=3D MMU_DATA_STORE && !(*flags & PAGE_WRITE))) =
-{
-> -        if (exc) {
-> -            /* DAT sets bit 61 only */
-> -            tec |=3D 0x4;
-> -            trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
-> -        }
-> -        return -1;
-> +        /* DAT sets bit 61 only */
-> +        *tec |=3D 0x4;
-> +        return PGM_PROTECTION;
->      }
-> =20
->  nodat:
-> @@ -441,9 +430,12 @@ static int translate_pages(S390CPU *cpu, vaddr add=
-r, int nr_pages,
->      int ret, i, pflags;
-> =20
->      for (i =3D 0; i < nr_pages; i++) {
-> -        ret =3D mmu_translate(env, addr, is_write, asc, &pages[i], &pf=
-lags, true);
-> +        uint64_t tec;
-> +
-> +        ret =3D mmu_translate(env, addr, is_write, asc, &pages[i], &pf=
-lags, &tec);
->          if (ret) {
-> -            return ret;
-> +            trigger_access_exception(env, ret, ILEN_AUTO, tec);
-> +            return -EFAULT;
->          }
->          if (!address_space_access_valid(&address_space_memory, pages[i=
-],
->                                          TARGET_PAGE_SIZE, is_write,
->=20
+> +    trigger_pgm_exception(env, excp, ILEN_AUTO);
+>      cpu_restore_state(cs, retaddr, true);
+>  
+>      /*
+> 
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
---=20
+-- 
 
 Thanks,
 
