@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8B9C09F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:05:56 +0200 (CEST)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E95C09EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:00:46 +0200 (CEST)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtgp-0002BM-6a
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
+	id 1iDtbn-0006Zr-3p
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:00:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSb-0002UT-VN
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:09 -0400
+ (envelope-from <philmd@redhat.com>) id 1iDrTt-0003cW-GM
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:44:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSZ-00088g-VS
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:05 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46292)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDrSX-00087a-Tg
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:03 -0400
-Received: by mail-wr1-x433.google.com with SMTP id o18so3092039wrv.13
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=BR1l/kb7RCqMIzZS6liikc0EeB/atePwZNIFCHsVMo4=;
- b=IDfRd8tdXDE/PeflYl46dK3AJGVjDZrcZdPI4PZpSy80Qt3uLq+lILw1xVh95CIV3p
- yuwtp+GoLSdCSEl1oud8sfqvPgPqfYKHWjMnZY3ZrSp3rOWOO14Q6H++sW5gZA2vI/K8
- MQZOjgq7zXD7Dwjj5QhXCudYzn1jaDRYjP14RUzzCEcB69jCznMpbVtaOnWwEt6sRNyn
- XPfhMpt/tMzhk41eau0w7a0Mi9WgaKSBa2n8fHlgOBfjttV5NQaHC/7m/uVnx9iPP0tx
- TlnI771jRB5ce14K+RuvAZ6baNFJIRq9uHWxObieo+qD5qVY1/Znse8KvCvi5lAxriJ/
- n4kA==
+ (envelope-from <philmd@redhat.com>) id 1iDrTp-0008Ju-Vd
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:44:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48492)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iDrTp-0008JS-Lb
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:44:21 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1A22A7CBB1
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 14:44:20 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id j3so1132930wrn.7
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:44:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BR1l/kb7RCqMIzZS6liikc0EeB/atePwZNIFCHsVMo4=;
- b=H82vr6/0dDQqZ+DkCp94TYKzBLfQDQcglXvcEhF72hrTAjtvlufiRurClmUavTpkmC
- s834R1R65qsv62uhHVOpsV0zOkEoU3Yrfz41OC3wE6Gl0NIsDAfluUbniQ4OucswM4ht
- SKV7xog4wAr66nTFWsTav6QcT2BtjeFfclhWa5zfxUJx5X9Fuh8CgwpIvsF4ToFDDKuk
- bBISaPvyFM4efyiMDcHkGPRfqEJMQZC4VNzwKo3wLcz6xgLi5zu7Blbu/y5560udenZf
- p0cJcJYd54JGltvIqwv0rmrNEpAnD5OxYYAIX32QBkVOnwNZxjBO9m4aMhGWVy21viy8
- BMGg==
-X-Gm-Message-State: APjAAAV3A3dZWFlh2+Ko8a9/9S88o8Vqndycoz5nYGi5o/yYyf80HVIn
- NH8T/hvXsv31xJXS3tpNYDTRgeoVgvf1lA==
-X-Google-Smtp-Source: APXvYqwjE4lrmU2e9aIAKjYtEPcxW+q7o6NZzz2CHbi3MU0+Cx/lQYthuwSOmqNwcFVKRG/gkb/Uxg==
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr7469172wmi.151.1569595378567; 
- Fri, 27 Sep 2019 07:42:58 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.57
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 07:42:58 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] tests/tcg: add linux-user semihosting smoke test for ARM
-Date: Fri, 27 Sep 2019 15:42:47 +0100
-Message-Id: <20190927144249.29999-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
-References: <20190927144249.29999-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2q+9SXfolCGkpiu01Kpc50RZfUmkJV77qGm65Z4aLrw=;
+ b=g8K6LbGDQeQo+4x3n1JHVPr4oVxLUISXA69pMO8PCnKRmxRAfthxm/JG3wCuNK5JWh
+ I7aD8kmE2vh8tRgz4tXIdk0cF7HQq/BJB+AKauezLdKC2MRYmlqZ5a58/onH6MEdBYYz
+ uXpuVd01P8uX666I3nowq9iZLdjtZEr0HdIY5G1sIuma0m2Tob+scA9dWiQ1jppjTCH1
+ HCeG34wEAg053VGjsEQWnXDKIQcJf2ev88aGoNJDq+NdI5SryjSdf5gW2cPsbF85F0YN
+ v5HTTt0Zd6boDXpgF7RY5jwehx5GPD6yQisPz9E78F5rlJck3SE8J2iv3HqFyjVB0ucg
+ sheg==
+X-Gm-Message-State: APjAAAXkMRnBXgeIUOQGTqG9VeFycmJaipU20OsKSYCUrXHbSowpwsYQ
+ wSmhZ5LHYzSTMWXEo4WPgt4w1DexpNBZF304LaKv4QeKVV9bmorWG3oEJYlPJjv1UcflhlVdkBJ
+ Jn1m2AKJq1yx2ohM=
+X-Received: by 2002:a1c:a90b:: with SMTP id s11mr8031925wme.92.1569595458433; 
+ Fri, 27 Sep 2019 07:44:18 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxbZp8HmBA51sBwb3b89xFrk0CkTIdezJrIhZyhIvEU53PPyiWJhUaBYgDbSXXS1qzPc15bvg==
+X-Received: by 2002:a1c:a90b:: with SMTP id s11mr8031894wme.92.1569595458242; 
+ Fri, 27 Sep 2019 07:44:18 -0700 (PDT)
+Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id b184sm6552821wmg.47.2019.09.27.07.44.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Sep 2019 07:44:17 -0700 (PDT)
+Subject: Re: [PATCH 14/19] python/qemu/machine: Allow to use other serial
+ consoles than default
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Cleber Rosa <crosa@redhat.com>
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-15-f4bug@amsat.org>
+ <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
+ <20190927132602.GA19931@roeck-us.net>
+ <CAFEAcA8KcJzCNU1iLjiteEKhLsw9jeDyyqXurv0fuvSmLAEF0A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <00b49d9e-0860-161f-a4d4-41fbe7bb2124@redhat.com>
+Date: Fri, 27 Sep 2019 16:44:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::433
+In-Reply-To: <CAFEAcA8KcJzCNU1iLjiteEKhLsw9jeDyyqXurv0fuvSmLAEF0A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,107 +88,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: bzt <bztemail@gmail.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cheng Xiang <ext-cheng.xiang@here.com>,
+ Pekka Enberg <penberg@iki.fi>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+On 9/27/19 3:36 PM, Peter Maydell wrote:
+> On Fri, 27 Sep 2019 at 14:26, Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On Fri, Sep 27, 2019 at 02:54:10PM +0200, bzt wrote:
+>>> Hi,
+>>>
+>>> On 9/26/19, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+>>>> Currently we are limited to use the first serial console available.
+>>>
+>>> I'm not so sure. Right now it works like this:
+>>>
+>>> qemu -serial stdio
+>>> Connects the VM's UART0 (PL011) serial console to the host terminal
+>>>
+>>> qemu -serial null -serial stdio
+>>> Connects the VM's UART1 (AUX) serial console to the host terminal
+>>>
+>>> I think this is simple and good, please don't remove this option. If
+>>> your commit does not influence these cli args, I'm not against it.
+>>>
+>> Agreed. I am using that mechanism (raspi3 uses the second console,
+>> not pl011) in my scripts. Please don't take it away.
+>=20
+> This patch is changing our python infrastructure that invokes
+> QEMU, not QEMU itself. What Philippe's message means is
+> "currently our code for running QEMU as part of tests like
+> this is limited to using the first serial console; this doesn't
+> work for raspi because we want to use the second (aux) console;
+> so make the test infrastructure able to handle machines like this."
 
-We already use semihosting for the system stuff so this is a simple
-smoke test to ensure we are working OK on linux-user.
+Exactly, thanks Peter for clarifying.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20190913151845.12582-7-alex.bennee@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- tests/tcg/aarch64/Makefile.target |  5 ++++
- tests/tcg/arm/Makefile.target     |  5 ++++
- tests/tcg/arm/semihosting.c       | 45 +++++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+)
- create mode 100644 tests/tcg/arm/semihosting.c
+I'll try to come with a clearer commit description.
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 9758f89f905..509f1afa93d 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -21,4 +21,9 @@ run-fcvt: fcvt
- AARCH64_TESTS += pauth-1 pauth-2
- run-pauth-%: QEMU_OPTS += -cpu max
- 
-+# Semihosting smoke test for linux-user
-+AARCH64_TESTS += semihosting
-+run-semihosting: semihosting
-+	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
-+
- TESTS += $(AARCH64_TESTS)
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 7347d3d0adb..3b7fc9a64be 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -27,6 +27,11 @@ run-fcvt: fcvt
- 	$(call run-test,fcvt,$(QEMU) $<,"$< on $(TARGET_NAME)")
- 	$(call diff-out,fcvt,$(ARM_SRC)/fcvt.ref)
- 
-+# Semihosting smoke test for linux-user
-+ARM_TESTS += semihosting
-+run-semihosting: semihosting
-+	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
-+
- TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
-diff --git a/tests/tcg/arm/semihosting.c b/tests/tcg/arm/semihosting.c
-new file mode 100644
-index 00000000000..09c89cb481a
---- /dev/null
-+++ b/tests/tcg/arm/semihosting.c
-@@ -0,0 +1,45 @@
-+/*
-+ * linux-user semihosting checks
-+ *
-+ * Copyright (c) 2019
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-3.0-or-later
-+ */
-+
-+#include <stdint.h>
-+
-+#define SYS_WRITE0      0x04
-+#define SYS_REPORTEXC   0x18
-+
-+void __semi_call(uintptr_t type, uintptr_t arg0)
-+{
-+#if defined(__arm__)
-+    register uintptr_t t asm("r0") = type;
-+    register uintptr_t a0 asm("r1") = arg0;
-+    asm("svc 0xab"
-+        : /* no return */
-+        : "r" (t), "r" (a0));
-+#else
-+    register uintptr_t t asm("x0") = type;
-+    register uintptr_t a0 asm("x1") = arg0;
-+    asm("hlt 0xf000"
-+        : /* no return */
-+        : "r" (t), "r" (a0));
-+#endif
-+}
-+
-+int main(int argc, char *argv[argc])
-+{
-+#if defined(__arm__)
-+    uintptr_t exit_code = 0x20026;
-+#else
-+    uintptr_t exit_block[2] = {0x20026, 0};
-+    uintptr_t exit_code = (uintptr_t) &exit_block;
-+#endif
-+
-+    __semi_call(SYS_WRITE0, (uintptr_t) "Hello World");
-+    __semi_call(SYS_REPORTEXC, exit_code);
-+    /* if we get here we failed */
-+    return -1;
-+}
--- 
-2.20.1
+Regards,
 
+Phil.
 
