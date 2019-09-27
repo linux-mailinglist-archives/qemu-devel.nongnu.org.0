@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F87CC0231
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:23:42 +0200 (CEST)
-Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60E9C022B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:20:51 +0200 (CEST)
+Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmTU-0003re-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
+	id 1iDmQj-00004z-ST
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:20:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tgolembi@redhat.com>) id 1iDmFu-0006ws-3Q
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:09:39 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDmJx-00039W-RT
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:13:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tgolembi@redhat.com>) id 1iDmFs-00029A-Mm
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:09:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58376)
+ (envelope-from <mreitz@redhat.com>) id 1iDmJw-0007nN-7A
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:13:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43360)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tgolembi@redhat.com>) id 1iDmFs-00026k-EW
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:09:36 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iDmJs-0007a4-NK; Fri, 27 Sep 2019 05:13:44 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 16A8F641C2
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:09:35 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id f63so1961959wma.7
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 02:09:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=sVtwfNmgEZ0sSn8j3G1vfEiZOqawpU0nyVrUe8q0sWg=;
- b=Q+dD1cbEo74JWyIEH/z5D0kzAsz8bro/jmhGyV4095ObXqb0W5JA8tpz3IABbhK3hN
- ow7HA+4ZtUYygNxxylPoO9kM7leIP2+ZbMfZUZl5+sRzCDLBKa5NT9KwUcGL85tUH8U6
- aN1VdWPZPQpvFDI9233YtU8C4FZzAzvJtzXuGCZdzWHRKt7+g362aY07vcMd3fcTacpq
- uvBjWN9cIbcM19fZutWV/u+L+NSFYl2Fn4ylHcQ9udMZVy23PvmEKFPxyAYpwz1WJ9A4
- 60gt0hej62yk7ZdDIQZOXxhWKHnB+KjhY12cxooO25/29KFL0pqAs8IxFC/VPoactiZr
- JNgA==
-X-Gm-Message-State: APjAAAWZakqkPUp/NJ1FcOf3sMEADWCD8E4a005rWbj3ZmgyQUMdzJOJ
- WXfUN8flYAV5yLDcYqsgrJK1XGLhNz4bjBnyKGyG43CMaPi5en5mCKDNC79EfxGtR9Q+L6tt3Xn
- AbRfPXjjeB4TzWG0=
-X-Received: by 2002:a1c:e906:: with SMTP id q6mr5889792wmc.136.1569575373512; 
- Fri, 27 Sep 2019 02:09:33 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzsy2DSCkbcifdrZPQ+6vNphEeRwpSwKrwaoHlw+1Y+5LUZTOHPVNPKSxWaAeiOWKJ90tGVPg==
-X-Received: by 2002:a1c:e906:: with SMTP id q6mr5889777wmc.136.1569575373289; 
- Fri, 27 Sep 2019 02:09:33 -0700 (PDT)
-Received: from auriga.localdomain (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- g13sm6480630wrm.42.2019.09.27.02.09.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 02:09:32 -0700 (PDT)
-Date: Fri, 27 Sep 2019 11:09:32 +0200
-From: =?utf-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3] qga: add command guest-get-devices for reporting
- VirtIO devices
-Message-ID: <20190927090931.rbzujfb2t35hfx2q@auriga.localdomain>
-References: <919bbd6e0557d2fe2d9c17de394cc0b4c6fa4426.1569445204.git.tgolembi@redhat.com>
- <156954674521.23674.9914013622784989955@8230166b0665>
+ by mx1.redhat.com (Postfix) with ESMTPS id 0A5443082135;
+ Fri, 27 Sep 2019 09:13:43 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-76.brq.redhat.com
+ [10.40.204.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 470015D6A7;
+ Fri, 27 Sep 2019 09:13:41 +0000 (UTC)
+Subject: Re: [PATCH v4 10/10] qcow2-bitmap: move bitmap reopen-rw code to
+ qcow2_reopen_commit
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190807141226.193501-1-vsementsov@virtuozzo.com>
+ <20190807141226.193501-11-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <79c92b1c-d626-6374-bcd0-8e2bb3a8e6d9@redhat.com>
+Date: Fri, 27 Sep 2019 11:13:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <156954674521.23674.9914013622784989955@8230166b0665>
-User-Agent: NeoMutt/20180716
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190807141226.193501-11-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="zjskGgH1rbwmixmDn27ef36xkXFq1Yc3t"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 27 Sep 2019 09:13:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -81,69 +87,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-already fixed in v4
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--zjskGgH1rbwmixmDn27ef36xkXFq1Yc3t
+Content-Type: multipart/mixed; boundary="OYxzrnNjGJqocSsfGaQrCAAg7lKherQqX"
 
-On Thu, Sep 26, 2019 at 06:12:26PM -0700, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/919bbd6e0557d2fe2d9c17de394cc0b4c=
-6fa4426.1569445204.git.tgolembi@redhat.com/
+--OYxzrnNjGJqocSsfGaQrCAAg7lKherQqX
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 07.08.19 16:12, Vladimir Sementsov-Ogievskiy wrote:
+> The only reason I can imagine for this strange code at the very-end of
+> bdrv_reopen_commit is the fact that bs->read_only updated after
+> calling drv->bdrv_reopen_commit in bdrv_reopen_commit. And in the same
+> time, prior to previous commit, qcow2_reopen_bitmaps_rw did a wrong
+> check for being writable, when actually it only need writable file
+> child not self.
 >=20
+> So, as it's fixed, let's move things to correct place.
 >=20
->=20
-> Hi,
->=20
-> This series seems to have some coding style problems. See output below =
-for
-> more information:
->=20
-> Type: series
-> Message-id: 919bbd6e0557d2fe2d9c17de394cc0b4c6fa4426.1569445204.git.tgo=
-lembi@redhat.com
-> Subject: [PATCH v3] qga: add command guest-get-devices for reporting Vi=
-rtIO devices
->=20
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->=20
-> Switched to a new branch 'test'
-> 42c2919 qga: add command guest-get-devices for reporting VirtIO devices
->=20
-> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
-> ERROR: "(foo*)" should be "(foo *)"
-> #155: FILE: qga/commands-win32.c:2316:
-> +    values =3D g_array_new(TRUE, TRUE, sizeof(gchar*));
->=20
-> ERROR: "foo* bar" should be "foo *bar"
-> #157: FILE: qga/commands-win32.c:2318:
-> +        gchar* id8 =3D g_utf16_to_utf8(id, -1, NULL, NULL, NULL);
->=20
-> total: 2 errors, 0 warnings, 281 lines checked
->=20
-> Commit 42c2919fb935 (qga: add command guest-get-devices for reporting V=
-irtIO devices) has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> =3D=3D=3D OUTPUT END =3D=3D=3D
->=20
-> Test command exited with code: 1
->=20
->=20
-> The full log is available at
-> http://patchew.org/logs/919bbd6e0557d2fe2d9c17de394cc0b4c6fa4426.156944=
-5204.git.tgolembi@redhat.com/testing.checkpatch/?type=3Dmessage.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+>  include/block/block_int.h |  6 ------
+>  block.c                   | 19 -------------------
+>  block/qcow2.c             | 15 ++++++++++++++-
+>  3 files changed, 14 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index 3aa1e832a8..18a1e81194 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -531,12 +531,6 @@ struct BlockDriver {
+>                               uint64_t parent_perm, uint64_t parent_sha=
+red,
+>                               uint64_t *nperm, uint64_t *nshared);
+> =20
+> -    /**
+> -     * Bitmaps should be marked as 'IN_USE' in the image on reopening =
+image
+> -     * as rw. This handler should realize it. It also should unset rea=
+donly
+> -     * field of BlockDirtyBitmap's in case of success.
+> -     */
+> -    int (*bdrv_reopen_bitmaps_rw)(BlockDriverState *bs, Error **errp);=
 
---=20
-Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
+>      bool (*bdrv_can_store_new_dirty_bitmap)(BlockDriverState *bs,
+>                                              const char *name,
+>                                              uint32_t granularity,
+> diff --git a/block.c b/block.c
+> index d59f9f97cb..395bc88045 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -3925,16 +3925,12 @@ void bdrv_reopen_commit(BDRVReopenState *reopen=
+_state)
+>      BlockDriver *drv;
+>      BlockDriverState *bs;
+>      BdrvChild *child;
+> -    bool old_can_write, new_can_write;
+> =20
+>      assert(reopen_state !=3D NULL);
+>      bs =3D reopen_state->bs;
+>      drv =3D bs->drv;
+>      assert(drv !=3D NULL);
+> =20
+> -    old_can_write =3D
+> -        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTI=
+VE);
+> -
+>      /* If there are any driver level actions to take */
+>      if (drv->bdrv_reopen_commit) {
+>          drv->bdrv_reopen_commit(reopen_state);
+> @@ -3978,21 +3974,6 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_=
+state)
+>      }
+> =20
+>      bdrv_refresh_limits(bs, NULL);
+> -
+> -    new_can_write =3D
+> -        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTI=
+VE);
+> -    if (!old_can_write && new_can_write && drv->bdrv_reopen_bitmaps_rw=
+) {
+> -        Error *local_err =3D NULL;
+> -        if (drv->bdrv_reopen_bitmaps_rw(bs, &local_err) < 0) {
+> -            /* This is not fatal, bitmaps just left read-only, so all =
+following
+> -             * writes will fail. User can remove read-only bitmaps to =
+unblock
+> -             * writes.
+> -             */
+> -            error_reportf_err(local_err,
+> -                              "%s: Failed to make dirty bitmaps writab=
+le: ",
+> -                              bdrv_get_node_name(bs));
+> -        }
+> -    }
+>  }
+> =20
+>  /*
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 5c1187e2f9..9e6210c282 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -1828,6 +1828,20 @@ fail:
+>  static void qcow2_reopen_commit(BDRVReopenState *state)
+>  {
+>      qcow2_update_options_commit(state->bs, state->opaque);
+> +    if (state->flags & BDRV_O_RDWR) {
+> +        Error *local_err =3D NULL;
+> +
+> +        if (qcow2_reopen_bitmaps_rw(state->bs, &local_err) < 0) {
+> +            /*
+> +             * This is not fatal, bitmaps just left read-only, so all =
+following
+> +             * writes will fail. User can remove read-only bitmaps to =
+unblock
+> +             * writes or retry reopen.
+> +             */
+
+It=E2=80=99s still my impression that this is absolutely fatal, because t=
+hat
+means the node isn=E2=80=99t actually writable, and that means the reopen=
+
+effectively failed.
+
+But again, it doesn=E2=80=99t make things worse.
+
+Assuming the RW -> RW transition is a no-op now (the previous patch
+claims to handle that case):
+
+Acked-by: Max Reitz <mreitz@redhat.com>
+
+> +            error_reportf_err(local_err,
+> +                              "%s: Failed to make dirty bitmaps writab=
+le: ",
+> +                              bdrv_get_node_name(state->bs));
+> +        }
+> +    }
+>      g_free(state->opaque);
+>  }
+> =20
+> @@ -5229,7 +5243,6 @@ BlockDriver bdrv_qcow2 =3D {
+>      .bdrv_detach_aio_context  =3D qcow2_detach_aio_context,
+>      .bdrv_attach_aio_context  =3D qcow2_attach_aio_context,
+> =20
+> -    .bdrv_reopen_bitmaps_rw =3D qcow2_reopen_bitmaps_rw,
+>      .bdrv_can_store_new_dirty_bitmap =3D qcow2_can_store_new_dirty_bit=
+map,
+>      .bdrv_remove_persistent_dirty_bitmap =3D qcow2_remove_persistent_d=
+irty_bitmap,
+>  };
+>=20
+
+
+
+--OYxzrnNjGJqocSsfGaQrCAAg7lKherQqX--
+
+--zjskGgH1rbwmixmDn27ef36xkXFq1Yc3t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2N0sMACgkQ9AfbAGHV
+z0AKLgf+P1D61R7kC/yjTsvOMJeDV9Q17FR9nS9cMVCWQOBvyeU4DSLb2+NPLZ8p
+1aE+kjsH7cb35fFQ7rWTrixF337LcrNQeBOFNgk75fLlMyIfy+p8aFr/drJnxZLn
+VZJL3eMEw2+DLiEsoGnNLKs/AOubIzIIEy1Tzx5P+u3XZNuZ7RRatInCXJeCwzq9
+rlVtIkY0oyyXLHmiIR2+NQYti5KmHljyJs5Daww3BFQzPB1YeCoXCsNu/YCysAbn
+EuVKHo4kJdqmb9ufTxd0S1cVmfq1THTRCpx+O9FeGYU0Ry7lx3EAufPAgKiBxB5d
+/ew2vknV0kGNx6oSggClH5TJmivmiQ==
+=3zGh
+-----END PGP SIGNATURE-----
+
+--zjskGgH1rbwmixmDn27ef36xkXFq1Yc3t--
 
