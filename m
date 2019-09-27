@@ -2,51 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDF1C08F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:54:32 +0200 (CEST)
-Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57D7C0904
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:57:37 +0200 (CEST)
+Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDsZj-0004XQ-59
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39937)
+	id 1iDsci-0000Kp-9S
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46117)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqaC-0001H1-Pc
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:47:01 -0400
+ (envelope-from <walling@linux.ibm.com>) id 1iDr27-0008Ch-3c
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:15:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa8-00064z-KT
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42170)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa8-00063e-3T
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:48 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 111162026F;
- Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5062614C3;
- Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B60A41136425; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 25/26] qapi: Improve reporting of redefinition
-Date: Fri, 27 Sep 2019 15:46:38 +0200
-Message-Id: <20190927134639.4284-26-armbru@redhat.com>
-In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
-References: <20190927134639.4284-1-armbru@redhat.com>
+ (envelope-from <walling@linux.ibm.com>) id 1iDr25-00035W-OR
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:15:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37572)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
+ id 1iDr25-000348-B3; Fri, 27 Sep 2019 10:15:41 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8RE3PrJ101593; Fri, 27 Sep 2019 10:15:38 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v9kjs18rh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2019 10:15:37 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8RE43bD104351;
+ Fri, 27 Sep 2019 10:15:37 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v9kjs18qk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2019 10:15:37 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8REBIZR004281;
+ Fri, 27 Sep 2019 14:15:36 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma03wdc.us.ibm.com with ESMTP id 2v5bg7rpp6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2019 14:15:36 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8REFYJP7602654
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Sep 2019 14:15:34 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6D196B206C;
+ Fri, 27 Sep 2019 14:15:34 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 46AA6B2066;
+ Fri, 27 Sep 2019 14:15:34 +0000 (GMT)
+Received: from [9.85.208.250] (unknown [9.85.208.250])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 27 Sep 2019 14:15:34 +0000 (GMT)
+Subject: Re: [PATCH] MAINTAINERS: Update S390 PCI Maintainer
+To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com
+References: <1569590461-12562-1-git-send-email-mjrosato@linux.ibm.com>
+From: Collin Walling <walling@linux.ibm.com>
+Message-ID: <af29f493-646d-3e35-5410-c44990183198@linux.ibm.com>
+Date: Fri, 27 Sep 2019 10:15:34 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <1569590461-12562-1-git-send-email-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-27_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270133
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,76 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Point to the previous definition, unless it's a built-in.
+Acked-by: Collin Walling <walling@linux.ibm.com>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- scripts/qapi/common.py                  | 5 +++++
- tests/qapi-schema/redefined-command.err | 4 +++-
- tests/qapi-schema/redefined-event.err   | 4 +++-
- tests/qapi-schema/redefined-type.err    | 4 +++-
- 4 files changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index bd834270f8..a74cd957d4 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -1759,6 +1759,11 @@ class QAPISchema(object):
-         # because they're liable to clash in generated C.
-         other_ent =3D self._entity_dict.get(ent.name)
-         if other_ent:
-+            if other_ent.info:
-+                where =3D QAPIError(other_ent.info, None, "previous defi=
-nition")
-+                raise QAPISemError(
-+                    ent.info,
-+                    "'%s' is already defined\n%s" % (ent.name, where))
-             raise QAPISemError(
-                 ent.info, "%s is already defined" % other_ent.describe()=
-)
-         self._entity_dict[ent.name] =3D ent
-diff --git a/tests/qapi-schema/redefined-command.err b/tests/qapi-schema/=
-redefined-command.err
-index b77a05d354..54e366bbf3 100644
---- a/tests/qapi-schema/redefined-command.err
-+++ b/tests/qapi-schema/redefined-command.err
-@@ -1,2 +1,4 @@
- tests/qapi-schema/redefined-command.json: In command 'foo':
--tests/qapi-schema/redefined-command.json:3: command 'foo' is already def=
-ined
-+tests/qapi-schema/redefined-command.json:3: 'foo' is already defined
-+tests/qapi-schema/redefined-command.json: In command 'foo':
-+tests/qapi-schema/redefined-command.json:2: previous definition
-diff --git a/tests/qapi-schema/redefined-event.err b/tests/qapi-schema/re=
-defined-event.err
-index fd02d38157..606c6e4497 100644
---- a/tests/qapi-schema/redefined-event.err
-+++ b/tests/qapi-schema/redefined-event.err
-@@ -1,2 +1,4 @@
- tests/qapi-schema/redefined-event.json: In event 'EVENT_A':
--tests/qapi-schema/redefined-event.json:3: event 'EVENT_A' is already def=
-ined
-+tests/qapi-schema/redefined-event.json:3: 'EVENT_A' is already defined
-+tests/qapi-schema/redefined-event.json: In event 'EVENT_A':
-+tests/qapi-schema/redefined-event.json:2: previous definition
-diff --git a/tests/qapi-schema/redefined-type.err b/tests/qapi-schema/red=
-efined-type.err
-index 39f51c14ea..77786f98ae 100644
---- a/tests/qapi-schema/redefined-type.err
-+++ b/tests/qapi-schema/redefined-type.err
-@@ -1,2 +1,4 @@
- tests/qapi-schema/redefined-type.json: In enum 'foo':
--tests/qapi-schema/redefined-type.json:3: struct type 'foo' is already de=
-fined
-+tests/qapi-schema/redefined-type.json:3: 'foo' is already defined
-+tests/qapi-schema/redefined-type.json: In struct 'foo':
-+tests/qapi-schema/redefined-type.json:2: previous definition
---=20
-2.21.0
+On 9/27/19 9:21 AM, Matthew Rosato wrote:
+> As discussed previously with Collin, I will take over maintaining
+> s390 pci.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bd7ee23..21264ea 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1206,7 +1206,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
+>   L: qemu-s390x@nongnu.org
+>   
+>   S390 PCI
+> -M: Collin Walling <walling@linux.ibm.com>
+> +M: Matthew Rosato <mjrosato@linux.ibm.com>
+>   S: Supported
+>   F: hw/s390x/s390-pci*
+>   L: qemu-s390x@nongnu.org
+> 
 
 
