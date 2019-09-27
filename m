@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF42C09E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:56:24 +0200 (CEST)
-Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E93BC09D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:53:08 +0200 (CEST)
+Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtXZ-0002C6-5r
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:56:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51177)
+	id 1iDtUR-0007U4-Hg
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSY-0002Rb-Lu
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:03 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iDsmz-00028t-6b
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:08:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSW-00087o-42
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:01 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37221)
+ (envelope-from <richard.henderson@linaro.org>) id 1iDsmw-0004OW-M7
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:08:12 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34645)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDrST-00086e-V1
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:42:59 -0400
-Received: by mail-wr1-x430.google.com with SMTP id i1so3141963wro.4
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:42:55 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iDsmw-0004Ml-B3
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:08:10 -0400
+Received: by mail-pg1-x544.google.com with SMTP id y35so3774020pgl.1
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=lMzpaWj77iIcNxSlT3zcE/i8ZeOFrgVR+n/jrGwxbAY=;
- b=urSb5JvZE57DJPDUJFtehYkhAeRWzsC5ugRfpWdJbCpXKUiC45onVBfx228WsbHhDO
- bvBSFGmy9hSvhewBlvl/zRNbtMT3NcQ5lJLdzBx4kgRhRLiLutoJnHVtPibIzPoPdwHH
- oSRqWRdALo9w1LnQ6RY1Q2UaMmKnap81mE3BYjpKNnhAM+Wkt0CMog2x0VwKVIAGtQWu
- 6tDME4zoaCZF+6BMTNaufJ17ELll4fTXXfiC1dyHAALmw4MAh08WI/Qct5B5+9RYr9nb
- tcYah8/nYFhsqhZ79BneFVjUMT10t8Qn7ifQz377oRPJ9XLygH/L6vvrNB2ABjP1goCG
- Q9Ig==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vPA0E/bNeovAx/hJ0RV/Q+VaC4xu2MfWcvyvvNKFDmA=;
+ b=DVPNVVaMNuJYJOtq6PLbSWg+XebUX3NUW9pvaPIzV2G7avuAjDEWHeAHGCRnBHleEf
+ EenQjggr9ERDid7aFNaw7z4NWoqJu8GC6RJKJOqobaxsmS4Rae0g0r7ZtxbKapwTeHsz
+ zuOW3rrWCg0ubPmvLynBsk0UH7g7pJWcjI2mjEgXnki61uM0Lg57ihUNgcVtn4J9FkgR
+ CfVczh77Ws3fAR6NfwWR70+NsGKefLEM0CwcPVhGk4ch82USxdan5rIH22MnfB8pxb1t
+ ahgj8BxXj7n5lry3j7R2VzR8CCvPg0VYx+bilitfp/ixFO83N35QaU4Uidz2mFFs0uPd
+ SSgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lMzpaWj77iIcNxSlT3zcE/i8ZeOFrgVR+n/jrGwxbAY=;
- b=lorHfcC0AmTZ4PScgXMTMNTV4WAP+J0yeXc6R2NTN0TPbpzzO2ZaRAmwx0ai0YCSjT
- AmAvUzcqCuLn1POccP4PDnqWPeDCunuEB6nlUfrVvGZkQt+XoD4OSFYVNJpgTJ9Rc9kn
- /PqDgRWWuGl8EfushhK/x+xHboFOR6d6NLwrZqkxtFUR6K0ugKiNqikeJWQtiesFIeJm
- iJJROwMe5ovFtg/uE5HBRAGYa8/tbAsMH/kSOtBXOIpFcMXN8EG01o1++wYL8DoOxlmb
- JFgIgA5na1YJulf4yGUGu6JLa6DKkV2LlAbUfnXJ3/dpB9pXxEfiMxvDYBwcxYDpHy0c
- oXvA==
-X-Gm-Message-State: APjAAAWZDHDksSDXjiaqF6JFh3/zPGIsePrXJtBbkcMMEBquN5lX/Rij
- QzV+rUE1fxOAdazwX5PoP9+YvOs093swOA==
-X-Google-Smtp-Source: APXvYqzWj9GInlnHDa5/cnRfNjePLHBKOUGa+f0sh5AGNzGlzROKAwW7311zTCVlv2ThFvOtyEQySA==
-X-Received: by 2002:a1c:cbcc:: with SMTP id b195mr8033109wmg.80.1569595374584; 
- Fri, 27 Sep 2019 07:42:54 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 07:42:54 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] target/arm: handle M-profile semihosting at translate time
-Date: Fri, 27 Sep 2019 15:42:43 +0100
-Message-Id: <20190927144249.29999-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
-References: <20190927144249.29999-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vPA0E/bNeovAx/hJ0RV/Q+VaC4xu2MfWcvyvvNKFDmA=;
+ b=h3P/6aW2YQifHBd+qEjnBLOE+6vlnzamhxSt1QZrUPEZwg4/fCF/xaRiZDoKWtElJP
+ 40k5AJccwagTK1yVOscx8cQS5381m3FndE9TcOnKUwnXqDjwP/MD8EyXxJFAPw0IjMfW
+ Y9l7v+jXWuRaSYXgLfsMzVyf1r1qbFpmwgc6PoMTFNSgSjvy3kSBRy/yUP5oAxgZRcpi
+ jm7D/wfEwIlt5KdR6N8jHzLe32OW9ZO1QZVk3PmtWbz7skjg3s0R70AG23pdKpzwGIRv
+ nYlvC26DoKz+cZ21iQogT8wWZWUba00nU4KBZ6tnElRWzTlU/RriQy58fy4wrww34sK3
+ HV+Q==
+X-Gm-Message-State: APjAAAV6Ds50nq5QVVWoJmE+h/34TfpbeL4MOYFIy0QQHgP4gzzlEZn3
+ zoS58oA/YisIrfG5NWpEq401Xw==
+X-Google-Smtp-Source: APXvYqxOWble+lhcyuCUXtD3pF7kOb2q+73pxU9fjq3hAtUlGf3BFdj85VH156VScCwlVGq+/Mt+SQ==
+X-Received: by 2002:a63:2006:: with SMTP id g6mr9882499pgg.287.1569600488873; 
+ Fri, 27 Sep 2019 09:08:08 -0700 (PDT)
+Received: from [172.20.32.216] ([12.157.10.118])
+ by smtp.gmail.com with ESMTPSA id e6sm5611024pfl.146.2019.09.27.09.08.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 27 Sep 2019 09:08:07 -0700 (PDT)
+Subject: Re: [PATCH v3 08/18] target/s390: Return exception from
+ mmu_translate_real
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190926162615.31168-1-richard.henderson@linaro.org>
+ <20190926162615.31168-9-richard.henderson@linaro.org>
+ <73b5d922-a7b1-ac62-3195-f0e35a6478b3@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <bd55cebc-5a60-1c4b-24e0-0b9c505af622@linaro.org>
+Date: Fri, 27 Sep 2019 09:08:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <73b5d922-a7b1-ac62-3195-f0e35a6478b3@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,77 +85,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+On 9/27/19 3:44 AM, David Hildenbrand wrote:
+> Note that
+> 
+> [PATCH v1 2/5] s390x/mmu: Implement ESOP-2 and
+> access-exception-fetch/store-indication facility
+> 
+> also messes with the tec (which is okay), but also with the ILEN on
+> instruction fetches.
 
-We do this for other semihosting calls so we might as well do it for
-M-profile as well.
+Yes, I saw that minor conflict.  Easy to fix up.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190913151845.12582-3-alex.bennee@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/m_helper.c  | 18 ++++++------------
- target/arm/translate.c | 11 ++++++++++-
- 2 files changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 884d35d2b02..27cd2f3f964 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2114,19 +2114,13 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-             break;
-         }
-         break;
-+    case EXCP_SEMIHOST:
-+        qemu_log_mask(CPU_LOG_INT,
-+                      "...handling as semihosting call 0x%x\n",
-+                      env->regs[0]);
-+        env->regs[0] = do_arm_semihosting(env);
-+        return;
-     case EXCP_BKPT:
--        if (semihosting_enabled()) {
--            int nr;
--            nr = arm_lduw_code(env, env->regs[15], arm_sctlr_b(env)) & 0xff;
--            if (nr == 0xab) {
--                env->regs[15] += 2;
--                qemu_log_mask(CPU_LOG_INT,
--                              "...handling as semihosting call 0x%x\n",
--                              env->regs[0]);
--                env->regs[0] = do_arm_semihosting(env);
--                return;
--            }
--        }
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_DEBUG, false);
-         break;
-     case EXCP_IRQ:
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 34bb280e3da..b5272119330 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8424,7 +8424,16 @@ static bool trans_BKPT(DisasContext *s, arg_BKPT *a)
-     if (!ENABLE_ARCH_5) {
-         return false;
-     }
--    gen_exception_bkpt_insn(s, syn_aa32_bkpt(a->imm, false));
-+    if (arm_dc_feature(s, ARM_FEATURE_M) &&
-+        semihosting_enabled() &&
-+#ifndef CONFIG_USER_ONLY
-+        !IS_USER(s) &&
-+#endif
-+        (a->imm == 0xab)) {
-+        gen_exception_internal_insn(s, s->base.pc_next, EXCP_SEMIHOST);
-+    } else {
-+        gen_exception_bkpt_insn(s, syn_aa32_bkpt(a->imm, false));
-+    }
-     return true;
- }
- 
--- 
-2.20.1
-
+r~
 
