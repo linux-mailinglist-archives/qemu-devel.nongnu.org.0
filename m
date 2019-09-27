@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67734C02B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:53:49 +0200 (CEST)
-Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5A8C02C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:56:54 +0200 (CEST)
+Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmwd-00056O-QN
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33279)
+	id 1iDmzd-0000on-Ib
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iDmmB-000364-0l
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:00 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDmmD-00039h-2Z
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iDmm9-0007Ru-Mo
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:42:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54686)
+ (envelope-from <mreitz@redhat.com>) id 1iDmmB-0007U4-Vo
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:43:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44454)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iDmm7-0007Ma-DQ; Fri, 27 Sep 2019 05:42:55 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iDmm9-0007RT-LA; Fri, 27 Sep 2019 05:42:57 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9FBF530ADBAF;
- Fri, 27 Sep 2019 09:42:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E423B2CE955;
+ Fri, 27 Sep 2019 09:42:56 +0000 (UTC)
 Received: from localhost (ovpn-204-76.brq.redhat.com [10.40.204.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3614A100EBD7;
- Fri, 27 Sep 2019 09:42:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F84C5C21A;
+ Fri, 27 Sep 2019 09:42:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 04/18] iotests: Let _make_test_img parse its parameters
-Date: Fri, 27 Sep 2019 11:42:28 +0200
-Message-Id: <20190927094242.11152-5-mreitz@redhat.com>
+Subject: [PATCH 05/18] iotests: Add -o and --no-opts to _make_test_img
+Date: Fri, 27 Sep 2019 11:42:29 +0200
+Message-Id: <20190927094242.11152-6-mreitz@redhat.com>
 In-Reply-To: <20190927094242.11152-1-mreitz@redhat.com>
 References: <20190927094242.11152-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 27 Sep 2019 09:42:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 27 Sep 2019 09:42:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,77 +61,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow us to add more options than just -b.
+Blindly overriding IMGOPTS is suboptimal as this discards user-specified
+options.  Whatever options the test needs should simply be appended.
+
+Some tests do this (with IMGOPTS=3D$(_optstr_add "$IMGOPTS" "...")), but
+that is cumbersome.  It=E2=80=99s simpler to just give _make_test_img an =
+-o
+parameter with which tests can add options.
+
+Some tests actually must override the user-specified options, though,
+for example when creating an image in a different format than the test
+$IMGFMT.  For such cases, --no-opts allows clearing the current option
+list.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/common.rc | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/common.rc | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 12b4751848..3e7adc4834 100644
+index 3e7adc4834..f3784077de 100644
 --- a/tests/qemu-iotests/common.rc
 +++ b/tests/qemu-iotests/common.rc
-@@ -282,12 +282,12 @@ _make_test_img()
-     # extra qemu-img options can be added by tests
-     # at least one argument (the image size) needs to be added
-     local extra_img_options=3D""
--    local image_size=3D$*
-     local optstr=3D""
-     local img_name=3D""
+@@ -287,6 +287,7 @@ _make_test_img()
      local use_backing=3D0
      local backing_file=3D""
      local object_options=3D""
-+    local misc_params=3D()
++    local opts_param=3Dfalse
+     local misc_params=3D()
 =20
      if [ -n "$TEST_IMG_FILE" ]; then
-         img_name=3D$TEST_IMG_FILE
-@@ -303,11 +303,23 @@ _make_test_img()
-         optstr=3D$(_optstr_add "$optstr" "key-secret=3Dkeysec0")
-     fi
-=20
--    if [ "$1" =3D "-b" ]; then
--        use_backing=3D1
--        backing_file=3D$2
--        image_size=3D$3
--    fi
-+    for param; do
-+        if [ "$use_backing" =3D "1" -a -z "$backing_file" ]; then
-+            backing_file=3D$param
+@@ -307,6 +308,10 @@ _make_test_img()
+         if [ "$use_backing" =3D "1" -a -z "$backing_file" ]; then
+             backing_file=3D$param
+             continue
++        elif $opts_param; then
++            optstr=3D$(_optstr_add "$optstr" "$param")
++            opts_param=3Dfalse
 +            continue
-+        fi
-+
-+        case "$param" in
-+            -b)
-+                use_backing=3D1
-+                ;;
-+
-+            *)
-+                misc_params=3D("${misc_params[@]}" "$param")
-+                ;;
-+        esac
-+    done
-+
-     if [ \( "$IMGFMT" =3D "qcow2" -o "$IMGFMT" =3D "qed" \) -a -n "$CLUS=
-TER_SIZE" ]; then
-         optstr=3D$(_optstr_add "$optstr" "cluster_size=3D$CLUSTER_SIZE")
-     fi
-@@ -323,9 +335,9 @@ _make_test_img()
-     # XXX(hch): have global image options?
-     (
-      if [ $use_backing =3D 1 ]; then
--        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options -=
-b "$backing_file" "$img_name" $image_size 2>&1
-+        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options -=
-b "$backing_file" "$img_name" "${misc_params[@]}" 2>&1
-      else
--        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options "=
-$img_name" $image_size 2>&1
-+        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options "=
-$img_name" "${misc_params[@]}" 2>&1
-      fi
-     ) | _filter_img_create
+         fi
 =20
+         case "$param" in
+@@ -314,6 +319,14 @@ _make_test_img()
+                 use_backing=3D1
+                 ;;
+=20
++            -o)
++                opts_param=3Dtrue
++                ;;
++
++            --no-opts)
++                optstr=3D""
++                ;;
++
+             *)
+                 misc_params=3D("${misc_params[@]}" "$param")
+                 ;;
 --=20
 2.21.0
 
