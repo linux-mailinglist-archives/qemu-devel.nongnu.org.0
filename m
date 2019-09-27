@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BDEC0865
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:16:46 +0200 (CEST)
-Received: from localhost ([::1]:52318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C589C0859
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:11:50 +0200 (CEST)
+Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrzA-0000uM-Jc
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:16:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39887)
+	id 1iDruP-0003hv-1l
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqaA-0001FN-Vh
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqp5-0007ng-UK
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:02:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa8-00064W-BO
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53070)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa7-000638-Ms
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:47 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6D6F10DCC8F;
- Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8445F5D9C9;
- Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 93DF011384AA; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/26] qapi: Inline check_name() into check_union()
-Date: Fri, 27 Sep 2019 15:46:28 +0200
-Message-Id: <20190927134639.4284-16-armbru@redhat.com>
-In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
-References: <20190927134639.4284-1-armbru@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iDqp4-0000WZ-IU
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:02:15 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38754)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDqp4-0000WM-BC
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:02:14 -0400
+Received: by mail-oi1-x241.google.com with SMTP id m16so5286608oic.5
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JNdVUv0zNXaOfCb4Gice9wMOQgdLgAnNhUj5m0MnIEY=;
+ b=nqHE+bAYeccazvFVv4LtPzdLNeAZIaYIXaJeBGsztk/vijCrzp/x4/pOciFBNgWWty
+ srCZWTEAJBBNAJbLoeqzhSTC8Ysao60knw8aGhi7JKL0NonKmbNeDDYt9xlLfeYheH3W
+ Ik+SxOBPsV+IASTgEq6dYZOg51EBiqjUIsWOy9zr37Rhb56dB/gMHLHDe0vTmT13vJJk
+ pMYt5c2m+c6jlRfO03Ea7rZp6vWsX20ovbG4Ujd4tQGvtWaI5RqtuZTUCG0ta2rzAzUI
+ XAeLYq+FYk7FbxUNu8ekRv5b8LBENW7U5YgNzNMaxtw6K9w8PA9wdWykZM3JjBoOvYz5
+ rASw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JNdVUv0zNXaOfCb4Gice9wMOQgdLgAnNhUj5m0MnIEY=;
+ b=UTuunKqlAAg33BP2DQGuGWJG7XrbB42CYanZXnGsOSmZLvQ5HgV3g0ftz+QbS7ZdHH
+ zvWVrjTGJptlE4XI9g01cEEiUQU2ldsZPzclLAdxomnbpLKvyjeMn113hPYy02Fgd/VH
+ IKwX/OIy9s2vpzhpN+rG8dvTMtr0mUpaITX8NhFYPvScfvoxZsCaLYRhIxuKmCGpQ1/E
+ waaL80q9VPgDXGC1qJhQm9X8QH1jW6wxT1PcSRGHUyxa7qatlYEHOI7yMeAj583YubQN
+ 7lMgrQ1dzHS/nJdoCIuNyZ3M3ymIQSRquTpK9xYE4WootIKQyc6GTQrI/PPRD2PI/s0u
+ gBqg==
+X-Gm-Message-State: APjAAAUU/nsB7cVwpXLYkdUGJjRiQtf2gukB0qbJEkia194v7GWlnqXZ
+ 6xea3X+AT6viuVGKQCkdaT4tJvjDJYiwhL+HbXE/aA==
+X-Google-Smtp-Source: APXvYqwr6tN8GXFQ7CSFaOjf/oLfGBMHKVf8cyd/Pii9KiQZKSXzWNxCXSDpmv1EfcdURgP92oDDz5CwwTPlogBzkDA=
+X-Received: by 2002:aca:b646:: with SMTP id g67mr7302016oif.163.1569592933016; 
+ Fri, 27 Sep 2019 07:02:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20190906083152.25716-1-zhengxiang9@huawei.com>
+ <20190906083152.25716-2-zhengxiang9@huawei.com>
+In-Reply-To: <20190906083152.25716-2-zhengxiang9@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 15:02:02 +0100
+Message-ID: <CAFEAcA9cQwAJfPBC9fRcxLZVzZqag0Si62nTBNwDPyQiPVwPcg@mail.gmail.com>
+Subject: Re: [PATCH v18 1/6] hw/arm/virt: Introduce RAS platform version and
+ RAS machine option
+To: Xiang Zheng <zhengxiang9@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,40 +73,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ James Morse <james.morse@arm.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-check_name() consists of check_name_is_str() and check_name_str().
-check_union() relies on the latter to catch optional discriminators.
-The next commit will replace that by a more straightforward check.
-Inlining check_name() into check_union() now should make that easier
-to review.
+On Fri, 6 Sep 2019 at 09:33, Xiang Zheng <zhengxiang9@huawei.com> wrote:
+>
+> From: Dongjiu Geng <gengdongjiu@huawei.com>
+>
+> Support RAS Virtualization feature since version 4.2, disable it by
+> default in the old versions. Also add a machine option which allows user
+> to enable it explicitly.
+>
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> ---
+>  hw/arm/virt.c         | 33 +++++++++++++++++++++++++++++++++
+>  include/hw/arm/virt.h |  2 ++
+>  2 files changed, 35 insertions(+)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index d74538b021..e0451433c8 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1783,6 +1783,20 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
+>      vms->its = value;
+>  }
+>
+> +static bool virt_get_ras(Object *obj, Error **errp)
+> +{
+> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+> +
+> +    return vms->ras;
+> +}
+> +
+> +static void virt_set_ras(Object *obj, bool value, Error **errp)
+> +{
+> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+> +
+> +    vms->ras = value;
+> +}
+> +
+>  static char *virt_get_gic_version(Object *obj, Error **errp)
+>  {
+>      VirtMachineState *vms = VIRT_MACHINE(obj);
+> @@ -2026,6 +2040,19 @@ static void virt_instance_init(Object *obj)
+>                                      "Valid values are none and smmuv3",
+>                                      NULL);
+>
+> +    if (vmc->no_ras) {
+> +        vms->ras = false;
+> +    } else {
+> +        /* Default disallows RAS instantiation */
+> +        vms->ras = false;
+> +        object_property_add_bool(obj, "ras", virt_get_ras,
+> +                                 virt_set_ras, NULL);
+> +        object_property_set_description(obj, "ras",
+> +                                        "Set on/off to enable/disable "
+> +                                        "RAS instantiation",
+> +                                        NULL);
+> +    }
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- scripts/qapi/common.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+For a property which is disabled by default, you don't need
+to have a separate flag in the VirtMachineClass struct.
+Those are only needed for properties where we need the old machine
+types to have the property be 'off' but new machine types
+need to default to it be 'on'. Since vms->ras is false
+by default anyway, you can just have this part:
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 88945804dc..9acff01d3e 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -897,8 +897,10 @@ def check_union(expr, info):
-=20
-         # The value of member 'discriminator' must name a non-optional
-         # member of the base struct.
--        check_name(discriminator, info,
--                   "discriminator of flat union '%s'" % name)
-+        check_name_is_str(discriminator, info,
-+                          "discriminator of flat union '%s'" % name)
-+        check_name_str(discriminator, info,
-+                       "discriminator of flat union '%s'" % name)
-         discriminator_value =3D base_members.get(discriminator)
-         if not discriminator_value:
-             raise QAPISemError(info,
---=20
-2.21.0
+> +        /* Default disallows RAS instantiation */
+> +        vms->ras = false;
+> +        object_property_add_bool(obj, "ras", virt_get_ras,
+> +                                 virt_set_ras, NULL);
+> +        object_property_set_description(obj, "ras",
+> +                                        "Set on/off to enable/disable "
+> +                                        "RAS instantiation",
+> +                                        NULL);
 
+Compare the 'vms->secure' flag and associated property
+for an example of this.
+
+>      vms->irqmap = a15irqmap;
+>
+>      virt_flash_create(vms);
+> @@ -2058,8 +2085,14 @@ DEFINE_VIRT_MACHINE_AS_LATEST(4, 2)
+>
+>  static void virt_machine_4_1_options(MachineClass *mc)
+>  {
+> +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
+> +
+>      virt_machine_4_2_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len);
+> +    /* Disable memory recovery feature for 4.1 as RAS support was
+> +     * introduced with 4.2.
+> +     */
+> +    vmc->no_ras = true;
+>  }
+>  DEFINE_VIRT_MACHINE(4, 1)
+
+thanks
+-- PMM
 
