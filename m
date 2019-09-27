@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19B9C0D98
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 23:47:20 +0200 (CEST)
-Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E31C0D64
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 23:42:50 +0200 (CEST)
+Received: from localhost ([::1]:57782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDy59-00049I-At
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 17:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34659)
+	id 1iDy0l-0001Jo-PV
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 17:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iDy0X-0001sI-I5
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:42:35 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iDxxu-0000Sk-3r
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:39:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iDy0V-0004xq-E9
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:42:33 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34909)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iDy0V-0004wd-0N; Fri, 27 Sep 2019 17:42:31 -0400
-Received: by mail-lf1-x141.google.com with SMTP id w6so2971021lfl.2;
- Fri, 27 Sep 2019 14:42:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pA/Tdq4jk0AJMN3fUQKqIPvN2jrY/MiicAii9Ap3hIs=;
- b=JD3RFpSbYNRPW6iWDuXf29Zlim6MUbrmJHmwxwQlZwwNJnZVt5at70wp2zNQeGWmbH
- E4LOal8sXSH869lWHqij7FUiWx7uEH2AjIAvIL1wqRlHg08Nbx2uHoKr5UFUkb+25KEA
- qvv5gKIo+XF8mg/iytd8wHdkIB7dBZIvPLxINb8VkOZGpyBGTQXktfVZTpra1/jvGdTr
- TX4OaY+EC7Yj/5YcU+vseDDhbKdXJOCvprodYrcP0hDks/xYWe4+JGA2xCaxDmJ91WtR
- QKuIx2WpQiKDt6nWqagoKagXGPLLnx3opnW256KzynxIOJSIXXRW4iTPbbF+RgYehFzD
- 48/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pA/Tdq4jk0AJMN3fUQKqIPvN2jrY/MiicAii9Ap3hIs=;
- b=m8ODbkrTrSmOlbkTbpgQ5qV3hQ45Y01z7bGfDJAQgZy3t6dhEAKzl0YALDLO+Rc9OV
- xOeFsERA0QbiEHBsrJRAIYN+jrG7jKC3wzXeCkWk0BKqbIsGSvNg9uZrciVtHnCzlr/b
- WnDTgCrWgahBr41hC6dXbCk/FQL2QY17h0pUpxbvTlctrHzLIJJdMKBOTyJW8KXM3wnu
- JeCtVh0q3QAdmdvdego3L748j4WvtKVfVnVbbWduSuZf2DHsbAVqs+D5z3iQUaIjyQ+G
- lUZU0FES1UMhYHLBIwn7ALaZJDW4tZ8+mgDVISk96EYuorDPRTFsTTNNdxODVy0nWVop
- E5fQ==
-X-Gm-Message-State: APjAAAVJY+vze4nEiGiN2RdhnCIUsibohuQwmy9Ero3BrlhuSkMX8Hrt
- MUpLZiTZZCHfrm+o7yCQrzgTG3vQW8asGjvuLYA=
-X-Google-Smtp-Source: APXvYqwMSgJK+zpe+Y/sOaXPSvoB8o3F4+X1EVTCRflkPnHAtF1AwFBnYiEff2Tm0vej42NCOvxeTief7Ym2IsGbjCE=
-X-Received: by 2002:ac2:4a69:: with SMTP id q9mr4023307lfp.86.1569620548361;
- Fri, 27 Sep 2019 14:42:28 -0700 (PDT)
+ (envelope-from <no-reply@patchew.org>) id 1iDxxr-00027F-MT
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:39:49 -0400
+Resent-Date: Fri, 27 Sep 2019 17:39:49 -0400
+Resent-Message-Id: <E1iDxxr-00027F-MT@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21472)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iDxxr-00025d-E9
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 17:39:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1569620363; cv=none; d=zoho.com; s=zohoarc; 
+ b=eIK8oH5PinLB8oWwxdpRxg17OhXZdkA406dhs/pFYbHexIfcApoRKJKtA4/9r7jSxU5eWgJt+pn2uX7fUA7WsMJy94XqhVe4CgoeF2pJ/yvPCszxgVmjCPqG5TGVVl45Kj7hy1xQmjkrGNQKtw46Z2kpZ1QdCFQarWIwX9OTOME=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1569620363;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=Oyw1sinns5cevZER0LCBIuWgKgWp3IIGBDDRz1Aylr0=; 
+ b=ee8jXhrh+qEtkTgM2bTTuZ6O+kOI6870SIbaLNobMC2OjXYlk6eNV9AzCfziu3OhgBwLxnZv8bFBLOgD8+tlJ4ATw122OHYwtTvXv9Gg2GGT4GMQ0Wplxp2I54QZRMoEkDr5AC7i3aUMPzJc2phY9KXSLleMXnkI+rxQs/E2dk0=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1569620361739954.6723141713212;
+ Fri, 27 Sep 2019 14:39:21 -0700 (PDT)
+Subject: Re: [PATCH v25 00/22] Add RX archtecture support
+In-Reply-To: <20190927062302.110144-1-ysato@users.sourceforge.jp>
+Message-ID: <156962036039.27524.4914925998240635505@8230166b0665>
 MIME-Version: 1.0
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-3-f4bug@amsat.org>
-In-Reply-To: <20190926173428.10713-3-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 27 Sep 2019 14:37:41 -0700
-Message-ID: <CAKmqyKOoYyc-CX5Q2x2jwoFFm8ZdW9+eFbpL5_49SUJryNeUrA@mail.gmail.com>
-Subject: Re: [PATCH 02/19] hw/arm/bcm2835_peripherals: Improve logging
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Fri, 27 Sep 2019 14:39:21 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,250 +62,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 26, 2019 at 10:40 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> Various logging improvements as once:
-> - Use 0x prefix for hex numbers
-> - Display value written during write accesses
-> - Move some logs from GUEST_ERROR to UNIMP
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNzA2MjMwMi4xMTAx
+NDQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwOTI3MDYy
+MzAyLjExMDE0NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwClN1YmplY3Q6IFtQQVRDSCB2
+MjUgMDAvMjJdIEFkZCBSWCBhcmNodGVjdHVyZSBzdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVH
+SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
+IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
+c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
+VCBTQ1JJUFQgRU5EID09PQoKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyNGY0ZDU0
+IHFhcGkvbWFjaGluZS5qc29uOiBBZGQgUlggY3B1Lgo3ZTNlMTdmIEJvb3RMaW51eENvbnNvbGVU
+ZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKZjUzOGZkYSBBZGQgcngtc29mdG1tdQoxOWY1
+MTRhIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9jb250cm9sbGVyIHRvIHRoZSBSWDYy
+TiBDUFUgY29yZQo1YWZmYWFkIGh3L3J4OiBIb25vciAtYWNjZWwgcXRlc3QKNjdkMjM1MSBody9y
+eDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KNDBjODhkZSBody9jaGFyOiBSWDYyTiBz
+ZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkKZjg0MzFkZiBody90aW1lcjogUlg2
+Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwo2MWE2NTc1IGh3L2ludGM6IFJYNjJOIGludGVycnVw
+dCBjb250cm9sbGVyIChJQ1VhKQpiODVmNTJkIHRhcmdldC9yeDogRHVtcCBieXRlcyBmb3IgZWFj
+aCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQpjMTAyMDQ1IHRhcmdldC9yeDogQ29sbGVjdCBhbGwg
+Ynl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CmYzYTA2YzEgdGFyZ2V0L3J4OiBFbWl0IGFsbCBkaXNh
+c3NlbWJseSBpbiBvbmUgcHJ0KCkKMDUzMzdiYyB0YXJnZXQvcng6IFVzZSBwcnRfbGRtaSBmb3Ig
+WENIR19tciBkaXNhc3NlbWJseQo3NTg5NWQ1IHRhcmdldC9yeDogUmVwbGFjZSBvcGVyYW5kIHdp
+dGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCmRmMDllODMgdGFyZ2V0L3J4OiBEaXNhc3NlbWJs
+ZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKNjg4N2JmMyB0YXJnZXQvcng6IFJYIGRpc2Fz
+c2VtYmxlcgo3NGU1YmQwIHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24KMjE4YjNkNSB0YXJnZXQv
+cng6IFRDRyBoZWxwZXIKMDhlOTBlYyB0YXJnZXQvcng6IFRDRyB0cmFuc2xhdGlvbgpjZmY4Yjkz
+IGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAxNmJpdCByZWdpc3RlciBtYWNyb3MK
+ZDg4YzUwNiBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNgphMjQzYmU1
+IE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjIgQ2hlY2tpbmcg
+Y29tbWl0IGEyNDNiZTU0MDM0YyAoTUFJTlRBSU5FUlM6IEFkZCBSWCkKMi8yMiBDaGVja2luZyBj
+b21taXQgZDg4YzUwNjJjODIyIChxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJh
+Y3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgY2ZmOGI5M2QxNjMxIChody9yZWdpc3RlcmZpZWxk
+cy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFjcm9zKQpVc2Ugb2YgdW5pbml0aWFs
+aXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBzdHJpbmcgYXQgLi9zY3JpcHRzL2No
+ZWNrcGF0Y2gucGwgbGluZSAyNDg0LgpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVt
+ZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzI3OiBGSUxFOiBp
+bmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVmaW5lIFJFRzgocmVnLCBhZGRyKSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVu
+dW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9IChhZGRyKSB9OwoKRVJST1I6IE1h
+Y3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEgZG8g
+LSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oOjI5Ogor
+I2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMjIHJlZyA9IChhZGRyKSB9OyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICBlbnVtIHsgUl8gIyMg
+cmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA1NiBsaW5l
+cyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo0LzIyIENo
+ZWNraW5nIGNvbW1pdCAwOGU5MGVjMWUyZmYgKHRhcmdldC9yeDogVENHIHRyYW5zbGF0aW9uKQpX
+QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
+IG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8yMiBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1pdCAyMThiM2Q1MTkzNDIgKHRhcmdl
+dC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
+KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjE6IApuZXcgZmlsZSBtb2RlIDEw
+MDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2NTAgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzIyIENoZWNraW5nIGNvbW1pdCA3
+NGU1YmQwZGFjZDkgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24pCldBUk5JTkc6IGFkZGVkLCBt
+b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
+IzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
+NTg4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+Ny8yMiBDaGVja2luZyBjb21taXQgNjg4N2JmMzA3ZTYyICh0YXJnZXQvcng6IFJYIGRpc2Fzc2Vt
+YmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
+VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6
+IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMjIgaGFz
+IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
+cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
+Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2luZyBjb21taXQgZGYwOWU4MzkzYjky
+ICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2FkZHIgaW50byBhIHN0cmluZykKOS8y
+MiBDaGVja2luZyBjb21taXQgNzU4OTVkNTRiYWQ3ICh0YXJnZXQvcng6IFJlcGxhY2Ugb3BlcmFu
+ZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAvMjIgQ2hlY2tpbmcgY29tbWl0IDA1
+MzM3YmNjYjdiZiAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1i
+bHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCBmM2EwNmMxM2NhYTYgKHRhcmdldC9yeDogRW1pdCBh
+bGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBDaGVja2luZyBjb21taXQgYzEwMjA0
+NTA5N2RjICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseSkK
+MTMvMjIgQ2hlY2tpbmcgY29tbWl0IGI4NWY1MmQzYjAxZCAodGFyZ2V0L3J4OiBEdW1wIGJ5dGVz
+IGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQoxNC8yMiBDaGVja2luZyBjb21taXQg
+NjFhNjU3NTBkNGE4IChody9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQgY29udHJvbGxlciAoSUNVYSkp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgNDQ1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE0LzIyIGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNvbW1pdCBmODQzMWRmYmZkMzEgKGh3
+L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVzKQpXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1
+MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDg0
+NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgox
+Ni8yMiBDaGVja2luZyBjb21taXQgNDBjODhkZWVkMDhkIChody9jaGFyOiBSWDYyTiBzZXJpYWwg
+Y29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
+ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQzOiAKbmV3
+IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDAxIGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzIyIENo
+ZWNraW5nIGNvbW1pdCA2N2QyMzUxNjljZDIgKGh3L3J4OiBSWCBUYXJnZXQgaGFyZHdhcmUgZGVm
+aW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
+QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
+YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0ODAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTcvMjIg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMjIgQ2hlY2tpbmcgY29tbWl0IDVhZmZhYWQz
+NWI2ZSAoaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdCkKMTkvMjIgQ2hlY2tpbmcgY29tbWl0IDE5
+ZjUxNGExMWI4OSAoaHcvcng6IFJlc3RyaWN0IHRoZSBSWDYyTiBtaWNyb2NvbnRyb2xsZXIgdG8g
+dGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBDaGVja2luZyBjb21taXQgZjUzOGZkYTJiOTg4IChB
+ZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwg
+ZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTk6IApuZXcgZmlsZSBtb2RlIDEwMDY0
+NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAy
+MC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMS8yMiBDaGVja2luZyBjb21taXQgN2Uz
+ZTE3ZmVjNDZhIChCb290TGludXhDb25zb2xlVGVzdDogVGVzdCB0aGUgUlgtVmlydCBtYWNoaW5l
+KQoyMi8yMiBDaGVja2luZyBjb21taXQgMjRmNGQ1NDdiODBlIChxYXBpL21hY2hpbmUuanNvbjog
+QWRkIFJYIGNwdS4pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
+IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzIwMTkwOTI3MDYyMzAyLjExMDE0NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpw
+L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
-> v2: Use PRIx64 format (pm215)
-> ---
->  hw/char/bcm2835_aux.c      |  5 +++--
->  hw/dma/bcm2835_dma.c       |  8 ++++----
->  hw/intc/bcm2836_control.c  |  7 ++++---
->  hw/misc/bcm2835_mbox.c     |  7 ++++---
->  hw/misc/bcm2835_property.c | 16 ++++++++++------
->  5 files changed, 25 insertions(+), 18 deletions(-)
->
-> diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
-> index 3f855196e3..a6fc1bf152 100644
-> --- a/hw/char/bcm2835_aux.c
-> +++ b/hw/char/bcm2835_aux.c
-> @@ -162,8 +162,9 @@ static void bcm2835_aux_write(void *opaque, hwaddr of=
-fset, uint64_t value,
->      switch (offset) {
->      case AUX_ENABLES:
->          if (value !=3D 1) {
-> -            qemu_log_mask(LOG_UNIMP, "%s: unsupported attempt to enable =
-SPI "
-> -                          "or disable UART\n", __func__);
-> +            qemu_log_mask(LOG_UNIMP, "%s: unsupported attempt to enable =
-SPI"
-> +                                     " or disable UART: 0x%"PRIx64"\n",
-> +                          __func__, value);
->          }
->          break;
->
-> diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-> index 192bd377a0..6acc2b644e 100644
-> --- a/hw/dma/bcm2835_dma.c
-> +++ b/hw/dma/bcm2835_dma.c
-> @@ -180,7 +180,7 @@ static uint64_t bcm2835_dma_read(BCM2835DMAState *s, =
-hwaddr offset,
->          res =3D ch->debug;
->          break;
->      default:
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n"=
-,
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PRIx"\=
-n",
->                        __func__, offset);
->          break;
->      }
-> @@ -228,7 +228,7 @@ static void bcm2835_dma_write(BCM2835DMAState *s, hwa=
-ddr offset,
->          ch->debug =3D value;
->          break;
->      default:
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n"=
-,
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PRIx"\=
-n",
->                        __func__, offset);
->          break;
->      }
-> @@ -247,7 +247,7 @@ static uint64_t bcm2835_dma0_read(void *opaque, hwadd=
-r offset, unsigned size)
->          case BCM2708_DMA_ENABLE:
->              return s->enable;
->          default:
-> -            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx=
-"\n",
-> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PR=
-Ix"\n",
->                            __func__, offset);
->              return 0;
->          }
-> @@ -274,7 +274,7 @@ static void bcm2835_dma0_write(void *opaque, hwaddr o=
-ffset, uint64_t value,
->              s->enable =3D (value & 0xffff);
->              break;
->          default:
-> -            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx=
-"\n",
-> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"HWADDR_PR=
-Ix"\n",
->                            __func__, offset);
->          }
->      }
-> diff --git a/hw/intc/bcm2836_control.c b/hw/intc/bcm2836_control.c
-> index 04229b8a17..61f884ff9e 100644
-> --- a/hw/intc/bcm2836_control.c
-> +++ b/hw/intc/bcm2836_control.c
-> @@ -264,7 +264,7 @@ static uint64_t bcm2836_control_read(void *opaque, hw=
-addr offset, unsigned size)
->      } else if (offset >=3D REG_MBOX0_RDCLR && offset < REG_LIMIT) {
->          return s->mailboxes[(offset - REG_MBOX0_RDCLR) >> 2];
->      } else {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n"=
-,
-> +        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx=
-"\n",
->                        __func__, offset);
->          return 0;
->      }
-> @@ -293,8 +293,9 @@ static void bcm2836_control_write(void *opaque, hwadd=
-r offset,
->      } else if (offset >=3D REG_MBOX0_RDCLR && offset < REG_LIMIT) {
->          s->mailboxes[(offset - REG_MBOX0_RDCLR) >> 2] &=3D ~val;
->      } else {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n"=
-,
-> -                      __func__, offset);
-> +        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx
-> +                                 " value 0x%"PRIx64"\n",
-> +                      __func__, offset, val);
->          return;
->      }
->
-> diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
-> index 79bad11631..7690b9afaf 100644
-> --- a/hw/misc/bcm2835_mbox.c
-> +++ b/hw/misc/bcm2835_mbox.c
-> @@ -176,7 +176,7 @@ static uint64_t bcm2835_mbox_read(void *opaque, hwadd=
-r offset, unsigned size)
->          break;
->
->      default:
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n"=
-,
-> +        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx=
-"\n",
->                        __func__, offset);
->          return 0;
->      }
-> @@ -228,8 +228,9 @@ static void bcm2835_mbox_write(void *opaque, hwaddr o=
-ffset,
->          break;
->
->      default:
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n"=
-,
-> -                      __func__, offset);
-> +        qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx
-> +                                 " value 0x%"PRIx64"\n",
-> +                      __func__, offset, value);
->          return;
->      }
->
-> diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-> index d86d510572..0a1a3eb5d9 100644
-> --- a/hw/misc/bcm2835_property.c
-> +++ b/hw/misc/bcm2835_property.c
-> @@ -56,7 +56,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyS=
-tate *s, uint32_t value)
->              break;
->          case 0x00010001: /* Get board model */
->              qemu_log_mask(LOG_UNIMP,
-> -                          "bcm2835_property: %x get board model NYI\n", =
-tag);
-> +                          "bcm2835_property: 0x%08x get board model NYI\=
-n",
-> +                          tag);
->              resplen =3D 4;
->              break;
->          case 0x00010002: /* Get board revision */
-> @@ -69,7 +70,8 @@ static void bcm2835_property_mbox_push(BCM2835PropertyS=
-tate *s, uint32_t value)
->              break;
->          case 0x00010004: /* Get board serial */
->              qemu_log_mask(LOG_UNIMP,
-> -                          "bcm2835_property: %x get board serial NYI\n",=
- tag);
-> +                          "bcm2835_property: 0x%08x get board serial NYI=
-\n",
-> +                          tag);
->              resplen =3D 8;
->              break;
->          case 0x00010005: /* Get ARM memory */
-> @@ -104,7 +106,8 @@ static void bcm2835_property_mbox_push(BCM2835Propert=
-yState *s, uint32_t value)
->
->          case 0x00038001: /* Set clock state */
->              qemu_log_mask(LOG_UNIMP,
-> -                          "bcm2835_property: %x set clock state NYI\n", =
-tag);
-> +                          "bcm2835_property: 0x%08x set clock state NYI\=
-n",
-> +                          tag);
->              resplen =3D 8;
->              break;
->
-> @@ -129,7 +132,8 @@ static void bcm2835_property_mbox_push(BCM2835Propert=
-yState *s, uint32_t value)
->          case 0x00038004: /* Set max clock rate */
->          case 0x00038007: /* Set min clock rate */
->              qemu_log_mask(LOG_UNIMP,
-> -                          "bcm2835_property: %x set clock rates NYI\n", =
-tag);
-> +                          "bcm2835_property: 0x%08x set clock rate NYI\n=
-",
-> +                          tag);
->              resplen =3D 8;
->              break;
->
-> @@ -274,8 +278,8 @@ static void bcm2835_property_mbox_push(BCM2835Propert=
-yState *s, uint32_t value)
->              break;
->
->          default:
-> -            qemu_log_mask(LOG_GUEST_ERROR,
-> -                          "bcm2835_property: unhandled tag %08x\n", tag)=
-;
-> +            qemu_log_mask(LOG_UNIMP,
-> +                          "bcm2835_property: unhandled tag 0x%08x\n", ta=
-g);
->              break;
->          }
->
-> --
-> 2.20.1
->
->
 
