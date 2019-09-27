@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7BDC09AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:37:40 +0200 (CEST)
-Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3249CC09D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:49:49 +0200 (CEST)
+Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtFR-0002lu-G2
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:37:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51250)
+	id 1iDtRD-0004FP-5d
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:49:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSd-0002UY-9A
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:09 -0400
+ (envelope-from <groug@kaod.org>) id 1iDrHT-0007hc-0e
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDrSa-00088z-Hl
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:07 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45045)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDrSa-00087m-26
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:43:04 -0400
-Received: by mail-wr1-x442.google.com with SMTP id i18so3101968wru.11
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:43:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=tg04vn7yvauAGcqWHSm/m+dscKKQD3PSH2AqCWQBvX8=;
- b=HywYgJiQU4R1DCM9kzSzmmqXMqRNIyzh+W3kSs/gCx5uj1QAyhTbRwcwXyBViPsLN2
- qZUurYOorCRYUnpcfrvjgF0iYsOzy1kI3NCDqpOBDxYhSicGKmHOD4j65/FqEAvgQUGo
- gHOw1daUEFtj1wdEdJxLsctUmk7veccf4fOX4W5VpAVct1zKcCh6CfA/9WDNesfmpi9k
- W/mLPGu7QYitK+cCHClqEkrGJH0KMfZcg7agjUJ1N7ykokUAuIQkvd+Y6ADMCBqxd4Lu
- VDD7RKvL8JdQvNAHN2V8lfD4wAJxVykViQKGQMBgtqfsvrXrPFVCqIRbc0+NYe9ovI+s
- 9qXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tg04vn7yvauAGcqWHSm/m+dscKKQD3PSH2AqCWQBvX8=;
- b=GygqKyIoDiEh0IEjxhaQx7z7/mjjRpDsyYVDB1WRq4ZczJ4bApfSltLT3bs76NpZ+v
- rSivXlotUfZb79j19fTFlbUviZZ2vxcEmiF+WwpY/COGXBZAb2iWZ4gKYfktMI22CuoL
- SuAUWbxg28y2jKvK9y/t8/9H50Seexp4My+mFXhqYPwBWWXOVAL0ZWeDM448olySyA7z
- /XYj3LRMBIsW/f4hpz7FrO3gjDE0hoxRMxaL+4Xiq0ST39H5sARLStsaO6SI/Qtmidpl
- Iw//N3+8/jVtz7xVuGRmFOtMtEuAxfXutsPCM+hf+C+vKrTU7wbstJKrxn9o0niiM5hz
- vx0Q==
-X-Gm-Message-State: APjAAAULJvwaXHpKKLMzXeRWXVH+SQ3tfw1dYF40R05+bZCPU8L/U273
- gWdmIviwL9N8k1apwhmURb3voBwaUbf1Vw==
-X-Google-Smtp-Source: APXvYqzUDauMZEpML/GWZVmvoUg480iInGvKebe3WOgjhsK+UnJUHMs6T1/1b12ZLq4Vhn8k4y9y/Q==
-X-Received: by 2002:a1c:9d0b:: with SMTP id g11mr7161069wme.22.1569595379455; 
- Fri, 27 Sep 2019 07:42:59 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y12sm2874539wrn.74.2019.09.27.07.42.58
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 07:42:58 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/9] hw/arm/boot.c: Set NSACR.{CP11,CP10} for NS kernel boots
-Date: Fri, 27 Sep 2019 15:42:48 +0100
-Message-Id: <20190927144249.29999-9-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190927144249.29999-1-peter.maydell@linaro.org>
-References: <20190927144249.29999-1-peter.maydell@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1iDrHQ-0005sX-Vj
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:34 -0400
+Received: from 8.mo177.mail-out.ovh.net ([46.105.61.98]:37901)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDrHQ-0005rs-5O
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:31:32 -0400
+Received: from player774.ha.ovh.net (unknown [10.109.143.238])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 6599A10C73E
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 16:31:29 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player774.ha.ovh.net (Postfix) with ESMTPSA id 0FF7DA4F3DD0;
+ Fri, 27 Sep 2019 14:31:17 +0000 (UTC)
+Date: Fri, 27 Sep 2019 16:31:16 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 25/33] spapr, xics, xive: Move print_info from
+ SpaprIrq to SpaprInterruptController
+Message-ID: <20190927163116.061b7d9a@bahia.lan>
+In-Reply-To: <20190927055028.11493-26-david@gibson.dropbear.id.au>
+References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
+ <20190927055028.11493-26-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 2107684626380790246
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.61.98
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,48 +58,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ clg@kaod.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we're booting a Linux kernel directly into Non-Secure
-state on a CPU which has Secure state, then make sure we
-set the NSACR CP11 and CP10 bits, so that Non-Secure is allowed
-to access the FPU. Otherwise an AArch32 kernel will UNDEF as
-soon as it tries to use the FPU.
+On Fri, 27 Sep 2019 15:50:20 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-It used to not matter that we didn't do this until commit
-fc1120a7f5f2d4b6, where we implemented actually honouring
-these NSACR bits.
+> This method depends only on the active irq controller.  Now that we've
+> formalized the notion of active controller we can dispatch directly
+> through that, rather than dispatching via SpaprIrq with the dual
+> version having to do a second conditional dispatch.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
 
-The problem only exists for CPUs where EL3 is AArch32; the
-equivalent AArch64 trap bits are in CPTR_EL3 and are "0 to
-not trap, 1 to trap", so the reset value of the register
-permits NS access, unlike NSACR.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Fixes: fc1120a7f5
-Fixes: https://bugs.launchpad.net/qemu/+bug/1844597
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190920174039.3916-1-peter.maydell@linaro.org
----
- hw/arm/boot.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index bf97ef3e339..25422660545 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -754,6 +754,8 @@ static void do_cpu_reset(void *opaque)
-                     (cs != first_cpu || !info->secure_board_setup)) {
-                     /* Linux expects non-secure state */
-                     env->cp15.scr_el3 |= SCR_NS;
-+                    /* Set NSACR.{CP11,CP10} so NS can access the FPU */
-+                    env->cp15.nsacr |= 3 << 10;
-                 }
-             }
- 
--- 
-2.20.1
+>  hw/intc/spapr_xive.c       | 15 +++++++++++++
+>  hw/intc/xics_spapr.c       | 15 +++++++++++++
+>  hw/ppc/spapr.c             |  2 +-
+>  hw/ppc/spapr_irq.c         | 44 +++++++-------------------------------
+>  include/hw/ppc/spapr_irq.h |  2 +-
+>  5 files changed, 40 insertions(+), 38 deletions(-)
+> 
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index 52d5e71793..700ec5c9c1 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -564,6 +564,20 @@ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, int val)
+>      }
+>  }
+>  
+> +static void spapr_xive_print_info(SpaprInterruptController *intc, Monitor *mon)
+> +{
+> +    SpaprXive *xive = SPAPR_XIVE(intc);
+> +    CPUState *cs;
+> +
+> +    CPU_FOREACH(cs) {
+> +        PowerPCCPU *cpu = POWERPC_CPU(cs);
+> +
+> +        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
+> +    }
+> +
+> +    spapr_xive_pic_print_info(xive, mon);
+> +}
+> +
+>  static void spapr_xive_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -586,6 +600,7 @@ static void spapr_xive_class_init(ObjectClass *klass, void *data)
+>      sicc->claim_irq = spapr_xive_claim_irq;
+>      sicc->free_irq = spapr_xive_free_irq;
+>      sicc->set_irq = spapr_xive_set_irq;
+> +    sicc->print_info = spapr_xive_print_info;
+>  }
+>  
+>  static const TypeInfo spapr_xive_info = {
+> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> index 02372697f6..415defe394 100644
+> --- a/hw/intc/xics_spapr.c
+> +++ b/hw/intc/xics_spapr.c
+> @@ -381,6 +381,20 @@ static void xics_spapr_set_irq(SpaprInterruptController *intc, int irq, int val)
+>      ics_set_irq(ics, srcno, val);
+>  }
+>  
+> +static void xics_spapr_print_info(SpaprInterruptController *intc, Monitor *mon)
+> +{
+> +    ICSState *ics = ICS_SPAPR(intc);
+> +    CPUState *cs;
+> +
+> +    CPU_FOREACH(cs) {
+> +        PowerPCCPU *cpu = POWERPC_CPU(cs);
+> +
+> +        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
+> +    }
+> +
+> +    ics_pic_print_info(ics, mon);
+> +}
+> +
+>  static void ics_spapr_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -393,6 +407,7 @@ static void ics_spapr_class_init(ObjectClass *klass, void *data)
+>      sicc->claim_irq = xics_spapr_claim_irq;
+>      sicc->free_irq = xics_spapr_free_irq;
+>      sicc->set_irq = xics_spapr_set_irq;
+> +    sicc->print_info = xics_spapr_print_info;
+>  }
+>  
+>  static const TypeInfo ics_spapr_info = {
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 795f6ab505..7e04746db1 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4341,7 +4341,7 @@ static void spapr_pic_print_info(InterruptStatsProvider *obj,
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(obj);
+>  
+> -    spapr->irq->print_info(spapr, mon);
+> +    spapr_irq_print_info(spapr, mon);
+>      monitor_printf(mon, "irqchip: %s\n",
+>                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
+>  }
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 4922062908..be20bbf3cf 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -98,19 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spapr,
+>   * XICS IRQ backend.
+>   */
+>  
+> -static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor *mon)
+> -{
+> -    CPUState *cs;
+> -
+> -    CPU_FOREACH(cs) {
+> -        PowerPCCPU *cpu = POWERPC_CPU(cs);
+> -
+> -        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
+> -    }
+> -
+> -    ics_pic_print_info(spapr->ics, mon);
+> -}
+> -
+>  static int spapr_irq_post_load_xics(SpaprMachineState *spapr, int version_id)
+>  {
+>      if (!kvm_irqchip_in_kernel()) {
+> @@ -147,7 +134,6 @@ SpaprIrq spapr_irq_xics = {
+>      .xics        = true,
+>      .xive        = false,
+>  
+> -    .print_info  = spapr_irq_print_info_xics,
+>      .dt_populate = spapr_dt_xics,
+>      .post_load   = spapr_irq_post_load_xics,
+>      .reset       = spapr_irq_reset_xics,
+> @@ -158,20 +144,6 @@ SpaprIrq spapr_irq_xics = {
+>   * XIVE IRQ backend.
+>   */
+>  
+> -static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
+> -                                      Monitor *mon)
+> -{
+> -    CPUState *cs;
+> -
+> -    CPU_FOREACH(cs) {
+> -        PowerPCCPU *cpu = POWERPC_CPU(cs);
+> -
+> -        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
+> -    }
+> -
+> -    spapr_xive_pic_print_info(spapr->xive, mon);
+> -}
+> -
+>  static int spapr_irq_post_load_xive(SpaprMachineState *spapr, int version_id)
+>  {
+>      return spapr_xive_post_load(spapr->xive, version_id);
+> @@ -212,7 +184,6 @@ SpaprIrq spapr_irq_xive = {
+>      .xics        = false,
+>      .xive        = true,
+>  
+> -    .print_info  = spapr_irq_print_info_xive,
+>      .dt_populate = spapr_dt_xive,
+>      .post_load   = spapr_irq_post_load_xive,
+>      .reset       = spapr_irq_reset_xive,
+> @@ -238,11 +209,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState *spapr)
+>          &spapr_irq_xive : &spapr_irq_xics;
+>  }
+>  
+> -static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor *mon)
+> -{
+> -    spapr_irq_current(spapr)->print_info(spapr, mon);
+> -}
+> -
+>  static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
+>                                         uint32_t nr_servers, void *fdt,
+>                                         uint32_t phandle)
+> @@ -304,7 +270,6 @@ SpaprIrq spapr_irq_dual = {
+>      .xics        = true,
+>      .xive        = true,
+>  
+> -    .print_info  = spapr_irq_print_info_dual,
+>      .dt_populate = spapr_irq_dt_populate_dual,
+>      .post_load   = spapr_irq_post_load_dual,
+>      .reset       = spapr_irq_reset_dual,
+> @@ -402,6 +367,14 @@ static void spapr_set_irq(void *opaque, int irq, int level)
+>      sicc->set_irq(spapr->active_intc, irq, level);
+>  }
+>  
+> +void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon)
+> +{
+> +    SpaprInterruptControllerClass *sicc
+> +        = SPAPR_INTC_GET_CLASS(spapr->active_intc);
+> +
+> +    sicc->print_info(spapr->active_intc, mon);
+> +}
+> +
+>  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+>  {
+>      MachineState *machine = MACHINE(spapr);
+> @@ -720,7 +693,6 @@ SpaprIrq spapr_irq_xics_legacy = {
+>      .xics        = true,
+>      .xive        = false,
+>  
+> -    .print_info  = spapr_irq_print_info_xics,
+>      .dt_populate = spapr_dt_xics,
+>      .post_load   = spapr_irq_post_load_xics,
+>      .reset       = spapr_irq_reset_xics,
+> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> index 8286a9aa63..2ade580992 100644
+> --- a/include/hw/ppc/spapr_irq.h
+> +++ b/include/hw/ppc/spapr_irq.h
+> @@ -59,6 +59,7 @@ typedef struct SpaprInterruptControllerClass {
+>  
+>      /* These methods should only be called on the active intc */
+>      void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
+> +    void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
+>  } SpaprInterruptControllerClass;
+>  
+>  void spapr_irq_update_active_intc(SpaprMachineState *spapr);
+> @@ -81,7 +82,6 @@ typedef struct SpaprIrq {
+>      bool        xics;
+>      bool        xive;
+>  
+> -    void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
+>      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
+>                          void *fdt, uint32_t phandle);
+>      int (*post_load)(SpaprMachineState *spapr, int version_id);
 
 
