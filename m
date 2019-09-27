@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621A5C0669
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:36:58 +0200 (CEST)
-Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CFBC0659
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:32:12 +0200 (CEST)
+Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqQa-0007HS-8K
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:36:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57185)
+	id 1iDqLy-0002pz-Qv
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57121)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iDpui-00058d-5m
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:02 -0400
+ (envelope-from <berrange@redhat.com>) id 1iDpuf-00055r-OC
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iDpue-000494-Qk
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:64418)
+ (envelope-from <berrange@redhat.com>) id 1iDpuc-00048H-Ur
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52522)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDpuc-00046m-Rl
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:56 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iDpub-00046G-Tg
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:54 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ADDDABCD24
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:34 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BE84C30ADBB1
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:59:37 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-55.ams2.redhat.com
  [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E75860A9F;
- Fri, 27 Sep 2019 09:59:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5831608C2;
+ Fri, 27 Sep 2019 09:59:36 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/11] qcrypto-luks: simplify masterkey and masterkey length
-Date: Fri, 27 Sep 2019 10:59:18 +0100
-Message-Id: <20190927095926.22230-4-berrange@redhat.com>
+Subject: [PULL 05/11] qcrypto-luks: use the parsed encryption settings in
+ QCryptoBlockLUKS
+Date: Fri, 27 Sep 2019 10:59:20 +0100
+Message-Id: <20190927095926.22230-6-berrange@redhat.com>
 In-Reply-To: <20190927095926.22230-1-berrange@redhat.com>
 References: <20190927095926.22230-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 27 Sep 2019 09:59:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 27 Sep 2019 09:59:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -64,182 +65,433 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Let the caller allocate masterkey
-Always use master key len from the header
+Prior to that patch, the parsed encryption settings
+were already stored into the QCryptoBlockLUKS but not
+used anywhere but in qcrypto_block_luks_get_info
+
+Using them simplifies the code
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- crypto/block-luks.c | 44 +++++++++++++++++++++-----------------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ crypto/block-luks.c | 169 +++++++++++++++++++++-----------------------
+ 1 file changed, 79 insertions(+), 90 deletions(-)
 
 diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index 25f8a9f1c4..9e59a791a6 100644
+index b759cc8d19..f3bfc921b2 100644
 --- a/crypto/block-luks.c
 +++ b/crypto/block-luks.c
-@@ -419,7 +419,6 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
-                             QCryptoCipherAlgorithm ivcipheralg,
-                             QCryptoHashAlgorithm ivhash,
+@@ -199,13 +199,25 @@ QEMU_BUILD_BUG_ON(sizeof(struct QCryptoBlockLUKSHea=
+der) !=3D 592);
+ struct QCryptoBlockLUKS {
+     QCryptoBlockLUKSHeader header;
+=20
+-    /* Cache parsed versions of what's in header fields,
+-     * as we can't rely on QCryptoBlock.cipher being
+-     * non-NULL */
++    /* Main encryption algorithm used for encryption*/
+     QCryptoCipherAlgorithm cipher_alg;
++
++    /* Mode of encryption for the selected encryption algorithm */
+     QCryptoCipherMode cipher_mode;
++
++    /* Initialization vector generation algorithm */
+     QCryptoIVGenAlgorithm ivgen_alg;
++
++    /* Hash algorithm used for IV generation*/
+     QCryptoHashAlgorithm ivgen_hash_alg;
++
++    /*
++     * Encryption algorithm used for IV generation.
++     * Usually the same as main encryption algorithm
++     */
++    QCryptoCipherAlgorithm ivgen_cipher_alg;
++
++    /* Hash algorithm used in pbkdf2 function */
+     QCryptoHashAlgorithm hash_alg;
+ };
+=20
+@@ -412,12 +424,6 @@ static int
+ qcrypto_block_luks_load_key(QCryptoBlock *block,
+                             size_t slot_idx,
+                             const char *password,
+-                            QCryptoCipherAlgorithm cipheralg,
+-                            QCryptoCipherMode ciphermode,
+-                            QCryptoHashAlgorithm hash,
+-                            QCryptoIVGenAlgorithm ivalg,
+-                            QCryptoCipherAlgorithm ivcipheralg,
+-                            QCryptoHashAlgorithm ivhash,
                              uint8_t *masterkey,
--                            size_t masterkeylen,
                              QCryptoBlockReadFunc readfunc,
                              void *opaque,
-                             Error **errp)
-@@ -438,9 +437,9 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
-         return 0;
-     }
-=20
--    splitkeylen =3D masterkeylen * slot->stripes;
-+    splitkeylen =3D luks->header.master_key_len * slot->stripes;
-     splitkey =3D g_new0(uint8_t, splitkeylen);
--    possiblekey =3D g_new0(uint8_t, masterkeylen);
-+    possiblekey =3D g_new0(uint8_t, luks->header.master_key_len);
-=20
-     /*
-      * The user password is used to generate a (possible)
-@@ -453,7 +452,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+@@ -449,7 +455,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+      * the key is correct and validate the results of
+      * decryption later.
+      */
+-    if (qcrypto_pbkdf2(hash,
++    if (qcrypto_pbkdf2(luks->hash_alg,
                         (const uint8_t *)password, strlen(password),
                         slot->salt, QCRYPTO_BLOCK_LUKS_SALT_LEN,
                         slot->iterations,
--                       possiblekey, masterkeylen,
-+                       possiblekey, luks->header.master_key_len,
-                        errp) < 0) {
-         return -1;
-     }
-@@ -478,7 +477,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+@@ -477,19 +483,23 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+=20
      /* Setup the cipher/ivgen that we'll use to try to decrypt
       * the split master key material */
-     cipher =3D qcrypto_cipher_new(cipheralg, ciphermode,
--                                possiblekey, masterkeylen,
-+                                possiblekey, luks->header.master_key_len=
+-    cipher =3D qcrypto_cipher_new(cipheralg, ciphermode,
+-                                possiblekey, luks->header.master_key_len=
 ,
++    cipher =3D qcrypto_cipher_new(luks->cipher_alg,
++                                luks->cipher_mode,
++                                possiblekey,
++                                luks->header.master_key_len,
                                  errp);
      if (!cipher) {
          return -1;
-@@ -489,7 +488,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
-     ivgen =3D qcrypto_ivgen_new(ivalg,
-                               ivcipheralg,
-                               ivhash,
--                              possiblekey, masterkeylen,
-+                              possiblekey, luks->header.master_key_len,
+     }
+=20
+-    niv =3D qcrypto_cipher_get_iv_len(cipheralg,
+-                                    ciphermode);
+-    ivgen =3D qcrypto_ivgen_new(ivalg,
+-                              ivcipheralg,
+-                              ivhash,
+-                              possiblekey, luks->header.master_key_len,
++    niv =3D qcrypto_cipher_get_iv_len(luks->cipher_alg,
++                                    luks->cipher_mode);
++
++    ivgen =3D qcrypto_ivgen_new(luks->ivgen_alg,
++                              luks->ivgen_cipher_alg,
++                              luks->ivgen_hash_alg,
++                              possiblekey,
++                              luks->header.master_key_len,
                                errp);
      if (!ivgen) {
          return -1;
-@@ -519,7 +518,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+@@ -518,7 +528,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+      * Now we've decrypted the split master key, join
       * it back together to get the actual master key.
       */
-     if (qcrypto_afsplit_decode(hash,
--                               masterkeylen,
-+                               luks->header.master_key_len,
+-    if (qcrypto_afsplit_decode(hash,
++    if (qcrypto_afsplit_decode(luks->hash_alg,
+                                luks->header.master_key_len,
                                 slot->stripes,
                                 splitkey,
-                                masterkey,
-@@ -537,11 +536,13 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+@@ -536,7 +546,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+      * then comparing that to the hash stored in the key slot
       * header
       */
-     if (qcrypto_pbkdf2(hash,
--                       masterkey, masterkeylen,
-+                       masterkey,
-+                       luks->header.master_key_len,
+-    if (qcrypto_pbkdf2(hash,
++    if (qcrypto_pbkdf2(luks->hash_alg,
+                        masterkey,
+                        luks->header.master_key_len,
                         luks->header.master_key_salt,
-                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
-                        luks->header.master_key_iterations,
--                       keydigest, G_N_ELEMENTS(keydigest),
-+                       keydigest,
-+                       G_N_ELEMENTS(keydigest),
-                        errp) < 0) {
-         return -1;
-     }
-@@ -574,8 +575,7 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
-                             QCryptoIVGenAlgorithm ivalg,
-                             QCryptoCipherAlgorithm ivcipheralg,
-                             QCryptoHashAlgorithm ivhash,
--                            uint8_t **masterkey,
--                            size_t *masterkeylen,
-+                            uint8_t *masterkey,
+@@ -570,12 +580,6 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+ static int
+ qcrypto_block_luks_find_key(QCryptoBlock *block,
+                             const char *password,
+-                            QCryptoCipherAlgorithm cipheralg,
+-                            QCryptoCipherMode ciphermode,
+-                            QCryptoHashAlgorithm hash,
+-                            QCryptoIVGenAlgorithm ivalg,
+-                            QCryptoCipherAlgorithm ivcipheralg,
+-                            QCryptoHashAlgorithm ivhash,
+                             uint8_t *masterkey,
                              QCryptoBlockReadFunc readfunc,
                              void *opaque,
-                             Error **errp)
-@@ -584,9 +584,6 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
-     size_t i;
-     int rv;
-=20
--    *masterkey =3D g_new0(uint8_t, luks->header.master_key_len);
--    *masterkeylen =3D luks->header.master_key_len;
--
-     for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS; i++) {
+@@ -588,12 +592,6 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
          rv =3D qcrypto_block_luks_load_key(block,
-                                          &luks->header.key_slots[i],
-@@ -597,8 +594,7 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
-                                          ivalg,
-                                          ivcipheralg,
-                                          ivhash,
--                                         *masterkey,
--                                         *masterkeylen,
-+                                         masterkey,
+                                          i,
+                                          password,
+-                                         cipheralg,
+-                                         ciphermode,
+-                                         hash,
+-                                         ivalg,
+-                                         ivcipheralg,
+-                                         ivhash,
+                                          masterkey,
                                           readfunc,
                                           opaque,
-                                          errp);
-@@ -613,9 +609,6 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
-     error_setg(errp, "Invalid password, cannot unlock any keyslot");
+@@ -607,7 +605,6 @@ qcrypto_block_luks_find_key(QCryptoBlock *block,
+     }
 =20
+     error_setg(errp, "Invalid password, cannot unlock any keyslot");
+-
   error:
--    g_free(*masterkey);
--    *masterkey =3D NULL;
--    *masterkeylen =3D 0;
      return -1;
  }
-=20
-@@ -636,7 +629,6 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+@@ -623,19 +620,13 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+                         size_t n_threads,
+                         Error **errp)
+ {
+-    QCryptoBlockLUKS *luks;
++    QCryptoBlockLUKS *luks =3D NULL;
+     Error *local_err =3D NULL;
+     int ret =3D 0;
      size_t i;
      ssize_t rv;
      g_autofree uint8_t *masterkey =3D NULL;
--    size_t masterkeylen;
      char *ivgen_name, *ivhash_name;
-     QCryptoCipherMode ciphermode;
-     QCryptoCipherAlgorithm cipheralg;
-@@ -802,6 +794,9 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-         /* Try to find which key slot our password is valid for
-          * and unlock the master key from that slot.
+-    QCryptoCipherMode ciphermode;
+-    QCryptoCipherAlgorithm cipheralg;
+-    QCryptoIVGenAlgorithm ivalg;
+-    QCryptoCipherAlgorithm ivcipheralg;
+-    QCryptoHashAlgorithm hash;
+-    QCryptoHashAlgorithm ivhash;
+     g_autofree char *password =3D NULL;
+     g_autofree char *cipher_mode =3D NULL;
+=20
+@@ -716,13 +707,13 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+=20
+     ivhash_name =3D strchr(ivgen_name, ':');
+     if (!ivhash_name) {
+-        ivhash =3D 0;
++        luks->ivgen_hash_alg =3D 0;
+     } else {
+         *ivhash_name =3D '\0';
+         ivhash_name++;
+=20
+-        ivhash =3D qcrypto_block_luks_hash_name_lookup(ivhash_name,
+-                                                     &local_err);
++        luks->ivgen_hash_alg =3D qcrypto_block_luks_hash_name_lookup(ivh=
+ash_name,
++                                                                   &loca=
+l_err);
+         if (local_err) {
+             ret =3D -ENOTSUP;
+             error_propagate(errp, local_err);
+@@ -730,17 +721,17 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         }
+     }
+=20
+-    ciphermode =3D qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
+-                                                       &local_err);
++    luks->cipher_mode =3D qcrypto_block_luks_cipher_mode_lookup(cipher_m=
+ode,
++                                                              &local_err=
+);
+     if (local_err) {
+         ret =3D -ENOTSUP;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+=20
+-    cipheralg =3D
++    luks->cipher_alg =3D
+         qcrypto_block_luks_cipher_name_lookup(luks->header.cipher_name,
+-                                              ciphermode,
++                                              luks->cipher_mode,
+                                               luks->header.master_key_le=
+n,
+                                               &local_err);
+     if (local_err) {
+@@ -749,31 +740,33 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         goto fail;
+     }
+=20
+-    hash =3D qcrypto_block_luks_hash_name_lookup(luks->header.hash_spec,
+-                                               &local_err);
++    luks->hash_alg =3D
++            qcrypto_block_luks_hash_name_lookup(luks->header.hash_spec,
++                                                &local_err);
+     if (local_err) {
+         ret =3D -ENOTSUP;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+=20
+-    ivalg =3D qcrypto_block_luks_ivgen_name_lookup(ivgen_name,
+-                                                 &local_err);
++    luks->ivgen_alg =3D qcrypto_block_luks_ivgen_name_lookup(ivgen_name,
++                                                           &local_err);
+     if (local_err) {
+         ret =3D -ENOTSUP;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+=20
+-    if (ivalg =3D=3D QCRYPTO_IVGEN_ALG_ESSIV) {
++    if (luks->ivgen_alg =3D=3D QCRYPTO_IVGEN_ALG_ESSIV) {
+         if (!ivhash_name) {
+             ret =3D -EINVAL;
+             error_setg(errp, "Missing IV generator hash specification");
+             goto fail;
+         }
+-        ivcipheralg =3D qcrypto_block_luks_essiv_cipher(cipheralg,
+-                                                      ivhash,
+-                                                      &local_err);
++        luks->ivgen_cipher_alg =3D
++                qcrypto_block_luks_essiv_cipher(luks->cipher_alg,
++                                                luks->ivgen_hash_alg,
++                                                &local_err);
+         if (local_err) {
+             ret =3D -ENOTSUP;
+             error_propagate(errp, local_err);
+@@ -787,7 +780,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+          * ignore hash names with these ivgens rather than report
+          * an error about the invalid usage
           */
-+
-+        masterkey =3D g_new0(uint8_t, luks->header.master_key_len);
-+
+-        ivcipheralg =3D cipheralg;
++        luks->ivgen_cipher_alg =3D luks->cipher_alg;
+     }
+=20
+     if (!(flags & QCRYPTO_BLOCK_OPEN_NO_IO)) {
+@@ -799,11 +792,6 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+=20
          if (qcrypto_block_luks_find_key(block,
                                          password,
-                                         cipheralg, ciphermode,
-@@ -809,7 +804,7 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-                                         ivalg,
-                                         ivcipheralg,
-                                         ivhash,
--                                        &masterkey, &masterkeylen,
-+                                        masterkey,
+-                                        cipheralg, ciphermode,
+-                                        hash,
+-                                        ivalg,
+-                                        ivcipheralg,
+-                                        ivhash,
+                                         masterkey,
                                          readfunc, opaque,
                                          errp) < 0) {
-             ret =3D -EACCES;
-@@ -825,7 +820,8 @@ qcrypto_block_luks_open(QCryptoBlock *block,
-         block->ivgen =3D qcrypto_ivgen_new(ivalg,
-                                          ivcipheralg,
-                                          ivhash,
--                                         masterkey, masterkeylen,
-+                                         masterkey,
-+                                         luks->header.master_key_len,
+@@ -814,12 +802,13 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+         /* We have a valid master key now, so can setup the
+          * block device payload decryption objects
+          */
+-        block->kdfhash =3D hash;
+-        block->niv =3D qcrypto_cipher_get_iv_len(cipheralg,
+-                                               ciphermode);
+-        block->ivgen =3D qcrypto_ivgen_new(ivalg,
+-                                         ivcipheralg,
+-                                         ivhash,
++        block->kdfhash =3D luks->hash_alg;
++        block->niv =3D qcrypto_cipher_get_iv_len(luks->cipher_alg,
++                                               luks->cipher_mode);
++
++        block->ivgen =3D qcrypto_ivgen_new(luks->ivgen_alg,
++                                         luks->ivgen_cipher_alg,
++                                         luks->ivgen_hash_alg,
+                                          masterkey,
+                                          luks->header.master_key_len,
                                           errp);
-         if (!block->ivgen) {
-             ret =3D -ENOTSUP;
-@@ -833,7 +829,9 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+@@ -828,7 +817,9 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+             goto fail;
          }
 =20
-         ret =3D qcrypto_block_init_cipher(block, cipheralg, ciphermode,
--                                        masterkey, masterkeylen, n_threa=
-ds,
-+                                        masterkey,
-+                                        luks->header.master_key_len,
-+                                        n_threads,
-                                         errp);
-         if (ret < 0) {
-             ret =3D -ENOTSUP;
+-        ret =3D qcrypto_block_init_cipher(block, cipheralg, ciphermode,
++        ret =3D qcrypto_block_init_cipher(block,
++                                        luks->cipher_alg,
++                                        luks->cipher_mode,
+                                         masterkey,
+                                         luks->header.master_key_len,
+                                         n_threads,
+@@ -843,11 +834,6 @@ qcrypto_block_luks_open(QCryptoBlock *block,
+     block->payload_offset =3D luks->header.payload_offset_sector *
+         block->sector_size;
+=20
+-    luks->cipher_alg =3D cipheralg;
+-    luks->cipher_mode =3D ciphermode;
+-    luks->ivgen_alg =3D ivalg;
+-    luks->ivgen_hash_alg =3D ivhash;
+-    luks->hash_alg =3D hash;
+=20
+     return 0;
+=20
+@@ -893,7 +879,6 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     const char *ivgen_hash_alg =3D NULL;
+     const char *hash_alg;
+     g_autofree char *cipher_mode_spec =3D NULL;
+-    QCryptoCipherAlgorithm ivcipheralg =3D 0;
+     uint64_t iters;
+=20
+     memcpy(&luks_opts, &options->u.luks, sizeof(luks_opts));
+@@ -918,6 +903,17 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+             luks_opts.has_ivgen_hash_alg =3D true;
+         }
+     }
++
++    luks =3D g_new0(QCryptoBlockLUKS, 1);
++    block->opaque =3D luks;
++
++    luks->cipher_alg =3D luks_opts.cipher_alg;
++    luks->cipher_mode =3D luks_opts.cipher_mode;
++    luks->ivgen_alg =3D luks_opts.ivgen_alg;
++    luks->ivgen_hash_alg =3D luks_opts.ivgen_hash_alg;
++    luks->hash_alg =3D luks_opts.hash_alg;
++
++
+     /* Note we're allowing ivgen_hash_alg to be set even for
+      * non-essiv iv generators that don't need a hash. It will
+      * be silently ignored, for compatibility with dm-crypt */
+@@ -925,15 +921,13 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     if (!options->u.luks.key_secret) {
+         error_setg(errp, "Parameter '%skey-secret' is required for ciphe=
+r",
+                    optprefix ? optprefix : "");
+-        return -1;
++        goto error;
+     }
+     password =3D qcrypto_secret_lookup_as_utf8(luks_opts.key_secret, err=
+p);
+     if (!password) {
+-        return -1;
++        goto error;
+     }
+=20
+-    luks =3D g_new0(QCryptoBlockLUKS, 1);
+-    block->opaque =3D luks;
+=20
+     memcpy(luks->header.magic, qcrypto_block_luks_magic,
+            QCRYPTO_BLOCK_LUKS_MAGIC_LEN);
+@@ -980,15 +974,16 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     }
+=20
+     if (luks_opts.ivgen_alg =3D=3D QCRYPTO_IVGEN_ALG_ESSIV) {
+-        ivcipheralg =3D qcrypto_block_luks_essiv_cipher(luks_opts.cipher=
+_alg,
+-                                                      luks_opts.ivgen_ha=
+sh_alg,
+-                                                      &local_err);
++        luks->ivgen_cipher_alg =3D
++                qcrypto_block_luks_essiv_cipher(luks_opts.cipher_alg,
++                                                luks_opts.ivgen_hash_alg=
+,
++                                                &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             goto error;
+         }
+     } else {
+-        ivcipheralg =3D luks_opts.cipher_alg;
++        luks->ivgen_cipher_alg =3D luks_opts.cipher_alg;
+     }
+=20
+     strcpy(luks->header.cipher_name, cipher_alg);
+@@ -1030,7 +1025,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     block->niv =3D qcrypto_cipher_get_iv_len(luks_opts.cipher_alg,
+                                            luks_opts.cipher_mode);
+     block->ivgen =3D qcrypto_ivgen_new(luks_opts.ivgen_alg,
+-                                     ivcipheralg,
++                                     luks->ivgen_cipher_alg,
+                                      luks_opts.ivgen_hash_alg,
+                                      masterkey, luks->header.master_key_=
+len,
+                                      errp);
+@@ -1183,7 +1178,7 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+     }
+=20
+     ivgen =3D qcrypto_ivgen_new(luks_opts.ivgen_alg,
+-                              ivcipheralg,
++                              luks->ivgen_cipher_alg,
+                               luks_opts.ivgen_hash_alg,
+                               slotkey, luks->header.master_key_len,
+                               errp);
+@@ -1294,12 +1289,6 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+         goto error;
+     }
+=20
+-    luks->cipher_alg =3D luks_opts.cipher_alg;
+-    luks->cipher_mode =3D luks_opts.cipher_mode;
+-    luks->ivgen_alg =3D luks_opts.ivgen_alg;
+-    luks->ivgen_hash_alg =3D luks_opts.ivgen_hash_alg;
+-    luks->hash_alg =3D luks_opts.hash_alg;
+-
+     memset(masterkey, 0, luks->header.master_key_len);
+     memset(slotkey, 0, luks->header.master_key_len);
+=20
 --=20
 2.21.0
 
