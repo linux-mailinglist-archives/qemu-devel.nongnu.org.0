@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5C0C093E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:12:26 +0200 (CEST)
-Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90EEDC0959
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:16:08 +0200 (CEST)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDsr3-0005Z6-2z
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54784)
+	id 1iDsud-0001AI-2H
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDrnM-0006JE-7m
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:04:34 -0400
+ (envelope-from <groug@kaod.org>) id 1iDs0Q-0003TS-Mm
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:18:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDrnJ-0005AX-Al
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:04:31 -0400
-Received: from 15.mo4.mail-out.ovh.net ([91.121.62.11]:36734)
+ (envelope-from <groug@kaod.org>) id 1iDs0P-000102-1l
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:18:02 -0400
+Received: from 9.mo179.mail-out.ovh.net ([46.105.76.148]:50824)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDrnI-0005A9-Qc
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:04:29 -0400
-Received: from player688.ha.ovh.net (unknown [10.109.146.213])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 4F2ED2091FB
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 17:04:26 +0200 (CEST)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDs0O-0000zD-PV
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:18:00 -0400
+Received: from player697.ha.ovh.net (unknown [10.109.160.244])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 1B284142383
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 17:17:57 +0200 (CEST)
 Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
  [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 67AAAA3D903E;
- Fri, 27 Sep 2019 15:04:14 +0000 (UTC)
-Date: Fri, 27 Sep 2019 17:04:13 +0200
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 4DCD6A56105F;
+ Fri, 27 Sep 2019 15:17:46 +0000 (UTC)
+Date: Fri, 27 Sep 2019 17:17:45 +0200
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 28/33] spapr: Remove SpaprIrq::init_kvm hook
-Message-ID: <20190927170413.61d85376@bahia.lan>
-In-Reply-To: <20190927055028.11493-29-david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 31/33] spapr: Remove SpaprIrq::nr_msis
+Message-ID: <20190927171745.52f69866@bahia.lan>
+In-Reply-To: <20190927055028.11493-32-david@gibson.dropbear.id.au>
 References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
- <20190927055028.11493-29-david@gibson.dropbear.id.au>
+ <20190927055028.11493-32-david@gibson.dropbear.id.au>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2664160656707459558
+X-Ovh-Tracer-Id: 2892718339353647590
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdekhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.121.62.11
+X-Received-From: 46.105.76.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,188 +65,197 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 15:50:23 +1000
+On Fri, 27 Sep 2019 15:50:26 +1000
 David Gibson <david@gibson.dropbear.id.au> wrote:
 
-> This hook is a bit odd.  The only caller is spapr_irq_init_kvm(), but
-> it explicitly takes an SpaprIrq *, so it's never really called through the
-> current SpaprIrq.  Essentially this is just a way of passing through a
-> function pointer so that spapr_irq_init_kvm() can handle some
-> configuration and error handling logic without duplicating it between the
-> xics and xive reset paths.
-> 
-> So, make it just take that function pointer.  Because of earlier reworks
-> to the KVM connect/disconnect code in the xics and xive backends we can
-> also eliminate some wrapper functions and streamline error handling a bit.
+> The nr_msis value we use here has to line up with whether we're using
+> legacy or modern irq allocation.  Therefore it's safer to derive it based
+> on legacy_irq_allocation rather than having SpaprIrq contain a canned
+> value.
 > 
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  hw/ppc/spapr_irq.c         | 74 +++++++++++++-------------------------
->  include/hw/ppc/spapr_irq.h |  1 -
->  2 files changed, 25 insertions(+), 50 deletions(-)
+>  hw/ppc/spapr.c              |  5 ++---
+>  hw/ppc/spapr_irq.c          | 26 +++++++++++++++++---------
+>  hw/ppc/spapr_pci.c          |  7 ++++---
+>  include/hw/pci-host/spapr.h |  4 ++--
+>  include/hw/ppc/spapr_irq.h  |  5 +----
+>  5 files changed, 26 insertions(+), 21 deletions(-)
 > 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index f55d227cd3..34b693beba 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1345,7 +1345,7 @@ static void *spapr_build_fdt(SpaprMachineState *spapr)
+>      }
+>  
+>      QLIST_FOREACH(phb, &spapr->phbs, list) {
+> -        ret = spapr_dt_phb(phb, PHANDLE_INTC, fdt, spapr->irq->nr_msis, NULL);
+> +        ret = spapr_dt_phb(spapr, phb, PHANDLE_INTC, fdt, NULL);
+>          if (ret < 0) {
+>              error_report("couldn't setup PCI devices in fdt");
+>              exit(1);
+> @@ -3980,8 +3980,7 @@ int spapr_phb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+>          return -1;
+>      }
+>  
+> -    if (spapr_dt_phb(sphb, intc_phandle, fdt, spapr->irq->nr_msis,
+> -                     fdt_start_offset)) {
+> +    if (spapr_dt_phb(spapr, sphb, intc_phandle, fdt, fdt_start_offset)) {
+>          error_setg(errp, "unable to create FDT node for PHB %d", sphb->index);
+>          return -1;
+>      }
 > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 561bdbc4de..c6abebc4ef 100644
+> index 040384b0fe..799755c811 100644
 > --- a/hw/ppc/spapr_irq.c
 > +++ b/hw/ppc/spapr_irq.c
-> @@ -65,33 +65,35 @@ void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num)
->      bitmap_clear(spapr->irq_map, irq - SPAPR_IRQ_MSI, num);
->  }
+> @@ -29,9 +29,14 @@ static const TypeInfo spapr_intc_info = {
+>      .class_size = sizeof(SpaprInterruptControllerClass),
+>  };
 >  
-> -static void spapr_irq_init_kvm(SpaprMachineState *spapr,
-> -                                  SpaprIrq *irq, Error **errp)
-> +static int spapr_irq_init_kvm(int (*fn)(SpaprInterruptController *, Error **),
-> +                              SpaprInterruptController *intc,
-> +                              Error **errp)
+> -void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis)
+> +static void spapr_irq_msi_init(SpaprMachineState *spapr)
 >  {
-> -    MachineState *machine = MACHINE(spapr);
-> +    MachineState *machine = MACHINE(qdev_get_machine());
->      Error *local_err = NULL;
->  
->      if (kvm_enabled() && machine_kernel_irqchip_allowed(machine)) {
-> -        irq->init_kvm(spapr, &local_err);
-> -        if (local_err && machine_kernel_irqchip_required(machine)) {
-> -            error_prepend(&local_err,
-> -                          "kernel_irqchip requested but unavailable: ");
-> -            error_propagate(errp, local_err);
-> -            return;
-> -        }
-> +        if (fn(intc, &local_err) < 0) {
-> +            if (machine_kernel_irqchip_required(machine)) {
-> +                error_prepend(&local_err,
-> +                              "kernel_irqchip requested but unavailable: ");
-> +                error_propagate(errp, local_err);
-> +                return -1;
-> +            }
->  
-> -        if (!local_err) {
-> -            return;
-> +            /*
-> +             * We failed to initialize the KVM device, fallback to
-> +             * emulated mode
-> +             */
-> +            error_prepend(&local_err,
-> +                          "kernel_irqchip allowed but unavailable: ");
-> +            error_append_hint(&local_err,
-> +                              "Falling back to kernel-irqchip=off\n");
-> +            warn_report_err(local_err);
->          }
-> -
-> -        /*
-> -         * We failed to initialize the KVM device, fallback to
-> -         * emulated mode
-> -         */
-> -        error_prepend(&local_err, "kernel_irqchip allowed but unavailable: ");
-> -        error_append_hint(&local_err, "Falling back to kernel-irqchip=off\n");
-> -        warn_report_err(local_err);
->      }
+> -    spapr->irq_map_nr = nr_msis;
+> +    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
+> +        /* Legacy mode doesn't use this allocater */
+> +        return;
+> +    }
 > +
-> +    return 0;
+> +    spapr->irq_map_nr = spapr_irq_nr_msis(spapr);
+>      spapr->irq_map = bitmap_new(spapr->irq_map_nr);
 >  }
 >  
->  /*
-> @@ -112,20 +114,7 @@ static int spapr_irq_post_load_xics(SpaprMachineState *spapr, int version_id)
->  
->  static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
->  {
-> -    Error *local_err = NULL;
-> -
-> -    spapr_irq_init_kvm(spapr, &spapr_irq_xics, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> -}
-> -
-> -static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **errp)
-> -{
-> -    if (kvm_enabled()) {
-> -        xics_kvm_connect(SPAPR_INTC(spapr->ics), errp);
-> -    }
-> +    spapr_irq_init_kvm(xics_kvm_connect, SPAPR_INTC(spapr->ics), errp);
->  }
+> @@ -102,7 +107,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptController *, Error **),
 >  
 >  SpaprIrq spapr_irq_xics = {
-> @@ -136,7 +125,6 @@ SpaprIrq spapr_irq_xics = {
->  
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
-> -    .init_kvm    = spapr_irq_init_kvm_xics,
+>      .nr_xirqs    = SPAPR_NR_XIRQS,
+> -    .nr_msis     = SPAPR_NR_MSIS,
+>      .xics        = true,
+>      .xive        = false,
 >  };
+> @@ -113,7 +117,6 @@ SpaprIrq spapr_irq_xics = {
 >  
->  /*
-> @@ -151,7 +139,6 @@ static int spapr_irq_post_load_xive(SpaprMachineState *spapr, int version_id)
->  static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
->  {
->      CPUState *cs;
-> -    Error *local_err = NULL;
->  
->      CPU_FOREACH(cs) {
->          PowerPCCPU *cpu = POWERPC_CPU(cs);
-> @@ -160,9 +147,8 @@ static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
->          spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
->      }
->  
-> -    spapr_irq_init_kvm(spapr, &spapr_irq_xive, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> +    if (spapr_irq_init_kvm(kvmppc_xive_connect,
-> +                           SPAPR_INTC(spapr->xive), errp) < 0) {
->          return;
->      }
->  
-> @@ -170,13 +156,6 @@ static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
->      spapr_xive_mmio_set_enabled(spapr->xive, true);
->  }
->  
-> -static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **errp)
-> -{
-> -    if (kvm_enabled()) {
-> -        kvmppc_xive_connect(SPAPR_INTC(spapr->xive), errp);
-> -    }
-> -}
-> -
 >  SpaprIrq spapr_irq_xive = {
 >      .nr_xirqs    = SPAPR_NR_XIRQS,
->      .nr_msis     = SPAPR_NR_MSIS,
-> @@ -185,7 +164,6 @@ SpaprIrq spapr_irq_xive = {
->  
->      .post_load   = spapr_irq_post_load_xive,
->      .reset       = spapr_irq_reset_xive,
-> -    .init_kvm    = spapr_irq_init_kvm_xive,
+> -    .nr_msis     = SPAPR_NR_MSIS,
+>      .xics        = false,
+>      .xive        = true,
 >  };
->  
->  /*
-> @@ -251,7 +229,6 @@ SpaprIrq spapr_irq_dual = {
->  
->      .post_load   = spapr_irq_post_load_dual,
->      .reset       = spapr_irq_reset_dual,
-> -    .init_kvm    = NULL, /* should not be used */
+> @@ -132,7 +135,6 @@ SpaprIrq spapr_irq_xive = {
+>   */
+>  SpaprIrq spapr_irq_dual = {
+>      .nr_xirqs    = SPAPR_NR_XIRQS,
+> -    .nr_msis     = SPAPR_NR_MSIS,
+>      .xics        = true,
+>      .xive        = true,
 >  };
+> @@ -245,6 +247,15 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+>      sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
+>  }
 >  
+> +uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
+> +{
+> +    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
+> +        return spapr->irq->nr_xirqs;
+> +    } else {
+> +        return SPAPR_XIRQ_BASE + spapr->irq->nr_xirqs - SPAPR_IRQ_MSI;
+> +    }
+> +}
+> +
+>  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+>  {
+>      MachineState *machine = MACHINE(spapr);
+> @@ -267,9 +278,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+>      }
 >  
-> @@ -682,7 +659,6 @@ SpaprIrq spapr_irq_xics_legacy = {
+>      /* Initialize the MSI IRQ allocator. */
+> -    if (!SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
+> -        spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
+> -    }
+> +    spapr_irq_msi_init(spapr);
 >  
->      .post_load   = spapr_irq_post_load_xics,
->      .reset       = spapr_irq_reset_xics,
-> -    .init_kvm    = spapr_irq_init_kvm_xics,
+>      if (spapr->irq->xics) {
+>          Object *obj;
+> @@ -558,7 +567,6 @@ int spapr_irq_find(SpaprMachineState *spapr, int num, bool align, Error **errp)
+>  
+>  SpaprIrq spapr_irq_xics_legacy = {
+>      .nr_xirqs    = SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+> -    .nr_msis     = SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+>      .xics        = true,
+>      .xive        = false,
 >  };
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 6934d506a7..8ed06e5964 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -2305,8 +2305,8 @@ static void spapr_phb_pci_enumerate(SpaprPhbState *phb)
 >  
->  static void spapr_irq_register_types(void)
+>  }
+>  
+> -int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
+> -                 uint32_t nr_msis, int *node_offset)
+> +int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
+> +                 uint32_t intc_phandle, void *fdt, int *node_offset)
+>  {
+>      int bus_off, i, j, ret;
+>      uint32_t bus_range[] = { cpu_to_be32(0), cpu_to_be32(0xff) };
+> @@ -2371,7 +2371,8 @@ int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
+>      _FDT(fdt_setprop(fdt, bus_off, "ranges", &ranges, sizeof_ranges));
+>      _FDT(fdt_setprop(fdt, bus_off, "reg", &bus_reg, sizeof(bus_reg)));
+>      _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pci-config-space-type", 0x1));
+> -    _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pe-total-#msi", nr_msis));
+> +    _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pe-total-#msi",
+> +                          spapr_irq_nr_msis(spapr)));
+>  
+>      /* Dynamic DMA window */
+>      if (phb->ddw_enabled) {
+> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+> index 23506f05d9..8877ff51fb 100644
+> --- a/include/hw/pci-host/spapr.h
+> +++ b/include/hw/pci-host/spapr.h
+> @@ -128,8 +128,8 @@ struct SpaprPhbState {
+>  #define SPAPR_PCI_NV2ATSD_WIN_SIZE   (NVGPU_MAX_NUM * NVGPU_MAX_LINKS * \
+>                                        64 * KiB)
+>  
+> -int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
+> -                 uint32_t nr_msis, int *node_offset);
+> +int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
+> +                 uint32_t intc_phandle, void *fdt, int *node_offset);
+>  
+>  void spapr_pci_rtas_init(void);
+>  
 > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index c82724fc2b..c947f40571 100644
+> index bc379b0761..308bfcefd1 100644
 > --- a/include/hw/ppc/spapr_irq.h
 > +++ b/include/hw/ppc/spapr_irq.h
-> @@ -85,7 +85,6 @@ typedef struct SpaprIrq {
+> @@ -27,7 +27,6 @@
+>  #define SPAPR_IRQ_MSI        (SPAPR_XIRQ_BASE + 0x0300)
 >  
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
->      void (*reset)(SpaprMachineState *spapr, Error **errp);
-> -    void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
+>  #define SPAPR_NR_XIRQS       0x1000
+> -#define SPAPR_NR_MSIS        (SPAPR_XIRQ_BASE + SPAPR_NR_XIRQS - SPAPR_IRQ_MSI)
+>  
+>  typedef struct SpaprMachineState SpaprMachineState;
+>  
+> @@ -72,15 +71,13 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+>                    void *fdt, uint32_t phandle);
+>  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+>                                PowerPCCPU *cpu, Error **errp);
+> -
+> -void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
+> +uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr);
+>  int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool align,
+>                          Error **errp);
+>  void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num);
+>  
+>  typedef struct SpaprIrq {
+>      uint32_t    nr_xirqs;
+> -    uint32_t    nr_msis;
+>      bool        xics;
+>      bool        xive;
 >  } SpaprIrq;
->  
->  extern SpaprIrq spapr_irq_xics;
 
 
