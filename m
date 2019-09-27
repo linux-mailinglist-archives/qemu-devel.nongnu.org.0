@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E95C09EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:00:46 +0200 (CEST)
-Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9276C0A01
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:09:46 +0200 (CEST)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtbn-0006Zr-3p
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:00:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51474)
+	id 1iDtkX-0007HB-8T
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iDrTt-0003cW-GM
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:44:27 -0400
+ (envelope-from <eblake@redhat.com>) id 1iDrmw-0005sr-Hf
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:04:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iDrTp-0008Ju-Vd
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:44:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48492)
+ (envelope-from <eblake@redhat.com>) id 1iDrmu-00052d-03
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:04:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50684)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iDrTp-0008JS-Lb
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:44:21 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iDrmt-00052V-P7
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:04:03 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1A22A7CBB1
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 14:44:20 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id j3so1132930wrn.7
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 07:44:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2q+9SXfolCGkpiu01Kpc50RZfUmkJV77qGm65Z4aLrw=;
- b=g8K6LbGDQeQo+4x3n1JHVPr4oVxLUISXA69pMO8PCnKRmxRAfthxm/JG3wCuNK5JWh
- I7aD8kmE2vh8tRgz4tXIdk0cF7HQq/BJB+AKauezLdKC2MRYmlqZ5a58/onH6MEdBYYz
- uXpuVd01P8uX666I3nowq9iZLdjtZEr0HdIY5G1sIuma0m2Tob+scA9dWiQ1jppjTCH1
- HCeG34wEAg053VGjsEQWnXDKIQcJf2ev88aGoNJDq+NdI5SryjSdf5gW2cPsbF85F0YN
- v5HTTt0Zd6boDXpgF7RY5jwehx5GPD6yQisPz9E78F5rlJck3SE8J2iv3HqFyjVB0ucg
- sheg==
-X-Gm-Message-State: APjAAAXkMRnBXgeIUOQGTqG9VeFycmJaipU20OsKSYCUrXHbSowpwsYQ
- wSmhZ5LHYzSTMWXEo4WPgt4w1DexpNBZF304LaKv4QeKVV9bmorWG3oEJYlPJjv1UcflhlVdkBJ
- Jn1m2AKJq1yx2ohM=
-X-Received: by 2002:a1c:a90b:: with SMTP id s11mr8031925wme.92.1569595458433; 
- Fri, 27 Sep 2019 07:44:18 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxbZp8HmBA51sBwb3b89xFrk0CkTIdezJrIhZyhIvEU53PPyiWJhUaBYgDbSXXS1qzPc15bvg==
-X-Received: by 2002:a1c:a90b:: with SMTP id s11mr8031894wme.92.1569595458242; 
- Fri, 27 Sep 2019 07:44:18 -0700 (PDT)
-Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id b184sm6552821wmg.47.2019.09.27.07.44.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Sep 2019 07:44:17 -0700 (PDT)
-Subject: Re: [PATCH 14/19] python/qemu/machine: Allow to use other serial
- consoles than default
-To: Peter Maydell <peter.maydell@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>, Cleber Rosa <crosa@redhat.com>
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-15-f4bug@amsat.org>
- <CADYoBw11iiK=+O-mGYS5Xp85zVhezOXXXr-wKV_xCg07ZYuzVw@mail.gmail.com>
- <20190927132602.GA19931@roeck-us.net>
- <CAFEAcA8KcJzCNU1iLjiteEKhLsw9jeDyyqXurv0fuvSmLAEF0A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <00b49d9e-0860-161f-a4d4-41fbe7bb2124@redhat.com>
-Date: Fri, 27 Sep 2019 16:44:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id AA30E6565D;
+ Fri, 27 Sep 2019 15:04:02 +0000 (UTC)
+Received: from [10.3.116.249] (ovpn-116-249.phx2.redhat.com [10.3.116.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D02F60BF3;
+ Fri, 27 Sep 2019 15:03:54 +0000 (UTC)
+Subject: Re: [PATCH v2 21/26] qapi: Avoid redundant definition references in
+ error messages
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190927134639.4284-1-armbru@redhat.com>
+ <20190927134639.4284-22-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c4bf250f-380e-4aaa-21c7-787ae14933fc@redhat.com>
+Date: Fri, 27 Sep 2019 10:03:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8KcJzCNU1iLjiteEKhLsw9jeDyyqXurv0fuvSmLAEF0A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190927134639.4284-22-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 27 Sep 2019 15:04:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -88,54 +62,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bzt <bztemail@gmail.com>, Laurent Bonnans <laurent.bonnans@here.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Cheng Xiang <ext-cheng.xiang@here.com>,
- Pekka Enberg <penberg@iki.fi>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/19 3:36 PM, Peter Maydell wrote:
-> On Fri, 27 Sep 2019 at 14:26, Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> On Fri, Sep 27, 2019 at 02:54:10PM +0200, bzt wrote:
->>> Hi,
->>>
->>> On 9/26/19, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
->>>> Currently we are limited to use the first serial console available.
->>>
->>> I'm not so sure. Right now it works like this:
->>>
->>> qemu -serial stdio
->>> Connects the VM's UART0 (PL011) serial console to the host terminal
->>>
->>> qemu -serial null -serial stdio
->>> Connects the VM's UART1 (AUX) serial console to the host terminal
->>>
->>> I think this is simple and good, please don't remove this option. If
->>> your commit does not influence these cli args, I'm not against it.
->>>
->> Agreed. I am using that mechanism (raspi3 uses the second console,
->> not pl011) in my scripts. Please don't take it away.
->=20
-> This patch is changing our python infrastructure that invokes
-> QEMU, not QEMU itself. What Philippe's message means is
-> "currently our code for running QEMU as part of tests like
-> this is limited to using the first serial console; this doesn't
-> work for raspi because we want to use the second (aux) console;
-> so make the test infrastructure able to handle machines like this."
+On 9/27/19 8:46 AM, Markus Armbruster wrote:
+> Many error messages refer to the offending definition even though
+> they're preceded by an "in definition" line.  Rephrase them.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-Exactly, thanks Peter for clarifying.
+Comparing to v1 shows that you did indeed improve a few more messages.
 
-I'll try to come with a clearer commit description.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Regards,
-
-Phil.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
