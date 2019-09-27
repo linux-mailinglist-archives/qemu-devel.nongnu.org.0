@@ -2,46 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5715BFF6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:52:53 +0200 (CEST)
-Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90C7BFF75
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:56:05 +0200 (CEST)
+Received: from localhost ([::1]:47138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDk7Y-0001Ul-75
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53773)
+	id 1iDkAe-0004zO-JY
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iDjex-0007JK-Ng
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:22 -0400
+ (envelope-from <groug@kaod.org>) id 1iDjf1-0007Ok-Ib
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iDjeu-0004Ir-NL
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:19 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:59674)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iDjeu-00046D-DJ
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:16 -0400
-Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
- [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 14C3669AAB;
- Fri, 27 Sep 2019 15:23:16 +0900 (JST)
-Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
- [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id B8EEA240085;
- Fri, 27 Sep 2019 15:23:15 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v25 21/22] BootLinuxConsoleTest: Test the RX-Virt machine
-Date: Fri, 27 Sep 2019 15:23:01 +0900
-Message-Id: <20190927062302.110144-22-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190927062302.110144-1-ysato@users.sourceforge.jp>
-References: <20190927062302.110144-1-ysato@users.sourceforge.jp>
+ (envelope-from <groug@kaod.org>) id 1iDjez-0004b6-FR
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:23 -0400
+Received: from 8.mo173.mail-out.ovh.net ([46.105.46.122]:59763)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDjez-0004Pg-56
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:21 -0400
+Received: from player787.ha.ovh.net (unknown [10.108.54.72])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 2409111AD1D
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 08:23:17 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id D1A93A63A8B2;
+ Fri, 27 Sep 2019 06:23:06 +0000 (UTC)
+Date: Fri, 27 Sep 2019 08:23:05 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
+Message-ID: <20190927082305.6df18660@bahia.lan>
+In-Reply-To: <20190927055104.GG17405@umbus>
+References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
+ <20190925064534.19155-21-david@gibson.dropbear.id.au>
+ <1b74c0fc-b318-df5a-d66d-fe59ae562d70@kaod.org>
+ <20190926011336.GS17405@umbus>
+ <92ce15dd-f7f9-3d2b-4226-9693bd9cfd65@kaod.org>
+ <20190926173539.4a07d419@bahia.lan> <20190927055104.GG17405@umbus>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.224.55.15
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/oNKWrqNaAuFvwIwmPZvL70+"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 12309745157198682598
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeehgddutdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.46.122
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,124 +61,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, imammedo@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+--Sig_/oNKWrqNaAuFvwIwmPZvL70+
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Add two tests for the rx-virt machine, based on the recommended test
-setup from Yoshinori Sato:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03586.html
+On Fri, 27 Sep 2019 15:51:04 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-- U-Boot prompt
-- Linux kernel with Sash shell
+> On Thu, Sep 26, 2019 at 05:35:39PM +0200, Greg Kurz wrote:
+> > On Thu, 26 Sep 2019 09:05:56 +0200
+> > C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> >=20
+> > > >>> +    if (spapr->irq->xive) {
+> > > >>> +        uint32_t nr_servers =3D spapr_max_server_number(spapr);
+> > > >>> +        DeviceState *dev;
+> > > >>> +        int i;
+> > > >>> +
+> > > >>> +        dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
+> > > >>> +        qdev_prop_set_uint32(dev, "nr-irqs",
+> > > >>> +                             spapr->irq->nr_xirqs + SPAPR_XIRQ_B=
+ASE);
+> > > >>> +        /*
+> > > >>> +         * 8 XIVE END structures per CPU. One for each available
+> > > >>> +         * priority
+> > > >>> +         */
+> > > >>> +        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
+> > > >>> +        qdev_init_nofail(dev);
+> > > >>> +
+> > > >>> +        spapr->xive =3D SPAPR_XIVE(dev);
+> > > >>> +
+> > > >>> +        /* Enable the CPU IPIs */
+> > > >>> +        for (i =3D 0; i < nr_servers; ++i) {
+> > > >>> +            Error *local_err =3D NULL;
+> > > >>> +
+> > > >>> +            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i,=
+ false, &local_err);
+> > > >>> +            if (local_err) {
+> > > >>> +                goto out;
+> > > >>> +            }
+> > > >>> +        }
+> > > >>
+> > > >> We could move the IPI claim part in the realize routine of SPAPR_X=
+IVE.
+> > > >=20
+> > > > Yeah, I know.  I thought about this, but there's a slight complicat=
+ion
+> > > > in that the XIVE part doesn't know nr_servers directly.  There's
+> > > > several possible ways to handle that, but I wasn't 100% happy with =
+any
+> > > > that I came up with yet.
+> > >=20
+> > > The "nr-ends" property was inappropriate, "nr-servers" would have been
+> > > better and we would have hidden the calculation of ENDs 'nr_servers <=
+< 3'
+> > > in the realize routine of SpaprXive.=20
+> > >=20
+> >=20
+> > Yeah it would make sense to have nr_servers within the sPAPR XIVE objec=
+t,
+> > so that we don't have to pass it when building the FDT node. Same stands
+> > for XICS actually.
+> >=20
+> > And as part of my current work to reduce HW VP consumption, I also need
+> > nr_servers to pass it to the KVM device.
+> >=20
+> > > I don't think we can change that without breaking migration though :/
+> > >=20
+> >=20
+> > Hmm... why ? The QOM property is just an interface, it doesn't change t=
+he
+> > state. In the end we migrate the same number of XiveEND objects.
+>=20
+> Yeah, I think it can probably be done.  I don't really have the energy
+> left to sort it out for the time being, maybe one day.
+>=20
 
-These are very quick tests:
+As mentioned above I have another need for "nr-servers", I'll have
+a look.
 
-  $ avocado run -t arch:rx tests/acceptance/boot_linux_console.py
-  JOB ID     : 84a6ef01c0b87975ecbfcb31a920afd735753ace
-  JOB LOG    : /home/phil/avocado/job-results/job-2019-05-24T05.02-84a6ef=
-0/job.log
-   (1/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-uboot: PASS (0.11 s)
-   (2/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-linux: PASS (0.45 s)
-  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
+--Sig_/oNKWrqNaAuFvwIwmPZvL70+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Tests can also be run with:
+-----BEGIN PGP SIGNATURE-----
 
-  $ avocado --show=3Dconsole run -t arch:rx tests/acceptance/boot_linux_c=
-onsole.py
-  console: U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty (Feb 05 2019 - 21:5=
-6:06 +0900)
-  console: Linux version 4.19.0+ (yo-satoh@yo-satoh-debian) (gcc version =
-9.0.0 20181105 (experimental) (GCC)) #137 Wed Feb 20 23:20:02 JST 2019
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 8128
-  ...
-  console: SuperH (H)SCI(F) driver initialized
-  console: 88240.serial: ttySC0 at MMIO 0x88240 (irq =3D 215, base_baud =3D=
- 0) is a sci
-  console: console [ttySC0] enabled
-  console: 88248.serial: ttySC1 at MMIO 0x88248 (irq =3D 219, base_baud =3D=
- 0) is a sci
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2NqskACgkQcdTV5YIv
+c9bzIRAAiadeyKyuLZUHlpd4ZtifdBedJvixxqHbYY9TNqxHiDQprL4OObVByGzq
+v2Ww5Dvsdq5S4dJYiibNyL2SwieH7ZGxRluULGN2WQsgda9dqZrOUUIbfu5Cc6Fe
+/etXpIdMRfo7ULRyftJGnp5mBc5HKlEng4l/S2Djxdd6Uo2iH3v3IUaIKItIXwXU
+v2vkgWyn/uYEOGbMmweTiZlKDzupSsYzVOf1pkJgUSbaSkxIuwHTGdBW6n5AJ3GR
+Bf0YMdA4aeSlBZra2W6OOrGsek4Mt9hhBRFyzX+sVrmkyOsS25RkOI7QeNhY1Iws
+NjaxA7TinRT6xMUqgYQq0jP9G52XDoMo9Xgv/dJ2NE9DL58t3J+5BEbxL2Yw+5Hk
+qeKLyEBqGb0WnEnLx3j8c/001xXQMW+doarO4rq3+Y0o7ipyZT9THNuYd0iUl/oM
+9XaEqAfFL9wIuBhP8+DWu8dCug30JdKSRvbxJA6He9tSU+49Xx+gzcg65Qx4d2v4
+Xg6OslRjhgfUHqA1JQKqi3Yh9lxVdk9Z97aFdtzBzN8OylegQ6bHQgjtVHFVYjRx
+ZxiDVDT2BVYi70C1PRgZX/Y0AdxK+PcunvtOSdbIf55Dh3/V1l8QF+mHrXAQUbiv
+4UJpAzuBFr33vWobNG8iYlaE3KK7LiFcC9NOQqWCLsggglma8B8=
+=Ac+O
+-----END PGP SIGNATURE-----
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: 20190517045136.3509-1-richard.henderson@linaro.org
-"RX architecture support"
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-index 8a9a314ab4..5e805a2ee1 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -378,3 +378,49 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_rx_uboot(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        uboot_url =3D ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin=
-.gz')
-+        uboot_hash =3D '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
-+        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
-sh)
-+        uboot_path =3D archive.uncompress(uboot_path, self.workdir)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', uboot_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        uboot_version =3D 'U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty'
-+        self.wait_for_console_pattern(uboot_version)
-+        gcc_version =3D 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (expe=
-rimental)'
-+        # FIXME limit baudrate on chardev, else we type too fast
-+        #self.exec_command_and_wait_for_pattern('version', gcc_version)
-+
-+    def test_rx_linux(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        dtb_url =3D ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb'=
-)
-+        dtb_hash =3D '7b4e4e2c71905da44e86ce47adee2210b026ac18'
-+        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-+        kernel_url =3D ('http://acc.dl.osdn.jp/users/23/23845/zImage')
-+        kernel_hash =3D '39a81067f8d72faad90866ddfefa19165d68fc99'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'early=
-con'
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-dtb', dtb_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Sash command shell (version 1.1.1=
-)')
-+        self.exec_command_and_wait_for_pattern('printenv',
-+                                               'TERM=3Dlinux')
---=20
-2.20.1
-
+--Sig_/oNKWrqNaAuFvwIwmPZvL70+--
 
