@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4548CBFEDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:08:52 +0200 (CEST)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E946DBFED1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:05:36 +0200 (CEST)
+Received: from localhost ([::1]:46674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDjQw-0007yR-Nn
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:08:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47467)
+	id 1iDjNn-00047y-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iDj9R-0006lC-Or
+ (envelope-from <dgibson@ozlabs.org>) id 1iDj9R-0006l8-CM
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:50:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iDj9P-000504-VR
+ (envelope-from <dgibson@ozlabs.org>) id 1iDj9P-0004za-N1
  for qemu-devel@nongnu.org; Fri, 27 Sep 2019 01:50:45 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:41223)
+Received: from ozlabs.org ([203.11.71.1]:47237)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iDj9P-0004xQ-EY; Fri, 27 Sep 2019 01:50:43 -0400
+ id 1iDj9P-0004xL-A5; Fri, 27 Sep 2019 01:50:43 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46fgrD0SxNz9sPx; Fri, 27 Sep 2019 15:50:36 +1000 (AEST)
+ id 46fgrD28wRz9sQm; Fri, 27 Sep 2019 15:50:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569563436;
- bh=xr2OES5BpKrwX20RFke/LUqNbzYLeV0hJUlx3zHUrBU=;
+ bh=RIksUxZRIpgNgUb+BOQ1iDqTN/tyvu+NfJ2zQyVrB1Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lbWp8419MX9cxX/i2tFFInMVBSZtbgKfdOMOfR2+E75vfa/h9NiA6I+QHqCKwfm+Z
- tTT7w4D2mo76nb2Ni6aQQleMzot3I3VDLDFIbCrDYVO2QSx6Sg3O1LFP5pwQ6fZxsg
- 9xErcm4PNJfhk8k2W9BiPE4Q9+scqNF8yaJdGNjI=
+ b=WLVlSEgi2e/cuUtEcW1MMXppRhegZh4/eNWErW/OINU6nvgdj8QB3WNoDf26WajPa
+ aks48Kr8ubCtQ0WtoQB6kyxjI16Lav2wrFm4giuqGJ3azlzY2YpuQohH0bzrLfHliG
+ WNUOBF1WXvgSPu51i7amT655yRQuTuzpKTXDwSrA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	clg@kaod.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 06/33] xics: Create sPAPR specific ICS subtype
-Date: Fri, 27 Sep 2019 15:50:01 +1000
-Message-Id: <20190927055028.11493-7-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 08/33] spapr: Replace spapr_vio_qirq() helper with
+ spapr_vio_irq_pulse() helper
+Date: Fri, 27 Sep 2019 15:50:03 +1000
+Message-Id: <20190927055028.11493-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190927055028.11493-1-david@gibson.dropbear.id.au>
 References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,121 +65,114 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We create a subtype of TYPE_ICS specifically for sPAPR.  For now all this
-does is move the setup of the PAPR specific hcalls and RTAS calls to
-the realize() function for this, rather than requiring the PAPR code to
-explicitly call xics_spapr_init().  In future it will have some more
-function.
+Every caller of spapr_vio_qirq() immediately calls qemu_irq_pulse() with
+the result, so we might as well just fold that into the helper.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/intc/xics_spapr.c        | 34 +++++++++++++++++++++++++++++++++-
- hw/ppc/spapr_irq.c          |  6 ++----
- include/hw/ppc/xics_spapr.h |  4 +++-
- 3 files changed, 38 insertions(+), 6 deletions(-)
+ hw/char/spapr_vty.c        | 3 +--
+ hw/net/spapr_llan.c        | 3 +--
+ hw/ppc/spapr_vio.c         | 3 +--
+ include/hw/ppc/spapr_vio.h | 5 +++--
+ 4 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 3e9444813a..e6dd004587 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -283,8 +283,18 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachin=
-eState *spapr,
-     rtas_st(rets, 0, RTAS_OUT_SUCCESS);
- }
+diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
+index 087c93e4fa..8f4d9fe472 100644
+--- a/hw/char/spapr_vty.c
++++ b/hw/char/spapr_vty.c
+@@ -5,7 +5,6 @@
+ #include "cpu.h"
+ #include "migration/vmstate.h"
+ #include "chardev/char-fe.h"
+-#include "hw/irq.h"
+ #include "hw/ppc/spapr.h"
+ #include "hw/ppc/spapr_vio.h"
+ #include "hw/qdev-properties.h"
+@@ -37,7 +36,7 @@ static void vty_receive(void *opaque, const uint8_t *bu=
+f, int size)
 =20
--void xics_spapr_init(SpaprMachineState *spapr)
-+static void ics_spapr_realize(DeviceState *dev, Error **errp)
- {
-+    ICSState *ics =3D ICS_SPAPR(dev);
-+    ICSStateClass *icsc =3D ICS_GET_CLASS(ics);
-+    Error *local_err =3D NULL;
-+
-+    icsc->parent_realize(dev, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     spapr_rtas_register(RTAS_IBM_SET_XIVE, "ibm,set-xive", rtas_set_xive=
-);
-     spapr_rtas_register(RTAS_IBM_GET_XIVE, "ibm,get-xive", rtas_get_xive=
-);
-     spapr_rtas_register(RTAS_IBM_INT_OFF, "ibm,int-off", rtas_int_off);
-@@ -319,3 +329,25 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_=
-t nr_servers, void *fdt,
-     _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
-     _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
- }
-+
-+static void ics_spapr_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    ICSStateClass *isc =3D ICS_CLASS(klass);
-+
-+    device_class_set_parent_realize(dc, ics_spapr_realize,
-+                                    &isc->parent_realize);
-+}
-+
-+static const TypeInfo ics_spapr_info =3D {
-+    .name =3D TYPE_ICS_SPAPR,
-+    .parent =3D TYPE_ICS,
-+    .class_init =3D ics_spapr_class_init,
-+};
-+
-+static void xics_spapr_register_types(void)
-+{
-+    type_register_static(&ics_spapr_info);
-+}
-+
-+type_init(xics_spapr_register_types)
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 6c45d2a3c0..8c26fa2d1e 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -98,7 +98,7 @@ static void spapr_irq_init_xics(SpaprMachineState *spap=
-r, int nr_irqs,
-     Object *obj;
-     Error *local_err =3D NULL;
+     if ((dev->in =3D=3D dev->out) && size) {
+         /* toggle line to simulate edge interrupt */
+-        qemu_irq_pulse(spapr_vio_qirq(&dev->sdev));
++        spapr_vio_irq_pulse(&dev->sdev);
+     }
+     for (i =3D 0; i < size; i++) {
+         if (dev->in - dev->out >=3D VTERM_BUFSIZE) {
+diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
+index 701e6e1514..3d96884d66 100644
+--- a/hw/net/spapr_llan.c
++++ b/hw/net/spapr_llan.c
+@@ -27,7 +27,6 @@
 =20
--    obj =3D object_new(TYPE_ICS);
-+    obj =3D object_new(TYPE_ICS_SPAPR);
-     object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-     object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-                                    &error_fatal);
-@@ -109,9 +109,7 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
-apr, int nr_irqs,
-         return;
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "hw/irq.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "net/net.h"
+@@ -267,7 +266,7 @@ static ssize_t spapr_vlan_receive(NetClientState *nc,=
+ const uint8_t *buf,
      }
 =20
--    spapr->ics =3D ICS(obj);
--
--    xics_spapr_init(spapr);
-+    spapr->ics =3D ICS_SPAPR(obj);
+     if (sdev->signal_state & 1) {
+-        qemu_irq_pulse(spapr_vio_qirq(sdev));
++        spapr_vio_irq_pulse(sdev);
+     }
+=20
+     return size;
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index 0803649658..554de9930d 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -23,7 +23,6 @@
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+-#include "hw/irq.h"
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "elf.h"
+@@ -294,7 +293,7 @@ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t *=
+crq)
+     dev->crq.qnext =3D (dev->crq.qnext + 16) % dev->crq.qsize;
+=20
+     if (dev->signal_state & 1) {
+-        qemu_irq_pulse(spapr_vio_qirq(dev));
++        spapr_vio_irq_pulse(dev);
+     }
+=20
+     return 0;
+diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
+index 875be28cdd..72762ed16b 100644
+--- a/include/hw/ppc/spapr_vio.h
++++ b/include/hw/ppc/spapr_vio.h
+@@ -24,6 +24,7 @@
+=20
+ #include "hw/ppc/spapr.h"
+ #include "sysemu/dma.h"
++#include "hw/irq.h"
+=20
+ #define TYPE_VIO_SPAPR_DEVICE "vio-spapr-device"
+ #define VIO_SPAPR_DEVICE(obj) \
+@@ -84,11 +85,11 @@ extern SpaprVioDevice *spapr_vio_find_by_reg(SpaprVio=
+Bus *bus, uint32_t reg);
+ void spapr_dt_vdevice(SpaprVioBus *bus, void *fdt);
+ extern gchar *spapr_vio_stdout_path(SpaprVioBus *bus);
+=20
+-static inline qemu_irq spapr_vio_qirq(SpaprVioDevice *dev)
++static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
+ {
+     SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+=20
+-    return spapr_qirq(spapr, dev->irq);
++    qemu_irq_pulse(spapr_qirq(spapr, dev->irq));
  }
 =20
- static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool =
-lsi,
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 5dabc9a138..691a6d00f7 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -31,11 +31,13 @@
-=20
- #define XICS_NODENAME "interrupt-controller"
-=20
-+#define TYPE_ICS_SPAPR "ics-spapr"
-+#define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-+
- void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
-fdt,
-                    uint32_t phandle);
- int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
- void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
- bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
--void xics_spapr_init(SpaprMachineState *spapr);
-=20
- #endif /* XICS_SPAPR_H */
+ static inline bool spapr_vio_dma_valid(SpaprVioDevice *dev, uint64_t tad=
+dr,
 --=20
 2.21.0
 
