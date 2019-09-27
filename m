@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BF4C0704
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:08:45 +0200 (CEST)
-Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C5DC06E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:04:06 +0200 (CEST)
+Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqvL-0004iR-Nv
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
+	id 1iDqqp-0007vd-SE
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDq9y-0001tv-4m
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:51 -0400
+ (envelope-from <mjrosato@linux.ibm.com>) id 1iDqBO-0002ZJ-IR
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:21:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDq9w-0008Ly-LG
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:45 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38364)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDq9w-0008LZ-AN
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:19:44 -0400
-Received: by mail-oi1-x244.google.com with SMTP id m16so5169830oic.5
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 06:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kau7tqDv4N5BfV3Vw5Rek2SevsQVcXfTdIXf3HFT2yo=;
- b=cCX1WO/bNqbsVLei5AA6tys+J9PQMz1GCTn1ofd38X9yeB/fkI6TGDTPGAovh1gxGJ
- zIGgaNSH3KW4LZLhHdSL7SW3IkKPLQQsZ9cI6spH+4/CRcYEGOykEIJT8bShZ+GDlW4o
- b0kEQDvOms3LGJDEgJHj+O8DyaMzVBc1S9zGk9ZPfwSYtL9s50mUBfR4VRQKmM4DFHST
- vFgJYE7O3m4pTQWNgqexAgCt6S4epYt3IsrczSUcQ8ZKZKa+sb4j+dTClfYstJyKBJSx
- CtJw7FsCAuzm+ipAFreRZqtIRDMxlbBHuiZe58JntnoPNM+gS3QfEkbKM19+iDlMj/P1
- M3NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kau7tqDv4N5BfV3Vw5Rek2SevsQVcXfTdIXf3HFT2yo=;
- b=eY2nZZLqDAQSFd+9sWl62Fbilx5VFWRSzWiszoBIHpM5T2zPrr9c5C75L4seXzuloW
- d54rodR3HspsAvoKNWwM3tAJZNIjheflGuYF7hbwfdjuv1h9K5dcQ5o1+4tRL/jZDL26
- NehaNGsK52dNBZYLWdLskjVPYCajXh+8Oa+p1qZ6XK/JjxIl60RDLLDhSTYedGqeUTNO
- PvLNBTG+Fsz9Bw/kbSuUKQxLGCvHSQ9zqsGf9+QuvaXC4L73qZHde6SJePGlS1kbN8HZ
- ZNcGP9z35eN2Me0m0V9134O45qq1mLncypB0tKzII7cmIyTe/RjF+se5N8JQ1TdM9V+z
- x2KQ==
-X-Gm-Message-State: APjAAAUkpxey08yDly8/bkzZWBQ85gVcXyFM1kByTDpYv9D/EFSv/U95
- mUnXD6LDGr5zgcR91vn7DJgOsiK93PwYMJWsFXUIaw==
-X-Google-Smtp-Source: APXvYqzXs1mVapIpMEL6Y2Ngi/4ZduF5Yd6EaPkjfeAoYTmuJS+fshgQqDDsgxIcpLAb2p6CPEx1T1EC892RovR100c=
-X-Received: by 2002:aca:f54d:: with SMTP id t74mr7264630oih.170.1569590383304; 
- Fri, 27 Sep 2019 06:19:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190906083152.25716-1-zhengxiang9@huawei.com>
- <20190906083152.25716-5-zhengxiang9@huawei.com>
-In-Reply-To: <20190906083152.25716-5-zhengxiang9@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Sep 2019 14:19:32 +0100
-Message-ID: <CAFEAcA_o6NkOGptWFOoVt4pUgHU+dNyWQ9h_VfNweR17CtHSnw@mail.gmail.com>
-Subject: Re: [Qemu-arm] [PATCH v18 4/6] KVM: Move hwpoison page related
- functions into include/sysemu/kvm_int.h
-To: Xiang Zheng <zhengxiang9@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+ (envelope-from <mjrosato@linux.ibm.com>) id 1iDqBN-00009c-6B
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:21:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20248)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1iDqBM-00009G-LG; Fri, 27 Sep 2019 09:21:13 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8RDEo7Y035753; Fri, 27 Sep 2019 09:21:10 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v9ft8yp0j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2019 09:21:09 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8RDF1AZ036924;
+ Fri, 27 Sep 2019 09:21:07 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v9ft8ynyx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2019 09:21:07 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8RDK2uR018439;
+ Fri, 27 Sep 2019 13:21:06 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 2v5bg86ax0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Sep 2019 13:21:06 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8RDL2uq52560344
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Sep 2019 13:21:03 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D16026A05D;
+ Fri, 27 Sep 2019 13:21:02 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 387086A04D;
+ Fri, 27 Sep 2019 13:21:02 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.85.182.236])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 27 Sep 2019 13:21:02 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: cohuck@redhat.com
+Subject: [PATCH] MAINTAINERS: Update S390 PCI Maintainer
+Date: Fri, 27 Sep 2019 09:21:01 -0400
+Message-Id: <1569590461-12562-1-git-send-email-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-27_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=886 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270123
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,104 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, walling@linux.ibm.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Sep 2019 at 09:33, Xiang Zheng <zhengxiang9@huawei.com> wrote:
->
-> From: Dongjiu Geng <gengdongjiu@huawei.com>
->
-> kvm_hwpoison_page_add() and kvm_unpoison_all() will both be used by X86
-> and ARM platforms, so moving them into "include/sysemu/kvm_int.h" to
-> avoid duplicate code.
->
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> ---
->  accel/kvm/kvm-all.c      | 33 +++++++++++++++++++++++++++++++++
->  include/sysemu/kvm_int.h | 23 +++++++++++++++++++++++
->  target/arm/kvm.c         |  3 +++
->  target/i386/kvm.c        | 34 ----------------------------------
->  4 files changed, 59 insertions(+), 34 deletions(-)
+As discussed previously with Collin, I will take over maintaining
+s390 pci.
 
->  static uint32_t adjust_ioeventfd_endianness(uint32_t val, uint32_t size)
->  {
->  #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-> index 72b2d1b3ae..3ad49f9a28 100644
-> --- a/include/sysemu/kvm_int.h
-> +++ b/include/sysemu/kvm_int.h
-> @@ -41,4 +41,27 @@ typedef struct KVMMemoryListener {
->  void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
->                                    AddressSpace *as, int as_id);
->
-> +/**
-> + * kvm_hwpoison_page_add:
-> + *
-> + * Parameters:
-> + *  @ram_addr: the address in the RAM for the poisoned page
-> + *
-> + * Add a poisoned page to the list
-> + *
-> + * Return: None.
-> + */
-> +void kvm_hwpoison_page_add(ram_addr_t ram_addr);
-> +
-> +/**
-> + * kvm_unpoison_all:
-> + *
-> + * Parameters:
-> + *  @param: some data may be passed to this function
-> + *
-> + * Free and remove all the poisoned pages in the list
-> + *
-> + * Return: None.
-> + */
-> +void kvm_unpoison_all(void *param);
->  #endif
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index b2eaa50b8d..3a110be7b8 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -20,6 +20,7 @@
->  #include "sysemu/sysemu.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/kvm_int.h"
-> +#include "sysemu/reset.h"
->  #include "kvm_arm.h"
->  #include "cpu.h"
->  #include "trace.h"
-> @@ -195,6 +196,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->
->      cap_has_mp_state = kvm_check_extension(s, KVM_CAP_MP_STATE);
->
-> +    qemu_register_reset(kvm_unpoison_all, NULL);
-> +
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Rather than registering the same reset handler in
-all the architectures, we could register it in the
-generic kvm_init() function. (For architectures that
-don't use the poison-list functionality the reset handler
-will harmlessly do nothing, because there will be nothing
-in the list.)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bd7ee23..21264ea 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1206,7 +1206,7 @@ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+ 
+ S390 PCI
+-M: Collin Walling <walling@linux.ibm.com>
++M: Matthew Rosato <mjrosato@linux.ibm.com>
+ S: Supported
+ F: hw/s390x/s390-pci*
+ L: qemu-s390x@nongnu.org
+-- 
+1.8.3.1
 
-This would allow you to not have to make the
-kvm_unpoison_all() function global -- it can be static
-in accel/tcg/kvm-all.c.
-
->      return 0;
->  }
-
-thanks
--- PMM
 
