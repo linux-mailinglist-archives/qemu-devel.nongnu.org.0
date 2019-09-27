@@ -2,49 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA56C0698
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:46:35 +0200 (CEST)
-Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB440C06AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 15:51:24 +0200 (CEST)
+Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDqZs-0007yl-EF
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
+	id 1iDqeY-00049U-NK
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 09:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iDpue-00054c-PL
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:58 -0400
+ (envelope-from <david@redhat.com>) id 1iDpuq-0005Cn-8M
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iDpub-00047s-VN
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52520)
+ (envelope-from <david@redhat.com>) id 1iDpuo-0004EI-F1
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:04:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53836)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iDpua-00046F-Oz
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:03:53 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iDpum-0004DD-Dt; Fri, 27 Sep 2019 09:04:05 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C52953065603;
- Fri, 27 Sep 2019 11:44:56 +0000 (UTC)
-Received: from localhost (ovpn-116-45.gru2.redhat.com [10.97.116.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 633B53DBB;
- Fri, 27 Sep 2019 11:44:53 +0000 (UTC)
-Date: Fri, 27 Sep 2019 08:44:51 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] i386: Re-add "pconfig" CPUID flag name
-Message-ID: <20190927114451.GW8144@habkost.net>
-References: <20190926212326.4092-1-ehabkost@redhat.com>
- <CABgObfa-PHfeNVVYCuEFJ4_=KADJEddJS1k0Au+sOgtxgundDQ@mail.gmail.com>
- <20190927004220.GV8144@habkost.net>
- <20190927090905.GC20911@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 023F1796E9;
+ Fri, 27 Sep 2019 09:58:54 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0299E1001B20;
+ Fri, 27 Sep 2019 09:58:49 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 5/7] s390x/mmu: Use TARGET_PAGE_MASK in mmu_translate_pte()
+Date: Fri, 27 Sep 2019 11:58:29 +0200
+Message-Id: <20190927095831.23543-6-david@redhat.com>
+In-Reply-To: <20190927095831.23543-1-david@redhat.com>
+References: <20190927095831.23543-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190927090905.GC20911@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 27 Sep 2019 11:44:56 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 27 Sep 2019 09:58:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,47 +55,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, "Kang, Luwei" <luwei.kang@intel.com>,
- libvir-list@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
- Robert Hoo <robert.hu@linux.intel.com>, kai.huang@intel.com,
- robert.hu@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 27, 2019 at 10:09:05AM +0100, Daniel P. Berrang=E9 wrote:
-> On Thu, Sep 26, 2019 at 09:42:20PM -0300, Eduardo Habkost wrote:
-> > (CCing libvir-list)
-> >=20
-> > On Thu, Sep 26, 2019 at 11:58:30PM +0200, Paolo Bonzini wrote:
-> > > Is this really needed? QEMU's value of pconfig=3Don vs. off should =
-be
-> > > provided by QMP CPU model queries, if a property is not available t=
-hen
-> > > Libvirt should not try to set it to off.
-> > >=20
-> >=20
-> > Libvirt can easily work around it for new VMs, and it should.
-> >=20
-> > The issue are VMs that were created with QEMU 3.1.0.  QEMU 3.1.0
-> > was telling libvirt "Icelake-Server can't be used unless
-> > pconfig=3Doff is used", and libvirt was adding pconfig=3Doff to the
-> > domain XML as expected.
-> >=20
-> > It would be wrong for libvirt to remove a device option when
-> > migrating an existing VM to another QEMU version.  We can change
-> > the rules (and document that), but do we want to?
->=20
-> IIUC currently any existing VMs with Icelake-Server will *not* have
-> pconfig present, since libvirt is going to set pconfig=3Doff
->=20
-> QEMU has now dropped pconfig CPUID entirely. If libvirt were to stop
-> setting pconfig=3Doff, then there is NO guest ABI change, so we'd be
-> safe in that sense.
+While ASCE_ORIGIN is not wrong, it is certainly confusing. We want a
+page frame address.
 
-This is correct.  Only pconfig=3Doff worked, and no accelerator
-ever supported pconfig=3Don.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/mmu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 71dee0a5d9..aaf5b23513 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -129,7 +129,7 @@ static int mmu_translate_pte(CPUS390XState *env, targ=
+et_ulong vaddr,
+         *flags &=3D ~PAGE_WRITE;
+     }
+=20
+-    *raddr =3D pt_entry & ASCE_ORIGIN;
++    *raddr =3D pt_entry & TARGET_PAGE_MASK;
+     return 0;
+ }
+=20
 --=20
-Eduardo
+2.21.0
+
 
