@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CF2C07C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:40:45 +0200 (CEST)
-Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251EFC0810
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 16:57:25 +0200 (CEST)
+Received: from localhost ([::1]:51996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDrQJ-0007TD-CD
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
+	id 1iDrgR-0006kS-R5
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 10:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqa7-0001Bi-5D
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:51 -0400
+ (envelope-from <david@redhat.com>) id 1iDqQ7-0000EP-Dv
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:36:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa4-00061c-Rp
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:31390)
+ (envelope-from <david@redhat.com>) id 1iDqQ5-0002WP-0E
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:36:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58370)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa4-000618-Iv
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:44 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iDqQ4-0002Vz-OJ; Fri, 27 Sep 2019 09:36:24 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CC77C2BFDC;
- Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5A31000232;
- Fri, 27 Sep 2019 13:46:40 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 69EB41138661; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id ADE2E18CB912;
+ Fri, 27 Sep 2019 09:58:49 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD0CD1001281;
+ Fri, 27 Sep 2019 09:58:47 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/26] qapi: New QAPISourceInfo, replacing dict
-Date: Fri, 27 Sep 2019 15:46:16 +0200
-Message-Id: <20190927134639.4284-4-armbru@redhat.com>
-In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
-References: <20190927134639.4284-1-armbru@redhat.com>
+Subject: [PATCH v3 4/7] s390x/mmu: Inject PGM_ADDRESSING on boguous table
+ addresses
+Date: Fri, 27 Sep 2019 11:58:28 +0200
+Message-Id: <20190927095831.23543-5-david@redhat.com>
+In-Reply-To: <20190927095831.23543-1-david@redhat.com>
+References: <20190927095831.23543-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 27 Sep 2019 13:46:43 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Fri, 27 Sep 2019 09:58:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,192 +56,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We track source locations with a dict of the form
+Let's document how it works and inject PGM_ADDRESSING if reading of
+table entries fails.
 
-    {'file': FNAME, 'line': LINENO, 'parent': PARENT}
-
-where PARENT is None for the main file, and the include directive's
-source location for included files.
-
-This is serviceable enough, but the next commit will add information,
-and that's going to come out cleaner if we turn this into a class.  So
-do that.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- scripts/qapi/common.py | 69 +++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 28 deletions(-)
+ target/s390x/mmu_helper.c | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index bfb3e8a493..5843f3eeb2 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -13,6 +13,7 @@
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index f6ae444655..71dee0a5d9 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -93,6 +93,27 @@ target_ulong mmu_real2abs(CPUS390XState *env, target_u=
+long raddr)
+     return raddr;
+ }
 =20
- from __future__ import print_function
- from contextlib import contextmanager
-+import copy
- import errno
- import os
- import re
-@@ -53,34 +54,50 @@ struct_types =3D {}
- union_types =3D {}
- all_names =3D {}
-=20
++static inline bool read_table_entry(CPUS390XState *env, hwaddr gaddr,
++                                    uint64_t *entry)
++{
++    CPUState *cs =3D env_cpu(env);
 +
- #
- # Parsing the schema into expressions
- #
-=20
-+class QAPISourceInfo(object):
-+    def __init__(self, fname, line, parent):
-+        self.fname =3D fname
-+        self.line =3D line
-+        self.parent =3D parent
-=20
--def error_path(parent):
--    res =3D ''
--    while parent:
--        res =3D ('In file included from %s:%d:\n' % (parent['file'],
--                                                   parent['line'])) + re=
++    /*
++     * According to the PoP, these table addresses are "unpredictably re=
+al
++     * or absolute". Also, "it is unpredictable whether the address wrap=
 s
--        parent =3D parent['parent']
--    return res
-+    def next_line(self):
-+        info =3D copy.copy(self)
-+        info.line +=3D 1
-+        return info
++     * or an addressing exception is recognized".
++     *
++     * We treat them as absolute addresses and don't wrap them.
++     */
++    if (unlikely(address_space_read(cs->as, gaddr, MEMTXATTRS_UNSPECIFIE=
+D,
++                                    (uint8_t *)entry, sizeof(*entry)) !=3D
++                 MEMTX_OK)) {
++        return false;
++    }
++    *entry =3D be64_to_cpu(*entry);
++    return true;
++}
 +
-+    def loc(self):
-+        return '%s:%d' % (self.fname, self.line)
-+
-+    def include_path(self):
-+        ret =3D ''
-+        parent =3D self.parent
-+        while parent:
-+            ret =3D 'In file included from %s:\n' % parent.loc() + ret
-+            parent =3D parent.parent
-+        return ret
-+
-+    def __str__(self):
-+        return self.include_path() + self.loc()
+ /* Decode page table entry (normal 4KB page) */
+ static int mmu_translate_pte(CPUS390XState *env, target_ulong vaddr,
+                              uint64_t asc, uint64_t pt_entry,
+@@ -118,7 +139,6 @@ static int mmu_translate_segment(CPUS390XState *env, =
+target_ulong vaddr,
+                                  target_ulong *raddr, int *flags, int rw=
+,
+                                  bool exc)
+ {
+-    CPUState *cs =3D env_cpu(env);
+     uint64_t origin, offs, pt_entry;
 =20
+     if (st_entry & SEGMENT_ENTRY_RO) {
+@@ -134,7 +154,9 @@ static int mmu_translate_segment(CPUS390XState *env, =
+target_ulong vaddr,
+     /* Look up 4KB page entry */
+     origin =3D st_entry & SEGMENT_ENTRY_ORIGIN;
+     offs  =3D (vaddr & VADDR_PX) >> 9;
+-    pt_entry =3D ldq_phys(cs->as, origin + offs);
++    if (!read_table_entry(env, origin + offs, &pt_entry)) {
++        return PGM_ADDRESSING;
++    }
+     return mmu_translate_pte(env, vaddr, asc, pt_entry, raddr, flags, rw=
+, exc);
+ }
 =20
- class QAPIError(Exception):
--    def __init__(self, fname, line, col, incl_info, msg):
-+    def __init__(self, info, col, msg):
-         Exception.__init__(self)
--        self.fname =3D fname
--        self.line =3D line
-+        self.info =3D info
-         self.col =3D col
--        self.info =3D incl_info
-         self.msg =3D msg
+@@ -144,7 +166,6 @@ static int mmu_translate_region(CPUS390XState *env, t=
+arget_ulong vaddr,
+                                 target_ulong *raddr, int *flags, int rw,
+                                 bool exc)
+ {
+-    CPUState *cs =3D env_cpu(env);
+     uint64_t origin, offs, new_entry;
+     const int pchks[4] =3D {
+         PGM_SEGMENT_TRANS, PGM_REG_THIRD_TRANS,
+@@ -154,7 +175,9 @@ static int mmu_translate_region(CPUS390XState *env, t=
+arget_ulong vaddr,
+     origin =3D entry & REGION_ENTRY_ORIGIN;
+     offs =3D (vaddr >> (17 + 11 * level / 4)) & 0x3ff8;
 =20
-     def __str__(self):
--        loc =3D '%s:%d' % (self.fname, self.line)
-+        loc =3D str(self.info)
-         if self.col is not None:
-+            assert self.info.line is not None
-             loc +=3D ':%s' % self.col
--        return error_path(self.info) + '%s: %s' % (loc, self.msg)
-+        return loc + ': ' + self.msg
+-    new_entry =3D ldq_phys(cs->as, origin + offs);
++    if (!read_table_entry(env, origin + offs, &new_entry)) {
++        return PGM_ADDRESSING;
++    }
 =20
-=20
- class QAPIParseError(QAPIError):
-@@ -91,14 +108,12 @@ class QAPIParseError(QAPIError):
-                 col =3D (col + 7) % 8 + 1
-             else:
-                 col +=3D 1
--        QAPIError.__init__(self, parser.fname, parser.line, col,
--                           parser.incl_info, msg)
-+        QAPIError.__init__(self, parser.info, col, msg)
-=20
-=20
- class QAPISemError(QAPIError):
-     def __init__(self, info, msg):
--        QAPIError.__init__(self, info['file'], info['line'], None,
--                           info['parent'], msg)
-+        QAPIError.__init__(self, info, None, msg)
-=20
-=20
- class QAPIDoc(object):
-@@ -382,12 +397,11 @@ class QAPISchemaParser(object):
-     def __init__(self, fp, previously_included=3D[], incl_info=3DNone):
-         self.fname =3D fp.name
-         previously_included.append(os.path.abspath(fp.name))
--        self.incl_info =3D incl_info
-         self.src =3D fp.read()
-         if self.src =3D=3D '' or self.src[-1] !=3D '\n':
-             self.src +=3D '\n'
-         self.cursor =3D 0
--        self.line =3D 1
-+        self.info =3D QAPISourceInfo(self.fname, 1, incl_info)
-         self.line_pos =3D 0
-         self.exprs =3D []
-         self.docs =3D []
-@@ -395,8 +409,7 @@ class QAPISchemaParser(object):
-         cur_doc =3D None
-=20
-         while self.tok is not None:
--            info =3D {'file': self.fname, 'line': self.line,
--                    'parent': self.incl_info}
-+            info =3D self.info
-             if self.tok =3D=3D '#':
-                 self.reject_expr_doc(cur_doc)
-                 cur_doc =3D self.get_doc(info)
-@@ -456,9 +469,9 @@ class QAPISchemaParser(object):
-         # catch inclusion cycle
-         inf =3D info
-         while inf:
--            if incl_abs_fname =3D=3D os.path.abspath(inf['file']):
-+            if incl_abs_fname =3D=3D os.path.abspath(inf.fname):
-                 raise QAPISemError(info, "Inclusion loop for %s" % inclu=
-de)
--            inf =3D inf['parent']
-+            inf =3D inf.parent
-=20
-         # skip multiple include of the same file
-         if incl_abs_fname in previously_included:
-@@ -552,7 +565,7 @@ class QAPISchemaParser(object):
-                 if self.cursor =3D=3D len(self.src):
-                     self.tok =3D None
-                     return
--                self.line +=3D 1
-+                self.info =3D self.info.next_line()
-                 self.line_pos =3D self.cursor
-             elif not self.tok.isspace():
-                 # Show up to next structural, whitespace or quote
-@@ -1172,7 +1185,7 @@ class QAPISchemaEntity(object):
-     def check(self, schema):
-         assert not self._checked
-         if self.info:
--            self._module =3D os.path.relpath(self.info['file'],
-+            self._module =3D os.path.relpath(self.info.fname,
-                                            os.path.dirname(schema.fname)=
-)
-         self._checked =3D True
-=20
-@@ -1781,9 +1794,9 @@ class QAPISchema(object):
-         include =3D expr['include']
-         assert doc is None
-         main_info =3D info
--        while main_info['parent']:
--            main_info =3D main_info['parent']
--        fname =3D os.path.relpath(include, os.path.dirname(main_info['fi=
-le']))
-+        while main_info.parent:
-+            main_info =3D main_info.parent
-+        fname =3D os.path.relpath(include, os.path.dirname(main_info.fna=
-me))
-         self._def_entity(QAPISchemaInclude(fname, info))
-=20
-     def _def_builtin_type(self, name, json_type, c_type):
+     if ((new_entry & REGION_ENTRY_INV) !=3D 0) {
+         return pchks[level / 4];
 --=20
 2.21.0
 
