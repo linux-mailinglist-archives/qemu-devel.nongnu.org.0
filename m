@@ -2,78 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626A4C09BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:41:21 +0200 (CEST)
-Received: from localhost ([::1]:53444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D944C09DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 18:55:16 +0200 (CEST)
+Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtJ1-0005d2-Nv
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38679)
+	id 1iDtWU-00012m-Lh
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 12:55:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iDsh5-0004gp-EP
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:02:08 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iDrIs-0000ac-Nl
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:33:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iDsh4-000526-2C
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:02:07 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39589)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iDsh3-00050X-NW
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:02:05 -0400
-Received: by mail-pf1-x441.google.com with SMTP id v4so1851823pff.6
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5g7jeL1vSvvX2Y4CzVUQDIU4G0S+C286IUV+Xu0hH5E=;
- b=TX+E98aJXLxy/ik1gu6IYXFN9n06UqzQNDc01OTDINIGmdzuhqOh1bGUlBTj26FyIO
- UKR9UOmyRp34SL9h3D0cH+05JXSxMGedEKjbniPV0jnBYHtL5f2jrhMDUiWAfDfWLv0N
- sgSRHtQ8AslxYqq6yjbvQn6scgxEiWAuVW+vHXfeaHPAmYrTTTDt3cabrvInOqYGCVn0
- iSaaSQYza6KCzlhbfZ3pOSkeLargpZIAV3JdqMU4DcaaK0rXavLvM4m8WLpgDbPL4wIE
- g7C7st81iWZ8TUoe38qxqvNYCoXTWkPBy5Y7BWc4pHfZTLz3eAyEeECBevJNlVveIpLd
- UJwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5g7jeL1vSvvX2Y4CzVUQDIU4G0S+C286IUV+Xu0hH5E=;
- b=ZqPYsSSqSXsCUBcjrFQqRgLb/l2Y8MX48p/n7m5T4VSfos+GPuasGGthRBZz3hnrWt
- 8yHU0THbb1liTcPFndm2rbovXXvxamOYLRAB1biCSxqG1S7J5ZyzCZNjBeSrpV8KOBZ5
- uMi2CP5+y5lRkGgrB7hTqxIsUN9xV2XdTyWoKIfqtDUDymQAvgtZ9JWSd3y0FLVj/tJ5
- Uq6xJYcXdIe/hNTTOyWH9Z2co7luk8oIb6vG/hzCDRexXVVT420f6Wwy5qrMcu8WJIM5
- SymJJa8sWfgt/pq4T8zPxcQb7yKaazd7CFPwMObxHd0KX84Bb1bo0E9JvBPfB5+3dozp
- D0xw==
-X-Gm-Message-State: APjAAAUv0iLO6VwyQiE5ySrYNHiJ5vBDPDVnZhBfbU5zWVX2Z9mtW9TU
- MIAq7SMmGrSfJT37zGTqmqxGKw==
-X-Google-Smtp-Source: APXvYqz4KZA14iFOllu+bpyKR4keY5ztHpE5/vQ4EdBeSZhQl0AQvF8m5rkfYPGUe559i+0kscnkiw==
-X-Received: by 2002:a17:90a:8001:: with SMTP id
- b1mr11305990pjn.56.1569600123995; 
- Fri, 27 Sep 2019 09:02:03 -0700 (PDT)
-Received: from [172.20.32.216] ([12.157.10.118])
- by smtp.gmail.com with ESMTPSA id p190sm6220304pfb.160.2019.09.27.09.02.02
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 27 Sep 2019 09:02:03 -0700 (PDT)
-Subject: Re: [PATCH v3 02/18] target/s390x: Add ilen to unwind data
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190926162615.31168-1-richard.henderson@linaro.org>
- <20190926162615.31168-3-richard.henderson@linaro.org>
- <4d1f9fbc-a6b3-cb7d-63a7-8d9568bc7406@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <borntraeger@de.ibm.com>) id 1iDrIq-00069i-73
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:33:02 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42290)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1iDrIp-00069L-Pl
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:32:59 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8REVx0g060293
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:32:51 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v8w272356-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 10:32:48 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Fri, 27 Sep 2019 15:32:41 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 27 Sep 2019 15:32:38 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8REWb5852887720
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 27 Sep 2019 14:32:37 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 213B942049;
+ Fri, 27 Sep 2019 14:32:37 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AB5BA42042;
+ Fri, 27 Sep 2019 14:32:36 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 27 Sep 2019 14:32:36 +0000 (GMT)
+Subject: Re: [PATCH] s390: PCI: fix IOMMU region init
+To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com
+References: <1569507036-15314-1-git-send-email-mjrosato@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 Openpgp: preference=signencrypt
-Message-ID: <164856f8-fc7e-7a97-65b8-e1be2cf354be@linaro.org>
-Date: Fri, 27 Sep 2019 09:02:00 -0700
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ mQINBE6cPPgBEAC2VpALY0UJjGmgAmavkL/iAdqul2/F9ONz42K6NrwmT+SI9CylKHIX+fdf
+ J34pLNJDmDVEdeb+brtpwC9JEZOLVE0nb+SR83CsAINJYKG3V1b3Kfs0hydseYKsBYqJTN2j
+ CmUXDYq9J7uOyQQ7TNVoQejmpp5ifR4EzwIFfmYDekxRVZDJygD0wL/EzUr8Je3/j548NLyL
+ 4Uhv6CIPf3TY3/aLVKXdxz/ntbLgMcfZsDoHgDk3lY3r1iwbWwEM2+eYRdSZaR4VD+JRD7p8
+ 0FBadNwWnBce1fmQp3EklodGi5y7TNZ/CKdJ+jRPAAnw7SINhSd7PhJMruDAJaUlbYaIm23A
+ +82g+IGe4z9tRGQ9TAflezVMhT5J3ccu6cpIjjvwDlbxucSmtVi5VtPAMTLmfjYp7VY2Tgr+
+ T92v7+V96jAfE3Zy2nq52e8RDdUo/F6faxcumdl+aLhhKLXgrozpoe2nL0Nyc2uqFjkjwXXI
+ OBQiaqGeWtxeKJP+O8MIpjyGuHUGzvjNx5S/592TQO3phpT5IFWfMgbu4OreZ9yekDhf7Cvn
+ /fkYsiLDz9W6Clihd/xlpm79+jlhm4E3xBPiQOPCZowmHjx57mXVAypOP2Eu+i2nyQrkapaY
+ IdisDQfWPdNeHNOiPnPS3+GhVlPcqSJAIWnuO7Ofw1ZVOyg/jwARAQABtDRDaHJpc3RpYW4g
+ Qm9ybnRyYWVnZXIgKElCTSkgPGJvcm50cmFlZ2VyQGRlLmlibS5jb20+iQI4BBMBAgAiBQJO
+ nDz4AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRARe7yAtaYcfOYVD/9sqc6ZdYKD
+ bmDIvc2/1LL0g7OgiA8pHJlYN2WHvIhUoZUIqy8Sw2EFny/nlpPVWfG290JizNS2LZ0mCeGZ
+ 80yt0EpQNR8tLVzLSSr0GgoY0lwsKhAnx3p3AOrA8WXsPL6prLAu3yJI5D0ym4MJ6KlYVIjU
+ ppi4NLWz7ncA2nDwiIqk8PBGxsjdc/W767zOOv7117rwhaGHgrJ2tLxoGWj0uoH3ZVhITP1z
+ gqHXYaehPEELDV36WrSKidTarfThCWW0T3y4bH/mjvqi4ji9emp1/pOWs5/fmd4HpKW+44tD
+ Yt4rSJRSa8lsXnZaEPaeY3nkbWPcy3vX6qafIey5d8dc8Uyaan39WslnJFNEx8cCqJrC77kI
+ vcnl65HaW3y48DezrMDH34t3FsNrSVv5fRQ0mbEed8hbn4jguFAjPt4az1xawSp0YvhzwATJ
+ YmZWRMa3LPx/fAxoolq9cNa0UB3D3jmikWktm+Jnp6aPeQ2Db3C0cDyxcOQY/GASYHY3KNra
+ z8iwS7vULyq1lVhOXg1EeSm+lXQ1Ciz3ub3AhzE4c0ASqRrIHloVHBmh4favY4DEFN19Xw1p
+ 76vBu6QjlsJGjvROW3GRKpLGogQTLslbjCdIYyp3AJq2KkoKxqdeQYm0LZXjtAwtRDbDo71C
+ FxS7i/qfvWJv8ie7bE9A6Wsjn7kCDQROnDz4ARAAmPI1e8xB0k23TsEg8O1sBCTXkV8HSEq7
+ JlWz7SWyM8oFkJqYAB7E1GTXV5UZcr9iurCMKGSTrSu3ermLja4+k0w71pLxws859V+3z1jr
+ nhB3dGzVZEUhCr3EuN0t8eHSLSMyrlPL5qJ11JelnuhToT6535cLOzeTlECc51bp5Xf6/XSx
+ SMQaIU1nDM31R13o98oRPQnvSqOeljc25aflKnVkSfqWSrZmb4b0bcWUFFUKVPfQ5Z6JEcJg
+ Hp7qPXHW7+tJTgmI1iM/BIkDwQ8qe3Wz8R6rfupde+T70NiId1M9w5rdo0JJsjKAPePKOSDo
+ RX1kseJsTZH88wyJ30WuqEqH9zBxif0WtPQUTjz/YgFbmZ8OkB1i+lrBCVHPdcmvathknAxS
+ bXL7j37VmYNyVoXez11zPYm+7LA2rvzP9WxR8bPhJvHLhKGk2kZESiNFzP/E4r4Wo24GT4eh
+ YrDo7GBHN82V4O9JxWZtjpxBBl8bH9PvGWBmOXky7/bP6h96jFu9ZYzVgIkBP3UYW+Pb1a+b
+ w4A83/5ImPwtBrN324bNUxPPqUWNW0ftiR5b81ms/rOcDC/k/VoN1B+IHkXrcBf742VOLID4
+ YP+CB9GXrwuF5KyQ5zEPCAjlOqZoq1fX/xGSsumfM7d6/OR8lvUPmqHfAzW3s9n4lZOW5Jfx
+ bbkAEQEAAYkCHwQYAQIACQUCTpw8+AIbDAAKCRARe7yAtaYcfPzbD/9WNGVf60oXezNzSVCL
+ hfS36l/zy4iy9H9rUZFmmmlBufWOATjiGAXnn0rr/Jh6Zy9NHuvpe3tyNYZLjB9pHT6mRZX7
+ Z1vDxeLgMjTv983TQ2hUSlhRSc6e6kGDJyG1WnGQaqymUllCmeC/p9q5m3IRxQrd0skfdN1V
+ AMttRwvipmnMduy5SdNayY2YbhWLQ2wS3XHJ39a7D7SQz+gUQfXgE3pf3FlwbwZhRtVR3z5u
+ aKjxqjybS3Ojimx4NkWjidwOaUVZTqEecBV+QCzi2oDr9+XtEs0m5YGI4v+Y/kHocNBP0myd
+ pF3OoXvcWdTb5atk+OKcc8t4TviKy1WCNujC+yBSq3OM8gbmk6NwCwqhHQzXCibMlVF9hq5a
+ FiJb8p4QKSVyLhM8EM3HtiFqFJSV7F+h+2W0kDyzBGyE0D8z3T+L3MOj3JJJkfCwbEbTpk4f
+ n8zMboekuNruDw1OADRMPlhoWb+g6exBWx/YN4AY9LbE2KuaScONqph5/HvJDsUldcRN3a5V
+ RGIN40QWFVlZvkKIEkzlzqpAyGaRLhXJPv/6tpoQaCQQoSAc5Z9kM/wEd9e2zMeojcWjUXgg
+ oWj8A/wY4UXExGBu+UCzzP/6sQRpBiPFgmqPTytrDo/gsUGqjOudLiHQcMU+uunULYQxVghC
+ syiRa+UVlsKmx1hsEg==
+Date: Fri, 27 Sep 2019 16:32:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <4d1f9fbc-a6b3-cb7d-63a7-8d9568bc7406@redhat.com>
+In-Reply-To: <1569507036-15314-1-git-send-email-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-TM-AS-GCONF: 00
+x-cbid: 19092714-0012-0000-0000-0000035156E5
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19092714-0013-0000-0000-0000218BF2C6
+Message-Id: <ef3ad1a5-2513-35ed-fb12-50643b09c68e@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-27_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909270136
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,45 +136,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: walling@linux.ibm.com, fiuczy@linux.ibm.com, pmorel@linux.ibm.com,
+ david@redhat.com, stzi@linux.ibm.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, qemu-s390x@nongnu.org, thuth@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/19 3:30 AM, David Hildenbrand wrote:
->> +    /* Update ILEN, except for breakpoint, where we didn't load an insn.  */
->> +    if (ilen) {
->> +        env->int_pgm_ilen = ilen;
->> +    }
+
+
+On 26.09.19 16:10, Matthew Rosato wrote:
+> The fix in dbe9cf606c shrinks the IOMMU memory region to a size
+> that seems reasonable on the surface, however is actually too
+> small as it is based against a 0-mapped address space.  This
+> causes breakage with small guests as they can overrun the IOMMU window.
 > 
-> I am not completely sure about breakpoint handling and which
-> implications we'll have when not setting int_pgm_ilen ...
+> Let's go back to the prior method of initializing iommu for now.
+> 
+> Fixes: dbe9cf606c ("s390x/pci: Set the iommu region size mpcifc request")
+> Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
+> Reported-by: Stefan Zimmerman <stzi@linux.ibm.com>
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>  hw/s390x/s390-pci-bus.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 963a41c..2d2f4a7 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -695,10 +695,15 @@ static const MemoryRegionOps s390_msi_ctrl_ops = {
+>  
+>  void s390_pci_iommu_enable(S390PCIIOMMU *iommu)
+>  {
+> +    /*
+> +     * The iommu region is initialized against a 0-mapped address space,
+> +     * so the smallest IOMMU region we can define runs from 0 to the end
+> +     * of the PCI address space.
+> +     */
+>      char *name = g_strdup_printf("iommu-s390-%04x", iommu->pbdev->uid);
+>      memory_region_init_iommu(&iommu->iommu_mr, sizeof(iommu->iommu_mr),
+>                               TYPE_S390_IOMMU_MEMORY_REGION, OBJECT(&iommu->mr),
+> -                             name, iommu->pal - iommu->pba + 1);
+> +                             name, iommu->pal + 1);
+>      iommu->enabled = true;
+>      memory_region_add_subregion(&iommu->mr, 0, MEMORY_REGION(&iommu->iommu_mr));
+>      g_free(name);
+> 
+#
 
-Yeah.  Possibly to make it simple I should simply assign 2 as the length of a
-breakpoint, bearing in mind that there is no a s390 exception to be delivered
--- this is purely a qemu-internal thing, raising EXCP_DEBUG to get back to the
-gdbstub interface.
+Thanks applied. 
 
-> I wonder if that change can help to better handle exceptions during
-> EXECUTE, whereby we have to indicate the EXECUTE instruction and the
-> ilen of the EXECUTE instruction (so the pc and ilen of the original
-> EXECUTE function, not of the EXECUTE target).
-
-Yes, that's already there.  The ilen of the execute insn is placed in the low 4
-bits of env->ex_value, and that's what we record as ilen within extract_insn().
-
-> I don't completely like the current interrupt handling when we have
-> "env->ex_value" in "s390_cpu_exec_interrupt()". I'd love to see that
-> check go, then we can reuse that function easily e.g., in MVC to test
-> and inject exceptions while processing such an interruptible instruction
-> - like MVC.
-
-I don't think that reusing s390_cpu_exec_interrupt directly is a good idea.
-There's other cleanup that needs to happen when exiting a TB.
-
-What I think you should do instead is check env_neg(env)->icount_decr, exactly
-like we do at the start of every basic block, and use that as an indication
-that you should exit back to the main loop.
-
-
-r~
 
