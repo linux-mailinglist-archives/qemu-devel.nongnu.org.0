@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FDDC0CB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 22:39:03 +0200 (CEST)
-Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9BCC0CBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 22:39:37 +0200 (CEST)
+Received: from localhost ([::1]:57352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDx14-0008RV-Bl
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 16:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53555)
+	id 1iDx1c-0000q9-JU
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 16:39:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iDwzk-0007hm-1R
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:37:40 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iDx0E-00089q-48
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:38:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iDwzi-00008u-S2
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:37:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51986)
+ (envelope-from <jsnow@redhat.com>) id 1iDx0D-0000Ls-4x
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 16:38:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51142)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iDwzf-00007T-4W; Fri, 27 Sep 2019 16:37:35 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iDx0A-0000L3-2P; Fri, 27 Sep 2019 16:38:06 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 03A29300603C;
- Fri, 27 Sep 2019 20:37:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2B3B13003AFE;
+ Fri, 27 Sep 2019 20:38:05 +0000 (UTC)
 Received: from [10.18.17.231] (dhcp-17-231.bos.redhat.com [10.18.17.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE32726327;
- Fri, 27 Sep 2019 20:37:31 +0000 (UTC)
-Subject: Re: [PATCH 3/4] qemu-iotests: 044: pass is actually a noop, so remove
- it
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8CDC600CD;
+ Fri, 27 Sep 2019 20:38:01 +0000 (UTC)
+Subject: Re: [PATCH 4/4] qemu-iotests: 044: remove inaccurate docstring class
+ description
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20190927141728.7137-1-crosa@redhat.com>
- <20190927141728.7137-4-crosa@redhat.com>
+ <20190927141728.7137-5-crosa@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -109,18 +109,18 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <6cb0dcdb-a260-e6de-9edf-eb77398a42f0@redhat.com>
-Date: Fri, 27 Sep 2019 16:37:31 -0400
+Message-ID: <7bf94c77-8344-8bac-e5e5-9d56f416b764@redhat.com>
+Date: Fri, 27 Sep 2019 16:38:01 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190927141728.7137-4-crosa@redhat.com>
+In-Reply-To: <20190927141728.7137-5-crosa@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 27 Sep 2019 20:37:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 27 Sep 2019 20:38:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -145,6 +145,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/27/19 10:17 AM, Cleber Rosa wrote:
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/qemu-iotests/044 | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+> index eb42df0fe1..0ca4bcfc6d 100755
+> --- a/tests/qemu-iotests/044
+> +++ b/tests/qemu-iotests/044
+> @@ -34,7 +34,6 @@ if sys.version_info.major == 2:
+>  test_img = os.path.join(iotests.test_dir, 'test.img')
+>  
+>  class TestRefcountTableGrowth(iotests.QMPTestCase):
+> -    '''Abstract base class for image mirroring test cases'''
+>  
+>      def preallocate(self, name):
+>          fd = open(name, "r+b")
+> 
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
