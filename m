@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90C7BFF75
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:56:05 +0200 (CEST)
-Received: from localhost ([::1]:47138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F02BFF70
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 08:54:57 +0200 (CEST)
+Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDkAe-0004zO-JY
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53847)
+	id 1iDk9X-0003bq-Et
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 02:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDjf1-0007Ok-Ib
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:26 -0400
+ (envelope-from <drjones@redhat.com>) id 1iDk0T-0003gk-ML
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:45:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDjez-0004b6-FR
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:23 -0400
-Received: from 8.mo173.mail-out.ovh.net ([46.105.46.122]:59763)
+ (envelope-from <drjones@redhat.com>) id 1iDk0S-0007ZA-Gc
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:45:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39192)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDjez-0004Pg-56
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 02:23:21 -0400
-Received: from player787.ha.ovh.net (unknown [10.108.54.72])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 2409111AD1D
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 08:23:17 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player787.ha.ovh.net (Postfix) with ESMTPSA id D1A93A63A8B2;
- Fri, 27 Sep 2019 06:23:06 +0000 (UTC)
-Date: Fri, 27 Sep 2019 08:23:05 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 20/20] spapr: Eliminate SpaprIrq::init hook
-Message-ID: <20190927082305.6df18660@bahia.lan>
-In-Reply-To: <20190927055104.GG17405@umbus>
-References: <20190925064534.19155-1-david@gibson.dropbear.id.au>
- <20190925064534.19155-21-david@gibson.dropbear.id.au>
- <1b74c0fc-b318-df5a-d66d-fe59ae562d70@kaod.org>
- <20190926011336.GS17405@umbus>
- <92ce15dd-f7f9-3d2b-4226-9693bd9cfd65@kaod.org>
- <20190926173539.4a07d419@bahia.lan> <20190927055104.GG17405@umbus>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1iDk0O-0007QE-OM; Fri, 27 Sep 2019 02:45:28 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 28080315C01F;
+ Fri, 27 Sep 2019 06:45:27 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 07475600C6;
+ Fri, 27 Sep 2019 06:45:22 +0000 (UTC)
+Date: Fri, 27 Sep 2019 08:45:20 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 4/9] target/arm/cpu64: max cpu: Introduce sve<N>
+ properties
+Message-ID: <20190927064520.o2sghq5hye4tvycf@kamzik.brq.redhat.com>
+References: <20190924113105.19076-1-drjones@redhat.com>
+ <20190924113105.19076-5-drjones@redhat.com>
+ <2beb840f-99cf-d928-0926-c284933c78d9@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/oNKWrqNaAuFvwIwmPZvL70+"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 12309745157198682598
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeehgddutdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2beb840f-99cf-d928-0926-c284933c78d9@linaro.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 27 Sep 2019 06:45:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.46.122
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,112 +60,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/oNKWrqNaAuFvwIwmPZvL70+
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 26, 2019 at 12:07:54PM -0700, Richard Henderson wrote:
+> On 9/24/19 4:31 AM, Andrew Jones wrote:
+> > +static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
+> > +{
+> > +    uint32_t start_vq = (start_len & 0xf) + 1;
+> > +
+> > +    return arm_cpu_vq_map_next_smaller(cpu, start_vq + 1) - 1;
+> > +}
+> > +
+> >  /*
+> >   * Given that SVE is enabled, return the vector length for EL.
+> >   */
+> > @@ -5360,13 +5367,13 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+> >      uint32_t zcr_len = cpu->sve_max_vq - 1;
+> >  
+> >      if (el <= 1) {
+> > -        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+> > +        zcr_len = sve_zcr_get_valid_len(cpu, env->vfp.zcr_el[1]);
+> >      }
+> >      if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+> > -        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
+> > +        zcr_len = sve_zcr_get_valid_len(cpu, env->vfp.zcr_el[2]);
+> >      }
+> >      if (arm_feature(env, ARM_FEATURE_EL3)) {
+> > -        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
+> > +        zcr_len = sve_zcr_get_valid_len(cpu, env->vfp.zcr_el[3]);
+> 
+> This has lost the MIN relation between these 3 registers.
+> One possible solution is to keep these 3 if statements as-is,
+> but make one call
+> 
+>     zcr_len = arm_cpu_vq_map_next_smaller(cpu, zcr_len);
+> 
+> at the end.
 
-On Fri, 27 Sep 2019 15:51:04 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Argh. I obviously didn't look closely enough at this function when I was
+modifying it. I must have interpreted it as an if-else-if sequence...
 
-> On Thu, Sep 26, 2019 at 05:35:39PM +0200, Greg Kurz wrote:
-> > On Thu, 26 Sep 2019 09:05:56 +0200
-> > C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> >=20
-> > > >>> +    if (spapr->irq->xive) {
-> > > >>> +        uint32_t nr_servers =3D spapr_max_server_number(spapr);
-> > > >>> +        DeviceState *dev;
-> > > >>> +        int i;
-> > > >>> +
-> > > >>> +        dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
-> > > >>> +        qdev_prop_set_uint32(dev, "nr-irqs",
-> > > >>> +                             spapr->irq->nr_xirqs + SPAPR_XIRQ_B=
-ASE);
-> > > >>> +        /*
-> > > >>> +         * 8 XIVE END structures per CPU. One for each available
-> > > >>> +         * priority
-> > > >>> +         */
-> > > >>> +        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-> > > >>> +        qdev_init_nofail(dev);
-> > > >>> +
-> > > >>> +        spapr->xive =3D SPAPR_XIVE(dev);
-> > > >>> +
-> > > >>> +        /* Enable the CPU IPIs */
-> > > >>> +        for (i =3D 0; i < nr_servers; ++i) {
-> > > >>> +            Error *local_err =3D NULL;
-> > > >>> +
-> > > >>> +            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i,=
- false, &local_err);
-> > > >>> +            if (local_err) {
-> > > >>> +                goto out;
-> > > >>> +            }
-> > > >>> +        }
-> > > >>
-> > > >> We could move the IPI claim part in the realize routine of SPAPR_X=
-IVE.
-> > > >=20
-> > > > Yeah, I know.  I thought about this, but there's a slight complicat=
-ion
-> > > > in that the XIVE part doesn't know nr_servers directly.  There's
-> > > > several possible ways to handle that, but I wasn't 100% happy with =
-any
-> > > > that I came up with yet.
-> > >=20
-> > > The "nr-ends" property was inappropriate, "nr-servers" would have been
-> > > better and we would have hidden the calculation of ENDs 'nr_servers <=
-< 3'
-> > > in the realize routine of SpaprXive.=20
-> > >=20
-> >=20
-> > Yeah it would make sense to have nr_servers within the sPAPR XIVE objec=
-t,
-> > so that we don't have to pass it when building the FDT node. Same stands
-> > for XICS actually.
-> >=20
-> > And as part of my current work to reduce HW VP consumption, I also need
-> > nr_servers to pass it to the KVM device.
-> >=20
-> > > I don't think we can change that without breaking migration though :/
-> > >=20
-> >=20
-> > Hmm... why ? The QOM property is just an interface, it doesn't change t=
-he
-> > state. In the end we migrate the same number of XiveEND objects.
->=20
-> Yeah, I think it can probably be done.  I don't really have the energy
-> left to sort it out for the time being, maybe one day.
->=20
+I'll fix this as you suggest.
 
-As mentioned above I have another need for "nr-servers", I'll have
-a look.
+> 
+> > +#if __SIZEOF_LONG__ == 8
+> > +#define BIT(n) (1UL << (n))
+> > +#else
+> > +#define BIT(n) (1ULL << (n))
+> > +#endif
+> 
+> There's no reason not to always use 1ULL is there?
 
---Sig_/oNKWrqNaAuFvwIwmPZvL70+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Indeed ULL == UL for AArch64. I'll drop the #if... stuff.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2NqskACgkQcdTV5YIv
-c9bzIRAAiadeyKyuLZUHlpd4ZtifdBedJvixxqHbYY9TNqxHiDQprL4OObVByGzq
-v2Ww5Dvsdq5S4dJYiibNyL2SwieH7ZGxRluULGN2WQsgda9dqZrOUUIbfu5Cc6Fe
-/etXpIdMRfo7ULRyftJGnp5mBc5HKlEng4l/S2Djxdd6Uo2iH3v3IUaIKItIXwXU
-v2vkgWyn/uYEOGbMmweTiZlKDzupSsYzVOf1pkJgUSbaSkxIuwHTGdBW6n5AJ3GR
-Bf0YMdA4aeSlBZra2W6OOrGsek4Mt9hhBRFyzX+sVrmkyOsS25RkOI7QeNhY1Iws
-NjaxA7TinRT6xMUqgYQq0jP9G52XDoMo9Xgv/dJ2NE9DL58t3J+5BEbxL2Yw+5Hk
-qeKLyEBqGb0WnEnLx3j8c/001xXQMW+doarO4rq3+Y0o7ipyZT9THNuYd0iUl/oM
-9XaEqAfFL9wIuBhP8+DWu8dCug30JdKSRvbxJA6He9tSU+49Xx+gzcg65Qx4d2v4
-Xg6OslRjhgfUHqA1JQKqi3Yh9lxVdk9Z97aFdtzBzN8OylegQ6bHQgjtVHFVYjRx
-ZxiDVDT2BVYi70C1PRgZX/Y0AdxK+PcunvtOSdbIf55Dh3/V1l8QF+mHrXAQUbiv
-4UJpAzuBFr33vWobNG8iYlaE3KK7LiFcC9NOQqWCLsggglma8B8=
-=Ac+O
------END PGP SIGNATURE-----
-
---Sig_/oNKWrqNaAuFvwIwmPZvL70+--
+Thanks,
+drew
 
