@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561A7C0A5B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:31:59 +0200 (CEST)
-Received: from localhost ([::1]:54674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD8FC0A7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:36:01 +0200 (CEST)
+Received: from localhost ([::1]:54766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDu61-0004yh-K1
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36917)
+	id 1iDu9v-0000kV-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iDsYk-0004Qz-Fm
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:53:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDtH8-0005m0-4q
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:39:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iDsYi-00004y-SF
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:53:29 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:47091)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDtH5-0000IB-H0
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:39:20 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:40117)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iDsYi-0008W8-KQ
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:53:28 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id f21so2620794otl.13
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 08:53:28 -0700 (PDT)
+ id 1iDtH5-0000Dx-8f
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 12:39:19 -0400
+Received: by mail-ot1-x332.google.com with SMTP id y39so2778585ota.7
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3/G7m2otVF7Uqv/8c1hbtrQ7HI2pW3ujjKpfWAXO4NM=;
- b=JrbJmc+58j1RBNZerievp5HY2RXnTkG5QteFwJbQvXYOCdA9SpIl4CBdob2XgTEoJa
- qWopY+X4jhkVsHe9fauyt7WSOLX2qa5bCpX5hi1F/LWmg0hjAVaIPIw4nQol2rkdH2mp
- KTTQZRHegdXvUSN8vOrr7PlWmZ20HBTgcAhNe8Om933VHW+wSfHrjeu2swsVTkZDK/aT
- I6OIvPzGRC8EeBBKiUJ/nm/gWlrHgAZdWQBGnKUD1YO2aSBsjvKVevOBL7eQQ2rhg1/M
- tj0CEQ0mkbICFUWJsY8CQtnZ+hcqpOUJzJSUI7gR9e2W4WMX7PVREEFBG3/JRX+OuhVx
- 6EYA==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=maylhMjMsY287T0CuM/Xyn0hXV/ttd9CRUOm27mGBGA=;
+ b=JZvPCVkfyok0wcpl2GwSY8nGNLZe6j/wk7KFurTPjp7eKiIHgJdcic3I1+AdZIXJMo
+ rOKNZ5Mogblc57WMb1P2qRdAR8n2wJfRcYKY7kEOeburSrOI/hgB03s2FC2TAmYVoWCv
+ ZVY1L5C6Y1KUUa2Cj3N//9ddBRvYPLET8AzEZtN32UrM1D/xF70tY8yHxW/zuBm7dED0
+ MWCMW64iQYKTpfym8Ay5RU+9GYUeH+Zca+wJWa46FIM0iP1DUdfvCtNPJf8gaUHDW8uv
+ lMGMq0TeeU/Nr8ZjK+xGNQcMShGl0M5PRItLfZDIdLS0R/RmqK5o4hyvmFQTJrzo5ZId
+ YutA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3/G7m2otVF7Uqv/8c1hbtrQ7HI2pW3ujjKpfWAXO4NM=;
- b=M7JobV6kNygT+TXsHtR3muFGLQaQmSxRkOfpz3wrEIBD57GcTTknED8kfcWxnGupDm
- c4cBcLUaJYmF9tX4msLITA0k7OvEU8E3LFazVe4cdvumogvZE3rC5PYwThNR/6JOdZ7v
- HXmeryeg72Vp7ZDzNtcDVXksMHWbiDbG5i7VM51GDrWLk9iDB7CGD2GnG6w/2Bvqwx4y
- w+TvDyKOeVJnVJ57KaZNXe3X4gVf7wNAcV4HikvnZVYmzOqaSRXNfhubr37JKGMA5q8M
- jtS03z7g+x0r43RNz0vD2C/i9fuzakbwcfgjjT9x+U8nW5ToA2J0wbNco/4tfppuwv7H
- opKQ==
-X-Gm-Message-State: APjAAAU6qEnrIH2jOuRvcdP1jzqvfXkfuMpUpIA5zXv1OAPTndA4KIgR
- RRxr9FGJiPVsibdQCZbyecOsuWm1H/qY7gP7k/DaTg==
-X-Google-Smtp-Source: APXvYqxcgLIBTDsJMzb0AwJ8AwyE7K9anbHaT7j2YKBWjzz/chQXBN0nfKR+z5kK5IxBZnXMyDv8UK0K4XcAfZjvOAE=
-X-Received: by 2002:a9d:4615:: with SMTP id y21mr3625007ote.97.1569599607555; 
- Fri, 27 Sep 2019 08:53:27 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=maylhMjMsY287T0CuM/Xyn0hXV/ttd9CRUOm27mGBGA=;
+ b=LkkNbrF7/GSlKhxqf9TAB0iUfVsbDRqQ5ISTEXtKSp5xNNaN8ds0uQWLI1XNomvrCl
+ uD8be+wZL35E1mTFCAuCAtznp9I4aAJQNqrWGEMY7S55EtigjcGa/fOBu5pL/Y1gpHoK
+ MrQMjXyGzW0AZM/9gagPP96H7muj3uoFtQN3DQk0d+EenlaZId4iMKZ+H0ZKMpzeyeIW
+ mD7VT8guQ/3Bj1/x2g8z5P2ZtnvJoS8AystNv7/Iao1wzrMW1j1nRY3kPDCtQcTo+5UR
+ 1m0Eqlekk9EN3fVPEsVJNLP9WyH0R8tw6el52GptdB7DrYFAg2i+1ZIO1oQaakmdLeWf
+ ZbqA==
+X-Gm-Message-State: APjAAAUCRI2CjZjNs9DhSRdf0b+afZSxvKB6gn7e6oBYdilynHxzH0+n
+ poPXAY3P+uGPPtagxjQ/yxLjTeBYQFMFgVZpiogM98aK5n8=
+X-Google-Smtp-Source: APXvYqzqKrwuZcImD6uJrm//omOaBhu5+zlQNSZCztuc5rBkV72m7N6dJ+dfRw9ykCQU7n7rQ91GvSMZeNMy3wE+NgY=
+X-Received: by 2002:a9d:5e11:: with SMTP id d17mr4026661oti.135.1569602358121; 
+ Fri, 27 Sep 2019 09:39:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190926183553.13895-1-alex.bennee@linaro.org>
-In-Reply-To: <20190926183553.13895-1-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Sep 2019 16:53:16 +0100
-Message-ID: <CAFEAcA8xoku9RWdn4aqHV7Ln0FvdbA+eoGWFvobx2ZF8N0f_Dw@mail.gmail.com>
-Subject: Re: [PULL 00/28] testing updates (docker,podman,tcg,alpha)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Fri, 27 Sep 2019 17:39:07 +0100
+Message-ID: <CAFEAcA8fwM03PXzkMvLdOWAL0R1Mq8hLmt8O-+NFSri6oHun1w@mail.gmail.com>
+Subject: iotest failure -- test possibly not using sufficiently unique temp
+ filename?
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::32c
+X-Received-From: 2607:f8b0:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +69,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 at 19:35, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit eb13d1cf4a0478fc29f80abfbac8209479325f=
-35:
->
->   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-2019=
-0925a' into staging (2019-09-26 14:23:58 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-next-260919-1
->
-> for you to fetch changes up to 80394ccf216da9ff48f23b9b8dab65ef809b7870:
->
->   tests/docker: remove debian-powerpc-user-cross (2019-09-26 19:00:53 +01=
-00)
->
-> ----------------------------------------------------------------
-> Testing updates plus alpha FP fixes:
->
->   - fix alpha handling of FtoI overflow
->   - various docker cleanups
->   - fix docker.py cleanup race
->   - fix podman invocation
->   - tests/tcg: add float and record/replay tests
->   - remove unused docker images
->   - expand documentation for check-tcg
+Hi; I just saw this iotest failure (on an s390x box, as it happens):
+
+  TEST    iotest-qcow2: 130 [fail]
+QEMU          --
+"/home/linux1/qemu/build/all/tests/qemu-iotests/../../s390x-softmmu/qemu-system-s390x"
+-nodefaults -display none -machine accel=qtest
+QEMU_IMG      -- "/home/linux1/qemu/build/all/tests/qemu-iotests/../../qemu-img"
+QEMU_IO       --
+"/home/linux1/qemu/build/all/tests/qemu-iotests/../../qemu-io"
+--cache writeback -f qcow2
+QEMU_NBD      -- "/home/linux1/qemu/build/all/tests/qemu-iotests/../../qemu-nbd"
+IMGFMT        -- qcow2 (compat=1.1)
+IMGPROTO      -- file
+PLATFORM      -- Linux/s390x lxub05 4.15.0-58-generic
+TEST_DIR      -- /home/linux1/qemu/build/all/tests/qemu-iotests/scratch
+SOCKET_SCM_HELPER --
+/home/linux1/qemu/build/all/tests/qemu-iotests/socket_scm_helper
+
+--- /home/linux1/qemu/tests/qemu-iotests/130.out        2019-05-10
+12:27:16.948075733 -0400
++++ /home/linux1/qemu/build/all/tests/qemu-iotests/130.out.bad
+2019-09-27 12:01:23.649722655 -0400
+@@ -18,20 +18,22 @@
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) commit testdisk
+ (qemu)
+-image: TEST_DIR/t.IMGFMT
+-file format: IMGFMT
+-virtual size: 64 MiB (67108864 bytes)
+-backing file: TEST_DIR/t.IMGFMT.orig
+-backing file format: raw
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared "write" lock
++Is another process using the image [TEST_DIR/t.IMGFMT]?
+
+ === Marking image dirty (lazy refcounts) ===
+
++qemu-img: TEST_DIR/t.IMGFMT: Failed to get "write" lock
++Is another process using the image [TEST_DIR/t.IMGFMT]?
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+-wrote 4096/4096 bytes at offset 0
+-4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-io: can't open device
+/home/linux1/qemu/build/all/tests/qemu-iotests/scratch/t.qcow2: Failed
+to get "write" lock
++Is another process using the image
+[/home/linux1/qemu/build/all/tests/qemu-iotests/scratch/t.qcow2]?
++no file open, try 'help open'
+ image: TEST_DIR/t.IMGFMT
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
++backing file: TEST_DIR/t.IMGFMT.orig
++backing file format: raw
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+backing_file=TEST_DIR/t.IMGFMT.orig backing_fmt=raw
+ wrote 4096/4096 bytes at offset 0
+ 4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 
 
-Applied, thanks.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+This looks suspiciously like the test isn't using a unique
+filename for its disk image: "qemu-iotests/scratch/t.qcow2"
+in the build directory, and so perhaps it has collided with
+another iotest ?
 
+If we run 'make check' with a -j<something> option do the
+iotests all get run serially anyway, or do they run in
+parallel against each other ?
+
+thanks
 -- PMM
 
