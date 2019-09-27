@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD98DC0884
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:26:02 +0200 (CEST)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EFAC086F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 17:20:33 +0200 (CEST)
+Received: from localhost ([::1]:52344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDs88-0001Yz-Ph
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:26:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39981)
+	id 1iDs2p-0004Bv-3k
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 11:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iDqaE-0001If-B2
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:47:01 -0400
+ (envelope-from <groug@kaod.org>) id 1iDr31-0000D2-Er
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:16:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iDqa9-00066F-NM
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49416)
+ (envelope-from <groug@kaod.org>) id 1iDr2z-0003Bw-Mn
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:16:39 -0400
+Received: from 5.mo173.mail-out.ovh.net ([46.105.40.148]:57801)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iDqa9-00064J-3p
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 09:46:49 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BA3F9CD4CD;
- Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
- [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3AA45D6A7;
- Fri, 27 Sep 2019 13:46:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E0F01138406; Fri, 27 Sep 2019 15:46:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/26] qapi: Improve reporting of invalid 'if' errors
-Date: Fri, 27 Sep 2019 15:46:31 +0200
-Message-Id: <20190927134639.4284-19-armbru@redhat.com>
-In-Reply-To: <20190927134639.4284-1-armbru@redhat.com>
-References: <20190927134639.4284-1-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDr2z-0003BU-Cv
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:16:37 -0400
+Received: from player726.ha.ovh.net (unknown [10.109.146.137])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id EFF1A1187B6
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 16:16:34 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player726.ha.ovh.net (Postfix) with ESMTPSA id 2D53BA3ED097;
+ Fri, 27 Sep 2019 14:16:23 +0000 (UTC)
+Date: Fri, 27 Sep 2019 16:16:22 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 23/33] spapr: Formalize notion of active interrupt
+ controller
+Message-ID: <20190927161622.2097585b@bahia.lan>
+In-Reply-To: <20190927055028.11493-24-david@gibson.dropbear.id.au>
+References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
+ <20190927055028.11493-24-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 27 Sep 2019 13:46:47 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 1856045998940330470
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 46.105.40.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,89 +58,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ clg@kaod.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move check_if() from check_keys() to check_exprs() and call it later,
-so its error messages gain an "in definition" line.
+On Fri, 27 Sep 2019 15:50:18 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Checking values in a function named check_keys() is unclean anyway.
-The original sin was commit 0545f6b887 "qapi: Better error messages
-for bad expressions", which checks the value of key 'name'.  More
-sinning in commit 2cbf09925a "qapi: More rigorous checking for type
-safety bypass", commit c818408e44 "qapi: Implement boxed types for
-commands/events", and commit 967c885108 "qapi: add 'if' to top-level
-expressions".  This commit does penance for the latter.  The next
-commits will do penance for the others.
+> spapr now has the mechanism of constructing both XICS and XIVE instances of
+> the SpaprInterruptController interface.  However, only one of the interrupt
+> controllers will actually be active at any given time, depending on feature
+> negotiation with the guest.  This is handled in the current code via
+> spapr_irq_current() which checks the OV5 vector from feature negotiation to
+> determine the current backend.
+> 
+> Determining the active controller at the point we need it like this
+> can be pretty confusing, because it makes it very non obvious at what
+> points the active controller can change.  This can make it difficult
+> to reason about the code and where a change of active controller could
+> appear in sequence with other events.
+> 
+> Make this mechanism more explicit by adding an 'active_intc' pointer
+> and an explicit spapr_irq_update_active_intc() function to update it
+> from the CAS state.  We also add hooks on the intc backend which will
+> get called when it is activated or deactivated.
+> 
+> For now we just introduce the switch and hooks, later patches will
+> actually start using them.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- scripts/qapi/common.py                  | 4 ++--
- tests/qapi-schema/bad-if-empty-list.err | 1 +
- tests/qapi-schema/bad-if-empty.err      | 1 +
- tests/qapi-schema/bad-if-list.err       | 1 +
- tests/qapi-schema/bad-if.err            | 1 +
- 5 files changed, 6 insertions(+), 2 deletions(-)
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 2e1d8158d6..8f96974f85 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -925,8 +925,6 @@ def check_keys(expr, info, meta, required, optional=3D=
-[]):
-             raise QAPISemError(info,
-                                "'%s' of %s '%s' should only use true val=
-ue"
-                                % (key, meta, name))
--        if key =3D=3D 'if':
--            check_if(expr, info)
-=20
-=20
- def normalize_enum(expr):
-@@ -1028,6 +1026,8 @@ def check_exprs(exprs):
-         else:
-             assert False, 'unexpected meta type'
-=20
-+        check_if(expr, info)
-+
-         if doc:
-             doc.check_expr(expr)
-=20
-diff --git a/tests/qapi-schema/bad-if-empty-list.err b/tests/qapi-schema/=
-bad-if-empty-list.err
-index 75fe6497bc..2218c9279b 100644
---- a/tests/qapi-schema/bad-if-empty-list.err
-+++ b/tests/qapi-schema/bad-if-empty-list.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if-empty-list.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if-empty-list.json:2: 'if' condition [] is useless
-diff --git a/tests/qapi-schema/bad-if-empty.err b/tests/qapi-schema/bad-i=
-f-empty.err
-index 358bdc3e51..a3fdb3009d 100644
---- a/tests/qapi-schema/bad-if-empty.err
-+++ b/tests/qapi-schema/bad-if-empty.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if-empty.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if-empty.json:2: 'if' condition '' makes no sense
-diff --git a/tests/qapi-schema/bad-if-list.err b/tests/qapi-schema/bad-if=
--list.err
-index 53af099083..e03bf0fc3a 100644
---- a/tests/qapi-schema/bad-if-list.err
-+++ b/tests/qapi-schema/bad-if-list.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if-list.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' makes no sense
-diff --git a/tests/qapi-schema/bad-if.err b/tests/qapi-schema/bad-if.err
-index c2e3f5f44c..190216c109 100644
---- a/tests/qapi-schema/bad-if.err
-+++ b/tests/qapi-schema/bad-if.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if.json:2: 'if' condition must be a string or a li=
-st of strings
---=20
-2.21.0
+>  hw/ppc/spapr_irq.c         | 51 ++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h     |  5 ++--
+>  include/hw/ppc/spapr_irq.h |  5 ++++
+>  3 files changed, 59 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index ea44378d8c..dfa875b7cd 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -593,6 +593,7 @@ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
+>  
+>  int spapr_irq_post_load(SpaprMachineState *spapr, int version_id)
+>  {
+> +    spapr_irq_update_active_intc(spapr);
+>      return spapr->irq->post_load(spapr, version_id);
+>  }
+>  
+> @@ -600,6 +601,8 @@ void spapr_irq_reset(SpaprMachineState *spapr, Error **errp)
+>  {
+>      assert(!spapr->irq_map || bitmap_empty(spapr->irq_map, spapr->irq_map_nr));
+>  
+> +    spapr_irq_update_active_intc(spapr);
+> +
+>      if (spapr->irq->reset) {
+>          spapr->irq->reset(spapr, errp);
+>      }
+> @@ -626,6 +629,54 @@ int spapr_irq_get_phandle(SpaprMachineState *spapr, void *fdt, Error **errp)
+>      return phandle;
+>  }
+>  
+> +static void set_active_intc(SpaprMachineState *spapr,
+> +                            SpaprInterruptController *new_intc)
+> +{
+> +    SpaprInterruptControllerClass *sicc;
+> +
+> +    assert(new_intc);
+> +
+> +    if (new_intc == spapr->active_intc) {
+> +        /* Nothing to do */
+> +        return;
+> +    }
+> +
+> +    if (spapr->active_intc) {
+> +        sicc = SPAPR_INTC_GET_CLASS(spapr->active_intc);
+> +        if (sicc->deactivate) {
+> +            sicc->deactivate(spapr->active_intc);
+> +        }
+> +    }
+> +
+> +    sicc = SPAPR_INTC_GET_CLASS(new_intc);
+> +    if (sicc->activate) {
+> +        sicc->activate(new_intc, &error_fatal);
+> +    }
+> +
+> +    spapr->active_intc = new_intc;
+> +}
+> +
+> +void spapr_irq_update_active_intc(SpaprMachineState *spapr)
+> +{
+> +    SpaprInterruptController *new_intc;
+> +
+> +    if (!spapr->ics) {
+> +        /*
+> +         * XXX before we run CAS, ov5_cas is initialized empty, which
+> +         * indicates XICS, even if we have ic-mode=xive.  TODO: clean
+> +         * up the CAS path so that we have a clearer way of handling
+> +         * this.
+> +         */
+> +        new_intc = SPAPR_INTC(spapr->xive);
+> +    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
+> +        new_intc = SPAPR_INTC(spapr->xive);
+> +    } else {
+> +        new_intc = SPAPR_INTC(spapr->ics);
+> +    }
+> +
+> +    set_active_intc(spapr, new_intc);
+> +}
+> +
+>  /*
+>   * XICS legacy routines - to deprecate one day
+>   */
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index cbd1a4c9f3..763da757f0 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -143,7 +143,6 @@ struct SpaprMachineState {
+>      struct SpaprVioBus *vio_bus;
+>      QLIST_HEAD(, SpaprPhbState) phbs;
+>      struct SpaprNvram *nvram;
+> -    ICSState *ics;
+>      SpaprRtcState rtc;
+>  
+>      SpaprResizeHpt resize_hpt;
+> @@ -195,9 +194,11 @@ struct SpaprMachineState {
+>  
+>      int32_t irq_map_nr;
+>      unsigned long *irq_map;
+> -    SpaprXive  *xive;
+>      SpaprIrq *irq;
+>      qemu_irq *qirqs;
+> +    SpaprInterruptController *active_intc;
+> +    ICSState *ics;
+> +    SpaprXive *xive;
+>  
+>      bool cmd_line_caps[SPAPR_CAP_NUM];
+>      SpaprCapabilities def, eff, mig;
+> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> index 616086f9bb..3102d152b2 100644
+> --- a/include/hw/ppc/spapr_irq.h
+> +++ b/include/hw/ppc/spapr_irq.h
+> @@ -44,6 +44,9 @@ typedef struct SpaprInterruptController SpaprInterruptController;
+>  typedef struct SpaprInterruptControllerClass {
+>      InterfaceClass parent;
+>  
+> +    void (*activate)(SpaprInterruptController *intc, Error **errp);
+> +    void (*deactivate)(SpaprInterruptController *intc);
+> +
+>      /*
+>       * These methods will typically be called on all intcs, active and
+>       * inactive
+> @@ -55,6 +58,8 @@ typedef struct SpaprInterruptControllerClass {
+>      void (*free_irq)(SpaprInterruptController *intc, int irq);
+>  } SpaprInterruptControllerClass;
+>  
+> +void spapr_irq_update_active_intc(SpaprMachineState *spapr);
+> +
+>  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
+>  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+>                    void *fdt, uint32_t phandle);
 
 
