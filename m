@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD70FC0A0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:10:50 +0200 (CEST)
-Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD2AC0A14
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 19:15:11 +0200 (CEST)
+Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDtlZ-00082t-AE
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:10:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52196)
+	id 1iDtpl-00059Y-1E
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 13:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iDrZb-0000J0-7A
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:50:21 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrtF-0003n0-W6
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:10:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iDrZY-00018x-6c
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:50:18 -0400
-Received: from 3.mo6.mail-out.ovh.net ([178.33.253.26]:43433)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iDrZX-00017Z-LR
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 10:50:16 -0400
-Received: from player795.ha.ovh.net (unknown [10.108.57.95])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 044231E14CE
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 16:50:12 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player795.ha.ovh.net (Postfix) with ESMTPSA id EA5D5A3E2E69;
- Fri, 27 Sep 2019 14:49:59 +0000 (UTC)
-Date: Fri, 27 Sep 2019 16:49:58 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 27/33] spapr, xics, xive: Match signatures for XICS
- and XIVE KVM connect routines
-Message-ID: <20190927164958.4949f83b@bahia.lan>
-In-Reply-To: <20190927055028.11493-28-david@gibson.dropbear.id.au>
-References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
- <20190927055028.11493-28-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <peter.maydell@linaro.org>) id 1iDrtD-0006oU-Pr
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:10:37 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45696)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iDrtD-0006o2-8t
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 11:10:35 -0400
+Received: by mail-oi1-x242.google.com with SMTP id o205so5442628oib.12
+ for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 08:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oDB8EllkV6hJE5Q1W0qZoUXhMkoU9z/410kgIlQT1Zk=;
+ b=FBTy3hwEJpjZh6BKYr4V7hj72pVNA4L4oHSPuG+b0W0noxdZquYJImprKEIiBWN86i
+ DJsFXQU92/avbtFclrnwIXTk4lzGv3+YD0gCYNqJxP8CkRgitVOAg8L3rsVwG5P1lo8K
+ Wh4D5is9AnPYgM0TRgKWi54SuW1UGBYlfeAwsvgy4xgd6k2Fkfday9ZrP5YYayDsR0ie
+ lMQxWVVMZVlzMpKxNMF/iwrWxxXqOv+pppKql2J+f5725OStRFZOF2g/MRlkzdEX5rlT
+ wT27SUdtLrbKQtXl33q+qHudrRl2I3tR23pydK8QK6AGUZd7BYZgOXgMgjeteR0qPZar
+ MAig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oDB8EllkV6hJE5Q1W0qZoUXhMkoU9z/410kgIlQT1Zk=;
+ b=WhXXDwMne1gmDSqGsu2wmPdoNVOuzB07f9kQQyZZeKSTcykZxtu7kLx3SgdsvgV1d2
+ hVS/Lmb8tg0orHwNDzxQq6du/WE6tpcZ0L9VqPfxXbPKtvq8fVFn3eMqLHynlaLy5UH1
+ ynYp4zoNsIDNvg4Sml+akcIfEiOAwcNifRYXKSNpc8dePj+lqvI/nt0P+YDZGj6DhFQ7
+ iWORUgIPrs1nuDGiV8uoYgQfbe/Z6OlthIJ/8AHth1FLGv4Kk8qT62g8AeVaYOu/j3VE
+ XSVn9I+qg3lHjhy1RM0l6+TwDHRJuvF1VJwNIDJaO6u2Ada6X7UpIiOgASa2u8KbUqGD
+ IORw==
+X-Gm-Message-State: APjAAAXdRpaFPhH9+unkRIZ5zEDQetl7U2fSheg0fktgystx6Iqq+EHV
+ jtrdGazltIxuR2EDcxHW974qRGDPd3BhAhCZzX06ig==
+X-Google-Smtp-Source: APXvYqwIuuIQSyOzTDZdjqcqdDTL6IdiaZfRmLa2GPYWwcM/SxkTdSrGMrtjyhh0vE1b3y9YdmoVAlrYzYzqVHrsIiI=
+X-Received: by 2002:aca:53d4:: with SMTP id h203mr7231655oib.146.1569597034055; 
+ Fri, 27 Sep 2019 08:10:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2424062501213346278
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigdektdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 178.33.253.26
+References: <cover.1567750222.git.alistair@alistair23.me>
+ <CAFEAcA8gLzitZ8OKU+Ht79fsU1BOguxEu9FvafD0vjR9cJKx7A@mail.gmail.com>
+ <acd9fbba-71af-47b1-911c-f8b88e806cac@www.fastmail.com>
+In-Reply-To: <acd9fbba-71af-47b1-911c-f8b88e806cac@www.fastmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Sep 2019 16:10:22 +0100
+Message-ID: <CAFEAcA9XEkMaZTut4zp+43e3WDhRMu3HQrwvpUYOTziR=nbwyw@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH v4 0/6] Add the STM32F405 and Netduino Plus 2
+ machine
+To: Alistair <alistair@alistair23.me>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,241 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 15:50:22 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+On Wed, 11 Sep 2019 at 15:07, Alistair <alistair@alistair23.me> wrote:
+>
+> On Wed, Sep 11, 2019, at 11:49 AM, Peter Maydell wrote:
+> > On Fri, 6 Sep 2019 at 07:10, Alistair Francis <alistair@alistair23.me> wrote:
+> > > Now that the Arm-M4 CPU has been added to QEMU we can add the Netduino
+> > > Plus 2 machine. This is very similar to the STM32F205 and Netduino 2 SoC
+> > > and machine.
 
-> Both XICS and XIVE have routines to connect and disconnect KVM with similar
-> but not identical signatures.  This adjusts them to match exactly, which
+> > What are the changes for setting initial SP and PC for?
+>
+> If it's not set the the guest code jumps into some broken address and crashes at boot.
 
-Maybe mention this includes a return value to be able to streamline error
-reporting.
+If this happens then something else is wrong. The CPU
+should be reading the initial SP and PC from the vector
+table that's in the guest image. If it's not doing that
+then we need to figure out why (perhaps we're not setting
+the correct value for the vector table base register?)
 
-> will be useful for further cleanups later.
-> 
-> While we're at it, remove error reporting from the disconnect path.  In the
-> XICS case this wasn't used at all.  In the XIVE case the only error case
-> was if the KVM device was set up, but KVM didn't have the capability to do
-> so which is pretty obviously impossible.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/intc/spapr_xive_kvm.c    | 22 ++++++++++------------
->  hw/intc/xics_kvm.c          |  9 +++++----
->  hw/ppc/spapr_irq.c          | 22 +++++-----------------
->  include/hw/ppc/spapr_xive.h |  4 ++--
->  include/hw/ppc/xics_spapr.h |  4 ++--
->  5 files changed, 24 insertions(+), 37 deletions(-)
-> 
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 51b334b676..08012ac7cd 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -740,8 +740,9 @@ static void *kvmppc_xive_mmap(SpaprXive *xive, int pgoff, size_t len,
->   * All the XIVE memory regions are now backed by mappings from the KVM
->   * XIVE device.
->   */
-> -void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
-> +int kvmppc_xive_connect(SpaprInterruptController *intc, Error **errp)
->  {
-> +    SpaprXive *xive = SPAPR_XIVE(intc);
->      XiveSource *xsrc = &xive->source;
->      Error *local_err = NULL;
->      size_t esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-> @@ -753,19 +754,19 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
->       * rebooting under the XIVE-only interrupt mode.
->       */
->      if (xive->fd != -1) {
-> -        return;
-> +        return 0;
->      }
->  
->      if (!kvmppc_has_cap_xive()) {
->          error_setg(errp, "IRQ_XIVE capability must be present for KVM");
-> -        return;
-> +        return -1;
->      }
->  
->      /* First, create the KVM XIVE device */
->      xive->fd = kvm_create_device(kvm_state, KVM_DEV_TYPE_XIVE, false);
->      if (xive->fd < 0) {
->          error_setg_errno(errp, -xive->fd, "XIVE: error creating KVM device");
-> -        return;
-> +        return -1;
->      }
->  
->      /*
-> @@ -821,15 +822,17 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
->      kvm_kernel_irqchip = true;
->      kvm_msi_via_irqfd_allowed = true;
->      kvm_gsi_direct_mapping = true;
-> -    return;
-> +    return 0;
->  
->  fail:
->      error_propagate(errp, local_err);
-> -    kvmppc_xive_disconnect(xive, NULL);
-> +    kvmppc_xive_disconnect(intc);
-> +    return -1;
->  }
->  
-> -void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
-> +void kvmppc_xive_disconnect(SpaprInterruptController *intc)
->  {
-> +    SpaprXive *xive = SPAPR_XIVE(intc);
->      XiveSource *xsrc;
->      size_t esb_len;
->  
-> @@ -838,11 +841,6 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
->          return;
->      }
->  
-> -    if (!kvmppc_has_cap_xive()) {
-> -        error_setg(errp, "IRQ_XIVE capability must be present for KVM");
-> -        return;
-> -    }
-> -
->      /* Clear the KVM mapping */
->      xsrc = &xive->source;
->      esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-> index ba90d6dc96..954c424b36 100644
-> --- a/hw/intc/xics_kvm.c
-> +++ b/hw/intc/xics_kvm.c
-> @@ -342,8 +342,9 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int val)
->      }
->  }
->  
-> -int xics_kvm_connect(SpaprMachineState *spapr, Error **errp)
-> +int xics_kvm_connect(SpaprInterruptController *intc, Error **errp)
->  {
-> +    ICSState *ics = ICS_SPAPR(intc);
->      int rc;
->      CPUState *cs;
->      Error *local_err = NULL;
-> @@ -413,7 +414,7 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error **errp)
->      }
->  
->      /* Update the KVM sources */
-> -    ics_set_kvm_state(spapr->ics, &local_err);
-> +    ics_set_kvm_state(ics, &local_err);
->      if (local_err) {
->          goto fail;
->      }
-> @@ -431,11 +432,11 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error **errp)
->  
->  fail:
->      error_propagate(errp, local_err);
-> -    xics_kvm_disconnect(spapr, NULL);
-> +    xics_kvm_disconnect(intc);
->      return -1;
->  }
->  
-> -void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp)
-> +void xics_kvm_disconnect(SpaprInterruptController *intc)
->  {
->      /*
->       * Only on P9 using the XICS-on XIVE KVM device:
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 79cbe8064e..561bdbc4de 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -124,7 +124,7 @@ static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
->  static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **errp)
->  {
->      if (kvm_enabled()) {
-> -        xics_kvm_connect(spapr, errp);
-> +        xics_kvm_connect(SPAPR_INTC(spapr->ics), errp);
->      }
->  }
->  
-> @@ -173,7 +173,7 @@ static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
->  static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **errp)
->  {
->      if (kvm_enabled()) {
-> -        kvmppc_xive_connect(spapr->xive, errp);
-> +        kvmppc_xive_connect(SPAPR_INTC(spapr->xive), errp);
->      }
->  }
->  
-> @@ -215,7 +215,7 @@ static int spapr_irq_post_load_dual(SpaprMachineState *spapr, int version_id)
->       */
->      if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
->          if (kvm_irqchip_in_kernel()) {
-> -            xics_kvm_disconnect(spapr, &error_fatal);
-> +            xics_kvm_disconnect(SPAPR_INTC(spapr->ics));
->          }
->          spapr_irq_xive.reset(spapr, &error_fatal);
->      }
-> @@ -225,8 +225,6 @@ static int spapr_irq_post_load_dual(SpaprMachineState *spapr, int version_id)
->  
->  static void spapr_irq_reset_dual(SpaprMachineState *spapr, Error **errp)
->  {
-> -    Error *local_err = NULL;
-> -
->      /*
->       * Deactivate the XIVE MMIOs. The XIVE backend will reenable them
->       * if selected.
-> @@ -235,18 +233,8 @@ static void spapr_irq_reset_dual(SpaprMachineState *spapr, Error **errp)
->  
->      /* Destroy all KVM devices */
->      if (kvm_irqchip_in_kernel()) {
-> -        xics_kvm_disconnect(spapr, &local_err);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            error_prepend(errp, "KVM XICS disconnect failed: ");
-> -            return;
-> -        }
-> -        kvmppc_xive_disconnect(spapr->xive, &local_err);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            error_prepend(errp, "KVM XIVE disconnect failed: ");
-> -            return;
-> -        }
-> +        xics_kvm_disconnect(SPAPR_INTC(spapr->ics));
-> +        kvmppc_xive_disconnect(SPAPR_INTC(spapr->xive));
->      }
->  
->      spapr_irq_current(spapr)->reset(spapr, errp);
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index ebe156eb30..64972754f9 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -68,8 +68,8 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
->  /*
->   * KVM XIVE device helpers
->   */
-> -void kvmppc_xive_connect(SpaprXive *xive, Error **errp);
-> -void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp);
-> +int kvmppc_xive_connect(SpaprInterruptController *intc, Error **errp);
-> +void kvmppc_xive_disconnect(SpaprInterruptController *intc);
->  void kvmppc_xive_reset(SpaprXive *xive, Error **errp);
->  void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS *eas,
->                                     Error **errp);
-> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> index 9c9044db65..445beeffef 100644
-> --- a/include/hw/ppc/xics_spapr.h
-> +++ b/include/hw/ppc/xics_spapr.h
-> @@ -33,8 +33,8 @@
->  #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
->  
->  void ics_spapr_create(SpaprMachineState *spapr, int nr_xirqs, Error **errp);
-> -int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
-> -void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
-> +int xics_kvm_connect(SpaprInterruptController *intc, Error **errp);
-> +void xics_kvm_disconnect(SpaprInterruptController *intc);
->  bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
->  
->  #endif /* XICS_SPAPR_H */
-
+thanks
+-- PMM
 
