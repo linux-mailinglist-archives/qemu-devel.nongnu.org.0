@@ -2,67 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D93C0274
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:37:41 +0200 (CEST)
-Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E5AC02AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Sep 2019 11:50:01 +0200 (CEST)
+Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iDmh2-0007xK-Jv
-	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59734)
+	id 1iDmsx-0000gd-QS
+	for lists+qemu-devel@lfdr.de; Fri, 27 Sep 2019 05:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33217)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iDmdP-0004Og-90
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:33:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iDmm6-0002yx-IN
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:42:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iDmdN-0003kG-Sq
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:33:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60824)
+ (envelope-from <mreitz@redhat.com>) id 1iDmm3-0007Ev-UV
+ for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:42:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iDmdN-0003hX-Jr
- for qemu-devel@nongnu.org; Fri, 27 Sep 2019 05:33:53 -0400
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iDmly-00072d-Pt; Fri, 27 Sep 2019 05:42:47 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1693AC075BD2
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 09:33:52 +0000 (UTC)
-Received: by mail-qk1-f199.google.com with SMTP id s14so2017938qkg.12
- for <qemu-devel@nongnu.org>; Fri, 27 Sep 2019 02:33:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7UM00UcrCaSPxcPQqtoVqMVIKFSE6j3nr5iVz7sjcNM=;
- b=pWKUDYTRgh6K7hUX3TR/hLtLD5zfo/jPnW1XoXR4qcUZhPgJzf6Wxxa1pd3QjVGh65
- A83whKc7kErvtZagO0YbYCCwJ1GZ1U3y6p9Ddeh59GeVGEIQr74k9KA8TduNRS8dyFT6
- 6nWreoWUPbup6uBmW+dMyftq3o/PEFkbzujr7pUOqz2K/oLj6O7mDIQCLLSdkMS+do9q
- NrNJ+DNY9xzfmQYlU+e5v9FFOGbQRrsFv2ooIP88MBZuubc88o0lCwsefgG0LcPCK6wz
- It4PcdNbGM3wJ08gBie+2WM+drsRsZRFGAEQnWrs1kuVqE8j6Wn1PbjO2tpOONXfcLBY
- mPfQ==
-X-Gm-Message-State: APjAAAWQrGZK97sD2e1FLGJvWyut8y6EC5wxwugUzmevQzs+IAxaJw/9
- XJzCP0mvgvLeEXHD2MkB9Vkd5tAOK8KsRMI06p7pMcESGLTOOGzT3i67ITH5jV8RHC9jGi9bstl
- ZtucJYur5f0A0Tq8=
-X-Received: by 2002:a05:620a:16da:: with SMTP id
- a26mr3469656qkn.412.1569576831371; 
- Fri, 27 Sep 2019 02:33:51 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqydB6yjV3BmfaTX2D6jYxPoGXdlwovtXjLPwIy1hyI4KWUzTpudghCHH5snfvLjujSgYz/VtA==
-X-Received: by 2002:a05:620a:16da:: with SMTP id
- a26mr3469637qkn.412.1569576831143; 
- Fri, 27 Sep 2019 02:33:51 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-40-226.red.bezeqint.net. [79.176.40.226])
- by smtp.gmail.com with ESMTPSA id 54sm2520627qts.75.2019.09.27.02.33.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Sep 2019 02:33:50 -0700 (PDT)
-Date: Fri, 27 Sep 2019 05:33:45 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qi1.zhang@intel.com
-Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
-Message-ID: <20190927053226-mutt-send-email-mst@kernel.org>
-References: <20190927045838.2968-1-qi1.zhang@intel.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 5ACC911A07;
+ Fri, 27 Sep 2019 09:42:45 +0000 (UTC)
+Received: from localhost (ovpn-204-76.brq.redhat.com [10.40.204.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBBA8608C2;
+ Fri, 27 Sep 2019 09:42:44 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 00/18] iotests: Allow ./check -o data_file
+Date: Fri, 27 Sep 2019 11:42:24 +0200
+Message-Id: <20190927094242.11152-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190927045838.2968-1-qi1.zhang@intel.com>
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 27 Sep 2019 09:42:45 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -77,111 +54,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 27, 2019 at 12:58:38PM +0800, qi1.zhang@intel.com wrote:
-> From: "Zhang, Qi" <qi1.zhang@intel.com>
-> 
-> When dt is supported, TM field should not be Reserved(0).
-> 
-> Refer to VT-d Spec 9.8
-> 
-> Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
-> Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
-> ---
->  hw/i386/intel_iommu.c          | 12 ++++++------
->  hw/i386/intel_iommu_internal.h | 25 +++++++++++++++++++------
->  2 files changed, 25 insertions(+), 12 deletions(-)
-> ---
-> Changelog V2:
->  move dt_supported flag to VTD_SPTE_PAGE_LX_RSVD_MASK and VTD_SPTE_LPAGE_LX_RSVD_MASK
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index f1de8fdb75..35222cf55c 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3548,13 +3548,13 @@ static void vtd_init(IntelIOMMUState *s)
->       * Rsvd field masks for spte
->       */
->      vtd_paging_entry_rsvd_field[0] = ~0ULL;
-> -    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits);
-> +    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
->      vtd_paging_entry_rsvd_field[4] = VTD_SPTE_PAGE_L4_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[5] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[6] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits);
-> -    vtd_paging_entry_rsvd_field[7] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits);
-> +    vtd_paging_entry_rsvd_field[5] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[6] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
-> +    vtd_paging_entry_rsvd_field[7] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu->dt_supported);
->      vtd_paging_entry_rsvd_field[8] = VTD_SPTE_LPAGE_L4_RSVD_MASK(s->aw_bits);
->  
->      if (x86_iommu_ir_supported(x86_iommu)) {
-> diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> index c1235a7063..01f1aa6c86 100644
-> --- a/hw/i386/intel_iommu_internal.h
-> +++ b/hw/i386/intel_iommu_internal.h
-> @@ -387,19 +387,31 @@ typedef union VTDInvDesc VTDInvDesc;
->  #define VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO 0xffff0000ffe0fff8
->  
->  /* Rsvd field masks for spte */
-> -#define VTD_SPTE_PAGE_L1_RSVD_MASK(aw) \
-> +#define VTD_SPTE_PAGE_L1_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
+Hi,
+
+It=E2=80=99s my understanding that we want better test coverage for qcow2=
+=E2=80=99s
+external data files.  I think the natural thing to do is to let all
+tests create images with external data files.
+
+We already have the -o option for ./check for additional image options
+(and I regularly use it for recount_bits=3D1 and compat=3D0.10).
+Unfortunately, we cannot use it directly for data_file, because of
+course every test image needs its own data file.  What I think we want
+is a pattern: Something like -o 'data_file=3D$TEST_IMG.data_file', and
+then =E2=80=9C$TEST_IMG=E2=80=9D is replaced by the qcow2 image name.
+
+This is done by the final patch in this series.  There is a lot of
+preparatory work to be done, though.
+
+(1) Some tests overwrite IMGOPTS.  This will make them ignore
+    user-specified options.  That was always a problem (that means those
+    tests ignored my pleas for refcount_bits=3D1 and compat=3D0.10) but
+    someone needs to fix this at some point, and I guess that=E2=80=99s m=
+e right
+    now.
+    So we need to stop tests from overwriting IMGOPTS.  This is done by
+    patches 1 through 9.
+
+    In addition, patch 10 fixes other cases where user-specified options
+    are ignored (because some tests use qemu-img create directly instead
+    of _make_test_img).
+
+(2) Some tests access image files directly.  This can only work for
+    images without external data files.  There are two subcases:
+    (A) rm: Fixed by patch 11
+    (B) cp/mv: Fixed by patch 12
+
+(3) Some tests are broken with data_file, but we can fix it.  Done by
+    patches 13 through 16.
+
+(4) Some tests are broken with data_file, and I don=E2=80=99t think we ca=
+n fix
+    it.  So patch 17 adds _unsupported_imgopts data_file for them.
+
+(5) And then there=E2=80=99s patch 18, which does what we really want.
 
 
-space before ? please.
+Future work:
+- Python tests currently completely ignore IMGOPTS.  Preexisting
+  problem, needs to be addressed in another series, but for the moment
+  it at least means they won=E2=80=99t break if you run the tests with
+  data_file.
 
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-
-cleaner:
-	0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM |
-		(dt_supported ? VTD_SL_TM : 0x0))
+- data_file_raw=3Don needs to be addressed in another series.  I suspect
+  this will mainly consist of making it unsupported in all tests that
+  use backing files.
 
 
-> -#define VTD_SPTE_PAGE_L2_RSVD_MASK(aw) \
-> +#define VTD_SPTE_PAGE_L2_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_PAGE_L3_RSVD_MASK(aw) \
-> +#define VTD_SPTE_PAGE_L3_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
->  #define VTD_SPTE_PAGE_L4_RSVD_MASK(aw) \
->          (0x880ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_LPAGE_L1_RSVD_MASK(aw) \
-> +#define VTD_SPTE_LPAGE_L1_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_LPAGE_L2_RSVD_MASK(aw) \
-> +#define VTD_SPTE_LPAGE_L2_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x1ff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x1ff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> -#define VTD_SPTE_LPAGE_L3_RSVD_MASK(aw) \
-> +#define VTD_SPTE_LPAGE_L3_RSVD_MASK(aw, dt_supported) \
-> +        dt_supported? \
-> +        (0x3ffff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM | VTD_SL_TM)) : \
->          (0x3ffff800ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
->  #define VTD_SPTE_LPAGE_L4_RSVD_MASK(aw) \
->          (0x880ULL | ~(VTD_HAW_MASK(aw) | VTD_SL_IGN_COM))
-> @@ -506,5 +518,6 @@ typedef struct VTDRootEntry VTDRootEntry;
->  #define VTD_SL_W                    (1ULL << 1)
->  #define VTD_SL_PT_BASE_ADDR_MASK(aw) (~(VTD_PAGE_SIZE - 1) & VTD_HAW_MASK(aw))
->  #define VTD_SL_IGN_COM              0xbff0000000000000ULL
-> +#define VTD_SL_TM                   (1ULL << 62)
->  
->  #endif
-> -- 
-> 2.20.1
+Max Reitz (18):
+  iotests: Filter refcount_order in 036
+  iotests: Replace IMGOPTS by _unsupported_imgopts
+  iotests: Drop compat=3D1.1 in 050
+  iotests: Let _make_test_img parse its parameters
+  iotests: Add -o and --no-opts to _make_test_img
+  iotests: Inject space into -ocompat=3D0.10 in 051
+  iotests: Replace IMGOPTS=3D by -o
+  iotests: Replace IMGOPTS=3D'' by --no-opts
+  iotests: Drop IMGOPTS use in 267
+  iotests: Avoid qemu-img create
+  iotests: Use _rm_test_img for deleting test images
+  iotests: Avoid cp/mv of test images
+  iotests: Make 091 work with data_file
+  iotests: Make 110 work with data_file
+  iotests: Make 137 work with data_file
+  iotests: Make 198 work with data_file
+  iotests: Disable data_file where it cannot be used
+  iotests: Allow check -o data_file
+
+ tests/qemu-iotests/005           |  2 +-
+ tests/qemu-iotests/007           |  5 +--
+ tests/qemu-iotests/014           |  2 ++
+ tests/qemu-iotests/015           |  5 +--
+ tests/qemu-iotests/019           |  6 ++--
+ tests/qemu-iotests/020           |  6 ++--
+ tests/qemu-iotests/024           | 10 +++---
+ tests/qemu-iotests/026           |  5 ++-
+ tests/qemu-iotests/028           |  2 +-
+ tests/qemu-iotests/029           |  7 ++--
+ tests/qemu-iotests/031           |  9 +++--
+ tests/qemu-iotests/036           | 15 ++++----
+ tests/qemu-iotests/036.out       |  6 ++--
+ tests/qemu-iotests/039           | 27 ++++++--------
+ tests/qemu-iotests/043           |  4 ++-
+ tests/qemu-iotests/046           |  2 ++
+ tests/qemu-iotests/048           |  4 ++-
+ tests/qemu-iotests/050           |  8 ++---
+ tests/qemu-iotests/051           |  7 ++--
+ tests/qemu-iotests/053           |  4 +--
+ tests/qemu-iotests/058           |  7 ++--
+ tests/qemu-iotests/059           | 20 +++++------
+ tests/qemu-iotests/060           | 12 ++++---
+ tests/qemu-iotests/061           | 61 +++++++++++++++++---------------
+ tests/qemu-iotests/062           |  3 +-
+ tests/qemu-iotests/063           | 18 +++++-----
+ tests/qemu-iotests/063.out       |  3 +-
+ tests/qemu-iotests/066           |  3 +-
+ tests/qemu-iotests/067           |  6 ++--
+ tests/qemu-iotests/068           |  4 ++-
+ tests/qemu-iotests/069           |  2 +-
+ tests/qemu-iotests/071           |  7 ++--
+ tests/qemu-iotests/073           |  2 ++
+ tests/qemu-iotests/074           |  4 ++-
+ tests/qemu-iotests/079           |  3 +-
+ tests/qemu-iotests/080           |  7 ++--
+ tests/qemu-iotests/081           |  6 ++--
+ tests/qemu-iotests/085           | 18 +++++-----
+ tests/qemu-iotests/085.out       |  8 ++---
+ tests/qemu-iotests/088           |  2 +-
+ tests/qemu-iotests/090           |  2 ++
+ tests/qemu-iotests/091           |  3 +-
+ tests/qemu-iotests/091.out       |  1 -
+ tests/qemu-iotests/092           |  2 +-
+ tests/qemu-iotests/094           |  4 +--
+ tests/qemu-iotests/095           |  5 +--
+ tests/qemu-iotests/098           |  5 +--
+ tests/qemu-iotests/099           | 10 +++---
+ tests/qemu-iotests/103           |  5 +--
+ tests/qemu-iotests/106           |  2 +-
+ tests/qemu-iotests/108           |  8 +++--
+ tests/qemu-iotests/109           |  4 +--
+ tests/qemu-iotests/110           | 11 +++---
+ tests/qemu-iotests/110.out       |  4 +--
+ tests/qemu-iotests/111           |  3 +-
+ tests/qemu-iotests/112           | 37 +++++++++----------
+ tests/qemu-iotests/114           |  2 ++
+ tests/qemu-iotests/115           |  3 +-
+ tests/qemu-iotests/121           |  9 +++--
+ tests/qemu-iotests/122           |  6 ++--
+ tests/qemu-iotests/123           |  4 +--
+ tests/qemu-iotests/125           |  2 +-
+ tests/qemu-iotests/137           | 12 ++++---
+ tests/qemu-iotests/137.out       |  4 +--
+ tests/qemu-iotests/138           |  5 +--
+ tests/qemu-iotests/141           |  4 ++-
+ tests/qemu-iotests/142           |  2 +-
+ tests/qemu-iotests/144           |  4 ++-
+ tests/qemu-iotests/153           | 12 +++----
+ tests/qemu-iotests/156           | 10 ++++--
+ tests/qemu-iotests/159           |  2 +-
+ tests/qemu-iotests/160           |  3 +-
+ tests/qemu-iotests/161           |  4 +--
+ tests/qemu-iotests/170           |  2 +-
+ tests/qemu-iotests/172           |  6 ++--
+ tests/qemu-iotests/173           |  3 +-
+ tests/qemu-iotests/174           |  2 +-
+ tests/qemu-iotests/175           |  2 +-
+ tests/qemu-iotests/176           |  7 ++--
+ tests/qemu-iotests/178           |  6 ++--
+ tests/qemu-iotests/182           |  2 +-
+ tests/qemu-iotests/183           |  2 +-
+ tests/qemu-iotests/185           |  4 +--
+ tests/qemu-iotests/187           |  6 ++--
+ tests/qemu-iotests/190           |  4 +--
+ tests/qemu-iotests/191           | 11 +++---
+ tests/qemu-iotests/195           |  2 +-
+ tests/qemu-iotests/197           |  6 ++--
+ tests/qemu-iotests/198           |  6 ++--
+ tests/qemu-iotests/198.out       |  4 +--
+ tests/qemu-iotests/200           |  7 ++--
+ tests/qemu-iotests/201           |  6 ++--
+ tests/qemu-iotests/214           |  3 +-
+ tests/qemu-iotests/215           |  6 ++--
+ tests/qemu-iotests/217           |  3 +-
+ tests/qemu-iotests/220           |  5 ++-
+ tests/qemu-iotests/225           |  2 +-
+ tests/qemu-iotests/229           |  3 +-
+ tests/qemu-iotests/232           |  4 ++-
+ tests/qemu-iotests/243           | 10 ++++--
+ tests/qemu-iotests/244           | 15 ++++----
+ tests/qemu-iotests/247           |  4 ++-
+ tests/qemu-iotests/249           |  4 +--
+ tests/qemu-iotests/250           |  5 +--
+ tests/qemu-iotests/252           |  2 +-
+ tests/qemu-iotests/265           |  2 +-
+ tests/qemu-iotests/267           | 17 +++++----
+ tests/qemu-iotests/common.filter | 21 +++++++++--
+ tests/qemu-iotests/common.rc     | 51 +++++++++++++++++++++-----
+ 109 files changed, 455 insertions(+), 316 deletions(-)
+
+--=20
+2.21.0
+
 
