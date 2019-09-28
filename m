@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE472C11CE
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:42:34 +0200 (CEST)
-Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8767C11D3
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:46:27 +0200 (CEST)
+Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEHft-0001sw-94
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43849)
+	id 1iEHje-0005cV-3H
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43859)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iEHd6-0008Pa-5J
+ (envelope-from <armbru@redhat.com>) id 1iEHd6-0008Pc-4n
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iEHd3-0003pr-Oj
+ (envelope-from <armbru@redhat.com>) id 1iEHd3-0003qQ-Tq
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32836)
+Received: from mx1.redhat.com ([209.132.183.28]:52464)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd3-0003lI-FB
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd3-0003o0-K7
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:37 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E0693083363
+ by mx1.redhat.com (Postfix) with ESMTPS id D3B5F307D8BE
  for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 18:39:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCE15600C4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D275600C4;
  Sat, 28 Sep 2019 18:39:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2E07D1138660; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
+ id 319FB1138661; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/27] qapi: Tighten QAPISchemaFOO.check() assertions
-Date: Sat, 28 Sep 2019 20:39:09 +0200
-Message-Id: <20190928183934.12459-3-armbru@redhat.com>
+Subject: [PULL 03/27] qapi: Rename .owner to .defined_in
+Date: Sat, 28 Sep 2019 20:39:10 +0200
+Message-Id: <20190928183934.12459-4-armbru@redhat.com>
 In-Reply-To: <20190928183934.12459-1-armbru@redhat.com>
 References: <20190928183934.12459-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Sat, 28 Sep 2019 18:39:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Sat, 28 Sep 2019 18:39:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,96 +61,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we introduced the QAPISchema intermediate representation (commit
-ac88219a6c7), we took a shortcut: we left check_exprs() & friends
-alone instead of moving semantic checks into the
-QAPISchemaFOO.check().  check_exprs() still checks and reports errors,
-and the .check() assert check_exprs() did the job.  There are a few
-gaps, though.
-
-QAPISchemaArrayType.check() neglects to assert the element type is not
-an array.  Add the assertion.
-
-QAPISchemaObjectTypeVariants.check() neglects to assert the tag member
-is not optional.  Add the assertion.
-
-It neglects to assert the tag member is not conditional.  Add the
-assertion.
-
-It neglects to assert we actually have variants.  Add the assertion.
-
-It asserts the variants are object types, but neglects to assert they
-don't have variants.  Tighten the assertion.
-
-QAPISchemaObjectTypeVariants.check_clash() has the same issue.
-However, it can run only after .check().  Delete the assertion instead
-of tightening it.
-
-QAPISchemaAlternateType.check() neglects to assert the branch types
-don't conflict.  Fixing that isn't trivial, so add just a TODO comment
-for now.  It'll be resolved later in this series.
+QAPISchemaMember.owner is the name of the defining entity.  That's a
+confusing name when an object type inherits members from a base type.
+Rename it to .defined_in.  Rename .set_owner() and ._pretty_owner() to
+match.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190927134639.4284-2-armbru@redhat.com>
+Message-Id: <20190927134639.4284-3-armbru@redhat.com>
 ---
- scripts/qapi/common.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ scripts/qapi/common.py | 61 +++++++++++++++++++++---------------------
+ 1 file changed, 31 insertions(+), 30 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index b00caacca3..155b87b825 100644
+index 155b87b825..bfb3e8a493 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -1362,6 +1362,7 @@ class QAPISchemaArrayType(QAPISchemaType):
-         QAPISchemaType.check(self, schema)
-         self.element_type =3D schema.lookup_type(self._element_type_name=
-)
-         assert self.element_type
-+        assert not isinstance(self.element_type, QAPISchemaArrayType)
+@@ -1319,7 +1319,7 @@ class QAPISchemaEnumType(QAPISchemaType):
+         QAPISchemaType.__init__(self, name, info, doc, ifcond)
+         for m in members:
+             assert isinstance(m, QAPISchemaEnumMember)
+-            m.set_owner(name)
++            m.set_defined_in(name)
+         assert prefix is None or isinstance(prefix, str)
+         self.members =3D members
+         self.prefix =3D prefix
+@@ -1405,13 +1405,13 @@ class QAPISchemaObjectType(QAPISchemaType):
+         assert base is None or isinstance(base, str)
+         for m in local_members:
+             assert isinstance(m, QAPISchemaObjectTypeMember)
+-            m.set_owner(name)
++            m.set_defined_in(name)
+         if variants is not None:
+             assert isinstance(variants, QAPISchemaObjectTypeVariants)
+-            variants.set_owner(name)
++            variants.set_defined_in(name)
+         for f in features:
+             assert isinstance(f, QAPISchemaFeature)
+-            f.set_owner(name)
++            f.set_defined_in(name)
+         self._base_name =3D base
+         self.base =3D None
+         self.local_members =3D local_members
+@@ -1521,15 +1521,16 @@ class QAPISchemaMember(object):
+         assert isinstance(name, str)
+         self.name =3D name
+         self.ifcond =3D ifcond or []
+-        self.owner =3D None
++        self.defined_in =3D None
 =20
-     @property
-     def ifcond(self):
-@@ -1606,6 +1607,8 @@ class QAPISchemaObjectTypeVariants(object):
-             self.tag_member =3D seen[c_name(self._tag_name)]
-             assert self._tag_name =3D=3D self.tag_member.name
-         assert isinstance(self.tag_member.type, QAPISchemaEnumType)
-+        assert not self.tag_member.optional
-+        assert self.tag_member.ifcond =3D=3D []
-         if self._tag_name:    # flat union
-             # branches that are not explicitly covered get an empty type
-             cases =3D set([v.name for v in self.variants])
-@@ -1615,20 +1618,21 @@ class QAPISchemaObjectTypeVariants(object):
-                                                     m.ifcond)
-                     v.set_owner(self.tag_member.owner)
-                     self.variants.append(v)
-+        assert self.variants
-         for v in self.variants:
-             v.check(schema)
-             # Union names must match enum values; alternate names are
-             # checked separately. Use 'seen' to tell the two apart.
-             if seen:
-                 assert v.name in self.tag_member.type.member_names()
--                assert isinstance(v.type, QAPISchemaObjectType)
-+                assert (isinstance(v.type, QAPISchemaObjectType)
-+                        and not v.type.variants)
-                 v.type.check(schema)
+-    def set_owner(self, name):
+-        assert not self.owner
+-        self.owner =3D name
++    def set_defined_in(self, name):
++        assert not self.defined_in
++        self.defined_in =3D name
 =20
      def check_clash(self, info, seen):
+         cname =3D c_name(self.name)
+-        if cname.lower() !=3D cname and self.owner not in name_case_whit=
+elist:
++        if (cname.lower() !=3D cname
++                and self.defined_in not in name_case_whitelist):
+             raise QAPISemError(info,
+                                "%s should not use uppercase" % self.desc=
+ribe())
+         if cname in seen:
+@@ -1537,27 +1538,27 @@ class QAPISchemaMember(object):
+                                (self.describe(), seen[cname].describe())=
+)
+         seen[cname] =3D self
+=20
+-    def _pretty_owner(self):
+-        owner =3D self.owner
+-        if owner.startswith('q_obj_'):
++    def _pretty_defined_in(self):
++        defined_in =3D self.defined_in
++        if defined_in.startswith('q_obj_'):
+             # See QAPISchema._make_implicit_object_type() - reverse the
+             # mapping there to create a nice human-readable description
+-            owner =3D owner[6:]
+-            if owner.endswith('-arg'):
+-                return '(parameter of %s)' % owner[:-4]
+-            elif owner.endswith('-base'):
+-                return '(base of %s)' % owner[:-5]
++            defined_in =3D defined_in[6:]
++            if defined_in.endswith('-arg'):
++                return '(parameter of %s)' % defined_in[:-4]
++            elif defined_in.endswith('-base'):
++                return '(base of %s)' % defined_in[:-5]
+             else:
+-                assert owner.endswith('-wrapper')
++                assert defined_in.endswith('-wrapper')
+                 # Unreachable and not implemented
+                 assert False
+-        if owner.endswith('Kind'):
++        if defined_in.endswith('Kind'):
+             # See QAPISchema._make_implicit_enum_type()
+-            return '(branch of %s)' % owner[:-4]
+-        return '(%s of %s)' % (self.role, owner)
++            return '(branch of %s)' % defined_in[:-4]
++        return '(%s of %s)' % (self.role, defined_in)
+=20
+     def describe(self):
+-        return "'%s' %s" % (self.name, self._pretty_owner())
++        return "'%s' %s" % (self.name, self._pretty_defined_in())
+=20
+=20
+ class QAPISchemaEnumMember(QAPISchemaMember):
+@@ -1578,7 +1579,7 @@ class QAPISchemaObjectTypeMember(QAPISchemaMember):
+         self.optional =3D optional
+=20
+     def check(self, schema):
+-        assert self.owner
++        assert self.defined_in
+         self.type =3D schema.lookup_type(self._type_name)
+         assert self.type
+=20
+@@ -1598,9 +1599,9 @@ class QAPISchemaObjectTypeVariants(object):
+         self.tag_member =3D tag_member
+         self.variants =3D variants
+=20
+-    def set_owner(self, name):
++    def set_defined_in(self, name):
          for v in self.variants:
-             # Reset seen map for each variant, since qapi names from one
-             # branch do not affect another branch
--            assert isinstance(v.type, QAPISchemaObjectType)
-             v.type.check_clash(info, dict(seen))
+-            v.set_owner(name)
++            v.set_defined_in(name)
 =20
+     def check(self, schema, seen):
+         if not self.tag_member:    # flat union
+@@ -1616,7 +1617,7 @@ class QAPISchemaObjectTypeVariants(object):
+                 if m.name not in cases:
+                     v =3D QAPISchemaObjectTypeVariant(m.name, 'q_empty',
+                                                     m.ifcond)
+-                    v.set_owner(self.tag_member.owner)
++                    v.set_defined_in(self.tag_member.defined_in)
+                     self.variants.append(v)
+         assert self.variants
+         for v in self.variants:
+@@ -1648,8 +1649,8 @@ class QAPISchemaAlternateType(QAPISchemaType):
+         QAPISchemaType.__init__(self, name, info, doc, ifcond)
+         assert isinstance(variants, QAPISchemaObjectTypeVariants)
+         assert variants.tag_member
+-        variants.set_owner(name)
+-        variants.tag_member.set_owner(self.name)
++        variants.set_defined_in(name)
++        variants.tag_member.set_defined_in(self.name)
+         self.variants =3D variants
 =20
-@@ -1659,6 +1663,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
-         seen =3D {}
-         for v in self.variants.variants:
-             v.check_clash(self.info, seen)
-+            # TODO check conflicting qtypes
-             if self.doc:
-                 self.doc.connect_member(v)
-         if self.doc:
+     def check(self, schema):
+@@ -1829,7 +1830,7 @@ class QAPISchema(object):
+                 for v in values]
+=20
+     def _make_implicit_enum_type(self, name, info, ifcond, values):
+-        # See also QAPISchemaObjectTypeMember._pretty_owner()
++        # See also QAPISchemaObjectTypeMember._pretty_defined_in()
+         name =3D name + 'Kind'   # Use namespace reserved by add_name()
+         self._def_entity(QAPISchemaEnumType(
+             name, info, None, ifcond, self._make_enum_members(values), N=
+one))
+@@ -1845,7 +1846,7 @@ class QAPISchema(object):
+                                    role, members):
+         if not members:
+             return None
+-        # See also QAPISchemaObjectTypeMember._pretty_owner()
++        # See also QAPISchemaObjectTypeMember._pretty_defined_in()
+         name =3D 'q_obj_%s-%s' % (name, role)
+         typ =3D self.lookup_entity(name, QAPISchemaObjectType)
+         if typ:
 --=20
 2.21.0
 
