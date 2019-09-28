@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B238FC11E7
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:58:44 +0200 (CEST)
-Received: from localhost ([::1]:34476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C077C11DD
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:52:14 +0200 (CEST)
+Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEHvX-0000ml-4f
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44036)
+	id 1iEHpF-0001nb-00
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iEHdD-0008VE-Kz
+ (envelope-from <armbru@redhat.com>) id 1iEHdB-0008Sq-Pk
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iEHd7-00041f-Vb
+ (envelope-from <armbru@redhat.com>) id 1iEHd6-0003yo-VA
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57406)
+Received: from mx1.redhat.com ([209.132.183.28]:46886)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd7-0003uK-BB
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:41 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd6-0003vO-HG
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:40 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6AE7F308FC20
+ by mx1.redhat.com (Postfix) with ESMTPS id AD62C20FC
  for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3895E1000337;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E2A3600F8;
  Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6956F1138406; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
+ id 6D1AA1138408; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/27] qapi: Move context-free checking to the proper place
-Date: Sat, 28 Sep 2019 20:39:25 +0200
-Message-Id: <20190928183934.12459-19-armbru@redhat.com>
+Subject: [PULL 19/27] qapi: Improve reporting of invalid 'if' errors
+Date: Sat, 28 Sep 2019 20:39:26 +0200
+Message-Id: <20190928183934.12459-20-armbru@redhat.com>
 In-Reply-To: <20190928183934.12459-1-armbru@redhat.com>
 References: <20190928183934.12459-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,89 +61,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPISchemaCommand.check() and QAPISchemaEvent().check() check 'data'
-is present when 'boxed': true.  That's context-free.  Move to
-check_command() and check_event().
+Move check_if() from check_keys() to check_exprs() and call it later,
+so its error messages gain an "in definition" line.
 
-Tweak the error message while there.
-
-check_exprs() & friends now check exactly what qapi-code-gen.txt calls
-the second layer of syntax.
+Checking values in a function named check_keys() is unclean anyway.
+The original sin was commit 0545f6b887 "qapi: Better error messages
+for bad expressions", which checks the value of key 'name'.  More
+sinning in commit 2cbf09925a "qapi: More rigorous checking for type
+safety bypass", commit c818408e44 "qapi: Implement boxed types for
+commands/events", and commit 967c885108 "qapi: add 'if' to top-level
+expressions".  This commit does penance for the latter.  The next
+commits will do penance for the others.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190927134639.4284-18-armbru@redhat.com>
+Message-Id: <20190927134639.4284-19-armbru@redhat.com>
 ---
- scripts/qapi/common.py                  | 16 ++++++++--------
- tests/qapi-schema/event-boxed-empty.err |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ scripts/qapi/common.py                  | 4 ++--
+ tests/qapi-schema/bad-if-empty-list.err | 1 +
+ tests/qapi-schema/bad-if-empty.err      | 1 +
+ tests/qapi-schema/bad-if-list.err       | 1 +
+ tests/qapi-schema/bad-if.err            | 1 +
+ 5 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index f22e84c4a8..2e1d8158d6 100644
+index 2e1d8158d6..8f96974f85 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -768,10 +768,12 @@ def check_type(value, info, source,
-=20
- def check_command(expr, info):
-     name =3D expr['command']
-+    args =3D expr.get('data')
-     boxed =3D expr.get('boxed', False)
-=20
--    check_type(expr.get('data'), info,
--               "'data' for command '%s'" % name,
-+    if boxed and args is None:
-+        raise QAPISemError(info, "'boxed': true requires 'data'")
-+    check_type(args, info, "'data' for command '%s'" % name,
-                allow_dict=3Dnot boxed)
-     check_type(expr.get('returns'), info,
-                "'returns' for command '%s'" % name,
-@@ -780,10 +782,12 @@ def check_command(expr, info):
-=20
- def check_event(expr, info):
-     name =3D expr['event']
-+    args =3D expr.get('data')
-     boxed =3D expr.get('boxed', False)
-=20
--    check_type(expr.get('data'), info,
--               "'data' for event '%s'" % name,
-+    if boxed and args is None:
-+        raise QAPISemError(info, "'boxed': true requires 'data'")
-+    check_type(args, info, "'data' for event '%s'" % name,
-                allow_dict=3Dnot boxed)
+@@ -925,8 +925,6 @@ def check_keys(expr, info, meta, required, optional=3D=
+[]):
+             raise QAPISemError(info,
+                                "'%s' of %s '%s' should only use true val=
+ue"
+                                % (key, meta, name))
+-        if key =3D=3D 'if':
+-            check_if(expr, info)
 =20
 =20
-@@ -1699,8 +1703,6 @@ class QAPISchemaCommand(QAPISchemaEntity):
-                     self.info,
-                     "command's 'data' can take %s only with 'boxed': tru=
-e"
-                     % self.arg_type.describe())
--        elif self.boxed:
--            raise QAPISemError(self.info, "use of 'boxed' requires 'data=
-'")
-         if self._ret_type_name:
-             self.ret_type =3D schema.resolve_type(
-                 self._ret_type_name, self.info, "command's 'returns'")
-@@ -1748,8 +1750,6 @@ class QAPISchemaEvent(QAPISchemaEntity):
-                     self.info,
-                     "event's 'data' can take %s only with 'boxed': true"
-                     % self.arg_type.describe())
--        elif self.boxed:
--            raise QAPISemError(self.info, "use of 'boxed' requires 'data=
-'")
+ def normalize_enum(expr):
+@@ -1028,6 +1026,8 @@ def check_exprs(exprs):
+         else:
+             assert False, 'unexpected meta type'
 =20
-     def visit(self, visitor):
-         QAPISchemaEntity.visit(self, visitor)
-diff --git a/tests/qapi-schema/event-boxed-empty.err b/tests/qapi-schema/=
-event-boxed-empty.err
-index 9c691b7d97..931c10b036 100644
---- a/tests/qapi-schema/event-boxed-empty.err
-+++ b/tests/qapi-schema/event-boxed-empty.err
-@@ -1,2 +1,2 @@
- tests/qapi-schema/event-boxed-empty.json: In event 'FOO':
--tests/qapi-schema/event-boxed-empty.json:2: use of 'boxed' requires 'dat=
-a'
-+tests/qapi-schema/event-boxed-empty.json:2: 'boxed': true requires 'data=
-'
++        check_if(expr, info)
++
+         if doc:
+             doc.check_expr(expr)
+=20
+diff --git a/tests/qapi-schema/bad-if-empty-list.err b/tests/qapi-schema/=
+bad-if-empty-list.err
+index 75fe6497bc..2218c9279b 100644
+--- a/tests/qapi-schema/bad-if-empty-list.err
++++ b/tests/qapi-schema/bad-if-empty-list.err
+@@ -1 +1,2 @@
++tests/qapi-schema/bad-if-empty-list.json: In struct 'TestIfStruct':
+ tests/qapi-schema/bad-if-empty-list.json:2: 'if' condition [] is useless
+diff --git a/tests/qapi-schema/bad-if-empty.err b/tests/qapi-schema/bad-i=
+f-empty.err
+index 358bdc3e51..a3fdb3009d 100644
+--- a/tests/qapi-schema/bad-if-empty.err
++++ b/tests/qapi-schema/bad-if-empty.err
+@@ -1 +1,2 @@
++tests/qapi-schema/bad-if-empty.json: In struct 'TestIfStruct':
+ tests/qapi-schema/bad-if-empty.json:2: 'if' condition '' makes no sense
+diff --git a/tests/qapi-schema/bad-if-list.err b/tests/qapi-schema/bad-if=
+-list.err
+index 53af099083..e03bf0fc3a 100644
+--- a/tests/qapi-schema/bad-if-list.err
++++ b/tests/qapi-schema/bad-if-list.err
+@@ -1 +1,2 @@
++tests/qapi-schema/bad-if-list.json: In struct 'TestIfStruct':
+ tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' makes no sense
+diff --git a/tests/qapi-schema/bad-if.err b/tests/qapi-schema/bad-if.err
+index c2e3f5f44c..190216c109 100644
+--- a/tests/qapi-schema/bad-if.err
++++ b/tests/qapi-schema/bad-if.err
+@@ -1 +1,2 @@
++tests/qapi-schema/bad-if.json: In struct 'TestIfStruct':
+ tests/qapi-schema/bad-if.json:2: 'if' condition must be a string or a li=
+st of strings
 --=20
 2.21.0
 
