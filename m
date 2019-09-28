@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C077C11DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:52:14 +0200 (CEST)
-Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026B8C11E8
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:58:48 +0200 (CEST)
+Received: from localhost ([::1]:34480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEHpF-0001nb-00
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43997)
+	id 1iEHva-0000qP-SK
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iEHdB-0008Sq-Pk
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:49 -0400
+ (envelope-from <armbru@redhat.com>) id 1iEHdG-00005Q-EI
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iEHd6-0003yo-VA
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46886)
+ (envelope-from <armbru@redhat.com>) id 1iEHd7-00040L-GC
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54380)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd6-0003vO-HG
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:40 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd7-0003wB-3y
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AD62C20FC
+ by mx1.redhat.com (Postfix) with ESMTPS id E163E18CB8ED
  for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E2A3600F8;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C3825C1D8;
  Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D1AA1138408; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
+ id 7B4501136423; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/27] qapi: Improve reporting of invalid 'if' errors
-Date: Sat, 28 Sep 2019 20:39:26 +0200
-Message-Id: <20190928183934.12459-20-armbru@redhat.com>
+Subject: [PULL 23/27] qapi: Improve reporting of invalid 'if' further
+Date: Sat, 28 Sep 2019 20:39:30 +0200
+Message-Id: <20190928183934.12459-24-armbru@redhat.com>
 In-Reply-To: <20190928183934.12459-1-armbru@redhat.com>
 References: <20190928183934.12459-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.63]); Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,85 +61,225 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move check_if() from check_keys() to check_exprs() and call it later,
-so its error messages gain an "in definition" line.
+check_if()'s errors don't point to the offending part of the
+expression.  For instance:
 
-Checking values in a function named check_keys() is unclean anyway.
-The original sin was commit 0545f6b887 "qapi: Better error messages
-for bad expressions", which checks the value of key 'name'.  More
-sinning in commit 2cbf09925a "qapi: More rigorous checking for type
-safety bypass", commit c818408e44 "qapi: Implement boxed types for
-commands/events", and commit 967c885108 "qapi: add 'if' to top-level
-expressions".  This commit does penance for the latter.  The next
-commits will do penance for the others.
+    tests/qapi-schema/alternate-branch-if-invalid.json:2: 'if' condition =
+' ' makes no sense
+
+Other check_FOO() do, with the help of a @source argument.  Make
+check_if() do that, too.  The example above improves to:
+
+    tests/qapi-schema/alternate-branch-if-invalid.json:2: 'if' condition =
+' ' of 'data' member 'branch' makes no sense
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20190927134639.4284-23-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190927134639.4284-19-armbru@redhat.com>
 ---
- scripts/qapi/common.py                  | 4 ++--
- tests/qapi-schema/bad-if-empty-list.err | 1 +
- tests/qapi-schema/bad-if-empty.err      | 1 +
- tests/qapi-schema/bad-if-list.err       | 1 +
- tests/qapi-schema/bad-if.err            | 1 +
- 5 files changed, 6 insertions(+), 2 deletions(-)
+ scripts/qapi/common.py                        | 27 +++++++++++--------
+ .../alternate-branch-if-invalid.err           |  2 +-
+ tests/qapi-schema/bad-if-empty-list.err       |  2 +-
+ tests/qapi-schema/bad-if-empty.err            |  2 +-
+ tests/qapi-schema/bad-if-list.err             |  2 +-
+ tests/qapi-schema/bad-if.err                  |  2 +-
+ tests/qapi-schema/enum-if-invalid.err         |  2 +-
+ tests/qapi-schema/features-if-invalid.err     |  2 +-
+ .../qapi-schema/struct-member-if-invalid.err  |  2 +-
+ tests/qapi-schema/union-branch-if-invalid.err |  2 +-
+ 10 files changed, 25 insertions(+), 20 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 2e1d8158d6..8f96974f85 100644
+index 81c217cd60..4bc8c807aa 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -925,8 +925,6 @@ def check_keys(expr, info, meta, required, optional=3D=
-[]):
-             raise QAPISemError(info,
-                                "'%s' of %s '%s' should only use true val=
-ue"
-                                % (key, meta, name))
--        if key =3D=3D 'if':
--            check_if(expr, info)
+@@ -692,22 +692,27 @@ def check_defn_name_str(name, info, meta):
+             info, "%s name should not end in '%s'" % (meta, name[-4:]))
 =20
 =20
- def normalize_enum(expr):
-@@ -1028,6 +1026,8 @@ def check_exprs(exprs):
-         else:
+-def check_if(expr, info):
++def check_if(expr, info, source):
+=20
+     def check_if_str(ifcond, info):
+         if not isinstance(ifcond, str):
+             raise QAPISemError(
+-                info, "'if' condition must be a string or a list of stri=
+ngs")
++                info,
++                "'if' condition of %s must be a string or a list of stri=
+ngs"
++                % source)
+         if ifcond.strip() =3D=3D '':
+-            raise QAPISemError(info, "'if' condition '%s' makes no sense=
+"
+-                               % ifcond)
++            raise QAPISemError(
++                info,
++                "'if' condition '%s' of %s makes no sense"
++                % (ifcond, source))
+=20
+     ifcond =3D expr.get('if')
+     if ifcond is None:
+         return
+     if isinstance(ifcond, list):
+         if ifcond =3D=3D []:
+-            raise QAPISemError(info, "'if' condition [] is useless")
++            raise QAPISemError(
++                info, "'if' condition [] of %s is useless" % source)
+         for elt in ifcond:
+             check_if_str(elt, info)
+     else:
+@@ -752,7 +757,7 @@ def check_type(value, info, source,
+         if c_name(key, False) =3D=3D 'u' or c_name(key, False).startswit=
+h('has_'):
+             raise QAPISemError(info, "%s uses reserved name" % key_sourc=
+e)
+         check_known_keys(arg, info, key_source, ['type'], ['if'])
+-        check_if(arg, info)
++        check_if(arg, info, key_source)
+         normalize_if(arg)
+         check_type(arg['type'], info, key_source, allow_array=3DTrue)
+=20
+@@ -796,7 +801,7 @@ def check_union(expr, info):
+         source =3D "'data' member '%s'" % key
+         check_name_str(key, info, source)
+         check_known_keys(value, info, source, ['type'], ['if'])
+-        check_if(value, info)
++        check_if(value, info, source)
+         normalize_if(value)
+         check_type(value['type'], info, source, allow_array=3Dnot base)
+=20
+@@ -810,7 +815,7 @@ def check_alternate(expr, info):
+         source =3D "'data' member '%s'" % key
+         check_name_str(key, info, source)
+         check_known_keys(value, info, source, ['type'], ['if'])
+-        check_if(value, info)
++        check_if(value, info, source)
+         normalize_if(value)
+         check_type(value['type'], info, source)
+=20
+@@ -834,7 +839,7 @@ def check_enum(expr, info):
+         source =3D "%s '%s'" % (source, member['name'])
+         check_name_str(member['name'], info, source,
+                        enum_member=3DTrue, permit_upper=3Dpermit_upper)
+-        check_if(member, info)
++        check_if(member, info, source)
+         normalize_if(member)
+=20
+=20
+@@ -856,7 +861,7 @@ def check_struct(expr, info):
+             check_name_is_str(f['name'], info, source)
+             source =3D "%s '%s'" % (source, f['name'])
+             check_name_str(f['name'], info, source)
+-            check_if(f, info)
++            check_if(f, info, source)
+             normalize_if(f)
+=20
+=20
+@@ -994,7 +999,7 @@ def check_exprs(exprs):
              assert False, 'unexpected meta type'
 =20
-+        check_if(expr, info)
-+
-         if doc:
-             doc.check_expr(expr)
+         normalize_if(expr)
+-        check_if(expr, info)
++        check_if(expr, info, meta)
+         check_flags(expr, info)
 =20
+         if doc:
+diff --git a/tests/qapi-schema/alternate-branch-if-invalid.err b/tests/qa=
+pi-schema/alternate-branch-if-invalid.err
+index 8684829aca..6c68e5a922 100644
+--- a/tests/qapi-schema/alternate-branch-if-invalid.err
++++ b/tests/qapi-schema/alternate-branch-if-invalid.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/alternate-branch-if-invalid.json: In alternate 'Alt':
+-tests/qapi-schema/alternate-branch-if-invalid.json:2: 'if' condition ' '=
+ makes no sense
++tests/qapi-schema/alternate-branch-if-invalid.json:2: 'if' condition ' '=
+ of 'data' member 'branch' makes no sense
 diff --git a/tests/qapi-schema/bad-if-empty-list.err b/tests/qapi-schema/=
 bad-if-empty-list.err
-index 75fe6497bc..2218c9279b 100644
+index 2218c9279b..517519f500 100644
 --- a/tests/qapi-schema/bad-if-empty-list.err
 +++ b/tests/qapi-schema/bad-if-empty-list.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if-empty-list.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if-empty-list.json:2: 'if' condition [] is useless
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/bad-if-empty-list.json: In struct 'TestIfStruct':
+-tests/qapi-schema/bad-if-empty-list.json:2: 'if' condition [] is useless
++tests/qapi-schema/bad-if-empty-list.json:2: 'if' condition [] of struct =
+is useless
 diff --git a/tests/qapi-schema/bad-if-empty.err b/tests/qapi-schema/bad-i=
 f-empty.err
-index 358bdc3e51..a3fdb3009d 100644
+index a3fdb3009d..5f1767388e 100644
 --- a/tests/qapi-schema/bad-if-empty.err
 +++ b/tests/qapi-schema/bad-if-empty.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if-empty.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if-empty.json:2: 'if' condition '' makes no sense
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/bad-if-empty.json: In struct 'TestIfStruct':
+-tests/qapi-schema/bad-if-empty.json:2: 'if' condition '' makes no sense
++tests/qapi-schema/bad-if-empty.json:2: 'if' condition '' of struct makes=
+ no sense
 diff --git a/tests/qapi-schema/bad-if-list.err b/tests/qapi-schema/bad-if=
 -list.err
-index 53af099083..e03bf0fc3a 100644
+index e03bf0fc3a..e5d72b2f39 100644
 --- a/tests/qapi-schema/bad-if-list.err
 +++ b/tests/qapi-schema/bad-if-list.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if-list.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' makes no sense
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/bad-if-list.json: In struct 'TestIfStruct':
+-tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' makes no sense
++tests/qapi-schema/bad-if-list.json:2: 'if' condition ' ' of struct makes=
+ no sense
 diff --git a/tests/qapi-schema/bad-if.err b/tests/qapi-schema/bad-if.err
-index c2e3f5f44c..190216c109 100644
+index 190216c109..65d8efd7e4 100644
 --- a/tests/qapi-schema/bad-if.err
 +++ b/tests/qapi-schema/bad-if.err
-@@ -1 +1,2 @@
-+tests/qapi-schema/bad-if.json: In struct 'TestIfStruct':
- tests/qapi-schema/bad-if.json:2: 'if' condition must be a string or a li=
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/bad-if.json: In struct 'TestIfStruct':
+-tests/qapi-schema/bad-if.json:2: 'if' condition must be a string or a li=
 st of strings
++tests/qapi-schema/bad-if.json:2: 'if' condition of struct must be a stri=
+ng or a list of strings
+diff --git a/tests/qapi-schema/enum-if-invalid.err b/tests/qapi-schema/en=
+um-if-invalid.err
+index db9eb45b25..30c1f0e91c 100644
+--- a/tests/qapi-schema/enum-if-invalid.err
++++ b/tests/qapi-schema/enum-if-invalid.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/enum-if-invalid.json: In enum 'TestIfEnum':
+-tests/qapi-schema/enum-if-invalid.json:2: 'if' condition must be a strin=
+g or a list of strings
++tests/qapi-schema/enum-if-invalid.json:2: 'if' condition of 'data' membe=
+r 'bar' must be a string or a list of strings
+diff --git a/tests/qapi-schema/features-if-invalid.err b/tests/qapi-schem=
+a/features-if-invalid.err
+index 90f4119ae7..ffb39378af 100644
+--- a/tests/qapi-schema/features-if-invalid.err
++++ b/tests/qapi-schema/features-if-invalid.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/features-if-invalid.json: In struct 'Stru':
+-tests/qapi-schema/features-if-invalid.json:2: 'if' condition must be a s=
+tring or a list of strings
++tests/qapi-schema/features-if-invalid.json:2: 'if' condition of 'feature=
+s' member 'f' must be a string or a list of strings
+diff --git a/tests/qapi-schema/struct-member-if-invalid.err b/tests/qapi-=
+schema/struct-member-if-invalid.err
+index e8ad02b9fc..4c5983674b 100644
+--- a/tests/qapi-schema/struct-member-if-invalid.err
++++ b/tests/qapi-schema/struct-member-if-invalid.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/struct-member-if-invalid.json: In struct 'Stru':
+-tests/qapi-schema/struct-member-if-invalid.json:2: 'if' condition must b=
+e a string or a list of strings
++tests/qapi-schema/struct-member-if-invalid.json:2: 'if' condition of 'da=
+ta' member 'member' must be a string or a list of strings
+diff --git a/tests/qapi-schema/union-branch-if-invalid.err b/tests/qapi-s=
+chema/union-branch-if-invalid.err
+index b49cf9b664..14819bf8b8 100644
+--- a/tests/qapi-schema/union-branch-if-invalid.err
++++ b/tests/qapi-schema/union-branch-if-invalid.err
+@@ -1,2 +1,2 @@
+ tests/qapi-schema/union-branch-if-invalid.json: In union 'Uni':
+-tests/qapi-schema/union-branch-if-invalid.json:4: 'if' condition '' make=
+s no sense
++tests/qapi-schema/union-branch-if-invalid.json:4: 'if' condition '' of '=
+data' member 'branch1' makes no sense
 --=20
 2.21.0
 
