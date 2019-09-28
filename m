@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82DE2C11E0
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:55:24 +0200 (CEST)
-Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557B7C11DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:52:14 +0200 (CEST)
+Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEHsJ-0005bj-5V
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43940)
+	id 1iEHpE-0001mF-Sr
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iEHd9-0008SI-CB
+ (envelope-from <armbru@redhat.com>) id 1iEHd9-0008S8-84
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iEHd5-0003un-Or
+ (envelope-from <armbru@redhat.com>) id 1iEHd5-0003ux-OV
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54158)
+Received: from mx1.redhat.com ([209.132.183.28]:52810)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd5-0003sa-7c
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd5-0003sh-9r
  for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:39 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6EB818763B
+ by mx1.redhat.com (Postfix) with ESMTPS id 793A73D94D
  for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A27060BF7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2242C3DE2;
  Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5358411385D5; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
+ id 572E41138528; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/27] qapi: Report invalid '*' prefix like any other invalid
- name
-Date: Sat, 28 Sep 2019 20:39:19 +0200
-Message-Id: <20190928183934.12459-13-armbru@redhat.com>
+Subject: [PULL 13/27] qapi: Move check for reserved names out of add_name()
+Date: Sat, 28 Sep 2019 20:39:20 +0200
+Message-Id: <20190928183934.12459-14-armbru@redhat.com>
 In-Reply-To: <20190928183934.12459-1-armbru@redhat.com>
 References: <20190928183934.12459-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,91 +61,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The special "does not allow optional name" error is well meant, but
-confusing in practice.  Drop it.
+The checks for reserved names are spread far and wide.  Move one from
+add_name() to new check_defn_name_str().  This is a first step towards
+collecting them all in dedicated name checking functions next to
+check_name().
+
+While there, drop the quotes around the meta-type in
+check_name_str()'s error messages: "'command' uses ... name 'NAME'"
+becomes "command uses ... name 'NAME'".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190927134639.4284-12-armbru@redhat.com>
+Message-Id: <20190927134639.4284-13-armbru@redhat.com>
 ---
- scripts/qapi/common.py                                   | 6 ++----
- tests/qapi-schema/bad-ident.err                          | 2 +-
- tests/qapi-schema/flat-union-discriminator-bad-name.err  | 2 +-
- tests/qapi-schema/flat-union-discriminator-bad-name.json | 2 +-
- tests/qapi-schema/union-optional-branch.err              | 2 +-
- 5 files changed, 6 insertions(+), 8 deletions(-)
+ scripts/qapi/common.py                   | 16 ++++++++++------
+ tests/qapi-schema/bad-ident.err          |  2 +-
+ tests/qapi-schema/reserved-command-q.err |  2 +-
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index d0d997f31c..a4cf41f13e 100644
+index a4cf41f13e..111a4bbe55 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -724,11 +724,8 @@ def check_name_str(name, info, source,
-     global valid_name
-     membername =3D name
-=20
--    if name.startswith('*'):
-+    if allow_optional and name.startswith('*'):
-         membername =3D name[1:]
--        if not allow_optional:
--            raise QAPISemError(info, "%s does not allow optional name '%=
-s'"
--                               % (source, name))
-     # Enum members can start with a digit, because the generated C
-     # code always prefixes it with the enum name
-     if enum_member and membername[0].isdigit():
-@@ -741,6 +738,7 @@ def check_name_str(name, info, source,
-     if not permit_upper and name.lower() !=3D name:
-         raise QAPISemError(
-             info, "%s uses uppercase in name '%s'" % (source, name))
-+    assert not membername.startswith('*')
+@@ -741,6 +741,13 @@ def check_name_str(name, info, source,
+     assert not membername.startswith('*')
 =20
 =20
++def check_defn_name_str(name, info, meta):
++    check_name_str(name, info, meta, permit_upper=3DTrue)
++    if name.endswith('Kind') or name.endswith('List'):
++        raise QAPISemError(
++            info, "%s '%s' should not end in '%s'" % (meta, name, name[-=
+4:]))
++
++
  def add_name(name, info, meta):
+     global all_names
+     # FIXME should reject names that differ only in '_' vs. '.'
+@@ -748,9 +755,6 @@ def add_name(name, info, meta):
+     if name in all_names:
+         raise QAPISemError(info, "%s '%s' is already defined"
+                            % (all_names[name], name))
+-    if name.endswith('Kind') or name.endswith('List'):
+-        raise QAPISemError(info, "%s '%s' should not end in '%s'"
+-                           % (meta, name, name[-4:]))
+     all_names[name] =3D meta
+=20
+=20
+@@ -1162,7 +1166,7 @@ def check_exprs(exprs):
+         name =3D expr[meta]
+         check_name_is_str(name, info, "'%s'" % meta)
+         info.set_defn(meta, name)
+-        check_name_str(name, info, "'%s'" % meta, permit_upper=3DTrue)
++        check_defn_name_str(name, info, meta)
+         add_name(name, info, meta)
+         if doc and doc.symbol !=3D name:
+             raise QAPISemError(
+@@ -1889,13 +1893,13 @@ class QAPISchema(object):
+=20
+     def _make_implicit_enum_type(self, name, info, ifcond, values):
+         # See also QAPISchemaObjectTypeMember.describe()
+-        name =3D name + 'Kind'   # Use namespace reserved by add_name()
++        name =3D name + 'Kind'    # reserved by check_defn_name_str()
+         self._def_entity(QAPISchemaEnumType(
+             name, info, None, ifcond, self._make_enum_members(values), N=
+one))
+         return name
+=20
+     def _make_array_type(self, element_type, info):
+-        name =3D element_type + 'List'   # Use namespace reserved by add=
+_name()
++        name =3D element_type + 'List'    # reserved by check_defn_name_=
+str()
+         if not self.lookup_type(name):
+             self._def_entity(QAPISchemaArrayType(name, info, element_typ=
+e))
+         return name
 diff --git a/tests/qapi-schema/bad-ident.err b/tests/qapi-schema/bad-iden=
 t.err
-index 6878889854..ddc96bd3a9 100644
+index ddc96bd3a9..79d14758ce 100644
 --- a/tests/qapi-schema/bad-ident.err
 +++ b/tests/qapi-schema/bad-ident.err
 @@ -1,2 +1,2 @@
  tests/qapi-schema/bad-ident.json: In struct '*oops':
--tests/qapi-schema/bad-ident.json:2: 'struct' does not allow optional nam=
-e '*oops'
-+tests/qapi-schema/bad-ident.json:2: 'struct' uses invalid name '*oops'
-diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.err b/te=
-sts/qapi-schema/flat-union-discriminator-bad-name.err
-index f7f64c5c1a..44e41883b1 100644
---- a/tests/qapi-schema/flat-union-discriminator-bad-name.err
-+++ b/tests/qapi-schema/flat-union-discriminator-bad-name.err
+-tests/qapi-schema/bad-ident.json:2: 'struct' uses invalid name '*oops'
++tests/qapi-schema/bad-ident.json:2: struct uses invalid name '*oops'
+diff --git a/tests/qapi-schema/reserved-command-q.err b/tests/qapi-schema=
+/reserved-command-q.err
+index 0844e14b26..631cb5cdcc 100644
+--- a/tests/qapi-schema/reserved-command-q.err
++++ b/tests/qapi-schema/reserved-command-q.err
 @@ -1,2 +1,2 @@
- tests/qapi-schema/flat-union-discriminator-bad-name.json: In union 'MyUn=
-ion':
--tests/qapi-schema/flat-union-discriminator-bad-name.json:7: discriminato=
-r of flat union 'MyUnion' does not allow optional name '*switch'
-+tests/qapi-schema/flat-union-discriminator-bad-name.json:7: discriminato=
-r of flat union 'MyUnion' uses invalid name '*switch'
-diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.json b/t=
-ests/qapi-schema/flat-union-discriminator-bad-name.json
-index 66376084fc..ea84b75cac 100644
---- a/tests/qapi-schema/flat-union-discriminator-bad-name.json
-+++ b/tests/qapi-schema/flat-union-discriminator-bad-name.json
-@@ -1,5 +1,5 @@
- # discriminator '*switch' isn't a member of base, 'switch' is
--# reports "does not allow optional name", which is good enough
-+# reports "uses invalid name", which is good enough
- { 'enum': 'Enum', 'data': [ 'one', 'two' ] }
- { 'struct': 'Base',
-   'data': { '*switch': 'Enum' } }
-diff --git a/tests/qapi-schema/union-optional-branch.err b/tests/qapi-sch=
-ema/union-optional-branch.err
-index a5677f74bc..8e9b18d7c6 100644
---- a/tests/qapi-schema/union-optional-branch.err
-+++ b/tests/qapi-schema/union-optional-branch.err
-@@ -1,2 +1,2 @@
- tests/qapi-schema/union-optional-branch.json: In union 'Union':
--tests/qapi-schema/union-optional-branch.json:2: member of union 'Union' =
-does not allow optional name '*a'
-+tests/qapi-schema/union-optional-branch.json:2: member of union 'Union' =
-uses invalid name '*a'
+ tests/qapi-schema/reserved-command-q.json: In command 'q-unix':
+-tests/qapi-schema/reserved-command-q.json:5: 'command' uses invalid name=
+ 'q-unix'
++tests/qapi-schema/reserved-command-q.json:5: command uses invalid name '=
+q-unix'
 --=20
 2.21.0
 
