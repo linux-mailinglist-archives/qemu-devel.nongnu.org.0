@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557B7C11DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:52:14 +0200 (CEST)
-Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F6CC11E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 20:55:30 +0200 (CEST)
+Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEHpE-0001mF-Sr
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43936)
+	id 1iEHsO-0005eX-OC
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 14:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iEHd9-0008S8-84
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:47 -0400
+ (envelope-from <armbru@redhat.com>) id 1iEHdD-0008VM-OL
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iEHd5-0003ux-OV
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52810)
+ (envelope-from <armbru@redhat.com>) id 1iEHd6-0003xj-LS
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53990)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd5-0003sh-9r
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:39 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iEHd6-0003uJ-99
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:39:40 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 793A73D94D
- for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 684C18980EE
+ for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-142.ams2.redhat.com
  [10.36.117.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2242C3DE2;
- Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1355A5C1D8;
+ Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 572E41138528; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
+ id 5DA1211384AA; Sat, 28 Sep 2019 20:39:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/27] qapi: Move check for reserved names out of add_name()
-Date: Sat, 28 Sep 2019 20:39:20 +0200
-Message-Id: <20190928183934.12459-14-armbru@redhat.com>
+Subject: [PULL 15/27] qapi: Plumb info to the QAPISchemaMember
+Date: Sat, 28 Sep 2019 20:39:22 +0200
+Message-Id: <20190928183934.12459-16-armbru@redhat.com>
 In-Reply-To: <20190928183934.12459-1-armbru@redhat.com>
 References: <20190928183934.12459-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Sat, 28 Sep 2019 18:39:38 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Sat, 28 Sep 2019 18:39:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,102 +61,261 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The checks for reserved names are spread far and wide.  Move one from
-add_name() to new check_defn_name_str().  This is a first step towards
-collecting them all in dedicated name checking functions next to
-check_name().
-
-While there, drop the quotes around the meta-type in
-check_name_str()'s error messages: "'command' uses ... name 'NAME'"
-becomes "command uses ... name 'NAME'".
+Future commits will need info in the .check() methods of
+QAPISchemaMember and its descendants.  Get it there.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190927134639.4284-13-armbru@redhat.com>
+Message-Id: <20190927134639.4284-15-armbru@redhat.com>
 ---
- scripts/qapi/common.py                   | 16 ++++++++++------
- tests/qapi-schema/bad-ident.err          |  2 +-
- tests/qapi-schema/reserved-command-q.err |  2 +-
- 3 files changed, 12 insertions(+), 8 deletions(-)
+ scripts/qapi/common.py | 76 +++++++++++++++++++++++-------------------
+ scripts/qapi/events.py |  2 +-
+ 2 files changed, 43 insertions(+), 35 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index a4cf41f13e..111a4bbe55 100644
+index 870d8b0ecb..88945804dc 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -741,6 +741,13 @@ def check_name_str(name, info, source,
-     assert not membername.startswith('*')
+@@ -1574,9 +1574,10 @@ class QAPISchemaMember(object):
+     """ Represents object members, enum members and features """
+     role =3D 'member'
+=20
+-    def __init__(self, name, ifcond=3DNone):
++    def __init__(self, name, info, ifcond=3DNone):
+         assert isinstance(name, str)
+         self.name =3D name
++        self.info =3D info
+         self.ifcond =3D ifcond or []
+         self.defined_in =3D None
+=20
+@@ -1633,8 +1634,8 @@ class QAPISchemaFeature(QAPISchemaMember):
 =20
 =20
-+def check_defn_name_str(name, info, meta):
-+    check_name_str(name, info, meta, permit_upper=3DTrue)
-+    if name.endswith('Kind') or name.endswith('List'):
-+        raise QAPISemError(
-+            info, "%s '%s' should not end in '%s'" % (meta, name, name[-=
-4:]))
-+
-+
- def add_name(name, info, meta):
-     global all_names
-     # FIXME should reject names that differ only in '_' vs. '.'
-@@ -748,9 +755,6 @@ def add_name(name, info, meta):
-     if name in all_names:
-         raise QAPISemError(info, "%s '%s' is already defined"
-                            % (all_names[name], name))
--    if name.endswith('Kind') or name.endswith('List'):
--        raise QAPISemError(info, "%s '%s' should not end in '%s'"
--                           % (meta, name, name[-4:]))
-     all_names[name] =3D meta
+ class QAPISchemaObjectTypeMember(QAPISchemaMember):
+-    def __init__(self, name, typ, optional, ifcond=3DNone):
+-        QAPISchemaMember.__init__(self, name, ifcond)
++    def __init__(self, name, info, typ, optional, ifcond=3DNone):
++        QAPISchemaMember.__init__(self, name, info, ifcond)
+         assert isinstance(typ, str)
+         assert isinstance(optional, bool)
+         self._type_name =3D typ
+@@ -1648,7 +1649,7 @@ class QAPISchemaObjectTypeMember(QAPISchemaMember):
 =20
 =20
-@@ -1162,7 +1166,7 @@ def check_exprs(exprs):
-         name =3D expr[meta]
-         check_name_is_str(name, info, "'%s'" % meta)
-         info.set_defn(meta, name)
--        check_name_str(name, info, "'%s'" % meta, permit_upper=3DTrue)
-+        check_defn_name_str(name, info, meta)
-         add_name(name, info, meta)
-         if doc and doc.symbol !=3D name:
-             raise QAPISemError(
-@@ -1889,13 +1893,13 @@ class QAPISchema(object):
+ class QAPISchemaObjectTypeVariants(object):
+-    def __init__(self, tag_name, tag_member, variants):
++    def __init__(self, tag_name, info, tag_member, variants):
+         # Flat unions pass tag_name but not tag_member.
+         # Simple unions and alternates pass tag_member but not tag_name.
+         # After check(), tag_member is always set, and tag_name remains
+@@ -1659,6 +1660,7 @@ class QAPISchemaObjectTypeVariants(object):
+         for v in variants:
+             assert isinstance(v, QAPISchemaObjectTypeVariant)
+         self._tag_name =3D tag_name
++        self.info =3D info
+         self.tag_member =3D tag_member
+         self.variants =3D variants
+=20
+@@ -1678,8 +1680,8 @@ class QAPISchemaObjectTypeVariants(object):
+             cases =3D set([v.name for v in self.variants])
+             for m in self.tag_member.type.members:
+                 if m.name not in cases:
+-                    v =3D QAPISchemaObjectTypeVariant(m.name, 'q_empty',
+-                                                    m.ifcond)
++                    v =3D QAPISchemaObjectTypeVariant(m.name, self.info,
++                                                    'q_empty', m.ifcond)
+                     v.set_defined_in(self.tag_member.defined_in)
+                     self.variants.append(v)
+         assert self.variants
+@@ -1703,8 +1705,9 @@ class QAPISchemaObjectTypeVariants(object):
+ class QAPISchemaObjectTypeVariant(QAPISchemaObjectTypeMember):
+     role =3D 'branch'
+=20
+-    def __init__(self, name, typ, ifcond=3DNone):
+-        QAPISchemaObjectTypeMember.__init__(self, name, typ, False, ifco=
+nd)
++    def __init__(self, name, info, typ, ifcond=3DNone):
++        QAPISchemaObjectTypeMember.__init__(self, name, info, typ,
++                                            False, ifcond)
+=20
+=20
+ class QAPISchemaAlternateType(QAPISchemaType):
+@@ -1880,23 +1883,26 @@ class QAPISchema(object):
+=20
+         qtypes =3D ['none', 'qnull', 'qnum', 'qstring', 'qdict', 'qlist'=
+,
+                   'qbool']
+-        qtype_values =3D self._make_enum_members([{'name': n} for n in q=
+types])
++        qtype_values =3D self._make_enum_members(
++            [{'name': n} for n in qtypes], None)
+=20
+         self._def_entity(QAPISchemaEnumType('QType', None, None, None,
+                                             qtype_values, 'QTYPE'))
+=20
+-    def _make_features(self, features):
+-        return [QAPISchemaFeature(f['name'], f.get('if')) for f in featu=
+res]
++    def _make_features(self, features, info):
++        return [QAPISchemaFeature(f['name'], info, f.get('if'))
++                for f in features]
+=20
+-    def _make_enum_members(self, values):
+-        return [QAPISchemaEnumMember(v['name'], v.get('if'))
++    def _make_enum_members(self, values, info):
++        return [QAPISchemaEnumMember(v['name'], info, v.get('if'))
+                 for v in values]
 =20
      def _make_implicit_enum_type(self, name, info, ifcond, values):
          # See also QAPISchemaObjectTypeMember.describe()
--        name =3D name + 'Kind'   # Use namespace reserved by add_name()
-+        name =3D name + 'Kind'    # reserved by check_defn_name_str()
+         name =3D name + 'Kind'    # reserved by check_defn_name_str()
          self._def_entity(QAPISchemaEnumType(
-             name, info, None, ifcond, self._make_enum_members(values), N=
+-            name, info, None, ifcond, self._make_enum_members(values), N=
 one))
++            name, info, None, ifcond, self._make_enum_members(values, in=
+fo),
++            None))
          return name
 =20
      def _make_array_type(self, element_type, info):
--        name =3D element_type + 'List'   # Use namespace reserved by add=
-_name()
-+        name =3D element_type + 'List'    # reserved by check_defn_name_=
-str()
-         if not self.lookup_type(name):
-             self._def_entity(QAPISchemaArrayType(name, info, element_typ=
-e))
-         return name
-diff --git a/tests/qapi-schema/bad-ident.err b/tests/qapi-schema/bad-iden=
-t.err
-index ddc96bd3a9..79d14758ce 100644
---- a/tests/qapi-schema/bad-ident.err
-+++ b/tests/qapi-schema/bad-ident.err
-@@ -1,2 +1,2 @@
- tests/qapi-schema/bad-ident.json: In struct '*oops':
--tests/qapi-schema/bad-ident.json:2: 'struct' uses invalid name '*oops'
-+tests/qapi-schema/bad-ident.json:2: struct uses invalid name '*oops'
-diff --git a/tests/qapi-schema/reserved-command-q.err b/tests/qapi-schema=
-/reserved-command-q.err
-index 0844e14b26..631cb5cdcc 100644
---- a/tests/qapi-schema/reserved-command-q.err
-+++ b/tests/qapi-schema/reserved-command-q.err
-@@ -1,2 +1,2 @@
- tests/qapi-schema/reserved-command-q.json: In command 'q-unix':
--tests/qapi-schema/reserved-command-q.json:5: 'command' uses invalid name=
- 'q-unix'
-+tests/qapi-schema/reserved-command-q.json:5: command uses invalid name '=
-q-unix'
+@@ -1935,7 +1941,7 @@ class QAPISchema(object):
+         ifcond =3D expr.get('if')
+         self._def_entity(QAPISchemaEnumType(
+             name, info, doc, ifcond,
+-            self._make_enum_members(data), prefix))
++            self._make_enum_members(data, info), prefix))
+=20
+     def _make_member(self, name, typ, ifcond, info):
+         optional =3D False
+@@ -1945,7 +1951,7 @@ class QAPISchema(object):
+         if isinstance(typ, list):
+             assert len(typ) =3D=3D 1
+             typ =3D self._make_array_type(typ[0], info)
+-        return QAPISchemaObjectTypeMember(name, typ, optional, ifcond)
++        return QAPISchemaObjectTypeMember(name, info, typ, optional, ifc=
+ond)
+=20
+     def _make_members(self, data, info):
+         return [self._make_member(key, value['type'], value.get('if'), i=
+nfo)
+@@ -1957,13 +1963,14 @@ class QAPISchema(object):
+         data =3D expr['data']
+         ifcond =3D expr.get('if')
+         features =3D expr.get('features', [])
+-        self._def_entity(QAPISchemaObjectType(name, info, doc, ifcond, b=
+ase,
+-                                              self._make_members(data, i=
+nfo),
+-                                              None,
+-                                              self._make_features(featur=
+es)))
++        self._def_entity(QAPISchemaObjectType(
++            name, info, doc, ifcond, base,
++            self._make_members(data, info),
++            None,
++            self._make_features(features, info)))
+=20
+-    def _make_variant(self, case, typ, ifcond):
+-        return QAPISchemaObjectTypeVariant(case, typ, ifcond)
++    def _make_variant(self, case, typ, ifcond, info):
++        return QAPISchemaObjectTypeVariant(case, info, typ, ifcond)
+=20
+     def _make_simple_variant(self, case, typ, ifcond, info):
+         if isinstance(typ, list):
+@@ -1972,7 +1979,7 @@ class QAPISchema(object):
+         typ =3D self._make_implicit_object_type(
+             typ, info, None, self.lookup_type(typ),
+             'wrapper', [self._make_member('data', typ, None, info)])
+-        return QAPISchemaObjectTypeVariant(case, typ, ifcond)
++        return QAPISchemaObjectTypeVariant(case, info, typ, ifcond)
+=20
+     def _def_union_type(self, expr, info, doc):
+         name =3D expr['union']
+@@ -1986,7 +1993,8 @@ class QAPISchema(object):
+                 name, info, doc, ifcond,
+                 'base', self._make_members(base, info))
+         if tag_name:
+-            variants =3D [self._make_variant(key, value['type'], value.g=
+et('if'))
++            variants =3D [self._make_variant(key, value['type'],
++                                           value.get('if'), info)
+                         for (key, value) in data.items()]
+             members =3D []
+         else:
+@@ -1995,26 +2003,26 @@ class QAPISchema(object):
+                         for (key, value) in data.items()]
+             enum =3D [{'name': v.name, 'if': v.ifcond} for v in variants=
+]
+             typ =3D self._make_implicit_enum_type(name, info, ifcond, en=
+um)
+-            tag_member =3D QAPISchemaObjectTypeMember('type', typ, False=
+)
++            tag_member =3D QAPISchemaObjectTypeMember('type', info, typ,=
+ False)
+             members =3D [tag_member]
+         self._def_entity(
+             QAPISchemaObjectType(name, info, doc, ifcond, base, members,
+-                                 QAPISchemaObjectTypeVariants(tag_name,
+-                                                              tag_member=
+,
+-                                                              variants),=
+ []))
++                                 QAPISchemaObjectTypeVariants(
++                                     tag_name, info, tag_member, variant=
+s),
++                                 []))
+=20
+     def _def_alternate_type(self, expr, info, doc):
+         name =3D expr['alternate']
+         data =3D expr['data']
+         ifcond =3D expr.get('if')
+-        variants =3D [self._make_variant(key, value['type'], value.get('=
+if'))
++        variants =3D [self._make_variant(key, value['type'], value.get('=
+if'),
++                                       info)
+                     for (key, value) in data.items()]
+-        tag_member =3D QAPISchemaObjectTypeMember('type', 'QType', False=
+)
++        tag_member =3D QAPISchemaObjectTypeMember('type', info, 'QType',=
+ False)
+         self._def_entity(
+             QAPISchemaAlternateType(name, info, doc, ifcond,
+-                                    QAPISchemaObjectTypeVariants(None,
+-                                                                 tag_mem=
+ber,
+-                                                                 variant=
+s)))
++                                    QAPISchemaObjectTypeVariants(
++                                        None, info, tag_member, variants=
+)))
+=20
+     def _def_command(self, expr, info, doc):
+         name =3D expr['command']
+@@ -2306,7 +2314,7 @@ const QEnumLookup %(c_name)s_lookup =3D {
+=20
+ def gen_enum(name, members, prefix=3DNone):
+     # append automatically generated _MAX value
+-    enum_members =3D members + [QAPISchemaEnumMember('_MAX')]
++    enum_members =3D members + [QAPISchemaEnumMember('_MAX', None)]
+=20
+     ret =3D mcgen('''
+=20
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index 7062553cf3..7308e8e589 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -194,7 +194,7 @@ void %(event_emit)s(%(event_enum)s event, QDict *qdic=
+t);
+                                           self._event_emit_name))
+         # Note: we generate the enum member regardless of @ifcond, to
+         # keep the enumeration usable in target-independent code.
+-        self._event_enum_members.append(QAPISchemaEnumMember(name))
++        self._event_enum_members.append(QAPISchemaEnumMember(name, None)=
+)
+=20
+=20
+ def gen_events(schema, output_dir, prefix):
 --=20
 2.21.0
 
