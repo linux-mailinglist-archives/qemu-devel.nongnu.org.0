@@ -2,55 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A30C11ED
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 21:05:15 +0200 (CEST)
-Received: from localhost ([::1]:34550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AE6C11F0
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Sep 2019 21:07:18 +0200 (CEST)
+Received: from localhost ([::1]:34586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEI1p-0007u3-H4
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 15:05:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44571)
+	id 1iEI3p-0002bU-Gw
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 15:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iEHkg-00085I-FY
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:47:32 -0400
+ (envelope-from <thuth@redhat.com>) id 1iEI0R-0007UP-7W
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 15:03:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iEHke-0006BW-F3
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:47:30 -0400
-Resent-Date: Sat, 28 Sep 2019 14:47:30 -0400
-Resent-Message-Id: <E1iEHke-0006BW-F3@eggs.gnu.org>
-Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21927)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iEHke-00069K-6t
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 14:47:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569696429; cv=none; d=zoho.com; s=zohoarc; 
- b=dUxo9M+vnuFsYAC0/pZPGattj/gTUHKrTXW4TYgQ+W+NZzw3SmfGIJqje94aoH/JHD5yk5QSFFjTwCccwWEEJYpB8aa5OU6NTiwAscKP9F9odc7ixxWb+TDnSmcUquRw9BuZQ9nkXfAbb5q+BtNID9YCtqNrsYIhhVSvYu4XGKg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569696429;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=LPusMKGiN5Jwe8JyEjItXsDdzDveEMhjA9JrNiVdQi0=; 
- b=gtE4nSlgXoktNFnW9x46+enzajYrx1h7c9tjpbE0jyNA+kJC/223Dg4uABXlN9HoROAhPM2I6gjfjB2YB4/slcly4jCnAt1WEbDrg2cwXvfQ8aeoZKuXyBl2comt2364dw6pVrSyrdaYkgkKJJjSpvDKZbJrzZNTtpMzJimGT78=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569696429316388.2854577471427;
- Sat, 28 Sep 2019 11:47:09 -0700 (PDT)
-Subject: Re: [PATCH v25 00/22] Add RX archtecture support
-In-Reply-To: <20190927062302.110144-1-ysato@users.sourceforge.jp>
-Message-ID: <156969642799.27524.6751508706024961414@8230166b0665>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Sat, 28 Sep 2019 11:47:09 -0700 (PDT)
-X-ZohoMailClient: External
+ (envelope-from <thuth@redhat.com>) id 1iEI0O-00086X-R4
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 15:03:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50908)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iEI0O-00081z-KE; Sat, 28 Sep 2019 15:03:44 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E678C05683F;
+ Sat, 28 Sep 2019 19:03:42 +0000 (UTC)
+Received: from thuth.com (ovpn-116-92.ams2.redhat.com [10.36.116.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D103600C4;
+ Sat, 28 Sep 2019 19:03:37 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+	qemu-s390x@nongnu.org
+Subject: [PATCH] configure: Remove s390 (31-bit mode) from the list of
+ supported CPUs
+Date: Sat, 28 Sep 2019 21:03:34 +0200
+Message-Id: <20190928190334.6897-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Sat, 28 Sep 2019 19:03:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.59
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,142 +53,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkyNzA2MjMwMi4xMTAx
-NDQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwOTI3MDYy
-MzAyLjExMDE0NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwClN1YmplY3Q6IFtQQVRDSCB2
-MjUgMDAvMjJdIEFkZCBSWCBhcmNodGVjdHVyZSBzdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVH
-SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
-c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
-VCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRi
-ZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmRhZGZmNTEgcWFwaS9t
-YWNoaW5lLmpzb246IEFkZCBSWCBjcHUuCmViYjY2MjEgQm9vdExpbnV4Q29uc29sZVRlc3Q6IFRl
-c3QgdGhlIFJYLVZpcnQgbWFjaGluZQpmODFhNGRkIEFkZCByeC1zb2Z0bW11CjkxMzU0ZmQgaHcv
-cng6IFJlc3RyaWN0IHRoZSBSWDYyTiBtaWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJOIENQVSBj
-b3JlCjY3MDMyNzkgaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdAo4NmQwNzI0IGh3L3J4OiBSWCBU
-YXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbgpmODVkYmNhIGh3L2NoYXI6IFJYNjJOIHNlcmlhbCBj
-b21tdW5pY2F0aW9uIGludGVyZmFjZSAoU0NJKQowYWFjM2RjIGh3L3RpbWVyOiBSWDYyTiBpbnRl
-cm5hbCB0aW1lciBtb2R1bGVzCjE4OWMxNTcgaHcvaW50YzogUlg2Mk4gaW50ZXJydXB0IGNvbnRy
-b2xsZXIgKElDVWEpCmY0ZTExMGEgdGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24g
-ZHVyaW5nIGRpc2Fzc2VtYmx5CjY4ZjliM2MgdGFyZ2V0L3J4OiBDb2xsZWN0IGFsbCBieXRlcyBk
-dXJpbmcgZGlzYXNzZW1ibHkKYzk5ZTMwNyB0YXJnZXQvcng6IEVtaXQgYWxsIGRpc2Fzc2VtYmx5
-IGluIG9uZSBwcnQoKQphZmIzYzZmIHRhcmdldC9yeDogVXNlIHBydF9sZG1pIGZvciBYQ0hHX21y
-IGRpc2Fzc2VtYmx5CmEyZmY5YjcgdGFyZ2V0L3J4OiBSZXBsYWNlIG9wZXJhbmQgd2l0aCBwcnRf
-bGRtaSBpbiBkaXNhc3NlbWJsZXIKMjc1M2RmMiB0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2lu
-ZGV4X2FkZHIgaW50byBhIHN0cmluZwo2YzU3MWQzIHRhcmdldC9yeDogUlggZGlzYXNzZW1ibGVy
-CjE0OWZjOTggdGFyZ2V0L3J4OiBDUFUgZGVmaW5pdGlvbgoxYzU2ZTlkIHRhcmdldC9yeDogVENH
-IGhlbHBlcgozM2VjMWJiIHRhcmdldC9yeDogVENHIHRyYW5zbGF0aW9uCjZkY2I0Y2UgaHcvcmVn
-aXN0ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3JvcwoxNTQzOWJj
-IHFlbXUvYml0b3BzLmg6IEFkZCBleHRyYWN0OCBhbmQgZXh0cmFjdDE2CjZlMzU0M2UgTUFJTlRB
-SU5FUlM6IEFkZCBSWAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yMiBDaGVja2luZyBjb21taXQg
-NmUzNTQzZWI5NThkIChNQUlOVEFJTkVSUzogQWRkIFJYKQoyLzIyIENoZWNraW5nIGNvbW1pdCAx
-NTQzOWJjMDNkNzEgKHFlbXUvYml0b3BzLmg6IEFkZCBleHRyYWN0OCBhbmQgZXh0cmFjdDE2KQoz
-LzIyIENoZWNraW5nIGNvbW1pdCA2ZGNiNGNlOTI1ZjcgKGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFk
-ZCA4Yml0IGFuZCAxNmJpdCByZWdpc3RlciBtYWNyb3MpClVzZSBvZiB1bmluaXRpYWxpemVkIHZh
-bHVlIGluIGNvbmNhdGVuYXRpb24gKC4pIG9yIHN0cmluZyBhdCAuL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCBsaW5lIDI0ODQuCkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNo
-b3VsZCBiZSBlbmNsb3NlZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojMjc6IEZJTEU6IGluY2x1ZGUv
-aHcvcmVnaXN0ZXJmaWVsZHMuaDoyNToKKyNkZWZpbmUgUkVHOChyZWcsIGFkZHIpICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFf
-ICMjIHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIH07CgpFUlJPUjogTWFjcm9zIHdp
-dGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxl
-IGxvb3AKIzMxOiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6Mjk6CisjZGVmaW5l
-IFJFRzE2KHJlZywgYWRkcikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFwKKyAgICBlbnVtIHsgQV8gIyMgcmVnID0gKGFkZHIpIH07ICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBSXyAjIyByZWcgPSAo
-YWRkcikgLyAyIH07Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDU2IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDMvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjQvMjIgQ2hlY2tpbmcg
-Y29tbWl0IDMzZWMxYmJhYmZhZSAodGFyZ2V0L3J4OiBUQ0cgdHJhbnNsYXRpb24pCldBUk5JTkc6
-IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
-cGRhdGluZz8KIzIwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
-YXJuaW5ncywgMzA2NSBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzIyIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCjUvMjIgQ2hlY2tpbmcgY29tbWl0IDFjNTZlOWRmMGJkYSAodGFyZ2V0L3J4OiBU
-Q0cgaGVscGVyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0
-b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDY1MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzIy
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjYvMjIgQ2hlY2tpbmcgY29tbWl0IDE0OWZjOTg5
-YTBiMyAodGFyZ2V0L3J4OiBDUFUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9y
-IGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApu
-ZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1ODggbGlu
-ZXMgY2hlY2tlZAoKUGF0Y2ggNi8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
-ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
-dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzIyIENo
-ZWNraW5nIGNvbW1pdCA2YzU3MWQzYjZhMmYgKHRhcmdldC9yeDogUlggZGlzYXNzZW1ibGVyKQpX
-QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
-IG5lZWQgdXBkYXRpbmc/CiMzODogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
-cnMsIDEgd2FybmluZ3MsIDE0OTcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNy8yMiBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgo4LzIyIENoZWNraW5nIGNvbW1pdCAyNzUzZGYyODgzNDMgKHRhcmdl
-dC9yeDogRGlzYXNzZW1ibGUgcnhfaW5kZXhfYWRkciBpbnRvIGEgc3RyaW5nKQo5LzIyIENoZWNr
-aW5nIGNvbW1pdCBhMmZmOWI3YWY0MjYgKHRhcmdldC9yeDogUmVwbGFjZSBvcGVyYW5kIHdpdGgg
-cHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyKQoxMC8yMiBDaGVja2luZyBjb21taXQgYWZiM2M2ZjYy
-ZTczICh0YXJnZXQvcng6IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseSkKMTEv
-MjIgQ2hlY2tpbmcgY29tbWl0IGM5OWUzMDcxYTMyMyAodGFyZ2V0L3J4OiBFbWl0IGFsbCBkaXNh
-c3NlbWJseSBpbiBvbmUgcHJ0KCkpCjEyLzIyIENoZWNraW5nIGNvbW1pdCA2OGY5YjNjYmZkNTkg
-KHRhcmdldC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5KQoxMy8yMiBD
-aGVja2luZyBjb21taXQgZjRlMTEwYTM0MzQ1ICh0YXJnZXQvcng6IER1bXAgYnl0ZXMgZm9yIGVh
-Y2ggaW5zbiBkdXJpbmcgZGlzYXNzZW1ibHkpCjE0LzIyIENoZWNraW5nIGNvbW1pdCAxODljMTU3
-NjA5OTEgKGh3L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKSkKV0FSTklO
-RzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVk
-IHVwZGF0aW5nPwojNDA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAx
-IHdhcm5pbmdzLCA0NDUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMjIgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KMTUvMjIgQ2hlY2tpbmcgY29tbWl0IDBhYWMzZGM1MDM0ZiAoaHcvdGltZXI6
-IFJYNjJOIGludGVybmFsIHRpbWVyIG1vZHVsZXMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzUwOiAKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgODQ1IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDE1LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE2LzIyIENo
-ZWNraW5nIGNvbW1pdCBmODVkYmNhZjA3YWYgKGh3L2NoYXI6IFJYNjJOIHNlcmlhbCBjb21tdW5p
-Y2F0aW9uIGludGVyZmFjZSAoU0NJKSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQg
-ZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDM6IApuZXcgZmlsZSBt
-b2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0MDEgbGluZXMgY2hlY2tl
-ZAoKUGF0Y2ggMTYvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTcvMjIgQ2hlY2tpbmcg
-Y29tbWl0IDg2ZDA3MjQwNmE3NyAoaHcvcng6IFJYIFRhcmdldCBoYXJkd2FyZSBkZWZpbml0aW9u
-KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
-RVJTIG5lZWQgdXBkYXRpbmc/CiMyOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
-cnJvcnMsIDEgd2FybmluZ3MsIDQ4MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yMiBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoxOC8yMiBDaGVja2luZyBjb21taXQgNjcwMzI3OTQ4ZjNlICho
-dy9yeDogSG9ub3IgLWFjY2VsIHF0ZXN0KQoxOS8yMiBDaGVja2luZyBjb21taXQgOTEzNTRmZGM1
-NDM1IChody9yeDogUmVzdHJpY3QgdGhlIFJYNjJOIG1pY3JvY29udHJvbGxlciB0byB0aGUgUlg2
-Mk4gQ1BVIGNvcmUpCjIwLzIyIENoZWNraW5nIGNvbW1pdCBmODFhNGRkNDNhMTUgKEFkZCByeC1z
-b2Z0bW11KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1B
-SU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1OTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
-bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDU5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIwLzIyIGhh
-cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
-YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
-RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIxLzIyIENoZWNraW5nIGNvbW1pdCBlYmI2NjIxZGY1
-OTAgKEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUpCjIyLzIy
-IENoZWNraW5nIGNvbW1pdCBkYWRmZjUxOTVlMjIgKHFhcGkvbWFjaGluZS5qc29uOiBBZGQgUlgg
-Y3B1LikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
-MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAxOTA5MjcwNjIzMDIuMTEwMTQ0LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAvdGVzdGlu
-Zy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
-YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
-ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On IBM Z, KVM in the kernel is only implemented for 64-bit mode, and
+with regards to TCG, we also only support 64-bit host CPUs (see the
+check at the beginning of tcg/s390/tcg-target.inc.c), so we should
+remove s390 (without "x", i.e. the old 31-bit mode CPUs) from the
+list of supported CPUs.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 397bb476e1..a4488c6705 100755
+--- a/configure
++++ b/configure
+@@ -728,7 +728,7 @@ ARCH=
+ # Normalise host CPU name and set ARCH.
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+-  ppc|ppc64|s390|s390x|sparc64|x32|riscv32|riscv64)
++  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
+     supported_cpu="yes"
+   ;;
+   ppc64le)
+-- 
+2.18.1
 
 
