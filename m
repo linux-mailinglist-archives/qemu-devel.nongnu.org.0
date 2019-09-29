@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBD6C12B1
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 03:32:16 +0200 (CEST)
-Received: from localhost ([::1]:35848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02AFC12BC
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 03:59:16 +0200 (CEST)
+Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEO4N-00021e-Bf
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 21:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54669)
+	id 1iEOUV-0002Xi-Iu
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 21:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iEO2S-0001M9-Cs
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:30:18 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iEOSm-0001GA-T1
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:57:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iEO2Q-0008On-GG
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:30:15 -0400
-Received: from mga01.intel.com ([192.55.52.88]:43548)
+ (envelope-from <tao3.xu@intel.com>) id 1iEOSj-0004Aq-DG
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:57:28 -0400
+Received: from mga14.intel.com ([192.55.52.115]:19352)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iEO2Q-0008Ll-82
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:30:14 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iEOSj-0004AH-5o
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:57:25 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2019 18:30:10 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2019 18:57:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,561,1559545200"; d="scan'208";a="390424450"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.82])
- ([10.239.196.82])
- by fmsmga005.fm.intel.com with ESMTP; 28 Sep 2019 18:30:08 -0700
-Subject: Re: [PATCH RESEND v4 1/2] x86/cpu: Add support for
- UMONITOR/UMWAIT/TPAUSE
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20190918072329.1911-1-tao3.xu@intel.com>
- <20190918072329.1911-2-tao3.xu@intel.com>
- <a1156a86-3ec3-da72-306b-1fafa0c369d7@redhat.com>
+X-IronPort-AV: E=Sophos;i="5.64,561,1559545200"; d="scan'208";a="204501449"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2019 18:57:20 -0700
 From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <705e50fa-2d98-52ac-cdb7-1d68ca8f4b5d@intel.com>
-Date: Sun, 29 Sep 2019 09:30:08 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
+ mtosatti@redhat.com
+Subject: [PATCH v5 0/2] x86: Enable user wait instructions
+Date: Sun, 29 Sep 2019 09:57:16 +0800
+Message-Id: <20190929015718.19562-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <a1156a86-3ec3-da72-306b-1fafa0c369d7@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.88
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,24 +53,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "mtosatti@redhat.com" <mtosatti@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/2019 4:22 AM, Paolo Bonzini wrote:
-> On 18/09/19 09:23, Tao Xu wrote:
->> +    } else if (function == 7 && index == 0 && reg == R_ECX) {
->> +        if (enable_cpu_pm) {
->> +            ret |= CPUID_7_0_ECX_WAITPKG;
->> +        }
-> 
-> This should be the opposite; remove the bit if enable_cpu_pm is not set.
-> 
-> Paolo
-> 
-Thanks, I will improve it.
+UMONITOR, UMWAIT and TPAUSE are a set of user wait instructions.
+
+UMONITOR arms address monitoring hardware using an address. A store
+to an address within the specified address range triggers the
+monitoring hardware to wake up the processor waiting in umwait.
+
+UMWAIT instructs the processor to enter an implementation-dependent
+optimized state while monitoring a range of addresses. The optimized
+state may be either a light-weight power/performance optimized state
+(c0.1 state) or an improved power/performance optimized state
+(c0.2 state).
+
+TPAUSE instructs the processor to enter an implementation-dependent
+optimized state c0.1 or c0.2 state and wake up when time-stamp counter
+reaches specified timeout.
+
+Availability of the user wait instructions is indicated by the presence
+of the CPUID feature flag WAITPKG CPUID.0x07.0x0:ECX[5].
+
+The patches enable the umonitor, umwait and tpause features in KVM.
+Because umwait and tpause can put a (psysical) CPU into a power saving
+state, by default we dont't expose it in kvm and provide a capability to
+enable it. Use kvm capability to enable UMONITOR, UMWAIT and TPAUSE when
+QEMU use "-overcommit cpu-pm=on, a VM can use UMONITOR, UMWAIT and TPAUSE
+instructions. If the instruction causes a delay, the amount of time
+delayed is called here the physical delay. The physical delay is first
+computed by determining the virtual delay (the time to delay relative to
+the VM’s timestamp counter). Otherwise, UMONITOR, UMWAIT and TPAUSE cause
+an invalid-opcode exception(#UD).
+
+The release document ref below link:
+https://software.intel.com/sites/default/files/\
+managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf
+
+Changelog:
+v5:
+	Remove CPUID_7_0_ECX_WAITPKG if enable_cpu_pm is not set. (Paolo)
+v4:
+	Set IA32_UMWAIT_CONTROL 32bits
+v3:
+	Simplify the patches, expose user wait instructions when the guest
+	has CPUID (Paolo)
+v2:
+	Separated from the series
+	https://www.mail-archive.com/qemu-devel@nongnu.org/msg549526.html
+	Use kvm capability to enable UMONITOR, UMWAIT and TPAUSE when
+	QEMU use "-overcommit cpu-pm=on"	
+v1:
+	Sent out with MOVDIRI/MOVDIR64B instructions patches
+
+Tao Xu (2):
+  x86/cpu: Add support for UMONITOR/UMWAIT/TPAUSE
+  target/i386: Add support for save/load IA32_UMWAIT_CONTROL MSR
+
+ target/i386/cpu.c     |  3 ++-
+ target/i386/cpu.h     |  3 +++
+ target/i386/kvm.c     | 19 +++++++++++++++++++
+ target/i386/machine.c | 20 ++++++++++++++++++++
+ 4 files changed, 44 insertions(+), 1 deletion(-)
+
+-- 
+2.20.1
+
 
