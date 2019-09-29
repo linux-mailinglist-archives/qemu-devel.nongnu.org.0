@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64854C18E5
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 20:14:25 +0200 (CEST)
-Received: from localhost ([::1]:41460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23A6C18F8
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 20:28:17 +0200 (CEST)
+Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEdiB-0003r4-Sp
-	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 14:14:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37940)
+	id 1iEdvc-0000P0-6A
+	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 14:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iEdgg-00037C-Ou
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:12:51 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iEduS-0008Jj-Pk
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:27:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iEdgf-0000He-D8
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:12:50 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36175)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iEduR-0007Vh-KO
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:27:04 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39402)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iEdgf-0000CV-3a
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:12:49 -0400
-Received: by mail-wr1-x433.google.com with SMTP id y19so8518304wrd.3
- for <qemu-devel@nongnu.org>; Sun, 29 Sep 2019 11:12:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iEduR-0007VI-Bq
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:27:03 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v17so10255206wml.4
+ for <qemu-devel@nongnu.org>; Sun, 29 Sep 2019 11:27:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X/aRNGmEubqqqJ2Obnnv7ec/BJj0Pg670lU/1ceOKRI=;
- b=Brw5BfrUt7btO8H2AuXsZJQMnybyW9FqND01f/LTxYMctbfxScpmSBWARQaV18jFXQ
- 4tDdNtfYtPLhxLxW6agrDr6iN6b2ctaZRinRqvFTQs55104e2w9f+oIglaqzjARb13D9
- 1mRC0I4H5aDypRHdWR2vdlKHl6Cslkpz/dZXXtIy7JEVrehKMzYl1zKuJOAi5TuzSukj
- clZKpHKYnS40oNjhB4WlhiOl4XTR8c2bzFhp8Wi9yUE17TEIqqFMrLcy8rC7CF+oGF+v
- hHrWEBCE2YIXqvXo6Wfr5ZS+bTG94n/ToBCUhM4GKz1da4+70h5jgc4TyckcFHR3yb0B
- 2kyA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0znAm1APlKwxUYstE+U4yRnhv2z9fuHlNkAgJ+5sYA8=;
+ b=vZtuROo90pWHIGOcicMnniEcnvrF0A9KqfbN26sY/SQX/ryMwfpGepPLXNvbXIKpXF
+ Rfv+rue/0VEKkHbL9nSQlM9NO+v/l2Fj+b1AkSCGess8HDI1nhXoQOsKJ/DCciDXB+3Y
+ rMRmtq8E2dsJN4wOMcuPoar8KcW9aaJn+nrZuKotAzrCQf0l98idhcT9hEenewwgInNt
+ WjJ1MfSuWHv/YW59dpO7efYs3uhYYT+dee9RNFKsNPhRBWDx+nBBu/njnJl5Sg4XoJx4
+ VpwntqDnDH7UuxQShH8NmzP+g1xp0lquK4Mn2kYaBNEzneCCi3PmvIwKQJB2KeSAu8n6
+ kp0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X/aRNGmEubqqqJ2Obnnv7ec/BJj0Pg670lU/1ceOKRI=;
- b=sxKh4hjoBd1xOC66dc99fIkaFKwMNY8jzO6jRIIo47KUwXf1lsLmEkVKbvwy9UofZU
- O7UlAuDKZZu3nfh7q6PsxI0jQjbwcmXAt8PDJMs+krimq+WaVSdM+825xMcLIgzbYpNa
- EbRRdjdMiDM651HLCaDH7t7wvsJ+AfluilE4dpMwLGHrBd9H1buC+P38q747+4fV+WKT
- EkaR/f0LuIGRkl6qY0EuWUBTNZWxeKsuRON3Ym9942pEknm369iHlW8X66yVSWzlDu7c
- MO/rCo6oIQph4lbQYGpYMeSS4UUd5AJ+R/V5kz/g/ow87b2MOiMksjcEr2iYsygyzVEa
- jQ6A==
-X-Gm-Message-State: APjAAAXUP0kK+cZhDjcAOAc1hrHhkBv1Q7fpeRP6ZzVnKJiwGAX84GFb
- Lp7MAs5oBv0eVWYCzOj3SpHjgCKo
-X-Google-Smtp-Source: APXvYqxjYhfXdtWLrqP/GJOD7KzckoGoCRB/vejdTnyPCuZU8W5BKdau+5jgFAZ94Fl9HoLpaQZjrw==
-X-Received: by 2002:a5d:4fcf:: with SMTP id h15mr8139975wrw.237.1569780766168; 
- Sun, 29 Sep 2019 11:12:46 -0700 (PDT)
-Received: from ?IPv6:fd00:835b:d940:d4fc::5?
- (2a01-036c-0113-e8f4-0000-0000-0000-0005.pool6.digikabel.hu.
- [2a01:36c:113:e8f4::5])
- by smtp.googlemail.com with ESMTPSA id f66sm13280058wmg.2.2019.09.29.11.12.45
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 29 Sep 2019 11:12:45 -0700 (PDT)
-From: "=?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=" <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=
- <DirtY.iCE.hu@gmail.com>
-Subject: Re: [PATCH v4 21/24] paaudio: channel-map option
-To: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
- <8f650662fd6cc50baaede260581aeb560eed44fb.1568927990.git.DirtY.iCE.hu@gmail.com>
- <87o8zbma1m.fsf@dusky.pond.sub.org>
- <55ea6ac9-9651-e322-fd84-22b4bedb3a93@gmail.com>
- <87impgy3hw.fsf@dusky.pond.sub.org>
- <20190925141331.kjxraaw3ijzkbiq4@sirius.home.kraxel.org>
-Message-ID: <a32c555d-9315-7c3d-e7be-d196ad3dd0b1@gmail.com>
-Date: Sun, 29 Sep 2019 20:13:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0znAm1APlKwxUYstE+U4yRnhv2z9fuHlNkAgJ+5sYA8=;
+ b=mfHVvW3/ATZa7HTHsWtlqbDsE+roJLb6MsJDurJ7oq627wYwSrPLsn3NALDGkHRxZ8
+ pgNS0aKQNBoW4iGoT7bCZF6Jy+TgV6lKsZT2zcz2IWUJAYoHrRUrdmfStjpQvtAtv6kZ
+ TSQYkq+kjt+WkfyJFKy8Knb9Os+ifg6hJu4Q1zn85LNuj0clGPPDT6h/AdLGPvdJJn/u
+ ApHGGiFk686adJ8Fb+T8TCcFM1A6hnEiML+r931m68l4RzwlmxHg7LxeMe7WNyL9UtNw
+ fm/wTd2bup+6VEo9Z77qLDmj0WSwLUNiyPELWCXrFMIzP6HNL8wh0vUNHOvp6dBftXr3
+ QEpA==
+X-Gm-Message-State: APjAAAURpA2TbCHHPpxVygPkdpeLfxppLxB23oqSxuq/kZPfJxbv4PpH
+ pLWGzwv5kIOPWQWJJHuL23YA38MdNqIiAnzjoNs=
+X-Google-Smtp-Source: APXvYqyVYTNAhuUwQGofUnwuDovsr0dEGwIX1vQhLCGEm29xURMOzciQoXI7PPwDq8cJLEssP6g+J5Z0laNpl5b3PnE=
+X-Received: by 2002:a1c:c789:: with SMTP id x131mr14093297wmf.20.1569781621412; 
+ Sun, 29 Sep 2019 11:27:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190925141331.kjxraaw3ijzkbiq4@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190929181303.19960-1-samuel.thibault@ens-lyon.org>
+In-Reply-To: <20190929181303.19960-1-samuel.thibault@ens-lyon.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Sun, 29 Sep 2019 22:26:48 +0400
+Message-ID: <CAJ+F1CLgLzo=PJega2gPvuvXFmgTmK19j+TbNC0obiHgADvh1g@mail.gmail.com>
+Subject: Re: [PATCH] slirp: Allow non-local DNS address when restrict is off
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,39 +73,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-09-25 16:13, Gerd Hoffmann wrote:
->    Hi,
-> 
->>> Oh now that I looked again at the pulseaudio docs, channel-map doesn't
->>> have to be a list, it can be also a "well-known mapping name".
->>
->> Unambiguous because the well-known mapping names are not valid channel
->> position list members.
-> 
-> Do we have well-known mapping names for the common use cases?
-> So maybe just support these?
-> 
-> cheers,
->    Gerd
-> 
+On Sun, Sep 29, 2019 at 10:13 PM Samuel Thibault
+<samuel.thibault@ens-lyon.org> wrote:
+>
+> This can be used to set a DNS server to be used by the guest which is
+> different from the one configured on the host.
+>
+> This fixes LP 1010484.
+>
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-It's surprisingly hard to figure out what are these "well-known names", 
-I could only find them in the source:
-https://github.com/michaelwu/pulseaudio/blob/16e3dccfa88455ebd329de27a98a3d979a8bdc8e/src/pulse/channelmap.c#L538
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-It doesn't provide much over the "auto detect channel maps from the 
-number of channels" pulseaudio already has (the only ambiguous case is 
-surround-41 vs surround-50).  IIRC I originally added this feature 
-because USB audio and pulseaudio didn't agree about the order of 
-channels, for example in 5.1 pa defaults to 
-left,right,rear-left,rear-right,front-center,lfe while USB audio expects 
-left,right,center,lfe,rear-left,rear-right order. You can't specify this 
-with the well-known names.
+> ---
+>  net/slirp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/net/slirp.c b/net/slirp.c
+> index f42f496641..4d158b0542 100644
+> --- a/net/slirp.c
+> +++ b/net/slirp.c
+> @@ -456,7 +456,7 @@ static int net_slirp_init(NetClientState *peer, const=
+ char *model,
+>          error_setg(errp, "Failed to parse DNS");
+>          return -1;
+>      }
+> -    if ((dns.s_addr & mask.s_addr) !=3D net.s_addr) {
+> +    if (restricted && (dns.s_addr & mask.s_addr) !=3D net.s_addr) {
+>          error_setg(errp, "DNS doesn't belong to network");
+>          return -1;
+>      }
+> --
+> 2.23.0
+>
+>
 
-Regards,
-Zoltan
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
