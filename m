@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24646C165E
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 18:51:25 +0200 (CEST)
-Received: from localhost ([::1]:41110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2947FC18E6
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 20:14:50 +0200 (CEST)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEcPr-0007Gg-O0
-	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 12:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56116)
+	id 1iEdib-0004Tb-5r
+	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 14:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iEcEH-0006gw-Nn
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:39:26 -0400
+ (envelope-from <samuel.thibault@ens-lyon.org>) id 1iEdhC-0003XK-Rr
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:13:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iEcEE-0003Un-Fl
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:39:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51044)
+ (envelope-from <samuel.thibault@ens-lyon.org>) id 1iEdhB-00014M-B1
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:13:22 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:35522)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1iEcE9-0003Ov-Ps; Sun, 29 Sep 2019 12:39:19 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 98BAB10DCC8A;
- Sun, 29 Sep 2019 16:39:16 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D9985D9C3;
- Sun, 29 Sep 2019 16:39:15 +0000 (UTC)
-Message-ID: <b6e37ff6bc37798d98731b0744f870fcce3dd156.camel@redhat.com>
-Subject: Re: [PATCH 18/18] iotests: Allow check -o data_file
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Sun, 29 Sep 2019 19:39:14 +0300
-In-Reply-To: <20190927094242.11152-19-mreitz@redhat.com>
-References: <20190927094242.11152-1-mreitz@redhat.com>
- <20190927094242.11152-19-mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Sun, 29 Sep 2019 16:39:16 +0000 (UTC)
+ (Exim 4.71) (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1iEdhB-00012O-4N
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 14:13:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 510EFA7AB0;
+ Sun, 29 Sep 2019 20:13:12 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jjT148heVnmF; Sun, 29 Sep 2019 20:13:11 +0200 (CEST)
+Received: from function (unknown [109.190.253.14])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 713A3A7AD0;
+ Sun, 29 Sep 2019 20:13:10 +0200 (CEST)
+Received: from samy by function with local (Exim 4.92.2)
+ (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1iEdgy-0005Ci-K1; Sun, 29 Sep 2019 20:13:08 +0200
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: qemu-devel@nongnu.org,
+	jasowang@redhat.com
+Subject: [PATCH] slirp: Allow non-local DNS address when restrict is off
+Date: Sun, 29 Sep 2019 20:13:03 +0200
+Message-Id: <20190929181303.19960-1-samuel.thibault@ens-lyon.org>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 185.233.100.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,109 +57,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2019-09-27 at 11:42 +0200, Max Reitz wrote:
-> The problem with allowing the data_file option is that you want to use a
-> different data file per image used in the test.  Therefore, we need to
-> allow patterns like -o data_file='$TEST_IMG.data_file'.
-> 
-> Then, we need to filter it out from qemu-img map, qemu-img create, and
-> remove the data file in _rm_test_img.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/common.filter | 21 +++++++++++++++++++--
->  tests/qemu-iotests/common.rc     | 10 +++++++++-
->  2 files changed, 28 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-> index 841f7642af..a11f9a8972 100644
-> --- a/tests/qemu-iotests/common.filter
-> +++ b/tests/qemu-iotests/common.filter
-> @@ -115,7 +115,15 @@ _filter_actual_image_size()
->  # replace driver-specific options in the "Formatting..." line
->  _filter_img_create()
->  {
-> -    $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-> +    data_file_filter=()
-> +    if echo "$IMGOPTS" | grep -q 'data_file='; then
-> +        data_file=$(echo "$IMGOPTS" | sed -e 's/.*\(data_file=[^,]*\).*/\1/' \
-> +                                          -e "s#\\\$TEST_IMG#$TEST_IMG#")
-Could you maybe add a comment on this regular expression, similar
-to what is in the commit message?
+This can be used to set a DNS server to be used by the guest which is
+different from the one configured on the host.
 
-> +        data_file_filter=(-e "s# $data_file##")
-Why to use array here? A variable would work too I think.
-> +    fi
-> +
-> +    $SED "${data_file_filter[@]}" \
-> +        -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
->          -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
->          -e "s#$TEST_DIR#TEST_DIR#g" \
->          -e "s#$IMGFMT#IMGFMT#g" \
-> @@ -198,9 +206,18 @@ _filter_img_info()
->  # human and json output
->  _filter_qemu_img_map()
->  {
-> +    data_file_filter=()
-> +    if echo "$IMGOPTS" | grep -q 'data_file='; then
-> +        data_file_pattern=$(echo "$IMGOPTS" | sed -e 's/.*data_file=\([^,]*\).*/\1/' \
-> +                                                  -e 's#\$TEST_IMG#\\(.*\\)#')
-> +        data_file_filter=(-e "s#$data_file_pattern#\\1#")
-Seems to do the same thing, but in slightly different way.
-Maybe make a function to avoid duplication?
-I am not 100% sure though.
+This fixes LP 1010484.
 
-> +    fi
-> +
->      $SED -e 's/\([0-9a-fx]* *[0-9a-fx]* *\)[0-9a-fx]* */\1/g' \
->          -e 's/"offset": [0-9]\+/"offset": OFFSET/g' \
-> -        -e 's/Mapped to *//' | _filter_testdir | _filter_imgfmt
-> +        -e 's/Mapped to *//' \
-> +        "${data_file_filter[@]}" \
-> +        | _filter_testdir | _filter_imgfmt
->  }
->  
->  _filter_nbd()
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-> index f3784077de..834ece12e4 100644
-> --- a/tests/qemu-iotests/common.rc
-> +++ b/tests/qemu-iotests/common.rc
-> @@ -297,7 +297,8 @@ _make_test_img()
->      fi
->  
->      if [ -n "$IMGOPTS" ]; then
-> -        optstr=$(_optstr_add "$optstr" "$IMGOPTS")
-> +        imgopts_expanded=$(echo "$IMGOPTS" | sed -e "s#\\\$TEST_IMG#$img_name#")
-> +        optstr=$(_optstr_add "$optstr" "$imgopts_expanded")
-Also a comment explaining why this is needed would be welcome.
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+---
+ net/slirp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->      fi
->      if [ -n "$IMGKEYSECRET" ]; then
->          object_options="--object secret,id=keysec0,data=$IMGKEYSECRET"
-> @@ -376,6 +377,13 @@ _rm_test_img()
->          # Remove all the extents for vmdk
->          "$QEMU_IMG" info "$img" 2>/dev/null | grep 'filename:' | cut -f 2 -d: \
->              | xargs -I {} rm -f "{}"
-> +    elif [ "$IMGFMT" = "qcow2" ]; then
-> +        # Remove external data file
-> +        if echo "$IMGOPTS" | grep -q 'data_file='; then
-> +            data_file=$(echo "$IMGOPTS" | sed -e 's/.*data_file=\([^,]*\).*/\1/' \
-> +                                              -e "s#\\\$TEST_IMG#$img#")
-Same here, even more evidence that it would be nice to move this to a common function.
-Again, I am not 100% sure that this is the same regex, but it looks like that.
-
-> +            rm -f "$data_file"
-> +        fi
->      fi
->      rm -f "$img"
->  }
-
-
-Best regards,
-	Maxim Levitsky
+diff --git a/net/slirp.c b/net/slirp.c
+index f42f496641..4d158b0542 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -456,7 +456,7 @@ static int net_slirp_init(NetClientState *peer, const=
+ char *model,
+         error_setg(errp, "Failed to parse DNS");
+         return -1;
+     }
+-    if ((dns.s_addr & mask.s_addr) !=3D net.s_addr) {
++    if (restricted && (dns.s_addr & mask.s_addr) !=3D net.s_addr) {
+         error_setg(errp, "DNS doesn't belong to network");
+         return -1;
+     }
+--=20
+2.23.0
 
 
