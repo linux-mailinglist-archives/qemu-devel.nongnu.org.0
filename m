@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612B9C12BB
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 03:59:15 +0200 (CEST)
-Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309E9C12C1
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 04:03:53 +0200 (CEST)
+Received: from localhost ([::1]:35962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEOUU-0002Ta-6h
-	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 21:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
+	id 1iEOYx-0004lx-00
+	for lists+qemu-devel@lfdr.de; Sat, 28 Sep 2019 22:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iEOSl-0001G4-K0
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:57:28 -0400
+ (envelope-from <peterx@redhat.com>) id 1iEOXl-0004KV-5r
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 22:02:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iEOSj-0004BA-Sa
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:57:27 -0400
-Received: from mga14.intel.com ([192.55.52.115]:19352)
+ (envelope-from <peterx@redhat.com>) id 1iEOXi-0006Ns-Ge
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 22:02:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46008)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iEOSj-0004AH-Jv
- for qemu-devel@nongnu.org; Sat, 28 Sep 2019 21:57:25 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2019 18:57:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,561,1559545200"; d="scan'208";a="204501466"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2019 18:57:23 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
- mtosatti@redhat.com
-Subject: [PATCH v5 2/2] target/i386: Add support for save/load
- IA32_UMWAIT_CONTROL MSR
-Date: Sun, 29 Sep 2019 09:57:18 +0800
-Message-Id: <20190929015718.19562-3-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929015718.19562-1-tao3.xu@intel.com>
-References: <20190929015718.19562-1-tao3.xu@intel.com>
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iEOXi-0006Mp-8H
+ for qemu-devel@nongnu.org; Sat, 28 Sep 2019 22:02:34 -0400
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AC25985360
+ for <qemu-devel@nongnu.org>; Sun, 29 Sep 2019 02:02:31 +0000 (UTC)
+Received: by mail-pg1-f200.google.com with SMTP id r35so6278095pgb.2
+ for <qemu-devel@nongnu.org>; Sat, 28 Sep 2019 19:02:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=aHspsbFK1w0k3ybP9Z4ueOANyCguUolm4MY/W96uF8g=;
+ b=SmMR7np3TCP3Y0fRaY/UW6cMO2xA+QMFszKfQpw/jyNNeyP50sPo7AgpupoHKFPcE/
+ t3EMUX3297RhyZxaSUGlaKRYvOtTlhcO38PUs6ruMpAWZUiWlWOVA8uCiMP02+crbTyd
+ Mq5DLB3m6aO3jG7f9MKrvFWoHN8iVykKwDvoOWiHBMmb2fRI6mLFELg3ruPlE1V4g+Kn
+ j7twCEQMwr4pvlvHwW1uFvmmEVOyHlq93pYEkFu1FjDoSJxqud73jswy3XyPfB/9PHk2
+ WPixm5lDovWDcRvxcfbibd+1uTmLIzUJqcDwTRaDLxyxtep/hDw6u0yyOoLafJCbg1U1
+ hWNw==
+X-Gm-Message-State: APjAAAWBAyT9eceYCLyHRMepEetjqfcvCLOn4e2kbt1rcDs7xa3hmEOe
+ izUSb16qHISR3+mAnDw8wbO5DQfLsouBbcwITg21yg5whb1U5LsP5L5cZcKPP6OWFaFmL38rw97
+ 9akw/DMuXy/wTfM0=
+X-Received: by 2002:a17:90a:c096:: with SMTP id
+ o22mr19396733pjs.29.1569722551182; 
+ Sat, 28 Sep 2019 19:02:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwwLFu+5EEyOJ5Y3ags50JTZ884D1jHZedtlhSp5Trc9pGTVJSTQjQ3o4ULO0JJDsWoEM8wig==
+X-Received: by 2002:a17:90a:c096:: with SMTP id
+ o22mr19396710pjs.29.1569722550855; 
+ Sat, 28 Sep 2019 19:02:30 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id s73sm9262267pjb.15.2019.09.28.19.02.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Sep 2019 19:02:29 -0700 (PDT)
+Date: Sun, 29 Sep 2019 10:02:20 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Zhang, Qi1" <qi1.zhang@intel.com>
+Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
+Message-ID: <20190929020220.GA8286@xz-x1>
+References: <20190927045838.2968-1-qi1.zhang@intel.com>
+ <20190927061011.GB9412@xz-x1>
+ <215440059103624D9AD9D1DCACBF45DD3E84E270@shsmsx102.ccr.corp.intel.com>
+ <20190927093223.GC9412@xz-x1>
+ <215440059103624D9AD9D1DCACBF45DD3E853A42@shsmsx102.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.115
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <215440059103624D9AD9D1DCACBF45DD3E853A42@shsmsx102.ccr.corp.intel.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,144 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Qi,
+ Yadong" <yadong.qi@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UMWAIT and TPAUSE instructions use 32bits IA32_UMWAIT_CONTROL at MSR
-index E1H to determines the maximum time in TSC-quanta that the processor
-can reside in either C0.1 or C0.2.
+On Sun, Sep 29, 2019 at 01:11:12AM +0000, Zhang, Qi1 wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Peter Xu <peterx@redhat.com>
+> > Sent: Friday, September 27, 2019 5:32 PM
+> > To: Zhang, Qi1 <qi1.zhang@intel.com>
+> > Cc: qemu-devel@nongnu.org; ehabkost@redhat.com; mst@redhat.com;
+> > pbonzini@redhat.com; rth@twiddle.net; Qi, Yadong <yadong.qi@intel.com>
+> > Subject: Re: [PATCH V2] intel_iommu: TM field should not be in reserved bits
+> > 
+> > On Fri, Sep 27, 2019 at 08:03:21AM +0000, Zhang, Qi1 wrote:
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Peter Xu <peterx@redhat.com>
+> > > > Sent: Friday, September 27, 2019 2:10 PM
+> > > > To: Zhang, Qi1 <qi1.zhang@intel.com>
+> > > > Cc: qemu-devel@nongnu.org; ehabkost@redhat.com; mst@redhat.com;
+> > > > pbonzini@redhat.com; rth@twiddle.net
+> > > > Subject: Re: [PATCH V2] intel_iommu: TM field should not be in
+> > > > reserved bits
+> > > >
+> > > > On Fri, Sep 27, 2019 at 12:58:38PM +0800, qi1.zhang@intel.com wrote:
+> > > > > From: "Zhang, Qi" <qi1.zhang@intel.com>
+> > > > >
+> > > > > When dt is supported, TM field should not be Reserved(0).
+> > > > >
+> > > > > Refer to VT-d Spec 9.8
+> > > > >
+> > > > > Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
+> > > > > Signed-off-by: Qi, Yadong <yadong.qi@intel.com>
+> > > > > ---
+> > > > >  hw/i386/intel_iommu.c          | 12 ++++++------
+> > > > >  hw/i386/intel_iommu_internal.h | 25 +++++++++++++++++++------
+> > > > >  2 files changed, 25 insertions(+), 12 deletions(-)
+> > > > > ---
+> > VTD_SPTE_PAGE_L2_RSVD_MASK(s-
+> > > > >aw_bits);
+> > > > > -    vtd_paging_entry_rsvd_field[3] =
+> > > > >aw_bits);
+> > > > > +    vtd_paging_entry_rsvd_field[5] =
+> > > > VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits, x86_iommu-
+> > > > >dt_supported);
+> > > > > +    vtd_paging_entry_rsvd_field[6] =
+> > > > VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits, x86_iommu-
+> > > > >dt_supported);
+> > > > > +    vtd_paging_entry_rsvd_field[7] =
+> > > > > + VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits, x86_iommu-
+> > > > >dt_supported);
+> > > > >      vtd_paging_entry_rsvd_field[8] =
+> > > > >VTD_SPTE_LPAGE_L4_RSVD_MASK(s->aw_bits);
+> > > >
+> > > > Should this TM bit only affects leaves?  Say, entry 1 (4K), 5 (2M), 6 (1G).
 
-This patch is to Add support for save/load IA32_UMWAIT_CONTROL MSR in
-guest.
+[1]
 
-Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+> > > > While this reminded me that I'm totally confused on why we have had
+> > > > entry 7, 8 after all...  Are they really used?
+> > > Yes. TM bit only affects. To this array, index 1, 5,6,7 may be leaf. Will update
+> > a new patchset for it.
+> > 
+> > Could I ask why index 7 may be leaf?
+> Index 7 is PDPE 1G GB leaf.
 
-No changes in v5.
+I thought 1G was index 6.  I've listed my understanding above [1].
+Would you please double confirm?  Thanks,
 
-Changes in v4:
-        Set IA32_UMWAIT_CONTROL 32bits
----
- target/i386/cpu.h     |  2 ++
- target/i386/kvm.c     | 13 +++++++++++++
- target/i386/machine.c | 20 ++++++++++++++++++++
- 3 files changed, 35 insertions(+)
-
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 33a0b8b365..bcd1cbbfc0 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -451,6 +451,7 @@ typedef enum X86Seg {
- 
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
-+#define MSR_IA32_UMWAIT_CONTROL         0xe1
- 
- #define XSTATE_FP_BIT                   0
- #define XSTATE_SSE_BIT                  1
-@@ -1393,6 +1394,7 @@ typedef struct CPUX86State {
-     uint16_t fpregs_format_vmstate;
- 
-     uint64_t xss;
-+    uint32_t umwait;
- 
-     TPRAccess tpr_access_type;
- 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index ea9a87bfd8..8b715af8eb 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -95,6 +95,7 @@ static bool has_msr_hv_stimer;
- static bool has_msr_hv_frequencies;
- static bool has_msr_hv_reenlightenment;
- static bool has_msr_xss;
-+static bool has_msr_umwait;
- static bool has_msr_spec_ctrl;
- static bool has_msr_virt_ssbd;
- static bool has_msr_smi_count;
-@@ -1909,6 +1910,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-             case MSR_IA32_XSS:
-                 has_msr_xss = true;
-                 break;
-+            case MSR_IA32_UMWAIT_CONTROL:
-+                has_msr_umwait = true;
-+                break;
-             case HV_X64_MSR_CRASH_CTL:
-                 has_msr_hv_crash = true;
-                 break;
-@@ -2459,6 +2463,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, env->xss);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, env->umwait);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
-     }
-@@ -2863,6 +2870,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, 0);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, 0);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
-     }
-@@ -3115,6 +3125,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_IA32_XSS:
-             env->xss = msrs[i].data;
-             break;
-+        case MSR_IA32_UMWAIT_CONTROL:
-+            env->umwait = msrs[i].data;
-+            break;
-         default:
-             if (msrs[i].index >= MSR_MC0_CTL &&
-                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 2767b3096d..6481f846f6 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -943,6 +943,25 @@ static const VMStateDescription vmstate_xss = {
-     }
- };
- 
-+static bool umwait_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->umwait != 0;
-+}
-+
-+static const VMStateDescription vmstate_umwait = {
-+    .name = "cpu/umwait",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = umwait_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(env.umwait, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- #ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
- {
-@@ -1391,6 +1410,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_hyperv_reenlightenment,
-         &vmstate_avx512,
-         &vmstate_xss,
-+        &vmstate_umwait,
-         &vmstate_tsc_khz,
-         &vmstate_msr_smi_count,
- #ifdef TARGET_X86_64
 -- 
-2.20.1
-
+Peter Xu
 
