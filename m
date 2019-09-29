@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0972C1646
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 18:37:27 +0200 (CEST)
-Received: from localhost ([::1]:40964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D946DC1651
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 18:43:29 +0200 (CEST)
+Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEcCJ-0003Ka-SG
-	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 12:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55182)
+	id 1iEcIC-0000z2-Gi
+	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 12:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iEc8i-0001Kq-Fw
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:33:41 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1iEc7b-0000N8-IJ
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:32:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iEc8h-0004DO-BW
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:33:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54904)
+ (envelope-from <mlevitsk@redhat.com>) id 1iEc7a-0002cF-A4
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:32:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60340)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1iEc8Z-0003nj-Kb; Sun, 29 Sep 2019 12:33:33 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iEc7U-0002RA-Fz; Sun, 29 Sep 2019 12:32:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 639AC8A218D;
- Sun, 29 Sep 2019 16:33:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AD5D918C4262;
+ Sun, 29 Sep 2019 16:32:23 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 277B460C05;
- Sun, 29 Sep 2019 16:33:28 +0000 (UTC)
-Message-ID: <1c6c86af32c3de1b473b48704cf506694c10c597.camel@redhat.com>
-Subject: Re: [PATCH 09/18] iotests: Drop IMGOPTS use in 267
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71EB95C223;
+ Sun, 29 Sep 2019 16:32:22 +0000 (UTC)
+Message-ID: <b55869998d7f35096615cf5f011b7104ee36940b.camel@redhat.com>
+Subject: Re: [PATCH 04/18] iotests: Let _make_test_img parse its parameters
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Sun, 29 Sep 2019 19:33:28 +0300
-In-Reply-To: <20190927094242.11152-10-mreitz@redhat.com>
+Date: Sun, 29 Sep 2019 19:32:21 +0300
+In-Reply-To: <20190927094242.11152-5-mreitz@redhat.com>
 References: <20190927094242.11152-1-mreitz@redhat.com>
- <20190927094242.11152-10-mreitz@redhat.com>
+ <20190927094242.11152-5-mreitz@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Sun, 29 Sep 2019 16:33:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.62]); Sun, 29 Sep 2019 16:32:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -62,62 +62,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 2019-09-27 at 11:42 +0200, Max Reitz wrote:
-> Overwriting IMGOPTS means ignoring all user-supplied options, which is
-> not what we want.  Replace the current IMGOPTS use by a new BACKING_FILE
-> variable.
+> This will allow us to add more options than just -b.
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  tests/qemu-iotests/267 | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+>  tests/qemu-iotests/common.rc | 28 ++++++++++++++++++++--------
+>  1 file changed, 20 insertions(+), 8 deletions(-)
 > 
-> diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
-> index 95f885442f..529f5f9afe 100755
-> --- a/tests/qemu-iotests/267
-> +++ b/tests/qemu-iotests/267
-> @@ -68,7 +68,11 @@ size=128M
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+> index 12b4751848..3e7adc4834 100644
+> --- a/tests/qemu-iotests/common.rc
+> +++ b/tests/qemu-iotests/common.rc
+> @@ -282,12 +282,12 @@ _make_test_img()
+>      # extra qemu-img options can be added by tests
+>      # at least one argument (the image size) needs to be added
+>      local extra_img_options=""
+> -    local image_size=$*
+>      local optstr=""
+>      local img_name=""
+>      local use_backing=0
+>      local backing_file=""
+>      local object_options=""
+> +    local misc_params=()
 >  
->  run_test()
->  {
-> -    _make_test_img $size
-> +    if [ -n "$BACKING_FILE" ]; then
-> +        _make_test_img -b "$BACKING_FILE" $size
-> +    else
-> +        _make_test_img $size
-> +    fi
->      printf "savevm snap0\ninfo snapshots\nloadvm snap0\n" | run_qemu "$@" | _filter_date
->  }
+>      if [ -n "$TEST_IMG_FILE" ]; then
+>          img_name=$TEST_IMG_FILE
+> @@ -303,11 +303,23 @@ _make_test_img()
+>          optstr=$(_optstr_add "$optstr" "key-secret=keysec0")
+>      fi
 >  
-> @@ -119,12 +123,12 @@ echo
+> -    if [ "$1" = "-b" ]; then
+> -        use_backing=1
+> -        backing_file=$2
+> -        image_size=$3
+> -    fi
+> +    for param; do
+> +        if [ "$use_backing" = "1" -a -z "$backing_file" ]; then
+> +            backing_file=$param
+> +            continue
+> +        fi
+> +
+> +        case "$param" in
+> +            -b)
+> +                use_backing=1
+> +                ;;
+> +
+> +            *)
+> +                misc_params=("${misc_params[@]}" "$param")
+> +                ;;
+> +        esac
+> +    done
+> +
+>      if [ \( "$IMGFMT" = "qcow2" -o "$IMGFMT" = "qed" \) -a -n "$CLUSTER_SIZE" ]; then
+>          optstr=$(_optstr_add "$optstr" "cluster_size=$CLUSTER_SIZE")
+>      fi
+> @@ -323,9 +335,9 @@ _make_test_img()
+>      # XXX(hch): have global image options?
+>      (
+>       if [ $use_backing = 1 ]; then
+> -        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options -b "$backing_file" "$img_name" $image_size 2>&1
+> +        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options -b "$backing_file" "$img_name" "${misc_params[@]}" 2>&1
+>       else
+> -        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options "$img_name" $image_size 2>&1
+> +        $QEMU_IMG create $object_options -f $IMGFMT $extra_img_options "$img_name" "${misc_params[@]}" 2>&1
+>       fi
+>      ) | _filter_img_create
 >  
->  TEST_IMG="$TEST_IMG.base" _make_test_img $size
->  
-> -IMGOPTS="backing_file=$TEST_IMG.base" \
-> +BACKING_FILE="$TEST_IMG.base" \
->  run_test -blockdev driver=file,filename="$TEST_IMG.base",node-name=backing-file \
->           -blockdev driver=file,filename="$TEST_IMG",node-name=file \
->           -blockdev driver=$IMGFMT,file=file,backing=backing-file,node-name=fmt
->  
-> -IMGOPTS="backing_file=$TEST_IMG.base" \
-> +BACKING_FILE="$TEST_IMG.base" \
->  run_test -blockdev driver=file,filename="$TEST_IMG.base",node-name=backing-file \
->           -blockdev driver=$IMGFMT,file=backing-file,node-name=backing-fmt \
->           -blockdev driver=file,filename="$TEST_IMG",node-name=file \
-> @@ -141,7 +145,7 @@ echo
->  echo "=== -blockdev with NBD server on the backing file ==="
->  echo
->  
-> -IMGOPTS="backing_file=$TEST_IMG.base" _make_test_img $size
-> +_make_test_img -b "$TEST_IMG.base" $size
->  cat <<EOF |
->  nbd_server_start unix:$TEST_DIR/nbd
->  nbd_server_add -w backing-fmt
 
-qemu's master (pulled today), don't have iotest 267,
-you probably based this on some not yet merged branch.
-Or I made some mistake with pulling the master branch.
+Look all right as far as I understand that code, and this is a very welcome change.
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
+
 
 
