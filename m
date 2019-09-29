@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAF9C164B
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 18:40:28 +0200 (CEST)
-Received: from localhost ([::1]:41002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B834CC1654
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 18:46:00 +0200 (CEST)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEcFH-0006Ui-Al
-	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 12:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55117)
+	id 1iEcKd-0002tk-FY
+	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 12:45:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iEc8T-00019t-Vd
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:33:27 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1iEc8n-0001RY-3I
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:33:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iEc8S-0003fp-Mo
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:33:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33666)
+ (envelope-from <mlevitsk@redhat.com>) id 1iEc8l-0004Qb-R2
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 12:33:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52248)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1iEc8P-0003aM-Es; Sun, 29 Sep 2019 12:33:21 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iEc8i-0004H6-Q2; Sun, 29 Sep 2019 12:33:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A6B393082A8B;
- Sun, 29 Sep 2019 16:33:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 126EC10C0932;
+ Sun, 29 Sep 2019 16:33:40 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6ADEB5D9C3;
- Sun, 29 Sep 2019 16:33:18 +0000 (UTC)
-Message-ID: <5edcc0bc2c3bcce576b23ba887a0198a4ca1e9eb.camel@redhat.com>
-Subject: Re: [PATCH 08/18] iotests: Replace IMGOPTS='' by --no-opts
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC4025C223;
+ Sun, 29 Sep 2019 16:33:38 +0000 (UTC)
+Message-ID: <96791fcb8157f8512a9eb8d873b540b06ccd96a7.camel@redhat.com>
+Subject: Re: [PATCH 10/18] iotests: Avoid qemu-img create
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Sun, 29 Sep 2019 19:33:17 +0300
-In-Reply-To: <20190927094242.11152-9-mreitz@redhat.com>
+Date: Sun, 29 Sep 2019 19:33:37 +0300
+In-Reply-To: <20190927094242.11152-11-mreitz@redhat.com>
 References: <20190927094242.11152-1-mreitz@redhat.com>
- <20190927094242.11152-9-mreitz@redhat.com>
+ <20190927094242.11152-11-mreitz@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Sun, 29 Sep 2019 16:33:19 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Sun, 29 Sep 2019 16:33:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -62,97 +62,86 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 2019-09-27 at 11:42 +0200, Max Reitz wrote:
+> Use _make_test_img whenever possible.  This way, we will not ignore
+> user-specified image options.
+> 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  tests/qemu-iotests/071 | 4 ++--
->  tests/qemu-iotests/174 | 2 +-
->  tests/qemu-iotests/178 | 4 ++--
->  tests/qemu-iotests/197 | 4 ++--
->  tests/qemu-iotests/215 | 4 ++--
->  5 files changed, 9 insertions(+), 9 deletions(-)
+>  tests/qemu-iotests/094 | 2 +-
+>  tests/qemu-iotests/111 | 3 +--
+>  tests/qemu-iotests/123 | 2 +-
+>  tests/qemu-iotests/153 | 2 +-
+>  tests/qemu-iotests/200 | 4 ++--
+>  5 files changed, 6 insertions(+), 7 deletions(-)
 > 
-> diff --git a/tests/qemu-iotests/071 b/tests/qemu-iotests/071
-> index fab526666b..4e31943244 100755
-> --- a/tests/qemu-iotests/071
-> +++ b/tests/qemu-iotests/071
-> @@ -58,7 +58,7 @@ echo
->  echo "=== Testing blkverify through filename ==="
->  echo
+> diff --git a/tests/qemu-iotests/094 b/tests/qemu-iotests/094
+> index 9343e09492..d645952d54 100755
+> --- a/tests/qemu-iotests/094
+> +++ b/tests/qemu-iotests/094
+> @@ -45,7 +45,7 @@ _supported_proto nbd
+>  _unsupported_imgopts "subformat=monolithicFlat" "subformat=twoGbMaxExtentFlat"
 >  
-> -TEST_IMG="$TEST_IMG.base" IMGOPTS="" IMGFMT="raw" _make_test_img $IMG_SIZE |\
-> +TEST_IMG="$TEST_IMG.base" IMGFMT="raw" _make_test_img --no-opts $IMG_SIZE |\
->      _filter_imgfmt
->  _make_test_img $IMG_SIZE
->  $QEMU_IO -c "open -o driver=raw,file.driver=blkverify,file.raw.filename=$TEST_IMG.base $TEST_IMG" \
-> @@ -73,7 +73,7 @@ echo
->  echo "=== Testing blkverify through file blockref ==="
->  echo
+>  _make_test_img 64M
+> -$QEMU_IMG create -f $IMGFMT "$TEST_DIR/source.$IMGFMT" 64M | _filter_img_create
+> +TEST_IMG_FILE="$TEST_DIR/source.$IMGFMT" IMGPROTO=file _make_test_img 64M
 >  
-> -TEST_IMG="$TEST_IMG.base" IMGOPTS="" IMGFMT="raw" _make_test_img $IMG_SIZE |\
-> +TEST_IMG="$TEST_IMG.base" IMGFMT="raw" _make_test_img --no-opts $IMG_SIZE |\
->      _filter_imgfmt
->  _make_test_img $IMG_SIZE
->  $QEMU_IO -c "open -o driver=raw,file.driver=blkverify,file.raw.filename=$TEST_IMG.base,file.test.driver=$IMGFMT,file.test.file.filename=$TEST_IMG" \
-> diff --git a/tests/qemu-iotests/174 b/tests/qemu-iotests/174
-> index 0a952a73fd..e2f14a38c6 100755
-> --- a/tests/qemu-iotests/174
-> +++ b/tests/qemu-iotests/174
-> @@ -40,7 +40,7 @@ _unsupported_fmt raw
+>  _launch_qemu -drive if=none,id=src,file="$TEST_DIR/source.$IMGFMT",format=raw \
+>               -nodefaults
+> diff --git a/tests/qemu-iotests/111 b/tests/qemu-iotests/111
+> index 490a5bbcb5..3b43d1bd83 100755
+> --- a/tests/qemu-iotests/111
+> +++ b/tests/qemu-iotests/111
+> @@ -41,8 +41,7 @@ _supported_fmt qed qcow qcow2 vmdk
+>  _supported_proto file
+>  _unsupported_imgopts "subformat=monolithicFlat" "subformat=twoGbMaxExtentFlat"
 >  
+> -$QEMU_IMG create -f $IMGFMT -b "$TEST_IMG.inexistent" "$TEST_IMG" 2>&1 \
+> -    | _filter_testdir | _filter_imgfmt
+> +_make_test_img -b "$TEST_IMG.inexistent"
 >  
->  size=256K
-> -IMGFMT=raw IMGKEYSECRET= IMGOPTS= _make_test_img $size | _filter_imgfmt
-> +IMGFMT=raw IMGKEYSECRET= _make_test_img --no-opts $size | _filter_imgfmt
+>  # success, all done
+>  echo '*** done'
+> diff --git a/tests/qemu-iotests/123 b/tests/qemu-iotests/123
+> index d33950eb54..74d40d0478 100755
+> --- a/tests/qemu-iotests/123
+> +++ b/tests/qemu-iotests/123
+> @@ -44,7 +44,7 @@ _supported_os Linux
+>  SRC_IMG="$TEST_DIR/source.$IMGFMT"
 >  
->  echo
->  echo "== reading wrong format should fail =="
-> diff --git a/tests/qemu-iotests/178 b/tests/qemu-iotests/178
-> index 21231cadd3..75b5e8f314 100755
-> --- a/tests/qemu-iotests/178
-> +++ b/tests/qemu-iotests/178
-> @@ -62,8 +62,8 @@ $QEMU_IMG measure -O foo "$TEST_IMG" # unknown image file format
+>  _make_test_img 1M
+> -$QEMU_IMG create -f $IMGFMT "$SRC_IMG" 1M | _filter_img_create
+> +TEST_IMG_FILE=$SRC_IMG IMGPROTO=file _make_test_img 1M
 >  
->  make_test_img_with_fmt() {
->      # Shadow global variables within this function
-> -    local IMGFMT="$1" IMGOPTS=""
-> -    _make_test_img "$2"
-> +    local IMGFMT="$1"
-> +    _make_test_img --no-opts "$2"
->  }
+>  $QEMU_IO -c 'write -P 42 0 1M' "$SRC_IMG" | _filter_qemu_io
 >  
->  qemu_io_with_fmt() {
-> diff --git a/tests/qemu-iotests/197 b/tests/qemu-iotests/197
-> index 1d4f6786db..4d3d08ad6f 100755
-> --- a/tests/qemu-iotests/197
-> +++ b/tests/qemu-iotests/197
-> @@ -66,8 +66,8 @@ if [ "$IMGFMT" = "vpc" ]; then
->  fi
->  _make_test_img 4G
->  $QEMU_IO -c "write -P 55 3G 1k" "$TEST_IMG" | _filter_qemu_io
-> -IMGPROTO=file IMGFMT=qcow2 IMGOPTS= TEST_IMG_FILE="$TEST_WRAP" \
-> -    _make_test_img -F "$IMGFMT" -b "$TEST_IMG" | _filter_img_create
-> +IMGPROTO=file IMGFMT=qcow2 TEST_IMG_FILE="$TEST_WRAP" \
-> +    _make_test_img --no-opts -F "$IMGFMT" -b "$TEST_IMG" | _filter_img_create
->  $QEMU_IO -f qcow2 -c "write -z -u 1M 64k" "$TEST_WRAP" | _filter_qemu_io
+> diff --git a/tests/qemu-iotests/153 b/tests/qemu-iotests/153
+> index c969a1a16f..e59090259c 100755
+> --- a/tests/qemu-iotests/153
+> +++ b/tests/qemu-iotests/153
+> @@ -98,7 +98,7 @@ for opts1 in "" "read-only=on" "read-only=on,force-share=on"; do
 >  
->  # Ensure that a read of two clusters, but where one is already allocated,
-> diff --git a/tests/qemu-iotests/215 b/tests/qemu-iotests/215
-> index 2eb377d682..55a1874dcd 100755
-> --- a/tests/qemu-iotests/215
-> +++ b/tests/qemu-iotests/215
-> @@ -63,8 +63,8 @@ if [ "$IMGFMT" = "vpc" ]; then
->  fi
->  _make_test_img 4G
->  $QEMU_IO -c "write -P 55 3G 1k" "$TEST_IMG" | _filter_qemu_io
-> -IMGPROTO=file IMGFMT=qcow2 IMGOPTS= TEST_IMG_FILE="$TEST_WRAP" \
-> -    _make_test_img -F "$IMGFMT" -b "$TEST_IMG" | _filter_img_create
-> +IMGPROTO=file IMGFMT=qcow2 TEST_IMG_FILE="$TEST_WRAP" \
-> +    _make_test_img --no-opts -F "$IMGFMT" -b "$TEST_IMG" | _filter_img_create
->  $QEMU_IO -f qcow2 -c "write -z -u 1M 64k" "$TEST_WRAP" | _filter_qemu_io
+>      echo
+>      echo "== Creating test image =="
+> -    $QEMU_IMG create -f $IMGFMT "${TEST_IMG}" -b ${TEST_IMG}.base | _filter_img_create
+> +    _make_test_img -b "${TEST_IMG}.base"
 >  
->  # Ensure that a read of two clusters, but where one is already allocated,
-
-
+>      echo
+>      echo "== Launching QEMU, opts: '$opts1' =="
+> diff --git a/tests/qemu-iotests/200 b/tests/qemu-iotests/200
+> index 72d431f251..d904885136 100755
+> --- a/tests/qemu-iotests/200
+> +++ b/tests/qemu-iotests/200
+> @@ -46,8 +46,8 @@ _supported_proto file
+>  BACKING_IMG="${TEST_DIR}/backing.img"
+>  TEST_IMG="${TEST_DIR}/test.img"
+>  
+> -${QEMU_IMG} create -f $IMGFMT "${BACKING_IMG}" 512M | _filter_img_create
+> -${QEMU_IMG} create -f $IMGFMT -F $IMGFMT "${TEST_IMG}" -b "${BACKING_IMG}" 512M | _filter_img_create
+> +TEST_IMG="$BACKING_IMG" _make_test_img 512M
+> +_make_test_img -F $IMGFMT -b "$BACKING_IMG" 512M
+>  
+>  ${QEMU_IO} -c "write -P 0xa5 512 300M" "${BACKING_IMG}" | _filter_qemu_io
+>  
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 
