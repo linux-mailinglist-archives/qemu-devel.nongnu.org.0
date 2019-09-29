@@ -2,61 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE7FC13D3
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 09:42:03 +0200 (CEST)
-Received: from localhost ([::1]:37260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C9FC1427
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 12:09:17 +0200 (CEST)
+Received: from localhost ([::1]:37656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iETqE-0005Tn-QT
-	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 03:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55310)
+	id 1iEW8h-0004WT-UW
+	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 06:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhlb29@foxmail.com>) id 1iEToF-0003lA-D3
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 03:40:01 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iEW6u-0003SE-6n
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 06:07:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhlb29@foxmail.com>) id 1iETo8-0005GR-C6
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 03:39:54 -0400
-Received: from smtpbgeu1.qq.com ([52.59.177.22]:53583)
+ (envelope-from <dgibson@ozlabs.org>) id 1iEW6q-0006Aq-Gk
+ for qemu-devel@nongnu.org; Sun, 29 Sep 2019 06:07:24 -0400
+Received: from ozlabs.org ([203.11.71.1]:38775)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhlb29@foxmail.com>) id 1iETo7-0005Aq-9Z
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 03:39:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1569742780;
- bh=oJel8hT4tm6/zKMHLqSN8N3kGqSlfzOZUJ6sIiCb6XQ=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=Ps0yjik1qrytpw6FZW50Yf9WeWYk5LX3PMCnifvwtUywdeWiUDs4nmz9e28+maeWL
- Y3BlfGN/jbhLhJrqOInoKCGQrZCBaYzX3K5L0Cf01FiKkjyJDmXVxQ+BEB01shSGI3
- Ep7aFx26jNU8M0cfkeUDypmoJ5TEvDDh7WXl7cwc=
-X-QQ-SSF: 00000000000000F000000000000000G
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 159.226.200.178
-In-Reply-To: <tencent_76DBE21F6D585D0B6F510084@qq.com>
-References: <tencent_76DBE21F6D585D0B6F510084@qq.com>
-X-QQ-STYLE: 
-X-QQ-mid: webenglish1t1569742779t893280
-From: "=?ISO-8859-1?B?TGlibyBaaG91?=" <zhlb29@foxmail.com>
-To: "=?ISO-8859-1?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: Re:Why on earth is this code giving me Segfaults?
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
-Date: Sun, 29 Sep 2019 15:39:39 +0800
-X-Priority: 3
-Message-ID: <tencent_5AE78C5A4BC959A87510F0C7@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-ReplyHash: 3959436529
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Sun, 29 Sep 2019 15:39:39 +0800 (CST)
-Feedback-ID: webenglish:foxmail.com:bgforeign:bgforeign4
-X-QQ-Bgrelay: 1
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iEW6p-000621-IH; Sun, 29 Sep 2019 06:07:20 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46h1RM5N9Zz9sN1; Sun, 29 Sep 2019 20:07:11 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1569751631;
+ bh=5v4ImmC4mfSI809ed6IugMP2rnpnt1d07cTonQ5H+n8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gADNECAnXBp4cOOsSEO1ih27uVkWFyIUmMxA7DZ9eZnlAVw8X8Dyw0tKBYtTuMBYK
+ KRwmPBIILCR01Q9iquxlTqF6q9XLkor4S9JPbd7vDgO76VWUPpu6oZ2fjbLYe9RoEQ
+ HueyYza04atnBthS/WmuwG1R/fR/7TnQbXscp5tY=
+Date: Sun, 29 Sep 2019 19:29:16 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH] target/ppc: use Vsr macros in BCD helpers
+Message-ID: <20190929092916.GC12116@umbus.fritz.box>
+References: <20190926204453.31837-1-mark.cave-ayland@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
+Content-Disposition: inline
+In-Reply-To: <20190926204453.31837-1-mark.cave-ayland@ilande.co.uk>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 52.59.177.22
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,63 +55,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, pc@us.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SSdtIGNvcHlpbmcgYW5kIHBhc3RpbmcgYWxsIG15IGRpZmYgYmVsb3csIGp1c3QgaW4gY2Fz
-ZSBzb21ldGhpbmcgZWxzZSBjYXVzZWQgdGhlIHNlZ2ZhdWx0LiBBbnkgaGVscCB3b3VsZCBi
-ZSByZWFsbHkgYXBwcmVjaWF0ZWQgZ3V5cy4KCmRpZmYgLS1naXQgYS90YXJnZXQvbWlwcy9t
-aXBzLWRlZnMuaCBiL3RhcmdldC9taXBzL21pcHMtZGVmcy5oCmluZGV4IGJiZjA1NmE1Li44
-YTRhY2ZmMyAxMDA2NDQKLS0tIGEvdGFyZ2V0L21pcHMvbWlwcy1kZWZzLmgKKysrIGIvdGFy
-Z2V0L21pcHMvbWlwcy1kZWZzLmgKQEAgLTUwLDYgKzUwLDcgQEAKICNkZWZpbmUgSU5TTl9M
-T09OR1NPTjJGICAgMHgwMDAyMDAwMDAwMDAwMDAwVUxMCiAjZGVmaW5lIElOU05fVlI1NFhY
-ICAgICAgIDB4MDAwNDAwMDAwMDAwMDAwMFVMTAogI2RlZmluZSBJTlNOX1I1OTAwICAgICAg
-ICAweDAwMDgwMDAwMDAwMDAwMDBVTEwKKyNkZWZpbmUgSU5TTl9NQU9UVSAgICAgICAgMHgw
-MDEwMDAwMDAwMDAwMDAwVUxMCiAvKgogICogICBiaXRzIDU2LTYzOiB2ZW5kb3Itc3BlY2lm
-aWMgQVNFcwogICovCkBAIC05MSw2ICs5Miw5IEBACiAvKiBXYXZlIENvbXB1dGluZzogIm5h
-bm9NSVBTIiAqLwogI2RlZmluZSBDUFVfTkFOT01JUFMzMiAoQ1BVX01JUFMzMlI2IHwgSVNB
-X05BTk9NSVBTMzIpCiAKKy8qIFN5bGluY29tOiAibWFvdHUiICovCisjZGVmaW5lIENQVV9N
-QU9UVSAoQ1BVX01JUFMxIHwgSU5TTl9NQU9UVSkKKwogLyogU3RyaWN0bHkgZm9sbG93IHRo
-ZSBhcmNoaXRlY3R1cmUgc3RhbmRhcmQ6CiAgICAtIERpc2FsbG93ICJzcGVjaWFsIiBpbnN0
-cnVjdGlvbiBoYW5kbGluZyBmb3IgUE1PTi9TUElNLgogICAgTm90ZSB0aGF0IHdlIHN0aWxs
-IG1haW50YWluIENvdW50L0NvbXBhcmUgdG8gbWF0Y2ggdGhlIGhvc3QgY2xvY2suICovCmRp
-ZmYgLS1naXQgYS90YXJnZXQvbWlwcy90cmFuc2xhdGUuYyBiL3RhcmdldC9taXBzL3RyYW5z
-bGF0ZS5jCmluZGV4IGNhNjI4MDAyLi40ZTRiNmU4OSAxMDA2NDQKLS0tIGEvdGFyZ2V0L21p
-cHMvdHJhbnNsYXRlLmMKKysrIGIvdGFyZ2V0L21pcHMvdHJhbnNsYXRlLmMKQEAgLTI5MjM0
-LDcgKzI5MjM0LDExIEBAIHN0YXRpYyB2b2lkIGRlY29kZV9vcGMoQ1BVTUlQU1N0YXRlICpl
-bnYsIERpc2FzQ29udGV4dCAqY3R4KQogICAgICAgICAgICAgZGVjb2RlX29wY19zcGVjaWFs
-MyhlbnYsIGN0eCk7CiAgICAgICAgIH0KICNlbHNlCi0gICAgICAgIGRlY29kZV9vcGNfc3Bl
-Y2lhbDMoZW52LCBjdHgpOworICAgICAgICBpZiAoY3R4LT5pbnNuX2ZsYWdzICYgSU5TTl9N
-QU9UVSkgeworICAgICAgICAgICAgZ2VuX3N0KGN0eCwgT1BDX1NXLCBydCwgcnMsIGltbSk7
-IC8qIE9QQ19NQU9UVV9TVyAqLworICAgICAgICB9IGVsc2UgeworICAgICAgICAgICAgZGVj
-b2RlX29wY19zcGVjaWFsMyhlbnYsIGN0eCk7CisgICAgICAgIH0KICNlbmRpZgogICAgICAg
-ICBicmVhazsKICAgICBjYXNlIE9QQ19SRUdJTU06CkBAIC0yOTQ4NCw3ICsyOTQ4OCw3IEBA
-IHN0YXRpYyB2b2lkIGRlY29kZV9vcGMoQ1BVTUlQU1N0YXRlICplbnYsIERpc2FzQ29udGV4
-dCAqY3R4KQogICAgICAgICAgICAgZ2VuX2NvbXB1dGVfYnJhbmNoKGN0eCwgb3AsIDQsIHJz
-LCBydCwgaW1tIDw8IDIsIDQpOwogICAgICAgICB9CiAgICAgICAgIGJyZWFrOwotICAgIGNh
-c2UgT1BDX0JHVFpDOiAvKiBPUENfQkxUWkMsIE9QQ19CTFRDLCBPUENfQkdUWkwgKi8KKyAg
-ICBjYXNlIE9QQ19CR1RaQzogLyogT1BDX0JMVFpDLCBPUENfQkxUQywgT1BDX0JHVFpMLCBP
-UENfTUFPVFVfTFcgKi8KICAgICAgICAgaWYgKGN0eC0+aW5zbl9mbGFncyAmIElTQV9NSVBT
-MzJSNikgewogICAgICAgICAgICAgaWYgKHJ0ID09IDApIHsKICAgICAgICAgICAgICAgICBn
-ZW5lcmF0ZV9leGNlcHRpb25fZW5kKGN0eCwgRVhDUF9SSSk7CkBAIC0yOTQ5Miw2ICsyOTQ5
-Niw5IEBAIHN0YXRpYyB2b2lkIGRlY29kZV9vcGMoQ1BVTUlQU1N0YXRlICplbnYsIERpc2Fz
-Q29udGV4dCAqY3R4KQogICAgICAgICAgICAgfQogICAgICAgICAgICAgLyogT1BDX0JHVFpD
-LCBPUENfQkxUWkMsIE9QQ19CTFRDICovCiAgICAgICAgICAgICBnZW5fY29tcHV0ZV9jb21w
-YWN0X2JyYW5jaChjdHgsIG9wLCBycywgcnQsIGltbSA8PCAyKTsKKyAgICAgICAgfSBlbHNl
-IGlmIChjdHgtPmluc25fZmxhZ3MgJiBJTlNOX01BT1RVKSB7CisgICAgICAgICAgICAvKiBP
-UENfTUFPVFVfTFcgKi8KKyAgICAgICAgICAgIGdlbl9sZChjdHgsIE9QQ19MVywgcnQsIHJz
-LCBpbW0pOwogICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAgLyogT1BDX0JHVFpMICov
-CiAgICAgICAgICAgICBnZW5fY29tcHV0ZV9icmFuY2goY3R4LCBvcCwgNCwgcnMsIHJ0LCBp
-bW0gPDwgMiwgNCk7CmRpZmYgLS1naXQgYS90YXJnZXQvbWlwcy90cmFuc2xhdGVfaW5pdC5p
-bmMuYyBiL3RhcmdldC9taXBzL3RyYW5zbGF0ZV9pbml0LmluYy5jCmluZGV4IDZkMTQ1YTkw
-Li41YjFhN2NlZiAxMDA2NDQKLS0tIGEvdGFyZ2V0L21pcHMvdHJhbnNsYXRlX2luaXQuaW5j
-LmMKKysrIGIvdGFyZ2V0L21pcHMvdHJhbnNsYXRlX2luaXQuaW5jLmMKQEAgLTQ4OSw2ICs0
-ODksMTAgQEAgY29uc3QgbWlwc19kZWZfdCBtaXBzX2RlZnNbXSA9CiAgICAgICAgICAgICAg
-ICAgICAgICAgQVNFX01ULAogICAgICAgICAubW11X3R5cGUgPSBNTVVfVFlQRV9SNDAwMCwK
-ICAgICB9LAorICAgIHsKKyAgICAgICAgLm5hbWUgPSAibWFvdHUiLAorICAgICAgICAuaW5z
-bl9mbGFncyA9IENQVV9NQU9UVSwKKyAgICB9LAogI2lmIGRlZmluZWQoVEFSR0VUX01JUFM2
-NCkKICAgICB7CiAgICAgICAgIC5uYW1lID0gIlI0MDAwIiw=
 
+--Izn7cH1Com+I3R9J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Sep 26, 2019 at 09:44:53PM +0100, Mark Cave-Ayland wrote:
+> This allows us to remove more endian-specific defines from int_helper.c.
+>=20
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
+Applied, thanks.
+
+> ---
+>  target/ppc/int_helper.c | 72 ++++++++++++++---------------------------
+>  1 file changed, 25 insertions(+), 47 deletions(-)
+>=20
+> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+> index 46deb57a34..6d238b989d 100644
+> --- a/target/ppc/int_helper.c
+> +++ b/target/ppc/int_helper.c
+> @@ -2052,15 +2052,11 @@ void helper_vsubecuq(ppc_avr_t *r, ppc_avr_t *a, =
+ppc_avr_t *b, ppc_avr_t *c)
+>  #define NATIONAL_PLUS   0x2B
+>  #define NATIONAL_NEG    0x2D
+> =20
+> -#if defined(HOST_WORDS_BIGENDIAN)
+>  #define BCD_DIG_BYTE(n) (15 - ((n) / 2))
+> -#else
+> -#define BCD_DIG_BYTE(n) ((n) / 2)
+> -#endif
+> =20
+>  static int bcd_get_sgn(ppc_avr_t *bcd)
+>  {
+> -    switch (bcd->u8[BCD_DIG_BYTE(0)] & 0xF) {
+> +    switch (bcd->VsrB(BCD_DIG_BYTE(0)) & 0xF) {
+>      case BCD_PLUS_PREF_1:
+>      case BCD_PLUS_PREF_2:
+>      case BCD_PLUS_ALT_1:
+> @@ -2095,9 +2091,9 @@ static uint8_t bcd_get_digit(ppc_avr_t *bcd, int n,=
+ int *invalid)
+>  {
+>      uint8_t result;
+>      if (n & 1) {
+> -        result =3D bcd->u8[BCD_DIG_BYTE(n)] >> 4;
+> +        result =3D bcd->VsrB(BCD_DIG_BYTE(n)) >> 4;
+>      } else {
+> -       result =3D bcd->u8[BCD_DIG_BYTE(n)] & 0xF;
+> +       result =3D bcd->VsrB(BCD_DIG_BYTE(n)) & 0xF;
+>      }
+> =20
+>      if (unlikely(result > 9)) {
+> @@ -2109,11 +2105,11 @@ static uint8_t bcd_get_digit(ppc_avr_t *bcd, int =
+n, int *invalid)
+>  static void bcd_put_digit(ppc_avr_t *bcd, uint8_t digit, int n)
+>  {
+>      if (n & 1) {
+> -        bcd->u8[BCD_DIG_BYTE(n)] &=3D 0x0F;
+> -        bcd->u8[BCD_DIG_BYTE(n)] |=3D (digit << 4);
+> +        bcd->VsrB(BCD_DIG_BYTE(n)) &=3D 0x0F;
+> +        bcd->VsrB(BCD_DIG_BYTE(n)) |=3D (digit << 4);
+>      } else {
+> -        bcd->u8[BCD_DIG_BYTE(n)] &=3D 0xF0;
+> -        bcd->u8[BCD_DIG_BYTE(n)] |=3D digit;
+> +        bcd->VsrB(BCD_DIG_BYTE(n)) &=3D 0xF0;
+> +        bcd->VsrB(BCD_DIG_BYTE(n)) |=3D digit;
+>      }
+>  }
+> =20
+> @@ -2228,21 +2224,21 @@ uint32_t helper_bcdadd(ppc_avr_t *r,  ppc_avr_t *=
+a, ppc_avr_t *b, uint32_t ps)
+> =20
+>      if (!invalid) {
+>          if (sgna =3D=3D sgnb) {
+> -            result.u8[BCD_DIG_BYTE(0)] =3D bcd_preferred_sgn(sgna, ps);
+> +            result.VsrB(BCD_DIG_BYTE(0)) =3D bcd_preferred_sgn(sgna, ps);
+>              bcd_add_mag(&result, a, b, &invalid, &overflow);
+>              cr =3D bcd_cmp_zero(&result);
+>          } else {
+>              int magnitude =3D bcd_cmp_mag(a, b);
+>              if (magnitude > 0) {
+> -                result.u8[BCD_DIG_BYTE(0)] =3D bcd_preferred_sgn(sgna, p=
+s);
+> +                result.VsrB(BCD_DIG_BYTE(0)) =3D bcd_preferred_sgn(sgna,=
+ ps);
+>                  bcd_sub_mag(&result, a, b, &invalid, &overflow);
+>                  cr =3D (sgna > 0) ? CRF_GT : CRF_LT;
+>              } else if (magnitude < 0) {
+> -                result.u8[BCD_DIG_BYTE(0)] =3D bcd_preferred_sgn(sgnb, p=
+s);
+> +                result.VsrB(BCD_DIG_BYTE(0)) =3D bcd_preferred_sgn(sgnb,=
+ ps);
+>                  bcd_sub_mag(&result, b, a, &invalid, &overflow);
+>                  cr =3D (sgnb > 0) ? CRF_GT : CRF_LT;
+>              } else {
+> -                result.u8[BCD_DIG_BYTE(0)] =3D bcd_preferred_sgn(0, ps);
+> +                result.VsrB(BCD_DIG_BYTE(0)) =3D bcd_preferred_sgn(0, ps=
+);
+>                  cr =3D CRF_EQ;
+>              }
+>          }
+> @@ -2353,15 +2349,15 @@ uint32_t helper_bcdcfz(ppc_avr_t *r, ppc_avr_t *b=
+, uint32_t ps)
+>      int zone_lead =3D ps ? 0xF : 0x3;
+>      int digit =3D 0;
+>      ppc_avr_t ret =3D { .u64 =3D { 0, 0 } };
+> -    int sgnb =3D b->u8[BCD_DIG_BYTE(0)] >> 4;
+> +    int sgnb =3D b->VsrB(BCD_DIG_BYTE(0)) >> 4;
+> =20
+>      if (unlikely((sgnb < 0xA) && ps)) {
+>          invalid =3D 1;
+>      }
+> =20
+>      for (i =3D 0; i < 16; i++) {
+> -        zone_digit =3D i ? b->u8[BCD_DIG_BYTE(i * 2)] >> 4 : zone_lead;
+> -        digit =3D b->u8[BCD_DIG_BYTE(i * 2)] & 0xF;
+> +        zone_digit =3D i ? b->VsrB(BCD_DIG_BYTE(i * 2)) >> 4 : zone_lead;
+> +        digit =3D b->VsrB(BCD_DIG_BYTE(i * 2)) & 0xF;
+>          if (unlikely(zone_digit !=3D zone_lead || digit > 0x9)) {
+>              invalid =3D 1;
+>              break;
+> @@ -2407,7 +2403,7 @@ uint32_t helper_bcdctz(ppc_avr_t *r, ppc_avr_t *b, =
+uint32_t ps)
+>              break;
+>          }
+> =20
+> -        ret.u8[BCD_DIG_BYTE(i * 2)] =3D zone_lead + digit;
+> +        ret.VsrB(BCD_DIG_BYTE(i * 2)) =3D zone_lead + digit;
+>      }
+> =20
+>      if (ps) {
+> @@ -2519,7 +2515,7 @@ uint32_t helper_bcdcpsgn(ppc_avr_t *r, ppc_avr_t *a=
+, ppc_avr_t *b, uint32_t ps)
+>      }
+> =20
+>      *r =3D *a;
+> -    bcd_put_digit(r, b->u8[BCD_DIG_BYTE(0)] & 0xF, 0);
+> +    bcd_put_digit(r, b->VsrB(BCD_DIG_BYTE(0)) & 0xF, 0);
+> =20
+>      for (i =3D 1; i < 32; i++) {
+>          bcd_get_digit(a, i, &invalid);
+> @@ -2549,11 +2545,7 @@ uint32_t helper_bcdsetsgn(ppc_avr_t *r, ppc_avr_t =
+*b, uint32_t ps)
+>  uint32_t helper_bcds(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t =
+ps)
+>  {
+>      int cr;
+> -#if defined(HOST_WORDS_BIGENDIAN)
+> -    int i =3D a->s8[7];
+> -#else
+> -    int i =3D a->s8[8];
+> -#endif
+> +    int i =3D a->VsrSB(7);
+>      bool ox_flag =3D false;
+>      int sgnb =3D bcd_get_sgn(b);
+>      ppc_avr_t ret =3D *b;
+> @@ -2602,11 +2594,7 @@ uint32_t helper_bcdus(ppc_avr_t *r, ppc_avr_t *a, =
+ppc_avr_t *b, uint32_t ps)
+>          }
+>      }
+> =20
+> -#if defined(HOST_WORDS_BIGENDIAN)
+> -    i =3D a->s8[7];
+> -#else
+> -    i =3D a->s8[8];
+> -#endif
+> +    i =3D a->VsrSB(7);
+>      if (i >=3D 32) {
+>          ox_flag =3D true;
+>          ret.VsrD(1) =3D ret.VsrD(0) =3D 0;
+> @@ -2637,13 +2625,11 @@ uint32_t helper_bcdsr(ppc_avr_t *r, ppc_avr_t *a,=
+ ppc_avr_t *b, uint32_t ps)
+>      ppc_avr_t ret =3D *b;
+>      ret.VsrD(1) &=3D ~0xf;
+> =20
+> -#if defined(HOST_WORDS_BIGENDIAN)
+> -    int i =3D a->s8[7];
+> -    ppc_avr_t bcd_one =3D { .u64 =3D { 0, 0x10 } };
+> -#else
+> -    int i =3D a->s8[8];
+> -    ppc_avr_t bcd_one =3D { .u64 =3D { 0x10, 0 } };
+> -#endif
+> +    int i =3D a->VsrSB(7);
+> +    ppc_avr_t bcd_one;
+> +
+> +    bcd_one.VsrD(0) =3D 0;
+> +    bcd_one.VsrD(1) =3D 0x10;
+> =20
+>      if (bcd_is_valid(b) =3D=3D false) {
+>          return CRF_SO;
+> @@ -2679,11 +2665,7 @@ uint32_t helper_bcdtrunc(ppc_avr_t *r, ppc_avr_t *=
+a, ppc_avr_t *b, uint32_t ps)
+>  {
+>      uint64_t mask;
+>      uint32_t ox_flag =3D 0;
+> -#if defined(HOST_WORDS_BIGENDIAN)
+> -    int i =3D a->s16[3] + 1;
+> -#else
+> -    int i =3D a->s16[4] + 1;
+> -#endif
+> +    int i =3D a->VsrSH(3) + 1;
+>      ppc_avr_t ret =3D *b;
+> =20
+>      if (bcd_is_valid(b) =3D=3D false) {
+> @@ -2728,11 +2710,7 @@ uint32_t helper_bcdutrunc(ppc_avr_t *r, ppc_avr_t =
+*a, ppc_avr_t *b, uint32_t ps)
+>          }
+>      }
+> =20
+> -#if defined(HOST_WORDS_BIGENDIAN)
+> -    i =3D a->s16[3];
+> -#else
+> -    i =3D a->s16[4];
+> -#endif
+> +    i =3D a->VsrSH(3);
+>      if (i > 16 && i < 33) {
+>          mask =3D (uint64_t)-1 >> (128 - i * 4);
+>          if (ret.VsrD(0) & ~mask) {
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Izn7cH1Com+I3R9J
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2QeWkACgkQbDjKyiDZ
+s5LpARAAuZVZLy/dIJDGGV8n/q17wGJhGz9PT9T7WjjI9TAJbmAI86scLaW6PEOE
+LAAsA3boNv3JpGG/Fe1ZpXjZggPnNtQPPlklfRh++PFDoMW2Hxvc2ha+0ANl3X8N
+MZKY3xdTnD45mVv6WBE3fpDA+HPuf9LPTYYbUzruAp2Brz7ayZBJWv6SCw30lBbG
+w+YHiDjeqMq8FXlR4kYJBREmGF//z8a2r2pUMvOnemj3/6MkkAuESUM7KtRcLXSE
+IXngvhWOJEjlkzjlBjjHZaWgU6BPZ6st2U9c5XG5nhK0yayGx78udzSzyXY/Hv89
+meCQm5x9h7h5pZrwY/4bXgEYd0LtXAIN69ymFwZgp42VqK/556cYSResOFpOe1fz
+Fh5rmzCHyOH+BwOjpmKRYsQXyN7e2MIN2DBQxnA7XV/CqTtDgy8vdUoFMJ3nANkZ
+qROv068cLsf0fr3aOrB5U0ckE15+tGvQUEWfaCtBMrWjer2poZ1FnVb0EY/bpAm7
+Fv8OjX07tmQaDW6w+ylflGXH99pPFUSQdpXR0ORmA6CJb1Hss5E+tWRQXP7elv8Z
+7o575rwx+wnqVN9+1adaZqmzcW5a7BVMrNX7JWAxRPKIXNlcwjwu0gPKSMleFiom
+Ye6+ypPMp9gh1Qt1EwKguVHKN/4X1V/MghEsrH+3MI0/EVMnv5I=
+=9dpI
+-----END PGP SIGNATURE-----
+
+--Izn7cH1Com+I3R9J--
 
