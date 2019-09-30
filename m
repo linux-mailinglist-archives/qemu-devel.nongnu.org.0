@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95062C1A76
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 06:19:09 +0200 (CEST)
-Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FD0C1A74
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 06:19:02 +0200 (CEST)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEn9P-0004FU-UQ
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 00:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1iEn9I-0004Ak-A0
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 00:19:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iEn61-0002S5-Sz
+ (envelope-from <dgibson@ozlabs.org>) id 1iEn61-0002S4-J9
  for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iEn60-0001pY-8Y
+ (envelope-from <dgibson@ozlabs.org>) id 1iEn5z-0001pL-UC
  for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:37 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40103 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:36555)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iEn5z-0001om-RO; Mon, 30 Sep 2019 00:15:36 -0400
+ id 1iEn5y-0001oi-Kp; Mon, 30 Sep 2019 00:15:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46hTb61qm9z9sDB; Mon, 30 Sep 2019 14:15:30 +1000 (AEST)
+ id 46hTb62yRPz9sPJ; Mon, 30 Sep 2019 14:15:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569816930;
- bh=ykN9rR1xPmSHhCcOBiqQnY5zUMef9ReTw6GwEvyiZmo=;
+ bh=sMoc6US5ubF2oNztIOvoeOvaDxeErLkS0YaZTW/tSXE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iJb8aEeEC2lWtwicnAIIb0wk6noshP0VF8MjPmnsmetO0ocNq9tZ4HG6r1bnE4ELJ
- 4uKPsHPohBf0mW+czrNjEZcN0Yi3w03ZtshV6kDnYz+DbY4KKH49rUERrSAzrdZn5h
- rN/ln90HyAJCSNijRjAc37FiwZaYgaZAKXh9qUbs=
-Date: Mon, 30 Sep 2019 11:49:04 +1000
+ b=D6n/Ys1pyV73mjW+waC1QtXOEjVLyUkG2hGXlwurVWCGrRHiIFAgE54ld4C9x8fwN
+ 2OtUqxm2vGGSRCdQUnwK9Rc92Un2253kAdafeEm+Y+BxjgX4j1M1cI7YMj0L8gDD0Q
+ BlJDS6pcuDRHPE/Nzn1GdJRVWakvc0+jt2NxXLrE=
+Date: Mon, 30 Sep 2019 12:37:40 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
 Subject: Re: [PATCH v2 21/33] spapr, xics, xive: Move cpu_intc_create from
  SpaprIrq to SpaprInterruptController
-Message-ID: <20190930014904.GB11105@umbus.fritz.box>
+Message-ID: <20190930023740.GC11105@umbus.fritz.box>
 References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
  <20190927055028.11493-22-david@gibson.dropbear.id.au>
  <20190927121649.5b9f3db7@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+ protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
 Content-Disposition: inline
 In-Reply-To: <20190927121649.5b9f3db7@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,7 +67,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Bn2rw/3z4jIqBvZU
+--5G06lTa6Jq83wMTw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -87,92 +87,16 @@ On Fri, Sep 27, 2019 at 12:16:49PM +0200, Greg Kurz wrote:
 > > While we're there, streamline the error reporting a bit.
 > >=20
 > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
 [snip]
-> > @@ -525,6 +469,30 @@ static void spapr_irq_check(SpaprMachineState *spa=
-pr, Error **errp)
-> >  /*
-> >   * sPAPR IRQ frontend routines for devices
-> >   */
-> > +int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
-> > +                              PowerPCCPU *cpu, Error **errp)
-> > +{
-> > +    if (spapr->xive) {
-> > +        SpaprInterruptController *intc =3D SPAPR_INTC(spapr->xive);
-> > +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS(i=
-ntc);
-> > +
-> > +        if (sicc->cpu_intc_create(intc, cpu, errp) < 0) {
-> > +            return -1;
-> > +        }
-> > +    }
-> > +
-> > +    if (spapr->ics) {
-> > +        SpaprInterruptController *intc =3D SPAPR_INTC(spapr->ics);
-> > +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS(i=
-ntc);
-> > +
-> > +        if (sicc->cpu_intc_create(intc, cpu, errp) < 0) {
-> > +            return -1;
-> > +        }
-> > +    }
-> > +
->=20
-> Instead of these hooks, what about open-coding spapr_xive_cpu_intc_create=
-()
-> and xics_spapr_cpu_intc_create() directly here, like you already did for =
-the
-> ICS and the XIVE objects in spapr_irq_init() ?
-
-I'd prefer not to.  The idea is I want to treat this as basically:
-
-	foreach_possible_intc(intc)
-		intc::cpu_intc_create(...)
-
-If I find time I might indeed replace the explicit ics and xive
-pointers with just an array of SpaprInterruptController *.
-
-init is fundamentally different though, because it needs to *create*
-that list (implicit or explicit) of possible intcs, so it can't be
-based on an existing one.
-
->=20
-> > +    return 0;
-> > +}
-> > +
-> >  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
-> >  {
-> >      MachineState *machine =3D MACHINE(spapr);
-> > @@ -763,7 +731,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-> >      .free        =3D spapr_irq_free_xics,
-> >      .print_info  =3D spapr_irq_print_info_xics,
-> >      .dt_populate =3D spapr_dt_xics,
-> > -    .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
-> >      .post_load   =3D spapr_irq_post_load_xics,
-> >      .reset       =3D spapr_irq_reset_xics,
-> >      .set_irq     =3D spapr_irq_set_irq_xics,
-> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> > index b9398e0be3..30d660ff1e 100644
-> > --- a/include/hw/ppc/spapr_irq.h
-> > +++ b/include/hw/ppc/spapr_irq.h
-> > @@ -43,8 +43,22 @@ typedef struct SpaprInterruptController SpaprInterru=
-ptController;
-> > =20
-> >  typedef struct SpaprInterruptControllerClass {
-> >      InterfaceClass parent;
-> > +
-> > +    /*
-> > +     * These methods will typically be called on all intcs, active and
-> > +     * inactive
-> > +     */
-> > +    int (*cpu_intc_create)(SpaprInterruptController *intc,
-> > +                            PowerPCCPU *cpu, Error **errp);
-> >  } SpaprInterruptControllerClass;
-> > =20
 > > +void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
 > > +void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
 > > +                  void *fdt, uint32_t phandle);
 >=20
 > These two ^^ seem to belong to later patches.
+
+Oops, yes.  I've moved those to where they belong.
+
 >=20
 > > +int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
 > > +                              PowerPCCPU *cpu, Error **errp);
@@ -199,25 +123,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Bn2rw/3z4jIqBvZU
+--5G06lTa6Jq83wMTw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2RXxAACgkQbDjKyiDZ
-s5LYTxAAylRZcmHtLpsluBcyzQsaEsiwjs5pKnBScU+Y5g1OIjb5pJczqzXiI8JJ
-irYh/BIH1tPWH3FoyWctc1VhYTJAbtmajgfrP+4L+KiL2qeScT6lfBCC68NVPoPt
-Mok2viTy7NcDJc2qUCScrh0bKrqGpjjAS9Hc/aAaEeyX+xOFSs21Cw1sov5OUlRj
-UTO9xfVzVpbi/m9opHRtlWYGCtA+XKtdht0bqtPpv/Qz0UQ0y7ggd8Qd7mGm4JHe
-1DgducuYuh3ucaNUxE6+LFKVKJwQVeytZLYJH3ja377QWIow6m69j3iuwM4UdVIC
-YBRfsPKOmwnvph5LHLxGq9L2sU02BpdrC2T0/ITEb/6A4gMHs35Dzlwag3k4vXhJ
-wFjfVagVfWMkJ4rT+R6p8Aoveb/kQ3d6h8BR04q1NEwA4sQgnr4hoxCu4M5RgBvA
-EE9euEgseI8GBtqza5Jvjls7NTyUQ0lYfI8b/+wGve89ZJGqPnaY3R7aeiWR7AXy
-1tq/xYOZz8o/KWy3SwUU+AWF0tTba1KQaL+9JObgLy6lCI0xOMZzKL4y2Qlj6C5j
-pKZNHwiGVmqdYpdtbrbbVgfZCxnZeE1YTOIgUlqgcMFd7vSBbJhuYTn4WzlVGDXU
-hNPerxLAVX6j15fZUqgMM+6TGd1o2qGjd90lDm+Nq+qXNhDdwIg=
-=bUy/
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2RanEACgkQbDjKyiDZ
+s5KAWg//cQsxP70ykXkop56UQM6zjhSpYo/skHeN48pgOOgkb7/h7tfPKTKDb1a2
+OShAo8O4byzBun6oYXQT7XMQRf7A8DKbl9a4ZWbklxjuS+y3qWir00/Fu9ucgtQf
+YUQTbHeoZyQZaN6pSoaOIPUxBIYWQ2WXoB2yXYQ+TBb+L+T4OarfBZnLEsBXAHpV
+0/1h6GiKc0o8h199In6p9Ktf2FA7QzWYTEKg6ValkvF3Dr02usZmWoAcmfbdpje0
+sVgQKyYRG5JgD/leshaqZQcYlW2t3zSqHtdOsS3v80tVOjrzLLKVxCe/eaqeNiVF
+IPi/uIAiekgI+NtanWFTrb0O5g7eAFo7cSxcAPYuRlncqY43lMo/AuAY1VQ7jgW9
+cPpVEJNqfny8afh6HCrZriTnLZRr7Y1vHfaGzdn9Q5VmG+ze6kGOdHgktnIbQ/HS
+mFOuKb1iHu4Va+V7SOnzuPymzXLy3d+VKqm5dfpO18DycaBud+tHecok7e/5IOJ/
+tORvhGb06ILJYdfeTFRUvl68FRoW+sNgptHeBIlO7L9j/UNsCAvplnlAPqDM2lbo
+ADgRx9K8oNMqfq6X58F7dmy2MPL09XU1EhDPvqd2mq5fGp9njbKmD+sEZMmMRCls
+auDTr0O5EVAcwtFMdc8/EoIIVib2L2xvTqQLsaKIN8QrIhKV0yw=
+=Hg2p
 -----END PGP SIGNATURE-----
 
---Bn2rw/3z4jIqBvZU--
+--5G06lTa6Jq83wMTw--
 
