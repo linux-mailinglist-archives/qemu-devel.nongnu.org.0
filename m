@@ -2,82 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3BAC1911
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Sep 2019 21:08:01 +0200 (CEST)
-Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7735AC1A75
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 06:19:09 +0200 (CEST)
+Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEeY3-0001qQ-VL
-	for lists+qemu-devel@lfdr.de; Sun, 29 Sep 2019 15:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43123)
+	id 1iEn9Q-0004EZ-2v
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 00:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iEeX9-0001RQ-CW
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 15:07:04 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iEn62-0002S6-67
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iEeX7-0007JF-Li
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 15:07:03 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37821)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iEeX7-0007Hi-Eo
- for qemu-devel@nongnu.org; Sun, 29 Sep 2019 15:07:01 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f22so10334343wmc.2
- for <qemu-devel@nongnu.org>; Sun, 29 Sep 2019 12:07:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=K+5SyWd5MtcRzqDJ1JI7K3CEI5K3zmegxFs8l90y8ms=;
- b=cl6lkqxuoyicUzCsZ2D0U/ulhyif6o//zzQedRBWGuTWlOzYM4kYzGgiRn+n0uB4h7
- OUsfHfg/LtuDBpF47z8+AZ27hfONowHxOeRTuPjdfZXl0bpxol8CkOQFIZpIX3m0XF1g
- 1yw4Xhkyukmwyv5WGSwBmdphBVFzbALwMlOyFW/HQmtHPkpn3e3KwXdC2/liUKV3DS25
- C6fxpq1gFSkGbDcDWRP0vGRy5oHVYZ3rCqsxfyFrXH+Jidtfp7aR71vl6VQd/1hjr0i0
- 8B0iyQDkqLhhdZNzFdAIZDJdD0CKNw8Tt+3fJXSLJZw7UVwAJMaxDG3lUdY9JmxWpez1
- AREQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=K+5SyWd5MtcRzqDJ1JI7K3CEI5K3zmegxFs8l90y8ms=;
- b=sOsT35MPlvahNh30b9JaDipUX2lHBInxA7onbsLNLzAHm+wkCXkqpcyQtug3pgKfln
- VInnja2Zto3Hr4/LKz89CHbJ0liHePinLEkQai4Jf7yoM/UlqtdcOEbP90jj3ubR/aUE
- b9cqQg0ZKiMyy1At4pW9hHM7Mo+B29b/mEk73+MA1W3J+euBaQyUi2jgBDfaTSuRDFyr
- SAq6F2b4hCKH2fux3157tBQJSyZRIZPZq41MoJ4sOKZ4Wpvf25QiM5DPZD/9FJmaYRYc
- Fho9ZbR2UHBOATt0/gy7SpfGV6A/K8xVgWp0yWmCmkIRXHbaYni/ijvyyUnaytYeB2tb
- MTFg==
-X-Gm-Message-State: APjAAAX06TYfH3wSzbqO1o+wsNyf0NXl+YkM7nHMmzi8MN8MBAOQg6E9
- T48HPveoYEexw+UAhOfmViA=
-X-Google-Smtp-Source: APXvYqxbvkg5QXsLL7J7ycQDrHEKKqytPUw56mNWDQbRzYUzhmu7a7SrGGBorgShaOprqXV4MDOlPQ==
-X-Received: by 2002:a1c:1d8d:: with SMTP id d135mr15186831wmd.7.1569784020015; 
- Sun, 29 Sep 2019 12:07:00 -0700 (PDT)
-Received: from ?IPv6:fd00:835b:d940:d4fc::5?
- (2a01-036c-0113-e8f4-0000-0000-0000-0005.pool6.digikabel.hu.
- [2a01:36c:113:e8f4::5])
- by smtp.googlemail.com with ESMTPSA id w4sm9699842wrv.66.2019.09.29.12.06.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 29 Sep 2019 12:06:59 -0700 (PDT)
-From: "=?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=" <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?=
- <DirtY.iCE.hu@gmail.com>
-Subject: Re: [PATCH v4 15/24] audio: add mixing-engine option (documentation)
-To: Markus Armbruster <armbru@redhat.com>
-References: <cover.1568927990.git.DirtY.iCE.hu@gmail.com>
- <68c4b4bd438e9cb5c97aed32ee31e3dabd96cbf6.1568927990.git.DirtY.iCE.hu@gmail.com>
- <87sgonma7v.fsf@dusky.pond.sub.org>
- <4d24c95c-0e98-2646-0b1a-6c7b3afe0e90@gmail.com>
- <87wodwyabl.fsf@dusky.pond.sub.org>
-Message-ID: <cacb71d0-494f-e05d-dece-637579b0c6d9@gmail.com>
-Date: Sun, 29 Sep 2019 21:07:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <dgibson@ozlabs.org>) id 1iEn60-0001pS-6m
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:38 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51395)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iEn5z-0001oj-PT; Mon, 30 Sep 2019 00:15:36 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46hTb60rYpz9sP7; Mon, 30 Sep 2019 14:15:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1569816930;
+ bh=ci5tQUG7JqyU3jf/y7bpSb4CKzpjeYiVuHpk/3C+AvY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VigZolSWPiIfSXLQ/KSISiUccMzTGYM141LVBvEM+F09OV4WeG/I0gtJ1zL2D/0w8
+ XKLwY3azC8KEO9BESgju7x4MCeRcrIvWpuCCDaVwUOBEd9BMSdKdHiY8SwHgPiCwOI
+ FlNPVJ7bSrFLcXZbkGz7oF9TJatdbpb0fjP1VDN0=
+Date: Mon, 30 Sep 2019 11:39:24 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 17/33] xive: Improve irq claim/free path
+Message-ID: <20190930013924.GA11105@umbus.fritz.box>
+References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
+ <20190927055028.11493-18-david@gibson.dropbear.id.au>
+ <20190927104014.0dc57503@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <87wodwyabl.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+Content-Disposition: inline
+In-Reply-To: <20190927104014.0dc57503@bahia.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,140 +57,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ clg@kaod.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-09-25 11:49, Markus Armbruster wrote:
-> "Zoltán Kővágó" <dirty.ice.hu@gmail.com> writes:
-> 
->> On 2019-09-23 15:08, Markus Armbruster wrote:
->>> "Kővágó, Zoltán" <dirty.ice.hu@gmail.com> writes:
->>>
->>>> This will allow us to disable mixeng when we use a decent backend.
->>>>
->>>> Disabling mixeng have a few advantages:
->>>> * we no longer convert the audio output from one format to another, when
->>>>     the underlying audio system would just convert it to a third format.
->>>>     We no longer convert, only the underlying system, when needed.
->>>> * the underlying system probably has better resampling and sample format
->>>>     converting methods anyway...
->>>> * we may support formats that the mixeng currently does not support (S24
->>>>     or float samples, more than two channels)
->>>> * when using an audio server (like pulseaudio) different sound card
->>>>     outputs will show up as separate streams, even if we use only one
->>>>     backend
->>>>
->>>> Disadvantages:
->>>> * audio capturing no longer works (wavcapture, and vnc audio extension)
->>>> * some backends only support a single playback stream or very picky
->>>>     about the audio format.  In this case we can't disable mixeng.
->>>>
->>>> However mixeng is not removed, only made optional, so this shouldn't be
->>>> a big concern.
->>>>
->>>> Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
->>>> ---
->>>>
->>>> Notes:
->>>>       Changes from v1:
->>>>            * renamed mixeng to mixing-engine
->>>>
->>>>    qapi/audio.json | 5 +++++
->>>>    qemu-options.hx | 6 ++++++
->>>>    2 files changed, 11 insertions(+)
->>>>
->>>> diff --git a/qapi/audio.json b/qapi/audio.json
->>>> index 9fefdf5186..0535eff794 100644
->>>> --- a/qapi/audio.json
->>>> +++ b/qapi/audio.json
->>>> @@ -11,6 +11,10 @@
->>>>    # General audio backend options that are used for both playback and
->>>>    # recording.
->>>>    #
->>>> +# @mixing-engine: use QEMU's mixing engine to mix all streams inside QEMU. When
->>>> +#                 set to off, fixed-settings must be also off. Not every backend
->>>> +#                 compatible with the off setting (default on, since 4.2)
->>>> +#
->>>
->>> Last sentence no verb.
->>>
->>> Which backends are compatible?
->>
->> Actually that's a simplification, it depends on a few things.  When
->> mixeng is off, qemu will try to use the same format as the emulated
->> sound card, and if the backend doesn't support that format, it won't
->> work (no audio).  Also attaching multiple sound cards to the same
->> audiodev might not work, if the backend doesn't support multiple
->> playback streams.  If you use pulseaudio, it'll work without problems,
->> if you use alsa, it depends on your device.  If you use a hw: device
->> directly, you'll likely only be able to use one emulated sound card
->> with a few selected audio formats.  If you use dmix: (and plug), alsa
->> will handle the conversion and mixing, so it will work no matter what
->> format the emulated sound card uses.  With OSS the situation is
->> probably similar, it depends on the kernel/hw what works and what not.
->> wav and spice certainly doesn't support multiple streams.  I'm not
->> completely sure about the other backends right now, but I think dsound
->> and coreaudio can handle the necessary sample format conversions and
->> mixing.
->>
->>> What happens when you try the off setting with incompatible backends?
->> See above.
-> 
-> What happens *exactly*?
-> 
-> I'm asking because I'm concerned about the user experience.  When a user
-> asks for a combination of things QEMU can't provide, such as mixeng off
-> with an incompatible backend, QEMU should fail with a suitable error
-> message.  Does it?
 
-Error handling is not the best in the audio subsystem, if something 
-fails it generally just prints a warning to the console and continues, 
-and something will happen...  For example, this is what happens when I 
-try to open one hw device twice. I ran qemu with:
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--audiodev 
-alsa,id=foo,in.dev=hw:1,,0,out.mixing-engine=off,out.dev=hw:1,,0 -device 
-piix4-usb-uhci -device usb-audio,audiodev=foo -device AC97,audiodev=foo
+On Fri, Sep 27, 2019 at 10:40:14AM +0200, Greg Kurz wrote:
+> On Fri, 27 Sep 2019 15:50:12 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > spapr_xive_irq_claim() returns a bool to indicate if it succeeded.
+> > But most of the callers and one callee use int return values and/or an
+> > Error * with more information instead.  In any case, ints are a more
+> > common idiom for success/failure states than bools (one never knows
+> > what sense they'll be in).
+> >=20
+> > So instead change to an int return value to indicate presence of error
+> > + an Error * to describe the details through that call chain.
+> >=20
+> > It also didn't actually check if the irq was already claimed, which is
+> > one of the primary purposes of the claim path, so do that.
+> >=20
+> > spapr_xive_irq_free() also returned a bool... which no callers checked
+> > and was always true, so just drop it.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+> > ---
+> >  hw/intc/spapr_xive.c        | 20 +++++++++-----------
+> >  hw/intc/spapr_xive_kvm.c    |  8 ++++----
+> >  hw/ppc/spapr_irq.c          | 14 ++++++++------
+> >  include/hw/ppc/spapr_xive.h |  4 ++--
+> >  include/hw/ppc/xive.h       |  2 +-
+> >  5 files changed, 24 insertions(+), 24 deletions(-)
+> >=20
+> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > index 47b5ec0b56..04879abf2e 100644
+> > --- a/hw/intc/spapr_xive.c
+> > +++ b/hw/intc/spapr_xive.c
+> > @@ -528,12 +528,17 @@ static void spapr_xive_register_types(void)
+> > =20
+> >  type_init(spapr_xive_register_types)
+> > =20
+> > -bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t lisn, bool lsi)
+> > +int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **=
+errp)
+> >  {
+> >      XiveSource *xsrc =3D &xive->source;
+> > =20
+> >      assert(lisn < xive->nr_irqs);
+> > =20
+> > +    if (xive_eas_is_valid(&xive->eat[lisn])) {
+> > +        error_setg(errp, "IRQ %d is not free", lisn);
+> > +        return -EBUSY;
+> > +    }
+> > +
+> >      /*
+> >       * Set default values when allocating an IRQ number
+> >       */
+> > @@ -543,24 +548,17 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32=
+_t lisn, bool lsi)
+> >      }
+> > =20
+> >      if (kvm_irqchip_in_kernel()) {
+> > -        Error *local_err =3D NULL;
+> > -
+> > -        kvmppc_xive_source_reset_one(xsrc, lisn, &local_err);
+> > -        if (local_err) {
+> > -            error_report_err(local_err);
+> > -            return false;
+> > -        }
+> > +        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+> >      }
+> > =20
+> > -    return true;
+> > +    return 0;
+> >  }
+> > =20
+> > -bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
+> > +void spapr_xive_irq_free(SpaprXive *xive, int lisn)
+> >  {
+> >      assert(lisn < xive->nr_irqs);
+> > =20
+> >      xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+> > -    return true;
+> >  }
+> > =20
+> >  /*
+> > diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> > index 2006f96aec..51b334b676 100644
+> > --- a/hw/intc/spapr_xive_kvm.c
+> > +++ b/hw/intc/spapr_xive_kvm.c
+> > @@ -232,14 +232,14 @@ void kvmppc_xive_sync_source(SpaprXive *xive, uin=
+t32_t lisn, Error **errp)
+> >   * only need to inform the KVM XIVE device about their type: LSI or
+> >   * MSI.
+> >   */
+> > -void kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error *=
+*errp)
+> > +int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **=
+errp)
+> >  {
+> >      SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+> >      uint64_t state =3D 0;
+> > =20
+> >      /* The KVM XIVE device is not in use */
+> >      if (xive->fd =3D=3D -1) {
+> > -        return;
+> > +        return -ENODEV;
+> >      }
+> > =20
+> >      if (xive_source_irq_is_lsi(xsrc, srcno)) {
+> > @@ -249,8 +249,8 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc,=
+ int srcno, Error **errp)
+> >          }
+> >      }
+> > =20
+> > -    kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE, srcno, &state,
+> > -                      true, errp);
+> > +    return kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE, srcno,=
+ &state,
+> > +                             true, errp);
+> >  }
+> > =20
+> >  static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> > index da9e80b24e..4951329959 100644
+> > --- a/hw/ppc/spapr_irq.c
+> > +++ b/hw/ppc/spapr_irq.c
+> > @@ -246,7 +246,13 @@ static void spapr_irq_init_xive(SpaprMachineState =
+*spapr, Error **errp)
+> > =20
+> >      /* Enable the CPU IPIs */
+> >      for (i =3D 0; i < nr_servers; ++i) {
+> > -        spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false);
+> > +        Error *local_err =3D NULL;
+> > +
+> > +        spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, &l=
+ocal_err);
+> > +        if (local_err) {
+> > +            error_propagate(errp, local_err);
+> > +            return;
+> > +        }
+>=20
+> Quoting the changelog
+>=20
+> > So instead change to an int return value to indicate presence of error
+> > + an Error * to describe the details through that call chain.
+>=20
+> Shouldn't this rather be:
+>=20
+>         if (spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i, false, e=
+rrp)) {
+>             return;
+>         }
+>=20
+> ?
 
-When the guest tried to initialize the AC97 card, I got an error:
+Yes, yes it should.  Fixed now.
 
-alsa: Could not initialize DAC
-alsa: Failed to open `hw:1,0':
-alsa: Reason: Device or resource busy
+>=20
+> With or without that fixed,
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> >      }
+> > =20
+> >      spapr_xive_hcall_init(spapr);
+> > @@ -255,11 +261,7 @@ static void spapr_irq_init_xive(SpaprMachineState =
+*spapr, Error **errp)
+> >  static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, boo=
+l lsi,
+> >                                  Error **errp)
+> >  {
+> > -    if (!spapr_xive_irq_claim(spapr->xive, irq, lsi)) {
+> > -        error_setg(errp, "IRQ %d is invalid", irq);
+> > -        return -1;
+> > -    }
+> > -    return 0;
+> > +    return spapr_xive_irq_claim(spapr->xive, irq, lsi, errp);
+> >  }
+> > =20
+> >  static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
+> > diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> > index bfd40f01d8..0df20a6590 100644
+> > --- a/include/hw/ppc/spapr_xive.h
+> > +++ b/include/hw/ppc/spapr_xive.h
+> > @@ -54,8 +54,8 @@ typedef struct SpaprXive {
+> >   */
+> >  #define SPAPR_XIVE_BLOCK_ID 0x0
+> > =20
+> > -bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t lisn, bool lsi);
+> > -bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn);
+> > +int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **=
+errp);
+> > +void spapr_xive_irq_free(SpaprXive *xive, int lisn);
+> >  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+> >  int spapr_xive_post_load(SpaprXive *xive, int version_id);
+> > =20
+> > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> > index 6d38755f84..fd3319bd32 100644
+> > --- a/include/hw/ppc/xive.h
+> > +++ b/include/hw/ppc/xive.h
+> > @@ -425,7 +425,7 @@ static inline uint32_t xive_nvt_cam_line(uint8_t nv=
+t_blk, uint32_t nvt_idx)
+> >   * KVM XIVE device helpers
+> >   */
+> > =20
+> > -void kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error *=
+*errp);
+> > +int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **=
+errp);
+> >  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
+> >  void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
+> >  void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
+>=20
 
-And it just continued. And the sound worked, but with wrong sample rate 
-(AC97 wants 44100 Hz, but USB audio previously opened the alsa device 
-with 48000 Hz).  I'll fix this bug in the next revision, 
-audio_pcm_hw_add_* shouldn't fall back to other HWs without mixeng.  But 
-even with that, the result will be that one emulated sound card will 
-work and the other won't.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-It's not ideal, but fixing it would require a lot of effort.  Right now, 
-if you specify an invalid audiodev for alsa (even with mixeng), it'll 
-just print an error to the console and continue without audio.
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Sometimes rejecting non-working configurations is impractical.  Is it
-> here?
+-----BEGIN PGP SIGNATURE-----
 
-I think it is.  It depends on the backend, its settings, the frontend 
-(emulated sound card), and how the guest uses it.  We currently don't 
-know what formats does a backend support, what formats can a frontend 
-produce, and even if we would know that, just because a frontend can 
-produce a format that the backend doesn't understand doesn't mean that 
-it will actually do it.  For example, right now with this patch series 
-applied, usb-audio can produce 7.1 audio.  If we want to be strict, it 
-means we can only use it with backends that support at least 8 channels, 
-even if the user only wants to use stereo audio.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2RXMkACgkQbDjKyiDZ
+s5Lz2w/9EVhOFO7O+EBCQFKyXX4Pjv4v9T9NRvuOXSzyWghcH1AJ2tH6z/nl4gAZ
+hpJ2F5N5NGshk2I1Gbg2ddiP4HJU0ixlk2WEpLsCd+HNzqCtyYKsMI0Oqct9OIx0
+bcf5VSTNZ7ymC6J207vDt3+jDo1rHgbASU+smjvvruJ2F5Xli783B1PrgV6Ag181
+gmkd4DQqeD+Cj5hBseDhqPch+R17WOP0AiEIRiy+DabIU7oT8q/KQVowOQvhQKRJ
+tLMnRe8qHGPgA2LSaez/pIvuwhdmmbgxcvt0GJ18hYNiGKC9DaFze732tZI83vo/
++RGj6/CNvqbBH4yrdJk/fF9mYYppcy+EwhAmNUqPfZA8bWQuNcLMcg4X239CuIhn
+kYQc94rY+k1UO+alfqVRqd81FK930l77uAq2Fl7Sne5sQiBTnQntOt5to5/6F0VA
+E2AWBqD2wP1Z9JYOb4be5mz+4RC0KCzyWn+UHyMOjqvwBvQXTkywhRIRy/jeh558
+XANPVv0jo/Jvbc5sFN4S7YKBYS88+CC924d+yyGOBIUqKyTWC5z9c4qPNDPnSwlk
+h1A1IAmZRGvXA0z+6jquL+dHb4gpls4RW51ZYlplTUPmC1/dDZsBo2hhnqJI1dMd
+7FmT7jODkwbela4X8Bt5xEMz43jqNSo6lOlrsmI0FJVNvOaerWY=
+=z9qB
+-----END PGP SIGNATURE-----
 
-> If yes, we should call out the problematic configurations in
-> documentation.
-
-I think we should rather list known working configurations, and leave 
-the others as "try at your own risk" because there's too many things 
-that can go wrong.  (pulseaudio will work, alsa with dmix too.  Need to 
-check coreaudio, dsound and oss.  spice and wavcapture won't work.)
-
-Regards,
-Zoltan
+--sm4nu43k4a2Rpi4c--
 
