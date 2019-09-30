@@ -2,108 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB57C1EEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 12:32:57 +0200 (CEST)
-Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF584C1EF5
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 12:34:44 +0200 (CEST)
+Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEsz9-0002Hc-Ed
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 06:32:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43450)
+	id 1iEt0t-00040A-Si
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 06:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <felipe@nutanix.com>) id 1iEsww-0001Qj-4V
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:30:39 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iEsz0-0002rR-RL
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:32:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <felipe@nutanix.com>) id 1iEswr-00060j-Pj
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:30:37 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:11930)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iEsyz-0006kd-48
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:32:46 -0400
+Received: from mail-eopbgr150109.outbound.protection.outlook.com
+ ([40.107.15.109]:35342 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iEswr-0005x4-Gm
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:30:33 -0400
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x8UAK3fD024396
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 03:30:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-id :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=xp99YT53PO5HNG4pgZZ5P+icjq9Ve4lhfSTXpajyjy4=;
- b=QlVXbBQbkA5pxH33sBu3DTxJ81k9zX2L+dsSP/Cx/zg4sF6BFsJuVfN1xgvJ4HfHIBv3
- vCmvXR/6bE6csnuxzXy3Zm3rCS95S7BHHXYsjoy3+3bVss3PrLIeWLZrZo16GJI1taLI
- gUot/67iUGF0herVUj6GfdXKTYE4Ue3K0P8F5yFJeCqH4rg1iAI5VXsM415vFy6RP88m
- ewnQSEnzs0MAr9elRg8x/RvuiGLWC6RG7Awo2qUgnAsR06DCCGYnYG7XXwz3PtKH7lZE
- HONUZKCjngtWBdu8tHhAK69xp37hUEw7UJbU3OMBCMOkaS9BXYuYYkVXGEErSY2mfzyb Kg== 
-Received: from nam03-by2-obe.outbound.protection.outlook.com
- (mail-by2nam03lp2053.outbound.protection.outlook.com [104.47.42.53])
- by mx0a-002c1b01.pphosted.com with ESMTP id 2va6khb6f9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 03:30:30 -0700
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iEsyy-0006j8-Fj; Mon, 30 Sep 2019 06:32:45 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JWrs2iiPlVwp3D7Gd+yt0FooZb/1HtwcYnA3XsyLJdYqoDTkiaVZI+deY0uhM3J/7FAZvMpBNTVWdxKwQjIhb3Xtf/3mIHlzB3TeF4J4NqcqFqAEzeUMVCNo2uuYvvaXE62STpZYpQn5t016hYARojp5mi/sazl8hYMga2FLVJOHO00mgCf3WgBna8TxadiyQ+gjYVMNHGGQovM6O+WcDXhZYpW6QQ23ayYun7GVP/9W/RHmE1Q6xMsL13caclI5qTnm6YKk5mFrpACl1XeYMaQTtKkrAUMRjOJpZXWp3ZjffjlxduElHZ2uxBKl8UJQrLVPqcfklN61G4UEM8UsPw==
+ b=kKXLTey51nMYWqyIaxKW3bsg+oZRuZBgg6mE5p7miNQghCiqdlLH4EHoi/Dv3Sbx/ux3K/GZE3BMdLT+JtJQWpnpgAjXXuJ+b7aMM8TUPr5CNyjeinMPW/cL2XOn8NNclQZ0abZS1abNtDqD1Dv4czjfDQoJUGz7vc5Ts3O6yTXcBydH/e41MfL6T7gI0bC47Ged7mFv2NKFpZKQzyhui8aRJ0Xhd6vfVvwkxD9TQljbj4oTgsFL6a7fe1GfpqL8RzcyhhqOC0vt1Fm3ylai84bqwmUq4qASox6rmOBOPW/JJpKkNJnEoN1n8v9Cdv1RFCDXQ5kaPKIK8ox2ExZadw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xp99YT53PO5HNG4pgZZ5P+icjq9Ve4lhfSTXpajyjy4=;
- b=FMCRhtlltPjSXrqxHsGotIxnpBCLxtfamtiFpUjOhwHOG8ygIyRoMxQx6itsfxrCo1nf8ffspzE+eYuqfIGKwfhFdIaOtxQgnaSAi+iLX8QxkPBiszFyY2MkGKCGMij5G/0ALK3BTAU3+NEw/JYg03Hgzr9W0wX6BirDaTM2vOO1GygnA4tisbZ9KDAk/32CzKYCEZ5QcNZJym/LuT+pdPsabRgkw98G6ay2UZxJp0IMj2E+cIxL4cNJIZwlCF6qiCJtROgpVA4KnRBxlovd2zL/ODutCwOhGGiIdoIqi3RoQVfRuLTfQYi0EY13s68Up5qlehIRd+cgfokAFKo+Iw==
+ bh=Er1fwvCNXwLxNLx3fIHZCgqv4sK2OrfhjYPa7R+G7Fc=;
+ b=jdJnKhARXfsRosAkkQduAiphTVFR0tMfrSNKryAijwB6ErY+hqNrmi0n/+Fd1Xjy43av1irmFPtzWegpjNLRH9Oso/PbgVBiF3LLQlH8+XytbBuRZTt49yYNOpx7khOeUlk1d9p2LfMVztRGk1JGDpmIS3Pse04hjuPB3d0bFYuX6jkz6R8/meYECuFxCQcm8nPnP84qa1DcXoYNuoY/M68vVzyUZqQFXrRIp50lPlJFjHT5oCnGupMecpfaZlpwpXFCxKbTGwsOgXy/O3SIZCwNS3T6RXGXruzJ8UesuxYA08fNSyYVmLUa2qdVAbkt3SOkV73WtzHMzmsdoSxWag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
- MWHPR02MB2608.namprd02.prod.outlook.com (10.168.205.150) with Microsoft SMTP
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Er1fwvCNXwLxNLx3fIHZCgqv4sK2OrfhjYPa7R+G7Fc=;
+ b=l73O0Fvpi1YlV3ynKHvqV6iQfClGXbdmdl0FFLfG9ivvKqcHnLsIvMgyWt3L0h1OqWXATudNO0l3JSmKv9TJoN2IvjDJunUFygOUV0TyX6Xh/wi9ZMmgr+RymBBhBA8H7l/7bJIC1JvYhrZfGnPSIm5GHnwQN7XRweC2miCWPKk=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5098.eurprd08.prod.outlook.com (10.255.19.20) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.17; Mon, 30 Sep 2019 10:30:28 +0000
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::2867:91aa:a3e:e278]) by MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::2867:91aa:a3e:e278%2]) with mapi id 15.20.2305.017; Mon, 30 Sep 2019
- 10:30:28 +0000
-From: Felipe Franciosi <felipe@nutanix.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Thoughts on VM fence infrastructure
-Thread-Topic: Thoughts on VM fence infrastructure
-Thread-Index: AQHVd3oUjPlnPo4D5E2mRytId27baA==
-Date: Mon, 30 Sep 2019 10:30:28 +0000
-Message-ID: <42837590-2563-412B-ADED-57B8A10A8E68@nutanix.com>
-Accept-Language: en-GB, en-US
+ 15.20.2305.20; Mon, 30 Sep 2019 10:32:41 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2305.017; Mon, 30 Sep 2019
+ 10:32:41 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: John Snow <jsnow@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v5 0/9] qcow2-bitmaps: rewrite reopening logic
+Thread-Topic: [PATCH v5 0/9] qcow2-bitmaps: rewrite reopening logic
+Thread-Index: AQHVdS539DFcmcYDx0KivWDdiGO0b6dALlWAgAPcEAA=
+Date: Mon, 30 Sep 2019 10:32:41 +0000
+Message-ID: <6226708b-fc89-724a-e828-1aea7ef7e94b@virtuozzo.com>
+References: <20190927122355.7344-1-vsementsov@virtuozzo.com>
+ <133c9c4d-9ad2-f813-eab8-8ddb8dffbce5@redhat.com>
+In-Reply-To: <133c9c4d-9ad2-f813-eab8-8ddb8dffbce5@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [62.254.189.133]
+x-clientproxiedby: HE1PR09CA0086.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::30) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190930133238461
+x-originating-ip: [185.231.240.5]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a1a87617-106b-4456-e029-08d7459136a8
-x-ms-traffictypediagnostic: MWHPR02MB2608:
+x-ms-office365-filtering-correlation-id: b9a3c370-fa89-415a-1213-08d745918576
+x-ms-traffictypediagnostic: DB8PR08MB5098:
+x-ms-exchange-purlcount: 2
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR02MB26086F89B3292106E7CA38DCD7820@MWHPR02MB2608.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-microsoft-antispam-prvs: <DB8PR08MB5098E7B306AC6A73F15B63ACC1820@DB8PR08MB5098.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2331;
 x-forefront-prvs: 01762B0D64
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39860400002)(346002)(366004)(136003)(376002)(396003)(43544003)(199004)(189003)(4326008)(6436002)(91956017)(33656002)(4744005)(81166006)(8676002)(36756003)(66556008)(71190400001)(6486002)(99286004)(66946007)(6512007)(64756008)(486006)(71200400001)(5660300002)(66476007)(305945005)(76116006)(2906002)(14454004)(7736002)(81156014)(107886003)(102836004)(2616005)(186003)(6916009)(66066001)(26005)(256004)(316002)(66446008)(476003)(478600001)(8936002)(86362001)(25786009)(6116002)(3846002)(6506007)(64030200001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2608;
- H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
+ SFS:(10019020)(136003)(376002)(39840400004)(366004)(396003)(346002)(189003)(199004)(53754006)(26005)(99286004)(229853002)(86362001)(2616005)(316002)(305945005)(5660300002)(7736002)(54906003)(102836004)(110136005)(66946007)(8936002)(3846002)(81156014)(6116002)(966005)(81166006)(186003)(256004)(2906002)(478600001)(8676002)(31696002)(66066001)(52116002)(6486002)(11346002)(4326008)(53546011)(446003)(486006)(6506007)(6306002)(36756003)(31686004)(71200400001)(386003)(76176011)(107886003)(476003)(66476007)(66556008)(64756008)(66446008)(14444005)(14454004)(2501003)(6436002)(6512007)(25786009)(6246003)(71190400001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5098;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rkaVRMvSCe7+kUHJLtOPsYevzArEcHExmqYmzSKu0Ly+Z4miz0VWS1nQhqkOwhnkS3gDiDW1NfbAhMs8WXWgGY8YdOGmouAm/mWcUStOxeSkTVVy/chNPjXfXC9r0PGRIgDzKoskZeIkTTL3L0U998Gv77hhmKTbHusiSK4jZTUFZ8om4lwtr8a1dvYdjr6IzHjYn/KpDKpX7Nb0d1wMW94gPBu1QnUB4Yh+OqFIGcKs5oLy+b+7noqef2fDwxfbvZ3lT+EeMJOKH29gS7w0B/zQNo8VBB77n6dU4B4Iub0RCHM48LhNgnvQzgxjHpxFvU1coGbuWCrjxEqilHlpDCieSpEsGjhIFA61GmuY/mP/c5ugE4HM+3S5ejpt+H4nAEPxjSvkkFbpJea5GmrKhIxevvGwfCwRXgVgbCMrfv8=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <EB7AE99AF211994AA820499A186FE20E@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: RV3Z0Vb0bq3ESvv/TN41aS2HB+RDWDUBq1RJyOMeGzR7gSH6eySek+hiRWRLeVggQA75uGqnwu2htNpw3BSSGPw/nWLzowo4vwAGuhwqC8wOW67luJW7ReiVMygAK61CrL5oNNkqFINl2YjFDmDTC6Flpvdz8Av0u+dMmE3BlsUtopWDRHdPGkhqe7T+TxZz01ypLbUtIlmopoNRWvi/+MpXgK/Hy3Cx+gQAd+DD/sJbGK0wZe+NqyKKATNQvr+qBavqWpcMSltkuZ96N3LDKQG+gDEn0s8DKc3YhgUMgM229XCOOCDhfLDhgIVQ5c5bq9LpT8EXlXASucEdgrMt5p2Z7jz7py7v1sY2w3/rt+4X7i1uaMWTAwmh4BoULND2CfjWqnUxJ/IfTvKTcGoEYRwcKdtVLEhI3Wt9bbRRnlbyCA5L9/zEpXLkoKP8zmgevYXv/CYfWJHg4W8EsWFNOw==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F5604CD88FFD9C48934EA7503BC199E4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1a87617-106b-4456-e029-08d7459136a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2019 10:30:28.3956 (UTC)
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9a3c370-fa89-415a-1213-08d745918576
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2019 10:32:41.2139 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ksLUfOBgqbwCKHhllQEEgjS9faGEjP3dwnY0lnfYhPKDMX4HHYQeDKQ26jSrrW6QoS+CxwR+UiUBW5k3P9YWJfWi0C3+zOx+10y4VU7/+/4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2608
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-09-30_06:2019-09-25,2019-09-30 signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.151.68
+X-MS-Exchange-CrossTenant-userprincipalname: 8/pabpXG+sc6eJg5vxm0uJh2CcYnoxEZibgXqvd6SOWYRD5AnnYsoHN3Cf6AXYCWmLYSaTy2e3EvfY3pK2qz3XlmaJ5miRbq/+qmys2kTuU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5098
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.109
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,25 +110,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aditya Ramesh <aramesh@nutanix.com>
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Heyall,
-
-We have a use case where a host should self-fence (and all VMs should
-die) if it doesn't hear back from a heartbeat within a certain time
-period. Lots of ideas were floated around where libvirt could take
-care of killing VMs or a separate service could do it. The concern
-with those is that various failures could lead to _those_ services
-being unavailable and the fencing wouldn't be enforced as it should.
-
-Ultimately, it feels like Qemu should be responsible for this
-heartbeat and exit (or execute a custom callback) on timeout.
-
-Does something already exist for this purpose which could be used?
-Would a generic Qemu-fencing infrastructure be something of interest?
-
-Cheers,
-F.
+MjguMDkuMjAxOSAyOjM2LCBKb2huIFNub3cgd3JvdGU6DQo+IA0KPiANCj4gT24gOS8yNy8xOSA4
+OjIzIEFNLCBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPj4gSGkgYWxsIQ0K
+Pj4NCj4+IEJpdG1hcHMgcmVvcGVuaW5nIGlzIGJ1Z2d5LCByZW9wZW5pbmctcncganVzdCBub3Qg
+d29ya2luZyBhdCBhbGwgYW5kDQo+PiByZW9wZW5pbmctcm8gbWF5IGxlYWQgdG8gcHJvZHVjaW5n
+IGJyb2tlbiBpbmNyZW1lbnRhbA0KPj4gYmFja3VwIGlmIHdlIGRvIHRlbXBvcmFyeSBzbmFwc2hv
+dCBpbiBhIG1lYW50aW1lLg0KPj4NCj4+IHY1Og0KPj4gMDE6IC0gYWRkIE1heCdzIHItYg0KPj4g
+ICAgICAtIGZpeCBzL1FTSU1QTEVfSU5JVC9RVEFJTFFfSU5JVC8gaW4gYSBjb21tZW50DQo+PiAw
+MjogLSBhZGQgTWF4J3MgYW5kIEpvaG4ncyBhLWINCj4+IDAzOiAtIGltcHJvdmUgdGVzdCB0byBj
+aGVjayBiaXRtYXAgaGFzaGVzIGluIG1vcmUgc2FmZSB3YXkNCj4+IDA3OiAtIGRyb3Agd3Jvbmcg
+c3RhdGVtZW50IGZyb20gY29tbWl0IG1lc3NhZ2UNCj4+ICAgICAgLSBsb2cgZXZlbnRzIGJ5IGhh
+bmQNCj4+IDA4OiAtIGRyb3AgJ3RoZScgZnJvbSBjb21tZW50DQo+PiAgICAgIC0gYWRkIENvcnJ1
+cHRpb24gaW4gY2FzZSBvZiBleGlzdGVudCBJTl9VU0Ugb24gUk8tPlJXIHJlb3Blbg0KPj4gMDk6
+IC0gYWRkIE1heCdzIGEtYiBhbmQgSm9obidzIHItYg0KPj4NCj4+IHY0OiBEcm9wIGNvbXBsaWNh
+dGVkIHNvbHV0aW9uIGFyb3VuZCByZW9wZW5pbmcgbG9naWMgW0tldmluXSwgZml4DQo+PiAgICAg
+IHRoZSBleGlzdGluZyBidWcgaW4gYSBzaW1wbGVzdCB3YXkNCj4+DQo+PiBWbGFkaW1pciBTZW1l
+bnRzb3YtT2dpZXZza2l5ICg5KToNCj4+ICAgIGJsb2NrOiBzd2l0Y2ggcmVvcGVuIHF1ZXVlIGZy
+b20gUVNJTVBMRVEgdG8gUVRBSUxRDQo+PiAgICBibG9jazogcmV2ZXJzZSBvcmRlciBmb3IgcmVv
+cGVuIGNvbW1pdHMNCj4+ICAgIGlvdGVzdHM6IGFkZCB0ZXN0LWNhc2UgdG8gMTY1IHRvIHRlc3Qg
+cmVvcGVuaW5nIHFjb3cyIGJpdG1hcHMgdG8gUlcNCj4+ICAgIGJsb2NrL3Fjb3cyLWJpdG1hcDog
+Z2V0IHJpZCBvZiBiZHJ2X2hhc19jaGFuZ2VkX3BlcnNpc3RlbnRfYml0bWFwcw0KPj4gICAgYmxv
+Y2svcWNvdzItYml0bWFwOiBkcm9wIHFjb3cyX3Jlb3Blbl9iaXRtYXBzX3J3X2hpbnQoKQ0KPj4g
+ICAgYmxvY2svcWNvdzItYml0bWFwOiBkbyBub3QgcmVtb3ZlIGJpdG1hcHMgb24gcmVvcGVuLXJv
+DQo+PiAgICBpb3Rlc3RzOiBhZGQgdGVzdCAyNjAgdG8gY2hlY2sgYml0bWFwIGxpZmUgYWZ0ZXIg
+c25hcHNob3QgKyBjb21taXQNCj4+ICAgIGJsb2NrL3Fjb3cyLWJpdG1hcDogZml4IGFuZCBpbXBy
+b3ZlIHFjb3cyX3Jlb3Blbl9iaXRtYXBzX3J3DQo+PiAgICBxY293Mi1iaXRtYXA6IG1vdmUgYml0
+bWFwIHJlb3Blbi1ydyBjb2RlIHRvIHFjb3cyX3Jlb3Blbl9jb21taXQNCj4+DQo+PiAgIGJsb2Nr
+L3Fjb3cyLmggICAgICAgICAgICAgICAgfCAgIDUgKy0NCj4+ICAgaW5jbHVkZS9ibG9jay9ibG9j
+ay5oICAgICAgICB8ICAgMiArLQ0KPj4gICBpbmNsdWRlL2Jsb2NrL2Jsb2NrX2ludC5oICAgIHwg
+ICA2IC0tDQo+PiAgIGluY2x1ZGUvYmxvY2svZGlydHktYml0bWFwLmggfCAgIDEgLQ0KPj4gICBi
+bG9jay5jICAgICAgICAgICAgICAgICAgICAgIHwgIDUzICsrKysrLS0tLS0tDQo+PiAgIGJsb2Nr
+L2RpcnR5LWJpdG1hcC5jICAgICAgICAgfCAgMTIgLS0tDQo+PiAgIGJsb2NrL3Fjb3cyLWJpdG1h
+cC5jICAgICAgICAgfCAxNjQgKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0NCj4+
+ICAgYmxvY2svcWNvdzIuYyAgICAgICAgICAgICAgICB8ICAxNyArKystDQo+PiAgIHRlc3RzL3Fl
+bXUtaW90ZXN0cy8xNjUgICAgICAgfCAgNTcgKysrKysrKysrKystDQo+PiAgIHRlc3RzL3FlbXUt
+aW90ZXN0cy8xNjUub3V0ICAgfCAgIDQgKy0NCj4+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzI2MCAg
+ICAgICB8ICA4OSArKysrKysrKysrKysrKysrKysrDQo+PiAgIHRlc3RzL3FlbXUtaW90ZXN0cy8y
+NjAub3V0ICAgfCAgNTIgKysrKysrKysrKysNCj4+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzL2dyb3Vw
+ICAgICB8ICAgMSArDQo+PiAgIDEzIGZpbGVzIGNoYW5nZWQsIDM0MyBpbnNlcnRpb25zKCspLCAx
+MjAgZGVsZXRpb25zKC0pDQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDc1NSB0ZXN0cy9xZW11LWlvdGVz
+dHMvMjYwDQo+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9xZW11LWlvdGVzdHMvMjYwLm91
+dA0KPj4NCj4gDQo+IFByb3Zpc2lvbmFsbHkgc3RhZ2VkLCBwZW5kaW5nIGZlZWRiYWNrIGZyb20g
+S2V2aW4uDQo+IA0KPiBTb21lIG1pbm9yIHJlYmFzZSBjb25mbGljdHMgYWdhaW5zdCB0aGUgY3Vy
+cmVudCBiaXRtYXBzIGJyYW5jaDoNCj4gDQo+IDAxMi8xNzpbLS0tLV0gWy1DXSAnYmxvY2svcWNv
+dzItYml0bWFwOiBnZXQgcmlkIG9mDQo+IGJkcnZfaGFzX2NoYW5nZWRfcGVyc2lzdGVudF9iaXRt
+YXBzJw0KPiAwMTQvMTc6WzAwMDRdIFtGQ10gJ2Jsb2NrL3Fjb3cyLWJpdG1hcDogZG8gbm90IHJl
+bW92ZSBiaXRtYXBzIG9uIHJlb3Blbi1ybycNCj4gMDE3LzE3OlstLS0tXSBbLUNdICdxY293Mi1i
+aXRtYXA6IG1vdmUgYml0bWFwIHJlb3Blbi1ydyBjb2RlIHRvDQo+IHFjb3cyX3Jlb3Blbl9jb21t
+aXQnDQo+IA0KPiANCj4gMTI6IGp1c3QgY29udGV4dCBhZ2FpbnN0IGNoYW5nZWQgX2ZpcnN0IGFu
+ZCBfbmV4dCBwcm90b3R5cGVzLg0KPiAxNDogdGhlIHNpZ25hdHVyZSBvZiBiZHJ2X3JlbGVhc2Vf
+ZGlydHlfYml0bWFwIGhhcyBjaGFuZ2VkLCB3aGljaCBpbmN1cnMNCj4gYSBjaGFuZ2UgaW4gdGhl
+IHJlZmFjdG9yLg0KPiAxNzogYmRydl9jYW5fc3RvcmUuLi4gaGFzIGNoYW5nZWQgdG8gYmRydl9j
+b19jYW5fc3RvcmUuLi4NCj4gICAgICBTYW1lIGZvciBiZHJ2X3JlbW92ZV9wZXJzaXN0ZW50Lg0K
+PiANCj4gDQo+IFRoYW5rcywgYXBwbGllZCB0byBteSBiaXRtYXBzIHRyZWU6DQo+IA0KPiBodHRw
+czovL2dpdGh1Yi5jb20vam5zbm93L3FlbXUvY29tbWl0cy9iaXRtYXBzDQo+IGh0dHBzOi8vZ2l0
+aHViLmNvbS9qbnNub3cvcWVtdS5naXQNCj4gDQoNCg0KVGhhbmtzIGEgbG90IQ0KDQoNCi0tIA0K
+QmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
