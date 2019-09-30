@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD0BC1EE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 12:28:06 +0200 (CEST)
-Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 783EFC1EEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 12:33:37 +0200 (CEST)
+Received: from localhost ([::1]:48304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEsuT-0000NZ-SR
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 06:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43100)
+	id 1iEszo-0002nd-CJ
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 06:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEssV-00088L-QW
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:26:04 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iEss2-00081E-1U
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:25:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEssT-00042E-RZ
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:26:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23926
+ (envelope-from <borntraeger@de.ibm.com>) id 1iEsrw-0003pX-R3
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:25:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10144
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iEssT-00041z-MF
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:26:01 -0400
+ id 1iEsrw-0003mM-62
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 06:25:28 -0400
 Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8UADC0V071674
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 06:26:01 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vbdtdeq71-1
+ x8UADC7s071675
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 06:25:21 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vbdtdephr-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 06:26:00 -0400
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 06:25:20 -0400
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Mon, 30 Sep 2019 11:25:59 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Mon, 30 Sep 2019 11:25:19 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 30 Sep 2019 11:25:55 +0100
+ Mon, 30 Sep 2019 11:25:16 +0100
 Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8UAPsiX43450408
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x8UAPFVW45023626
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Sep 2019 10:25:54 GMT
+ Mon, 30 Sep 2019 10:25:15 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8F93F4203F;
- Mon, 30 Sep 2019 10:25:54 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1874D42045;
+ Mon, 30 Sep 2019 10:25:15 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4BB8942042;
- Mon, 30 Sep 2019 10:25:54 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BC0B842047;
+ Mon, 30 Sep 2019 10:25:14 +0000 (GMT)
 Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 30 Sep 2019 10:25:54 +0000 (GMT)
-Subject: Re: [PATCH] configure: Remove s390 (31-bit mode) from the list of
- supported CPUs
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <20190928190334.6897-1-thuth@redhat.com>
+ Mon, 30 Sep 2019 10:25:14 +0000 (GMT)
+Subject: Re: [PATCH v7 1/4] kvm: extract kvm_log_clear_one_slot
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20190924144751.24149-1-imammedo@redhat.com>
+ <20190924144751.24149-2-imammedo@redhat.com>
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
@@ -103,19 +103,19 @@ Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
  RGIN40QWFVlZvkKIEkzlzqpAyGaRLhXJPv/6tpoQaCQQoSAc5Z9kM/wEd9e2zMeojcWjUXgg
  oWj8A/wY4UXExGBu+UCzzP/6sQRpBiPFgmqPTytrDo/gsUGqjOudLiHQcMU+uunULYQxVghC
  syiRa+UVlsKmx1hsEg==
-Date: Mon, 30 Sep 2019 12:25:54 +0200
+Date: Mon, 30 Sep 2019 12:25:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190928190334.6897-1-thuth@redhat.com>
+In-Reply-To: <20190924144751.24149-2-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19093010-0008-0000-0000-0000031C60C3
+x-cbid: 19093010-4275-0000-0000-0000036C7EC1
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19093010-0009-0000-0000-00004A3B065E
-Message-Id: <056ad42f-0118-6584-55fa-87fac8c7a565@de.ibm.com>
+x-cbparentid: 19093010-4276-0000-0000-0000387F053A
+Message-Id: <d1589f23-500d-c3b6-8521-202a7d8d5fd6@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-30_06:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -137,41 +137,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, peterx@redhat.com,
+ qemu-s390x@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 28.09.19 21:03, Thomas Huth wrote:
-> On IBM Z, KVM in the kernel is only implemented for 64-bit mode, and
-> with regards to TCG, we also only support 64-bit host CPUs (see the
-> check at the beginning of tcg/s390/tcg-target.inc.c), so we should
-> remove s390 (without "x", i.e. the old 31-bit mode CPUs) from the
-> list of supported CPUs.
+On 24.09.19 16:47, Igor Mammedov wrote:
+> From: Paolo Bonzini <pbonzini@redhat.com>
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> We may need to clear the dirty bitmap for more than one KVM memslot.
+> First do some code movement with no semantic change.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
 > ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  accel/kvm/kvm-all.c | 102 ++++++++++++++++++++++++--------------------
+>  1 file changed, 56 insertions(+), 46 deletions(-)
 > 
-> diff --git a/configure b/configure
-> index 397bb476e1..a4488c6705 100755
-> --- a/configure
-> +++ b/configure
-> @@ -728,7 +728,7 @@ ARCH=
->  # Normalise host CPU name and set ARCH.
->  # Note that this case should only have supported host CPUs, not guests.
->  case "$cpu" in
-> -  ppc|ppc64|s390|s390x|sparc64|x32|riscv32|riscv64)
-> +  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
->      supported_cpu="yes"
->    ;;
->    ppc64le)
-> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index b09bad0804..e9e6086c09 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -575,55 +575,13 @@ out:
+>  #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
+>  #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
+>  
+> -/**
+> - * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
+> - *
+> - * NOTE: this will be a no-op if we haven't enabled manual dirty log
+> - * protection in the host kernel because in that case this operation
+> - * will be done within log_sync().
+> - *
+> - * @kml:     the kvm memory listener
+> - * @section: the memory range to clear dirty bitmap
+> - */
+> -static int kvm_physical_log_clear(KVMMemoryListener *kml,
+> -                                  MemoryRegionSection *section)
+> +static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start, uint64_t size)
 
-Thanks applied to s390-next.
+When applying, I will split this to fit within 80 chars. ok?
 
 
