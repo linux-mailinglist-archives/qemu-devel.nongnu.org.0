@@ -2,43 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C697CC25B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 19:13:21 +0200 (CEST)
-Received: from localhost ([::1]:55252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2589C25B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 19:13:41 +0200 (CEST)
+Received: from localhost ([::1]:55256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEzEe-00035H-0R
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 13:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47181)
+	id 1iEzEy-0003S2-Da
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 13:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47277)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iEzCJ-0001XE-H1
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 13:10:56 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iEzCc-0001oG-Kq
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 13:11:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iEzCG-0005Vg-Cq
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 13:10:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:19433)
+ (envelope-from <dgilbert@redhat.com>) id 1iEzCb-0005ej-HF
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 13:11:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55794)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iEzCG-0005VB-7V; Mon, 30 Sep 2019 13:10:52 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iEzCb-0005dT-8z
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 13:11:13 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 049CE20F7;
- Mon, 30 Sep 2019 17:10:51 +0000 (UTC)
-Received: from thuth.com (ovpn-116-74.ams2.redhat.com [10.36.116.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CF2F5C223;
- Mon, 30 Sep 2019 17:10:48 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
-Subject: [PATCH] target/sparc: Remove old TODO file
-Date: Mon, 30 Sep 2019 19:10:44 +0200
-Message-Id: <20190930171044.25312-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ by mx1.redhat.com (Postfix) with ESMTPS id 484AD8980E8;
+ Mon, 30 Sep 2019 17:11:12 +0000 (UTC)
+Received: from work-vm (ovpn-117-232.ams2.redhat.com [10.36.117.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FBD35D6D0;
+ Mon, 30 Sep 2019 17:11:11 +0000 (UTC)
+Date: Mon, 30 Sep 2019 18:11:09 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Felipe Franciosi <felipe@nutanix.com>
+Subject: Re: Thoughts on VM fence infrastructure
+Message-ID: <20190930171109.GL2759@work-vm>
+References: <42837590-2563-412B-ADED-57B8A10A8E68@nutanix.com>
+ <20190930142954.GA2801@work-vm>
+ <C5374DA3-A1FC-4F1A-AA36-DC02D350F5A1@nutanix.com>
+ <20190930160316.GH2759@work-vm>
+ <417D4B96-2641-4DA8-B00B-3302E211E939@nutanix.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <417D4B96-2641-4DA8-B00B-3302E211E939@nutanix.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Mon, 30 Sep 2019 17:10:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.67]); Mon, 30 Sep 2019 17:11:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -53,115 +61,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aditya Ramesh <aramesh@nutanix.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This file hasn't seen a real (non-trivial) update since 2008 anymore,
-so we can assume that it is pretty much out of date and nobody cares
-for it anymore. Let's simply remove it.
+* Felipe Franciosi (felipe@nutanix.com) wrote:
+> 
+> 
+> > On Sep 30, 2019, at 5:03 PM, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> > 
+> > * Felipe Franciosi (felipe@nutanix.com) wrote:
+> >> Hi David,
+> >> 
+> >>> On Sep 30, 2019, at 3:29 PM, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+> >>> 
+> >>> * Felipe Franciosi (felipe@nutanix.com) wrote:
+> >>>> Heyall,
+> >>>> 
+> >>>> We have a use case where a host should self-fence (and all VMs should
+> >>>> die) if it doesn't hear back from a heartbeat within a certain time
+> >>>> period. Lots of ideas were floated around where libvirt could take
+> >>>> care of killing VMs or a separate service could do it. The concern
+> >>>> with those is that various failures could lead to _those_ services
+> >>>> being unavailable and the fencing wouldn't be enforced as it should.
+> >>>> 
+> >>>> Ultimately, it feels like Qemu should be responsible for this
+> >>>> heartbeat and exit (or execute a custom callback) on timeout.
+> >>> 
+> >>> It doesn't feel doing it inside qemu would be any safer;  something
+> >>> outside QEMU can forcibly emit a kill -9 and qemu *will* stop.
+> >> 
+> >> The argument above is that we would have to rely on this external
+> >> service being functional. Consider the case where the host is
+> >> dysfunctional, with this service perhaps crashed and a corrupt
+> >> filesystem preventing it from restarting. The VMs would never die.
+> > 
+> > Yeh that could fail.
+> > 
+> >> It feels like a Qemu timer-driven heartbeat check and calls abort() /
+> >> exit() would be more reliable. Thoughts?
+> > 
+> > OK, yes; perhaps using a timer_create and telling it to send a fatal
+> > signal is pretty solid; it would take the kernel to do that once it's
+> > set.
+> 
+> I'm confused about why the kernel needs to be involved. If this is a
+> timer off the Qemu main loop, it can just check on the heartbeat
+> condition (which should be customisable) and call abort() if that's
+> not satisfied. If you agree on that I'd like to talk about how that
+> check could be made customisable.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- target/sparc/TODO | 88 -----------------------------------------------
- 1 file changed, 88 deletions(-)
- delete mode 100644 target/sparc/TODO
+There are times when the main loop can get blocked even though the CPU
+threads can be running and can in some configurations perform IO
+even without the main loop (I think!).
+By setting a timer in the kernel that sends a signal to qemu, the kernel
+will send that signal however broken qemu is.
 
-diff --git a/target/sparc/TODO b/target/sparc/TODO
-deleted file mode 100644
-index b8c727e858..0000000000
---- a/target/sparc/TODO
-+++ /dev/null
-@@ -1,88 +0,0 @@
--TODO-list:
--
--CPU common:
--- Unimplemented features/bugs:
-- - Delay slot handling may fail sometimes (branch end of page, delay
-- slot next page)
-- - Atomical instructions
-- - CPU features should match real CPUs (also ASI selection)
--- Optimizations/improvements:
-- - Condition code/branch handling like x86, also for FPU?
-- - Remove remaining explicit alignment checks
-- - Global register for regwptr, so that windowed registers can be
-- accessed directly
-- - Improve Sparc32plus addressing
-- - NPC/PC static optimisations (use JUMP_TB when possible)? (Is this
-- obsolete?)
-- - Synthetic instructions
-- - MMU model dependent on CPU model
-- - Select ASI helper at translation time (on V9 only if known)
-- - KQemu/KVM support for VM only
-- - Hardware breakpoint/watchpoint support
-- - Cache emulation mode
-- - Reverse-endian pages
-- - Faster FPU emulation
-- - Busy loop detection
--
--Sparc32 CPUs:
--- Unimplemented features/bugs:
-- - Sun4/Sun4c MMUs
-- - Some V8 ASIs
--
--Sparc64 CPUs:
--- Unimplemented features/bugs:
-- - Interrupt handling
-- - Secondary address space, other MMU functions
-- - Many V9/UA2005/UA2007 ASIs
-- - Rest of V9 instructions, missing VIS instructions
-- - IG/MG/AG vs. UA2007 globals
-- - Full hypervisor support
-- - SMP/CMT
-- - Sun4v CPUs
--
--Sun4:
--- To be added
--
--Sun4c:
--- A lot of unimplemented features
--- Maybe split from Sun4m
--
--Sun4m:
--- Unimplemented features/bugs:
-- - Hardware devices do not match real boards
-- - Floppy does not work
-- - CS4231: merge with cs4231a, add DMA
-- - Add cg6, bwtwo
-- - Arbitrary resolution support
-- - PCI for MicroSparc-IIe
-- - JavaStation machines
-- - SBus slot probing, FCode ROM support
-- - SMP probing support
-- - Interrupt routing does not match real HW
-- - SuSE 7.3 keyboard sometimes unresponsive
-- - Gentoo 2004.1 SMP does not work
-- - SS600MP ledma -> lebuffer
-- - Type 5 keyboard
-- - Less fixed hardware choices
-- - DBRI audio (Am7930)
-- - BPP parallel
-- - Diagnostic switch
-- - ESP PIO mode
--
--Sun4d:
--- A lot of unimplemented features:
-- - SBI
-- - IO-unit
--- Maybe split from Sun4m
--
--Sun4u:
--- Unimplemented features/bugs:
-- - Interrupt controller
-- - PCI/IOMMU support (Simba, JIO, Tomatillo, Psycho, Schizo, Safari...)
-- - SMP
-- - Happy Meal Ethernet, flash, I2C, GPIO
-- - A lot of real machine types
--
--Sun4v:
--- A lot of unimplemented features
-- - A lot of real machine types
--- 
-2.18.1
+> 
+> > 
+> > IMHO the safer way is to kick the host off the network by reprogramming
+> > switches; so even if the qemu is actually alive it can't get anywhere.
+> > 
+> > Dave
+> 
+> Naturally some off-host STONITH is preferable, but that's not always
+> available. A self-fencing mechanism right at the heart of the emulator
+> can do the job without external hardware dependencies.
 
+Dave
+
+> Cheers,
+> Felipe
+> 
+> > 
+> > 
+> >> Felipe
+> >> 
+> >>> 
+> >>>> Does something already exist for this purpose which could be used?
+> >>>> Would a generic Qemu-fencing infrastructure be something of interest?
+> >>> Dave
+> >>> 
+> >>> 
+> >>>> Cheers,
+> >>>> F.
+> >>>> 
+> >>> --
+> >>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >> 
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
