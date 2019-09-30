@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F605C26AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:40:13 +0200 (CEST)
-Received: from localhost ([::1]:57038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F7EC26DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:43:36 +0200 (CEST)
+Received: from localhost ([::1]:57080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iF2Sp-0005PT-Kz
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45767)
+	id 1iF2W7-00009A-HO
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44947)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2He-00040F-BP
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iF2B2-0004oL-VK
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2Hc-0002Yk-QE
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:37 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40069)
+ (envelope-from <richard.henderson@linaro.org>) id 1iF2B1-0005iu-T4
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:48 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39078)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iF2Hc-0002XY-JH
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:36 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l3so12807812wru.7
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=I/J8Dq/+F7R0/J6BZwd7lt84Aly4P3hEz64ceVDIF5c=;
- b=ne4HFvLzpXtVHrUVStWSDQk73R/uQAaUcLR3Arn01TGvqOD6z7h2+0HbIcsliAtQVY
- D/Z/Q25tqcDELqSl7cbY5M63RQqTU05XEUzXm1kwmm9NULWjPfbC3Udy/WYpzc/h5W74
- SBOFsunziguTxHAwi6g+Ij8JxqfCyVtx9KNsz4asd2M63sKowhkGdMtAYmG0TDhRLcz7
- WczQB/sqDQ4WGhhLz7iNe7K9jN62OBSqgvHDvsxjOpBeN+o5W9i/xDseTFxSVJf5vyiU
- Vf5HmawGhijGqFvBKJWHc3fj1w1xxsyIbZkCCEWS5FsQFtm4QOa4cmS+Ndp8vE0rVyRc
- Z9wQ==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iF2B1-0005hx-N7
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:47 -0400
+Received: by mail-pl1-x644.google.com with SMTP id s17so4329615plp.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=0eIQzpvgKZ/1Z44eyY68s5331mz4V928vlgpASMp7Pk=;
+ b=u8SqBZHcdak4pksG6lmbHjMDYyCYXa02XHd/hvU7IGun0TuXp6MJ6UMBqy5QmZIrMi
+ jcy0MqGuiLqRnfNyhs/Tu+CkpQy/T6JlRq6Lfhj9pkbKSq5Qxzo8bYDgs3e7PKOQj3j/
+ seRSYZHgdFTFo+F/Zo8Ka7qPo7bUguxXeS0Boi6Jd0LR6UYQ0Bj91uu1+qM8bme7oz+v
+ yIEtuRTD8xg5r/ZALgs1SKIaZJmBfACcJEF/Mls8t7nZEeGBJIG/3O+WCr4jZRUPNxWN
+ zzB0LfN1Vj/vuGog21nIsKyKz5eTbNDQMmGSLu0XxwaC68nWpGUx2i+q9XTatd6utPgC
+ 3Lbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=I/J8Dq/+F7R0/J6BZwd7lt84Aly4P3hEz64ceVDIF5c=;
- b=s/fFh0pBFt7r1EoBTe1T4iNXiuf2gNJq/h75ygR/W5+3//QWXgqtX+wkqyYd8bR8Mx
- l0UcLUKkFBf8Bz2DpqdUj4KWQSi8hdXTU8MrlAOLsusqUTNtMkPVIJxb8ovRaryXB/r2
- 7PuOTZEKzRGeWUKdp10jJrUEm0s1Ix33g7aUy+rmhykEk1qwPBbaVu9HJxicekf0BuKM
- Y4mP7anj/UKdLeW2R9V7nBajBRP6PAKfYH5gfQAEHtAZN+2mOvc9agyL0iZM8y4SmBR7
- QKYIf9WvS1TimlC/R7T4c0/8/cEovFe6/qIhkEjrMx8kRFFmvqQFjJxJcXLgWTaym5va
- BHnA==
-X-Gm-Message-State: APjAAAUKcvflGTOGHo2ZdLHcKKMJ8VsynBdIiLorZC1D3qYChjSXi8yF
- l073cYxERrWetsf446KJlQ6DVtLz
-X-Google-Smtp-Source: APXvYqy4Ds+z/KK8Wt/fzmOg3NTxZHIn72dTrtjlyH1dr5zR3EXuzTHmsHBfbb6P2LhKImjahRyXsw==
-X-Received: by 2002:adf:a415:: with SMTP id d21mr13856343wra.94.1569875315442; 
- Mon, 30 Sep 2019 13:28:35 -0700 (PDT)
-Received: from nullptr.home.dirty-ice.org
- (2a01-036c-0113-e8f4-0000-0000-0000-0005.pool6.digikabel.hu.
- [2a01:36c:113:e8f4::5])
- by smtp.gmail.com with ESMTPSA id o9sm34402911wrh.46.2019.09.30.13.28.34
+ :references;
+ bh=0eIQzpvgKZ/1Z44eyY68s5331mz4V928vlgpASMp7Pk=;
+ b=a2hq/cjvNIlIFelnsJ0wkq7qgT1ZflwU94nFabVKB9uoGwb6Lk1rqNBnOeyt9E/JLW
+ S6zHFCNM/JNoEhmCuavOMvAd51OG6fCg+CnMHTJoNvkEXN5aBtfDJ9sBN7X0gzgdqll4
+ zdx2q9TNV+PFbBzDm7yh5c5JgHDOm/CdjuEja/6u7stzufcptenTIBznMz/3KyYym0fO
+ 0Z1bo0YVWaATVctOmSvu4/uv0QLkgg/wgCE/k/wZ1NIoUH7e8k+7LNepDQgrojnvOtZq
+ TIL8h9BOmMLos0jRJYYAaMZepBp2xrq6E5esQZ3ZfgIt4W5yzn3qSMkRave+YOA45WNh
+ J0kQ==
+X-Gm-Message-State: APjAAAUJcw/gDlbA1NBV7+gGoXp9/30rCF5uc8Aq4U+7SvwrDv00fH+G
+ k2yOzGH19VBALV/VnakV6sFbB93gPZc=
+X-Google-Smtp-Source: APXvYqzAJtoyQfhO+jTPRBpMqsqfJuHAywBEeNEfRUAbMY8TZkVOGYmz7/JBD5xvTMRd/2iWqzQP8g==
+X-Received: by 2002:a17:902:6bc5:: with SMTP id
+ m5mr19093111plt.282.1569874906458; 
+ Mon, 30 Sep 2019 13:21:46 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id r28sm15336802pfg.62.2019.09.30.13.21.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Sep 2019 13:28:34 -0700 (PDT)
-From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
- <dirty.ice.hu@gmail.com>
-X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
- <DirtY.iCE.hu@gmail.com>
+ Mon, 30 Sep 2019 13:21:45 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/10] audio: basic support for multichannel audio
-Date: Mon, 30 Sep 2019 22:28:59 +0200
-Message-Id: <35de004f4e540b72defda75a9804dd599a497dcb.1569874641.git.DirtY.iCE.hu@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
-References: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH v7 15/22] tcg/ppc: Enable Altivec detection
+Date: Mon, 30 Sep 2019 13:21:18 -0700
+Message-Id: <20190930202125.21064-16-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190930202125.21064-1-richard.henderson@linaro.org>
+References: <20190930202125.21064-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,51 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, amarkovic@wavecomp.com, hsp.cat7@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Which currently only means removing some checks.  Old code won't require
-more than two channels, but new code will need it.
+Now that we have implemented the required tcg operations,
+we can enable detection of host vector support.
 
-Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- audio/alsaaudio.c | 7 -------
- audio/audio.c     | 2 +-
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ tcg/ppc/tcg-target.inc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index eddf013a53..f37ce1ce85 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -493,13 +493,6 @@ static int alsa_open(bool in, struct alsa_params_req *req,
-         goto err;
-     }
+diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
+index 8a508136ce..d739f4b605 100644
+--- a/tcg/ppc/tcg-target.inc.c
++++ b/tcg/ppc/tcg-target.inc.c
+@@ -3528,6 +3528,10 @@ static void tcg_target_init(TCGContext *s)
+     have_isel = have_isa_2_06;
+ #endif
  
--    if (nchannels != 1 && nchannels != 2) {
--        alsa_logerr2 (err, typ,
--                      "Can not handle obtained number of channels %d\n",
--                      nchannels);
--        goto err;
--    }
--
-     if (apdo->buffer_length) {
-         int dir = 0;
-         unsigned int btime = apdo->buffer_length;
-diff --git a/audio/audio.c b/audio/audio.c
-index c00f4deddd..7fc3aa9d16 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -242,7 +242,7 @@ static int audio_validate_settings (struct audsettings *as)
- {
-     int invalid;
- 
--    invalid = as->nchannels != 1 && as->nchannels != 2;
-+    invalid = as->nchannels < 1;
-     invalid |= as->endianness != 0 && as->endianness != 1;
- 
-     switch (as->fmt) {
++    if (hwcap & PPC_FEATURE_HAS_ALTIVEC) {
++        have_altivec = true;
++    }
++
+     tcg_target_available_regs[TCG_TYPE_I32] = 0xffffffff;
+     tcg_target_available_regs[TCG_TYPE_I64] = 0xffffffff;
+     if (have_altivec) {
 -- 
-2.23.0
+2.17.1
 
 
