@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB8C268D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:37:23 +0200 (CEST)
-Received: from localhost ([::1]:56992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F605C26AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:40:13 +0200 (CEST)
+Received: from localhost ([::1]:57038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iF2Q5-0001le-To
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45714)
+	id 1iF2Sp-0005PT-Kz
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45767)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2HY-0003tT-UI
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:33 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2He-00040F-BP
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2HX-0002P8-No
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:32 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52730)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2Hc-0002Yk-QE
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:37 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40069)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iF2HX-0002NH-Hf
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:31 -0400
-Received: by mail-wm1-x334.google.com with SMTP id r19so868319wmh.2
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:28:31 -0700 (PDT)
+ id 1iF2Hc-0002XY-JH
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:36 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id l3so12807812wru.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:28:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NOdGtCYZFjV2T1VLRLv1+R3Y8KCEl4OWA15DkTPEBe8=;
- b=TYKbgKpmdTV9lJeYPf0MHO5mT3CZ0WX2KDtqECMey8z17HiuhKcVjuubkBV9k3Gqrd
- IfR5DIX7LcX7RsBQqovyKkssINdurBFUKVNV37QbSjPOIRRM9hcIsQmuimA/oJugekZN
- DW/kaVSp6W5YDS+gfZFiNwzK6CfN9MxVlu86Ao4WjaVSDtmARmtLzgwflPyP++D0riiI
- Hq2r2XV2nD80SbzjhvrmqBa95oI8mpN4aeufnVeGHiQ6e5NzUxZQHl0B6vys4P4vR/em
- hj8FRA6tcX1MWfDGzndF0iZFVw+RTO/FH8DDizbtimgITGEJ6j5rtEnI2Dn4VYN9/k66
- broQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=I/J8Dq/+F7R0/J6BZwd7lt84Aly4P3hEz64ceVDIF5c=;
+ b=ne4HFvLzpXtVHrUVStWSDQk73R/uQAaUcLR3Arn01TGvqOD6z7h2+0HbIcsliAtQVY
+ D/Z/Q25tqcDELqSl7cbY5M63RQqTU05XEUzXm1kwmm9NULWjPfbC3Udy/WYpzc/h5W74
+ SBOFsunziguTxHAwi6g+Ij8JxqfCyVtx9KNsz4asd2M63sKowhkGdMtAYmG0TDhRLcz7
+ WczQB/sqDQ4WGhhLz7iNe7K9jN62OBSqgvHDvsxjOpBeN+o5W9i/xDseTFxSVJf5vyiU
+ Vf5HmawGhijGqFvBKJWHc3fj1w1xxsyIbZkCCEWS5FsQFtm4QOa4cmS+Ndp8vE0rVyRc
+ Z9wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NOdGtCYZFjV2T1VLRLv1+R3Y8KCEl4OWA15DkTPEBe8=;
- b=QUnClNOyHOQzBtgv/OVPd5IW6AoqpwVyQZ/CL+ZISo1UNngJWDgHaCQ5JmofL1eR0F
- CZpEwhAjpNP2T0qx93RBpJFVtbG61CWaZ9Ddten/umSq1osVYnSScxZcLHoC1wvNR0G4
- t9/wFP6IFgydlqkvgZdtorrnyjBDb7KiGh0pAjtmbv5dbrJnk0nu6wMRPrf1+Yu2B9hE
- OgtxtWJH8KV2LJSBu/JHzgyiR24VITQ/59zKdQRJ8ThaxlcZ2L11VZWeR6+q2Wke+scH
- WXmt/S3W0Bq3o9d8dGpAedj6uLzMQbOS8FHoieiBkpVHHjnxfxNG04oVsYQM3vV/q0Wo
- XvJg==
-X-Gm-Message-State: APjAAAVZlSKOV90HsnoyTxFZ2ABihIabcBoouJP0CER/mNxl0I+EVLFi
- NSJ85UUCknepGddA/rfs4gogme3N
-X-Google-Smtp-Source: APXvYqxq9nJl1YR+Lp1jBDqtLyhj0EOAVdzd2wYr2iTlakF2cZzrMZ2ub+i6ffobAcTJd12jP9j4mw==
-X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr773949wmi.31.1569875309934;
- Mon, 30 Sep 2019 13:28:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=I/J8Dq/+F7R0/J6BZwd7lt84Aly4P3hEz64ceVDIF5c=;
+ b=s/fFh0pBFt7r1EoBTe1T4iNXiuf2gNJq/h75ygR/W5+3//QWXgqtX+wkqyYd8bR8Mx
+ l0UcLUKkFBf8Bz2DpqdUj4KWQSi8hdXTU8MrlAOLsusqUTNtMkPVIJxb8ovRaryXB/r2
+ 7PuOTZEKzRGeWUKdp10jJrUEm0s1Ix33g7aUy+rmhykEk1qwPBbaVu9HJxicekf0BuKM
+ Y4mP7anj/UKdLeW2R9V7nBajBRP6PAKfYH5gfQAEHtAZN+2mOvc9agyL0iZM8y4SmBR7
+ QKYIf9WvS1TimlC/R7T4c0/8/cEovFe6/qIhkEjrMx8kRFFmvqQFjJxJcXLgWTaym5va
+ BHnA==
+X-Gm-Message-State: APjAAAUKcvflGTOGHo2ZdLHcKKMJ8VsynBdIiLorZC1D3qYChjSXi8yF
+ l073cYxERrWetsf446KJlQ6DVtLz
+X-Google-Smtp-Source: APXvYqy4Ds+z/KK8Wt/fzmOg3NTxZHIn72dTrtjlyH1dr5zR3EXuzTHmsHBfbb6P2LhKImjahRyXsw==
+X-Received: by 2002:adf:a415:: with SMTP id d21mr13856343wra.94.1569875315442; 
+ Mon, 30 Sep 2019 13:28:35 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-e8f4-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:e8f4::5])
- by smtp.gmail.com with ESMTPSA id o9sm34402911wrh.46.2019.09.30.13.28.29
+ by smtp.gmail.com with ESMTPSA id o9sm34402911wrh.46.2019.09.30.13.28.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Sep 2019 13:28:29 -0700 (PDT)
+ Mon, 30 Sep 2019 13:28:34 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/10] Audio: Mixeng-free 5.1/7.1 audio support
-Date: Mon, 30 Sep 2019 22:28:53 +0200
-Message-Id: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v5 06/10] audio: basic support for multichannel audio
+Date: Mon, 30 Sep 2019 22:28:59 +0200
+Message-Id: <35de004f4e540b72defda75a9804dd599a497dcb.1569874641.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
+References: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,55 +87,46 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Which currently only means removing some checks.  Old code won't require
+more than two channels, but new code will need it.
 
-I've updated my mixeng-free audio patches.  The documentation probably
-requires more polishing, but I'm sending this now so the other parts
-can be reviewed too.
+Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
+---
+ audio/alsaaudio.c | 7 -------
+ audio/audio.c     | 2 +-
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-Changes from v4:
-
-* Removed already merged commits.
-* Bugfix in "audio: make mixeng optional" commit.
-* Dropped the "paaudio: channel-map option" patch, instead the paaudio
-  backend will automatically figure out the current channel map for now
-  (see the last patch).  Currently this only works with usb-audio, if
-  other frontends gain support for multi-channel audio, it might require
-  some rethinking.
-
-Regards,
-Zoltan
-
-Kővágó, Zoltán (10):
-  audio: add mixing-engine option (documentation)
-  audio: make mixeng optional
-  paaudio: get/put_buffer functions
-  audio: support more than two channels in volume setting
-  audio: replace shift in audio_pcm_info with bytes_per_frame
-  audio: basic support for multichannel audio
-  usb-audio: do not count on avail bytes actually available
-  usb-audio: support more than two channels of audio
-  usbaudio: change playback counters to 64 bit
-  paaudio: fix channel order for usb-audio 5.1 and 7.1 streams
-
- audio/alsaaudio.c       |  18 +-
- audio/audio.c           | 176 ++++++++++-----
- audio/audio.h           |  10 +
- audio/audio_int.h       |   7 +-
- audio/audio_template.h  |  24 ++-
- audio/coreaudio.c       |   4 +-
- audio/dsound_template.h |  10 +-
- audio/dsoundaudio.c     |   4 +-
- audio/noaudio.c         |   2 +-
- audio/ossaudio.c        |  14 +-
- audio/paaudio.c         | 153 ++++++++++++--
- audio/spiceaudio.c      |  17 +-
- audio/wavaudio.c        |   6 +-
- hw/usb/dev-audio.c      | 459 ++++++++++++++++++++++++++++++++++------
- qapi/audio.json         |   5 +
- qemu-options.hx         |   6 +
- 16 files changed, 730 insertions(+), 185 deletions(-)
-
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index eddf013a53..f37ce1ce85 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -493,13 +493,6 @@ static int alsa_open(bool in, struct alsa_params_req *req,
+         goto err;
+     }
+ 
+-    if (nchannels != 1 && nchannels != 2) {
+-        alsa_logerr2 (err, typ,
+-                      "Can not handle obtained number of channels %d\n",
+-                      nchannels);
+-        goto err;
+-    }
+-
+     if (apdo->buffer_length) {
+         int dir = 0;
+         unsigned int btime = apdo->buffer_length;
+diff --git a/audio/audio.c b/audio/audio.c
+index c00f4deddd..7fc3aa9d16 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -242,7 +242,7 @@ static int audio_validate_settings (struct audsettings *as)
+ {
+     int invalid;
+ 
+-    invalid = as->nchannels != 1 && as->nchannels != 2;
++    invalid = as->nchannels < 1;
+     invalid |= as->endianness != 0 && as->endianness != 1;
+ 
+     switch (as->fmt) {
 -- 
 2.23.0
 
