@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671E9C2472
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:39:44 +0200 (CEST)
-Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E606C2461
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:34:36 +0200 (CEST)
+Received: from localhost ([::1]:53818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iExm3-0005W7-Al
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60367)
+	id 1iExh4-0008Gm-TN
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iExPh-0005S4-8U
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:16:39 -0400
+ (envelope-from <alxndr@bu.edu>) id 1iExRt-0006Uh-Hk
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:18:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iExPd-0006Nb-8W
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:16:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53882)
+ (envelope-from <alxndr@bu.edu>) id 1iExRr-0007Bp-73
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:18:52 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:43700)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iExPd-0006Mv-0D
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:16:33 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3E8BF85541
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 15:16:31 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id k9so6101166wmb.0
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 08:16:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=798MjSRN6q3iLl2pK77ByyQ3+NW/J3ezV/4MFSKJI4U=;
- b=c3teU82i/doovKU3zHXBbgtFZaaELa7nDGGoykVUcaF9ZN5PBTht4vZtzFYMxuDAK0
- TVKc8lPCNAslGXIaqUPjQdd3VMhTjdlRf07l2DHrYfmUSfpyvqRL4nfDSNPyi/Ut8FQD
- V7TrIoT8kgnHIGkVCkjxZ4iG/AdDtdK0JjezopkqcW8VOr5Pis/TvisT4Yt3RnAa4wuT
- j8kvZTj+f3aHyCLdAQsqJNmHQ4kqiTTi2RR7QIVnrJYnjg32IC5/wijFIxxn3YaAbOnX
- FVqpgeHZlWj2tj194cxI90SuOxEnFm1tvrLEDtlcRMzq+HumEJGHmkKuwRNyXlDAcoVh
- pDZg==
-X-Gm-Message-State: APjAAAV6rXdoZhxIWAyqJqLupSlIaoZmJ5QHhT/0FF0EqCFdUp+EuFX1
- vZqUtg/t5Q2PVpFmmILeyaIZECm2+eV58U2Nmf5XeYNV9rskXKs/FyxeDbW9owgPkNU1tgGTkf/
- cmUYPSreYqdyBBfg=
-X-Received: by 2002:adf:ebd0:: with SMTP id v16mr13203961wrn.352.1569856589893; 
- Mon, 30 Sep 2019 08:16:29 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw/HpXhGwS+aAM34/IAB60iLhRxqAEs8PShtfWcEdU4pYcdsKCI06BR0v7UquRYSVIDlgCOtQ==
-X-Received: by 2002:adf:ebd0:: with SMTP id v16mr13203947wrn.352.1569856589612; 
- Mon, 30 Sep 2019 08:16:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9520:22e6:6416:5c36?
- ([2001:b07:6468:f312:9520:22e6:6416:5c36])
- by smtp.gmail.com with ESMTPSA id c18sm14507376wrn.45.2019.09.30.08.16.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Sep 2019 08:16:29 -0700 (PDT)
-Subject: Re: [RFC] cpu_map: Remove pconfig from Icelake-Server CPU model
-To: "Hu, Robert" <robert.hu@intel.com>, Eduardo Habkost
- <ehabkost@redhat.com>, Jiri Denemark <jdenemar@redhat.com>
-References: <20190926214305.17690-1-ehabkost@redhat.com>
- <20190930102453.GO4884@orkuz.int.mamuti.net>
- <20190930141104.GA4084@habkost.net>
- <9E79D1C9A97CFD4097BCE431828FDD31173BCF76@SHSMSX104.ccr.corp.intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <b9fbca16-9877-04b9-78fa-bf711c8f3053@redhat.com>
-Date: Mon, 30 Sep 2019 17:16:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iExRr-00078d-34
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:18:51 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: 144.121.20.163.lightower.net [144.121.20.163] (may be forged)
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id x8UFHx77021358
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+ Mon, 30 Sep 2019 11:17:59 -0400
+Subject: Re: [PATCH v3 17/22] fuzz: add support for fork-based fuzzing.
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190918231846.22538-1-alxndr@bu.edu>
+ <20190918231846.22538-18-alxndr@bu.edu>
+From: Alexander Oleinik <alxndr@bu.edu>
+Message-ID: <b8d441a3-dc3b-8c91-7516-3c8162cc5a4d@bu.edu>
+Date: Mon, 30 Sep 2019 11:17:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <9E79D1C9A97CFD4097BCE431828FDD31173BCF76@SHSMSX104.ccr.corp.intel.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190918231846.22538-18-alxndr@bu.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x [fuzzy]
+X-Received-From: 128.197.228.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,40 +54,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>, "Kang,
- Luwei" <luwei.kang@intel.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Robert Hoo <robert.hu@linux.intel.com>, "Huang, Kai" <kai.huang@intel.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/19 16:31, Hu, Robert wrote:
->> This might be a problem if there are plans to eventually make KVM support
->> pconfig, though.  Paolo, Robert, are there plans to support pconfig in KVM in the
->> future?
-> [Robert Hoo] 
-> Thanks Eduardo for efforts in resolving this issue, introduced from my Icelake CPU
-> model patch.
-> I've no idea about PCONFIG's detail and plan. Let me sync with Huang, Kai and answer
-> you soon.
+On 9/18/19 7:19 PM, Oleinik, Alexander wrote:
+> fork() is a simple way to ensure that state does not leak in between
+> fuzzing runs. Unfortunately, the fuzzer mutation engine relies on
+> bitmaps which contain coverage information for each fuzzing run, and
+> these bitmaps should be copied from the child to the parent(where the
+> mutation occurs). These bitmaps are created through compile-time
+> instrumentation and there seems to be no simple way to re-map them as
+> shared memory. As a workaround, we use a linker script modification to
+> place all of the bitmaps together and add some markers around them which
+> we can observe from our code. Then, we map shared memory and copy the
+> bimaps to the SHM (in the child) and out of the SHM(in the parent) after
+> each fuzzing run. Ram blocks are marked as DONTFORK in exec.c, which
+> breaks this approach. For now, avoid this with an #ifdef.
+> 
+> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+> ---
+>   exec.c                      |  2 ++
+>   tests/fuzz/Makefile.include |  3 +++
+>   tests/fuzz/fork_fuzz.c      | 27 ++++++++++++++++++++++
+>   tests/fuzz/fork_fuzz.h      | 12 ++++++++++
+>   tests/fuzz/fork_fuzz.ld     | 46 +++++++++++++++++++++++++++++++++++++
+>   5 files changed, 90 insertions(+)
+>   create mode 100644 tests/fuzz/fork_fuzz.c
+>   create mode 100644 tests/fuzz/fork_fuzz.h
+>   create mode 100644 tests/fuzz/fork_fuzz.ld
+> 
+> diff --git a/exec.c b/exec.c
+> index 235d6bc883..d3838f4ea4 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -2295,7 +2295,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+>           qemu_ram_setup_dump(new_block->host, new_block->max_length);
+>           qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUGEPAGE);
+>           /* MADV_DONTFORK is also needed by KVM in absence of synchronous MMU */
+> +#ifndef CONFIG_FUZZ /* This conflicts with fork-based fuzzing */
+>           qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DONTFORK);
+> +#endif
+>           ram_block_notify_add(new_block->host, new_block->max_length);
+>       }
+>   }
+> diff --git a/tests/fuzz/Makefile.include b/tests/fuzz/Makefile.include
+> index b415b056b0..687dacce04 100644
+> --- a/tests/fuzz/Makefile.include
+> +++ b/tests/fuzz/Makefile.include
+> @@ -2,3 +2,6 @@ QEMU_PROG_FUZZ=qemu-fuzz-$(TARGET_NAME)$(EXESUF)
+>   fuzz-obj-y = $(libqos-obj-y)
+>   fuzz-obj-y += tests/libqtest.o
+>   fuzz-obj-y += tests/fuzz/fuzz.o
+> +fuzz-obj-y += tests/fuzz/fork_fuzz.o
+> +
+> +FUZZ_LDFLAGS += -Xlinker -T$(SRC_PATH)/tests/fuzz/fork_fuzz.ld
+> diff --git a/tests/fuzz/fork_fuzz.c b/tests/fuzz/fork_fuzz.c
+> new file mode 100644
+> index 0000000000..26d0b4b42e
+> --- /dev/null
+> +++ b/tests/fuzz/fork_fuzz.c
+> @@ -0,0 +1,27 @@
+> +#include "qemu/osdep.h"
+> +#include "fork_fuzz.h"
+> +
+> +uintptr_t feature_shm;
+> +
+> +void counter_shm_init(void)
+> +{
+> +    feature_shm = (uintptr_t)mmap(NULL,
+> +            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START,
+> +            PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+> +    return;
+> +}
+> +
+> +void counter_shm_store(void)
+> +{
+> +    memcpy((void *)feature_shm,
+> +            &__FUZZ_COUNTERS_START,
+> +            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
+> +}
+> +
+> +void counter_shm_load(void)
+> +{
+> +    memcpy(&__FUZZ_COUNTERS_START,
+> +            (void *)feature_shm,
+> +            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
+> +}
+> +
+> diff --git a/tests/fuzz/fork_fuzz.h b/tests/fuzz/fork_fuzz.h
+> new file mode 100644
+> index 0000000000..b5f8b35015
+> --- /dev/null
+> +++ b/tests/fuzz/fork_fuzz.h
+> @@ -0,0 +1,12 @@
+> +#ifndef FORK_FUZZ_H
+> +#define FORK_FUZZ_H
+> +
+> +extern uint8_t __FUZZ_COUNTERS_START;
+> +extern uint8_t __FUZZ_COUNTERS_END;
+> +
+> +void counter_shm_init(void);
+> +void counter_shm_store(void);
+> +void counter_shm_load(void);
+> +
+> +#endif
+> +
+> diff --git a/tests/fuzz/fork_fuzz.ld b/tests/fuzz/fork_fuzz.ld
+> new file mode 100644
+> index 0000000000..ba0ba79570
+> --- /dev/null
+> +++ b/tests/fuzz/fork_fuzz.ld
+> @@ -0,0 +1,46 @@
+> +/* We adjust linker script modification to place all of the stuff that needs to
+> + * persist across fuzzing runs into a contiguous seciton of memory. Then, it is
+> + * easy to copy it to and from shared memory.
+> + *
+> + * Total Size : A5A00
+> + * Sancov counters: B26F
+> + * Coverage counters: 56D60
+> + * TracePC Object: 43C00
+> +*/
+> +
+> +SECTIONS
+> +{
+> +  .data.fuzz_start : ALIGN(4K)
+> +  {
+> +        __FUZZ_COUNTERS_START = .;
+> +  }
+> +  .data.fuzz_ordered :
+> +  {
+> +      /* Internal Libfuzzer TracePC object which contains the ValueProfileMap.
+> +       * Not optimal that we have to copy the rest of the TracePC object.
+> +       * */
+> +      __start___sancov_cntrs = .;
+> +      *(__sancov_cntrs*)
+> +      __stop___sancov_cntrs = .;
+> +  }
+> +  .data.fuzz_unordered :
+> +  {
+> +      /* Coverage counters. They're not necessary for fuzzing, but are useful
+> +       * for analyzing the fuzzing performance
+> +       * */
+> +      __start___llvm_prf_cnts = .;
+> +      *(*llvm_prf_cnts);
+> +      __stop___llvm_prf_cnts = .;
+> +
+> +      /* Lowest stack counter */
+> +      *(__sancov_lowest_stack);
+> +      /* Internal Libfuzzer TracePC object which contains the ValueProfileMap.
+> +       * Not optimal that we have to copy the rest of the TracePC object.
+> +       * */
+> +      *FuzzerTracePC*(.bss._ZN6fuzzer*)
+> +      __FUZZ_COUNTERS_END = .;
+> +  }
+> +}
+> +/* Dont overwrite the SECTIONS in the default linker script. Instead insert the
+> + * above into the default script */
+> +INSERT AFTER .data;
+> 
+The obvious issue with this are that we lose the threads created prior 
+to fork(). Over the past days I've been coverage of existing virtio-net 
+tests with and without fork(). With fork(), virtio_net_tx_bh doesn't get 
+scheduled, and never runs. Could this be due to the missing RCU thread?
+This is probably an even bigger problem for iothread devices, such as 
+virtio-blk...
 
-It's really, really unlikely.  It's possible that some future processor
-overloads PCONFIG in such a way that it will become virtualizable, but
-not IceLake.
+Does anyone have suggestions for how to approach the thread problem, or 
+at least the RCU part of it?
+I know Paolo made some fork-related changes in 
+21b7cf9e07e5991c57b461181cfb5bbb6fe7a9d6 rcu: handle forks safely
+and
+2a96a552f9502ac34c29da2f3a39788db5ee5692 ,
+but from what I can tell, this is mostly for qemu-user.
 
-Would it make sense for libvirt to treat absent CPU flags as "default
-off" during migration, so that it can leave out the flag in the command
-line if it's off?  If it's on, libvirt would pass pconfig=on as usual.
-This is a variant of [2], but more generally applicable:
-
-> [2] However starting a domain with Icelake-Server so that it can be
-> migrated or saved/restored on QEMU in 3.1.1 and 4.0.0 would be
-> impossible. This can be solved by a different hack, which would drop
-> pconfig=off from QEMU command line.
-
-
-Paolo
+-Alex
 
