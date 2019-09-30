@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FADC21F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:30:45 +0200 (CEST)
-Received: from localhost ([::1]:52460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53120C223E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:38:55 +0200 (CEST)
+Received: from localhost ([::1]:52616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEvlC-0007z5-Oe
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:30:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
+	id 1iEvt8-0007sY-9m
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45163)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEvbO-0004Qd-Hc
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:38 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iEvpS-0004Bs-Cq
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:35:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEvbI-0005DO-Jc
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54970)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iEvbI-00051j-1m
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:28 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8UDIRdI099497
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:08 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2va2b5wxw5-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:07 -0400
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Mon, 30 Sep 2019 14:20:03 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 30 Sep 2019 14:19:59 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id x8UDJwvN46465296
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Sep 2019 13:19:58 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 41E8D52052;
- Mon, 30 Sep 2019 13:19:58 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 26A085204E;
- Mon, 30 Sep 2019 13:19:58 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id E0428E01C8; Mon, 30 Sep 2019 15:19:57 +0200 (CEST)
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/12] kvm: extract kvm_log_clear_one_slot
-Date: Mon, 30 Sep 2019 15:19:51 +0200
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190930131955.101131-1-borntraeger@de.ibm.com>
-References: <20190930131955.101131-1-borntraeger@de.ibm.com>
+ (envelope-from <mreitz@redhat.com>) id 1iEvpR-00045o-4c
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:35:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57122)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iEvpN-00043M-3l; Mon, 30 Sep 2019 09:35:01 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 442598980E2;
+ Mon, 30 Sep 2019 13:34:59 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-240.brq.redhat.com
+ [10.40.204.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 181F3261B9;
+ Mon, 30 Sep 2019 13:34:57 +0000 (UTC)
+Subject: Re: [PATCH 14/18] iotests: Make 110 work with data_file
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
+References: <20190927094242.11152-1-mreitz@redhat.com>
+ <20190927094242.11152-15-mreitz@redhat.com>
+ <037a6ded4b29435dec32fe71f12613315915aeca.camel@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <80d3ceb9-37f6-9b20-ee04-2376ed66e0f8@redhat.com>
+Date: Mon, 30 Sep 2019 15:34:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19093013-0020-0000-0000-000003730FBA
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19093013-0021-0000-0000-000021C8EA25
-Message-Id: <20190930131955.101131-9-borntraeger@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-09-30_08:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=941 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909300138
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+In-Reply-To: <037a6ded4b29435dec32fe71f12613315915aeca.camel@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7ACBVYQxUrpWtdrhz64NBT905XVJWV3O2"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Mon, 30 Sep 2019 13:34:59 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,167 +86,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, kvm@vger.kernel.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7ACBVYQxUrpWtdrhz64NBT905XVJWV3O2
+Content-Type: multipart/mixed; boundary="rTQHA6QlfB10SwfSQxpN7II9EgizLNQMV"
 
-We may need to clear the dirty bitmap for more than one KVM memslot.
-First do some code movement with no semantic change.
+--rTQHA6QlfB10SwfSQxpN7II9EgizLNQMV
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20190924144751.24149-2-imammedo@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-[fixup line break]
----
- accel/kvm/kvm-all.c | 103 ++++++++++++++++++++++++--------------------
- 1 file changed, 57 insertions(+), 46 deletions(-)
+On 29.09.19 18:34, Maxim Levitsky wrote:
+> On Fri, 2019-09-27 at 11:42 +0200, Max Reitz wrote:
+>> The only difference is that the json:{} filename of the image looks
+>> different.  We actually do not care about that filename in this test, =
+we
+>> are only interested in (1) that there is a json:{} filename, and (2)
+>> whether the backing filename can be constructed.
+>>
+>> So just filter out the json:{} data, thus making this test pass both
+>> with and without data_file.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  tests/qemu-iotests/110     | 7 +++++--
+>>  tests/qemu-iotests/110.out | 4 ++--
+>>  2 files changed, 7 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
+>> index f78df0e6e1..34459dcd60 100755
+>> --- a/tests/qemu-iotests/110
+>> +++ b/tests/qemu-iotests/110
+>> @@ -67,6 +67,7 @@ echo
+>>  # Across blkdebug without a config file, you cannot reconstruct filen=
+ames, so
+>>  # qemu is incapable of knowing the directory of the top image from th=
+e filename
+>>  # alone. However, using bdrv_dirname(), it should still work.
+>> +# (Filter out the json:{} filename so this test works with external d=
+ata files)
+>>  TEST_IMG=3D"json:{
+>>      'driver': '$IMGFMT',
+>>      'file': {
+>> @@ -82,7 +83,8 @@ TEST_IMG=3D"json:{
+>>              }
+>>          ]
+>>      }
+>> -}" _img_info | _filter_img_info | grep -v 'backing file format'
+>> +}" _img_info | _filter_img_info | grep -v 'backing file format' \
+>> +    | sed -e 's#^image: json:.*#image: json:{ /* filtered */ }#'
+>> =20
+>>  echo
+>>  echo '=3D=3D=3D Backing name is always relative to the backed image =3D=
+=3D=3D'
+>> @@ -114,7 +116,8 @@ TEST_IMG=3D"json:{
+>>              }
+>>          ]
+>>      }
+>> -}" _img_info | _filter_img_info | grep -v 'backing file format'
+>> +}" _img_info | _filter_img_info | grep -v 'backing file format' \
+>> +    | sed -e 's#^image: json:.*#image: json:{ /* filtered */ }#'
+>> =20
+>> =20
+>>  # success, all done
+>> diff --git a/tests/qemu-iotests/110.out b/tests/qemu-iotests/110.out
+>> index f60b26390e..f835553a99 100644
+>> --- a/tests/qemu-iotests/110.out
+>> +++ b/tests/qemu-iotests/110.out
+>> @@ -11,7 +11,7 @@ backing file: t.IMGFMT.base (actual path: TEST_DIR/t=
+=2EIMGFMT.base)
+>> =20
+>>  =3D=3D=3D Non-reconstructable filename =3D=3D=3D
+>> =20
+>> -image: json:{"driver": "IMGFMT", "file": {"set-state.0.event": "read_=
+aio", "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driv=
+er": "blkdebug", "set-state.0.new_state": 42}}
+>> +image: json:{ /* filtered */ }
+>>  file format: IMGFMT
+>>  virtual size: 64 MiB (67108864 bytes)
+>>  backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGFMT.base)
+>> @@ -22,7 +22,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D=
+67108864 backing_file=3Dt.IMGFMT.b
+>> =20
+>>  =3D=3D=3D Nodes without a common directory =3D=3D=3D
+>> =20
+>> -image: json:{"driver": "IMGFMT", "file": {"children": [{"driver": "fi=
+le", "filename": "TEST_DIR/t.IMGFMT"}, {"driver": "file", "filename": "TE=
+ST_DIR/t.IMGFMT.copy"}], "driver": "quorum", "vote-
+>> threshold": 1}}
+>> +image: json:{ /* filtered */ }
+>>  file format: IMGFMT
+>>  virtual size: 64 MiB (67108864 bytes)
+>>  backing file: t.IMGFMT.base (cannot determine actual path)
+>=20
+> Again, maybe put that into the common.filter, so new tests won't need t=
+o copy&paste this?
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index b09bad08048d..a85ec09486dd 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -575,55 +575,14 @@ out:
- #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
- #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
- 
--/**
-- * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
-- *
-- * NOTE: this will be a no-op if we haven't enabled manual dirty log
-- * protection in the host kernel because in that case this operation
-- * will be done within log_sync().
-- *
-- * @kml:     the kvm memory listener
-- * @section: the memory range to clear dirty bitmap
-- */
--static int kvm_physical_log_clear(KVMMemoryListener *kml,
--                                  MemoryRegionSection *section)
-+static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
-+                                  uint64_t size)
- {
-     KVMState *s = kvm_state;
-+    uint64_t end, bmap_start, start_delta, bmap_npages;
-     struct kvm_clear_dirty_log d;
--    uint64_t start, end, bmap_start, start_delta, bmap_npages, size;
-     unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
--    KVMSlot *mem = NULL;
--    int ret, i;
--
--    if (!s->manual_dirty_log_protect) {
--        /* No need to do explicit clear */
--        return 0;
--    }
--
--    start = section->offset_within_address_space;
--    size = int128_get64(section->size);
--
--    if (!size) {
--        /* Nothing more we can do... */
--        return 0;
--    }
--
--    kvm_slots_lock(kml);
--
--    /* Find any possible slot that covers the section */
--    for (i = 0; i < s->nr_slots; i++) {
--        mem = &kml->slots[i];
--        if (mem->start_addr <= start &&
--            start + size <= mem->start_addr + mem->memory_size) {
--            break;
--        }
--    }
--
--    /*
--     * We should always find one memslot until this point, otherwise
--     * there could be something wrong from the upper layer
--     */
--    assert(mem && i != s->nr_slots);
-+    int ret;
- 
-     /*
-      * We need to extend either the start or the size or both to
-@@ -694,7 +653,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
-     /* It should never overflow.  If it happens, say something */
-     assert(bmap_npages <= UINT32_MAX);
-     d.num_pages = bmap_npages;
--    d.slot = mem->slot | (kml->as_id << 16);
-+    d.slot = mem->slot | (as_id << 16);
- 
-     if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) == -1) {
-         ret = -errno;
-@@ -717,6 +676,58 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
-                  size / psize);
-     /* This handles the NULL case well */
-     g_free(bmap_clear);
-+    return ret;
-+}
-+
-+
-+/**
-+ * kvm_physical_log_clear - Clear the kernel's dirty bitmap for range
-+ *
-+ * NOTE: this will be a no-op if we haven't enabled manual dirty log
-+ * protection in the host kernel because in that case this operation
-+ * will be done within log_sync().
-+ *
-+ * @kml:     the kvm memory listener
-+ * @section: the memory range to clear dirty bitmap
-+ */
-+static int kvm_physical_log_clear(KVMMemoryListener *kml,
-+                                  MemoryRegionSection *section)
-+{
-+    KVMState *s = kvm_state;
-+    uint64_t start, size;
-+    KVMSlot *mem = NULL;
-+    int ret, i;
-+
-+    if (!s->manual_dirty_log_protect) {
-+        /* No need to do explicit clear */
-+        return 0;
-+    }
-+
-+    start = section->offset_within_address_space;
-+    size = int128_get64(section->size);
-+
-+    if (!size) {
-+        /* Nothing more we can do... */
-+        return 0;
-+    }
-+
-+    kvm_slots_lock(kml);
-+
-+    /* Find any possible slot that covers the section */
-+    for (i = 0; i < s->nr_slots; i++) {
-+        mem = &kml->slots[i];
-+        if (mem->start_addr <= start &&
-+            start + size <= mem->start_addr + mem->memory_size) {
-+            break;
-+        }
-+    }
-+
-+    /*
-+     * We should always find one memslot until this point, otherwise
-+     * there could be something wrong from the upper layer
-+     */
-+    assert(mem && i != s->nr_slots);
-+    ret = kvm_log_clear_one_slot(mem, kml->as_id, start, size);
- 
-     kvm_slots_unlock(kml);
- 
--- 
-2.21.0
+Good idea.
 
+> Also maybe remove the image name completely from output, thus not needi=
+ng the more complex regex?
+
+I=E2=80=99d prefer to still see that there is a json:{} filename instead =
+of a
+plain one.  (This is important in this test because for plain filenames,
+it=E2=80=99s generally easy to reconstruct the backing file path; it=E2=80=
+=99s only
+difficult for json:{} filenames.)
+
+Max
+
+
+--rTQHA6QlfB10SwfSQxpN7II9EgizLNQMV--
+
+--7ACBVYQxUrpWtdrhz64NBT905XVJWV3O2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2SBIAACgkQ9AfbAGHV
+z0C7ugf/UNsGLgpLyOjuxuoDi+s07tsX3TMTGKOFh4C8V43UZDd0rkIvSkv1c5Js
+CT/DneCFA4x/QKDq9yvm4X7n52+qph7jVoNP2S1duSRCcxfocnDu6qSwRq/9x7wQ
+8zdC1jjESCuMp7cuotLEZ6w3yIXI6lv0Jhrw5qFXe9AIoRKlr1obGcSqGh1QkNP4
+2Kp1PSxOBmxCAX8MTbhwh5CPpUfyZ0CA7PJSYjI+c/jbngcdyyK/wenH1P0UtlRL
+vQ4z9JQEd8N+cxLxnPlRmyZzPEeB7vSV3JYkC7pBAKMChPx5fDEYn+c1H5vRzXyX
+TCIkEMDs7T2Ah6k7ntxY9Fp/KCvy5g==
+=SXJL
+-----END PGP SIGNATURE-----
+
+--7ACBVYQxUrpWtdrhz64NBT905XVJWV3O2--
 
