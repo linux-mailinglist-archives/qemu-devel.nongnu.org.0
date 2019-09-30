@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404ADC24AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:53:48 +0200 (CEST)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518E5C24AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:52:30 +0200 (CEST)
+Received: from localhost ([::1]:54092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iExze-0005y1-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35888)
+	id 1iExyO-0004K4-P0
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iExrF-0000uD-CN
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:45:07 -0400
+ (envelope-from <david@redhat.com>) id 1iExrp-0001Fs-JF
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:45:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iExrD-0004nY-Un
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:45:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49934)
+ (envelope-from <david@redhat.com>) id 1iExrn-000537-Ub
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:45:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39584)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iExrD-0004n6-MS; Mon, 30 Sep 2019 11:45:03 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1iExrn-00052W-M7; Mon, 30 Sep 2019 11:45:39 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A4DD618C891B;
- Mon, 30 Sep 2019 15:45:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 79D4A30034A4;
+ Mon, 30 Sep 2019 15:45:37 +0000 (UTC)
 Received: from [10.36.117.170] (ovpn-117-170.ams2.redhat.com [10.36.117.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD56C5C219;
- Mon, 30 Sep 2019 15:45:01 +0000 (UTC)
-Subject: Re: [PATCH v4 09/18] target/s390x: Return exception from mmu_translate
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E5B85D6D0;
+ Mon, 30 Sep 2019 15:45:36 +0000 (UTC)
+Subject: Re: [PATCH v4 18/18] target/s390x: Remove ILEN_UNWIND
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190927193925.23567-1-richard.henderson@linaro.org>
- <20190927193925.23567-10-richard.henderson@linaro.org>
+ <20190927193925.23567-19-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,18 +79,18 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <ae2ba905-b120-7fa6-76d3-7ffc0d51a396@redhat.com>
-Date: Mon, 30 Sep 2019 17:45:00 +0200
+Message-ID: <447cffaf-baab-abde-2b63-61b9ae6f7575@redhat.com>
+Date: Mon, 30 Sep 2019 17:45:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190927193925.23567-10-richard.henderson@linaro.org>
+In-Reply-To: <20190927193925.23567-19-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Mon, 30 Sep 2019 15:45:02 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Mon, 30 Sep 2019 15:45:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -110,171 +110,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 27.09.19 21:39, Richard Henderson wrote:
-> Do not raise the exception directly within mmu_translate,
-> but pass it back so that caller may do so.
+> This setting is no longer used.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/s390x/internal.h    |  2 +-
->  target/s390x/excp_helper.c |  4 ++--
->  target/s390x/mem_helper.c  | 13 +++++++---
->  target/s390x/mmu_helper.c  | 49 +++++++++++++++-----------------------
->  4 files changed, 32 insertions(+), 36 deletions(-)
+>  target/s390x/cpu.h | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-> index c4388aaf23..c993c3ef40 100644
-> --- a/target/s390x/internal.h
-> +++ b/target/s390x/internal.h
-> @@ -360,7 +360,7 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
->  
->  /* mmu_helper.c */
->  int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
-> -                  target_ulong *raddr, int *flags, bool exc);
-> +                  target_ulong *raddr, int *flags, uint64_t *tec);
->  int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
->                         target_ulong *addr, int *flags, uint64_t *tec);
->  
-> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-> index 906b87c071..6a0728b65f 100644
-> --- a/target/s390x/excp_helper.c
-> +++ b/target/s390x/excp_helper.c
-> @@ -140,8 +140,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->          if (!(env->psw.mask & PSW_MASK_64)) {
->              vaddr &= 0x7fffffff;
->          }
-> -        fail = mmu_translate(env, vaddr, access_type, asc, &raddr, &prot, true);
-> -        excp = 0; /* exception already raised */
-> +        excp = mmu_translate(env, vaddr, access_type, asc, &raddr, &prot, &tec);
-> +        fail = excp;
->      } else if (mmu_idx == MMU_REAL_IDX) {
->          /* 31-Bit mode */
->          if (!(env->psw.mask & PSW_MASK_64)) {
-> diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-> index 7d2a652823..e15aa296dd 100644
-> --- a/target/s390x/mem_helper.c
-> +++ b/target/s390x/mem_helper.c
-> @@ -2364,8 +2364,8 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
->      CPUState *cs = env_cpu(env);
->      uint32_t cc = 0;
->      uint64_t asc = env->psw.mask & PSW_MASK_ASC;
-> -    uint64_t ret;
-> -    int old_exc, flags;
-> +    uint64_t ret, tec;
-> +    int old_exc, flags, exc;
->  
->      /* XXX incomplete - has more corner cases */
->      if (!(env->psw.mask & PSW_MASK_64) && (addr >> 32)) {
-> @@ -2373,7 +2373,14 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
->      }
->  
->      old_exc = cs->exception_index;
-> -    if (mmu_translate(env, addr, 0, asc, &ret, &flags, true)) {
-> +    exc = mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
-> +    if (exc) {
-> +        /*
-> +         * We don't care about ILEN or TEC, as we're not going to
-> +         * deliver the exception -- thus resetting exception_index below.
-> +         * TODO: clean this up.
-> +         */
-> +        trigger_pgm_exception(env, exc, ILEN_UNWIND);
->          cc = 3;
->      }
->      if (cs->exception_index == EXCP_PGM) {
-> diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-> index aa8712221e..8ea1c95549 100644
-> --- a/target/s390x/mmu_helper.c
-> +++ b/target/s390x/mmu_helper.c
-> @@ -369,17 +369,15 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
->   * @return       0 if the translation was successful, -1 if a fault occurred
->   */
->  int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
-> -                  target_ulong *raddr, int *flags, bool exc)
-> +                  target_ulong *raddr, int *flags, uint64_t *tec)
->  {
-> -    /* Code accesses have an undefined ilc, let's use 2 bytes. */
-> -    const int ilen = (rw == MMU_INST_FETCH) ? 2 : ILEN_AUTO;
-> -    uint64_t tec = (vaddr & TARGET_PAGE_MASK) | (asc >> 46) |
-> -                   (rw == MMU_DATA_STORE ? FS_WRITE : FS_READ);
->      uint64_t asce;
->      int r;
->  
-> -
-> +    *tec = (vaddr & TARGET_PAGE_MASK) | (asc >> 46) |
-> +            (rw == MMU_DATA_STORE ? FS_WRITE : FS_READ);
->      *flags = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-> +
->      if (is_low_address(vaddr & TARGET_PAGE_MASK) && lowprot_enabled(env, asc)) {
->          /*
->           * If any part of this page is currently protected, make sure the
-> @@ -391,12 +389,9 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
->           */
->          *flags |= PAGE_WRITE_INV;
->          if (is_low_address(vaddr) && rw == MMU_DATA_STORE) {
-> -            if (exc) {
-> -                /* LAP sets bit 56 */
-> -                tec |= 0x80;
-> -                trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
-> -            }
-> -            return -EACCES;
-> +            /* LAP sets bit 56 */
-> +            *tec |= 0x80;
-> +            return PGM_PROTECTION;
->          }
->      }
->  
-> @@ -426,30 +421,21 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
->      /* perform the DAT translation */
->      r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
->      if (unlikely(r)) {
-> -        if (exc) {
-> -            trigger_access_exception(env, r, ilen, tec);
-> -        }
-> -        return -1;
-> +        return r;
->      }
->  
->      /* check for DAT protection */
->      if (unlikely(rw == MMU_DATA_STORE && !(*flags & PAGE_WRITE))) {
-> -        if (exc) {
-> -            /* DAT sets bit 61 only */
-> -            tec |= 0x4;
-> -            trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
-> -        }
-> -        return -1;
-> +        /* DAT sets bit 61 only */
-> +        *tec |= 0x4;
-> +        return PGM_PROTECTION;
->      }
->  
->      /* check for Instruction-Execution-Protection */
->      if (unlikely(rw == MMU_INST_FETCH && !(*flags & PAGE_EXEC))) {
-> -        if (exc) {
-> -            /* IEP sets bit 56 and 61 */
-> -            tec |= 0x84;
-> -            trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
-> -        }
-> -        return -1;
-> +        /* IEP sets bit 56 and 61 */
-> +        *tec |= 0x84;
-> +        return PGM_PROTECTION;
->      }
->  
->  nodat:
-> @@ -473,9 +459,12 @@ static int translate_pages(S390CPU *cpu, vaddr addr, int nr_pages,
->      int ret, i, pflags;
->  
->      for (i = 0; i < nr_pages; i++) {
-> -        ret = mmu_translate(env, addr, is_write, asc, &pages[i], &pflags, true);
-> +        uint64_t tec;
-> +
-> +        ret = mmu_translate(env, addr, is_write, asc, &pages[i], &pflags, &tec);
->          if (ret) {
-> -            return ret;
-> +            trigger_access_exception(env, ret, ILEN_AUTO, tec);
-> +            return -EFAULT;
->          }
->          if (!address_space_access_valid(&address_space_memory, pages[i],
->                                          TARGET_PAGE_SIZE, is_write,
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 686cbe41e0..fe1bf746f3 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -803,8 +803,6 @@ int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
+>  void s390_crw_mchk(void);
+>  void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
+>                         uint32_t io_int_parm, uint32_t io_int_word);
+> -/* instruction length set by unwind info */
+> -#define ILEN_UNWIND                 0
+>  #define RA_IGNORED                  0
+>  void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
+>  /* service interrupts are floating therefore we must not pass an cpustate */
 > 
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
