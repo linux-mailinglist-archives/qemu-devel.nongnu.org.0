@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9C5C21F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:28:21 +0200 (CEST)
-Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6916CC21D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:22:51 +0200 (CEST)
+Received: from localhost ([::1]:52336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEviu-0005HQ-1h
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42437)
+	id 1iEvdZ-0006GB-OT
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEvbO-0004Qm-F7
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:38 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iEvbH-0004Ns-LG
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEvbJ-0005Ed-SN
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50546
+ (envelope-from <borntraeger@de.ibm.com>) id 1iEvbB-00057J-1b
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40424
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iEvbI-00051T-HS
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:28 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8UDIH6i134075
+ id 1iEvb6-00051h-SL
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:17 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8UDIdY4187491
  for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:08 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vbjd70bw4-1
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vbg9w6qbg-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:07 -0400
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:08 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Mon, 30 Sep 2019 14:20:06 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Mon, 30 Sep 2019 14:20:05 +0100
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 30 Sep 2019 14:20:00 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8UDJxVx57475284
+ Mon, 30 Sep 2019 14:20:01 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x8UDJV4J38469904
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Sep 2019 13:19:59 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0ACFAAE056;
+ Mon, 30 Sep 2019 13:19:31 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5669F52050;
  Mon, 30 Sep 2019 13:19:59 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DED3AAE04D;
- Mon, 30 Sep 2019 13:19:58 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 30 Sep 2019 13:19:58 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 3C2C65204E;
+ Mon, 30 Sep 2019 13:19:59 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 970B7E01C8; Mon, 30 Sep 2019 15:19:58 +0200 (CEST)
+ id F1591E020F; Mon, 30 Sep 2019 15:19:58 +0200 (CEST)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/12] kvm: split too big memory section on several memslots
-Date: Mon, 30 Sep 2019 15:19:53 +0200
+Subject: [PULL 11/12] s390: do not call memory_region_allocate_system_memory()
+ multiple times
+Date: Mon, 30 Sep 2019 15:19:54 +0200
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190930131955.101131-1-borntraeger@de.ibm.com>
 References: <20190930131955.101131-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19093013-0028-0000-0000-000003A3FD54
+x-cbid: 19093013-0012-0000-0000-00000352126E
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19093013-0029-0000-0000-0000246626AE
-Message-Id: <20190930131955.101131-11-borntraeger@de.ibm.com>
+x-cbparentid: 19093013-0013-0000-0000-0000218CB4F0
+Message-Id: <20190930131955.101131-12-borntraeger@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-30_08:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -106,242 +104,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Max memslot size supported by kvm on s390 is 8Tb,
-move logic of splitting RAM in chunks upto 8T to KVM code.
+s390 was trying to solve limited KVM memslot size issue by abusing
+memory_region_allocate_system_memory(), which breaks API contract
+where the function might be called only once.
 
-This way it will hide KVM specific restrictions in KVM code
-and won't affect board level design decisions. Which would allow
-us to avoid misusing memory_region_allocate_system_memory() API
-and eventually use a single hostmem backend for guest RAM.
+Beside an invalid use of API, the approach also introduced migration
+issue, since RAM chunks for each KVM_SLOT_MAX_BYTES are transferred in
+migration stream as separate RAMBlocks.
+
+After discussion [1], it was agreed to break migration from older
+QEMU for guest with RAM >8Tb (as it was relatively new (since 2.12)
+and considered to be not actually used downstream).
+Migration should keep working for guests with less than 8TB and for
+more than 8TB with QEMU 4.2 and newer binary.
+In case user tries to migrate more than 8TB guest, between incompatible
+QEMU versions, migration should fail gracefully due to non-exiting
+RAMBlock ID or RAMBlock size mismatch.
+
+Taking in account above and that now KVM code is able to split too
+big MemorySection into several memslots, partially revert commit
+ (bb223055b s390-ccw-virtio: allow for systems larger that 7.999TB)
+and use kvm_set_max_memslot_size() to set KVMSlot size to
+KVM_SLOT_MAX_BYTES.
+
+1) [PATCH RFC v2 4/4] s390: do not call  memory_region_allocate_system_memory() multiple times
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20190924144751.24149-4-imammedo@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20190924144751.24149-5-imammedo@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- accel/kvm/kvm-all.c      | 122 +++++++++++++++++++++++++--------------
- include/sysemu/kvm_int.h |   1 +
- 2 files changed, 80 insertions(+), 43 deletions(-)
+ hw/s390x/s390-virtio-ccw.c | 30 +++---------------------------
+ target/s390x/kvm.c         | 11 +++++++++++
+ 2 files changed, 14 insertions(+), 27 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index ff9b95c0d103..aabe097c410f 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -140,6 +140,7 @@ bool kvm_direct_msi_allowed;
- bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
- static bool kvm_immediate_exit;
-+static hwaddr kvm_max_slot_size = ~0;
- 
- static const KVMCapabilityInfo kvm_required_capabilites[] = {
-     KVM_CAP_INFO(USER_MEMORY),
-@@ -437,7 +438,7 @@ static int kvm_slot_update_flags(KVMMemoryListener *kml, KVMSlot *mem,
- static int kvm_section_update_flags(KVMMemoryListener *kml,
-                                     MemoryRegionSection *section)
- {
--    hwaddr start_addr, size;
-+    hwaddr start_addr, size, slot_size;
-     KVMSlot *mem;
-     int ret = 0;
- 
-@@ -448,13 +449,18 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
- 
-     kvm_slots_lock(kml);
- 
--    mem = kvm_lookup_matching_slot(kml, start_addr, size);
--    if (!mem) {
--        /* We don't have a slot if we want to trap every access. */
--        goto out;
--    }
-+    while (size && !ret) {
-+        slot_size = MIN(kvm_max_slot_size, size);
-+        mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-+        if (!mem) {
-+            /* We don't have a slot if we want to trap every access. */
-+            goto out;
-+        }
- 
--    ret = kvm_slot_update_flags(kml, mem, section->mr);
-+        ret = kvm_slot_update_flags(kml, mem, section->mr);
-+        start_addr += slot_size;
-+        size -= slot_size;
-+    }
- 
- out:
-     kvm_slots_unlock(kml);
-@@ -527,11 +533,15 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-     struct kvm_dirty_log d = {};
-     KVMSlot *mem;
-     hwaddr start_addr, size;
-+    hwaddr slot_size, slot_offset = 0;
-     int ret = 0;
- 
-     size = kvm_align_section(section, &start_addr);
--    if (size) {
--        mem = kvm_lookup_matching_slot(kml, start_addr, size);
-+    while (size) {
-+        MemoryRegionSection subsection = *section;
-+
-+        slot_size = MIN(kvm_max_slot_size, size);
-+        mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-         if (!mem) {
-             /* We don't have a slot if we want to trap every access. */
-             goto out;
-@@ -549,11 +559,11 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-          * So for now, let's align to 64 instead of HOST_LONG_BITS here, in
-          * a hope that sizeof(long) won't become >8 any time soon.
-          */
--        size = ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS),
--                     /*HOST_LONG_BITS*/ 64) / 8;
-         if (!mem->dirty_bmap) {
-+            hwaddr bitmap_size = ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS),
-+                                        /*HOST_LONG_BITS*/ 64) / 8;
-             /* Allocate on the first log_sync, once and for all */
--            mem->dirty_bmap = g_malloc0(size);
-+            mem->dirty_bmap = g_malloc0(bitmap_size);
-         }
- 
-         d.dirty_bitmap = mem->dirty_bmap;
-@@ -564,7 +574,13 @@ static int kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-             goto out;
-         }
- 
--        kvm_get_dirty_pages_log_range(section, d.dirty_bitmap);
-+        subsection.offset_within_region += slot_offset;
-+        subsection.size = int128_make64(slot_size);
-+        kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
-+
-+        slot_offset += slot_size;
-+        start_addr += slot_size;
-+        size -= slot_size;
-     }
- out:
-     return ret;
-@@ -972,6 +988,14 @@ kvm_check_extension_list(KVMState *s, const KVMCapabilityInfo *list)
-     return NULL;
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 8bfb6684cb72..18ad279a00a3 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -154,39 +154,15 @@ static void virtio_ccw_register_hcalls(void)
+                                    virtio_ccw_hcall_early_printk);
  }
  
-+void kvm_set_max_memslot_size(hwaddr max_slot_size)
-+{
-+    g_assert(
-+        ROUND_UP(max_slot_size, qemu_real_host_page_size) == max_slot_size
-+    );
-+    kvm_max_slot_size = max_slot_size;
-+}
-+
- static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                              MemoryRegionSection *section, bool add)
+-/*
+- * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
+- * as the dirty bitmap must be managed by bitops that take an int as
+- * position indicator. If we have a guest beyond that we will split off
+- * new subregions. The split must happen on a segment boundary (1MB).
+- */
+-#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
+-#define SEG_MSK (~0xfffffULL)
+-#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
+ static void s390_memory_init(ram_addr_t mem_size)
  {
-@@ -979,7 +1003,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     int err;
-     MemoryRegion *mr = section->mr;
-     bool writeable = !mr->readonly && !mr->rom_device;
--    hwaddr start_addr, size;
-+    hwaddr start_addr, size, slot_size;
-     void *ram;
+     MemoryRegion *sysmem = get_system_memory();
+-    ram_addr_t chunk, offset = 0;
+-    unsigned int number = 0;
++    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     Error *local_err = NULL;
+-    gchar *name;
  
-     if (!memory_region_is_ram(mr)) {
-@@ -1004,41 +1028,52 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     kvm_slots_lock(kml);
- 
-     if (!add) {
--        mem = kvm_lookup_matching_slot(kml, start_addr, size);
--        if (!mem) {
--            goto out;
--        }
--        if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
--            kvm_physical_sync_dirty_bitmap(kml, section);
--        }
-+        do {
-+            slot_size = MIN(kvm_max_slot_size, size);
-+            mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-+            if (!mem) {
-+                goto out;
-+            }
-+            if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
-+                kvm_physical_sync_dirty_bitmap(kml, section);
-+            }
- 
--        /* unregister the slot */
--        g_free(mem->dirty_bmap);
--        mem->dirty_bmap = NULL;
--        mem->memory_size = 0;
--        mem->flags = 0;
--        err = kvm_set_user_memory_region(kml, mem, false);
--        if (err) {
--            fprintf(stderr, "%s: error unregistering slot: %s\n",
--                    __func__, strerror(-err));
--            abort();
--        }
-+            /* unregister the slot */
-+            g_free(mem->dirty_bmap);
-+            mem->dirty_bmap = NULL;
-+            mem->memory_size = 0;
-+            mem->flags = 0;
-+            err = kvm_set_user_memory_region(kml, mem, false);
-+            if (err) {
-+                fprintf(stderr, "%s: error unregistering slot: %s\n",
-+                        __func__, strerror(-err));
-+                abort();
-+            }
-+            start_addr += slot_size;
-+            size -= slot_size;
-+        } while (size);
-         goto out;
-     }
- 
-     /* register the new slot */
--    mem = kvm_alloc_slot(kml);
--    mem->memory_size = size;
--    mem->start_addr = start_addr;
--    mem->ram = ram;
--    mem->flags = kvm_mem_flags(mr);
-+    do {
-+        slot_size = MIN(kvm_max_slot_size, size);
-+        mem = kvm_alloc_slot(kml);
-+        mem->memory_size = slot_size;
-+        mem->start_addr = start_addr;
-+        mem->ram = ram;
-+        mem->flags = kvm_mem_flags(mr);
- 
--    err = kvm_set_user_memory_region(kml, mem, true);
--    if (err) {
--        fprintf(stderr, "%s: error registering slot: %s\n", __func__,
--                strerror(-err));
--        abort();
+     /* allocate RAM for core */
+-    name = g_strdup_printf("s390.ram");
+-    while (mem_size) {
+-        MemoryRegion *ram = g_new(MemoryRegion, 1);
+-        uint64_t size = mem_size;
+-
+-        /* KVM does not allow memslots >= 8 TB */
+-        chunk = MIN(size, KVM_SLOT_MAX_BYTES);
+-        memory_region_allocate_system_memory(ram, NULL, name, chunk);
+-        memory_region_add_subregion(sysmem, offset, ram);
+-        mem_size -= chunk;
+-        offset += chunk;
+-        g_free(name);
+-        name = g_strdup_printf("s390.ram.%u", ++number);
 -    }
-+        err = kvm_set_user_memory_region(kml, mem, true);
-+        if (err) {
-+            fprintf(stderr, "%s: error registering slot: %s\n", __func__,
-+                    strerror(-err));
-+            abort();
-+        }
-+        start_addr += slot_size;
-+        ram += slot_size;
-+        size -= slot_size;
-+    } while (size);
+-    g_free(name);
++    memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_size);
++    memory_region_add_subregion(sysmem, 0, ram);
  
- out:
-     kvm_slots_unlock(kml);
-@@ -2878,6 +2913,7 @@ static bool kvm_accel_has_memory(MachineState *ms, AddressSpace *as,
+     /*
+      * Configure the maximum page size. As no memory devices were created
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index 97a662ad0ebf..54864c259c5e 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -28,6 +28,7 @@
+ #include "cpu.h"
+ #include "internal.h"
+ #include "kvm_s390x.h"
++#include "sysemu/kvm_int.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
+@@ -122,6 +123,15 @@
+  */
+ #define VCPU_IRQ_BUF_SIZE(max_cpus) (sizeof(struct kvm_s390_irq) * \
+                                      (max_cpus + NR_LOCAL_IRQS))
++/*
++ * KVM does only support memory slots up to KVM_MEM_MAX_NR_PAGES pages
++ * as the dirty bitmap must be managed by bitops that take an int as
++ * position indicator. If we have a guest beyond that we will split off
++ * new subregions. The split must happen on a segment boundary (1MB).
++ */
++#define KVM_MEM_MAX_NR_PAGES ((1ULL << 31) - 1)
++#define SEG_MSK (~0xfffffULL)
++#define KVM_SLOT_MAX_BYTES ((KVM_MEM_MAX_NR_PAGES * TARGET_PAGE_SIZE) & SEG_MSK)
  
-     for (i = 0; i < kvm->nr_as; ++i) {
-         if (kvm->as[i].as == as && kvm->as[i].ml) {
-+            size = MIN(kvm_max_slot_size, size);
-             return NULL != kvm_lookup_matching_slot(kvm->as[i].ml,
-                                                     start_addr, size);
-         }
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 72b2d1b3aea5..ac2d1f8b5682 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -41,4 +41,5 @@ typedef struct KVMMemoryListener {
- void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-                                   AddressSpace *as, int as_id);
+ static CPUWatchpoint hw_watchpoint;
+ /*
+@@ -355,6 +365,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+      */
+     /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
  
-+void kvm_set_max_memslot_size(hwaddr max_slot_size);
- #endif
++    kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+     return 0;
+ }
+ 
 -- 
 2.21.0
 
