@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC028C266F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:16:20 +0200 (CEST)
-Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5D4C267A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:24:19 +0200 (CEST)
+Received: from localhost ([::1]:56816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iF25j-00036s-Ob
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
+	id 1iF2DR-0006Ix-ON
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1iF23G-0001W6-B7
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:13:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iF2Ak-0004Sa-QT
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1iF23E-0001qI-6h
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:13:46 -0400
-Received: from mga02.intel.com ([134.134.136.20]:51718)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1iF23D-0001pc-FQ
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:13:44 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2019 13:13:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,568,1559545200"; d="scan'208";a="194303899"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga003.jf.intel.com with ESMTP; 30 Sep 2019 13:13:41 -0700
-Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 30 Sep 2019 13:13:40 -0700
-Received: from shsmsx106.ccr.corp.intel.com (10.239.4.159) by
- FMSMSX153.amr.corp.intel.com (10.18.125.6) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 30 Sep 2019 13:13:40 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.176]) by
- SHSMSX106.ccr.corp.intel.com ([169.254.10.119]) with mapi id 14.03.0439.000;
- Tue, 1 Oct 2019 04:13:38 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: RE: [PATCH v5 3/4] net/filter.c: Add Options to insert filters
- anywhere in the filter list
-Thread-Topic: [PATCH v5 3/4] net/filter.c: Add Options to insert filters
- anywhere in the filter list
-Thread-Index: AQHVa/qhID4wVq1ufUOgz01/uZUmDKc+PZ9ggAI3wgCAAX5EQA==
-Date: Mon, 30 Sep 2019 20:13:38 +0000
-Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D780629560A@shsmsx102.ccr.corp.intel.com>
-References: <cover.1568574478.git.lukasstraub2@web.de>
- <b4241e918682c83163857da3aaab5c14ec1c81f8.1568574478.git.lukasstraub2@web.de>
- <9CFF81C0F6B98A43A459C9EDAD400D780627E646@shsmsx102.ccr.corp.intel.com>
- <20190928124438.260668cf@luklap>
-In-Reply-To: <20190928124438.260668cf@luklap>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzU4MWM3OTAtOTQyOC00NGNhLTg0OTUtZjRmODRhOWM4Yzc0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQ1pjc0RZV0R2eHJGQThBbnpLTTQ3bTZTWmNUYjBUVFphVTJ6UVdvaDFWbzVMXC9ONTJLVWw1Q25cL2I4XC8xd1pKWiJ9
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+ (envelope-from <richard.henderson@linaro.org>) id 1iF2Aj-0005Ub-7Y
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:30 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:33374)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iF2Ai-0005TE-Vh
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:29 -0400
+Received: by mail-pg1-x534.google.com with SMTP id i30so8016044pgl.0
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=KA/ntiu5DteRGHxl+0gGheZ7X7XKaiTNWju4vYkTfiI=;
+ b=b/zd6aB8YKELLtc1O1hYsnMEyAYw0pWvMiAeCxUGbjRRrz2lnQ/yOGmv1xhMU3uPzv
+ Yv20FKDzzAX7QKP3uyypFWkDXeRAZXIKuQlVC8gY/gSRrN3UvtGPpfI/qI0cl1vMtbNm
+ LZBswH15mEDYep2212ZPf5lGGwzx5Ql+fWHkAuPUqDVIM+klHxbCrXhIde/HgCV6gmFb
+ y+rIuz/i3WkoREtkb5dRXo7jCm1UrLxnJ35OHSQAlt7Wc7421+QNRwQ+F4N88yGKdKeq
+ hWAJcf4W0L+GeExuodhX+wS4daxAjpchTr/QoMuHK0eZr+LcyjJNgchUxhJ3T3F/B18h
+ btxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=KA/ntiu5DteRGHxl+0gGheZ7X7XKaiTNWju4vYkTfiI=;
+ b=Akaci5jJXJAAuNBF2CD4H7sh1dc93efVbDmqasf7yWCWcre+PT32gF3F5J5y8OmFfr
+ pyOb9RFUifVUaYNxThNOJKn504LD/BYIJaDKeqQRyohbij9nKlQJ17hnjhfR4QxEqdMt
+ Q9id4m5NpTD/x3R4P5HtBRFA8M0DEO6oqcRLF08sH99ZT2t23W2uLWM0+xDbQVb8Y+Vg
+ mvn3dtY01nzFeYxroMbX1YUKpI58a6PbYB35Sf4C6LxrvytEvw5cvg+eQ/AV3cz5wt6Z
+ JOvTmDvjlThHmFDNlZwxnPrXc26H0sEg3h/amKVMlIpGtgHxyyM92DBI4tETn1jWRUZy
+ TvPQ==
+X-Gm-Message-State: APjAAAXQwyawZdtioARKDef+7AQQ1uDpmPO9VQ61Fqp6b6ubxkwo9M2k
+ ZKIzNlwzKLK6+xexqlk1LzgYPICEnVQ=
+X-Google-Smtp-Source: APXvYqymp9PJiTdHCrULowOPgoaE1OQZFzoOOINkiHzny9BfeBRTMEyHdXEASeyd0YT82nl4QJVYNQ==
+X-Received: by 2002:a63:1e1e:: with SMTP id e30mr7932761pge.405.1569874886993; 
+ Mon, 30 Sep 2019 13:21:26 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id r28sm15336802pfg.62.2019.09.30.13.21.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Sep 2019 13:21:26 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/22] tcg/ppc: Add vector opcodes
+Date: Mon, 30 Sep 2019 13:21:03 -0700
+Message-Id: <20190930202125.21064-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.20
+X-Received-From: 2607:f8b0:4864:20::534
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,165 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "mreitz@redhat.com" <mreitz@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>
+Cc: mark.cave-ayland@ilande.co.uk, amarkovic@wavecomp.com, hsp.cat7@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Saturday, September 28, 2019 6:45 PM
-> To: Zhang, Chen <chen.zhang@intel.com>
-> Cc: qemu-devel <qemu-devel@nongnu.org>; Jason Wang
-> <jasowang@redhat.com>; Wen Congyang <wencongyang2@huawei.com>;
-> Xie Changlong <xiechanglong.d@gmail.com>; kwolf@redhat.com;
-> mreitz@redhat.com
-> Subject: Re: [PATCH v5 3/4] net/filter.c: Add Options to insert filters
-> anywhere in the filter list
->=20
-> On Thu, 26 Sep 2019 17:02:58 +0000
-> "Zhang, Chen" <chen.zhang@intel.com> wrote:
-> > > diff --git a/qemu-options.hx b/qemu-options.hx index
-> > > 08749a3391..23fa5a344e 100644
-> > > --- a/qemu-options.hx
-> > > +++ b/qemu-options.hx
-> > > @@ -4368,7 +4368,7 @@ applications, they can do this through this
-> > > parameter. Its format is  a gnutls priority string as described at
-> > > @url{https://gnutls.org/manual/html_node/Priority-Strings.html}.
-> > >
-> > > -@item -object filter-
-> > >
-> buffer,id=3D@var{id},netdev=3D@var{netdevid},interval=3D@var{t}[,queue=3D=
-@va
-> > > r{
-> > > all|rx|tx}][,status=3D@var{on|off}]
-> > > +@item -object
-> > > +filter-buffer,id=3D@var{id},netdev=3D@var{netdevid},interval=3D@var{=
-t}[,q
-> > > +ueue
-> > > +=3D@var{all|rx|tx}][,status=3D@var{on|off}][,position=3D@var{head|ta=
-il|id
-> > > +=3D<id
-> > > +>}][,insert=3D@var{behind|before}]
-> > >
-> > >  Interval @var{t} can't be 0, this filter batches the packet
-> > > delivery: all  packets arriving in a given interval on netdev
-> > > @var{netdevid} are delayed @@ -
-> > > 4387,11 +4387,11 @@ queue @var{all|rx|tx} is an option that can be
-> > > applied to any netfilter.
-> > >  @option{tx}: the filter is attached to the transmit queue of the net=
-dev,
-> > >               where it will receive packets sent by the netdev.
-> > >
-> > > -@item -object filter-
-> > >
-> mirror,id=3D@var{id},netdev=3D@var{netdevid},outdev=3D@var{chardevid},que=
-u
-> > > e
-> > > =3D@var{all|rx|tx}[,vnet_hdr_support]
-> > > +@item -object
-> > > +filter-
-> mirror,id=3D@var{id},netdev=3D@var{netdevid},outdev=3D@var{chardev
-> > > +id},
-> > > +queue=3D@var{all|rx|tx}[,vnet_hdr_support][,position=3D@var{head|tai=
-l|i
-> > > +d=3D<
-> > > i
-> > > +d>}][,insert=3D@var{behind|before}]
-> > >
-> > >  filter-mirror on netdev @var{netdevid},mirror net packet to
-> > > chardev@var{chardevid}, if it has the vnet_hdr_support flag,
-> > > filter-mirror will mirror packet with vnet_hdr_len.
-> > >
-> >
-> > Please add description for the newly added parameter in each filter.
-> > After that:
-> > Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-> >
-> > Thanks
-> > Zhang Chen
->=20
-> Hi,
-> I will add a single description like its currently done with the "queue" =
-option,
-> noting that it applies to any netfilter. Is that Ok?
+Changes since v6:
+  * The have_foo tests have been split so that VSX is not
+    combined with ISA revision.
+  * The power{7,8,9} patches have been split by isa extension.
+  * Force the [TABC]X bits on within the VSX instruction defines,
+    making the usage of the VSX insns clearer, since we have no
+    additional or'ing of seemingly random bits.
 
-It is enough for me.
+Changes since v5:
+  * Disable runtime altivec detection until all of the required
+    opcodes are implemented.
+    Because dup2 was last, that really means all of the pure altivec
+    bits, so the initial patches are not bisectable in any meaningful
+    sense.  I thought about reshuffling dup2 earlier, but that created
+    too many conflicts and I was too lazy.
+  * Rearranged the patches a little bit to make sure that each
+    one actually builds, which was not the case before.
+  * Folded in the fix to tcg_out_mem_long, as discussed in the
+    followup within the v4 thread.
 
-Thanks
-Zhang Chen
+Changes since v4:
+  * Patch 1, "tcg/ppc: Introduce Altivec registers", is divided into
+    ten smaller patches.
+  * The net result (code-wise) is not changed between former patch 1
+    and ten new patches.
+  * Remaining (2-7) patches from v4 are applied verbatim.
+  * This means that code-wise v5 and v4 do not differ.
+  * v5 is devised to help debugging, and to better organize the code.
 
->=20
-> Regards,
-> Lukas Straub
->=20
-> >
-> > > -@item -object filter-
-> > >
-> redirector,id=3D@var{id},netdev=3D@var{netdevid},indev=3D@var{chardevid},=
-o
-> > > ut dev=3D@var{chardevid},queue=3D@var{all|rx|tx}[,vnet_hdr_support]
-> > > +@item -object
-> > > +filter-redirector,id=3D@var{id},netdev=3D@var{netdevid},indev=3D@var=
-{char
-> > > +devi
-> > >
-> +d},outdev=3D@var{chardevid},queue=3D@var{all|rx|tx}[,vnet_hdr_support][
-> > > +,p
-> > > os
-> > > +ition=3D@var{head|tail|id=3D<id>}][,insert=3D@var{behind|before}]
-> > >
-> > >  filter-redirector on netdev @var{netdevid},redirect filter's net
-> > > packet to chardev  @var{chardevid},and redirect indev's packet to
-> > > filter.if it has the vnet_hdr_support flag, @@ -4400,7 +4400,7 @@
-> > > Create a filter-redirector we need to differ outdev id from indev
-> > > id, id can not  be the same. we can just use indev or outdev, but at
-> > > least one of indev or outdev  need to be specified.
-> > >
-> > > -@item -object filter-
-> > > rewriter,id=3D@var{id},netdev=3D@var{netdevid},queue=3D@var{all|rx|tx=
-},[vn
-> > > et_
-> > > hdr_support]
-> > > +@item -object
-> > > +filter-rewriter,id=3D@var{id},netdev=3D@var{netdevid},queue=3D@var{a=
-ll|rx
-> > > +|tx}
-> > > +,[vnet_hdr_support][,position=3D@var{head|tail|id=3D<id>}][,insert=
-=3D@var
-> > > +{beh
-> > > +ind|before}]
-> > >
-> > >  Filter-rewriter is a part of COLO project.It will rewrite tcp
-> > > packet to secondary from primary to keep secondary tcp
-> > > connection,and rewrite @@ -
-> > > 4413,7 +4413,7 @@ colo secondary:
-> > >  -object filter-redirector,id=3Df2,netdev=3Dhn0,queue=3Drx,outdev=3Dr=
-ed1
-> > >  -object filter-rewriter,id=3Drew0,netdev=3Dhn0,queue=3Dall
-> > >
-> > > -@item -object filter-
-> > >
-> dump,id=3D@var{id},netdev=3D@var{dev}[,file=3D@var{filename}][,maxlen=3D@=
-var
-> > > {
-> > > len}]
-> > > +@item -object
-> > > +filter-
-> > > dump,id=3D@var{id},netdev=3D@var{dev}[,file=3D@var{filename}][,maxlen=
-=3D
-> > > +@var{len}][,position=3D@var{head|tail|id=3D<id>}][,insert=3D@var{beh=
-ind|b
-> > > +efor
-> > > +e}]
-> > >
-> > >  Dump the network traffic on netdev @var{dev} to the file specified
-> > > by @var{filename}. At most @var{len} bytes (64k by default) per
-> > > packet are stored.
-> > > --
-> > > 2.20.1
-> >
+Changes since v3:
+  * Add support for bitsel, with the vsx xxsel insn.
+  * Rely on the new relocation overflow handling, so
+    we don't require 3 insns for a vector load.
+
+Changes since v2:
+  * Several generic tcg patches to improve dup vs dupi vs dupm.
+    In particular, if a global temp (like guest r10) is not in
+    a host register, we should duplicate from memory instead of
+    loading to an integer register, spilling to stack, loading
+    to a vector register, and then duplicating.
+  * I have more confidence that 32-bit ppc host should work
+    this time around.  No testing on that front yet, but I've
+    unified some code sequences with 64-bit ppc host.
+  * Base altivec now supports V128 only.  Moved V64 support to
+    Power7 (v2.06), which has 64-bit load/store.
+  * Dropped support for 64-bit vector multiply using Power8.
+    The expansion was too large compared to using integer regs.
+
+Richard Henderson (22):
+  tcg/ppc: Introduce Altivec registers
+  tcg/ppc: Introduce macro VX4()
+  tcg/ppc: Introduce macros VRT(), VRA(), VRB(), VRC()
+  tcg/ppc: Create TCGPowerISA and have_isa
+  tcg/ppc: Replace HAVE_ISA_2_06
+  tcg/ppc: Replace HAVE_ISEL macro with a variable
+  tcg/ppc: Enable tcg backend vector compilation
+  tcg/ppc: Add support for load/store/logic/comparison
+  tcg/ppc: Add support for vector maximum/minimum
+  tcg/ppc: Add support for vector add/subtract
+  tcg/ppc: Add support for vector saturated add/subtract
+  tcg/ppc: Support vector shift by immediate
+  tcg/ppc: Support vector multiply
+  tcg/ppc: Support vector dup2
+  tcg/ppc: Enable Altivec detection
+  tcg/ppc: Update vector support for VSX
+  tcg/ppc: Update vector support for v2.07 Altivec
+  tcg/ppc: Update vector support for v2.07 VSX
+  tcg/ppc: Update vector support for v2.07 FP
+  tcg/ppc: Update vector support for v3.00 Altivec
+  tcg/ppc: Update vector support for v3.00 load/store
+  tcg/ppc: Update vector support for v3.00 dup/dupi
+
+ tcg/ppc/tcg-target.h     |   51 +-
+ tcg/ppc/tcg-target.opc.h |   13 +
+ tcg/ppc/tcg-target.inc.c | 1118 +++++++++++++++++++++++++++++++++++---
+ 3 files changed, 1101 insertions(+), 81 deletions(-)
+ create mode 100644 tcg/ppc/tcg-target.opc.h
+
+-- 
+2.17.1
 
 
