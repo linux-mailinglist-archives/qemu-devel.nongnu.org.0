@@ -2,98 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518E5C24AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:52:30 +0200 (CEST)
-Received: from localhost ([::1]:54092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9723C24B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:56:23 +0200 (CEST)
+Received: from localhost ([::1]:54156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iExyO-0004K4-P0
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
+	id 1iEy2A-0000ml-On
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:56:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iExrp-0001Fs-JF
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:45:42 -0400
+ (envelope-from <felipe@nutanix.com>) id 1iExsM-0001Zc-8F
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:46:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iExrn-000537-Ub
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:45:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39584)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iExrn-00052W-M7; Mon, 30 Sep 2019 11:45:39 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 79D4A30034A4;
- Mon, 30 Sep 2019 15:45:37 +0000 (UTC)
-Received: from [10.36.117.170] (ovpn-117-170.ams2.redhat.com [10.36.117.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E5B85D6D0;
- Mon, 30 Sep 2019 15:45:36 +0000 (UTC)
-Subject: Re: [PATCH v4 18/18] target/s390x: Remove ILEN_UNWIND
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190927193925.23567-1-richard.henderson@linaro.org>
- <20190927193925.23567-19-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <447cffaf-baab-abde-2b63-61b9ae6f7575@redhat.com>
-Date: Mon, 30 Sep 2019 17:45:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190927193925.23567-19-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <felipe@nutanix.com>) id 1iExsJ-00058s-8O
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:46:13 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:26396)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iExsF-00057W-M0
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:46:09 -0400
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ x8UFVGxY018180; Mon, 30 Sep 2019 08:46:02 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=mhTMrsAc3mdWmIqqo5XFlQVwh7Ie9s3iUqlvJWK9Hg0=;
+ b=Bi4rRPz2P7YPYU7iYe0vBEOavrqLle0TkVwa2S5tAOf3BGayVKzWR9r8tVAnxB0zTzYp
+ V2lXITp44pLIF+ldD21s1B2PzzzUYVva+e3U/Ooin15VaVJrStO3BPN9OD3M9pPflIie
+ EnrmvCLxvu1gGV0eX/ARs3Oq1ubQ0/aLqtzj56RwpHH4wX3+HwE/DdCkrkaLef7r2BcT
+ fa0I5jHawvLzgh1zmLFjFZuEG6hfjWSRtZnIc1UtNj5/WfzogwIF8T3LCGfSfPkPtzru
+ NCbxkQVw4sirhbuOLFVKgEZrXYtxl9uS84QX4QFcleKqkHbtMV8OtQpJzdPcaexYdDgd 5w== 
+Received: from nam04-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam04lp2055.outbound.protection.outlook.com [104.47.45.55])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 2va528buyy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Mon, 30 Sep 2019 08:46:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OW0F2xqriToru7R+5yg/WSiCHFoAOYmhGLG5Y+sTD//YOF7yJMATYaGiqYVTIREihfIEyOO3gUd9pFgN0TIL2wPfDN+uQ5qxw0IPsbov6A40twFyxdM6DVLvfTuJjYh1ZsFNx5h5kVdw7F8Pl/EBUmY2x+O6TwuSmiHXP7v85S+JPzSp3Bj+AerfMAMDDXzYpSQmPY4YJG0eb+wmwK2ua6j0sFzPkbKmsi6A+GkezBVFj5l3qaPQFS5GobqnHSuKOqBcddatbKKClK/x/lF1KAPpJBEoG0LXq/PXB4/KTh581jiM5vzkR3vaOaCCfl3fx/2sUAMZGL1BFIOOgL5QOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mhTMrsAc3mdWmIqqo5XFlQVwh7Ie9s3iUqlvJWK9Hg0=;
+ b=TsAWhH0DH5X6rSCxov7tcGGnKInUYNHRXaaLmQIHHOYiITVttJwc84ewLAHlHIFfPXvI4wlinjsP+SaW9YLncjblgJ3/olLjMpCytii6Q6DsC+XOiDEL4mCbZcyG89AflXkYE2IZH9qldzaD7RB/aUwEYglJKbxiwW6CChenoTkafgk4mAw9ZMJCGkQ/TVkOT/EmEkR43ajFXxFfsAI+0Q8XNT4qoTX7rEkhw52uhbCNj7r8wS4n3Odu4Ja1EO1erJj1A0bh7kNMXoriC4z+FMMhf1elum983qgLUwmd3KzEpnv8sjaChCfRCy8pc7x4fLfdACh1btxHAioLIya/Ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
+ MWHPR02MB3215.namprd02.prod.outlook.com (10.164.133.152) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.20; Mon, 30 Sep 2019 15:46:00 +0000
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::2867:91aa:a3e:e278]) by MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::2867:91aa:a3e:e278%2]) with mapi id 15.20.2305.017; Mon, 30 Sep 2019
+ 15:46:00 +0000
+From: Felipe Franciosi <felipe@nutanix.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Thoughts on VM fence infrastructure
+Thread-Topic: Thoughts on VM fence infrastructure
+Thread-Index: AQHVd3oUrA00x04Zc0W5TGhiZaAe96dESBkAgAAVQwA=
+Date: Mon, 30 Sep 2019 15:46:00 +0000
+Message-ID: <C5374DA3-A1FC-4F1A-AA36-DC02D350F5A1@nutanix.com>
+References: <42837590-2563-412B-ADED-57B8A10A8E68@nutanix.com>
+ <20190930142954.GA2801@work-vm>
+In-Reply-To: <20190930142954.GA2801@work-vm>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 30 Sep 2019 15:45:37 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bbdfe8f4-8c86-434a-fb20-08d745bd4b33
+x-ms-traffictypediagnostic: MWHPR02MB3215:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR02MB3215EC0FAAA61E1F2A1E6825D7820@MWHPR02MB3215.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 01762B0D64
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(396003)(376002)(366004)(39850400004)(136003)(199004)(189003)(71190400001)(486006)(66066001)(107886003)(71200400001)(81166006)(76176011)(102836004)(6246003)(229853002)(6486002)(8676002)(2906002)(446003)(11346002)(81156014)(2616005)(305945005)(476003)(7736002)(186003)(99286004)(8936002)(6916009)(86362001)(4326008)(91956017)(54906003)(5660300002)(66946007)(76116006)(25786009)(66476007)(66556008)(316002)(33656002)(6116002)(64756008)(3846002)(66446008)(36756003)(14454004)(6512007)(6506007)(53546011)(26005)(256004)(6436002)(478600001)(64030200001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB3215;
+ H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: En29mzgrCiNzmCpMXmMK0OMAAtNr6E/KmWM64Mn0dZJZqJvpnGoj0K8k25kKoq3/6CgSLRPl6Qk8jdQc3HmSL94Pd5wbe7yNKuoJ0YqQu9bCesm3OADb9EWXdoRAuGOKYMxSJ5AqfTRzMmr83inU1leKp/bawQWdjtmihpylPGPSu7uPoOB8qFAe/RmMi7FWKs2+RxbdjNc+Dn9WIj6i+YdAy53NtVJpU3lCFjw7Z5HE1YepnIVb/xrPR0i4tbSsoEuMkSHR55zkgYVWry+B44KLfY31g5fcBy6YEKyJngTOsXFbXaU4alBW+btc7G5IuBPETxLJrcGub7aujU8r3v4whukWc5G7W8eN7mDCiNfVVzJDdwNvYX/3BStXmrNlYd773l7sfxJfWQp1ioXk8VNAW1Zn5sg2kCRCfwFUfCk=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <27780C1E46BD704BAC2BEE858936EEC0@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbdfe8f4-8c86-434a-fb20-08d745bd4b33
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2019 15:46:00.8168 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ExNpKXdU9/XQYrDtgRUiT27GxFbHKFUMTcCZYjOOuntBSBqWHe8zLKZRvObjSErAG4HfiK3F55YdunuX8q4z5guCgkGobpd8Gu6PZXU/8Vc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB3215
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-09-30_09:2019-09-30,2019-09-30 signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.155.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,38 +117,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org
+Cc: Aditya Ramesh <aramesh@nutanix.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.09.19 21:39, Richard Henderson wrote:
-> This setting is no longer used.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/cpu.h | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 686cbe41e0..fe1bf746f3 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -803,8 +803,6 @@ int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
->  void s390_crw_mchk(void);
->  void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
->                         uint32_t io_int_parm, uint32_t io_int_word);
-> -/* instruction length set by unwind info */
-> -#define ILEN_UNWIND                 0
->  #define RA_IGNORED                  0
->  void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
->  /* service interrupts are floating therefore we must not pass an cpustate */
-> 
+Hi David,
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+> On Sep 30, 2019, at 3:29 PM, Dr. David Alan Gilbert <dgilbert@redhat.com>=
+ wrote:
+>=20
+> * Felipe Franciosi (felipe@nutanix.com) wrote:
+>> Heyall,
+>>=20
+>> We have a use case where a host should self-fence (and all VMs should
+>> die) if it doesn't hear back from a heartbeat within a certain time
+>> period. Lots of ideas were floated around where libvirt could take
+>> care of killing VMs or a separate service could do it. The concern
+>> with those is that various failures could lead to _those_ services
+>> being unavailable and the fencing wouldn't be enforced as it should.
+>>=20
+>> Ultimately, it feels like Qemu should be responsible for this
+>> heartbeat and exit (or execute a custom callback) on timeout.
+>=20
+> It doesn't feel doing it inside qemu would be any safer;  something
+> outside QEMU can forcibly emit a kill -9 and qemu *will* stop.
 
--- 
+The argument above is that we would have to rely on this external
+service being functional. Consider the case where the host is
+dysfunctional, with this service perhaps crashed and a corrupt
+filesystem preventing it from restarting. The VMs would never die.
 
-Thanks,
+It feels like a Qemu timer-driven heartbeat check and calls abort() /
+exit() would be more reliable. Thoughts?
 
-David / dhildenb
+Felipe
+
+>=20
+>> Does something already exist for this purpose which could be used?
+>> Would a generic Qemu-fencing infrastructure be something of interest?
+> Dave
+>=20
+>=20
+>> Cheers,
+>> F.
+>>=20
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
