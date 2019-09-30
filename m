@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D6BC21D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:22:54 +0200 (CEST)
-Received: from localhost ([::1]:52338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D14FC21F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:29:18 +0200 (CEST)
+Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEvdd-0006KS-FE
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42291)
+	id 1iEvjo-0006Up-UT
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEvbG-0004Ne-LQ
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:27 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iEvb6-00055F-MW
+ (envelope-from <borntraeger@de.ibm.com>) id 1iEvb7-0004MY-Nr
  for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40644
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iEvax-00050k-D1
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52334
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iEvax-000504-Jh
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:09 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ id 1iEvaw-0004z9-Go
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:20:06 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x8UDI8JX099334
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:06 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vbgwk54u4-1
+ x8UDIdoi187524
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:05 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vbg9w6q97-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
  for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 09:20:05 -0400
 Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
  Mon, 30 Sep 2019 14:20:03 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 30 Sep 2019 14:19:58 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x8UDJvfI46203038
+ Mon, 30 Sep 2019 14:19:59 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8UDJvHo60358700
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 30 Sep 2019 13:19:57 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59178A4040;
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A68D64C040;
  Mon, 30 Sep 2019 13:19:57 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4357AA4051;
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8E8A44C044;
  Mon, 30 Sep 2019 13:19:57 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Mon, 30 Sep 2019 13:19:57 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 0213FE020F; Mon, 30 Sep 2019 15:19:57 +0200 (CEST)
+ id 4802BE01C8; Mon, 30 Sep 2019 15:19:57 +0200 (CEST)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/12] s390x: sclp: fix error handling for oversize control
- blocks
-Date: Mon, 30 Sep 2019 15:19:48 +0200
+Subject: [PULL 06/12] s390x: sclp: Report insufficient SCCB length
+Date: Mon, 30 Sep 2019 15:19:49 +0200
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190930131955.101131-1-borntraeger@de.ibm.com>
 References: <20190930131955.101131-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19093013-0012-0000-0000-00000352126D
+x-cbid: 19093013-0016-0000-0000-000002B21349
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19093013-0013-0000-0000-0000218CB4ED
-Message-Id: <20190930131955.101131-6-borntraeger@de.ibm.com>
+x-cbparentid: 19093013-0017-0000-0000-00003312EE87
+Message-Id: <20190930131955.101131-7-borntraeger@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-09-30_08:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -105,33 +104,51 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
-Requests over 4k are not a spec exception.
+Return the correct error code when the SCCB buffer is too small to
+contain all of the output, for the Read SCP Information and
+Read CPU Information commands.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 Reviewed-by: Jason J. Herne <jjherne@linux.ibm.com>
-Message-Id: <1569591203-15258-4-git-send-email-imbrenda@linux.ibm.com>
-Acked-by: David Hildenbrand <david@redhat.com>
+Message-Id: <1569591203-15258-5-git-send-email-imbrenda@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- hw/s390x/sclp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/s390x/sclp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 73244c938b10..abb6e5011f9c 100644
+index abb6e5011f9c..f57ce7b73943 100644
 --- a/hw/s390x/sclp.c
 +++ b/hw/s390x/sclp.c
-@@ -213,8 +213,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
-     cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
+@@ -68,6 +68,12 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
  
-     /* Valid sccb sizes */
--    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader) ||
--        be16_to_cpu(work_sccb.h.length) > SCCB_SIZE) {
-+    if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
-         r = -PGM_SPECIFICATION;
-         goto out;
-     }
+     read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
+ 
++    if (be16_to_cpu(sccb->h.length) <
++            (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
++        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
++        return;
++    }
++
+     /* Configuration Characteristic (Extension) */
+     s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR,
+                          read_info->conf_char);
+@@ -118,6 +124,12 @@ static void sclp_read_cpu_info(SCLPDevice *sclp, SCCB *sccb)
+     cpu_info->offset_configured = cpu_to_be16(offsetof(ReadCpuInfo, entries));
+     cpu_info->nr_standby = cpu_to_be16(0);
+ 
++    if (be16_to_cpu(sccb->h.length) <
++            (sizeof(ReadCpuInfo) + cpu_count * sizeof(CPUEntry))) {
++        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
++        return;
++    }
++
+     /* The standby offset is 16-byte for each CPU */
+     cpu_info->offset_standby = cpu_to_be16(cpu_info->offset_configured
+         + cpu_info->nr_configured*sizeof(CPUEntry));
 -- 
 2.21.0
 
