@@ -2,54 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0E9C2230
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:38:10 +0200 (CEST)
-Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8A2C224C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 15:39:58 +0200 (CEST)
+Received: from localhost ([::1]:52632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEvsP-0006rB-UP
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45459)
+	id 1iEvu9-0000L0-Jw
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 09:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iEvr0-0005ub-O5
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:36:43 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iEvsQ-0007ZL-UJ
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:38:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iEvqz-0004d3-AJ
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:36:42 -0400
-Resent-Date: Mon, 30 Sep 2019 09:36:42 -0400
-Resent-Message-Id: <E1iEvqz-0004d3-AJ@eggs.gnu.org>
-Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21872)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iEvqz-0004aV-27; Mon, 30 Sep 2019 09:36:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569850586; cv=none; d=zoho.com; s=zohoarc; 
- b=kaAGuN/zPRiiSnQkSJ/uRCjkf8ZevNm6u8biaRjSmSd02TjoMVrGPdoUZ2ytbFTDiLNjUqBcnEWDdg4qzDJAi8rjyKJoE88m/oQwmEZ8gc/ILuARQznu54cZqGsGQzsBYORrRMJjGf37RhxcUtInynjHJw5Q+mCr9rD2U5V8bXY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569850586;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=7YOtdzTbUmhyw61CWjioveVTZcO23ciSq+AlHDsWvzw=; 
- b=A5wTZ/07tdif0oddB4j0nG1XXKgzswE1kTxKo1VX8pXlJF+Ra8oArISf0ArkngYHBLRFqBx2DUWgGsUUfyIfqMYuwcWl7+ACk/HPE299En70htYeRo54Sp5YqeNZDllykfpf3SiSuGICajg5N/UOczMezzhk6b2InZTAIukQLjo=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 15698505840440.2914529937745556;
- Mon, 30 Sep 2019 06:36:24 -0700 (PDT)
-Subject: Re: [PATCH v2] Disallow colons in the parameter of "-accel"
-In-Reply-To: <20190930123505.11607-1-thuth@redhat.com>
-Message-ID: <156985058289.27524.2467247182936493897@8230166b0665>
+ (envelope-from <mreitz@redhat.com>) id 1iEvsP-0005LD-Pt
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 09:38:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49730)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iEvsM-0005KL-HR; Mon, 30 Sep 2019 09:38:06 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 56395307D84B;
+ Mon, 30 Sep 2019 13:38:05 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-240.brq.redhat.com
+ [10.40.204.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2827B60CD0;
+ Mon, 30 Sep 2019 13:38:03 +0000 (UTC)
+Subject: Re: [PATCH 15/18] iotests: Make 137 work with data_file
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
+References: <20190927094242.11152-1-mreitz@redhat.com>
+ <20190927094242.11152-16-mreitz@redhat.com>
+ <7e9c44bc0ca4b195939b0723db11eebc3fe11e2e.camel@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5dff56b6-dca2-a28a-4a6a-2a6638300ff3@redhat.com>
+Date: Mon, 30 Sep 2019 15:38:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thuth@redhat.com
-Date: Mon, 30 Sep 2019 06:36:24 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <7e9c44bc0ca4b195939b0723db11eebc3fe11e2e.camel@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="iQMngPyY8udhRH3HIHfzebjt3Z3W4U1mk"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Mon, 30 Sep 2019 13:38:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.58
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,23 +86,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDkzMDEyMzUwNS4xMTYw
-Ny0xLXRodXRoQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
-ZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
-bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
-IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1h
-Z2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZlZG9y
-YSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDkzMDEyMzUwNS4x
-MTYwNy0xLXRodXRoQHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--iQMngPyY8udhRH3HIHfzebjt3Z3W4U1mk
+Content-Type: multipart/mixed; boundary="Xgpyx83N5HVhqGY26Xfm1EUNB7GCcE1xV"
 
+--Xgpyx83N5HVhqGY26Xfm1EUNB7GCcE1xV
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 29.09.19 18:38, Maxim Levitsky wrote:
+> On Fri, 2019-09-27 at 11:42 +0200, Max Reitz wrote:
+>> When using an external data file, there are no refcounts for data
+>> clusters.  We thus have to adjust the corruption test in this patch to=
+
+>> not be based around a data cluster allocation, but the L2 table
+>> allocation (L2 tables are still refcounted with external data files).
+>>
+>> Doing so means this test works both with and without external data
+>> files.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  tests/qemu-iotests/137     | 10 ++++++----
+>>  tests/qemu-iotests/137.out |  4 +---
+>>  2 files changed, 7 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/137 b/tests/qemu-iotests/137
+>> index 6cf2997577..dd3484205e 100755
+>> --- a/tests/qemu-iotests/137
+>> +++ b/tests/qemu-iotests/137
+>> @@ -138,14 +138,16 @@ $QEMU_IO \
+>>      "$TEST_IMG" 2>&1 | _filter_qemu_io
+>> =20
+>>  # The dirty bit must not be set
+>> -$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features=
+
+>> +# (Filter the external data file bit)
+>> +$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features=
+ \
+>> +    | sed -e 's/0x4/0x0/'
+> Maybe it is better to filter all the feature bits, but the dirty bit,
+> since only it is needed here, so that when we start running tests with
+> more features, we won't need to do this again?
+
+I=E2=80=99d hate a filter s/[02468ace]$/no dirty bit/ though.
+
+>> =20
+>>  # Similarly we can test whether corruption detection has been enabled=
+:
+>> -# Create L1/L2, overwrite first entry in refcount block, allocate som=
+ething.
+>> +# Create L1, overwrite refcounts, force allocation of L2 by writing
+>> +# data.
+>>  # Disabling the checks should fail, so the corruption must be detecte=
+d.
+>>  _make_test_img 64M
+>> -$QEMU_IO -c "write 0 64k" "$TEST_IMG" | _filter_qemu_io
+>> -poke_file "$TEST_IMG" "$((0x20000))" "\x00\x00"
+>> +poke_file "$TEST_IMG" "$((0x20000))" "\x00\x00\x00\x00\x00\x00\x00\x0=
+0"
+>=20
+> I am wondering if there is any better way to do this (regardless of thi=
+s patch),
+> Basically the above code pokes into the 3rd cluster on the disk I *thin=
+k*, and I don't
+> understand why it has to contain refcounts. Hmm...
+> First cluster I can guess will have the header, 2nd cluster probably L1=
+ table, and 3rd, refcounts?
+> If so, the test should specify that it needs 64K clusters, because the =
+day will come when
+> we will need to test this as well, but I guess in a separate patch,
+
+When that day comes, a whole lot of other stuff will break, too.
+
+Max
+
+
+--Xgpyx83N5HVhqGY26Xfm1EUNB7GCcE1xV--
+
+--iQMngPyY8udhRH3HIHfzebjt3Z3W4U1mk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2SBToACgkQ9AfbAGHV
+z0CiWAgAn5ydVkcnvdKEKeF3I3r/FzfOXR0MOwlevcaRNNjCZVgZ4fKoK+n2I9bv
+o6TA/rbMr39FPRcUjbYc8okP1XhTGxwRC59Z/K4G90rrGS+5KmJ7xulCTR/sLtkz
+QazsKKa4tiEBqifnf5wlOp42Sn+Uo9q7LEUsgUp37B65rinz3XHP0myH49YYpFLx
+0+uqPlQyVlAhai3dE1CaOMkbDKqI3Ca3vAO+7VER7Px+OscHE6+zTyQa3gNWT0/z
++P1bbWszgLLsUoWm+4kLSkSQqrKyzrWzY2cHOos1t+sKkN/h0yMu+yIIZ8thnM0U
+vD+g1nu0wqYhbNPNS3VwwT15XDDD0Q==
+=aTE4
+-----END PGP SIGNATURE-----
+
+--iQMngPyY8udhRH3HIHfzebjt3Z3W4U1mk--
 
