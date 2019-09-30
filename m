@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B76C23E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:06:08 +0200 (CEST)
-Received: from localhost ([::1]:53512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B77C23F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 17:09:40 +0200 (CEST)
+Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iExFW-0005eH-JH
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58307)
+	id 1iExIx-00018s-8i
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 11:09:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iExAo-00033C-0B
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:01:19 -0400
+ (envelope-from <rth7680@gmail.com>) id 1iExDf-0005N3-VZ
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:04:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iExAm-0000SA-L9
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:01:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58092)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iExAe-0000Na-Or; Mon, 30 Sep 2019 11:01:04 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F3544C0568FA;
- Mon, 30 Sep 2019 15:01:03 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-240.brq.redhat.com
- [10.40.204.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6B7A5D712;
- Mon, 30 Sep 2019 15:01:02 +0000 (UTC)
-Subject: Re: [PATCH 09/18] iotests: Drop IMGOPTS use in 267
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-References: <20190927094242.11152-1-mreitz@redhat.com>
- <20190927094242.11152-10-mreitz@redhat.com>
- <1c6c86af32c3de1b473b48704cf506694c10c597.camel@redhat.com>
- <ee7488a7-9c85-1b37-0a28-d7cfee890f2d@redhat.com>
- <f7095f775cfae1b5dd7d317b16ec9deaf903435b.camel@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c981dc5e-297d-1c7d-783e-0d9b87005448@redhat.com>
-Date: Mon, 30 Sep 2019 17:01:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <rth7680@gmail.com>) id 1iExDe-0001TK-HB
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 11:04:11 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:32914)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rth7680@gmail.com>)
+ id 1iExDY-0001Re-Jb; Mon, 30 Sep 2019 11:04:05 -0400
+Received: by mail-pg1-x543.google.com with SMTP id i30so7582616pgl.0;
+ Mon, 30 Sep 2019 08:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:openpgp:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i0k6tnXlA8YN3a1p4jVUdxleH1KsWDeKTH2i3mE3wNE=;
+ b=ocyocS2Bv/sxXyX7P1Weg832gYWL+C9dutKP3BukaHUIZZMYFcx9tRWvWUeWIdah3u
+ IU0hR33Q6pIeYwcc/YUdYIshJiHezHzt2MvjOMA9BhOun5kqtgbTu7auGSrp1/LLkEUg
+ 1RWGDsvKH+W3+45qJsZm2hUPGRd04VzpyYM82/BhdDJUqiXM0mIWEaLMBadL+M1NHnOn
+ 2mlMoRi8Zu+Hwb6vSroPSdCD643qJsKztflFKX+jZSa4VvPLANPNH5dSE6BYFcMch5VU
+ jxdDoJPpU3nuHHNlA99e4ALAJb1gd+KrPStXitht6R1cJjko/qPLmhKSKBlIsd3xMKxO
+ njLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=i0k6tnXlA8YN3a1p4jVUdxleH1KsWDeKTH2i3mE3wNE=;
+ b=sOeOSEGxZgKAh5Sh4r9uBTTONKkO23xMNw7/zNOOFwdWKdQDwajXDTmascCK6H8vHz
+ XO9fX7lZt5b7fnQwwo1N4MVuddvTpL6qf4E0BZSmKj7smdM4KgAFU7WZmxOkTrYlbxYY
+ vxamYKCPCTm9l6raotU8ysQ5afhj9ay0NtKbwGct1YBQJ6oivqeq3youl5SQ+HdVmvQi
+ jcVBJMjGed3NkjSBcGHWvpVF/q9a2IgCfC3cOJu5ti9nzkhluifysNe5uY88bDcbCyAH
+ 6S6q4rnUE9YdlFKqERtBxHEdx4tFy5OfJ1Ep3ln+1YlA0GEoI6xnkBC/M02/S8xlczHF
+ PsgA==
+X-Gm-Message-State: APjAAAUBUru1mSBxYTgfmFdutcdj35P/8YnNTCCeAOluACAwKDah5HSI
+ l9Gv4z+b9qLLiczrIK6p9ywmR1yt
+X-Google-Smtp-Source: APXvYqzedk9H2x+8eJ/+tyrhWzx+PXwjwLCyV8zj7TcpYoaGLtgA7LmGWBM5xBzj/GLDfvSldAZrzQ==
+X-Received: by 2002:a17:90b:903:: with SMTP id
+ bo3mr27112976pjb.52.1569855839674; 
+ Mon, 30 Sep 2019 08:03:59 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.googlemail.com with ESMTPSA id w5sm13789703pfn.96.2019.09.30.08.03.57
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 30 Sep 2019 08:03:58 -0700 (PDT)
+Subject: Re: [PATCH v3 02/18] target/s390x: Add ilen to unwind data
+To: David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190926162615.31168-1-richard.henderson@linaro.org>
+ <20190926162615.31168-3-richard.henderson@linaro.org>
+ <4d1f9fbc-a6b3-cb7d-63a7-8d9568bc7406@redhat.com>
+ <164856f8-fc7e-7a97-65b8-e1be2cf354be@linaro.org>
+ <6557ae81-1e25-38bc-dff5-2d15b45284c5@redhat.com>
+From: Richard Henderson <rth@twiddle.net>
+Openpgp: preference=signencrypt
+Message-ID: <1ab7a5b3-40e8-c3ae-0877-07b8b50b90d1@twiddle.net>
+Date: Mon, 30 Sep 2019 08:03:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <f7095f775cfae1b5dd7d317b16ec9deaf903435b.camel@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Qr7gj6FlyVARjYeHkH2pu85lJtyI7GqTK"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 30 Sep 2019 15:01:04 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <6557ae81-1e25-38bc-dff5-2d15b45284c5@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,125 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Qr7gj6FlyVARjYeHkH2pu85lJtyI7GqTK
-Content-Type: multipart/mixed; boundary="wjN7MzpkED0aAuX0Phs9ksu1Fh2CXOe7c"
+On 9/30/19 12:55 AM, David Hildenbrand wrote:
+>> What I think you should do instead is check env_neg(env)->icount_decr, exactly
+>> like we do at the start of every basic block, and use that as an indication
+>> that you should exit back to the main loop.
+> 
+> The issue is that when we return to the main loop we really have to
+> inject an interrupt - otherwise we might simply skip parts of the
+> (interruptible) instruction and continue with the next one.
 
---wjN7MzpkED0aAuX0Phs9ksu1Fh2CXOe7c
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Do we?  We will return to the main loop with psw.addr still pointing at MVCL,
+so the interrupt is delivered, and when the exception returns we restart the
+MVCL.  Or, an interrupt is not delivered and we restart from psw.addr and still
+restart the MVCL.
 
-On 30.09.19 16:32, Maxim Levitsky wrote:
-> On Mon, 2019-09-30 at 15:01 +0200, Max Reitz wrote:
->> On 29.09.19 18:33, Maxim Levitsky wrote:
->>> On Fri, 2019-09-27 at 11:42 +0200, Max Reitz wrote:
->>>> Overwriting IMGOPTS means ignoring all user-supplied options, which =
-is
->>>> not what we want.  Replace the current IMGOPTS use by a new BACKING_=
-FILE
->>>> variable.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>  tests/qemu-iotests/267 | 12 ++++++++----
->>>>  1 file changed, 8 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
->>>> index 95f885442f..529f5f9afe 100755
->>>> --- a/tests/qemu-iotests/267
->>>> +++ b/tests/qemu-iotests/267
->>>> @@ -68,7 +68,11 @@ size=3D128M
->>>> =20
->>>>  run_test()
->>>>  {
->>>> -    _make_test_img $size
->>>> +    if [ -n "$BACKING_FILE" ]; then
->>>> +        _make_test_img -b "$BACKING_FILE" $size
->>>> +    else
->>>> +        _make_test_img $size
->>>> +    fi
->>>>      printf "savevm snap0\ninfo snapshots\nloadvm snap0\n" | run_qem=
-u "$@" | _filter_date
->>>>  }
->>>> =20
->>>> @@ -119,12 +123,12 @@ echo
->>>> =20
->>>>  TEST_IMG=3D"$TEST_IMG.base" _make_test_img $size
->>>> =20
->>>> -IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
->>>> +BACKING_FILE=3D"$TEST_IMG.base" \
->>>>  run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-n=
-ame=3Dbacking-file \
->>>>           -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3D=
-file \
->>>>           -blockdev driver=3D$IMGFMT,file=3Dfile,backing=3Dbacking-f=
-ile,node-name=3Dfmt
->>>> =20
->>>> -IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
->>>> +BACKING_FILE=3D"$TEST_IMG.base" \
->>>>  run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-n=
-ame=3Dbacking-file \
->>>>           -blockdev driver=3D$IMGFMT,file=3Dbacking-file,node-name=3D=
-backing-fmt \
->>>>           -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3D=
-file \
->>>> @@ -141,7 +145,7 @@ echo
->>>>  echo "=3D=3D=3D -blockdev with NBD server on the backing file =3D=3D=
-=3D"
->>>>  echo
->>>> =20
->>>> -IMGOPTS=3D"backing_file=3D$TEST_IMG.base" _make_test_img $size
->>>> +_make_test_img -b "$TEST_IMG.base" $size
->>>>  cat <<EOF |
->>>>  nbd_server_start unix:$TEST_DIR/nbd
->>>>  nbd_server_add -w backing-fmt
->>>
->>> qemu's master (pulled today), don't have iotest 267,
->>> you probably based this on some not yet merged branch.
->>> Or I made some mistake with pulling the master branch.
->>
->> Yep, it=E2=80=99s only in Kevin=E2=80=99s block branch (and thus mine,=
- too).  He sent a
->> pull request for it, which was rejected though (because this test is
->> broken on anything but x64, but that doesn=E2=80=99t stop this patch).=
+We probably would have to take a hard look at EXECUTE of MVCL to see if that is
+actually restartable.  Not that it makes particular sense to want that combo,
+but it's required to work.
 
->>
->=20
-> I figured out that it must be something like that.
-> Being lazy, I would like to ask if we have maybe a list of these=20
-> branches somewhere in the wiki?
+> However, with I/O interrupts, we can actually race against other VCPUs.
+> So the I/O interrupt might be gone by the time we arrive in the main loop.
 
-The MAINTAINERS file has at least Kevin=E2=80=99s branch:
-
-$ scripts/get_maintainer.pl --scm --no-email --no-l -f block
-git https://repo.or.cz/qemu/kevin.git block
-
-Max
+Of course, but it's no different with this case than any other.  If the
+interrupt has already been handled, then we will simply restart the next TB as
+per normal.
 
 
---wjN7MzpkED0aAuX0Phs9ksu1Fh2CXOe7c--
+r~
 
---Qr7gj6FlyVARjYeHkH2pu85lJtyI7GqTK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2SGK0ACgkQ9AfbAGHV
-z0AwAwf/Z+HTNqK3fAvAU69rBk8YuUcUQxzb0Fg/dWa4ZZkdHUb5BZ5eB1BpcXzB
-o0wOzFJFTP90LjiJaq0Yj6kjOHSUjBd+a0d+gLGQqqXJEDdgGM/fa6fJVPxgR69U
-j/OTqO5Y3/mBTqS4BZBhHTlWpWo8CVdUJrwq6qzvsNXU7LajdmLOwXZ4xQazDgy3
-yCWDrt7ePMqlLJKhnHu65SUGbm4fA2QHA9uGxQFtJJfJBh89Z80vzbzG8XCT4Al0
-K0PRwtLWlcubn1fZVtXwBTL3YQtbxk1bSYWhVaEEITyuRez54IfuhBkpFdjcW7qA
-MA1zH8AVK5n4T8UX1+fLgyXyTcZlQg==
-=rCRK
------END PGP SIGNATURE-----
-
---Qr7gj6FlyVARjYeHkH2pu85lJtyI7GqTK--
 
