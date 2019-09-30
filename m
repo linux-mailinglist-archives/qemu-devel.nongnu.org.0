@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7193EC2683
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:33:08 +0200 (CEST)
-Received: from localhost ([::1]:56936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB8C268D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:37:23 +0200 (CEST)
+Received: from localhost ([::1]:56992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iF2Ly-0006Bc-BH
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:33:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45025)
+	id 1iF2Q5-0001le-To
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iF2B9-0004ws-Kj
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:56 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2HY-0003tT-UI
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iF2B8-0005oK-Bd
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:55 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37033)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2HX-0002P8-No
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:32 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52730)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iF2B8-0005o0-64
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:21:54 -0400
-Received: by mail-pg1-x544.google.com with SMTP id c17so8001551pgg.4
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:21:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Cci9veTgtcLoAvyGrfQMINQKyTlVjrX+2t66fnd3opE=;
- b=v2LM3FdiLSTrNZWBFNixompm+O/X9LAqHsU0a9F5oL4ywBSSV87p+r3wbcQq/aKu3s
- RXgHzWeYjH5WBMiMNlzwV/zuPUZqiF+XbcUhw/zSVE1guCc0PPwDQjLAfUP9ZOxtxmBV
- z+ziOZaM68LeAf0x60Wk2a93YQNd763Kkip2DWzfmw/cIU12RpkAXhqg56wqCM2Nd+tQ
- evLISv48YkfzuWRKgQd+ZJTIoEudVHjSzOCQf3nHnCsNTuzKjGrBYdXhJ8jqkcJpO/hd
- 6rL9LEuTbHk2BiIfhbZCLQoughHJKqUlbzxRHPzEKz50wdC51MLHcKpyMZLEZrUqfz65
- ja6Q==
+ (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
+ id 1iF2HX-0002NH-Hf
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:31 -0400
+Received: by mail-wm1-x334.google.com with SMTP id r19so868319wmh.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NOdGtCYZFjV2T1VLRLv1+R3Y8KCEl4OWA15DkTPEBe8=;
+ b=TYKbgKpmdTV9lJeYPf0MHO5mT3CZ0WX2KDtqECMey8z17HiuhKcVjuubkBV9k3Gqrd
+ IfR5DIX7LcX7RsBQqovyKkssINdurBFUKVNV37QbSjPOIRRM9hcIsQmuimA/oJugekZN
+ DW/kaVSp6W5YDS+gfZFiNwzK6CfN9MxVlu86Ao4WjaVSDtmARmtLzgwflPyP++D0riiI
+ Hq2r2XV2nD80SbzjhvrmqBa95oI8mpN4aeufnVeGHiQ6e5NzUxZQHl0B6vys4P4vR/em
+ hj8FRA6tcX1MWfDGzndF0iZFVw+RTO/FH8DDizbtimgITGEJ6j5rtEnI2Dn4VYN9/k66
+ broQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Cci9veTgtcLoAvyGrfQMINQKyTlVjrX+2t66fnd3opE=;
- b=VITR6wioXwoyFMqIy3/62ik0UMGL0yEgknpuZFgA9sMWycn5v0PezQujs0UTrI39/p
- Hnf1Sq4r22kYV+nc7b1UZulthKmcVTckORvWFcoarrgzlArT/u4MDfxUgtTdCeyik/oD
- ckk+7HL0vDX/wffH6ewKOKHv1BmnmNZ4oHA4uvTRUnBgX8j5HjRiYHc0rrR6I39xocCy
- 64XsOa+z8cRrn/OfXdLhQoEPyRug814UXvZm27tUsojT37wYyHEhHLiLtHgL1LkRayfP
- fkYxCWju00CQk/iGMw6UC7l9RHCxFvWdua0zq2f1uTVWK7atGaX5n/M4Qj7qhPJ31O9X
- 60CA==
-X-Gm-Message-State: APjAAAVbR0mO9L0HHrtZacyZWnD6C0+cM4oOPR72UJT225k9r0RVLiIu
- P/pMqUEvc7f4Lw21drYEFyHjvecPAN0=
-X-Google-Smtp-Source: APXvYqxwHdOcegh0z6KVaSBY4WklJQwWFG46mL6A46CEPv8nAffrIRNoUzoGxB2z6mHLmTs30KnI/w==
-X-Received: by 2002:a17:90a:7d06:: with SMTP id
- g6mr1099175pjl.53.1569874912837; 
- Mon, 30 Sep 2019 13:21:52 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id r28sm15336802pfg.62.2019.09.30.13.21.51
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NOdGtCYZFjV2T1VLRLv1+R3Y8KCEl4OWA15DkTPEBe8=;
+ b=QUnClNOyHOQzBtgv/OVPd5IW6AoqpwVyQZ/CL+ZISo1UNngJWDgHaCQ5JmofL1eR0F
+ CZpEwhAjpNP2T0qx93RBpJFVtbG61CWaZ9Ddten/umSq1osVYnSScxZcLHoC1wvNR0G4
+ t9/wFP6IFgydlqkvgZdtorrnyjBDb7KiGh0pAjtmbv5dbrJnk0nu6wMRPrf1+Yu2B9hE
+ OgtxtWJH8KV2LJSBu/JHzgyiR24VITQ/59zKdQRJ8ThaxlcZ2L11VZWeR6+q2Wke+scH
+ WXmt/S3W0Bq3o9d8dGpAedj6uLzMQbOS8FHoieiBkpVHHjnxfxNG04oVsYQM3vV/q0Wo
+ XvJg==
+X-Gm-Message-State: APjAAAVZlSKOV90HsnoyTxFZ2ABihIabcBoouJP0CER/mNxl0I+EVLFi
+ NSJ85UUCknepGddA/rfs4gogme3N
+X-Google-Smtp-Source: APXvYqxq9nJl1YR+Lp1jBDqtLyhj0EOAVdzd2wYr2iTlakF2cZzrMZ2ub+i6ffobAcTJd12jP9j4mw==
+X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr773949wmi.31.1569875309934;
+ Mon, 30 Sep 2019 13:28:29 -0700 (PDT)
+Received: from nullptr.home.dirty-ice.org
+ (2a01-036c-0113-e8f4-0000-0000-0000-0005.pool6.digikabel.hu.
+ [2a01:36c:113:e8f4::5])
+ by smtp.gmail.com with ESMTPSA id o9sm34402911wrh.46.2019.09.30.13.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Sep 2019 13:21:52 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Mon, 30 Sep 2019 13:28:29 -0700 (PDT)
+From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
+ <dirty.ice.hu@gmail.com>
+X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
+ <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 20/22] tcg/ppc: Update vector support for v3.00 Altivec
-Date: Mon, 30 Sep 2019 13:21:23 -0700
-Message-Id: <20190930202125.21064-21-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190930202125.21064-1-richard.henderson@linaro.org>
-References: <20190930202125.21064-1-richard.henderson@linaro.org>
+Subject: [PATCH v5 00/10] Audio: Mixeng-free 5.1/7.1 audio support
+Date: Mon, 30 Sep 2019 22:28:53 +0200
+Message-Id: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,118 +81,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, amarkovic@wavecomp.com, hsp.cat7@gmail.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These new instructions are conditional only on MSR.VEC and
-are thus part of the Altivec instruction set, and not VSX.
-This includes negation and compare not equal.
+Hi,
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/ppc/tcg-target.h     |  2 +-
- tcg/ppc/tcg-target.inc.c | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+), 1 deletion(-)
+I've updated my mixeng-free audio patches.  The documentation probably
+requires more polishing, but I'm sending this now so the other parts
+can be reviewed too.
 
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 13197eddce..4fa21f0e71 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -159,7 +159,7 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_andc_vec         1
- #define TCG_TARGET_HAS_orc_vec          have_isa_2_07
- #define TCG_TARGET_HAS_not_vec          1
--#define TCG_TARGET_HAS_neg_vec          0
-+#define TCG_TARGET_HAS_neg_vec          have_isa_3_00
- #define TCG_TARGET_HAS_abs_vec          0
- #define TCG_TARGET_HAS_shi_vec          0
- #define TCG_TARGET_HAS_shs_vec          0
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 840464aab5..bd9259c60f 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -499,6 +499,9 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define VSUBUWM    VX4(1152)
- #define VSUBUDM    VX4(1216)      /* v2.07 */
- 
-+#define VNEGW      (VX4(1538) | (6 << 16))  /* v3.00 */
-+#define VNEGD      (VX4(1538) | (7 << 16))  /* v3.00 */
-+
- #define VMAXSB     VX4(258)
- #define VMAXSH     VX4(322)
- #define VMAXSW     VX4(386)
-@@ -528,6 +531,9 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define VCMPGTUH   VX4(582)
- #define VCMPGTUW   VX4(646)
- #define VCMPGTUD   VX4(711)       /* v2.07 */
-+#define VCMPNEB    VX4(7)         /* v3.00 */
-+#define VCMPNEH    VX4(71)        /* v3.00 */
-+#define VCMPNEW    VX4(135)       /* v3.00 */
- 
- #define VSLB       VX4(260)
- #define VSLH       VX4(324)
-@@ -2976,6 +2982,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_shri_vec:
-     case INDEX_op_sari_vec:
-         return vece <= MO_32 || have_isa_2_07 ? -1 : 0;
-+    case INDEX_op_neg_vec:
-+        return vece >= MO_32 && have_isa_3_00;
-     case INDEX_op_mul_vec:
-         switch (vece) {
-         case MO_8:
-@@ -3090,7 +3098,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     static const uint32_t
-         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
-         sub_op[4] = { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
-+        neg_op[4] = { 0, 0, VNEGW, VNEGD },
-         eq_op[4]  = { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
-+        ne_op[4]  = { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
-         gts_op[4] = { VCMPGTSB, VCMPGTSH, VCMPGTSW, VCMPGTSD },
-         gtu_op[4] = { VCMPGTUB, VCMPGTUH, VCMPGTUW, VCMPGTUD },
-         ssadd_op[4] = { VADDSBS, VADDSHS, VADDSWS, 0 },
-@@ -3132,6 +3142,11 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_sub_vec:
-         insn = sub_op[vece];
-         break;
-+    case INDEX_op_neg_vec:
-+        insn = neg_op[vece];
-+        a2 = a1;
-+        a1 = 0;
-+        break;
-     case INDEX_op_mul_vec:
-         tcg_debug_assert(vece == MO_32 && have_isa_2_07);
-         insn = VMULUWM;
-@@ -3194,6 +3209,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         case TCG_COND_EQ:
-             insn = eq_op[vece];
-             break;
-+        case TCG_COND_NE:
-+            insn = ne_op[vece];
-+            break;
-         case TCG_COND_GT:
-             insn = gts_op[vece];
-             break;
-@@ -3276,6 +3294,10 @@ static void expand_vec_cmp(TCGType type, unsigned vece, TCGv_vec v0,
-     case TCG_COND_GTU:
-         break;
-     case TCG_COND_NE:
-+        if (have_isa_3_00 && vece <= MO_32) {
-+            break;
-+        }
-+        /* fall through */
-     case TCG_COND_LE:
-     case TCG_COND_LEU:
-         need_inv = true;
-@@ -3599,6 +3621,7 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_dup2_vec:
-         return &v_v_v;
-     case INDEX_op_not_vec:
-+    case INDEX_op_neg_vec:
-     case INDEX_op_dup_vec:
-         return &v_v;
-     case INDEX_op_ld_vec:
+Changes from v4:
+
+* Removed already merged commits.
+* Bugfix in "audio: make mixeng optional" commit.
+* Dropped the "paaudio: channel-map option" patch, instead the paaudio
+  backend will automatically figure out the current channel map for now
+  (see the last patch).  Currently this only works with usb-audio, if
+  other frontends gain support for multi-channel audio, it might require
+  some rethinking.
+
+Regards,
+Zoltan
+
+Kővágó, Zoltán (10):
+  audio: add mixing-engine option (documentation)
+  audio: make mixeng optional
+  paaudio: get/put_buffer functions
+  audio: support more than two channels in volume setting
+  audio: replace shift in audio_pcm_info with bytes_per_frame
+  audio: basic support for multichannel audio
+  usb-audio: do not count on avail bytes actually available
+  usb-audio: support more than two channels of audio
+  usbaudio: change playback counters to 64 bit
+  paaudio: fix channel order for usb-audio 5.1 and 7.1 streams
+
+ audio/alsaaudio.c       |  18 +-
+ audio/audio.c           | 176 ++++++++++-----
+ audio/audio.h           |  10 +
+ audio/audio_int.h       |   7 +-
+ audio/audio_template.h  |  24 ++-
+ audio/coreaudio.c       |   4 +-
+ audio/dsound_template.h |  10 +-
+ audio/dsoundaudio.c     |   4 +-
+ audio/noaudio.c         |   2 +-
+ audio/ossaudio.c        |  14 +-
+ audio/paaudio.c         | 153 ++++++++++++--
+ audio/spiceaudio.c      |  17 +-
+ audio/wavaudio.c        |   6 +-
+ hw/usb/dev-audio.c      | 459 ++++++++++++++++++++++++++++++++++------
+ qapi/audio.json         |   5 +
+ qemu-options.hx         |   6 +
+ 16 files changed, 730 insertions(+), 185 deletions(-)
+
 -- 
-2.17.1
+2.23.0
 
 
