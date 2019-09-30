@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FD0C1A74
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 06:19:02 +0200 (CEST)
-Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D86AC1A79
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 06:22:26 +0200 (CEST)
+Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iEn9I-0004Ak-A0
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 00:19:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44546)
+	id 1iEnCb-0007Ux-De
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 00:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iEn61-0002S4-J9
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iEn63-0002SB-3F
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iEn5z-0001pL-UC
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:37 -0400
-Received: from ozlabs.org ([203.11.71.1]:36555)
+ (envelope-from <dgibson@ozlabs.org>) id 1iEn60-0001pl-Jk
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 00:15:38 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52747)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iEn5y-0001oi-Kp; Mon, 30 Sep 2019 00:15:35 -0400
+ id 1iEn5z-0001on-Td; Mon, 30 Sep 2019 00:15:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46hTb62yRPz9sPJ; Mon, 30 Sep 2019 14:15:30 +1000 (AEST)
+ id 46hTb644rdz9sPL; Mon, 30 Sep 2019 14:15:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569816930;
- bh=sMoc6US5ubF2oNztIOvoeOvaDxeErLkS0YaZTW/tSXE=;
+ bh=R3I9HBQ9Nm3/lJ59POUbLacy+QEGcj5TJro9TEU48GU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D6n/Ys1pyV73mjW+waC1QtXOEjVLyUkG2hGXlwurVWCGrRHiIFAgE54ld4C9x8fwN
- 2OtUqxm2vGGSRCdQUnwK9Rc92Un2253kAdafeEm+Y+BxjgX4j1M1cI7YMj0L8gDD0Q
- BlJDS6pcuDRHPE/Nzn1GdJRVWakvc0+jt2NxXLrE=
-Date: Mon, 30 Sep 2019 12:37:40 +1000
+ b=HQspEG1sXnPOchNewvpIq/uyb93ulfxtMW/xEjVwBMnwTzZ3LslnUquFhd2YhJihA
+ q7gtlfKrYh2b6ufpxZBKHlQGMK14avjPOyKaB89lBIkKdQTP2jNvpJzVyyaVd/rGAw
+ V5cXyY/Wdy1PtbRAOhUcKlP89OlNrL2DClL6bQRY=
+Date: Mon, 30 Sep 2019 12:39:14 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 21/33] spapr, xics, xive: Move cpu_intc_create from
+Subject: Re: [PATCH v2 22/33] spapr, xics, xive: Move irq claim and free from
  SpaprIrq to SpaprInterruptController
-Message-ID: <20190930023740.GC11105@umbus.fritz.box>
+Message-ID: <20190930023914.GD11105@umbus.fritz.box>
 References: <20190927055028.11493-1-david@gibson.dropbear.id.au>
- <20190927055028.11493-22-david@gibson.dropbear.id.au>
- <20190927121649.5b9f3db7@bahia.lan>
+ <20190927055028.11493-23-david@gibson.dropbear.id.au>
+ <20190927141612.4acb340c@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
+ protocol="application/pgp-signature"; boundary="ZJcv+A0YCCLh2VIg"
 Content-Disposition: inline
-In-Reply-To: <20190927121649.5b9f3db7@bahia.lan>
+In-Reply-To: <20190927141612.4acb340c@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,54 +67,442 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5G06lTa6Jq83wMTw
+--ZJcv+A0YCCLh2VIg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 27, 2019 at 12:16:49PM +0200, Greg Kurz wrote:
-> On Fri, 27 Sep 2019 15:50:16 +1000
+On Fri, Sep 27, 2019 at 02:16:12PM +0200, Greg Kurz wrote:
+> On Fri, 27 Sep 2019 15:50:17 +1000
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > This method essentially represents code which belongs to the interrupt
-> > controller, but needs to be called on all possible intcs, rather than
-> > just the currently active one.  The "dual" version therefore calls
-> > into the xics and xive versions confusingly.
+> > These methods, like cpu_intc_create, really belong to the interrupt
+> > controller, but need to be called on all possible intcs.
 > >=20
-> > Handle this more directly, by making it instead a method on the intc
-> > backend, and always calling it on every backend that exists.
-> >=20
-> > While we're there, streamline the error reporting a bit.
+> > Like cpu_intc_create, therefore, make them methods on the intc and
+> > always call it for all existing intcs.
 > >=20
 > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-
-[snip]
-> > +void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
-> > +void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
-> > +                  void *fdt, uint32_t phandle);
->=20
-> These two ^^ seem to belong to later patches.
-
-Oops, yes.  I've moved those to where they belong.
-
->=20
-> > +int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
-> > +                              PowerPCCPU *cpu, Error **errp);
+> > ---
+> >  hw/intc/spapr_xive.c        |  71 +++++++++++-----------
+> >  hw/intc/xics_spapr.c        |  29 +++++++++
+> >  hw/ppc/spapr_irq.c          | 114 ++++++++++++------------------------
+> >  include/hw/ppc/spapr_irq.h  |   5 +-
+> >  include/hw/ppc/spapr_xive.h |   2 -
+> >  5 files changed, 107 insertions(+), 114 deletions(-)
+> >=20
+> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > index 9338daba3d..ff1a175b44 100644
+> > --- a/hw/intc/spapr_xive.c
+> > +++ b/hw/intc/spapr_xive.c
+> > @@ -487,6 +487,42 @@ static const VMStateDescription vmstate_spapr_xive=
+ =3D {
+> >      },
+> >  };
+> > =20
+> > +static int spapr_xive_claim_irq(SpaprInterruptController *intc, int li=
+sn,
+> > +                                bool lsi, Error **errp)
+> > +{
+> > +    SpaprXive *xive =3D SPAPR_XIVE(intc);
+> > +    XiveSource *xsrc =3D &xive->source;
 > > +
+> > +    assert(lisn < xive->nr_irqs);
 > > +
-> >  void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
-> >  int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool a=
-lign,
-> >                          Error **errp);
-> > @@ -61,8 +75,6 @@ typedef struct SpaprIrq {
+> > +    if (xive_eas_is_valid(&xive->eat[lisn])) {
+> > +        error_setg(errp, "IRQ %d is not free", lisn);
+> > +        return -EBUSY;
+> > +    }
+> > +
+> > +    /*
+> > +     * Set default values when allocating an IRQ number
+> > +     */
+> > +    xive->eat[lisn].w |=3D cpu_to_be64(EAS_VALID | EAS_MASKED);
+> > +    if (lsi) {
+> > +        xive_source_irq_set_lsi(xsrc, lisn);
+> > +    }
+> > +
+> > +    if (kvm_irqchip_in_kernel()) {
+> > +        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static void spapr_xive_free_irq(SpaprInterruptController *intc, int li=
+sn)
+> > +{
+> > +    SpaprXive *xive =3D SPAPR_XIVE(intc);
+> > +    assert(lisn < xive->nr_irqs);
+> > +
+> > +    xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+> > +}
+> > +
+> >  static Property spapr_xive_properties[] =3D {
+> >      DEFINE_PROP_UINT32("nr-irqs", SpaprXive, nr_irqs, 0),
+> >      DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
+> > @@ -536,6 +572,8 @@ static void spapr_xive_class_init(ObjectClass *klas=
+s, void *data)
+> >      xrc->get_tctx =3D spapr_xive_get_tctx;
+> > =20
+> >      sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
+> > +    sicc->claim_irq =3D spapr_xive_claim_irq;
+> > +    sicc->free_irq =3D spapr_xive_free_irq;
+> >  }
+> > =20
+> >  static const TypeInfo spapr_xive_info =3D {
+> > @@ -557,39 +595,6 @@ static void spapr_xive_register_types(void)
+> > =20
+> >  type_init(spapr_xive_register_types)
+> > =20
+> > -int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **=
+errp)
+> > -{
+> > -    XiveSource *xsrc =3D &xive->source;
+> > -
+> > -    assert(lisn < xive->nr_irqs);
+> > -
+> > -    if (xive_eas_is_valid(&xive->eat[lisn])) {
+> > -        error_setg(errp, "IRQ %d is not free", lisn);
+> > -        return -EBUSY;
+> > -    }
+> > -
+> > -    /*
+> > -     * Set default values when allocating an IRQ number
+> > -     */
+> > -    xive->eat[lisn].w |=3D cpu_to_be64(EAS_VALID | EAS_MASKED);
+> > -    if (lsi) {
+> > -        xive_source_irq_set_lsi(xsrc, lisn);
+> > -    }
+> > -
+> > -    if (kvm_irqchip_in_kernel()) {
+> > -        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+> > -    }
+> > -
+> > -    return 0;
+> > -}
+> > -
+> > -void spapr_xive_irq_free(SpaprXive *xive, int lisn)
+> > -{
+> > -    assert(lisn < xive->nr_irqs);
+> > -
+> > -    xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+> > -}
+> > -
+> >  /*
+> >   * XIVE hcalls
+> >   *
+> > diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> > index 946311b858..224fe1efcd 100644
+> > --- a/hw/intc/xics_spapr.c
+> > +++ b/hw/intc/xics_spapr.c
+> > @@ -346,6 +346,33 @@ static int xics_spapr_cpu_intc_create(SpaprInterru=
+ptController *intc,
+> >      return 0;
+> >  }
+> > =20
+> > +static int xics_spapr_claim_irq(SpaprInterruptController *intc, int ir=
+q,
+> > +                                bool lsi, Error **errp)
+> > +{
+> > +    ICSState *ics =3D ICS_SPAPR(intc);
+> > +
+> > +    assert(ics);
+> > +    assert(ics_valid_irq(ics, irq));
+> > +
+> > +    if (!ics_irq_free(ics, irq - ics->offset)) {
+> > +        error_setg(errp, "IRQ %d is not free", irq);
+> > +        return -EBUSY;
+> > +    }
+> > +
+> > +    ics_set_irq_type(ics, irq - ics->offset, lsi);
+> > +    return 0;
+> > +}
+> > +
+> > +static void xics_spapr_free_irq(SpaprInterruptController *intc, int ir=
+q)
+> > +{
+> > +    ICSState *ics =3D ICS_SPAPR(intc);
+> > +    uint32_t srcno =3D irq - ics->offset;
+> > +
+> > +    assert(ics_valid_irq(ics, irq));
+> > +
+> > +    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+> > +}
+> > +
+> >  static void ics_spapr_class_init(ObjectClass *klass, void *data)
+> >  {
+> >      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> > @@ -355,6 +382,8 @@ static void ics_spapr_class_init(ObjectClass *klass=
+, void *data)
+> >      device_class_set_parent_realize(dc, ics_spapr_realize,
+> >                                      &isc->parent_realize);
+> >      sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
+> > +    sicc->claim_irq =3D xics_spapr_claim_irq;
+> > +    sicc->free_irq =3D xics_spapr_free_irq;
+> >  }
+> > =20
+> >  static const TypeInfo ics_spapr_info =3D {
+> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> > index a855dfe4e9..ea44378d8c 100644
+> > --- a/hw/ppc/spapr_irq.c
+> > +++ b/hw/ppc/spapr_irq.c
+> > @@ -98,33 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *sp=
+apr,
+> >   * XICS IRQ backend.
+> >   */
+> > =20
+> > -static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, boo=
+l lsi,
+> > -                                Error **errp)
+> > -{
+> > -    ICSState *ics =3D spapr->ics;
+> > -
+> > -    assert(ics);
+> > -    assert(ics_valid_irq(ics, irq));
+> > -
+> > -    if (!ics_irq_free(ics, irq - ics->offset)) {
+> > -        error_setg(errp, "IRQ %d is not free", irq);
+> > -        return -1;
+> > -    }
+> > -
+> > -    ics_set_irq_type(ics, irq - ics->offset, lsi);
+> > -    return 0;
+> > -}
+> > -
+> > -static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
+> > -{
+> > -    ICSState *ics =3D spapr->ics;
+> > -    uint32_t srcno =3D irq - ics->offset;
+> > -
+> > -    assert(ics_valid_irq(ics, irq));
+> > -
+> > -    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+> > -}
+> > -
+> >  static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monito=
+r *mon)
+> >  {
+> >      CPUState *cs;
+> > @@ -182,8 +155,6 @@ SpaprIrq spapr_irq_xics =3D {
+> >      .xics        =3D true,
+> >      .xive        =3D false,
+> > =20
+> > -    .claim       =3D spapr_irq_claim_xics,
+> > -    .free        =3D spapr_irq_free_xics,
+> >      .print_info  =3D spapr_irq_print_info_xics,
+> >      .dt_populate =3D spapr_dt_xics,
+> >      .post_load   =3D spapr_irq_post_load_xics,
+> > @@ -196,17 +167,6 @@ SpaprIrq spapr_irq_xics =3D {
+> >   * XIVE IRQ backend.
+> >   */
+> > =20
+> > -static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, boo=
+l lsi,
+> > -                                Error **errp)
+> > -{
+> > -    return spapr_xive_irq_claim(spapr->xive, irq, lsi, errp);
+> > -}
+> > -
+> > -static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
+> > -{
+> > -    spapr_xive_irq_free(spapr->xive, irq);
+> > -}
+> > -
+> >  static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
+> >                                        Monitor *mon)
+> >  {
+> > @@ -272,8 +232,6 @@ SpaprIrq spapr_irq_xive =3D {
+> >      .xics        =3D false,
+> >      .xive        =3D true,
+> > =20
+> > -    .claim       =3D spapr_irq_claim_xive,
+> > -    .free        =3D spapr_irq_free_xive,
+> >      .print_info  =3D spapr_irq_print_info_xive,
+> >      .dt_populate =3D spapr_dt_xive,
+> >      .post_load   =3D spapr_irq_post_load_xive,
+> > @@ -301,33 +259,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineSta=
+te *spapr)
+> >          &spapr_irq_xive : &spapr_irq_xics;
+> >  }
+> > =20
+> > -static int spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, boo=
+l lsi,
+> > -                                Error **errp)
+> > -{
+> > -    Error *local_err =3D NULL;
+> > -    int ret;
+> > -
+> > -    ret =3D spapr_irq_xics.claim(spapr, irq, lsi, &local_err);
+> > -    if (local_err) {
+> > -        error_propagate(errp, local_err);
+> > -        return ret;
+> > -    }
+> > -
+> > -    ret =3D spapr_irq_xive.claim(spapr, irq, lsi, &local_err);
+> > -    if (local_err) {
+> > -        error_propagate(errp, local_err);
+> > -        return ret;
+> > -    }
+> > -
+> > -    return ret;
+> > -}
+> > -
+> > -static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
+> > -{
+> > -    spapr_irq_xics.free(spapr, irq);
+> > -    spapr_irq_xive.free(spapr, irq);
+> > -}
+> > -
+> >  static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monito=
+r *mon)
+> >  {
+> >      spapr_irq_current(spapr)->print_info(spapr, mon);
+> > @@ -401,8 +332,6 @@ SpaprIrq spapr_irq_dual =3D {
+> >      .xics        =3D true,
+> >      .xive        =3D true,
+> > =20
+> > -    .claim       =3D spapr_irq_claim_dual,
+> > -    .free        =3D spapr_irq_free_dual,
+> >      .print_info  =3D spapr_irq_print_info_dual,
+> >      .dt_populate =3D spapr_irq_dt_populate_dual,
+> >      .post_load   =3D spapr_irq_post_load_dual,
+> > @@ -567,10 +496,12 @@ void spapr_irq_init(SpaprMachineState *spapr, Err=
+or **errp)
+> > =20
+> >          /* Enable the CPU IPIs */
+> >          for (i =3D 0; i < nr_servers; ++i) {
+> > +            SpaprInterruptControllerClass *sicc
+> > +                =3D SPAPR_INTC_GET_CLASS(spapr->xive);
+> >              Error *local_err =3D NULL;
+> > =20
+> > -            spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i,
+> > -                                 false, &local_err);
+> > +            sicc->claim_irq(SPAPR_INTC(spapr->xive), SPAPR_IRQ_IPI + i,
+> > +                            false, &local_err);
+> >              if (local_err) {
+> >                  goto out;
+> >              }
+> > @@ -588,10 +519,30 @@ out:
+> > =20
+> >  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
+ **errp)
+> >  {
+> > +    int rc;
+> > +
+> >      assert(irq >=3D SPAPR_XIRQ_BASE);
+> >      assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+> > =20
+> > -    return spapr->irq->claim(spapr, irq, lsi, errp);
+> > +    if (spapr->xive) {
+> > +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS(s=
+papr->xive);
+> > +
+> > +        rc =3D sicc->claim_irq(SPAPR_INTC(spapr->xive), irq, lsi, errp=
+);
+> > +        if (rc < 0) {
+> > +            return rc;
+> > +        }
+> > +    }
+> > +
+> > +    if (spapr->ics) {
+> > +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS(s=
+papr->ics);
+> > +
+> > +        rc =3D sicc->claim_irq(SPAPR_INTC(spapr->ics), irq, lsi, errp);
+> > +        if (rc < 0) {
+> > +            return rc;
+> > +        }
+> > +    }
+> > +
+>=20
+> We don't really need an indirection here since we explicitly check
+> spapr->xive and spapr->ics. Calling directly spapr_xive_claim_irq() and
+> xics_spapr_claim_irq() would allow to avoid the method boiler plate and
+> be more explicit IMHO.
+>=20
+> > +    return 0;
+> >  }
+> > =20
+> >  void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
+> > @@ -602,7 +553,18 @@ void spapr_irq_free(SpaprMachineState *spapr, int =
+irq, int num)
+> >      assert((irq + num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+> > =20
+> >      for (i =3D irq; i < (irq + num); i++) {
+> > -        spapr->irq->free(spapr, irq);
+> > +        if (spapr->xive) {
+> > +            SpaprInterruptController *intc =3D SPAPR_INTC(spapr->xive);
+> > +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLA=
+SS(intc);
+> > +
+> > +            sicc->free_irq(intc, irq);
+> > +        }
+> > +        if (spapr->ics) {
+> > +            SpaprInterruptController *intc =3D SPAPR_INTC(spapr->ics);
+> > +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLA=
+SS(intc);
+> > +
+> > +            sicc->free_irq(intc, irq);
+> > +        }
+>=20
+> Same here.
+
+As with cpu_intc_create(), I'd prefer to keep both of these as is, but
+I'll look at replacing spapr->ics and spapr->xive with something like
+spapr->all_intcs[].
+
+>=20
+> >      }
+> >  }
+> > =20
+> > @@ -727,8 +689,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+> >      .xics        =3D true,
+> >      .xive        =3D false,
+> > =20
+> > -    .claim       =3D spapr_irq_claim_xics,
+> > -    .free        =3D spapr_irq_free_xics,
+> >      .print_info  =3D spapr_irq_print_info_xics,
+> >      .dt_populate =3D spapr_dt_xics,
+> >      .post_load   =3D spapr_irq_post_load_xics,
+> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> > index 30d660ff1e..616086f9bb 100644
+> > --- a/include/hw/ppc/spapr_irq.h
+> > +++ b/include/hw/ppc/spapr_irq.h
+> > @@ -50,6 +50,9 @@ typedef struct SpaprInterruptControllerClass {
+> >       */
+> >      int (*cpu_intc_create)(SpaprInterruptController *intc,
+> >                              PowerPCCPU *cpu, Error **errp);
+> > +    int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
+> > +                     Error **errp);
+> > +    void (*free_irq)(SpaprInterruptController *intc, int irq);
+> >  } SpaprInterruptControllerClass;
+> > =20
+> >  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
+> > @@ -70,8 +73,6 @@ typedef struct SpaprIrq {
+> >      bool        xics;
+> >      bool        xive;
+> > =20
+> > -    int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **=
+errp);
+> > -    void (*free)(SpaprMachineState *spapr, int irq);
 > >      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
 > >      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
 > >                          void *fdt, uint32_t phandle);
-> > -    void (*cpu_intc_create)(SpaprMachineState *spapr, PowerPCCPU *cpu,
-> > -                            Error **errp);
-> >      int (*post_load)(SpaprMachineState *spapr, int version_id);
-> >      void (*reset)(SpaprMachineState *spapr, Error **errp);
-> >      void (*set_irq)(void *opaque, int srcno, int val);
+> > diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> > index 0df20a6590..8f875673f5 100644
+> > --- a/include/hw/ppc/spapr_xive.h
+> > +++ b/include/hw/ppc/spapr_xive.h
+> > @@ -54,8 +54,6 @@ typedef struct SpaprXive {
+> >   */
+> >  #define SPAPR_XIVE_BLOCK_ID 0x0
+> > =20
+> > -int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **=
+errp);
+> > -void spapr_xive_irq_free(SpaprXive *xive, int lisn);
+> >  void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+> >  int spapr_xive_post_load(SpaprXive *xive, int version_id);
+> > =20
 >=20
 
 --=20
@@ -123,25 +511,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---5G06lTa6Jq83wMTw
+--ZJcv+A0YCCLh2VIg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2RanEACgkQbDjKyiDZ
-s5KAWg//cQsxP70ykXkop56UQM6zjhSpYo/skHeN48pgOOgkb7/h7tfPKTKDb1a2
-OShAo8O4byzBun6oYXQT7XMQRf7A8DKbl9a4ZWbklxjuS+y3qWir00/Fu9ucgtQf
-YUQTbHeoZyQZaN6pSoaOIPUxBIYWQ2WXoB2yXYQ+TBb+L+T4OarfBZnLEsBXAHpV
-0/1h6GiKc0o8h199In6p9Ktf2FA7QzWYTEKg6ValkvF3Dr02usZmWoAcmfbdpje0
-sVgQKyYRG5JgD/leshaqZQcYlW2t3zSqHtdOsS3v80tVOjrzLLKVxCe/eaqeNiVF
-IPi/uIAiekgI+NtanWFTrb0O5g7eAFo7cSxcAPYuRlncqY43lMo/AuAY1VQ7jgW9
-cPpVEJNqfny8afh6HCrZriTnLZRr7Y1vHfaGzdn9Q5VmG+ze6kGOdHgktnIbQ/HS
-mFOuKb1iHu4Va+V7SOnzuPymzXLy3d+VKqm5dfpO18DycaBud+tHecok7e/5IOJ/
-tORvhGb06ILJYdfeTFRUvl68FRoW+sNgptHeBIlO7L9j/UNsCAvplnlAPqDM2lbo
-ADgRx9K8oNMqfq6X58F7dmy2MPL09XU1EhDPvqd2mq5fGp9njbKmD+sEZMmMRCls
-auDTr0O5EVAcwtFMdc8/EoIIVib2L2xvTqQLsaKIN8QrIhKV0yw=
-=Hg2p
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2RatIACgkQbDjKyiDZ
+s5Is+A//YmIbh0IpzXK3G9V7N+bFWGMguL5glSVI8jo6jfmLTzGla2b5ZnGc0iEq
+rPg9aYdEVCLP5qCaDGrGWRNV35leOugMMybIiSBCkvtls1/ku4oX+oow/MhSlS1j
+n7E9stWr33edn3FZ8H8275GEcH6ogOMtKg7JWwqSxrjzVuyIjBXfVHRxuLOFYpIh
+12yp/hGBwTxVe8TeWjyphMdrGIqp/+E9FlhTH7YQ4o0uZ3/YKPFLBU6xN7yjIJmI
+U+jFf0uoJXiquLdrJPBcTryIoZmAxrUR9Y23cpFKxvR3aCSG6QNRo59qJW0l7NfS
+Xpkrd3DnhPb0xPT/sO4U7qWExZXGX1vocZfR6KgZS1XfT0FI2AgJNjbIVUMOotsC
+CM0+zAY/3wBCwXr1xvk6jLlDf8p0ea/beYZEFI2WYsESvb9WhPlx9sx3YCbg6VN1
+uzVWTZCEgpo5yDL2+ZCTJ/zUB76gs6GVxJq0zqbYRImHeLdfs+ZOkSmSHhTot3Z8
+Ya57ewRAIRJWdI/TAR2ytmsoJyboPm6CBKrUPpaU2hS9gcktXouQZqPsHyThLuJk
+e48gusDyJ0yBDSuuJ6/2TUS3RFXljkh9dj6foPAS7QaSsHxlFCGd7DeQJnJNnXyl
+x9Ytlq7WT4Ebs3fOchn4KjxUC0Jlledf71VWDM4vJ7nCe6wZp5o=
+=1pSD
 -----END PGP SIGNATURE-----
 
---5G06lTa6Jq83wMTw--
+--ZJcv+A0YCCLh2VIg--
 
