@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2675FC2746
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:53:20 +0200 (CEST)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A394DC276A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Sep 2019 22:55:36 +0200 (CEST)
+Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iF2fX-0008F7-27
-	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45784)
+	id 1iF2hj-0001iN-DY
+	for lists+qemu-devel@lfdr.de; Mon, 30 Sep 2019 16:55:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2He-00041b-Sq
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:43 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2Hj-00045v-MR
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2Hc-0002Xg-6e
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:38 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42180)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1iF2Hf-0002bf-2p
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:43 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51245)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1iF2Hb-0002WT-Sy
- for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:36 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n14so12800074wrw.9
- for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:28:35 -0700 (PDT)
+ id 1iF2He-0002aE-Ff
+ for qemu-devel@nongnu.org; Mon, 30 Sep 2019 16:28:38 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 7so874228wme.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Sep 2019 13:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FZBJxE6vgXiUYQRHq25EgBqFYd27odUS2eGRI60cvzc=;
- b=TYUf3b1VTt6VzE1H+xC99Spq0bTy9N5bXEIZVoyGKy9ieCo1AeYbqt1R6h4CXc1u32
- 11fHAGeOAAbUe9jic62VeoeX1ldDt0q9ux77TXxCxLDyeEKW0SaW38FbBRRsMYdVFjVY
- E4vQT7wq722J3LHxBENnglWJs7qBVWEAQ0VE3h0LXqHECWTH1sCpiJunPgaXNhTXbV8x
- RlNl2ld/77/Ma1GRR54G/NzRBFPNzSt5iatl2IRx/2LRFfkKDXiOxmJRCeWx+tlMVQvq
- GC39/b9q46ppPLsfyu4u4HataTqEOpUTbYSpAsYFOfH8V3lz96JUvM1ANBm0zJIaSXSX
- 1TUA==
+ bh=1xbpHh712sivYhk5HmhmXHkxPur7dIJpK6QrNTW7BR0=;
+ b=JMjlQWy5Fzx/GB25cjxm3NR+6d1k7n0X3GoLbuTuuBv+jfUkad2klU3a7yFqaFxLyr
+ So/eb5BR39ScaghzTKSHtWpWXuy+B/cJQDIzyuDlRhoqUdH8RAxEKJ0AiRZLjPyxOO8y
+ 6JvhoiVeCpRsc0LfTeo/KI1JWl42xoSntCiLDk82y34LtXqnycQVmeZ5+WGIaqBClRCm
+ tqcsHSsY7NAaUTtf1Z+qT3N46Gjynw2GSTrCqsIsRGfYkDl93gPBTdKWzL5c9NlkMgW7
+ QmFkj1E0LA8uspYa7YzI5QgSZNd95WoeF35PTT7t1X2gYdbWdaNLFImshctEal6fHIMT
+ 0fUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FZBJxE6vgXiUYQRHq25EgBqFYd27odUS2eGRI60cvzc=;
- b=OXuwPij1vYVvqpw9zgntv7+VybFlPSVTXcLDJx7eCLy/M80gNqdwFTLjvXNM7S1T3z
- W9R6G4T+RCfewcBG4AY64ves0MbKBrR8i+r2y1B566dgxrUoaqKmB1lZQ2hIiP8mz7kq
- OYFyKNPjfAFzJ51E/xkIWdca/hQZgUW5QQXsKy+R+Yj0oxe7h7L+t14XhIo1Ivjdg+kw
- kfLLBhKzlz3qKrwJ/ZjdG6hWz4y2k8HrV8vZQlF5rY8wzS/HNbfZXJqDx7Ur3C8+xcUG
- YT07TcotJN5R3DAGqedLCIUAaIfi/B7H5BhHmdkMzmtpKm09sw5iJD6SrzDG9TXbCmqE
- ExGA==
-X-Gm-Message-State: APjAAAV0rUn/OAUm5UXNjJVOy6Ju6KQ3ZZpAGukDXsMUHG89D4HCV/l5
- 8wrlqlOqthBRF6IU2DAEQ+sirpku
-X-Google-Smtp-Source: APXvYqx1L5BTh+C8IH6geYOg3e66D7EDJoQWFpCpR/mrir3hjWnfcNhHK3LrzUZcGxzvZa0yg25Xqw==
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr14396963wrw.23.1569875314351; 
- Mon, 30 Sep 2019 13:28:34 -0700 (PDT)
+ bh=1xbpHh712sivYhk5HmhmXHkxPur7dIJpK6QrNTW7BR0=;
+ b=BhPOSiZJycZQjL5l+7ZXIYdHkzgnHy/+YlqqotTJpQTtsUlrVn93zknzjTICMYbd0L
+ /GrcAJu8wOUe6HSBkq3t7QlIF9x7i0bj90jZ4J/Sr8jeT5+gTpSGZOjzWQMbOs3iEA44
+ Et2FYLnMQJqaERfXNSjyHqdadkuAlMzOrsksKmnPXwR/H427+CdgdTS05FeTL+rLNQSA
+ iD+01sDLJaNn53qnAt38mwPJWxSPQYQeg9ZtaU29Nl1ciXpTqJQjOaTRQgMSVp88Dl4c
+ pSQA2J60XrxTYtcqfkbQj2k7+A8p8JsBwItQdj+yjGf3gav9WtCYwWMgSF6fvQUv8As8
+ GUag==
+X-Gm-Message-State: APjAAAU000Xa52ALOF+kBON6SVZorKkF++HcPXNQHmMWb/2rTnc1Ovvt
+ zQQTFI6LXM4wUQLto7pew+km8y6z
+X-Google-Smtp-Source: APXvYqz5G9irYbvl/F1PlA6jXuo0Ds0U3op28MMYcU23m5TW7VjyXRaWVcyXw4KHo5VPAiDBWFvIIA==
+X-Received: by 2002:a1c:4383:: with SMTP id q125mr691836wma.122.1569875316896; 
+ Mon, 30 Sep 2019 13:28:36 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-e8f4-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:e8f4::5])
- by smtp.gmail.com with ESMTPSA id o9sm34402911wrh.46.2019.09.30.13.28.33
+ by smtp.gmail.com with ESMTPSA id o9sm34402911wrh.46.2019.09.30.13.28.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Sep 2019 13:28:33 -0700 (PDT)
+ Mon, 30 Sep 2019 13:28:36 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 05/10] audio: replace shift in audio_pcm_info with
- bytes_per_frame
-Date: Mon, 30 Sep 2019 22:28:58 +0200
-Message-Id: <a8994b0255cc21dc6cddca6d1ae72a988275ec79.1569874641.git.DirtY.iCE.hu@gmail.com>
+Subject: [PATCH v5 08/10] usb-audio: support more than two channels of audio
+Date: Mon, 30 Sep 2019 22:29:01 +0200
+Message-Id: <94d771da13a06784eda88a956f21e80c9ab4ea50.1569874641.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1569874641.git.DirtY.iCE.hu@gmail.com>
@@ -72,7 +71,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,539 +87,678 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bit shifting trick worked because the number of bytes per frame was
-always a power-of-two (since QEMU only supports mono, stereo and 8, 16
-and 32 bit samples).  But if we want to add support for surround sound,
-this no longer holds true.
+This commit adds support for 5.1 and 7.1 audio playback.  This commit
+adds a new property to usb-audio:
+
+* multi=on|off
+  Whether to enable the 5.1 and 7.1 audio support.  When off (default)
+  it continues to emulate the old stereo-only device.  When on, it
+  emulates a slightly different audio device that supports 5.1 and 7.1
+  audio.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
- audio/alsaaudio.c       | 11 +++---
- audio/audio.c           | 74 ++++++++++++++++++++---------------------
- audio/audio_int.h       |  3 +-
- audio/coreaudio.c       |  4 +--
- audio/dsound_template.h | 10 +++---
- audio/dsoundaudio.c     |  4 +--
- audio/noaudio.c         |  2 +-
- audio/ossaudio.c        | 14 ++++----
- audio/spiceaudio.c      |  3 +-
- audio/wavaudio.c        |  6 ++--
- 10 files changed, 66 insertions(+), 65 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index cfe42284a6..eddf013a53 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -602,7 +602,7 @@ static size_t alsa_write(HWVoiceOut *hw, void *buf, size_t len)
- {
-     ALSAVoiceOut *alsa = (ALSAVoiceOut *) hw;
-     size_t pos = 0;
--    size_t len_frames = len >> hw->info.shift;
-+    size_t len_frames = len / hw->info.bytes_per_frame;
+Notes:
+    According to the spec the channel order is front left, front right,
+    center, lfe, surround left, surround right for 5.1 sound.  But alsa uses
+    front left, front right, surround left, surround right, center, lfe.
+    This means if you simply use an alsa device as -audiodev, the surround
+    and center/lfe channels will be swapped.  There is not much to do sort
+    of writing a mini mixeng or something like that, but you can easily add
+    a new device to /etc/asound.conf that swaps the channels:
+    
+    pcm.swap {
+        type route
+        slave.pcm "default" # or whatever
+        slave.channels 6
+    
+        ttable.0.0 1
+        ttable.1.1 1
+        ttable.2.4 1
+        ttable.3.5 1
+        ttable.4.2 1
+        ttable.5.3 1
+    }
+    
+    and use -audiodev alsa,id=foo,out.mixing-engine=off,alsa-out.dev=swap,...
+    
+    (due to how usb and usb-audio works, you'll probably need
+    alsa-out.try-poll=off and some playing with threshold)
+    
+    Pulseaudio allows us to specify channel order, and we default to a
+    compatible order so it should work correctly without extra setup.
+
+ hw/usb/dev-audio.c | 419 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 366 insertions(+), 53 deletions(-)
+
+diff --git a/hw/usb/dev-audio.c b/hw/usb/dev-audio.c
+index 74c99b1f12..e42bdfbdc1 100644
+--- a/hw/usb/dev-audio.c
++++ b/hw/usb/dev-audio.c
+@@ -37,11 +37,15 @@
+ #include "desc.h"
+ #include "audio/audio.h"
  
-     while (len_frames) {
-         char *src = advance(buf, pos);
-@@ -648,7 +648,7 @@ static size_t alsa_write(HWVoiceOut *hw, void *buf, size_t len)
-             }
-         }
++static void usb_audio_reinit(USBDevice *dev, unsigned channels);
++
+ #define USBAUDIO_VENDOR_NUM     0x46f4 /* CRC16() of "QEMU" */
+ #define USBAUDIO_PRODUCT_NUM    0x0002
  
--        pos += written << hw->info.shift;
-+        pos += written * hw->info.bytes_per_frame;
-         if (written < len_frames) {
-             break;
-         }
-@@ -802,7 +802,8 @@ static size_t alsa_read(HWVoiceIn *hw, void *buf, size_t len)
-         void *dst = advance(buf, pos);
-         snd_pcm_sframes_t nread;
+ #define DEV_CONFIG_VALUE        1 /* The one and only */
  
--        nread = snd_pcm_readi(alsa->handle, dst, len >> hw->info.shift);
-+        nread = snd_pcm_readi(
-+            alsa->handle, dst, len / hw->info.bytes_per_frame);
++#define USBAUDIO_MAX_CHANNELS(s) (s->multi ? 8 : 2)
++
+ /* Descriptor subtypes for AC interfaces */
+ #define DST_AC_HEADER           1
+ #define DST_AC_INPUT_TERMINAL   2
+@@ -80,6 +84,27 @@ static const USBDescStrings usb_audio_stringtable = {
+     [STRING_REAL_STREAM]        = "Audio Output - 48 kHz Stereo",
+ };
  
-         if (nread <= 0) {
-             switch (nread) {
-@@ -828,8 +829,8 @@ static size_t alsa_read(HWVoiceIn *hw, void *buf, size_t len)
-             }
-         }
++/*
++ * A USB audio device supports an arbitrary number of alternate
++ * interface settings for each interface.  Each corresponds to a block
++ * diagram of parameterized blocks.  This can thus refer to things like
++ * number of channels, data rates, or in fact completely different
++ * block diagrams.  Alternative setting 0 is always the null block diagram,
++ * which is used by a disabled device.
++ */
++enum usb_audio_altset {
++    ALTSET_OFF    = 0x00,         /* No endpoint */
++    ALTSET_STEREO = 0x01,         /* Single endpoint */
++    ALTSET_51     = 0x02,
++    ALTSET_71     = 0x03,
++};
++
++static unsigned altset_channels[] = {
++    [ALTSET_STEREO] = 2,
++    [ALTSET_51]     = 6,
++    [ALTSET_71]     = 8,
++};
++
+ #define U16(x) ((x) & 0xff), (((x) >> 8) & 0xff)
+ #define U24(x) U16(x), (((x) >> 16) & 0xff)
+ #define U32(x) U24(x), (((x) >> 24) & 0xff)
+@@ -87,7 +112,8 @@ static const USBDescStrings usb_audio_stringtable = {
+ /*
+  * A Basic Audio Device uses these specific values
+  */
+-#define USBAUDIO_PACKET_SIZE     192
++#define USBAUDIO_PACKET_SIZE_BASE 96
++#define USBAUDIO_PACKET_SIZE(channels) (USBAUDIO_PACKET_SIZE_BASE * channels)
+ #define USBAUDIO_SAMPLE_RATE     48000
+ #define USBAUDIO_PACKET_INTERVAL 1
  
--        pos += nread << hw->info.shift;
--        len -= nread << hw->info.shift;
-+        pos += nread * hw->info.bytes_per_frame;
-+        len -= nread * hw->info.bytes_per_frame;
-     }
- 
-     return pos;
-diff --git a/audio/audio.c b/audio/audio.c
-index f1c145dfcd..c00f4deddd 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -299,12 +299,13 @@ static int audio_pcm_info_eq (struct audio_pcm_info *info, struct audsettings *a
- 
- void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as)
- {
--    int bits = 8, sign = 0, shift = 0;
-+    int bits = 8, sign = 0, mul;
- 
-     switch (as->fmt) {
-     case AUDIO_FORMAT_S8:
-         sign = 1;
-     case AUDIO_FORMAT_U8:
-+        mul = 1;
-         break;
- 
-     case AUDIO_FORMAT_S16:
-@@ -312,7 +313,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as)
-         /* fall through */
-     case AUDIO_FORMAT_U16:
-         bits = 16;
--        shift = 1;
-+        mul = 2;
-         break;
- 
-     case AUDIO_FORMAT_S32:
-@@ -320,7 +321,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as)
-         /* fall through */
-     case AUDIO_FORMAT_U32:
-         bits = 32;
--        shift = 2;
-+        mul = 4;
-         break;
- 
-     default:
-@@ -331,9 +332,8 @@ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as)
-     info->bits = bits;
-     info->sign = sign;
-     info->nchannels = as->nchannels;
--    info->shift = (as->nchannels == 2) + shift;
--    info->align = (1 << info->shift) - 1;
--    info->bytes_per_second = info->freq << info->shift;
-+    info->bytes_per_frame = as->nchannels * mul;
-+    info->bytes_per_second = info->freq * info->bytes_per_frame;
-     info->swap_endianness = (as->endianness != AUDIO_HOST_ENDIANNESS);
- }
- 
-@@ -344,26 +344,25 @@ void audio_pcm_info_clear_buf (struct audio_pcm_info *info, void *buf, int len)
-     }
- 
-     if (info->sign) {
--        memset (buf, 0x00, len << info->shift);
-+        memset(buf, 0x00, len * info->bytes_per_frame);
-     }
-     else {
-         switch (info->bits) {
-         case 8:
--            memset (buf, 0x80, len << info->shift);
-+            memset(buf, 0x80, len * info->bytes_per_frame);
-             break;
- 
-         case 16:
+@@ -121,7 +147,7 @@ static const USBDescIface desc_iface[] = {
+                     0x01,                       /*  u8  bTerminalID */
+                     U16(0x0101),                /* u16  wTerminalType */
+                     0x00,                       /*  u8  bAssocTerminal */
+-                    0x02,                       /* u16  bNrChannels */
++                    0x02,                       /*  u8  bNrChannels */
+                     U16(0x0003),                /* u16  wChannelConfig */
+                     0x00,                       /*  u8  iChannelNames */
+                     STRING_INPUT_TERMINAL,      /*  u8  iTerminal */
+@@ -156,14 +182,14 @@ static const USBDescIface desc_iface[] = {
+         },
+     },{
+         .bInterfaceNumber              = 1,
+-        .bAlternateSetting             = 0,
++        .bAlternateSetting             = ALTSET_OFF,
+         .bNumEndpoints                 = 0,
+         .bInterfaceClass               = USB_CLASS_AUDIO,
+         .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_STREAMING,
+         .iInterface                    = STRING_NULL_STREAM,
+     },{
+         .bInterfaceNumber              = 1,
+-        .bAlternateSetting             = 1,
++        .bAlternateSetting             = ALTSET_STEREO,
+         .bNumEndpoints                 = 1,
+         .bInterfaceClass               = USB_CLASS_AUDIO,
+         .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_STREAMING,
+@@ -199,7 +225,7 @@ static const USBDescIface desc_iface[] = {
              {
-                 int i;
-                 uint16_t *p = buf;
--                int shift = info->nchannels - 1;
-                 short s = INT16_MAX;
+                 .bEndpointAddress      = USB_DIR_OUT | 0x01,
+                 .bmAttributes          = 0x0d,
+-                .wMaxPacketSize        = USBAUDIO_PACKET_SIZE,
++                .wMaxPacketSize        = USBAUDIO_PACKET_SIZE(2),
+                 .bInterval             = 1,
+                 .is_audio              = 1,
+                 /* Stereo Headphone Class-specific
+@@ -247,17 +273,274 @@ static const USBDesc desc_audio = {
+     .str  = usb_audio_stringtable,
+ };
  
-                 if (info->swap_endianness) {
-                     s = bswap16 (s);
-                 }
- 
--                for (i = 0; i < len << shift; i++) {
-+                for (i = 0; i < len * info->nchannels; i++) {
-                     p[i] = s;
-                 }
-             }
-@@ -373,14 +372,13 @@ void audio_pcm_info_clear_buf (struct audio_pcm_info *info, void *buf, int len)
-             {
-                 int i;
-                 uint32_t *p = buf;
--                int shift = info->nchannels - 1;
-                 int32_t s = INT32_MAX;
- 
-                 if (info->swap_endianness) {
-                     s = bswap32 (s);
-                 }
- 
--                for (i = 0; i < len << shift; i++) {
-+                for (i = 0; i < len * info->nchannels; i++) {
-                     p[i] = s;
-                 }
-             }
-@@ -558,7 +556,7 @@ static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
- 
-     while (len) {
-         st_sample *src = hw->mix_buf->samples + pos;
--        uint8_t *dst = advance(pcm_buf, clipped << hw->info.shift);
-+        uint8_t *dst = advance(pcm_buf, clipped * hw->info.bytes_per_frame);
-         size_t samples_till_end_of_buf = hw->mix_buf->size - pos;
-         size_t samples_to_clip = MIN(len, samples_till_end_of_buf);
- 
-@@ -607,7 +605,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-         return 0;
-     }
- 
--    samples = size >> sw->info.shift;
-+    samples = size / sw->info.bytes_per_frame;
-     if (!live) {
-         return 0;
-     }
-@@ -642,7 +640,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
- 
-     sw->clip (buf, sw->buf, ret);
-     sw->total_hw_samples_acquired += total;
--    return ret << sw->info.shift;
-+    return ret * sw->info.bytes_per_frame;
- }
+-/*
+- * A USB audio device supports an arbitrary number of alternate
+- * interface settings for each interface.  Each corresponds to a block
+- * diagram of parameterized blocks.  This can thus refer to things like
+- * number of channels, data rates, or in fact completely different
+- * block diagrams.  Alternative setting 0 is always the null block diagram,
+- * which is used by a disabled device.
+- */
+-enum usb_audio_altset {
+-    ALTSET_OFF  = 0x00,         /* No endpoint */
+-    ALTSET_ON   = 0x01,         /* Single endpoint */
++/* multi channel compatible desc */
++
++static const USBDescIface desc_iface_multi[] = {
++    {
++        .bInterfaceNumber              = 0,
++        .bNumEndpoints                 = 0,
++        .bInterfaceClass               = USB_CLASS_AUDIO,
++        .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_CONTROL,
++        .bInterfaceProtocol            = 0x04,
++        .iInterface                    = STRING_USBAUDIO_CONTROL,
++        .ndesc                         = 4,
++        .descs = (USBDescOther[]) {
++            {
++                /* Headphone Class-Specific AC Interface Header Descriptor */
++                .data = (uint8_t[]) {
++                    0x09,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AC_HEADER,              /*  u8  bDescriptorSubtype */
++                    U16(0x0100),                /* u16  bcdADC */
++                    U16(0x38),                  /* u16  wTotalLength */
++                    0x01,                       /*  u8  bInCollection */
++                    0x01,                       /*  u8  baInterfaceNr */
++                }
++            },{
++                /* Generic Stereo Input Terminal ID1 Descriptor */
++                .data = (uint8_t[]) {
++                    0x0c,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AC_INPUT_TERMINAL,      /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bTerminalID */
++                    U16(0x0101),                /* u16  wTerminalType */
++                    0x00,                       /*  u8  bAssocTerminal */
++                    0x08,                       /*  u8  bNrChannels */
++                    U16(0x063f),                /* u16  wChannelConfig */
++                    0x00,                       /*  u8  iChannelNames */
++                    STRING_INPUT_TERMINAL,      /*  u8  iTerminal */
++                }
++            },{
++                /* Generic Stereo Feature Unit ID2 Descriptor */
++                .data = (uint8_t[]) {
++                    0x19,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AC_FEATURE_UNIT,        /*  u8  bDescriptorSubtype */
++                    0x02,                       /*  u8  bUnitID */
++                    0x01,                       /*  u8  bSourceID */
++                    0x02,                       /*  u8  bControlSize */
++                    U16(0x0001),                /* u16  bmaControls(0) */
++                    U16(0x0002),                /* u16  bmaControls(1) */
++                    U16(0x0002),                /* u16  bmaControls(2) */
++                    U16(0x0002),                /* u16  bmaControls(3) */
++                    U16(0x0002),                /* u16  bmaControls(4) */
++                    U16(0x0002),                /* u16  bmaControls(5) */
++                    U16(0x0002),                /* u16  bmaControls(6) */
++                    U16(0x0002),                /* u16  bmaControls(7) */
++                    U16(0x0002),                /* u16  bmaControls(8) */
++                    STRING_FEATURE_UNIT,        /*  u8  iFeature */
++                }
++            },{
++                /* Headphone Ouptut Terminal ID3 Descriptor */
++                .data = (uint8_t[]) {
++                    0x09,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AC_OUTPUT_TERMINAL,     /*  u8  bDescriptorSubtype */
++                    0x03,                       /*  u8  bUnitID */
++                    U16(0x0301),                /* u16  wTerminalType (SPK) */
++                    0x00,                       /*  u8  bAssocTerminal */
++                    0x02,                       /*  u8  bSourceID */
++                    STRING_OUTPUT_TERMINAL,     /*  u8  iTerminal */
++                }
++            }
++        },
++    },{
++        .bInterfaceNumber              = 1,
++        .bAlternateSetting             = ALTSET_OFF,
++        .bNumEndpoints                 = 0,
++        .bInterfaceClass               = USB_CLASS_AUDIO,
++        .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_STREAMING,
++        .iInterface                    = STRING_NULL_STREAM,
++    },{
++        .bInterfaceNumber              = 1,
++        .bAlternateSetting             = ALTSET_STEREO,
++        .bNumEndpoints                 = 1,
++        .bInterfaceClass               = USB_CLASS_AUDIO,
++        .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_STREAMING,
++        .iInterface                    = STRING_REAL_STREAM,
++        .ndesc                         = 2,
++        .descs = (USBDescOther[]) {
++            {
++                /* Headphone Class-specific AS General Interface Descriptor */
++                .data = (uint8_t[]) {
++                    0x07,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AS_GENERAL,             /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bTerminalLink */
++                    0x00,                       /*  u8  bDelay */
++                    0x01, 0x00,                 /* u16  wFormatTag */
++                }
++            },{
++                /* Headphone Type I Format Type Descriptor */
++                .data = (uint8_t[]) {
++                    0x0b,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AS_FORMAT_TYPE,         /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bFormatType */
++                    0x02,                       /*  u8  bNrChannels */
++                    0x02,                       /*  u8  bSubFrameSize */
++                    0x10,                       /*  u8  bBitResolution */
++                    0x01,                       /*  u8  bSamFreqType */
++                    U24(USBAUDIO_SAMPLE_RATE),  /* u24  tSamFreq */
++                }
++            }
++        },
++        .eps = (USBDescEndpoint[]) {
++            {
++                .bEndpointAddress      = USB_DIR_OUT | 0x01,
++                .bmAttributes          = 0x0d,
++                .wMaxPacketSize        = USBAUDIO_PACKET_SIZE(2),
++                .bInterval             = 1,
++                .is_audio              = 1,
++                /* Stereo Headphone Class-specific
++                   AS Audio Data Endpoint Descriptor */
++                .extra = (uint8_t[]) {
++                    0x07,                       /*  u8  bLength */
++                    USB_DT_CS_ENDPOINT,         /*  u8  bDescriptorType */
++                    DST_EP_GENERAL,             /*  u8  bDescriptorSubtype */
++                    0x00,                       /*  u8  bmAttributes */
++                    0x00,                       /*  u8  bLockDelayUnits */
++                    U16(0x0000),                /* u16  wLockDelay */
++                },
++            },
++        }
++    },{
++        .bInterfaceNumber              = 1,
++        .bAlternateSetting             = ALTSET_51,
++        .bNumEndpoints                 = 1,
++        .bInterfaceClass               = USB_CLASS_AUDIO,
++        .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_STREAMING,
++        .iInterface                    = STRING_REAL_STREAM,
++        .ndesc                         = 2,
++        .descs = (USBDescOther[]) {
++            {
++                /* Headphone Class-specific AS General Interface Descriptor */
++                .data = (uint8_t[]) {
++                    0x07,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AS_GENERAL,             /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bTerminalLink */
++                    0x00,                       /*  u8  bDelay */
++                    0x01, 0x00,                 /* u16  wFormatTag */
++                }
++            },{
++                /* Headphone Type I Format Type Descriptor */
++                .data = (uint8_t[]) {
++                    0x0b,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AS_FORMAT_TYPE,         /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bFormatType */
++                    0x06,                       /*  u8  bNrChannels */
++                    0x02,                       /*  u8  bSubFrameSize */
++                    0x10,                       /*  u8  bBitResolution */
++                    0x01,                       /*  u8  bSamFreqType */
++                    U24(USBAUDIO_SAMPLE_RATE),  /* u24  tSamFreq */
++                }
++            }
++        },
++        .eps = (USBDescEndpoint[]) {
++            {
++                .bEndpointAddress      = USB_DIR_OUT | 0x01,
++                .bmAttributes          = 0x0d,
++                .wMaxPacketSize        = USBAUDIO_PACKET_SIZE(6),
++                .bInterval             = 1,
++                .is_audio              = 1,
++                /* Stereo Headphone Class-specific
++                   AS Audio Data Endpoint Descriptor */
++                .extra = (uint8_t[]) {
++                    0x07,                       /*  u8  bLength */
++                    USB_DT_CS_ENDPOINT,         /*  u8  bDescriptorType */
++                    DST_EP_GENERAL,             /*  u8  bDescriptorSubtype */
++                    0x00,                       /*  u8  bmAttributes */
++                    0x00,                       /*  u8  bLockDelayUnits */
++                    U16(0x0000),                /* u16  wLockDelay */
++                },
++            },
++        }
++    },{
++        .bInterfaceNumber              = 1,
++        .bAlternateSetting             = ALTSET_71,
++        .bNumEndpoints                 = 1,
++        .bInterfaceClass               = USB_CLASS_AUDIO,
++        .bInterfaceSubClass            = USB_SUBCLASS_AUDIO_STREAMING,
++        .iInterface                    = STRING_REAL_STREAM,
++        .ndesc                         = 2,
++        .descs = (USBDescOther[]) {
++            {
++                /* Headphone Class-specific AS General Interface Descriptor */
++                .data = (uint8_t[]) {
++                    0x07,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AS_GENERAL,             /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bTerminalLink */
++                    0x00,                       /*  u8  bDelay */
++                    0x01, 0x00,                 /* u16  wFormatTag */
++                }
++            },{
++                /* Headphone Type I Format Type Descriptor */
++                .data = (uint8_t[]) {
++                    0x0b,                       /*  u8  bLength */
++                    USB_DT_CS_INTERFACE,        /*  u8  bDescriptorType */
++                    DST_AS_FORMAT_TYPE,         /*  u8  bDescriptorSubtype */
++                    0x01,                       /*  u8  bFormatType */
++                    0x08,                       /*  u8  bNrChannels */
++                    0x02,                       /*  u8  bSubFrameSize */
++                    0x10,                       /*  u8  bBitResolution */
++                    0x01,                       /*  u8  bSamFreqType */
++                    U24(USBAUDIO_SAMPLE_RATE),  /* u24  tSamFreq */
++                }
++            }
++        },
++        .eps = (USBDescEndpoint[]) {
++            {
++                .bEndpointAddress      = USB_DIR_OUT | 0x01,
++                .bmAttributes          = 0x0d,
++                .wMaxPacketSize        = USBAUDIO_PACKET_SIZE(8),
++                .bInterval             = 1,
++                .is_audio              = 1,
++                /* Stereo Headphone Class-specific
++                   AS Audio Data Endpoint Descriptor */
++                .extra = (uint8_t[]) {
++                    0x07,                       /*  u8  bLength */
++                    USB_DT_CS_ENDPOINT,         /*  u8  bDescriptorType */
++                    DST_EP_GENERAL,             /*  u8  bDescriptorSubtype */
++                    0x00,                       /*  u8  bmAttributes */
++                    0x00,                       /*  u8  bLockDelayUnits */
++                    U16(0x0000),                /* u16  wLockDelay */
++                },
++            },
++        }
++    }
++};
++
++static const USBDescDevice desc_device_multi = {
++    .bcdUSB                        = 0x0100,
++    .bMaxPacketSize0               = 64,
++    .bNumConfigurations            = 1,
++    .confs = (USBDescConfig[]) {
++        {
++            .bNumInterfaces        = 2,
++            .bConfigurationValue   = DEV_CONFIG_VALUE,
++            .iConfiguration        = STRING_CONFIG,
++            .bmAttributes          = USB_CFG_ATT_ONE | USB_CFG_ATT_SELFPOWER,
++            .bMaxPower             = 0x32,
++            .nif = ARRAY_SIZE(desc_iface_multi),
++            .ifs = desc_iface_multi,
++        }
++    },
++};
++
++static const USBDesc desc_audio_multi = {
++    .id = {
++        .idVendor          = USBAUDIO_VENDOR_NUM,
++        .idProduct         = USBAUDIO_PRODUCT_NUM,
++        .bcdDevice         = 0,
++        .iManufacturer     = STRING_MANUFACTURER,
++        .iProduct          = STRING_PRODUCT,
++        .iSerialNumber     = STRING_SERIALNUMBER,
++    },
++    .full = &desc_device_multi,
++    .str  = usb_audio_stringtable,
+ };
  
  /*
-@@ -715,7 +713,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     }
- 
-     wpos = (sw->hw->mix_buf->pos + live) % hwsamples;
--    samples = size >> sw->info.shift;
-+    samples = size / sw->info.bytes_per_frame;
- 
-     dead = hwsamples - live;
-     swlim = ((int64_t) dead << 32) / sw->ratio;
-@@ -759,13 +757,13 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     dolog (
-         "%s: write size %zu ret %zu total sw %zu\n",
-         SW_NAME (sw),
--        size >> sw->info.shift,
-+        size / sw->info.bytes_per_frame,
-         ret,
-         sw->total_hw_samples_mixed
-         );
- #endif
- 
--    return ret << sw->info.shift;
-+    return ret * sw->info.bytes_per_frame;
- }
- 
- #ifdef DEBUG_AUDIO
-@@ -882,7 +880,7 @@ size_t AUD_read(SWVoiceIn *sw, void *buf, size_t size)
- 
- int AUD_get_buffer_size_out (SWVoiceOut *sw)
- {
--    return sw->hw->mix_buf->size << sw->hw->info.shift;
-+    return sw->hw->mix_buf->size * sw->hw->info.bytes_per_frame;
- }
- 
- void AUD_set_active_out (SWVoiceOut *sw, int on)
-@@ -998,10 +996,10 @@ static size_t audio_get_avail (SWVoiceIn *sw)
-     ldebug (
-         "%s: get_avail live %d ret %" PRId64 "\n",
-         SW_NAME (sw),
--        live, (((int64_t) live << 32) / sw->ratio) << sw->info.shift
-+        live, (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame
-         );
- 
--    return (((int64_t) live << 32) / sw->ratio) << sw->info.shift;
-+    return (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame;
- }
- 
- static size_t audio_get_free(SWVoiceOut *sw)
-@@ -1025,10 +1023,11 @@ static size_t audio_get_free(SWVoiceOut *sw)
- #ifdef DEBUG_OUT
-     dolog ("%s: get_free live %d dead %d ret %" PRId64 "\n",
-            SW_NAME (sw),
--           live, dead, (((int64_t) dead << 32) / sw->ratio) << sw->info.shift);
-+           live, dead, (((int64_t) dead << 32) / sw->ratio) *
-+           sw->info.bytes_per_frame);
- #endif
- 
--    return (((int64_t) dead << 32) / sw->ratio) << sw->info.shift;
-+    return (((int64_t) dead << 32) / sw->ratio) * sw->info.bytes_per_frame;
- }
- 
- static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
-@@ -1047,7 +1046,7 @@ static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
-             while (n) {
-                 size_t till_end_of_hw = hw->mix_buf->size - rpos2;
-                 size_t to_write = MIN(till_end_of_hw, n);
--                size_t bytes = to_write << hw->info.shift;
-+                size_t bytes = to_write * hw->info.bytes_per_frame;
-                 size_t written;
- 
-                 sw->buf = hw->mix_buf->samples + rpos2;
-@@ -1082,10 +1081,11 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
-             return clipped + live;
-         }
- 
--        decr = MIN(size >> hw->info.shift, live);
-+        decr = MIN(size / hw->info.bytes_per_frame, live);
-         audio_pcm_hw_clip_out(hw, buf, decr);
--        proc = hw->pcm_ops->put_buffer_out(hw, buf, decr << hw->info.shift) >>
--            hw->info.shift;
-+        proc = hw->pcm_ops->put_buffer_out(hw, buf,
-+                                           decr * hw->info.bytes_per_frame) /
-+            hw->info.bytes_per_frame;
- 
-         live -= proc;
-         clipped += proc;
-@@ -1234,16 +1234,16 @@ static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
- 
-     while (samples) {
-         size_t proc;
--        size_t size = samples << hw->info.shift;
-+        size_t size = samples * hw->info.bytes_per_frame;
-         void *buf = hw->pcm_ops->get_buffer_in(hw, &size);
- 
--        assert((size & hw->info.align) == 0);
-+        assert(size % hw->info.bytes_per_frame == 0);
-         if (size == 0) {
-             hw->pcm_ops->put_buffer_in(hw, buf, size);
-             break;
-         }
- 
--        proc = MIN(size >> hw->info.shift,
-+        proc = MIN(size / hw->info.bytes_per_frame,
-                    conv_buf->size - conv_buf->pos);
- 
-         hw->conv(conv_buf->samples + conv_buf->pos, buf, proc);
-@@ -1251,7 +1251,7 @@ static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
- 
-         samples -= proc;
-         conv += proc;
--        hw->pcm_ops->put_buffer_in(hw, buf, proc << hw->info.shift);
-+        hw->pcm_ops->put_buffer_in(hw, buf, proc * hw->info.bytes_per_frame);
-     }
- 
-     return conv;
-@@ -1325,7 +1325,7 @@ static void audio_run_capture (AudioState *s)
- 
-             for (cb = cap->cb_head.lh_first; cb; cb = cb->entries.le_next) {
-                 cb->ops.capture (cb->opaque, cap->buf,
--                                 to_capture << hw->info.shift);
-+                                 to_capture * hw->info.bytes_per_frame);
-             }
-             rpos = (rpos + to_capture) % hw->mix_buf->size;
-             live -= to_capture;
-@@ -1378,7 +1378,7 @@ void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
-     ssize_t start;
- 
-     if (unlikely(!hw->buf_emul)) {
--        size_t calc_size = hw->conv_buf->size << hw->info.shift;
-+        size_t calc_size = hw->conv_buf->size * hw->info.bytes_per_frame;
-         hw->buf_emul = g_malloc(calc_size);
-         hw->size_emul = calc_size;
-         hw->pos_emul = hw->pending_emul = 0;
-@@ -1414,7 +1414,7 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
- void *audio_generic_get_buffer_out(HWVoiceOut *hw, size_t *size)
- {
-     if (unlikely(!hw->buf_emul)) {
--        size_t calc_size = hw->mix_buf->size << hw->info.shift;
-+        size_t calc_size = hw->mix_buf->size * hw->info.bytes_per_frame;
- 
-         hw->buf_emul = g_malloc(calc_size);
-         hw->size_emul = calc_size;
-@@ -1833,7 +1833,7 @@ CaptureVoiceOut *AUD_add_capture(
- 
-         audio_pcm_init_info (&hw->info, as);
- 
--        cap->buf = g_malloc0_n(hw->mix_buf->size, 1 << hw->info.shift);
-+        cap->buf = g_malloc0_n(hw->mix_buf->size, hw->info.bytes_per_frame);
- 
-         hw->clip = mixeng_clip
-             [hw->info.nchannels == 2]
-@@ -2153,14 +2153,14 @@ size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,
-     now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-     ticks = now - rate->start_ticks;
-     bytes = muldiv64(ticks, info->bytes_per_second, NANOSECONDS_PER_SECOND);
--    samples = (bytes - rate->bytes_sent) >> info->shift;
-+    samples = (bytes - rate->bytes_sent) / info->bytes_per_frame;
-     if (samples < 0 || samples > 65536) {
-         AUD_log(NULL, "Resetting rate control (%" PRId64 " samples)\n", samples);
-         audio_rate_start(rate);
-         samples = 0;
-     }
- 
--    ret = MIN(samples << info->shift, bytes_avail);
-+    ret = MIN(samples * info->bytes_per_frame, bytes_avail);
-     rate->bytes_sent += ret;
-     return ret;
- }
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 9176db249b..5ba2078346 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -43,8 +43,7 @@ struct audio_pcm_info {
-     int sign;
-     int freq;
-     int nchannels;
--    int align;
--    int shift;
-+    int bytes_per_frame;
-     int bytes_per_second;
-     int swap_endianness;
+@@ -300,10 +583,11 @@ struct streambuf {
+     uint32_t cons;
  };
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 1427c9f622..66f0f459cf 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -440,7 +440,7 @@ static OSStatus audioDeviceIOProc(
+ 
+-static void streambuf_init(struct streambuf *buf, uint32_t size)
++static void streambuf_init(struct streambuf *buf, uint32_t size,
++                           uint32_t channels)
+ {
+     g_free(buf->data);
+-    buf->size = size - (size % USBAUDIO_PACKET_SIZE);
++    buf->size = size - (size % USBAUDIO_PACKET_SIZE(channels));
+     buf->data = g_malloc(buf->size);
+     buf->prod = 0;
+     buf->cons = 0;
+@@ -315,21 +599,21 @@ static void streambuf_fini(struct streambuf *buf)
+     buf->data = NULL;
+ }
+ 
+-static int streambuf_put(struct streambuf *buf, USBPacket *p)
++static int streambuf_put(struct streambuf *buf, USBPacket *p, uint32_t channels)
+ {
+     uint32_t free = buf->size - (buf->prod - buf->cons);
+ 
+-    if (free < USBAUDIO_PACKET_SIZE) {
++    if (free < USBAUDIO_PACKET_SIZE(channels)) {
+         return 0;
      }
- 
-     frameCount = core->audioDevicePropertyBufferFrameSize;
--    pending_frames = hw->pending_emul >> hw->info.shift;
-+    pending_frames = hw->pending_emul / hw->info.bytes_per_frame;
- 
-     /* if there are not enough samples, set signal and return */
-     if (pending_frames < frameCount) {
-@@ -449,7 +449,7 @@ static OSStatus audioDeviceIOProc(
+-    if (p->iov.size != USBAUDIO_PACKET_SIZE) {
++    if (p->iov.size != USBAUDIO_PACKET_SIZE(channels)) {
          return 0;
      }
  
--    len = frameCount << hw->info.shift;
-+    len = frameCount * hw->info.bytes_per_frame;
-     while (len) {
-         size_t write_len;
-         ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-diff --git a/audio/dsound_template.h b/audio/dsound_template.h
-index 9f10b688df..7a15f91ce5 100644
---- a/audio/dsound_template.h
-+++ b/audio/dsound_template.h
-@@ -98,8 +98,8 @@ static int glue (dsound_lock_, TYPE) (
-         goto fail;
+     usb_packet_copy(p, buf->data + (buf->prod % buf->size),
+-                    USBAUDIO_PACKET_SIZE);
+-    buf->prod += USBAUDIO_PACKET_SIZE;
+-    return USBAUDIO_PACKET_SIZE;
++                    USBAUDIO_PACKET_SIZE(channels));
++    buf->prod += USBAUDIO_PACKET_SIZE(channels);
++    return USBAUDIO_PACKET_SIZE(channels);
+ }
+ 
+ static uint8_t *streambuf_get(struct streambuf *buf, size_t *len)
+@@ -357,14 +641,15 @@ typedef struct USBAudioState {
+         enum usb_audio_altset altset;
+         struct audsettings as;
+         SWVoiceOut *voice;
+-        bool mute;
+-        uint8_t vol[2];
++        Volume vol;
+         struct streambuf buf;
++        uint32_t channels;
+     } out;
+ 
+     /* properties */
+     uint32_t debug;
+-    uint32_t buffer;
++    uint32_t buffer_user, buffer;
++    bool multi;
+ } USBAudioState;
+ 
+ #define TYPE_USB_AUDIO "usb-audio"
+@@ -397,10 +682,15 @@ static int usb_audio_set_output_altset(USBAudioState *s, int altset)
+ {
+     switch (altset) {
+     case ALTSET_OFF:
+-        streambuf_init(&s->out.buf, s->buffer);
+         AUD_set_active_out(s->out.voice, false);
+         break;
+-    case ALTSET_ON:
++    case ALTSET_STEREO:
++    case ALTSET_51:
++    case ALTSET_71:
++        if (s->out.channels != altset_channels[altset]) {
++            usb_audio_reinit(USB_DEVICE(s), altset_channels[altset]);
++        }
++        streambuf_init(&s->out.buf, s->buffer, s->out.channels);
+         AUD_set_active_out(s->out.voice, true);
+         break;
+     default:
+@@ -431,33 +721,33 @@ static int usb_audio_get_control(USBAudioState *s, uint8_t attrib,
+ 
+     switch (aid) {
+     case ATTRIB_ID(MUTE_CONTROL, CR_GET_CUR, 0x0200):
+-        data[0] = s->out.mute;
++        data[0] = s->out.vol.mute;
+         ret = 1;
+         break;
+     case ATTRIB_ID(VOLUME_CONTROL, CR_GET_CUR, 0x0200):
+-        if (cn < 2) {
+-            uint16_t vol = (s->out.vol[cn] * 0x8800 + 127) / 255 + 0x8000;
++        if (cn < USBAUDIO_MAX_CHANNELS(s)) {
++            uint16_t vol = (s->out.vol.vol[cn] * 0x8800 + 127) / 255 + 0x8000;
+             data[0] = vol;
+             data[1] = vol >> 8;
+             ret = 2;
+         }
+         break;
+     case ATTRIB_ID(VOLUME_CONTROL, CR_GET_MIN, 0x0200):
+-        if (cn < 2) {
++        if (cn < USBAUDIO_MAX_CHANNELS(s)) {
+             data[0] = 0x01;
+             data[1] = 0x80;
+             ret = 2;
+         }
+         break;
+     case ATTRIB_ID(VOLUME_CONTROL, CR_GET_MAX, 0x0200):
+-        if (cn < 2) {
++        if (cn < USBAUDIO_MAX_CHANNELS(s)) {
+             data[0] = 0x00;
+             data[1] = 0x08;
+             ret = 2;
+         }
+         break;
+     case ATTRIB_ID(VOLUME_CONTROL, CR_GET_RES, 0x0200):
+-        if (cn < 2) {
++        if (cn < USBAUDIO_MAX_CHANNELS(s)) {
+             data[0] = 0x88;
+             data[1] = 0x00;
+             ret = 2;
+@@ -479,16 +769,17 @@ static int usb_audio_set_control(USBAudioState *s, uint8_t attrib,
+ 
+     switch (aid) {
+     case ATTRIB_ID(MUTE_CONTROL, CR_SET_CUR, 0x0200):
+-        s->out.mute = data[0] & 1;
++        s->out.vol.mute = data[0] & 1;
+         set_vol = true;
+         ret = 0;
+         break;
+     case ATTRIB_ID(VOLUME_CONTROL, CR_SET_CUR, 0x0200):
+-        if (cn < 2) {
++        if (cn < USBAUDIO_MAX_CHANNELS(s)) {
+             uint16_t vol = data[0] + (data[1] << 8);
+ 
+             if (s->debug) {
+-                fprintf(stderr, "usb-audio: vol %04x\n", (uint16_t)vol);
++                fprintf(stderr, "usb-audio: cn %d vol %04x\n", cn,
++                        (uint16_t)vol);
+             }
+ 
+             vol -= 0x8000;
+@@ -497,7 +788,7 @@ static int usb_audio_set_control(USBAudioState *s, uint8_t attrib,
+                 vol = 255;
+             }
+ 
+-            s->out.vol[cn] = vol;
++            s->out.vol.vol[cn] = vol;
+             set_vol = true;
+             ret = 0;
+         }
+@@ -506,11 +797,14 @@ static int usb_audio_set_control(USBAudioState *s, uint8_t attrib,
+ 
+     if (set_vol) {
+         if (s->debug) {
+-            fprintf(stderr, "usb-audio: mute %d, lvol %3d, rvol %3d\n",
+-                    s->out.mute, s->out.vol[0], s->out.vol[1]);
++            int i;
++            fprintf(stderr, "usb-audio: mute %d", s->out.vol.mute);
++            for (i = 0; i < USBAUDIO_MAX_CHANNELS(s); ++i) {
++                fprintf(stderr, ", vol[%d] %3d", i, s->out.vol.vol[i]);
++            }
++            fprintf(stderr, "\n");
+         }
+-        AUD_set_volume_out(s->out.voice, s->out.mute,
+-                           s->out.vol[0], s->out.vol[1]);
++        audio_set_volume_out(s->out.voice, &s->out.vol);
      }
  
--    if ((p1p && *p1p && (*blen1p & info->align)) ||
--        (p2p && *p2p && (*blen2p & info->align))) {
-+    if ((p1p && *p1p && (*blen1p % info->bytes_per_frame)) ||
-+        (p2p && *p2p && (*blen2p % info->bytes_per_frame))) {
-         dolog("DirectSound returned misaligned buffer %ld %ld\n",
-               *blen1p, *blen2p);
-         glue(dsound_unlock_, TYPE)(buf, *p1p, p2p ? *p2p : NULL, *blen1p,
-@@ -247,14 +247,14 @@ static int dsound_init_out(HWVoiceOut *hw, struct audsettings *as,
-     obt_as.endianness = 0;
-     audio_pcm_init_info (&hw->info, &obt_as);
- 
--    if (bc.dwBufferBytes & hw->info.align) {
-+    if (bc.dwBufferBytes % hw->info.bytes_per_frame) {
-         dolog (
-             "GetCaps returned misaligned buffer size %ld, alignment %d\n",
--            bc.dwBufferBytes, hw->info.align + 1
-+            bc.dwBufferBytes, hw->info.bytes_per_frame
-             );
-     }
-     hw->size_emul = bc.dwBufferBytes;
--    hw->samples = bc.dwBufferBytes >> hw->info.shift;
-+    hw->samples = bc.dwBufferBytes / hw->info.bytes_per_frame;
-     ds->s = s;
- 
- #ifdef DEBUG_DSOUND
-diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index d4a4757445..c265c0094b 100644
---- a/audio/dsoundaudio.c
-+++ b/audio/dsoundaudio.c
-@@ -320,8 +320,8 @@ static void dsound_clear_sample (HWVoiceOut *hw, LPDIRECTSOUNDBUFFER dsb,
+     return ret;
+@@ -603,7 +897,7 @@ static void usb_audio_handle_dataout(USBAudioState *s, USBPacket *p)
          return;
      }
  
--    len1 = blen1 >> hw->info.shift;
--    len2 = blen2 >> hw->info.shift;
-+    len1 = blen1 / hw->info.bytes_per_frame;
-+    len2 = blen2 / hw->info.bytes_per_frame;
- 
- #ifdef DEBUG_DSOUND
-     dolog ("clear %p,%ld,%ld %p,%ld,%ld\n",
-diff --git a/audio/noaudio.c b/audio/noaudio.c
-index ec8a287f36..ff99b253ff 100644
---- a/audio/noaudio.c
-+++ b/audio/noaudio.c
-@@ -91,7 +91,7 @@ static size_t no_read(HWVoiceIn *hw, void *buf, size_t size)
-     NoVoiceIn *no = (NoVoiceIn *) hw;
-     int64_t bytes = audio_rate_get_bytes(&hw->info, &no->rate, size);
- 
--    audio_pcm_info_clear_buf(&hw->info, buf, bytes >> hw->info.shift);
-+    audio_pcm_info_clear_buf(&hw->info, buf, bytes / hw->info.bytes_per_frame);
-     return bytes;
- }
- 
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index 0c4451e972..c43faeeea4 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -506,16 +506,16 @@ static int oss_init_out(HWVoiceOut *hw, struct audsettings *as,
-     oss->nfrags = obt.nfrags;
-     oss->fragsize = obt.fragsize;
- 
--    if (obt.nfrags * obt.fragsize & hw->info.align) {
-+    if (obt.nfrags * obt.fragsize % hw->info.bytes_per_frame) {
-         dolog ("warning: Misaligned DAC buffer, size %d, alignment %d\n",
--               obt.nfrags * obt.fragsize, hw->info.align + 1);
-+               obt.nfrags * obt.fragsize, hw->info.bytes_per_frame);
-     }
- 
--    hw->samples = (obt.nfrags * obt.fragsize) >> hw->info.shift;
-+    hw->samples = (obt.nfrags * obt.fragsize) / hw->info.bytes_per_frame;
- 
-     oss->mmapped = 0;
-     if (oopts->has_try_mmap && oopts->try_mmap) {
--        hw->size_emul = hw->samples << hw->info.shift;
-+        hw->size_emul = hw->samples * hw->info.bytes_per_frame;
-         hw->buf_emul = mmap(
-             NULL,
-             hw->size_emul,
-@@ -644,12 +644,12 @@ static int oss_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-     oss->nfrags = obt.nfrags;
-     oss->fragsize = obt.fragsize;
- 
--    if (obt.nfrags * obt.fragsize & hw->info.align) {
-+    if (obt.nfrags * obt.fragsize % hw->info.bytes_per_frame) {
-         dolog ("warning: Misaligned ADC buffer, size %d, alignment %d\n",
--               obt.nfrags * obt.fragsize, hw->info.align + 1);
-+               obt.nfrags * obt.fragsize, hw->info.bytes_per_frame);
-     }
- 
--    hw->samples = (obt.nfrags * obt.fragsize) >> hw->info.shift;
-+    hw->samples = (obt.nfrags * obt.fragsize) / hw->info.bytes_per_frame;
- 
-     oss->fd = fd;
-     oss->dev = dev;
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index 6ed7f7a79e..b6b5da4812 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -131,7 +131,8 @@ static void *line_out_get_buffer(HWVoiceOut *hw, size_t *size)
- 
-     if (out->frame) {
-         *size = audio_rate_get_bytes(
--            &hw->info, &out->rate, (out->fsize - out->fpos) << hw->info.shift);
-+            &hw->info, &out->rate,
-+            (out->fsize - out->fpos) * hw->info.bytes_per_frame);
-     } else {
-         audio_rate_start(&out->rate);
-     }
-diff --git a/audio/wavaudio.c b/audio/wavaudio.c
-index 47efdc1b1e..e46d834bd3 100644
---- a/audio/wavaudio.c
-+++ b/audio/wavaudio.c
-@@ -43,14 +43,14 @@ static size_t wav_write_out(HWVoiceOut *hw, void *buf, size_t len)
+-    streambuf_put(&s->out.buf, p);
++    streambuf_put(&s->out.buf, p, s->out.channels);
+     if (p->actual_length < p->iov.size && s->debug > 1) {
+         fprintf(stderr, "usb-audio: output overrun (%zd bytes)\n",
+                 p->iov.size - p->actual_length);
+@@ -645,6 +939,9 @@ static void usb_audio_unrealize(USBDevice *dev, Error **errp)
+ static void usb_audio_realize(USBDevice *dev, Error **errp)
  {
-     WAVVoiceOut *wav = (WAVVoiceOut *) hw;
-     int64_t bytes = audio_rate_get_bytes(&hw->info, &wav->rate, len);
--    assert(bytes >> hw->info.shift << hw->info.shift == bytes);
-+    assert(bytes % hw->info.bytes_per_frame == 0);
+     USBAudioState *s = USB_AUDIO(dev);
++    int i;
++
++    dev->usb_desc = s->multi ? &desc_audio_multi : &desc_audio;
  
-     if (bytes && fwrite(buf, bytes, 1, wav->f) != 1) {
-         dolog("wav_write_out: fwrite of %" PRId64 " bytes failed\nReason: %s\n",
-               bytes, strerror(errno));
-     }
+     usb_desc_create_serial(dev);
+     usb_desc_init(dev);
+@@ -652,18 +949,35 @@ static void usb_audio_realize(USBDevice *dev, Error **errp)
+     AUD_register_card(TYPE_USB_AUDIO, &s->card);
  
--    wav->total_samples += bytes >> hw->info.shift;
-+    wav->total_samples += bytes / hw->info.bytes_per_frame;
-     return bytes;
+     s->out.altset        = ALTSET_OFF;
+-    s->out.mute          = false;
+-    s->out.vol[0]        = 240; /* 0 dB */
+-    s->out.vol[1]        = 240; /* 0 dB */
++    s->out.vol.mute      = false;
++    for (i = 0; i < USBAUDIO_MAX_CHANNELS(s); ++i) {
++        s->out.vol.vol[i] = 240; /* 0 dB */
++    }
++
++    usb_audio_reinit(dev, 2);
++}
++
++static void usb_audio_reinit(USBDevice *dev, unsigned channels)
++{
++    USBAudioState *s = USB_AUDIO(dev);
++
++    s->out.channels      = channels;
++    if (!s->buffer_user) {
++        s->buffer = 32 * USBAUDIO_PACKET_SIZE(s->out.channels);
++    } else {
++        s->buffer = s->buffer_user;
++    }
++
++    s->out.vol.channels  = s->out.channels;
+     s->out.as.freq       = USBAUDIO_SAMPLE_RATE;
+-    s->out.as.nchannels  = 2;
++    s->out.as.nchannels  = s->out.channels;
+     s->out.as.fmt        = AUDIO_FORMAT_S16;
+     s->out.as.endianness = 0;
+-    streambuf_init(&s->out.buf, s->buffer);
++    streambuf_init(&s->out.buf, s->buffer, s->out.channels);
+ 
+     s->out.voice = AUD_open_out(&s->card, s->out.voice, TYPE_USB_AUDIO,
+                                 s, output_callback, &s->out.as);
+-    AUD_set_volume_out(s->out.voice, s->out.mute, s->out.vol[0], s->out.vol[1]);
++    audio_set_volume_out(s->out.voice, &s->out.vol);
+     AUD_set_active_out(s->out.voice, 0);
  }
  
-@@ -134,7 +134,7 @@ static void wav_fini_out (HWVoiceOut *hw)
-     WAVVoiceOut *wav = (WAVVoiceOut *) hw;
-     uint8_t rlen[4];
-     uint8_t dlen[4];
--    uint32_t datalen = wav->total_samples << hw->info.shift;
-+    uint32_t datalen = wav->total_samples * hw->info.bytes_per_frame;
-     uint32_t rifflen = datalen + 36;
+@@ -675,8 +989,8 @@ static const VMStateDescription vmstate_usb_audio = {
+ static Property usb_audio_properties[] = {
+     DEFINE_AUDIO_PROPERTIES(USBAudioState, card),
+     DEFINE_PROP_UINT32("debug", USBAudioState, debug, 0),
+-    DEFINE_PROP_UINT32("buffer", USBAudioState, buffer,
+-                       32 * USBAUDIO_PACKET_SIZE),
++    DEFINE_PROP_UINT32("buffer", USBAudioState, buffer_user, 0),
++    DEFINE_PROP_BOOL("multi", USBAudioState, multi, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-     if (!wav->f) {
+@@ -689,7 +1003,6 @@ static void usb_audio_class_init(ObjectClass *klass, void *data)
+     dc->props         = usb_audio_properties;
+     set_bit(DEVICE_CATEGORY_SOUND, dc->categories);
+     k->product_desc   = "QEMU USB Audio Interface";
+-    k->usb_desc       = &desc_audio;
+     k->realize        = usb_audio_realize;
+     k->handle_reset   = usb_audio_handle_reset;
+     k->handle_control = usb_audio_handle_control;
 -- 
 2.23.0
 
