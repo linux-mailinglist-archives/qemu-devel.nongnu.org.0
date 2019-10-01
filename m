@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2BDC39B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:00:22 +0200 (CEST)
-Received: from localhost ([::1]:44002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D43BC39FF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:08:56 +0200 (CEST)
+Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKZY-0006DI-LN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
+	id 1iFKhq-0006fm-Oa
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0008LV-A9
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0008La-EJ
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTE-0006lM-KL
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTF-0006mj-4k
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38412)
+Received: from relay.sw.ru ([185.231.240.75]:38500)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTD-0006YI-T0
+ id 1iFKTE-0006bI-18
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:48 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKSz-0004xb-Al; Tue, 01 Oct 2019 18:53:33 +0300
+ id 1iFKT1-0004xb-Vq; Tue, 01 Oct 2019 18:53:36 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/31] SCSI: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:04 +0300
-Message-Id: <20191001155319.8066-17-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 24/31] chardev: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:12 +0300
+Message-Id: <20191001155319.8066-25-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>
+ Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,47 +82,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/scsi/scsi-disk.c    | 1 +
- hw/scsi/scsi-generic.c | 1 +
- hw/scsi/vhost-scsi.c   | 1 +
- 3 files changed, 3 insertions(+)
+ chardev/spice.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 915641a0f1..48165dc128 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2597,6 +2597,7 @@ static int get_device_type(SCSIDiskState *s)
- 
- static void scsi_block_realize(SCSIDevice *dev, Error **errp)
+diff --git a/chardev/spice.c b/chardev/spice.c
+index 241e2b7770..ce2145fb19 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -267,6 +267,7 @@ static void qemu_chr_open_spice_vmc(Chardev *chr,
+                                     bool *be_opened,
+                                     Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
-     AioContext *ctx;
-     int sg_version;
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index e7798ebcd0..4c7543801f 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -653,6 +653,7 @@ static void scsi_generic_reset(DeviceState *dev)
- 
- static void scsi_generic_realize(SCSIDevice *s, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     int rc;
-     int sg_version;
-     struct sg_scsi_id scsiid;
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index c693fc748a..c01c6dfbe2 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -165,6 +165,7 @@ static const VMStateDescription vmstate_virtio_vhost_scsi = {
- 
- static void vhost_scsi_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(dev);
-     Error *err = NULL;
+     ChardevSpiceChannel *spicevmc = backend->u.spicevmc.data;
+     const char *type = spicevmc->type;
+     const char **psubtype = spice_server_char_device_recognized_subtypes();
 -- 
 2.21.0
 
