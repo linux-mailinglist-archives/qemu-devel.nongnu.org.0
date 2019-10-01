@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6E7C3F30
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:59:19 +0200 (CEST)
-Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F26C3F43
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 20:03:22 +0200 (CEST)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFMQg-0001fA-An
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
+	id 1iFMUb-000457-Co
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 14:03:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iFMPY-00016k-GU
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:58:09 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iFMRH-0002Vx-4G
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:59:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iFMPX-0005xg-JW
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:58:08 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44864)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iFMPX-0005wG-CT
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:58:07 -0400
-Received: by mail-pg1-x541.google.com with SMTP id i14so10160003pgt.11
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 10:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GpG3ksufPUabInnVHaFmlcM2bJfnLvdb2nUimFeA08Q=;
- b=xSUCO0SmLutHE9MyHtPLHBggp79hImRbJhKlEMdnBZziHfO8misTP5aecFBZi3xcDN
- Rwqncr0enYd9iqO9mFFJp5daLAtE8LAc3cTXnwMiNlk/pJo6DuiMurhB3OAppLS9dE60
- iVtXhQIcsmy3NdFXKwZs8x7kvyrZ+6UOdfAsG/o9LtCQJC1HFyArUm1ebpY65BSbp3ll
- hPHPq1dQwTar4OljFCF3s/figfSn23984qHXxUVF4dDBG8FvW0EYVhOkImISd3ahcOpg
- Xxm5z+MoOdQ3WupgbwLiIIzxCXnENvxEGYhTXMB6Afi7cEu+4wWuVFkwP/XQwQSt940p
- pNLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GpG3ksufPUabInnVHaFmlcM2bJfnLvdb2nUimFeA08Q=;
- b=RGfCxquvA2i89fs5r93hi51/m9H65gX7TWCZIPGQb3TFfwOZJgYwW8ns9HFNjrEbkq
- dwhfBO/8mPfVywE06S1ib0zSfzZWoXI2RCVNagKlPVeNsdrRDj+7Qle9Trs/u7oOovzQ
- SXq16/KiFxSIQ14nmeoxGcMZqQUcKtoTVUYWCqhBAFLBP853MZShXhOZDCTVSqoxJzCP
- 1+3snmu4Zk7OiMP7US5EXyPzpB85M5oAZDBJM46dbyVPVjxeC1ciWU1AgKgIgUJ0N+9j
- grpTVgJmwYPjlDGcUPXMXX5lYpvxNbJfnKU+VQhA/880ik60dv4hVI1gw5XkIR1S4R3d
- TEmw==
-X-Gm-Message-State: APjAAAWwZJiwBcZy3Q8a9l5ljanCim2vh/Z6cCs/Ub46o6TZ/NBlc//w
- twc+2sghB0FOEKg1Jg2onwDqzw==
-X-Google-Smtp-Source: APXvYqzCf1nNyyRE7Snq0KrLW8VzB9cE8x9ERYguQ8gDSSS3ZgQ93bQKAjDattLuGfxFEfmoVZJFJg==
-X-Received: by 2002:aa7:9104:: with SMTP id 4mr29339661pfh.176.1569952686018; 
- Tue, 01 Oct 2019 10:58:06 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id o60sm4022122pje.21.2019.10.01.10.58.04
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Oct 2019 10:58:05 -0700 (PDT)
-Subject: Re: [PATCH v5 8/9] target/arm/cpu64: max cpu: Support sve properties
- with KVM
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20191001125845.8793-1-drjones@redhat.com>
- <20191001125845.8793-9-drjones@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1iFMRG-0007fI-44
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:59:55 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:47876
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iFMR6-0006ZF-9Z; Tue, 01 Oct 2019 13:59:44 -0400
+Received: from host86-133-194-221.range86-133.btcentralplus.com
+ ([86.133.194.221] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1iFMOI-0007Yu-Tm; Tue, 01 Oct 2019 18:56:51 +0100
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+ <CAFEAcA9vb5_Mi_axWpu7269Zg0xMLbiiV80ofLeyDpfws3G4nQ@mail.gmail.com>
+ <4512b61a-ed82-e628-88e5-f44ef87c2b50@linaro.org>
+ <20190930092519.GB11996@redhat.com> <87impakrky.fsf@linaro.org>
+ <CAFEAcA8_Zt+4RuXh8ww3Xm5=fQT+e_XcjZ6VC2N9k5mzLy0bnw@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Openpgp: preference=signencrypt
-Message-ID: <231b4353-9c4f-71e3-3337-bf858edabdfc@linaro.org>
-Date: Tue, 1 Oct 2019 10:58:03 -0700
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <ddf455e3-742e-81ce-c51a-d783e8d2ad55@ilande.co.uk>
+Date: Tue, 1 Oct 2019 18:56:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191001125845.8793-9-drjones@redhat.com>
+In-Reply-To: <CAFEAcA8_Zt+4RuXh8ww3Xm5=fQT+e_XcjZ6VC2N9k5mzLy0bnw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.133.194.221
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.43.2.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,29 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
- imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 5:58 AM, Andrew Jones wrote:
-> Extend the SVE vq map initialization and validation with KVM's
-> supported vector lengths when KVM is enabled. In order to determine
-> and select supported lengths we add two new KVM functions for getting
-> and setting the KVM_REG_ARM64_SVE_VLS pseudo-register.
+On 30/09/2019 12:41, Peter Maydell wrote:
+
+> On Mon, 30 Sep 2019 at 11:26, Alex Bennée <alex.bennee@linaro.org> wrote:
+>> The int128 support is due to the fact we are going to start to see newer
+>> architectures with things like 128 bit shadow capability registers and
+>> they will be a pain to shuffle around in 32 bit generated host code as
+>> well as requiring writing new extra plumbing for TCG's pre/post amble to
+>> pass them back and forth between C and generated code. These guest
+>> architectures may not even be full 64 bit guests so it's not quite as
+>> simple as saying you can't have 64 bit guests on a 32 bit host.
 > 
-> This patch has been co-authored with Richard Henderson, who reworked
-> the target/arm/cpu64.c changes in order to push all the validation and
-> auto-enabling/disabling steps into the finalizer, resulting in a nice
-> LOC reduction.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> ---
+> I think that for int128_t in particular, the ideal answer is
+> that if the compiler developers want to introduce a new
+> abstraction like that, they should support it on all targets,
+> not just half of them...
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Just out of interest, which host/compiler combinations don't currently implement
+int128_t?
 
 
-r~
+ATB,
 
+Mark.
 
