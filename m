@@ -2,83 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3273EC2FA8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:08:17 +0200 (CEST)
-Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3E5C2FB3
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:11:09 +0200 (CEST)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFE8l-0006af-UV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60536)
+	id 1iFEBY-000226-0K
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iFE6m-00051i-Jv
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:06:13 -0400
+ (envelope-from <thuth@redhat.com>) id 1iFE70-0005M9-Al
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:06:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iFE6l-000807-GO
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:06:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26881
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iFE6z-00088c-BW
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:06:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45474)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFE6l-0007zj-6Q
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569920770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7P1ZktAolcjho5DdBW/TZGwCndMvQnzW2x3dOf4l240=;
- b=JYjKuQmokFuqfQIi2dAmc0ZOOJeGqjZDW/mT7x53+zv/nh4Bl2eQuSctAZ4MrEYR9XX/Vt
- Hh7y8KOOG0CETMhYT984ZmI99R6UDXmPbjDhNoPEoIFOdRl4OVgng5iy3cPcxovMcLYCso
- X+Pan4uTGGJRjy0weRFJGMtQXdxT06M=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-1y-U84kfO6iY_wOVySwOSg-1; Tue, 01 Oct 2019 05:06:07 -0400
-Received: by mail-wr1-f69.google.com with SMTP id t11so5711781wrq.19
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 02:06:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ShRVkeeNm8ND09rw/w0sONyhcVtOOoQpe2MMGCyi/2I=;
- b=Eo1FTQn7R6Z1/YBp5jbAhTIy0HvgUYJg/6Pp8ry5phfmpcc2cEH9PiMdwTcpqIvCKz
- N9sg68yJRAtQog389rhg+RV/hsv4IuvfR958U7qmS5KWM2xiAAYrIHylhiJAS/mmMpeH
- W5nLDF7+Mh/2W3Tm1IneEsAlA3nk1L9tWrjA5bkJU0UU+X7OxnV/l0d0JgNZJMZ5Ycp0
- iBw9hA0GgTUCFke1uIlTLM3nDHhEYKMY6QtalG4i0AGvfrPAsa9KkQg1THQ0tCJVCDyM
- 70sLL5LfM3Iy6/XWVaw8vvI7PcUZZjZQSG+p6OSkdOnjCk9WDKOAsy9NOP01rxdbf8FQ
- LU0w==
-X-Gm-Message-State: APjAAAUAdGV+KLtIXVaQWkfHu30LXXbnDCOO38VaqC5ywPjMJYR8Jbrb
- z3BTkWfN8xhLd4vCE4LPcGWzd0pZB7Vxv4RmWsVMSCQ5ScAMB35AaMpm8zHMu0AQ3Vmwr3FyXH/
- A7FHiVAGfKJhscvM=
-X-Received: by 2002:a5d:5642:: with SMTP id j2mr14086712wrw.345.1569920765446; 
- Tue, 01 Oct 2019 02:06:05 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwB2GHltk4wE42LWLy6JO1T6bdZGHtQs1Ot0otkYzbz4RKeRqjHIN6EYatH2Ua3msW1UhkBzg==
-X-Received: by 2002:a5d:5642:: with SMTP id j2mr14086699wrw.345.1569920765291; 
- Tue, 01 Oct 2019 02:06:05 -0700 (PDT)
-Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id l11sm2526703wmh.34.2019.10.01.02.06.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2019 02:06:04 -0700 (PDT)
-Subject: Re: [PATCH] linux-user: add strace for dup3
-To: Andreas Schwab <schwab@suse.de>, qemu-devel@nongnu.org
-References: <mvmsgoe17l5.fsf@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5bc7982a-e036-bfef-93c6-7c5643526789@redhat.com>
-Date: Tue, 1 Oct 2019 11:06:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iFE6z-00087x-2p; Tue, 01 Oct 2019 05:06:25 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5075E309BDA3;
+ Tue,  1 Oct 2019 09:06:24 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-70.ams2.redhat.com [10.36.116.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 834C35C223;
+ Tue,  1 Oct 2019 09:06:17 +0000 (UTC)
+Subject: Re: [PATCH v1 3/5] s390x/mmu: Implement
+ Instruction-Execution-Protection Facility
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190926101627.23376-1-david@redhat.com>
+ <20190926101627.23376-4-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <10a399fe-9933-c62c-8ac2-cc02ad5ec472@redhat.com>
+Date: Tue, 1 Oct 2019 11:06:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <mvmsgoe17l5.fsf@suse.de>
+In-Reply-To: <20190926101627.23376-4-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: 1y-U84kfO6iY_wOVySwOSg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 01 Oct 2019 09:06:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,31 +105,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/19 11:01 AM, Andreas Schwab wrote:
-> Signed-off-by: Andreas Schwab <schwab@suse.de>
+On 26/09/2019 12.16, David Hildenbrand wrote:
+> IEP support in the mmu is fairly easy. Set the right permissions for TLB
+> entries and properly report an exception.
+> 
+> Make sure to handle EDAT-2 by setting bit 56/60/61 of the TEID (TEC) to
+> the right values.
+> 
+> Let's keep s390_cpu_get_phys_page_debug() working even if IEP is
+> active. Switch MMU_DATA_LOAD - this has no other effects any more as the
+> ASC to be used is now fully selected outside of mmu_translate().
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   linux-user/strace.list | 3 +++
->   1 file changed, 3 insertions(+)
->=20
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 63a946642d..863283418e 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -121,6 +121,9 @@
->   #ifdef TARGET_NR_dup2
->   { TARGET_NR_dup2, "dup2" , NULL, NULL, NULL },
->   #endif
-> +#ifdef TARGET_NR_dup3
-> +{ TARGET_NR_dup3, "dup3" , NULL, NULL, NULL },
-> +#endif
->   #ifdef TARGET_NR_epoll_create
->   { TARGET_NR_epoll_create, "epoll_create" , NULL, NULL, NULL },
->   #endif
->=20
+>  target/s390x/cpu.h        |  1 +
+>  target/s390x/helper.c     |  6 +++++-
+>  target/s390x/mmu_helper.c | 21 +++++++++++++++++++++
+>  3 files changed, 27 insertions(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
