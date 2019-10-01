@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4D5C4525
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:51:46 +0200 (CEST)
-Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8359C453C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:58:51 +0200 (CEST)
+Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSro-0003uO-JB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40417)
+	id 1iFSyf-0002k3-Vl
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:58:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tQ-AQ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:26 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsY-0001xQ-Pr
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0002O7-5W
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56160
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0002Yp-DX
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54934)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsJ-0001rk-Ba; Tue, 01 Oct 2019 19:48:11 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlOgJ098927; Tue, 1 Oct 2019 19:47:49 -0400
+ id 1iFRsO-0001y3-DT; Tue, 01 Oct 2019 19:48:19 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlWwg135052; Tue, 1 Oct 2019 19:47:53 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v2y-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vccwberj9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:49 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlnhw099831;
- Tue, 1 Oct 2019 19:47:49 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v2q-1
+ Tue, 01 Oct 2019 19:47:53 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlrPW138284;
+ Tue, 1 Oct 2019 19:47:53 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vccwberj0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:49 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlrD001420;
- Tue, 1 Oct 2019 23:47:48 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma03wdc.us.ibm.com with ESMTP id 2v9y56yf88-1
+ Tue, 01 Oct 2019 19:47:53 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlmW032693;
+ Tue, 1 Oct 2019 23:47:52 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 2v9y57qb8c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:48 +0000
+ Tue, 01 Oct 2019 23:47:52 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlmTC11076576
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91Nlp6d53674250
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:48 GMT
+ Tue, 1 Oct 2019 23:47:51 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0256C2805A;
- Tue,  1 Oct 2019 23:47:48 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 878E328065;
+ Tue,  1 Oct 2019 23:47:51 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA63228059;
- Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6C1E22805C;
+ Tue,  1 Oct 2019 23:47:51 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:51 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 66/97] iotests: Test incremental backup after truncation
-Date: Tue,  1 Oct 2019 18:45:45 -0500
-Message-Id: <20191001234616.7825-67-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 72/97] dma-helpers: ensure AIO callback is invoked after
+ cancellation
+Date: Tue,  1 Oct 2019 18:45:51 -0500
+Message-Id: <20191001234616.7825-73-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -73,10 +73,10 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=838 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,105 +88,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190805152840.32190-1-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 8a9cb864086269af14bbd13f395472703cf99f8c)
+dma_aio_cancel unschedules the BH if there is one, which corresponds
+to the reschedule_dma case of dma_blk_cb.  This can stall the DMA
+permanently, because dma_complete will never get invoked and therefore
+nobody will ever invoke the original AIO callback in dbs->common.cb.
+
+Fix this by invoking the callback (which is ensured to happen after
+a bdrv_aio_cancel_async, or done manually in the dbs->bh case), and
+add assertions to check that the DMA state machine is indeed waiting
+for dma_complete or reschedule_dma, but never both.
+
+Reported-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: 20190729213416.1972-1-pbonzini@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+(cherry picked from commit 539343c0a47e19d5dd64d846d64d084d9793681f)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/124     | 38 ++++++++++++++++++++++++++++++++++----
- tests/qemu-iotests/124.out |  4 ++--
- 2 files changed, 36 insertions(+), 6 deletions(-)
+ dma-helpers.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
-index 80b356f7bb..3440f54781 100755
---- a/tests/qemu-iotests/124
-+++ b/tests/qemu-iotests/124
-@@ -212,25 +212,28 @@ class TestIncrementalBackupBase(iotests.QMPTestCase):
-         return bitmap
+diff --git a/dma-helpers.c b/dma-helpers.c
+index 2d7e02d35e..d3871dc61e 100644
+--- a/dma-helpers.c
++++ b/dma-helpers.c
+@@ -90,6 +90,7 @@ static void reschedule_dma(void *opaque)
+ {
+     DMAAIOCB *dbs = (DMAAIOCB *)opaque;
  
++    assert(!dbs->acb && dbs->bh);
+     qemu_bh_delete(dbs->bh);
+     dbs->bh = NULL;
+     dma_blk_cb(dbs, 0);
+@@ -111,15 +112,12 @@ static void dma_complete(DMAAIOCB *dbs, int ret)
+ {
+     trace_dma_complete(dbs, ret, dbs->common.cb);
  
--    def prepare_backup(self, bitmap=None, parent=None):
-+    def prepare_backup(self, bitmap=None, parent=None, **kwargs):
-         if bitmap is None:
-             bitmap = self.bitmaps[-1]
-         if parent is None:
-             parent, _ = bitmap.last_target()
++    assert(!dbs->acb && !dbs->bh);
+     dma_blk_unmap(dbs);
+     if (dbs->common.cb) {
+         dbs->common.cb(dbs->common.opaque, ret);
+     }
+     qemu_iovec_destroy(&dbs->iov);
+-    if (dbs->bh) {
+-        qemu_bh_delete(dbs->bh);
+-        dbs->bh = NULL;
+-    }
+     qemu_aio_unref(dbs);
+ }
  
-         target, _ = bitmap.new_target()
--        self.img_create(target, bitmap.drive['fmt'], parent=parent)
-+        self.img_create(target, bitmap.drive['fmt'], parent=parent,
-+                        **kwargs)
-         return target
+@@ -179,14 +177,21 @@ static void dma_aio_cancel(BlockAIOCB *acb)
  
+     trace_dma_aio_cancel(dbs);
  
-     def create_incremental(self, bitmap=None, parent=None,
--                           parentFormat=None, validate=True):
-+                           parentFormat=None, validate=True,
-+                           target=None):
-         if bitmap is None:
-             bitmap = self.bitmaps[-1]
-         if parent is None:
-             parent, _ = bitmap.last_target()
- 
--        target = self.prepare_backup(bitmap, parent)
-+        if target is None:
-+            target = self.prepare_backup(bitmap, parent)
-         res = self.do_qmp_backup(job_id=bitmap.drive['id'],
-                                  device=bitmap.drive['id'],
-                                  sync='incremental', bitmap=bitmap.name,
-@@ -572,6 +575,33 @@ class TestIncrementalBackup(TestIncrementalBackupBase):
-                           'bitmap0', self.drives[0],
-                           granularity=64000)
- 
-+    def test_growing_before_backup(self):
-+        '''
-+        Test: Add a bitmap, truncate the image, write past the old
-+              end, do a backup.
++    assert(!(dbs->acb && dbs->bh));
+     if (dbs->acb) {
++        /* This will invoke dma_blk_cb.  */
+         blk_aio_cancel_async(dbs->acb);
++        return;
+     }
 +
-+        Incremental backup should not ignore dirty bits past the old
-+        image end.
-+        '''
-+        self.assert_no_active_block_jobs()
-+
-+        self.create_anchor_backup()
-+
-+        self.add_bitmap('bitmap0', self.drives[0])
-+
-+        res = self.vm.qmp('block_resize', device=self.drives[0]['id'],
-+                          size=(65 * 1048576))
-+        self.assert_qmp(res, 'return', {})
-+
-+        # Dirty the image past the old end
-+        self.vm.hmp_qemu_io(self.drives[0]['id'], 'write 64M 64k')
-+
-+        target = self.prepare_backup(size='65M')
-+        self.create_incremental(target=target)
-+
-+        self.vm.shutdown()
-+        self.check_backups()
-+
+     if (dbs->bh) {
+         cpu_unregister_map_client(dbs->bh);
+         qemu_bh_delete(dbs->bh);
+         dbs->bh = NULL;
+     }
++    if (dbs->common.cb) {
++        dbs->common.cb(dbs->common.opaque, -ECANCELED);
++    }
+ }
  
- class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
-     '''Incremental backup tests that utilize a BlkDebug filter on drive0.'''
-diff --git a/tests/qemu-iotests/124.out b/tests/qemu-iotests/124.out
-index 281b69efea..fa16b5ccef 100644
---- a/tests/qemu-iotests/124.out
-+++ b/tests/qemu-iotests/124.out
-@@ -1,5 +1,5 @@
--............
-+.............
- ----------------------------------------------------------------------
--Ran 12 tests
-+Ran 13 tests
- 
- OK
+ static AioContext *dma_get_aio_context(BlockAIOCB *acb)
 -- 
 2.17.1
 
