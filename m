@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA549C452F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:54:29 +0200 (CEST)
-Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4D5C4525
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:51:46 +0200 (CEST)
+Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSuS-0006kv-IV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40413)
+	id 1iFSro-0003uO-JB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40417)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tK-B8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:30 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tQ-AQ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsK-0002Mz-2d
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0002O7-5W
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33786
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56160
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsJ-0001pR-An; Tue, 01 Oct 2019 19:48:11 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlPqW122859; Tue, 1 Oct 2019 19:47:48 -0400
+ id 1iFRsJ-0001rk-Ba; Tue, 01 Oct 2019 19:48:11 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlOgJ098927; Tue, 1 Oct 2019 19:47:49 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk409bd-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v2y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:48 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NllFl123402;
- Tue, 1 Oct 2019 19:47:47 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk409b5-1
+ Tue, 01 Oct 2019 19:47:49 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlnhw099831;
+ Tue, 1 Oct 2019 19:47:49 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v2q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:47 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlZ1029380;
- Tue, 1 Oct 2019 23:47:46 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fajv-1
+ Tue, 01 Oct 2019 19:47:49 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlrD001420;
+ Tue, 1 Oct 2019 23:47:48 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03wdc.us.ibm.com with ESMTP id 2v9y56yf88-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:46 +0000
+ Tue, 01 Oct 2019 23:47:48 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlkbF41746912
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlmTC11076576
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:46 GMT
+ Tue, 1 Oct 2019 23:47:48 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC6512805A;
- Tue,  1 Oct 2019 23:47:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0256C2805A;
+ Tue,  1 Oct 2019 23:47:48 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0F2928058;
- Tue,  1 Oct 2019 23:47:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DA63228059;
+ Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:45 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 62/97] block/backup: refactor: split out
- backup_calculate_cluster_size
-Date: Tue,  1 Oct 2019 18:45:41 -0500
-Message-Id: <20191001234616.7825-63-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 66/97] iotests: Test incremental backup after truncation
+Date: Tue,  1 Oct 2019 18:45:45 -0500
+Message-Id: <20191001234616.7825-67-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -72,9 +71,9 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=838 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -89,153 +88,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
 
-Split out cluster_size calculation. Move copy-bitmap creation above
-block-job creation, as we are going to share it with upcoming
-backup-top filter, which also should be created before actual block job
-creation.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190429090842.57910-6-vsementsov@virtuozzo.com
-[mreitz: Dropped a paragraph from the commit message that was left over
-         from a previous version]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit ae6b12fa4cf7d54add35531c790aaf2bd6d833f3)
-*prereq for 110571be4e
+Message-id: 20190805152840.32190-1-mreitz@redhat.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit 8a9cb864086269af14bbd13f395472703cf99f8c)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/backup.c | 82 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 52 insertions(+), 30 deletions(-)
+ tests/qemu-iotests/124     | 38 ++++++++++++++++++++++++++++++++++----
+ tests/qemu-iotests/124.out |  4 ++--
+ 2 files changed, 36 insertions(+), 6 deletions(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index b54386b699..d1b94a6dbe 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -507,6 +507,42 @@ static const BlockJobDriver backup_job_driver = {
-     .drain                  = backup_drain,
- };
+diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
+index 80b356f7bb..3440f54781 100755
+--- a/tests/qemu-iotests/124
++++ b/tests/qemu-iotests/124
+@@ -212,25 +212,28 @@ class TestIncrementalBackupBase(iotests.QMPTestCase):
+         return bitmap
  
-+static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-+                                             Error **errp)
-+{
-+    int ret;
-+    BlockDriverInfo bdi;
-+
-+    /*
-+     * If there is no backing file on the target, we cannot rely on COW if our
-+     * backup cluster size is smaller than the target cluster size. Even for
-+     * targets with a backing file, try to avoid COW if possible.
-+     */
-+    ret = bdrv_get_info(target, &bdi);
-+    if (ret == -ENOTSUP && !target->backing) {
-+        /* Cluster size is not defined */
-+        warn_report("The target block device doesn't provide "
-+                    "information about the block size and it doesn't have a "
-+                    "backing file. The default block size of %u bytes is "
-+                    "used. If the actual block size of the target exceeds "
-+                    "this default, the backup may be unusable",
-+                    BACKUP_CLUSTER_SIZE_DEFAULT);
-+        return BACKUP_CLUSTER_SIZE_DEFAULT;
-+    } else if (ret < 0 && !target->backing) {
-+        error_setg_errno(errp, -ret,
-+            "Couldn't determine the cluster size of the target image, "
-+            "which has no backing file");
-+        error_append_hint(errp,
-+            "Aborting, since this may create an unusable destination image\n");
-+        return ret;
-+    } else if (ret < 0 && target->backing) {
-+        /* Not fatal; just trudge on ahead. */
-+        return BACKUP_CLUSTER_SIZE_DEFAULT;
-+    }
-+
-+    return MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
-+}
-+
- BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *target, int64_t speed,
-                   MirrorSyncMode sync_mode, BdrvDirtyBitmap *sync_bitmap,
-@@ -518,9 +554,10 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-                   JobTxn *txn, Error **errp)
- {
-     int64_t len;
--    BlockDriverInfo bdi;
-     BackupBlockJob *job = NULL;
-     int ret;
-+    int64_t cluster_size;
-+    HBitmap *copy_bitmap = NULL;
  
-     assert(bs);
-     assert(target);
-@@ -582,6 +619,13 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         goto error;
-     }
+-    def prepare_backup(self, bitmap=None, parent=None):
++    def prepare_backup(self, bitmap=None, parent=None, **kwargs):
+         if bitmap is None:
+             bitmap = self.bitmaps[-1]
+         if parent is None:
+             parent, _ = bitmap.last_target()
  
-+    cluster_size = backup_calculate_cluster_size(target, errp);
-+    if (cluster_size < 0) {
-+        goto error;
-+    }
+         target, _ = bitmap.new_target()
+-        self.img_create(target, bitmap.drive['fmt'], parent=parent)
++        self.img_create(target, bitmap.drive['fmt'], parent=parent,
++                        **kwargs)
+         return target
+ 
+ 
+     def create_incremental(self, bitmap=None, parent=None,
+-                           parentFormat=None, validate=True):
++                           parentFormat=None, validate=True,
++                           target=None):
+         if bitmap is None:
+             bitmap = self.bitmaps[-1]
+         if parent is None:
+             parent, _ = bitmap.last_target()
+ 
+-        target = self.prepare_backup(bitmap, parent)
++        if target is None:
++            target = self.prepare_backup(bitmap, parent)
+         res = self.do_qmp_backup(job_id=bitmap.drive['id'],
+                                  device=bitmap.drive['id'],
+                                  sync='incremental', bitmap=bitmap.name,
+@@ -572,6 +575,33 @@ class TestIncrementalBackup(TestIncrementalBackupBase):
+                           'bitmap0', self.drives[0],
+                           granularity=64000)
+ 
++    def test_growing_before_backup(self):
++        '''
++        Test: Add a bitmap, truncate the image, write past the old
++              end, do a backup.
 +
-+    copy_bitmap = hbitmap_alloc(len, ctz32(cluster_size));
++        Incremental backup should not ignore dirty bits past the old
++        image end.
++        '''
++        self.assert_no_active_block_jobs()
 +
-     /* job->len is fixed, so we can't allow resize */
-     job = block_job_create(job_id, &backup_job_driver, txn, bs,
-                            BLK_PERM_CONSISTENT_READ,
-@@ -610,35 +654,9 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
++        self.create_anchor_backup()
++
++        self.add_bitmap('bitmap0', self.drives[0])
++
++        res = self.vm.qmp('block_resize', device=self.drives[0]['id'],
++                          size=(65 * 1048576))
++        self.assert_qmp(res, 'return', {})
++
++        # Dirty the image past the old end
++        self.vm.hmp_qemu_io(self.drives[0]['id'], 'write 64M 64k')
++
++        target = self.prepare_backup(size='65M')
++        self.create_incremental(target=target)
++
++        self.vm.shutdown()
++        self.check_backups()
++
  
-     /* Detect image-fleecing (and similar) schemes */
-     job->serialize_target_writes = bdrv_chain_contains(target, bs);
--
--    /* If there is no backing file on the target, we cannot rely on COW if our
--     * backup cluster size is smaller than the target cluster size. Even for
--     * targets with a backing file, try to avoid COW if possible. */
--    ret = bdrv_get_info(target, &bdi);
--    if (ret == -ENOTSUP && !target->backing) {
--        /* Cluster size is not defined */
--        warn_report("The target block device doesn't provide "
--                    "information about the block size and it doesn't have a "
--                    "backing file. The default block size of %u bytes is "
--                    "used. If the actual block size of the target exceeds "
--                    "this default, the backup may be unusable",
--                    BACKUP_CLUSTER_SIZE_DEFAULT);
--        job->cluster_size = BACKUP_CLUSTER_SIZE_DEFAULT;
--    } else if (ret < 0 && !target->backing) {
--        error_setg_errno(errp, -ret,
--            "Couldn't determine the cluster size of the target image, "
--            "which has no backing file");
--        error_append_hint(errp,
--            "Aborting, since this may create an unusable destination image\n");
--        goto error;
--    } else if (ret < 0 && target->backing) {
--        /* Not fatal; just trudge on ahead. */
--        job->cluster_size = BACKUP_CLUSTER_SIZE_DEFAULT;
--    } else {
--        job->cluster_size = MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
--    }
--
--    job->copy_bitmap = hbitmap_alloc(len, ctz32(job->cluster_size));
-+    job->cluster_size = cluster_size;
-+    job->copy_bitmap = copy_bitmap;
-+    copy_bitmap = NULL;
-     job->use_copy_range = true;
-     job->copy_range_size = MIN_NON_ZERO(blk_get_max_transfer(job->common.blk),
-                                         blk_get_max_transfer(job->target));
-@@ -654,6 +672,10 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     return &job->common;
+ class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
+     '''Incremental backup tests that utilize a BlkDebug filter on drive0.'''
+diff --git a/tests/qemu-iotests/124.out b/tests/qemu-iotests/124.out
+index 281b69efea..fa16b5ccef 100644
+--- a/tests/qemu-iotests/124.out
++++ b/tests/qemu-iotests/124.out
+@@ -1,5 +1,5 @@
+-............
++.............
+ ----------------------------------------------------------------------
+-Ran 12 tests
++Ran 13 tests
  
-  error:
-+    if (copy_bitmap) {
-+        assert(!job || !job->copy_bitmap);
-+        hbitmap_free(copy_bitmap);
-+    }
-     if (sync_bitmap) {
-         bdrv_reclaim_dirty_bitmap(bs, sync_bitmap, NULL);
-     }
+ OK
 -- 
 2.17.1
 
