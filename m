@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD13C31F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 13:03:09 +0200 (CEST)
-Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9D3C31FB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 13:07:22 +0200 (CEST)
+Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFFvw-0003VN-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 07:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54013)
+	id 1iFG01-0004vn-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 07:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iFFuG-0002wP-50
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 07:01:34 -0400
+ (envelope-from <groug@kaod.org>) id 1iFFz8-0004Qi-EB
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 07:06:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iFFuE-0005FS-PG
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 07:01:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44784)
+ (envelope-from <groug@kaod.org>) id 1iFFz6-0007h4-NL
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 07:06:26 -0400
+Received: from 6.mo6.mail-out.ovh.net ([87.98.177.69]:53676)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iFFuE-0005Er-Jk; Tue, 01 Oct 2019 07:01:22 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 51848309321D;
- Tue,  1 Oct 2019 11:01:21 +0000 (UTC)
-Received: from thuth.com (ovpn-116-70.ams2.redhat.com [10.36.116.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E88A75D6D0;
- Tue,  1 Oct 2019 11:01:14 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH] qemu-doc: Remove paragraph about requiring a HD image with
- -kernel
-Date: Tue,  1 Oct 2019 13:01:11 +0200
-Message-Id: <20191001110111.4870-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 01 Oct 2019 11:01:21 +0000 (UTC)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iFFz6-0007fT-HO
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 07:06:24 -0400
+Received: from player786.ha.ovh.net (unknown [10.109.143.175])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 129141E3828
+ for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 13:06:20 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player786.ha.ovh.net (Postfix) with ESMTPSA id 45A87A8243EF;
+ Tue,  1 Oct 2019 11:06:16 +0000 (UTC)
+Date: Tue, 1 Oct 2019 13:06:14 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] spapr/xive: skip partially initialized vCPUs in presenter
+Message-ID: <20191001130614.226ef6a2@bahia.w3ibm.bluemix.net>
+In-Reply-To: <20191001085722.32755-1-clg@kaod.org>
+References: <20191001085722.32755-1-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 3687322196738414987
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrgeeggdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 87.98.177.69
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,37 +56,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alexander Graf <agraf@csgraf.de>,
- Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The need for specifying "-hda" together with "-kernel" has been removed in
-commit 57a46d057995 ("Convert linux bootrom to external rom and fw_cfg"),
-almost 10 years ago, so let's remove this description from our documentation
-now, too.
+On Tue,  1 Oct 2019 10:57:22 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- qemu-doc.texi | 4 ----
- 1 file changed, 4 deletions(-)
+> When vCPUs are hotplugged, they are added to the QEMU CPU list before
+> being fully realized. This can crash the XIVE presenter because the
+> 'tctx' pointer is not necessarily initialized when looking for a
+> matching target.
+>=20
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index 2ba6c90c08..3c5022050f 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -906,10 +906,6 @@ Use @option{-kernel} to provide the Linux kernel image and
- @option{-append} to give the kernel command line arguments. The
- @option{-initrd} option can be used to provide an INITRD image.
- 
--When using the direct Linux boot, a disk image for the first hard disk
--@file{hda} is required because its boot sector is used to launch the
--Linux kernel.
--
- If you do not need graphical output, you can disable it and redirect
- the virtual serial port and the QEMU monitor to the console with the
- @option{-nographic} option. The typical command line is:
--- 
-2.18.1
+Ouch... :-\
+
+> These vCPUs are not valid targets for the presenter. Skip them.
+>=20
+
+This likely fixes this specific issue, but more generally, this
+seems to indicate that using CPU_FOREACH() is rather fragile.
+
+What about tracking XIVE TM contexts with a QLIST in xive.c ?
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 6d38755f8459..89b9ef7f20b1 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -319,6 +319,8 @@ typedef struct XiveTCTX {
+     qemu_irq    os_output;
+=20
+     uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
++
++    QTAILQ_ENTRY(XiveTCTX) next;
+ } XiveTCTX;
+=20
+ /*
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b7417210d817..f7721c711041 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -568,6 +568,8 @@ static void xive_tctx_reset(void *dev)
+         ipb_to_pipr(tctx->regs[TM_QW3_HV_PHYS + TM_IPB]);
+ }
+=20
++static QTAILQ_HEAD(, XiveTCTX) xive_tctx_list =3D QTAILQ_HEAD_INITIALIZER(=
+xive_tctx_list);
++
+ static void xive_tctx_realize(DeviceState *dev, Error **errp)
+ {
+     XiveTCTX *tctx =3D XIVE_TCTX(dev);
+@@ -609,10 +611,14 @@ static void xive_tctx_realize(DeviceState *dev, Error=
+ **errp)
+     }
+=20
+     qemu_register_reset(xive_tctx_reset, dev);
++    QTAILQ_INSERT_HEAD(&xive_tctx_list, tctx, next);
+ }
+=20
+ static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
+ {
++    XiveTCTX *tctx =3D XIVE_TCTX(dev);
++
++    QTAILQ_REMOVE(&xive_tctx_list, tctx, next);
+     qemu_unregister_reset(xive_tctx_reset, dev);
+ }
+=20
+@@ -1385,15 +1391,14 @@ static bool xive_presenter_match(XiveRouter *xrtr, =
+uint8_t format,
+                                  bool cam_ignore, uint8_t priority,
+                                  uint32_t logic_serv, XiveTCTXMatch *match)
+ {
+-    CPUState *cs;
++    XiveTCTX *tctx;
+=20
+     /*
+      * TODO (PowerNV): handle chip_id overwrite of block field for
+      * hardwired CAM compares
+      */
+=20
+-    CPU_FOREACH(cs) {
+-        XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
++    QTAILQ_FOREACH(tctx, &xive_tctx_list, next) {
+         int ring;
+=20
+         /*
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  hw/intc/xive.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index b7417210d817..29df06df1136 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1396,6 +1396,14 @@ static bool xive_presenter_match(XiveRouter *xrtr,=
+ uint8_t format,
+>          XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
+>          int ring;
+> =20
+> +        /*
+> +         * Skip partially initialized vCPUs. This can happen when
+> +         * vCPUs are hotplugged.
+> +         */
+> +        if (!tctx) {
+> +            continue;
+> +        }
+> +
+>          /*
+>           * HW checks that the CPU is enabled in the Physical Thread
+>           * Enable Register (PTER).
 
 
