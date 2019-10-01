@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBCEC4574
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:23:48 +0200 (CEST)
-Received: from localhost ([::1]:50142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED90C456E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:21:50 +0200 (CEST)
+Received: from localhost ([::1]:50122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTMp-0000ds-C3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40414)
+	id 1iFTKv-0006sF-HB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tN-Dl
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:31 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsq-0002GM-VY
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsJ-0002MQ-MU
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31446)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsn-00031g-1a
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34206)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsJ-0001q0-7g; Tue, 01 Oct 2019 19:48:11 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1iFRsi-0002PX-VL; Tue, 01 Oct 2019 19:48:38 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlMkk193517; Tue, 1 Oct 2019 19:47:45 -0400
+ x91NlUD2053657; Tue, 1 Oct 2019 19:47:53 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vc71qsg7y-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg1716ch-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:45 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NliBU194129;
- Tue, 1 Oct 2019 19:47:45 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vc71qsg7q-1
+ Tue, 01 Oct 2019 19:47:52 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlqhQ054271;
+ Tue, 1 Oct 2019 19:47:52 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg1716c6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:44 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njl1G006380;
- Tue, 1 Oct 2019 23:47:44 GMT
+ Tue, 01 Oct 2019 19:47:52 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlC4023568;
+ Tue, 1 Oct 2019 23:47:51 GMT
 Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye8p-1
+ [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577h0n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:44 +0000
+ Tue, 01 Oct 2019 23:47:51 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
  by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nli2653674454
+ x91NlpDJ50725314
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:44 GMT
+ Tue, 1 Oct 2019 23:47:51 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ECE6828058;
- Tue,  1 Oct 2019 23:47:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0BE2E28058;
+ Tue,  1 Oct 2019 23:47:51 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C781F28059;
- Tue,  1 Oct 2019 23:47:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E44C42805A;
+ Tue,  1 Oct 2019 23:47:50 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:43 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:50 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 59/97] block/backup: move to copy_bitmap with granularity
-Date: Tue,  1 Oct 2019 18:45:38 -0500
-Message-Id: <20191001234616.7825-60-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 71/97] qcow2: Fix the calculation of the maximum L2 cache size
+Date: Tue,  1 Oct 2019 18:45:50 -0500
+Message-Id: <20191001234616.7825-72-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -70,12 +70,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,196 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Alberto Garcia <berto@igalia.com>
 
-We are going to share this bitmap between backup and backup-top filter
-driver, so let's share something more meaningful. It also simplifies
-some calculations.
+The size of the qcow2 L2 cache defaults to 32 MB, which can be easily
+larger than the maximum amount of L2 metadata that the image can have.
+For example: with 64 KB clusters the user would need a qcow2 image
+with a virtual size of 256 GB in order to have 32 MB of L2 metadata.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190429090842.57910-3-vsementsov@virtuozzo.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit a8389e315ef71913ae99cf8f3b1f89e84631f599)
-*prereq for 4a5b91ca
+Because of that, since commit b749562d9822d14ef69c9eaa5f85903010b86c30
+we forbid the L2 cache to become larger than the maximum amount of L2
+metadata for the image, calculated using this formula:
+
+    uint64_t max_l2_cache = virtual_disk_size / (s->cluster_size / 8);
+
+The problem with this formula is that the result should be rounded up
+to the cluster size because an L2 table on disk always takes one full
+cluster.
+
+For example, a 1280 MB qcow2 image with 64 KB clusters needs exactly
+160 KB of L2 metadata, but we need 192 KB on disk (3 clusters) even if
+the last 32 KB of those are not going to be used.
+
+However QEMU rounds the numbers down and only creates 2 cache tables
+(128 KB), which is not enough for the image.
+
+A quick test doing 4KB random writes on a 1280 MB image gives me
+around 500 IOPS, while with the correct cache size I get 16K IOPS.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit b70d08205b2e4044c529eefc21df2c8ab61b473b)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/backup.c | 48 +++++++++++++++++++++++-------------------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+ block/qcow2.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index d9f5db18ac..510fc54f98 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -113,7 +113,8 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
-     int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
-     int write_flags = job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 840f289a48..c80f48a02b 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -831,7 +831,11 @@ static void read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
+     bool l2_cache_entry_size_set;
+     int min_refcount_cache = MIN_REFCOUNT_CACHE_SIZE * s->cluster_size;
+     uint64_t virtual_disk_size = bs->total_sectors * BDRV_SECTOR_SIZE;
+-    uint64_t max_l2_cache = virtual_disk_size / (s->cluster_size / 8);
++    uint64_t max_l2_entries = DIV_ROUND_UP(virtual_disk_size, s->cluster_size);
++    /* An L2 table is always one cluster in size so the max cache size
++     * should be a multiple of the cluster size. */
++    uint64_t max_l2_cache = ROUND_UP(max_l2_entries * sizeof(uint64_t),
++                                     s->cluster_size);
  
--    hbitmap_reset(job->copy_bitmap, start / job->cluster_size, 1);
-+    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-+    hbitmap_reset(job->copy_bitmap, start, job->cluster_size);
-     nbytes = MIN(job->cluster_size, job->len - start);
-     if (!*bounce_buffer) {
-         *bounce_buffer = blk_blockalign(blk, job->cluster_size);
-@@ -147,7 +148,7 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
- 
-     return nbytes;
- fail:
--    hbitmap_set(job->copy_bitmap, start / job->cluster_size, 1);
-+    hbitmap_set(job->copy_bitmap, start, job->cluster_size);
-     return ret;
- 
- }
-@@ -167,16 +168,15 @@ static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
-     int write_flags = job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0;
- 
-     assert(QEMU_IS_ALIGNED(job->copy_range_size, job->cluster_size));
-+    assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-     nbytes = MIN(job->copy_range_size, end - start);
-     nr_clusters = DIV_ROUND_UP(nbytes, job->cluster_size);
--    hbitmap_reset(job->copy_bitmap, start / job->cluster_size,
--                  nr_clusters);
-+    hbitmap_reset(job->copy_bitmap, start, job->cluster_size * nr_clusters);
-     ret = blk_co_copy_range(blk, start, job->target, start, nbytes,
-                             read_flags, write_flags);
-     if (ret < 0) {
-         trace_backup_do_cow_copy_range_fail(job, start, ret);
--        hbitmap_set(job->copy_bitmap, start / job->cluster_size,
--                    nr_clusters);
-+        hbitmap_set(job->copy_bitmap, start, job->cluster_size * nr_clusters);
-         return ret;
-     }
- 
-@@ -204,7 +204,7 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-     cow_request_begin(&cow_request, job, start, end);
- 
-     while (start < end) {
--        if (!hbitmap_get(job->copy_bitmap, start / job->cluster_size)) {
-+        if (!hbitmap_get(job->copy_bitmap, start)) {
-             trace_backup_do_cow_skip(job, start);
-             start += job->cluster_size;
-             continue; /* already copied */
-@@ -300,6 +300,11 @@ static void backup_clean(Job *job)
-     assert(s->target);
-     blk_unref(s->target);
-     s->target = NULL;
-+
-+    if (s->copy_bitmap) {
-+        hbitmap_free(s->copy_bitmap);
-+        s->copy_bitmap = NULL;
-+    }
- }
- 
- static void backup_attached_aio_context(BlockJob *job, AioContext *aio_context)
-@@ -312,7 +317,6 @@ static void backup_attached_aio_context(BlockJob *job, AioContext *aio_context)
- void backup_do_checkpoint(BlockJob *job, Error **errp)
- {
-     BackupBlockJob *backup_job = container_of(job, BackupBlockJob, common);
--    int64_t len;
- 
-     assert(block_job_driver(job) == &backup_job_driver);
- 
-@@ -322,8 +326,7 @@ void backup_do_checkpoint(BlockJob *job, Error **errp)
-         return;
-     }
- 
--    len = DIV_ROUND_UP(backup_job->len, backup_job->cluster_size);
--    hbitmap_set(backup_job->copy_bitmap, 0, len);
-+    hbitmap_set(backup_job->copy_bitmap, 0, backup_job->len);
- }
- 
- static void backup_drain(BlockJob *job)
-@@ -378,16 +381,16 @@ static int coroutine_fn backup_run_incremental(BackupBlockJob *job)
- {
-     int ret;
-     bool error_is_read;
--    int64_t cluster;
-+    int64_t offset;
-     HBitmapIter hbi;
- 
-     hbitmap_iter_init(&hbi, job->copy_bitmap, 0);
--    while ((cluster = hbitmap_iter_next(&hbi)) != -1) {
-+    while ((offset = hbitmap_iter_next(&hbi)) != -1) {
-         do {
-             if (yield_and_check(job)) {
-                 return 0;
-             }
--            ret = backup_do_cow(job, cluster * job->cluster_size,
-+            ret = backup_do_cow(job, offset,
-                                 job->cluster_size, &error_is_read, false);
-             if (ret < 0 && backup_error_action(job, error_is_read, -ret) ==
-                            BLOCK_ERROR_ACTION_REPORT)
-@@ -409,12 +412,9 @@ static void backup_incremental_init_copy_bitmap(BackupBlockJob *job)
-     while (bdrv_dirty_bitmap_next_dirty_area(job->sync_bitmap,
-                                              &offset, &bytes))
-     {
--        uint64_t cluster = offset / job->cluster_size;
--        uint64_t end_cluster = DIV_ROUND_UP(offset + bytes, job->cluster_size);
-+        hbitmap_set(job->copy_bitmap, offset, bytes);
- 
--        hbitmap_set(job->copy_bitmap, cluster, end_cluster - cluster);
--
--        offset = end_cluster * job->cluster_size;
-+        offset += bytes;
-         if (offset >= job->len) {
-             break;
-         }
-@@ -423,30 +423,27 @@ static void backup_incremental_init_copy_bitmap(BackupBlockJob *job)
- 
-     /* TODO job_progress_set_remaining() would make more sense */
-     job_progress_update(&job->common.job,
--        job->len - hbitmap_count(job->copy_bitmap) * job->cluster_size);
-+        job->len - hbitmap_count(job->copy_bitmap));
- }
- 
- static int coroutine_fn backup_run(Job *job, Error **errp)
- {
-     BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
-     BlockDriverState *bs = blk_bs(s->common.blk);
--    int64_t offset, nb_clusters;
-+    int64_t offset;
-     int ret = 0;
- 
-     QLIST_INIT(&s->inflight_reqs);
-     qemu_co_rwlock_init(&s->flush_rwlock);
- 
--    nb_clusters = DIV_ROUND_UP(s->len, s->cluster_size);
-     job_progress_set_remaining(job, s->len);
- 
--    s->copy_bitmap = hbitmap_alloc(nb_clusters, 0);
-     if (s->sync_mode == MIRROR_SYNC_MODE_INCREMENTAL) {
-         backup_incremental_init_copy_bitmap(s);
-     } else {
--        hbitmap_set(s->copy_bitmap, 0, nb_clusters);
-+        hbitmap_set(s->copy_bitmap, 0, s->len);
-     }
- 
--
-     s->before_write.notify = backup_before_write_notify;
-     bdrv_add_before_write_notifier(bs, &s->before_write);
- 
-@@ -527,7 +524,6 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
-     /* wait until pending backup_do_cow() calls have completed */
-     qemu_co_rwlock_wrlock(&s->flush_rwlock);
-     qemu_co_rwlock_unlock(&s->flush_rwlock);
--    hbitmap_free(s->copy_bitmap);
- 
-     return ret;
- }
-@@ -678,6 +674,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     } else {
-         job->cluster_size = MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size);
-     }
-+
-+    job->copy_bitmap = hbitmap_alloc(len, ctz32(job->cluster_size));
-     job->use_copy_range = true;
-     job->copy_range_size = MIN_NON_ZERO(blk_get_max_transfer(job->common.blk),
-                                         blk_get_max_transfer(job->target));
+     combined_cache_size_set = qemu_opt_get(opts, QCOW2_OPT_CACHE_SIZE);
+     l2_cache_size_set = qemu_opt_get(opts, QCOW2_OPT_L2_CACHE_SIZE);
 -- 
 2.17.1
 
