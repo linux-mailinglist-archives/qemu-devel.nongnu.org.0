@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D575C36A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 16:05:03 +0200 (CEST)
-Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2F0C36A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 16:06:34 +0200 (CEST)
+Received: from localhost ([::1]:42586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIlx-0008VD-UV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 10:05:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34522)
+	id 1iFInR-0001sK-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 10:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iFIj7-0006IT-49
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 10:02:06 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iFIkT-0007oE-SZ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 10:03:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iFIj5-000604-SZ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 10:02:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54486)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFIj5-0005zZ-MZ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 10:02:03 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CB09110B78
- for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 14:02:02 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id i15so6031969wrx.12
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 07:02:02 -0700 (PDT)
+ (envelope-from <alex.bennee@linaro.org>) id 1iFIkS-0006xx-CY
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 10:03:29 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41223)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iFIkS-0006wH-4B
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 10:03:28 -0400
+Received: by mail-wr1-x442.google.com with SMTP id h7so15698373wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 07:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=SBk+mw3TOLHz533KkD7hOTuvVUzZ0AmohD2RXnzjixQ=;
+ b=MLz+zj/Sr06ei3Yayen/aKt7HP711Dr0aMLZz3KCKbuDL4AmiSMRIYLMqPWrtZU8T1
+ Mo+9688zcf6Dh5H78/+kbl4HMpOvt9NYN+VELgpn2bGPjN1tB5CtBQ/gEWxneKj5o6yO
+ v6Y5R4H2xGNpCyRS4+5iXbW5qK80I8JqfNr8QHBBK5lZRu6tvWknFSN9PXPW/LIul3Dg
+ eYt+J/rVS8+KXISt2ssQJ3f+Qz759HtFl4ViNfUWUsS8MMrwy8d2zloIkkw2vvl4A9Cd
+ dberucgn0BALO2ZL2vgDmnSeFPW3yKvN3jkz+x8Da6AHdleN3B6IJULYF1uKVqUSQ+mM
+ YQ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gF6sUf0oxP8/XWEBIJxMyY0QTyr1DP3aLoGgm1yr+Oo=;
- b=FcLwhlJVcRt+Vg/C1J/q0RyM/rPuuaUE11YrfeCe1OKGaMhS5c3x/CEnkaHPM2g6Tu
- K+nC+Hn+tRuviEo3voQkKQpBows4P1hdl/jN1+46QXkCNAjes6PX4FMgz8H6dJNdnm/2
- qknMO1foxu79bayYRTJ0To/QyeDjTBYMrcZmET61j0IneSM8Oyro6arMnLGuoeuJG9WN
- pYWmCaqM/8kRX9OEzoW5utv/EpFn4mttNTnmKsbF32TSl5ozv7CuK2Pj1+cuM3QiXQoK
- Iwge2aCgdEgI2v588Dg5iD4E742iaJ9XHmEe2gNBdgBcJhdI9StYMHvX9SfFiwX4CyXF
- loBA==
-X-Gm-Message-State: APjAAAUx/t4k28/OTaCuJpeukITK+oe0Z1ocmF7rUMaNC1cbBTEbxwkE
- BGPU5YLRTY3ClNA9KD2nF4pRW6hAYxM4UZxhL/sgxrrTwV1b3VgU4Hl/bjFjj/84yPlNXnbh+Ne
- 9eyLGY8zNqSa8x5k=
-X-Received: by 2002:adf:e5cd:: with SMTP id a13mr1187942wrn.249.1569938521145; 
- Tue, 01 Oct 2019 07:02:01 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzHx2vvLLFaIWnnvaLrb8z82RJV4hxWy5iYCWX8+nYNqVRXJaNVEaJEfM6j1YAWNTeEhkYGiA==
-X-Received: by 2002:adf:e5cd:: with SMTP id a13mr1187926wrn.249.1569938520999; 
- Tue, 01 Oct 2019 07:02:00 -0700 (PDT)
-Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id a18sm24467067wrh.25.2019.10.01.07.01.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2019 07:02:00 -0700 (PDT)
-Subject: Re: [PATCH 2/8] microblaze: fix leak of fdevice tree blob
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
- <1569936988-635-3-git-send-email-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5948b4bd-e7cb-bcdb-1666-8b0edb7a2be0@redhat.com>
-Date: Tue, 1 Oct 2019 16:01:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=SBk+mw3TOLHz533KkD7hOTuvVUzZ0AmohD2RXnzjixQ=;
+ b=D/JLs1uWTWVofCe6+/KTP08sGM83VLECcnXZ+eXCi+tvB0KtF2zAqsh9XGvXaO9zYt
+ 2Nlf4xl53zUIzlmkQY2imOo9p4A+TuA5aWsHYEyhYvSoG/DYMjinGzwbrdB2KJE4/5r0
+ mmvMUJRK1VfhwZAvkzEKSC5r42//2fp8UMKgj7PWoejfZ6r100zKoL4DaLSOa3ZJcM65
+ fE2CRTfyhHjPeFFAa0hmG1RSmbU0jvg9XRmatv27qhf0LUIPydAiM1EIJkniDeZ3AckX
+ G3Hn8ZS9/Lpp2iuL+fcGNYuMODxIk24ciiAkTdAlKYe3ZawYyyfP2/RTutSb+yMF3mn9
+ 1+5Q==
+X-Gm-Message-State: APjAAAWGgfFDjW35LiAP+cgSV389PIu/1sd0d/rEM5akgDRZzwJf6e/r
+ 9FR5HjDhJKBUj3ekNpnBbFaRiQ8gCHI=
+X-Google-Smtp-Source: APXvYqx2nVz2IiegpLV6abg2e2wIrNmZjgCzrc+OiRF7LFajxR3ybawL3Hy0YG6ZSUUlN5Ng5LadbQ==
+X-Received: by 2002:a05:6000:186:: with SMTP id
+ p6mr16735866wrx.136.1569938605342; 
+ Tue, 01 Oct 2019 07:03:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c9sm2931641wrt.7.2019.10.01.07.03.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Oct 2019 07:03:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 877221FF87;
+ Tue,  1 Oct 2019 15:03:23 +0100 (BST)
+References: <20191001132609.23184-1-marcandre.lureau@redhat.com>
+User-agent: mu4e 1.3.4; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/3] Some win32 fixes
+In-reply-to: <20191001132609.23184-1-marcandre.lureau@redhat.com>
+Date: Tue, 01 Oct 2019 15:03:23 +0100
+Message-ID: <878sq4lg0k.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1569936988-635-3-git-send-email-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,31 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, sw@weilnetz.de, berrange@redhat.com,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 3:36 PM, Paolo Bonzini wrote:
-> The device tree blob returned by load_device_tree is malloced.
-> Free it before returning.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   hw/microblaze/boot.c | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
-> index bade4d2..d1d7dfb 100644
-> --- a/hw/microblaze/boot.c
-> +++ b/hw/microblaze/boot.c
-> @@ -100,6 +100,7 @@ static int microblaze_load_dtb(hwaddr addr,
->       }
->  =20
->       cpu_physical_memory_write(addr, fdt, fdt_size);
-> +    g_free(fdt);
->       return fdt_size;
->   }
->  =20
->=20
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+
+> Hi,
+>
+> Here are a few patches that should fix some busy looping issues
+> already reported >2y ago
+> (https://lists.gnu.org/archive/html/qemu-devel/2017-01/msg00420.html),
+> and fixing test-char on win32.
+>
+> hmm, do we have any automated testing/CI on Windows (beside just
+> cross-compilation)?
+
+Not that I'm aware of. I did briefly look at CircleCI but never beyond
+playing with my own experiments. Ultimately I find it hard to care about
+Windows as I don't have a copy myself. Maybe someone else does care and
+would like to explore further?
+
+FWIW I believe Travis has Windows support now and there is also
+AppVeyor. It's probably worth spreading the love around given how loaded
+our Travis jobs are.
+
+>
+> thanks
+>
+> Marc-Andr=C3=A9 Lureau (3):
+>   util: WSAEWOULDBLOCK on connect should map to EINPROGRESS
+>   tests: skip serial test on windows
+>   win32: fix main-loop busy loop on socket/fd event
+>
+>  tests/test-char.c  | 4 ++--
+>  util/async.c       | 6 +++++-
+>  util/oslib-win32.c | 6 +++++-
+>  3 files changed, 12 insertions(+), 4 deletions(-)
+
+
+--
+Alex Benn=C3=A9e
 
