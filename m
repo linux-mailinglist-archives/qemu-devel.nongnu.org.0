@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294D7C35F2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:40:37 +0200 (CEST)
-Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130D2C3614
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:43:26 +0200 (CEST)
+Received: from localhost ([::1]:42280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIOJ-0001Ju-Q1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:40:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58099)
+	id 1iFIR2-0004SY-JW
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKV-00069A-Bb
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:40 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKW-0006Au-E8
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKU-0001ij-0D
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:39 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45662)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKV-0001jy-5r
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:40 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFIKT-0001hv-Q8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:37 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r5so15528736wrm.12
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:37 -0700 (PDT)
+ id 1iFIKU-0001jI-VX
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:39 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n14so15544746wrw.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=XQJk1DHPtMxR5rn6iJkZ4+R9JTJIU95kBBNqy6kS5R0=;
- b=n1crnLFrnWMAFmXM2fvPkmuxHnEPVHkESQ7/Bj1t1Q6iM9SzCHQQ+OP82UYtbcGz3C
- RjugMKKrkxZJlez+WShpU2sM8BC8qoDJw08cwY0S0gFyYbH0wbl0I7g/o5wsk7adjR8P
- eguHOU361aa1FJhmNkZOczQnkfhebb3eJzRjf8kiomgnzFiH130uDqQsQjclR/0sA7P3
- mO3orDyLiOxrCsiw1MQuwFDw33DtQh1UyRwaQhvaS+cDjrioeNOOs8yrse282rvOYwtD
- yIHjbG7ODvLysBxkfEGbWJU9HItY0OxMzHxvOrUUzwebhv8N9vpZ0RUm/MhSNKLPI6/n
- XP0Q==
+ bh=h0dNFhGs9tdhjt5L62PjdKnkeMNxQJzqGTxsdc27Rhw=;
+ b=E8vCfkrMqnJ8bY4sWNztKHWCIaF+MTSy4TSsNdWhBxVsVndYT2Ldlc0DkdZLilDMue
+ RoRqk8ox4gw97yo6i2iO5XMYASktiaaxHaLBluuv2JtnI19D5U8A2j+utnLewm3ymPe/
+ H+nZA62pYp79IhUncFc6jrew1aADxNzqBcm6/2uc7/hlw79j6pee/821PqknKZ5N1FxB
+ jvW2HjWUSz4gK+NUvHfLb7vExahAhnRysWWumFBJ7RDVTgDRXU1X774PS6zQtphkk5fb
+ pDnWgLWBcMRLMatYk3EfWZZApGhn0MBY6p9gz2EslgjVXuG/+Q8cEnUc9KTUCAaP0zQo
+ sNXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=XQJk1DHPtMxR5rn6iJkZ4+R9JTJIU95kBBNqy6kS5R0=;
- b=RZjWD8cixsHxghrUqf4JdJ3vpoLLPGX1knzkW6jYavYO1RnrH6z8/D99bxoP8SzQVU
- QqhisbfrGWpfj4BKiTi3UngkXlnqUNaFWZz9dJz0J5V6GUCoTbZmKJZWD2mVFg+3Lh8M
- 7g8acMP8noiC2CXpboBCu7cdy189xDhHDlgMP7rg3zWp8Uh8UYpDq/GSszhlj3PeH498
- t/Gm9olVdOfSiu3ux8qfBxr+kXz3heP0tZAUHGY8PoocvVFlnjhs8O/3To5b6rgNTX9h
- NmhSxjItvvgkRPSkA/LlXo45CbredHM5Ai1chSRrej2/koqWLpP19ZwUDxeNaBkfY2Dp
- +1nw==
-X-Gm-Message-State: APjAAAVQ+VyMhWuHlC3CswrEXOeLxtBZfDim+tPhS0hlYsMUzQu2fSru
- N5XvutsiEYIZY7BwRWjsZqVl+JFT
-X-Google-Smtp-Source: APXvYqz8QwYaoriERgu8f+91qPdv085nQaa5oBF2PsiDoIinpGUS7jIDODgtJq3FkFdKvLRmXymuyA==
-X-Received: by 2002:adf:9d84:: with SMTP id p4mr17432697wre.39.1569936996448; 
- Tue, 01 Oct 2019 06:36:36 -0700 (PDT)
+ bh=h0dNFhGs9tdhjt5L62PjdKnkeMNxQJzqGTxsdc27Rhw=;
+ b=a7tcWBXnkATkz/d5i9vC8wUyaJq0pBm11xK5Cgzn76gy1xvuUj1SKlQ5lU2ilkOn1E
+ kPFjRPpp1xYM56yW3rkWOlEN5NV/8FitLL7dM5d5xzm9d3xirULc55Wgz+n85QRhtu4Y
+ H4x2lxf1WkfrUmmObNmVsHlMW2HQKLsD+N/dlYPeAsjeaR7AVlRr3/twxfjqBv8OHyBx
+ xGDkUQZrwd2T54xcC+llpiQOJIXfkbYDyWePoetiR0sSOBtpeVp+dFOETSZLayCgreGy
+ N4NWXEGpwjgEXqhQDfebLIWE7iMl/PxDTh57mjNXaY/0TQSBnx2ddaexGrDVX2rKKzuE
+ VCIg==
+X-Gm-Message-State: APjAAAXpUiUVskiGe65NmnOBjoWOaN3PDmDnhmnmLW/WeF0ym/oi0+2F
+ x4ONJVeigzyU06rw/wTSP2+Gr1c0
+X-Google-Smtp-Source: APXvYqxCtaDnxm8VWWaAfnQGCJSLrrYmo3xnH99LJ5ru+ox+pxsNsCsCTBlI//T810K8YTUD4Atz/A==
+X-Received: by 2002:adf:c58b:: with SMTP id m11mr17113576wrg.252.1569936997688; 
+ Tue, 01 Oct 2019 06:36:37 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.35
+ by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Oct 2019 06:36:35 -0700 (PDT)
+ Tue, 01 Oct 2019 06:36:36 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] cris: do not leak struct cris_disasm_data
-Date: Tue,  1 Oct 2019 15:36:26 +0200
-Message-Id: <1569936988-635-7-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 7/8] lm32: do not leak memory on object_new/object_unref
+Date: Tue,  1 Oct 2019 15:36:27 +0200
+Message-Id: <1569936988-635-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
 References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,131 +78,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a stack-allocated struct to avoid a memory leak.
+Bottom halves and ptimers are malloced, but nothing in these
+files is freeing memory allocated by instance_init.  Since
+these are sysctl devices that are never unrealized, just moving
+the allocations to realize is enough to avoid the leak in
+practice (and also to avoid upsetting asan when running
+device-introspect-test).
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- disas/cris.c | 59 +++++++++++++++++++++++++++++------------------------------
- 1 file changed, 29 insertions(+), 30 deletions(-)
+ hw/timer/lm32_timer.c       |  6 +++---
+ hw/timer/milkymist-sysctl.c | 10 +++++-----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/disas/cris.c b/disas/cris.c
-index 2f43c9b..0b0a3fb 100644
---- a/disas/cris.c
-+++ b/disas/cris.c
-@@ -1294,24 +1294,17 @@ static int cris_constraint
- /* Parse disassembler options and store state in info.  FIXME: For the
-    time being, we abuse static variables.  */
+diff --git a/hw/timer/lm32_timer.c b/hw/timer/lm32_timer.c
+index ac3edaf..cf316ed 100644
+--- a/hw/timer/lm32_timer.c
++++ b/hw/timer/lm32_timer.c
+@@ -186,9 +186,6 @@ static void lm32_timer_init(Object *obj)
  
--static bfd_boolean
--cris_parse_disassembler_options (disassemble_info *info,
-+static void
-+cris_parse_disassembler_options (struct cris_disasm_data *disdata,
-+				 char *disassembler_options,
- 				 enum cris_disass_family distype)
- {
--  struct cris_disasm_data *disdata;
+     sysbus_init_irq(dev, &s->irq);
+ 
+-    s->bh = qemu_bh_new(timer_hit, s);
+-    s->ptimer = ptimer_init(s->bh, PTIMER_POLICY_DEFAULT);
 -
--  info->private_data = calloc (1, sizeof (struct cris_disasm_data));
--  disdata = (struct cris_disasm_data *) info->private_data;
--  if (disdata == NULL)
--    return false;
+     memory_region_init_io(&s->iomem, obj, &timer_ops, s,
+                           "timer", R_MAX * 4);
+     sysbus_init_mmio(dev, &s->iomem);
+@@ -198,6 +195,9 @@ static void lm32_timer_realize(DeviceState *dev, Error **errp)
+ {
+     LM32TimerState *s = LM32_TIMER(dev);
+ 
++    s->bh = qemu_bh_new(timer_hit, s);
++    s->ptimer = ptimer_init(s->bh, PTIMER_POLICY_DEFAULT);
++
+     ptimer_set_freq(s->ptimer, s->freq_hz);
+ }
+ 
+diff --git a/hw/timer/milkymist-sysctl.c b/hw/timer/milkymist-sysctl.c
+index 9583507..6aedc11 100644
+--- a/hw/timer/milkymist-sysctl.c
++++ b/hw/timer/milkymist-sysctl.c
+@@ -283,11 +283,6 @@ static void milkymist_sysctl_init(Object *obj)
+     sysbus_init_irq(dev, &s->timer0_irq);
+     sysbus_init_irq(dev, &s->timer1_irq);
+ 
+-    s->bh0 = qemu_bh_new(timer0_hit, s);
+-    s->bh1 = qemu_bh_new(timer1_hit, s);
+-    s->ptimer0 = ptimer_init(s->bh0, PTIMER_POLICY_DEFAULT);
+-    s->ptimer1 = ptimer_init(s->bh1, PTIMER_POLICY_DEFAULT);
 -
-   /* Default true.  */
-   disdata->trace_case
--    = (info->disassembler_options == NULL
--       || (strcmp (info->disassembler_options, "nocase") != 0));
-+    = (disassembler_options == NULL
-+       || (strcmp (disassembler_options, "nocase") != 0));
- 
-   disdata->distype = distype;
--  return true;
- }
- 
- static const struct cris_spec_reg *
-@@ -2736,9 +2729,10 @@ static int
- print_insn_cris_with_register_prefix (bfd_vma vma,
- 				      disassemble_info *info)
+     memory_region_init_io(&s->regs_region, obj, &sysctl_mmio_ops, s,
+             "milkymist-sysctl", R_MAX * 4);
+     sysbus_init_mmio(dev, &s->regs_region);
+@@ -297,6 +292,11 @@ static void milkymist_sysctl_realize(DeviceState *dev, Error **errp)
  {
--  if (info->private_data == NULL
--      && !cris_parse_disassembler_options (info, cris_dis_v0_v10))
--    return -1;
-+  struct cris_disasm_data disdata;
-+  info->private_data = &disdata;
-+  cris_parse_disassembler_options (&disdata, info->disassembler_options,
-+				   cris_dis_v0_v10);
-   return print_insn_cris_generic (vma, info, true);
- }
- /* Disassemble, prefixing register names with `$'.  CRIS v32.  */
-@@ -2747,9 +2741,10 @@ static int
- print_insn_crisv32_with_register_prefix (bfd_vma vma,
- 					 disassemble_info *info)
- {
--  if (info->private_data == NULL
--      && !cris_parse_disassembler_options (info, cris_dis_v32))
--    return -1;
-+  struct cris_disasm_data disdata;
-+  info->private_data = &disdata;
-+  cris_parse_disassembler_options (&disdata, info->disassembler_options,
-+				   cris_dis_v32);
-   return print_insn_cris_generic (vma, info, true);
- }
+     MilkymistSysctlState *s = MILKYMIST_SYSCTL(dev);
  
-@@ -2761,9 +2756,10 @@ static int
- print_insn_crisv10_v32_with_register_prefix (bfd_vma vma,
- 					     disassemble_info *info)
- {
--  if (info->private_data == NULL
--      && !cris_parse_disassembler_options (info, cris_dis_common_v10_v32))
--    return -1;
-+  struct cris_disasm_data disdata;
-+  info->private_data = &disdata;
-+  cris_parse_disassembler_options (&disdata, info->disassembler_options,
-+				   cris_dis_common_v10_v32);
-   return print_insn_cris_generic (vma, info, true);
++    s->bh0 = qemu_bh_new(timer0_hit, s);
++    s->bh1 = qemu_bh_new(timer1_hit, s);
++    s->ptimer0 = ptimer_init(s->bh0, PTIMER_POLICY_DEFAULT);
++    s->ptimer1 = ptimer_init(s->bh1, PTIMER_POLICY_DEFAULT);
++
+     ptimer_set_freq(s->ptimer0, s->freq_hz);
+     ptimer_set_freq(s->ptimer1, s->freq_hz);
  }
- 
-@@ -2773,9 +2769,10 @@ static int
- print_insn_cris_without_register_prefix (bfd_vma vma,
- 					 disassemble_info *info)
- {
--  if (info->private_data == NULL
--      && !cris_parse_disassembler_options (info, cris_dis_v0_v10))
--    return -1;
-+  struct cris_disasm_data disdata;
-+  info->private_data = &disdata;
-+  cris_parse_disassembler_options (&disdata, info->disassembler_options,
-+				   cris_dis_v0_v10);
-   return print_insn_cris_generic (vma, info, false);
- }
- 
-@@ -2785,9 +2782,10 @@ static int
- print_insn_crisv32_without_register_prefix (bfd_vma vma,
- 					    disassemble_info *info)
- {
--  if (info->private_data == NULL
--      && !cris_parse_disassembler_options (info, cris_dis_v32))
--    return -1;
-+  struct cris_disasm_data disdata;
-+  info->private_data = &disdata;
-+  cris_parse_disassembler_options (&disdata, info->disassembler_options,
-+				   cris_dis_v32);
-   return print_insn_cris_generic (vma, info, false);
- }
- 
-@@ -2798,9 +2796,10 @@ static int
- print_insn_crisv10_v32_without_register_prefix (bfd_vma vma,
- 						disassemble_info *info)
- {
--  if (info->private_data == NULL
--      && !cris_parse_disassembler_options (info, cris_dis_common_v10_v32))
--    return -1;
-+  struct cris_disasm_data disdata;
-+  info->private_data = &disdata;
-+  cris_parse_disassembler_options (&disdata, info->disassembler_options,
-+				   cris_dis_common_v10_v32);
-   return print_insn_cris_generic (vma, info, false);
- }
- #endif
 -- 
 1.8.3.1
 
