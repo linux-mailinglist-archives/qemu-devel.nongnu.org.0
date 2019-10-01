@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB88C44F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:23:13 +0200 (CEST)
-Received: from localhost ([::1]:49686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E03CDC44FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:28:31 +0200 (CEST)
+Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSQB-0004ik-R1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
+	id 1iFSVK-0000G6-CN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39759)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsB-0001Zk-Fh
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsB-0001Zi-E9
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00024G-FK
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00023n-A0
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42558
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32242)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRs6-0001Vk-OB; Tue, 01 Oct 2019 19:48:00 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlRrQ146346; Tue, 1 Oct 2019 19:47:36 -0400
+ id 1iFRs7-0001Xu-KL; Tue, 01 Oct 2019 19:48:00 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlPc9053476; Tue, 1 Oct 2019 19:47:38 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26dq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg171669-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:36 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlamp146538;
- Tue, 1 Oct 2019 19:47:36 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26dk-1
+ Tue, 01 Oct 2019 19:47:37 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlbic053848;
+ Tue, 1 Oct 2019 19:47:37 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg17165s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:36 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njl1A006380;
- Tue, 1 Oct 2019 23:47:35 GMT
+ Tue, 01 Oct 2019 19:47:37 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkYF031624;
+ Tue, 1 Oct 2019 23:47:36 GMT
 Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye82-1
+ [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fbn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:35 +0000
+ Tue, 01 Oct 2019 23:47:36 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
  by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlZgL46006592
+ x91NlZJ046006594
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 1 Oct 2019 23:47:35 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5FE8A2805A;
+ by IMSVA (Postfix) with ESMTP id DC2A52805A;
  Tue,  1 Oct 2019 23:47:35 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 43AC128058;
+ by IMSVA (Postfix) with ESMTP id BFD9928058;
  Tue,  1 Oct 2019 23:47:35 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  1 Oct 2019 23:47:35 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 43/97] hw/ssi/xilinx_spips: Avoid AXI writes to the LQSPI
- linear memory
-Date: Tue,  1 Oct 2019 18:45:22 -0500
-Message-Id: <20191001234616.7825-44-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 44/97] hw/ssi/xilinx_spips: Avoid out-of-bound access to
+ lqspi_buf[]
+Date: Tue,  1 Oct 2019 18:45:23 -0500
+Message-Id: <20191001234616.7825-45-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -76,13 +75,13 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=991 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id x91NlRrQ146346
+ mx0a-001b2d01.pphosted.com id x91NlPc9053476
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,62 +101,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Lei Sun found while auditing the code that a CPU write would
-trigger a NULL pointer dereference.
+Both lqspi_read() and lqspi_load_cache() expect a 32-bit
+aligned address.
 
->From UG1085 datasheet [*] AXI writes in this region are ignored
-and generates an AXI Slave Error (SLVERR).
+>From UG1085 datasheet [*] chapter on 'Quad-SPI Controller':
 
-Fix by implementing the write_with_attrs() handler.
-Return MEMTX_ERROR when the region is accessed (this error maps
-to an AXI slave error).
+  Transfer Size Limitations
+
+    Because of the 32-bit wide TX, RX, and generic FIFO, all
+    APB/AXI transfers must be an integer multiple of 4-bytes.
+    Shorter transfers are not possible.
+
+Set MemoryRegionOps.impl values to force 32-bit accesses,
+this way we are sure we do not access the lqspi_buf[] array
+out of bound.
 
 [*] https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-=
 ultrascale-trm.pdf
 
-Reported-by: Lei Sun <slei.casper@gmail.com>
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 936a236c4e4b1068ade99220260cd04f68eb0212)
+(cherry picked from commit 526668c734e6a07f2fedfd378840a61b70c1cbab)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/ssi/xilinx_spips.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/ssi/xilinx_spips.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index 9c5dd93b21..83ed5ab1e0 100644
+index 83ed5ab1e0..b649c464fb 100644
 --- a/hw/ssi/xilinx_spips.c
 +++ b/hw/ssi/xilinx_spips.c
-@@ -1217,8 +1217,24 @@ static MemTxResult lqspi_read(void *opaque, hwaddr=
- addr, uint64_t *value,
-     return lqspi_read(opaque, addr, value, size, attrs);
- }
-=20
-+static MemTxResult lqspi_write(void *opaque, hwaddr offset, uint64_t val=
-ue,
-+                               unsigned size, MemTxAttrs attrs)
-+{
-+    /*
-+     * From UG1085, Chapter 24 (Quad-SPI controllers):
-+     * - Writes are ignored
-+     * - AXI writes generate an external AXI slave error (SLVERR)
-+     */
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s Unexpected %u-bit access to 0x%" =
-PRIx64
-+                                   " (value: 0x%" PRIx64 "\n",
-+                  __func__, size << 3, offset, value);
-+
-+    return MEMTX_ERROR;
-+}
-+
- static const MemoryRegionOps lqspi_ops =3D {
+@@ -1236,6 +1236,10 @@ static const MemoryRegionOps lqspi_ops =3D {
      .read_with_attrs =3D lqspi_read,
-+    .write_with_attrs =3D lqspi_write,
+     .write_with_attrs =3D lqspi_write,
      .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .impl =3D {
++        .min_access_size =3D 4,
++        .max_access_size =3D 4,
++    },
      .valid =3D {
          .min_access_size =3D 1,
+         .max_access_size =3D 4
 --=20
 2.17.1
 
