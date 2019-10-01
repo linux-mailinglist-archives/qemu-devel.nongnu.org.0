@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC77FC4520
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:47:27 +0200 (CEST)
-Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EA1C4528
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:52:50 +0200 (CEST)
+Received: from localhost ([::1]:49884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSne-0008Of-Cd
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40421)
+	id 1iFSsq-000540-GN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:52:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tT-BD
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:25 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0002Nf-6O
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0001nv-99
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39154
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsG-0002H9-MZ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:12 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10548
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsJ-0001qq-DU; Tue, 01 Oct 2019 19:48:11 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ id 1iFRsG-0001mJ-Am; Tue, 01 Oct 2019 19:48:08 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlRrW146346; Tue, 1 Oct 2019 19:47:49 -0400
+ x91NlOTR098881; Tue, 1 Oct 2019 19:47:46 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26ja-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v22-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:48 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlmed146835;
- Tue, 1 Oct 2019 19:47:48 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26j5-1
+ Tue, 01 Oct 2019 19:47:46 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NljeE099480;
+ Tue, 1 Oct 2019 19:47:45 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v1w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:48 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjmlR023578;
- Tue, 1 Oct 2019 23:47:48 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577h0b-1
+ Tue, 01 Oct 2019 19:47:45 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkYK031624;
+ Tue, 1 Oct 2019 23:47:45 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fca-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:47 +0000
+ Tue, 01 Oct 2019 23:47:45 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NllO449742276
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NljYs47513972
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:47 GMT
+ Tue, 1 Oct 2019 23:47:45 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 786E42805C;
- Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E97902805A;
+ Tue,  1 Oct 2019 23:47:44 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D5C528059;
- Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CDE4228059;
+ Tue,  1 Oct 2019 23:47:44 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:44 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 65/97] util/hbitmap: update orig_size on truncate
-Date: Tue,  1 Oct 2019 18:45:44 -0500
-Message-Id: <20191001234616.7825-66-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 05/97] qcow2: Fix qcow2_make_empty() with external data file
+Date: Tue,  1 Oct 2019 18:44:44 -0500
+Message-Id: <20191001234616.7825-6-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -73,7 +73,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=843 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -88,53 +88,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Kevin Wolf <kwolf@redhat.com>
 
-Without this, hbitmap_next_zero and hbitmap_next_dirty_area are broken
-after truncate. So, orig_size is broken since it's introduction in
-76d570dc495c56bb.
+make_completely_empty() is an optimisated path for bdrv_make_empty()
+where completely new metadata is created inside the image file instead
+of going through all clusters and discarding them. For an external data
+file, however, we actually need to do discard operations on the data
+file; just overwriting the qcow2 file doesn't get rid of the data.
 
-Fixes: 76d570dc495c56bb
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190805120120.23585-1-vsementsov@virtuozzo.com
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+The necessary slow path with an explicit discard operation already
+exists for other cases. Use it for external data files, too.
+
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 4e4de222799634d8159ee7b9303b9e1b45c6be2c)
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+(cherry picked from commit db04524f820582ebf1189223b6378de238511da1)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- util/hbitmap.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block/qcow2.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 7905212a8b..bcc0acdc6a 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -53,7 +53,9 @@
-  */
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 7fbef97aab..840f289a48 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4384,14 +4384,17 @@ static int qcow2_make_empty(BlockDriverState *bs)
  
- struct HBitmap {
--    /* Size of the bitmap, as requested in hbitmap_alloc. */
-+    /*
-+     * Size of the bitmap, as requested in hbitmap_alloc or in hbitmap_truncate.
-+     */
-     uint64_t orig_size;
+     if (s->qcow_version >= 3 && !s->snapshots && !s->nb_bitmaps &&
+         3 + l1_clusters <= s->refcount_block_size &&
+-        s->crypt_method_header != QCOW_CRYPT_LUKS) {
++        s->crypt_method_header != QCOW_CRYPT_LUKS &&
++        !has_data_file(bs)) {
+         /* The following function only works for qcow2 v3 images (it
+          * requires the dirty flag) and only as long as there are no
+          * features that reserve extra clusters (such as snapshots,
+          * LUKS header, or persistent bitmaps), because it completely
+          * empties the image.  Furthermore, the L1 table and three
+          * additional clusters (image header, refcount table, one
+-         * refcount block) have to fit inside one refcount block. */
++         * refcount block) have to fit inside one refcount block. It
++         * only resets the image file, i.e. does not work with an
++         * external data file. */
+         return make_completely_empty(bs);
+     }
  
-     /* Number of total bits in the bottom level.  */
-@@ -732,6 +734,8 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
-     uint64_t num_elements = size;
-     uint64_t old;
- 
-+    hb->orig_size = size;
-+
-     /* Size comes in as logical elements, adjust for granularity. */
-     size = (size + (1ULL << hb->granularity) - 1) >> hb->granularity;
-     assert(size <= ((uint64_t)1 << HBITMAP_LOG_MAX_SIZE));
 -- 
 2.17.1
 
