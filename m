@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A43C39E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:07:58 +0200 (CEST)
-Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361DAC3A22
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:16:05 +0200 (CEST)
+Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKgu-0005fL-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1iFKol-0005z6-DS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50270)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008NK-6t
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:54 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTP-0008Vi-FR
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:54:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006oH-Ae
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38540)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTO-0006to-5g
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:59 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38426)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTF-0006dP-36
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
+ id 1iFKTN-0006YK-UO; Tue, 01 Oct 2019 11:53:58 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT3-0004xb-Cj; Tue, 01 Oct 2019 18:53:37 +0300
+ id 1iFKSx-0004xb-La; Tue, 01 Oct 2019 18:53:31 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 30/31] PVRDMA: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:18 +0300
-Message-Id: <20191001155319.8066-31-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 07/31] s390: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:52:55 +0300
+Message-Id: <20191001155319.8066-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -48,8 +47,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>
+Cc: Eric Farman <farman@linux.ibm.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,21 +84,42 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/rdma/vmw/pvrdma_main.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/s390x/s390-ccw.c       | 1 +
+ target/s390x/cpu_models.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 3e36e13013..fd1a6ef099 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -592,6 +592,7 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
- 
- static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
+index 0c5a5b60bd..c0a648a7e0 100644
+--- a/hw/s390x/s390-ccw.c
++++ b/hw/s390x/s390-ccw.c
+@@ -55,6 +55,7 @@ static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
+                                   char *sysfsdev,
+                                   Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int rc = 0;
-     PVRDMADev *dev = PVRDMA_DEV(pdev);
-     Object *memdev_root;
+     unsigned int cssid, ssid, devid;
+     char dev_path[PATH_MAX] = {0}, *tmp;
+ 
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 009afc38b9..32f2e5e822 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -840,6 +840,7 @@ static void error_prepend_missing_feat(const char *name, void *opaque)
+ static void check_compatibility(const S390CPUModel *max_model,
+                                 const S390CPUModel *model, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     S390FeatBitmap missing;
+ 
+     if (model->def->gen > max_model->def->gen) {
+@@ -922,6 +923,7 @@ static inline void apply_cpu_model(const S390CPUModel *model, Error **errp)
+ 
+ void s390_realize_cpu_model(CPUState *cs, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     S390CPUClass *xcc = S390_CPU_GET_CLASS(cs);
+     S390CPU *cpu = S390_CPU(cs);
+     const S390CPUModel *max_model;
 -- 
 2.21.0
 
