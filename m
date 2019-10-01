@@ -2,89 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84651C2FE9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:19:42 +0200 (CEST)
-Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A5AC2FF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:20:36 +0200 (CEST)
+Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFEJo-0006j3-OY
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
+	id 1iFEKg-0007we-LD
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33977)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iFEH7-0005vL-Mv
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:16:55 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFEHo-0006KQ-RM
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:17:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iFEH5-0004a1-S4
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:16:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24051
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iFEH1-0004Yb-Mz
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:16:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1569921406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=nERaDWaCQo3ceDX41FSXNOobr8KmgYLzCIVN9dk2Kj4=;
- b=YL7ZUuVtVgerGQKDdjWGsmNGn9wl4VIN0z+WJXsIxCUnD8l1XCU/bgEEASLEBIY7WFlpv+
- U4b2gbNa6SYgZKtP4ICbG524M7ZZdplkMtRVOp6HWxoFUe+dIg2b/xtRClBI8v7HFZ1Stb
- 56P4PVoI6O4/YfuPGBDXo/etomx2W44=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-giurjl0AM06HzFhs3q4taQ-1; Tue, 01 Oct 2019 05:16:45 -0400
-Received: by mail-wm1-f70.google.com with SMTP id m16so641443wmg.8
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 02:16:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sIX7+DL64TBK8m0/JZ3UbYBsPYM7mgg48MPu+AyBQxY=;
- b=jcencsUFzpmXLiXUlYb2HzEqTMtNUCHEMfYwzIZhivQ7m2NcSkqf1kmpeFZmNFiZTI
- Dx2ncqoeRw7v7/J7G4ks7kUeuBiwhAKLuRho5VPJ/YYMZiiWte4XInd/HFw0WT7HbXr4
- JBYYtQ57T+/SLnxzsmkDULN4YGSuqCzXPn8ayGug5WetHeCr3dZ58t+fnUS/0+o1jNSo
- 2VmRjQ+onYOVVogFa8NOjnKHht+r/joGHAx7dhNThv356e3zhGFZ9KTl8VRnmTdnTjdN
- Omrvkir1GHhmzJeadWhEgM2juYCdfPDenuqDSf0A1fVB9fs7gBX+C+8elgzuQh0ydSId
- Cm5g==
-X-Gm-Message-State: APjAAAVoRFahIQRnPzYLUDp6VW82gfQmSDME3v83KpQA/LkMKGwRYXAp
- MLi1VCHrnBJ7HB2dHms/yeRax64KjucJ1w7ABll33Oc7tBHtHQbcLJfz/KwHg74DJR4bFrDuAqo
- 6zmA2QqWng+n2Cpk=
-X-Received: by 2002:a05:600c:2052:: with SMTP id
- p18mr2752373wmg.13.1569921403922; 
- Tue, 01 Oct 2019 02:16:43 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyAs1Z7jG3TvymFDPmzht/7ESHGyazSfij4Mb2XP4gFgCIgj0PwaaKMsrofIYagheUTkG9+jA==
-X-Received: by 2002:a05:600c:2052:: with SMTP id
- p18mr2752348wmg.13.1569921403640; 
- Tue, 01 Oct 2019 02:16:43 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b903:6d6f:a447:e464?
- ([2001:b07:6468:f312:b903:6d6f:a447:e464])
- by smtp.gmail.com with ESMTPSA id s12sm34203385wra.82.2019.10.01.02.16.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2019 02:16:43 -0700 (PDT)
-Subject: Re: Lockup with --accel tcg,thread=single
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <CAEfK_44VEF17nRgzNvVe+MPmAfS34kiJ_ozubWFkVYV0rm71sw@mail.gmail.com>
- <CAFEAcA9nz9S4R+O9fwa0k38dB3r1smguG4bQRzwm1s0zJCvfDA@mail.gmail.com>
- <96703fc4-cbeb-5487-89b2-78c37b40237a@redhat.com> <87ftkdlhet.fsf@linaro.org>
- <9cdb8f02-0aa4-f0ec-d482-244e346bfc96@redhat.com> <87eezwluvg.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <e84bb7eb-07df-1c84-c4d7-285c40436751@redhat.com>
-Date: Tue, 1 Oct 2019 11:16:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <87eezwluvg.fsf@linaro.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFEHn-0004qw-7H
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:17:36 -0400
+Received: from mail-am5eur02on0710.outbound.protection.outlook.com
+ ([2a01:111:f400:fe07::710]:10758
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iFEHm-0004q8-VE; Tue, 01 Oct 2019 05:17:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J/JzNrfFguircZpmk8MOPD47IYLvht9fRG7eILndrnaOM8Wahd4anYJDmorNeapwzKu0qFbIzfRhyfDzhN5TXA/hWh2nOJwabBpcOV5rTI/AEWFVTVMtHduVbcJ72prpH71oAceBh/nD/EbM3dxpNMgA8DmmXJcSofMCTu8VvR0MUOfbIqKIcmhBeoTYYcgW7gKN2ZwU/X8Sa6lTx6c3b6b0jiYtjp7C6hnNHxjjllMIwMdZxht2Fva4qxk8+iFkYZGfE5vsxoM7b1V9lBySCyiF8cpqe6dezEXzHoRaSkbSNtYfvqGW/Yz3SI9c9+tMjM+SN4+w8Fm7/iSOZOK8yA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bQzQqCEf1LDmZ3jaeq2ZWGG/J+o41rMSko9sYdnOTqE=;
+ b=VUMLxnzZcTj63ww0M95Qq8m2b35zeiDPI/NhOGR++OOrYyJpMymOPRb0yo9itsrvPLHQoMpyPA/IT3Hw4Ur+LiNLiz3LxFUOJ+3a+7OU8uRuCE9DNBGSsUfYA5QIxDtandY4l/NtwCCLlYu4Z+kMGdkRXq+IxWIiWs+3rZR70mcrqh0j1RxdHCLY4fDIukuKqcgGCEHjzSLn3fXwaIWtY2Dim4wIxnjA7K8k3/3gh4Ba01uwi4rFQo6NPMBy6wJxjHfUI6bvK62rFoDzmd4VyV5j6Nzg/19UE2WEYWpE2t3ICrDhVty8JmWu15AeYA1ADSP3G7i4yWwZbGJa5mSIrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bQzQqCEf1LDmZ3jaeq2ZWGG/J+o41rMSko9sYdnOTqE=;
+ b=btHiwEkYGD7ECmNWOZOhEuN5mS4DsfG08CvCVSRhlBRjnQktmv6MUrX/9UVruSEMpSbNU4hut5YuFu6Z94hz73WEZuljBkZroWvY6tIePL7mrRX0uRIiHyydvHq5iqlUtCQUOnD8NCw1iROq1RqvdC0OLRwHMMZk5+GWXXVVr6o=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB4060.eurprd08.prod.outlook.com (20.179.9.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.20; Tue, 1 Oct 2019 09:17:31 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2305.017; Tue, 1 Oct 2019
+ 09:17:31 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: bitmap migration bug with -drive while block mirror runs
+Thread-Topic: bitmap migration bug with -drive while block mirror runs
+Thread-Index: AQHVd+yDiWNDoVbdB0u/++2NVEJq8qdFgj4A
+Date: Tue, 1 Oct 2019 09:17:31 +0000
+Message-ID: <ffd337d8-31f1-0515-ce1a-15a8fcfff75d@virtuozzo.com>
+References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
+In-Reply-To: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-MC-Unique: giurjl0AM06HzFhs3q4taQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0222.eurprd05.prod.outlook.com
+ (2603:10a6:3:fa::22) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191001121728714
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 52559734-4c9c-462d-8d9d-08d746502ff9
+x-ms-traffictypediagnostic: DB8PR08MB4060:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <DB8PR08MB4060327EA28162F6F1258E1EC19D0@DB8PR08MB4060.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0177904E6B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(979002)(396003)(376002)(346002)(136003)(39850400004)(366004)(199004)(189003)(31696002)(2906002)(8936002)(6116002)(5024004)(4326008)(186003)(25786009)(3846002)(31686004)(86362001)(7736002)(36756003)(5660300002)(305945005)(66066001)(81166006)(8676002)(81156014)(6916009)(486006)(316002)(2616005)(66476007)(66946007)(6486002)(229853002)(11346002)(446003)(64756008)(256004)(478600001)(6246003)(66556008)(476003)(6306002)(26005)(99286004)(52116002)(102836004)(386003)(6506007)(54906003)(6512007)(66446008)(71200400001)(71190400001)(14454004)(76176011)(6436002)(966005)(969003)(989001)(999001)(1009001)(1019001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4060;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bgjCTqMFe42Yxz4m75bTPwCJGMN4j0TWP2DWWPvnfAD2YgxFA7OIKxZxBBLmQo51kfWRaA1uN05ipFGgME/u+qSlLRcIRzY9Q3dY4CajFngLn64Jy1P7VhcZ1Ugs3UEZWWg+qB3hinrC802SmKMiRkJjyMCMb9PNwd+8rsSFS7TJ9m7mv6wnQziJT0emc+xzII3bCEQ+GkTmphilEY8e7VrxcsAwpXWh4gJceh4MAF7z1ca7GSm/gghCir1dquA2L5AWSGG+d+gy3p1ctMC0gAbU76+wc+yxCwF+OuKW9QlheBcbwqvuZf9e/r87c66dKcnGhz+L8DKIhP+rb18Pv/a/+Po17BCWna2VQT1GX5e41W3JXw4kePtkBGCsdA+EtxEHqU+4dAJsp8+rtwVm8Ce0+r5sz+DM90jLqHdfph/gfPBeAORAlrDhDfqyp98hd3+kFJJVKrnxwdnykrdH9w==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E6CF9F388EB3104082338DADBBD839AC@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52559734-4c9c-462d-8d9d-08d746502ff9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2019 09:17:31.3597 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1nb7w+TBFYBcgwU1+LYmVLcf2QFuxsRNJHHbK1KaM7mwfXr9d1MthZdtHvbidgpbKbNeV6pUNNGc8hAs8PZN4I8M6TS97muGfEdqNt2MbTU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4060
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe07::710
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,30 +109,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Doug Gale <doug16k@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Krempa <pkrempa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/10/19 10:42, Alex Benn=C3=A9e wrote:
->=20
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->=20
->> On 30/09/19 21:20, Alex Benn=C3=A9e wrote:
->>> Does seem to imply the vCPU CPUState is where the queue is. That's not
->>> to say there shouldn't be a single work queue for thread=3Dsingle.
->>
->> Indeed it doesn't.  I confused this with commit a8efa60633 ("cpus: run
->> work items for all vCPUs if single-threaded", 2018-11-27).
->>
->> Are you going to make a patch to have a single work queue, or should
->> I?
->=20
-> What's the neatest way to do it? Are you thinking just special case
-> queue_work_on_cpu to special case first_cpu when mttcg is not enabled?
-
-Yes, I cannot think of anything better.
-
-Paolo
-
+MDEuMTAuMjAxOSAzOjA5LCBKb2huIFNub3cgd3JvdGU6DQo+IEhpIGZvbGtzLCBJIGlkZW50aWZp
+ZWQgYSBwcm9ibGVtIHdpdGggdGhlIG1pZ3JhdGlvbiBjb2RlIHRoYXQgUmVkIEhhdCBRRQ0KPiBm
+b3VuZCBhbmQgdGhvdWdodCB5b3UnZCBsaWtlIHRvIHNlZSBpdDoNCj4gDQo+IGh0dHBzOi8vYnVn
+emlsbGEucmVkaGF0LmNvbS9zaG93X2J1Zy5jZ2k/aWQ9MTY1MjQyNCNjMjANCj4gDQo+IFZlcnks
+IHZlcnkgYnJpZWZseTogZHJpdmUtbWlycm9yIGluc2VydHMgYSBmaWx0ZXIgbm9kZSB0aGF0IGNo
+YW5nZXMgd2hhdA0KPiBiZHJ2X2dldF9kZXZpY2Vfb3Jfbm9kZV9uYW1lKCkgcmV0dXJucywgd2hp
+Y2ggY2F1c2VzIGEgbWlncmF0aW9uIHByb2JsZW0uDQo+IA0KPiANCj4gSWdub3JhbnQgcXVlc3Rp
+b24gIzE6IENhbiB3ZSBtdWx0aS1wYXJlbnQgdGhlIGZpbHRlciBub2RlIGFuZA0KPiBzb3VyY2Ut
+bm9kZT8gSXQgbG9va3MgbGlrZSBhdCB0aGUgbW9tZW50IGJvdGggY29uc2lkZXIgdGhlaXIgb25s
+eSBwYXJlbnQNCj4gdG8gYmUgdGhlIGJsb2NrLWpvYiBhbmQgZG9uJ3QgaGF2ZSBhIGxpbmsgYmFj
+ayB0byB0aGVpciBwYXJlbnRzIG90aGVyd2lzZS4NCj4gDQo+IA0KPiBPdGhlcndpc2U6IEkgaGF2
+ZSBhIGxvdCBvZiBjbG91ZHkgaWRlYXMgb24gaG93IHRvIHNvbHZlIHRoaXMsIGJ1dA0KPiB1bHRp
+bWF0ZWx5IHdoYXQgd2Ugd2FudCBpcyB0byBiZSBhYmxlIHRvIGZpbmQgdGhlICJhZGRyZXNzYWJs
+ZSIgbmFtZSBmb3INCj4gdGhlIG5vZGUgdGhlIGJpdG1hcCBpcyBhdHRhY2hlZCB0bywgd2hpY2gg
+d291bGQgYmUgdGhlIG5hbWUgb2YgdGhlIGZpcnN0DQo+IGFuY2VzdG9yIG5vZGUgdGhhdCBpc24n
+dCBhIGZpbHRlci4gKE9SLCB0aGUgbmFtZSBvZiB0aGUgYmxvY2stYmFja2VuZA0KPiBhYm92ZSB0
+aGF0IG5vZGUuKQ0KPiANCj4gQSBzaW1wbGUgd2F5IHRvIGRvIHRoaXMgbWlnaHQgYmUgYSAiY2hp
+bGRfdW5maWx0ZXJlZCIgQmRydkNoaWxkIHJvbGUNCj4gdGhhdCBzaW1wbHkgYnlwYXNzZXMgdGhl
+IGZpbHRlciB0aGF0IHdhcyBpbnNlcnRlZCBhbmQgc2VydmVzIG5vIHJlYWwNCj4gcHVycG9zZSBv
+dGhlciB0aGFuIHRvIGFsbG93IHRoZSBjaGlsZCB0byBoYXZlIGEgcGFyZW50IGxpbmsgYW5kIGZp
+bmQgd2hvDQo+IGl0J3MgIiIicmVhbCIiIiBwYXJlbnQgaXMuDQo+IA0KPiBCZWNhdXNlIG9mIGZs
+dXNoaW5nLCByZW9wZW4sIHN5bmMsIGRyYWluICZjICZjICZjIEknbSBub3Qgc3VyZSBob3cNCj4g
+ZmVhc2libGUgdGhpcyBxdWljayBpZGVhIG1pZ2h0IGJlLCB0aG91Z2guDQo+IA0KPiANCj4gLSBD
+b3JvbGxhcnkgZml4ICMxOiBjYWxsIGVycm9yX3NldGcgaWYgdGhlIGJpdG1hcCBub2RlIG5hbWUg
+dGhhdCdzIGFib3V0DQo+IHRvIGdvIG92ZXIgdGhlIHdpcmUgaXMgYW4gYXV0b2dlbmVyYXRlZCBu
+b2RlOiB0aGlzIGlzIG5ldmVyIGNvcnJlY3QhDQo+IA0KPiAoV2h5IG5vdD8gYmVjYXVzZSB0aGUg
+dGFyZ2V0IGlzIGluY2FwYWJsZSBvZiBtYXRjaGluZyB0aGUgbm9kZS1uYW1lDQo+IGJlY2F1c2Ug
+dGhleSBhcmUgcmFuZG9tbHkgZ2VuZXJhdGVkIEFORCB5b3UgY2Fubm90IHNwZWNpZnkgbm9kZS1u
+YW1lcw0KPiB3aXRoICMgcHJlZml4ZXMgYXMgdGhleSBhcmUgZXNwZWNpYWxseSByZXNlcnZlZCEN
+Cj4gDQo+IChUaGlzIHJhaXNlcyBhIHJlbGF0ZWQgcHJvYmxlbTogaWYgeW91IGV4cGxpY2l0bHkg
+YWRkIGJpdG1hcHMgdG8gbm9kZXMNCj4gd2l0aCBhdXRvZ2VuZXJhdGVkIG5hbWVzLCB5b3Ugd2ls
+bCBiZSB1bmFibGUgdG8gbWlncmF0ZSB0aGVtLikpDQo+IA0KDQpSZWxhdGVkIHByb2JsZW06DQoN
+CiMgY2QgdGVzdHMvcWVtdS1pb3Rlc3RzOyBnaXQgZ3JlcCAtaWwgbWlncmF0aW9uID8/PyB8IHhh
+cmdzIGdpdCBncmVwIC1pbCBtaXJyb3IgfCB4YXJncyBnaXQgZ3JlcCAtaWwgYml0bWFwIHwgd2Mg
+LWwNCjANCg0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
