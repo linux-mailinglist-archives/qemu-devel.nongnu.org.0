@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5462EC41BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:24:00 +0200 (CEST)
-Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAEAC41C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:25:11 +0200 (CEST)
+Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOgg-0000iy-J9
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54295)
+	id 1iFOhp-0001y6-59
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO7t-0004gk-RC
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:03 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO7w-0004kY-5z
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO7r-0007vh-DU
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52196)
+ (envelope-from <mreitz@redhat.com>) id 1iFO7v-0007xS-4l
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35058)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO7o-0007tB-6i; Tue, 01 Oct 2019 15:47:56 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iFO7t-0007wJ-1V; Tue, 01 Oct 2019 15:48:01 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6EB3BC04AC69;
- Tue,  1 Oct 2019 19:47:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 34B8F81DE1;
+ Tue,  1 Oct 2019 19:48:00 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 070025D6D0;
- Tue,  1 Oct 2019 19:47:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C403B19C6A;
+ Tue,  1 Oct 2019 19:47:59 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 16/67] iotests/040: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:24 +0200
-Message-Id: <20191001194715.2796-17-mreitz@redhat.com>
+Subject: [PATCH 18/67] iotests/044: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:26 +0200
+Message-Id: <20191001194715.2796-19-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 01 Oct 2019 19:47:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Tue, 01 Oct 2019 19:48:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,140 +62,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/040 | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ tests/qemu-iotests/044 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index 762ad1ebcb..9584eeeb1f 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -24,7 +24,7 @@
- import time
- import os
+diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+index 97ba98e628..a5e13751e1 100755
+--- a/tests/qemu-iotests/044
++++ b/tests/qemu-iotests/044
+@@ -23,7 +23,7 @@ import os
+ import qcow2
+ from qcow2 import QcowHeader
  import iotests
--from iotests import qemu_img, qemu_io
-+from iotests import create_test_image, remove_test_image, qemu_img, qemu=
-_io
+-from iotests import qemu_img, qemu_img_verbose, qemu_io
++from iotests import create_test_image, remove_test_image, qemu_img_verbo=
+se, qemu_io
  import struct
- import errno
+ import subprocess
+ import sys
+@@ -100,13 +100,13 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
 =20
-@@ -80,8 +80,8 @@ class TestSingleDrive(ImageCommitTestCase):
 =20
      def setUp(self):
-         iotests.create_image(backing_img, self.image_len)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % backing_img, mid_img)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % mid_img, test_img)
-+        create_test_image(mid_img, backing_file=3Dbacking_img)
-+        create_test_image(test_img, backing_file=3Dmid_img)
-         qemu_io('-f', 'raw', '-c', 'write -P 0xab 0 524288', backing_img=
+-        qemu_img('create', '-f', iotests.imgfmt, '-o', 'cluster_size=3D5=
+12', test_img, '16G')
++        create_test_image(test_img, '16G', opts=3D['cluster_size=3D512']=
 )
-         qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0xef 524288 524288=
-', mid_img)
-         self.vm =3D iotests.VM().add_drive(test_img, "node-name=3Dtop,ba=
-cking.node-name=3Dmid,backing.backing.node-name=3Dbase", interface=3D"non=
-e")
-@@ -92,8 +92,8 @@ class TestSingleDrive(ImageCommitTestCase):
+         self.preallocate(test_img)
+         pass
+=20
 =20
      def tearDown(self):
-         self.vm.shutdown(has_quit=3Dself.has_quit)
 -        os.remove(test_img)
--        os.remove(mid_img)
 +        remove_test_image(test_img)
-+        remove_test_image(mid_img)
-         os.remove(backing_img)
+         pass
 =20
-     def test_commit(self):
-@@ -303,8 +303,8 @@ class TestRelativePaths(ImageCommitTestCase):
-             if exception.errno !=3D errno.EEXIST:
-                 raise
-         iotests.create_image(self.backing_img_abs, TestRelativePaths.ima=
-ge_len)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % self.backing_img_abs, self.mid_img_abs)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % self.mid_img_abs, self.test_img)
-+        create_test_image(self.mid_img_abs, backing_file=3Dself.backing_=
-img_abs)
-+        create_test_image(self.test_img, backing_file=3Dself.mid_img_abs=
-)
-         qemu_img('rebase', '-u', '-b', self.backing_img, self.mid_img_ab=
-s)
-         qemu_img('rebase', '-u', '-b', self.mid_img, self.test_img)
-         qemu_io('-f', 'raw', '-c', 'write -P 0xab 0 524288', self.backin=
-g_img_abs)
-@@ -314,8 +314,8 @@ class TestRelativePaths(ImageCommitTestCase):
-=20
-     def tearDown(self):
-         self.vm.shutdown()
--        os.remove(self.test_img)
--        os.remove(self.mid_img_abs)
-+        remove_test_image(self.test_img)
-+        remove_test_image(self.mid_img_abs)
-         os.remove(self.backing_img_abs)
-         try:
-             os.rmdir(os.path.join(iotests.test_dir, self.dir1))
-@@ -368,9 +368,9 @@ class TestSetSpeed(ImageCommitTestCase):
-     image_len =3D 80 * 1024 * 1024 # MB
-=20
-     def setUp(self):
--        qemu_img('create', backing_img, str(TestSetSpeed.image_len))
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % backing_img, mid_img)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % mid_img, test_img)
-+        create_test_image(backing_img, TestSetSpeed.image_len)
-+        create_test_image(mid_img, backing_file=3Dbacking_img)
-+        create_test_image(test_img, backing_file=3Dmid_img)
-         qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0x1 0 512', test_i=
-mg)
-         qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0xef 524288 524288=
-', mid_img)
-         self.vm =3D iotests.VM().add_drive('blkdebug::' + test_img)
-@@ -378,9 +378,9 @@ class TestSetSpeed(ImageCommitTestCase):
-=20
-     def tearDown(self):
-         self.vm.shutdown()
--        os.remove(test_img)
--        os.remove(mid_img)
--        os.remove(backing_img)
-+        remove_test_image(test_img)
-+        remove_test_image(mid_img)
-+        remove_test_image(backing_img)
-=20
-     def test_set_speed(self):
-         self.assert_no_active_block_jobs()
-@@ -408,9 +408,9 @@ class TestReopenOverlay(ImageCommitTestCase):
-=20
-     def setUp(self):
-         iotests.create_image(self.img0, self.image_len)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % self.img0, self.img1)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % self.img1, self.img2)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % self.img2, self.img3)
-+        create_test_image(self.img1, backing_file=3Dself.img0)
-+        create_test_image(self.img2, backing_file=3Dself.img1)
-+        create_test_image(self.img3, backing_file=3Dself.img2)
-         qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0xab 0 128K', self=
-.img1)
-         self.vm =3D iotests.VM().add_drive(self.img3)
-         self.vm.launch()
-@@ -418,9 +418,9 @@ class TestReopenOverlay(ImageCommitTestCase):
-     def tearDown(self):
-         self.vm.shutdown()
-         os.remove(self.img0)
--        os.remove(self.img1)
--        os.remove(self.img2)
--        os.remove(self.img3)
-+        remove_test_image(self.img1)
-+        remove_test_image(self.img2)
-+        remove_test_image(self.img3)
-=20
-     # This tests what happens when the overlay image of the 'top' node
-     # needs to be reopened in read-write mode in order to update the
+     def test_grow_refcount_table(self):
 --=20
 2.21.0
 
