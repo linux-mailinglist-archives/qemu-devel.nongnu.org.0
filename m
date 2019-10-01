@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98604C42F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:49:49 +0200 (CEST)
-Received: from localhost ([::1]:48549 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F196C42E9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:47:10 +0200 (CEST)
+Received: from localhost ([::1]:48532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFQ1k-0001CC-2I
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35547)
+	id 1iFPzA-0007yF-0F
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iFPMs-0006Nt-9x
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:07:35 -0400
+ (envelope-from <bounces@canonical.com>) id 1iFPk2-0000Ew-Bx
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:31:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iFPMp-0001dB-CF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:07:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54306)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iFPMp-0001ci-3g
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:07:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 44E7C8A1C8D;
- Tue,  1 Oct 2019 21:07:30 +0000 (UTC)
-Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE1E25D6D0;
- Tue,  1 Oct 2019 21:07:29 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] qapi: Allow introspecting fix for savevm's
- cooperation with blockdev
-To: Markus Armbruster <armbru@redhat.com>, Peter Krempa <pkrempa@redhat.com>
-References: <cover.1568989362.git.pkrempa@redhat.com>
- <992ea9ca130b4fb6dbf82726aa3b1d8040c16944.1568989362.git.pkrempa@redhat.com>
- <87r23w2rbp.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b15fdae1-1e70-fe13-701e-48a04d56c93f@redhat.com>
-Date: Tue, 1 Oct 2019 16:07:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <bounces@canonical.com>) id 1iFPk0-0004tv-WD
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:31:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33654)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iFPk0-0004sV-PX
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:31:28 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iFPjy-000611-Bt
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 21:31:26 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 31ACD2E80D8
+ for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 21:31:26 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87r23w2rbp.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Tue, 01 Oct 2019 21:07:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 01 Oct 2019 21:25:22 -0000
+From: Saverio Miroddi <1714331@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chrisu lersek pmdj saveriomiroddi stefanha
+X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
+X-Launchpad-Bug-Modifier: Saverio Miroddi (saveriomiroddi)
+References: <150420685550.8035.5310753798215250364.malonedeb@soybean.canonical.com>
+Message-Id: <156996512355.21009.1626452635528410149.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1714331] Re: Virtual machines not working anymore on 2.10
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19066";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 760add5a6ebf59f4d0aaea93d37ff65cf8971ff6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,77 +65,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Reply-To: Bug 1714331 <1714331@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 2:34 PM, Markus Armbruster wrote:
-> Peter Krempa <pkrempa@redhat.com> writes:
-> 
->> savevm was buggy as it considered all monitor owned block device nodes
-> 
-> Recommend "monitor-owned block device nodes" or "block device nodes
-> owned by a monitor"
-> 
->> for snapshot. With introduction of -blockdev the common usage made all
->> nodes including protocol nodes monitor owned and thus considered for
->> snapshot.
-> 
-> What exactly is / was the problem?
+** Changed in: qemu
+       Status: New =3D> Invalid
 
+-- =
 
-Old way: using QMP add_device, you create a drive backend with two BDS 
-(format and protocol) assigned to it; the drive backend has your given 
-name, and both BDS have a generated name (beginning with '#').  The two 
-BDS are not monitor-owned, rather, the drive is.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1714331
 
-New way: using QMP blockdev_add, you create the two BDS manually with 
-names of your choice, then plug that blockdev into an unnamed 
-blockbackend (the drive no longer needs a name, because you can get at 
-everything through the BDS name).  You _could_ do this in one step (the 
-QAPI allows self-recursion where you can define both the format and 
-protocol in one step), but it is easier to do in two steps (define the 
-protocol BDS first, then define the format BDS using a "string" name of 
-the protocol BDS instead of a { "driver":..., args... } object of the 
-protocol layer.  But by making two calls,  now both BDS are monitor-owned.
+Title:
+  Virtual machines not working anymore on 2.10
 
-At snapshot-time, the code currently looks for all monitor-owned nodes 
-when deciding what to snapshot.  In the old way, this finds the named 
-drive, picks up its associated top-most node, and snapshots the format 
-layer.  In the new way, the drive is unnamed so it is skipped, while 
-there are two named BDS, but we don't want a snapshot of the protocol layer.
+Status in QEMU:
+  Invalid
 
+Bug description:
+  Using 2.10, my virtual machine(s) don't work anymore. This happens
+  100% of the times.
 
-> 
->>            This was fixed but clients need to be able to detect whether
->> this fix is present.
-> 
-> Fixed where?  Commit hash, if possible.
+  -----
 
-Pull request: 
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04773.html
-(assuming it doesn't need a respin before landing, 8ec72832)
+  I use QEMU compiling it from source, on Ubuntu 16.04 amd64. This is
+  the configure command:
 
-> 
->>
->> Since savevm does not have an QMP alternative add the feature for the
-> 
-> Comma after alternative.
-> 
->> 'human-monitor-command' backdoor which is used to call this command in
->> modern use.
-> 
-> Eww.  I don't have better ideas short of "design and implement a sane
-> QMP interface to internal snapshots", which is too much work.
-> 
->> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
->> ---
->>   qapi/misc.json | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
+      configure --target-list=3Dx86_64-softmmu --enable-debug --enable-gtk
+  --enable-spice --audio-drv-list=3Dpa
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+  I have one virtual disk, with a Windows 10 64-bit, which I launch in
+  two different ways; both work perfectly on 2.9 (and used to do on 2.8,
+  but I haven't used it for a long time).
+
+  This is the first way:
+
+      qemu-system-x86_64
+        -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.=
+fd
+        -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
+        -enable-kvm
+        -machine q35,accel=3Dkvm,mem-merge=3Doff
+        -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinloc=
+ks=3D0x1fff,hv_vapic,hv_time
+        -smp 4,cores=3D4,sockets=3D1,threads=3D1
+        -m 4096
+        -display gtk
+        -vga qxl
+        -rtc base=3Dlocaltime
+        -serial none
+        -parallel none
+        -usb
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device virtio-scsi-pci,id=3Dscsi
+        -drive file=3D/path/to/image-diff.img,id=3Dhdd1,format=3Dqcow2,if=
+=3Dnone,cache=3Dwriteback
+        -device scsi-hd,drive=3Dhdd1
+        -net nic,model=3Dvirtio
+        -net user
+
+  On QEMU 2.10, I get the `Recovery - Your PC/Device needs to be
+  repaired` windows screen; on 2.9, it boots regularly.
+
+  This is the second way:
+
+      qemu-system-x86_64
+        -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.=
+fd
+        -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
+        -enable-kvm
+        -machine q35,accel=3Dkvm,mem-merge=3Doff
+        -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinloc=
+ks=3D0x1fff,hv_vapic,hv_time
+        -smp 4,cores=3D4,sockets=3D1,threads=3D1
+        -m 10240
+        -vga none
+        -rtc base=3Dlocaltime
+        -serial none
+        -parallel none
+        -usb
+        -device vfio-pci,host=3D01:00.0,multifunction=3Don
+        -device vfio-pci,host=3D01:00.1
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
+        -device virtio-scsi-pci,id=3Dscsi
+        -drive file=3D/path/to/image-diff.img,id=3Dhdd1,format=3Dqcow2,if=
+=3Dnone,cache=3Dwriteback
+        -device scsi-hd,drive=3Dhdd1
+        -net nic,model=3Dvirtio
+        -net user
+
+  On QEMU 2.10, I get the debug window on the linux monitor, and blank scre=
+en on VFIO one (no BIOS screen at all); after 10/20 seconds, QEMU crashes w=
+ithout any message.
+  On 2.9, this works perfectly.
+
+  -----
+
+  I am able to perform a git bisect, if that helps, but if this is the
+  case, I'd need this issue to be reviewed, since bisecting is going to
+  take me a lot of time.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1714331/+subscriptions
 
