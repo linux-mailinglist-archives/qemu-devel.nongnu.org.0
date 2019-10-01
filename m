@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54F5C3B4A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:43:41 +0200 (CEST)
-Received: from localhost ([::1]:44774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CFCC3BF6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:50:10 +0200 (CEST)
+Received: from localhost ([::1]:44889 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLFU-00008c-3F
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54740)
+	id 1iFLLk-0005yZ-Rm
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:50:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iFKvK-0004Cm-9Q
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:22:51 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iFLAx-0003Z4-LA
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:39:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iFKvJ-0000Qf-2P
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:22:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33972)
+ (envelope-from <pbonzini@redhat.com>) id 1iFLAu-0006qj-GE
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:38:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53756
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iFKvB-0000I9-W9; Tue, 01 Oct 2019 12:22:42 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 762FF3082A98;
- Tue,  1 Oct 2019 16:22:40 +0000 (UTC)
-Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A92919D70;
- Tue,  1 Oct 2019 16:22:14 +0000 (UTC)
-Subject: Re: [PATCH v4 05/31] scripts: add script to fix
- error_append_hint/error_prepend usage
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iFLAu-0006lj-6X
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:38:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1569947935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=eLo6y7P9wWutG/AzkdfHzKvz6ZPn9YVerqiabOJ0Qtk=;
+ b=SRQ7d1AYgtTc2DxzsejiKIyxPv5FBqpE8n9PHmUYSC6mLERBXGtcVQxAYTsR8WR/2i2TmI
+ Pzoz3IBbX9RteKC4MKJpiRpLXiHTbildoAzSZbhqvQOaXogcRcCnJ/jgtxrSHnYcdxsNPs
+ tEkq8w6XoyXkUX7bgSvVUyvBQpUZacI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-5JRVJk2ePTKLTHmMbrE-dg-1; Tue, 01 Oct 2019 12:38:53 -0400
+Received: by mail-wm1-f69.google.com with SMTP id 4so1130396wmj.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 09:38:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G+Et154Enf8PbvLJ9MTjHiSYW1wXd4Tz/scWbKu38Vc=;
+ b=Fx3aM3Lm3fDfuuKTnJdX8e7MiAarb2aB9pG4VZU2MQGbaioH4aXwFb0NylMd99de7Q
+ wHMpMDfri6WjB7vBB31YNIQ/eVW049+W5oOudkXkcus4ucXn/lU/uGhGI0pNC6fh4Dq1
+ EliZjyZSoWyWRa7IJuH9VNPjXpA1CflwwJ1PXng7n0mJciliF+xNiTVNSUXcu3YhDfVm
+ o/WG38snHMprbMRbYWOCpmW2EHZiLyokMbIyqbV5bjbl/bo0K2ApBDOUb5xa1JGVt9PU
+ UfA9JZb0izuKnU/7m+K2p/Td3ZKs/ZHQ5G47tVs2moYVx6jXbLkB40SvoQla/V6CA6EC
+ evMA==
+X-Gm-Message-State: APjAAAXxnf586b2c0KMJlYAs4DRsJcLYC/MbRMmn826vuk/Nts2HCu4x
+ VCTCCIyjdxBiLyiutd9VxXaxwXJ1aTUYxxWoPs9AkcbJxlwJ5z7F6Jv3HDbWWcpdLLR/sIPvRYe
+ SeXC9dOKOYbGgCHQ=
+X-Received: by 2002:a1c:2089:: with SMTP id g131mr4364276wmg.33.1569947932312; 
+ Tue, 01 Oct 2019 09:38:52 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxMdV8TmY8pkF3oLIIfM6731+8NPp1BzdYo9eINUcBQTq2P380B57h8g8uDHYzzNRem46P+Jg==
+X-Received: by 2002:a1c:2089:: with SMTP id g131mr4364259wmg.33.1569947932010; 
+ Tue, 01 Oct 2019 09:38:52 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:b903:6d6f:a447:e464?
+ ([2001:b07:6468:f312:b903:6d6f:a447:e464])
+ by smtp.gmail.com with ESMTPSA id w18sm4227122wmc.9.2019.10.01.09.38.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Oct 2019 09:38:51 -0700 (PDT)
+Subject: Re: [PATCH] cpus: kick all vCPUs when running thread=single
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-6-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <cc20df9c-75e4-6139-c6ff-de0622b59104@redhat.com>
-Date: Tue, 1 Oct 2019 11:22:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+References: <20191001160426.26644-1-alex.bennee@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <5582c91e-ac0e-9f74-a3de-82f7fe25fadd@redhat.com>
+Date: Tue, 1 Oct 2019 18:38:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191001155319.8066-6-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191001160426.26644-1-alex.bennee@linaro.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 01 Oct 2019 16:22:40 +0000 (UTC)
+X-MC-Unique: 5JRVJk2ePTKLTHmMbrE-dg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,89 +92,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
- codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
- mdroth@linux.vnet.ibm.com, kraxel@redhat.com, sundeep.lkml@gmail.com,
- qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
- mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- joel@jms.id.au, marcandre.lureau@redhat.com, rth@twiddle.net,
- farman@linux.ibm.com, ehabkost@redhat.com, sw@weilnetz.de, groug@kaod.org,
- yuval.shaia@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, clg@kaod.org, stefanha@redhat.com, david@redhat.com,
- jsnow@redhat.com, david@gibson.dropbear.id.au, kwolf@redhat.com,
- integration@gluster.org, berrange@redhat.com, andrew@aj.id.au,
- cohuck@redhat.com, qemu-s390x@nongnu.org, mreitz@redhat.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Doug Gale <doug16k@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 10:52 AM, Vladimir Sementsov-Ogievskiy wrote:
-> error_append_hint and error_prepend will not work, if errp ==
-> &fatal_error, as program will exit before error_append_hint or
-> error_prepend call. Fix this by use of special macro
-> ERRP_AUTO_PROPAGATE.
+On 01/10/19 18:04, Alex Benn=C3=A9e wrote:
+> qemu_cpu_kick is used for a number of reasons including to indicate
+> there is work to be done. However when thread=3Dsingle the old
+> qemu_cpu_kick_rr_cpu only advanced the vCPU to the next executing one
+> which can lead to a hang in the case that:
+>=20
+>   a) the kick is from outside the vCPUs (e.g. iothread)
+>   b) the timers are paused (i.e. iothread calling run_on_cpu)
+>=20
+> To avoid this lets split qemu_cpu_kick_rr into two functions. One for
+> the timer which continues to advance to the next timeslice and another
+> for all other kicks.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Doug Gale <doug16k@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  cpus.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
 
-This patch doesn't actually fix any code, but adds the script to enable 
-automating the fixing of the code in subsequent patches.  Tweaking the 
-commit message to make that point clear might be helpful.
+Looks good to me.  Single-threaded TCG is not going to have high vCPU
+counts anyway.
 
+Paolo
 
->   scripts/coccinelle/fix-error-add-info.cocci | 28 +++++++++++++++++++++
->   1 file changed, 28 insertions(+)
->   create mode 100644 scripts/coccinelle/fix-error-add-info.cocci
-> 
-> diff --git a/scripts/coccinelle/fix-error-add-info.cocci b/scripts/coccinelle/fix-error-add-info.cocci
-> new file mode 100644
-> index 0000000000..34fa3be720
-> --- /dev/null
-> +++ b/scripts/coccinelle/fix-error-add-info.cocci
-> @@ -0,0 +1,28 @@
-> +@rule0@
-> +// Add invocation to errp-functions
-> +identifier fn;
-> +@@
-> +
-> + fn(..., Error **errp, ...)
-> + {
-> ++   ERRP_AUTO_PROPAGATE();
-> +    <+...
-> +(
-> +    error_append_hint(errp, ...);
-> +|
-> +    error_prepend(errp, ...);
-> +)
-
-So, for now, you aren't addressing any *errp usage, or any potential 
-cleanups of error_propagate.  But that's okay; your cover letter did 
-call out that you were only addressing 1 part out of 3 potential uses 
-just to get some motion, based on the size of the effort.
-
-> +    ...+>
-> + }
-> +
-> +@@
-> +// Drop doubled invocation
-> +identifier rule0.fn;
-> +@@
-> +
-> + fn(...)
+> diff --git a/cpus.c b/cpus.c
+> index d2c61ff155..bee7209134 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -949,8 +949,8 @@ static inline int64_t qemu_tcg_next_kick(void)
+>      return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+>  }
+> =20
+> -/* Kick the currently round-robin scheduled vCPU */
+> -static void qemu_cpu_kick_rr_cpu(void)
+> +/* Kick the currently round-robin scheduled vCPU to next */
+> +static void qemu_cpu_kick_rr_next_cpu(void)
+>  {
+>      CPUState *cpu;
+>      do {
+> @@ -961,6 +961,16 @@ static void qemu_cpu_kick_rr_cpu(void)
+>      } while (cpu !=3D atomic_mb_read(&tcg_current_rr_cpu));
+>  }
+> =20
+> +/* Kick all RR vCPUs */
+> +static void qemu_cpu_kick_rr_cpus(void)
 > +{
-> +    ERRP_AUTO_PROPAGATE();
-> +-   ERRP_AUTO_PROPAGATE();
-> +    ...
+> +    CPUState *cpu;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        cpu_exit(cpu);
+> +    };
 > +}
-> 
+> +
+>  static void do_nothing(CPUState *cpu, run_on_cpu_data unused)
+>  {
+>  }
+> @@ -993,7 +1003,7 @@ void qemu_timer_notify_cb(void *opaque, QEMUClockTyp=
+e type)
+>  static void kick_tcg_thread(void *opaque)
+>  {
+>      timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> -    qemu_cpu_kick_rr_cpu();
+> +    qemu_cpu_kick_rr_next_cpu();
+>  }
+> =20
+>  static void start_tcg_kick_timer(void)
+> @@ -1828,9 +1838,11 @@ void qemu_cpu_kick(CPUState *cpu)
+>  {
+>      qemu_cond_broadcast(cpu->halt_cond);
+>      if (tcg_enabled()) {
+> -        cpu_exit(cpu);
+> -        /* NOP unless doing single-thread RR */
+> -        qemu_cpu_kick_rr_cpu();
+> +        if (qemu_tcg_mttcg_enabled()) {
+> +            cpu_exit(cpu);
+> +        } else {
+> +            qemu_cpu_kick_rr_cpus();
+> +        }
+>      } else {
+>          if (hax_enabled()) {
+>              /*
+>=20
 
-This looks idempotent once a file is patched, and safe to rerun as many 
-times in the future as needed.  I'm still hoping we can find a way to 
-make scripts/checkpatch.pl also do a sanity check, but as it's harder to 
-parse C in perl than in Coccinelle, I can live with just the .cocci 
-script in-tree as long as we remember to manually run it periodically.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
 
