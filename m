@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C002C4246
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:03:53 +0200 (CEST)
-Received: from localhost ([::1]:48130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E183C4250
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:09:44 +0200 (CEST)
+Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPJG-0001pM-L7
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55567)
+	id 1iFPOx-0007QX-7H
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:09:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO9b-0006dC-QV
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:49 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO9f-0006g0-Ce
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO9Z-0000Qd-T2
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60485)
+ (envelope-from <mreitz@redhat.com>) id 1iFO9d-0000Sa-Rh
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44136)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO9O-0000Kp-PW; Tue, 01 Oct 2019 15:49:35 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iFO9V-0000Nl-Vx; Tue, 01 Oct 2019 15:49:43 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 15759105786C;
- Tue,  1 Oct 2019 19:49:34 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EAD03308FC4D;
+ Tue,  1 Oct 2019 19:49:40 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A22C11001B05;
- Tue,  1 Oct 2019 19:49:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 859BC5D6D0;
+ Tue,  1 Oct 2019 19:49:40 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 58/67] iotests/246: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:47:06 +0200
-Message-Id: <20191001194715.2796-59-mreitz@redhat.com>
+Subject: [PATCH 61/67] iotests/255: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:47:09 +0200
+Message-Id: <20191001194715.2796-62-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Tue, 01 Oct 2019 19:49:34 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 01 Oct 2019 19:49:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,36 +62,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/246 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/255     | 20 +++++++++-----------
+ tests/qemu-iotests/255.out |  8 --------
+ 2 files changed, 9 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qemu-iotests/246 b/tests/qemu-iotests/246
-index d1364d5901..2224c61545 100755
---- a/tests/qemu-iotests/246
-+++ b/tests/qemu-iotests/246
-@@ -20,7 +20,7 @@
- # owner=3Djsnow@redhat.com
+diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
+index ff16402268..4e745b68fa 100755
+--- a/tests/qemu-iotests/255
++++ b/tests/qemu-iotests/255
+@@ -21,7 +21,7 @@
+ #
 =20
  import iotests
--from iotests import log
-+from iotests import log, create_test_image
+-from iotests import imgfmt
++from iotests import imgfmt, create_test_image
 =20
- iotests.script_initialize(supported_fmts=3D['qcow2'],
-                           # compat=3D1.1 is needed for dirty bitmaps
-@@ -35,11 +35,11 @@ def query_bitmaps(vm):
-     return { "bitmaps": { device['device']: device.get('dirty-bitmaps', =
-[]) for
-                           device in res['return'] } }
+ iotests.script_initialize(supported_fmts=3D['qcow2'])
 =20
--with iotests.FilePath('img') as img_path, \
-+with iotests.ImagePath('img') as img_path, \
+@@ -39,8 +39,8 @@ iotests.log('Finishing a commit job with background rea=
+ds')
+ iotests.log('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D'=
+)
+ iotests.log('')
+=20
+-with iotests.FilePath('t.qcow2') as disk_path, \
+-     iotests.FilePath('t.qcow2.mid') as mid_path, \
++with iotests.ImagePath('t.qcow2') as disk_path, \
++     iotests.ImagePath('t.qcow2.mid') as mid_path, \
+      iotests.FilePath('t.qcow2.base') as base_path, \
       iotests.VM() as vm:
 =20
-     log('--- Preparing image & VM ---\n')
--    iotests.qemu_img_create('-f', iotests.imgfmt, img_path, str(size))
-+    create_test_image(img_path, size)
-     vm.add_drive(img_path)
+@@ -48,11 +48,10 @@ with iotests.FilePath('t.qcow2') as disk_path, \
+     iotests.log("")
 =20
+     size =3D 128 * 1024 * 1024
+-    size_str =3D str(size)
+=20
+     iotests.create_image(base_path, size)
+-    iotests.qemu_img_log('create', '-f', iotests.imgfmt, mid_path, size_=
+str)
+-    iotests.qemu_img_log('create', '-f', iotests.imgfmt, disk_path, size=
+_str)
++    assert create_test_image(mid_path, size) =3D=3D 0
++    assert create_test_image(disk_path, size) =3D=3D 0
+=20
+     # Create a backing chain like this:
+     # base <- [throttled: bps-read=3D4096] <- mid <- overlay
+@@ -91,18 +90,17 @@ iotests.log('Closing the VM while a job is being canc=
+elled')
+ iotests.log('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+')
+ iotests.log('')
+=20
+-with iotests.FilePath('src.qcow2') as src_path, \
+-     iotests.FilePath('dst.qcow2') as dst_path, \
++with iotests.ImagePath('src.qcow2') as src_path, \
++     iotests.ImagePath('dst.qcow2') as dst_path, \
+      iotests.VM() as vm:
+=20
+     iotests.log('=3D=3D=3D Create images and start VM =3D=3D=3D')
+     iotests.log('')
+=20
+     size =3D 128 * 1024 * 1024
+-    size_str =3D str(size)
+=20
+-    iotests.qemu_img_log('create', '-f', iotests.imgfmt, src_path, size_=
+str)
+-    iotests.qemu_img_log('create', '-f', iotests.imgfmt, dst_path, size_=
+str)
++    assert create_test_image(src_path, size) =3D=3D 0
++    assert create_test_image(dst_path, size) =3D=3D 0
+=20
+     iotests.log(iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 1M'=
+,
+                                 src_path),
+diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
+index 348909fdef..2e837cbb5f 100644
+--- a/tests/qemu-iotests/255.out
++++ b/tests/qemu-iotests/255.out
+@@ -3,10 +3,6 @@ Finishing a commit job with background reads
+=20
+ =3D=3D=3D Create backing chain and start VM =3D=3D=3D
+=20
+-Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=3Dqcow2 size=3D134217728 clus=
+ter_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+-
+-Formatting 'TEST_DIR/PID-t.qcow2', fmt=3Dqcow2 size=3D134217728 cluster_=
+size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+-
+ =3D=3D=3D Start background read requests =3D=3D=3D
+=20
+ =3D=3D=3D Run a commit job =3D=3D=3D
+@@ -23,10 +19,6 @@ Closing the VM while a job is being cancelled
+=20
+ =3D=3D=3D Create images and start VM =3D=3D=3D
+=20
+-Formatting 'TEST_DIR/PID-src.qcow2', fmt=3Dqcow2 size=3D134217728 cluste=
+r_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+-
+-Formatting 'TEST_DIR/PID-dst.qcow2', fmt=3Dqcow2 size=3D134217728 cluste=
+r_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+-
+ wrote 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 =20
 --=20
 2.21.0
