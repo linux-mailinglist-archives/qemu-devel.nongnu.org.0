@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4451FC44B5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:00:36 +0200 (CEST)
-Received: from localhost ([::1]:49507 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE9EC44BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:07:47 +0200 (CEST)
+Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFS4I-0003Lr-UM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:00:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38966)
+	id 1iFSBG-0007bF-8T
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrj-00018C-0K
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:37 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrl-00018L-LT
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrb-0001Js-FW
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42112)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrc-0001LG-1T
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30718)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRra-0001He-U6; Tue, 01 Oct 2019 19:47:27 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ id 1iFRrb-0001IG-Aa; Tue, 01 Oct 2019 19:47:27 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlOat053387; Tue, 1 Oct 2019 19:47:24 -0400
+ x91NlPCU074810; Tue, 1 Oct 2019 19:47:26 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg17160g-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdv2vpru-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:24 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlO5Q053078;
- Tue, 1 Oct 2019 19:47:24 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg171600-1
+ Tue, 01 Oct 2019 19:47:26 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlPWM074813;
+ Tue, 1 Oct 2019 19:47:25 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdv2vpqp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:24 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njlt0032690;
+ Tue, 01 Oct 2019 19:47:25 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlOs031629;
  Tue, 1 Oct 2019 23:47:22 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02dal.us.ibm.com with ESMTP id 2v9y57qb69-1
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fac-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Oct 2019 23:47:22 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlLLu44302728
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlMtm54133138
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:21 GMT
+ Tue, 1 Oct 2019 23:47:22 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 306A728059;
- Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 36F8B28058;
+ Tue,  1 Oct 2019 23:47:22 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 14D3828058;
- Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1A8EC28059;
+ Tue,  1 Oct 2019 23:47:22 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:22 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/97] iotests: Test commit job start with concurrent I/O
-Date: Tue,  1 Oct 2019 18:44:57 -0500
-Message-Id: <20191001234616.7825-19-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 20/97] QEMUMachine: add events_wait method
+Date: Tue,  1 Oct 2019 18:44:59 -0500
+Message-Id: <20191001234616.7825-21-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -87,187 +87,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-This tests that concurrent requests are correctly drained before making
-graph modifications instead of running into assertions in
-bdrv_replace_node().
+Instead of event_wait which looks for a single event, add an events_wait
+which can look for any number of events simultaneously. However, it
+will still only return one at a time, whichever happens first.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20190523170643.20794-4-jsnow@redhat.com
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit ac6fb43eae1f5029b51e0a3d975fe2111cc8b976)
- Conflicts:
-	tests/qemu-iotests/group
-*prereq for d81e1efb tests
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit f6f4b3f045ea18e3fa93a50cd0462236c428d62e)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/255        | 83 +++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/255.out    | 16 +++++++
- tests/qemu-iotests/group      |  1 +
- tests/qemu-iotests/iotests.py | 10 ++++-
- 4 files changed, 109 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/255
- create mode 100644 tests/qemu-iotests/255.out
+ python/qemu/__init__.py | 69 +++++++++++++++++++++++++++++------------
+ 1 file changed, 49 insertions(+), 20 deletions(-)
 
-diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
-new file mode 100755
-index 0000000000..c0bb37a9b0
---- /dev/null
-+++ b/tests/qemu-iotests/255
-@@ -0,0 +1,83 @@
-+#!/usr/bin/env python
-+#
-+# Test commit job graph modifications while requests are active
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# Creator/Owner: Kevin Wolf <kwolf@redhat.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import imgfmt
-+
-+iotests.verify_image_format(supported_fmts=['qcow2'])
-+
-+def blockdev_create(vm, options):
-+    result = vm.qmp_log('blockdev-create',
-+                        filters=[iotests.filter_qmp_testfiles],
-+                        job_id='job0', options=options)
-+
-+    if 'return' in result:
-+        assert result['return'] == {}
-+        vm.run_job('job0')
-+    iotests.log("")
-+
-+with iotests.FilePath('t.qcow2') as disk_path, \
-+     iotests.FilePath('t.qcow2.mid') as mid_path, \
-+     iotests.FilePath('t.qcow2.base') as base_path, \
-+     iotests.VM() as vm:
-+
-+    iotests.log("=== Create backing chain and start VM ===")
-+    iotests.log("")
-+
-+    size = 128 * 1024 * 1024
-+    size_str = str(size)
-+
-+    iotests.create_image(base_path, size)
-+    iotests.qemu_img_log('create', '-f', iotests.imgfmt, mid_path, size_str)
-+    iotests.qemu_img_log('create', '-f', iotests.imgfmt, disk_path, size_str)
-+
-+    # Create a backing chain like this:
-+    # base <- [throttled: bps-read=4096] <- mid <- overlay
-+
-+    vm.add_object('throttle-group,x-bps-read=4096,id=throttle0')
-+    vm.add_blockdev('file,filename=%s,node-name=base' % (base_path))
-+    vm.add_blockdev('throttle,throttle-group=throttle0,file=base,node-name=throttled')
-+    vm.add_blockdev('file,filename=%s,node-name=mid-file' % (mid_path))
-+    vm.add_blockdev('qcow2,file=mid-file,node-name=mid,backing=throttled')
-+    vm.add_drive_raw('if=none,id=overlay,driver=qcow2,file=%s,backing=mid' % (disk_path))
-+
-+    vm.launch()
-+
-+    iotests.log("=== Start background read requests ===")
-+    iotests.log("")
-+
-+    def start_requests():
-+        vm.hmp_qemu_io('overlay', 'aio_read 0 4k')
-+        vm.hmp_qemu_io('overlay', 'aio_read 0 4k')
-+
-+    start_requests()
-+
-+    iotests.log("=== Run a commit job ===")
-+    iotests.log("")
-+
-+    result = vm.qmp_log('block-commit', job_id='job0', auto_finalize=False,
-+                        device='overlay', top_node='mid')
-+
-+    vm.run_job('job0', auto_finalize=False, pre_finalize=start_requests,
-+                auto_dismiss=True)
-+
-+    vm.shutdown()
-diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
-new file mode 100644
-index 0000000000..9a2d7cbb77
---- /dev/null
-+++ b/tests/qemu-iotests/255.out
-@@ -0,0 +1,16 @@
-+=== Create backing chain and start VM ===
-+
-+Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-t.qcow2', fmt=qcow2 size=134217728 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+=== Start background read requests ===
-+
-+=== Run a commit job ===
-+
-+{"execute": "block-commit", "arguments": {"auto-finalize": false, "device": "overlay", "job-id": "job0", "top-node": "mid"}}
-+{"return": {}}
-+{"execute": "job-finalize", "arguments": {"id": "job0"}}
-+{"return": {}}
-+{"data": {"id": "job0", "type": "commit"}, "event": "BLOCK_JOB_PENDING", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "job0", "len": 134217728, "offset": 134217728, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 4cd2fe80a6..19e2bb3aec 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -249,3 +249,4 @@
- 247 rw auto quick
- 248 rw auto quick
- 253 rw auto quick
-+255 rw auto quick
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 997dc910cb..8b209ea0ee 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -126,6 +126,11 @@ def qemu_img_pipe(*args):
-         sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode, ' '.join(qemu_img_args + list(args))))
-     return subp.communicate()[0]
+diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
+index fd144c0006..4cb8eb2f01 100644
+--- a/python/qemu/__init__.py
++++ b/python/qemu/__init__.py
+@@ -408,42 +408,71 @@ class QEMUMachine(object):
+         self._qmp.clear_events()
+         return events
  
-+def qemu_img_log(*args):
-+    result = qemu_img_pipe(*args)
-+    log(result, filters=[filter_testfiles])
-+    return result
-+
- def img_info_log(filename, filter_path=None, imgopts=False, extra_args=[]):
-     args = [ 'info' ]
-     if imgopts:
-@@ -533,7 +538,8 @@ class VM(qtest.QEMUQtestMachine):
-         return result
+-    def event_wait(self, name, timeout=60.0, match=None):
++    @staticmethod
++    def event_match(event, match=None):
+         """
+-        Wait for specified timeout on named event in QMP; optionally filter
+-        results by match.
++        Check if an event matches optional match criteria.
  
-     # Returns None on success, and an error string on failure
--    def run_job(self, job, auto_finalize=True, auto_dismiss=False):
-+    def run_job(self, job, auto_finalize=True, auto_dismiss=False,
-+                pre_finalize=None):
-         error = None
+-        The 'match' is checked to be a recursive subset of the 'event'; skips
+-        branch processing on match's value None
+-           {"foo": {"bar": 1}} matches {"foo": None}
+-           {"foo": {"bar": 1}} does not matches {"foo": {"baz": None}}
++        The match criteria takes the form of a matching subdict. The event is
++        checked to be a superset of the subdict, recursively, with matching
++        values whenever those values are not None.
++
++        Examples, with the subdict queries on the left:
++         - None matches any object.
++         - {"foo": None} matches {"foo": {"bar": 1}}
++         - {"foo": {"baz": None}} does not match {"foo": {"bar": 1}}
++         - {"foo": {"baz": 2}} matches {"foo": {"bar": 1, "baz": 2}}
+         """
+-        def event_match(event, match=None):
+-            if match is None:
+-                return True
++        if match is None:
++            return True
+ 
+-            for key in match:
+-                if key in event:
+-                    if isinstance(event[key], dict):
+-                        if not event_match(event[key], match[key]):
+-                            return False
+-                    elif event[key] != match[key]:
++        for key in match:
++            if key in event:
++                if isinstance(event[key], dict):
++                    if not QEMUMachine.event_match(event[key], match[key]):
+                         return False
+-                else:
++                elif event[key] != match[key]:
+                     return False
++            else:
++                return False
++        return True
+ 
+-            return True
++    def event_wait(self, name, timeout=60.0, match=None):
++        """
++        event_wait waits for and returns a named event from QMP with a timeout.
++
++        name: The event to wait for.
++        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
++        match: Optional match criteria. See event_match for details.
++        """
++        return self.events_wait([(name, match)], timeout)
++
++    def events_wait(self, events, timeout=60.0):
++        """
++        events_wait waits for and returns a named event from QMP with a timeout.
++
++        events: a sequence of (name, match_criteria) tuples.
++                The match criteria are optional and may be None.
++                See event_match for details.
++        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
++        """
++        def _match(event):
++            for name, match in events:
++                if (event['event'] == name and
++                    self.event_match(event, match)):
++                    return True
++            return False
+ 
+         # Search cached events
+         for event in self._events:
+-            if (event['event'] == name) and event_match(event, match):
++            if _match(event):
+                 self._events.remove(event)
+                 return event
+ 
+         # Poll for new events
          while True:
-             for ev in self.get_qmp_events_filtered(wait=True):
-@@ -546,6 +552,8 @@ class VM(qtest.QEMUQtestMachine):
-                                 error = j['error']
-                                 log('Job failed: %s' % (j['error']))
-                     elif status == 'pending' and not auto_finalize:
-+                        if pre_finalize:
-+                            pre_finalize()
-                         self.qmp_log('job-finalize', id=job)
-                     elif status == 'concluded' and not auto_dismiss:
-                         self.qmp_log('job-dismiss', id=job)
+             event = self._qmp.pull_event(wait=timeout)
+-            if (event['event'] == name) and event_match(event, match):
++            if _match(event):
+                 return event
+             self._events.append(event)
+ 
 -- 
 2.17.1
 
