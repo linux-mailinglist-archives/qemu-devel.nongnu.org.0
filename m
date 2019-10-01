@@ -2,80 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB11C395D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:44:03 +0200 (CEST)
-Received: from localhost ([::1]:43600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C77EC3965
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:46:37 +0200 (CEST)
+Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKJl-0004da-Uz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
+	id 1iFKMF-0007C1-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iFK4O-0007uQ-Jc
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:28:09 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFK54-0008M2-0B
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:28:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iFK4N-0002NH-6U
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:28:08 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44042)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iFK4M-0002ML-Vv
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:28:07 -0400
-Received: by mail-wr1-x436.google.com with SMTP id z9so2934198wrl.11
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 08:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=QdmsaPDopLbECYZOKWwQ5aje7PlktW6233psnJFqa3s=;
- b=ClkjwA4B2F1P71zkmkhTBhKhMlcH2LxcT9KxJRFJJOW4U7Dzvskn/7Cc7g5TQ6rD25
- 9cq+UUV4n2eeVHoqtHpPr0f4TWTXZ+xI5ZqEKTqZmzCvVEuGxTyijDP73f/Q9zmbedlx
- H9QdCkKwOO2cge6CsKfSWXe55yfL6EILE/bQIdE7O9m9LRtr0Q7XWDJYTM1/cSX/CIJ4
- O+hIZOYtSb/+WbRuaENazsBl8OKHzdVP7Khuy/+VAomZsiNefx5jmiHJ4IVKJ/8nuV4T
- ty9NC71saAKMDm/7QvNlKEZhuUqraK1KlAN164Oc7PXGkMLVBiHtsbTtOJXBOvjk16OI
- NZxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QdmsaPDopLbECYZOKWwQ5aje7PlktW6233psnJFqa3s=;
- b=fIFzKgYtU90iD5obuP/jVe1mNR7iPRVmv4EOs1bbA1WjKYwIMnQps+NxzdocOulKqy
- qm2dGnc5y7WVDXbCe3EZHDxaQoGOhrbyWE8Px8mfwykT5npPzhWhkRpXM0HqGTrheLVc
- RHFXvyg+60JVQ+YgJWMBcdyJoFtf53ZPp/xJTLV0rqeTXJ7XxHWGAjPXhEsZ3y93ujMy
- VzcwCu22LKLCu2nhfUCFXMWw5fS0jOllQ8Hvvvu7lDJuGdr1XvBRjIEh6xh7D+jzLRDW
- 6oeJY9APy3SVy1XHCY2UStMj9ETvWoTQMZaLdCFpJNbxCVlkzmmVVaNg/b1krNEjR8vc
- +dyw==
-X-Gm-Message-State: APjAAAXX69tLstputQ8/6wKeONr/UqLXVP9nsq+b3oSzTalEZktI6B0P
- 878fe6faXhc4efzY4bO8f5zQVA==
-X-Google-Smtp-Source: APXvYqzhU5ooUcy27bmPJIilhlGkpvuGUKaSMkkZwpmCNtHvgXSQSKygLextAOqPSQCnwAXIMQNzWg==
-X-Received: by 2002:adf:ef0d:: with SMTP id e13mr1599441wro.300.1569943685146; 
- Tue, 01 Oct 2019 08:28:05 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b184sm3217090wmg.47.2019.10.01.08.28.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Oct 2019 08:28:04 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B00E51FF87;
- Tue,  1 Oct 2019 16:28:03 +0100 (BST)
-References: <CAEfK_44VEF17nRgzNvVe+MPmAfS34kiJ_ozubWFkVYV0rm71sw@mail.gmail.com>
- <CAFEAcA9nz9S4R+O9fwa0k38dB3r1smguG4bQRzwm1s0zJCvfDA@mail.gmail.com>
- <96703fc4-cbeb-5487-89b2-78c37b40237a@redhat.com>
- <87ftkdlhet.fsf@linaro.org>
- <9cdb8f02-0aa4-f0ec-d482-244e346bfc96@redhat.com>
- <87eezwluvg.fsf@linaro.org>
- <e84bb7eb-07df-1c84-c4d7-285c40436751@redhat.com>
-User-agent: mu4e 1.3.4; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Lockup with --accel tcg,thread=single
-In-reply-to: <e84bb7eb-07df-1c84-c4d7-285c40436751@redhat.com>
-Date: Tue, 01 Oct 2019 16:28:03 +0100
-Message-ID: <875zl8lc3g.fsf@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1iFK53-0003ZY-30
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:28:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33934)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iFK52-0003Wv-TW
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:28:49 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 69DC4C010C13
+ for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 15:28:47 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 34B0D1001B13;
+ Tue,  1 Oct 2019 15:28:47 +0000 (UTC)
+Subject: Re: [PATCH 1/8] ide: fix leak from qemu_allocate_irqs
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
+ <1569936988-635-2-git-send-email-pbonzini@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4eb1b986-b232-9250-d666-1315bd7647c5@redhat.com>
+Date: Tue, 1 Oct 2019 10:28:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::436
+In-Reply-To: <1569936988-635-2-git-send-email-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 01 Oct 2019 15:28:47 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,47 +61,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Doug Gale <doug16k@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/1/19 8:36 AM, Paolo Bonzini wrote:
+> The array returned by qemu_allocate_irqs is malloced, free it.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   hw/ide/cmd646.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+> index f3ccd11..19984d2 100644
+> --- a/hw/ide/cmd646.c
+> +++ b/hw/ide/cmd646.c
+> @@ -300,6 +300,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+>           d->bmdma[i].bus = &d->bus[i];
+>           ide_register_restart_cb(&d->bus[i]);
+>       }
+> +    g_free(irq);
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+How many of these patches could be fixed by using g_autofree or similar 
+instead?
 
-> On 01/10/19 10:42, Alex Benn=C3=A9e wrote:
->>
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->>
->>> On 30/09/19 21:20, Alex Benn=C3=A9e wrote:
->>>> Does seem to imply the vCPU CPUState is where the queue is. That's not
->>>> to say there shouldn't be a single work queue for thread=3Dsingle.
->>>
->>> Indeed it doesn't.  I confused this with commit a8efa60633 ("cpus: run
->>> work items for all vCPUs if single-threaded", 2018-11-27).
->>>
->>> Are you going to make a patch to have a single work queue, or should
->>> I?
->>
->> What's the neatest way to do it? Are you thinking just special case
->> queue_work_on_cpu to special case first_cpu when mttcg is not enabled?
->
-> Yes, I cannot think of anything better.
-
-And I am immediately stymied by the fact that cpus-common is a common
-blob so can't have differentiation for SOFTMMU cases in it.
-
-Did you have a look at:
-
-  Date: Mon, 30 Sep 2019 17:38:15 +0100
-  Message-ID: <87h84tloy0.fsf@linaro.org>
-
-Is that too ugly?
-
->
-> Paolo
-
-
---
-Alex Benn=C3=A9e
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
