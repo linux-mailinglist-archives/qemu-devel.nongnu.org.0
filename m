@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E11C456A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:21:12 +0200 (CEST)
-Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725D0C4581
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:26:57 +0200 (CEST)
+Received: from localhost ([::1]:50162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTKI-0006Y5-1J
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41280)
+	id 1iFTPr-0003TG-VR
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsp-0002ED-2Y
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsp-0002E1-3n
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsh-0002uQ-NM
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsh-0002uv-Rg
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:40 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62822)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40762)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsg-0002ES-Ih; Tue, 01 Oct 2019 19:48:35 -0400
+ id 1iFRsg-00027e-Ri; Tue, 01 Oct 2019 19:48:35 -0400
 Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlVHM108108; Tue, 1 Oct 2019 19:48:00 -0400
+ x91NlPM2107929; Tue, 1 Oct 2019 19:48:03 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgaurpde-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgaurpeg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:00 -0400
+ Tue, 01 Oct 2019 19:48:03 -0400
 Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlxN3108734;
- Tue, 1 Oct 2019 19:47:59 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgaurpd3-1
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nm2Nk108791;
+ Tue, 1 Oct 2019 19:48:02 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgaurpe6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:59 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlTQ023573;
- Tue, 1 Oct 2019 23:47:58 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577h15-1
+ Tue, 01 Oct 2019 19:48:02 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlZ8029380;
+ Tue, 1 Oct 2019 23:48:01 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fakq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:58 +0000
+ Tue, 01 Oct 2019 23:48:01 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nlw4t53215492
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91Nm1RW47513998
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:58 GMT
+ Tue, 1 Oct 2019 23:48:01 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13AFF2805C;
- Tue,  1 Oct 2019 23:47:58 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 11E352805E;
+ Tue,  1 Oct 2019 23:48:01 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EB9FD28059;
- Tue,  1 Oct 2019 23:47:57 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EA8F628059;
+ Tue,  1 Oct 2019 23:48:00 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:57 +0000 (GMT)
+ Tue,  1 Oct 2019 23:48:00 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 84/97] block/nfs: tear down aio before nfs_close
-Date: Tue,  1 Oct 2019 18:46:03 -0500
-Message-Id: <20191001234616.7825-85-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 90/97] curl: Report only ready sockets
+Date: Tue,  1 Oct 2019 18:46:09 -0500
+Message-Id: <20191001234616.7825-91-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -72,7 +72,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=889 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
@@ -87,47 +87,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Lieven <pl@kamp.de>
+From: Max Reitz <mreitz@redhat.com>
 
-nfs_close is a sync call from libnfs and has its own event
-handler polling on the nfs FD. Avoid that both QEMU and libnfs
-are intefering here.
+Instead of reporting all sockets to cURL, only report the one that has
+caused curl_multi_do_locked() to be called.  This lets us get rid of the
+QLIST_FOREACH_SAFE() list, which was actually wrong: SAFE foreaches are
+only safe when the current element is removed in each iteration.  If it
+possible for the list to be concurrently modified, we cannot guarantee
+that only the current element will be removed.  Therefore, we must not
+use QLIST_FOREACH_SAFE() here.
 
-CC: qemu-stable@nongnu.org
-Signed-off-by: Peter Lieven <pl@kamp.de>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 601dc6559725f7a614b6f893611e17ff0908e914)
+Fixes: ff5ca1664af85b24a4180d595ea6873fd3deac57
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190910124136.10565-6-mreitz@redhat.com
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit 9abaf9fc474c3dd53e8e119326abc774c977c331)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/nfs.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ block/curl.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index 531903610b..f04f675c63 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -389,12 +389,14 @@ static void nfs_attach_aio_context(BlockDriverState *bs,
- static void nfs_client_close(NFSClient *client)
+diff --git a/block/curl.c b/block/curl.c
+index 5b163d71dc..de0cebd361 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -391,24 +391,19 @@ static void curl_multi_check_completion(BDRVCURLState *s)
+ }
+ 
+ /* Called with s->mutex held.  */
+-static void curl_multi_do_locked(CURLSocket *ready_socket)
++static void curl_multi_do_locked(CURLSocket *socket)
  {
-     if (client->context) {
-+        qemu_mutex_lock(&client->mutex);
-+        aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
-+                           false, NULL, NULL, NULL, NULL);
-+        qemu_mutex_unlock(&client->mutex);
-         if (client->fh) {
-             nfs_close(client->context, client->fh);
-             client->fh = NULL;
-         }
--        aio_set_fd_handler(client->aio_context, nfs_get_fd(client->context),
--                           false, NULL, NULL, NULL, NULL);
-         nfs_destroy_context(client->context);
-         client->context = NULL;
+-    CURLSocket *socket, *next_socket;
+-    CURLState *s = ready_socket->state;
++    BDRVCURLState *s = socket->state->s;
+     int running;
+     int r;
+ 
+-    if (!s->s->multi) {
++    if (!s->multi) {
+         return;
      }
+ 
+-    /* Need to use _SAFE because curl_multi_socket_action() may trigger
+-     * curl_sock_cb() which might modify this list */
+-    QLIST_FOREACH_SAFE(socket, &s->sockets, next, next_socket) {
+-        do {
+-            r = curl_multi_socket_action(s->s->multi, socket->fd, 0, &running);
+-        } while (r == CURLM_CALL_MULTI_PERFORM);
+-    }
++    do {
++        r = curl_multi_socket_action(s->multi, socket->fd, 0, &running);
++    } while (r == CURLM_CALL_MULTI_PERFORM);
+ }
+ 
+ static void curl_multi_do(void *arg)
 -- 
 2.17.1
 
