@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCDAC39BC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:01:17 +0200 (CEST)
-Received: from localhost ([::1]:44010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D6EC3A01
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:09:20 +0200 (CEST)
+Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKaR-0006r6-Gu
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:01:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49923)
+	id 1iFKiE-0007CF-W5
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT1-00083F-Tm
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT1-00083H-Ux
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT0-0006Y6-N6
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT0-0006YC-Nc
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38378)
+Received: from relay.sw.ru ([185.231.240.75]:38386)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT0-0006WV-C9; Tue, 01 Oct 2019 11:53:34 -0400
+ id 1iFKT0-0006Wc-CP
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:34 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKSy-0004xb-G8; Tue, 01 Oct 2019 18:53:32 +0300
+ id 1iFKSz-0004xb-4e; Tue, 01 Oct 2019 18:53:33 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/31] ASPEED BMCs: Fix error_append_hint/error_prepend
- usage
-Date: Tue,  1 Oct 2019 18:53:00 +0300
-Message-Id: <20191001155319.8066-13-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 15/31] PCI: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:03 +0300
+Message-Id: <20191001155319.8066-16-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -48,11 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Andrew Jeffery <andrew@aj.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,21 +81,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/watchdog/wdt_aspeed.c | 1 +
+ hw/pci-bridge/pcie_root_port.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 9b93213417..a70d6dee63 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -243,6 +243,7 @@ static void aspeed_wdt_timer_expired(void *dev)
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index 012c2cb12c..a1b4989534 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -60,6 +60,7 @@ static void rp_reset(DeviceState *qdev)
  
- static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+ static void rp_realize(PCIDevice *d, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     AspeedWDTState *s = ASPEED_WDT(dev);
-     Error *err = NULL;
+     PCIEPort *p = PCIE_PORT(d);
+     PCIESlot *s = PCIE_SLOT(d);
+     PCIDeviceClass *dc = PCI_DEVICE_GET_CLASS(d);
 -- 
 2.21.0
 
