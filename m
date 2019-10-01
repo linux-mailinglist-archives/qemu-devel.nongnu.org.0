@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67460C4523
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:49:34 +0200 (CEST)
-Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC77FC4520
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:47:27 +0200 (CEST)
+Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSpd-00024F-7X
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40371)
+	id 1iFSne-0008Of-Cd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:47:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40421)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsP-0001rp-SI
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:22 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tT-BD
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsJ-0002LN-5Q
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:13 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8602
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0002Nf-6O
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39154
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsB-0001g3-Iv; Tue, 01 Oct 2019 19:48:03 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlPS3037480; Tue, 1 Oct 2019 19:47:43 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcer2b35p-1
+ id 1iFRsJ-0001qq-DU; Tue, 01 Oct 2019 19:48:11 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlRrW146346; Tue, 1 Oct 2019 19:47:49 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26ja-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:42 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njod1031648;
- Tue, 1 Oct 2019 23:47:42 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fc5-1
+ Tue, 01 Oct 2019 19:47:48 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlmed146835;
+ Tue, 1 Oct 2019 19:47:48 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26j5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:42 +0000
+ Tue, 01 Oct 2019 19:47:48 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjmlR023578;
+ Tue, 1 Oct 2019 23:47:48 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577h0b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Oct 2019 23:47:47 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nlfpi34996640
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NllO449742276
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:41 GMT
+ Tue, 1 Oct 2019 23:47:47 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC75E2805A;
- Tue,  1 Oct 2019 23:47:41 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 786E42805C;
+ Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C14AE28059;
- Tue,  1 Oct 2019 23:47:41 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5D5C528059;
+ Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:41 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:47 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 55/97] i386/acpi: fix gint overflow in crs_range_compare
-Date: Tue,  1 Oct 2019 18:45:34 -0500
-Message-Id: <20191001234616.7825-56-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 65/97] util/hbitmap: update orig_size on truncate
+Date: Tue,  1 Oct 2019 18:45:44 -0500
+Message-Id: <20191001234616.7825-66-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -64,9 +71,9 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=62 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=843 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -81,59 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-When very large regions (32GB sized in our case, PCI pass-through of GPUs)
-are compared substraction result does not fit into gint.
+Without this, hbitmap_next_zero and hbitmap_next_dirty_area are broken
+after truncate. So, orig_size is broken since it's introduction in
+76d570dc495c56bb.
 
-As a result crs_replace_with_free_ranges does not get sorted ranges and
-incorrectly computes PCI64 free space regions. Which then makes linux
-guest complain about device and PCI64 hole intersection and device
-becomes unusable.
-
-Fix that by returning exactly fitting ranges.
-
-Also fix indentation of an entire crs_replace_with_free_ranges to make
-checkpatch happy.
-
+Fixes: 76d570dc495c56bb
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 20190805120120.23585-1-vsementsov@virtuozzo.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-Message-Id: <1563466463-26012-1-git-send-email-wrfsh@yandex-team.ru>
-Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-(cherry picked from commit 21e2acd583126db94f6d881005cd58e835160582)
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit 4e4de222799634d8159ee7b9303b9e1b45c6be2c)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/i386/acpi-build.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ util/hbitmap.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ede27ab3c4..bf59c475be 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -743,10 +743,16 @@ static void crs_range_set_free(CrsRangeSet *range_set)
+diff --git a/util/hbitmap.c b/util/hbitmap.c
+index 7905212a8b..bcc0acdc6a 100644
+--- a/util/hbitmap.c
++++ b/util/hbitmap.c
+@@ -53,7 +53,9 @@
+  */
  
- static gint crs_range_compare(gconstpointer a, gconstpointer b)
- {
--     CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
--     CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
-+    CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
-+    CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
+ struct HBitmap {
+-    /* Size of the bitmap, as requested in hbitmap_alloc. */
++    /*
++     * Size of the bitmap, as requested in hbitmap_alloc or in hbitmap_truncate.
++     */
+     uint64_t orig_size;
  
--     return (int64_t)entry_a->base - (int64_t)entry_b->base;
-+    if (entry_a->base < entry_b->base) {
-+        return -1;
-+    } else if (entry_a->base > entry_b->base) {
-+        return 1;
-+    } else {
-+        return 0;
-+    }
- }
+     /* Number of total bits in the bottom level.  */
+@@ -732,6 +734,8 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
+     uint64_t num_elements = size;
+     uint64_t old;
  
- /*
++    hb->orig_size = size;
++
+     /* Size comes in as logical elements, adjust for granularity. */
+     size = (size + (1ULL << hb->granularity) - 1) >> hb->granularity;
+     assert(size <= ((uint64_t)1 << HBITMAP_LOG_MAX_SIZE));
 -- 
 2.17.1
 
