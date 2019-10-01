@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63442C3C85
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:53:28 +0200 (CEST)
-Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9855AC3DEF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:03:46 +0200 (CEST)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLOw-00030H-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
+	id 1iFLYv-0006sD-16
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55007)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iFLMn-0000ZE-Mo
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:51:15 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iFKxA-0006OU-IN
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:24:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iFLMl-00083D-Je
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:51:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56324)
+ (envelope-from <kwolf@redhat.com>) id 1iFKx8-000294-R9
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:24:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33940)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iFLMf-0007ww-VO; Tue, 01 Oct 2019 12:51:06 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iFKx3-00025j-OK; Tue, 01 Oct 2019 12:24:39 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1575218CB8F3;
- Tue,  1 Oct 2019 16:51:04 +0000 (UTC)
-Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA9615D9C9;
- Tue,  1 Oct 2019 16:50:44 +0000 (UTC)
-Subject: Re: [PATCH v4 05/31] scripts: add script to fix
- error_append_hint/error_prepend usage
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-6-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5c4788f0-0ba9-94bb-b677-d7d34f064cde@redhat.com>
-Date: Tue, 1 Oct 2019 11:50:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id C8C7210C0947;
+ Tue,  1 Oct 2019 16:24:36 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C98419C7F;
+ Tue,  1 Oct 2019 16:24:32 +0000 (UTC)
+Date: Tue, 1 Oct 2019 18:24:31 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: bitmap migration bug with -drive while block mirror runs
+Message-ID: <20191001162431.GH4688@linux.fritz.box>
+References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
+ <f84745dc-68df-c10a-a91b-a28498e54870@virtuozzo.com>
+ <20191001095416.GC4688@linux.fritz.box>
+ <c051fd5c-31be-c98b-8155-70fe1b6c1283@redhat.com>
+ <20191001155859.GE4688@linux.fritz.box>
+ <296167e0-396d-5f0a-456c-2747c6ad770d@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20191001155319.8066-6-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <296167e0-396d-5f0a-456c-2747c6ad770d@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 01 Oct 2019 16:51:04 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Tue, 01 Oct 2019 16:24:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,62 +62,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
- codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
- mdroth@linux.vnet.ibm.com, kraxel@redhat.com, sundeep.lkml@gmail.com,
- qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
- mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- joel@jms.id.au, marcandre.lureau@redhat.com, rth@twiddle.net,
- farman@linux.ibm.com, ehabkost@redhat.com, sw@weilnetz.de, groug@kaod.org,
- yuval.shaia@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, clg@kaod.org, stefanha@redhat.com, david@redhat.com,
- jsnow@redhat.com, david@gibson.dropbear.id.au, kwolf@redhat.com,
- integration@gluster.org, berrange@redhat.com, andrew@aj.id.au,
- cohuck@redhat.com, qemu-s390x@nongnu.org, mreitz@redhat.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 10:52 AM, Vladimir Sementsov-Ogievskiy wrote:
-> error_append_hint and error_prepend will not work, if errp ==
-> &fatal_error, as program will exit before error_append_hint or
-> error_prepend call. Fix this by use of special macro
-> ERRP_AUTO_PROPAGATE.
+Am 01.10.2019 um 18:12 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 01.10.2019 18:58, Kevin Wolf wrote:
+> > Am 01.10.2019 um 17:09 hat John Snow geschrieben:
+> >>
+> >>
+> >> On 10/1/19 5:54 AM, Kevin Wolf wrote:
+> >>> Am 01.10.2019 um 10:57 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >>>> 01.10.2019 3:09, John Snow wrote:
+> >>>>> Hi folks, I identified a problem with the migration code that Red Hat QE
+> >>>>> found and thought you'd like to see it:
+> >>>>>
+> >>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1652424#c20
+> >>>>>
+> >>>>> Very, very briefly: drive-mirror inserts a filter node that changes what
+> >>>>> bdrv_get_device_or_node_name() returns, which causes a migration problem.
+> >>>>>
+> >>>>>
+> >>>>> Ignorant question #1: Can we multi-parent the filter node and
+> >>>>> source-node? It looks like at the moment both consider their only parent
+> >>>>> to be the block-job and don't have a link back to their parents otherwise.
+> >>>>>
+> >>>>>
+> >>>>> Otherwise: I have a lot of cloudy ideas on how to solve this, but
+> >>>>> ultimately what we want is to be able to find the "addressable" name for
+> >>>>> the node the bitmap is attached to, which would be the name of the first
+> >>>>> ancestor node that isn't a filter. (OR, the name of the block-backend
+> >>>>> above that node.)
+> >>>>
+> >>>>
+> >>>> Better would be to migrate by node-name only.. But am I right that
+> >>>> node-names are different on source and destination? Or this situation
+> >>>> changed?
+> >>>
+> >>> Traditionally, I think migration assumes that frontends (guest devices)
+> >>> must match exactly, but backends may and usually will differ.
+> >>>
+> >>> Of course, dirty bitmaps are a backend feature that isn't really related
+> >>> to guest devices, so this doesn't really work out any more in your case.
+> >>> BlockBackend names are unusable for this purpose (especially as we're
+> >>> moving towards anonymous BlockBackends everywhere), which I guess
+> >>> essentially means node-name is the only option left.
+> >>>
+> >>
+> >> The problem as I see it involves API stability.
+> >>
+> >> We allow block-dirty-bitmap-add against e.g. "drive1" through the
+> >> block-backend name (the name of the "drive" as the user sees it.)
+> >>
+> >> Of course, once you start mirror, you aren't able to access that bitmap
+> >> through that namepair anymore -- the "address" of the bitmap has "changed"!
+> >>
+> >> (In actual fact, the bitmap always had two addresses; and simply we lost
+> >> an alias -- but it's the one that the user likely used to create the
+> >> bitmap, so that's bad.)
+> > 
+> > So if I understand correctly, the problem is that without a filter, in
+> > some setups we get a usable BlockBackend name like "drive1", but when a
+> > filter is added, we return the node-name instead which is
+> > auto-generated and will be different on the destination.
+> > 
+> > Looking at the ChildRole documentation:
+> > 
+> >      /* Returns a name that is supposedly more useful for human users than the
+> >       * node name for identifying the node in question (in particular, a BB
+> >       * name), or NULL if the parent can't provide a better name. */
+> >      const char *(*get_name)(BdrvChild *child);
+> > 
+> > I'd argue that a BlockBackend name is more useful for a human user even
+> > across filter, so I'd support a .get_name implementation for a filter
+> > child role (which Max wanted to introduce anyway for his filter series).
+> > 
+> > Of course, if you have a function that is made to return a convenient
+> > text for human users, and you use it for a stable ABI like the migration
+> > stream, this is an idea that would certainly have caused an entertaining
+> > Linus rant in the good old kernel times.
+> > 
+> >>> Is bitmap migration something that must be enabled explicitly or does
+> >>> it happen automatically? If it's explicit, then making an additional
+> >>> requirement (matching node-names) shouldn't be a problem.
+> >>
+> >> This means that bitmap migration becomes a blockdev-only feature.
+> > 
+> > I meant this more as the preferred way for the future rather than the
+> > only thing supported.
+> > 
+> > But Peter has actually mentioned that for libvirt it will be
+> > blockdev-only anyway. So do we even have a good reason to invest much
+> > for the non-blockdev case?
+> > 
+> > Maybe making it blockdev-only is actually pretty reasonable.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+> We in Virtuozzo use bitmap migration, so I'd have to fix it at least
+> downstream (it seems easier than switch downstream libvirt to blockdev now).
 > 
+> And what about original bug
+> https://bugzilla.redhat.com/show_bug.cgi?id=1652424#c20
+> ?
+> 
+> Also, if we make it blockdev-only upstream, what we mean by that? Node names
+> on destination must match, or we add additional qmp command
+> migration-set-bitmap-node-mapping, to specify mapping between node names on
+> source and target?
 
-> +++ b/scripts/coccinelle/fix-error-add-info.cocci
-> @@ -0,0 +1,28 @@
-> +@rule0@
-> +// Add invocation to errp-functions
-> +identifier fn;
-> +@@
-> +
-> + fn(..., Error **errp, ...)
-> + {
+Good question. :-)
 
-When running this script, I get lots of warnings:
+I would have thought that just having matching node-names would be
+pretty convenient for users, but Peter seems to disagree.
 
-init_defs_builtins: /usr/lib64/coccinelle/standard.h
-warning: line 6: should errp be a metavariable?
-warning: line 11: should errp be a metavariable?
-warning: line 13: should errp be a metavariable?
-HANDLING: include/block/nbd.h
+With a separate migration-set-bitmap-node-mapping, what would we do if
+migrate is called before a mapping is configured? Would this cause
+migration failure? I would find that pretty heavy.
 
-This means we are trying to patch only an actual variable named 'errp', 
-and not a meta-variable representing any variable of type Error ** 
-regardless of whether it is named errp or something else.  I think 
-that's okay, in part because ERRP_AUTO_PROPAGATE() expects the exact 
-name 'errp' to be in scope, so we cannot apply it to other variable 
-names).  But I still have to wonder if there is a way to silence the 
-warning, or if we have any outliers (other than the intentional Error 
-**errp_in in patch 1) using a different name for a parameter of type 
-Error **, which should also be tweaked.
+Maybe default to a 1:1 mapping and allow the user to override it? (And
+if so, do we do the mapping on the source or the destination?)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Kevin
 
