@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28ADC3EB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:36:01 +0200 (CEST)
-Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4A3C3EBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:38:20 +0200 (CEST)
+Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFM48-0003A0-Ql
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32934)
+	id 1iFM6N-00054G-Vh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iFLlM-0001hO-2k
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iFLlO-0001jZ-OY
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iFLlK-0005ag-Vh
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:35 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36738)
+ (envelope-from <richard.henderson@linaro.org>) id 1iFLlN-0005cI-Qu
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:38 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39532)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iFLlK-0005aB-Qi
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:34 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 23so1581006pgk.3
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 10:16:34 -0700 (PDT)
+ id 1iFLlN-0005bj-Ln
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:37 -0400
+Received: by mail-pg1-x544.google.com with SMTP id e1so4578367pgj.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 10:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8sg4rb5KuIBYRa5veNL+5ohAGWn4FiKab4HtkGWajes=;
- b=AOYp1zg77cPRcPif9SMkLZAwAdK0Aph7iPlFFqUIYy1d3Il+kSG65LK2QSOZVHwSnP
- fgu3aiurBne1CoecJ4aTcK0n5r8FigcpaSpXZRIzKtyZx0O3s1esRbA0EXP7MjEpoCx4
- 4L2IftCilatqVELDoAsEo43NlHORU+yXA1A6fOEa4ATjUISkyNYajO6NKaWJsHKcAwrF
- w1iQwjJJFIhC/FZxKdymclCEwscMGfDxmH9Hlb5qBfdUrVNzc7PRc3zkXxNcYoJmv9JZ
- oD/RTN14QtQFKBLdGtUr+LmOgMq1rypQ02skfv4UfXK1WpTjj3mZrG3EvDR6LklJzLzP
- HVzQ==
+ bh=v4OWbCEYlAnhjvj+x+7Ps/UFUWQ5DVP1AWFH0GWe8MY=;
+ b=BMyW5teIwagEVueis7ud2R9qnHWp3oYb/nHK+tFOgAYpwx0hBqUKTF0Dv6INyuJ/gF
+ /PAMqwn+kK/DQ1uJD6ag5sq2D/LFAEAf4q2VeiFH1kZvAkmEGA4rOtSgm1/sDTuz3HS8
+ Mv5HWl7mOoEaPP56KAVXq/gvwAhhCOJcradFj/2wwsZRQqqZureKIBdqQAbkm6K9tb+p
+ OXeVeTBJ5LwHoeTcglcENpqwLLWb6XCq14YHA9CkkHKd4RllFOMGkaZ+EW19KkKSxiF4
+ rmm9/3N1cMS6x/HlJCTRIy6kBCufcg8LmqRqX+ORFzKzlj+vSHPsArYpgr4KsOAoefVW
+ uC4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=8sg4rb5KuIBYRa5veNL+5ohAGWn4FiKab4HtkGWajes=;
- b=UHThDNoRPpHfQTcOMa32w59gS6MBjp3HjiULofaF+Oxbf3pv5lMYvp/LplQM8tdKRC
- RWWzrTr+KLmoMi8Jo/NszeqRrvbKJRNBs7nuOYa1qEW0USHuNCLIHwOfZEghmh5i7rpU
- cje949wMtUVAOIUlFYXTBu5kCmoMhjQDmU7orLrY5nMIRetzfa57zMAx/o3LtdZy7SHO
- bj58XO2jTxWdFs0xd4dGMRPMuZ0DbQHs2sGNqVa0CavfJ1wTYrSLs+C3G+YlyicE/JTo
- bEGfKE4mlL48KPENf1I6v7Fs3WakiF4YLO3bQrmfBUeZqulMMqodGeQBVsprP0NbPsdw
- g9TA==
-X-Gm-Message-State: APjAAAX8eUtgMbfPhPSGW1rve89l5yXfj5iu1I6lpzoiAzdp32H2ud6C
- uA6/l3SommCfQ8oVA8Nj9wRd+8RXvWU=
-X-Google-Smtp-Source: APXvYqx0i8UhK0TTTivkzWFNEZNcXdUIF7UROu6QrBAmgZaD4hLZt0vaJ+jROo99ucNHM6fP21Ev4w==
-X-Received: by 2002:a63:ed08:: with SMTP id d8mr32188280pgi.239.1569950193356; 
- Tue, 01 Oct 2019 10:16:33 -0700 (PDT)
+ bh=v4OWbCEYlAnhjvj+x+7Ps/UFUWQ5DVP1AWFH0GWe8MY=;
+ b=A4cenpFqRx0cCBocvSdcvU6rI0XBbXcrdjfSJJKgTnQ/juCjiRpo4cxjep2OHPVKjd
+ 1v6Rk0cHkd9m0sYEt0PFLZ0nmGrmDpo17m5N7PF1nsyE3j9uqDn6Fs2NtQZ7+1tUJXlU
+ pONtSLRis7vVT194f0LRHx3QMzaI/QPF8qnfcGBdmkviRqlKG7Mtt5al8CBmiM6gc/Nz
+ NYXsJUih43nF57H19A+lQA8Y8BcxCB03zhUzS2Fz433pZ3Wt50XsWaB0c/XHXd4nf5Tm
+ NdAQApYUkN+r28ZHht92W6KQj8EK85i+VpYvo8df4f0c9HWxGunetg6x7lFxw3GWhiGZ
+ m82Q==
+X-Gm-Message-State: APjAAAV9WZbJky7HR59bV/Cbdu+AJFqLPnqa9shG+Lw5X752CNcOY4i5
+ sY/lvdHuxtlbLz74YtXgn7piKJrEaWI=
+X-Google-Smtp-Source: APXvYqwngxzVcEsPfT5+tPCPbAKX6HQa8y6gSG6a276ZmPO/SmO23nNT1WhArO6hu2wiHYruGmdO+w==
+X-Received: by 2002:a17:90a:c096:: with SMTP id
+ o22mr6910982pjs.29.1569950195996; 
+ Tue, 01 Oct 2019 10:16:35 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id w7sm2863568pjn.1.2019.10.01.10.16.31
+ by smtp.gmail.com with ESMTPSA id w7sm2863568pjn.1.2019.10.01.10.16.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Oct 2019 10:16:32 -0700 (PDT)
+ Tue, 01 Oct 2019 10:16:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 13/18] target/s390x: Rely on unwinding in s390_cpu_tlb_fill
-Date: Tue,  1 Oct 2019 10:16:09 -0700
-Message-Id: <20191001171614.8405-14-richard.henderson@linaro.org>
+Subject: [PATCH v5 15/18] target/s390x: Remove ILEN_AUTO
+Date: Tue,  1 Oct 2019 10:16:11 -0700
+Message-Id: <20191001171614.8405-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001171614.8405-1-richard.henderson@linaro.org>
 References: <20191001171614.8405-1-richard.henderson@linaro.org>
@@ -79,64 +80,42 @@ Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently set ilen to AUTO, then overwrite that during
-unwinding, then overwrite that for the code access case.
-
-This can be simplified to setting ilen to our arbitrary
-value for the (undefined) code access case, then rely on
-unwinding to overwrite that with the correct value for
-the data access case.
+This setting is no longer used.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/excp_helper.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ target/s390x/cpu.h         | 2 --
+ target/s390x/excp_helper.c | 3 ---
+ 2 files changed, 5 deletions(-)
 
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 18e7091763..e7a9a58e0f 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -806,8 +806,6 @@ void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
+                        uint32_t io_int_parm, uint32_t io_int_word);
+ /* instruction length set by unwind info */
+ #define ILEN_UNWIND                 0
+-/* automatically detect the instruction length */
+-#define ILEN_AUTO                   0xff
+ #define RA_IGNORED                  0
+ void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
+ /* service interrupts are floating therefore we must not pass an cpustate */
 diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 98a1ee8317..8ce992e639 100644
+index 8ce992e639..c252e9a7d8 100644
 --- a/target/s390x/excp_helper.c
 +++ b/target/s390x/excp_helper.c
-@@ -96,7 +96,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- {
-     S390CPU *cpu = S390_CPU(cs);
+@@ -196,9 +196,6 @@ static void do_program_interrupt(CPUS390XState *env)
+     LowCore *lowcore;
+     int ilen = env->int_pgm_ilen;
  
--    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_AUTO);
-+    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING, ILEN_UNWIND);
-     /* On real machines this value is dropped into LowMem.  Since this
-        is userland, simply put this someplace that cpu_loop can find it.  */
-     cpu->env.__excp_addr = address;
-@@ -179,24 +179,15 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         stq_phys(env_cpu(env)->as,
-                  env->psa + offsetof(LowCore, trans_exc_code), tec);
-     }
--    trigger_pgm_exception(env, excp, ILEN_AUTO);
--    cpu_restore_state(cs, retaddr, true);
- 
-     /*
--     * The ILC value for code accesses is undefined.  The important
--     * thing here is to *not* leave env->int_pgm_ilen set to ILEN_AUTO,
--     * which would cause do_program_interrupt to attempt to read from
--     * env->psw.addr again.  C.f. the condition in trigger_page_fault,
--     * but is not universally applied.
--     *
--     * ??? If we remove ILEN_AUTO, by moving the computation of ILEN
--     * into cpu_restore_state, then we may remove this entirely.
-+     * For data accesses, ILEN will be filled in from the unwind info,
-+     * within cpu_loop_exit_restore.  For code accesses, retaddr == 0,
-+     * and so unwinding will not occur.  However, ILEN is also undefined
-+     * for that case -- we choose to set ILEN = 2.
-      */
--    if (access_type == MMU_INST_FETCH) {
--        env->int_pgm_ilen = 2;
+-    if (ilen == ILEN_AUTO) {
+-        ilen = get_ilen(cpu_ldub_code(env, env->psw.addr));
 -    }
--
--    cpu_loop_exit(cs);
-+    trigger_pgm_exception(env, excp, 2);
-+    cpu_loop_exit_restore(cs, retaddr);
- }
+     assert(ilen == 2 || ilen == 4 || ilen == 6);
  
- static void do_program_interrupt(CPUS390XState *env)
+     switch (env->int_pgm_code) {
 -- 
 2.17.1
 
