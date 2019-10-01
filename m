@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1CCC44DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:18:13 +0200 (CEST)
-Received: from localhost ([::1]:49634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB91DC44CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:11:51 +0200 (CEST)
+Received: from localhost ([::1]:49590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSLL-0008Bn-5o
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:18:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39218)
+	id 1iFSFC-0002n4-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39287)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrq-0001ED-6E
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:44 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrr-0001Gr-Sx
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrm-0001Wd-9i
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21910
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrm-0001XH-LJ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36370
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRrl-0001RW-QJ; Tue, 01 Oct 2019 19:47:37 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlQR2037587; Tue, 1 Oct 2019 19:47:33 -0400
+ id 1iFRrl-0001TH-So; Tue, 01 Oct 2019 19:47:38 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlPGa179294; Tue, 1 Oct 2019 19:47:35 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcer2b327-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdgpnctk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:33 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlXOV037810;
- Tue, 1 Oct 2019 19:47:33 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcer2b321-1
+ Tue, 01 Oct 2019 19:47:35 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlP6c179311;
+ Tue, 1 Oct 2019 19:47:35 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdgpnct1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:33 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkJw027153;
- Tue, 1 Oct 2019 23:47:32 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bg0-1
+ Tue, 01 Oct 2019 19:47:35 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlYk029380;
+ Tue, 1 Oct 2019 23:47:34 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fahk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:32 +0000
+ Tue, 01 Oct 2019 23:47:34 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlVaF53346612
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlXXT11928134
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:31 GMT
+ Tue, 1 Oct 2019 23:47:33 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BA96D28059;
- Tue,  1 Oct 2019 23:47:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 428122805A;
+ Tue,  1 Oct 2019 23:47:33 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F68228058;
- Tue,  1 Oct 2019 23:47:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 26E152805C;
+ Tue,  1 Oct 2019 23:47:33 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:31 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:33 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 37/97] usbredir: fix buffer-overflow on vmload
-Date: Tue,  1 Oct 2019 18:45:16 -0500
-Message-Id: <20191001234616.7825-38-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 40/97] sphinx: add qmp_lexer
+Date: Tue,  1 Oct 2019 18:45:19 -0500
+Message-Id: <20191001234616.7825-41-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
@@ -77,9 +75,6 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x91NlQR2037587
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,69 +88,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-If interface_count is NO_INTERFACE_INFO, let's not access the arrays
-out-of-bounds.
+Sphinx, through Pygments, does not like annotated json examples very
+much. In some versions of Sphinx (1.7), it will render the non-json
+portions of code blocks in red, but in newer versions (2.0) it will
+throw an exception and not highlight the block at all. Though we can
+suppress this warning, it doesn't bring back highlighting on non-strict
+json blocks.
 
-=3D=3D994=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address 0=
-x625000243930 at pc 0x5642068086a8 bp 0x7f0b6f9ffa50 sp 0x7f0b6f9ffa40
-READ of size 1 at 0x625000243930 thread T0
-    #0 0x5642068086a7 in usbredir_check_bulk_receiving /home/elmarco/src/=
-qemu/hw/usb/redirect.c:1503
-    #1 0x56420681301c in usbredir_post_load /home/elmarco/src/qemu/hw/usb=
-/redirect.c:2154
-    #2 0x5642068a56c2 in vmstate_load_state /home/elmarco/src/qemu/migrat=
-ion/vmstate.c:168
-    #3 0x56420688e2ac in vmstate_load /home/elmarco/src/qemu/migration/sa=
-vevm.c:829
-    #4 0x5642068980cb in qemu_loadvm_section_start_full /home/elmarco/src=
-/qemu/migration/savevm.c:2211
-    #5 0x564206899645 in qemu_loadvm_state_main /home/elmarco/src/qemu/mi=
-gration/savevm.c:2395
-    #6 0x5642068998cf in qemu_loadvm_state /home/elmarco/src/qemu/migrati=
-on/savevm.c:2467
-    #7 0x56420685f3e9 in process_incoming_migration_co /home/elmarco/src/=
-qemu/migration/migration.c:449
-    #8 0x564207106c47 in coroutine_trampoline /home/elmarco/src/qemu/util=
-/coroutine-ucontext.c:115
-    #9 0x7f0c0604e37f  (/lib64/libc.so.6+0x4d37f)
+We can alleviate this by creating a custom lexer for QMP examples that
+allows us to properly highlight these examples in a robust way, keeping
+our directionality and elision notations.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20190807084048.4258-1-marcandre.lureau@redhat.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-(cherry picked from commit 7b84b90966568da0e05655ecaa78c209300aae6e)
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reported-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20190603214653.29369-3-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+(cherry picked from commit cd231e13bdcb8d686b014bef940c7d19c6f1e769)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/usb/redirect.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ docs/conf.py             |  4 ++--
+ docs/sphinx/qmp_lexer.py | 43 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 docs/sphinx/qmp_lexer.py
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 7cb6b120d4..586c7db025 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1494,6 +1494,11 @@ static void usbredir_check_bulk_receiving(USBRedir=
-Device *dev)
-     for (i =3D EP2I(USB_DIR_IN); i < MAX_ENDPOINTS; i++) {
-         dev->endpoint[i].bulk_receiving_enabled =3D 0;
-     }
+diff --git a/docs/conf.py b/docs/conf.py
+index befbcc6c3e..e46b299b71 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -41,7 +41,7 @@ except NameError:
+ # add these directories to sys.path here. If the directory is relative to the
+ # documentation root, use an absolute path starting from qemu_docdir.
+ #
+-# sys.path.insert(0, os.path.join(qemu_docdir, "my_subdir"))
++sys.path.insert(0, os.path.join(qemu_docdir, "sphinx"))
+ 
+ 
+ # -- General configuration ------------------------------------------------
+@@ -54,7 +54,7 @@ needs_sphinx = '1.3'
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+-extensions = []
++extensions = ['qmp_lexer']
+ 
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+diff --git a/docs/sphinx/qmp_lexer.py b/docs/sphinx/qmp_lexer.py
+new file mode 100644
+index 0000000000..f7e4c0e198
+--- /dev/null
++++ b/docs/sphinx/qmp_lexer.py
+@@ -0,0 +1,43 @@
++# QEMU Monitor Protocol Lexer Extension
++#
++# Copyright (C) 2019, Red Hat Inc.
++#
++# Authors:
++#  Eduardo Habkost <ehabkost@redhat.com>
++#  John Snow <jsnow@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPLv2 or later.
++# See the COPYING file in the top-level directory.
++"""qmp_lexer is a Sphinx extension that provides a QMP lexer for code blocks."""
 +
-+    if (dev->interface_info.interface_count =3D=3D NO_INTERFACE_INFO) {
-+        return;
++from pygments.lexer import RegexLexer, DelegatingLexer
++from pygments.lexers.data import JsonLexer
++from pygments import token
++from sphinx import errors
++
++class QMPExampleMarkersLexer(RegexLexer):
++    """
++    QMPExampleMarkersLexer lexes QMP example annotations.
++    This lexer adds support for directionality flow and elision indicators.
++    """
++    tokens = {
++        'root': [
++            (r'-> ', token.Generic.Prompt),
++            (r'<- ', token.Generic.Prompt),
++            (r' ?\.{3} ?', token.Generic.Prompt),
++        ]
 +    }
 +
-     for (i =3D 0; i < dev->interface_info.interface_count; i++) {
-         quirks =3D usb_get_quirks(dev->device_info.vendor_id,
-                                 dev->device_info.product_id,
---=20
++class QMPExampleLexer(DelegatingLexer):
++    """QMPExampleLexer lexes annotated QMP examples."""
++    def __init__(self, **options):
++        super(QMPExampleLexer, self).__init__(JsonLexer, QMPExampleMarkersLexer,
++                                              token.Error, **options)
++
++def setup(sphinx):
++    """For use by the Sphinx extensions API."""
++    try:
++        sphinx.require_sphinx('2.1')
++        sphinx.add_lexer('QMP', QMPExampleLexer)
++    except errors.VersionRequirementError:
++        sphinx.add_lexer('QMP', QMPExampleLexer())
+-- 
 2.17.1
 
 
