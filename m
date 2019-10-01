@@ -2,104 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEE5C3B61
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:45:37 +0200 (CEST)
-Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54F5C3B4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:43:41 +0200 (CEST)
+Received: from localhost ([::1]:44774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLHM-0001v7-3W
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53816)
+	id 1iFLFU-00008c-3F
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:43:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKq3-0008KY-3a
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:17:24 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFKvK-0004Cm-9Q
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:22:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKpx-0004aA-C9
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:17:22 -0400
-Received: from mail-eopbgr50121.outbound.protection.outlook.com
- ([40.107.5.121]:42885 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKpl-0004SE-9g; Tue, 01 Oct 2019 12:17:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dc0N3u1OnJLOxXom9XSLhqj1kcvKnbkX3Ukixoe2K0ak0NiPZz33bLKcpoC0IHAnk/d3kDqN6y6BHgMfv9ywJvQwim8WREy9KPuKKxe62t3Ur3MLOo7esogDn2IiYftkljOLtdc6iDSM7gU2+YPsrEXCH5uJlCCaX8yzkjhGSFKptBqL70aIInjj/gdzOJzwvfOt4RAEAIDiEEwOX0tHTxMVq0zW8b/oz30Jeg1IPQhHzBfb2nTwY/NqKQX7xhonzJLC2n9ZOxPD+lsOhlMRbcazDoH477F9vsIGWO1IAqrjru6K62sxZvcxgzRu3fvJ4mMm+T4gjg61rbDxgP1eww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nLZq8D9TYngK9IZnSZgU0/j8GukMz9nVYgFOUp0JrTc=;
- b=eaQ95UWlDASdu8CbkNwPQlV2JIqGPCYCgB44ArzOz0UhvmqtM9vQQgYlHvDQYPJycAGeKXxEDZF/T1L3PxYZEbJ+D8OL1m0L6WLgmuRHRojULnaslYkmpd17rNquyGw7eEBM6tADoX8ySCOzLUeyHjwQBgQGCs4I0RAZdcMIkZa5YCw9uKBKb9GU25eWshQWsD2ZwSOhUAazptkZ4SI4sMaBVNJJbhay71E62Th9V2d4luPuvccd6dK1eRhEaomcK1p+Z3vM4cp4u/zj917qMtf/yB0n/oJBiUmuA0UQ3AmHmuJVSj/vncs33r9mEX7xI0lZKmVRP2Fu+tC6FYyNKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nLZq8D9TYngK9IZnSZgU0/j8GukMz9nVYgFOUp0JrTc=;
- b=IiVGhx9JAGJNrUoZfzHx02rzem9TSkOqm3l7OB9mr7cEM0ee0osOwauji0MgOeM2UIfaK6QlW71OIX0QGAPt8djiECBffdwiA7vRZZolfP05wJA06Dty3TtuDtZHAuNqrwKawm6lpFhpOVCIBjiUund0H1CMrfNRu43ZpO6wXEk=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5035.eurprd08.prod.outlook.com (10.255.18.214) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Tue, 1 Oct 2019 16:17:02 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2305.017; Tue, 1 Oct 2019
- 16:17:02 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: bitmap migration bug with -drive while block mirror runs
-Thread-Topic: bitmap migration bug with -drive while block mirror runs
-Thread-Index: AQHVd+yDiWNDoVbdB0u/++2NVEJq8qdF0TUAgAAC+ICAAB3ngIAABSUAgAAAPAA=
-Date: Tue, 1 Oct 2019 16:17:02 +0000
-Message-ID: <03c6fbd9-216c-d8d0-00ff-48ae34f76619@virtuozzo.com>
-References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
- <d897c755-40e7-6392-23e3-c06b1a371f28@virtuozzo.com>
- <4bc910ef-0bec-cfd6-89f6-a93d35367218@redhat.com>
- <9431d242-bfe1-b9db-17d0-6c1a280a05da@virtuozzo.com>
- <20191001161610.GG4688@linux.fritz.box>
-In-Reply-To: <20191001161610.GG4688@linux.fritz.box>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0037.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::26)
- To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191001191700327
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b720609b-a2a1-4cf3-d83a-08d7468acb19
-x-ms-traffictypediagnostic: DB8PR08MB5035:
-x-microsoft-antispam-prvs: <DB8PR08MB503515F35BB446B0EDE6FE93C19D0@DB8PR08MB5035.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0177904E6B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(346002)(39840400004)(376002)(396003)(366004)(189003)(199004)(31686004)(478600001)(2906002)(102836004)(6116002)(25786009)(386003)(5660300002)(52116002)(76176011)(26005)(3846002)(6916009)(305945005)(6506007)(7736002)(53546011)(99286004)(486006)(8676002)(81156014)(8936002)(81166006)(476003)(2616005)(256004)(5024004)(11346002)(186003)(54906003)(6246003)(316002)(66476007)(66556008)(446003)(6512007)(36756003)(229853002)(31696002)(86362001)(6436002)(71190400001)(66066001)(6486002)(4326008)(14454004)(64756008)(66446008)(71200400001)(66946007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5035;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZjLr3X05LrTOMMITXjraCumMBS8nOGAXkXB38NYKUBYJyvi4O3L966v6QIriJu7y25E7/CBXncmm44g7KbHFD1whzCHBNwpn0ta6pT2C7zhCwURiOWXf2gIyFjUAKJ6U1ubw0PceBjp8gjkb0ok89W2IZ8668uZFxHOSeVQnOLDT3GKcKK4RHySn3wC70waGuZKX1zTDP6GUVPN+viu5P3ggo1n38vUisvUWSgvNa8sxJ1by+HCyImY/d+piYJn8T017hbstZxAUbFDDEq2xs7T8Y6lw9X5XHzuuinFGOmxWss0HuSOIKsxZbHKxbkE4x5z5y9MlOnY0jJGrJHtKUCQxTpHrCObKp2bmlUrpfLoqu0GuUgr9h52Z56n6Zz29rGzdh3rXoSJ3tyFIXRTTcOhTmc0W/RyDvG0h+eGiH4A=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <922FC85DE443E94AB194BED9C72F2147@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <eblake@redhat.com>) id 1iFKvJ-0000Qf-2P
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:22:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33972)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iFKvB-0000I9-W9; Tue, 01 Oct 2019 12:22:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 762FF3082A98;
+ Tue,  1 Oct 2019 16:22:40 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A92919D70;
+ Tue,  1 Oct 2019 16:22:14 +0000 (UTC)
+Subject: Re: [PATCH v4 05/31] scripts: add script to fix
+ error_append_hint/error_prepend usage
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-6-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <cc20df9c-75e4-6139-c6ff-de0622b59104@redhat.com>
+Date: Tue, 1 Oct 2019 11:22:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b720609b-a2a1-4cf3-d83a-08d7468acb19
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2019 16:17:02.3924 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZtNifRdBVFgTGV8KQOrhR7+brUhUDX7YGGEr2x0eSsBz8rgdYujBxAtq+ClWgTRxVlkuYfnt5JcEor7vz/XqUqKmqF3jKrVwA+g8E6lu6HE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5035
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.121
+In-Reply-To: <20191001155319.8066-6-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 01 Oct 2019 16:22:40 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,47 +63,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
+ codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
+ mdroth@linux.vnet.ibm.com, kraxel@redhat.com, sundeep.lkml@gmail.com,
+ qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
+ mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ joel@jms.id.au, marcandre.lureau@redhat.com, rth@twiddle.net,
+ farman@linux.ibm.com, ehabkost@redhat.com, sw@weilnetz.de, groug@kaod.org,
+ yuval.shaia@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
+ qemu-arm@nongnu.org, clg@kaod.org, stefanha@redhat.com, david@redhat.com,
+ jsnow@redhat.com, david@gibson.dropbear.id.au, kwolf@redhat.com,
+ integration@gluster.org, berrange@redhat.com, andrew@aj.id.au,
+ cohuck@redhat.com, qemu-s390x@nongnu.org, mreitz@redhat.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDEuMTAuMjAxOSAxOToxNiwgS2V2aW4gV29sZiB3cm90ZToNCj4gQW0gMDEuMTAuMjAxOSB1bSAx
-Nzo1NyBoYXQgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSBnZXNjaHJpZWJlbjoNCj4+IDAx
-LjEwLjIwMTkgMTc6MTAsIEpvaG4gU25vdyB3cm90ZToNCj4+Pg0KPj4+DQo+Pj4gT24gMTAvMS8x
-OSAxMDowMCBBTSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+Pj4+IE90
-aGVyd2lzZTogSSBoYXZlIGEgbG90IG9mIGNsb3VkeSBpZGVhcyBvbiBob3cgdG8gc29sdmUgdGhp
-cywgYnV0DQo+Pj4+PiB1bHRpbWF0ZWx5IHdoYXQgd2Ugd2FudCBpcyB0byBiZSBhYmxlIHRvIGZp
-bmQgdGhlICJhZGRyZXNzYWJsZSIgbmFtZSBmb3INCj4+Pj4+IHRoZSBub2RlIHRoZSBiaXRtYXAg
-aXMgYXR0YWNoZWQgdG8sIHdoaWNoIHdvdWxkIGJlIHRoZSBuYW1lIG9mIHRoZSBmaXJzdA0KPj4+
-Pj4gYW5jZXN0b3Igbm9kZSB0aGF0IGlzbid0IGEgZmlsdGVyLiAoT1IsIHRoZSBuYW1lIG9mIHRo
-ZSBibG9jay1iYWNrZW5kDQo+Pj4+PiBhYm92ZSB0aGF0IG5vZGUuKQ0KPj4+PiBOb3QgdGhlIG5h
-bWUgb2YgYW5jZXN0b3Igbm9kZSwgaXQgd2lsbCBicmVhayBtYXBwaW5nOiBpdCBtdXN0IGJlIG5h
-bWUgb2YgdGhlDQo+Pj4+IG5vZGUgaXRzZWxmIG9yIG5hbWUgb2YgcGFyZW50IChtYXkgYmUgdGhy
-b3VnaCBzZXZlcmFsIGZpbHRlcnMpIGJsb2NrLWJhY2tlbmQNCj4+Pj4NCj4+Pg0KPj4+IEFoLCB5
-b3UgYXJlIHJpZ2h0IG9mIGNvdXJzZSAtLSBiZWNhdXNlIGJsb2NrLWJhY2tlbmRzIGFyZSB0aGUg
-b25seQ0KPj4+ICJub2RlcyIgZm9yIHdoaWNoIHdlIGFjdHVhbGx5IGRlc2NlbmQgdGhlIGdyYXBo
-IGFuZCBhZGQgdGhlIGJpdG1hcCB0bw0KPj4+IGl0cyBjaGlsZC4NCj4+Pg0KPj4+IFNvIHRoZSBy
-ZWFsIGJhY2stcmVzb2x1dGlvbiBtZWNoYW5pc20gaXM6DQo+Pj4NCj4+PiAtIEZpbmQgdGhlIGZp
-cnN0IG5vbi1maWx0ZXIgYW5jZXN0b3IsIEENCj4+PiAtIGlmIEEgaXMgbm90IGEgYmxvY2stYmFj
-a2VuZCwgd2UgbXVzdCB1c2Ugb3VyIG5vZGUtbG9jYWwgbmFtZS4NCj4+PiAtIGlmIEEncyBuYW1l
-IGlzIGVtcHR5LCB3ZSBtdXN0IHVzZSBvdXIgbm9kZS1sb2NhbCBuYW1lLg0KPj4+IC0gSWYgdGhl
-IG5hbWUgd2UgaGF2ZSBjaG9zZW4gaXMgbm90IGlkX3dlbGxmb3JtZWQsIHdlIGhhdmUgbm8NCj4+
-PiBtaWdyYXRpb24tc3RhYmxlIGFkZHJlc3NhYmxlIG5hbWUgZm9yIHRoaXMgYml0bWFwIGFuZCB0
-aGUgbWlncmF0aW9uIG11c3QNCj4+PiBmYWlsIQ0KPj4+DQo+Pj4NCj4+PiBGb3IgcmVzb2x2aW5n
-IGJpdG1hcCBhZGRyZXNzZXMgdmlhIFFNUCAobm9kZSwgbmFtZSkgcGFpcnM7IHRoZQ0KPj4+IHJl
-c29sdXRpb24gbWV0aG9kIHdvdWxkIGJlIHRoaXM6DQo+Pj4NCj4+PiAtIGlmIHRoZSBub2RlLW5h
-bWUgTiBpcyBhIGJsb2NrLWJhY2tlbmQsIGRlc2NlbmQgdGhlIHRyZWUgdW50aWwgd2UgZmluZA0K
-Pj4+IHRoZSBmaXJzdCBub24tZmlsdGVyIG5vZGUgVi4NCj4+PiAtIGlmIHRoZSBub2RlLW5hbWUg
-TiBpcyBhIEJsb2NrRHJpdmVyU3RhdGUsIHVzZSB0aGlzIG5vZGUgZGlyZWN0bHkuDQo+Pj4NCj4+
-DQo+PiBMb29rcyBnb29kIGZvciBtZS4NCj4+DQo+PiBJIGFsc28gdGhpbmsgaWYgb24gZGVzdGlu
-YXRpb24gd2UgaGF2ZSBib3RoIGJsb2NrLWJhY2tlbmQgd2l0aCBuYW1lIE4gYW5kDQo+PiBibG9j
-ay1ub2RlIHdpdGggbmFtZSBOIGFuZCB0aGUgbGF0dGVyIGlzIG5vdCAoZmlsdGVyZWQpIGNoaWxk
-IG9mIHRoZSBmb3JtZXIsDQo+PiB3ZSBzaG91bGQgZmFpbCBtaWdyYXRpb24gb2YgYXQgbGVhc3Qg
-dGhhdCBiaXRtYXAuIChIb3BlLCBub2JvZHkgcmV1c2UNCj4+IGJsb2NrLWJhY2tlbmQgbmFtZXMg
-YXMgbm9kZS1uYW1lcyBpbiBwcmFjdGljZS4uIChzaG91bGQgd2UgcmVzdHJpY3QgaXQNCj4+IGV4
-cGxpY2l0bHkgPykpDQo+IA0KPiBZb3UgY2FuJ3QgaGF2ZSBhIG5vZGUgYW5kIGEgQmxvY2tCYWNr
-ZW5kIG9mIHRoZSBzYW1lIG5hbWUsIHRoZXkgc2hhcmUgYQ0KPiBzaW5nbGUgbmFtZXNwYWNlLiBJ
-ZiB5b3UgdHJ5IHRvIGRvIHNvLCB5b3UgZ2V0IGFuIGVycm9yLg0KPiANCg0KDQpPaCwgdGhhbmtz
-LCB0aGF0J3MgY29vbC4NCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+On 10/1/19 10:52 AM, Vladimir Sementsov-Ogievskiy wrote:
+> error_append_hint and error_prepend will not work, if errp ==
+> &fatal_error, as program will exit before error_append_hint or
+> error_prepend call. Fix this by use of special macro
+> ERRP_AUTO_PROPAGATE.
+
+This patch doesn't actually fix any code, but adds the script to enable 
+automating the fixing of the code in subsequent patches.  Tweaking the 
+commit message to make that point clear might be helpful.
+
+
+>   scripts/coccinelle/fix-error-add-info.cocci | 28 +++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+>   create mode 100644 scripts/coccinelle/fix-error-add-info.cocci
+> 
+> diff --git a/scripts/coccinelle/fix-error-add-info.cocci b/scripts/coccinelle/fix-error-add-info.cocci
+> new file mode 100644
+> index 0000000000..34fa3be720
+> --- /dev/null
+> +++ b/scripts/coccinelle/fix-error-add-info.cocci
+> @@ -0,0 +1,28 @@
+> +@rule0@
+> +// Add invocation to errp-functions
+> +identifier fn;
+> +@@
+> +
+> + fn(..., Error **errp, ...)
+> + {
+> ++   ERRP_AUTO_PROPAGATE();
+> +    <+...
+> +(
+> +    error_append_hint(errp, ...);
+> +|
+> +    error_prepend(errp, ...);
+> +)
+
+So, for now, you aren't addressing any *errp usage, or any potential 
+cleanups of error_propagate.  But that's okay; your cover letter did 
+call out that you were only addressing 1 part out of 3 potential uses 
+just to get some motion, based on the size of the effort.
+
+> +    ...+>
+> + }
+> +
+> +@@
+> +// Drop doubled invocation
+> +identifier rule0.fn;
+> +@@
+> +
+> + fn(...)
+> +{
+> +    ERRP_AUTO_PROPAGATE();
+> +-   ERRP_AUTO_PROPAGATE();
+> +    ...
+> +}
+> 
+
+This looks idempotent once a file is patched, and safe to rerun as many 
+times in the future as needed.  I'm still hoping we can find a way to 
+make scripts/checkpatch.pl also do a sanity check, but as it's harder to 
+parse C in perl than in Coccinelle, I can live with just the .cocci 
+script in-tree as long as we remember to manually run it periodically.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
