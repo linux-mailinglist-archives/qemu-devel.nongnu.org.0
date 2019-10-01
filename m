@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8966C3F44
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 20:03:37 +0200 (CEST)
-Received: from localhost ([::1]:46264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61424C3F5E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 20:06:47 +0200 (CEST)
+Received: from localhost ([::1]:46330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFMUq-0004Gi-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 14:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
+	id 1iFMXu-0008CW-CS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 14:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iFMRL-0002b4-V8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 14:00:01 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iFMTb-00040v-0O
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 14:02:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iFMRL-0007h1-05
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:59:59 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33512)
+ (envelope-from <richard.henderson@linaro.org>) id 1iFMTa-0000CX-1d
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 14:02:18 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40131)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iFMRK-0007gQ-PP
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:59:58 -0400
-Received: by mail-pg1-x543.google.com with SMTP id q1so2171155pgb.0
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 10:59:58 -0700 (PDT)
+ id 1iFMTZ-0000Bg-Oh
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 14:02:17 -0400
+Received: by mail-pf1-x441.google.com with SMTP id x127so8581761pfb.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 11:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SFJLAxMxRgMAOruAs1NxSyXkuAOhN8XfQESEQ+1HUAY=;
- b=Tw+pGVXkUr8Kax3pKrFyWM8P9PqikGEnfYt0p/YEZLpVbAXNN1r9NuGinZ3pHqBAGo
- LDvODXDiSP+Zt8GWEtc3PrjcLFORmD6d11D4CPWkV7muDK6Nck9OE2uXgiiWCgvHkTNQ
- 2QyJZxl24erschMiiGqUwni36Tjk36MSvsFYlVizdtbnyObEBepD1MdKvI60wcH2+W6i
- cUuTQnZxs/Mnu3mc5pnGMCMFHcSNdGnjlLJLx2j2XJNJgnQvaP/CL/jVuXHfHpZ0HLq0
- 5j0U5z4Xp0DZ1dNz+8qlkYcDM/GLmSSax/y+lm69szleSVVetygseKsmiTE430Mu+pTm
- sx5g==
+ bh=2XXEriAxokMcV7VOY031/4RQoGYJDLoaB/07nRGpCKM=;
+ b=GcSKQVJe0hDgfuUVrjwf8cbVpJsYjZJ8FYiDKjunSttpomWeGlaVhfljPY/+JtTcAJ
+ GI4bjuWcDbmE/xGI/K1uIHI70u4ML9zHIf01veQ5UgJ+oqrNCQP7Y6haSMqXOV/NeYB+
+ HTBkbe+q6L9+6drCOEAGDKZktDfBn+1fxswfMajwGEBTBTzxJ+Exy8FecNe/t2+R7N4t
+ QR+OxZ/e7bdInv6u5DhPfyEgF44AXxuL69a6O02eGU0YwoZmCE1DAsV50V2o7X9Ct4oJ
+ AuSuT7enz0stT4TNTC3dty+smG6G6emQSUnHmp6K9hzbc1mMKq1T7WLH+ffYB7uphQMq
+ 4eLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SFJLAxMxRgMAOruAs1NxSyXkuAOhN8XfQESEQ+1HUAY=;
- b=ILUFx51Rpo5UWxeM+gMUuRTWU8w6lQ5bdz8mQis87m59w79Rrd7yz6gSdXqeB7Ukxl
- oUypxYoa4dqIrcqmYObk6ILymxKehj8lI0tn4E/7+vYHwGF0e3nPq2yZaliqxY5ZRSEs
- bHJLFDGaFLxAhSIr6yvk8pMNaDbRlzJ3OGKOWOZOz/eYwR8SSbRX0CUwn+C6YZ+1yapm
- GDTYaStqAZyZYeGBv1648epE9KO5qpuEwqPc1dy56C+kGHSesCTzdv3kZXMYf3+9qg75
- XG/c1LRCFhJEtu9maFJ9zB4lN7oHAn2jJZdle3tx0D4jUeY6bS0PdmAX+M3sCds52ada
- fxBA==
-X-Gm-Message-State: APjAAAWaS8EG/b4Pf0RzNEwHQpXaQ+iMa902JEX7M4TmzXDUOaDGkFY8
- hu+X6hIEnT89Ne6jAtxRV2c3vA==
-X-Google-Smtp-Source: APXvYqxbFJE0zV1Q5zAKldLXgPHXpJn8izUHBdtkxCKbvtSKASHiZqlA619G2WbBKnvEILupo6v13Q==
-X-Received: by 2002:a63:465c:: with SMTP id v28mr31849646pgk.310.1569952797543; 
- Tue, 01 Oct 2019 10:59:57 -0700 (PDT)
+ bh=2XXEriAxokMcV7VOY031/4RQoGYJDLoaB/07nRGpCKM=;
+ b=Sfg2IVz6ZKlS7TGnfSVaDf1Wbky+9rWRqng+twt96KePSWVCsizYLaMLo1gg5v7PYb
+ 1EmuHNaTgs4UXTOhsenYq3fmzRWNuG0pgdVBBy6xAvJhkmhK3UpD6vujKHlao4mUh77B
+ sE/CXOd6ahpvmRKAZq4eOegNNcR6Zwv2MiybAjA+13JFq0cQU8ZBYeZJJygOkhnnXsz2
+ gBdPuTUwjAoHs8z4sAN+KFjHZ34Fo/SHu5tD7u26Uhb8zLiCj2qQq4hAhJGxsla22IlZ
+ SeNm1E7TAX28CHZhy80fZ2a+eeihzAWouPeBtZYwhWmyLVwT3XNNi4dZt1On+g2hmgQr
+ S2Qw==
+X-Gm-Message-State: APjAAAWLmQzydh7PFWHxmbK9R1lgt5C5Q3yM56d3K3ImkhzOhYNO8xq5
+ 60zsjKRvuffCfGbwO0h620V61Q==
+X-Google-Smtp-Source: APXvYqwkbbkDV8sT9mZvbQO/xf2srShFmxJ4hZ0ngt3dV9YdFQYTxA9H+mo/23++bqgXGLQqotirmQ==
+X-Received: by 2002:a63:dc13:: with SMTP id s19mr31102952pgg.272.1569952936575; 
+ Tue, 01 Oct 2019 11:02:16 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id f185sm5023192pfb.183.2019.10.01.10.59.56
+ by smtp.gmail.com with ESMTPSA id n6sm15997932pgp.12.2019.10.01.11.02.15
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Oct 2019 10:59:56 -0700 (PDT)
-Subject: Re: [PATCH v5 9/9] target/arm/kvm: host cpu: Add support for sve<N>
- properties
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20191001125845.8793-1-drjones@redhat.com>
- <20191001125845.8793-10-drjones@redhat.com>
+ Tue, 01 Oct 2019 11:02:15 -0700 (PDT)
+Subject: Re: [RFC PATCH] configure: deprecate 32 bit build hosts
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190925233013.6449-1-alex.bennee@linaro.org>
+ <CAFEAcA9vb5_Mi_axWpu7269Zg0xMLbiiV80ofLeyDpfws3G4nQ@mail.gmail.com>
+ <4512b61a-ed82-e628-88e5-f44ef87c2b50@linaro.org>
+ <20190930092519.GB11996@redhat.com> <87impakrky.fsf@linaro.org>
+ <CAFEAcA8_Zt+4RuXh8ww3Xm5=fQT+e_XcjZ6VC2N9k5mzLy0bnw@mail.gmail.com>
+ <ddf455e3-742e-81ce-c51a-d783e8d2ad55@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <a4f3be1b-533b-1089-6bdf-1ac3f4da4ef3@linaro.org>
-Date: Tue, 1 Oct 2019 10:59:54 -0700
+Message-ID: <58da7aa4-877b-2c85-71f5-e703a841e6d4@linaro.org>
+Date: Tue, 1 Oct 2019 11:02:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191001125845.8793-10-drjones@redhat.com>
+In-Reply-To: <ddf455e3-742e-81ce-c51a-d783e8d2ad55@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,30 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
- imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 5:58 AM, Andrew Jones wrote:
-> Allow cpu 'host' to enable SVE when it's available, unless the
-> user chooses to disable it with the added 'sve=off' cpu property.
-> Also give the user the ability to select vector lengths with the
-> sve<N> properties. We don't adopt 'max' cpu's other sve property,
-> sve-max-vq, because that property is difficult to use with KVM.
-> That property assumes all vector lengths in the range from 1 up
-> to and including the specified maximum length are supported, but
-> there may be optional lengths not supported by the host in that
-> range. With KVM one must be more specific when enabling vector
-> lengths.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> ---
+On 10/1/19 10:56 AM, Mark Cave-Ayland wrote:
+> Just out of interest, which host/compiler combinations don't currently implement
+> int128_t?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+GCC only implements int128_t for 64-bit targets.
 
 
 r~
-
 
