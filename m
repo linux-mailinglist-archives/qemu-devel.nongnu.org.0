@@ -2,129 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6914BC389E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:11:38 +0200 (CEST)
-Received: from localhost ([::1]:43194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E40C38E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:25:14 +0200 (CEST)
+Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFJoP-0001ut-AV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:11:37 -0400
-Received: from [2001:470:142:3::10] (port=43889 helo=eggs.gnu.org)
+	id 1iFK1Z-0002yk-11
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iFJmu-0000Z3-B8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:10:06 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iFJte-0004gr-4N
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iFJmq-0003rj-OF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:10:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37364)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iFJtc-0001sE-I0
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:01 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:53259 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iFJml-0003l0-Il; Tue, 01 Oct 2019 11:09:55 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3C73B7F745;
- Tue,  1 Oct 2019 15:09:54 +0000 (UTC)
-Received: from [10.10.120.126] (ovpn-120-126.rdu2.redhat.com [10.10.120.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C6B65D9C9;
- Tue,  1 Oct 2019 15:09:53 +0000 (UTC)
-Subject: Re: bitmap migration bug with -drive while block mirror runs
-To: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
- <f84745dc-68df-c10a-a91b-a28498e54870@virtuozzo.com>
- <20191001095416.GC4688@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <c051fd5c-31be-c98b-8155-70fe1b6c1283@redhat.com>
-Date: Tue, 1 Oct 2019 11:09:51 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
-MIME-Version: 1.0
-In-Reply-To: <20191001095416.GC4688@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 01 Oct 2019 15:09:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1iFJtc-0000yU-B9
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 88F8E1A23A5;
+ Tue,  1 Oct 2019 17:15:54 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.55])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 6045D1A22D0;
+ Tue,  1 Oct 2019 17:15:54 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/18] MIPS queue for October 1st, 2019
+Date: Tue,  1 Oct 2019 17:15:26 +0200
+Message-Id: <1569942944-10381-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,135 +48,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
+The following changes since commit 95e9d74fe4281f7ad79a5a7511400541729aa44a:
 
-On 10/1/19 5:54 AM, Kevin Wolf wrote:
-> Am 01.10.2019 um 10:57 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> 01.10.2019 3:09, John Snow wrote:
->>> Hi folks, I identified a problem with the migration code that Red Hat QE
->>> found and thought you'd like to see it:
->>>
->>> https://bugzilla.redhat.com/show_bug.cgi?id=1652424#c20
->>>
->>> Very, very briefly: drive-mirror inserts a filter node that changes what
->>> bdrv_get_device_or_node_name() returns, which causes a migration problem.
->>>
->>>
->>> Ignorant question #1: Can we multi-parent the filter node and
->>> source-node? It looks like at the moment both consider their only parent
->>> to be the block-job and don't have a link back to their parents otherwise.
->>>
->>>
->>> Otherwise: I have a lot of cloudy ideas on how to solve this, but
->>> ultimately what we want is to be able to find the "addressable" name for
->>> the node the bitmap is attached to, which would be the name of the first
->>> ancestor node that isn't a filter. (OR, the name of the block-backend
->>> above that node.)
->>
->>
->> Better would be to migrate by node-name only.. But am I right that
->> node-names are different on source and destination? Or this situation
->> changed?
-> 
-> Traditionally, I think migration assumes that frontends (guest devices)
-> must match exactly, but backends may and usually will differ.
-> 
-> Of course, dirty bitmaps are a backend feature that isn't really related
-> to guest devices, so this doesn't really work out any more in your case.
-> BlockBackend names are unusable for this purpose (especially as we're
-> moving towards anonymous BlockBackends everywhere), which I guess
-> essentially means node-name is the only option left.
-> 
+  Merge remote-tracking branch 'remotes/borntraeger/tags/s390x-20190930' into staging (2019-09-30 14:21:56 +0100)
 
-The problem as I see it involves API stability.
+are available in the git repository at:
 
-We allow block-dirty-bitmap-add against e.g. "drive1" through the
-block-backend name (the name of the "drive" as the user sees it.)
+  https://github.com/AMarkovic/qemu tags/mips-queue-oct-01-2019
 
-Of course, once you start mirror, you aren't able to access that bitmap
-through that namepair anymore -- the "address" of the bitmap has "changed"!
+for you to fetch changes up to 0a1bb9127ba66c093d5af395ea2630b06b929011:
 
-(In actual fact, the bitmap always had two addresses; and simply we lost
-an alias -- but it's the one that the user likely used to create the
-bitmap, so that's bad.)
+  target/mips: msa: Move helpers for <AND|NOR|OR|XOR>.V (2019-10-01 16:58:45 +0200)
 
-> Is bitmap migration something that must be enabled explicitly or does
-> it happen automatically? If it's explicit, then making an additional
-> requirement (matching node-names) shouldn't be a problem.
-> 
+----------------------------------------------------------------
 
-This means that bitmap migration becomes a blockdev-only feature.
+MIPS queue for October 1st, 2019
 
-Serious question: do we have plans to formally deprecate things like
--drive and mandate a blockdev workflow, or otherwise work to unify the
-actual graph that gets created between the two methods?
+Highlights:
 
->>> A simple way to do this might be a "child_unfiltered" BdrvChild role
->>> that simply bypasses the filter that was inserted and serves no real
->>> purpose other than to allow the child to have a parent link and find who
->>> it's """real""" parent is.
->>>
->>> Because of flushing, reopen, sync, drain &c &c &c I'm not sure how
->>> feasible this quick idea might be, though.
->>>
->>>
->>> - Corollary fix #1: call error_setg if the bitmap node name that's about
->>> to go over the wire is an autogenerated node: this is never correct!
->>>
->>> (Why not? because the target is incapable of matching the node-name
->>> because they are randomly generated AND you cannot specify node-names
->>> with # prefixes as they are especially reserved!
->>>
->>> (This raises a related problem: if you explicitly add bitmaps to nodes
->>> with autogenerated names, you will be unable to migrate them.))
->>>
->>
->> In other words, we need a well defined way to match nodes on source and destination,
->> keeping in mind filters, to migrate bitmaps correctly.
->>
+  - mostly cleanups related to "checkpatch.pl -f"
+  - slight optimization of handling of some MSA instructions
 
-Yes, exactly.
+----------------------------------------------------------------
 
->> Hm, did you thought about bitmaps in filters? It's not a problem to create bitmap in
->> mirror-top filter during mirror job:)
->>
->> Or what about bitmaps in Quorum children? Or what about bitmap in qcow2 file child bs?
->>
->> If node-names are different on source and destination, what is the same? Top blk name
->> and bdrv-children names (I recently saw Max's idea to check node "path" in iotest).
-> 
-> blk_name has to be assumed to be "". The BdrvChild path changes when
-> filters are inserted (and inserting filters on the destination that
-> aren't present on the source, or vice versa, sounds like something that
-> should just work).
-> 
-> So both parts of this are not great ways for addressing nodes.
-> 
->> So, actually node is migration-addressable, if path <blk-name>/root[/child-name] to the
->> defines this node directly (we must not have children with same name for some node in
->> the path).
->>
->> And I think it's a correct way to define node in migration stream - by path.
-> 
-> I'm afraid node-name is the only thing that could possibly work reliably
-> for identifying nodes.
-> 
-> Kevin
-> 
+Aleksandar Markovic (18):
+  target/mips: Clean up internal.h
+  target/mips: Clean up kvm_mips.h
+  target/mips: Clean up mips-defs.h
+  target/mips: Clean up translate.c
+  target/mips: msa: Split helpers for <NLOC|NLZC>.<B|H|W|D>
+  target/mips: msa: Split helpers for PCNT.<B|H|W|D>
+  target/mips: msa: Split helpers for BINS<L|R>.<B|H|W|D>
+  target/mips: msa: Unroll loops and demacro <BMNZ|BMZ|BSEL>.V
+  target/mips: msa: Split helpers for B<CLR|NEG|SEL>.<B|H|W|D>
+  target/mips: msa: Split helpers for AVE_<S|U>.<B|H|W|D>
+  target/mips: msa: Split helpers for AVER_<S|U>.<B|H|W|D>
+  target/mips: msa: Split helpers for CEQ.<B|H|W|D>
+  target/mips: msa: Split helpers for CLE_<S|U>.<B|H|W|D>
+  target/mips: msa: Split helpers for CLT_<S|U>.<B|H|W|D>
+  target/mips: msa: Split helpers for DIV_<S|U>.<B|H|W|D>
+  target/mips: msa: Split helpers for MOD_<S|U>.<B|H|W|D>
+  target/mips: msa: Simplify and move helper for MOVE.V
+  target/mips: msa: Move helpers for <AND|NOR|OR|XOR>.V
 
-It sounds like you are saying that bitmaps must become a blockdev-only
-feature.
+ target/mips/helper.h     |  144 ++-
+ target/mips/internal.h   |   60 +-
+ target/mips/kvm_mips.h   |    2 +-
+ target/mips/mips-defs.h  |   58 +-
+ target/mips/msa_helper.c | 2163 ++++++++++++++++++++++++++++++++++++----------
+ target/mips/translate.c  |  421 +++++++--
+ 6 files changed, 2254 insertions(+), 594 deletions(-)
 
-I'm not sure if I have arrived at that conclusion yet, but it's at least
-inarguable that with blockdev it's a lot simpler to guarantee correctness.
+-- 
+2.7.4
 
-However, we still have -cdrom and -hda and -drive and any number of
-sugars that I think we aren't committed to getting rid of yet... (or ever?)
-
---js
 
