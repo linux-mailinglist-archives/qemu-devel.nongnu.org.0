@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9404BC3D6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:59:59 +0200 (CEST)
-Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63442C3C85
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:53:28 +0200 (CEST)
+Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLVG-00037T-7Q
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56593)
+	id 1iFLOw-00030H-Ov
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thatlemon@gmail.com>) id 1iFLBv-0004g6-Jq
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:40:01 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFLMn-0000ZE-Mo
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:51:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thatlemon@gmail.com>) id 1iFLBt-0008NI-TG
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:39:59 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40520)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <thatlemon@gmail.com>) id 1iFLBs-0008Dx-8E
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:39:57 -0400
-Received: by mail-wm1-x344.google.com with SMTP id b24so3962095wmj.5
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 09:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=GAJjguWUwmP/WsVKo8gF3+A3WszXHwQvwqITmyrIgjQ=;
- b=WrJ8FCvvEjBuHbQZbe7yqlacPi6BOY0SAeZfbxZGerta7gZJfS471ayvzyAft0xrkS
- uuGWZ4xRNb57slpf/peylD0qL7cMxOug5YUmLxQcmhrBBgOnMArD03omFRygU2zvAvxy
- roT6uTSIx1xF3ZbF8SUvJPmAOU13ZoqrSwRVHRxMpb1QQ/t690i+YaeC6A+UnmlSlVGg
- luxGqVaZ58VTRBm6xiTrqufqTOd2TeRzdUg9Dk9QVqM/86Zur29y441ytq1PxU5Ce3JV
- PvUb6wzufDV4MXfKUNcB1mgUw656KSyi1rMQ1PoqQrbtctigFt8QIwVO0CM6ojMZKl9w
- rhyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=GAJjguWUwmP/WsVKo8gF3+A3WszXHwQvwqITmyrIgjQ=;
- b=QPjWS4bxouCASFx67DjM7dXN6q5KboGkGqr4in1yu/6XM0M8V2FzLmDK8WNasrW/rn
- tK/oqHcZX6jyGHCCRxygBh77C049YSaBoGZ7sMXxTzwYr748HfMq3G/KBfWDiom3nO78
- JGA0fYTqMB8MJcegbBpPrkTmsXFa5yiHoRhKqWKZZUhr9ktgEhDJUUV9/h3mdiM5MnFs
- VcLOhKm9phWE4aOPr7NsPHLJ06elHynKcqb+HvWLH8M8hQ69apA30wOKHv5OKJe10+Fh
- Rsh+/X4Z0Hs7p8oqNqorJP4m+tmqGl6HjpEth6YYGcI7EHkWsiiKD/CjIQKL8/gTE4gt
- EgeA==
-X-Gm-Message-State: APjAAAUkA93vZr5h9gSb+s5iFx70OZUt1FZATEMqa1FodJIFdGxzEA2a
- vnuiMFXMW3mlLGT6cTulMa0ZsIjS
-X-Google-Smtp-Source: APXvYqy9LB6x8l4ZKER29GS4mYgzqAPCmqBotwLnAbyfPSDPH8SVmGCQXlY5au/VcAHFmiSCoi2PAg==
-X-Received: by 2002:a1c:6609:: with SMTP id a9mr4806218wmc.127.1569947993975; 
- Tue, 01 Oct 2019 09:39:53 -0700 (PDT)
-Received: from [192.168.1.103] ([151.33.120.151])
- by smtp.gmail.com with ESMTPSA id o9sm41071957wrh.46.2019.10.01.09.39.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2019 09:39:53 -0700 (PDT)
-To: qemu-devel@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
-From: LemonBoy <thatlemon@gmail.com>
-Subject: [PATCH] linux-user/riscv: Propagate fault address
-Message-ID: <5059f7eb-07c4-62c7-542b-e71315a4f675@gmail.com>
-Date: Tue, 1 Oct 2019 18:39:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <eblake@redhat.com>) id 1iFLMl-00083D-Je
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:51:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56324)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iFLMf-0007ww-VO; Tue, 01 Oct 2019 12:51:06 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1575218CB8F3;
+ Tue,  1 Oct 2019 16:51:04 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA9615D9C9;
+ Tue,  1 Oct 2019 16:50:44 +0000 (UTC)
+Subject: Re: [PATCH v4 05/31] scripts: add script to fix
+ error_append_hint/error_prepend usage
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-6-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5c4788f0-0ba9-94bb-b677-d7d34f064cde@redhat.com>
+Date: Tue, 1 Oct 2019 11:50:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191001155319.8066-6-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Tue, 01 Oct 2019 16:51:04 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,72 +63,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
+ codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
+ mdroth@linux.vnet.ibm.com, kraxel@redhat.com, sundeep.lkml@gmail.com,
+ qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
+ mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ joel@jms.id.au, marcandre.lureau@redhat.com, rth@twiddle.net,
+ farman@linux.ibm.com, ehabkost@redhat.com, sw@weilnetz.de, groug@kaod.org,
+ yuval.shaia@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
+ qemu-arm@nongnu.org, clg@kaod.org, stefanha@redhat.com, david@redhat.com,
+ jsnow@redhat.com, david@gibson.dropbear.id.au, kwolf@redhat.com,
+ integration@gluster.org, berrange@redhat.com, andrew@aj.id.au,
+ cohuck@redhat.com, qemu-s390x@nongnu.org, mreitz@redhat.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPU loop tagged all the queued signals as QEMU_SI_KILL while it was
-filling the `_sigfault` part of `siginfo`: this caused QEMU to copy the
-wrong fields over to the userspace program.
+On 10/1/19 10:52 AM, Vladimir Sementsov-Ogievskiy wrote:
+> error_append_hint and error_prepend will not work, if errp ==
+> &fatal_error, as program will exit before error_append_hint or
+> error_prepend call. Fix this by use of special macro
+> ERRP_AUTO_PROPAGATE.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
 
-Make sure the fault address recorded by the MMU is is stored in the CPU
-environment structure.
+> +++ b/scripts/coccinelle/fix-error-add-info.cocci
+> @@ -0,0 +1,28 @@
+> +@rule0@
+> +// Add invocation to errp-functions
+> +identifier fn;
+> +@@
+> +
+> + fn(..., Error **errp, ...)
+> + {
 
-In case of memory faults store the exception address into `siginfo`.
+When running this script, I get lots of warnings:
 
-Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
----
- linux-user/riscv/cpu_loop.c | 3 ++-
- target/riscv/cpu_helper.c   | 5 ++++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+init_defs_builtins: /usr/lib64/coccinelle/standard.h
+warning: line 6: should errp be a metavariable?
+warning: line 11: should errp be a metavariable?
+warning: line 13: should errp be a metavariable?
+HANDLING: include/block/nbd.h
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 12aa3c0f16..aa9e437875 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -89,6 +89,7 @@ void cpu_loop(CPURISCVState *env)
-         case RISCV_EXCP_STORE_PAGE_FAULT:
-             signum = TARGET_SIGSEGV;
-             sigcode = TARGET_SEGV_MAPERR;
-+            sigaddr = env->badaddr;
-             break;
-         case EXCP_DEBUG:
-         gdbstep:
-@@ -108,7 +109,7 @@ void cpu_loop(CPURISCVState *env)
-                 .si_code = sigcode,
-                 ._sifields._sigfault._addr = sigaddr
-             };
--            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
-+            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-         }
- 
-         process_pending_signals(env);
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 87dd6a6ece..58e40e9824 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -446,9 +446,9 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr)
- {
--#ifndef CONFIG_USER_ONLY
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-+#ifndef CONFIG_USER_ONLY
-     hwaddr pa = 0;
-     int prot;
-     bool pmp_violation = false;
-@@ -499,7 +499,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     case MMU_DATA_STORE:
-         cs->exception_index = RISCV_EXCP_STORE_PAGE_FAULT;
-         break;
-+    default:
-+        g_assert_not_reached();
-     }
-+    env->badaddr = address;
-     cpu_loop_exit_restore(cs, retaddr);
- #endif
- }
+This means we are trying to patch only an actual variable named 'errp', 
+and not a meta-variable representing any variable of type Error ** 
+regardless of whether it is named errp or something else.  I think 
+that's okay, in part because ERRP_AUTO_PROPAGATE() expects the exact 
+name 'errp' to be in scope, so we cannot apply it to other variable 
+names).  But I still have to wonder if there is a way to silence the 
+warning, or if we have any outliers (other than the intentional Error 
+**errp_in in patch 1) using a different name for a parameter of type 
+Error **, which should also be tweaked.
+
 -- 
-2.20.1
-
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
