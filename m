@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229BBC41F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:47:41 +0200 (CEST)
-Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D877EC41E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:42:13 +0200 (CEST)
+Received: from localhost ([::1]:47938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFP3b-0004g7-45
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54626)
+	id 1iFOyJ-0007y0-CC
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO8J-00051B-1F
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:27 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8Q-00059e-Hz
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO8H-00089t-SL
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37918)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8P-0008Dj-Az
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37712)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO8D-00086y-M3; Tue, 01 Oct 2019 15:48:21 -0400
+ id 1iFO8M-0008CH-Qn; Tue, 01 Oct 2019 15:48:30 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DA3CF10CC1E6;
- Tue,  1 Oct 2019 19:48:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 15E7C2541;
+ Tue,  1 Oct 2019 19:48:30 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74BE75C1D4;
- Tue,  1 Oct 2019 19:48:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A375C5C1D4;
+ Tue,  1 Oct 2019 19:48:29 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 27/67] iotests/129: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:35 +0200
-Message-Id: <20191001194715.2796-28-mreitz@redhat.com>
+Subject: [PATCH 31/67] iotests/148: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:39 +0200
+Message-Id: <20191001194715.2796-32-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 01 Oct 2019 19:48:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.71]); Tue, 01 Oct 2019 19:48:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,49 +62,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/129 | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/148 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index cd6b9e9ce7..379719d85b 100755
---- a/tests/qemu-iotests/129
-+++ b/tests/qemu-iotests/129
-@@ -20,6 +20,7 @@
+diff --git a/tests/qemu-iotests/148 b/tests/qemu-iotests/148
+index 8c11c53cba..a6df0ed983 100755
+--- a/tests/qemu-iotests/148
++++ b/tests/qemu-iotests/148
+@@ -21,6 +21,7 @@
 =20
  import os
  import iotests
 +from iotests import create_test_image, remove_test_image
- import time
 =20
- class TestStopWithBlockJob(iotests.QMPTestCase):
-@@ -28,8 +29,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-     base_img =3D os.path.join(iotests.test_dir, 'base.img')
-=20
-     def setUp(self):
--        iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, =
-"1G")
--        iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img, =
-"-b", self.base_img)
-+        create_test_image(self.base_img, '1G')
-+        create_test_image(self.test_img, backing_file=3Dself.base_img)
-         iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128=
-M', self.test_img)
-         self.vm =3D iotests.VM().add_drive(self.test_img)
-         self.vm.launch()
-@@ -46,6 +47,12 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         result =3D self.vm.qmp("block_set_io_throttle", conv_keys=3DFals=
-e,
-                              **params)
+ imgs =3D (os.path.join(iotests.test_dir, 'quorum0.img'),
+         os.path.join(iotests.test_dir, 'quorum1.img'),
+@@ -51,7 +52,7 @@ sector =3D "%d"
+         driveopts =3D ['driver=3Dquorum', 'vote-threshold=3D2']
+         driveopts.append('read-pattern=3D%s' % self.read_pattern)
+         for i in range(len(imgs)):
+-            iotests.qemu_img('create', '-f', iotests.imgfmt, imgs[i], '1=
+M')
++            create_test_image(imgs[i], '1M')
+             self.create_blkdebug_file(img_conf[i], i + offset)
+             driveopts.append('children.%d.driver=3D%s' % (i, iotests.img=
+fmt))
+             driveopts.append('children.%d.file.driver=3Dblkdebug' % i)
+@@ -65,7 +66,7 @@ sector =3D "%d"
+     def tearDown(self):
          self.vm.shutdown()
-+        remove_test_image(self.test_img)
-+        remove_test_image(self.base_img)
-+        try:
-+            os.remove(self.target_img)
-+        except OSError:
-+            pass
+         for i in range(len(imgs)):
+-            os.remove(imgs[i])
++            remove_test_image(imgs[i])
+             os.remove(img_conf[i])
 =20
-     def do_test_stop(self, cmd, **args):
-         """Test 'stop' while block job is running on a throttled drive.
+     def do_check_event(self, node, sector =3D 0):
 --=20
 2.21.0
 
