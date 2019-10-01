@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00B5C413A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 21:42:24 +0200 (CEST)
-Received: from localhost ([::1]:47178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6FDC414B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 21:47:14 +0200 (CEST)
+Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFO2R-00077A-DW
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 15:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49116)
+	id 1iFO76-0002Vt-A3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 15:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iFNuT-0000yM-Jn
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:34:10 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iFO3G-0000cH-Lo
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:43:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iFNuQ-0004tP-TU
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:34:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55086)
+ (envelope-from <ehabkost@redhat.com>) id 1iFO3B-0003Vi-CZ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:43:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42100)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iFNuQ-0004sR-OH
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:34:06 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iFO3A-0003Sg-FH
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:43:09 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B22142CE905;
- Tue,  1 Oct 2019 19:34:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 807C060579;
- Tue,  1 Oct 2019 19:34:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 02DC3113864A; Tue,  1 Oct 2019 21:34:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH v2 2/2] qapi: Allow introspecting fix for savevm's
- cooperation with blockdev
-References: <cover.1568989362.git.pkrempa@redhat.com>
- <992ea9ca130b4fb6dbf82726aa3b1d8040c16944.1568989362.git.pkrempa@redhat.com>
-Date: Tue, 01 Oct 2019 21:34:02 +0200
-In-Reply-To: <992ea9ca130b4fb6dbf82726aa3b1d8040c16944.1568989362.git.pkrempa@redhat.com>
- (Peter Krempa's message of "Fri, 20 Sep 2019 16:26:45 +0200")
-Message-ID: <87r23w2rbp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 56AFC3090FC7;
+ Tue,  1 Oct 2019 19:43:05 +0000 (UTC)
+Received: from localhost (ovpn-116-88.gru2.redhat.com [10.97.116.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 615395D9C9;
+ Tue,  1 Oct 2019 19:43:02 +0000 (UTC)
+Date: Tue, 1 Oct 2019 16:43:01 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Arch info lost in "info cpus"
+Message-ID: <20191001194301.GK4084@habkost.net>
+References: <87blv2i5ha.fsf@redhat.com>
+ <20190930084551.GB2759@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190930084551.GB2759@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 01 Oct 2019 19:34:04 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 01 Oct 2019 19:43:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,83 +57,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: imammedo@redhat.com, tao3.xu@intel.com, qemu-devel@nongnu.org,
+ Sergio Lopez <slp@redhat.com>, mihajlov@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Krempa <pkrempa@redhat.com> writes:
+On Mon, Sep 30, 2019 at 09:45:51AM +0100, Dr. David Alan Gilbert wrote:
+> * Sergio Lopez (slp@redhat.com) wrote:
+> > Hi,
+> > 
+> > Commit 137b5cb6ab565cb3781d5337591e155932b4230e (hmp: change
+> > hmp_info_cpus to use query-cpus-fast) updated the "info cpus" commit to
+> > make it more lightweight, but also removed the ability to get the
+> > architecture specific status of each vCPU.
+> > 
+> > This information was really useful to diagnose certain Guest issues,
+> > without the need of using GDB, which is more intrusive and requires
+> > enabling it in advance.
+> > 
+> > Is there an alternative way of getting something equivalent to what
+> > "info cpus" provided previously (in 2.10)?
+> 
+> Even the qemp equivalent, query-cpus is deprecated.
+> (Although we do call the underlying query-cpus in 'info numa' as well)
 
-> savevm was buggy as it considered all monitor owned block device nodes
+Why exactly it has to be deprecated?  We have use cases that
+require `query-cpus-fast` to exist, but I don't see why the
+existence of a command that returns extended information is a bad
+thing.
 
-Recommend "monitor-owned block device nodes" or "block device nodes
-owned by a monitor"
+Having a command that synchronizes CPU state is even a
+requirement if we want to eventually implement "info registers"
+using QMP.
 
-> for snapshot. With introduction of -blockdev the common usage made all
-> nodes including protocol nodes monitor owned and thus considered for
-> snapshot.
-
-What exactly is / was the problem?
-
->           This was fixed but clients need to be able to detect whether
-> this fix is present.
-
-Fixed where?  Commit hash, if possible.
-
->
-> Since savevm does not have an QMP alternative add the feature for the
-
-Comma after alternative.
-
-> 'human-monitor-command' backdoor which is used to call this command in
-> modern use.
-
-Eww.  I don't have better ideas short of "design and implement a sane
-QMP interface to internal snapshots", which is too much work.
-
-> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-> ---
->  qapi/misc.json | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 6bd11f50e6..673445dfa9 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -1020,6 +1020,12 @@
->  #
->  # @cpu-index: The CPU to use for commands that require an implicit CPU
->  #
-> +# Features:
-> +# @savevm-blockdev-monitor-nodes: If present, the savevm monitor command only
-
-Maybe s/the savevm monitor command/HMP command savevm/
-
-> +#                                 snapshots monitor owned nodes if they have no
-
-monitor-owned or owner by a monitor again.
-
-> +#                                 parents. This allows to use 'savevm' with
-> +#                                 -blockdev. (since 4.2)
-> +#
->  # Returns: the output of the command as a string
->  #
->  # Since: 0.14.0
-> @@ -1047,7 +1053,8 @@
->  ##
->  { 'command': 'human-monitor-command',
->    'data': {'command-line': 'str', '*cpu-index': 'int'},
-> -  'returns': 'str' }
-> +  'returns': 'str',
-> +  'features' : [ { 'name': 'savevm-blockdev-monitor-nodes' } ] }
-
-No space before ':'.
-
-Short form would do:
-
-     'features': [ 'savevm-blockdev-monitor-nodes' ]
-
->
->  ##
->  # @change:
+-- 
+Eduardo
 
