@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9BAC44BC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:07:13 +0200 (CEST)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C1DC44B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:00:38 +0200 (CEST)
+Received: from localhost ([::1]:49504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSAi-00075V-0d
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39027)
+	id 1iFS4L-0003Kl-D3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrl-00018M-LW
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:39 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrd-00017M-G4
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrc-0001LP-3o
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56242
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrb-0001Jt-FZ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28734)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRrb-0001Iw-KB; Tue, 01 Oct 2019 19:47:27 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlQEF078969; Tue, 1 Oct 2019 19:47:26 -0400
+ id 1iFRra-0001Hd-UH; Tue, 01 Oct 2019 19:47:27 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlOD8053194; Tue, 1 Oct 2019 19:47:25 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00rx-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg17160q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:26 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlQ8Y078951;
- Tue, 1 Oct 2019 19:47:26 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00pu-1
+ Tue, 01 Oct 2019 19:47:25 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlOQK053212;
+ Tue, 1 Oct 2019 19:47:24 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg1715yp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:26 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njock031648;
- Tue, 1 Oct 2019 23:47:19 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fa8-1
+ Tue, 01 Oct 2019 19:47:24 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjnoZ032172;
+ Tue, 1 Oct 2019 23:47:22 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01wdc.us.ibm.com with ESMTP id 2v9y57fga0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:19 +0000
+ Tue, 01 Oct 2019 23:47:22 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlIUk48038200
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlKfE16122634
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:18 GMT
+ Tue, 1 Oct 2019 23:47:20 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 95F0A28060;
- Tue,  1 Oct 2019 23:47:18 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3039928059;
+ Tue,  1 Oct 2019 23:47:20 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 79CC628059;
- Tue,  1 Oct 2019 23:47:18 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 14DE528058;
+ Tue,  1 Oct 2019 23:47:20 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:18 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:20 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/97] block/file-posix: Unaligned O_DIRECT block-status
-Date: Tue,  1 Oct 2019 18:44:52 -0500
-Message-Id: <20191001234616.7825-14-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 16/97] blockdev-backup: don't check aio_context too early
+Date: Tue,  1 Oct 2019 18:44:55 -0500
+Message-Id: <20191001234616.7825-17-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -71,12 +70,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,93 +87,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-Currently, qemu crashes whenever someone queries the block status of an
-unaligned image tail of an O_DIRECT image:
-$ echo > foo
-$ qemu-img map --image-opts driver=file,filename=foo,cache.direct=on
-Offset          Length          Mapped to       File
-qemu-img: block/io.c:2093: bdrv_co_block_status: Assertion `*pnum &&
-QEMU_IS_ALIGNED(*pnum, align) && align > offset - aligned_offset'
-failed.
+in blockdev_backup_prepare, we check to make sure that the target is
+associated with a compatible aio context. However, do_blockdev_backup is
+called later and has some logic to move the target to a compatible
+aio_context. The transaction version will fail certain commands
+needlessly early as a result.
 
-This is because bdrv_co_block_status() checks that the result returned
-by the driver's implementation is aligned to the request_alignment, but
-file-posix can fail to do so, which is actually mentioned in a comment
-there: "[...] possibly including a partial sector at EOF".
+Allow blockdev_backup_prepare to simply call do_blockdev_backup, which
+will ultimately decide if the contexts are compatible or not.
 
-Fix this by rounding up those partial sectors.
+Note: the transaction version has always disallowed this operation since
+its initial commit bd8baecd (2014), whereas the version of
+qmp_blockdev_backup at the time, from commit c29c1dd312f, tried to
+enforce the aio_context switch instead. It's not clear, and I can't see
+from the mailing list archives at the time, why the two functions take a
+different approach. It wasn't until later in efd7556708b (2016) that the
+standalone version tried to determine if it could set the context or
+not.
 
-There are two possible alternative fixes:
-(1) We could refuse to open unaligned image files with O_DIRECT
-    altogether.  That sounds reasonable until you realize that qcow2
-    does necessarily not fill up its metadata clusters, and that nobody
-    runs qemu-img create with O_DIRECT.  Therefore, unpreallocated qcow2
-    files usually have an unaligned image tail.
-
-(2) bdrv_co_block_status() could ignore unaligned tails.  It actually
-    throws away everything past the EOF already, so that sounds
-    reasonable.
-    Unfortunately, the block layer knows file lengths only with a
-    granularity of BDRV_SECTOR_SIZE, so bdrv_co_block_status() usually
-    would have to guess whether its file length information is inexact
-    or whether the driver is broken.
-
-Fixing what raw_co_block_status() returns is the safest thing to do.
-
-There seems to be no other block driver that sets request_alignment and
-does not make sure that it always returns aligned values.
-
-Cc: qemu-stable@nongnu.org
+Reported-by: aihua liang <aliang@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1683498
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20190523170643.20794-2-jsnow@redhat.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 9c3db310ff0b7473272ae8dce5e04e2f8a825390)
+(cherry picked from commit d81e1efbea7d19c2f142d300df56538c73800590)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/file-posix.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ blockdev.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 1cf4ee49eb..c185f34a2e 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2475,6 +2475,8 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-     off_t data = 0, hole = 0;
-     int ret;
+diff --git a/blockdev.c b/blockdev.c
+index 4775a07d93..d358169995 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1871,10 +1871,6 @@ static void blockdev_backup_prepare(BlkActionState *common, Error **errp)
+     }
  
-+    assert(QEMU_IS_ALIGNED(offset | bytes, bs->bl.request_alignment));
-+
-     ret = fd_open(bs);
-     if (ret < 0) {
-         return ret;
-@@ -2500,6 +2502,20 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-         /* On a data extent, compute bytes to the end of the extent,
-          * possibly including a partial sector at EOF. */
-         *pnum = MIN(bytes, hole - offset);
-+
-+        /*
-+         * We are not allowed to return partial sectors, though, so
-+         * round up if necessary.
-+         */
-+        if (!QEMU_IS_ALIGNED(*pnum, bs->bl.request_alignment)) {
-+            int64_t file_length = raw_getlength(bs);
-+            if (file_length > 0) {
-+                /* Ignore errors, this is just a safeguard */
-+                assert(hole == file_length);
-+            }
-+            *pnum = ROUND_UP(*pnum, bs->bl.request_alignment);
-+        }
-+
-         ret = BDRV_BLOCK_DATA;
-     } else {
-         /* On a hole, compute bytes to the beginning of the next extent.  */
+     aio_context = bdrv_get_aio_context(bs);
+-    if (aio_context != bdrv_get_aio_context(target)) {
+-        error_setg(errp, "Backup between two IO threads is not implemented");
+-        return;
+-    }
+     aio_context_acquire(aio_context);
+     state->bs = bs;
+ 
 -- 
 2.17.1
 
