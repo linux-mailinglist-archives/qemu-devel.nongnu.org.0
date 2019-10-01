@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79F1C454F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:10:11 +0200 (CEST)
-Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C15C454E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:10:03 +0200 (CEST)
+Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFT9e-0004SL-6b
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1iFT9V-0004C2-6F
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0001tW-Do
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:28 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsY-0001wd-9I
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0002PB-MM
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33204)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0002YB-9s
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:25 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2488)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsK-0001uH-7Z; Tue, 01 Oct 2019 19:48:13 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1iFRsM-0001xf-Dv; Tue, 01 Oct 2019 19:48:17 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlRGL086518; Tue, 1 Oct 2019 19:47:51 -0400
+ x91NlPbZ088119; Tue, 1 Oct 2019 19:47:53 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vccat8108-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6c28-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Oct 2019 19:47:53 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlnTS089206;
+ Tue, 1 Oct 2019 19:47:51 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6c1u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Oct 2019 19:47:51 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nloh2087187;
- Tue, 1 Oct 2019 19:47:50 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vccat80yx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:50 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlTH022434;
- Tue, 1 Oct 2019 23:47:49 GMT
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlJd006377;
+ Tue, 1 Oct 2019 23:47:50 GMT
 Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04dal.us.ibm.com with ESMTP id 2v9y57yd7a-1
+ [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye90-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:49 +0000
+ Tue, 01 Oct 2019 23:47:50 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
  by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlnOD35520934
+ x91NlnjQ49742088
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 1 Oct 2019 23:47:49 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0CF6528058;
+ by IMSVA (Postfix) with ESMTP id 7E6282805E;
  Tue,  1 Oct 2019 23:47:49 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E501A2805A;
- Tue,  1 Oct 2019 23:47:48 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6C5592805C;
+ Tue,  1 Oct 2019 23:47:49 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:48 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:49 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 68/97] iotests: Test unaligned blocking mirror write
-Date: Tue,  1 Oct 2019 18:45:47 -0500
-Message-Id: <20191001234616.7825-69-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 69/97] block/backup: disable copy_range for compressed backup
+Date: Tue,  1 Oct 2019 18:45:48 -0500
+Message-Id: <20191001234616.7825-70-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -87,71 +87,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+Enabled by default copy_range ignores compress option. It's definitely
+unexpected for user.
+
+It's broken since introduction of copy_range usage in backup in
+9ded4a011496.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 20190730163251.755248-3-vsementsov@virtuozzo.com
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190805113526.20319-1-mreitz@redhat.com
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 19ba4651fe2d17cc49adae29acbb4a8cc29db8d1)
+(cherry picked from commit 110571be4e70ac015628e76d2731f96dd8d1998c)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/151     | 25 +++++++++++++++++++++++++
- tests/qemu-iotests/151.out |  4 ++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
+ block/backup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
-index 1bb74d67c4..ad7359fc8d 100755
---- a/tests/qemu-iotests/151
-+++ b/tests/qemu-iotests/151
-@@ -114,6 +114,31 @@ class TestActiveMirror(iotests.QMPTestCase):
-     def testActiveIOFlushed(self):
-         self.doActiveIO(True)
- 
-+    def testUnalignedActiveIO(self):
-+        # Fill the source image
-+        result = self.vm.hmp_qemu_io('source', 'write -P 1 0 2M')
-+
-+        # Start the block job (very slowly)
-+        result = self.vm.qmp('blockdev-mirror',
-+                             job_id='mirror',
-+                             filter_node_name='mirror-node',
-+                             device='source-node',
-+                             target='target-node',
-+                             sync='full',
-+                             copy_mode='write-blocking',
-+                             buf_size=(1048576 // 4),
-+                             speed=1)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Start an unaligned request to a dirty area
-+        result = self.vm.hmp_qemu_io('source', 'write -P 2 %i 1' % (1048576 + 42))
-+
-+        # Let the job finish
-+        result = self.vm.qmp('block-job-set-speed', device='mirror', speed=0)
-+        self.assert_qmp(result, 'return', {})
-+        self.complete_and_wait(drive='mirror')
-+
-+        self.potential_writes_in_flight = False
- 
- 
- if __name__ == '__main__':
-diff --git a/tests/qemu-iotests/151.out b/tests/qemu-iotests/151.out
-index fbc63e62f8..8d7e996700 100644
---- a/tests/qemu-iotests/151.out
-+++ b/tests/qemu-iotests/151.out
-@@ -1,5 +1,5 @@
--..
-+...
- ----------------------------------------------------------------------
--Ran 2 tests
-+Ran 3 tests
- 
- OK
+diff --git a/block/backup.c b/block/backup.c
+index f67c208cf0..381659d5ef 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -666,7 +666,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     job->cluster_size = cluster_size;
+     job->copy_bitmap = copy_bitmap;
+     copy_bitmap = NULL;
+-    job->use_copy_range = true;
++    job->use_copy_range = !compress; /* compression isn't supported for it */
+     job->copy_range_size = MIN_NON_ZERO(blk_get_max_transfer(job->common.blk),
+                                         blk_get_max_transfer(job->target));
+     job->copy_range_size = MAX(job->cluster_size,
 -- 
 2.17.1
 
