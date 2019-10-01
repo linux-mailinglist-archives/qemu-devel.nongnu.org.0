@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E9EC4190
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:07:52 +0200 (CEST)
-Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BC6C4187
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:03:04 +0200 (CEST)
+Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOR4-0003zs-EN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54204)
+	id 1iFOMR-0008VR-D1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO7o-0004b1-2f
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO7o-0004b2-0x
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO7m-0007s7-DX
+ (envelope-from <mreitz@redhat.com>) id 1iFO7m-0007sQ-J6
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57178)
+Received: from mx1.redhat.com ([209.132.183.28]:52918)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO7g-0007kF-NA; Tue, 01 Oct 2019 15:47:48 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iFO7h-0007l0-7X; Tue, 01 Oct 2019 15:47:49 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D53CD3082149;
- Tue,  1 Oct 2019 19:47:45 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3226F30842AF;
+ Tue,  1 Oct 2019 19:47:48 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F843100197A;
- Tue,  1 Oct 2019 19:47:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B924919C6A;
+ Tue,  1 Oct 2019 19:47:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 12/67] iotests/228: Filter json:{} filenames
-Date: Tue,  1 Oct 2019 21:46:20 +0200
-Message-Id: <20191001194715.2796-13-mreitz@redhat.com>
+Subject: [PATCH 13/67] iotests/242: Hide refcount bit information
+Date: Tue,  1 Oct 2019 21:46:21 +0200
+Message-Id: <20191001194715.2796-14-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 01 Oct 2019 19:47:45 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Tue, 01 Oct 2019 19:47:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,105 +60,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We only care about where we get json:{} filenames (and what the
-non-json:{} filenames look like), but not about how the json:{}
-filenames look.
-
-Filter them so we will not get a different output for qcow2 images with
-external data files.
+It does not matter, and this lets the test work with different refcount
+widths.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/228     | 8 ++++----
- tests/qemu-iotests/228.out | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/242     | 6 +++---
+ tests/qemu-iotests/242.out | 5 -----
+ 2 files changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/228 b/tests/qemu-iotests/228
-index 9785868ab3..e507db4f27 100755
---- a/tests/qemu-iotests/228
-+++ b/tests/qemu-iotests/228
-@@ -22,7 +22,7 @@
+diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+index 7c2685b4cc..21f69a0d2c 100755
+--- a/tests/qemu-iotests/242
++++ b/tests/qemu-iotests/242
+@@ -35,7 +35,7 @@ flag_offset =3D 0x5000f
 =20
- import iotests
- from iotests import log, qemu_img, filter_testfiles, filter_imgfmt, \
--        filter_qmp_testfiles, filter_qmp_imgfmt
-+        filter_qmp_testfiles, filter_qmp_imgfmt, filter_json_filename
+ def print_bitmap(extra_args):
+     log('qemu-img info dump:\n')
+-    img_info_log(disk, extra_args=3Dextra_args)
++    img_info_log(disk, extra_args=3Dextra_args, hide_fields=3D['refcount=
+ bits'])
+     result =3D json.loads(qemu_img_pipe('info', '--force-share',
+                                       '--output=3Djson', disk))
+     if 'bitmaps' in result['format-specific']['data']:
+@@ -98,9 +98,9 @@ add_bitmap(1, True, False)
+ log('Write an unknown bitmap flag \'{}\' into a new QCOW2 image at offse=
+t {}'
+     .format(hex(bitmap_flag_unknown), flag_offset))
+ toggle_flag(flag_offset)
+-img_info_log(disk)
++img_info_log(disk, hide_fields=3D['refcount bits'])
+ toggle_flag(flag_offset)
+ log('Unset the unknown bitmap flag \'{}\' in the bitmap directory entry:=
+\n'
+     .format(hex(bitmap_flag_unknown)))
+-img_info_log(disk)
++img_info_log(disk, hide_fields=3D['refcount bits'])
+ log('Test complete')
+diff --git a/tests/qemu-iotests/242.out b/tests/qemu-iotests/242.out
+index 7ac8404d11..112b389241 100644
+--- a/tests/qemu-iotests/242.out
++++ b/tests/qemu-iotests/242.out
+@@ -13,7 +13,6 @@ cluster_size: 65536
+ Format specific information:
+     compat: 1.1
+     lazy refcounts: false
+-    refcount bits: 16
+     corrupt: false
 =20
- # Need backing file and change-backing-file support
- iotests.script_initialize(supported_fmts=3D['qcow2', 'qed'])
-@@ -32,14 +32,14 @@ def log_node_info(node):
-     log('')
+ No bitmap in JSON format output
+@@ -38,7 +37,6 @@ Format specific information:
+             flags:
+             name: bitmap-1
+             granularity: 32768
+-    refcount bits: 16
+     corrupt: false
 =20
-     log('bs->filename: ' + node['image']['filename'],
--        filters=3D[filter_testfiles, filter_imgfmt])
-+        filters=3D[filter_testfiles, filter_imgfmt, filter_json_filename=
-])
-     log('bs->backing_file: ' + node['backing_file'],
--        filters=3D[filter_testfiles, filter_imgfmt])
-+        filters=3D[filter_testfiles, filter_imgfmt, filter_json_filename=
-])
+ The same bitmaps in JSON format:
+@@ -75,7 +73,6 @@ Format specific information:
+                 [0]: auto
+             name: bitmap-2
+             granularity: 65536
+-    refcount bits: 16
+     corrupt: false
 =20
-     if 'backing-image' in node['image']:
-         log('bs->backing->bs->filename: ' +
-             node['image']['backing-image']['filename'],
--            filters=3D[filter_testfiles, filter_imgfmt])
-+            filters=3D[filter_testfiles, filter_imgfmt, filter_json_file=
-name])
-     else:
-         log('bs->backing: (none)')
+ The same bitmaps in JSON format:
+@@ -117,7 +114,6 @@ Format specific information:
+                 [1]: auto
+             name: bitmap-2
+             granularity: 65536
+-    refcount bits: 16
+     corrupt: false
 =20
-diff --git a/tests/qemu-iotests/228.out b/tests/qemu-iotests/228.out
-index 4217df24fe..f8155019d5 100644
---- a/tests/qemu-iotests/228.out
-+++ b/tests/qemu-iotests/228.out
-@@ -17,7 +17,7 @@ bs->backing->bs->filename: TEST_DIR/PID-base.img
- {"execute": "change-backing-file", "arguments": {"backing-file": "null-c=
-o://", "device": "node0", "image-node-name": "node0"}}
- {"return": {}}
+ The same bitmaps in JSON format:
+@@ -160,7 +156,6 @@ Format specific information:
+                 [0]: auto
+             name: bitmap-0
+             granularity: 16384
+-    refcount bits: 16
+     corrupt: false
 =20
--bs->filename: json:{"backing": {"driver": "IMGFMT", "file": {"driver": "=
-file", "filename": "TEST_DIR/PID-base.img"}}, "driver": "IMGFMT", "file":=
- {"driver": "file", "filename": "TEST_DIR/PID-top.img"}}
-+bs->filename: json:{ /* filtered */ }
- bs->backing_file: null-co://
- bs->backing->bs->filename: TEST_DIR/PID-base.img
-=20
-@@ -31,7 +31,7 @@ bs->backing->bs->filename: TEST_DIR/PID-base.img
- {"execute": "change-backing-file", "arguments": {"backing-file": "file:T=
-EST_DIR/PID-base.img", "device": "node0", "image-node-name": "node0"}}
- {"return": {}}
-=20
--bs->filename: json:{"backing": {"driver": "IMGFMT", "file": {"driver": "=
-file", "filename": "TEST_DIR/PID-base.img"}}, "driver": "IMGFMT", "file":=
- {"driver": "file", "filename": "TEST_DIR/PID-top.img"}}
-+bs->filename: json:{ /* filtered */ }
- bs->backing_file: file:TEST_DIR/PID-base.img
- bs->backing->bs->filename: TEST_DIR/PID-base.img
-=20
-@@ -54,7 +54,7 @@ bs->backing->bs->filename: TEST_DIR/PID-base.img
- {"execute": "blockdev-add", "arguments": {"backing": "null", "driver": "=
-IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-top.img"}, =
-"node-name": "node0"}}
- {"return": {}}
-=20
--bs->filename: json:{"backing": {"driver": "null-co"}, "driver": "IMGFMT"=
-, "file": {"driver": "file", "filename": "TEST_DIR/PID-top.img"}}
-+bs->filename: json:{ /* filtered */ }
- bs->backing_file: null-co://
- bs->backing->bs->filename: null-co://
-=20
-@@ -65,7 +65,7 @@ bs->backing->bs->filename: null-co://
- {"execute": "blockdev-add", "arguments": {"backing": null, "driver": "IM=
-GFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-top.img"}, "n=
-ode-name": "node0"}}
- {"return": {}}
-=20
--bs->filename: json:{"backing": null, "driver": "IMGFMT", "file": {"drive=
-r": "file", "filename": "TEST_DIR/PID-top.img"}}
-+bs->filename: json:{ /* filtered */ }
- bs->backing_file: TEST_DIR/PID-base.img
- bs->backing: (none)
-=20
+ Test complete
 --=20
 2.21.0
 
