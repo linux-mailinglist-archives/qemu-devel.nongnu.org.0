@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A79C450A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:36:20 +0200 (CEST)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D785DC451D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:44:52 +0200 (CEST)
+Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFScs-0007N4-WF
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39883)
+	id 1iFSl9-0005uJ-BT
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:44:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsE-0001cw-34
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsB-0001Zn-I0
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-000250-Iu
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44758)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00024Q-DV
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38002
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRs9-0001b9-7d; Tue, 01 Oct 2019 19:48:01 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlPW4088125; Tue, 1 Oct 2019 19:47:40 -0400
+ id 1iFRs7-0001TS-2O; Tue, 01 Oct 2019 19:48:00 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlPAx179362; Tue, 1 Oct 2019 19:47:35 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6bw7-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdgpnctr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:39 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlZPj088456;
- Tue, 1 Oct 2019 19:47:39 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6bvt-1
+ Tue, 01 Oct 2019 19:47:35 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlZpg179670;
+ Tue, 1 Oct 2019 19:47:35 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdgpnctf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:39 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njl1C006380;
- Tue, 1 Oct 2019 23:47:38 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye88-1
+ Tue, 01 Oct 2019 19:47:35 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlTB023573;
+ Tue, 1 Oct 2019 23:47:34 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577gya-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:37 +0000
+ Tue, 01 Oct 2019 23:47:34 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nlbm350725262
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlYtw5767716
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:37 GMT
+ Tue, 1 Oct 2019 23:47:34 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 661182805C;
- Tue,  1 Oct 2019 23:47:37 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 52E142805E;
+ Tue,  1 Oct 2019 23:47:34 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4B3A128065;
- Tue,  1 Oct 2019 23:47:37 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2DCDA28058;
+ Tue,  1 Oct 2019 23:47:34 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:37 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:34 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 47/97] virtio-balloon: Fix wrong sign extension of PFNs
-Date: Tue,  1 Oct 2019 18:45:26 -0500
-Message-Id: <20191001234616.7825-48-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 41/97] docs/bitmaps: use QMP lexer instead of json
+Date: Tue,  1 Oct 2019 18:45:20 -0500
+Message-Id: <20191001234616.7825-42-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -75,7 +76,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,47 +88,282 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-If we directly cast from int to uint64_t, we will first sign-extend to
-an int64_t, which is wrong. We actually want to treat the PFNs like
-unsigned values.
+The annotated style json we use in QMP documentation is not strict json
+and depending on the version of Sphinx (2.0+) or Pygments installed,
+might cause the build to fail.
 
-As far as I can see, this dates back to the initial virtio-balloon
-commit, but wasn't triggered as fairly big guests would be required.
+Use the new QMP lexer.
 
-Cc: qemu-stable@nongnu.org
-Reported-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20190722134108.22151-2-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-(cherry picked from commit ffa207d08253ffffb3993a1dbe09e40af4fc91f1)
+Further, some versions of Sphinx can not apply custom lexers to "code"
+directives and require the use of "code-block" directives instead, so
+make that change at this time as well.
+
+Tested under:
+- Sphinx 1.3.6 and Pygments 2.4
+- Sphinx 1.7.6 and Pygments 2.2 (Fedora 29 packages)
+- Sphinx 2.0.1 and Pygments 2.4
+- Sphinx 3.0.0+/f396b3a783 and Pygments 2.4 (From Sphinx git c4f44bdd)
+
+Reported-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-id: 20190603214653.29369-4-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+(cherry picked from commit a7786bfb0effe0b4b0fc61d8a8cd307c0b739ed7)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-balloon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/interop/bitmaps.rst | 54 ++++++++++++++++++++--------------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 5579260fd4..49194f5638 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -343,8 +343,8 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-         }
+diff --git a/docs/interop/bitmaps.rst b/docs/interop/bitmaps.rst
+index c29ac4a854..c20bd37a79 100644
+--- a/docs/interop/bitmaps.rst
++++ b/docs/interop/bitmaps.rst
+@@ -199,7 +199,7 @@ persistence, and recording state can be adjusted at creation time.
  
-         while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, 4) == 4) {
-+            unsigned int p = virtio_ldl_p(vdev, &pfn);
-             hwaddr pa;
--            int p = virtio_ldl_p(vdev, &pfn);
+  to create a new, actively recording persistent bitmap:
  
-             pa = (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
-             offset += 4;
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-add",
+        "arguments": {
+@@ -220,7 +220,7 @@ persistence, and recording state can be adjusted at creation time.
+  To create a new, disabled (``-recording``), transient bitmap that tracks
+  changes in 32KiB segments:
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-add",
+        "arguments": {
+@@ -254,7 +254,7 @@ Deletes a bitmap. Bitmaps that are ``+busy`` cannot be removed.
+ 
+  Remove a bitmap named ``bitmap0`` from node ``drive0``:
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-remove",
+        "arguments": {
+@@ -280,7 +280,7 @@ Clears all dirty bits from a bitmap. ``+busy`` bitmaps cannot be cleared.
+ 
+  Clear all dirty bits from bitmap ``bitmap0`` on node ``drive0``:
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-clear",
+        "arguments": {
+@@ -309,7 +309,7 @@ begin being recorded. ``+busy`` bitmaps cannot be enabled.
+ 
+  To set ``+recording`` on bitmap ``bitmap0`` on node ``drive0``:
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-enable",
+        "arguments": {
+@@ -347,7 +347,7 @@ writes to begin being ignored. ``+busy`` bitmaps cannot be disabled.
+ 
+  To set ``-recording`` on bitmap ``bitmap0`` on node ``drive0``:
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-disable",
+        "arguments": {
+@@ -393,7 +393,7 @@ in any one source bitmap, the target bitmap will mark that segment dirty.
+  ``drive0``. If ``new_bitmap`` was empty prior to this command, this achieves
+  a copy.
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> { "execute": "block-dirty-bitmap-merge",
+        "arguments": {
+@@ -424,7 +424,7 @@ attached to nodes serving as the root for guest devices.
+  API. This result highlights a bitmap ``bitmap0`` attached to the root node of
+  device ``drive0``.
+ 
+- .. code:: json
++ .. code-block:: QMP
+ 
+   -> {
+        "execute": "query-block",
+@@ -562,7 +562,7 @@ new, empty bitmap that records writes from this point in time forward.
+           destination. These writes will be recorded in the bitmap
+           accordingly.
+ 
+-.. code:: json
++.. code-block:: QMP
+ 
+   -> {
+        "execute": "transaction",
+@@ -650,7 +650,7 @@ Example: Resetting an Incremental Backup Anchor Point
+ If we want to start a new backup chain with an existing bitmap, we can also
+ use a transaction to reset the bitmap while making a new full backup:
+ 
+-.. code:: json
++.. code-block:: QMP
+ 
+   -> {
+        "execute": "transaction",
+@@ -730,7 +730,7 @@ Example: First Incremental Backup
+ 
+ #. Issue an incremental backup command:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "drive-backup",
+@@ -788,7 +788,7 @@ Example: Second Incremental Backup
+ #. Issue a new incremental backup command. The only difference here is that we
+    have changed the target image below.
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "drive-backup",
+@@ -869,7 +869,7 @@ image:
+ #. Issue a new incremental backup command. Apart from the new destination
+    image, there is no difference from the last two examples.
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "drive-backup",
+@@ -932,7 +932,7 @@ point in time.
+ 
+ #. Create a full (anchor) backup for each drive, with accompanying bitmaps:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "transaction",
+@@ -1018,7 +1018,7 @@ point in time.
+ 
+ #. Issue a multi-drive incremental push backup transaction:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "transaction",
+@@ -1121,7 +1121,7 @@ described above. This example demonstrates the single-job failure case:
+ 
+ #. Attempt to create an incremental backup via QMP:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "drive-backup",
+@@ -1139,7 +1139,7 @@ described above. This example demonstrates the single-job failure case:
+ 
+ #. Receive a pair of events indicating failure:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- {
+          "timestamp": {...},
+@@ -1175,7 +1175,7 @@ described above. This example demonstrates the single-job failure case:
+ #. Retry the command after fixing the underlying problem, such as
+    freeing up space on the backup volume:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "drive-backup",
+@@ -1193,7 +1193,7 @@ described above. This example demonstrates the single-job failure case:
+ 
+ #. Receive confirmation that the job completed successfully:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- {
+          "timestamp": {...},
+@@ -1233,7 +1233,7 @@ and one succeeds:
+ 
+ #. Issue the transaction to start a backup of both drives.
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "transaction",
+@@ -1267,13 +1267,13 @@ and one succeeds:
+ #. Receive notice that the Transaction was accepted, and jobs were
+    launched:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- { "return": {} }
+ 
+ #. Receive notice that the first job has completed:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- {
+          "timestamp": {...},
+@@ -1289,7 +1289,7 @@ and one succeeds:
+ 
+ #. Receive notice that the second job has failed:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- {
+          "timestamp": {...},
+@@ -1365,7 +1365,7 @@ applied:
+ 
+ #. Issue the multi-drive incremental backup transaction:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     -> {
+          "execute": "transaction",
+@@ -1401,13 +1401,13 @@ applied:
+ 
+ #. Receive notice that the Transaction was accepted, and jobs were launched:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- { "return": {} }
+ 
+ #. Receive notification that the backup job for ``drive1`` has failed:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- {
+          "timestamp": {...},
+@@ -1434,7 +1434,7 @@ applied:
+ 
+ #. Receive notification that the job for ``drive0`` has been cancelled:
+ 
+-   .. code:: json
++   .. code-block:: QMP
+ 
+     <- {
+          "timestamp": {...},
 -- 
 2.17.1
 
