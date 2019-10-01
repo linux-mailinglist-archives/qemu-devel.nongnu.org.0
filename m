@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0CFC41CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:30:53 +0200 (CEST)
-Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA22FC41D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:37:56 +0200 (CEST)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOnK-00077M-W6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54641)
+	id 1iFOuB-0003uQ-Aa
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO8K-00052g-B3
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:29 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8a-0005LR-Jv
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO8I-0008A4-3M
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57304)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8Y-0008Id-J1
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59876)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO8D-00086R-Ku; Tue, 01 Oct 2019 15:48:23 -0400
+ id 1iFO8W-0008HE-0Z; Tue, 01 Oct 2019 15:48:40 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 90E9C3082131;
- Tue,  1 Oct 2019 19:48:18 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4370A18C4279;
+ Tue,  1 Oct 2019 19:48:39 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DC8E5C1D4;
- Tue,  1 Oct 2019 19:48:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0E835C1D4;
+ Tue,  1 Oct 2019 19:48:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 26/67] iotests/124: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:34 +0200
-Message-Id: <20191001194715.2796-27-mreitz@redhat.com>
+Subject: [PATCH 35/67] iotests/163: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:43 +0200
+Message-Id: <20191001194715.2796-36-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 01 Oct 2019 19:48:18 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Tue, 01 Oct 2019 19:48:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,103 +62,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/124 | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ tests/qemu-iotests/163 | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
-index d3e851e1ae..145dccb2b0 100755
---- a/tests/qemu-iotests/124
-+++ b/tests/qemu-iotests/124
-@@ -22,6 +22,7 @@
+diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+index 92633f1b21..5c5e23f9fc 100755
+--- a/tests/qemu-iotests/163
++++ b/tests/qemu-iotests/163
+@@ -19,7 +19,8 @@
+ #
 =20
- import os
- import iotests
-+from iotests import create_test_image, remove_test_image
+ import os, random, iotests, struct, qcow2, sys
+-from iotests import qemu_img, qemu_io, image_size
++from iotests import create_test_image, remove_test_image, qemu_img, qemu=
+_io, \
++        image_size
 =20
+ test_img =3D os.path.join(iotests.test_dir, 'test.img')
+ check_img =3D os.path.join(iotests.test_dir, 'check.img')
+@@ -82,22 +83,19 @@ class ShrinkBaseClass(iotests.QMPTestCase):
 =20
- def io_write_patterns(img, patterns):
-@@ -29,13 +30,6 @@ def io_write_patterns(img, patterns):
-         iotests.qemu_io('-c', 'write -P%s %s %s' % pattern, img)
-=20
-=20
--def try_remove(img):
--    try:
--        os.remove(img)
--    except OSError:
--        pass
--
--
- def transaction_action(action, **kwargs):
-     return {
-         'type': action,
-@@ -82,13 +76,13 @@ class Bitmap:
-=20
-     def del_target(self):
-         for image in self.backups.pop():
--            try_remove(image)
-+            remove_test_image(image)
-         self.num -=3D 1
-=20
-     def cleanup(self):
-         for backup in self.backups:
-             for image in backup:
--                try_remove(image)
-+                remove_test_image(image)
-=20
-=20
- class TestIncrementalBackupBase(iotests.QMPTestCase):
-@@ -133,15 +127,14 @@ class TestIncrementalBackupBase(iotests.QMPTestCase=
-):
-=20
-     def img_create(self, img, fmt=3Diotests.imgfmt, size=3D'64M',
-                    parent=3DNone, parentFormat=3DNone, **kwargs):
--        optargs =3D []
--        for k,v in kwargs.items():
--            optargs =3D optargs + ['-o', '%s=3D%s' % (k,v)]
--        args =3D ['create', '-f', fmt] + optargs + [img, size]
-+        opts =3D []
-+        for k, v in kwargs.items():
-+            opts.append('%s=3D%s' % (k, v))
-         if parent:
-             if parentFormat is None:
-                 parentFormat =3D fmt
--            args =3D args + ['-b', parent, '-F', parentFormat]
--        iotests.qemu_img(*args)
-+        create_test_image(img, size, fmt=3Dfmt, backing_file=3Dparent,
-+                          backing_fmt=3DparentFormat, opts=3Dopts)
-         self.files.append(img)
-=20
-=20
-@@ -287,7 +280,7 @@ class TestIncrementalBackupBase(iotests.QMPTestCase):
-         for bitmap in self.bitmaps:
-             bitmap.cleanup()
-         for filename in self.files:
--            try_remove(filename)
-+            remove_test_image(filename)
-=20
-=20
-=20
-@@ -414,6 +407,8 @@ class TestIncrementalBackup(TestIncrementalBackupBase=
-):
-         self.check_backups()
-=20
-=20
-+    # blkdebug does not work with an external data file
-+    @iotests.skip_for_imgopts(['data_file'])
-     def do_transaction_failure_test(self, race=3DFalse):
-         # Create a second drive, with pattern:
-         drive1 =3D self.add_node('drive1')
-@@ -608,6 +603,8 @@ class TestIncrementalBackup(TestIncrementalBackupBase=
-):
- class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
-     '''Incremental backup tests that utilize a BlkDebug filter on drive0=
-.'''
-=20
-+    # blkdebug does not work with an external data file
-+    @iotests.skip_for_imgopts(['data_file'])
      def setUp(self):
-         drive0 =3D self.add_node('drive0')
-         self.img_create(drive0['file'], drive0['fmt'])
+         if iotests.imgfmt =3D=3D 'raw':
+-            qemu_img('create', '-f', iotests.imgfmt, test_img, self.imag=
+e_len)
+-            qemu_img('create', '-f', iotests.imgfmt, check_img,
+-                     self.shrink_size)
++            create_test_image(test_img, self.image_len)
++            create_test_image(check_img, self.shrink_size)
+         else:
+-            qemu_img('create', '-f', iotests.imgfmt,
+-                     '-o', 'cluster_size=3D' + self.cluster_size +
+-                     ',refcount_bits=3D' + self.refcount_bits,
+-                     test_img, self.image_len)
+-            qemu_img('create', '-f', iotests.imgfmt,
+-                     '-o', 'cluster_size=3D%s'% self.cluster_size,
+-                     check_img, self.shrink_size)
++            create_test_image(test_img, self.image_len,
++                              opts=3D['cluster_size=3D' + self.cluster_s=
+ize,
++                                    'refcount_bits=3D' + self.refcount_b=
+its])
++            create_test_image(check_img, self.shrink_size,
++                              opts=3D['cluster_size=3D' + self.cluster_s=
+ize])
+         qemu_io('-c', 'write -P 0xff 0 ' + self.shrink_size, check_img)
+=20
+     def tearDown(self):
+-        os.remove(test_img)
+-        os.remove(check_img)
++        remove_test_image(test_img)
++        remove_test_image(check_img)
+=20
+     def image_verify(self):
+         self.assertEqual(image_size(test_img), image_size(check_img),
 --=20
 2.21.0
 
