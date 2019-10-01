@@ -2,39 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8ABC414F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 21:50:27 +0200 (CEST)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8989BC4163
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 21:56:45 +0200 (CEST)
+Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOAC-0004nj-1s
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 15:50:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48327)
+	id 1iFOGJ-0003ca-Iv
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 15:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iFNo8-0004il-Rq
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:27:38 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFO54-0001uC-Sh
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:45:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iFNo7-0001Sk-CF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:27:36 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45314)
+ (envelope-from <eblake@redhat.com>) id 1iFO53-0005Pl-Dx
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:45:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43098)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iFNo7-0001RR-2P; Tue, 01 Oct 2019 15:27:35 -0400
-Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iFNo4-00060a-7j; Tue, 01 Oct 2019 22:27:32 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH 6/6] tests/qemu-iotests: add case for block-stream compress
-Date: Tue,  1 Oct 2019 22:27:20 +0300
-Message-Id: <1569958040-697220-7-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1569958040-697220-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1569958040-697220-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iFO4t-0005Cc-GU; Tue, 01 Oct 2019 15:44:57 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 448C6300CB28;
+ Tue,  1 Oct 2019 19:44:54 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21D765D9CC;
+ Tue,  1 Oct 2019 19:44:51 +0000 (UTC)
+Subject: Re: [PATCH v4 23/31] block: Fix error_append_hint/error_prepend usage
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-24-vsementsov@virtuozzo.com>
+ <f6456405-3128-a530-7039-45671d8f2508@redhat.com>
+ <e626f8ca-e0f6-ef0d-1d09-3b7fcbde8cb3@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b934b470-9858-7a33-991a-3d25ff8ecc30@redhat.com>
+Date: Tue, 1 Oct 2019 14:44:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
+MIME-Version: 1.0
+In-Reply-To: <e626f8ca-e0f6-ef0d-1d09-3b7fcbde8cb3@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 01 Oct 2019 19:44:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,101 +64,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- jsnow@redhat.com, armbru@redhat.com, dgilbert@redhat.com, stefanha@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org, mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "integration@gluster.org" <integration@gluster.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test case to the iotest #030 that checks 'compress' option for a
-block-stream job.
+On 10/1/19 1:55 PM, Vladimir Sementsov-Ogievskiy wrote:
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/030     | 49 +++++++++++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/030.out |  4 ++--
- 2 files changed, 50 insertions(+), 3 deletions(-)
+>> Your patch is missing a patch to qcow2_store_persistent_dirty_bitmaps(=
+), which calls error_prepend(errp, ...).=C2=A0 However, when I manually r=
+an the same spatch command line, I also got the same failure to include a=
+ fix in that function.
+>>
+>> I'm not sure what's wrong with the .cocci script to miss that instance=
+; I've tried fiddling around with the .cocci file to see if I can spot an=
+y change to make (for example, using ... instead of <+...), but so far, w=
+ith no success at getting the second function patched.
+>>
+>=20
+>=20
+> Hmm, interesting. Actually I think that coccinelle is something that ju=
+st works bad from the beginning of these series. And here:
+>=20
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index f3766f2..13fe5a2 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -21,7 +21,8 @@
- import time
- import os
- import iotests
--from iotests import qemu_img, qemu_io
-+from iotests import qemu_img, qemu_io, qemu_img_pipe
-+import json
- 
- backing_img = os.path.join(iotests.test_dir, 'backing.img')
- mid_img = os.path.join(iotests.test_dir, 'mid.img')
-@@ -956,6 +957,52 @@ class TestSetSpeed(iotests.QMPTestCase):
- 
-         self.cancel_and_wait(resume=True)
- 
-+class TestCompressed(iotests.QMPTestCase):
-+
-+    def setUp(self):
-+        qemu_img('create', '-f', iotests.imgfmt, backing_img, '1M')
-+        qemu_img('create', '-f', iotests.imgfmt, '-o',
-+                 'backing_file=%s' % backing_img, mid_img)
-+        qemu_img('create', '-f', iotests.imgfmt, '-o',
-+                 'backing_file=%s' % mid_img, test_img)
-+        qemu_io('-c', 'write -P 0x1 0 512k', backing_img)
-+        self.vm = iotests.VM().add_drive(test_img, "backing.node-name=mid," +
-+                                         "backing.backing.node-name=base")
-+        self.vm.launch()
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(test_img)
-+        os.remove(mid_img)
-+        os.remove(backing_img)
-+
-+    def test_stream_compress(self):
-+        self.assert_no_active_block_jobs()
-+
-+        result = self.vm.qmp('block-stream', device='mid', job_id='stream-mid')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.wait_until_completed(drive='stream-mid')
-+        for event in self.vm.get_qmp_events(wait=True):
-+            if event['event'] == 'BLOCK_JOB_COMPLETED':
-+                self.dictpath(event, 'data/device')
-+                self.assert_qmp_absent(event, 'data/error')
-+
-+        result = self.vm.qmp('block-stream', device='drive0', base=mid_img,
-+                             job_id='stream-top', compress=True)
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.wait_until_completed(drive='stream-top')
-+        self.assert_no_active_block_jobs()
-+        self.vm.shutdown()
-+
-+        top = json.loads(qemu_img_pipe('info', '--output=json', test_img))
-+        mid = json.loads(qemu_img_pipe('info', '--output=json', mid_img))
-+        base = json.loads(qemu_img_pipe('info', '--output=json', backing_img))
-+
-+        self.assertEqual(mid['actual-size'], base['actual-size'])
-+        self.assertLess(top['actual-size'], mid['actual-size'])
-+
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2', 'qed'],
-                  supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-index 6d9bee1..af8dac1 100644
---- a/tests/qemu-iotests/030.out
-+++ b/tests/qemu-iotests/030.out
-@@ -1,5 +1,5 @@
--...........................
-+............................
- ----------------------------------------------------------------------
--Ran 27 tests
-+Ran 28 tests
- 
- OK
--- 
-1.8.3.1
+> but failes with:
+>=20
+> void qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs, Error *=
+*errp)
+> {
+>       QSIMPLEQ_HEAD(, Qcow2BitmapTable) drop_tables;
+>=20
+>       error_prepend(errp, "Bitmap '%s' doesn't satisfy the constraints:=
+ ",
+>                     name);
+> }
+>=20
+> So, it can't parse "QSIMPLEQ_HEAD(, Qcow2BitmapTable) drop_tables" thin=
+g..
 
+Generally, when running spatch, you want to include --macro-file=20
+scripts/cocci-macro-file.h to help coccinelle get past the worst of the=20
+preprocessor macros it can't otherwise handle.  But that is rather sad=20
+that it ignores the entire function body as soon as it encounters a=20
+parse problem, and also sad that scripts/cocci-macro-file.h isn't yet=20
+complete enough to help coccinelle past the QSIMPLEQ_HEAD() uses in our=20
+sources.  (I wonder how many other false negatives we have where we=20
+missed a code cleanup because Coccinelle silently gave up on parsing a=20
+function or file)
+
+
+> adding --recursive-includes parameter to spatch leads to error:
+>=20
+> [.. a lot of failures]
+> failed on sys/shm.h
+> failed on sys/uio.h
+> failed on qapi/qapi-types-error.h
+> failed on qapi/qapi-types-crypto.h
+> failed on sys/endian.h
+> failed on machine/bswap.h
+> failed on byteswap.h
+> failed on pthread.h
+> failed on semaphore.h
+> failed on qapi/qapi-builtin-types.h
+> failed on qapi/qapi-types-block-core.h
+> failed on qapi/qapi-types-job.h
+> failed on qcow2.h
+> Impossible: How can diff be null and have not Correct in compare_c? Tag=
+1 ("diff token: QEMU_PACKED VS QEMU_PACKED\nFile \"block/qcow2-bitmap.c\"=
+, line 59, column 15, charpos =3D 2334\n  around =3D 'QEMU_PACKED',\n  wh=
+ole content =3D typedef struct QEMU_PACKED Qcow2BitmapDirEntry {\nFile \"=
+/tmp/cocci-output-10311-cc4e45-qcow2-bitmap.c\", line 59, column 15, char=
+pos =3D 2334\n  around =3D 'QEMU_PACKED',\n  whole content =3D typedef st=
+ruct QEMU_PACKED Qcow2BitmapDirEntry {\n")
+
+Eww - that sounds like a Coccinelle bug that we should report to their=20
+upstream.
+
+>=20
+> Aha, we need -I option. Something like
+>=20
+> spatch --verbose-parsing --verbose-includes -I include -I '.' -I block =
+--recursive-includes --sp-file scripts/coccinelle/fix-error-add-info.cocc=
+i block/qcow2-bitmap.c 2>&1
+>=20
+>=20
+> And it just can't parse our includes, queue.h for example.. So many par=
+sing errors.
+
+We may not need to parse all our headers, if the --macro-file=20
+scripts/cocci-macro-file.h is sufficient.
+
+In fact, now that I found that (by reading through git log history of=20
+previous Coccinelle scripts we've run), and adding the proper=20
+--macro-file command line argument, I didn't have to add a=20
+--recursive-includes, but Coccinelle was finally able to fix that last=20
+spot in block/qcow2-bitmap.c.
+
+
+> So, it seems like coccinelle just don't work. At least it don't allow t=
+o define initializer macro.
+>=20
+> Any ideas? The series is still meaningful. Not all bugs are fixed, but =
+at least some bugs are fixed.
+>=20
+
+Using --macro-file sscripts/cocci-macro-file.h should get it a lot=20
+further.  The sad part is I don't have a quantitative way to tell how=20
+many functions/files are being silently skipped when Coccinelle runs up=20
+against something it doesn't know how to parse.
+
+> I'm afraid I can't put more effort on this topic, it already ate a lot =
+of time.
+>=20
+> As an alternative I can suggest Greg to rebase his series on my patch 0=
+4 and forget about error_append
+> and so on.
+>=20
+> Hmm or may be try some simple regex instead of coccinelle?
+>=20
+>=20
+> Something as simple as substitute
+> (^[^{}]+\([^{}]*Error \*\*errp[^{}]*\)\s*^\{)(([^}]|(?<!^)})*error_(pre=
+pend|append_hint)\(errp)
+>=20
+> by
+>=20
+> \1\n    ERRP_AUTO_PROPAGATE();\2
+>=20
+> seems work
+
+A little more blunt (and as written, not idempotent), but as long as we=20
+document whatever pattern we use (whether coccinelle or regex) and the=20
+patch is repeatable, that's less of a concern.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
