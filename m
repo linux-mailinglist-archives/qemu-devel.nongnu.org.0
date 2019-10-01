@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6DBC45B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:47:02 +0200 (CEST)
-Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DFAC45BA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:51:26 +0200 (CEST)
+Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTjJ-0007H7-1k
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41532)
+	id 1iFTmu-0003Ga-Ul
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsw-0002JP-Oq
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:52 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRwT-0005mE-7J
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:52:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRss-00037r-RV
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:48 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51988
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRwR-00074Z-JF
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:52:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47096
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsg-0002D1-PW; Tue, 01 Oct 2019 19:48:35 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ id 1iFRwJ-0006wB-VJ; Tue, 01 Oct 2019 19:52:20 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlX3d146488; Tue, 1 Oct 2019 19:48:04 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfcp26q6-1
+ x91NpmTl140377; Tue, 1 Oct 2019 19:52:17 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdj4dgx3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:04 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkEb027150;
- Tue, 1 Oct 2019 23:48:03 GMT
+ Tue, 01 Oct 2019 19:52:17 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NmOrc133005;
+ Tue, 1 Oct 2019 19:48:24 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdj4de13-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Oct 2019 19:48:23 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlOr031629;
+ Tue, 1 Oct 2019 23:47:22 GMT
 Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bk2-1
+ [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fab-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:48:03 +0000
+ Tue, 01 Oct 2019 23:47:22 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
  by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nm3As38535662
+ x91NlL7E44302732
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:48:03 GMT
+ Tue, 1 Oct 2019 23:47:21 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 104CA28059;
- Tue,  1 Oct 2019 23:48:03 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B476B2805E;
+ Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E88B12805C;
- Tue,  1 Oct 2019 23:48:02 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9790728058;
+ Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:48:02 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 93/97] slirp: Fix heap overflow in ip_reass on big packet input
-Date: Tue,  1 Oct 2019 18:46:12 -0500
-Message-Id: <20191001234616.7825-94-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 19/97] iotests.py: do not use infinite waits
+Date: Tue,  1 Oct 2019 18:44:58 -0500
+Message-Id: <20191001234616.7825-20-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -67,7 +74,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910010204
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,54 +88,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-stable@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the first fragment does not fit in the preallocated buffer, q will
-already be pointing to the ext buffer, so we mustn't try to update it.
+From: John Snow <jsnow@redhat.com>
 
-Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-(from libslirp.git commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1210)
-(from libslirp.git commit e0be80430c390bce181ea04dfcdd6ea3dfa97de1)
-*squash in e0be80 (clarifying comments)
+Cap waits to 60 seconds so that iotests can fail gracefully if something
+goes wrong.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20190523170643.20794-3-jsnow@redhat.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+(cherry picked from commit 8b6f5f8b9f3bec5cbeebefab34bae0102a2581b3)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- slirp/src/ip_input.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/iotests.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/slirp/src/ip_input.c b/slirp/src/ip_input.c
-index a714fecd58..68a99de5b5 100644
---- a/slirp/src/ip_input.c
-+++ b/slirp/src/ip_input.c
-@@ -331,6 +331,8 @@ insert:
-     q = fp->frag_link.next;
- 	m = dtom(slirp, q);
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 8b209ea0ee..8061f01ade 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -521,7 +521,7 @@ class VM(qtest.QEMUQtestMachine):
+             output_list += [key + '=' + obj[key]]
+         return ','.join(output_list)
  
-+	int was_ext = m->m_flags & M_EXT;
-+
- 	q = (struct ipasfrag *) q->ipf_next;
- 	while (q != (struct ipasfrag*)&fp->frag_link) {
- 	  struct mbuf *t = dtom(slirp, q);
-@@ -347,13 +349,12 @@ insert:
- 	q = fp->frag_link.next;
+-    def get_qmp_events_filtered(self, wait=True):
++    def get_qmp_events_filtered(self, wait=60.0):
+         result = []
+         for ev in self.get_qmp_events(wait=wait):
+             result.append(filter_qmp_event(ev))
+@@ -539,10 +539,10 @@ class VM(qtest.QEMUQtestMachine):
  
- 	/*
--	 * If the fragments concatenated to an mbuf that's
--	 * bigger than the total size of the fragment, then and
--	 * m_ext buffer was alloced. But fp->ipq_next points to
--	 * the old buffer (in the mbuf), so we must point ip
--	 * into the new buffer.
-+	 * If the fragments concatenated to an mbuf that's bigger than the total
-+	 * size of the fragment and the mbuf was not already using an m_ext buffer,
-+	 * then an m_ext buffer was alloced. But fp->ipq_next points to the old
-+	 * buffer (in the mbuf), so we must point ip into the new buffer.
- 	 */
--	if (m->m_flags & M_EXT) {
-+	if (!was_ext && m->m_flags & M_EXT) {
- 	  int delta = (char *)q - m->m_dat;
- 	  q = (struct ipasfrag *)(m->m_ext + delta);
- 	}
+     # Returns None on success, and an error string on failure
+     def run_job(self, job, auto_finalize=True, auto_dismiss=False,
+-                pre_finalize=None):
++                pre_finalize=None, wait=60.0):
+         error = None
+         while True:
+-            for ev in self.get_qmp_events_filtered(wait=True):
++            for ev in self.get_qmp_events_filtered(wait=wait):
+                 if ev['event'] == 'JOB_STATUS_CHANGE':
+                     status = ev['data']['status']
+                     if status == 'aborting':
+@@ -633,7 +633,7 @@ class QMPTestCase(unittest.TestCase):
+         self.assertEqual(self.vm.flatten_qmp_object(json.loads(json_filename[5:])),
+                          self.vm.flatten_qmp_object(reference))
+ 
+-    def cancel_and_wait(self, drive='drive0', force=False, resume=False):
++    def cancel_and_wait(self, drive='drive0', force=False, resume=False, wait=60.0):
+         '''Cancel a block job and wait for it to finish, returning the event'''
+         result = self.vm.qmp('block-job-cancel', device=drive, force=force)
+         self.assert_qmp(result, 'return', {})
+@@ -644,7 +644,7 @@ class QMPTestCase(unittest.TestCase):
+         cancelled = False
+         result = None
+         while not cancelled:
+-            for event in self.vm.get_qmp_events(wait=True):
++            for event in self.vm.get_qmp_events(wait=wait):
+                 if event['event'] == 'BLOCK_JOB_COMPLETED' or \
+                    event['event'] == 'BLOCK_JOB_CANCELLED':
+                     self.assert_qmp(event, 'data/device', drive)
+@@ -657,10 +657,10 @@ class QMPTestCase(unittest.TestCase):
+         self.assert_no_active_block_jobs()
+         return result
+ 
+-    def wait_until_completed(self, drive='drive0', check_offset=True):
++    def wait_until_completed(self, drive='drive0', check_offset=True, wait=60.0):
+         '''Wait for a block job to finish, returning the event'''
+         while True:
+-            for event in self.vm.get_qmp_events(wait=True):
++            for event in self.vm.get_qmp_events(wait=wait):
+                 if event['event'] == 'BLOCK_JOB_COMPLETED':
+                     self.assert_qmp(event, 'data/device', drive)
+                     self.assert_qmp_absent(event, 'data/error')
 -- 
 2.17.1
 
