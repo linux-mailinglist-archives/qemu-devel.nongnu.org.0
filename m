@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADD5C45C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:55:24 +0200 (CEST)
-Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AF5C45C4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:58:36 +0200 (CEST)
+Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTrO-0007o0-M6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46269)
+	id 1iFTuU-0002yi-LV
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iFS04-0000mP-SY
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:13 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iFS05-0000mk-6H
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iFS03-00025K-Mh
+ (envelope-from <jsnow@redhat.com>) id 1iFS03-00025s-TR
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60020)
+Received: from mx1.redhat.com ([209.132.183.28]:53524)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iFRzz-0001yZ-SR; Tue, 01 Oct 2019 19:56:07 -0400
+ id 1iFS01-00020p-1z; Tue, 01 Oct 2019 19:56:09 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3F2863086272;
- Tue,  1 Oct 2019 23:56:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 325253058E0A;
+ Tue,  1 Oct 2019 23:56:08 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D182160BE0;
- Tue,  1 Oct 2019 23:55:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 642C460C80;
+ Tue,  1 Oct 2019 23:56:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/8] Ide patches
-Date: Tue,  1 Oct 2019 19:55:44 -0400
-Message-Id: <20191001235552.17790-1-jsnow@redhat.com>
+Subject: [PULL 1/8] block: Refactor macros - fix tabbing
+Date: Tue,  1 Oct 2019 19:55:45 -0400
+Message-Id: <20191001235552.17790-2-jsnow@redhat.com>
+In-Reply-To: <20191001235552.17790-1-jsnow@redhat.com>
+References: <20191001235552.17790-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 01 Oct 2019 23:56:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 01 Oct 2019 23:56:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,55 +60,92 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+ Arbel Moshe <arbel.moshe@oracle.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Sam Eiderman <shmuel.eiderman@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Karl Heubaum <karl.heubaum@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7f21573c822805a8e6be379d9bcf3ad9effef3=
-dc:
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-201=
-9-10-01' into staging (2019-10-01 13:13:38 +0100)
+Fixing tabbing in block related macros.
 
-are available in the Git repository at:
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-id: 20190925110639.100699-2-sameid@google.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ include/hw/block/block.h | 16 ++++++++--------
+ hw/ide/qdev.c            |  2 +-
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-  https://github.com/jnsnow/qemu.git tags/ide-pull-request
-
-for you to fetch changes up to d5eedf4633376d22a34a17a061d3ed47ddb6fee0:
-
-  hd-geo-test: Add tests for lchs override (2019-10-01 17:50:16 -0400)
-
-----------------------------------------------------------------
-"IDE" Pull request. (CHS changes for SeaBios)
-
-----------------------------------------------------------------
-
-Sam Eiderman (8):
-  block: Refactor macros - fix tabbing
-  block: Support providing LCHS from user
-  bootdevice: Add interface to gather LCHS
-  scsi: Propagate unrealize() callback to scsi-hd
-  bootdevice: Gather LCHS from all relevant devices
-  bootdevice: Refactor get_boot_devices_list
-  bootdevice: FW_CFG interface for LCHS values
-  hd-geo-test: Add tests for lchs override
-
- include/hw/block/block.h |  22 +-
- include/hw/scsi/scsi.h   |   1 +
- include/sysemu/sysemu.h  |   4 +
- bootdevice.c             | 148 ++++++++--
- hw/block/virtio-blk.c    |   6 +
- hw/ide/qdev.c            |   7 +-
- hw/nvram/fw_cfg.c        |  14 +-
- hw/scsi/scsi-bus.c       |  16 ++
- hw/scsi/scsi-disk.c      |  12 +
- tests/hd-geo-test.c      | 589 +++++++++++++++++++++++++++++++++++++++
- tests/Makefile.include   |   2 +-
- 11 files changed, 780 insertions(+), 41 deletions(-)
-
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index 607539057a..fd55a30bca 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -50,21 +50,21 @@ static inline unsigned int get_physical_block_exp(Blo=
+ckConf *conf)
+                           _conf.logical_block_size),                    =
+\
+     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                =
+\
+                           _conf.physical_block_size),                   =
+\
+-    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),  \
++    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    =
+\
+     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    =
+\
+-    DEFINE_PROP_UINT32("discard_granularity", _state, \
+-                       _conf.discard_granularity, -1), \
+-    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce, \
+-                            ON_OFF_AUTO_AUTO), \
++    DEFINE_PROP_UINT32("discard_granularity", _state,                   =
+\
++                       _conf.discard_granularity, -1),                  =
+\
++    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           =
+\
++                            ON_OFF_AUTO_AUTO),                          =
+\
+     DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
+=20
+ #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          =
+\
+     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      =
+\
+     DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)
+=20
+-#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)      \
+-    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),  \
+-    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0), \
++#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      =
+\
++    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  =
+\
++    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                =
+\
+     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
+=20
+ #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    =
+\
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 6fba6b62b8..6dd219944f 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -290,7 +290,7 @@ static void ide_drive_realize(IDEDevice *dev, Error *=
+*errp)
+     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
+     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
+     DEFINE_PROP_STRING("ver",  IDEDrive, dev.version),  \
+-    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),    \
++    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),   \
+     DEFINE_PROP_STRING("serial",  IDEDrive, dev.serial),\
+     DEFINE_PROP_STRING("model", IDEDrive, dev.model)
+=20
 --=20
 2.21.0
 
