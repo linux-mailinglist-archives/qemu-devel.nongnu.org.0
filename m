@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8350CC4201
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:52:22 +0200 (CEST)
-Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37174C421E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:56:59 +0200 (CEST)
+Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFP88-0007Uw-Ef
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55458)
+	id 1iFPCb-0003lh-JH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO9J-0006KM-MF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO9g-0006hf-3y
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO9I-0000IF-IM
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35426)
+ (envelope-from <mreitz@redhat.com>) id 1iFO9f-0000TW-0p
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44152)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO9F-0000GU-V2; Tue, 01 Oct 2019 15:49:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1iFO9a-0000QQ-8y; Tue, 01 Oct 2019 15:49:46 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3F82781DE3;
- Tue,  1 Oct 2019 19:49:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 89E6C308FC4D;
+ Tue,  1 Oct 2019 19:49:45 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF8865C219;
- Tue,  1 Oct 2019 19:49:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 240EC5D6D0;
+ Tue,  1 Oct 2019 19:49:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 55/67] iotests/237: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:47:03 +0200
-Message-Id: <20191001194715.2796-56-mreitz@redhat.com>
+Subject: [PATCH 63/67] iotests/257: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:47:11 +0200
+Message-Id: <20191001194715.2796-64-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 01 Oct 2019 19:49:25 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 01 Oct 2019 19:49:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,71 +62,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/237     | 11 +++++------
- tests/qemu-iotests/237.out |  6 ------
- 2 files changed, 5 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/257 | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/237 b/tests/qemu-iotests/237
-index 34ff4b55db..179eae87dc 100755
---- a/tests/qemu-iotests/237
-+++ b/tests/qemu-iotests/237
-@@ -22,7 +22,7 @@
+diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+index 82c10e9b52..ea38945a71 100755
+--- a/tests/qemu-iotests/257
++++ b/tests/qemu-iotests/257
+@@ -23,7 +23,7 @@ import math
+ import os
 =20
- import math
  import iotests
--from iotests import imgfmt
-+from iotests import imgfmt, create_test_image
+-from iotests import log, qemu_img
++from iotests import log, create_test_image, qemu_img
 =20
- iotests.script_initialize(supported_fmts=3D['vmdk'],
-                           # All options are ignored
-@@ -38,9 +38,9 @@ def blockdev_create(vm, options):
-     iotests.log("")
+ SIZE =3D 64 * 1024 * 1024
+ GRANULARITY =3D 64 * 1024
+@@ -152,7 +152,7 @@ class Drive:
+     def img_create(self, fmt, size):
+         self.fmt =3D fmt
+         self.size =3D size
+-        iotests.qemu_img_create('-f', self.fmt, self.path, str(self.size=
+))
++        create_test_image(self.path, self.size)
 =20
- with iotests.FilePath('t.vmdk') as disk_path, \
--     iotests.FilePath('t.vmdk.1') as extent1_path, \
--     iotests.FilePath('t.vmdk.2') as extent2_path, \
--     iotests.FilePath('t.vmdk.3') as extent3_path, \
-+     iotests.ImagePath('t.vmdk.1') as extent1_path, \
-+     iotests.ImagePath('t.vmdk.2') as extent2_path, \
-+     iotests.ImagePath('t.vmdk.3') as extent3_path, \
-      iotests.VM() as vm:
+     def create_target(self, name, fmt, size):
+         basename =3D os.path.basename(self.path)
+@@ -273,10 +273,10 @@ def test_bitmap_sync(bsync_mode, msync_mode=3D'bitm=
+ap', failure=3DNone):
+                         an incomplete backup. Testing limitations preven=
+t
+                         testing competing writes.
+     """
+-    with iotests.FilePaths(['img', 'bsync1', 'bsync2',
++    with iotests.ImagePath('img') as img_path, \
++        iotests.FilePaths(['bsync1', 'bsync2',
+                             'fbackup0', 'fbackup1', 'fbackup2']) as \
+-                            (img_path, bsync1, bsync2,
+-                             fbackup0, fbackup1, fbackup2), \
++                            (bsync1, bsync2, fbackup0, fbackup1, fbackup=
+2), \
+          iotests.VM() as vm:
 =20
-     #
-@@ -175,8 +175,7 @@ with iotests.FilePath('t.vmdk') as disk_path, \
-     iotests.log("")
+         mode =3D "Mode {:s}; Bitmap Sync {:s}".format(msync_mode, bsync_=
+mode)
+@@ -439,8 +439,8 @@ def test_backup_api():
+     """
+     Test malformed and prohibited invocations of the backup API.
+     """
+-    with iotests.FilePaths(['img', 'bsync1']) as \
+-         (img_path, backup_path), \
++    with iotests.ImagePath('img') as img_path, \
++         iotests.FilePath('bsync1') as backup_path, \
+          iotests.VM() as vm:
 =20
-     for path in [ extent1_path, extent2_path, extent3_path ]:
--        msg =3D iotests.qemu_img_pipe('create', '-f', imgfmt, path, '0')
--        iotests.log(msg, [iotests.filter_testfiles])
-+        assert create_test_image(path, 0) =3D=3D 0
-=20
-     vm.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3Dext1' % (ex=
-tent1_path))
-     vm.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3Dext2' % (ex=
-tent2_path))
-diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
-index a8c800bfad..c32b970363 100644
---- a/tests/qemu-iotests/237.out
-+++ b/tests/qemu-iotests/237.out
-@@ -129,12 +129,6 @@ Job failed: Cannot find device=3Dthis doesn't exist =
-nor node_name=3Dthis doesn't exi
-=20
- =3D=3D=3D Other subformats =3D=3D=3D
-=20
--Formatting 'TEST_DIR/PID-t.vmdk.1', fmt=3Dvmdk size=3D0 compat6=3Doff hw=
-version=3Dundefined
--
--Formatting 'TEST_DIR/PID-t.vmdk.2', fmt=3Dvmdk size=3D0 compat6=3Doff hw=
-version=3Dundefined
--
--Formatting 'TEST_DIR/PID-t.vmdk.3', fmt=3Dvmdk size=3D0 compat6=3Doff hw=
-version=3Dundefined
--
- =3D=3D Missing extent =3D=3D
-=20
- {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options"=
-: {"driver": "vmdk", "file": "node0", "size": 33554432, "subformat": "mon=
-olithicFlat"}}}
+         log("\n=3D=3D=3D API failure tests =3D=3D=3D\n")
 --=20
 2.21.0
 
