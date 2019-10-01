@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCABC45C0
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:54:49 +0200 (CEST)
-Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478B8C45C3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:58:32 +0200 (CEST)
+Received: from localhost ([::1]:50452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTqp-0006z7-6C
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:54:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42027)
+	id 1iFTuQ-0002jd-5c
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRtL-0002lz-Br
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:49:17 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsf-00026n-VG
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRtJ-0003h8-3r
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:49:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57580)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0002ZJ-Kk
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13302
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRtI-0003EN-Ou; Tue, 01 Oct 2019 19:49:12 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NmnCY005158; Tue, 1 Oct 2019 19:48:51 -0400
+ id 1iFRsQ-00020d-FN; Tue, 01 Oct 2019 19:48:23 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlQOw079000; Tue, 1 Oct 2019 19:47:57 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdfxwett-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f013d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:49 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NmmJ1005008;
- Tue, 1 Oct 2019 19:48:48 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdfxwec3-1
+ Tue, 01 Oct 2019 19:47:56 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NluaD079623;
+ Tue, 1 Oct 2019 19:47:56 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f0134-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:48 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlEk022439;
- Tue, 1 Oct 2019 23:47:25 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 2v9y57yd5d-1
+ Tue, 01 Oct 2019 19:47:56 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkEW027150;
+ Tue, 1 Oct 2019 23:47:55 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bjf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:25 +0000
+ Tue, 01 Oct 2019 23:47:55 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlOdR47513940
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NltOq16122740
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:24 GMT
+ Tue, 1 Oct 2019 23:47:55 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FC8B2805A;
- Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0E35F28058;
+ Tue,  1 Oct 2019 23:47:55 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 18D1E28058;
- Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DC6AD2805A;
+ Tue,  1 Oct 2019 23:47:54 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:54 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/97] iotests: add iotest 256 for testing blockdev-backup
- across iothread contexts
-Date: Tue,  1 Oct 2019 18:45:02 -0500
-Message-Id: <20191001234616.7825-24-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 79/97] iotests: Restrict file Python tests to file
+Date: Tue,  1 Oct 2019 18:45:58 -0500
+Message-Id: <20191001234616.7825-80-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -76,7 +76,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,290 +88,330 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190523170643.20794-6-jsnow@redhat.com
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-[mreitz: Moved from 250 to 256]
+Most of our Python unittest-style tests only support the file protocol.
+You can run them with any other protocol, but the test will simply
+ignore your choice and use file anyway.
+
+We should let them signal that they require the file protocol so they
+are skipped when you want to test some other protocol.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit ba7704f2228f16ed61b9903801e28e17666c7e38)
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit 103cbc771e5660d1f5bb458be80aa9e363547ae0)
+ Conflicts:
+	tests/qemu-iotests/257
+*drop changes for test 257, not present in 4.0
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/256     | 122 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/256.out | 119 ++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 242 insertions(+)
- create mode 100755 tests/qemu-iotests/256
- create mode 100644 tests/qemu-iotests/256.out
+ tests/qemu-iotests/030 | 3 ++-
+ tests/qemu-iotests/040 | 3 ++-
+ tests/qemu-iotests/041 | 3 ++-
+ tests/qemu-iotests/044 | 3 ++-
+ tests/qemu-iotests/045 | 3 ++-
+ tests/qemu-iotests/055 | 3 ++-
+ tests/qemu-iotests/056 | 3 ++-
+ tests/qemu-iotests/057 | 3 ++-
+ tests/qemu-iotests/065 | 3 ++-
+ tests/qemu-iotests/096 | 3 ++-
+ tests/qemu-iotests/118 | 3 ++-
+ tests/qemu-iotests/124 | 3 ++-
+ tests/qemu-iotests/129 | 3 ++-
+ tests/qemu-iotests/132 | 3 ++-
+ tests/qemu-iotests/139 | 3 ++-
+ tests/qemu-iotests/148 | 3 ++-
+ tests/qemu-iotests/151 | 3 ++-
+ tests/qemu-iotests/152 | 3 ++-
+ tests/qemu-iotests/155 | 3 ++-
+ tests/qemu-iotests/163 | 3 ++-
+ tests/qemu-iotests/165 | 3 ++-
+ tests/qemu-iotests/169 | 3 ++-
+ tests/qemu-iotests/196 | 3 ++-
+ tests/qemu-iotests/199 | 3 ++-
+ tests/qemu-iotests/245 | 3 ++-
+ 25 files changed, 50 insertions(+), 25 deletions(-)
 
-diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256
-new file mode 100755
-index 0000000000..c594a43205
---- /dev/null
-+++ b/tests/qemu-iotests/256
-@@ -0,0 +1,122 @@
-+#!/usr/bin/env python
-+#
-+# Test incremental/backup across iothread contexts
-+#
-+# Copyright (c) 2019 John Snow for Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+# owner=jsnow@redhat.com
-+
-+import os
-+import iotests
-+from iotests import log
-+
-+iotests.verify_image_format(supported_fmts=['qcow2'])
-+size = 64 * 1024 * 1024
-+
-+with iotests.FilePath('img0') as img0_path, \
-+     iotests.FilePath('img1') as img1_path, \
-+     iotests.FilePath('img0-full') as img0_full_path, \
-+     iotests.FilePath('img1-full') as img1_full_path, \
-+     iotests.FilePath('img0-incr') as img0_incr_path, \
-+     iotests.FilePath('img1-incr') as img1_incr_path, \
-+     iotests.VM() as vm:
-+
-+    def create_target(filepath, name, size):
-+        basename = os.path.basename(filepath)
-+        nodename = "file_{}".format(basename)
-+        log(vm.command('blockdev-create', job_id='job1',
-+                       options={
-+                           'driver': 'file',
-+                           'filename': filepath,
-+                           'size': 0,
-+                       }))
-+        vm.run_job('job1')
-+        log(vm.command('blockdev-add', driver='file',
-+                       node_name=nodename, filename=filepath))
-+        log(vm.command('blockdev-create', job_id='job2',
-+                       options={
-+                           'driver': iotests.imgfmt,
-+                           'file': nodename,
-+                           'size': size,
-+                       }))
-+        vm.run_job('job2')
-+        log(vm.command('blockdev-add', driver=iotests.imgfmt,
-+                       node_name=name,
-+                       file=nodename))
-+
-+    log('--- Preparing images & VM ---\n')
-+    vm.add_object('iothread,id=iothread0')
-+    vm.add_object('iothread,id=iothread1')
-+    vm.add_device('virtio-scsi-pci,id=scsi0,iothread=iothread0')
-+    vm.add_device('virtio-scsi-pci,id=scsi1,iothread=iothread1')
-+    iotests.qemu_img_create('-f', iotests.imgfmt, img0_path, str(size))
-+    iotests.qemu_img_create('-f', iotests.imgfmt, img1_path, str(size))
-+    vm.add_drive(img0_path, interface='none')
-+    vm.add_device('scsi-hd,id=device0,drive=drive0,bus=scsi0.0')
-+    vm.add_drive(img1_path, interface='none')
-+    vm.add_device('scsi-hd,id=device1,drive=drive1,bus=scsi1.0')
-+
-+    log('--- Starting VM ---\n')
-+    vm.launch()
-+
-+    log('--- Create Targets & Full Backups ---\n')
-+    create_target(img0_full_path, 'img0-full', size)
-+    create_target(img1_full_path, 'img1-full', size)
-+    ret = vm.qmp_log('transaction', indent=2, actions=[
-+        { 'type': 'block-dirty-bitmap-add',
-+          'data': { 'node': 'drive0', 'name': 'bitmap0' }},
-+        { 'type': 'block-dirty-bitmap-add',
-+          'data': { 'node': 'drive1', 'name': 'bitmap1' }},
-+        { 'type': 'blockdev-backup',
-+          'data': { 'device': 'drive0',
-+                    'target': 'img0-full',
-+                    'sync': 'full',
-+                    'job-id': 'j0' }},
-+        { 'type': 'blockdev-backup',
-+          'data': { 'device': 'drive1',
-+                    'target': 'img1-full',
-+                    'sync': 'full',
-+                    'job-id': 'j1' }}
-+    ])
-+    if "error" in ret:
-+        raise Exception(ret['error']['desc'])
-+    vm.run_job('j0', auto_dismiss=True)
-+    vm.run_job('j1', auto_dismiss=True)
-+
-+    log('\n--- Create Targets & Incremental Backups ---\n')
-+    create_target(img0_incr_path, 'img0-incr', size)
-+    create_target(img1_incr_path, 'img1-incr', size)
-+    ret = vm.qmp_log('transaction', indent=2, actions=[
-+        { 'type': 'blockdev-backup',
-+          'data': { 'device': 'drive0',
-+                    'target': 'img0-incr',
-+                    'sync': 'incremental',
-+                    'bitmap': 'bitmap0',
-+                    'job-id': 'j2' }},
-+        { 'type': 'blockdev-backup',
-+          'data': { 'device': 'drive1',
-+                    'target': 'img1-incr',
-+                    'sync': 'incremental',
-+                    'bitmap': 'bitmap1',
-+                    'job-id': 'j3' }}
-+    ])
-+    if "error" in ret:
-+        raise Exception(ret['error']['desc'])
-+    vm.run_job('j2', auto_dismiss=True)
-+    vm.run_job('j3', auto_dismiss=True)
-+
-+    log('\n--- Done ---')
-+    vm.shutdown()
-diff --git a/tests/qemu-iotests/256.out b/tests/qemu-iotests/256.out
-new file mode 100644
-index 0000000000..eec38614ec
---- /dev/null
-+++ b/tests/qemu-iotests/256.out
-@@ -0,0 +1,119 @@
-+--- Preparing images & VM ---
-+
-+--- Starting VM ---
-+
-+--- Create Targets & Full Backups ---
-+
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job1"}}
-+{"return": {}}
-+{}
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job2"}}
-+{"return": {}}
-+{}
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job1"}}
-+{"return": {}}
-+{}
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job2"}}
-+{"return": {}}
-+{}
-+{
-+  "execute": "transaction",
-+  "arguments": {
-+    "actions": [
-+      {
-+        "data": {
-+          "name": "bitmap0",
-+          "node": "drive0"
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap1",
-+          "node": "drive1"
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "device": "drive0",
-+          "job-id": "j0",
-+          "sync": "full",
-+          "target": "img0-full"
-+        },
-+        "type": "blockdev-backup"
-+      },
-+      {
-+        "data": {
-+          "device": "drive1",
-+          "job-id": "j1",
-+          "sync": "full",
-+          "target": "img1-full"
-+        },
-+        "type": "blockdev-backup"
-+      }
-+    ]
-+  }
-+}
-+{
-+  "return": {}
-+}
-+{"data": {"device": "j0", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "j1", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+
-+--- Create Targets & Incremental Backups ---
-+
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job1"}}
-+{"return": {}}
-+{}
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job2"}}
-+{"return": {}}
-+{}
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job1"}}
-+{"return": {}}
-+{}
-+{}
-+{"execute": "job-dismiss", "arguments": {"id": "job2"}}
-+{"return": {}}
-+{}
-+{
-+  "execute": "transaction",
-+  "arguments": {
-+    "actions": [
-+      {
-+        "data": {
-+          "bitmap": "bitmap0",
-+          "device": "drive0",
-+          "job-id": "j2",
-+          "sync": "incremental",
-+          "target": "img0-incr"
-+        },
-+        "type": "blockdev-backup"
-+      },
-+      {
-+        "data": {
-+          "bitmap": "bitmap1",
-+          "device": "drive1",
-+          "job-id": "j3",
-+          "sync": "incremental",
-+          "target": "img1-incr"
-+        },
-+        "type": "blockdev-backup"
-+      }
-+    ]
-+  }
-+}
-+{
-+  "return": {}
-+}
-+{"data": {"device": "j2", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "j3", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+
-+--- Done ---
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 19e2bb3aec..7aa6dc9875 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -250,3 +250,4 @@
- 248 rw auto quick
- 253 rw auto quick
- 255 rw auto quick
-+256 rw auto quick
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index c6311d1825..cb550812a7 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -865,4 +865,5 @@ class TestSetSpeed(iotests.QMPTestCase):
+         self.cancel_and_wait(resume=True)
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2', 'qed'])
++    iotests.main(supported_fmts=['qcow2', 'qed'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index b81133a474..e2ca706117 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -395,4 +395,5 @@ class TestReopenOverlay(ImageCommitTestCase):
+         self.run_commit_test(self.img1, self.img0)
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2', 'qed'])
++    iotests.main(supported_fmts=['qcow2', 'qed'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 26bf1701eb..ae6ed952c6 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -1068,4 +1068,5 @@ class TestOrphanedSource(iotests.QMPTestCase):
+         self.assert_qmp(result, 'error/class', 'GenericError')
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2', 'qed'])
++    iotests.main(supported_fmts=['qcow2', 'qed'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+index 9ec3dba734..05ea1f49c5 100755
+--- a/tests/qemu-iotests/044
++++ b/tests/qemu-iotests/044
+@@ -118,4 +118,5 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
+         pass
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/045 b/tests/qemu-iotests/045
+index d5484a0ee1..01cc038884 100755
+--- a/tests/qemu-iotests/045
++++ b/tests/qemu-iotests/045
+@@ -175,4 +175,5 @@ class TestSCMFd(iotests.QMPTestCase):
+             "File descriptor named '%s' not found" % fdname)
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['raw'])
++    iotests.main(supported_fmts=['raw'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/055 b/tests/qemu-iotests/055
+index 3437c11507..c732a112d6 100755
+--- a/tests/qemu-iotests/055
++++ b/tests/qemu-iotests/055
+@@ -563,4 +563,5 @@ class TestDriveCompression(iotests.QMPTestCase):
+                                         target='drive1')
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['raw', 'qcow2'])
++    iotests.main(supported_fmts=['raw', 'qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/056 b/tests/qemu-iotests/056
+index e5ac25127b..ce7adf9174 100755
+--- a/tests/qemu-iotests/056
++++ b/tests/qemu-iotests/056
+@@ -335,4 +335,5 @@ class BackupTest(iotests.QMPTestCase):
+         self.dismissal_failure(True)
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2', 'qed'])
++    iotests.main(supported_fmts=['qcow2', 'qed'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/057 b/tests/qemu-iotests/057
+index 9f0a5a3057..9fbba759b6 100755
+--- a/tests/qemu-iotests/057
++++ b/tests/qemu-iotests/057
+@@ -256,4 +256,5 @@ class TestSnapshotDelete(ImageSnapshotTestCase):
+         self.assert_qmp(result, 'error/class', 'GenericError')
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+index 8bac383ea7..5b21eb96bd 100755
+--- a/tests/qemu-iotests/065
++++ b/tests/qemu-iotests/065
+@@ -129,4 +129,5 @@ TestQemuImgInfo = None
+ TestQMP = None
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/096 b/tests/qemu-iotests/096
+index a69439602d..ab9cb47822 100755
+--- a/tests/qemu-iotests/096
++++ b/tests/qemu-iotests/096
+@@ -67,4 +67,5 @@ class TestLiveSnapshot(iotests.QMPTestCase):
+         self.checkConfig('target')
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
+index 603e10e8a2..c854378281 100755
+--- a/tests/qemu-iotests/118
++++ b/tests/qemu-iotests/118
+@@ -703,4 +703,5 @@ if __name__ == '__main__':
+                        iotests.qemu_default_machine)
+     # Need to support image creation
+     iotests.main(supported_fmts=['vpc', 'parallels', 'qcow', 'vdi', 'qcow2',
+-                                 'vmdk', 'raw', 'vhdx', 'qed'])
++                                 'vmdk', 'raw', 'vhdx', 'qed'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
+index 3440f54781..ca40ba3be2 100755
+--- a/tests/qemu-iotests/124
++++ b/tests/qemu-iotests/124
+@@ -779,4 +779,5 @@ class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
+ 
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
+index 9e87e1c8d9..cd6b9e9ce7 100755
+--- a/tests/qemu-iotests/129
++++ b/tests/qemu-iotests/129
+@@ -83,4 +83,5 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+         self.do_test_stop("block-commit", device="drive0")
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=["qcow2"])
++    iotests.main(supported_fmts=["qcow2"],
++                 supported_protocols=["file"])
+diff --git a/tests/qemu-iotests/132 b/tests/qemu-iotests/132
+index f53ef6e391..0f2a106c81 100755
+--- a/tests/qemu-iotests/132
++++ b/tests/qemu-iotests/132
+@@ -56,4 +56,5 @@ class TestSingleDrive(iotests.QMPTestCase):
+                         'target image does not match source after mirroring')
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['raw', 'qcow2'])
++    iotests.main(supported_fmts=['raw', 'qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/139 b/tests/qemu-iotests/139
+index 933b45121a..8dc839ec7e 100755
+--- a/tests/qemu-iotests/139
++++ b/tests/qemu-iotests/139
+@@ -361,4 +361,5 @@ class TestBlockdevDel(iotests.QMPTestCase):
+ 
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=["qcow2"])
++    iotests.main(supported_fmts=["qcow2"],
++                 supported_protocols=["file"])
+diff --git a/tests/qemu-iotests/148 b/tests/qemu-iotests/148
+index e01b061fe7..8c11c53cba 100755
+--- a/tests/qemu-iotests/148
++++ b/tests/qemu-iotests/148
+@@ -137,4 +137,5 @@ class TestFifoQuorumEvents(TestQuorumEvents):
+ 
+ if __name__ == '__main__':
+     iotests.verify_quorum()
+-    iotests.main(supported_fmts=["raw"])
++    iotests.main(supported_fmts=["raw"],
++                 supported_protocols=["file"])
+diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
+index ad7359fc8d..76ae265cc1 100755
+--- a/tests/qemu-iotests/151
++++ b/tests/qemu-iotests/151
+@@ -142,4 +142,5 @@ class TestActiveMirror(iotests.QMPTestCase):
+ 
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2', 'raw'])
++    iotests.main(supported_fmts=['qcow2', 'raw'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/152 b/tests/qemu-iotests/152
+index fec546d033..732bf5f062 100755
+--- a/tests/qemu-iotests/152
++++ b/tests/qemu-iotests/152
+@@ -59,4 +59,5 @@ class TestUnaligned(iotests.QMPTestCase):
+ 
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['raw', 'qcow2'])
++    iotests.main(supported_fmts=['raw', 'qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
+index 63a5b5e2c0..e19485911c 100755
+--- a/tests/qemu-iotests/155
++++ b/tests/qemu-iotests/155
+@@ -258,4 +258,5 @@ BaseClass = None
+ MirrorBaseClass = None
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+index 158ba5d092..081ccc8ac1 100755
+--- a/tests/qemu-iotests/163
++++ b/tests/qemu-iotests/163
+@@ -170,4 +170,5 @@ class TestShrink1M(ShrinkBaseClass):
+ ShrinkBaseClass = None
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['raw', 'qcow2'])
++    iotests.main(supported_fmts=['raw', 'qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
+index 88f62d3c6d..5650dc7c87 100755
+--- a/tests/qemu-iotests/165
++++ b/tests/qemu-iotests/165
+@@ -103,4 +103,5 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
+         self.vm.shutdown()
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/169 b/tests/qemu-iotests/169
+index 527aebd0cb..25924d68fc 100755
+--- a/tests/qemu-iotests/169
++++ b/tests/qemu-iotests/169
+@@ -222,4 +222,5 @@ for cmb in list(itertools.product((True, False), repeat=2)):
+                      'do_test_migration_resume_source', *list(cmb))
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/196 b/tests/qemu-iotests/196
+index 4116ebc92b..92fe9244f8 100755
+--- a/tests/qemu-iotests/196
++++ b/tests/qemu-iotests/196
+@@ -63,4 +63,5 @@ class TestInvalidateAutoclear(iotests.QMPTestCase):
+             self.assertEqual(f.read(1), b'\x00')
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
+index 651e8df5d9..a2c8ecab5a 100755
+--- a/tests/qemu-iotests/199
++++ b/tests/qemu-iotests/199
+@@ -115,4 +115,5 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.assert_qmp(result, 'return/sha256', sha256);
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'], supported_cache_modes=['none'])
++    iotests.main(supported_fmts=['qcow2'], supported_cache_modes=['none'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index a04c6235c1..fbfd624878 100644
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -994,4 +994,5 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.reopen(opts, {'backing': 'hd2'})
+ 
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=["qcow2"])
++    iotests.main(supported_fmts=["qcow2"],
++                 supported_protocols=["file"])
 -- 
 2.17.1
 
