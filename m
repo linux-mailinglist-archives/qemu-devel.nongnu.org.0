@@ -2,51 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AD4C3E23
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:07:21 +0200 (CEST)
-Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D675AC3E2F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:09:04 +0200 (CEST)
+Received: from localhost ([::1]:45361 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLcO-0002CF-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1iFLe3-0004pH-TU
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iFLS2-00081s-Be
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:56:39 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFLX1-0005Yf-Lu
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:01:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iFLS0-0003T0-NL
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:56:37 -0400
-Received: from 1.mo178.mail-out.ovh.net ([178.33.251.53]:33142)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iFLS0-0003QC-Gn
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:56:36 -0400
-Received: from player779.ha.ovh.net (unknown [10.109.160.239])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 369377A6E4
- for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 18:56:33 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player779.ha.ovh.net (Postfix) with ESMTPSA id 21E18A5948A0;
- Tue,  1 Oct 2019 16:56:30 +0000 (UTC)
-Date: Tue, 1 Oct 2019 18:56:28 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] spapr/xive: skip partially initialized vCPUs in presenter
-Message-ID: <20191001185629.0b284ba1@bahia.lan>
-In-Reply-To: <fad6aae9-8722-498c-730d-fa204f07e3c5@kaod.org>
-References: <20191001085722.32755-1-clg@kaod.org>
- <20191001130614.226ef6a2@bahia.w3ibm.bluemix.net>
- <fad6aae9-8722-498c-730d-fa204f07e3c5@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFLX0-0006Y9-Cf
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:01:47 -0400
+Received: from mail-eopbgr130108.outbound.protection.outlook.com
+ ([40.107.13.108]:45568 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iFLWn-0006Pd-6y; Tue, 01 Oct 2019 13:01:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EdjmK3TH0TK00GWylf03iBn+2n7hCh8ShgL4S4WdOraNMnGwop/DNTrOnPO+/la0ZVMSpblwGEnXwEZgKwWgTZR/D1Zjp1qCPCYqSZSj4kaEdSXwWrLX/VW6EqWgGz0rt6oKvMpqZssjs6Kf0N/RTRD5tR1EPJ56fuQ1Qn4lQphu8+H3yC8R2Fm2eWBvOY9qBcOxWS+5DtYNfy7BrcWIrhfyo4B8e4zJaOUzO46ZM4WovaK4J0gBtRTfaleAKeHKozETp+zp6+IODnHCEGhgMmwSyHummSDqXi7ea7tbxtDhElE/gtgQsICxlyBTUrYWmjAT+KBpYL7PGZ2zz4g9Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6OjW1by2mWMAkYMl3ms0D8s3cbWftzOzHuRtM4+N1eo=;
+ b=CLtuWngS4vptthazMTEvwg+E0DrLDGfPeZnsPPgVWyle3rRUo102l3J2ZpSI/SplXfL0kzAtw/CXz8Wj7yEL1j93WkrXtI26lgUq9i8YannODvA5b8G0OyZvdUdPzgcxjvnXuJQlfnmommd/bodlQ/V34OoFCHm7Wtl1KZgr71ajZf315UszGCuOxFoe+16ELk8E8x9ps6NBeeHkp303TJ0T2Ckk/CZZ973f3ynF/7Y3QpOnF855OdR5N797+vxUKx+KT6DdWxQtVaOyfGCbDuzi/DcGF8F9vXzqvwi6LasN8WdAoga7Vuf81hrRMJJ+RqB1E1UwPbKbQvjJLr/NqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6OjW1by2mWMAkYMl3ms0D8s3cbWftzOzHuRtM4+N1eo=;
+ b=qQv5DGlQqtRoPNpb/YOJMYwiY8NaluIm1oESwGXD8yqGeHsvVw0FmoSrfIvcOdnvVDtSVKdjqWy78lfj/Ip1FOqv4BRtweL+Ispqy/RCaSzAUd9a2ec/sUwGUP5Wprehjq1CVnrOFXQ0jhK4urzV1qwQYUFTuBqIMgOuNUw1Kzk=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5259.eurprd08.prod.outlook.com (20.179.15.205) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.20; Tue, 1 Oct 2019 17:01:30 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2305.017; Tue, 1 Oct 2019
+ 17:01:30 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v4 05/31] scripts: add script to fix
+ error_append_hint/error_prepend usage
+Thread-Topic: [PATCH v4 05/31] scripts: add script to fix
+ error_append_hint/error_prepend usage
+Thread-Index: AQHVeHBjzF1lxlZN2U+wmo61d0343KdF9+KAgAAK9IA=
+Date: Tue, 1 Oct 2019 17:01:29 +0000
+Message-ID: <ee73f70e-61f5-19d5-0da6-dbc357b60af1@virtuozzo.com>
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-6-vsementsov@virtuozzo.com>
+ <cc20df9c-75e4-6139-c6ff-de0622b59104@redhat.com>
+In-Reply-To: <cc20df9c-75e4-6139-c6ff-de0622b59104@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0502CA0004.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::14) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191001200125111
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5d2406d4-1fde-48fb-5275-08d746910107
+x-ms-traffictypediagnostic: DB8PR08MB5259:
+x-microsoft-antispam-prvs: <DB8PR08MB5259F2F591CFC72D5539DFE2C19D0@DB8PR08MB5259.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0177904E6B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(396003)(346002)(39840400004)(366004)(376002)(189003)(199004)(25786009)(66946007)(31696002)(36756003)(6512007)(5660300002)(31686004)(6436002)(2906002)(478600001)(6116002)(3846002)(7736002)(4326008)(305945005)(7406005)(6486002)(66476007)(64756008)(229853002)(66446008)(66556008)(6246003)(2501003)(8936002)(53546011)(26005)(186003)(99286004)(7416002)(476003)(110136005)(486006)(11346002)(8676002)(446003)(52116002)(316002)(81166006)(71200400001)(81156014)(2616005)(54906003)(86362001)(71190400001)(66066001)(386003)(14454004)(14444005)(256004)(6506007)(102836004)(76176011);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5259;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2MAA82XRVgPlRc05MYmTWoJhtqMkBxtCRr+HDCWtxWKNTn79e8T9jlEaQRYP4WqKznxCRC0nMdSyoIO7Q8coMSRxqbnAank4Mk0IYqWRwyJjGXnytSQVRTuP5Q/rKugDjBW8ZSgF2dz1SDBLv3W5ERA5cn8agcrVw91F+3Hayra1R4A8MoZ3DUeejnFLvaaTJsg6BU7wS9v4M2Ur7nYjrD4ek/rsovuUPUoF+/4TsoEO2CyvgB/gkyKnD41qFaLBt/X4WBcrF6QdeJ2eCJabzX7amRaDwtcwRcYxGlEh3xJ3zj/bv7QCyUQzv+10ORFwunCBeoD+7lucz1+MWINNoJC/Y5FmHObChRiQz441zEz5LvOKtFskavPEB8RVWya8l9FsPNe6OZnohm31V2rWuju2X+TGUcO1XfJt0NdLWzk=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F0657E8B5F413F4FB877B0F4185213BB@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 9601955884510714251
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrgeeggddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 178.33.251.53
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d2406d4-1fde-48fb-5275-08d746910107
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2019 17:01:29.8934 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sn44L3FHVh1/C0Ho5MvMs9y+aX3r11nUD0ict228fXAHXqS9+hiTx/MW+Apni83hjetFH1yi5AUDsf/8oBIcQkQCABkBtkmzmvjLUZ8YRno=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5259
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.108
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,168 +112,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "pburton@wavecomp.com" <pburton@wavecomp.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "codyprime@gmail.com" <codyprime@gmail.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "arikalo@wavecomp.com" <arikalo@wavecomp.com>,
+ "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+ "joel@jms.id.au" <joel@jms.id.au>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "sw@weilnetz.de" <sw@weilnetz.de>,
+ "groug@kaod.org" <groug@kaod.org>,
+ "yuval.shaia@oracle.com" <yuval.shaia@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "clg@kaod.org" <clg@kaod.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "david@redhat.com" <david@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "kwolf@redhat.com" <kwolf@redhat.com>,
+ "integration@gluster.org" <integration@gluster.org>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "andrew@aj.id.au" <andrew@aj.id.au>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Oct 2019 13:56:10 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-
-> On 01/10/2019 13:06, Greg Kurz wrote:
-> > On Tue,  1 Oct 2019 10:57:22 +0200
-> > C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> >=20
-> >> When vCPUs are hotplugged, they are added to the QEMU CPU list before
-> >> being fully realized. This can crash the XIVE presenter because the
-> >> 'tctx' pointer is not necessarily initialized when looking for a
-> >> matching target.
-> >>
-> >=20
-> > Ouch... :-\
-> >=20
-> >> These vCPUs are not valid targets for the presenter. Skip them.
-> >>
-> >=20
-> > This likely fixes this specific issue, but more generally, this
-> > seems to indicate that using CPU_FOREACH() is rather fragile.
-> >=20
-> > What about tracking XIVE TM contexts with a QLIST in xive.c ?
->=20
-> This is a good idea. =20
->=20
-> On HW, the thread interrupt contexts belong to the XIVE presenter=20
-> subengine. This is the logic doing the CAM line matching to find
-> a target for an event notification. So we should model the context=20
-> list below the XiveRouter in QEMU which models both router and=20
-> presenter subengines. We have done without a presenter model for=20
-> the moment and I don't think we will need to introduce one. =20
->=20
-> This would be a nice improvements of my patchset adding support
-> for xive escalations and better support of multi chip systems.=20
-> I have introduced a PNV_CHIP_CPU_FOREACH in this patchset which=20
-> would become useless with a list of tctx under the XIVE interrupt
-> controller, XiveRouter, SpaprXive, PnvXive.
->=20
-
-I agree. It makes more sense to have the list below the XiveRouter,
-rather than relying on CPU_FOREACH(), which looks a bit weird from
-a device emulation code perspective.
-
-> Next step would be to get rid of the tctx->cs pointer. In my latest
-> patches, it is only used to calculate the HW CAM line.=20
->=20
-> There might be some consequences on the object hierarchy and it will
-> break migration.
->=20
-
-This could break if the contexts were devices sitting in a bus, which
-isn't the case here. I'll try to come up with a proposal for spapr,
-and we can work out the changes on your recent XIVE series for pnv.
-
-> Thanks,
->=20
-> C.
->=20
-> >=20
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> > index 6d38755f8459..89b9ef7f20b1 100644
-> > --- a/include/hw/ppc/xive.h
-> > +++ b/include/hw/ppc/xive.h
-> > @@ -319,6 +319,8 @@ typedef struct XiveTCTX {
-> >      qemu_irq    os_output;
-> > =20
-> >      uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
-> > +
-> > +    QTAILQ_ENTRY(XiveTCTX) next;
-> >  } XiveTCTX;
-> > =20
-> >  /*
-> > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> > index b7417210d817..f7721c711041 100644
-> > --- a/hw/intc/xive.c
-> > +++ b/hw/intc/xive.c
-> > @@ -568,6 +568,8 @@ static void xive_tctx_reset(void *dev)
-> >          ipb_to_pipr(tctx->regs[TM_QW3_HV_PHYS + TM_IPB]);
-> >  }
-> > =20
-> > +static QTAILQ_HEAD(, XiveTCTX) xive_tctx_list =3D QTAILQ_HEAD_INITIALI=
-ZER(xive_tctx_list);
-> > +
-> >  static void xive_tctx_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      XiveTCTX *tctx =3D XIVE_TCTX(dev);
-> > @@ -609,10 +611,14 @@ static void xive_tctx_realize(DeviceState *dev, E=
-rror **errp)
-> >      }
-> > =20
-> >      qemu_register_reset(xive_tctx_reset, dev);
-> > +    QTAILQ_INSERT_HEAD(&xive_tctx_list, tctx, next);
-> >  }
-> > =20
-> >  static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
-> >  {
-> > +    XiveTCTX *tctx =3D XIVE_TCTX(dev);
-> > +
-> > +    QTAILQ_REMOVE(&xive_tctx_list, tctx, next);
-> >      qemu_unregister_reset(xive_tctx_reset, dev);
-> >  }
-> > =20
-> > @@ -1385,15 +1391,14 @@ static bool xive_presenter_match(XiveRouter *xr=
-tr, uint8_t format,
-> >                                   bool cam_ignore, uint8_t priority,
-> >                                   uint32_t logic_serv, XiveTCTXMatch *m=
-atch)
-> >  {
-> > -    CPUState *cs;
-> > +    XiveTCTX *tctx;
-> > =20
-> >      /*
-> >       * TODO (PowerNV): handle chip_id overwrite of block field for
-> >       * hardwired CAM compares
-> >       */
-> > =20
-> > -    CPU_FOREACH(cs) {
-> > -        XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
-> > +    QTAILQ_FOREACH(tctx, &xive_tctx_list, next) {
-> >          int ring;
-> > =20
-> >          /*
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> >> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> >> ---
-> >>  hw/intc/xive.c | 8 ++++++++
-> >>  1 file changed, 8 insertions(+)
-> >>
-> >> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> >> index b7417210d817..29df06df1136 100644
-> >> --- a/hw/intc/xive.c
-> >> +++ b/hw/intc/xive.c
-> >> @@ -1396,6 +1396,14 @@ static bool xive_presenter_match(XiveRouter *xr=
-tr, uint8_t format,
-> >>          XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
-> >>          int ring;
-> >> =20
-> >> +        /*
-> >> +         * Skip partially initialized vCPUs. This can happen when
-> >> +         * vCPUs are hotplugged.
-> >> +         */
-> >> +        if (!tctx) {
-> >> +            continue;
-> >> +        }
-> >> +
-> >>          /*
-> >>           * HW checks that the CPU is enabled in the Physical Thread
-> >>           * Enable Register (PTER).
-> >=20
->=20
-
+MDEuMTAuMjAxOSAxOToyMiwgRXJpYyBCbGFrZSB3cm90ZToNCj4gT24gMTAvMS8xOSAxMDo1MiBB
+TSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IGVycm9yX2FwcGVuZF9o
+aW50IGFuZCBlcnJvcl9wcmVwZW5kIHdpbGwgbm90IHdvcmssIGlmIGVycnAgPT0NCj4+ICZmYXRh
+bF9lcnJvciwgYXMgcHJvZ3JhbSB3aWxsIGV4aXQgYmVmb3JlIGVycm9yX2FwcGVuZF9oaW50IG9y
+DQo+PiBlcnJvcl9wcmVwZW5kIGNhbGwuIEZpeCB0aGlzIGJ5IHVzZSBvZiBzcGVjaWFsIG1hY3Jv
+DQo+PiBFUlJQX0FVVE9fUFJPUEFHQVRFLg0KPiANCj4gVGhpcyBwYXRjaCBkb2Vzbid0IGFjdHVh
+bGx5IGZpeCBhbnkgY29kZSwgYnV0IGFkZHMgdGhlIHNjcmlwdCB0byBlbmFibGUgYXV0b21hdGlu
+ZyB0aGUgZml4aW5nIG9mIHRoZSBjb2RlIGluIHN1YnNlcXVlbnQgcGF0Y2hlcy7CoCBUd2Vha2lu
+ZyB0aGUgY29tbWl0IG1lc3NhZ2UgdG8gbWFrZSB0aGF0IHBvaW50IGNsZWFyIG1pZ2h0IGJlIGhl
+bHBmdWwuDQoNCkhtbSwgc28sIG1heWJlLCBzd2l0Y2ggIkZpeCB0aGlzIGJ5IHVzZSAuLi4iIHRv
+DQoNClRvIGZpeCBjb2RlIHdpdGggaGVscCBvZiB0aGlzIHNjcmlwdCBkbw0Kc3BhdGNoIC0tc3At
+ZmlsZSBzY3JpcHRzL2NvY2NpbmVsbGUvZml4LWVycm9yLWFkZC1pbmZvLmNvY2NpIEZJTEVfVE9f
+RklYDQoNCg0KPiANCj4gDQo+PiDCoCBzY3JpcHRzL2NvY2NpbmVsbGUvZml4LWVycm9yLWFkZC1p
+bmZvLmNvY2NpIHwgMjggKysrKysrKysrKysrKysrKysrKysrDQo+PiDCoCAxIGZpbGUgY2hhbmdl
+ZCwgMjggaW5zZXJ0aW9ucygrKQ0KPj4gwqAgY3JlYXRlIG1vZGUgMTAwNjQ0IHNjcmlwdHMvY29j
+Y2luZWxsZS9maXgtZXJyb3ItYWRkLWluZm8uY29jY2kNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvc2Ny
+aXB0cy9jb2NjaW5lbGxlL2ZpeC1lcnJvci1hZGQtaW5mby5jb2NjaSBiL3NjcmlwdHMvY29jY2lu
+ZWxsZS9maXgtZXJyb3ItYWRkLWluZm8uY29jY2kNCj4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+
+PiBpbmRleCAwMDAwMDAwMDAwLi4zNGZhM2JlNzIwDQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysg
+Yi9zY3JpcHRzL2NvY2NpbmVsbGUvZml4LWVycm9yLWFkZC1pbmZvLmNvY2NpDQo+PiBAQCAtMCww
+ICsxLDI4IEBADQo+PiArQHJ1bGUwQA0KPj4gKy8vIEFkZCBpbnZvY2F0aW9uIHRvIGVycnAtZnVu
+Y3Rpb25zDQo+PiAraWRlbnRpZmllciBmbjsNCj4+ICtAQA0KPj4gKw0KPj4gKyBmbiguLi4sIEVy
+cm9yICoqZXJycCwgLi4uKQ0KPj4gKyB7DQo+PiArK8KgwqAgRVJSUF9BVVRPX1BST1BBR0FURSgp
+Ow0KPj4gK8KgwqDCoCA8Ky4uLg0KPj4gKygNCj4+ICvCoMKgwqAgZXJyb3JfYXBwZW5kX2hpbnQo
+ZXJycCwgLi4uKTsNCj4+ICt8DQo+PiArwqDCoMKgIGVycm9yX3ByZXBlbmQoZXJycCwgLi4uKTsN
+Cj4+ICspDQo+IA0KPiBTbywgZm9yIG5vdywgeW91IGFyZW4ndCBhZGRyZXNzaW5nIGFueSAqZXJy
+cCB1c2FnZSwgb3IgYW55IHBvdGVudGlhbCBjbGVhbnVwcyBvZiBlcnJvcl9wcm9wYWdhdGUuwqAg
+QnV0IHRoYXQncyBva2F5OyB5b3VyIGNvdmVyIGxldHRlciBkaWQgY2FsbCBvdXQgdGhhdCB5b3Ug
+d2VyZSBvbmx5IGFkZHJlc3NpbmcgMSBwYXJ0IG91dCBvZiAzIHBvdGVudGlhbCB1c2VzIGp1c3Qg
+dG8gZ2V0IHNvbWUgbW90aW9uLCBiYXNlZCBvbiB0aGUgc2l6ZSBvZiB0aGUgZWZmb3J0Lg0KPiAN
+Cj4+ICvCoMKgwqAgLi4uKz4NCj4+ICsgfQ0KPj4gKw0KPj4gK0BADQo+PiArLy8gRHJvcCBkb3Vi
+bGVkIGludm9jYXRpb24NCj4+ICtpZGVudGlmaWVyIHJ1bGUwLmZuOw0KPj4gK0BADQo+PiArDQo+
+PiArIGZuKC4uLikNCj4+ICt7DQo+PiArwqDCoMKgIEVSUlBfQVVUT19QUk9QQUdBVEUoKTsNCj4+
+ICstwqDCoCBFUlJQX0FVVE9fUFJPUEFHQVRFKCk7DQo+PiArwqDCoMKgIC4uLg0KPj4gK30NCj4+
+DQo+IA0KPiBUaGlzIGxvb2tzIGlkZW1wb3RlbnQgb25jZSBhIGZpbGUgaXMgcGF0Y2hlZCwgYW5k
+IHNhZmUgdG8gcmVydW4gYXMgbWFueSB0aW1lcyBpbiB0aGUgZnV0dXJlIGFzIG5lZWRlZC7CoCBJ
+J20gc3RpbGwgaG9waW5nIHdlIGNhbiBmaW5kIGEgd2F5IHRvIG1ha2Ugc2NyaXB0cy9jaGVja3Bh
+dGNoLnBsIGFsc28gZG8gYSBzYW5pdHkgY2hlY2ssIGJ1dCBhcyBpdCdzIGhhcmRlciB0byBwYXJz
+ZSBDIGluIHBlcmwgdGhhbiBpbiBDb2NjaW5lbGxlLCBJIGNhbiBsaXZlIHdpdGgganVzdCB0aGUg
+LmNvY2NpIHNjcmlwdCBpbi10cmVlIGFzIGxvbmcgYXMgd2UgcmVtZW1iZXIgdG8gbWFudWFsbHkg
+cnVuIGl0IHBlcmlvZGljYWxseS4NCg0Kc2NyaXB0cy9jaGVja3BhdGNoLnBsIGlzIHNvIHVuZnJp
+ZW5kbHkuLiBBbmQgdG8gcnVuIGNvY2NpbmVsbGUgc2NyaXB0cyB3ZSBuZWVkDQp3b3JraW5nIGRp
+cmVjdG9yeSwgbm90IGp1c3QgcGF0Y2ggZmlsZXMuDQoNCkkgaW1hZ2luZSB0aGUgZm9sbG93aW5n
+Og0KDQptb3ZlIHNjcmlwdHMvY2hlY2twYXRjaC5wbCB0byBzY3JpcHRzL2NoZWNrcGF0Y2ggZGly
+DQoNCkNyZWF0ZSBzY3JpcHRzL2NoZWNrcGF0Y2gucHkgKG9yIHB5dGhvbi9jaGVja3BhdGNoLnB5
+LCBJIGRvbid0DQprbm93IHdoYXQgaXMgdGhlIGlkZWEgb2YgcHl0aG9uLyBkaXIpLCB3aGljaCB3
+aWxsIHdvcmsgb25seSBvbg0KY29tbWl0cyBvciBvbiBwYXRjaCBmaWxlcyB3aXRoIHNwZWNpZmll
+ZCBiYXNlIChtYXN0ZXIgYnkgZGVmYXVsdCksDQppdCB3aWxsIGNyZWF0ZSB0ZW1wb3Jhcnkgd29y
+a3RyZWUsIGNoZWNrb3V0IGNvcnJlc3BvbmRpbmcgY29tbWl0DQphbmQgdGhlbiBydW4gc2NyaXB0
+cyBmcm9tIHNjcmlwdHMvY2hlY2twYXRjaC8sIGF0IGxlYXN0IGl0IHdvdWxkIGJlDQpjaGVja3Bh
+dGNoLnBsIGFuZCBjb2NjaW5lbGxlLnNoICh3aGljaCB3aWxsIHJ1biBzb21lIGNvY2NpbmVsbGUN
+CnNjcmlwdHMgZnJvbSBjb2NjaW5lbGxlIGRpcikuLg0KDQo+IA0KPiBSZXZpZXdlZC1ieTogRXJp
+YyBCbGFrZSA8ZWJsYWtlQHJlZGhhdC5jb20+DQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0K
+VmxhZGltaXINCg==
 
