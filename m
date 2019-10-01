@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975C3C45C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:02:46 +0200 (CEST)
-Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F42AC45CD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:05:30 +0200 (CEST)
+Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTyX-0006oN-Dt
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:02:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46649)
+	id 1iFU1A-0001qk-E3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:05:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iFS0U-0001CP-3F
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:39 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iFS0Y-0001DU-0w
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iFS0P-0002YU-I3
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54426)
+ (envelope-from <jsnow@redhat.com>) id 1iFS0W-0002cn-1L
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35790)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iFS0K-0002Tc-6A; Tue, 01 Oct 2019 19:56:28 -0400
+ id 1iFS0O-0002WZ-Qs; Tue, 01 Oct 2019 19:56:33 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 518F7811BF;
- Tue,  1 Oct 2019 23:56:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0B1CA2A09CC;
+ Tue,  1 Oct 2019 23:56:31 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C81A60BE0;
- Tue,  1 Oct 2019 23:56:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7324360BE0;
+ Tue,  1 Oct 2019 23:56:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 4/8] scsi: Propagate unrealize() callback to scsi-hd
-Date: Tue,  1 Oct 2019 19:55:48 -0400
-Message-Id: <20191001235552.17790-5-jsnow@redhat.com>
+Subject: [PULL 5/8] bootdevice: Gather LCHS from all relevant devices
+Date: Tue,  1 Oct 2019 19:55:49 -0400
+Message-Id: <20191001235552.17790-6-jsnow@redhat.com>
 In-Reply-To: <20191001235552.17790-1-jsnow@redhat.com>
 References: <20191001235552.17790-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 01 Oct 2019 23:56:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Tue, 01 Oct 2019 23:56:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -71,74 +71,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-We will need to add LCHS removal logic to scsi-hd's unrealize() in the
-next commit.
+Relevant devices are:
+    * ide-hd (and ide-cd, ide-drive)
+    * scsi-hd (and scsi-cd, scsi-disk, scsi-block)
+    * virtio-blk-pci
+
+We do not call del_boot_device_lchs() for ide-* since we don't need to -
+IDE block devices do not support unplugging.
 
 Signed-off-by: Sam Eiderman <sameid@google.com>
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-id: 20190925110639.100699-5-sameid@google.com
+Message-id: 20190925110639.100699-6-sameid@google.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/scsi/scsi.h |  1 +
- hw/scsi/scsi-bus.c     | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
+ hw/block/virtio-blk.c |  6 ++++++
+ hw/ide/qdev.c         |  5 +++++
+ hw/scsi/scsi-disk.c   | 12 ++++++++++++
+ 3 files changed, 23 insertions(+)
 
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index d77a92361b..332ef602f4 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -59,6 +59,7 @@ struct SCSIRequest {
- typedef struct SCSIDeviceClass {
-     DeviceClass parent_class;
-     void (*realize)(SCSIDevice *dev, Error **errp);
-+    void (*unrealize)(SCSIDevice *dev, Error **errp);
-     int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-                      void *hba_private);
-     SCSIRequest *(*alloc_req)(SCSIDevice *s, uint32_t tag, uint32_t lun,
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index bccb7cc4c6..359d50d6d0 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -59,6 +59,14 @@ static void scsi_device_realize(SCSIDevice *s, Error *=
-*errp)
-     }
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 18851601cb..6d8ff34a16 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1186,6 +1186,11 @@ static void virtio_blk_device_realize(DeviceState =
+*dev, Error **errp)
+     blk_set_guest_block_size(s->blk, s->conf.conf.logical_block_size);
+=20
+     blk_iostatus_enable(s->blk);
++
++    add_boot_device_lchs(dev, "/disk@0,0",
++                         conf->conf.lcyls,
++                         conf->conf.lheads,
++                         conf->conf.lsecs);
  }
 =20
-+static void scsi_device_unrealize(SCSIDevice *s, Error **errp)
-+{
-+    SCSIDeviceClass *sc =3D SCSI_DEVICE_GET_CLASS(s);
-+    if (sc->unrealize) {
-+        sc->unrealize(s, errp);
-+    }
+ static void virtio_blk_device_unrealize(DeviceState *dev, Error **errp)
+@@ -1193,6 +1198,7 @@ static void virtio_blk_device_unrealize(DeviceState=
+ *dev, Error **errp)
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+     VirtIOBlock *s =3D VIRTIO_BLK(dev);
+=20
++    del_boot_device_lchs(dev, "/disk@0,0");
+     virtio_blk_data_plane_destroy(s->dataplane);
+     s->dataplane =3D NULL;
+     qemu_del_vm_change_state_handler(s->change);
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 6dd219944f..2ffd387a73 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -220,6 +220,11 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveK=
+ind kind, Error **errp)
+=20
+     add_boot_device_path(dev->conf.bootindex, &dev->qdev,
+                          dev->unit ? "/disk@1" : "/disk@0");
++
++    add_boot_device_lchs(&dev->qdev, dev->unit ? "/disk@1" : "/disk@0",
++                         dev->conf.lcyls,
++                         dev->conf.lheads,
++                         dev->conf.lsecs);
+ }
+=20
+ static void ide_dev_get_bootindex(Object *obj, Visitor *v, const char *n=
+ame,
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 915641a0f1..d19896fe4d 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -35,6 +35,7 @@
+ #include "hw/block/block.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/dma.h"
++#include "sysemu/sysemu.h"
+ #include "qemu/cutils.h"
+ #include "trace.h"
+=20
+@@ -2402,6 +2403,16 @@ static void scsi_realize(SCSIDevice *dev, Error **=
+errp)
+     blk_set_guest_block_size(s->qdev.conf.blk, s->qdev.blocksize);
+=20
+     blk_iostatus_enable(s->qdev.conf.blk);
++
++    add_boot_device_lchs(&dev->qdev, NULL,
++                         dev->conf.lcyls,
++                         dev->conf.lheads,
++                         dev->conf.lsecs);
 +}
 +
- int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-                        void *hba_private)
- {
-@@ -217,12 +225,20 @@ static void scsi_qdev_realize(DeviceState *qdev, Er=
-ror **errp)
- static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
- {
-     SCSIDevice *dev =3D SCSI_DEVICE(qdev);
-+    Error *local_err =3D NULL;
-=20
-     if (dev->vmsentry) {
-         qemu_del_vm_change_state_handler(dev->vmsentry);
-     }
-=20
-     scsi_device_purge_requests(dev, SENSE_CODE(NO_SENSE));
-+
-+    scsi_device_unrealize(dev, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     blockdev_mark_auto_del(dev->conf.blk);
++static void scsi_unrealize(SCSIDevice *dev, Error **errp)
++{
++    del_boot_device_lchs(&dev->qdev, NULL);
  }
 =20
+ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
+@@ -3006,6 +3017,7 @@ static void scsi_hd_class_initfn(ObjectClass *klass=
+, void *data)
+     SCSIDeviceClass *sc =3D SCSI_DEVICE_CLASS(klass);
+=20
+     sc->realize      =3D scsi_hd_realize;
++    sc->unrealize    =3D scsi_unrealize;
+     sc->alloc_req    =3D scsi_new_request;
+     sc->unit_attention_reported =3D scsi_disk_unit_attention_reported;
+     dc->desc =3D "virtual SCSI disk";
 --=20
 2.21.0
 
