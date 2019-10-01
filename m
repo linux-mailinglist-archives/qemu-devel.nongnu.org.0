@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B092C363B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:48:31 +0200 (CEST)
-Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51C8C3654
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:50:58 +0200 (CEST)
+Received: from localhost ([::1]:42378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIVx-0000GP-Oh
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59918)
+	id 1iFIYL-0002rr-MQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:50:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iFISg-00071A-5B
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:45:07 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKX-0006Bp-AF
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iFISe-0000la-Ue
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:45:05 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:45520)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKW-0001lb-A3
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:41 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36960)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iFISe-0000ko-OI
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:45:04 -0400
-Received: by mail-ot1-x331.google.com with SMTP id 41so11537004oti.12
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5NU2OpS+ap0igpEiRbaJiJCwHkdzeRmXJ5Mm0Gw1yVQ=;
- b=Q4q+xsMQkbxvZ9B+a1fRL+J2NDHRAHxZRvm7E2apDYlGafp8UXb9m6csDXChbymjVQ
- B1kubdmCiMSMsC6a8SAz6T78pHi5nV2neBN90WOW6P7JdcC0q+xECY9GWLoL8y68ZdUu
- rsaJsz9qS1NI/JQiOOD0KPlsh4u8Ef0p3yEnEUIwyFonrggn11tvgLLjv9f0Fx1iIxzS
- +WyP0Tqo2EJyH+bhO3OJ9lZDxFW6YSHhUaqxjfO2aIYdit9+fZuVXv9QznHW8JpisRsy
- aUtz8kwTt/14nBeHAZgg7nqnb6WsyLLbYjokGLT7JHrR0+lz7ToRiXzc8VWEzLVoCxf3
- J5fw==
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iFIKW-0001kR-4K
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:40 -0400
+Received: by mail-wr1-x443.google.com with SMTP id i1so15585985wro.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=o4ShqMwkYwxwFlVxZ6kVT6vik/5tXcWE7uO0LUlRUd4=;
+ b=JVZgO7RLl95Eltb6TuuCJdM9LXXyc8wcyQEhxy/HYclwQW59uHhFmeF3u4icxTsHHm
+ Ll2shWQlUuG1dDvmNqd20ST5H2PlnOnahCfGaiFK+sW3KxFiiRn3ZvkexYho61PsgkBW
+ CsN1Zw7mJNdn/OZfVr3pT9A7IbNZcm8vyLWvaylXjv1p+N3fyopxzOqKWY4ucalsN/Mj
+ qIBEwBtVkTAJeDrLtgf96/SBHxzL5ZzTZc3GZK6JMZBI0YfUvUI7Mv6dStPc0ooR0ZDG
+ xsEQq5QSihARJDdI9mliedf5MV2npl2k/SwJQRYTEI+ESQq6MOUNQ7bJ5gk4utVQrVEC
+ S/nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5NU2OpS+ap0igpEiRbaJiJCwHkdzeRmXJ5Mm0Gw1yVQ=;
- b=hg0FOwEZyIhd+0H7hPvoNtfhsDB62or7n725Jvy0uA6xT1BoTZBG5RozO7C02lFqGM
- ZK0TPwFjXM6+EV20a55pr1QleRq4VoBwp2ATqK/TMkGA/CSvoxNcwWejrZni4GwkL7W7
- PO7MFG7L2QhoB7YMZCPur00uw6nn0BXmBgMoxxkXs4zyUUfNe/Lq0C0bFUb1RSxV3/yC
- 59ybX3nVfmwEITZaVDM30AvxXihctADCVtFGtjDbYnC9f4gDrL6zcu2vsCOmAqBajW79
- cEE/tXuFdZr+0mvmeMRslARzUEe1S/Qek0BpIDAcm3dFbRkQoCap+bv96QLFVna57uxG
- hexA==
-X-Gm-Message-State: APjAAAVyX/GIgWi2jRGly/uG5jiTCeGQoh+ndwJTLh/qJ1A4iwB23cJy
- W/Uvi/6CE0VJu+EAsdDzd5qwGf6vOPhU69GpQNvIRg==
-X-Google-Smtp-Source: APXvYqziRtneQYbFm0lEeiO/m9+Y1hGJxQr5qBuiEKiVCTX/POvPCBjOTXM+tHrEBrPil0lEAR0NM6yPlcHasuj3/GM=
-X-Received: by 2002:a9d:73ce:: with SMTP id m14mr13317367otk.135.1569937503802; 
- Tue, 01 Oct 2019 06:45:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191001132609.23184-1-marcandre.lureau@redhat.com>
- <8bc51230-963b-e9e2-25ea-9719223c5c79@redhat.com>
-In-Reply-To: <8bc51230-963b-e9e2-25ea-9719223c5c79@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Oct 2019 14:44:52 +0100
-Message-ID: <CAFEAcA8SZnh7iyf5ebChJ=Seu+u7thuhzmLayoYnpa69u+_K-Q@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Some win32 fixes
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=o4ShqMwkYwxwFlVxZ6kVT6vik/5tXcWE7uO0LUlRUd4=;
+ b=pOo2PluP/l2WUc+wyE0rJuAMpiZ/Js5N0oFuviywTjF5TE2mkd0tcOB7J3kU1FPkkZ
+ VRgLCzxusnhBCvuk93Puf1aZBcbBkqkfSK353mkiwr16Q28r+KpLd1tIV/3yF/h/P5LX
+ kk5CXIE4EYVnj31OAbgFl3vcOCVBYy3xPbZnr5SC/O1NTmWeEC53Bsn6WSxYNt0R8e84
+ TVNODsjHbTREOXIkjlraW6nFCeIZIxPgIYYMNOJe7gj460eXhJbbtnN19GiPYjUCIJub
+ 1SOF/LKye0CSEz0Vl2mRvRDfu4ibPfxJ3m5K8108g8E4Z+SOSAXfF+9e8ybxgtUFZbrt
+ JeBg==
+X-Gm-Message-State: APjAAAUC852c449PnYZwazmxmJk+iBguTPZJTPVpl+asfNxagsc5lfiT
+ n2Pqcd8OVCavtgC7lfb7e6mA7wAd
+X-Google-Smtp-Source: APXvYqxCIA5lbehH0rrYkeapVwuSFFskgmYqhzyQP6QgHEkEFoOghys9fq3Qmew6AaIR64zP6IT43Q==
+X-Received: by 2002:a5d:6a09:: with SMTP id m9mr16909132wru.12.1569936998867; 
+ Tue, 01 Oct 2019 06:36:38 -0700 (PDT)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.37
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 01 Oct 2019 06:36:37 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 8/8] docker: test-debug: disable LeakSanitizer
+Date: Tue,  1 Oct 2019 15:36:28 +0200
+Message-Id: <1569936988-635-9-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
+References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::331
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,23 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Oct 2019 at 14:43, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 01/10/19 15:26, Marc-Andr=C3=A9 Lureau wrote:
-> > hmm, do we have any automated testing/CI on Windows (beside just
-> > cross-compilation)?
->
-> Nope. :(
+There are just too many leaks in device-introspect-test (especially for
+the plethora of arm and aarch64 boards) to make LeakSanitizer useful;
+disable it for now.
 
-I did wonder whether it would be possible to get 'make check'
-passing under Wine, but never investigated...
+Whoever is interested in debugging leaks can also use valgrind like this:
 
-thanks
--- PMM
+   QTEST_QEMU_BINARY=aarch64-softmmu/qemu-system-aarch64 \
+   QTEST_QEMU_IMG=qemu-img \
+   valgrind --trace-children=yes --leak-check=full \
+   tests/device-introspect-test -p /aarch64/device/introspect/concrete/defaults/none
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/docker/test-debug | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/docker/test-debug b/tests/docker/test-debug
+index 137f4f2..c050fa0 100755
+--- a/tests/docker/test-debug
++++ b/tests/docker/test-debug
+@@ -21,6 +21,7 @@ cd "$BUILD_DIR"
+ OPTS="--cxx=clang++ --cc=clang --host-cc=clang"
+ OPTS="--enable-debug --enable-sanitizers $OPTS"
+ 
++export ASAN_OPTIONS=detect_leaks=0
+ build_qemu $OPTS
+ check_qemu check V=1
+ install_qemu
+-- 
+1.8.3.1
+
 
