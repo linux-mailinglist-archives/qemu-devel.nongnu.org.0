@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F872C44A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 01:56:13 +0200 (CEST)
-Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08685C44AA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 01:57:17 +0200 (CEST)
+Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFS03-0007qc-Na
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 19:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38908)
+	id 1iFS15-0000Vj-FX
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 19:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrd-00017P-Ou
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:31 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrq-0001F0-LL
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrb-0001KP-M0
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36852
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrm-0001XU-N0
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18000)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRrb-0001IB-60; Tue, 01 Oct 2019 19:47:27 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlOIB098942; Tue, 1 Oct 2019 19:47:26 -0400
+ id 1iFRrm-0001Qx-1I; Tue, 01 Oct 2019 19:47:38 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlQn5074872; Tue, 1 Oct 2019 19:47:32 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9utp-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdv2vpu9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:26 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlPfR099017;
- Tue, 1 Oct 2019 19:47:25 -0400
+ Tue, 01 Oct 2019 19:47:32 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlPWO074813;
+ Tue, 1 Oct 2019 19:47:32 -0400
 Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
  [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9utd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdv2vpts-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:25 -0400
+ Tue, 01 Oct 2019 19:47:32 -0400
 Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njl16006380;
- Tue, 1 Oct 2019 23:47:25 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye78-1
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njk0D006371;
+ Tue, 1 Oct 2019 23:47:30 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye7t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:25 +0000
+ Tue, 01 Oct 2019 23:47:30 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlONh47513944
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlUXS53674352
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:24 GMT
+ Tue, 1 Oct 2019 23:47:30 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB6922805A;
- Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3D2272805E;
+ Tue,  1 Oct 2019 23:47:30 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F4DC28058;
- Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 20C1128059;
+ Tue,  1 Oct 2019 23:47:30 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:30 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/97] migration/dirty-bitmaps: change bitmap enumeration
- method
-Date: Tue,  1 Oct 2019 18:45:03 -0500
-Message-Id: <20191001234616.7825-25-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 34/97] target/i386: define md-clear bit
+Date: Tue,  1 Oct 2019 18:45:13 -0500
+Message-Id: <20191001234616.7825-35-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=710 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id x91NlOIB098942
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,90 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Oguz Bektas <o.bektas@proxmox.com>,
+ qemu-stable@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Shift from looking at every root BDS to *every* BDS. This will migrate
-bitmaps that are attached to blockdev created nodes instead of just ones
-attached to emulated storage devices.
+md-clear is a new CPUID bit which is set when microcode provides the
+mechanism to invoke a flush of various exploitable CPU buffers by invoking
+the VERW instruction.
 
-Note that this will not migrate anonymous or internal-use bitmaps, as
-those are defined as having no name.
-
-This will also fix the Coverity issues Peter Maydell has been asking
-about for the past several releases, as well as fixing a real bug.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Coverity =F0=9F=98=85
-Reported-by: aihua liang <aliang@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190514201926.10407-1-jsnow@redhat.com
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1652490
-Fixes: Coverity CID 1390625
-CC: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-(cherry picked from commit 592203e7cfbd1ad261178431fcf390adfe8b16df)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20190515141011.5315-2-berrange@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+(cherry picked from commit b2ae52101fca7f9547ac2f388085dbc58f8fe1c0)
+Signed-off-by: Oguz Bektas <o.bektas@proxmox.com>
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- migration/block-dirty-bitmap.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitma=
-p.c
-index d1bb863cb6..4a896a09eb 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -273,7 +273,6 @@ static int init_dirty_bitmap_migration(void)
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
-     DirtyBitmapMigBitmapState *dbms;
--    BdrvNextIterator it;
-     Error *local_err =3D NULL;
-=20
-     dirty_bitmap_mig_state.bulk_completed =3D false;
-@@ -281,13 +280,8 @@ static int init_dirty_bitmap_migration(void)
-     dirty_bitmap_mig_state.prev_bitmap =3D NULL;
-     dirty_bitmap_mig_state.no_bitmaps =3D false;
-=20
--    for (bs =3D bdrv_first(&it); bs; bs =3D bdrv_next(&it)) {
--        const char *drive_name =3D bdrv_get_device_or_node_name(bs);
--
--        /* skip automatically inserted nodes */
--        while (bs && bs->drv && bs->implicit) {
--            bs =3D backing_bs(bs);
--        }
-+    for (bs =3D bdrv_next_all_states(NULL); bs; bs =3D bdrv_next_all_sta=
-tes(bs)) {
-+        const char *name =3D bdrv_get_device_or_node_name(bs);
-=20
-         for (bitmap =3D bdrv_dirty_bitmap_next(bs, NULL); bitmap;
-              bitmap =3D bdrv_dirty_bitmap_next(bs, bitmap))
-@@ -296,7 +290,7 @@ static int init_dirty_bitmap_migration(void)
-                 continue;
-             }
-=20
--            if (drive_name =3D=3D NULL) {
-+            if (!name || strcmp(name, "") =3D=3D 0) {
-                 error_report("Found bitmap '%s' in unnamed node %p. It c=
-an't "
-                              "be migrated", bdrv_dirty_bitmap_name(bitma=
-p), bs);
-                 goto fail;
-@@ -313,7 +307,7 @@ static int init_dirty_bitmap_migration(void)
-=20
-             dbms =3D g_new0(DirtyBitmapMigBitmapState, 1);
-             dbms->bs =3D bs;
--            dbms->node_name =3D drive_name;
-+            dbms->node_name =3D name;
-             dbms->bitmap =3D bitmap;
-             dbms->total_sectors =3D bdrv_nb_sectors(bs);
-             dbms->sectors_per_chunk =3D CHUNK_SIZE * 8 *
---=20
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ee4b8b47e2..331a364a1b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1076,7 +1076,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .feat_names = {
+             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
+             NULL, NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, "md-clear", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+-- 
 2.17.1
 
 
