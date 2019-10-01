@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F18C3BC5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:49:28 +0200 (CEST)
-Received: from localhost ([::1]:44882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F03CC3AE5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:42:16 +0200 (CEST)
+Received: from localhost ([::1]:44736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLL4-0005Bj-Eg
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52058)
+	id 1iFLE5-0006aA-QM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iFKdj-0003Te-Tq
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:04:41 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iFKp3-0007jC-90
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:16:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iFKdi-0004ws-JC
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:04:39 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39093)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iFKdi-0004vv-C3
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:04:38 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v17so3851915wml.4
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 09:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wc5z3pSXo6Lrt9lS3SIZHRF6PDH8oo6qYuLp22beZMA=;
- b=fuxXBH2DNcPm8uAZiiuSCbtNXzZ0rD3T1UOqPrLwrE2ptU9u37CMhIGvae7NnKkxEd
- 6L5G9yn+QDX1PwzvY9+lyj0K2lqknssdIW71HUWN2dMUpoJ45AELOZF2k4gz05sXlkxt
- BiJSujq9FHjOOHzOppOQBxaxITDQu+BktTJL7UgBh+BWYDp0+gQt7ZjTaooVrFCwm8nF
- 5v37ge5NNejh9b8NKD0xDJvKSzhV3M5JFDIh+ny51OMQGUH5+MHNj8QECPNDCLV1g5Ra
- RGzfLihl2edzo6uZVxNOz7PhVVFlmSxlJT67MMLV/+/A+LPlHqpo+fYg5BFTxEXv0asN
- GdSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wc5z3pSXo6Lrt9lS3SIZHRF6PDH8oo6qYuLp22beZMA=;
- b=A1+Bik8px8P2cDtY94ZPJvo5+W/BHKR71YEaIyizUd0K6NqkXgPExNLx0bZIgTv+MK
- YoY24pVrqoejObZjIonLp3vfwuG1kO49Ci4a3hJqik26FbugwH4U9Py311UEk2NnBRT2
- UIhUF42hR74rvzxtXCchqbRVaLcDaodsudS92k05ucWU4IXa5u5zmJmrUWV2itciipS5
- 1OsfdODgxz6pJ/Dw85no02EFbXWPuC28kIBnGshYgJaKCoXLmLcFxXLUjnqJSzsObi81
- brxnNo1Js3uygg6y/4EUFswRXTCcxx3Cp2mpn9OhAmjsx/YRSKVTTGiLLcOKVbtdgTH/
- lKZg==
-X-Gm-Message-State: APjAAAWa+r9TH6W6Ol0QU8BJi0EQRv8rzDSJLFeNpst6VaqsMeUXjJBh
- tzvkzRfVEkLyM2gl2N/pWG52EQ==
-X-Google-Smtp-Source: APXvYqy1wKzgSYqX9NOM9aUc0HrLKbx6AfQUFcGbVEPt8DQ1CtIgooevm1YJdgQ7VVECXnx/QHonTA==
-X-Received: by 2002:a1c:cf8c:: with SMTP id f134mr4581453wmg.174.1569945876915; 
- Tue, 01 Oct 2019 09:04:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q22sm3824211wmj.5.2019.10.01.09.04.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Oct 2019 09:04:36 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3AEC21FF87;
- Tue,  1 Oct 2019 17:04:35 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] cpus: kick all vCPUs when running thread=single
-Date: Tue,  1 Oct 2019 17:04:26 +0100
-Message-Id: <20191001160426.26644-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <kwolf@redhat.com>) id 1iFKp1-00045c-3a
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:16:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54254)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iFKoy-00043g-QI; Tue, 01 Oct 2019 12:16:16 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 10C1F30917EF;
+ Tue,  1 Oct 2019 16:16:16 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2957B5D712;
+ Tue,  1 Oct 2019 16:16:12 +0000 (UTC)
+Date: Tue, 1 Oct 2019 18:16:10 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: bitmap migration bug with -drive while block mirror runs
+Message-ID: <20191001161610.GG4688@linux.fritz.box>
+References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
+ <d897c755-40e7-6392-23e3-c06b1a371f28@virtuozzo.com>
+ <4bc910ef-0bec-cfd6-89f6-a93d35367218@redhat.com>
+ <9431d242-bfe1-b9db-17d0-6c1a280a05da@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9431d242-bfe1-b9db-17d0-6c1a280a05da@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 01 Oct 2019 16:16:16 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,90 +60,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Doug Gale <doug16k@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_cpu_kick is used for a number of reasons including to indicate
-there is work to be done. However when thread=single the old
-qemu_cpu_kick_rr_cpu only advanced the vCPU to the next executing one
-which can lead to a hang in the case that:
+Am 01.10.2019 um 17:57 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 01.10.2019 17:10, John Snow wrote:
+> > 
+> > 
+> > On 10/1/19 10:00 AM, Vladimir Sementsov-Ogievskiy wrote:
+> >>> Otherwise: I have a lot of cloudy ideas on how to solve this, but
+> >>> ultimately what we want is to be able to find the "addressable" name for
+> >>> the node the bitmap is attached to, which would be the name of the first
+> >>> ancestor node that isn't a filter. (OR, the name of the block-backend
+> >>> above that node.)
+> >> Not the name of ancestor node, it will break mapping: it must be name of the
+> >> node itself or name of parent (may be through several filters) block-backend
+> >>
+> > 
+> > Ah, you are right of course -- because block-backends are the only
+> > "nodes" for which we actually descend the graph and add the bitmap to
+> > its child.
+> > 
+> > So the real back-resolution mechanism is:
+> > 
+> > - Find the first non-filter ancestor, A
+> > - if A is not a block-backend, we must use our node-local name.
+> > - if A's name is empty, we must use our node-local name.
+> > - If the name we have chosen is not id_wellformed, we have no
+> > migration-stable addressable name for this bitmap and the migration must
+> > fail!
+> > 
+> > 
+> > For resolving bitmap addresses via QMP (node, name) pairs; the
+> > resolution method would be this:
+> > 
+> > - if the node-name N is a block-backend, descend the tree until we find
+> > the first non-filter node V.
+> > - if the node-name N is a BlockDriverState, use this node directly.
+> > 
+> 
+> Looks good for me.
+> 
+> I also think if on destination we have both block-backend with name N and
+> block-node with name N and the latter is not (filtered) child of the former,
+> we should fail migration of at least that bitmap. (Hope, nobody reuse
+> block-backend names as node-names in practice.. (should we restrict it
+> explicitly ?))
 
-  a) the kick is from outside the vCPUs (e.g. iothread)
-  b) the timers are paused (i.e. iothread calling run_on_cpu)
+You can't have a node and a BlockBackend of the same name, they share a
+single namespace. If you try to do so, you get an error.
 
-To avoid this lets split qemu_cpu_kick_rr into two functions. One for
-the timer which continues to advance to the next timeslice and another
-for all other kicks.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Doug Gale <doug16k@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
----
- cpus.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/cpus.c b/cpus.c
-index d2c61ff155..bee7209134 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -949,8 +949,8 @@ static inline int64_t qemu_tcg_next_kick(void)
-     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
- }
- 
--/* Kick the currently round-robin scheduled vCPU */
--static void qemu_cpu_kick_rr_cpu(void)
-+/* Kick the currently round-robin scheduled vCPU to next */
-+static void qemu_cpu_kick_rr_next_cpu(void)
- {
-     CPUState *cpu;
-     do {
-@@ -961,6 +961,16 @@ static void qemu_cpu_kick_rr_cpu(void)
-     } while (cpu != atomic_mb_read(&tcg_current_rr_cpu));
- }
- 
-+/* Kick all RR vCPUs */
-+static void qemu_cpu_kick_rr_cpus(void)
-+{
-+    CPUState *cpu;
-+
-+    CPU_FOREACH(cpu) {
-+        cpu_exit(cpu);
-+    };
-+}
-+
- static void do_nothing(CPUState *cpu, run_on_cpu_data unused)
- {
- }
-@@ -993,7 +1003,7 @@ void qemu_timer_notify_cb(void *opaque, QEMUClockType type)
- static void kick_tcg_thread(void *opaque)
- {
-     timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
--    qemu_cpu_kick_rr_cpu();
-+    qemu_cpu_kick_rr_next_cpu();
- }
- 
- static void start_tcg_kick_timer(void)
-@@ -1828,9 +1838,11 @@ void qemu_cpu_kick(CPUState *cpu)
- {
-     qemu_cond_broadcast(cpu->halt_cond);
-     if (tcg_enabled()) {
--        cpu_exit(cpu);
--        /* NOP unless doing single-thread RR */
--        qemu_cpu_kick_rr_cpu();
-+        if (qemu_tcg_mttcg_enabled()) {
-+            cpu_exit(cpu);
-+        } else {
-+            qemu_cpu_kick_rr_cpus();
-+        }
-     } else {
-         if (hax_enabled()) {
-             /*
--- 
-2.20.1
-
+Kevin
 
