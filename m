@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9C3C3A17
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:12:20 +0200 (CEST)
-Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C69AC3A21
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:15:51 +0200 (CEST)
+Received: from localhost ([::1]:44238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKl8-0001yr-SU
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50181)
+	id 1iFKoY-0005um-2D
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:15:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008N9-4u
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:55 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008NC-6Q
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006nm-96
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006oX-Dm
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38528)
+Received: from relay.sw.ru ([185.231.240.75]:38550)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTE-0006cK-Jb
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:49 -0400
+ id 1iFKTG-0006dg-31
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT3-0004xb-13; Tue, 01 Oct 2019 18:53:37 +0300
+ id 1iFKT3-0004xb-OO; Tue, 01 Oct 2019 18:53:37 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 28/31] Sockets: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:16 +0300
-Message-Id: <20191001155319.8066-29-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 31/31] ivshmem: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:19 +0300
+Message-Id: <20191001155319.8066-32-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -49,8 +49,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,29 +81,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- util/qemu-sockets.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/misc/ivshmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index bcc06d0e01..396e028ae0 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -861,6 +861,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-                              int num,
-                              Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     struct sockaddr_un un;
-     int sock, fd;
-     char *pathbuf = NULL;
-@@ -936,6 +937,7 @@ err:
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index 5e3b05eae0..b6dcc27d18 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -864,6 +864,7 @@ static void ivshmem_write_config(PCIDevice *pdev, uint32_t address,
  
- static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
+ static void ivshmem_common_realize(PCIDevice *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     struct sockaddr_un un;
-     int sock, rc;
-     size_t pathlen;
+     IVShmemState *s = IVSHMEM_COMMON(dev);
+     Error *err = NULL;
+     uint8_t *pci_conf;
 -- 
 2.21.0
 
