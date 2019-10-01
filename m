@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F15C41EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:45:56 +0200 (CEST)
-Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E0FC420E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:53:50 +0200 (CEST)
+Received: from localhost ([::1]:48032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFP1v-0003Ll-HA
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55397)
+	id 1iFP9Z-0000Jq-9d
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO9F-0006E9-DZ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:26 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8K-00052o-F4
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO9E-0000Fo-3e
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41722)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8I-0008AF-Cg
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60210)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO99-0000CQ-4v; Tue, 01 Oct 2019 15:49:20 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iFO8F-000884-UB; Tue, 01 Oct 2019 15:48:24 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 664DC308FFB1;
- Tue,  1 Oct 2019 19:49:18 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3006A10DCC92;
+ Tue,  1 Oct 2019 19:48:23 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F29041001B05;
- Tue,  1 Oct 2019 19:49:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC40160C5D;
+ Tue,  1 Oct 2019 19:48:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 52/67] iotests/234: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:47:00 +0200
-Message-Id: <20191001194715.2796-53-mreitz@redhat.com>
+Subject: [PATCH 28/67] iotests/132: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:36 +0200
+Message-Id: <20191001194715.2796-29-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 01 Oct 2019 19:49:18 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 01 Oct 2019 19:48:23 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,40 +62,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/234 | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/132 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/234 b/tests/qemu-iotests/234
-index 3de6ab2341..f200af3f27 100755
---- a/tests/qemu-iotests/234
-+++ b/tests/qemu-iotests/234
-@@ -21,19 +21,20 @@
- # that is built with individually created nodes
-=20
- import iotests
-+from iotests import create_test_image
+diff --git a/tests/qemu-iotests/132 b/tests/qemu-iotests/132
+index 0f2a106c81..9c7b773f09 100755
+--- a/tests/qemu-iotests/132
++++ b/tests/qemu-iotests/132
+@@ -21,7 +21,7 @@
+ import time
  import os
+ import iotests
+-from iotests import qemu_img, qemu_io
++from iotests import create_test_image, remove_test_image, qemu_io
 =20
- iotests.script_initialize(supported_fmts=3D['qcow2'])
+ test_img =3D os.path.join(iotests.test_dir, 'test.img')
+ target_img =3D os.path.join(iotests.test_dir, 'target.img')
+@@ -31,7 +31,7 @@ class TestSingleDrive(iotests.QMPTestCase):
 =20
--with iotests.FilePath('img') as img_path, \
--     iotests.FilePath('backing') as backing_path, \
-+with iotests.ImagePath('img') as img_path, \
-+     iotests.ImagePath('backing') as backing_path, \
-      iotests.FilePath('mig_fifo_a') as fifo_a, \
-      iotests.FilePath('mig_fifo_b') as fifo_b, \
-      iotests.VM(path_suffix=3D'a') as vm_a, \
-      iotests.VM(path_suffix=3D'b') as vm_b:
+     def setUp(self):
+         # Write data to the image so we can compare later
+-        qemu_img('create', '-f', iotests.imgfmt, test_img, str(TestSingl=
+eDrive.image_len))
++        create_test_image(test_img, TestSingleDrive.image_len)
+         qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 0 2M', test_im=
+g)
 =20
--    iotests.qemu_img_pipe('create', '-f', iotests.imgfmt, backing_path, =
-'64M')
--    iotests.qemu_img_pipe('create', '-f', iotests.imgfmt, img_path, '64M=
-')
-+    create_test_image(backing_path, '64M')
-+    create_test_image(img_path, '64M')
+         self.vm =3D iotests.VM().add_drive(test_img, 'discard=3Dunmap')
+@@ -39,7 +39,7 @@ class TestSingleDrive(iotests.QMPTestCase):
 =20
-     os.mkfifo(fifo_a)
-     os.mkfifo(fifo_b)
+     def tearDown(self):
+         self.vm.shutdown()
+-        os.remove(test_img)
++        remove_test_image(test_img)
+         try:
+             os.remove(target_img)
+         except OSError:
 --=20
 2.21.0
 
