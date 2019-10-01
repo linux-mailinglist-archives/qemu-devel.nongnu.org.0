@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37174C421E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:56:59 +0200 (CEST)
-Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151BDC4231
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:01:09 +0200 (CEST)
+Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPCb-0003lh-JH
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55653)
+	id 1iFPGd-0008QO-Br
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:01:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54695)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO9g-0006hf-3y
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8O-00056n-4H
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO9f-0000TW-0p
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44152)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8M-0008CX-SI
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37702)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO9a-0000QQ-8y; Tue, 01 Oct 2019 15:49:46 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iFO8K-0008B0-HN; Tue, 01 Oct 2019 15:48:28 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 89E6C308FC4D;
- Tue,  1 Oct 2019 19:49:45 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C0B3F2541;
+ Tue,  1 Oct 2019 19:48:27 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 240EC5D6D0;
- Tue,  1 Oct 2019 19:49:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ABE360C63;
+ Tue,  1 Oct 2019 19:48:27 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 63/67] iotests/257: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:47:11 +0200
-Message-Id: <20191001194715.2796-64-mreitz@redhat.com>
+Subject: [PATCH 30/67] iotests/147: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:38 +0200
+Message-Id: <20191001194715.2796-31-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 01 Oct 2019 19:49:45 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Tue, 01 Oct 2019 19:48:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,61 +62,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/257 | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/qemu-iotests/147 | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-index 82c10e9b52..ea38945a71 100755
---- a/tests/qemu-iotests/257
-+++ b/tests/qemu-iotests/257
-@@ -23,7 +23,7 @@ import math
- import os
-=20
+diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
+index ab8480b9a4..920e44a65c 100755
+--- a/tests/qemu-iotests/147
++++ b/tests/qemu-iotests/147
+@@ -24,7 +24,8 @@ import socket
+ import stat
+ import time
  import iotests
--from iotests import log, qemu_img
-+from iotests import log, create_test_image, qemu_img
+-from iotests import cachemode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_earl=
+y_pipe
++from iotests import cachemode, imgfmt, create_test_image, remove_test_im=
+age, \
++        qemu_nbd, qemu_nbd_early_pipe
 =20
- SIZE =3D 64 * 1024 * 1024
- GRANULARITY =3D 64 * 1024
-@@ -152,7 +152,7 @@ class Drive:
-     def img_create(self, fmt, size):
-         self.fmt =3D fmt
-         self.size =3D size
--        iotests.qemu_img_create('-f', self.fmt, self.path, str(self.size=
-))
-+        create_test_image(self.path, self.size)
+ NBD_PORT_START      =3D 32768
+ NBD_PORT_END        =3D NBD_PORT_START + 1024
+@@ -80,13 +81,13 @@ class NBDBlockdevAddBase(iotests.QMPTestCase):
 =20
-     def create_target(self, name, fmt, size):
-         basename =3D os.path.basename(self.path)
-@@ -273,10 +273,10 @@ def test_bitmap_sync(bsync_mode, msync_mode=3D'bitm=
-ap', failure=3DNone):
-                         an incomplete backup. Testing limitations preven=
-t
-                         testing competing writes.
-     """
--    with iotests.FilePaths(['img', 'bsync1', 'bsync2',
-+    with iotests.ImagePath('img') as img_path, \
-+        iotests.FilePaths(['bsync1', 'bsync2',
-                             'fbackup0', 'fbackup1', 'fbackup2']) as \
--                            (img_path, bsync1, bsync2,
--                             fbackup0, fbackup1, fbackup2), \
-+                            (bsync1, bsync2, fbackup0, fbackup1, fbackup=
-2), \
-          iotests.VM() as vm:
+ class QemuNBD(NBDBlockdevAddBase):
+     def setUp(self):
+-        qemu_img('create', '-f', iotests.imgfmt, test_img, '64k')
++        create_test_image(test_img, '64k')
+         self.vm =3D iotests.VM()
+         self.vm.launch()
 =20
-         mode =3D "Mode {:s}; Bitmap Sync {:s}".format(msync_mode, bsync_=
-mode)
-@@ -439,8 +439,8 @@ def test_backup_api():
-     """
-     Test malformed and prohibited invocations of the backup API.
-     """
--    with iotests.FilePaths(['img', 'bsync1']) as \
--         (img_path, backup_path), \
-+    with iotests.ImagePath('img') as img_path, \
-+         iotests.FilePath('bsync1') as backup_path, \
-          iotests.VM() as vm:
+     def tearDown(self):
+         self.vm.shutdown()
+-        os.remove(test_img)
++        remove_test_image(test_img)
+         try:
+             os.remove(unix_socket)
+         except OSError:
+@@ -127,7 +128,7 @@ class QemuNBD(NBDBlockdevAddBase):
 =20
-         log("\n=3D=3D=3D API failure tests =3D=3D=3D\n")
+ class BuiltinNBD(NBDBlockdevAddBase):
+     def setUp(self):
+-        qemu_img('create', '-f', iotests.imgfmt, test_img, '64k')
++        create_test_image(test_img, '64k')
+         self.vm =3D iotests.VM()
+         self.vm.launch()
+         self.server =3D iotests.VM('.server')
+@@ -140,7 +141,7 @@ class BuiltinNBD(NBDBlockdevAddBase):
+     def tearDown(self):
+         self.vm.shutdown()
+         self.server.shutdown()
+-        os.remove(test_img)
++        remove_test_image(test_img)
+         try:
+             os.remove(unix_socket)
+         except OSError:
 --=20
 2.21.0
 
