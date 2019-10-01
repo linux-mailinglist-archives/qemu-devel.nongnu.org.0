@@ -2,45 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A77C42AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:26:56 +0200 (CEST)
-Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EBBC429E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:24:26 +0200 (CEST)
+Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPfZ-0004Xk-TN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55305)
+	id 1iFPdA-0002It-Lv
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO99-000681-2M
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:20 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFOIy-0007GA-2Y
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:59:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO97-0000Bg-1B
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60366)
+ (envelope-from <eblake@redhat.com>) id 1iFOIw-0005GK-4v
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:59:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33710)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO91-00006h-5e; Tue, 01 Oct 2019 15:49:13 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iFOIv-0005En-Vh
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:59:26 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1AC4910DCC94;
- Tue,  1 Oct 2019 19:49:09 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AAA3D60619;
- Tue,  1 Oct 2019 19:49:08 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 48/67] iotests/219: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:56 +0200
-Message-Id: <20191001194715.2796-49-mreitz@redhat.com>
-In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
-References: <20191001194715.2796-1-mreitz@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id F2BFB308339B;
+ Tue,  1 Oct 2019 19:59:23 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D359261AA;
+ Tue,  1 Oct 2019 19:59:21 +0000 (UTC)
+Subject: Re: [PATCH 1/7] qapi: Don't suppress doc generation without pragma
+ doc-required
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20191001191514.11208-1-armbru@redhat.com>
+ <20191001191514.11208-2-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <a33d91ad-1d99-b797-c45a-70dd2b99ce2f@redhat.com>
+Date: Tue, 1 Oct 2019 14:59:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Tue, 01 Oct 2019 19:49:09 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191001191514.11208-2-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Tue, 01 Oct 2019 19:59:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -55,45 +62,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/219 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On 10/1/19 2:15 PM, Markus Armbruster wrote:
+> Commit bc52d03ff5 "qapi: Make doc comments optional where we don't
+> need them" made scripts/qapi2texi.py fail[*] unless the schema had
+> pragma 'doc-required': true.  The stated reason was inability to cope
+> with incomplete documentation.
+> 
+> When commit fb0bc835e5 "qapi-gen: New common driver for code and doc
+> generators" folded scripts/qapi2texi.py into scripts/qapi-gen.py, it
+> turned the failure into silent suppression.
+> 
+> The doc generator can cope with incomplete documentation now.  I don't
+> know since when, or what the problem was, or even whether it ever
+> existed.
+> 
+> Drop the silent suppression.
+> 
+> [*] The fail part was broken, fixed in commit e8ba07ea9a.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   scripts/qapi/doc.py    | 2 --
+>   tests/Makefile.include | 1 +
+>   2 files changed, 1 insertion(+), 2 deletions(-)
+> 
 
-diff --git a/tests/qemu-iotests/219 b/tests/qemu-iotests/219
-index 9ae27cb04e..37e3c70aef 100755
---- a/tests/qemu-iotests/219
-+++ b/tests/qemu-iotests/219
-@@ -20,6 +20,7 @@
- # Check using the job-* QMP commands with block jobs
-=20
- import iotests
-+from iotests import create_test_image
-=20
- iotests.script_initialize(supported_fmts=3D['qcow2'])
-=20
-@@ -177,11 +178,11 @@ def test_job_lifecycle(vm, job, job_args, has_ready=
-=3DFalse):
-     iotests.log(vm.qmp('query-jobs'))
-=20
-=20
--with iotests.FilePath('disk.img') as disk_path, \
-+with iotests.ImagePath('disk.img') as disk_path, \
-      iotests.FilePath('copy.img') as copy_path, \
-      iotests.VM() as vm:
-=20
--    iotests.qemu_img_create('-f', iotests.imgfmt, disk_path, str(img_siz=
-e))
-+    create_test_image(disk_path, img_size)
-     iotests.qemu_io('-c', 'write 0 %i' % (img_size),
-                     '-f', iotests.imgfmt, disk_path)
-=20
---=20
-2.21.0
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
