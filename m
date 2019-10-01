@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2464C429C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:23:47 +0200 (CEST)
-Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149CBC42BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:30:17 +0200 (CEST)
+Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPcY-0001k4-3z
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36870)
+	id 1iFPip-00075b-Qy
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:30:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iFPYk-0008E2-FD
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:19:51 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO9B-00069F-2W
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iFPYh-0000VE-HW
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:19:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58282)
+ (envelope-from <mreitz@redhat.com>) id 1iFO99-0000D1-3k
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43950)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iFPYh-0000Se-7p
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:19:47 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iFO93-00007Z-1B; Tue, 01 Oct 2019 15:49:14 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AE8718A1C8F;
- Tue,  1 Oct 2019 21:19:45 +0000 (UTC)
-Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58E2E60464;
- Tue,  1 Oct 2019 21:19:42 +0000 (UTC)
-Subject: Re: [PATCH 6/7] qapi: Split up scripts/qapi/common.py
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20191001191514.11208-1-armbru@redhat.com>
- <20191001191514.11208-7-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f195452f-43f8-a1be-653b-e4d8d2d888e3@redhat.com>
-Date: Tue, 1 Oct 2019 16:19:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 664113090FC9;
+ Tue,  1 Oct 2019 19:49:11 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 02D2D5C1D4;
+ Tue,  1 Oct 2019 19:49:10 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 49/67] iotests/222: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:57 +0200
+Message-Id: <20191001194715.2796-50-mreitz@redhat.com>
+In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
+References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191001191514.11208-7-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Tue, 01 Oct 2019 21:19:45 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 01 Oct 2019 19:49:11 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,94 +55,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 2:15 PM, Markus Armbruster wrote:
-> The QAPI code generator clocks in at some 3100 SLOC in 8 source files.
-> Almost 60% of the code is in qapi/common.py.  Split it into more
-> focused modules:
->=20
-> * Move QAPISchemaPragma and QAPISourceInfo to qapi/source.py.
->=20
-> * Move QAPIError and its sub-classes to qapi/error.py.
->=20
-> * Move QAPISchemaParser and QAPIDoc to parser.py.  Use the opportunity
->    to put QAPISchemaParser first.
->=20
-> * Move check_expr() & friends to qapi/expr.py.  Use the opportunity to
->    put the code into a more sensible order.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/222 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Code motion can be easier to review when it is 1:1 (using 'diff -u <(sed=20
--n '/^-//p' patch) <(sed -n '/^\+//p'patch)', which is quite small if=20
-code moved wholesale).  Reordering things breaks that property.
-
->=20
-> * Move QAPISchema & friends to qapi/schema.py
->=20
-> * Move QAPIGen and its sub-classes, ifcontext,
->    QAPISchemaModularCVisitor, and QAPISchemaModularCVisitor to qapi/gen=
-.py
->=20
-> A number of helper functions remain in qapi/common.py.  I considered
-> moving the code generator helpers to qapi/gen.py, but decided not to.
-> Perhaps we should rewrite them as methods of QAPIGen some day.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
-
->   15 files changed, 2411 insertions(+), 2329 deletions(-)
-
-Sheesh. This one's big.  I'm half-tempted to ask you to split it=20
-further.  But here goes my review anyway...
-
->   create mode 100644 scripts/qapi/error.py
->   create mode 100644 scripts/qapi/expr.py
->   create mode 100644 scripts/qapi/gen.py
->   create mode 100644 scripts/qapi/parser.py
->   create mode 100644 scripts/qapi/schema.py
->   create mode 100644 scripts/qapi/source.py
->=20
-> diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
-> index 3d98ca2e0c..f93f3c7c23 100755
-> --- a/scripts/qapi-gen.py
-
-
-> +++ b/scripts/qapi/error.py
-> @@ -0,0 +1,42 @@
-> +#
-> +# QAPI error classes
-> +#
-> +# Copyright (c) 2017-2019 Red Hat Inc.
-> +#
-> +# Authors:
-> +#  Markus Armbruster <armbru@redhat.com>
-> +#  Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.
-> +# See the COPYING file in the top-level directory.
-
-It's a shame the generator got stuck at GPLv2-only.  I don't know if=20
-that's worth cleaning up as part of refactoring, but if so, it would be=20
-best as a separate patch from the code motion.
-
-> +++ b/scripts/qapi/gen.py
-
-> +++ b/scripts/qapi/parser.py
-
-> +++ b/scripts/qapi/schema.py
-
-> +++ b/scripts/qapi/source.py
-I didn't see any obvious accidental changes in all that motion (although=20
-given the size, the review was more cursory of the form "does it look=20
-like an entire chunk of code moved from one file to another per the=20
-commit message" than "read every line").
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
+index ffa88d4bb9..7ae76c1be1 100644
+--- a/tests/qemu-iotests/222
++++ b/tests/qemu-iotests/222
+@@ -22,7 +22,7 @@
+ # Creator/Owner: John Snow <jsnow@redhat.com>
+=20
+ import iotests
+-from iotests import log, qemu_img, qemu_io, qemu_io_silent
++from iotests import log, create_test_image, qemu_io, qemu_io_silent
+=20
+ iotests.script_initialize(supported_fmts=3D['qcow2', 'qcow', 'qed', 'vmd=
+k',
+                                           'vhdx', 'raw'],
+@@ -46,16 +46,16 @@ remainder =3D [("0xd5", "0x108000",  "32k"), # Right-=
+end of partial-left [1]
+              ("0xdc", "32M",       "32k"), # Left-end of partial-right [=
+2]
+              ("0xcd", "0x3ff0000", "64k")] # patterns[3]
+=20
+-with iotests.FilePath('base.img') as base_img_path, \
+-     iotests.FilePath('fleece.img') as fleece_img_path, \
++with iotests.ImagePath('base.img') as base_img_path, \
++     iotests.ImagePath('fleece.img') as fleece_img_path, \
+      iotests.FilePath('nbd.sock') as nbd_sock_path, \
+      iotests.VM() as vm:
+=20
+     log('--- Setting up images ---')
+     log('')
+=20
+-    assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M'=
+) =3D=3D 0
+-    assert qemu_img('create', '-f', "qcow2", fleece_img_path, '64M') =3D=
+=3D 0
++    assert create_test_image(base_img_path, '64M') =3D=3D 0
++    assert create_test_image(fleece_img_path, '64M', fmt=3D'qcow2') =3D=3D=
+ 0
+=20
+     for p in patterns:
+         qemu_io('-f', iotests.imgfmt,
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.0
+
 
