@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF35BC451C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:44:48 +0200 (CEST)
-Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67460C4523
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:49:34 +0200 (CEST)
+Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSl5-0005nV-AY
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40240)
+	id 1iFSpd-00024F-7X
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsL-0001nr-7P
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:17 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsP-0001rp-SI
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsE-0002DR-UF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28616)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsJ-0002LN-5Q
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:13 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8602
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsE-0001hx-Eo; Tue, 01 Oct 2019 19:48:06 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1iFRsB-0001g3-Iv; Tue, 01 Oct 2019 19:48:03 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlMkj193517; Tue, 1 Oct 2019 19:47:44 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vc71qsg6u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:43 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlMnL193520;
- Tue, 1 Oct 2019 19:47:42 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vc71qsg6m-1
+ x91NlPS3037480; Tue, 1 Oct 2019 19:47:43 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcer2b35p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Oct 2019 19:47:42 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njm5w023587;
- Tue, 1 Oct 2019 23:47:41 GMT
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njod1031648;
+ Tue, 1 Oct 2019 23:47:42 GMT
 Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577gyn-1
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fc5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:41 +0000
+ Tue, 01 Oct 2019 23:47:42 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
  by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlfS514090956
+ x91Nlfpi34996640
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 1 Oct 2019 23:47:41 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 62A432805A;
+ by IMSVA (Postfix) with ESMTP id DC75E2805A;
  Tue,  1 Oct 2019 23:47:41 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46F442805E;
+ by IMSVA (Postfix) with ESMTP id C14AE28059;
  Tue,  1 Oct 2019 23:47:41 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  1 Oct 2019 23:47:41 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 54/97] virtio-balloon: free pbp more aggressively
-Date: Tue,  1 Oct 2019 18:45:33 -0500
-Message-Id: <20191001234616.7825-55-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 55/97] i386/acpi: fix gint overflow in crs_range_compare
+Date: Tue,  1 Oct 2019 18:45:34 -0500
+Message-Id: <20191001234616.7825-56-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -70,7 +64,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=62 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
@@ -87,136 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-stable@nongnu.org, Evgeny Yakovlev <wrfsh@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
 
-Previous patches switched to a temporary pbp but that does not go far
-enough: after device uses a buffer, guest is free to reuse it, so
-tracking the page and freeing it later is wrong.
+When very large regions (32GB sized in our case, PCI pass-through of GPUs)
+are compared substraction result does not fit into gint.
 
-Free and reset the pbp after we push each element.
+As a result crs_replace_with_free_ranges does not get sorted ranges and
+incorrectly computes PCI64 free space regions. Which then makes linux
+guest complain about device and PCI64 hole intersection and device
+becomes unusable.
 
-Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE < host page size")
-Cc: qemu-stable@nongnu.org #v4.0.0
-Cc: David Hildenbrand <david@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 1b47b37c33ec01ae1efc527f4c97f97f93723bc4)
+Fix that by returning exactly fitting ranges.
+
+Also fix indentation of an entire crs_replace_with_free_ranges to make
+checkpatch happy.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Message-Id: <1563466463-26012-1-git-send-email-wrfsh@yandex-team.ru>
+Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+(cherry picked from commit 21e2acd583126db94f6d881005cd58e835160582)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-balloon.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+ hw/i386/acpi-build.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 4a5a22ca3d..adde97fe4b 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -41,22 +41,19 @@ typedef struct PartiallyBalloonedPage {
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index ede27ab3c4..bf59c475be 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -743,10 +743,16 @@ static void crs_range_set_free(CrsRangeSet *range_set)
  
- static void virtio_balloon_pbp_free(PartiallyBalloonedPage *pbp)
+ static gint crs_range_compare(gconstpointer a, gconstpointer b)
  {
--    if (!pbp) {
-+    if (!pbp->bitmap) {
-         return;
-     }
-     g_free(pbp->bitmap);
--    g_free(pbp);
-+    pbp->bitmap = NULL;
+-     CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
+-     CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
++    CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
++    CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
+ 
+-     return (int64_t)entry_a->base - (int64_t)entry_b->base;
++    if (entry_a->base < entry_b->base) {
++        return -1;
++    } else if (entry_a->base > entry_b->base) {
++        return 1;
++    } else {
++        return 0;
++    }
  }
  
--static PartiallyBalloonedPage *virtio_balloon_pbp_alloc(ram_addr_t base_gpa,
--                                                        long subpages)
-+static void virtio_balloon_pbp_alloc(PartiallyBalloonedPage *pbp,
-+                                     ram_addr_t base_gpa,
-+                                     long subpages)
- {
--    PartiallyBalloonedPage *pbp = g_new0(PartiallyBalloonedPage, 1);
--
-     pbp->base_gpa = base_gpa;
-     pbp->bitmap = bitmap_new(subpages);
--
--    return pbp;
- }
- 
- static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
-@@ -67,7 +64,7 @@ static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
- 
- static void balloon_inflate_page(VirtIOBalloon *balloon,
-                                  MemoryRegion *mr, hwaddr mr_offset,
--                                 PartiallyBalloonedPage **pbp)
-+                                 PartiallyBalloonedPage *pbp)
- {
-     void *addr = memory_region_get_ram_ptr(mr) + mr_offset;
-     ram_addr_t rb_offset, rb_aligned_offset, base_gpa;
-@@ -104,22 +101,21 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
-     base_gpa = memory_region_get_ram_addr(mr) + mr_offset -
-                (rb_offset - rb_aligned_offset);
- 
--    if (*pbp && !virtio_balloon_pbp_matches(*pbp, base_gpa)) {
-+    if (pbp->bitmap && !virtio_balloon_pbp_matches(pbp, base_gpa)) {
-         /* We've partially ballooned part of a host page, but now
-          * we're trying to balloon part of a different one.  Too hard,
-          * give up on the old partial page */
--        virtio_balloon_pbp_free(*pbp);
--        *pbp = NULL;
-+        virtio_balloon_pbp_free(pbp);
-     }
- 
--    if (!*pbp) {
--        *pbp = virtio_balloon_pbp_alloc(base_gpa, subpages);
-+    if (!pbp->bitmap) {
-+        virtio_balloon_pbp_alloc(pbp, base_gpa, subpages);
-     }
- 
-     set_bit((rb_offset - rb_aligned_offset) / BALLOON_PAGE_SIZE,
--            (*pbp)->bitmap);
-+            pbp->bitmap);
- 
--    if (bitmap_full((*pbp)->bitmap, subpages)) {
-+    if (bitmap_full(pbp->bitmap, subpages)) {
-         /* We've accumulated a full host page, we can actually discard
-          * it now */
- 
-@@ -127,8 +123,7 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
-         /* We ignore errors from ram_block_discard_range(), because it
-          * has already reported them, and failing to discard a balloon
-          * page is not fatal */
--        virtio_balloon_pbp_free(*pbp);
--        *pbp = NULL;
-+        virtio_balloon_pbp_free(pbp);
-     }
- }
- 
-@@ -328,13 +323,14 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
- static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOBalloon *s = VIRTIO_BALLOON(vdev);
--    PartiallyBalloonedPage *pbp = NULL;
-     VirtQueueElement *elem;
-     MemoryRegionSection section;
- 
-     for (;;) {
-+        PartiallyBalloonedPage pbp = {};
-         size_t offset = 0;
-         uint32_t pfn;
-+
-         elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
-         if (!elem) {
-             break;
-@@ -379,9 +375,8 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-         virtqueue_push(vq, elem, offset);
-         virtio_notify(vdev, vq);
-         g_free(elem);
-+        virtio_balloon_pbp_free(&pbp);
-     }
--
--    virtio_balloon_pbp_free(pbp);
- }
- 
- static void virtio_balloon_receive_stats(VirtIODevice *vdev, VirtQueue *vq)
+ /*
 -- 
 2.17.1
 
