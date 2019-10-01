@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93B3C39D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:04:17 +0200 (CEST)
-Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A43C39E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:07:58 +0200 (CEST)
+Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKdL-0001in-Md
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
+	id 1iFKgu-0005fL-Ml
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008NF-6d
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008NK-6t
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006nf-5N
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006oH-Ae
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38518)
+Received: from relay.sw.ru ([185.231.240.75]:38540)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTE-0006cG-Hs
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:49 -0400
+ id 1iFKTF-0006dP-36
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT2-0004xb-Qn; Tue, 01 Oct 2019 18:53:36 +0300
+ id 1iFKT3-0004xb-Cj; Tue, 01 Oct 2019 18:53:37 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 27/31] Migration: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:15 +0300
-Message-Id: <20191001155319.8066-28-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 30/31] PVRDMA: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:18 +0300
+Message-Id: <20191001155319.8066-31-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -49,8 +49,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+ Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,42 +81,21 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/migration.c | 1 +
- migration/savevm.c    | 2 ++
- 2 files changed, 3 insertions(+)
+ hw/rdma/vmw/pvrdma_main.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 5f7e4d15e9..deaa789533 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -971,6 +971,7 @@ static bool migrate_caps_check(bool *cap_list,
-                                MigrationCapabilityStatusList *params,
-                                Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     MigrationCapabilityStatusList *cap;
-     bool old_postcopy_cap;
-     MigrationIncomingState *mis = migration_incoming_get_current();
-diff --git a/migration/savevm.c b/migration/savevm.c
-index bb9462a54d..f9293fe192 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2586,6 +2586,7 @@ int qemu_load_device_state(QEMUFile *f)
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index 3e36e13013..fd1a6ef099 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -592,6 +592,7 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
  
- int save_snapshot(const char *name, Error **errp)
+ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     BlockDriverState *bs, *bs1;
-     QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-     int ret = -1;
-@@ -2790,6 +2791,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
- 
- int load_snapshot(const char *name, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BlockDriverState *bs, *bs_vm_state;
-     QEMUSnapshotInfo sn;
-     QEMUFile *f;
+     int rc = 0;
+     PVRDMADev *dev = PVRDMA_DEV(pdev);
+     Object *memdev_root;
 -- 
 2.21.0
 
