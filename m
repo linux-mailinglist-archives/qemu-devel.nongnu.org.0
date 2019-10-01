@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4611C45D1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:08:23 +0200 (CEST)
-Received: from localhost ([::1]:50570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73CAC45CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:03:40 +0200 (CEST)
+Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFU3y-00050x-G5
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
+	id 1iFTzP-0008Hm-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41277)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsz-0002MH-3r
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:55 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsp-0002E9-4n
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsx-0003Ci-3N
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32100
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsi-0002vs-ES
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10352)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsv-0002fZ-5A; Tue, 01 Oct 2019 19:48:50 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NmMfp132829; Tue, 1 Oct 2019 19:48:27 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdj4ded0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:26 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NmQaS133438;
- Tue, 1 Oct 2019 19:48:26 -0400
+ id 1iFRsO-0001zF-HH; Tue, 01 Oct 2019 19:48:19 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlQrj107943; Tue, 1 Oct 2019 19:47:54 -0400
 Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdj4de64-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgaurpb9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:25 -0400
+ Tue, 01 Oct 2019 19:47:54 -0400
 Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkEN027150;
- Tue, 1 Oct 2019 23:47:47 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bhn-1
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkKH027153;
+ Tue, 1 Oct 2019 23:47:53 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bj8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:47 +0000
+ Tue, 01 Oct 2019 23:47:53 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nlkwx41746920
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlqXn36831542
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:46 GMT
+ Tue, 1 Oct 2019 23:47:52 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 733F428058;
- Tue,  1 Oct 2019 23:47:46 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8C54C28058;
+ Tue,  1 Oct 2019 23:47:52 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 57AD52805A;
- Tue,  1 Oct 2019 23:47:46 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7033E28059;
+ Tue,  1 Oct 2019 23:47:52 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:46 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:52 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 63/97] backup: Copy only dirty areas
-Date: Tue,  1 Oct 2019 18:45:42 -0500
-Message-Id: <20191001234616.7825-64-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 74/97] xen-bus: Fix backend state transition on device reset
+Date: Tue,  1 Oct 2019 18:45:53 -0500
+Message-Id: <20191001234616.7825-75-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -72,11 +64,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,73 +80,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Anthony PERARD <anthony.perard@citrix.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Anthony PERARD <anthony.perard@citrix.com>
 
-The backup job must only copy areas that the copy_bitmap reports as
-dirty.  This is always the case when using traditional non-offloading
-backup, because it copies each cluster separately.  When offloading the
-copy operation, we sometimes copy more than one cluster at a time, but
-we only check whether the first one is dirty.
+When a frontend wants to reset its state and the backend one, it
+starts with setting "Closing", then waits for the backend (QEMU) to do
+the same.
 
-Therefore, whenever copy offloading is possible, the backup job
-currently produces wrong output when the guest writes to an area of
-which an inner part has already been backed up, because that inner part
-will be re-copied.
+But when QEMU is setting "Closing" to its state, it triggers an event
+(xenstore watch) that re-execute xen_device_backend_changed() and set
+the backend state to "Closed". QEMU should wait for the frontend to
+set "Closed" before doing the same.
 
-Fixes: 9ded4a0114968e98b41494fc035ba14f84cdf700
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190801173900.23851-2-mreitz@redhat.com
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 4a5b91ca024fc6fd87021c54655af76a35f2ef1e)
+Before setting "Closed" to the backend_state, we are also going to
+check if there is a frontend. If that the case, when the backend state
+is set to "Closing" the frontend should react and sets its state to
+"Closing" then "Closed". The backend should wait for that to happen.
+
+Fixes: b6af8926fb858c4f1426e5acb2cfc1f0580ec98a
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
+Message-Id: <20190823101534.465-2-anthony.perard@citrix.com>
+(cherry picked from commit cb3231460747552d70af9d546dc53d8195bcb796)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/backup.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ hw/xen/xen-bus.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/block/backup.c b/block/backup.c
-index d1b94a6dbe..f67c208cf0 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -204,22 +204,31 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *job,
-     cow_request_begin(&cow_request, job, start, end);
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index 49a725e8c7..0a1033d9a9 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -515,6 +515,23 @@ static void xen_device_backend_set_online(XenDevice *xendev, bool online)
+     xen_device_backend_printf(xendev, "online", "%u", online);
+ }
  
-     while (start < end) {
-+        int64_t dirty_end;
++/*
++ * Tell from the state whether the frontend is likely alive,
++ * i.e. it will react to a change of state of the backend.
++ */
++static bool xen_device_state_is_active(enum xenbus_state state)
++{
++    switch (state) {
++    case XenbusStateInitWait:
++    case XenbusStateInitialised:
++    case XenbusStateConnected:
++    case XenbusStateClosing:
++        return true;
++    default:
++        return false;
++    }
++}
 +
-         if (!hbitmap_get(job->copy_bitmap, start)) {
-             trace_backup_do_cow_skip(job, start);
-             start += job->cluster_size;
-             continue; /* already copied */
-         }
+ static void xen_device_backend_changed(void *opaque)
+ {
+     XenDevice *xendev = opaque;
+@@ -538,11 +555,11 @@ static void xen_device_backend_changed(void *opaque)
  
-+        dirty_end = hbitmap_next_zero(job->copy_bitmap, start, (end - start));
-+        if (dirty_end < 0) {
-+            dirty_end = end;
-+        }
-+
-         trace_backup_do_cow_process(job, start);
+     /*
+      * If the toolstack (or unplug request callback) has set the backend
+-     * state to Closing, but there is no active frontend (i.e. the
+-     * state is not Connected) then set the backend state to Closed.
++     * state to Closing, but there is no active frontend then set the
++     * backend state to Closed.
+      */
+     if (xendev->backend_state == XenbusStateClosing &&
+-        xendev->frontend_state != XenbusStateConnected) {
++        !xen_device_state_is_active(state)) {
+         xen_device_backend_set_state(xendev, XenbusStateClosed);
+     }
  
-         if (job->use_copy_range) {
--            ret = backup_cow_with_offload(job, start, end, is_write_notifier);
-+            ret = backup_cow_with_offload(job, start, dirty_end,
-+                                          is_write_notifier);
-             if (ret < 0) {
-                 job->use_copy_range = false;
-             }
-         }
-         if (!job->use_copy_range) {
--            ret = backup_cow_with_bounce_buffer(job, start, end, is_write_notifier,
-+            ret = backup_cow_with_bounce_buffer(job, start, dirty_end,
-+                                                is_write_notifier,
-                                                 error_is_read, &bounce_buffer);
-         }
-         if (ret < 0) {
 -- 
 2.17.1
 
