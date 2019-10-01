@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3F6C41E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:42:17 +0200 (CEST)
-Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229BBC41F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:47:41 +0200 (CEST)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOyM-00084q-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
+	id 1iFP3b-0004g7-45
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO8G-0004yO-Q8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:25 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8J-00051B-1F
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO8F-00088Z-PJ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44452)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8H-00089t-SL
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37918)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO87-00083v-Jx; Tue, 01 Oct 2019 15:48:15 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iFO8D-00086y-M3; Tue, 01 Oct 2019 15:48:21 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0120B2A09A1;
- Tue,  1 Oct 2019 19:48:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DA3CF10CC1E6;
+ Tue,  1 Oct 2019 19:48:20 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E2C3100197A;
- Tue,  1 Oct 2019 19:48:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74BE75C1D4;
+ Tue,  1 Oct 2019 19:48:20 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 24/67] iotests/096: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:32 +0200
-Message-Id: <20191001194715.2796-25-mreitz@redhat.com>
+Subject: [PATCH 27/67] iotests/129: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:35 +0200
+Message-Id: <20191001194715.2796-28-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 01 Oct 2019 19:48:14 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 01 Oct 2019 19:48:20 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,39 +62,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/096 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/129 | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/096 b/tests/qemu-iotests/096
-index ab9cb47822..ee0cfbffe8 100755
---- a/tests/qemu-iotests/096
-+++ b/tests/qemu-iotests/096
+diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
+index cd6b9e9ce7..379719d85b 100755
+--- a/tests/qemu-iotests/129
++++ b/tests/qemu-iotests/129
 @@ -20,6 +20,7 @@
- #
 =20
+ import os
  import iotests
 +from iotests import create_test_image, remove_test_image
- import os
+ import time
 =20
- class TestLiveSnapshot(iotests.QMPTestCase):
-@@ -35,13 +36,13 @@ class TestLiveSnapshot(iotests.QMPTestCase):
-         opts.append('throttling.group=3D%s' % self.group)
-         opts.append('throttling.iops-total=3D%d' % self.iops)
-         opts.append('throttling.iops-size=3D%d' % self.iops_size)
+ class TestStopWithBlockJob(iotests.QMPTestCase):
+@@ -28,8 +29,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+     base_img =3D os.path.join(iotests.test_dir, 'base.img')
+=20
+     def setUp(self):
 -        iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, =
-'100M')
-+        create_test_image(self.base_img, '100M')
-         self.vm =3D iotests.VM().add_drive(self.base_img, ','.join(opts)=
-)
+"1G")
+-        iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img, =
+"-b", self.base_img)
++        create_test_image(self.base_img, '1G')
++        create_test_image(self.test_img, backing_file=3Dself.base_img)
+         iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128=
+M', self.test_img)
+         self.vm =3D iotests.VM().add_drive(self.test_img)
          self.vm.launch()
-=20
-     def tearDown(self):
+@@ -46,6 +47,12 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+         result =3D self.vm.qmp("block_set_io_throttle", conv_keys=3DFals=
+e,
+                              **params)
          self.vm.shutdown()
--        os.remove(self.base_img)
++        remove_test_image(self.test_img)
 +        remove_test_image(self.base_img)
-         os.remove(self.target_img)
++        try:
++            os.remove(self.target_img)
++        except OSError:
++            pass
 =20
-     def checkConfig(self, active_layer):
+     def do_test_stop(self, cmd, **args):
+         """Test 'stop' while block job is running on a throttled drive.
 --=20
 2.21.0
 
