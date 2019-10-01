@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE08CC33E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 14:11:38 +0200 (CEST)
-Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8D8C33EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 14:13:56 +0200 (CEST)
+Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFH0D-0004cW-PI
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 08:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40355)
+	id 1iFH2R-0005gA-O7
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 08:13:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iFGz8-0003zC-BD
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:10:32 -0400
+ (envelope-from <devtoe82@gmail.com>) id 1iFH1A-0005BO-Fm
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:12:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iFGz6-0006pY-T0
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:10:29 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39005)
+ (envelope-from <devtoe82@gmail.com>) id 1iFH17-0008HR-Pz
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:12:35 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:35630)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iFGz6-0006ob-MD
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:10:28 -0400
-Received: by mail-ot1-x344.google.com with SMTP id s22so11286833otr.6
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 05:10:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7XMla8wVv4CHj589tbcKWaGLUnci5E8cocJdaCWNxj0=;
- b=qOr5x2FmElgo2hfnaWCgzHdMeJHRp+2q0SLkk+cntMqcpv9mQzd0kfAWgUovb3D4bx
- 87eDXyW84uBd6eLKEv2LWwrLfismcy+DlHrbeg2aasHXuUaSG/n6DG9xdWQP2oa7i4zl
- PKVXPRmwhg1fvxIPgdbmL3v8HTR+bWfF3vVot/EHtBoN8w3UG4L4AcCpDyrJ1SBnp9sP
- 8Vnp+XckSl6C6N3yHC0WkzHJe2Orl7eoczJCK+UHWfY/5xwTYaHr6yhCY5jmMc/GCPvb
- uhHNcd+mInLDQ2Acx27/DGVLqvgv1XBf3v+EgFo8YglIZ1T4AhNkV3MaTUJlBBNV3w4Z
- QeUw==
+ (Exim 4.71) (envelope-from <devtoe82@gmail.com>) id 1iFH17-0008GS-Cn
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:12:33 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id z6so11326587otb.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 05:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=75K2boqvjiShtjVaWPC0Jb7NB2PxH93sa8fH7hOE+kw=;
+ b=vZEplSfHXgwYseENL0SVUcbXd3ciXr/IzPP/7hv4ir0eo5qBu2eSyU2QzgtgFNm8t+
+ ZzppK0AFS1v5+KWVHpqunCGukmxSnQxs4k/PPo4NsETxWfj0XpTV2qJyMM5r7FrXs/pT
+ /JhYtAmY+SbXJcJVVX6oiWmOcSwMCbALwpqawXsAGgYWpXiwyjHO6gYMAI+d3Lmfb8iC
+ K9zF5esDWehiliRwxoqlZPNao712VQfCMo9H7i+YacFYZsP3NU7npSBunhtmlPibZb30
+ T75dMr2AzCQX9RcJdrpcp/VzZj2wo1YHOl9mJrxMtwB9l0ozBN0wR7x5gz3MwpeFZ2kN
+ KGOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7XMla8wVv4CHj589tbcKWaGLUnci5E8cocJdaCWNxj0=;
- b=GCFXuOZY8T7e07P3eIHieqJodH8YeIgAAQMxDlAbzYfXG9/Bh9HtgYSCmFHhAyq8ka
- BhDRj7nF4xNfdlkK0pbPm/A3PcDgKQEJWIIdp9MfwLyfSXotSvKE4V/PeMlI43MkfTM2
- CUu9fA+hqfxNNKHqyUiffX2dhcjzzgopvCTdDyUsUQPy2gg+8SIFu/uh8UHMfykU09sf
- /Uehq705BGIU+SU+i29Xdo8k1tYuvywoJ9BcKBy0M8UQNq8n+G3UpEOeGYEsDVmS3Udn
- dXgTdhv6C/I33P8bav3sVMbW4x7xuW3plmdYDVF3Ka1aRXtKyCLsDJBPywpnN9j3Pwbu
- 3JHg==
-X-Gm-Message-State: APjAAAXzF8K1ZWP0g6qzuhKvlV5tlbFSNVBLO3ivuo5UzJEcPu8ZPUQp
- TVmgcE6aPj/oIQR+A8V6jDIw+a2w/RptHPslxuRH0A==
-X-Google-Smtp-Source: APXvYqzJfQLpp1k7JyVZ2sK65oKrcyj/yrF5ttI8Ai45kjp4VCRJ/uKjGhbDJC2WVXzjZePt+CJrGXhNrgGRJ6vlFnA=
-X-Received: by 2002:a9d:4615:: with SMTP id y21mr4512476ote.97.1569931827350; 
- Tue, 01 Oct 2019 05:10:27 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=75K2boqvjiShtjVaWPC0Jb7NB2PxH93sa8fH7hOE+kw=;
+ b=WRjm1izJl4WcrQfk3Iw/1QLBuFoBNAFsE+iiIi4Gh1s9qX9iO3eLMBOYsQJFc7c6kk
+ 2qvf9PM2NtY0IZBvTpi0Z6dGLUPDdPBWHA8F9HutoZ4r1nwydQN/kpDxytrDYr9Bivwt
+ mEuhRUtQE1VxLXMf2FL/JFspugN/HURM54OsQUfE0RDXhuYYnJnwjQ3qaZCrg1NTHbxP
+ DDtnZmK7fgqkmwSHjdo7A00jI3yThXvneXgiDb0M4DmBdXnqhQ5mBZtQ8mWl5bBXsH8U
+ s8QaDQXy0ZG/msc96C278T9rkI1xbQNKa4hLVSit1yKncVjl1ZLGawWd4So8UYhSOO+q
+ PDxg==
+X-Gm-Message-State: APjAAAUm4KFElNsp+xsFvZyIKDfnGVg1gQJNty9INPTUFh9OBVVG5++A
+ EtuStVKsc5iIm0JPw/RViZ25UJz4+HEve2j1bJWjliS1
+X-Google-Smtp-Source: APXvYqw2LXIM9NOlkf7gKAO6aekhx3/zyyF5LVp2ymsyaMq4hkzY/fPE21IV2tadPMLKUDjvI0wvsPwdjeNFeMnZfDQ=
+X-Received: by 2002:a05:6830:1e87:: with SMTP id
+ n7mr17847036otr.101.1569931951419; 
+ Tue, 01 Oct 2019 05:12:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAEfK_44VEF17nRgzNvVe+MPmAfS34kiJ_ozubWFkVYV0rm71sw@mail.gmail.com>
- <CAFEAcA9nz9S4R+O9fwa0k38dB3r1smguG4bQRzwm1s0zJCvfDA@mail.gmail.com>
- <96703fc4-cbeb-5487-89b2-78c37b40237a@redhat.com>
-In-Reply-To: <96703fc4-cbeb-5487-89b2-78c37b40237a@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Oct 2019 13:10:14 +0100
-Message-ID: <CAFEAcA938u8GEkPwQpii74RQO4N3A6_+4Q3e7SMOMLKYLEr8Yg@mail.gmail.com>
-Subject: Re: Lockup with --accel tcg,thread=single
-To: Paolo Bonzini <pbonzini@redhat.com>
+From: Toe Dev <devtoe82@gmail.com>
+Date: Tue, 1 Oct 2019 15:12:17 +0300
+Message-ID: <CAN+O=TJkZEqHs50gYZgp3n0AeV1h6Wd8UYo+kxss5LUVJqxULQ@mail.gmail.com>
+Subject: header not included but used in vl.c
+To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,41 +68,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Doug Gale <doug16k@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Sep 2019 at 18:47, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> On 30/09/19 17:37, Peter Maydell wrote:
-> > Side note -- this use of run_on_cpu() means that we now drop
-> > the iothread lock within memory_region_snapshot_and_clear_dirty(),
-> > which we didn't before. This means that a vCPU thread can now
-> > get in and execute an access to the device registers of
-> > hw/display/vga.c, updating its state in a way I suspect that the
-> > device model code is not expecting... So maybe the right answer
-> > here should be to come up with a fix for the race that 9458a9a1
-> > addresses that doesn't require us to drop the iothread lock in
-> > memory_region_snapshot_and_clear_dirty() ? Alternatively we need
-> > to audit the callers and flag in the documentation that this
-> > function has the unexpected side effect of briefly dropping the
-> > iothread lock.
->
-> Yes, this is intended.  There shouldn't be side effects other than
-> possibly a one-frame flash for all callers.
+Hello,
+ does it have a reason why the file vl.c lacks reference
+ #include "qemu/module.h" ?
+ but still uses the defines include their(for example the enum value:
+MODULE_INIT_OPTS)?
+I'm using eclipse so I was notified by the IDE immediately.
 
-This seems quite tricky to audit to me -- for instance is the code
-in vga_draw_graphic() really designed for and expecting to cope with
-races where information it reads from s->foo after the call to
-memory_region_snapshot_and_clear_dirty() might have been updated
-by the guest and not be consistent with the information it read
-from s->bar before the call and cached in a local variable?
-I think most people write device code assuming that while execution
-is within a function in the device model the device won't have to
-deal with possible reentrancy where another thread comes in and
-alters the device state underfoot.
-
-thanks
--- PMM
+Thanks for yours help :)
 
