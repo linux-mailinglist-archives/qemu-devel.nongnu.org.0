@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9463C3A70
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:28:09 +0200 (CEST)
-Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E46FC3A57
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:21:56 +0200 (CEST)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFL0S-0000cR-1o
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
+	id 1iFKuQ-0001zE-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKU0-0000jH-Bn
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKU0-0000jI-B8
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:54:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTy-0007Em-8C
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTy-0007Eu-97
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:54:36 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38472)
+Received: from relay.sw.ru ([185.231.240.75]:38482)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTr-0006Zn-UH; Tue, 01 Oct 2019 11:54:34 -0400
+ id 1iFKTr-0006Zq-SI; Tue, 01 Oct 2019 11:54:34 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKSw-0004xb-W4; Tue, 01 Oct 2019 18:53:31 +0300
+ id 1iFKSx-0004xb-Aj; Tue, 01 Oct 2019 18:53:31 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/31] scripts: add script to fix
- error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:52:53 +0300
-Message-Id: <20191001155319.8066-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 06/31] python: add commit-per-subsystem.py
+Date: Tue,  1 Oct 2019 18:52:54 +0300
+Message-Id: <20191001155319.8066-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -64,10 +63,7 @@ Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-error_append_hint and error_prepend will not work, if errp ==
-&fatal_error, as program will exit before error_append_hint or
-error_prepend call. Fix this by use of special macro
-ERRP_AUTO_PROPAGATE.
+Add script to automatically commit tree-wide changes per-subsystem.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
@@ -116,44 +112,86 @@ CC: qemu-arm@nongnu.org
 CC: qemu-ppc@nongnu.org
 CC: qemu-s390x@nongnu.org
 
- scripts/coccinelle/fix-error-add-info.cocci | 28 +++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 scripts/coccinelle/fix-error-add-info.cocci
 
-diff --git a/scripts/coccinelle/fix-error-add-info.cocci b/scripts/coccinelle/fix-error-add-info.cocci
-new file mode 100644
-index 0000000000..34fa3be720
+ python/commit-per-subsystem.py | 69 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+ create mode 100755 python/commit-per-subsystem.py
+
+diff --git a/python/commit-per-subsystem.py b/python/commit-per-subsystem.py
+new file mode 100755
+index 0000000000..d8442d9ea3
 --- /dev/null
-+++ b/scripts/coccinelle/fix-error-add-info.cocci
-@@ -0,0 +1,28 @@
-+@rule0@
-+// Add invocation to errp-functions
-+identifier fn;
-+@@
++++ b/python/commit-per-subsystem.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/env python3
++#
++# Copyright (c) 2019 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+ fn(..., Error **errp, ...)
-+ {
-++   ERRP_AUTO_PROPAGATE();
-+    <+...
-+(
-+    error_append_hint(errp, ...);
-+|
-+    error_prepend(errp, ...);
-+)
-+    ...+>
-+ }
++import subprocess
++import sys
 +
-+@@
-+// Drop doubled invocation
-+identifier rule0.fn;
-+@@
 +
-+ fn(...)
-+{
-+    ERRP_AUTO_PROPAGATE();
-+-   ERRP_AUTO_PROPAGATE();
-+    ...
++def git_add(pattern):
++    subprocess.run(['git', 'add', pattern])
++
++
++def git_commit(msg):
++    subprocess.run(['git', 'commit', '-m', msg], capture_output=True)
++
++
++maintainers = sys.argv[1]
++message = sys.argv[2].strip()
++
++subsystem = None
++
++shortnames = {
++    'Block layer core': 'block',
++    'ARM cores': 'arm',
++    'Network Block Device (NBD)': 'nbd',
++    'Command line option argument parsing': 'cmdline',
++    'Character device backends': 'chardev',
++    'S390 general architecture support': 's390'
 +}
++
++
++def commit():
++    if subsystem:
++        msg = subsystem
++        if msg in shortnames:
++            msg = shortnames[msg]
++        msg += ': ' + message
++        git_commit(msg)
++
++
++with open(maintainers) as f:
++    for line in f:
++        line = line.rstrip()
++        if not line:
++            continue
++        if len(line) >= 2 and line[1] == ':':
++            if line[0] == 'F' and line[3:] not in ['*', '*/']:
++                git_add(line[3:])
++        else:
++            # new subsystem start
++            commit()
++
++            subsystem = line
++
++commit()
 -- 
 2.21.0
 
