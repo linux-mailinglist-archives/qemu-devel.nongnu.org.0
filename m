@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887D8C3D0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:57:36 +0200 (CEST)
-Received: from localhost ([::1]:45094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9404BC3D6B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:59:59 +0200 (CEST)
+Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLSx-0008J4-Br
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55780)
+	id 1iFLVG-00037T-7Q
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ard.biesheuvel@linaro.org>) id 1iFL35-0004Uu-Tm
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:30:59 -0400
+ (envelope-from <thatlemon@gmail.com>) id 1iFLBv-0004g6-Jq
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:40:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ard.biesheuvel@linaro.org>) id 1iFL33-0007um-Lu
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:30:51 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55917)
+ (envelope-from <thatlemon@gmail.com>) id 1iFLBt-0008NI-TG
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:39:59 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40520)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ard.biesheuvel@linaro.org>)
- id 1iFL31-0007qS-JR
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:30:49 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a6so4065789wma.5
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 09:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iDE3NPxK2YgasB7/UtWZn8dDQ9EAgUrKIEWxXkVOJEs=;
- b=Z+ThUQ+xug7orDJ6yRzSKmboswm1kWjiB2agoyiTUNh4x3wAf0YD0YcWjh22THsmtQ
- gn/f0sQRWXAYFaCtstRqGFFxGkc1RK1jt0O3BAo7wctY8ntLdu2YZbwnHpjiwMzOx0LX
- 5jQmCOzvAnn2W6GyqDcD3S2CTvVFY2HnEe0SNHRlwnIgm6sPBopaOXXhJxTaILtdONN0
- lbrD+Y1rbRQNV2RVo7bwc70M3WpSGXY7gEYRBraS4H+9wy9d+eqZbKG5TTAbFlchfX/q
- 6ddW+REWFJJewJkinmVhOsU2Bl4Ite9mzoIFArQL8A4/c3Zd6w5/DMDc//i/ChKjN8g3
- LV9w==
+ (Exim 4.71) (envelope-from <thatlemon@gmail.com>) id 1iFLBs-0008Dx-8E
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:39:57 -0400
+Received: by mail-wm1-x344.google.com with SMTP id b24so3962095wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 09:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=GAJjguWUwmP/WsVKo8gF3+A3WszXHwQvwqITmyrIgjQ=;
+ b=WrJ8FCvvEjBuHbQZbe7yqlacPi6BOY0SAeZfbxZGerta7gZJfS471ayvzyAft0xrkS
+ uuGWZ4xRNb57slpf/peylD0qL7cMxOug5YUmLxQcmhrBBgOnMArD03omFRygU2zvAvxy
+ roT6uTSIx1xF3ZbF8SUvJPmAOU13ZoqrSwRVHRxMpb1QQ/t690i+YaeC6A+UnmlSlVGg
+ luxGqVaZ58VTRBm6xiTrqufqTOd2TeRzdUg9Dk9QVqM/86Zur29y441ytq1PxU5Ce3JV
+ PvUb6wzufDV4MXfKUNcB1mgUw656KSyi1rMQ1PoqQrbtctigFt8QIwVO0CM6ojMZKl9w
+ rhyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iDE3NPxK2YgasB7/UtWZn8dDQ9EAgUrKIEWxXkVOJEs=;
- b=ZNZ7ojID41fupWmj4l5wm5en8Ij3lzcAjvAXh/5RWUsfmhhrsI0u9h4AJ5oGIv/RqM
- eyo7HPB7HfZevhshSsDO8AHpeXH0uaGUVYXmixCqmcO8U3rvYOvJF5dmkCZqqfn6kySL
- Ie14vkruLiWjjgn7qqqrrYxKejfHFqsMDYZuEXt9pgZjkis/e4dzFPXODIRlhFwog/VW
- oWHW4obHqZ1CsMYYlDqjuEkebrOAXO2nmy/AkkBoohdUCMPQ2+Xq7ZcnMv5vNRTecxuX
- HIMPlw8TUvu2qfulKoeWAR9ISoAgGX1KSmzjuymvKfC+0IuZKd78CrzvKhKej0xbSYXy
- e8kg==
-X-Gm-Message-State: APjAAAVQ7sixpfLQn7dhCVL4UkS8nXrJkwQ3zAl4mwwxCqLhdXlnWvQa
- 3s+8yd9Id0vPkkJ9qdK9WduNaPcJn1XwrciHYoSQNA==
-X-Google-Smtp-Source: APXvYqwipksf2TwEi2e68Whm0YBn1mVgixnRiNECnv3He5K5g1x0UStfqNvDR5EZOcqecODCsX04tSrjHC7XFo34klA=
-X-Received: by 2002:a7b:cb55:: with SMTP id v21mr4537934wmj.53.1569947443269; 
- Tue, 01 Oct 2019 09:30:43 -0700 (PDT)
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=GAJjguWUwmP/WsVKo8gF3+A3WszXHwQvwqITmyrIgjQ=;
+ b=QPjWS4bxouCASFx67DjM7dXN6q5KboGkGqr4in1yu/6XM0M8V2FzLmDK8WNasrW/rn
+ tK/oqHcZX6jyGHCCRxygBh77C049YSaBoGZ7sMXxTzwYr748HfMq3G/KBfWDiom3nO78
+ JGA0fYTqMB8MJcegbBpPrkTmsXFa5yiHoRhKqWKZZUhr9ktgEhDJUUV9/h3mdiM5MnFs
+ VcLOhKm9phWE4aOPr7NsPHLJ06elHynKcqb+HvWLH8M8hQ69apA30wOKHv5OKJe10+Fh
+ Rsh+/X4Z0Hs7p8oqNqorJP4m+tmqGl6HjpEth6YYGcI7EHkWsiiKD/CjIQKL8/gTE4gt
+ EgeA==
+X-Gm-Message-State: APjAAAUkA93vZr5h9gSb+s5iFx70OZUt1FZATEMqa1FodJIFdGxzEA2a
+ vnuiMFXMW3mlLGT6cTulMa0ZsIjS
+X-Google-Smtp-Source: APXvYqy9LB6x8l4ZKER29GS4mYgzqAPCmqBotwLnAbyfPSDPH8SVmGCQXlY5au/VcAHFmiSCoi2PAg==
+X-Received: by 2002:a1c:6609:: with SMTP id a9mr4806218wmc.127.1569947993975; 
+ Tue, 01 Oct 2019 09:39:53 -0700 (PDT)
+Received: from [192.168.1.103] ([151.33.120.151])
+ by smtp.gmail.com with ESMTPSA id o9sm41071957wrh.46.2019.10.01.09.39.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Oct 2019 09:39:53 -0700 (PDT)
+To: qemu-devel@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>
+From: LemonBoy <thatlemon@gmail.com>
+Subject: [PATCH] linux-user/riscv: Propagate fault address
+Message-ID: <5059f7eb-07c4-62c7-542b-e71315a4f675@gmail.com>
+Date: Tue, 1 Oct 2019 18:39:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <21633062-b021-a8e7-0cc8-062f4c29dde5@linux.microsoft.com>
- <ca5c74db-cf5d-0c3f-eb6f-27d1092420ae@linux.microsoft.com>
- <65b49cb0-c9fb-d966-8dec-1e39d09ab8c7@redhat.com>
- <88878b22-803f-41fc-9df2-2c6eb551b98d@linux.microsoft.com>
-In-Reply-To: <88878b22-803f-41fc-9df2-2c6eb551b98d@linux.microsoft.com>
-From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date: Tue, 1 Oct 2019 18:30:31 +0200
-Message-ID: <CAKv+Gu8kwg_tsrH7qne3H11hUPyA6zw-J_jpUmiyJMvXo3-SNQ@mail.gmail.com>
-Subject: Re: Is kexec supported in QEMU for ARM64 (qemu-system-aarch64) with
- arm-trusted-firmware, optee, and u-boot.
-To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,38 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Oct 2019 at 00:27, Lakshmi Ramasubramanian
-<nramas@linux.microsoft.com> wrote:
->
-> On 9/27/19 2:15 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->
-> > Cc'ing Ard too
-> >>
-> >> https://salsa.debian.org/debian/atf-allwinner/commit/b6b671c4ac4bd5595=
-306863225bb3bece1e6135c
-> >>
-> >>
-> >> Current limitations:
-> >> * Only cold boot is supported
-> >> * No build instructions for QEMU_EFI.fd and rootfs-arm64.cpio.gz
-> >> * No instructions for how to load a BL32 (Secure Payload)
-> >>
-> >> So looks like only cold boot is supported (no kexec support)
-> >> Is this correct?
->
-> Just wanted to check again -
->
-> Does ATF and QEMU (for ARM64) support cold boot only and does not have
-> support for kexec?
->
+The CPU loop tagged all the queued signals as QEMU_SI_KILL while it was
+filling the `_sigfault` part of `siginfo`: this caused QEMU to copy the
+wrong fields over to the userspace program.
 
-kexec is a linux concept, so whether it is supported should not depend
-on the secure world firmware or the underlying host.
+Make sure the fault address recorded by the MMU is is stored in the CPU
+environment structure.
+
+In case of memory faults store the exception address into `siginfo`.
+
+Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+---
+ linux-user/riscv/cpu_loop.c | 3 ++-
+ target/riscv/cpu_helper.c   | 5 ++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index 12aa3c0f16..aa9e437875 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -89,6 +89,7 @@ void cpu_loop(CPURISCVState *env)
+         case RISCV_EXCP_STORE_PAGE_FAULT:
+             signum = TARGET_SIGSEGV;
+             sigcode = TARGET_SEGV_MAPERR;
++            sigaddr = env->badaddr;
+             break;
+         case EXCP_DEBUG:
+         gdbstep:
+@@ -108,7 +109,7 @@ void cpu_loop(CPURISCVState *env)
+                 .si_code = sigcode,
+                 ._sifields._sigfault._addr = sigaddr
+             };
+-            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
++            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+         }
+ 
+         process_pending_signals(env);
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 87dd6a6ece..58e40e9824 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -446,9 +446,9 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+                         bool probe, uintptr_t retaddr)
+ {
+-#ifndef CONFIG_USER_ONLY
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
++#ifndef CONFIG_USER_ONLY
+     hwaddr pa = 0;
+     int prot;
+     bool pmp_violation = false;
+@@ -499,7 +499,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     case MMU_DATA_STORE:
+         cs->exception_index = RISCV_EXCP_STORE_PAGE_FAULT;
+         break;
++    default:
++        g_assert_not_reached();
+     }
++    env->badaddr = address;
+     cpu_loop_exit_restore(cs, retaddr);
+ #endif
+ }
+-- 
+2.20.1
+
 
