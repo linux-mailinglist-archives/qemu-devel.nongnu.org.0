@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD04C44BA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:03:14 +0200 (CEST)
-Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541DDC44DD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:17:57 +0200 (CEST)
+Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFS6r-0004xC-Br
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39311)
+	id 1iFSL5-0007jr-M8
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrs-0001HY-71
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:47 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrv-0001Mq-E7
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrn-0001Yi-37
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9626
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrq-0001e1-7V
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27924)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRrm-0001PA-Mp; Tue, 01 Oct 2019 19:47:38 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1iFRrc-0001KO-Qe; Tue, 01 Oct 2019 19:47:29 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlO5q122835; Tue, 1 Oct 2019 19:47:30 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk4094s-1
+ x91NlRvA086526; Tue, 1 Oct 2019 19:47:27 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vccat80mt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:30 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlTop123007;
- Tue, 1 Oct 2019 19:47:29 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk4094j-1
+ Tue, 01 Oct 2019 19:47:27 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlTo029385;
+ Tue, 1 Oct 2019 23:47:17 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fag7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:29 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlX7001425;
- Tue, 1 Oct 2019 23:47:29 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 2v9y56yf6s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:29 +0000
+ Tue, 01 Oct 2019 23:47:17 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlSm744302770
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlHxA53346584
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:28 GMT
+ Tue, 1 Oct 2019 23:47:17 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BC89428058;
- Tue,  1 Oct 2019 23:47:28 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0C6CE28058;
+ Tue,  1 Oct 2019 23:47:17 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F9C02805A;
- Tue,  1 Oct 2019 23:47:28 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D9A572805A;
+ Tue,  1 Oct 2019 23:47:16 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:28 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:16 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/97] q35: Revert to kernel irqchip
-Date: Tue,  1 Oct 2019 18:45:10 -0500
-Message-Id: <20191001234616.7825-32-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 00/97] Patch Round-up for stable 4.0.1, freeze on 2019-10-10
+Date: Tue,  1 Oct 2019 18:44:39 -0500
+Message-Id: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
-References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
@@ -75,8 +67,11 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id x91NlRvA086526
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,171 +83,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Williamson <alex.williamson@redhat.com>
+Hi everyone,                                                             =
+                                =20
 
-Backport of QEMU v4.1 commit for stable v4.0.1 release
+The following new patches are queued for QEMU stable v4.0.1:
 
-commit c87759ce876a7a0b17c2bf4f0b964bd51f0ee871
-Author: Alex Williamson <alex.williamson@redhat.com>
-Date:   Tue May 14 14:14:41 2019 -0600
+  https://github.com/mdroth/qemu/commits/stable-4.0-staging
 
-    q35: Revert to kernel irqchip
+The release is planned for 2019-10-17:
 
-    Commit b2fc91db8447 ("q35: set split kernel irqchip as default") changed
-    the default for the pc-q35-4.0 machine type to use split irqchip, which
-    turned out to have disasterous effects on vfio-pci INTx support.  KVM
-    resampling irqfds are registered for handling these interrupts, but
-    these are non-functional in split irqchip mode.  We can't simply test
-    for split irqchip in QEMU as userspace handling of this interrupt is a
-    significant performance regression versus KVM handling (GeForce GPUs
-    assigned to Windows VMs are non-functional without forcing MSI mode or
-    re-enabling kernel irqchip).
+  https://wiki.qemu.org/Planning/4.0
 
-    The resolution is to revert the change in default irqchip mode in the
-    pc-q35-4.1 machine and create a pc-q35-4.0.1 machine for the 4.0-stable
-    branch.  The qemu-q35-4.0 machine type should not be used in vfio-pci
-    configurations for devices requiring legacy INTx support without
-    explicitly modifying the VM configuration to use kernel irqchip.
+Please respond here or CC qemu-stable@nongnu.org on any patches you
+think should be included in the release.
 
-Link: https://bugs.launchpad.net/qemu/+bug/1826422
-Fixes: b2fc91db8447 ("q35: set split kernel irqchip as default")
-Cc: qemu-stable@nongnu.org
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-(upstream commit c87759ce876a7a0b17c2bf4f0b964bd51f0ee871)
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-*add comments regarding AML mismatch warnings from
- tests/bios-tables-test.c
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
----
- hw/core/machine.c        |  3 +++
- hw/i386/pc.c             |  3 +++
- hw/i386/pc_q35.c         | 16 ++++++++++++++--
- include/hw/boards.h      |  3 +++
- include/hw/i386/pc.h     |  3 +++
- tests/bios-tables-test.c |  9 +++++++++
- 6 files changed, 35 insertions(+), 2 deletions(-)
+Note that this update falls outside the normal stable release support
+window (~1 development cycle), but is being released now since it was
+delayed from its intended release date.
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index b6766632d9..eb34f53a85 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -24,6 +24,9 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
- 
-+GlobalProperty hw_compat_4_0[] = {};
-+const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
-+
- GlobalProperty hw_compat_3_1[] = {
-     { "pcie-root-port", "x-speed", "2_5" },
-     { "pcie-root-port", "x-width", "1" },
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index f2c15bf1f2..d98b737b8f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -115,6 +115,9 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
- /* Physical Address of PVH entry point read from kernel ELF NOTE */
- static size_t pvh_start_addr;
- 
-+GlobalProperty pc_compat_4_0[] = {};
-+const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
-+
- GlobalProperty pc_compat_3_1[] = {
-     { "intel-iommu", "dma-drain", "off" },
-     { "Opteron_G3" "-" TYPE_X86_CPU, "rdtscp", "off" },
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 372c6b73be..45cc29d1ad 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->units_per_default_bus = 1;
-     m->default_machine_opts = "firmware=bios-256k.bin";
-     m->default_display = "std";
--    m->default_kernel_irqchip_split = true;
-+    m->default_kernel_irqchip_split = false;
-     m->no_floppy = 1;
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_AMD_IOMMU_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
-@@ -365,12 +365,24 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_4_0_machine_options(MachineClass *m)
-+static void pc_q35_4_0_1_machine_options(MachineClass *m)
- {
-     pc_q35_machine_options(m);
-     m->alias = "q35";
- }
- 
-+DEFINE_Q35_MACHINE(v4_0_1, "pc-q35-4.0.1", NULL,
-+                   pc_q35_4_0_1_machine_options);
-+
-+static void pc_q35_4_0_machine_options(MachineClass *m)
-+{
-+    pc_q35_4_0_1_machine_options(m);
-+    m->default_kernel_irqchip_split = true;
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-+    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
-+}
-+
- DEFINE_Q35_MACHINE(v4_0, "pc-q35-4.0", NULL,
-                    pc_q35_4_0_machine_options);
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index e231860666..fe1885cbff 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -293,6 +293,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
- 
-+extern GlobalProperty hw_compat_4_0[];
-+extern const size_t hw_compat_4_0_len;
-+
- extern GlobalProperty hw_compat_3_1[];
- extern const size_t hw_compat_3_1_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index ca65ef18af..43df7230a2 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -293,6 +293,9 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
- int e820_get_num_entries(void);
- bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
- 
-+extern GlobalProperty pc_compat_4_0[];
-+extern const size_t pc_compat_4_0_len;
-+
- extern GlobalProperty pc_compat_3_1[];
- extern const size_t pc_compat_3_1_len;
- 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index a506dcbb29..996599991e 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -354,6 +354,15 @@ static void test_acpi_asl(test_data *data)
-             } else {
-                 sdt->tmp_files_retain = true;
-                 exp_sdt->tmp_files_retain = true;
-+                /* NOTE: In QEMU 4.0.1, q35 aliases "pc-q35-4.0.1" instead of
-+                 * "pc-q35-4.0". This gets encoded into the smbios tables and
-+                 * due to the extra characters changes the offset of ACPI
-+                 * pointer values allocated by SeaBIOS, causing some tests to
-+                 * report AML mismatches. Since ACPI expected file paths rely
-+                 * on the "q35" alias being used we can't easily change the
-+                 * tests to use pc-q35-4.0, so for now hopefully this friendly
-+                 * note will suffice.
-+                 */
-                 fprintf(stderr,
-                         "acpi-test: Warning! %.4s mismatch. "
-                         "Actual [asl:%s, aml:%s], Expected [asl:%s, aml:%s].\n",
--- 
-2.17.1
+Thanks!
+
+----------------------------------------------------------------
+Alberto Garcia (1):
+      qcow2: Fix the calculation of the maximum L2 cache size
+
+Alex Williamson (1):
+      q35: Revert to kernel irqchip
+
+Anthony PERARD (1):
+      xen-bus: Fix backend state transition on device reset
+
+Anton Blanchard (5):
+      target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[sd]p
+      target/ppc: Fix xvxsigdp
+      target/ppc: Fix xxbrq, xxbrw
+      target/ppc: Fix vsum2sws
+      target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
+
+Christian Borntraeger (1):
+      s390x/cpumodel: ignore csske for expansion
+
+C=C3=A9dric Le Goater (1):
+      spapr/xive: fix EQ page addresses above 64GB
+
+Daniel P. Berrang=C3=A9 (1):
+      docs: recommend use of md-clear feature on all Intel CPUs
+
+David Hildenbrand (7):
+      virtio-balloon: Fix wrong sign extension of PFNs
+      virtio-balloon: Fix QEMU crashes on pagesize > BALLOON_PAGE_SIZE
+      virtio-balloon: Simplify deflate with pbp
+      virtio-balloon: Better names for offset variables in inflate/deflat=
+e code
+      virtio-balloon: Rework pbp tracking data
+      virtio-balloon: Use temporary PBP only
+      virtio-balloon: don't track subpages for the PBP
+
+Eric Blake (1):
+      cutils: Fix size_to_str() on 32-bit platforms
+
+Evgeny Yakovlev (2):
+      i386/acpi: show PCI Express bus on pxb-pcie expanders
+      i386/acpi: fix gint overflow in crs_range_compare
+
+Gerd Hoffmann (2):
+      kbd-state: fix autorepeat handling
+      usb-tablet: fix serial compat property
+
+Jan Kiszka (1):
+      ioapic: kvm: Skip route updates for masked pins
+
+Johannes Berg (1):
+      libvhost-user: fix SLAVE_SEND_FD handling
+
+John Snow (13):
+      Makefile: add nit-picky mode to sphinx-build
+      docs/interop/bitmaps: rewrite and modernize doc
+      blockdev-backup: don't check aio_context too early
+      iotests.py: do not use infinite waits
+      QEMUMachine: add events_wait method
+      iotests.py: rewrite run_job to be pickier
+      iotests: add iotest 256 for testing blockdev-backup across iothread=
+ contexts
+      migration/dirty-bitmaps: change bitmap enumeration method
+      docs/interop/bitmaps.rst: Fix typos
+      sphinx: add qmp_lexer
+      docs/bitmaps: use QMP lexer instead of json
+      Revert "ide/ahci: Check for -ECANCELED in aio callbacks"
+      iotests: add testing shim for script-style python tests
+
+Kevin Wolf (7):
+      qcow2: Avoid COW during metadata preallocation
+      qcow2: Add errp to preallocate_co()
+      qcow2: Fix full preallocation with external data file
+      qcow2: Fix qcow2_make_empty() with external data file
+      block: Fix AioContext switch for bs->drv =3D=3D NULL
+      block: Drain source node in bdrv_replace_node()
+      iotests: Test commit job start with concurrent I/O
+
+Li Hangjing (1):
+      vhost: fix vhost_log size overflow during migration
+
+Marc-Andr=C3=A9 Lureau (2):
+      virtio-pci: fix missing device properties
+      usbredir: fix buffer-overflow on vmload
+
+Markus Armbruster (2):
+      vl: Fix -drive / -blockdev persistent reservation management
+      pr-manager: Fix invalid g_free() crash bug
+
+Matthew Rosato (1):
+      s390: PCI: fix IOMMU region init
+
+Max Reitz (20):
+      block/file-posix: Unaligned O_DIRECT block-status
+      iotests: Test unaligned raw images with O_DIRECT
+      iotests.py: Fix VM.run_job
+      backup: Copy only dirty areas
+      iotests: Test backup job with two guest writes
+      iotests: Test incremental backup after truncation
+      mirror: Only mirror granularity-aligned chunks
+      iotests: Test unaligned blocking mirror write
+      vpc: Return 0 from vpc_co_create() on success
+      iotests: Add supported protocols to execute_test()
+      iotests: Restrict file Python tests to file
+      iotests: Restrict nbd Python tests to nbd
+      iotests: Test blockdev-create for vpc
+      curl: Keep pointer to the CURLState in CURLSocket
+      curl: Keep *socket until the end of curl_sock_cb()
+      curl: Check completion in curl_multi_do()
+      curl: Pass CURLSocket to curl_multi_do()
+      curl: Report only ready sockets
+      curl: Handle success in multi_check_completion
+      curl: Check curl_multi_add_handle()'s return code
+
+Michael Roth (2):
+      slirp: Fix heap overflow in ip_reass on big packet input
+      slirp: ip_reass: Fix use after free
+
+Michael S. Tsirkin (1):
+      virtio-balloon: free pbp more aggressively
+
+Paolo Bonzini (4):
+      target/i386: add MDS-NO feature
+      target/i386: define md-clear bit
+      dma-helpers: ensure AIO callback is invoked after cancellation
+      scsi: lsi: exit infinite loop while executing script (CVE-2019-1206=
+8)
+
+Peter Lieven (2):
+      megasas: fix mapped frame size
+      block/nfs: tear down aio before nfs_close
+
+Peter Maydell (1):
+      target/arm: Don't abort on M-profile exception return in linux-user=
+ mode
+
+Philippe Mathieu-Daud=C3=A9 (4):
+      hw/ssi/xilinx_spips: Convert lqspi_read() to read_with_attrs
+      hw/ssi/xilinx_spips: Avoid AXI writes to the LQSPI linear memory
+      hw/ssi/xilinx_spips: Avoid out-of-bound access to lqspi_buf[]
+      block/create: Do not abort if a block driver is not available
+
+Sergio Lopez (1):
+      blockjob: update nodes head while removing all bdrv
+
+Stefan Berger (2):
+      tpm: Exit in reset when backend indicates failure
+      tpm_emulator: Translate TPM error codes to strings
+
+Stefan Hajnoczi (1):
+      virtio-balloon: fix QEMU 4.0 config size migration incompatibility
+
+Thomas Huth (1):
+      hw/core/loader: Fix possible crash in rom_copy()
+
+Vladimir Sementsov-Ogievskiy (7):
+      block/backup: simplify backup_incremental_init_copy_bitmap
+      block/backup: move to copy_bitmap with granularity
+      block/backup: refactor and tolerate unallocated cluster skipping
+      block/backup: unify different modes code path
+      block/backup: refactor: split out backup_calculate_cluster_size
+      util/hbitmap: update orig_size on truncate
+      block/backup: disable copy_range for compressed backup
+
+ Makefile                              |    2 +-
+ block.c                               |   19 +-
+ block/backup.c                        |  258 +++---
+ block/create.c                        |    6 +-
+ block/curl.c                          |  133 ++-
+ block/file-posix.c                    |   16 +
+ block/mirror.c                        |   29 +
+ block/nfs.c                           |    6 +-
+ block/qcow2.c                         |   59 +-
+ block/vpc.c                           |    3 +-
+ blockdev.c                            |    4 -
+ blockjob.c                            |   17 +-
+ contrib/libvhost-user/libvhost-user.c |    3 +-
+ dma-helpers.c                         |   13 +-
+ docs/conf.py                          |    4 +-
+ docs/interop/bitmaps.rst              | 1585 ++++++++++++++++++++++++++-=
+------
+ docs/qemu-cpu-models.texi             |   12 +
+ docs/sphinx/qmp_lexer.py              |   43 +
+ hw/core/loader.c                      |    2 +-
+ hw/core/machine.c                     |    8 +-
+ hw/i386/acpi-build.c                  |   17 +-
+ hw/i386/pc.c                          |    3 +
+ hw/i386/pc_q35.c                      |   16 +-
+ hw/ide/ahci.c                         |    3 -
+ hw/ide/core.c                         |   14 -
+ hw/intc/ioapic.c                      |    8 +-
+ hw/intc/spapr_xive.c                  |    3 +-
+ hw/intc/xive.c                        |    9 +-
+ hw/s390x/s390-pci-bus.c               |    7 +-
+ hw/scsi/lsi53c895a.c                  |   41 +-
+ hw/scsi/megasas.c                     |    2 +-
+ hw/ssi/xilinx_spips.c                 |   43 +-
+ hw/tpm/tpm_crb.c                      |    4 +-
+ hw/tpm/tpm_emulator.c                 |   60 +-
+ hw/tpm/tpm_int.h                      |   13 +
+ hw/tpm/tpm_tis.c                      |    4 +-
+ hw/usb/redirect.c                     |    5 +
+ hw/virtio/vhost.c                     |   10 +
+ hw/virtio/virtio-balloon.c            |  143 +--
+ hw/virtio/virtio-pci.c                |   28 +-
+ hw/xen/xen-bus.c                      |   23 +-
+ include/hw/boards.h                   |    3 +
+ include/hw/i386/pc.h                  |    3 +
+ include/hw/ppc/xive_regs.h            |    6 +
+ include/hw/virtio/virtio-balloon.h    |    5 +-
+ migration/block-dirty-bitmap.c        |   14 +-
+ python/qemu/__init__.py               |   69 +-
+ scsi/pr-manager.c                     |    1 -
+ slirp/src/ip_input.c                  |   19 +-
+ target/arm/translate.c                |   21 +-
+ target/i386/cpu.c                     |    4 +-
+ target/ppc/int_helper.c               |    2 +-
+ target/ppc/translate/vsx-impl.inc.c   |   23 +-
+ target/s390x/cpu_models.c             |    2 +
+ tests/bios-tables-test.c              |    9 +
+ tests/qemu-iotests/030                |    3 +-
+ tests/qemu-iotests/040                |    3 +-
+ tests/qemu-iotests/041                |    3 +-
+ tests/qemu-iotests/044                |    3 +-
+ tests/qemu-iotests/045                |    3 +-
+ tests/qemu-iotests/055                |    3 +-
+ tests/qemu-iotests/056                |   42 +-
+ tests/qemu-iotests/056.out            |    4 +-
+ tests/qemu-iotests/057                |    3 +-
+ tests/qemu-iotests/065                |    3 +-
+ tests/qemu-iotests/096                |    3 +-
+ tests/qemu-iotests/118                |    3 +-
+ tests/qemu-iotests/124                |   41 +-
+ tests/qemu-iotests/124.out            |    4 +-
+ tests/qemu-iotests/129                |    3 +-
+ tests/qemu-iotests/132                |    3 +-
+ tests/qemu-iotests/139                |    3 +-
+ tests/qemu-iotests/147                |    5 +-
+ tests/qemu-iotests/148                |    3 +-
+ tests/qemu-iotests/151                |   28 +-
+ tests/qemu-iotests/151.out            |    4 +-
+ tests/qemu-iotests/152                |    3 +-
+ tests/qemu-iotests/155                |    3 +-
+ tests/qemu-iotests/163                |    3 +-
+ tests/qemu-iotests/165                |    3 +-
+ tests/qemu-iotests/169                |    3 +-
+ tests/qemu-iotests/196                |    3 +-
+ tests/qemu-iotests/199                |    3 +-
+ tests/qemu-iotests/205                |    3 +-
+ tests/qemu-iotests/221                |    4 +
+ tests/qemu-iotests/245                |    3 +-
+ tests/qemu-iotests/253                |   84 ++
+ tests/qemu-iotests/253.out            |   14 +
+ tests/qemu-iotests/255                |   83 ++
+ tests/qemu-iotests/255.out            |   16 +
+ tests/qemu-iotests/256                |  122 +++
+ tests/qemu-iotests/256.out            |  119 +++
+ tests/qemu-iotests/266                |  153 ++++
+ tests/qemu-iotests/266.out            |  137 +++
+ tests/qemu-iotests/group              |    4 +
+ tests/qemu-iotests/iotests.py         |  106 ++-
+ ui/kbd-state.c                        |    6 +-
+ util/cutils.c                         |    2 +-
+ util/hbitmap.c                        |    6 +-
+ vl.c                                  |    3 +-
+ 100 files changed, 3022 insertions(+), 893 deletions(-)
+ create mode 100644 docs/sphinx/qmp_lexer.py
+ create mode 100755 tests/qemu-iotests/253
+ create mode 100644 tests/qemu-iotests/253.out
+ create mode 100755 tests/qemu-iotests/255
+ create mode 100644 tests/qemu-iotests/255.out
+ create mode 100755 tests/qemu-iotests/256
+ create mode 100644 tests/qemu-iotests/256.out
+ create mode 100755 tests/qemu-iotests/266
+ create mode 100644 tests/qemu-iotests/266.out
+
+
 
 
