@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457D5C458D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:31:15 +0200 (CEST)
-Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D58EC459D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:36:01 +0200 (CEST)
+Received: from localhost ([::1]:50244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTU1-0007QV-Fg
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41272)
+	id 1iFTYd-0004Sm-RL
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsp-0002E2-32
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:44 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsx-0002K0-4N
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsh-0002uz-PE
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53242
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsu-00039x-S1
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5134)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRsg-00027w-O6; Tue, 01 Oct 2019 19:48:35 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlRe1099084; Tue, 1 Oct 2019 19:48:04 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v7b-1
+ id 1iFRsg-0002Gz-8i; Tue, 01 Oct 2019 19:48:34 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlO0j053445; Tue, 1 Oct 2019 19:48:05 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg1716gx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:03 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlOAJ098863;
- Tue, 1 Oct 2019 19:48:03 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcfjp9v73-1
+ Tue, 01 Oct 2019 19:48:05 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njk6S029377;
+ Tue, 1 Oct 2019 23:48:04 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fam2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:03 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlCA023568;
- Tue, 1 Oct 2019 23:48:03 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577h1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:48:03 +0000
+ Tue, 01 Oct 2019 23:48:04 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91Nm2Wf5309018
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91Nm3ET38535672
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:48:02 GMT
+ Tue, 1 Oct 2019 23:48:03 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89AEE28064;
- Tue,  1 Oct 2019 23:48:02 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8CBAF2805A;
+ Tue,  1 Oct 2019 23:48:03 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E8C92805E;
- Tue,  1 Oct 2019 23:48:02 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 707DE28058;
+ Tue,  1 Oct 2019 23:48:03 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:48:02 +0000 (GMT)
+ Tue,  1 Oct 2019 23:48:03 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 92/97] curl: Check curl_multi_add_handle()'s return code
-Date: Tue,  1 Oct 2019 18:46:11 -0500
-Message-Id: <20191001234616.7825-93-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 94/97] slirp: ip_reass: Fix use after free
+Date: Tue,  1 Oct 2019 18:46:13 -0500
+Message-Id: <20191001234616.7825-95-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -71,12 +63,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,45 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+Using ip_deq after m_free might read pointers from an allocation reuse.
 
-If we had done that all along, debugging would have been much simpler.
-(Also, I/O errors are better than hangs.)
+This would be difficult to exploit, but that is still related with
+CVE-2019-14378 which generates fragmented IP packets that would trigger this
+issue and at least produce a DoS.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190910124136.10565-8-mreitz@redhat.com
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit c34dc07f9f01cf686e512f939aece744723072cd)
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+(from libslirp.git commit c59279437eda91841b9d26079c70b8a540d41204)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/curl.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ slirp/src/ip_input.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index af40203711..7a29b40954 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -881,7 +881,13 @@ static void curl_setup_preadv(BlockDriverState *bs, CURLAIOCB *acb)
-     trace_curl_setup_preadv(acb->bytes, start, state->range);
-     curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
+diff --git a/slirp/src/ip_input.c b/slirp/src/ip_input.c
+index 68a99de5b5..89ae04e0c1 100644
+--- a/slirp/src/ip_input.c
++++ b/slirp/src/ip_input.c
+@@ -297,6 +297,7 @@ ip_reass(Slirp *slirp, struct ip *ip, struct ipq *fp)
+ 	 */
+ 	while (q != (struct ipasfrag*)&fp->frag_link &&
+             ip->ip_off + ip->ip_len > q->ipf_off) {
++        struct ipasfrag *prev;
+ 		i = (ip->ip_off + ip->ip_len) - q->ipf_off;
+ 		if (i < q->ipf_len) {
+ 			q->ipf_len -= i;
+@@ -304,9 +305,10 @@ ip_reass(Slirp *slirp, struct ip *ip, struct ipq *fp)
+ 			m_adj(dtom(slirp, q), i);
+ 			break;
+ 		}
++        prev = q;
+ 		q = q->ipf_next;
+-		m_free(dtom(slirp, q->ipf_prev));
+-		ip_deq(q->ipf_prev);
++		ip_deq(prev);
++		m_free(dtom(slirp, prev));
+ 	}
  
--    curl_multi_add_handle(s->multi, state->curl);
-+    if (curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
-+        state->acb[0] = NULL;
-+        acb->ret = -EIO;
-+
-+        curl_clean_state(state);
-+        goto out;
-+    }
- 
-     /* Tell curl it needs to kick things off */
-     curl_multi_socket_action(s->multi, CURL_SOCKET_TIMEOUT, 0, &running);
+ insert:
 -- 
 2.17.1
 
