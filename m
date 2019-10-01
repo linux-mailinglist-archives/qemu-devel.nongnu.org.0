@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C986CC4513
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:39:38 +0200 (CEST)
-Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A79C450A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:36:20 +0200 (CEST)
+Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSg5-0001Zm-PY
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39841)
+	id 1iFScs-0007N4-WF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsD-0001bR-6G
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:07 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsE-0001cw-34
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00024Y-Cc
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:04 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54290
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-000250-Iu
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44758)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRs7-0001Xn-7D; Tue, 01 Oct 2019 19:48:00 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91Nlakk079234; Tue, 1 Oct 2019 19:47:38 -0400
+ id 1iFRs9-0001b9-7d; Tue, 01 Oct 2019 19:48:01 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlPW4088125; Tue, 1 Oct 2019 19:47:40 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00vq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6bw7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:38 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlc1R079267;
- Tue, 1 Oct 2019 19:47:38 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00vc-1
+ Tue, 01 Oct 2019 19:47:39 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlZPj088456;
+ Tue, 1 Oct 2019 19:47:39 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6bvt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:38 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njlt7032690;
- Tue, 1 Oct 2019 23:47:37 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 2v9y57qb7k-1
+ Tue, 01 Oct 2019 19:47:39 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njl1C006380;
+ Tue, 1 Oct 2019 23:47:38 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye88-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Oct 2019 23:47:37 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlabT46662136
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91Nlbm350725262
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:36 GMT
+ Tue, 1 Oct 2019 23:47:37 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 58A662805C;
- Tue,  1 Oct 2019 23:47:36 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 661182805C;
+ Tue,  1 Oct 2019 23:47:37 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4763928060;
- Tue,  1 Oct 2019 23:47:36 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4B3A128065;
+ Tue,  1 Oct 2019 23:47:37 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:36 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:37 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 45/97] ioapic: kvm: Skip route updates for masked pins
-Date: Tue,  1 Oct 2019 18:45:24 -0500
-Message-Id: <20191001234616.7825-46-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 47/97] virtio-balloon: Fix wrong sign extension of PFNs
+Date: Tue,  1 Oct 2019 18:45:26 -0500
+Message-Id: <20191001234616.7825-48-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -72,11 +71,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=915 adultscore=0 classifier=spam adjust=0 reason=mlx
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,52 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jan Kiszka <jan.kiszka@siemens.com>
+From: David Hildenbrand <david@redhat.com>
 
-Masked entries will not generate interrupt messages, thus do no need to
-be routed by KVM. This is a cosmetic cleanup, just avoiding warnings of
-the kind
+If we directly cast from int to uint64_t, we will first sign-extend to
+an int64_t, which is wrong. We actually want to treat the PFNs like
+unsigned values.
 
-qemu-system-x86_64: vtd_irte_get: detected non-present IRTE (index=0, high=0xff00, low=0x100)
-
-if the masked entry happens to reference a non-present IRTE.
+As far as I can see, this dates back to the initial virtio-balloon
+commit, but wasn't triggered as fairly big guests would be required.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-Message-Id: <a84b7e03-f9a8-b577-be27-4d93d1caa1c9@siemens.com>
+Reported-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20190722134108.22151-2-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-(cherry picked from commit be1927c97e564346cbd409cb17fe611df74b84e5)
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+(cherry picked from commit ffa207d08253ffffb3993a1dbe09e40af4fc91f1)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/intc/ioapic.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-balloon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
-index 9d75f84d3b..194ccb6a3e 100644
---- a/hw/intc/ioapic.c
-+++ b/hw/intc/ioapic.c
-@@ -188,9 +188,11 @@ static void ioapic_update_kvm_routes(IOAPICCommonState *s)
-             MSIMessage msg;
-             struct ioapic_entry_info info;
-             ioapic_entry_parse(s->ioredtbl[i], &info);
--            msg.address = info.addr;
--            msg.data = info.data;
--            kvm_irqchip_update_msi_route(kvm_state, i, msg, NULL);
-+            if (!info.masked) {
-+                msg.address = info.addr;
-+                msg.data = info.data;
-+                kvm_irqchip_update_msi_route(kvm_state, i, msg, NULL);
-+            }
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 5579260fd4..49194f5638 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -343,8 +343,8 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
          }
-         kvm_irqchip_commit_routes(kvm_state);
-     }
+ 
+         while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, 4) == 4) {
++            unsigned int p = virtio_ldl_p(vdev, &pfn);
+             hwaddr pa;
+-            int p = virtio_ldl_p(vdev, &pfn);
+ 
+             pa = (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
+             offset += 4;
 -- 
 2.17.1
 
