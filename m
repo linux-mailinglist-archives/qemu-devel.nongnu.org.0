@@ -2,53 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F03CC3AE5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:42:16 +0200 (CEST)
-Received: from localhost ([::1]:44736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEE5C3B61
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:45:37 +0200 (CEST)
+Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLE5-0006aA-QM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53691)
+	id 1iFLHM-0001v7-3W
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53816)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iFKp3-0007jC-90
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:16:22 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKq3-0008KY-3a
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:17:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iFKp1-00045c-3a
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:16:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54254)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iFKoy-00043g-QI; Tue, 01 Oct 2019 12:16:16 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 10C1F30917EF;
- Tue,  1 Oct 2019 16:16:16 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2957B5D712;
- Tue,  1 Oct 2019 16:16:12 +0000 (UTC)
-Date: Tue, 1 Oct 2019 18:16:10 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKpx-0004aA-C9
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:17:22 -0400
+Received: from mail-eopbgr50121.outbound.protection.outlook.com
+ ([40.107.5.121]:42885 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iFKpl-0004SE-9g; Tue, 01 Oct 2019 12:17:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dc0N3u1OnJLOxXom9XSLhqj1kcvKnbkX3Ukixoe2K0ak0NiPZz33bLKcpoC0IHAnk/d3kDqN6y6BHgMfv9ywJvQwim8WREy9KPuKKxe62t3Ur3MLOo7esogDn2IiYftkljOLtdc6iDSM7gU2+YPsrEXCH5uJlCCaX8yzkjhGSFKptBqL70aIInjj/gdzOJzwvfOt4RAEAIDiEEwOX0tHTxMVq0zW8b/oz30Jeg1IPQhHzBfb2nTwY/NqKQX7xhonzJLC2n9ZOxPD+lsOhlMRbcazDoH477F9vsIGWO1IAqrjru6K62sxZvcxgzRu3fvJ4mMm+T4gjg61rbDxgP1eww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nLZq8D9TYngK9IZnSZgU0/j8GukMz9nVYgFOUp0JrTc=;
+ b=eaQ95UWlDASdu8CbkNwPQlV2JIqGPCYCgB44ArzOz0UhvmqtM9vQQgYlHvDQYPJycAGeKXxEDZF/T1L3PxYZEbJ+D8OL1m0L6WLgmuRHRojULnaslYkmpd17rNquyGw7eEBM6tADoX8ySCOzLUeyHjwQBgQGCs4I0RAZdcMIkZa5YCw9uKBKb9GU25eWshQWsD2ZwSOhUAazptkZ4SI4sMaBVNJJbhay71E62Th9V2d4luPuvccd6dK1eRhEaomcK1p+Z3vM4cp4u/zj917qMtf/yB0n/oJBiUmuA0UQ3AmHmuJVSj/vncs33r9mEX7xI0lZKmVRP2Fu+tC6FYyNKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nLZq8D9TYngK9IZnSZgU0/j8GukMz9nVYgFOUp0JrTc=;
+ b=IiVGhx9JAGJNrUoZfzHx02rzem9TSkOqm3l7OB9mr7cEM0ee0osOwauji0MgOeM2UIfaK6QlW71OIX0QGAPt8djiECBffdwiA7vRZZolfP05wJA06Dty3TtuDtZHAuNqrwKawm6lpFhpOVCIBjiUund0H1CMrfNRu43ZpO6wXEk=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5035.eurprd08.prod.outlook.com (10.255.18.214) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.20; Tue, 1 Oct 2019 16:17:02 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2305.017; Tue, 1 Oct 2019
+ 16:17:02 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
 Subject: Re: bitmap migration bug with -drive while block mirror runs
-Message-ID: <20191001161610.GG4688@linux.fritz.box>
+Thread-Topic: bitmap migration bug with -drive while block mirror runs
+Thread-Index: AQHVd+yDiWNDoVbdB0u/++2NVEJq8qdF0TUAgAAC+ICAAB3ngIAABSUAgAAAPAA=
+Date: Tue, 1 Oct 2019 16:17:02 +0000
+Message-ID: <03c6fbd9-216c-d8d0-00ff-48ae34f76619@virtuozzo.com>
 References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
  <d897c755-40e7-6392-23e3-c06b1a371f28@virtuozzo.com>
  <4bc910ef-0bec-cfd6-89f6-a93d35367218@redhat.com>
  <9431d242-bfe1-b9db-17d0-6c1a280a05da@virtuozzo.com>
+ <20191001161610.GG4688@linux.fritz.box>
+In-Reply-To: <20191001161610.GG4688@linux.fritz.box>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P190CA0037.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::26)
+ To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191001191700327
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b720609b-a2a1-4cf3-d83a-08d7468acb19
+x-ms-traffictypediagnostic: DB8PR08MB5035:
+x-microsoft-antispam-prvs: <DB8PR08MB503515F35BB446B0EDE6FE93C19D0@DB8PR08MB5035.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0177904E6B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(346002)(39840400004)(376002)(396003)(366004)(189003)(199004)(31686004)(478600001)(2906002)(102836004)(6116002)(25786009)(386003)(5660300002)(52116002)(76176011)(26005)(3846002)(6916009)(305945005)(6506007)(7736002)(53546011)(99286004)(486006)(8676002)(81156014)(8936002)(81166006)(476003)(2616005)(256004)(5024004)(11346002)(186003)(54906003)(6246003)(316002)(66476007)(66556008)(446003)(6512007)(36756003)(229853002)(31696002)(86362001)(6436002)(71190400001)(66066001)(6486002)(4326008)(14454004)(64756008)(66446008)(71200400001)(66946007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5035;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZjLr3X05LrTOMMITXjraCumMBS8nOGAXkXB38NYKUBYJyvi4O3L966v6QIriJu7y25E7/CBXncmm44g7KbHFD1whzCHBNwpn0ta6pT2C7zhCwURiOWXf2gIyFjUAKJ6U1ubw0PceBjp8gjkb0ok89W2IZ8668uZFxHOSeVQnOLDT3GKcKK4RHySn3wC70waGuZKX1zTDP6GUVPN+viu5P3ggo1n38vUisvUWSgvNa8sxJ1by+HCyImY/d+piYJn8T017hbstZxAUbFDDEq2xs7T8Y6lw9X5XHzuuinFGOmxWss0HuSOIKsxZbHKxbkE4x5z5y9MlOnY0jJGrJHtKUCQxTpHrCObKp2bmlUrpfLoqu0GuUgr9h52Z56n6Zz29rGzdh3rXoSJ3tyFIXRTTcOhTmc0W/RyDvG0h+eGiH4A=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <922FC85DE443E94AB194BED9C72F2147@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9431d242-bfe1-b9db-17d0-6c1a280a05da@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 01 Oct 2019 16:16:16 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b720609b-a2a1-4cf3-d83a-08d7468acb19
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2019 16:17:02.3924 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZtNifRdBVFgTGV8KQOrhR7+brUhUDX7YGGEr2x0eSsBz8rgdYujBxAtq+ClWgTRxVlkuYfnt5JcEor7vz/XqUqKmqF3jKrVwA+g8E6lu6HE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5035
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.5.121
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,52 +116,42 @@ Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.10.2019 um 17:57 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 01.10.2019 17:10, John Snow wrote:
-> > 
-> > 
-> > On 10/1/19 10:00 AM, Vladimir Sementsov-Ogievskiy wrote:
-> >>> Otherwise: I have a lot of cloudy ideas on how to solve this, but
-> >>> ultimately what we want is to be able to find the "addressable" name for
-> >>> the node the bitmap is attached to, which would be the name of the first
-> >>> ancestor node that isn't a filter. (OR, the name of the block-backend
-> >>> above that node.)
-> >> Not the name of ancestor node, it will break mapping: it must be name of the
-> >> node itself or name of parent (may be through several filters) block-backend
-> >>
-> > 
-> > Ah, you are right of course -- because block-backends are the only
-> > "nodes" for which we actually descend the graph and add the bitmap to
-> > its child.
-> > 
-> > So the real back-resolution mechanism is:
-> > 
-> > - Find the first non-filter ancestor, A
-> > - if A is not a block-backend, we must use our node-local name.
-> > - if A's name is empty, we must use our node-local name.
-> > - If the name we have chosen is not id_wellformed, we have no
-> > migration-stable addressable name for this bitmap and the migration must
-> > fail!
-> > 
-> > 
-> > For resolving bitmap addresses via QMP (node, name) pairs; the
-> > resolution method would be this:
-> > 
-> > - if the node-name N is a block-backend, descend the tree until we find
-> > the first non-filter node V.
-> > - if the node-name N is a BlockDriverState, use this node directly.
-> > 
-> 
-> Looks good for me.
-> 
-> I also think if on destination we have both block-backend with name N and
-> block-node with name N and the latter is not (filtered) child of the former,
-> we should fail migration of at least that bitmap. (Hope, nobody reuse
-> block-backend names as node-names in practice.. (should we restrict it
-> explicitly ?))
-
-You can't have a node and a BlockBackend of the same name, they share a
-single namespace. If you try to do so, you get an error.
-
-Kevin
+MDEuMTAuMjAxOSAxOToxNiwgS2V2aW4gV29sZiB3cm90ZToNCj4gQW0gMDEuMTAuMjAxOSB1bSAx
+Nzo1NyBoYXQgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSBnZXNjaHJpZWJlbjoNCj4+IDAx
+LjEwLjIwMTkgMTc6MTAsIEpvaG4gU25vdyB3cm90ZToNCj4+Pg0KPj4+DQo+Pj4gT24gMTAvMS8x
+OSAxMDowMCBBTSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+Pj4+IE90
+aGVyd2lzZTogSSBoYXZlIGEgbG90IG9mIGNsb3VkeSBpZGVhcyBvbiBob3cgdG8gc29sdmUgdGhp
+cywgYnV0DQo+Pj4+PiB1bHRpbWF0ZWx5IHdoYXQgd2Ugd2FudCBpcyB0byBiZSBhYmxlIHRvIGZp
+bmQgdGhlICJhZGRyZXNzYWJsZSIgbmFtZSBmb3INCj4+Pj4+IHRoZSBub2RlIHRoZSBiaXRtYXAg
+aXMgYXR0YWNoZWQgdG8sIHdoaWNoIHdvdWxkIGJlIHRoZSBuYW1lIG9mIHRoZSBmaXJzdA0KPj4+
+Pj4gYW5jZXN0b3Igbm9kZSB0aGF0IGlzbid0IGEgZmlsdGVyLiAoT1IsIHRoZSBuYW1lIG9mIHRo
+ZSBibG9jay1iYWNrZW5kDQo+Pj4+PiBhYm92ZSB0aGF0IG5vZGUuKQ0KPj4+PiBOb3QgdGhlIG5h
+bWUgb2YgYW5jZXN0b3Igbm9kZSwgaXQgd2lsbCBicmVhayBtYXBwaW5nOiBpdCBtdXN0IGJlIG5h
+bWUgb2YgdGhlDQo+Pj4+IG5vZGUgaXRzZWxmIG9yIG5hbWUgb2YgcGFyZW50IChtYXkgYmUgdGhy
+b3VnaCBzZXZlcmFsIGZpbHRlcnMpIGJsb2NrLWJhY2tlbmQNCj4+Pj4NCj4+Pg0KPj4+IEFoLCB5
+b3UgYXJlIHJpZ2h0IG9mIGNvdXJzZSAtLSBiZWNhdXNlIGJsb2NrLWJhY2tlbmRzIGFyZSB0aGUg
+b25seQ0KPj4+ICJub2RlcyIgZm9yIHdoaWNoIHdlIGFjdHVhbGx5IGRlc2NlbmQgdGhlIGdyYXBo
+IGFuZCBhZGQgdGhlIGJpdG1hcCB0bw0KPj4+IGl0cyBjaGlsZC4NCj4+Pg0KPj4+IFNvIHRoZSBy
+ZWFsIGJhY2stcmVzb2x1dGlvbiBtZWNoYW5pc20gaXM6DQo+Pj4NCj4+PiAtIEZpbmQgdGhlIGZp
+cnN0IG5vbi1maWx0ZXIgYW5jZXN0b3IsIEENCj4+PiAtIGlmIEEgaXMgbm90IGEgYmxvY2stYmFj
+a2VuZCwgd2UgbXVzdCB1c2Ugb3VyIG5vZGUtbG9jYWwgbmFtZS4NCj4+PiAtIGlmIEEncyBuYW1l
+IGlzIGVtcHR5LCB3ZSBtdXN0IHVzZSBvdXIgbm9kZS1sb2NhbCBuYW1lLg0KPj4+IC0gSWYgdGhl
+IG5hbWUgd2UgaGF2ZSBjaG9zZW4gaXMgbm90IGlkX3dlbGxmb3JtZWQsIHdlIGhhdmUgbm8NCj4+
+PiBtaWdyYXRpb24tc3RhYmxlIGFkZHJlc3NhYmxlIG5hbWUgZm9yIHRoaXMgYml0bWFwIGFuZCB0
+aGUgbWlncmF0aW9uIG11c3QNCj4+PiBmYWlsIQ0KPj4+DQo+Pj4NCj4+PiBGb3IgcmVzb2x2aW5n
+IGJpdG1hcCBhZGRyZXNzZXMgdmlhIFFNUCAobm9kZSwgbmFtZSkgcGFpcnM7IHRoZQ0KPj4+IHJl
+c29sdXRpb24gbWV0aG9kIHdvdWxkIGJlIHRoaXM6DQo+Pj4NCj4+PiAtIGlmIHRoZSBub2RlLW5h
+bWUgTiBpcyBhIGJsb2NrLWJhY2tlbmQsIGRlc2NlbmQgdGhlIHRyZWUgdW50aWwgd2UgZmluZA0K
+Pj4+IHRoZSBmaXJzdCBub24tZmlsdGVyIG5vZGUgVi4NCj4+PiAtIGlmIHRoZSBub2RlLW5hbWUg
+TiBpcyBhIEJsb2NrRHJpdmVyU3RhdGUsIHVzZSB0aGlzIG5vZGUgZGlyZWN0bHkuDQo+Pj4NCj4+
+DQo+PiBMb29rcyBnb29kIGZvciBtZS4NCj4+DQo+PiBJIGFsc28gdGhpbmsgaWYgb24gZGVzdGlu
+YXRpb24gd2UgaGF2ZSBib3RoIGJsb2NrLWJhY2tlbmQgd2l0aCBuYW1lIE4gYW5kDQo+PiBibG9j
+ay1ub2RlIHdpdGggbmFtZSBOIGFuZCB0aGUgbGF0dGVyIGlzIG5vdCAoZmlsdGVyZWQpIGNoaWxk
+IG9mIHRoZSBmb3JtZXIsDQo+PiB3ZSBzaG91bGQgZmFpbCBtaWdyYXRpb24gb2YgYXQgbGVhc3Qg
+dGhhdCBiaXRtYXAuIChIb3BlLCBub2JvZHkgcmV1c2UNCj4+IGJsb2NrLWJhY2tlbmQgbmFtZXMg
+YXMgbm9kZS1uYW1lcyBpbiBwcmFjdGljZS4uIChzaG91bGQgd2UgcmVzdHJpY3QgaXQNCj4+IGV4
+cGxpY2l0bHkgPykpDQo+IA0KPiBZb3UgY2FuJ3QgaGF2ZSBhIG5vZGUgYW5kIGEgQmxvY2tCYWNr
+ZW5kIG9mIHRoZSBzYW1lIG5hbWUsIHRoZXkgc2hhcmUgYQ0KPiBzaW5nbGUgbmFtZXNwYWNlLiBJ
+ZiB5b3UgdHJ5IHRvIGRvIHNvLCB5b3UgZ2V0IGFuIGVycm9yLg0KPiANCg0KDQpPaCwgdGhhbmtz
+LCB0aGF0J3MgY29vbC4NCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
