@@ -2,55 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC89C3C86
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:53:52 +0200 (CEST)
-Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EECEC3D0E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:57:15 +0200 (CEST)
+Received: from localhost ([::1]:45090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLPL-0003pl-Ja
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54001)
+	id 1iFLSb-0007rk-Nh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iFKqx-0000bF-95
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:18:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iFKtt-0002rL-G4
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:21:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iFKqw-0005G2-0l
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:18:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34422)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iFKqq-00058z-4M; Tue, 01 Oct 2019 12:18:12 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B72F3082231;
- Tue,  1 Oct 2019 16:18:10 +0000 (UTC)
-Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F19FF614CD;
- Tue,  1 Oct 2019 16:17:50 +0000 (UTC)
-Subject: Re: [PATCH v4 04/31] error: auto propagated local_err
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-5-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b797bece-495e-b254-ba18-a5e444168491@redhat.com>
-Date: Tue, 1 Oct 2019 11:17:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <richard.henderson@linaro.org>) id 1iFKts-0007jC-0Y
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:21:20 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34005)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iFKtr-0007hz-NC
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:21:19 -0400
+Received: by mail-pg1-x542.google.com with SMTP id y35so10010457pgl.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 09:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MVWLUa58yr8Pk5/U60QLji+ouS0ZyXlMTMpvCvRvkQQ=;
+ b=Cwl9Ha0W28ir6lhSI0zEEN5lPPsoGDw1gtt0pe9aRZ5TJz8DFyzkRJR66siAJA3kZO
+ z87xKyJgzkUS0opyeR4oGOfCFPryrTGErsLtTA1cu06FChIYxPRwekluJzslp3jnhtc4
+ DrzT9X+ln+XzektpS7IqFo3IJZlTrVion6Sg/CtMiwbJPoVikDCkEayZVhdjgBeGuSGR
+ EjLhr21OQkp7nqPkDhWUX4me1OjJVJfMKcLqvFwZPcMUBq/nwsSF9ueiVeA/vSaMIUvX
+ nmG0+DTI5IKEdxsm35ElxShLjNIhDc2Q5s/Bm+XIPKIF7EQJ1qj6e78P/hBT3NPVOY6d
+ jkvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MVWLUa58yr8Pk5/U60QLji+ouS0ZyXlMTMpvCvRvkQQ=;
+ b=S07SkiDq88kVA8XmG3VjRG/KcpWqA1CmJYjL1xTdjJZWsInP6ge+PpFGqUI+x4RnGC
+ exE1CAhR5UxevIqLtGgkIxwDbaNshIL1eZKAeP88hKXdOQZjXmHR8Sukz5rK3LVi8TTg
+ HbkGuMMheFk0832AUwRECoUutwBDeY7ii5/cHdpbbv1t11G6S5Ucg5IMQoBvEyonzsK5
+ 04Cggp+0tZZ/3B246Rs65ztpxGBOuLZWHWEvgv7hMWPulvpTS4Klh62dOwwByaQ9jvsm
+ Rb+Nv1gXWWTEteBRTJiq4oE/fLi5Vo8Kk1/N6PeVaJQjGLt9Gi/QvSk3S4H9ha+M8Tyb
+ 3QAg==
+X-Gm-Message-State: APjAAAX7KrV6KzbHXge6S6tJ8e+ouPyGtPrrMw47haKwG4GyC0OrRPZt
+ llaJDhoquL71lGW5LRtXm1K1vA==
+X-Google-Smtp-Source: APXvYqwz9yGSVgpikBPwXBqsXtT5tdviXokaugGSuLOE4vWSvJJPq8m4B5P27aYsdS+7ToWL0gnQBA==
+X-Received: by 2002:a65:5186:: with SMTP id h6mr30849410pgq.304.1569946878227; 
+ Tue, 01 Oct 2019 09:21:18 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a16sm5255539pfa.53.2019.10.01.09.21.16
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 01 Oct 2019 09:21:17 -0700 (PDT)
+Subject: Re: [PATCH v4 09/18] target/s390x: Return exception from mmu_translate
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190927193925.23567-1-richard.henderson@linaro.org>
+ <20190927193925.23567-10-richard.henderson@linaro.org>
+ <68d9b84b-7c89-46c3-a97d-2c67d75aeddf@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <c1ab1031-e8ea-a472-e1df-1dc68905ad04@linaro.org>
+Date: Tue, 1 Oct 2019 09:21:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191001155319.8066-5-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <68d9b84b-7c89-46c3-a97d-2c67d75aeddf@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 01 Oct 2019 16:18:11 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,88 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
- codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
- mdroth@linux.vnet.ibm.com, kraxel@redhat.com, sundeep.lkml@gmail.com,
- qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
- mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- joel@jms.id.au, marcandre.lureau@redhat.com, rth@twiddle.net,
- farman@linux.ibm.com, ehabkost@redhat.com, sw@weilnetz.de, groug@kaod.org,
- yuval.shaia@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- qemu-arm@nongnu.org, clg@kaod.org, stefanha@redhat.com, david@redhat.com,
- jsnow@redhat.com, david@gibson.dropbear.id.au, kwolf@redhat.com,
- integration@gluster.org, berrange@redhat.com, andrew@aj.id.au,
- cohuck@redhat.com, qemu-s390x@nongnu.org, mreitz@redhat.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 10:52 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Here is introduced ERRP_AUTO_PROPAGATE macro, to be used at start of
-> functions with errp OUT parameter.
-> 
-> It has three goals:
-> 
-> 1. Fix issue with error_fatal & error_prepend/error_append_hint: user
-> can't see this additional information, because exit() happens in
-> error_setg earlier than information is added. [Reported by Greg Kurz]
-> 
-> 2. Fix issue with error_abort & error_propagate: when we wrap
-> error_abort by local_err+error_propagate, resulting coredump will
-> refer to error_propagate and not to the place where error happened.
-> (the macro itself doesn't fix the issue, but it allows to [3.] drop all
-> local_err+error_propagate pattern, which will definitely fix the issue)
-> [Reported by Kevin Wolf]
-> 
-> 3. Drop local_err+error_propagate pattern, which is used to workaround
-> void functions with errp parameter, when caller wants to know resulting
-> status. (Note: actually these functions could be merely updated to
-> return int error code).
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+On 10/1/19 8:30 AM, David Hildenbrand wrote:
+>   TEST    check-qtest-s390x: tests/test-hmp
+> Broken pipe
+> tests/libqtest.c:149: kill_qemu() detected QEMU death from signal 11
+> (Segmentation fault) (core dumped)
 
-I'm still hoping Markus gets some review time for this series with a 
-chance to speak up (and that we haven't been causing you a lot of work 
-which would all have to change if Markus has a different viewpoint).
+Missed a change to s390_cpu_get_phys_page_debug:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+(gdb) bt 4
+#0  0x00005555557a4923 in mmu_translate (env=0x555555f7c330,
+vaddr=vaddr@entry=0, rw=rw@entry=0, asc=0, raddr=raddr@entry=0x7fffffffd010,
+flags=flags@entry=0x7fffffffd00c, tec=0x0) at
+/home/rth/qemu/qemu/target/s390x/mmu_helper.c:376
+#1  0x000055555575a135 in s390_cpu_get_phys_page_debug (cs=<optimized out>,
+vaddr=0) at /home/rth/qemu/qemu/target/s390x/helper.c:70
+#2  0x0000555555752219 in cpu_get_phys_page_attrs_debug (attrs=0x7fffffffd034,
+addr=0, cpu=<optimized out>) at /home/rth/qemu/qemu/include/hw/core/cpu.h:605
+#3  0x0000555555752219 in hmp_gva2gpa (mon=0x555555f53310, qdict=<optimized
+out>) at /home/rth/qemu/qemu/monitor/misc.c:850
 
-> +/*
-> + * ERRP_AUTO_PROPAGATE
-> + *
-> + * This macro is created to be the first line of a function with Error **errp
-> + * OUT parameter. It's needed only in cases where we want to use error_prepend,
-> + * error_append_hint or dereference *errp. It's still safe (but useless) in
-> + * other cases.
-> + *
-> + * If errp is NULL or points to error_fatal, it is rewritten to point to a
-> + * local Error object, which will be automatically propagated to the original
-> + * errp on function exit (see error_propagator_cleanup).
-> + *
-> + * After invocation of this macro it is always safe to dereference errp
-> + * (as it's not NULL anymore) and to append hints (by error_append_hint)
+Irritating that the "0" produced an implicit null instead of a compile-time
+failure.  Anyway, will fix and rebase on your mmu branch.
 
-Maybe: 'to append information (by error_prepend or error_append_hint)'
 
-> + * (as, if it was error_fatal, we swapped it with a local_error to be
-> + * propagated on cleanup).
-> + *
-> + * Note: we don't wrap the error_abort case, as we want resulting coredump
-> + * to point to the place where the error happened, not to error_propagate.
-> + */
-> +#define ERRP_AUTO_PROPAGATE() \
-> +g_auto(ErrorPropagator) __auto_errp_prop = {.errp = errp}; \
-> +errp = ((errp == NULL || *errp == error_fatal) ? \
-> +    &__auto_errp_prop.local_err : errp)
-> +
->   /*
->    * Special error destination to abort on error.
->    * See error_setg() and error_propagate() for details.
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+r~
 
