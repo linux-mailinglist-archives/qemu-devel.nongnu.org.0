@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49163C3D21
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:57:47 +0200 (CEST)
-Received: from localhost ([::1]:45098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D43C3D64
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:59:49 +0200 (CEST)
+Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLT7-0000DT-QN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53097)
+	id 1iFLV6-0002s7-7b
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:59:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iFKlt-0004Pr-BH
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:13:07 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iFKn8-0005iF-7X
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:14:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iFKlr-00020j-IP
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:13:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42290)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iFKll-0001wI-HO; Tue, 01 Oct 2019 12:12:58 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6FC8018CB8EC;
- Tue,  1 Oct 2019 16:12:55 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D09E65C1D4;
- Tue,  1 Oct 2019 16:12:51 +0000 (UTC)
-Date: Tue, 1 Oct 2019 18:12:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: bitmap migration bug with -drive while block mirror runs
-Message-ID: <20191001161250.GF4688@linux.fritz.box>
-References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
- <d897c755-40e7-6392-23e3-c06b1a371f28@virtuozzo.com>
- <6dd4e735-47e7-45d1-98e9-2131746d470c@redhat.com>
- <dfc26b72-4795-09f8-9c50-07d4eabd971a@virtuozzo.com>
- <ef32215d-35e2-14dd-1b43-26f09a88f2dc@redhat.com>
- <20191001150950.GD4688@linux.fritz.box>
- <d32d21c0-6f18-39ba-6da3-060c865f701a@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1iFKn6-0002qQ-Fi
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:14:21 -0400
+Resent-Date: Tue, 01 Oct 2019 12:14:21 -0400
+Resent-Message-Id: <E1iFKn6-0002qQ-Fi@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21591)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iFKn6-0002ls-87
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:14:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1569946447; cv=none; d=zoho.com; s=zohoarc; 
+ b=aQvBml8vz+vc2OoqZLp6W8xq5lrvov4Vxnip/gDbfTxL1xsWxX3D7ctOLh6qZUbxBdiQEN0aav5wPmqabMc7gzC1E/LKBiqbvyLImv76wpzEwxGPwCIvohjMseLJIBXpKyM+zat+a53kS8qvLMsh+PCXpRD+YBc5hJi6z3pN63w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1569946447;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=mQkQhqFc1rlUVJC5HGyrxvd9YWnGNHVrro9q+A0DvWQ=; 
+ b=NmPgMkRWLwZ4geNCD6GXqVv2LtTzNjuMPDGkkPSM5vKW8IwYKTS+GMZzi5zbnok/wKy1vn38/5mtzYzVntqms5hGIqZCEJnv5ztG8wN30/YyISdO5p7a/xfl5kV3rhoWpNOWzl9XUVg613dsnO7rwBo9gdAW2BT2GYy2pIerjSQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 156994644540571.86639096041574;
+ Tue, 1 Oct 2019 09:14:05 -0700 (PDT)
+Subject: Re: [PATCH] virtio-net: prevent offloads reset on migration
+In-Reply-To: <1569932308-30478-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+Message-ID: <156994644427.27524.7166605496047304746@8230166b0665>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="rJwd6BRFiFCcLxzm"
-Content-Disposition: inline
-In-Reply-To: <d32d21c0-6f18-39ba-6da3-060c865f701a@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 01 Oct 2019 16:12:55 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mikhail.sennikovskii@cloud.ionos.com
+Date: Tue, 1 Oct 2019 09:14:05 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 136.143.188.55
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,187 +62,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: mikhail.sennikovskii@cloud.ionos.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTY5OTMyMzA4LTMwNDc4LTIt
+Z2l0LXNlbmQtZW1haWwtbWlraGFpbC5zZW5uaWtvdnNraWlAY2xvdWQuaW9ub3MuY29tLwoKCgpI
+aSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMu
+IFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVz
+c2FnZS1pZDogMTU2OTkzMjMwOC0zMDQ3OC0yLWdpdC1zZW5kLWVtYWlsLW1pa2hhaWwuc2Vubmlr
+b3Zza2lpQGNsb3VkLmlvbm9zLmNvbQpTdWJqZWN0OiBbUEFUQ0hdIHZpcnRpby1uZXQ6IHByZXZl
+bnQgb2ZmbG9hZHMgcmVzZXQgb24gbWlncmF0aW9uCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
+bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
+UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
+MzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjlkMjc3NGUgdmlydGlvLW5ldDog
+cHJldmVudCBvZmZsb2FkcyByZXNldCBvbiBtaWdyYXRpb24KCj09PSBPVVRQVVQgQkVHSU4gPT09
+CkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojOTc6IEZJTEU6IGh3L3ZpcnRpby92aXJ0
+aW8uYzoyMDQ5Ogorc3RhdGljIGludCB2aXJ0aW9fc2V0X2ZlYXR1cmVzX25vY2hlY2soVmlydElP
+RGV2aWNlICp2ZGV2LCB1aW50NjRfdCB2YWwsIGJvb2wgcmVzZXRfb2ZmbG9hZHMpCgp0b3RhbDog
+MSBlcnJvcnMsIDAgd2FybmluZ3MsIDc0IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA5ZDI3NzRlYTdl
+YjEgKHZpcnRpby1uZXQ6IHByZXZlbnQgb2ZmbG9hZHMgcmVzZXQgb24gbWlncmF0aW9uKSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
+eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8xNTY5OTMyMzA4LTMwNDc4LTItZ2l0LXNlbmQtZW1haWwtbWlraGFp
+bC5zZW5uaWtvdnNraWlAY2xvdWQuaW9ub3MuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
+ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
+cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
+ZGV2ZWxAcmVkaGF0LmNvbQ==
 
---rJwd6BRFiFCcLxzm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Am 01.10.2019 um 17:27 hat Max Reitz geschrieben:
-> On 01.10.19 17:09, Kevin Wolf wrote:
-> > Am 01.10.2019 um 16:34 hat Max Reitz geschrieben:
-> >> On 01.10.19 16:27, Vladimir Sementsov-Ogievskiy wrote:
-> >>> 01.10.2019 17:13, Max Reitz wrote:
-> >>>> On 01.10.19 16:00, Vladimir Sementsov-Ogievskiy wrote:
-> >>>>> 01.10.2019 3:09, John Snow wrote:
-> >>>>>> Hi folks, I identified a problem with the migration code that Red =
-Hat QE
-> >>>>>> found and thought you'd like to see it:
-> >>>>>>
-> >>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=3D1652424#c20
-> >>>>>>
-> >>>>>> Very, very briefly: drive-mirror inserts a filter node that change=
-s what
-> >>>>>> bdrv_get_device_or_node_name() returns, which causes a migration p=
-roblem.
-> >>>>>>
-> >>>>>>
-> >>>>>> Ignorant question #1: Can we multi-parent the filter node and
-> >>>>>> source-node? It looks like at the moment both consider their only =
-parent
-> >>>>>> to be the block-job and don't have a link back to their parents ot=
-herwise.
-> >>>>>>
-> >>>>>>
-> >>>>>> Otherwise: I have a lot of cloudy ideas on how to solve this, but
-> >>>>>> ultimately what we want is to be able to find the "addressable" na=
-me for
-> >>>>>> the node the bitmap is attached to, which would be the name of the=
- first
-> >>>>>> ancestor node that isn't a filter. (OR, the name of the block-back=
-end
-> >>>>>> above that node.)
-> >>>>>
-> >>>>> Not the name of ancestor node, it will break mapping: it must be na=
-me of the
-> >>>>> node itself or name of parent (may be through several filters) bloc=
-k-backend
-> >>>>>
-> >>>>>>
-> >>>>>> A simple way to do this might be a "child_unfiltered" BdrvChild ro=
-le
-> >>>>>> that simply bypasses the filter that was inserted and serves no re=
-al
-> >>>>>> purpose other than to allow the child to have a parent link and fi=
-nd who
-> >>>>>> it's """real""" parent is.
-> >>>>>>
-> >>>>>> Because of flushing, reopen, sync, drain &c &c &c I'm not sure how
-> >>>>>> feasible this quick idea might be, though.
-> >>>>>>
-> >>>>>>
-> >>>>>> - Corollary fix #1: call error_setg if the bitmap node name that's=
- about
-> >>>>>> to go over the wire is an autogenerated node: this is never correc=
-t!
-> >>>>>>
-> >>>>>> (Why not? because the target is incapable of matching the node-name
-> >>>>>> because they are randomly generated AND you cannot specify node-na=
-mes
-> >>>>>> with # prefixes as they are especially reserved!
-> >>>>>>
-> >>>>>> (This raises a related problem: if you explicitly add bitmaps to n=
-odes
-> >>>>>> with autogenerated names, you will be unable to migrate them.))
-> >>>>>>
-> >>>>>> --js
-> >>>>>>
-> >>>>>
-> >>>>> What about the following:
-> >>>>>
-> >>>>> diff --git a/block.c b/block.c
-> >>>>> index 5944124845..6739c19be9 100644
-> >>>>> --- a/block.c
-> >>>>> +++ b/block.c
-> >>>>> @@ -1009,8 +1009,20 @@ static void bdrv_inherited_options(int *chil=
-d_flags, QDict *child_options,
-> >>>>>        *child_flags =3D flags;
-> >>>>>    }
-> >>>>>
-> >>>>> +static const char *bdrv_child_get_name(BdrvChild *child)
-> >>>>> +{
-> >>>>> +    BlockDriverState *parent =3D child->opaque;
-> >>>>> +
-> >>>>> +    if (parent->drv && parent->drv->is_filter) {
-> >>>>> +        return bdrv_get_parent_name(parent);
-> >>>>> +    }
-> >>>>> +
-> >>>>> +    return NULL;
-> >>>>> +}
-> >>>>> +
-> >>>>
-> >>>> Why would we skip filters explicitly added by the user?
-> >>>>
-> >>>
-> >>> Why not? Otherwise migration of bitmaps will not work: we may have di=
-fferent set
-> >>> of filters on source and destination, and we still should map nodes w=
-ith bitmaps
-> >>> automatically.
-> >>
-> >> Why would we have a different set of explicitly added filters on source
-> >> and destination and allow them to be automatically changed during
-> >> migration?  Shouldn=E2=80=99t users only change them pre or post migra=
-tion?
-> >=20
-> > We never made a requirement that the backend must be the same on the
-> > source and the destination. Basically, migration copies the state of
-> > frontends and the user is responsible for having these frontends created
-> > and connected to the right backends on the destination.
-> >=20
-> > Using different paths on the destination is a very obvious requirement
-> > for block devices. It's less obvious for the graph structure, but I
-> > don't see a reason why it couldn't change on migration. Say we were
-> > using local storage on the source, but now we did storage migration to
-> > some network storage, access to which should be throttled.
->=20
-> I don=E2=80=99t quite see why we couldn=E2=80=99t add such filters before=
- or after
-> migration.
-
-Possibly. But why would we when the source doesn't need the filter? We
-don't change the image path before migration either.
-
-I think the tricky part is coming up with rules and "keep the frontend
-the same, the backend can change arbitrarily" is a very easy rule.
-
-> And it was my impression that bitmap migration was a problem now
-> precisely because it is bound to the graph structure.
-
-So apparently I wasn't completely wrong when I preferred just writing
-bitmaps back to the image instead of transferring them in the migration
-stream...
-
-It's not really bound to the graph structure per se, but to node names
-and for non-anonymous BlockBackends to the link between the BB and its
-root node. The latter is part of the graph structure, but only a very
-small part, and it exists only for legacy (non-blockdev) configurations.
-
-> But anyway.  I=E2=80=99ll gladly remove myself from this discussion becau=
-se I
-> don=E2=80=99t know much about migration and actually I=E2=80=99d prefer t=
-o keep it that
-> way.  (Sorry.)
-
-Good idea, let's have the migration maintainers handle this.
-
-Kevin
-
---rJwd6BRFiFCcLxzm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdk3sCAAoJEH8JsnLIjy/WRYoQAJZ4t6RmY0qnKgINSXvXWttN
-Jumcryy+yKXMs+tFJBQNGymlStjIpHixfh01rqB0pxFR7kfHi1B790Xy0lsMmpb1
-sLfG89DkE1AaxNh7A48hifbA/RmBaYahymITXiNog3B1g2nN+HDe6E7mymMVNIH7
-ygH71JI8Br9RbHWwSbxv3nimHnewDMSLmEJxW03HYV9957u8Eui4cig4+LbCsys6
-Inz2S+uM1JKs5EE7+VPiE0wCAw33ygaJ6bdJ8NR8avcNa4YTQj0CBNhDhHL/Jg5q
-iUpFOIQP9AsXUGQCcWOYyE3+bhnxI40oL7XzLe/A+whDVOwuG+QzkLxzQcNwLqDC
-j47kZGtac90uIbE0uNek07WCVNZXMhtdTdO65VU307Eyt2P3gonwcgFe+BE3AWI7
-Xlj+xYaxbx6bg/O+gq+N3+DUKdEFg+DbThdy7sLkKX33rQ9e8iKWQb02x+8KZU74
-jfmVokYm17azrxHzb9zJgz1e4DFsfA3uMjKs3bun4K3iy6uA0f5vR+PSUMB8iCxv
-8EnhI7c+vkjAgPa8hHwNwu9CvBbQVKGfAHNHUmifaXhJH8ShZ8Xm7rwt1TDjxKE/
-OMbM1sK/T3rw0YaSoE1UCotX1B22ngurMy4KYGKcEYdySaEHYIyPav6ikx7SFS0A
-fd/cwyFXwrMaCaCIHKD8
-=Y1+z
------END PGP SIGNATURE-----
-
---rJwd6BRFiFCcLxzm--
 
