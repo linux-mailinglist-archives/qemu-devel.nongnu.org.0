@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A43BC3A2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:17:30 +0200 (CEST)
-Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366A2C3A16
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:12:15 +0200 (CEST)
+Received: from localhost ([::1]:44166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKq7-0006ul-G7
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50120)
+	id 1iFKl3-0001ui-53
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0008LY-CJ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008NE-6f
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTE-0006lH-Is
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38506)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006nq-66
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38510)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTD-0006bQ-S5
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:48 -0400
+ id 1iFKTE-0006br-FN
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:49 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT2-0004xb-9a; Tue, 01 Oct 2019 18:53:36 +0300
+ id 1iFKT2-0004xb-JF; Tue, 01 Oct 2019 18:53:36 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 25/31] cmdline: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:13 +0300
-Message-Id: <20191001155319.8066-26-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 26/31] QOM: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:14 +0300
+Message-Id: <20191001155319.8066-27-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,29 +83,42 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- util/qemu-option.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/core/qdev-properties-system.c | 1 +
+ qdev-monitor.c                   | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 97172b5eaa..031c01eddc 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -145,6 +145,7 @@ static const QemuOptDesc *find_desc_by_name(const QemuOptDesc *desc,
- void parse_option_size(const char *name, const char *value,
-                        uint64_t *ret, Error **errp)
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 70bfd4809b..497a568cc2 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -221,6 +221,7 @@ static void get_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+                     Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     uint64_t size;
-     int err;
+     DeviceState *dev = DEVICE(obj);
+     Error *local_err = NULL;
+     Property *prop = opaque;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 148df9cacf..89c99d9753 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -328,6 +328,7 @@ static Object *qdev_get_peripheral_anon(void)
  
-@@ -660,6 +661,7 @@ QemuOpts *qemu_opts_find(QemuOptsList *list, const char *id)
- QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
-                            int fail_if_exists, Error **errp)
+ static void qbus_list_bus(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     QemuOpts *opts = NULL;
+     BusState *child;
+     const char *sep = " ";
  
-     if (id) {
+@@ -342,6 +343,7 @@ static void qbus_list_bus(DeviceState *dev, Error **errp)
+ 
+ static void qbus_list_dev(BusState *bus, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BusChild *kid;
+     const char *sep = " ";
+ 
 -- 
 2.21.0
 
