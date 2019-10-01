@@ -2,52 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB8BC3EF9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:49:16 +0200 (CEST)
-Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2218C3F01
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:50:51 +0200 (CEST)
+Received: from localhost ([::1]:46052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFMGx-0002h7-A8
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:49:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1iFMIU-00053Z-Jm
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iFMFC-0001gN-1F
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:47:26 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFMGJ-0002pN-DV
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:48:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iFMFB-0000AO-0p
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:47:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42854)
+ (envelope-from <mreitz@redhat.com>) id 1iFMGI-0000bq-E9
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:48:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iFMF8-00009G-2a; Tue, 01 Oct 2019 13:47:22 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iFMGG-0000Zb-FF; Tue, 01 Oct 2019 13:48:32 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 090907F746;
- Tue,  1 Oct 2019 17:47:21 +0000 (UTC)
-Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A91B65C226;
- Tue,  1 Oct 2019 17:47:20 +0000 (UTC)
-Subject: Re: [PATCH v4 29/31] nbd: Fix error_append_hint/error_prepend usage
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-30-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <68f6e027-efd4-f0ab-8a20-533352d6a8b7@redhat.com>
-Date: Tue, 1 Oct 2019 12:47:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id BA7BFA36F14;
+ Tue,  1 Oct 2019 17:48:31 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD3CE60BE0;
+ Tue,  1 Oct 2019 17:48:28 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/2] block: Skip COR for inactive nodes
+Date: Tue,  1 Oct 2019 19:48:25 +0200
+Message-Id: <20191001174827.11081-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191001155319.8066-30-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 01 Oct 2019 17:47:21 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Tue, 01 Oct 2019 17:48:31 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -62,38 +54,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 10:53 AM, Vladimir Sementsov-Ogievskiy wrote:
-> If we want to add some info to errp (by error_prepend() or
-> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-> Otherwise, this info will not be added when errp == &fatal_err
-> (the program will exit prior to the error_append_hint() or
-> error_prepend() call).  Fix such cases.
-> 
+Hi,
 
-> ---
->   nbd/client.c | 5 +++++
->   nbd/server.c | 4 ++++
->   2 files changed, 9 insertions(+)
-> 
+While working on $IMGOPTS support for Python iotests, I noticed a minor
+bug.  Let=E2=80=99s fix it, as you do with bugs.
 
-> +++ b/nbd/server.c
-> @@ -365,6 +365,7 @@ static int nbd_opt_read_name(NBDClient *client, char *name, uint32_t *length,
->   static int nbd_negotiate_send_rep_list(NBDClient *client, NBDExport *exp,
->                                          Error **errp)
->   {
-> +    ERRP_AUTO_PROPAGATE();
->       size_t name_len, desc_len;
 
-This missed nbd_negotiate_send_rep_verr().  But when I reran the script 
-manually on the same two files, it picked up for me.  Not sure why that 
-is different.
+Max Reitz (2):
+  block: Skip COR for inactive nodes
+  iotests/262: Switch source/dest VM launch order
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+ block/io.c                 | 41 +++++++++++++++++++++++++-------------
+ tests/qemu-iotests/262     | 12 +++++------
+ tests/qemu-iotests/262.out |  6 +++---
+ 3 files changed, 36 insertions(+), 23 deletions(-)
+
+--=20
+2.21.0
+
 
