@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F42AC45CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:05:30 +0200 (CEST)
-Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF84C45C8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:02:46 +0200 (CEST)
+Received: from localhost ([::1]:50504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFU1A-0001qk-E3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46681)
+	id 1iFTyW-0006kM-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iFS0Y-0001DU-0w
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:43 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iFS0k-0001Lw-1E
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iFS0W-0002cn-1L
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35790)
+ (envelope-from <jsnow@redhat.com>) id 1iFS0i-0002qf-IX
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54474)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iFS0O-0002WZ-Qs; Tue, 01 Oct 2019 19:56:33 -0400
+ id 1iFS0d-0002hS-M3; Tue, 01 Oct 2019 19:56:49 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0B1CA2A09CC;
- Tue,  1 Oct 2019 23:56:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3FE9218C4266;
+ Tue,  1 Oct 2019 23:56:46 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7324360BE0;
- Tue,  1 Oct 2019 23:56:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78E8360BE0;
+ Tue,  1 Oct 2019 23:56:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 5/8] bootdevice: Gather LCHS from all relevant devices
-Date: Tue,  1 Oct 2019 19:55:49 -0400
-Message-Id: <20191001235552.17790-6-jsnow@redhat.com>
+Subject: [PULL 7/8] bootdevice: FW_CFG interface for LCHS values
+Date: Tue,  1 Oct 2019 19:55:51 -0400
+Message-Id: <20191001235552.17790-8-jsnow@redhat.com>
 In-Reply-To: <20191001235552.17790-1-jsnow@redhat.com>
 References: <20191001235552.17790-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 01 Oct 2019 23:56:31 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Tue, 01 Oct 2019 23:56:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -64,116 +64,137 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  John Snow <jsnow@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
  Sam Eiderman <shmuel.eiderman@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sam Eiderman <sameid@google.com>, Laszlo Ersek <lersek@redhat.com>,
- Karl Heubaum <karl.heubaum@oracle.com>
+ Laszlo Ersek <lersek@redhat.com>, Karl Heubaum <karl.heubaum@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Relevant devices are:
-    * ide-hd (and ide-cd, ide-drive)
-    * scsi-hd (and scsi-cd, scsi-disk, scsi-block)
-    * virtio-blk-pci
+Using fw_cfg, supply logical CHS values directly from QEMU to the BIOS.
 
-We do not call del_boot_device_lchs() for ide-* since we don't need to -
-IDE block devices do not support unplugging.
+Non-standard logical geometries break under QEMU.
 
-Signed-off-by: Sam Eiderman <sameid@google.com>
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=3D08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will report - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
+
+In addition we cannot force SeaBIOS to rely on physical geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
+report more than 16 physical heads when moved to an IDE controller,
+since the ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
+
+By supplying the logical geometries directly we are able to support such
+"exotic" disks.
+
+We serialize this information in a similar way to the "bootorder"
+interface.
+The new fw_cfg entry is "bios-geometry".
+
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-id: 20190925110639.100699-6-sameid@google.com
+Message-id: 20190925110639.100699-8-sameid@google.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- hw/block/virtio-blk.c |  6 ++++++
- hw/ide/qdev.c         |  5 +++++
- hw/scsi/scsi-disk.c   | 12 ++++++++++++
- 3 files changed, 23 insertions(+)
+ include/sysemu/sysemu.h |  1 +
+ bootdevice.c            | 32 ++++++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c       | 14 +++++++++++---
+ 3 files changed, 44 insertions(+), 3 deletions(-)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 18851601cb..6d8ff34a16 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -1186,6 +1186,11 @@ static void virtio_blk_device_realize(DeviceState =
-*dev, Error **errp)
-     blk_set_guest_block_size(s->blk, s->conf.conf.logical_block_size);
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 5bc5c79cbc..80c57fdc4e 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -106,6 +106,7 @@ void validate_bootdevices(const char *devices, Error =
+**errp);
+ void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+                           uint32_t lcyls, uint32_t lheads, uint32_t lsec=
+s);
+ void del_boot_device_lchs(DeviceState *dev, const char *suffix);
++char *get_boot_devices_lchs_list(size_t *size);
 =20
-     blk_iostatus_enable(s->blk);
-+
-+    add_boot_device_lchs(dev, "/disk@0,0",
-+                         conf->conf.lcyls,
-+                         conf->conf.lheads,
-+                         conf->conf.lsecs);
+ /* handler to set the boot_device order for a specific type of MachineCl=
+ass */
+ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
+diff --git a/bootdevice.c b/bootdevice.c
+index 2b12fb85a4..b034ad7bdc 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -405,3 +405,35 @@ void del_boot_device_lchs(DeviceState *dev, const ch=
+ar *suffix)
+         }
+     }
  }
-=20
- static void virtio_blk_device_unrealize(DeviceState *dev, Error **errp)
-@@ -1193,6 +1198,7 @@ static void virtio_blk_device_unrealize(DeviceState=
- *dev, Error **errp)
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-     VirtIOBlock *s =3D VIRTIO_BLK(dev);
-=20
-+    del_boot_device_lchs(dev, "/disk@0,0");
-     virtio_blk_data_plane_destroy(s->dataplane);
-     s->dataplane =3D NULL;
-     qemu_del_vm_change_state_handler(s->change);
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 6dd219944f..2ffd387a73 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -220,6 +220,11 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveK=
-ind kind, Error **errp)
-=20
-     add_boot_device_path(dev->conf.bootindex, &dev->qdev,
-                          dev->unit ? "/disk@1" : "/disk@0");
 +
-+    add_boot_device_lchs(&dev->qdev, dev->unit ? "/disk@1" : "/disk@0",
-+                         dev->conf.lcyls,
-+                         dev->conf.lheads,
-+                         dev->conf.lsecs);
- }
-=20
- static void ide_dev_get_bootindex(Object *obj, Visitor *v, const char *n=
-ame,
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 915641a0f1..d19896fe4d 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -35,6 +35,7 @@
- #include "hw/block/block.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/dma.h"
-+#include "sysemu/sysemu.h"
- #include "qemu/cutils.h"
- #include "trace.h"
-=20
-@@ -2402,6 +2403,16 @@ static void scsi_realize(SCSIDevice *dev, Error **=
-errp)
-     blk_set_guest_block_size(s->qdev.conf.blk, s->qdev.blocksize);
-=20
-     blk_iostatus_enable(s->qdev.conf.blk);
-+
-+    add_boot_device_lchs(&dev->qdev, NULL,
-+                         dev->conf.lcyls,
-+                         dev->conf.lheads,
-+                         dev->conf.lsecs);
-+}
-+
-+static void scsi_unrealize(SCSIDevice *dev, Error **errp)
++/* Serialized as: (device name\0 + lchs struct) x devices */
++char *get_boot_devices_lchs_list(size_t *size)
 +{
-+    del_boot_device_lchs(&dev->qdev, NULL);
++    FWLCHSEntry *i;
++    size_t total =3D 0;
++    char *list =3D NULL;
++
++    QTAILQ_FOREACH(i, &fw_lchs, link) {
++        char *bootpath;
++        char *chs_string;
++        size_t len;
++
++        bootpath =3D get_boot_device_path(i->dev, false, i->suffix);
++        chs_string =3D g_strdup_printf("%s %" PRIu32 " %" PRIu32 " %" PR=
+Iu32,
++                                     bootpath, i->lcyls, i->lheads, i->l=
+secs);
++
++        if (total) {
++            list[total - 1] =3D '\n';
++        }
++        len =3D strlen(chs_string) + 1;
++        list =3D g_realloc(list, total + len);
++        memcpy(&list[total], chs_string, len);
++        total +=3D len;
++        g_free(chs_string);
++        g_free(bootpath);
++    }
++
++    *size =3D total;
++
++    return list;
++}
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 7dc3ac378e..18aff658c0 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -920,13 +920,21 @@ void *fw_cfg_modify_file(FWCfgState *s, const char =
+*filename,
+=20
+ static void fw_cfg_machine_reset(void *opaque)
+ {
++    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
++    FWCfgState *s =3D opaque;
+     void *ptr;
+     size_t len;
+-    FWCfgState *s =3D opaque;
+-    char *bootindex =3D get_boot_devices_list(&len);
++    char *buf;
+=20
+-    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)bootindex, len=
+);
++    buf =3D get_boot_devices_list(&len);
++    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)buf, len);
+     g_free(ptr);
++
++    if (!mc->legacy_fw_cfg_order) {
++        buf =3D get_boot_devices_lchs_list(&len);
++        ptr =3D fw_cfg_modify_file(s, "bios-geometry", (uint8_t *)buf, l=
+en);
++        g_free(ptr);
++    }
  }
 =20
- static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
-@@ -3006,6 +3017,7 @@ static void scsi_hd_class_initfn(ObjectClass *klass=
-, void *data)
-     SCSIDeviceClass *sc =3D SCSI_DEVICE_CLASS(klass);
-=20
-     sc->realize      =3D scsi_hd_realize;
-+    sc->unrealize    =3D scsi_unrealize;
-     sc->alloc_req    =3D scsi_new_request;
-     sc->unit_attention_reported =3D scsi_disk_unit_attention_reported;
-     dc->desc =3D "virtual SCSI disk";
+ static void fw_cfg_machine_ready(struct Notifier *n, void *data)
 --=20
 2.21.0
 
