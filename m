@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1BA4C35AF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:29:55 +0200 (CEST)
-Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C329DC35E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:38:12 +0200 (CEST)
+Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIDz-0002aZ-10
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56412)
+	id 1iFILz-0006oD-F9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:38:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iFIAm-00005s-Id
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:26:37 -0400
+ (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iFH7D-0008MC-SO
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:18:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iFIAl-0000NO-L4
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:26:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45700)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iFIAl-0000Mj-Fj
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:26:35 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B5CA320FD;
- Tue,  1 Oct 2019 13:26:34 +0000 (UTC)
-Received: from localhost (ovpn-112-22.ams2.redhat.com [10.36.112.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 664B560619;
- Tue,  1 Oct 2019 13:26:30 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iFH74-0004jd-Ri
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:18:47 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:38666)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iFH74-0004gq-DT
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 08:18:42 -0400
+Received: by mail-ed1-x541.google.com with SMTP id l21so11685364edr.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 05:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloud.ionos.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=YNCWREwiGxQBHgr/aPSD/yc/nfLH4iHYe8Ca8B7xsjs=;
+ b=BhG6j6UIFywJBWYqVxKxLCuekSRerawjr82yGvvXSy9zJBvrJlDrMWLb5myHl6zPJC
+ QtdHsSeTosbJWbwmYE/OpB89hWIB5qkojtpjoFMVMkyOatPjtgisJCn9AYJhV+2Y9KLZ
+ 2bVg4t2sJohGtA6DK3E7yR6LKzxgs9UdB75dsQRmPqdY9wOxXZV8EbHzJ4eR5Mts7ZNg
+ nMhfhEap/amyjK9mQyf2qfZVh/vVoUrl0ASaEcw5db06mLlR3V6RW/PP3C/C7V2pO4/f
+ /x9TpUorCNeGbMvyhCSCDAib3F5me4slGwAuz8e9SCrCK3sm381IvKjO4Vy5COxXgsy0
+ 9YhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=YNCWREwiGxQBHgr/aPSD/yc/nfLH4iHYe8Ca8B7xsjs=;
+ b=M01wjpT2Gv86xsu0UugtYdHooTg6L8ee+970AZU91RJ9NsYpWh9EX6QgBMBf/iFHZB
+ JjjfCCdSO+FyyYYrG24WDLlQyRkIbHzdTrGxY2f+mbBFf4R9FFJYl16ikFg/a2+iqQ95
+ jT7hnIw3yIqM7eM/1kZTPuadoabMuexRtRoEWofUi98x7nk2swhGuD0IP4tsOlAGHmTQ
+ zzUouK1qOFTpi4Qe2L3pEh4+fEbZ6zrLrd39a0yku63MbTu2bixfdcimcRASdWT4uEDc
+ Ig2BRwrfmTGDROo4IYIIl8sNpOxk8Y4GMQ1ClQDhaiQ0JRnumx0nHV/exTlC3ROauW3E
+ Zhfw==
+X-Gm-Message-State: APjAAAV9vTg8ct9QOtaeRqLwzg2fPoYnB1x0cOA0RvbMnR/tRyvSLxXS
+ sxwmPs3eeK0qrao/SicYYoKiNKoCy/U=
+X-Google-Smtp-Source: APXvYqwQJhmO5FaBvHyAOv+o5JCoH/ofQ1UdiFT+7CIEPAY1MNkWI0ij+L+AL1i8XFMEE5Lvf7scVw==
+X-Received: by 2002:a17:906:5c07:: with SMTP id
+ e7mr19557613ejq.127.1569932319452; 
+ Tue, 01 Oct 2019 05:18:39 -0700 (PDT)
+Received: from msennikovskii2.pb.local
+ ([2001:1438:4010:2558:d098:3701:97c4:7b4e])
+ by smtp.googlemail.com with ESMTPSA id u22sm1824156eja.23.2019.10.01.05.18.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Tue, 01 Oct 2019 05:18:38 -0700 (PDT)
+From: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] tests: skip serial test on windows
-Date: Tue,  1 Oct 2019 17:26:08 +0400
-Message-Id: <20191001132609.23184-3-marcandre.lureau@redhat.com>
-In-Reply-To: <20191001132609.23184-1-marcandre.lureau@redhat.com>
-References: <20191001132609.23184-1-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 01 Oct 2019 13:26:34 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Subject: [PATCH] virtio-net: prevent offloads reset on migration
+Date: Tue,  1 Oct 2019 14:18:27 +0200
+Message-Id: <1569932308-30478-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::541
+X-Mailman-Approved-At: Tue, 01 Oct 2019 09:36:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,46 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- sw@weilnetz.de
+Cc: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Serial test is currently hard-coded to /dev/null.
+Hi all,
 
-On Windows, serial chardev expect a COM: device, which may not be
-availble.
+I've recently faced an issue that the offloads settings of my Windows VM's
+tap devices reported with "ethtool -k" get changed after the VM migration.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- tests/test-char.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+After a quick look it appears that the offloads always get resent
+to the complete set of features the guest has reported.
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index d62de1b088..45e42af290 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -1103,7 +1103,7 @@ static void char_socket_server_two_clients_test(gco=
-nstpointer opaque)
- }
-=20
-=20
--#ifdef HAVE_CHARDEV_SERIAL
-+#if defined(HAVE_CHARDEV_SERIAL) && !defined(WIN32)
- static void char_serial_test(void)
- {
-     QemuOpts *opts;
-@@ -1460,7 +1460,7 @@ int main(int argc, char **argv)
- #endif
-=20
-     g_test_add_func("/char/udp", char_udp_test);
--#ifdef HAVE_CHARDEV_SERIAL
-+#if defined(HAVE_CHARDEV_SERIAL) && !defined(WIN32)
-     g_test_add_func("/char/serial", char_serial_test);
- #endif
-     g_test_add_func("/char/hotswap", char_hotswap_test);
---=20
-2.23.0
+Here I'm sending a small patch which fixes this with all the detail
+in the commit description.
+
+Perhaps a cleaner approach would've been to actually restore the
+curr_guest_offloads after the virtio guest device features.
+This approach is much less invasive though, and more intended
+to illustrate the problem and potentially initiate a further
+discussion on the best way of fixing it.
+
+
+Thanks & Regards,
+Mikhail
+
+
+Mikhail Sennikovsky (1):
+  virtio-net: prevent offloads reset on migration
+
+ hw/display/virtio-gpu-base.c |  3 ++-
+ hw/net/virtio-net.c          |  5 +++--
+ hw/virtio/virtio.c           | 10 +++++-----
+ include/hw/virtio/virtio.h   |  2 +-
+ 4 files changed, 11 insertions(+), 9 deletions(-)
+
+-- 
+2.7.4
 
 
