@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D43C3D64
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:59:49 +0200 (CEST)
-Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C27C3C0E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:50:20 +0200 (CEST)
+Received: from localhost ([::1]:44890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLV6-0002s7-7b
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53248)
+	id 1iFLLv-0006Q6-0x
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iFKn8-0005iF-7X
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:14:23 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFKqL-0008Qf-Ox
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:17:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iFKn6-0002qQ-Fi
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:14:21 -0400
-Resent-Date: Tue, 01 Oct 2019 12:14:21 -0400
-Resent-Message-Id: <E1iFKn6-0002qQ-Fi@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21591)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iFKn6-0002ls-87
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:14:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569946447; cv=none; d=zoho.com; s=zohoarc; 
- b=aQvBml8vz+vc2OoqZLp6W8xq5lrvov4Vxnip/gDbfTxL1xsWxX3D7ctOLh6qZUbxBdiQEN0aav5wPmqabMc7gzC1E/LKBiqbvyLImv76wpzEwxGPwCIvohjMseLJIBXpKyM+zat+a53kS8qvLMsh+PCXpRD+YBc5hJi6z3pN63w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569946447;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=mQkQhqFc1rlUVJC5HGyrxvd9YWnGNHVrro9q+A0DvWQ=; 
- b=NmPgMkRWLwZ4geNCD6GXqVv2LtTzNjuMPDGkkPSM5vKW8IwYKTS+GMZzi5zbnok/wKy1vn38/5mtzYzVntqms5hGIqZCEJnv5ztG8wN30/YyISdO5p7a/xfl5kV3rhoWpNOWzl9XUVg613dsnO7rwBo9gdAW2BT2GYy2pIerjSQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 156994644540571.86639096041574;
- Tue, 1 Oct 2019 09:14:05 -0700 (PDT)
-Subject: Re: [PATCH] virtio-net: prevent offloads reset on migration
-In-Reply-To: <1569932308-30478-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
-Message-ID: <156994644427.27524.7166605496047304746@8230166b0665>
+ (envelope-from <mreitz@redhat.com>) id 1iFKqI-0004li-Lu
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 12:17:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53518)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iFKqC-0004gn-5b; Tue, 01 Oct 2019 12:17:32 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3C58AC02490A;
+ Tue,  1 Oct 2019 16:17:30 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D63A1001947;
+ Tue,  1 Oct 2019 16:17:26 +0000 (UTC)
+Subject: Re: bitmap migration bug with -drive while block mirror runs
+To: Kevin Wolf <kwolf@redhat.com>
+References: <315cff78-dcdb-a3ce-2742-da3cc9f0ca97@redhat.com>
+ <d897c755-40e7-6392-23e3-c06b1a371f28@virtuozzo.com>
+ <6dd4e735-47e7-45d1-98e9-2131746d470c@redhat.com>
+ <dfc26b72-4795-09f8-9c50-07d4eabd971a@virtuozzo.com>
+ <ef32215d-35e2-14dd-1b43-26f09a88f2dc@redhat.com>
+ <20191001150950.GD4688@linux.fritz.box>
+ <d32d21c0-6f18-39ba-6da3-060c865f701a@redhat.com>
+ <20191001161250.GF4688@linux.fritz.box>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6654acd8-123a-4fa7-e728-102feccd9c05@redhat.com>
+Date: Tue, 1 Oct 2019 18:17:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mikhail.sennikovskii@cloud.ionos.com
-Date: Tue, 1 Oct 2019 09:14:05 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20191001161250.GF4688@linux.fritz.box>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="OgKFjmpkQ3LrtFe3CLm942zZJmB9IXGj6"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 01 Oct 2019 16:17:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.55
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,38 +90,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mikhail.sennikovskii@cloud.ionos.com, qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTY5OTMyMzA4LTMwNDc4LTIt
-Z2l0LXNlbmQtZW1haWwtbWlraGFpbC5zZW5uaWtvdnNraWlAY2xvdWQuaW9ub3MuY29tLwoKCgpI
-aSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMu
-IFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVz
-c2FnZS1pZDogMTU2OTkzMjMwOC0zMDQ3OC0yLWdpdC1zZW5kLWVtYWlsLW1pa2hhaWwuc2Vubmlr
-b3Zza2lpQGNsb3VkLmlvbm9zLmNvbQpTdWJqZWN0OiBbUEFUQ0hdIHZpcnRpby1uZXQ6IHByZXZl
-bnQgb2ZmbG9hZHMgcmVzZXQgb24gbWlncmF0aW9uCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
-CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
-bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
-UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
-MzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjlkMjc3NGUgdmlydGlvLW5ldDog
-cHJldmVudCBvZmZsb2FkcyByZXNldCBvbiBtaWdyYXRpb24KCj09PSBPVVRQVVQgQkVHSU4gPT09
-CkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojOTc6IEZJTEU6IGh3L3ZpcnRpby92aXJ0
-aW8uYzoyMDQ5Ogorc3RhdGljIGludCB2aXJ0aW9fc2V0X2ZlYXR1cmVzX25vY2hlY2soVmlydElP
-RGV2aWNlICp2ZGV2LCB1aW50NjRfdCB2YWwsIGJvb2wgcmVzZXRfb2ZmbG9hZHMpCgp0b3RhbDog
-MSBlcnJvcnMsIDAgd2FybmluZ3MsIDc0IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA5ZDI3NzRlYTdl
-YjEgKHZpcnRpby1uZXQ6IHByZXZlbnQgb2ZmbG9hZHMgcmVzZXQgb24gbWlncmF0aW9uKSBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
-eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
-cGF0Y2hldy5vcmcvbG9ncy8xNTY5OTMyMzA4LTMwNDc4LTItZ2l0LXNlbmQtZW1haWwtbWlraGFp
-bC5zZW5uaWtvdnNraWlAY2xvdWQuaW9ub3MuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--OgKFjmpkQ3LrtFe3CLm942zZJmB9IXGj6
+Content-Type: multipart/mixed; boundary="9l6ssWftYQPC8PBn2x698zsem24Q6U5VG"
 
+--9l6ssWftYQPC8PBn2x698zsem24Q6U5VG
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 01.10.19 18:12, Kevin Wolf wrote:
+> Am 01.10.2019 um 17:27 hat Max Reitz geschrieben:
+>> On 01.10.19 17:09, Kevin Wolf wrote:
+>>> Am 01.10.2019 um 16:34 hat Max Reitz geschrieben:
+>>>> On 01.10.19 16:27, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> 01.10.2019 17:13, Max Reitz wrote:
+>>>>>> On 01.10.19 16:00, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>>> 01.10.2019 3:09, John Snow wrote:
+>>>>>>>> Hi folks, I identified a problem with the migration code that Re=
+d Hat QE
+>>>>>>>> found and thought you'd like to see it:
+>>>>>>>>
+>>>>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=3D1652424#c20
+>>>>>>>>
+>>>>>>>> Very, very briefly: drive-mirror inserts a filter node that chan=
+ges what
+>>>>>>>> bdrv_get_device_or_node_name() returns, which causes a migration=
+ problem.
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> Ignorant question #1: Can we multi-parent the filter node and
+>>>>>>>> source-node? It looks like at the moment both consider their onl=
+y parent
+>>>>>>>> to be the block-job and don't have a link back to their parents =
+otherwise.
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> Otherwise: I have a lot of cloudy ideas on how to solve this, bu=
+t
+>>>>>>>> ultimately what we want is to be able to find the "addressable" =
+name for
+>>>>>>>> the node the bitmap is attached to, which would be the name of t=
+he first
+>>>>>>>> ancestor node that isn't a filter. (OR, the name of the block-ba=
+ckend
+>>>>>>>> above that node.)
+>>>>>>>
+>>>>>>> Not the name of ancestor node, it will break mapping: it must be =
+name of the
+>>>>>>> node itself or name of parent (may be through several filters) bl=
+ock-backend
+>>>>>>>
+>>>>>>>>
+>>>>>>>> A simple way to do this might be a "child_unfiltered" BdrvChild =
+role
+>>>>>>>> that simply bypasses the filter that was inserted and serves no =
+real
+>>>>>>>> purpose other than to allow the child to have a parent link and =
+find who
+>>>>>>>> it's """real""" parent is.
+>>>>>>>>
+>>>>>>>> Because of flushing, reopen, sync, drain &c &c &c I'm not sure h=
+ow
+>>>>>>>> feasible this quick idea might be, though.
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> - Corollary fix #1: call error_setg if the bitmap node name that=
+'s about
+>>>>>>>> to go over the wire is an autogenerated node: this is never corr=
+ect!
+>>>>>>>>
+>>>>>>>> (Why not? because the target is incapable of matching the node-n=
+ame
+>>>>>>>> because they are randomly generated AND you cannot specify node-=
+names
+>>>>>>>> with # prefixes as they are especially reserved!
+>>>>>>>>
+>>>>>>>> (This raises a related problem: if you explicitly add bitmaps to=
+ nodes
+>>>>>>>> with autogenerated names, you will be unable to migrate them.))
+>>>>>>>>
+>>>>>>>> --js
+>>>>>>>>
+>>>>>>>
+>>>>>>> What about the following:
+>>>>>>>
+>>>>>>> diff --git a/block.c b/block.c
+>>>>>>> index 5944124845..6739c19be9 100644
+>>>>>>> --- a/block.c
+>>>>>>> +++ b/block.c
+>>>>>>> @@ -1009,8 +1009,20 @@ static void bdrv_inherited_options(int *ch=
+ild_flags, QDict *child_options,
+>>>>>>>        *child_flags =3D flags;
+>>>>>>>    }
+>>>>>>>
+>>>>>>> +static const char *bdrv_child_get_name(BdrvChild *child)
+>>>>>>> +{
+>>>>>>> +    BlockDriverState *parent =3D child->opaque;
+>>>>>>> +
+>>>>>>> +    if (parent->drv && parent->drv->is_filter) {
+>>>>>>> +        return bdrv_get_parent_name(parent);
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    return NULL;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>
+>>>>>> Why would we skip filters explicitly added by the user?
+>>>>>>
+>>>>>
+>>>>> Why not? Otherwise migration of bitmaps will not work: we may have =
+different set
+>>>>> of filters on source and destination, and we still should map nodes=
+ with bitmaps
+>>>>> automatically.
+>>>>
+>>>> Why would we have a different set of explicitly added filters on sou=
+rce
+>>>> and destination and allow them to be automatically changed during
+>>>> migration?  Shouldn=E2=80=99t users only change them pre or post mig=
+ration?
+>>>
+>>> We never made a requirement that the backend must be the same on the
+>>> source and the destination. Basically, migration copies the state of
+>>> frontends and the user is responsible for having these frontends crea=
+ted
+>>> and connected to the right backends on the destination.
+>>>
+>>> Using different paths on the destination is a very obvious requiremen=
+t
+>>> for block devices. It's less obvious for the graph structure, but I
+>>> don't see a reason why it couldn't change on migration. Say we were
+>>> using local storage on the source, but now we did storage migration t=
+o
+>>> some network storage, access to which should be throttled.
+>>
+>> I don=E2=80=99t quite see why we couldn=E2=80=99t add such filters bef=
+ore or after
+>> migration.
+>=20
+> Possibly. But why would we when the source doesn't need the filter? We
+> don't change the image path before migration either.
+>=20
+> I think the tricky part is coming up with rules and "keep the frontend
+> the same, the backend can change arbitrarily" is a very easy rule.
+
+OK, indeed.
+
+>> And it was my impression that bitmap migration was a problem now
+>> precisely because it is bound to the graph structure.
+>=20
+> So apparently I wasn't completely wrong when I preferred just writing
+> bitmaps back to the image instead of transferring them in the migration=
+
+> stream...
+>=20
+> It's not really bound to the graph structure per se, but to node names
+> and for non-anonymous BlockBackends to the link between the BB and its
+> root node. The latter is part of the graph structure, but only a very
+> small part, and it exists only for legacy (non-blockdev) configurations=
+=2E
+>=20
+>> But anyway.  I=E2=80=99ll gladly remove myself from this discussion be=
+cause I
+>> don=E2=80=99t know much about migration and actually I=E2=80=99d prefe=
+r to keep it that
+>> way.  (Sorry.)
+>=20
+> Good idea, let's have the migration maintainers handle this.
+
+:-)
+
+That=E2=80=99s always how it goes, isn=E2=80=99t it?  Migration maintaine=
+rs don=E2=80=99t know
+the block side, and we don=E2=80=99t know the migration side...
+
+Anyway.  It=E2=80=99s just a fact that I don=E2=80=99t have much to add t=
+o the
+discussion, whereas there seems to be a productive discussion without me
+already.
+
+Max
+
+
+--9l6ssWftYQPC8PBn2x698zsem24Q6U5VG--
+
+--OgKFjmpkQ3LrtFe3CLm942zZJmB9IXGj6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2TfBQACgkQ9AfbAGHV
+z0CWyggApN3JisgActTIwSIXUpCnhng3btu2T/h88nr8EVh2/n/h3xMgo/Ym9mdK
+wsYJYrOseP9aVGwYQ6u+6a9LxfFh+CuKoUBNa254d/sTH5i8lbJNTPagqwnEsMrO
+ECTvpLXNAktQJVenlys9fbWMPpR46KQAyg/IaARdFauqRdXEtJokJeN8QAIEwtAs
+WBjfy4WCt8nomKdO4S0Q+JLK9azX936yiQCsvRkvChJK3gKAAjKt2iWoZGeN9G3q
+eXY7sig7U/F3Z9eKAXygAAVm0rb4Zoal5+4EtVlwuPrApmpMAS/dsdrgg0WyUE1V
+FDBvlETNLuuOFT6dapszw3fbQxypKw==
+=8Jmm
+-----END PGP SIGNATURE-----
+
+--OgKFjmpkQ3LrtFe3CLm942zZJmB9IXGj6--
 
