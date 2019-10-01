@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DFAC45BA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:51:26 +0200 (CEST)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCABC45C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:54:49 +0200 (CEST)
+Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTmu-0003Ga-Ul
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44142)
+	id 1iFTqp-0006z7-6C
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRwT-0005mE-7J
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:52:30 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRtL-0002lz-Br
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:49:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRwR-00074Z-JF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:52:28 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47096
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRtJ-0003h8-3r
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:49:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57580)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRwJ-0006wB-VJ; Tue, 01 Oct 2019 19:52:20 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NpmTl140377; Tue, 1 Oct 2019 19:52:17 -0400
+ id 1iFRtI-0003EN-Ou; Tue, 01 Oct 2019 19:49:12 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NmnCY005158; Tue, 1 Oct 2019 19:48:51 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdj4dgx3-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdfxwett-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:52:17 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NmOrc133005;
- Tue, 1 Oct 2019 19:48:24 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdj4de13-1
+ Tue, 01 Oct 2019 19:48:49 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NmmJ1005008;
+ Tue, 1 Oct 2019 19:48:48 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdfxwec3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:23 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlOr031629;
- Tue, 1 Oct 2019 23:47:22 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fab-1
+ Tue, 01 Oct 2019 19:48:48 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlEk022439;
+ Tue, 1 Oct 2019 23:47:25 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 2v9y57yd5d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:22 +0000
+ Tue, 01 Oct 2019 23:47:25 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlL7E44302732
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlOdR47513940
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:21 GMT
+ Tue, 1 Oct 2019 23:47:24 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B476B2805E;
- Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3FC8B2805A;
+ Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9790728058;
- Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 18D1E28058;
+ Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:21 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:24 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/97] iotests.py: do not use infinite waits
-Date: Tue,  1 Oct 2019 18:44:58 -0500
-Message-Id: <20191001234616.7825-20-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 23/97] iotests: add iotest 256 for testing blockdev-backup
+ across iothread contexts
+Date: Tue,  1 Oct 2019 18:45:02 -0500
+Message-Id: <20191001234616.7825-24-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -74,9 +74,9 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910010204
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,76 +95,283 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Cap waits to 60 seconds so that iotests can fail gracefully if something
-goes wrong.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190523170643.20794-3-jsnow@redhat.com
+Message-id: 20190523170643.20794-6-jsnow@redhat.com
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+[mreitz: Moved from 250 to 256]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit 8b6f5f8b9f3bec5cbeebefab34bae0102a2581b3)
+(cherry picked from commit ba7704f2228f16ed61b9903801e28e17666c7e38)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/iotests.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/qemu-iotests/256     | 122 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/256.out | 119 ++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 242 insertions(+)
+ create mode 100755 tests/qemu-iotests/256
+ create mode 100644 tests/qemu-iotests/256.out
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 8b209ea0ee..8061f01ade 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -521,7 +521,7 @@ class VM(qtest.QEMUQtestMachine):
-             output_list += [key + '=' + obj[key]]
-         return ','.join(output_list)
- 
--    def get_qmp_events_filtered(self, wait=True):
-+    def get_qmp_events_filtered(self, wait=60.0):
-         result = []
-         for ev in self.get_qmp_events(wait=wait):
-             result.append(filter_qmp_event(ev))
-@@ -539,10 +539,10 @@ class VM(qtest.QEMUQtestMachine):
- 
-     # Returns None on success, and an error string on failure
-     def run_job(self, job, auto_finalize=True, auto_dismiss=False,
--                pre_finalize=None):
-+                pre_finalize=None, wait=60.0):
-         error = None
-         while True:
--            for ev in self.get_qmp_events_filtered(wait=True):
-+            for ev in self.get_qmp_events_filtered(wait=wait):
-                 if ev['event'] == 'JOB_STATUS_CHANGE':
-                     status = ev['data']['status']
-                     if status == 'aborting':
-@@ -633,7 +633,7 @@ class QMPTestCase(unittest.TestCase):
-         self.assertEqual(self.vm.flatten_qmp_object(json.loads(json_filename[5:])),
-                          self.vm.flatten_qmp_object(reference))
- 
--    def cancel_and_wait(self, drive='drive0', force=False, resume=False):
-+    def cancel_and_wait(self, drive='drive0', force=False, resume=False, wait=60.0):
-         '''Cancel a block job and wait for it to finish, returning the event'''
-         result = self.vm.qmp('block-job-cancel', device=drive, force=force)
-         self.assert_qmp(result, 'return', {})
-@@ -644,7 +644,7 @@ class QMPTestCase(unittest.TestCase):
-         cancelled = False
-         result = None
-         while not cancelled:
--            for event in self.vm.get_qmp_events(wait=True):
-+            for event in self.vm.get_qmp_events(wait=wait):
-                 if event['event'] == 'BLOCK_JOB_COMPLETED' or \
-                    event['event'] == 'BLOCK_JOB_CANCELLED':
-                     self.assert_qmp(event, 'data/device', drive)
-@@ -657,10 +657,10 @@ class QMPTestCase(unittest.TestCase):
-         self.assert_no_active_block_jobs()
-         return result
- 
--    def wait_until_completed(self, drive='drive0', check_offset=True):
-+    def wait_until_completed(self, drive='drive0', check_offset=True, wait=60.0):
-         '''Wait for a block job to finish, returning the event'''
-         while True:
--            for event in self.vm.get_qmp_events(wait=True):
-+            for event in self.vm.get_qmp_events(wait=wait):
-                 if event['event'] == 'BLOCK_JOB_COMPLETED':
-                     self.assert_qmp(event, 'data/device', drive)
-                     self.assert_qmp_absent(event, 'data/error')
+diff --git a/tests/qemu-iotests/256 b/tests/qemu-iotests/256
+new file mode 100755
+index 0000000000..c594a43205
+--- /dev/null
++++ b/tests/qemu-iotests/256
+@@ -0,0 +1,122 @@
++#!/usr/bin/env python
++#
++# Test incremental/backup across iothread contexts
++#
++# Copyright (c) 2019 John Snow for Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++# owner=jsnow@redhat.com
++
++import os
++import iotests
++from iotests import log
++
++iotests.verify_image_format(supported_fmts=['qcow2'])
++size = 64 * 1024 * 1024
++
++with iotests.FilePath('img0') as img0_path, \
++     iotests.FilePath('img1') as img1_path, \
++     iotests.FilePath('img0-full') as img0_full_path, \
++     iotests.FilePath('img1-full') as img1_full_path, \
++     iotests.FilePath('img0-incr') as img0_incr_path, \
++     iotests.FilePath('img1-incr') as img1_incr_path, \
++     iotests.VM() as vm:
++
++    def create_target(filepath, name, size):
++        basename = os.path.basename(filepath)
++        nodename = "file_{}".format(basename)
++        log(vm.command('blockdev-create', job_id='job1',
++                       options={
++                           'driver': 'file',
++                           'filename': filepath,
++                           'size': 0,
++                       }))
++        vm.run_job('job1')
++        log(vm.command('blockdev-add', driver='file',
++                       node_name=nodename, filename=filepath))
++        log(vm.command('blockdev-create', job_id='job2',
++                       options={
++                           'driver': iotests.imgfmt,
++                           'file': nodename,
++                           'size': size,
++                       }))
++        vm.run_job('job2')
++        log(vm.command('blockdev-add', driver=iotests.imgfmt,
++                       node_name=name,
++                       file=nodename))
++
++    log('--- Preparing images & VM ---\n')
++    vm.add_object('iothread,id=iothread0')
++    vm.add_object('iothread,id=iothread1')
++    vm.add_device('virtio-scsi-pci,id=scsi0,iothread=iothread0')
++    vm.add_device('virtio-scsi-pci,id=scsi1,iothread=iothread1')
++    iotests.qemu_img_create('-f', iotests.imgfmt, img0_path, str(size))
++    iotests.qemu_img_create('-f', iotests.imgfmt, img1_path, str(size))
++    vm.add_drive(img0_path, interface='none')
++    vm.add_device('scsi-hd,id=device0,drive=drive0,bus=scsi0.0')
++    vm.add_drive(img1_path, interface='none')
++    vm.add_device('scsi-hd,id=device1,drive=drive1,bus=scsi1.0')
++
++    log('--- Starting VM ---\n')
++    vm.launch()
++
++    log('--- Create Targets & Full Backups ---\n')
++    create_target(img0_full_path, 'img0-full', size)
++    create_target(img1_full_path, 'img1-full', size)
++    ret = vm.qmp_log('transaction', indent=2, actions=[
++        { 'type': 'block-dirty-bitmap-add',
++          'data': { 'node': 'drive0', 'name': 'bitmap0' }},
++        { 'type': 'block-dirty-bitmap-add',
++          'data': { 'node': 'drive1', 'name': 'bitmap1' }},
++        { 'type': 'blockdev-backup',
++          'data': { 'device': 'drive0',
++                    'target': 'img0-full',
++                    'sync': 'full',
++                    'job-id': 'j0' }},
++        { 'type': 'blockdev-backup',
++          'data': { 'device': 'drive1',
++                    'target': 'img1-full',
++                    'sync': 'full',
++                    'job-id': 'j1' }}
++    ])
++    if "error" in ret:
++        raise Exception(ret['error']['desc'])
++    vm.run_job('j0', auto_dismiss=True)
++    vm.run_job('j1', auto_dismiss=True)
++
++    log('\n--- Create Targets & Incremental Backups ---\n')
++    create_target(img0_incr_path, 'img0-incr', size)
++    create_target(img1_incr_path, 'img1-incr', size)
++    ret = vm.qmp_log('transaction', indent=2, actions=[
++        { 'type': 'blockdev-backup',
++          'data': { 'device': 'drive0',
++                    'target': 'img0-incr',
++                    'sync': 'incremental',
++                    'bitmap': 'bitmap0',
++                    'job-id': 'j2' }},
++        { 'type': 'blockdev-backup',
++          'data': { 'device': 'drive1',
++                    'target': 'img1-incr',
++                    'sync': 'incremental',
++                    'bitmap': 'bitmap1',
++                    'job-id': 'j3' }}
++    ])
++    if "error" in ret:
++        raise Exception(ret['error']['desc'])
++    vm.run_job('j2', auto_dismiss=True)
++    vm.run_job('j3', auto_dismiss=True)
++
++    log('\n--- Done ---')
++    vm.shutdown()
+diff --git a/tests/qemu-iotests/256.out b/tests/qemu-iotests/256.out
+new file mode 100644
+index 0000000000..eec38614ec
+--- /dev/null
++++ b/tests/qemu-iotests/256.out
+@@ -0,0 +1,119 @@
++--- Preparing images & VM ---
++
++--- Starting VM ---
++
++--- Create Targets & Full Backups ---
++
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job1"}}
++{"return": {}}
++{}
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job2"}}
++{"return": {}}
++{}
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job1"}}
++{"return": {}}
++{}
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job2"}}
++{"return": {}}
++{}
++{
++  "execute": "transaction",
++  "arguments": {
++    "actions": [
++      {
++        "data": {
++          "name": "bitmap0",
++          "node": "drive0"
++        },
++        "type": "block-dirty-bitmap-add"
++      },
++      {
++        "data": {
++          "name": "bitmap1",
++          "node": "drive1"
++        },
++        "type": "block-dirty-bitmap-add"
++      },
++      {
++        "data": {
++          "device": "drive0",
++          "job-id": "j0",
++          "sync": "full",
++          "target": "img0-full"
++        },
++        "type": "blockdev-backup"
++      },
++      {
++        "data": {
++          "device": "drive1",
++          "job-id": "j1",
++          "sync": "full",
++          "target": "img1-full"
++        },
++        "type": "blockdev-backup"
++      }
++    ]
++  }
++}
++{
++  "return": {}
++}
++{"data": {"device": "j0", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "j1", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++
++--- Create Targets & Incremental Backups ---
++
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job1"}}
++{"return": {}}
++{}
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job2"}}
++{"return": {}}
++{}
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job1"}}
++{"return": {}}
++{}
++{}
++{"execute": "job-dismiss", "arguments": {"id": "job2"}}
++{"return": {}}
++{}
++{
++  "execute": "transaction",
++  "arguments": {
++    "actions": [
++      {
++        "data": {
++          "bitmap": "bitmap0",
++          "device": "drive0",
++          "job-id": "j2",
++          "sync": "incremental",
++          "target": "img0-incr"
++        },
++        "type": "blockdev-backup"
++      },
++      {
++        "data": {
++          "bitmap": "bitmap1",
++          "device": "drive1",
++          "job-id": "j3",
++          "sync": "incremental",
++          "target": "img1-incr"
++        },
++        "type": "blockdev-backup"
++      }
++    ]
++  }
++}
++{
++  "return": {}
++}
++{"data": {"device": "j2", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "j3", "len": 67108864, "offset": 67108864, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++
++--- Done ---
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 19e2bb3aec..7aa6dc9875 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -250,3 +250,4 @@
+ 248 rw auto quick
+ 253 rw auto quick
+ 255 rw auto quick
++256 rw auto quick
 -- 
 2.17.1
 
