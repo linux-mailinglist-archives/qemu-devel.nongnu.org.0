@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82467C3613
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:43:21 +0200 (CEST)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5B9C3628
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:46:24 +0200 (CEST)
+Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIQx-0004Li-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:43:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58064)
+	id 1iFITv-0006tG-Gm
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKS-00065o-Gf
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:37 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKT-000672-My
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKR-0001fO-AO
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:36 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45663)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKS-0001gd-Lt
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:37 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38776)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFIKR-0001eH-4T
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:35 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r5so15528489wrm.12
+ id 1iFIKS-0001fU-E6
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:36 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 3so3296263wmi.3
  for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=H449cNVRaL6XSCU/dlyiydLxUhuSV3o/ZTq+QK6WcPM=;
- b=N4xxJ8Vg2YeUNbMhvLen/i9MIKIVgMVLZuXueiU8zCueNSbBv8W+wIIyvlvECjtaIM
- xpDD7yg+U/EDdtluSp5edBr8iCLm4hOYmadXcUHa00S+fRcJi2DN+08dyyThbNDlN5Gu
- o/jja2kxNh40CJPtkic97XD73AxZqtJxXhBxhCVRdtNMooUMmDCBaowujlSZ+RPwXTvG
- aqz3AmOds/IeE3yAnRYPaOfLGg9M6uAOLhd9gCInXa3sB+a2eOaQ94ZJp/P3Zqbeai3v
- mw2Y+Sb/f29jHcXf44OuWhHWJ19FD96gaEOU4r0BZ/Hdj1ujb3OcrcAWNFzKkTdSFuSo
- ek8w==
+ bh=tpNzkqUfps0EVOpJsON6N0dLvxr0SOw+FOhA9QOcvjg=;
+ b=e6FssrIejDBX0NLR1YTnlI8KiYgI6QnlkBuMSBmtX7Q1QHy2FDNv9j9p0rioddWfOO
+ mVcTq7J9idwU2yKcCWi6pjyh/8BKuvnFcU6kCaBIHiuIg5wh3i+Xc5VyYLIOoYh2bkc5
+ XYUaTmjTd5aovlidUtQHqoKe9oaUYfVmre28e96C1VC691ZWhq8ivvPH0LpNNFdHjgPJ
+ dIJYvL2xyacJiAME76ft8SwmN3ofxOc2WMxjygj+nSscbWhP5DB9vE0Fi514Zpq8paqU
+ F+sofqluwulx6EuiMBV7aKcbmPHLkEdIsl7zHpm3n9wtcz9uIWeuM7w+7a45fCo0jS6B
+ t0OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=H449cNVRaL6XSCU/dlyiydLxUhuSV3o/ZTq+QK6WcPM=;
- b=JK6RYR3w4kkiP7faYmd7i0CpM0Ac1DT6mAt5eaWMvDStb9DXHLbT/J3EF9bhIaqLPl
- T6xC+GS5x9NEmsGpY4wu10NZevGJ2OItCoq+iB198rdFHs4jkQIqfzUs7es4/kfaNF+T
- 87ANwVgpt8ZPdtELLp+8Nckw7/iw7k247vFF4Ms3aqVgI60oW8Abyk1cQWm0k/hWBQ3k
- yhE9KjzQSGTjtXbfCr1SKrJ7/zbGKVj/U1PCbNFFooZiKZ7o+leYTfNQ8Anz6EVN8hFf
- t+H4ngKv/KK6gk7hsczYeMeiqHM8ThF+5552UtN4PYxKjbb0ZuGmkZGL2dyRH6brB7fQ
- PTBg==
-X-Gm-Message-State: APjAAAXfS2TXMDl/fHuGilYdBnQotZ/2XXGLm+FYHPDbqLLndARskeVi
- yUeBKsb5AWVMnx1ZzSzh6OaKRM5+
-X-Google-Smtp-Source: APXvYqwughsDhyVU0Q3karlrZt1Tq3v78M+NxGU6bgwcWg2U7AFNEkCNChPih6zjXsuTwN8TzmSjpA==
-X-Received: by 2002:a05:6000:10ce:: with SMTP id
- b14mr16831377wrx.96.1569936993346; 
- Tue, 01 Oct 2019 06:36:33 -0700 (PDT)
+ bh=tpNzkqUfps0EVOpJsON6N0dLvxr0SOw+FOhA9QOcvjg=;
+ b=jYLl85sDrzWneofg2P+updfZcfDJ3TXP40zCEq+kSafr9BI1Iqgr8Kld707USJ+24J
+ fUbdEcKSY5Kavoa4GWRjLQ1OeV8Meju3i1OPbXJ5VDi/aylN0vttV3oT32ZGnEhrK9Wm
+ lZepUbDmD8RbEdGYZhDBmU6N8UxMQlSYCM8YeSZvkgOloOZBqiIz7SAAERMpHY6YEOsf
+ Cy3xq9YhopVjhhqNT4uD001tc9G5dz9nCp2CrP9z0Tu6vYZd4ZxGCva+tC0RchuUaB7C
+ M83pRWOOMJnIO9/+ODkrV38qRgIvt6pxhlnDjDwar92tBnmZ62G38DTxBQTovC3+cpw0
+ 58HQ==
+X-Gm-Message-State: APjAAAXh1hAY5IZmRnfinOube7rM4eC7vcMhBZgvdhTstptqM1B5AKCs
+ G7bA0pXZtqbrDZlz1S1L+AJOpaCZ
+X-Google-Smtp-Source: APXvYqxIg2uZIsI8eoULq10pSU1idgjjrU4pHfil7TIhIpgMMx6d03DxgaY7v5e1k0RmHn6q48qbYw==
+X-Received: by 2002:a1c:8097:: with SMTP id b145mr3912364wmd.29.1569936994124; 
+ Tue, 01 Oct 2019 06:36:34 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.32
+ by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Oct 2019 06:36:32 -0700 (PDT)
+ Tue, 01 Oct 2019 06:36:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/8] mcf5208: fix leak from qemu_allocate_irqs
-Date: Tue,  1 Oct 2019 15:36:23 +0200
-Message-Id: <1569936988-635-4-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 4/8] hppa: fix leak from g_strdup_printf
+Date: Tue,  1 Oct 2019 15:36:24 +0200
+Message-Id: <1569936988-635-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
 References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,26 +78,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The array returned by qemu_allocate_irqs is malloced, free it.
+memory_region_init_* takes care of copying the name into memory it owns.
+Free it in the caller.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/m68k/mcf5208.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/hppa/dino.c    | 1 +
+ hw/hppa/machine.c | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index 012710d..60c5802 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -273,6 +273,8 @@ static void mcf5208evb_init(MachineState *machine)
-                      0xfc030000, pic + 36);
+diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
+index e0466ee..ab6969b 100644
+--- a/hw/hppa/dino.c
++++ b/hw/hppa/dino.c
+@@ -485,6 +485,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+         memory_region_init_alias(&s->pci_mem_alias[i], OBJECT(s),
+                                  name, &s->pci_mem, addr,
+                                  DINO_MEM_CHUNK_SIZE);
++        g_free(name);
      }
  
-+    g_free(pic);
-+
-     /*  0xfc000000 SCM.  */
-     /*  0xfc004000 XBS.  */
-     /*  0xfc008000 FlexBus CS.  */
+     /* Set up PCI view of memory: Bus master address space.  */
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 2736ce8..7e23675 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -78,13 +78,15 @@ static void machine_hppa_init(MachineState *machine)
+ 
+     /* Create CPUs.  */
+     for (i = 0; i < smp_cpus; i++) {
++        char *name = g_strdup_printf("cpu%ld-io-eir", i);
+         cpu[i] = HPPA_CPU(cpu_create(machine->cpu_type));
+ 
+         cpu_region = g_new(MemoryRegion, 1);
+         memory_region_init_io(cpu_region, OBJECT(cpu[i]), &hppa_io_eir_ops,
+-                              cpu[i], g_strdup_printf("cpu%ld-io-eir", i), 4);
++                              cpu[i], name, 4);
+         memory_region_add_subregion(addr_space, CPU_HPA + i * 0x1000,
+                                     cpu_region);
++        g_free(name);
+     }
+ 
+     /* Limit main memory. */
 -- 
 1.8.3.1
 
