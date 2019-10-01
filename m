@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F196C42E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:47:10 +0200 (CEST)
-Received: from localhost ([::1]:48532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAEBC430C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:53:39 +0200 (CEST)
+Received: from localhost ([::1]:48594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPzA-0007yF-0F
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:47:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
+	id 1iFQ5R-0003sz-II
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55568)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iFPk2-0000Ew-Bx
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:31:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO9b-0006dD-Qq
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iFPk0-0004tv-WD
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:31:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33654)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iFPk0-0004sV-PX
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:31:28 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iFPjy-000611-Bt
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 21:31:26 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 31ACD2E80D8
- for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 21:31:26 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iFO9a-0000Qs-2d
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52362)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iFO9T-0000Ll-GC; Tue, 01 Oct 2019 15:49:39 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 59546A44AF5;
+ Tue,  1 Oct 2019 19:49:36 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E972F6012C;
+ Tue,  1 Oct 2019 19:49:35 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 59/67] iotests/248: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:47:07 +0200
+Message-Id: <20191001194715.2796-60-mreitz@redhat.com>
+In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
+References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Tue, 01 Oct 2019 19:49:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Oct 2019 21:25:22 -0000
-From: Saverio Miroddi <1714331@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrisu lersek pmdj saveriomiroddi stefanha
-X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
-X-Launchpad-Bug-Modifier: Saverio Miroddi (saveriomiroddi)
-References: <150420685550.8035.5310753798215250364.malonedeb@soybean.canonical.com>
-Message-Id: <156996512355.21009.1626452635528410149.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1714331] Re: Virtual machines not working anymore on 2.10
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19066";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 760add5a6ebf59f4d0aaea93d37ff65cf8971ff6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,116 +55,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1714331 <1714331@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/248 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
--- =
+diff --git a/tests/qemu-iotests/248 b/tests/qemu-iotests/248
+index 0adc4da802..90821eaeda 100755
+--- a/tests/qemu-iotests/248
++++ b/tests/qemu-iotests/248
+@@ -19,7 +19,7 @@
+ #
+=20
+ import iotests
+-from iotests import qemu_img_create, qemu_io, file_path, filter_qmp_test=
+files
++from iotests import create_test_image, qemu_io, image_path, filter_qmp_t=
+estfiles
+=20
+ iotests.script_initialize(supported_fmts=3D['qcow2'],
+                           # With an external data file, we would need
+@@ -27,12 +27,12 @@ iotests.script_initialize(supported_fmts=3D['qcow2'],
+                           # of @file
+                           unsupported_imgopts=3D['data_file'])
+=20
+-source, target =3D file_path('source', 'target')
++source, target =3D image_path('source', 'target')
+ size =3D 5 * 1024 * 1024
+ limit =3D 2 * 1024 * 1024
+=20
+-qemu_img_create('-f', iotests.imgfmt, source, str(size))
+-qemu_img_create('-f', iotests.imgfmt, target, str(size))
++create_test_image(source, size)
++create_test_image(target, size)
+ qemu_io('-c', 'write 0 {}'.format(size), source)
+=20
+ # raw format don't like empty files
+--=20
+2.21.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1714331
-
-Title:
-  Virtual machines not working anymore on 2.10
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Using 2.10, my virtual machine(s) don't work anymore. This happens
-  100% of the times.
-
-  -----
-
-  I use QEMU compiling it from source, on Ubuntu 16.04 amd64. This is
-  the configure command:
-
-      configure --target-list=3Dx86_64-softmmu --enable-debug --enable-gtk
-  --enable-spice --audio-drv-list=3Dpa
-
-  I have one virtual disk, with a Windows 10 64-bit, which I launch in
-  two different ways; both work perfectly on 2.9 (and used to do on 2.8,
-  but I haven't used it for a long time).
-
-  This is the first way:
-
-      qemu-system-x86_64
-        -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.=
-fd
-        -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
-        -enable-kvm
-        -machine q35,accel=3Dkvm,mem-merge=3Doff
-        -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinloc=
-ks=3D0x1fff,hv_vapic,hv_time
-        -smp 4,cores=3D4,sockets=3D1,threads=3D1
-        -m 4096
-        -display gtk
-        -vga qxl
-        -rtc base=3Dlocaltime
-        -serial none
-        -parallel none
-        -usb
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device virtio-scsi-pci,id=3Dscsi
-        -drive file=3D/path/to/image-diff.img,id=3Dhdd1,format=3Dqcow2,if=
-=3Dnone,cache=3Dwriteback
-        -device scsi-hd,drive=3Dhdd1
-        -net nic,model=3Dvirtio
-        -net user
-
-  On QEMU 2.10, I get the `Recovery - Your PC/Device needs to be
-  repaired` windows screen; on 2.9, it boots regularly.
-
-  This is the second way:
-
-      qemu-system-x86_64
-        -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.=
-fd
-        -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
-        -enable-kvm
-        -machine q35,accel=3Dkvm,mem-merge=3Doff
-        -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinloc=
-ks=3D0x1fff,hv_vapic,hv_time
-        -smp 4,cores=3D4,sockets=3D1,threads=3D1
-        -m 10240
-        -vga none
-        -rtc base=3Dlocaltime
-        -serial none
-        -parallel none
-        -usb
-        -device vfio-pci,host=3D01:00.0,multifunction=3Don
-        -device vfio-pci,host=3D01:00.1
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device usb-host,vendorid=3D0xNNNN,productid=3D0xNNNN
-        -device virtio-scsi-pci,id=3Dscsi
-        -drive file=3D/path/to/image-diff.img,id=3Dhdd1,format=3Dqcow2,if=
-=3Dnone,cache=3Dwriteback
-        -device scsi-hd,drive=3Dhdd1
-        -net nic,model=3Dvirtio
-        -net user
-
-  On QEMU 2.10, I get the debug window on the linux monitor, and blank scre=
-en on VFIO one (no BIOS screen at all); after 10/20 seconds, QEMU crashes w=
-ithout any message.
-  On 2.9, this works perfectly.
-
-  -----
-
-  I am able to perform a git bisect, if that helps, but if this is the
-  case, I'd need this issue to be reviewed, since bisecting is going to
-  take me a lot of time.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1714331/+subscriptions
 
