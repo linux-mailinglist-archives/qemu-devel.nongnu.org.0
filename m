@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4F0C35F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:40:32 +0200 (CEST)
-Received: from localhost ([::1]:42252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB68C35F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:41:05 +0200 (CEST)
+Received: from localhost ([::1]:42260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIOF-0001HS-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58046)
+	id 1iFIOm-00024O-8l
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:41:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKR-00064n-61
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKR-00064x-9L
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKP-0001ch-6b
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKQ-0001dk-CI
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:35 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40937)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40940)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFIKP-0001bh-0o
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:33 -0400
-Received: by mail-wr1-x441.google.com with SMTP id l3so15558078wru.7
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:32 -0700 (PDT)
+ id 1iFIKQ-0001d2-6D
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:34 -0400
+Received: by mail-wr1-x444.google.com with SMTP id l3so15558208wru.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id;
- bh=DHCHcqIqGJk6cHzGkqP+o7recsStMxcRNs8vdRlSlTc=;
- b=tJa4Sz8R0EEo1eOZaQQQMs5ajlkYgbSAznay0uRlEuIWcJehIHyiYnPLleC7Hgj/vQ
- BE8OsagPnSP3lQFAxwUMO1RVN/o0VkKnoyfNtWoVpQu/cfROLbfapAiPTtjghbc0SnI9
- 7SyMVNP8rZMPwWfypReHe0MTzES9JYusSEkMTwQvhRITUm5NR+u+PFXQSCfzEKG411OJ
- 4JkXaUrMXh8DDYiHxFgGKdz0DAEO1NQDQaXpFbv9AbLGopNKyfFHiB6UKYj+ribBRZ5+
- /2SthTzECntfAIqHjWECEWREJf/w6LvidGu/h78I7edDMfcyQGctru5FIkkuRiIRZNld
- lCYA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=1pkb/xxA0Q1jhhvqUg4yWzv1bTQ2+Quoe621ugFPlfQ=;
+ b=SmJrF8SjcrcfJRtHSwE0H73LcQWxRbQdy3gsljzTtZRg5IeliTCSQ57dQLtJ1a8sID
+ UGPY8Zcx+XzPSMSu05lqynPPEPruUJ86jlkQUhB9hAsqV7rgySJ7NV7s+bZyLoL6quME
+ mLiW93ZGaqF1OBuz/NCOCGpFUROUvBfslZlv1vNwFzrGbJSmJcM27aqwn9eN9TX8horK
+ w9mRUdsbL/tMT+rQEPyJeQZWDU3IXlvml+IFon1HRcMXEewfUG3oL1rYaYBNlUL/byPm
+ +N7Mh6+cnf2Q1N4/nhs+vZ3w+NLvpi4jKUly1JLuJrcTkjjNPHmbArsBRQPfshZJUAoL
+ 9jow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id;
- bh=DHCHcqIqGJk6cHzGkqP+o7recsStMxcRNs8vdRlSlTc=;
- b=uUGuEwaE3u+GUNU/pDWjFGz1BmN/9rljmMu8ocvOHzZjdYgS+fDq2IXKsYiRGVbDkk
- IUijuIgTamGcBGL9i+GKglOoL3Ol6fk55SXUjpDLwxfGTLUFs/QjdMFDmLQ4ewgSa0ve
- nZBD2Tm2JDwdkWYe/LoBETiGYUxbMYyaehUY+c6Znvkx1uvQd3PzhRvj+lHBHd/XnnIa
- MK9/ie7aJ08yUyVYKIW4jmoBcGV+YBEpwbS8T2iPGiaFh+J7zurMEEhjXeFopP1BFf2I
- mUrb30YyAMnb+Hoya7m8Ed28WDCie3rm+48PBIwnbHhqijOwHG4K5veeInfpHKHehqb4
- kGKA==
-X-Gm-Message-State: APjAAAU76LuZNnH514+3nw7kxjhjV/f6a2V30L15AR7El3xP6GcuRh+X
- sDtGaT2Or5inywL0Lc+PSGOdKUw9
-X-Google-Smtp-Source: APXvYqwasaPgNZsnMpIBnLDe4efaE3Bzh3vfBmY1OoVJ8YwS9NDku6ZrUsaeffVlXN8OnlflULiNpQ==
-X-Received: by 2002:a5d:6951:: with SMTP id r17mr17113013wrw.208.1569936990936; 
- Tue, 01 Oct 2019 06:36:30 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=1pkb/xxA0Q1jhhvqUg4yWzv1bTQ2+Quoe621ugFPlfQ=;
+ b=pqK6K3O3zFhrFrQVJFlZbzT1qKIT1EyUXKHOp8xkWK3XAw2tBWO0aIkLQt0FPZYt72
+ TMvL6O3spQ7DAXFrtvbOGXc9GU02W/g3GnGrH0gV8Ceype0z6Tqx+2AGTLut4FFR3MK7
+ bGvjXaJsOkOLLGNGNskRB4mrdQYQbd0fNfGPEB9CwjuzEnJCHD92mJkNrw2fe4OT+s5q
+ nokAJsv8lAB/yvjBWRXWMhl/abtG/nG3RTlC1Z+9RQNzIe2GdCUIKTUduCGOp1TpuBmr
+ OYghRjZtYm9Gev/YThkqsOO0LZoVW4cDwQLE9nu52TwOUoAfB3nKB1LeBihwTYp5Pfw5
+ hMMw==
+X-Gm-Message-State: APjAAAXt69rdmGnRo8Z1sE0F9gHqBmHrNDh/MGwQrR4PWQ0HpQJ5OaqY
+ nKOFl9uQ4E0M8tc9j7+u3uuLHX63
+X-Google-Smtp-Source: APXvYqxmsbUj1UX0DV/N62uUEhdPZqJ9rU1FvXkwiS3SN165fxB727/d6jfDlDRBmCA42DOo+uUKog==
+X-Received: by 2002:adf:cf0e:: with SMTP id o14mr17627408wrj.277.1569936992349; 
+ Tue, 01 Oct 2019 06:36:32 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.30
+ by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Oct 2019 06:36:30 -0700 (PDT)
+ Tue, 01 Oct 2019 06:36:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH ci-fix 0/8] fix various memory leaks (but not all)
-Date: Tue,  1 Oct 2019 15:36:20 +0200
-Message-Id: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 2/8] microblaze: fix leak of fdevice tree blob
+Date: Tue,  1 Oct 2019 15:36:22 +0200
+Message-Id: <1569936988-635-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
+References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,41 +78,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all, the asan and docker-clang@ubuntu tests are failing due
-to memory leaks, mostly in instance_init but some also in
-realize.  The former are caught by device-introspect-test,
-the latter by boot-serial-test.
+The device tree blob returned by load_device_tree is malloced.
+Free it before returning.
 
-This series fixes the simplest ones.  ARM and aarch64 failures
-remain so I'm disabling LeakSanitizer tests in CI with the last
-patch.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/microblaze/boot.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Paolo
-
-Paolo Bonzini (8):
-  ide: fix leak from qemu_allocate_irqs
-  microblaze: fix leak of fdevice tree blob
-  mcf5208: fix leak from qemu_allocate_irqs
-  hppa: fix leak from g_strdup_printf
-  mips: fix memory leaks in board initialization
-  cris: do not leak struct cris_disasm_data
-  lm32: do not leak memory on object_new/object_unref
-  docker: test-debug: disable LeakSanitizer
-
- disas/cris.c                | 59 ++++++++++++++++++++++-----------------------
- hw/hppa/dino.c              |  1 +
- hw/hppa/machine.c           |  4 ++-
- hw/ide/cmd646.c             |  1 +
- hw/m68k/mcf5208.c           |  2 ++
- hw/microblaze/boot.c        |  1 +
- hw/mips/mips_int.c          |  1 +
- hw/mips/mips_jazz.c         |  2 ++
- hw/timer/lm32_timer.c       |  6 ++---
- hw/timer/milkymist-sysctl.c | 10 ++++----
- tests/docker/test-debug     |  1 +
- 11 files changed, 49 insertions(+), 39 deletions(-)
-
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index bade4d2..d1d7dfb 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -100,6 +100,7 @@ static int microblaze_load_dtb(hwaddr addr,
+     }
+ 
+     cpu_physical_memory_write(addr, fdt, fdt_size);
++    g_free(fdt);
+     return fdt_size;
+ }
+ 
 -- 
 1.8.3.1
+
 
 
