@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FEEC4502
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:32:14 +0200 (CEST)
-Received: from localhost ([::1]:49740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE57CC4506
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:34:16 +0200 (CEST)
+Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSYu-0003js-Nw
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:32:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39847)
+	id 1iFSat-0005zA-D3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsD-0001bX-BW
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:09 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsB-0001Zm-HF
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00024c-FB
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7900
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00023w-9n
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31202
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRs7-0001Qh-3Q; Tue, 01 Oct 2019 19:48:00 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlP0n122864; Tue, 1 Oct 2019 19:47:32 -0400
+ id 1iFRs6-0001Rm-V8; Tue, 01 Oct 2019 19:48:00 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlP46078942; Tue, 1 Oct 2019 19:47:34 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk4095m-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00u2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:32 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlWPS123064;
- Tue, 1 Oct 2019 19:47:32 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk4095f-1
+ Tue, 01 Oct 2019 19:47:34 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlXRH079208;
+ Tue, 1 Oct 2019 19:47:34 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00tr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:32 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlOx031629;
- Tue, 1 Oct 2019 23:47:31 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fb5-1
+ Tue, 01 Oct 2019 19:47:33 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlYh029380;
+ Tue, 1 Oct 2019 23:47:33 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fahc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:31 +0000
+ Tue, 01 Oct 2019 23:47:33 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlVJu55443880
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlWUG49021242
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:31 GMT
+ Tue, 1 Oct 2019 23:47:32 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 437AC2805C;
- Tue,  1 Oct 2019 23:47:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 41CA32805A;
+ Tue,  1 Oct 2019 23:47:32 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 284CF28059;
- Tue,  1 Oct 2019 23:47:31 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2602E28058;
+ Tue,  1 Oct 2019 23:47:32 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:31 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:32 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 36/97] virtio-pci: fix missing device properties
-Date: Tue,  1 Oct 2019 18:45:15 -0500
-Message-Id: <20191001234616.7825-37-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 38/97] virtio-balloon: fix QEMU 4.0 config size migration
+ incompatibility
+Date: Tue,  1 Oct 2019 18:45:17 -0500
+Message-Id: <20191001234616.7825-39-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x91NlP0n122864
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,111 +89,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Since commit a4ee4c8baa37154 ("virtio: Helper for registering virtio
-device types"), virtio-gpu-pci, virtio-vga, and virtio-crypto-pci lost
-some properties: "ioeventfd" and "vectors". This may cause various
-issues, such as failing migration or invalid properties.
+The virtio-balloon config size changed in QEMU 4.0 even for existing
+machine types.  Migration from QEMU 3.1 to 4.0 can fail in some
+circumstances with the following error:
 
-Since those VirtioPCI devices do not have a base name, their class are
-initialized with virtio_pci_generic_base_class_init(). However, if the
-VirtioPCIDeviceTypeInfo provided a class_init which sets dc->props,
-the properties were overwritten by virtio_pci_generic_class_init().
+  qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10 read: a1 device: 1 cmask: ff wmask: c0 w1cmask:0
 
-Instead, introduce an intermediary base-type to register the generic
-properties.
+This happens because the virtio-balloon config size affects the VIRTIO
+Legacy I/O Memory PCI BAR size.
 
-Fixes: a4ee4c8baa37154f42b4dc6a13fee79268d15238
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20190625232333.30752-1-marcandre.lureau@redhat.com>
-(cherry picked from commit 683c1d89efd1eeb111c129a9a91f629b94d90d45)
+Introduce a qdev property called "qemu-4-0-config-size" and enable it
+only for the QEMU 4.0 machine types.  This way <4.0 machine types use
+the old size, 4.0 uses the larger size, and >4.0 machine types use the
+appropriate size depending on enabled virtio-balloon features.
+
+Live migration to and from old QEMUs to QEMU 4.1 works again as long as
+a versioned machine type is specified (do not use just "pc"!).
+
+Originally-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20190710141440.27635-1-stefanha@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Tested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Tested-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 2bbadb08ce272d65e1f78621002008b07d1e0f03)
+ Conflicts:
+	hw/core/machine.c
+* drop context dep. on 0a71966253c
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/virtio/virtio-pci.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ hw/core/machine.c                  |  5 ++++-
+ hw/virtio/virtio-balloon.c         | 28 +++++++++++++++++++++++++---
+ include/hw/virtio/virtio-balloon.h |  2 ++
+ 3 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index cb44e19b67..497092e83c 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1905,13 +1905,6 @@ static void virtio_pci_generic_class_init(ObjectCl=
-ass *klass, void *data)
-     dc->props =3D virtio_pci_generic_properties;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index eb34f53a85..55b08f1466 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -24,7 +24,9 @@
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
+ 
+-GlobalProperty hw_compat_4_0[] = {};
++GlobalProperty hw_compat_4_0[] = {
++    { "virtio-balloon-device", "qemu-4-0-config-size", "true" },
++};
+ const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
+ 
+ GlobalProperty hw_compat_3_1[] = {
+@@ -39,6 +41,7 @@ GlobalProperty hw_compat_3_1[] = {
+     { "usb-tablet", "serial", "42" },
+     { "virtio-blk-device", "discard", "false" },
+     { "virtio-blk-device", "write-zeroes", "false" },
++    { "virtio-balloon-device", "qemu-4-0-config-size", "false" },
+ };
+ const size_t hw_compat_3_1_len = G_N_ELEMENTS(hw_compat_3_1);
+ 
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 2112874055..5579260fd4 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -615,6 +615,22 @@ virtio_balloon_free_page_report_notify(NotifierWithReturn *n, void *data)
+     return 0;
  }
-=20
--/* Used when the generic type and the base type is the same */
--static void virtio_pci_generic_base_class_init(ObjectClass *klass, void =
-*data)
--{
--    virtio_pci_base_class_init(klass, data);
--    virtio_pci_generic_class_init(klass, NULL);
--}
--
- static void virtio_pci_transitional_instance_init(Object *obj)
- {
-     VirtIOPCIProxy *proxy =3D VIRTIO_PCI(obj);
-@@ -1930,14 +1923,13 @@ static void virtio_pci_non_transitional_instance_=
-init(Object *obj)
-=20
- void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
- {
-+    char *base_name =3D NULL;
-     TypeInfo base_type_info =3D {
-         .name          =3D t->base_name,
-         .parent        =3D t->parent ? t->parent : TYPE_VIRTIO_PCI,
-         .instance_size =3D t->instance_size,
-         .instance_init =3D t->instance_init,
-         .class_size    =3D t->class_size,
--        .class_init    =3D virtio_pci_base_class_init,
--        .class_data    =3D (void *)t,
-         .abstract      =3D true,
-     };
-     TypeInfo generic_type_info =3D {
-@@ -1953,13 +1945,20 @@ void virtio_pci_types_register(const VirtioPCIDev=
-iceTypeInfo *t)
-=20
-     if (!base_type_info.name) {
-         /* No base type -> register a single generic device type */
--        base_type_info.name =3D t->generic_name;
--        base_type_info.class_init =3D virtio_pci_generic_base_class_init=
-;
--        base_type_info.interfaces =3D generic_type_info.interfaces;
--        base_type_info.abstract =3D false;
--        generic_type_info.name =3D NULL;
-+        /* use intermediate %s-base-type to add generic device props */
-+        base_name =3D g_strdup_printf("%s-base-type", t->generic_name);
-+        base_type_info.name =3D base_name;
-+        base_type_info.class_init =3D virtio_pci_generic_class_init;
+ 
++static size_t virtio_balloon_config_size(VirtIOBalloon *s)
++{
++    uint64_t features = s->host_features;
 +
-+        generic_type_info.parent =3D base_name;
-+        generic_type_info.class_init =3D virtio_pci_base_class_init;
-+        generic_type_info.class_data =3D (void *)t;
++    if (s->qemu_4_0_config_size) {
++        return sizeof(struct virtio_balloon_config);
++    }
++    if (virtio_has_feature(features, VIRTIO_BALLOON_F_PAGE_POISON)) {
++        return sizeof(struct virtio_balloon_config);
++    }
++    if (virtio_has_feature(features, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
++        return offsetof(struct virtio_balloon_config, poison_val);
++    }
++    return offsetof(struct virtio_balloon_config, free_page_report_cmd_id);
++}
 +
-         assert(!t->non_transitional_name);
-         assert(!t->transitional_name);
-+    } else {
-+        base_type_info.class_init =3D virtio_pci_base_class_init;
-+        base_type_info.class_data =3D (void *)t;
+ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+ {
+     VirtIOBalloon *dev = VIRTIO_BALLOON(vdev);
+@@ -635,7 +651,7 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
      }
-=20
-     type_register(&base_type_info);
-@@ -1997,6 +1996,7 @@ void virtio_pci_types_register(const VirtioPCIDevic=
-eTypeInfo *t)
-         };
-         type_register(&transitional_type_info);
-     }
-+    g_free(base_name);
+ 
+     trace_virtio_balloon_get_config(config.num_pages, config.actual);
+-    memcpy(config_data, &config, sizeof(struct virtio_balloon_config));
++    memcpy(config_data, &config, virtio_balloon_config_size(dev));
  }
-=20
- /* virtio-pci-bus */
---=20
+ 
+ static int build_dimm_list(Object *obj, void *opaque)
+@@ -679,7 +695,7 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
+     uint32_t oldactual = dev->actual;
+     ram_addr_t vm_ram_size = get_current_ram_size();
+ 
+-    memcpy(&config, config_data, sizeof(struct virtio_balloon_config));
++    memcpy(&config, config_data, virtio_balloon_config_size(dev));
+     dev->actual = le32_to_cpu(config.actual);
+     if (dev->actual != oldactual) {
+         qapi_event_send_balloon_change(vm_ram_size -
+@@ -766,7 +782,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
+     int ret;
+ 
+     virtio_init(vdev, "virtio-balloon", VIRTIO_ID_BALLOON,
+-                sizeof(struct virtio_balloon_config));
++                virtio_balloon_config_size(s));
+ 
+     ret = qemu_add_balloon_handler(virtio_balloon_to_target,
+                                    virtio_balloon_stat, s);
+@@ -897,6 +913,12 @@ static Property virtio_balloon_properties[] = {
+                     VIRTIO_BALLOON_F_DEFLATE_ON_OOM, false),
+     DEFINE_PROP_BIT("free-page-hint", VirtIOBalloon, host_features,
+                     VIRTIO_BALLOON_F_FREE_PAGE_HINT, false),
++    /* QEMU 4.0 accidentally changed the config size even when free-page-hint
++     * is disabled, resulting in QEMU 3.1 migration incompatibility.  This
++     * property retains this quirk for QEMU 4.1 machine types.
++     */
++    DEFINE_PROP_BOOL("qemu-4-0-config-size", VirtIOBalloon,
++                     qemu_4_0_config_size, false),
+     DEFINE_PROP_LINK("iothread", VirtIOBalloon, iothread, TYPE_IOTHREAD,
+                      IOThread *),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
+index 1afafb12f6..5a99293a45 100644
+--- a/include/hw/virtio/virtio-balloon.h
++++ b/include/hw/virtio/virtio-balloon.h
+@@ -71,6 +71,8 @@ typedef struct VirtIOBalloon {
+     int64_t stats_poll_interval;
+     uint32_t host_features;
+     PartiallyBalloonedPage *pbp;
++
++    bool qemu_4_0_config_size;
+ } VirtIOBalloon;
+ 
+ #endif
+-- 
 2.17.1
 
 
