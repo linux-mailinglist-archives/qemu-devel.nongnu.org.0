@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F51AC2FF8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:20:49 +0200 (CEST)
-Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C37C3014
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:22:26 +0200 (CEST)
+Received: from localhost ([::1]:39554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFEKt-0008M4-JG
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
+	id 1iFEMT-0002cZ-JY
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iFEIO-0006dw-RM
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:18:13 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iFEKQ-0000VO-9Q
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:20:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iFEIN-00057b-Ii
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:18:12 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3300)
+ (envelope-from <kwolf@redhat.com>) id 1iFEKP-0006JS-0s
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:20:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60884)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iFEIN-00056L-Al
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:18:11 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2019 02:18:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,570,1559545200"; d="scan'208";a="366272833"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga005.jf.intel.com with ESMTP; 01 Oct 2019 02:18:07 -0700
-Date: Tue, 1 Oct 2019 17:17:49 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Wei Yang <richard.weiyang@gmail.com>
-Subject: Re: [Qemu-devel] [PATCH] migration: use migration_is_active to
- represent active state
-Message-ID: <20191001091749.GA14044@richard>
-References: <20190717005341.14140-1-richardw.yang@linux.intel.com>
- <20190913235433.u66jqdhx4afnqae5@master>
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iFEKJ-0006CO-6D; Tue, 01 Oct 2019 05:20:11 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3FBC081F07;
+ Tue,  1 Oct 2019 09:20:09 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AD343DE2;
+ Tue,  1 Oct 2019 09:19:46 +0000 (UTC)
+Date: Tue, 1 Oct 2019 11:19:44 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 04/25] error: auto propagated local_err
+Message-ID: <20191001091944.GB4688@linux.fritz.box>
+References: <20190924200902.4703-1-vsementsov@virtuozzo.com>
+ <20190924200902.4703-5-vsementsov@virtuozzo.com>
+ <20190930151215.GB12777@linux.fritz.box>
+ <ca629ae8-15c5-1685-1cbb-99283d37b0a1@virtuozzo.com>
+ <20190930160039.GC12777@linux.fritz.box>
+ <495102b2-5d1a-f659-4387-5733ae34b3e2@virtuozzo.com>
+ <20190930163909.GD12777@linux.fritz.box>
+ <8d55df7a-abe6-bebc-a6bd-a1a2db4b8946@virtuozzo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190913235433.u66jqdhx4afnqae5@master>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.43
+In-Reply-To: <8d55df7a-abe6-bebc-a6bd-a1a2db4b8946@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Tue, 01 Oct 2019 09:20:09 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,88 +64,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: quintela@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Paul Burton <pburton@wavecomp.com>, Jeff Cody <codyprime@gmail.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Farman <farman@linux.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Yuval Shaia <yuval.shaia@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ "integration@gluster.org" <integration@gluster.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 13, 2019 at 11:54:33PM +0000, Wei Yang wrote:
->On Wed, Jul 17, 2019 at 08:53:41AM +0800, Wei Yang wrote:
->>Wrap the check into a function to make it easy to read.
->>
->
->Hi, Dave & Juan
->
->Do you like this one :-) ?
->
+Am 01.10.2019 um 10:39 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 30.09.2019 19:39, Kevin Wolf wrote:
+> > Am 30.09.2019 um 18:26 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >> 30.09.2019 19:00, Kevin Wolf wrote:
+> >>> Am 30.09.2019 um 17:19 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >>>> 30.09.2019 18:12, Kevin Wolf wrote:
+> >>>>> Am 24.09.2019 um 22:08 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >>>>>> Here is introduced ERRP_FUNCTION_BEGIN macro, to be used at start of
+> >>>>>> functions with errp parameter.
+> >>>>>
+> >>>>> A bit of bike shedding, but FOO_BEGIN suggests to me that a FOO_END will
+> >>>>> follow. Can we find a different name, especially now that we won't use
+> >>>>> this macro in every function that uses an errp, so even the "errp
+> >>>>> function" part isn't really correct any more?
+> >>>>>
+> >>>>> How about ERRP_AUTO_PROPAGATE?
+> >>>>
+> >>>> I have an idea that with this macro we can (optionally) get the whole call stack
+> >>>> of the error and print it to log, so it's good to give it more generic name, not
+> >>>> limited to propagation..
+> >>>
+> >>> Hm, what's the context for this feature?
+> >>>
+> >>> The obvious one where you want to have a stack trace is &error_abort,
+> >>> but that one crashes, so you get it automatically. If it's just a normal
+> >>> error (like a QAPI option contains an invalid value and some function
+> >>> down the call chain checks it), why would anyone want to know what the
+> >>> call chain in the QEMU code was?
+> >>>
+> >>
+> >> When I have bug from testers, call stack would be a lot more descriptive, than just
+> >> an error message.
+> >>
+> >> We may add trace point which will print this information, so with disabled trace point
+> >> - no extra output.
+> > 
+> > But wouldn't it make much more sense then to optionally add this
+> > functionality to any trace point? I really don't see how this is related
+> > specifically to user-visible error messages.
+> 
+> Interesting idea
+> 
+> > 
+> > However, even if we decide that we want to have this in Error objects,
+> > wouldn't it make much more sense to use the real C stack trace and save
+> > it from the innermost error_set() using backtrace() or compiler
+> > built-ins rather than relying on an error_propagate() chain?
+> > 
+> Hmm, I thought about this.. And in concatenation with the fact that
+> we'll have macro not everywhere, backtrace may be better..
+> 
+> On the other hand, backtrace will not show coroutine entries..
 
-Sorry for ping again.
+Hm, good point. I wonder if we can easily get a stack trace not starting
+at the current point, but from a jmp_buf. Then we could just switch to
+the coroutine caller whenever we reach coroutine_trampoline().
 
->>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->>---
->> include/migration/misc.h |  1 +
->> migration/migration.c    | 12 ++++++++----
->> 2 files changed, 9 insertions(+), 4 deletions(-)
->>
->>diff --git a/include/migration/misc.h b/include/migration/misc.h
->>index 5cdbabd094..42d6abc920 100644
->>--- a/include/migration/misc.h
->>+++ b/include/migration/misc.h
->>@@ -61,6 +61,7 @@ void migration_object_init(void);
->> void migration_shutdown(void);
->> void qemu_start_incoming_migration(const char *uri, Error **errp);
->> bool migration_is_idle(void);
->>+bool migration_is_active(MigrationState *);
->> void add_migration_state_change_notifier(Notifier *notify);
->> void remove_migration_state_change_notifier(Notifier *notify);
->> bool migration_in_setup(MigrationState *);
->>diff --git a/migration/migration.c b/migration/migration.c
->>index 43fd8297ef..4c066fc85c 100644
->>--- a/migration/migration.c
->>+++ b/migration/migration.c
->>@@ -1529,8 +1529,7 @@ static void migrate_fd_cleanup(MigrationState *s)
->>         qemu_fclose(tmp);
->>     }
->> 
->>-    assert((s->state != MIGRATION_STATUS_ACTIVE) &&
->>-           (s->state != MIGRATION_STATUS_POSTCOPY_ACTIVE));
->>+    assert(!migration_is_active(s));
->> 
->>     if (s->state == MIGRATION_STATUS_CANCELLING) {
->>         migrate_set_state(&s->state, MIGRATION_STATUS_CANCELLING,
->>@@ -1690,6 +1689,12 @@ bool migration_is_idle(void)
->>     return false;
->> }
->> 
->>+bool migration_is_active(MigrationState *s)
->>+{
->>+    return (s->state == MIGRATION_STATUS_ACTIVE ||
->>+            s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE);
->>+}
->>+
->> void migrate_init(MigrationState *s)
->> {
->>     /*
->>@@ -3226,8 +3231,7 @@ static void *migration_thread(void *opaque)
->> 
->>     trace_migration_thread_setup_complete();
->> 
->>-    while (s->state == MIGRATION_STATUS_ACTIVE ||
->>-           s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE) {
->>+    while (migration_is_active(s)) {
->>         int64_t current_time;
->> 
->>         if (urgent || !qemu_file_rate_limit(s->to_dst_file)) {
->>-- 
->>2.17.1
->>
->
->-- 
->Wei Yang
->Help you, Help me
+But glibc doesn't seem to support this case easily, so that might mean
+rewriting all of the stack unwinding inside QEMU... Maybe not then.
 
--- 
-Wei Yang
-Help you, Help me
+> OK, anyway, if we will track some additional information in
+> trace-events or in macros or in error_* API functions, it's not bad to
+> track some additional information in macro named ERRP_AUTO_PROPAGATE.
+
+Yes, I think tracking the information where we use ERRP_AUTO_PROPAGATE
+anyway is okay. I just wouldn't add the macro everywhere just for the
+sake of the additional information.
+
+Kevin
 
