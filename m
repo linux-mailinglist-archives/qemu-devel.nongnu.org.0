@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E82C44A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 01:56:12 +0200 (CEST)
-Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1C5C44A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 01:51:32 +0200 (CEST)
+Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFS02-0007sk-GR
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 19:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38904)
+	id 1iFRvX-0003wu-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 19:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrd-00017N-Nx
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrd-00017Q-Oy
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrb-0001Ka-Pu
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrb-0001KJ-Lc
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25066)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21620)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRrb-0001Hf-60; Tue, 01 Oct 2019 19:47:27 -0400
+ id 1iFRrb-0001I5-2Q; Tue, 01 Oct 2019 19:47:27 -0400
 Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlOJ2053133; Tue, 1 Oct 2019 19:47:25 -0400
+ x91NlQ5X053544; Tue, 1 Oct 2019 19:47:26 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg171618-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg17161u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:25 -0400
+ Tue, 01 Oct 2019 19:47:26 -0400
 Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlPFP053472;
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlPsr053508;
  Tue, 1 Oct 2019 19:47:25 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg17160j-1
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcg17160s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Oct 2019 19:47:25 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njk67029377;
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlKX027161;
  Tue, 1 Oct 2019 23:47:24 GMT
 Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59fage-1
+ [9.57.198.28]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bf8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:23 +0000
+ Tue, 01 Oct 2019 23:47:24 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
  by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlN7E43188586
+ x91NlNuP43188590
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 1 Oct 2019 23:47:23 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 31CD928058;
+ by IMSVA (Postfix) with ESMTP id B1CD828059;
  Tue,  1 Oct 2019 23:47:23 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 158E82805A;
+ by IMSVA (Postfix) with ESMTP id 952F728058;
  Tue,  1 Oct 2019 23:47:23 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
  Tue,  1 Oct 2019 23:47:23 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/97] iotests.py: Fix VM.run_job
-Date: Tue,  1 Oct 2019 18:45:00 -0500
-Message-Id: <20191001234616.7825-22-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 22/97] iotests.py: rewrite run_job to be pickier
+Date: Tue,  1 Oct 2019 18:45:01 -0500
+Message-Id: <20191001234616.7825-23-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -87,37 +87,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-log() is in the current module, there is no need to prefix it.  In fact,
-doing so may make VM.run_job() unusable in tests that never use
-iotests.log() themselves.
+Don't pull events out of the queue that don't belong to us;
+be choosier so that we can use this method to drive jobs that
+were launched by transactions that may have more jobs.
 
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20190523170643.20794-5-jsnow@redhat.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 86a4f599a67b9b709109c7a7c8b7eb91d21c21fd)
-*prereq for d6a79af0e6
+(cherry picked from commit d6a79af0e641806d6bd6a42a4920e294b5db179c)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/iotests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 48 +++++++++++++++++++++--------------
+ 1 file changed, 29 insertions(+), 19 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 8061f01ade..fa00b61892 100644
+index fa00b61892..a7006662ff 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -560,7 +560,7 @@ class VM(qtest.QEMUQtestMachine):
-                     elif status == 'null':
-                         return error
-                 else:
--                    iotests.log(ev)
-+                    log(ev)
+@@ -540,27 +540,37 @@ class VM(qtest.QEMUQtestMachine):
+     # Returns None on success, and an error string on failure
+     def run_job(self, job, auto_finalize=True, auto_dismiss=False,
+                 pre_finalize=None, wait=60.0):
++        match_device = {'data': {'device': job}}
++        match_id = {'data': {'id': job}}
++        events = [
++            ('BLOCK_JOB_COMPLETED', match_device),
++            ('BLOCK_JOB_CANCELLED', match_device),
++            ('BLOCK_JOB_ERROR', match_device),
++            ('BLOCK_JOB_READY', match_device),
++            ('BLOCK_JOB_PENDING', match_id),
++            ('JOB_STATUS_CHANGE', match_id)
++        ]
+         error = None
+         while True:
+-            for ev in self.get_qmp_events_filtered(wait=wait):
+-                if ev['event'] == 'JOB_STATUS_CHANGE':
+-                    status = ev['data']['status']
+-                    if status == 'aborting':
+-                        result = self.qmp('query-jobs')
+-                        for j in result['return']:
+-                            if j['id'] == job:
+-                                error = j['error']
+-                                log('Job failed: %s' % (j['error']))
+-                    elif status == 'pending' and not auto_finalize:
+-                        if pre_finalize:
+-                            pre_finalize()
+-                        self.qmp_log('job-finalize', id=job)
+-                    elif status == 'concluded' and not auto_dismiss:
+-                        self.qmp_log('job-dismiss', id=job)
+-                    elif status == 'null':
+-                        return error
+-                else:
+-                    log(ev)
++            ev = filter_qmp_event(self.events_wait(events))
++            if ev['event'] != 'JOB_STATUS_CHANGE':
++                log(ev)
++                continue
++            status = ev['data']['status']
++            if status == 'aborting':
++                result = self.qmp('query-jobs')
++                for j in result['return']:
++                    if j['id'] == job:
++                        error = j['error']
++                        log('Job failed: %s' % (j['error']))
++            elif status == 'pending' and not auto_finalize:
++                if pre_finalize:
++                    pre_finalize()
++                self.qmp_log('job-finalize', id=job)
++            elif status == 'concluded' and not auto_dismiss:
++                self.qmp_log('job-dismiss', id=job)
++            elif status == 'null':
++                return error
  
      def node_info(self, node_name):
          nodes = self.qmp('query-named-block-nodes')
