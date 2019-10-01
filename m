@@ -2,44 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14ADC38C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:20:33 +0200 (CEST)
-Received: from localhost ([::1]:43330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2C9C38E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:25:19 +0200 (CEST)
+Received: from localhost ([::1]:43387 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFJx1-0006Sf-Q0
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45317)
+	id 1iFK1d-00032f-MH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iFJte-0004gu-Ul
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:04 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iFJtg-0004h6-O6
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iFJtc-0001sM-Jw
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:02 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:53343 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iFJte-0001uO-0K
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:04 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:59920 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iFJtc-0000z5-8l
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:00 -0400
+ id 1iFJtd-0001si-Jh
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:17:01 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id ABAD71A23AB;
+ by mail.rt-rk.com (Postfix) with ESMTP id EDBF11A23BC;
  Tue,  1 Oct 2019 17:15:54 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.55])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 779AA1A22D8;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 83D6A1A239D;
  Tue,  1 Oct 2019 17:15:54 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/18] target/mips: Clean up translate.c
-Date: Tue,  1 Oct 2019 17:15:30 +0200
-Message-Id: <1569942944-10381-5-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL 06/18] target/mips: msa: Split helpers for PCNT.<B|H|W|D>
+Date: Tue,  1 Oct 2019 17:15:32 +0200
+Message-Id: <1569942944-10381-7-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1569942944-10381-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1569942944-10381-1-git-send-email-aleksandar.markovic@rt-rk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,146 +56,247 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Mostly fix errors and warnings reported by 'checkpatch.pl -f'.
+Achieves clearer code and slightly better performance.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <1569331602-2586-7-git-send-email-aleksandar.markovic@rt-rk.c=
-om>
+Message-Id: <1569415572-19635-9-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- target/mips/translate.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ target/mips/helper.h     |   6 +-
+ target/mips/msa_helper.c | 143 ++++++++++++++++++++++++-----------------------
+ target/mips/translate.c  |  19 ++++++-
+ 3 files changed, 95 insertions(+), 73 deletions(-)
 
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index d709083..18e4c7a 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -788,6 +788,11 @@ DEF_HELPER_3(msa_nlzc_h, void, env, i32, i32)
+ DEF_HELPER_3(msa_nlzc_w, void, env, i32, i32)
+ DEF_HELPER_3(msa_nlzc_d, void, env, i32, i32)
+ 
++DEF_HELPER_3(msa_pcnt_b, void, env, i32, i32)
++DEF_HELPER_3(msa_pcnt_h, void, env, i32, i32)
++DEF_HELPER_3(msa_pcnt_w, void, env, i32, i32)
++DEF_HELPER_3(msa_pcnt_d, void, env, i32, i32)
++
+ 
+ DEF_HELPER_4(msa_andi_b, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_ori_b, void, env, i32, i32, i32)
+@@ -946,7 +951,6 @@ DEF_HELPER_4(msa_bmnz_v, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_bmz_v, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_bsel_v, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_fill_df, void, env, i32, i32, i32)
+-DEF_HELPER_4(msa_pcnt_df, void, env, i32, i32, i32)
+ 
+ DEF_HELPER_4(msa_copy_s_b, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_copy_s_h, void, env, i32, i32, i32)
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index 8c27c1b..fe27efc 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -207,6 +207,80 @@ void helper_msa_nlzc_d(CPUMIPSState *env, uint32_t wd, uint32_t ws)
+     pwd->d[1]  = msa_nlzc_df(DF_DOUBLE, pws->d[1]);
+ }
+ 
++static inline int64_t msa_pcnt_df(uint32_t df, int64_t arg)
++{
++    uint64_t x;
++
++    x = UNSIGNED(arg, df);
++
++    x = (x & 0x5555555555555555ULL) + ((x >>  1) & 0x5555555555555555ULL);
++    x = (x & 0x3333333333333333ULL) + ((x >>  2) & 0x3333333333333333ULL);
++    x = (x & 0x0F0F0F0F0F0F0F0FULL) + ((x >>  4) & 0x0F0F0F0F0F0F0F0FULL);
++    x = (x & 0x00FF00FF00FF00FFULL) + ((x >>  8) & 0x00FF00FF00FF00FFULL);
++    x = (x & 0x0000FFFF0000FFFFULL) + ((x >> 16) & 0x0000FFFF0000FFFFULL);
++    x = (x & 0x00000000FFFFFFFFULL) + ((x >> 32));
++
++    return x;
++}
++
++void helper_msa_pcnt_b(CPUMIPSState *env, uint32_t wd, uint32_t ws)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++
++    pwd->b[0]  = msa_pcnt_df(DF_BYTE, pws->b[0]);
++    pwd->b[1]  = msa_pcnt_df(DF_BYTE, pws->b[1]);
++    pwd->b[2]  = msa_pcnt_df(DF_BYTE, pws->b[2]);
++    pwd->b[3]  = msa_pcnt_df(DF_BYTE, pws->b[3]);
++    pwd->b[4]  = msa_pcnt_df(DF_BYTE, pws->b[4]);
++    pwd->b[5]  = msa_pcnt_df(DF_BYTE, pws->b[5]);
++    pwd->b[6]  = msa_pcnt_df(DF_BYTE, pws->b[6]);
++    pwd->b[7]  = msa_pcnt_df(DF_BYTE, pws->b[7]);
++    pwd->b[8]  = msa_pcnt_df(DF_BYTE, pws->b[8]);
++    pwd->b[9]  = msa_pcnt_df(DF_BYTE, pws->b[9]);
++    pwd->b[10] = msa_pcnt_df(DF_BYTE, pws->b[10]);
++    pwd->b[11] = msa_pcnt_df(DF_BYTE, pws->b[11]);
++    pwd->b[12] = msa_pcnt_df(DF_BYTE, pws->b[12]);
++    pwd->b[13] = msa_pcnt_df(DF_BYTE, pws->b[13]);
++    pwd->b[14] = msa_pcnt_df(DF_BYTE, pws->b[14]);
++    pwd->b[15] = msa_pcnt_df(DF_BYTE, pws->b[15]);
++}
++
++void helper_msa_pcnt_h(CPUMIPSState *env, uint32_t wd, uint32_t ws)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++
++    pwd->h[0]  = msa_pcnt_df(DF_HALF, pws->h[0]);
++    pwd->h[1]  = msa_pcnt_df(DF_HALF, pws->h[1]);
++    pwd->h[2]  = msa_pcnt_df(DF_HALF, pws->h[2]);
++    pwd->h[3]  = msa_pcnt_df(DF_HALF, pws->h[3]);
++    pwd->h[4]  = msa_pcnt_df(DF_HALF, pws->h[4]);
++    pwd->h[5]  = msa_pcnt_df(DF_HALF, pws->h[5]);
++    pwd->h[6]  = msa_pcnt_df(DF_HALF, pws->h[6]);
++    pwd->h[7]  = msa_pcnt_df(DF_HALF, pws->h[7]);
++}
++
++void helper_msa_pcnt_w(CPUMIPSState *env, uint32_t wd, uint32_t ws)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++
++    pwd->w[0]  = msa_pcnt_df(DF_WORD, pws->w[0]);
++    pwd->w[1]  = msa_pcnt_df(DF_WORD, pws->w[1]);
++    pwd->w[2]  = msa_pcnt_df(DF_WORD, pws->w[2]);
++    pwd->w[3]  = msa_pcnt_df(DF_WORD, pws->w[3]);
++}
++
++void helper_msa_pcnt_d(CPUMIPSState *env, uint32_t wd, uint32_t ws)
++{
++    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
++    wr_t *pws = &(env->active_fpu.fpr[ws].wr);
++
++    pwd->d[0]  = msa_pcnt_df(DF_DOUBLE, pws->d[0]);
++    pwd->d[1]  = msa_pcnt_df(DF_DOUBLE, pws->d[1]);
++}
++
+ 
+ /*
+  * Bit Move
+@@ -2648,22 +2722,6 @@ void helper_msa_move_v(CPUMIPSState *env, uint32_t wd, uint32_t ws)
+     msa_move_v(pwd, pws);
+ }
+ 
+-static inline int64_t msa_pcnt_df(uint32_t df, int64_t arg)
+-{
+-    uint64_t x;
+-
+-    x = UNSIGNED(arg, df);
+-
+-    x = (x & 0x5555555555555555ULL) + ((x >>  1) & 0x5555555555555555ULL);
+-    x = (x & 0x3333333333333333ULL) + ((x >>  2) & 0x3333333333333333ULL);
+-    x = (x & 0x0F0F0F0F0F0F0F0FULL) + ((x >>  4) & 0x0F0F0F0F0F0F0F0FULL);
+-    x = (x & 0x00FF00FF00FF00FFULL) + ((x >>  8) & 0x00FF00FF00FF00FFULL);
+-    x = (x & 0x0000FFFF0000FFFFULL) + ((x >> 16) & 0x0000FFFF0000FFFFULL);
+-    x = (x & 0x00000000FFFFFFFFULL) + ((x >> 32));
+-
+-    return x;
+-}
+-
+ void helper_msa_fill_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+                         uint32_t rs)
+ {
+@@ -2696,59 +2754,6 @@ void helper_msa_fill_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+     }
+ }
+ 
+-#define MSA_UNOP_DF(func) \
+-void helper_msa_ ## func ## _df(CPUMIPSState *env, uint32_t df,         \
+-                              uint32_t wd, uint32_t ws)                 \
+-{                                                                       \
+-    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);                          \
+-    wr_t *pws = &(env->active_fpu.fpr[ws].wr);                          \
+-                                                                        \
+-    switch (df) {                                                       \
+-    case DF_BYTE:                                                       \
+-        pwd->b[0]  = msa_ ## func ## _df(df, pws->b[0]);                \
+-        pwd->b[1]  = msa_ ## func ## _df(df, pws->b[1]);                \
+-        pwd->b[2]  = msa_ ## func ## _df(df, pws->b[2]);                \
+-        pwd->b[3]  = msa_ ## func ## _df(df, pws->b[3]);                \
+-        pwd->b[4]  = msa_ ## func ## _df(df, pws->b[4]);                \
+-        pwd->b[5]  = msa_ ## func ## _df(df, pws->b[5]);                \
+-        pwd->b[6]  = msa_ ## func ## _df(df, pws->b[6]);                \
+-        pwd->b[7]  = msa_ ## func ## _df(df, pws->b[7]);                \
+-        pwd->b[8]  = msa_ ## func ## _df(df, pws->b[8]);                \
+-        pwd->b[9]  = msa_ ## func ## _df(df, pws->b[9]);                \
+-        pwd->b[10] = msa_ ## func ## _df(df, pws->b[10]);               \
+-        pwd->b[11] = msa_ ## func ## _df(df, pws->b[11]);               \
+-        pwd->b[12] = msa_ ## func ## _df(df, pws->b[12]);               \
+-        pwd->b[13] = msa_ ## func ## _df(df, pws->b[13]);               \
+-        pwd->b[14] = msa_ ## func ## _df(df, pws->b[14]);               \
+-        pwd->b[15] = msa_ ## func ## _df(df, pws->b[15]);               \
+-        break;                                                          \
+-    case DF_HALF:                                                       \
+-        pwd->h[0] = msa_ ## func ## _df(df, pws->h[0]);                 \
+-        pwd->h[1] = msa_ ## func ## _df(df, pws->h[1]);                 \
+-        pwd->h[2] = msa_ ## func ## _df(df, pws->h[2]);                 \
+-        pwd->h[3] = msa_ ## func ## _df(df, pws->h[3]);                 \
+-        pwd->h[4] = msa_ ## func ## _df(df, pws->h[4]);                 \
+-        pwd->h[5] = msa_ ## func ## _df(df, pws->h[5]);                 \
+-        pwd->h[6] = msa_ ## func ## _df(df, pws->h[6]);                 \
+-        pwd->h[7] = msa_ ## func ## _df(df, pws->h[7]);                 \
+-        break;                                                          \
+-    case DF_WORD:                                                       \
+-        pwd->w[0] = msa_ ## func ## _df(df, pws->w[0]);                 \
+-        pwd->w[1] = msa_ ## func ## _df(df, pws->w[1]);                 \
+-        pwd->w[2] = msa_ ## func ## _df(df, pws->w[2]);                 \
+-        pwd->w[3] = msa_ ## func ## _df(df, pws->w[3]);                 \
+-        break;                                                          \
+-    case DF_DOUBLE:                                                     \
+-        pwd->d[0] = msa_ ## func ## _df(df, pws->d[0]);                 \
+-        pwd->d[1] = msa_ ## func ## _df(df, pws->d[1]);                 \
+-        break;                                                          \
+-    default:                                                            \
+-        assert(0);                                                      \
+-    }                                                                   \
+-}
+-
+-MSA_UNOP_DF(pcnt)
+-#undef MSA_UNOP_DF
+ 
+ #define FLOAT_ONE32 make_float32(0x3f8 << 20)
+ #define FLOAT_ONE64 make_float64(0x3ffULL << 52)
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index f211995..cc5af2a 100644
+index 6de4609..0d06ba9 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -7118,7 +7118,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, i=
-nt reg, int sel)
-             tcg_gen_andi_tl(arg, arg, ~0xffff);
-             register_name =3D "BadInstrX";
+@@ -28958,9 +28958,6 @@ static void gen_msa_2r(CPUMIPSState *env, DisasContext *ctx)
+ #endif
+         gen_helper_msa_fill_df(cpu_env, tdf, twd, tws); /* trs */
+         break;
+-    case OPC_PCNT_df:
+-        gen_helper_msa_pcnt_df(cpu_env, tdf, twd, tws);
+-        break;
+     case OPC_NLOC_df:
+         switch (df) {
+         case DF_BYTE:
+@@ -28993,6 +28990,22 @@ static void gen_msa_2r(CPUMIPSState *env, DisasContext *ctx)
              break;
--       default:
-+        default:
-             goto cp0_unimplemented;
          }
          break;
-@@ -7545,7 +7545,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, i=
-nt reg, int sel)
-         case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_ld_tl(arg, cpu_env,
--                          offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-+                          offsetof(CPUMIPSState, CP0_KScratch[sel - 2]))=
-;
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name =3D "KScratch";
-             break;
-@@ -8295,7 +8295,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, i=
-nt reg, int sel)
-         case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_st_tl(arg, cpu_env,
--                          offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-+                          offsetof(CPUMIPSState, CP0_KScratch[sel - 2]))=
-;
-             register_name =3D "KScratch";
-             break;
-         default:
-@@ -8387,17 +8387,20 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg=
-, int reg, int sel)
-             break;
-         case CP0_REG01__YQMASK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
--            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_YQMas=
-k));
-+            tcg_gen_ld_tl(arg, cpu_env,
-+                          offsetof(CPUMIPSState, CP0_YQMask));
-             register_name =3D "YQMask";
-             break;
-         case CP0_REG01__VPESCHEDULE:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
--            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPESc=
-hedule));
-+            tcg_gen_ld_tl(arg, cpu_env,
-+                          offsetof(CPUMIPSState, CP0_VPESchedule));
-             register_name =3D "VPESchedule";
-             break;
-         case CP0_REG01__VPESCHEFBACK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
--            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPESc=
-heFBack));
-+            tcg_gen_ld_tl(arg, cpu_env,
-+                          offsetof(CPUMIPSState, CP0_VPEScheFBack));
-             register_name =3D "VPEScheFBack";
-             break;
-         case CP0_REG01__VPEOPT:
-@@ -8412,7 +8415,8 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, =
-int reg, int sel)
-     case CP0_REGISTER_02:
-         switch (sel) {
-         case CP0_REG02__ENTRYLO0:
--            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_Entry=
-Lo0));
-+            tcg_gen_ld_tl(arg, cpu_env,
-+                          offsetof(CPUMIPSState, CP0_EntryLo0));
-             register_name =3D "EntryLo0";
-             break;
-         case CP0_REG02__TCSTATUS:
-@@ -8756,7 +8760,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, =
-int reg, int sel)
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config5));
-             register_name =3D "Config5";
-             break;
--       /* 6,7 are implementation dependent */
-+        /* 6,7 are implementation dependent */
-         case CP0_REG16__CONFIG6:
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_Config6));
-             register_name =3D "Config6";
-@@ -8837,7 +8841,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, =
-int reg, int sel)
-         }
-         break;
-     case CP0_REGISTER_21:
--       /* Officially reserved, but sel 0 is used for R1x000 framemask */
-+        /* Officially reserved, but sel 0 is used for R1x000 framemask *=
-/
-         CP0_CHECK(!(ctx->insn_flags & ISA_MIPS32R6));
-         switch (sel) {
-         case 0:
-@@ -9022,7 +9026,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, =
-int reg, int sel)
-         case CP0_REG31__KSCRATCH6:
-             CP0_CHECK(ctx->kscrexist & (1 << sel));
-             tcg_gen_ld_tl(arg, cpu_env,
--                          offsetof(CPUMIPSState, CP0_KScratch[sel-2]));
-+                          offsetof(CPUMIPSState, CP0_KScratch[sel - 2]))=
-;
-             register_name =3D "KScratch";
-             break;
-         default:
-@@ -9112,12 +9116,14 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg=
-, int reg, int sel)
-             break;
-         case CP0_REG01__VPESCHEDULE:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
--            tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPESc=
-hedule));
-+            tcg_gen_st_tl(arg, cpu_env,
-+                          offsetof(CPUMIPSState, CP0_VPESchedule));
-             register_name =3D "VPESchedule";
-             break;
-         case CP0_REG01__VPESCHEFBACK:
-             CP0_CHECK(ctx->insn_flags & ASE_MT);
--            tcg_gen_st_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_VPESc=
-heFBack));
-+            tcg_gen_st_tl(arg, cpu_env,
-+                          offsetof(CPUMIPSState, CP0_VPEScheFBack));
-             register_name =3D "VPEScheFBack";
-             break;
-         case CP0_REG01__VPEOPT:
---=20
++    case OPC_PCNT_df:
++        switch (df) {
++        case DF_BYTE:
++            gen_helper_msa_pcnt_b(cpu_env, twd, tws);
++            break;
++        case DF_HALF:
++            gen_helper_msa_pcnt_h(cpu_env, twd, tws);
++            break;
++        case DF_WORD:
++            gen_helper_msa_pcnt_w(cpu_env, twd, tws);
++            break;
++        case DF_DOUBLE:
++            gen_helper_msa_pcnt_d(cpu_env, twd, tws);
++            break;
++        }
++        break;
+     default:
+         MIPS_INVAL("MSA instruction");
+         generate_exception_end(ctx, EXCP_RI);
+-- 
 2.7.4
 
 
