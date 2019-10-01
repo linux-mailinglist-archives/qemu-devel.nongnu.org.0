@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90074C39D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:04:30 +0200 (CEST)
-Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAAAC39FE
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:08:28 +0200 (CEST)
+Received: from localhost ([::1]:44114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKdY-00021t-OG
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49917)
+	id 1iFKhO-0006Bp-Sh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT1-00082w-Mk
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:36 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT2-00084y-Tp
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT0-0006XU-9m
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38372)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT1-0006Yq-59
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:36 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38394)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT0-0006WM-0v; Tue, 01 Oct 2019 11:53:34 -0400
+ id 1iFKT0-0006X5-Tx; Tue, 01 Oct 2019 11:53:35 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKSx-0004xb-Q0; Tue, 01 Oct 2019 18:53:31 +0300
+ id 1iFKSx-0004xb-Vt; Tue, 01 Oct 2019 18:53:32 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 08/31] ARM TCG CPUs: Fix error_append_hint/error_prepend
- usage
-Date: Tue,  1 Oct 2019 18:52:56 +0300
-Message-Id: <20191001155319.8066-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 09/31] PowerPC TCG CPUs: Fix
+ error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:52:57 +0300
+Message-Id: <20191001155319.8066-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -48,10 +48,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,42 +83,107 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/arm/msf2-soc.c | 1 +
- hw/arm/virt.c     | 2 ++
- 2 files changed, 3 insertions(+)
+ hw/ppc/mac_newworld.c | 1 +
+ hw/ppc/pnv_lpc.c      | 1 +
+ hw/ppc/pnv_occ.c      | 1 +
+ hw/ppc/spapr.c        | 1 +
+ hw/ppc/spapr_irq.c    | 1 +
+ hw/ppc/spapr_pci.c    | 1 +
+ target/ppc/kvm.c      | 2 ++
+ 7 files changed, 8 insertions(+)
 
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 008fd9327a..b76f45657e 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -85,6 +85,7 @@ static void m2sxxx_soc_initfn(Object *obj)
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index c5bbcc7433..1a37412d31 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -609,6 +609,7 @@ static char *core99_get_via_config(Object *obj, Error **errp)
  
- static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+ static void core99_set_via_config(Object *obj, const char *value, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     MSF2State *s = MSF2_SOC(dev_soc);
-     DeviceState *dev, *armv7m;
-     SysBusDevice *busdev;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index d74538b021..ce2e57fd59 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1793,6 +1793,7 @@ static char *virt_get_gic_version(Object *obj, Error **errp)
+     Core99MachineState *cms = CORE99_MACHINE(obj);
  
- static void virt_set_gic_version(Object *obj, const char *value, Error **errp)
+     if (!strcmp(value, "cuda")) {
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index 9466d4a1be..5022afa2a8 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -681,6 +681,7 @@ static const TypeInfo pnv_lpc_power9_info = {
+ 
+ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     VirtMachineState *vms = VIRT_MACHINE(obj);
+     PnvLpcController *lpc = PNV_LPC(dev);
+     Object *obj;
+     Error *local_err = NULL;
+diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
+index 8bead2c930..735e5655da 100644
+--- a/hw/ppc/pnv_occ.c
++++ b/hw/ppc/pnv_occ.c
+@@ -181,6 +181,7 @@ static const TypeInfo pnv_occ_power9_type_info = {
  
-     if (!strcmp(value, "3")) {
-@@ -1825,6 +1826,7 @@ static char *virt_get_iommu(Object *obj, Error **errp)
- 
- static void virt_set_iommu(Object *obj, const char *value, Error **errp)
+ static void pnv_occ_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     VirtMachineState *vms = VIRT_MACHINE(obj);
+     PnvOCC *occ = PNV_OCC(dev);
+     PnvOCCClass *poc = PNV_OCC_GET_CLASS(occ);
+     Object *obj;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 08a2a5a770..617afb722c 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4330,6 +4330,7 @@ int spapr_get_vcpu_id(PowerPCCPU *cpu)
  
-     if (!strcmp(value, "smmuv3")) {
+ void spapr_set_vcpu_id(PowerPCCPU *cpu, int cpu_index, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+     MachineState *ms = MACHINE(spapr);
+     int vcpu_id;
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 06fe2432ba..679f1306e4 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -549,6 +549,7 @@ static int spapr_irq_post_load_dual(SpaprMachineState *spapr, int version_id)
+ 
+ static void spapr_irq_reset_dual(SpaprMachineState *spapr, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     Error *local_err = NULL;
+ 
+     /*
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 7b71ad7c74..012ecdd40a 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1817,6 +1817,7 @@ static void spapr_phb_destroy_msi(gpointer opaque)
+ 
+ static void spapr_phb_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the user
+      * tries to add a sPAPR PHB to a non-pseries machine.
+      */
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 8c5b1f25cc..6ea7502cb9 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -237,6 +237,7 @@ static int kvm_booke206_tlb_init(PowerPCCPU *cpu)
+ #if defined(TARGET_PPC64)
+ static void kvm_get_smmu_info(struct kvm_ppc_smmu_info *info, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int ret;
+ 
+     assert(kvm_state != NULL);
+@@ -2073,6 +2074,7 @@ int kvmppc_set_smt_threads(int smt)
+ 
+ void kvmppc_hint_smt_possible(Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int i;
+     GString *g;
+     char *s;
 -- 
 2.21.0
 
