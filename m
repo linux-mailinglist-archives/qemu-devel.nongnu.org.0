@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F4143C3A18
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:12:45 +0200 (CEST)
-Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A43BC3A2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:17:30 +0200 (CEST)
+Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKlY-0002jx-1U
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
+	id 1iFKq7-0006ul-G7
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT2-00084r-Qt
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:37 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0008LY-CJ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKT0-0006Ya-VJ
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:36 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38390)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTE-0006lH-Is
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38506)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT0-0006Wr-Lq; Tue, 01 Oct 2019 11:53:34 -0400
+ id 1iFKTD-0006bQ-S5
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:48 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKSy-0004xb-Ps; Tue, 01 Oct 2019 18:53:32 +0300
+ id 1iFKT2-0004xb-9a; Tue, 01 Oct 2019 18:53:36 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/31] PowerNV (Non-Virtualized): Fix
- error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:02 +0300
-Message-Id: <20191001155319.8066-15-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 25/31] cmdline: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:13 +0300
+Message-Id: <20191001155319.8066-26-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Greg Kurz <groug@kaod.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,21 +81,29 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/intc/pnv_xive.c | 1 +
- 1 file changed, 1 insertion(+)
+ util/qemu-option.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index ed6e9d71bb..61ad7d46fe 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1659,6 +1659,7 @@ static void pnv_xive_init(Object *obj)
- 
- static void pnv_xive_realize(DeviceState *dev, Error **errp)
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 97172b5eaa..031c01eddc 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -145,6 +145,7 @@ static const QemuOptDesc *find_desc_by_name(const QemuOptDesc *desc,
+ void parse_option_size(const char *name, const char *value,
+                        uint64_t *ret, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     PnvXive *xive = PNV_XIVE(dev);
-     XiveSource *xsrc = &xive->ipi_source;
-     XiveENDSource *end_xsrc = &xive->end_source;
+     uint64_t size;
+     int err;
+ 
+@@ -660,6 +661,7 @@ QemuOpts *qemu_opts_find(QemuOptsList *list, const char *id)
+ QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
+                            int fail_if_exists, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     QemuOpts *opts = NULL;
+ 
+     if (id) {
 -- 
 2.21.0
 
