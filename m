@@ -2,76 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1794C300F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:22:17 +0200 (CEST)
-Received: from localhost ([::1]:39552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818C0C3044
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:32:45 +0200 (CEST)
+Received: from localhost ([::1]:39692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFEMK-0002UX-DB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34387)
+	id 1iFEWS-0000DG-6b
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iFEKu-0001CX-Pd
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:20:49 -0400
+ (envelope-from <thuth@redhat.com>) id 1iFEVI-00087K-VS
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:31:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iFEKt-0006Tf-5W
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:20:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49125)
+ (envelope-from <thuth@redhat.com>) id 1iFEVF-00050w-Uk
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:31:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50504)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iFEKs-0006T2-TK
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:20:47 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iFEVE-0004zr-EW
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:31:29 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D7FBB2D1CE
- for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 09:20:45 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id m16so645973wmg.8
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 02:20:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j6UXHfItFa0OAUgIF/55ko4z5qkmMhX0rgI7YKD4O5c=;
- b=hbW+j7i/f+zsS0FW4T6q0k1U/+nVzYilLBl9nWsNDmNW01T2jCM/JPEkrGjlguYD+M
- n66GSAES0GQZFjK+rqv9M4ujRyDBDuNRgLbETkRcwPx56W15McnZDM0aVUYMvCf50iYz
- H05wIIdu3MCq/SHtDkeYTgAfDr6Vg8HSLAXB7YDMlSBI7aYmFK1xZAvF9mwCtufw9Bxd
- MEqSB050qeqmTI2oE6KAnqY9Yv9A0X+3jgYny2h3FI0oVS+7EZWicJa5ib1Vl7cJMCAu
- 1omrC1CQRgwmhfSzdHl88NnqMsT7OJKoHHnKmivfNuWAYZ4r4s3VhWX8TMxEtmM/NUmN
- ADGw==
-X-Gm-Message-State: APjAAAU20ru3XgvrRGeas8Xdroh2n7rvoCQPNUNHmjKTzoIFaqkVliNc
- 0uFU/DvmsuPC5nu8CA/oV0rYqIIOBUUs8OXhw3mByle9KpjZD9YUsX9uAksCvfa+l/o3erBrWcW
- CKiOW/zpIFRWv0o8=
-X-Received: by 2002:a5d:52cd:: with SMTP id r13mr16088173wrv.376.1569921644497; 
- Tue, 01 Oct 2019 02:20:44 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwuhm8/C+2/CwN1UYuf67MgQQeaByQ48XupRAFjkWA0NkNsIDfEF9rlS8XnS7iyCYp/+Xbc0A==
-X-Received: by 2002:a5d:52cd:: with SMTP id r13mr16088143wrv.376.1569921644213; 
- Tue, 01 Oct 2019 02:20:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b903:6d6f:a447:e464?
- ([2001:b07:6468:f312:b903:6d6f:a447:e464])
- by smtp.gmail.com with ESMTPSA id d9sm18791001wrf.62.2019.10.01.02.20.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2019 02:20:43 -0700 (PDT)
-Subject: Re: [RFC] cpu_map: Remove pconfig from Icelake-Server CPU model
-To: Jiri Denemark <jdenemar@redhat.com>
-References: <20190926214305.17690-1-ehabkost@redhat.com>
- <20190930102453.GO4884@orkuz.int.mamuti.net>
- <20190930141104.GA4084@habkost.net>
- <9E79D1C9A97CFD4097BCE431828FDD31173BCF76@SHSMSX104.ccr.corp.intel.com>
- <b9fbca16-9877-04b9-78fa-bf711c8f3053@redhat.com>
- <20190930161611.GP4884@orkuz.int.mamuti.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id DEBD230842AF;
+ Tue,  1 Oct 2019 09:31:26 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-70.ams2.redhat.com [10.36.116.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2C1219C7F;
+ Tue,  1 Oct 2019 09:31:20 +0000 (UTC)
+Subject: Re: [PATCH] slirp: Allow non-local DNS address when restrict is off
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org,
+ jasowang@redhat.com
+References: <20190929181303.19960-1-samuel.thibault@ens-lyon.org>
+ <b49bd2a3-5280-136a-cc35-3d7c14b0a19c@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <4d94d1d1-746b-dbe4-f705-b33e347f9138@redhat.com>
-Date: Tue, 1 Oct 2019 11:20:42 +0200
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <8ce50d6b-094a-5cef-58fc-56123d8f2e4f@redhat.com>
+Date: Tue, 1 Oct 2019 11:31:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190930161611.GP4884@orkuz.int.mamuti.net>
+In-Reply-To: <b49bd2a3-5280-136a-cc35-3d7c14b0a19c@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 01 Oct 2019 09:31:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -86,62 +106,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Kang,
- Luwei" <luwei.kang@intel.com>, Robert Hoo <robert.hu@linux.intel.com>, "Huang,
- Kai" <kai.huang@intel.com>, "Hu, Robert" <robert.hu@intel.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/19 18:16, Jiri Denemark wrote:
-> On Mon, Sep 30, 2019 at 17:16:27 +0200, Paolo Bonzini wrote:
->> On 30/09/19 16:31, Hu, Robert wrote:
->>>> This might be a problem if there are plans to eventually make KVM support
->>>> pconfig, though.  Paolo, Robert, are there plans to support pconfig in KVM in the
->>>> future?
->>> [Robert Hoo] 
->>> Thanks Eduardo for efforts in resolving this issue, introduced from my Icelake CPU
->>> model patch.
->>> I've no idea about PCONFIG's detail and plan. Let me sync with Huang, Kai and answer
->>> you soon.
+On 01/10/2019 11.04, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Samuel,
+>=20
+> On 9/29/19 8:13 PM, Samuel Thibault wrote:
+>> This can be used to set a DNS server to be used by the guest which is
+>> different from the one configured on the host.
 >>
->> It's really, really unlikely.  It's possible that some future processor
->> overloads PCONFIG in such a way that it will become virtualizable, but
->> not IceLake.
-> 
-> I guess, the likelihood of this happening would be similar to
-> reintroducing other features, such as osxsave or ospke, right?
+>> This fixes LP 1010484.
+>=20
+> Wow, 7 years old...
+>=20
+> Can you use this format, easier to understand for newcomers:
+>=20
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1010484
 
-No, haveing osxsave and ospke was a mistake in the first place (they are
-not CPU features at all; they are more like a special way to let
-unprivileged programs read some bits of CR4).  For pconfig, it's just
-very unlikely.
+That should be "Buglink:" instead. "Fixes:" is for referencing previous
+commits. See our submit-a-patch page for more information:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Write_a_meaningful_commit_m=
+essage
 
->> Would it make sense for libvirt to treat absent CPU flags as "default
->> off" during migration, so that it can leave out the flag in the command
->> line if it's off?  If it's on, libvirt would pass pconfig=on as usual.
->> This is a variant of [2], but more generally applicable:
->>
->>> [2] However starting a domain with Icelake-Server so that it can be
->>> migrated or saved/restored on QEMU in 3.1.1 and 4.0.0 would be
->>> impossible. This can be solved by a different hack, which would drop
->>> pconfig=off from QEMU command line.
-> 
-> The domain XML does not contain a complete list of all CPU features.
-> Features which are implicitly included in a CPU model are not listed in
-> the XML. Count in the differences in libvirt's vs QEMU's definitions of
-> a particular CPU model and you can see feat=off cannot be mechanically
-> dropped from the command line as the CPU model itself could turn it on
-> by default and thus feat=off is not redundant.
-
-I think I wasn't very clear, I meant "unsupported by QEMU" when I said
-"absent".  Libvirt on the destination knows that from
-query-cpu-model-expansion, so it can leave off pconfig if it is not
-supported by the destination QEMU.
-
-Paolo
+ Thomas
 
