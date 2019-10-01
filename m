@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95166C35BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:31:24 +0200 (CEST)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E94DC35EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:38:48 +0200 (CEST)
+Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIFP-0003cY-Ic
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:31:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
+	id 1iFIMZ-0007bP-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58032)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iFIAy-0000Nd-J2
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:26:49 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKQ-00063r-Fb
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iFIAx-0000ZA-G7
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:26:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50650)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iFIAx-0000YR-4L
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:26:47 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 60CCE30715F9;
- Tue,  1 Oct 2019 13:26:46 +0000 (UTC)
-Received: from localhost (ovpn-112-22.ams2.redhat.com [10.36.112.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01FFE60BDF;
- Tue,  1 Oct 2019 13:26:38 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFIKP-0001cq-D8
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:34 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55337)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iFIKP-0001c6-69
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:36:33 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a6so3404342wma.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=Zbk9ADfv/aZgjm2FIWSRUDzxAC8QdUqG74XPrXDWpjM=;
+ b=NRiO+YiugOugcCGtjhMlcCXn0xz7uf/peQ5Gv8iBxErVhxlY8funZ05y7nDCiBnvoS
+ jUK+RgfwmxyPc+UWKZrez3nj3UrhUCkW8yE+CIByGQdIm0UGqelK9tZX667kAsMUfmka
+ 3YF8hvX2gFgYvnOId3xLxJObGccs1pELRmy1NOhas//Nv//4jAUeXRVUXBdtH/hQUVmo
+ bMJZAUOKggMQeGWTUwt15nTIMp3BrTVXk0v8dxxWwKfx+Am6cDXVaClWnAoIUDtbELOt
+ SVhPc58tF7cB6EqI+HKhybQWNUlu9smHjzT8zOotb8hiVDL81OcIrDgzICXMxBwSg/0r
+ KKbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=Zbk9ADfv/aZgjm2FIWSRUDzxAC8QdUqG74XPrXDWpjM=;
+ b=Xv3Ila/Oewn3c3OED6IVL5veo49r+rEdYK9d0NRXaxSsJAyoXt8A1gh6xnqpUggLmZ
+ Ct6AohVEdA+2qVXpnxbZ6+qYxJb/TgvoGdGijH0XjXRP8uUDdSQR8sUlHOo/BIUnalE+
+ 2HPqXh5CD9ZgCbWJfjXhZtRe4cT1ny3DBhuXA9ktne5gcqFFV+LEFa8pb2EAQsEO9baL
+ RfkhVboSuVhZ+gqI5p1lEJ801Eo0Uvqud3nU2uYSPDKmgx6qWYcVdZbsh0Xu9HyDHEMp
+ Vb9t5SN6TZXXzKhXAc+24XG45M1aUFmXPx4EjX1PMrLRFGh6s9SUyGphInUzZRHZkweh
+ I3WQ==
+X-Gm-Message-State: APjAAAVdemAzS2om8d/rsd0aWyVzwLWZxQirVH5TDbbqA/OR80u20lCn
+ TytAuleWoTKiRC3GdLOZX0K7O2R0
+X-Google-Smtp-Source: APXvYqy9f7n9GXVYFrXQLtjDSwIhKlhKTbQS5FeFOEfpD2BRmB26bw0U9lBE3u8OkD+mtwkoe4jHFg==
+X-Received: by 2002:a1c:3904:: with SMTP id g4mr4021048wma.116.1569936991624; 
+ Tue, 01 Oct 2019 06:36:31 -0700 (PDT)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id q192sm4424575wme.23.2019.10.01.06.36.30
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 01 Oct 2019 06:36:31 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] win32: fix main-loop busy loop on socket/fd event
-Date: Tue,  1 Oct 2019 17:26:09 +0400
-Message-Id: <20191001132609.23184-4-marcandre.lureau@redhat.com>
-In-Reply-To: <20191001132609.23184-1-marcandre.lureau@redhat.com>
-References: <20191001132609.23184-1-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 01 Oct 2019 13:26:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Subject: [PATCH 1/8] ide: fix leak from qemu_allocate_irqs
+Date: Tue,  1 Oct 2019 15:36:21 +0200
+Message-Id: <1569936988-635-2-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
+References: <1569936988-635-1-git-send-email-pbonzini@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,69 +75,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, James Le Cuirot <chewi@gentoo.org>,
- berrange@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 05e514b1d4d5bd4209e2c8bbc76ff05c85a235f3 introduced an AIO
-context optimization to avoid calling event_notifier_test_and_clear() on
-ctx->notifier. On Windows, the same notifier is being used to wakeup the
-wait on socket events (see commit
-d3385eb448e38f828c78f8f68ec5d79c66a58b5d).
+The array returned by qemu_allocate_irqs is malloced, free it.
 
-The ctx->notifier event is added to the gpoll sources in
-aio_set_event_notifier(), aio_ctx_check() should clear the event
-regardless of ctx->notified, since Windows sets the event by itself,
-bypassing the aio->notified. This fixes qemu not clearing the event
-resulting in a busy loop.
-
-Paolo suggested to me on irc to call event_notifier_test_and_clear()
-after select() >0 from aio-win32.c's aio_prepare. Unfortunately, not all
-fds associated with ctx->notifiers are in AIO fd handlers set.
-(qemu_set_nonblock() in util/oslib-win32.c calls qemu_fd_register()).
-
-This is essentially a v2 of a patch that was sent earlier:
-https://lists.gnu.org/archive/html/qemu-devel/2017-01/msg00420.html
-
-that resurfaced when James investigated Spice performance issues on Windo=
-ws:
-https://gitlab.freedesktop.org/spice/spice/issues/36
-
-In order to test that patch, I simply tried running test-char on
-win32, and it hangs. Applying that patch solves it. QIO idle sources
-are not dispatched. I haven't investigated much further, I suspect
-source priorities and busy looping still come into play.
-
-This version keeps the "notified" field, so event_notifier_poll()
-should still work as expected.
-
-Cc: James Le Cuirot <chewi@gentoo.org>
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/async.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/ide/cmd646.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/util/async.c b/util/async.c
-index 4e4c7af51e..ca83e32c7f 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -354,7 +354,11 @@ void aio_notify(AioContext *ctx)
-=20
- void aio_notify_accept(AioContext *ctx)
- {
--    if (atomic_xchg(&ctx->notified, false)) {
-+    if (atomic_xchg(&ctx->notified, false)
-+#ifdef WIN32
-+        || true
-+#endif
-+    ) {
-         event_notifier_test_and_clear(&ctx->notifier);
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index f3ccd11..19984d2 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -300,6 +300,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+         d->bmdma[i].bus = &d->bus[i];
+         ide_register_restart_cb(&d->bus[i]);
      }
- }
---=20
-2.23.0
++    g_free(irq);
+ 
+     vmstate_register(DEVICE(dev), 0, &vmstate_ide_pci, d);
+     qemu_register_reset(cmd646_reset, d);
+-- 
+1.8.3.1
+
 
 
