@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151BDC4231
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:01:09 +0200 (CEST)
-Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559BCC424C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:06:38 +0200 (CEST)
+Received: from localhost ([::1]:48166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPGd-0008QO-Br
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54695)
+	id 1iFPLw-0003t7-1I
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO8O-00056n-4H
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8X-0005HX-Bm
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO8M-0008CX-SI
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37702)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8W-0008HW-3K
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51764)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO8K-0008B0-HN; Tue, 01 Oct 2019 15:48:28 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iFO8T-0008Fw-N9; Tue, 01 Oct 2019 15:48:37 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C0B3F2541;
- Tue,  1 Oct 2019 19:48:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EAEB6316D797;
+ Tue,  1 Oct 2019 19:48:36 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ABE360C63;
- Tue,  1 Oct 2019 19:48:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86E9D601B3;
+ Tue,  1 Oct 2019 19:48:36 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 30/67] iotests/147: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:38 +0200
-Message-Id: <20191001194715.2796-31-mreitz@redhat.com>
+Subject: [PATCH 34/67] iotests/155: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:42 +0200
+Message-Id: <20191001194715.2796-35-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 01 Oct 2019 19:48:27 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 01 Oct 2019 19:48:37 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,59 +62,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/147 | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/155 | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
-index ab8480b9a4..920e44a65c 100755
---- a/tests/qemu-iotests/147
-+++ b/tests/qemu-iotests/147
-@@ -24,7 +24,8 @@ import socket
- import stat
- import time
+diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
+index e19485911c..4efe0e2237 100755
+--- a/tests/qemu-iotests/155
++++ b/tests/qemu-iotests/155
+@@ -23,7 +23,7 @@
+=20
+ import os
  import iotests
--from iotests import cachemode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_earl=
-y_pipe
-+from iotests import cachemode, imgfmt, create_test_image, remove_test_im=
-age, \
-+        qemu_nbd, qemu_nbd_early_pipe
+-from iotests import qemu_img
++from iotests import create_test_image, remove_test_image
 =20
- NBD_PORT_START      =3D 32768
- NBD_PORT_END        =3D NBD_PORT_START + 1024
-@@ -80,13 +81,13 @@ class NBDBlockdevAddBase(iotests.QMPTestCase):
+ back0_img =3D os.path.join(iotests.test_dir, 'back0.' + iotests.imgfmt)
+ back1_img =3D os.path.join(iotests.test_dir, 'back1.' + iotests.imgfmt)
+@@ -51,10 +51,10 @@ class BaseClass(iotests.QMPTestCase):
+     target_real_backing =3D None
 =20
- class QemuNBD(NBDBlockdevAddBase):
      def setUp(self):
--        qemu_img('create', '-f', iotests.imgfmt, test_img, '64k')
-+        create_test_image(test_img, '64k')
+-        qemu_img('create', '-f', iotests.imgfmt, back0_img, '1440K')
+-        qemu_img('create', '-f', iotests.imgfmt, '-b', back0_img, back1_=
+img)
+-        qemu_img('create', '-f', iotests.imgfmt, '-b', back1_img, back2_=
+img)
+-        qemu_img('create', '-f', iotests.imgfmt, '-b', back2_img, source=
+_img)
++        create_test_image(back0_img, '1440K')
++        create_test_image(back1_img, backing_file=3Dback0_img)
++        create_test_image(back2_img, backing_file=3Dback1_img)
++        create_test_image(source_img, backing_file=3Dback2_img)
+=20
          self.vm =3D iotests.VM()
-         self.vm.launch()
+         # Add the BDS via blockdev-add so it stays around after the mirr=
+or block
+@@ -71,10 +71,10 @@ class BaseClass(iotests.QMPTestCase):
+=20
+         if self.existing:
+             if self.target_backing:
+-                qemu_img('create', '-f', iotests.imgfmt,
+-                         '-b', self.target_backing, target_img, '1440K')
++                create_test_image(target_img, '1440K', \
++                                  backing_file=3Dself.target_backing)
+             else:
+-                qemu_img('create', '-f', iotests.imgfmt, target_img, '14=
+40K')
++                create_test_image(target_img, '1440K')
+=20
+             if self.cmd =3D=3D 'blockdev-mirror':
+                 options =3D { 'node-name': 'target',
+@@ -89,14 +89,11 @@ class BaseClass(iotests.QMPTestCase):
 =20
      def tearDown(self):
          self.vm.shutdown()
--        os.remove(test_img)
-+        remove_test_image(test_img)
-         try:
-             os.remove(unix_socket)
-         except OSError:
-@@ -127,7 +128,7 @@ class QemuNBD(NBDBlockdevAddBase):
+-        os.remove(source_img)
+-        os.remove(back2_img)
+-        os.remove(back1_img)
+-        os.remove(back0_img)
+-        try:
+-            os.remove(target_img)
+-        except OSError:
+-            pass
++        remove_test_image(source_img)
++        remove_test_image(back2_img)
++        remove_test_image(back1_img)
++        remove_test_image(back0_img)
++        remove_test_image(target_img)
 =20
- class BuiltinNBD(NBDBlockdevAddBase):
-     def setUp(self):
--        qemu_img('create', '-f', iotests.imgfmt, test_img, '64k')
-+        create_test_image(test_img, '64k')
-         self.vm =3D iotests.VM()
-         self.vm.launch()
-         self.server =3D iotests.VM('.server')
-@@ -140,7 +141,7 @@ class BuiltinNBD(NBDBlockdevAddBase):
-     def tearDown(self):
-         self.vm.shutdown()
-         self.server.shutdown()
--        os.remove(test_img)
-+        remove_test_image(test_img)
-         try:
-             os.remove(unix_socket)
-         except OSError:
+     def findBlockNode(self, node_name, qdev=3DNone):
+         if qdev:
 --=20
 2.21.0
 
