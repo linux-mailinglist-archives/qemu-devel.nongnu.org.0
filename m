@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF4CC3A6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:25:41 +0200 (CEST)
-Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CCAC3A7F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:29:27 +0200 (CEST)
+Received: from localhost ([::1]:44432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKy3-0006O3-RW
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
+	id 1iFL1i-0001mZ-1V
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:29:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0008Lb-Du
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTJ-0008NH-5v
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTF-0006mo-50
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38414)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTG-0006nb-5Y
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:52 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38462)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTE-0006YH-33
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:48 -0400
+ id 1iFKTE-0006ZQ-Ga
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:49 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT0-0004xb-5G; Tue, 01 Oct 2019 18:53:34 +0300
+ id 1iFKT0-0004xb-VO; Tue, 01 Oct 2019 18:53:35 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/31] vhost: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:07 +0300
-Message-Id: <20191001155319.8066-20-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 21/31] virtio-9p: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:09 +0300
+Message-Id: <20191001155319.8066-22-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -49,7 +49,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,21 +81,47 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/virtio/vhost-vsock.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/9pfs/9p-local.c | 1 +
+ hw/9pfs/9p-proxy.c | 1 +
+ hw/9pfs/9p.c       | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index f5744363a8..61ade0fa65 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -300,6 +300,7 @@ static const VMStateDescription vmstate_virtio_vhost_vsock = {
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 08e673a79c..fccbf758bd 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1471,6 +1471,7 @@ static void local_cleanup(FsContext *ctx)
  
- static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+ static void error_append_security_model_hint(Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostVSock *vsock = VHOST_VSOCK(dev);
-     int vhostfd;
+     error_append_hint(errp, "Valid options are: security_model="
+                       "[passthrough|mapped-xattr|mapped-file|none]\n");
+ }
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 57a8c1c808..9291c8efa2 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1116,6 +1116,7 @@ static int connect_namedsocket(const char *path, Error **errp)
+ 
+ static void error_append_socket_sockfd_hint(Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     error_append_hint(errp, "Either specify socket=/some/path where /some/path"
+                       " points to a listening AF_UNIX socket or sock_fd=fd"
+                       " where fd is a file descriptor to a connected AF_UNIX"
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index cce2366219..1df2749e03 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -3552,6 +3552,7 @@ void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr)
+ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+                                Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int i, len;
+     struct stat stat;
+     FsDriverEntry *fse;
 -- 
 2.21.0
 
