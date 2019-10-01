@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EB3C435B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 00:01:57 +0200 (CEST)
-Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF033C4377
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 00:06:38 +0200 (CEST)
+Received: from localhost ([::1]:48750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFQDR-00025h-SB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 18:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1iFQI1-0004vq-Kh
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 18:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO9m-0006qX-ND
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:50:00 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFOBq-0000uM-Ox
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:52:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO9k-0000Wg-6B
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53546)
+ (envelope-from <eblake@redhat.com>) id 1iFOBo-0001SZ-NL
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:52:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45610)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO9h-0000Uj-6S; Tue, 01 Oct 2019 15:49:53 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iFOBm-0001Qz-In; Tue, 01 Oct 2019 15:52:02 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6CBDE30842AF;
- Tue,  1 Oct 2019 19:49:52 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 065955D9C9;
- Tue,  1 Oct 2019 19:49:51 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 66/67] iotests.py: Forbid qemu_img*('create', ...)
-Date: Tue,  1 Oct 2019 21:47:14 +0200
-Message-Id: <20191001194715.2796-67-mreitz@redhat.com>
-In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
-References: <20191001194715.2796-1-mreitz@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id C4DC52A09DA;
+ Tue,  1 Oct 2019 19:52:01 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DB6C5C219;
+ Tue,  1 Oct 2019 19:51:58 +0000 (UTC)
+Subject: Re: [PATCH 0/2] block: Skip COR for inactive nodes
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20191001174827.11081-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4638c5bf-b4fd-d9fb-bae4-e7cc6bbacb83@redhat.com>
+Date: Tue, 1 Oct 2019 14:51:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20191001174827.11081-1-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 01 Oct 2019 19:49:52 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Tue, 01 Oct 2019 19:52:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -56,100 +61,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All tests should use create_test_image().
+On 10/1/19 12:48 PM, Max Reitz wrote:
+> Hi,
+>=20
+> While working on $IMGOPTS support for Python iotests, I noticed a minor
+> bug.  Let=E2=80=99s fix it, as you do with bugs.
+>=20
+>=20
+> Max Reitz (2):
+>    block: Skip COR for inactive nodes
+>    iotests/262: Switch source/dest VM launch order
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/iotests.py | 36 +++++++++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 8 deletions(-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index f3c80ba4e9..2e377b8379 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -82,12 +82,20 @@ luks_default_secret_object =3D 'secret,id=3Dkeysec0,d=
-ata=3D' + \
- luks_default_key_secret_opt =3D 'key-secret=3Dkeysec0'
-=20
-=20
--def qemu_img(*args):
-+# @from_create_test_image is purely for use in create_test_image
-+def qemu_img(*args, from_create_test_image=3DFalse):
-     '''Run qemu-img and return the exit code'''
-+    args =3D list(args)
-+
-+    assert args[0] !=3D 'create' or from_create_test_image, \
-+        'Use iotests.create_test_image for image creation'
-+
-     devnull =3D open('/dev/null', 'r+')
--    exitcode =3D subprocess.call(qemu_img_args + list(args), stdin=3Ddev=
-null, stdout=3Ddevnull)
-+    exitcode =3D subprocess.call(qemu_img_args + args,
-+                               stdin=3Ddevnull, stdout=3Ddevnull)
-     if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcod=
-e, ' '.join(qemu_img_args + list(args))))
-+        sys.stderr.write('qemu-img received signal %i: %s\n' %
-+                         (-exitcode, ' '.join(qemu_img_args + args)))
-     return exitcode
-=20
- def ordered_qmp(qmsg, conv_keys=3DTrue):
-@@ -162,7 +170,7 @@ def create_test_image(filename, size=3DNone, fmt=3Dim=
-gfmt, opts=3D[],
-     if size is not None:
-         args.append(str(size))
-=20
--    return qemu_img(*args)
-+    return qemu_img(*args, from_create_test_image=3DTrue)
-=20
- # Use this to remove images create with create_test_image in the
- # default image format (iotests.imgfmt)
-@@ -180,20 +188,32 @@ def remove_test_image(filename):
-=20
- def qemu_img_verbose(*args):
-     '''Run qemu-img without suppressing its output and return the exit c=
-ode'''
--    exitcode =3D subprocess.call(qemu_img_args + list(args))
-+    args =3D list(args)
-+
-+    assert args[0] !=3D 'create', \
-+            'Use iotests.create_test_image for image creation'
-+
-+    exitcode =3D subprocess.call(qemu_img_args + args)
-     if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcod=
-e, ' '.join(qemu_img_args + list(args))))
-+        sys.stderr.write('qemu-img received signal %i: %s\n' %
-+                         (-exitcode, ' '.join(qemu_img_args + args)))
-     return exitcode
-=20
- def qemu_img_pipe(*args):
-     '''Run qemu-img and return its output'''
--    subp =3D subprocess.Popen(qemu_img_args + list(args),
-+    args =3D list(args)
-+
-+    assert args[0] !=3D 'create', \
-+            'Use iotests.create_test_image for image creation'
-+
-+    subp =3D subprocess.Popen(qemu_img_args + args,
-                             stdout=3Dsubprocess.PIPE,
-                             stderr=3Dsubprocess.STDOUT,
-                             universal_newlines=3DTrue)
-     exitcode =3D subp.wait()
-     if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcod=
-e, ' '.join(qemu_img_args + list(args))))
-+        sys.stderr.write('qemu-img received signal %i: %s\n' %
-+                         (-exitcode, ' '.join(qemu_img_args + args)))
-     return subp.communicate()[0]
-=20
- def qemu_img_log(*args):
+>=20
+>   block/io.c                 | 41 +++++++++++++++++++++++++------------=
+-
+>   tests/qemu-iotests/262     | 12 +++++------
+>   tests/qemu-iotests/262.out |  6 +++---
+>   3 files changed, 36 insertions(+), 23 deletions(-)
+>=20
+
 --=20
-2.21.0
-
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
