@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AF5C45C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:58:36 +0200 (CEST)
-Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EC2C45BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:54:16 +0200 (CEST)
+Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTuU-0002yi-LV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:58:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
+	id 1iFTqI-0006h0-IV
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iFS05-0000mk-6H
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:14 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iFS0O-0001Az-SU
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iFS03-00025s-TR
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53524)
+ (envelope-from <jsnow@redhat.com>) id 1iFS0M-0002Vx-T3
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53564)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iFS01-00020p-1z; Tue, 01 Oct 2019 19:56:09 -0400
+ id 1iFS0I-0002Qt-7y; Tue, 01 Oct 2019 19:56:26 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 325253058E0A;
- Tue,  1 Oct 2019 23:56:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4A2513058E0A;
+ Tue,  1 Oct 2019 23:56:25 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 642C460C80;
- Tue,  1 Oct 2019 23:56:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0D0460BE0;
+ Tue,  1 Oct 2019 23:56:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/8] block: Refactor macros - fix tabbing
-Date: Tue,  1 Oct 2019 19:55:45 -0400
-Message-Id: <20191001235552.17790-2-jsnow@redhat.com>
+Subject: [PULL 3/8] bootdevice: Add interface to gather LCHS
+Date: Tue,  1 Oct 2019 19:55:47 -0400
+Message-Id: <20191001235552.17790-4-jsnow@redhat.com>
 In-Reply-To: <20191001235552.17790-1-jsnow@redhat.com>
 References: <20191001235552.17790-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 01 Oct 2019 23:56:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 01 Oct 2019 23:56:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -70,82 +70,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Fixing tabbing in block related macros.
+Add an interface to provide direct logical CHS values for boot devices.
+We will use this interface in the next commits.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-id: 20190925110639.100699-2-sameid@google.com
+Message-id: 20190925110639.100699-4-sameid@google.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/hw/block/block.h | 16 ++++++++--------
- hw/ide/qdev.c            |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ include/sysemu/sysemu.h |  3 +++
+ bootdevice.c            | 55 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index 607539057a..fd55a30bca 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -50,21 +50,21 @@ static inline unsigned int get_physical_block_exp(Blo=
-ckConf *conf)
-                           _conf.logical_block_size),                    =
-\
-     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                =
-\
-                           _conf.physical_block_size),                   =
-\
--    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),  \
-+    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    =
-\
-     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    =
-\
--    DEFINE_PROP_UINT32("discard_granularity", _state, \
--                       _conf.discard_granularity, -1), \
--    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce, \
--                            ON_OFF_AUTO_AUTO), \
-+    DEFINE_PROP_UINT32("discard_granularity", _state,                   =
-\
-+                       _conf.discard_granularity, -1),                  =
-\
-+    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           =
-\
-+                            ON_OFF_AUTO_AUTO),                          =
-\
-     DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 44f18eb739..5bc5c79cbc 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -103,6 +103,9 @@ void device_add_bootindex_property(Object *obj, int32=
+_t *bootindex,
+                                    DeviceState *dev, Error **errp);
+ void restore_boot_order(void *opaque);
+ void validate_bootdevices(const char *devices, Error **errp);
++void add_boot_device_lchs(DeviceState *dev, const char *suffix,
++                          uint32_t lcyls, uint32_t lheads, uint32_t lsec=
+s);
++void del_boot_device_lchs(DeviceState *dev, const char *suffix);
 =20
- #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          =
-\
-     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      =
-\
-     DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)
-=20
--#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)      \
--    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),  \
--    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0), \
-+#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      =
-\
-+    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  =
-\
-+    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                =
-\
-     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
-=20
- #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    =
-\
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 6fba6b62b8..6dd219944f 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -290,7 +290,7 @@ static void ide_drive_realize(IDEDevice *dev, Error *=
-*errp)
-     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
-     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
-     DEFINE_PROP_STRING("ver",  IDEDrive, dev.version),  \
--    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),    \
-+    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),   \
-     DEFINE_PROP_STRING("serial",  IDEDrive, dev.serial),\
-     DEFINE_PROP_STRING("model", IDEDrive, dev.model)
-=20
+ /* handler to set the boot_device order for a specific type of MachineCl=
+ass */
+ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
+diff --git a/bootdevice.c b/bootdevice.c
+index 1d225202f9..bc5e1c2de4 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -343,3 +343,58 @@ void device_add_bootindex_property(Object *obj, int3=
+2_t *bootindex,
+     /* initialize devices' bootindex property to -1 */
+     object_property_set_int(obj, -1, name, NULL);
+ }
++
++typedef struct FWLCHSEntry FWLCHSEntry;
++
++struct FWLCHSEntry {
++    QTAILQ_ENTRY(FWLCHSEntry) link;
++    DeviceState *dev;
++    char *suffix;
++    uint32_t lcyls;
++    uint32_t lheads;
++    uint32_t lsecs;
++};
++
++static QTAILQ_HEAD(, FWLCHSEntry) fw_lchs =3D
++    QTAILQ_HEAD_INITIALIZER(fw_lchs);
++
++void add_boot_device_lchs(DeviceState *dev, const char *suffix,
++                          uint32_t lcyls, uint32_t lheads, uint32_t lsec=
+s)
++{
++    FWLCHSEntry *node;
++
++    if (!lcyls && !lheads && !lsecs) {
++        return;
++    }
++
++    assert(dev !=3D NULL || suffix !=3D NULL);
++
++    node =3D g_malloc0(sizeof(FWLCHSEntry));
++    node->suffix =3D g_strdup(suffix);
++    node->dev =3D dev;
++    node->lcyls =3D lcyls;
++    node->lheads =3D lheads;
++    node->lsecs =3D lsecs;
++
++    QTAILQ_INSERT_TAIL(&fw_lchs, node, link);
++}
++
++void del_boot_device_lchs(DeviceState *dev, const char *suffix)
++{
++    FWLCHSEntry *i;
++
++    if (dev =3D=3D NULL) {
++        return;
++    }
++
++    QTAILQ_FOREACH(i, &fw_lchs, link) {
++        if ((!suffix || !g_strcmp0(i->suffix, suffix)) &&
++             i->dev =3D=3D dev) {
++            QTAILQ_REMOVE(&fw_lchs, i, link);
++            g_free(i->suffix);
++            g_free(i);
++
++            break;
++        }
++    }
++}
 --=20
 2.21.0
 
