@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AA3C450B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:36:37 +0200 (CEST)
-Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C986CC4513
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:39:38 +0200 (CEST)
+Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSdA-0007gu-LZ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39814)
+	id 1iFSg5-0001Zm-PY
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsC-0001aU-RU
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:08 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsD-0001bR-6G
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00024M-DA
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRs9-00024Y-Cc
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:04 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32710)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54290
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRs7-0001Wh-4P; Tue, 01 Oct 2019 19:48:00 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlPcC088155; Tue, 1 Oct 2019 19:47:37 -0400
+ id 1iFRs7-0001Xn-7D; Tue, 01 Oct 2019 19:48:00 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91Nlakk079234; Tue, 1 Oct 2019 19:47:38 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6bv9-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00vq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:37 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlaS2088480;
- Tue, 1 Oct 2019 19:47:36 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vbsjt6bv2-1
+ Tue, 01 Oct 2019 19:47:38 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91Nlc1R079267;
+ Tue, 1 Oct 2019 19:47:38 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcc4f00vc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:36 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlYn029380;
- Tue, 1 Oct 2019 23:47:35 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 2v9y59faht-1
+ Tue, 01 Oct 2019 19:47:38 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91Njlt7032690;
+ Tue, 1 Oct 2019 23:47:37 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 2v9y57qb7k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:35 +0000
+ Tue, 01 Oct 2019 23:47:37 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlYro6488910
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlabT46662136
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:34 GMT
+ Tue, 1 Oct 2019 23:47:36 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D40E828059;
- Tue,  1 Oct 2019 23:47:34 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 58A662805C;
+ Tue,  1 Oct 2019 23:47:36 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B719828058;
- Tue,  1 Oct 2019 23:47:34 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4763928060;
+ Tue,  1 Oct 2019 23:47:36 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:34 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:36 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 42/97] hw/ssi/xilinx_spips: Convert lqspi_read() to
- read_with_attrs
-Date: Tue,  1 Oct 2019 18:45:21 -0500
-Message-Id: <20191001234616.7825-43-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 45/97] ioapic: kvm: Skip route updates for masked pins
+Date: Tue,  1 Oct 2019 18:45:24 -0500
+Message-Id: <20191001234616.7825-46-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=813 adultscore=0 classifier=spam adjust=0 reason=mlx
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=915 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x91NlPcC088155
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,74 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org
+Cc: Jan Kiszka <jan.kiszka@siemens.com>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
-In the next commit we will implement the write_with_attrs()
-handler. To avoid using different APIs, convert the read()
-handler first.
+Masked entries will not generate interrupt messages, thus do no need to
+be routed by KVM. This is a cosmetic cleanup, just avoiding warnings of
+the kind
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-(cherry picked from commit 5937bd50d3841b6ab2592c1ff4233448762a8483)
+qemu-system-x86_64: vtd_irte_get: detected non-present IRTE (index=0, high=0xff00, low=0x100)
+
+if the masked entry happens to reference a non-present IRTE.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Message-Id: <a84b7e03-f9a8-b577-be27-4d93d1caa1c9@siemens.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+(cherry picked from commit be1927c97e564346cbd409cb17fe611df74b84e5)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/ssi/xilinx_spips.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ hw/intc/ioapic.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index 16f88f7402..9c5dd93b21 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -1199,27 +1199,26 @@ static void lqspi_load_cache(void *opaque, hwaddr=
- addr)
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index 9d75f84d3b..194ccb6a3e 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -188,9 +188,11 @@ static void ioapic_update_kvm_routes(IOAPICCommonState *s)
+             MSIMessage msg;
+             struct ioapic_entry_info info;
+             ioapic_entry_parse(s->ioredtbl[i], &info);
+-            msg.address = info.addr;
+-            msg.data = info.data;
+-            kvm_irqchip_update_msi_route(kvm_state, i, msg, NULL);
++            if (!info.masked) {
++                msg.address = info.addr;
++                msg.data = info.data;
++                kvm_irqchip_update_msi_route(kvm_state, i, msg, NULL);
++            }
+         }
+         kvm_irqchip_commit_routes(kvm_state);
      }
- }
-=20
--static uint64_t
--lqspi_read(void *opaque, hwaddr addr, unsigned int size)
-+static MemTxResult lqspi_read(void *opaque, hwaddr addr, uint64_t *value=
-,
-+                              unsigned size, MemTxAttrs attrs)
- {
--    XilinxQSPIPS *q =3D opaque;
--    uint32_t ret;
-+    XilinxQSPIPS *q =3D XILINX_QSPIPS(opaque);
-=20
-     if (addr >=3D q->lqspi_cached_addr &&
-             addr <=3D q->lqspi_cached_addr + LQSPI_CACHE_SIZE - 4) {
-         uint8_t *retp =3D &q->lqspi_buf[addr - q->lqspi_cached_addr];
--        ret =3D cpu_to_le32(*(uint32_t *)retp);
--        DB_PRINT_L(1, "addr: %08x, data: %08x\n", (unsigned)addr,
--                   (unsigned)ret);
--        return ret;
--    } else {
--        lqspi_load_cache(opaque, addr);
--        return lqspi_read(opaque, addr, size);
-+        *value =3D cpu_to_le32(*(uint32_t *)retp);
-+        DB_PRINT_L(1, "addr: %08" HWADDR_PRIx ", data: %08" PRIx64 "\n",
-+                   addr, *value);
-+        return MEMTX_OK;
-     }
-+
-+    lqspi_load_cache(opaque, addr);
-+    return lqspi_read(opaque, addr, value, size, attrs);
- }
-=20
- static const MemoryRegionOps lqspi_ops =3D {
--    .read =3D lqspi_read,
-+    .read_with_attrs =3D lqspi_read,
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
-     .valid =3D {
-         .min_access_size =3D 1,
---=20
+-- 
 2.17.1
 
 
