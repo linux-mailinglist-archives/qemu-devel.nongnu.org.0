@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA84C3E80
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:24:15 +0200 (CEST)
-Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B24C3E8D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 19:27:37 +0200 (CEST)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFLsk-0008ON-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32798)
+	id 1iFLw0-0003jf-7v
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 13:27:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iFLlC-0001Xo-NA
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iFLlF-0001ZN-0H
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iFLlB-0005VH-PS
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:26 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41128)
+ (envelope-from <richard.henderson@linaro.org>) id 1iFLlD-0005WL-R1
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:28 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:37412)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iFLlB-0005Uu-KF
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:25 -0400
-Received: by mail-pl1-x642.google.com with SMTP id t10so5787081plr.8
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 10:16:25 -0700 (PDT)
+ id 1iFLlD-0005Vm-J1
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 13:16:27 -0400
+Received: by mail-pf1-x442.google.com with SMTP id y5so8478467pfo.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 10:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=H3DBi0mNjNbESSisGeli3T+KiEWE4J/mD2CVZfFgXJw=;
- b=vo9TftZgn+6YC9bzDZvlRmhXUtXLeyTsstPkVVjuIFBK+vEHkzChXz5afcuPT9oCKz
- IkCScm8pR0g8bH+bC/5SBB3W6bGyzcgnYB44CZHmZDqHH8caqBTrUq24ZgjIyBUGWiUa
- v7xos6Hf6uCXvvkrBO//azefw3fVVlcDnjXVsaQAViRyt6vC5BzIuzD0RbuJ1WD+IXVl
- tEjqU9u7E8Encvs8JVMsgIU2Ab7RUU2aCLcPJFtpT6ZUeNXct76GJbl+IYV6sVXqO0Kz
- Mb7eHf6RJQ/OwDn5XNUd1zUtvRzSAojkMDTxrW2RzGBm9VMHyGpudhQZM4PMxbdV1yiq
- LOBA==
+ bh=bw1EswX2q2VGPW65WyDJY/ECQ0OS5tcrpjiTXgyT1jE=;
+ b=L9aSuzgqgi9Rij6MUGGu7Wo98EJkVze7m2y0DrsatJw3xN1N468ZhLZtNOS6uIBm5g
+ NkRSgYvM8rrPNgUsmYstch5aGQ2ME483EdqDqgkJtP0e1uYE/9HLU5DrrdX3vwEuzbd7
+ ywo4hpbkMPlMSAfseHRyGa2zMRycr3j2cA+mgoC4YjUeUxBzv+uhlOpt4dcyDAejuCsH
+ Efj5dvSuiDXFTNH39PV4FPBFg0xEKUut+Tpr/McebRlRBC6V9XyE7tDBnd1YczraLYk0
+ 6Pt4uYLsUeTsTDZ/JpFvolh7TZZpEW7sDMV09nPRw/Fv1WeMvymtHeVxR5VmGnaiffrd
+ aYog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=H3DBi0mNjNbESSisGeli3T+KiEWE4J/mD2CVZfFgXJw=;
- b=hDLgACVzt5SrewYlz6BRxwZgMUIw48eFHYgVtfbX0KzLb3kYyLrZrPU8u9el3dWnjr
- Rrww+2ORxo7t2BTh93PhVLosd/6iAf5v1Q3zT2VYEmm0PpL8j+sVNGix6Z3JqHmsw3cP
- XGZAfgHA3aWde3j3kG7GVmT/47O/e7D9RyzXWwA9FS5tRGfZt6JFxJEslEt7pnWo04sk
- 0AJT20iGnR91MFn2OaPAVkUd8Fsl2MvLSIqJrNcxH42psrIMIFa3/ggJmkWvTaDNwpzD
- 9qj3rxQFEFbPp5hdRrK7UBuEo1DFokT/WVlqJQzP9sRXFFQYP/r69aICupq7UaLElvwW
- WXcA==
-X-Gm-Message-State: APjAAAVcYxW7KFX9tPLFCCO4pRqHjk3STYuv82kwdfHdpJBXr3K4Jzv5
- 5KUmVWvvdR5hAsWhuHsn12xT5dyW5dk=
-X-Google-Smtp-Source: APXvYqy2XOTW6oxzO8cUs4u1luNDhJ6DqNpexpddCMdwC4DPbE2RZq9CJl1dq+K0Z672gViSErYAPg==
-X-Received: by 2002:a17:902:467:: with SMTP id
- 94mr26441246ple.208.1569950184360; 
- Tue, 01 Oct 2019 10:16:24 -0700 (PDT)
+ bh=bw1EswX2q2VGPW65WyDJY/ECQ0OS5tcrpjiTXgyT1jE=;
+ b=U8MzEOwh+aToFIOrgOmU+fOF0hqYtjilFye/9GghQKucFnb2HPwcJcYAg5VrOIfKgw
+ WMR4dfRs5GxeE0ryq0MSGvZ0bWEKh+eszrEX0x89vq2M2IditqNUQ1+EPsXztFWbhM8F
+ A66IV0cV+BFWFrHZIDTVqYYHGZnBg8eGHa1RanXkmHltePISZpNSgLaQWmmTaK5ReK49
+ /AQK9EC5Jksr/El4k0OOZNSgPfmJWhFq8GWcdDogxEAQ4Y7oQ7poVISTX4Ie0cYHpvUy
+ N2E6onNBPRi2/s4O0fbTmE1XGxe8oE7SXiL0QjTNOCJ5MFskyNt0WuTP7M5bxtUD32ce
+ W2Bg==
+X-Gm-Message-State: APjAAAWYUaFyi3vCtxeWIfDOhzlFoiNfO+hjpXUc0IuG+lq3jUJBDOvO
+ P8VM3y9zBCgcp97+CUrCPbDZoRrCe+w=
+X-Google-Smtp-Source: APXvYqwKQ7GH8fFNbk0JjpgX01kouNCDNubrTc+K7CAtSkV1wsrZ0yKRLBeACVUJZbhpUTDOXaJUAQ==
+X-Received: by 2002:a17:90a:cb16:: with SMTP id
+ z22mr6976210pjt.70.1569950185539; 
+ Tue, 01 Oct 2019 10:16:25 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id w7sm2863568pjn.1.2019.10.01.10.16.23
+ by smtp.gmail.com with ESMTPSA id w7sm2863568pjn.1.2019.10.01.10.16.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Oct 2019 10:16:23 -0700 (PDT)
+ Tue, 01 Oct 2019 10:16:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/18] target/s390x: Handle tec in s390_cpu_tlb_fill
-Date: Tue,  1 Oct 2019 10:16:02 -0700
-Message-Id: <20191001171614.8405-7-richard.henderson@linaro.org>
+Subject: [PATCH v5 07/18] target/s390x: Return exception from
+ mmu_translate_real
+Date: Tue,  1 Oct 2019 10:16:03 -0700
+Message-Id: <20191001171614.8405-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001171614.8405-1-richard.henderson@linaro.org>
 References: <20191001171614.8405-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,48 +81,80 @@ Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As a step toward moving all excption handling out of mmu_translate,
-copy handling of the LowCore tec value from trigger_access_exception
-into s390_cpu_tlb_fill.  So far this new plumbing isn't used.
+Do not raise the exception directly within mmu_translate_real,
+but pass it back so that caller may do so.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/excp_helper.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ target/s390x/internal.h    |  2 +-
+ target/s390x/excp_helper.c |  4 ++--
+ target/s390x/mmu_helper.c  | 14 ++++++--------
+ 3 files changed, 9 insertions(+), 11 deletions(-)
 
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index c243fa725b..c4388aaf23 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -362,7 +362,7 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+                   target_ulong *raddr, int *flags, bool exc);
+ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+-                       target_ulong *addr, int *flags);
++                       target_ulong *addr, int *flags, uint64_t *tec);
+ 
+ 
+ /* misc_helper.c */
 diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 552098be5f..ab2ed47fef 100644
+index ab2ed47fef..906b87c071 100644
 --- a/target/s390x/excp_helper.c
 +++ b/target/s390x/excp_helper.c
-@@ -126,7 +126,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     S390CPU *cpu = S390_CPU(cs);
-     CPUS390XState *env = &cpu->env;
-     target_ulong vaddr, raddr;
--    uint64_t asc;
-+    uint64_t asc, tec;
-     int prot, fail, excp;
+@@ -147,8 +147,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         if (!(env->psw.mask & PSW_MASK_64)) {
+             vaddr &= 0x7fffffff;
+         }
+-        fail = mmu_translate_real(env, vaddr, access_type, &raddr, &prot);
+-        excp = 0; /* exception already raised */
++        excp = mmu_translate_real(env, vaddr, access_type, &raddr, &prot, &tec);
++        fail = excp;
+     } else {
+         g_assert_not_reached();
+     }
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index 4a794dadcf..e8281d4413 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -554,14 +554,11 @@ void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uintptr_t ra)
+  * @param rw     0 = read, 1 = write, 2 = code fetch
+  * @param addr   the translated address is stored to this pointer
+  * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this pointer
+- * @return       0 if the translation was successful, < 0 if a fault occurred
++ * @return       0 = success, != 0, the exception to raise
+  */
+ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+-                       target_ulong *addr, int *flags)
++                       target_ulong *addr, int *flags, uint64_t *tec)
+ {
+-    /* Code accesses have an undefined ilc, let's use 2 bytes. */
+-    uint64_t tec = (raddr & TARGET_PAGE_MASK) |
+-                   (rw == MMU_DATA_STORE ? FS_WRITE : FS_READ);
+     const bool lowprot_enabled = env->cregs[0] & CR0_LOWPROT;
  
-     qemu_log_mask(CPU_LOG_MMU, "%s: addr 0x%" VADDR_PRIx " rw %d mmu_idx %d\n",
-@@ -162,6 +162,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
-                       __func__, (uint64_t)raddr, (uint64_t)ram_size);
-         excp = PGM_ADDRESSING;
-+        tec = 0; /* unused */
-         fail = 1;
+     *flags = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+@@ -570,9 +567,10 @@ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+         *flags |= PAGE_WRITE_INV;
+         if (is_low_address(raddr) && rw == MMU_DATA_STORE) {
+             /* LAP sets bit 56 */
+-            tec |= 0x80;
+-            trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, tec);
+-            return -EACCES;
++            *tec = (raddr & TARGET_PAGE_MASK)
++                 | (rw == MMU_DATA_STORE ? FS_WRITE : FS_READ)
++                 | 0x80;
++            return PGM_PROTECTION;
+         }
      }
  
-@@ -178,6 +179,10 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     }
- 
-     if (excp) {
-+        if (excp != PGM_ADDRESSING) {
-+            stq_phys(env_cpu(env)->as,
-+                     env->psa + offsetof(LowCore, trans_exc_code), tec);
-+        }
-         trigger_pgm_exception(env, excp, ILEN_AUTO);
-     }
-     cpu_restore_state(cs, retaddr, true);
 -- 
 2.17.1
 
