@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB41FC365C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:53:24 +0200 (CEST)
-Received: from localhost ([::1]:42406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0F5C3666
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 15:55:10 +0200 (CEST)
+Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFIah-0004op-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60839)
+	id 1iFIcO-0007BQ-UC
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 09:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iFIZ4-0003lp-F9
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:51:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1iFIVl-00010T-Ix
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:48:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iFIZ2-0006DI-01
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:51:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53196)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iFIZ1-00069X-QB
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:51:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iFIYx-00012p-5y
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 13:51:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B5C22E80CC
- for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 13:51:35 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iFIVk-0003tB-5V
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:48:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35633)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFIVk-0003sF-08
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 09:48:16 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1B3E32F366A
+ for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 13:48:14 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id k9so1469965wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 06:48:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bD+TnKwvCVSI6M1P1XwRT+OotgQsScs2BkiNGisGaSM=;
+ b=T9Fwvg9B/VTqNIgv9+yZkZy8eWCvkxsdrkGZGjqqE1mxHyHUuWzfc6LGSZKJsEZeDl
+ ZkICEFLjpeiZK9Uq79wfchVZjPFvLpxeqQQo7pkKr8o6vSrvxB6B0q5KcnUnNLSna+zE
+ nzbbqljaavnHCeBGnQ7IpJbC6qtFpMqx9QG18wVpyg1GK24XObgSYd8Tch+DvGySJhwe
+ SU/o3G7qtKQceqAgPrx/98OI6HLLB4pMLVaXjnB+NlhLXU91X4wp7AJocQNWgkBx+u9G
+ 7cr5rppr3N6yWUHJBxJZkFOLzXRBVZEJwYYgLF8pcJpYXjFAYuA5RbRq+/YOymw+M17j
+ ycAA==
+X-Gm-Message-State: APjAAAVZuLk1Ixo6rZ0rYNhED77id9ZuBHBdRZuoB4inHJFXcsYvSVa/
+ Mj2PC6ijjZHvXMVM3DnetQHlJ5TJ84Ii5N7hDVGdzA6q86Ck7+OH28MPrRmbSgRZeHwp4vqNkD6
+ ojQWWa/9ZVsGoyk8=
+X-Received: by 2002:a1c:b745:: with SMTP id h66mr3723881wmf.70.1569937692853; 
+ Tue, 01 Oct 2019 06:48:12 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqy9Z7qjC5Q/19S7tUqTfUB9tLpwBR/+4grVTi8BlHwJPRKINDjoeeVckIfWB6Uq9w9cjOAS2A==
+X-Received: by 2002:a1c:b745:: with SMTP id h66mr3723865wmf.70.1569937692666; 
+ Tue, 01 Oct 2019 06:48:12 -0700 (PDT)
+Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
+ [88.21.68.240])
+ by smtp.gmail.com with ESMTPSA id q22sm2972345wmj.31.2019.10.01.06.48.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Oct 2019 06:48:12 -0700 (PDT)
+Subject: Re: [PATCH 2/3] tests: skip serial test on windows
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191001132609.23184-1-marcandre.lureau@redhat.com>
+ <20191001132609.23184-3-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2de63324-7f31-2268-9cee-808c960e7ecc@redhat.com>
+Date: Tue, 1 Oct 2019 15:48:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191001132609.23184-3-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Oct 2019 13:43:40 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nathanchance pmaydell
-X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156885735889.27264.8945287928013294736.malonedeb@soybean.canonical.com>
-Message-Id: <156993742086.20552.4604149898854486782.malone@soybean.canonical.com>
-Subject: [Bug 1844597] Re: fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a
- kernel panic in vfp_init on a clang built kernel
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19066";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0b7349d2f5f005cdce2b66066fe93883a303cd4d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,156 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1844597 <1844597@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, berrange@redhat.com, sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in master in commit ece628fcf69cbbd, which will be in the 4.2
-release (also tagged for stable so will end up on the 4.1.x branch at
-some point).
+On 10/1/19 3:26 PM, Marc-Andr=C3=A9 Lureau wrote:
+> Serial test is currently hard-coded to /dev/null.
+>=20
+> On Windows, serial chardev expect a COM: device, which may not be
+> availble.
 
+"available"
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+>=20
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
--- =
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1844597
-
-Title:
-  fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a kernel panic in
-  vfp_init on a clang built kernel
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  Commit 4cdabee7d6d2 ("ARM: configs: aspeed_g5: Enable AST2600") [1] in
-  the Linux kernel enabled CONFIG_VFP. When building this config with
-  Clang, the resulting kernel does not boot after commit fc1120a7f5
-  ("target/arm: Implement NSACR gating of floating point") [2] (present
-  since the 4.1.0 release).
-
-  The QEMU command:
-
-  qemu-system-arm -m 512m \
-                  -machine romulus-bmc \
-                  -no-reboot \
-                  -dtb out/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dtb \
-                  -initrd rootfs.cpio \
-                  -display none \
-                  -serial mon:stdio \
-                  -kernel ${KBF}/arch/arm/boot/zImage
-
-  If it is needed, the rootfs we are using is provided at a link below
-  [3].
-
-  Debugging with QEMU reveals that the kernel panics in vfp_init,
-  specifically at the line:
-
-  vfpsid =3D fmrx(FPSID);
-
-  in arch/arm/vfp/vfpmodule.c because of an illegal instruction:
-
-  [    0.058685] VFP support v0.3: =
-
-  [    0.059159] Internal error: Oops - undefined instruction: 0 [#1] SMP A=
-RM
-  [    0.059525] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.3.0-next-20190=
-918-dirty #1
-  [    0.059547] Hardware name: Generic DT based system
-  [    0.059702] PC is at vfp_init+0x50/0x1f4
-  [    0.059721] LR is at vfp_init+0x4c/0x1f4
-  [    0.059738] pc : [<80b0383c>]    lr : [<80b03838>]    psr: 60000153
-  [    0.059756] sp : 9e497ec0  ip : 00000020  fp : 9e497ed8
-  [    0.059773] r10: 00000000  r9 : ffffe000  r8 : 80c06048
-  [    0.059792] r7 : 00000000  r6 : 80c0caac  r5 : 80c6c418  r4 : 80b037ec
-  [    0.059811] r3 : 00000000  r2 : 339aa372  r1 : 00000000  r0 : 00000012
-  [    0.059859] Flags: nZCv  IRQs on  FIQs off  Mode SVC_32  ISA ARM  Segm=
-ent none
-  [    0.059883] Control: 00c5387d  Table: 80004008  DAC: 00000051
-  [    0.059997] Process swapper/0 (pid: 1, stack limit =3D 0x(ptrval))
-  [    0.060048] Stack: (0x9e497ec0 to 0x9e498000)
-  [    0.060205] 7ec0: 80b037ec 80b6bf0c 80b037ec ffffffff 00000000 0000000=
-0 9e497f48 80b01100
-  [    0.060310] 7ee0: 00000000 9eeff9e0 80a85734 809eb9be 00000000 8014b7f=
-4 9eeff9e0 80a85734
-  [    0.060408] 7f00: 9e497f48 8014b7f4 000000a4 00000001 00000001 0000000=
-0 80b0133c 9e497f38
-  [    0.060509] 7f20: 00000000 9eeff9d5 339aa372 80b6be80 80b6bf0c 0000000=
-0 00000000 00000000
-  [    0.060606] 7f40: 00000000 00000000 9e497f70 80b01864 00000001 0000000=
-1 00000000 80b0133c
-  [    0.060703] 7f60: 00000001 8085d268 00000000 00000000 9e497f80 80b0175=
-8 00000000 00000000
-  [    0.060800] 7f80: 9e497f90 80b015e4 00000000 8085d268 9e497fa8 8085d27=
-c 00000000 8085d268
-  [    0.060897] 7fa0: 00000000 00000000 00000000 801010e8 00000000 0000000=
-0 00000000 00000000
-  [    0.060993] 7fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-  [    0.061090] 7fe0: 00000000 00000000 00000000 00000000 00000013 0000000=
-0 00000000 00000000
-  [    0.061625] [<80b0383c>] (vfp_init) from [<80b01100>] (do_one_initcall=
-+0xa8/0x1e0)
-  [    0.061722] [<80b01100>] (do_one_initcall) from [<80b01864>] (do_initc=
-all_level+0xfc/0x12c)
-  [    0.061742] [<80b01864>] (do_initcall_level) from [<80b01758>] (do_bas=
-ic_setup+0x2c/0x3c)
-  [    0.061759] [<80b01758>] (do_basic_setup) from [<80b015e4>] (kernel_in=
-it_freeable+0x68/0x104)
-  [    0.061777] [<80b015e4>] (kernel_init_freeable) from [<8085d27c>] (ker=
-nel_init+0x14/0x26c)
-  [    0.061798] [<8085d27c>] (kernel_init) from [<801010e8>] (ret_from_for=
-k+0x14/0x2c)
-  [    0.061835] Exception stack(0x9e497fb0 to 0x9e497ff8)
-  [    0.061896] 7fa0:                                     00000000 0000000=
-0 00000000 00000000
-  [    0.061998] 7fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-  [    0.062080] 7fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-  [    0.062263] Code: e5860000 e59f0174 ebd9d8fc e59f5170 (eef04a10) =
-
-  [    0.062679] ---[ end trace 2d338c91e4e74562 ]---
-
-  Before fc1120a7f5:
-
-  [    0.069418] VFP support v0.3: implementor 41 architecture 1 part 20
-  variant b rev 5
-
-  Should you need to reproduce this locally:
-
-  * clang 9.0.0 or later is needed to build this config. If you do not
-  have easy access to such a build, we have a clang build script
-  available [4] that can help with this:
-
-  % ./build-llvm.py --branch llvmorg-9.0.0-rc6 \
-                    --build-stage1-only \
-                    --projects clang \
-                    --targets ARM
-
-  * Because of an unrelated build issue, linux-next needs to be used (or
-  the singular patch that resolves it needs to be cherry-picked on top
-  of 4cdabee7d6d2 [5]). The kernel make command used:
-
-  % make -j$(nproc) -s \
-         ARCH=3Darm \
-         CC=3Dclang \
-         CROSS_COMPILE=3Darm-linux-gnueabi- \
-         O=3Dout \
-         distclean aspeed_g5_defconfig all
-
-  [1]: https://git.kernel.org/linus/4cdabee7d6d2e439fea726a101e448c4ca6837f4
-  [2]: https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dfc1120a7f5f2d4b601=
-003205c598077d3eb11ad2
-  [3]: https://github.com/ClangBuiltLinux/continuous-integration/blob/800d8=
-4bf8c55ee04c50ed4c78144a96d889a91c5/images/arm/rootfs.cpio
-  [4]: https://github.com/ClangBuiltLinux/tc-build
-  [5]: http://git.armlinux.org.uk/cgit/linux-arm.git/commit/?id=3D7b3948597=
-372e5a6b314208ac320362c204b7f0f
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1844597/+subscriptions
+> ---
+>   tests/test-char.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/tests/test-char.c b/tests/test-char.c
+> index d62de1b088..45e42af290 100644
+> --- a/tests/test-char.c
+> +++ b/tests/test-char.c
+> @@ -1103,7 +1103,7 @@ static void char_socket_server_two_clients_test(g=
+constpointer opaque)
+>   }
+>  =20
+>  =20
+> -#ifdef HAVE_CHARDEV_SERIAL
+> +#if defined(HAVE_CHARDEV_SERIAL) && !defined(WIN32)
+>   static void char_serial_test(void)
+>   {
+>       QemuOpts *opts;
+> @@ -1460,7 +1460,7 @@ int main(int argc, char **argv)
+>   #endif
+>  =20
+>       g_test_add_func("/char/udp", char_udp_test);
+> -#ifdef HAVE_CHARDEV_SERIAL
+> +#if defined(HAVE_CHARDEV_SERIAL) && !defined(WIN32)
+>       g_test_add_func("/char/serial", char_serial_test);
+>   #endif
+>       g_test_add_func("/char/hotswap", char_hotswap_test);
+>=20
 
