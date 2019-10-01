@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F1EC3983
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:51:43 +0200 (CEST)
-Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F257CC398F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 17:53:04 +0200 (CEST)
+Received: from localhost ([::1]:43770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFKRC-0004q9-83
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47012)
+	id 1iFKSV-0006ev-SX
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 11:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iFK7Z-0002NV-QS
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:31:27 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iFK8O-00036R-VB
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:32:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iFK7X-0000sU-JC
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:31:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:39069)
+ (envelope-from <laurent@vivier.eu>) id 1iFK8N-0002CQ-N5
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:32:16 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:52447)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iFK7V-0000mU-P8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:31:23 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iFK8N-0002AY-BJ
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:32:15 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MCbZL-1iNGSe3yYF-009kJJ; Tue, 01 Oct 2019 17:31:08 +0200
-Subject: Re: [PATCH v2 1/3] tests/migration: mem leak fix
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MKMIR-1iZLHg0th9-00LoPc; Tue, 01 Oct 2019 17:31:55 +0200
+Subject: Re: [PATCH v2 2/3] tests/migration: fix a typo in comment
 To: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>, qemu-devel@nongnu.org
 References: <cover.1568170994.git.maozhongyi@cmss.chinamobile.com>
- <9b8662b94d89030b1f33193246c645baac2eedd7.1568170994.git.maozhongyi@cmss.chinamobile.com>
+ <c60e8741dec930089b42ebb83b0ff15f2270078a.1568170994.git.maozhongyi@cmss.chinamobile.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -70,36 +70,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <2731f5b5-f43d-cf97-0a1a-30f3cbd21ae0@vivier.eu>
-Date: Tue, 1 Oct 2019 17:31:03 +0200
+Message-ID: <10eeaadf-4e5e-887b-3204-ba74349b1b00@vivier.eu>
+Date: Tue, 1 Oct 2019 17:31:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <9b8662b94d89030b1f33193246c645baac2eedd7.1568170994.git.maozhongyi@cmss.chinamobile.com>
+In-Reply-To: <c60e8741dec930089b42ebb83b0ff15f2270078a.1568170994.git.maozhongyi@cmss.chinamobile.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RmP/nbUz+5w8lFam1xOAX9weTGwLej1RIGftrzjurqTYt23lN7r
- KVQC+mNhhgybNTQzo/G08YmQA4LZD0ojgrEBzi13ie7sv1aQO6VT4LW3H/4rVA3ZhmzXUgF
- MI6/UHIPXvq/ZkJiNgHSEoQJI3edcTdcPJfXEJGVSzwkQSAZ31OUht8hA/XNnMlg0TvAdQm
- e31JP56tMyapzP9i3WYnA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8Rg8QKNa5lw=:x7eaegzvua55BYO3iuCXbl
- FU85fs9/5Li044yXJasmBewcQC5SaqRuH7XlJGXNB/qkUyGtjzPfPSlPOmdGYMwiv/wldQ8gI
- ocxHDedOL9eSdsDBDEsTiJa8hMlUnWWH8145S5d0pKpicg5UsVgV1m1pK8KBlDopPo6u+Z8Lh
- dyBc2Ubeli9VgFm2MUjPYwSEwyOuKCmlezCEJ4lmmC/3TQ/IS+RZlVbddgIorvhI6K9WJIoRh
- 54LVdutYkko66tp0OZpwTlFcREiRyB8Ic8EIE4TV7w/3/OovrdU/TIyuqYdc0a/BJ6mEtDKJQ
- Fixb4QvL5xETfX53I8geEFvgiV9Ezb4HbclmM7rxkASH+RBDgP5CNZjIc0omMp0kaUNr1wm6Y
- uSJKP84cOw3oKgA4tYDHUJAeqqRCtjz07CC1JzNMQ1cuTp4Pp4z43qPAZNJmTHGMdM7Q3Skez
- L+KSm0rtYtx6MCwE0YtYRl32OrbNKLXDwoOU7czjyKlo66AHZtbE4tQZBaCA64XWAgYCjXpLe
- 0j90mKvPFYjOANypeZt4aSyhooJ4voMMqOg4+qJZEkyply4WWNDOlreQDFoW+UX9nGmRuZg0z
- 6KgBgtpK3XV/513NNz5f6k5zWXG7HSTfd7HweekE+t0MPG9qXg5kRiQInx52SZekUWC6dyDXo
- vj8iN3nfjBKWaQgesTP14IJxYzFkG8HVLA35UftqXZyV3SAjxM/dBgSxRMf8W3lOFT8tys+cj
- lkuzKwJEbQUyLNHMRjD1yZPE4+xpSQvHDd4HqOCsSbN8tJL66fkSYaC3kDefzstV8E73+tV5j
- iEEA4JUFuLNabnpff/Shnj+qmgvFs9ZnO/27qUHxi2cK1Jh7fHVhGdqXXuKNO4M/u2g9I1kYJ
- E36a6246+C0285bb+2mfXdOzKtPMlph86jzQywxA4=
+X-Provags-ID: V03:K1:VNq16pGmBrURd2H05rRu6u91fXQjYB4WYOOoSEZc+8di3ucXZN2
+ ru8GgcInk5shkbFXkXYA7t1YdnXg+ga7wliNUrwJ+COuM2aJJ6hEuwzxyU8zR3odo5VKa2u
+ bl4sS0Cu3hI2yNa64pTcx9H6toFiNocpzewIjbt9VyoqD/EtfyNZ71YP8v5066TcntxsCH/
+ 6yxGPWUY3XrQIr3Xfu4cw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Xi9zPxX95NQ=:eKPbZQhf7+/zIKVO0J9U2O
+ 1Mw2jFZuP4/l2zVTfbmjmGo950YFQGiUo362H/0sM/vNBqxgjj2D9SdEYMwYRuvQVs+KD2wBM
+ IcEX1dJo0TbXZARmgKhSSEv1SKODp+juTHuFf7O9arLnS9yn7qU9e29A6lWGTS1S2cu4sQvP2
+ MURKbIqe6gVln8dvWUHyOI2JrlCkWmIlcCRtFeoquz2bz8y79A7/KSH76jLqfNjExZzg33SsL
+ p1UZAX3TXaTpowPQ/ifh1rxFlfsxUetufEyd7CgWMk4SIYKLgD5Rdw0IoRithWV1sjMr716/n
+ THaRhvlr/t0mIk80UdVzn/XnFUpg5O4iXyVtlbSScNVrj3khvjQQmycvniSBTG3dLdb5NHJPV
+ 4rgJpoCMA/0yeaqBzSBi3CS0x6EK+tL+gars3t9uxAuZwZeJ8C0BO/V3ht0qPI95se36A8txL
+ QUU+CkYMM8U/2K7jDvLNIClLsdOBk5SpjHExazHlcRajBrp9EolcfBceQJWOkGAWOIcQwoVhV
+ ilRi8WS4jzunjJG9B7kLac2chwWo+Ku+rEpOR41RTpZoKBCBASpzvNegt7n5FZk9FQluJ/Nkx
+ YktPkxKSl2xoEhg52ljSHwvsihS12pn1PHwhYedVo8/6dTc6eBsX0xNPQyGylOZypKyGflJyo
+ saUZVq3TFydg3isGlx4yiYwdobKWUeyzdTPunbroWPtclSYydYUrJZjGvZ7KcOMaRQLrrvAkA
+ CxbXuTdxF7b/gtAUZjtloiRVzvAgPDRD9FYzPS0BkpPOp9151vTAWMzBmHHLlu+TZnwMwUU0/
+ oO0ysxRixy4zNCZCn63JFZo2bVGu8TmiKruV1fm/7q5TVxXPvcFrFKaKcQ9iV7o1fHzwhAx89
+ +XODB5dz878vn12DGYqECyzjp91xfDP7OoaAsymyY=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,40 +116,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 11/09/2019 à 05:31, Mao Zhongyi a écrit :
-> ‘data’ has the possibility of memory leaks， so use the
-> glic macros g_autofree recommended by CODING_STYLE.rst
-> to automatically release the memory that returned from
-> g_malloc().
-> 
 > Cc: armbru@redhat.com
 > Cc: laurent@vivier.eu
 > Cc: tony.nguyen@bt.com
-> Cc: alex.bennee@linaro.org
 > 
 > Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  tests/migration/stress.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+>  tests/migration/stress.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-> index d9aa4afe92..6cbb2d49d3 100644
+> index 6cbb2d49d3..19a6eff5fd 100644
 > --- a/tests/migration/stress.c
 > +++ b/tests/migration/stress.c
-> @@ -170,10 +170,10 @@ static unsigned long long now(void)
->  static int stressone(unsigned long long ramsizeMB)
->  {
->      size_t pagesPerMB = 1024 * 1024 / PAGE_SIZE;
-> -    char *ram = malloc(ramsizeMB * 1024 * 1024);
-> +    g_autofree char *ram = malloc(ramsizeMB * 1024 * 1024);
->      char *ramptr;
->      size_t i, j, k;
-> -    char *data = malloc(PAGE_SIZE);
-> +    g_autofree char *data = malloc(PAGE_SIZE);
+> @@ -191,7 +191,7 @@ static int stressone(unsigned long long ramsizeMB)
+>  
+>      /* We don't care about initial state, but we do want
+>       * to fault it all into RAM, otherwise the first iter
+> -     * of the loop below will be quite slow. We cna't use
+> +     * of the loop below will be quite slow. We can't use
+>       * 0x0 as the byte as gcc optimizes that away into a
+>       * calloc instead :-) */
+>      memset(ram, 0xfe, ramsizeMB * 1024 * 1024);
+> 
 
-So perhaps g_malloc() could be a better choice as it will exit on
-allocation failure?
-
-Thanks,
-Laurent
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
