@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D74C419B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:11:36 +0200 (CEST)
-Received: from localhost ([::1]:47722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E07C41A9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:17:43 +0200 (CEST)
+Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOUg-0007s6-Jl
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54208)
+	id 1iFOab-0003ZJ-47
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO7o-0004b4-4U
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO7q-0004dI-20
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO7m-0007sK-Hx
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36219)
+ (envelope-from <mreitz@redhat.com>) id 1iFO7o-0007tf-B8
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44048)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO7c-0007j5-Ne; Tue, 01 Oct 2019 15:47:46 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iFO7j-0007nP-I1; Tue, 01 Oct 2019 15:47:52 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 913BDC04D293;
- Tue,  1 Oct 2019 19:47:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A10373018FC5;
+ Tue,  1 Oct 2019 19:47:50 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AB731001947;
- Tue,  1 Oct 2019 19:47:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D78B6012C;
+ Tue,  1 Oct 2019 19:47:49 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 11/67] iotests/224: Filter json:{} from commit command
-Date: Tue,  1 Oct 2019 21:46:19 +0200
-Message-Id: <20191001194715.2796-12-mreitz@redhat.com>
+Subject: [PATCH 14/67] iotests: Use unsupported_imgopts in Python tests
+Date: Tue,  1 Oct 2019 21:46:22 +0200
+Message-Id: <20191001194715.2796-15-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 01 Oct 2019 19:47:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Tue, 01 Oct 2019 19:47:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,115 +60,242 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We only care that block-commit works with json:{} filenames, we do not
-need to see their exact values in the output.
+Set unsupported_imgopts as appropriate for all tests that should make
+use of it.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/224     | 15 ++++++++++++---
- tests/qemu-iotests/224.out |  4 ++--
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/044 | 5 ++++-
+ tests/qemu-iotests/057 | 4 +++-
+ tests/qemu-iotests/065 | 4 +++-
+ tests/qemu-iotests/163 | 5 ++++-
+ tests/qemu-iotests/165 | 4 +++-
+ tests/qemu-iotests/196 | 4 +++-
+ tests/qemu-iotests/206 | 5 ++++-
+ tests/qemu-iotests/222 | 3 ++-
+ tests/qemu-iotests/237 | 4 +++-
+ tests/qemu-iotests/242 | 4 +++-
+ tests/qemu-iotests/245 | 4 +++-
+ tests/qemu-iotests/246 | 5 ++++-
+ tests/qemu-iotests/248 | 6 +++++-
+ tests/qemu-iotests/254 | 4 +++-
+ tests/qemu-iotests/257 | 4 +++-
+ 15 files changed, 50 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qemu-iotests/224 b/tests/qemu-iotests/224
-index d0d0c44104..e227d3ab3c 100755
---- a/tests/qemu-iotests/224
-+++ b/tests/qemu-iotests/224
-@@ -22,12 +22,19 @@
+diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+index 8b2afa2a11..97ba98e628 100755
+--- a/tests/qemu-iotests/044
++++ b/tests/qemu-iotests/044
+@@ -116,4 +116,7 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
 =20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 # These refcount calculations do not work with data_fil=
+e or
++                 # with any refcount width but the default (of 16)
++                 unsupported_imgopts=3D['data_file', 'refcount_bits'])
+diff --git a/tests/qemu-iotests/057 b/tests/qemu-iotests/057
+index 9fbba759b6..f5aa5929dc 100755
+--- a/tests/qemu-iotests/057
++++ b/tests/qemu-iotests/057
+@@ -257,4 +257,6 @@ class TestSnapshotDelete(ImageSnapshotTestCase):
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 # Snapshots do not work with data_file
++                 unsupported_imgopts=3D['data_file'])
+diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+index 5b21eb96bd..9db9552784 100755
+--- a/tests/qemu-iotests/065
++++ b/tests/qemu-iotests/065
+@@ -130,4 +130,6 @@ TestQMP =3D None
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 # Neither of these options would work with compat=3D0.1=
+0
++                 unsupported_imgopts=3D['refcount_bits', 'data_file'])
+diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+index d94728e080..92633f1b21 100755
+--- a/tests/qemu-iotests/163
++++ b/tests/qemu-iotests/163
+@@ -168,4 +168,7 @@ ShrinkBaseClass =3D None
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['raw', 'qcow2'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 # We want to set our own refcount_bits, and that will
++                 # not work with compat=3D0.10
++                 unsupported_imgopts=3D['refcount_bits', 'compat=3D0.10'=
+])
+diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
+index 5650dc7c87..97dd7102c3 100755
+--- a/tests/qemu-iotests/165
++++ b/tests/qemu-iotests/165
+@@ -104,4 +104,6 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 # compat=3D1.1 is needed for dirty bitmaps
++                 unsupported_imgopts=3D['compat=3D0.10'])
+diff --git a/tests/qemu-iotests/196 b/tests/qemu-iotests/196
+index 92fe9244f8..ec4852a19c 100755
+--- a/tests/qemu-iotests/196
++++ b/tests/qemu-iotests/196
+@@ -64,4 +64,6 @@ class TestInvalidateAutoclear(iotests.QMPTestCase):
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 # compat=3D1.1 is needed for autoclear flags
++                 unsupported_imgopts=3D['compat=3D0.10'])
+diff --git a/tests/qemu-iotests/206 b/tests/qemu-iotests/206
+index 23ff2f624b..91dd6ee176 100755
+--- a/tests/qemu-iotests/206
++++ b/tests/qemu-iotests/206
+@@ -23,7 +23,10 @@
  import iotests
- from iotests import log, qemu_img, qemu_io_silent, filter_qmp_testfiles,=
- \
--                    filter_qmp_imgfmt
-+                    filter_qmp_imgfmt, filter_json_filename
- import json
-+import re
+ from iotests import imgfmt
 =20
- # Need backing file support (for arbitrary backing formats)
- iotests.script_initialize(supported_fmts=3D['qcow2', 'qcow', 'qed'])
+-iotests.script_initialize(supported_fmts=3D['qcow2'])
++iotests.script_initialize(supported_fmts=3D['qcow2'],
++                          # All options are ignored
++                          unsupported_imgopts=3D['compat=3D0.10', 'refco=
+unt_bits',
++                                               'data_file'])
 =20
-+def filter_json_top_or_base(qmsg):
-+    def _filter(key, value):
-+        if key =3D=3D 'base' or key =3D=3D 'top':
-+            return filter_json_filename(value)
-+        return value
-+    return iotests.filter_qmp(qmsg, _filter)
+ def blockdev_create(vm, options):
+     result =3D vm.qmp_log('blockdev-create',
+diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
+index 6788979ed3..ffa88d4bb9 100644
+--- a/tests/qemu-iotests/222
++++ b/tests/qemu-iotests/222
+@@ -25,7 +25,8 @@ import iotests
+ from iotests import log, qemu_img, qemu_io, qemu_io_silent
 =20
- # There are two variations of this test:
- # (1) We do not set filter_node_name.  In that case, the commit_top
-@@ -104,7 +111,8 @@ for filter_node_name in False, True:
-                         top=3Dmid_name,
-                         base=3Dbase_name,
-                         speed=3D1,
--                        filters=3D[filter_qmp_testfiles, filter_qmp_imgf=
-mt])
-+                        filters=3D[filter_qmp_testfiles, filter_qmp_imgf=
-mt,
-+                                 filter_json_top_or_base])
-         else:
-             vm.qmp_log('block-commit',
-                         job_id=3D'commit',
-@@ -112,7 +120,8 @@ for filter_node_name in False, True:
-                         top=3Dmid_name,
-                         base=3Dbase_name,
-                         speed=3D1,
--                        filters=3D[filter_qmp_testfiles, filter_qmp_imgf=
-mt])
-+                        filters=3D[filter_qmp_testfiles, filter_qmp_imgf=
-mt,
-+                                 filter_json_top_or_base])
+ iotests.script_initialize(supported_fmts=3D['qcow2', 'qcow', 'qed', 'vmd=
+k',
+-                                          'vhdx', 'raw'])
++                                          'vhdx', 'raw'],
++                          unsupported_imgopts=3D['streamOptimized'])
 =20
-         vm.qmp_log('job-pause', id=3D'commit')
+ patterns =3D [("0x5d", "0",         "64k"),
+             ("0xd5", "1M",        "64k"),
+diff --git a/tests/qemu-iotests/237 b/tests/qemu-iotests/237
+index 3758ace0bc..34ff4b55db 100755
+--- a/tests/qemu-iotests/237
++++ b/tests/qemu-iotests/237
+@@ -24,7 +24,9 @@ import math
+ import iotests
+ from iotests import imgfmt
 =20
-diff --git a/tests/qemu-iotests/224.out b/tests/qemu-iotests/224.out
-index 23374a1d29..287d2eac7a 100644
---- a/tests/qemu-iotests/224.out
-+++ b/tests/qemu-iotests/224.out
-@@ -3,7 +3,7 @@
+-iotests.script_initialize(supported_fmts=3D['vmdk'])
++iotests.script_initialize(supported_fmts=3D['vmdk'],
++                          # All options are ignored
++                          unsupported_imgopts=3D['subformat'])
 =20
- {"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backi=
-ng": {"driver": "null-co"}, "driver": "IMGFMT", "file": {"driver": "file"=
-, "filename": "TEST_DIR/PID-base.img"}, "node-name": "base"}, "driver": "=
-IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-mid.img"}, =
-"node-name": "mid"}, "driver": "IMGFMT", "file": {"driver": "file", "file=
-name": "TEST_DIR/PID-top.img"}, "node-name": "top"}}
- {"return": {}}
--{"execute": "block-commit", "arguments": {"base": "json:{\"backing\": {\=
-"driver\": \"null-co\"}, \"driver\": \"IMGFMT\", \"file\": {\"driver\": \=
-"file\", \"filename\": \"TEST_DIR/PID-base.img\"}}", "device": "top", "jo=
-b-id": "commit", "speed": 1, "top": "json:{\"backing\": {\"backing\": {\"=
-driver\": \"null-co\"}, \"driver\": \"IMGFMT\", \"file\": {\"driver\": \"=
-file\", \"filename\": \"TEST_DIR/PID-base.img\"}}, \"driver\": \"IMGFMT\"=
-, \"file\": {\"driver\": \"file\", \"filename\": \"TEST_DIR/PID-mid.img\"=
-}}"}}
-+{"execute": "block-commit", "arguments": {"base": "json:{ /* filtered */=
- }", "device": "top", "job-id": "commit", "speed": 1, "top": "json:{ /* f=
-iltered */ }"}}
- {"return": {}}
- {"execute": "job-pause", "arguments": {"id": "commit"}}
- {"return": {}}
-@@ -12,7 +12,7 @@
+ def blockdev_create(vm, options):
+     result =3D vm.qmp_log('blockdev-create', job_id=3D'job0', options=3D=
+options,
+diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+index 21f69a0d2c..333fb8b56c 100755
+--- a/tests/qemu-iotests/242
++++ b/tests/qemu-iotests/242
+@@ -24,7 +24,9 @@ import struct
+ from iotests import qemu_img_create, qemu_io, qemu_img_pipe, \
+     file_path, img_info_log, log, filter_qemu_io
 =20
- {"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backi=
-ng": {"driver": "null-co"}, "driver": "IMGFMT", "file": {"driver": "file"=
-, "filename": "TEST_DIR/PID-base.img"}, "node-name": "base"}, "driver": "=
-IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-mid.img"}, =
-"node-name": "mid"}, "driver": "IMGFMT", "file": {"driver": "file", "file=
-name": "TEST_DIR/PID-top.img"}, "node-name": "top"}}
- {"return": {}}
--{"execute": "block-commit", "arguments": {"base": "json:{\"backing\": {\=
-"driver\": \"null-co\"}, \"driver\": \"IMGFMT\", \"file\": {\"driver\": \=
-"file\", \"filename\": \"TEST_DIR/PID-base.img\"}}", "device": "top", "fi=
-lter-node-name": "filter_node", "job-id": "commit", "speed": 1, "top": "j=
-son:{\"backing\": {\"backing\": {\"driver\": \"null-co\"}, \"driver\": \"=
-IMGFMT\", \"file\": {\"driver\": \"file\", \"filename\": \"TEST_DIR/PID-b=
-ase.img\"}}, \"driver\": \"IMGFMT\", \"file\": {\"driver\": \"file\", \"f=
-ilename\": \"TEST_DIR/PID-mid.img\"}}"}}
-+{"execute": "block-commit", "arguments": {"base": "json:{ /* filtered */=
- }", "device": "top", "filter-node-name": "filter_node", "job-id": "commi=
-t", "speed": 1, "top": "json:{ /* filtered */ }"}}
- {"return": {}}
- {"execute": "job-pause", "arguments": {"id": "commit"}}
- {"return": {}}
+-iotests.script_initialize(supported_fmts=3D['qcow2'])
++iotests.script_initialize(supported_fmts=3D['qcow2'],
++                          # compat=3D1.1 is needed for dirty bitmaps
++                          unsupported_imgopts=3D['compat=3D0.10'])
+=20
+ disk =3D file_path('disk')
+ chunk =3D 256 * 1024
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index 50544a7836..72ab2a248d 100644
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -1002,4 +1002,6 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+ if __name__ =3D=3D '__main__':
+     iotests.activate_logging()
+     iotests.main(supported_fmts=3D["qcow2"],
+-                 supported_protocols=3D["file"])
++                 supported_protocols=3D["file"],
++                 # reopen options differ with an external data file
++                 unsupported_imgopts=3D['data_file'])
+diff --git a/tests/qemu-iotests/246 b/tests/qemu-iotests/246
+index 1d7747d62d..d1364d5901 100755
+--- a/tests/qemu-iotests/246
++++ b/tests/qemu-iotests/246
+@@ -22,7 +22,10 @@
+ import iotests
+ from iotests import log
+=20
+-iotests.script_initialize(supported_fmts=3D['qcow2'])
++iotests.script_initialize(supported_fmts=3D['qcow2'],
++                          # compat=3D1.1 is needed for dirty bitmaps
++                          unsupported_imgopts=3D['compat=3D0.10'])
++
+ size =3D 64 * 1024 * 1024 * 1024
+ gran_small =3D 32 * 1024
+ gran_large =3D 128 * 1024
+diff --git a/tests/qemu-iotests/248 b/tests/qemu-iotests/248
+index 781b21b227..0adc4da802 100755
+--- a/tests/qemu-iotests/248
++++ b/tests/qemu-iotests/248
+@@ -21,7 +21,11 @@
+ import iotests
+ from iotests import qemu_img_create, qemu_io, file_path, filter_qmp_test=
+files
+=20
+-iotests.script_initialize(supported_fmts=3D['qcow2'])
++iotests.script_initialize(supported_fmts=3D['qcow2'],
++                          # With an external data file, we would need
++                          # to impose the limit on @data-file instead
++                          # of @file
++                          unsupported_imgopts=3D['data_file'])
+=20
+ source, target =3D file_path('source', 'target')
+ size =3D 5 * 1024 * 1024
+diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
+index 43b40f4f71..0404faf853 100755
+--- a/tests/qemu-iotests/254
++++ b/tests/qemu-iotests/254
+@@ -21,7 +21,9 @@
+ import iotests
+ from iotests import qemu_img_create, file_path, log
+=20
+-iotests.script_initialize(supported_fmts=3D['qcow2'])
++iotests.script_initialize(supported_fmts=3D['qcow2'],
++                          # compat=3D1.1 is needed for dirty bitmaps
++                          unsupported_imgopts=3D['compat=3D0.10'])
+=20
+ disk, top =3D file_path('disk', 'top')
+ size =3D 1024 * 1024
+diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+index de8b45f094..82c10e9b52 100755
+--- a/tests/qemu-iotests/257
++++ b/tests/qemu-iotests/257
+@@ -526,4 +526,6 @@ def main():
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.script_main(main, supported_fmts=3D['qcow2'],
+-                        supported_protocols=3D['file'])
++                        supported_protocols=3D['file'],
++                        # blkdebug does not work with an external data f=
+ile
++                        unsupported_imgopts=3D['data_file'])
 --=20
 2.21.0
 
