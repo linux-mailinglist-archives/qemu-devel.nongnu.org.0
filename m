@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A90C45A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:40:45 +0200 (CEST)
-Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C282DC45B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 03:49:13 +0200 (CEST)
+Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFTdD-0001t8-Km
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41958)
+	id 1iFTlQ-0001zz-43
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 21:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRtI-0002fE-2l
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:49:13 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsd-000232-An
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRtG-0003cS-Gx
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:49:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13148)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRsW-0002ZW-Lv
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:48:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12646
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRtD-00034r-FJ; Tue, 01 Oct 2019 19:49:07 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NmY9E144416; Tue, 1 Oct 2019 19:48:34 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vccr3f2e8-1
+ id 1iFRsE-0001im-E6; Tue, 01 Oct 2019 19:48:06 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x91NlUAk179530; Tue, 1 Oct 2019 19:47:44 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vcdgpncx6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:48:33 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjkFE006374;
- Tue, 1 Oct 2019 23:47:17 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2v9y57ye6x-1
+ Tue, 01 Oct 2019 19:47:44 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlKq027161;
+ Tue, 1 Oct 2019 23:47:43 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 2v9y587bhc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:17 +0000
+ Tue, 01 Oct 2019 23:47:43 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlGwA36897024
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlggO45023722
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:16 GMT
+ Tue, 1 Oct 2019 23:47:43 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7E7C828066;
- Tue,  1 Oct 2019 23:47:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E2E6228059;
+ Tue,  1 Oct 2019 23:47:42 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 61C0328058;
- Tue,  1 Oct 2019 23:47:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C695C2805A;
+ Tue,  1 Oct 2019 23:47:42 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:16 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:42 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/97] spapr/xive: fix EQ page addresses above 64GB
-Date: Tue,  1 Oct 2019 18:44:49 -0500
-Message-Id: <20191001234616.7825-11-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 57/97] tpm_emulator: Translate TPM error codes to strings
+Date: Tue,  1 Oct 2019 18:45:36 -0500
+Message-Id: <20191001234616.7825-58-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -66,14 +67,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x91NmY9E144416
+ mx0b-001b2d01.pphosted.com id x91NlUAk179530
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,117 +86,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-stable@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Stefan Berger <stefanb@linux.ibm.com>, qemu-stable@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 
-The high order bits of the address of the OS event queue is stored in
-bits [4-31] of word2 of the XIVE END internal structures and the low
-order bits in word3. This structure is using Big Endian ordering and
-computing the value requires some simple arithmetic which happens to
-be wrong. The mask removing bits [0-3] of word2 is applied to the
-wrong value and the resulting address is bogus when above 64GB.
+Implement a function to translate TPM error codes to strings so that
+at least the most common error codes can be translated to human
+readable strings.
 
-Guests with more than 64GB of RAM will allocate pages for the OS event
-queues which will reside above the 64GB limit. In this case, the XIVE
-device model will wake up the CPUs in case of a notification, such as
-IPIs, but the update of the event queue will be written at the wrong
-place in memory. The result is uncertain as the guest memory is
-trashed and IPI are not delivered.
-
-Introduce a helper xive_end_qaddr() to compute this value correctly in
-all places where it is used.
-
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190508171946.657-3-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-(cherry picked from commit 13df93244efbd4bb8b4cf4e26104a26033178674)
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+(cherry picked from commit 7e095e84ba0b7c0a1ac45bc6824dace2fd352e56)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/intc/spapr_xive.c       | 3 +--
- hw/intc/xive.c             | 9 +++------
- include/hw/ppc/xive_regs.h | 6 ++++++
- 3 files changed, 10 insertions(+), 8 deletions(-)
+ hw/tpm/tpm_emulator.c | 60 +++++++++++++++++++++++++++++++++++--------
+ hw/tpm/tpm_int.h      | 13 ++++++++++
+ 2 files changed, 63 insertions(+), 10 deletions(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 097f88d460..db75f5d608 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1144,8 +1144,7 @@ static target_ulong h_int_get_queue_config(PowerPCC=
-PU *cpu,
+diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+index 70f4b10284..58894dc320 100644
+--- a/hw/tpm/tpm_emulator.c
++++ b/hw/tpm/tpm_emulator.c
+@@ -81,6 +81,40 @@ typedef struct TPMEmulator {
+     TPMBlobBuffers state_blobs;
+ } TPMEmulator;
+=20
++struct tpm_error {
++    uint32_t tpm_result;
++    const char *string;
++};
++
++static const struct tpm_error tpm_errors[] =3D {
++    /* TPM 1.2 error codes */
++    { TPM_BAD_PARAMETER   , "a parameter is bad" },
++    { TPM_FAIL            , "operation failed" },
++    { TPM_KEYNOTFOUND     , "key could not be found" },
++    { TPM_BAD_PARAM_SIZE  , "bad parameter size"},
++    { TPM_ENCRYPT_ERROR   , "encryption error" },
++    { TPM_DECRYPT_ERROR   , "decryption error" },
++    { TPM_BAD_KEY_PROPERTY, "bad key property" },
++    { TPM_BAD_MODE        , "bad (encryption) mode" },
++    { TPM_BAD_VERSION     , "bad version identifier" },
++    { TPM_BAD_LOCALITY    , "bad locality" },
++    /* TPM 2 error codes */
++    { TPM_RC_FAILURE     , "operation failed" },
++    { TPM_RC_LOCALITY    , "bad locality"     },
++    { TPM_RC_INSUFFICIENT, "insufficient amount of data" },
++};
++
++static const char *tpm_emulator_strerror(uint32_t tpm_result)
++{
++    size_t i;
++
++    for (i =3D 0; i < ARRAY_SIZE(tpm_errors); i++) {
++        if (tpm_errors[i].tpm_result =3D=3D tpm_result) {
++            return tpm_errors[i].string;
++        }
++    }
++    return "";
++}
+=20
+ static int tpm_emulator_ctrlcmd(TPMEmulator *tpm, unsigned long cmd, voi=
+d *msg,
+                                 size_t msg_len_in, size_t msg_len_out)
+@@ -263,7 +297,8 @@ static int tpm_emulator_stop_tpm(TPMBackend *tb)
+=20
+     res =3D be32_to_cpu(res);
+     if (res) {
+-        error_report("tpm-emulator: TPM result for CMD_STOP: 0x%x", res)=
+;
++        error_report("tpm-emulator: TPM result for CMD_STOP: 0x%x %s", r=
+es,
++                     tpm_emulator_strerror(res));
+         return -1;
      }
 =20
-     if (xive_end_is_enqueue(end)) {
--        args[1] =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff) << 32
--            | be32_to_cpu(end->w3);
-+        args[1] =3D xive_end_qaddr(end);
-         args[2] =3D xive_get_field32(END_W0_QSIZE, end->w0) + 12;
-     } else {
-         args[1] =3D 0;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index a0b87001da..dcf2fcd108 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1042,8 +1042,7 @@ static const TypeInfo xive_source_info =3D {
+@@ -292,8 +327,9 @@ static int tpm_emulator_set_buffer_size(TPMBackend *t=
+b,
 =20
- void xive_end_queue_pic_print_info(XiveEND *end, uint32_t width, Monitor=
- *mon)
- {
--    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
- << 32
--        | be32_to_cpu(end->w3);
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qentries =3D 1 << (qsize + 10);
-@@ -1072,8 +1071,7 @@ void xive_end_queue_pic_print_info(XiveEND *end, ui=
-nt32_t width, Monitor *mon)
+     psbs.u.resp.tpm_result =3D be32_to_cpu(psbs.u.resp.tpm_result);
+     if (psbs.u.resp.tpm_result !=3D 0) {
+-        error_report("tpm-emulator: TPM result for set buffer size : 0x%=
+x",
+-                     psbs.u.resp.tpm_result);
++        error_report("tpm-emulator: TPM result for set buffer size : 0x%=
+x %s",
++                     psbs.u.resp.tpm_result,
++                     tpm_emulator_strerror(psbs.u.resp.tpm_result));
+         return -1;
+     }
 =20
- void xive_end_pic_print_info(XiveEND *end, uint32_t end_idx, Monitor *mo=
-n)
- {
--    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
- << 32
--        | be32_to_cpu(end->w3);
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-@@ -1101,8 +1099,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t=
- end_idx, Monitor *mon)
+@@ -338,7 +374,8 @@ static int tpm_emulator_startup_tpm_resume(TPMBackend=
+ *tb, size_t buffersize,
 =20
- static void xive_end_enqueue(XiveEND *end, uint32_t data)
- {
--    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
- << 32
--        | be32_to_cpu(end->w3);
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index bf36678a24..1a8c5b5e64 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -208,6 +208,12 @@ typedef struct XiveEND {
- #define xive_end_is_backlog(end)  (be32_to_cpu((end)->w0) & END_W0_BACKL=
-OG)
- #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
-ATE_CTL)
+     res =3D be32_to_cpu(init.u.resp.tpm_result);
+     if (res) {
+-        error_report("tpm-emulator: TPM result for CMD_INIT: 0x%x", res)=
+;
++        error_report("tpm-emulator: TPM result for CMD_INIT: 0x%x %s", r=
+es,
++                     tpm_emulator_strerror(res));
+         goto err_exit;
+     }
+     return 0;
+@@ -398,8 +435,9 @@ static int tpm_emulator_reset_tpm_established_flag(TP=
+MBackend *tb,
 =20
-+static inline uint64_t xive_end_qaddr(XiveEND *end)
-+{
-+    return ((uint64_t) be32_to_cpu(end->w2) & 0x0fffffff) << 32 |
-+        be32_to_cpu(end->w3);
-+}
+     res =3D be32_to_cpu(reset_est.u.resp.tpm_result);
+     if (res) {
+-        error_report("tpm-emulator: TPM result for rest establixhed flag=
+: 0x%x",
+-                     res);
++        error_report(
++            "tpm-emulator: TPM result for rest established flag: 0x%x %s=
+",
++            res, tpm_emulator_strerror(res));
+         return -1;
+     }
+=20
+@@ -637,7 +675,8 @@ static int tpm_emulator_get_state_blob(TPMEmulator *t=
+pm_emu,
+     res =3D be32_to_cpu(pgs.u.resp.tpm_result);
+     if (res !=3D 0 && (res & 0x800) =3D=3D 0) {
+         error_report("tpm-emulator: Getting the stateblob (type %d) fail=
+ed "
+-                     "with a TPM error 0x%x", type, res);
++                     "with a TPM error 0x%x %s", type, res,
++                     tpm_emulator_strerror(res));
+         return -1;
+     }
+=20
+@@ -757,7 +796,8 @@ static int tpm_emulator_set_state_blob(TPMEmulator *t=
+pm_emu,
+     tpm_result =3D be32_to_cpu(pss.u.resp.tpm_result);
+     if (tpm_result !=3D 0) {
+         error_report("tpm-emulator: Setting the stateblob (type %d) fail=
+ed "
+-                     "with a TPM error 0x%x", type, tpm_result);
++                     "with a TPM error 0x%x %s", type, tpm_result,
++                     tpm_emulator_strerror(tpm_result));
+         return -1;
+     }
+=20
+@@ -887,8 +927,8 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_em=
+u)
+         error_report("tpm-emulator: Could not cleanly shutdown the TPM: =
+%s",
+                      strerror(errno));
+     } else if (res !=3D 0) {
+-        error_report("tpm-emulator: TPM result for sutdown: 0x%x",
+-                     be32_to_cpu(res));
++        error_report("tpm-emulator: TPM result for shutdown: 0x%x %s",
++                     be32_to_cpu(res), tpm_emulator_strerror(be32_to_cpu=
+(res)));
+     }
+ }
+=20
+diff --git a/hw/tpm/tpm_int.h b/hw/tpm/tpm_int.h
+index a4c77fbd7e..3fb28a9d6c 100644
+--- a/hw/tpm/tpm_int.h
++++ b/hw/tpm/tpm_int.h
+@@ -39,7 +39,16 @@ struct tpm_resp_hdr {
+ #define TPM_TAG_RSP_AUTH1_COMMAND 0xc5
+ #define TPM_TAG_RSP_AUTH2_COMMAND 0xc6
+=20
++#define TPM_BAD_PARAMETER         3
+ #define TPM_FAIL                  9
++#define TPM_KEYNOTFOUND           13
++#define TPM_BAD_PARAM_SIZE        25
++#define TPM_ENCRYPT_ERROR         32
++#define TPM_DECRYPT_ERROR         33
++#define TPM_BAD_KEY_PROPERTY      40
++#define TPM_BAD_MODE              44
++#define TPM_BAD_VERSION           46
++#define TPM_BAD_LOCALITY          61
+=20
+ #define TPM_ORD_ContinueSelfTest  0x53
+ #define TPM_ORD_GetTicks          0xf1
+@@ -59,4 +68,8 @@ struct tpm_resp_hdr {
+=20
+ #define TPM2_PT_MAX_COMMAND_SIZE  0x11e
+=20
++#define TPM_RC_INSUFFICIENT       0x9a
++#define TPM_RC_FAILURE            0x101
++#define TPM_RC_LOCALITY           0x907
 +
- /* Notification Virtual Target (NVT) */
- typedef struct XiveNVT {
-         uint32_t        w0;
+ #endif /* TPM_TPM_INT_H */
 --=20
 2.17.1
 
