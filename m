@@ -2,58 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11B1C45D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:14:27 +0200 (CEST)
-Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D59DC45DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:20:28 +0200 (CEST)
+Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFU9q-0002J4-Sx
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:14:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37786)
+	id 1iFUFf-0007VI-IL
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFTBM-0007iW-TP
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 21:11:58 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iFS0o-0001RZ-6L
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:57:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFTBK-0006qd-BB
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 21:11:56 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34115 helo=ozlabs.org)
+ (envelope-from <jsnow@redhat.com>) id 1iFS0l-0002vJ-Gt
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40988)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFTBG-0006kZ-Cj; Tue, 01 Oct 2019 21:11:53 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46jdQ84ZJCz9sPh; Wed,  2 Oct 2019 11:11:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569978704;
- bh=OLVxyQW5762cwwR5FN/pK92drJvOD7ZLqtT83C4l6nQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MCRwIX5oNVXztdC8J9dB8XH0WFFlzsDnyJa4onwwhbZTqfvn1tqlRWuoF4G5gAHv7
- Tc0aUCnbVipiVuKc9zIsecSEoWEkyR9775doh8su/xhbgpdQ+1j85ZNAbM/tHe+qnb
- N6WHWrNwr74i569WUGfhcRFP130whO8T//ZRXltI=
-Date: Wed, 2 Oct 2019 11:11:26 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 21/33] spapr, xics, xive: Move cpu_intc_create from
- SpaprIrq to SpaprInterruptController
-Message-ID: <20191002011126.GU11105@umbus.fritz.box>
-References: <20190930014904.GB11105@umbus.fritz.box>
- <adb67721-5c4e-50ac-f459-a48570a45d6e@kaod.org>
- <20190930061445.GG11105@umbus.fritz.box>
- <75672a0f-6bae-406c-0f0c-d23cc58c9c9f@kaod.org>
- <20191001023102.GN11105@umbus.fritz.box>
- <9c6c7e17-0578-2313-4324-a5ca75149762@kaod.org>
- <20191001064726.GP11105@umbus.fritz.box>
- <5d1910be-7bb7-19d9-73c3-269f2d0c2ee7@kaod.org>
- <20191001081135.GQ11105@umbus.fritz.box>
- <2273d09c-1379-cdbe-0aa9-76f3f4ece349@kaod.org>
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iFS0f-0002kD-Jg; Tue, 01 Oct 2019 19:56:49 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 35E1F18CB8E6;
+ Tue,  1 Oct 2019 23:56:48 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6170760BE0;
+ Tue,  1 Oct 2019 23:56:46 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 8/8] hd-geo-test: Add tests for lchs override
+Date: Tue,  1 Oct 2019 19:55:52 -0400
+Message-Id: <20191001235552.17790-9-jsnow@redhat.com>
+In-Reply-To: <20191001235552.17790-1-jsnow@redhat.com>
+References: <20191001235552.17790-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FfX2iGK5t5ehHnsE"
-Content-Disposition: inline
-In-Reply-To: <2273d09c-1379-cdbe-0aa9-76f3f4ece349@kaod.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Tue, 01 Oct 2019 23:56:48 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,200 +56,695 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Arbel Moshe <arbel.moshe@oracle.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Sam Eiderman <shmuel.eiderman@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Karl Heubaum <karl.heubaum@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
---FfX2iGK5t5ehHnsE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add QTest tests to check the logical geometry override option.
 
-On Tue, Oct 01, 2019 at 01:43:12PM +0200, C=E9dric Le Goater wrote:
-> On 01/10/2019 10:11, David Gibson wrote:
-> > On Tue, Oct 01, 2019 at 09:41:27AM +0200, C=E9dric Le Goater wrote:
-> >> On 01/10/2019 08:47, David Gibson wrote:
-> >>> On Tue, Oct 01, 2019 at 07:43:51AM +0200, C=E9dric Le Goater wrote:
-> >>>> On 01/10/2019 04:31, David Gibson wrote:
-> >>>>> On Mon, Sep 30, 2019 at 12:13:14PM +0200, C=E9dric Le Goater wrote:
-> >>>>>> On 30/09/2019 08:14, David Gibson wrote:
-> >>>>>>> On Mon, Sep 30, 2019 at 07:28:45AM +0200, C=E9dric Le Goater wrot=
-e:
-> >>>>>>>> On 30/09/2019 03:49, David Gibson wrote:
-> >>>>>>>>> On Fri, Sep 27, 2019 at 12:16:49PM +0200, Greg Kurz wrote:
-> >>>>>>>>>> On Fri, 27 Sep 2019 15:50:16 +1000
-> >>>>>>>>>> David Gibson <david@gibson.dropbear.id.au> wrote:
-> >>>>>>>>>>
-> >>>>>>>>>>> This method essentially represents code which belongs to the =
-interrupt
-> >>>>>>>>>>> controller, but needs to be called on all possible intcs, rat=
-her than
-> >>>>>>>>>>> just the currently active one.  The "dual" version therefore =
-calls
-> >>>>>>>>>>> into the xics and xive versions confusingly.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Handle this more directly, by making it instead a method on t=
-he intc
-> >>>>>>>>>>> backend, and always calling it on every backend that exists.
-> >>>>>>>>>>>
-> >>>>>>>>>>> While we're there, streamline the error reporting a bit.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> >>>>>>>>> [snip]
-> >>>>>>>>>>> @@ -525,6 +469,30 @@ static void spapr_irq_check(SpaprMachine=
-State *spapr, Error **errp)
-> >>>>>>>>>>>  /*
-> >>>>>>>>>>>   * sPAPR IRQ frontend routines for devices
-> >>>>>>>>>>>   */
-> >>>>>>>>>>> +int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
-> >>>>>>>>>>> +                              PowerPCCPU *cpu, Error **errp)
-> >>>>>>>>>>> +{
-> >>>>>>>>>>> +    if (spapr->xive) {
-> >>>>>>>>>>> +        SpaprInterruptController *intc =3D SPAPR_INTC(spapr-=
->xive);
-> >>>>>>>>>>> +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_G=
-ET_CLASS(intc);
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +        if (sicc->cpu_intc_create(intc, cpu, errp) < 0) {
-> >>>>>>>>>>> +            return -1;
-> >>>>>>>>>>> +        }
-> >>>>>>>>>>> +    }
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +    if (spapr->ics) {
-> >>>>>>>>>>> +        SpaprInterruptController *intc =3D SPAPR_INTC(spapr-=
->ics);
-> >>>>>>>>>>> +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_G=
-ET_CLASS(intc);
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +        if (sicc->cpu_intc_create(intc, cpu, errp) < 0) {
-> >>>>>>>>>>> +            return -1;
-> >>>>>>>>>>> +        }
-> >>>>>>>>>>> +    }
-> >>>>>>>>>>> +
-> >>>>>>>>>>
-> >>>>>>>>>> Instead of these hooks, what about open-coding spapr_xive_cpu_=
-intc_create()
-> >>>>>>>>>> and xics_spapr_cpu_intc_create() directly here, like you alrea=
-dy did for the
-> >>>>>>>>>> ICS and the XIVE objects in spapr_irq_init() ?
-> >>>>>>>>>
-> >>>>>>>>> I'd prefer not to.  The idea is I want to treat this as basical=
-ly:
-> >>>>>>>>>
-> >>>>>>>>> 	foreach_possible_intc(intc)
-> >>>>>>>>> 		intc::cpu_intc_create(...)
-> >>>>>>>>>
-> >>>>>>>>> If I find time I might indeed replace the explicit ics and xive
-> >>>>>>>>> pointers with just an array of SpaprInterruptController *.
-> >>>>>>>>
-> >>>>>>>> Or you could use object_child_foreach() and check for the type. =
-If we had
-> >>>>>>>> a helper object_child_foreach_type(), we could use it elsewhere.
-> >>>>>>>
-> >>>>>>> I thought about that, but I don't think it quite works.  The
-> >>>>>>> complication is that the xics device is made explicitly a child o=
-f the
-> >>>>>>> machine, but the xive device has mmio, so it's a SusBusDevice sit=
-ting
-> >>>>>>> on the root bus instead.
-> >>>>>>
-> >>>>>> PnvXscom works fine with Devices and SysBusDevices.
-> >>>>>
-> >>>>> Uh... what's an example of it working with a SysBusDevice?  All the
-> >>>>> implementors of PNV_XSCOM_INTERFACE I could find were instantiated
-> >>>>> with object_initialize_child() making them explicitly children of t=
-he
-> >>>>> chip.  The SPAPR_XIVE is instantiated with qdev_create(NULL,
-> >>>>> TYPE_SPAPR_XIVE), making it a child of the root bus, not the machin=
-e,
-> >>>>> I believe.
-> >>>>
-> >>>> I see. We should reparent the interrupt controller then.
-> >>>
-> >>> Well, maybe.  It's not obvious to me that that's the right approach
-> >>> just because of this.
-> >>>
-> >>>
-> >>>> Could we rework=20
-> >>>> the code to instantiate and realize the XICS and XIVE model objects =
-?=20
-> >>>> We have the handlers spapr_instance_init() and spapr_machine_init().=
+The tests in hd-geo-test are out of date - they only test IDE and do not
+test interesting MBRs.
+
+I added a few helper functions which will make adding more tests easier.
+
+QTest's fw_cfg helper functions support only legacy fw_cfg, so I had to
+read the new fw_cfg layout on my own.
+
+Creating qcow2 disks with specific size and MBR layout is currently
+unused - we only use a default empty MBR.
+
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-id: 20190925110639.100699-9-sameid@google.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ tests/hd-geo-test.c    | 589 +++++++++++++++++++++++++++++++++++++++++
+ tests/Makefile.include |   2 +-
+ 2 files changed, 590 insertions(+), 1 deletion(-)
+
+diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
+index 62eb624726..458de99c31 100644
+--- a/tests/hd-geo-test.c
++++ b/tests/hd-geo-test.c
+@@ -17,7 +17,12 @@
 =20
-> >>>
-> >>> I'm not really sure what you're suggesting here.
-> >>
-> >> Define the device model objects under the machine and not pointers :
-> >>
-> >> 	struct SpaprMachineState {
-> >> 		...
-> >> 		ICSState ics;
-> >> 		SpaprXive  xive;
-> >> 		...
-> >> 	};
-> >>
-> >> in spapr_instance_init() :
-> >>
-> >> 	object_initialize_child(obj, "ics",  &spapr->ics, sizeof(spapr->ics),
-> >>                             TYPE_ICS, &error_abort, NULL);
-> >> 	object_property_add_const_link(OBJECT(&spapr->ics), "xics", obj,
-> >>                                    &error_abort);
-> >>
-> >> 	object_initialize_child(obj, "xive",  &spapr->xive, sizeof(spapr->xiv=
-e),
-> >>                             TYPE_SPAPR_XIVE, &error_abort, NULL);
-> >>
-> >>
-> >> in spapr_machine_init(), call the realize handler depending on the cho=
-sen=20
-> >> 'ic-mode'.
-> >=20
-> > Hm, yeah, maybe.  I don't love having a whole structure in there
-> > that's unused when ic-mode !=3D dual.
-> >=20
->=20
-> This is the pattern followed in the ARM SoC models. Enough room is=20
-> provisioned for the maximum controllers and depending on the SoC
-> configuration only some are realized.
-
-Hm, ok, I guess that makes it a pretty promising approach.  Maybe for
-another day though.  In the meantime I've come up with an approach
-that's not totally elegant, but it does remove the duplication of the
-paths for xics vs. xive, keep the individual pointers in the structure
-for now, and isn't *too* verbose.
-
-I've stripped your R-b due to the change, so please have a look in the
-next spin.
-
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
++#include "qemu/bswap.h"
++#include "qapi/qmp/qlist.h"
+ #include "libqtest.h"
++#include "libqos/fw_cfg.h"
++#include "libqos/libqos.h"
++#include "standard-headers/linux/qemu_fw_cfg.h"
+=20
+ #define ARGV_SIZE 256
+=20
+@@ -388,6 +393,575 @@ static void test_ide_drive_cd_0(void)
+     qtest_quit(qts);
+ }
+=20
++typedef struct {
++    bool active;
++    uint32_t head;
++    uint32_t sector;
++    uint32_t cyl;
++    uint32_t end_head;
++    uint32_t end_sector;
++    uint32_t end_cyl;
++    uint32_t start_sect;
++    uint32_t nr_sects;
++} MBRpartitions[4];
++
++static MBRpartitions empty_mbr =3D { {false, 0, 0, 0, 0, 0, 0, 0, 0},
++                                   {false, 0, 0, 0, 0, 0, 0, 0, 0},
++                                   {false, 0, 0, 0, 0, 0, 0, 0, 0},
++                                   {false, 0, 0, 0, 0, 0, 0, 0, 0} };
++
++static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
++{
++    const char *template =3D "/tmp/qtest.XXXXXX";
++    char *raw_path =3D strdup(template);
++    char *qcow2_path =3D strdup(template);
++    char cmd[100 + 2 * PATH_MAX];
++    uint8_t buf[512];
++    int i, ret, fd, offset;
++    uint64_t qcow2_size =3D sectors * 512;
++    uint8_t status, parttype, head, sector, cyl;
++    char *qemu_img_path;
++    char *qemu_img_abs_path;
++
++    offset =3D 0xbe;
++
++    for (i =3D 0; i < 4; i++) {
++        status =3D mbr[i].active ? 0x80 : 0x00;
++        g_assert(mbr[i].head < 256);
++        g_assert(mbr[i].sector < 64);
++        g_assert(mbr[i].cyl < 1024);
++        head =3D mbr[i].head;
++        sector =3D mbr[i].sector + ((mbr[i].cyl & 0x300) >> 2);
++        cyl =3D mbr[i].cyl & 0xff;
++
++        buf[offset + 0x0] =3D status;
++        buf[offset + 0x1] =3D head;
++        buf[offset + 0x2] =3D sector;
++        buf[offset + 0x3] =3D cyl;
++
++        parttype =3D 0;
++        g_assert(mbr[i].end_head < 256);
++        g_assert(mbr[i].end_sector < 64);
++        g_assert(mbr[i].end_cyl < 1024);
++        head =3D mbr[i].end_head;
++        sector =3D mbr[i].end_sector + ((mbr[i].end_cyl & 0x300) >> 2);
++        cyl =3D mbr[i].end_cyl & 0xff;
++
++        buf[offset + 0x4] =3D parttype;
++        buf[offset + 0x5] =3D head;
++        buf[offset + 0x6] =3D sector;
++        buf[offset + 0x7] =3D cyl;
++
++        (*(uint32_t *)&buf[offset + 0x8]) =3D cpu_to_le32(mbr[i].start_s=
+ect);
++        (*(uint32_t *)&buf[offset + 0xc]) =3D cpu_to_le32(mbr[i].nr_sect=
+s);
++
++        offset +=3D 0x10;
++    }
++
++    fd =3D mkstemp(raw_path);
++    g_assert(fd);
++    close(fd);
++
++    fd =3D open(raw_path, O_WRONLY);
++    g_assert(fd >=3D 0);
++    ret =3D write(fd, buf, sizeof(buf));
++    g_assert(ret =3D=3D sizeof(buf));
++    close(fd);
++
++    fd =3D mkstemp(qcow2_path);
++    g_assert(fd);
++    close(fd);
++
++    qemu_img_path =3D getenv("QTEST_QEMU_IMG");
++    g_assert(qemu_img_path);
++    qemu_img_abs_path =3D realpath(qemu_img_path, NULL);
++    g_assert(qemu_img_abs_path);
++
++    ret =3D snprintf(cmd, sizeof(cmd),
++                   "%s convert -f raw -O qcow2 %s %s > /dev/null",
++                   qemu_img_abs_path,
++                   raw_path, qcow2_path);
++    g_assert((0 < ret) && (ret <=3D sizeof(cmd)));
++    ret =3D system(cmd);
++    g_assert(ret =3D=3D 0);
++
++    ret =3D snprintf(cmd, sizeof(cmd),
++                   "%s resize %s %" PRIu64 " > /dev/null",
++                   qemu_img_abs_path,
++                   qcow2_path, qcow2_size);
++    g_assert((0 < ret) && (ret <=3D sizeof(cmd)));
++    ret =3D system(cmd);
++    g_assert(ret =3D=3D 0);
++
++    free(qemu_img_abs_path);
++
++    unlink(raw_path);
++    free(raw_path);
++
++    return qcow2_path;
++}
++
++struct QemuCfgFile {
++    uint32_t  size;        /* file size */
++    uint16_t  select;      /* write this to 0x510 to read it */
++    uint16_t  reserved;
++    char name[56];
++};
++
++static uint16_t find_fw_cfg_file(QFWCFG *fw_cfg,
++                                 const char *filename)
++{
++    struct QemuCfgFile qfile;
++    uint32_t count, e;
++    uint16_t select;
++
++    count =3D qfw_cfg_get_u32(fw_cfg, FW_CFG_FILE_DIR);
++    count =3D be32_to_cpu(count);
++    for (select =3D 0, e =3D 0; e < count; e++) {
++        qfw_cfg_read_data(fw_cfg, &qfile, sizeof(qfile));
++        if (!strcmp(filename, qfile.name)) {
++            select =3D be16_to_cpu(qfile.select);
++        }
++    }
++
++    return select;
++}
++
++static void read_fw_cfg_file(QFWCFG *fw_cfg,
++                             const char *filename,
++                             void *data,
++                             size_t len)
++{
++    uint16_t select =3D find_fw_cfg_file(fw_cfg, filename);
++
++    g_assert(select);
++
++    qfw_cfg_get(fw_cfg, select, data, len);
++}
++
++#define BIOS_GEOMETRY_MAX_SIZE 10000
++
++typedef struct {
++    uint32_t c;
++    uint32_t h;
++    uint32_t s;
++} CHS;
++
++typedef struct {
++    const char *dev_path;
++    CHS chs;
++} CHSResult;
++
++static void read_bootdevices(QFWCFG *fw_cfg, CHSResult expected[])
++{
++    char *buf =3D g_malloc0(BIOS_GEOMETRY_MAX_SIZE);
++    char *cur;
++    GList *results =3D NULL, *cur_result;
++    CHSResult *r;
++    int i;
++    int res;
++    bool found;
++
++    read_fw_cfg_file(fw_cfg, "bios-geometry", buf, BIOS_GEOMETRY_MAX_SIZ=
+E);
++
++    for (cur =3D buf; *cur; cur++) {
++        if (*cur =3D=3D '\n') {
++            *cur =3D '\0';
++        }
++    }
++    cur =3D buf;
++
++    while (strlen(cur)) {
++
++        r =3D g_malloc0(sizeof(*r));
++        r->dev_path =3D g_malloc0(strlen(cur) + 1);
++        res =3D sscanf(cur, "%s %" PRIu32 " %" PRIu32 " %" PRIu32,
++                     (char *)r->dev_path,
++                     &(r->chs.c), &(r->chs.h), &(r->chs.s));
++
++        g_assert(res =3D=3D 4);
++
++        results =3D g_list_prepend(results, r);
++
++        cur +=3D strlen(cur) + 1;
++    }
++
++    i =3D 0;
++
++    while (expected[i].dev_path) {
++        found =3D false;
++        cur_result =3D results;
++        while (cur_result) {
++            r =3D cur_result->data;
++            if (!strcmp(r->dev_path, expected[i].dev_path) &&
++                !memcmp(&(r->chs), &(expected[i].chs), sizeof(r->chs))) =
+{
++                found =3D true;
++                break;
++            }
++            cur_result =3D g_list_next(cur_result);
++        }
++        g_assert(found);
++        g_free((char *)((CHSResult *)cur_result->data)->dev_path);
++        g_free(cur_result->data);
++        results =3D g_list_delete_link(results, cur_result);
++        i++;
++    }
++
++    g_assert(results =3D=3D NULL);
++
++    g_free(buf);
++}
++
++#define MAX_DRIVES 30
++
++typedef struct {
++    char **argv;
++    int argc;
++    char **drives;
++    int n_drives;
++    int n_scsi_disks;
++    int n_scsi_controllers;
++    int n_virtio_disks;
++} TestArgs;
++
++static TestArgs *create_args(void)
++{
++    TestArgs *args =3D g_malloc0(sizeof(*args));
++    args->argv =3D g_new0(char *, ARGV_SIZE);
++    args->argc =3D append_arg(args->argc, args->argv,
++                            ARGV_SIZE, g_strdup("-nodefaults"));
++    args->drives =3D g_new0(char *, MAX_DRIVES);
++    return args;
++}
++
++static void add_drive_with_mbr(TestArgs *args,
++                               MBRpartitions mbr, uint64_t sectors)
++{
++    char *img_file_name;
++    char part[300];
++    int ret;
++
++    g_assert(args->n_drives < MAX_DRIVES);
++
++    img_file_name =3D create_qcow2_with_mbr(mbr, sectors);
++
++    args->drives[args->n_drives] =3D img_file_name;
++    ret =3D snprintf(part, sizeof(part),
++                   "-drive file=3D%s,if=3Dnone,format=3Dqcow2,id=3Ddisk%=
+d",
++                   img_file_name, args->n_drives);
++    g_assert((0 < ret) && (ret <=3D sizeof(part)));
++    args->argc =3D append_arg(args->argc, args->argv, ARGV_SIZE, g_strdu=
+p(part));
++    args->n_drives++;
++}
++
++static void add_ide_disk(TestArgs *args,
++                         int drive_idx, int bus, int unit, int c, int h,=
+ int s)
++{
++    char part[300];
++    int ret;
++
++    ret =3D snprintf(part, sizeof(part),
++                   "-device ide-hd,drive=3Ddisk%d,bus=3Dide.%d,unit=3D%d=
+,"
++                   "lcyls=3D%d,lheads=3D%d,lsecs=3D%d",
++                   drive_idx, bus, unit, c, h, s);
++    g_assert((0 < ret) && (ret <=3D sizeof(part)));
++    args->argc =3D append_arg(args->argc, args->argv, ARGV_SIZE, g_strdu=
+p(part));
++}
++
++static void add_scsi_controller(TestArgs *args,
++                                const char *type,
++                                const char *bus,
++                                int addr)
++{
++    char part[300];
++    int ret;
++
++    ret =3D snprintf(part, sizeof(part),
++                   "-device %s,id=3Dscsi%d,bus=3D%s,addr=3D%d",
++                   type, args->n_scsi_controllers, bus, addr);
++    g_assert((0 < ret) && (ret <=3D sizeof(part)));
++    args->argc =3D append_arg(args->argc, args->argv, ARGV_SIZE, g_strdu=
+p(part));
++    args->n_scsi_controllers++;
++}
++
++static void add_scsi_disk(TestArgs *args,
++                          int drive_idx, int bus,
++                          int channel, int scsi_id, int lun,
++                          int c, int h, int s)
++{
++    char part[300];
++    int ret;
++
++    ret =3D snprintf(part, sizeof(part),
++                   "-device scsi-hd,id=3Dscsi-disk%d,drive=3Ddisk%d,"
++                   "bus=3Dscsi%d.0,"
++                   "channel=3D%d,scsi-id=3D%d,lun=3D%d,"
++                   "lcyls=3D%d,lheads=3D%d,lsecs=3D%d",
++                   args->n_scsi_disks, drive_idx, bus, channel, scsi_id,=
+ lun,
++                   c, h, s);
++    g_assert((0 < ret) && (ret <=3D sizeof(part)));
++    args->argc =3D append_arg(args->argc, args->argv, ARGV_SIZE, g_strdu=
+p(part));
++    args->n_scsi_disks++;
++}
++
++static void add_virtio_disk(TestArgs *args,
++                            int drive_idx, const char *bus, int addr,
++                            int c, int h, int s)
++{
++    char part[300];
++    int ret;
++
++    ret =3D snprintf(part, sizeof(part),
++                   "-device virtio-blk-pci,id=3Dvirtio-disk%d,"
++                   "drive=3Ddisk%d,bus=3D%s,addr=3D%d,"
++                   "lcyls=3D%d,lheads=3D%d,lsecs=3D%d",
++                   args->n_virtio_disks, drive_idx, bus, addr, c, h, s);
++    g_assert((0 < ret) && (ret <=3D sizeof(part)));
++    args->argc =3D append_arg(args->argc, args->argv, ARGV_SIZE, g_strdu=
+p(part));
++    args->n_virtio_disks++;
++}
++
++static void test_override(TestArgs *args, CHSResult expected[])
++{
++    QTestState *qts;
++    char *joined_args;
++    QFWCFG *fw_cfg;
++    int i;
++
++    joined_args =3D g_strjoinv(" ", args->argv);
++
++    qts =3D qtest_init(joined_args);
++    fw_cfg =3D pc_fw_cfg_init(qts);
++
++    read_bootdevices(fw_cfg, expected);
++
++    g_free(joined_args);
++    qtest_quit(qts);
++
++    g_free(fw_cfg);
++
++    for (i =3D 0; i < args->n_drives; i++) {
++        unlink(args->drives[i]);
++        free(args->drives[i]);
++    }
++    g_free(args->drives);
++    g_strfreev(args->argv);
++    g_free(args);
++}
++
++static void test_override_ide(void)
++{
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {"/pci@i0cf8/ide@1,1/drive@0/disk@0", {10000, 120, 30} },
++        {"/pci@i0cf8/ide@1,1/drive@0/disk@1", {9000, 120, 30} },
++        {"/pci@i0cf8/ide@1,1/drive@1/disk@0", {0, 1, 1} },
++        {"/pci@i0cf8/ide@1,1/drive@1/disk@1", {1, 0, 0} },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_ide_disk(args, 0, 0, 0, 10000, 120, 30);
++    add_ide_disk(args, 1, 0, 1, 9000, 120, 30);
++    add_ide_disk(args, 2, 1, 0, 0, 1, 1);
++    add_ide_disk(args, 3, 1, 1, 1, 0, 0);
++    test_override(args, expected);
++}
++
++static void test_override_scsi(void)
++{
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {"/pci@i0cf8/scsi@3/channel@0/disk@0,0", {10000, 120, 30} },
++        {"/pci@i0cf8/scsi@3/channel@0/disk@1,0", {9000, 120, 30} },
++        {"/pci@i0cf8/scsi@3/channel@0/disk@2,0", {1, 0, 0} },
++        {"/pci@i0cf8/scsi@3/channel@0/disk@3,0", {0, 1, 0} },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_scsi_controller(args, "lsi53c895a", "pci.0", 3);
++    add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
++    add_scsi_disk(args, 1, 0, 0, 1, 0, 9000, 120, 30);
++    add_scsi_disk(args, 2, 0, 0, 2, 0, 1, 0, 0);
++    add_scsi_disk(args, 3, 0, 0, 3, 0, 0, 1, 0);
++    test_override(args, expected);
++}
++
++static void test_override_scsi_2_controllers(void)
++{
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {"/pci@i0cf8/scsi@3/channel@0/disk@0,0", {10000, 120, 30} },
++        {"/pci@i0cf8/scsi@3/channel@0/disk@1,0", {9000, 120, 30} },
++        {"/pci@i0cf8/scsi@4/channel@0/disk@0,1", {1, 0, 0} },
++        {"/pci@i0cf8/scsi@4/channel@0/disk@1,2", {0, 1, 0} },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_scsi_controller(args, "lsi53c895a", "pci.0", 3);
++    add_scsi_controller(args, "virtio-scsi-pci", "pci.0", 4);
++    add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
++    add_scsi_disk(args, 1, 0, 0, 1, 0, 9000, 120, 30);
++    add_scsi_disk(args, 2, 1, 0, 0, 1, 1, 0, 0);
++    add_scsi_disk(args, 3, 1, 0, 1, 2, 0, 1, 0);
++    test_override(args, expected);
++}
++
++static void test_override_virtio_blk(void)
++{
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {"/pci@i0cf8/scsi@3/disk@0,0", {10000, 120, 30} },
++        {"/pci@i0cf8/scsi@4/disk@0,0", {9000, 120, 30} },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_virtio_disk(args, 0, "pci.0", 3, 10000, 120, 30);
++    add_virtio_disk(args, 1, "pci.0", 4, 9000, 120, 30);
++    test_override(args, expected);
++}
++
++static void test_override_zero_chs(void)
++{
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_ide_disk(args, 0, 1, 1, 0, 0, 0);
++    test_override(args, expected);
++}
++
++static void test_override_scsi_hot_unplug(void)
++{
++    QTestState *qts;
++    char *joined_args;
++    QFWCFG *fw_cfg;
++    QDict *response;
++    int i;
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {"/pci@i0cf8/scsi@2/channel@0/disk@0,0", {10000, 120, 30} },
++        {"/pci@i0cf8/scsi@2/channel@0/disk@1,0", {20, 20, 20} },
++        {NULL, {0, 0, 0} }
++    };
++    CHSResult expected2[] =3D {
++        {"/pci@i0cf8/scsi@2/channel@0/disk@1,0", {20, 20, 20} },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_scsi_controller(args, "virtio-scsi-pci", "pci.0", 2);
++    add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
++    add_scsi_disk(args, 1, 0, 0, 1, 0, 20, 20, 20);
++
++    joined_args =3D g_strjoinv(" ", args->argv);
++
++    qts =3D qtest_init(joined_args);
++    fw_cfg =3D pc_fw_cfg_init(qts);
++
++    read_bootdevices(fw_cfg, expected);
++
++    /* unplug device an restart */
++    response =3D qtest_qmp(qts,
++                         "{ 'execute': 'device_del',"
++                         "  'arguments': {'id': 'scsi-disk0' }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++    response =3D qtest_qmp(qts,
++                         "{ 'execute': 'system_reset', 'arguments': { }}=
+");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++
++    qtest_qmp_eventwait(qts, "RESET");
++
++    read_bootdevices(fw_cfg, expected2);
++
++    g_free(joined_args);
++    qtest_quit(qts);
++
++    g_free(fw_cfg);
++
++    for (i =3D 0; i < args->n_drives; i++) {
++        unlink(args->drives[i]);
++        free(args->drives[i]);
++    }
++    g_free(args->drives);
++    g_strfreev(args->argv);
++    g_free(args);
++}
++
++static void test_override_virtio_hot_unplug(void)
++{
++    QTestState *qts;
++    char *joined_args;
++    QFWCFG *fw_cfg;
++    QDict *response;
++    int i;
++    TestArgs *args =3D create_args();
++    CHSResult expected[] =3D {
++        {"/pci@i0cf8/scsi@2/disk@0,0", {10000, 120, 30} },
++        {"/pci@i0cf8/scsi@3/disk@0,0", {20, 20, 20} },
++        {NULL, {0, 0, 0} }
++    };
++    CHSResult expected2[] =3D {
++        {"/pci@i0cf8/scsi@3/disk@0,0", {20, 20, 20} },
++        {NULL, {0, 0, 0} }
++    };
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_drive_with_mbr(args, empty_mbr, 1);
++    add_virtio_disk(args, 0, "pci.0", 2, 10000, 120, 30);
++    add_virtio_disk(args, 1, "pci.0", 3, 20, 20, 20);
++
++    joined_args =3D g_strjoinv(" ", args->argv);
++
++    qts =3D qtest_init(joined_args);
++    fw_cfg =3D pc_fw_cfg_init(qts);
++
++    read_bootdevices(fw_cfg, expected);
++
++    /* unplug device an restart */
++    response =3D qtest_qmp(qts,
++                         "{ 'execute': 'device_del',"
++                         "  'arguments': {'id': 'virtio-disk0' }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++    response =3D qtest_qmp(qts,
++                         "{ 'execute': 'system_reset', 'arguments': { }}=
+");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
++
++    qtest_qmp_eventwait(qts, "RESET");
++
++    read_bootdevices(fw_cfg, expected2);
++
++    g_free(joined_args);
++    qtest_quit(qts);
++
++    g_free(fw_cfg);
++
++    for (i =3D 0; i < args->n_drives; i++) {
++        unlink(args->drives[i]);
++        free(args->drives[i]);
++    }
++    g_free(args->drives);
++    g_strfreev(args->argv);
++    g_free(args);
++}
++
+ int main(int argc, char **argv)
+ {
+     Backend i;
+@@ -413,6 +987,21 @@ int main(int argc, char **argv)
+     qtest_add_func("hd-geo/ide/device/mbr/chs", test_ide_device_mbr_chs)=
+;
+     qtest_add_func("hd-geo/ide/device/user/chs", test_ide_device_user_ch=
+s);
+     qtest_add_func("hd-geo/ide/device/user/chst", test_ide_device_user_c=
+hst);
++    if (have_qemu_img()) {
++        qtest_add_func("hd-geo/override/ide", test_override_ide);
++        qtest_add_func("hd-geo/override/scsi", test_override_scsi);
++        qtest_add_func("hd-geo/override/scsi_2_controllers",
++                       test_override_scsi_2_controllers);
++        qtest_add_func("hd-geo/override/virtio_blk", test_override_virti=
+o_blk);
++        qtest_add_func("hd-geo/override/zero_chs", test_override_zero_ch=
+s);
++        qtest_add_func("hd-geo/override/scsi_hot_unplug",
++                       test_override_scsi_hot_unplug);
++        qtest_add_func("hd-geo/override/virtio_hot_unplug",
++                       test_override_virtio_hot_unplug);
++    } else {
++        g_test_message("QTEST_QEMU_IMG not set or qemu-img missing; "
++                       "skipping hd-geo/override/* tests");
++    }
+=20
+     ret =3D g_test_run();
+=20
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 3543451ed3..6941ae7c77 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -780,7 +780,7 @@ tests/ide-test$(EXESUF): tests/ide-test.o $(libqos-pc=
+-obj-y)
+ tests/ahci-test$(EXESUF): tests/ahci-test.o $(libqos-pc-obj-y) qemu-img$=
+(EXESUF)
+ tests/ipmi-kcs-test$(EXESUF): tests/ipmi-kcs-test.o
+ tests/ipmi-bt-test$(EXESUF): tests/ipmi-bt-test.o
+-tests/hd-geo-test$(EXESUF): tests/hd-geo-test.o
++tests/hd-geo-test$(EXESUF): tests/hd-geo-test.o $(libqos-obj-y)
+ tests/boot-order-test$(EXESUF): tests/boot-order-test.o $(libqos-obj-y)
+ tests/boot-serial-test$(EXESUF): tests/boot-serial-test.o $(libqos-obj-y=
+)
+ tests/bios-tables-test$(EXESUF): tests/bios-tables-test.o \
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.21.0
 
---FfX2iGK5t5ehHnsE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2T+T4ACgkQbDjKyiDZ
-s5IVPg/+KphXcYbARR1HecpOADQ96JTcCS5ODic7tEiutH4SpO9Cs7+sHATwGo6M
-Kn9XShKJOGehlqe/iMKu7+S9spgoxunXzhltyiMKunk8PJeTViFjpCN5kYTbfWOJ
-va8xT6n1ZOt5J3R5E9oAlgd/PdmfKVmEMPQDOF+BWkVHb5zVfxzfrssRzYaB+pob
-rBI9b+GcuGuwefHOCDxcSaJjeSnUVwkZKo18Davo8ft2wAQiaBmXRN3ptyglVq1u
-L8VPXi2CPcqtUaJ1/jEA6glLyRKiXC3/DKRXRuywsW5lGVZu//7Wt4OqSjIaPLio
-jBU1+PBIiPtFWk7zYID/r4VyTmIbhkaX+WU7w+5Ge/H+1eWOBjegP+RUW/v0dSoG
-dtji5kU8tNfoAWXfd2U4NZUt/D96JNh+giQYCmr9UarvhliVaiBzIzfeu6kiND8k
-7ObAHGGjJwHgB9Uwsrn023snTyzoGIPIgbh7xCbGdfswXx5k5SPoi+mILytXT2lq
-YCm54JO5zDDrPVPvILjQGCZffh1SaaGXByE/Pv3RAmXUaJ/K3iRy8gf1581hG0SZ
-1Te2ddE3gpnGX26duTBMavsiHoDzXTS82XIEfuziXOIUEI4s/Utt5osrFELv1Kdc
-X6EGSZLYomDZU0Tfz2xi3fRYWGeaD9iHnwOZpXg6FZ/pQYkwwZo=
-=YSPw
------END PGP SIGNATURE-----
-
---FfX2iGK5t5ehHnsE--
 
