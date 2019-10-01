@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5862DC3A92
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:34:42 +0200 (CEST)
-Received: from localhost ([::1]:44558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D19C3AA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 18:38:22 +0200 (CEST)
+Received: from localhost ([::1]:44622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFL6m-0005kA-6g
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50254)
+	id 1iFLAL-0001Bm-9j
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 12:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTO-0008UI-T0
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:59 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTQ-0008Vk-GX
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:54:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTN-0006tA-Cj
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:58 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38438)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFKTO-0006tw-7r
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 11:53:59 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38464)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKTN-0006Yn-5H; Tue, 01 Oct 2019 11:53:57 -0400
+ id 1iFKTN-0006ZZ-W0; Tue, 01 Oct 2019 11:53:58 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iFKT0-0004xb-Fg; Tue, 01 Oct 2019 18:53:34 +0300
+ id 1iFKT1-0004xb-Eu; Tue, 01 Oct 2019 18:53:35 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/31] virtio: Fix error_append_hint/error_prepend usage
-Date: Tue,  1 Oct 2019 18:53:08 +0300
-Message-Id: <20191001155319.8066-21-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 22/31] XIVE: Fix error_append_hint/error_prepend usage
+Date: Tue,  1 Oct 2019 18:53:10 +0300
+Message-Id: <20191001155319.8066-23-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
@@ -47,10 +47,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,42 +81,37 @@ command and then do one huge commit.
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/block/dataplane/virtio-blk.c | 1 +
- hw/virtio/virtio-pci.c          | 2 ++
- 2 files changed, 3 insertions(+)
+ hw/intc/xive.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index 119906a5fe..f8a1e70886 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -85,6 +85,7 @@ bool virtio_blk_data_plane_create(VirtIODevice *vdev, VirtIOBlkConf *conf,
-                                   VirtIOBlockDataPlane **dataplane,
-                                   Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIOBlockDataPlane *s;
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index c6b47a9c73..a36e5f6990 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1525,6 +1525,7 @@ static void virtio_pci_pre_plugged(DeviceState *d, Error **errp)
- /* This is called by virtio-bus just after the device is plugged. */
- static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
-     VirtioBusState *bus = &proxy->bus;
-     bool legacy = virtio_pci_legacy(proxy);
-@@ -1684,6 +1685,7 @@ static void virtio_pci_device_unplugged(DeviceState *d)
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b7417210d8..926cb6741d 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -570,6 +570,7 @@ static void xive_tctx_reset(void *dev)
  
- static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+ static void xive_tctx_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-     VirtioPCIClass *k = VIRTIO_PCI_GET_CLASS(pci_dev);
-     bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
+     XiveTCTX *tctx = XIVE_TCTX(dev);
+     PowerPCCPU *cpu;
+     CPUPPCState *env;
+@@ -1050,6 +1051,7 @@ static void xive_source_reset(void *dev)
+ 
+ static void xive_source_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     XiveSource *xsrc = XIVE_SOURCE(dev);
+     Object *obj;
+     Error *local_err = NULL;
+@@ -1798,6 +1800,7 @@ static const MemoryRegionOps xive_end_source_ops = {
+ 
+ static void xive_end_source_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     XiveENDSource *xsrc = XIVE_END_SOURCE(dev);
+     Object *obj;
+     Error *local_err = NULL;
 -- 
 2.21.0
 
