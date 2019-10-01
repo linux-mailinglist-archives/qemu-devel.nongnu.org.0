@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE9EC44BF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:07:47 +0200 (CEST)
-Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD04C44BA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 02:03:14 +0200 (CEST)
+Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFSBG-0007bF-8T
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39024)
+	id 1iFS6r-0004xC-Br
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 20:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrl-00018L-LT
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:39 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrs-0001HY-71
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrc-0001LG-1T
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30718)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFRrn-0001Yi-37
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:47:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9626
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFRrb-0001IG-Aa; Tue, 01 Oct 2019 19:47:27 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1iFRrm-0001PA-Mp; Tue, 01 Oct 2019 19:47:38 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x91NlPCU074810; Tue, 1 Oct 2019 19:47:26 -0400
+ x91NlO5q122835; Tue, 1 Oct 2019 19:47:30 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdv2vpru-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk4094s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:26 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlPWM074813;
- Tue, 1 Oct 2019 19:47:25 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdv2vpqp-1
+ Tue, 01 Oct 2019 19:47:30 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x91NlTop123007;
+ Tue, 1 Oct 2019 19:47:29 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vcgk4094j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 19:47:25 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlOs031629;
- Tue, 1 Oct 2019 23:47:22 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 2v9y587fac-1
+ Tue, 01 Oct 2019 19:47:29 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x91NjlX7001425;
+ Tue, 1 Oct 2019 23:47:29 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 2v9y56yf6s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 23:47:22 +0000
+ Tue, 01 Oct 2019 23:47:29 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x91NlMtm54133138
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x91NlSm744302770
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Oct 2019 23:47:22 GMT
+ Tue, 1 Oct 2019 23:47:28 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 36F8B28058;
- Tue,  1 Oct 2019 23:47:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BC89428058;
+ Tue,  1 Oct 2019 23:47:28 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A8EC28059;
- Tue,  1 Oct 2019 23:47:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9F9C02805A;
+ Tue,  1 Oct 2019 23:47:28 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.213])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  1 Oct 2019 23:47:22 +0000 (GMT)
+ Tue,  1 Oct 2019 23:47:28 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/97] QEMUMachine: add events_wait method
-Date: Tue,  1 Oct 2019 18:44:59 -0500
-Message-Id: <20191001234616.7825-21-mdroth@linux.vnet.ibm.com>
+Subject: [PATCH 31/97] q35: Revert to kernel irqchip
+Date: Tue,  1 Oct 2019 18:45:10 -0500
+Message-Id: <20191001234616.7825-32-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
 References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
@@ -70,12 +71,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-01_10:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910010203
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,123 +88,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Alex Williamson <alex.williamson@redhat.com>
 
-Instead of event_wait which looks for a single event, add an events_wait
-which can look for any number of events simultaneously. However, it
-will still only return one at a time, whichever happens first.
+Backport of QEMU v4.1 commit for stable v4.0.1 release
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190523170643.20794-4-jsnow@redhat.com
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-(cherry picked from commit f6f4b3f045ea18e3fa93a50cd0462236c428d62e)
+commit c87759ce876a7a0b17c2bf4f0b964bd51f0ee871
+Author: Alex Williamson <alex.williamson@redhat.com>
+Date:   Tue May 14 14:14:41 2019 -0600
+
+    q35: Revert to kernel irqchip
+
+    Commit b2fc91db8447 ("q35: set split kernel irqchip as default") changed
+    the default for the pc-q35-4.0 machine type to use split irqchip, which
+    turned out to have disasterous effects on vfio-pci INTx support.  KVM
+    resampling irqfds are registered for handling these interrupts, but
+    these are non-functional in split irqchip mode.  We can't simply test
+    for split irqchip in QEMU as userspace handling of this interrupt is a
+    significant performance regression versus KVM handling (GeForce GPUs
+    assigned to Windows VMs are non-functional without forcing MSI mode or
+    re-enabling kernel irqchip).
+
+    The resolution is to revert the change in default irqchip mode in the
+    pc-q35-4.1 machine and create a pc-q35-4.0.1 machine for the 4.0-stable
+    branch.  The qemu-q35-4.0 machine type should not be used in vfio-pci
+    configurations for devices requiring legacy INTx support without
+    explicitly modifying the VM configuration to use kernel irqchip.
+
+Link: https://bugs.launchpad.net/qemu/+bug/1826422
+Fixes: b2fc91db8447 ("q35: set split kernel irqchip as default")
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+(upstream commit c87759ce876a7a0b17c2bf4f0b964bd51f0ee871)
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+*add comments regarding AML mismatch warnings from
+ tests/bios-tables-test.c
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- python/qemu/__init__.py | 69 +++++++++++++++++++++++++++++------------
- 1 file changed, 49 insertions(+), 20 deletions(-)
+ hw/core/machine.c        |  3 +++
+ hw/i386/pc.c             |  3 +++
+ hw/i386/pc_q35.c         | 16 ++++++++++++++--
+ include/hw/boards.h      |  3 +++
+ include/hw/i386/pc.h     |  3 +++
+ tests/bios-tables-test.c |  9 +++++++++
+ 6 files changed, 35 insertions(+), 2 deletions(-)
 
-diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
-index fd144c0006..4cb8eb2f01 100644
---- a/python/qemu/__init__.py
-+++ b/python/qemu/__init__.py
-@@ -408,42 +408,71 @@ class QEMUMachine(object):
-         self._qmp.clear_events()
-         return events
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index b6766632d9..eb34f53a85 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -24,6 +24,9 @@
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
  
--    def event_wait(self, name, timeout=60.0, match=None):
-+    @staticmethod
-+    def event_match(event, match=None):
-         """
--        Wait for specified timeout on named event in QMP; optionally filter
--        results by match.
-+        Check if an event matches optional match criteria.
- 
--        The 'match' is checked to be a recursive subset of the 'event'; skips
--        branch processing on match's value None
--           {"foo": {"bar": 1}} matches {"foo": None}
--           {"foo": {"bar": 1}} does not matches {"foo": {"baz": None}}
-+        The match criteria takes the form of a matching subdict. The event is
-+        checked to be a superset of the subdict, recursively, with matching
-+        values whenever those values are not None.
++GlobalProperty hw_compat_4_0[] = {};
++const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
 +
-+        Examples, with the subdict queries on the left:
-+         - None matches any object.
-+         - {"foo": None} matches {"foo": {"bar": 1}}
-+         - {"foo": {"baz": None}} does not match {"foo": {"bar": 1}}
-+         - {"foo": {"baz": 2}} matches {"foo": {"bar": 1, "baz": 2}}
-         """
--        def event_match(event, match=None):
--            if match is None:
--                return True
-+        if match is None:
-+            return True
+ GlobalProperty hw_compat_3_1[] = {
+     { "pcie-root-port", "x-speed", "2_5" },
+     { "pcie-root-port", "x-width", "1" },
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index f2c15bf1f2..d98b737b8f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -115,6 +115,9 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
  
--            for key in match:
--                if key in event:
--                    if isinstance(event[key], dict):
--                        if not event_match(event[key], match[key]):
--                            return False
--                    elif event[key] != match[key]:
-+        for key in match:
-+            if key in event:
-+                if isinstance(event[key], dict):
-+                    if not QEMUMachine.event_match(event[key], match[key]):
-                         return False
--                else:
-+                elif event[key] != match[key]:
-                     return False
-+            else:
-+                return False
-+        return True
- 
--            return True
-+    def event_wait(self, name, timeout=60.0, match=None):
-+        """
-+        event_wait waits for and returns a named event from QMP with a timeout.
++GlobalProperty pc_compat_4_0[] = {};
++const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
 +
-+        name: The event to wait for.
-+        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
-+        match: Optional match criteria. See event_match for details.
-+        """
-+        return self.events_wait([(name, match)], timeout)
+ GlobalProperty pc_compat_3_1[] = {
+     { "intel-iommu", "dma-drain", "off" },
+     { "Opteron_G3" "-" TYPE_X86_CPU, "rdtscp", "off" },
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 372c6b73be..45cc29d1ad 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -357,7 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->units_per_default_bus = 1;
+     m->default_machine_opts = "firmware=bios-256k.bin";
+     m->default_display = "std";
+-    m->default_kernel_irqchip_split = true;
++    m->default_kernel_irqchip_split = false;
+     m->no_floppy = 1;
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_AMD_IOMMU_DEVICE);
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
+@@ -365,12 +365,24 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_4_0_machine_options(MachineClass *m)
++static void pc_q35_4_0_1_machine_options(MachineClass *m)
+ {
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+ }
+ 
++DEFINE_Q35_MACHINE(v4_0_1, "pc-q35-4.0.1", NULL,
++                   pc_q35_4_0_1_machine_options);
 +
-+    def events_wait(self, events, timeout=60.0):
-+        """
-+        events_wait waits for and returns a named event from QMP with a timeout.
++static void pc_q35_4_0_machine_options(MachineClass *m)
++{
++    pc_q35_4_0_1_machine_options(m);
++    m->default_kernel_irqchip_split = true;
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
++    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
++}
 +
-+        events: a sequence of (name, match_criteria) tuples.
-+                The match criteria are optional and may be None.
-+                See event_match for details.
-+        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
-+        """
-+        def _match(event):
-+            for name, match in events:
-+                if (event['event'] == name and
-+                    self.event_match(event, match)):
-+                    return True
-+            return False
+ DEFINE_Q35_MACHINE(v4_0, "pc-q35-4.0", NULL,
+                    pc_q35_4_0_machine_options);
  
-         # Search cached events
-         for event in self._events:
--            if (event['event'] == name) and event_match(event, match):
-+            if _match(event):
-                 self._events.remove(event)
-                 return event
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index e231860666..fe1885cbff 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -293,6 +293,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
  
-         # Poll for new events
-         while True:
-             event = self._qmp.pull_event(wait=timeout)
--            if (event['event'] == name) and event_match(event, match):
-+            if _match(event):
-                 return event
-             self._events.append(event)
++extern GlobalProperty hw_compat_4_0[];
++extern const size_t hw_compat_4_0_len;
++
+ extern GlobalProperty hw_compat_3_1[];
+ extern const size_t hw_compat_3_1_len;
  
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index ca65ef18af..43df7230a2 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -293,6 +293,9 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
+ int e820_get_num_entries(void);
+ bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
+ 
++extern GlobalProperty pc_compat_4_0[];
++extern const size_t pc_compat_4_0_len;
++
+ extern GlobalProperty pc_compat_3_1[];
+ extern const size_t pc_compat_3_1_len;
+ 
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index a506dcbb29..996599991e 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -354,6 +354,15 @@ static void test_acpi_asl(test_data *data)
+             } else {
+                 sdt->tmp_files_retain = true;
+                 exp_sdt->tmp_files_retain = true;
++                /* NOTE: In QEMU 4.0.1, q35 aliases "pc-q35-4.0.1" instead of
++                 * "pc-q35-4.0". This gets encoded into the smbios tables and
++                 * due to the extra characters changes the offset of ACPI
++                 * pointer values allocated by SeaBIOS, causing some tests to
++                 * report AML mismatches. Since ACPI expected file paths rely
++                 * on the "q35" alias being used we can't easily change the
++                 * tests to use pc-q35-4.0, so for now hopefully this friendly
++                 * note will suffice.
++                 */
+                 fprintf(stderr,
+                         "acpi-test: Warning! %.4s mismatch. "
+                         "Actual [asl:%s, aml:%s], Expected [asl:%s, aml:%s].\n",
 -- 
 2.17.1
 
