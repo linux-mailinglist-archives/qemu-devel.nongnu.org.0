@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C233CC41C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:24:38 +0200 (CEST)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0568DC41BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:22:19 +0200 (CEST)
+Received: from localhost ([::1]:47798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOhI-0001D2-Pv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54470)
+	id 1iFOf3-0007eV-6R
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:22:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54753)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO87-0004uU-Oo
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:17 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO8S-0005CF-RP
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO85-00082S-Kp
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52996)
+ (envelope-from <mreitz@redhat.com>) id 1iFO8R-0008F6-P4
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:48:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60242)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO7z-0007zf-Ts; Tue, 01 Oct 2019 15:48:08 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iFO8P-0008DM-3d; Tue, 01 Oct 2019 15:48:33 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 14D643084025;
- Tue,  1 Oct 2019 19:48:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5ACAF10DCC98;
+ Tue,  1 Oct 2019 19:48:32 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3139261B7;
- Tue,  1 Oct 2019 19:48:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E923E5C1D4;
+ Tue,  1 Oct 2019 19:48:31 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 21/67] iotests/056: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:29 +0200
-Message-Id: <20191001194715.2796-22-mreitz@redhat.com>
+Subject: [PATCH 32/67] iotests/151: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:40 +0200
+Message-Id: <20191001194715.2796-33-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 01 Oct 2019 19:48:07 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 01 Oct 2019 19:48:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,99 +62,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/056 | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
+ tests/qemu-iotests/151 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/056 b/tests/qemu-iotests/056
-index 98c55d8e5a..58b4103cd9 100755
---- a/tests/qemu-iotests/056
-+++ b/tests/qemu-iotests/056
-@@ -23,7 +23,7 @@
- import time
+diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
+index 76ae265cc1..bfe2bbb200 100755
+--- a/tests/qemu-iotests/151
++++ b/tests/qemu-iotests/151
+@@ -20,7 +20,7 @@
+=20
  import os
  import iotests
--from iotests import qemu_img, qemu_io, create_image
-+from iotests import create_test_image, remove_test_image, qemu_io, creat=
-e_image
+-from iotests import qemu_img
++from iotests import create_test_image, remove_test_image
 =20
- backing_img =3D os.path.join(iotests.test_dir, 'backing.img')
- test_img =3D os.path.join(iotests.test_dir, 'test.img')
-@@ -31,18 +31,12 @@ target_img =3D os.path.join(iotests.test_dir, 'target=
-.img')
-=20
- def img_create(img, fmt=3Diotests.imgfmt, size=3D'64M', **kwargs):
-     fullname =3D os.path.join(iotests.test_dir, '%s.%s' % (img, fmt))
--    optargs =3D []
--    for k,v in kwargs.items():
--        optargs =3D optargs + ['-o', '%s=3D%s' % (k,v)]
--    args =3D ['create', '-f', fmt] + optargs + [fullname, size]
--    iotests.qemu_img(*args)
-+    opts =3D []
-+    for k, v in kwargs.items():
-+        opts.append('%s=3D%s' % (k, v))
-+    create_test_image(fullname, size, fmt=3Dfmt, opts=3Dopts)
-     return fullname
-=20
--def try_remove(img):
--    try:
--        os.remove(img)
--    except OSError:
--        pass
-=20
- def io_write_patterns(img, patterns):
-     for pattern in patterns:
-@@ -54,7 +48,7 @@ class TestSyncModesNoneAndTop(iotests.QMPTestCase):
+ source_img =3D os.path.join(iotests.test_dir, 'source.' + iotests.imgfmt=
+)
+ target_img =3D os.path.join(iotests.test_dir, 'target.' + iotests.imgfmt=
+)
+@@ -30,8 +30,8 @@ class TestActiveMirror(iotests.QMPTestCase):
+     potential_writes_in_flight =3D True
 =20
      def setUp(self):
-         create_image(backing_img, TestSyncModesNoneAndTop.image_len)
--        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % backing_img, test_img)
-+        create_test_image(test_img, backing_file=3Dbacking_img)
-         qemu_io('-c', 'write -P0x41 0 512', test_img)
-         qemu_io('-c', 'write -P0xd5 1M 32k', test_img)
-         qemu_io('-c', 'write -P0xdc 32M 124k', test_img)
-@@ -64,7 +58,7 @@ class TestSyncModesNoneAndTop(iotests.QMPTestCase):
+-        qemu_img('create', '-f', iotests.imgfmt, source_img, '128M')
+-        qemu_img('create', '-f', iotests.imgfmt, target_img, '128M')
++        create_test_image(source_img, '128M')
++        create_test_image(target_img, '128M')
 =20
-     def tearDown(self):
-         self.vm.shutdown()
--        os.remove(test_img)
-+        remove_test_image(test_img)
-         os.remove(backing_img)
-         try:
-             os.remove(target_img)
-@@ -103,6 +97,8 @@ class TestSyncModesNoneAndTop(iotests.QMPTestCase):
-         self.assertEqual(-1, qemu_io('-c', 'read -P0x41 0 512', target_i=
-mg).find("verification failed"))
+         blk_source =3D {'id': 'source',
+                       'if': 'none',
+@@ -58,8 +58,8 @@ class TestActiveMirror(iotests.QMPTestCase):
+             self.assertTrue(iotests.compare_images(source_img, target_im=
+g),
+                             'mirror target does not match source')
 =20
- class TestBeforeWriteNotifier(iotests.QMPTestCase):
-+    # blkdebug does not work with an external data file
-+    @iotests.skip_for_imgopts(['data_file'])
-     def setUp(self):
-         self.vm =3D iotests.VM().add_drive_raw("file=3Dblkdebug::null-co=
-://,id=3Ddrive0,align=3D65536,driver=3Dblkdebug")
-         self.vm.launch()
-@@ -139,9 +135,9 @@ class BackupTest(iotests.QMPTestCase):
+-        os.remove(source_img)
+-        os.remove(target_img)
++        remove_test_image(source_img)
++        remove_test_image(target_img)
 =20
-     def tearDown(self):
-         self.vm.shutdown()
--        try_remove(self.test_img)
--        try_remove(self.dest_img)
--        try_remove(self.ref_img)
-+        remove_test_image(self.test_img)
-+        remove_test_image(self.dest_img)
-+        remove_test_image(self.ref_img)
-=20
-     def hmp_io_writes(self, drive, patterns):
-         for pattern in patterns:
-@@ -268,6 +264,8 @@ class BackupTest(iotests.QMPTestCase):
-                                  sync=3D'full', target=3Dself.dest_img,
-                                  auto_dismiss=3DFalse)
-=20
-+    # blkdebug does not work with an external data file
-+    @iotests.skip_for_imgopts(['data_file'])
-     def dismissal_failure(self, dismissal_opt):
-         res =3D self.vm.qmp('query-block-jobs')
-         self.assert_qmp(res, 'return', [])
+     def doActiveIO(self, sync_source_and_target):
+         # Fill the source image
 --=20
 2.21.0
 
