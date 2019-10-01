@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE91C4372
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 00:04:34 +0200 (CEST)
-Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409E6C4393
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 00:14:06 +0200 (CEST)
+Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFQG1-0003Hh-M1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 18:04:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55019)
+	id 1iFQPE-0001JA-JU
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 18:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iFQAp-00013F-17
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:59:12 -0400
+ (envelope-from <eblake@redhat.com>) id 1iFOL2-0000FR-BT
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 16:01:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iFQAn-00038l-E2
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:59:10 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34178)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iFQAn-00036u-51
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 17:59:09 -0400
-Received: by mail-pl1-x644.google.com with SMTP id k7so6206878pll.1
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 14:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=J5/eJeIokN5k1bQXlKiaJYS2EVVZAhsHGc6k0mM1JIU=;
- b=v680Ng3e3iSu6dkuFeLLAiLG+923AFYCMFSHBU6Bztmey4AdCIsmC2A53DUKjBsNCp
- i/GBVpDHqmMNCPLb5fDxUxv9Zwmk6zpHTsMtTYXAqQiZGArnnMRWU8UTqJRBe3unmEoE
- QT4sWJwqgloVjA3AhOfo9/FhoM5qwmML23iMcOJEmiI3L8Mb7845WCtUqkrooHPsr0yd
- uHTgwjeCMnQpMehO7hezBy+tft7Sj8cNdfMjBOyy5JuFW5k4CauJUndaBskDWEM8hy4T
- TwF+bw4VTTUXBP4OLjZ6qB/w+wWVM3JTvaDmTtWTRyWqLuaDIXbMaADFydW84Wwnj+9i
- CxhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J5/eJeIokN5k1bQXlKiaJYS2EVVZAhsHGc6k0mM1JIU=;
- b=jrFrs6utVf2RbvUYiWYMo308unHEbNDQPX3ebIFTffHDJ9hHLRLYMOkkpDH4jCrSD7
- ul6X8h8C/tK5v/HyG+IF7wclIdm1ce1hhokrDTY7ordcVFOtQRaDl+pEfOibr+j0CXHR
- r86ZBZqw3asDw+QHqir0taR93QzAKzJMQAs5fXbOCTjsO5lawRzJjrGsCgQN19VXKKRf
- vy3u7fcubDc9Ke4j/ol1aHDXciv42milwOAg71qFgyqSZ7OhM9FMa6cidGMGeleQ2OsD
- SJ3BGFY29kJsTTvqF44FCS4G7b0RqWzg7TSR03ME0eYNFNCfIkL68v581mQdTxpflTqQ
- 3yDA==
-X-Gm-Message-State: APjAAAWQ5CLvRJ9iVAUjS133IFh4bfGah9FyquEYZfoco2o1/DWPCn74
- lyk3OQsXXy6ZYvlePMGvM2Sx7A==
-X-Google-Smtp-Source: APXvYqyg+HuJvzMWcLvv1edtUBokZ4dTs1GpfKvCxzH0gY2gXqYiFDJTzhis/AVJwFF6657/xQitEA==
-X-Received: by 2002:a17:902:820e:: with SMTP id
- x14mr28165393pln.223.1569967147226; 
- Tue, 01 Oct 2019 14:59:07 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id b185sm26682334pfg.14.2019.10.01.14.59.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Oct 2019 14:59:06 -0700 (PDT)
-Subject: Re: [PATCH v1] s390x/tcg: MVCL: Exit to main loop if there are
- pending interrupts
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20191001181655.25948-1-david@redhat.com>
- <720221d3-84a6-9940-812e-b427acfc99ed@linaro.org>
- <42c78e3f-be24-a919-b1b9-0b52381a9214@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d4af4bce-b7e9-2418-6706-fb9b7010dc8e@linaro.org>
-Date: Tue, 1 Oct 2019 14:59:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <eblake@redhat.com>) id 1iFOL0-0006JF-5p
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 16:01:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42428)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iFOKy-0006IW-S2
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 16:01:33 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0BE163D955;
+ Tue,  1 Oct 2019 20:01:32 +0000 (UTC)
+Received: from [10.3.116.201] (ovpn-116-201.phx2.redhat.com [10.3.116.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ADE145D6D0;
+ Tue,  1 Oct 2019 20:01:29 +0000 (UTC)
+Subject: Re: [PATCH 2/7] qapi: Store pragma state in QAPISourceInfo, not
+ global state
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20191001191514.11208-1-armbru@redhat.com>
+ <20191001191514.11208-3-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <f9972ef4-e128-19a6-b861-2faee991c71a@redhat.com>
+Date: Tue, 1 Oct 2019 15:01:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <42c78e3f-be24-a919-b1b9-0b52381a9214@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191001191514.11208-3-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 01 Oct 2019 20:01:32 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,90 +62,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/19 12:47 PM, David Hildenbrand wrote:
-> On 01.10.19 21:17, Richard Henderson wrote:
->> On 10/1/19 11:16 AM, David Hildenbrand wrote:
->>> +static inline bool should_interrupt_instruction(CPUState *cs)
->>> +{
->>> +    /*
->>> +     * Something asked us to stop executing chained TBs, e.g.,
->>> +     * cpu_interrupt() or cpu_exit().
->>> +     */
->>> +    if ((int32_t)atomic_read(&cpu_neg(cs)->icount_decr.u32) < 0) {
->>> +        return true;
->>> +    }
->>> +
->>> +    /* We have a deliverable interrupt pending. */
->>> +    if ((atomic_read(&cs->interrupt_request) & CPU_INTERRUPT_HARD) &&
->>> +        s390_cpu_has_int(S390_CPU(cs))) {
->>> +        return true;
->>> +    }
->>> +    return false;
->>> +}
->>
->> The first condition should be true whenever the second condition is true.
+On 10/1/19 2:15 PM, Markus Armbruster wrote:
+> The frontend can't be run more than once due to its global state.
+> A future commit will want to do that.
 > 
-> @@ -1018,6 +1018,7 @@ static inline bool should_interrupt_instruction(CPUState *cs)
->      /* We have a deliverable interrupt pending. */
->      if ((atomic_read(&cs->interrupt_request) & CPU_INTERRUPT_HARD) &&
->          s390_cpu_has_int(S390_CPU(cs))) {
-> +        g_assert((int32_t)atomic_read(&cpu_neg(cs)->icount_decr.u32) < 0);
->          return true;
->      }
->      return false;
+> Recent commit "qapi: Move context-sensitive checking to the proper
+> place" got rid of many global variables already, but pragma state is
+> still stored in global variables (that's why a pragma directive's
+> scope is the complete schema).
 > 
+> Move the pragma state to QAPISourceInfo.
 > 
-> ...
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   scripts/qapi/common.py | 36 +++++++++++++++++++-----------------
+>   1 file changed, 19 insertions(+), 17 deletions(-)
 > 
-> 
-> [   60.109761] systemd[1]: Set hostname to <rhel8>.
-> **
-> ERROR:/home/dhildenb/git/qemu/target/s390x/mem_helper.c:1021:should_interrupt_instruction: assertion failed: ((int32_t)atomic_read(&cpu_neg(cs)->icount_decr.u32) < 0)
-> 
-> 
-> A race? Roughly 20-30% pass the first but not the second check. And
-> in total, on a Fedora 30 boot, I can maybe see 30 calls of
-> should_interrupt_instruction() succeeding.
-> 
-> I thought these could be pending interrupts that were not deliverable
-> when injected but are now deliverable. For these,
-> icount_decr.u32.high would already have been set to 0.
-> 
-> OTOH, I guess we always exit the TB in case we change the "deliverable" state
-> of an IRQ, e.g., after LPSW or LCTL. E.g.,
-> 
-> static DisasJumpType op_lctlg(DisasContext *s, DisasOps *o)
-> {
-> ...
->     /* Exit to main loop to reevaluate s390_cpu_exec_interrupt.  */
->     return DISAS_PC_STALE_NOCHAIN;
-> }
-> 
-> Maybe really a race then - or we are not properly exiting back to the
-> main loop in all scenarios.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-I think that it's a race right here in should_interrupt_instruction.
-
-Notice, interrupt_request gets set before icount_decr.  Indeed, the barrier
-happens immediately before the set of icount_decr in cpu_exit().
-
-(It is briefly confusing that we have a barrier in cpu_exit and not in
-tcg_handle_interrupt.  But that's explained by the cpu_is_self -- no need for a
-barrier for the current cpu.  I also think we could usefully use
-atomic_store_release instead of a separate smp_wmb.)
-
-Therefore checking interrupt_request after checking icount_decr violates the
-ordering rules.
-
-This is confirmed, ish, by noticing putting a breakpoint at that second return
-(or assert) and noticing that icount_decr.u16.hi == -1.  It did get set by one
-of the other threads, and before gdb managed to stop the world.
-
-
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
