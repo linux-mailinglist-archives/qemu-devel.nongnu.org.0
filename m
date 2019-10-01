@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE80C4242
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:02:41 +0200 (CEST)
-Received: from localhost ([::1]:48126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E19BC424F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 23:07:37 +0200 (CEST)
+Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFPI8-0000nE-5r
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55242)
+	id 1iFPMt-0005D8-A2
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 17:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO93-0005ux-3x
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO9D-0006AW-1r
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO91-00007G-5M
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58824)
+ (envelope-from <mreitz@redhat.com>) id 1iFO9B-0000E6-0U
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:49:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36220)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO8x-00005n-Hp; Tue, 01 Oct 2019 15:49:07 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iFO95-00009Z-0V; Tue, 01 Oct 2019 15:49:15 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CA03430860D5;
- Tue,  1 Oct 2019 19:49:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C8A99811D8;
+ Tue,  1 Oct 2019 19:49:13 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64E261001B08;
- Tue,  1 Oct 2019 19:49:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6403D60C83;
+ Tue,  1 Oct 2019 19:49:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 47/67] iotests/218: Honor $IMGOPTS
-Date: Tue,  1 Oct 2019 21:46:55 +0200
-Message-Id: <20191001194715.2796-48-mreitz@redhat.com>
+Subject: [PATCH 50/67] iotests/224: Honor $IMGOPTS
+Date: Tue,  1 Oct 2019 21:46:58 +0200
+Message-Id: <20191001194715.2796-51-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 01 Oct 2019 19:49:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Tue, 01 Oct 2019 19:49:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,36 +62,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/218 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/224 | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
-index e18e31076b..6f6fe6588e 100755
---- a/tests/qemu-iotests/218
-+++ b/tests/qemu-iotests/218
-@@ -27,7 +27,7 @@
+diff --git a/tests/qemu-iotests/224 b/tests/qemu-iotests/224
+index e227d3ab3c..e9f5729c33 100755
+--- a/tests/qemu-iotests/224
++++ b/tests/qemu-iotests/224
+@@ -21,8 +21,9 @@
  # Creator/Owner: Max Reitz <mreitz@redhat.com>
 =20
  import iotests
--from iotests import log, qemu_img, qemu_io_silent
-+from iotests import log, create_test_image, qemu_io_silent
+-from iotests import log, qemu_img, qemu_io_silent, filter_qmp_testfiles,=
+ \
+-                    filter_qmp_imgfmt, filter_json_filename
++from iotests import log, create_test_image, qemu_io_silent, \
++                    filter_qmp_testfiles, filter_qmp_imgfmt, \
++                    filter_json_filename
+ import json
+ import re
 =20
- iotests.script_initialize(supported_fmts=3D['qcow2', 'raw'])
+@@ -47,17 +48,14 @@ for filter_node_name in False, True:
+     log('--- filter_node_name: %s ---' % filter_node_name)
+     log('')
 =20
-@@ -142,9 +142,9 @@ log('=3D=3D=3D Cancel mirror job from throttled node =
-by quitting =3D=3D=3D')
- log('')
+-    with iotests.FilePath('base.img') as base_img_path, \
+-         iotests.FilePath('mid.img') as mid_img_path, \
+-         iotests.FilePath('top.img') as top_img_path, \
++    with iotests.ImagePath('base.img') as base_img_path, \
++         iotests.ImagePath('mid.img') as mid_img_path, \
++         iotests.ImagePath('top.img') as top_img_path, \
+          iotests.VM() as vm:
 =20
- with iotests.VM() as vm, \
--     iotests.FilePath('src.img') as src_img_path:
-+     iotests.ImagePath('src.img') as src_img_path:
+-        assert qemu_img('create', '-f', iotests.imgfmt,
+-                        base_img_path, '64M') =3D=3D 0
+-        assert qemu_img('create', '-f', iotests.imgfmt, '-b', base_img_p=
+ath,
+-                        mid_img_path) =3D=3D 0
+-        assert qemu_img('create', '-f', iotests.imgfmt, '-b', mid_img_pa=
+th,
+-                        top_img_path) =3D=3D 0
++        assert create_test_image(base_img_path, '64M') =3D=3D 0
++        assert create_test_image(mid_img_path, backing_file=3Dbase_img_p=
+ath) =3D=3D 0
++        assert create_test_image(top_img_path, backing_file=3Dmid_img_pa=
+th) =3D=3D 0
 =20
--    assert qemu_img('create', '-f', iotests.imgfmt, src_img_path, '64M')=
- =3D=3D 0
-+    assert create_test_image(src_img_path, '64M') =3D=3D 0
-     assert qemu_io_silent('-f', iotests.imgfmt, src_img_path,
-                           '-c', 'write -P 42 0M 64M') =3D=3D 0
-=20
+         # Something to commit
+         assert qemu_io_silent(mid_img_path, '-c', 'write -P 1 0 1M') =3D=
+=3D 0
 --=20
 2.21.0
 
