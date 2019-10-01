@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B642C2FF5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:20:25 +0200 (CEST)
-Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F51AC2FF8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 11:20:49 +0200 (CEST)
+Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFEKV-0007su-G3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
+	id 1iFEKt-0008M4-JG
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 05:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iFEHz-0006Pv-Bh
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:17:48 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iFEIO-0006dw-RM
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:18:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iFEHx-0004uf-5X
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:17:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36610)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iFEIN-00057b-Ii
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:18:12 -0400
+Received: from mga05.intel.com ([192.55.52.43]:3300)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iFEHw-0004u4-Hn
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:17:44 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7C0C92A09A1
- for <qemu-devel@nongnu.org>; Tue,  1 Oct 2019 09:17:43 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id k184so1138217wmk.1
- for <qemu-devel@nongnu.org>; Tue, 01 Oct 2019 02:17:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3m+wOPB/Fkr6AYXJ+FLLgauwXMN+ekeAdaB8/8pXDp8=;
- b=pVHgOofi3SBf8Bb2R9MDStqK6ft6X9YIUa4poQT5q4SZm4anxooXwD0sP6EyMDjGj8
- XdVmTjCO0Y9LRSBVp6rmUQvLDjO2h1PPiqcIpOeTF5Zws/nRWZS3syAdmsnyuT3siHg4
- 8nHEQsvTGbU1m1pA1hsWR/Id6m/ECIhPuI0p2EOpIQEERicXBd8vv5+XKQKy4tfJ0KJp
- Fmr3qDWqrV7VtdnLiFcz9o97jrpfuofPLbWDzVQad+gqbEsCnMABM25rHwuG4FJ9iING
- Be1N4ZVff9jXjYhn0HkHv/5Pb9mmVlXoFPs7h/lkKcmpalwGmLPMr6VF5DP8Rdecc0Im
- PBTA==
-X-Gm-Message-State: APjAAAX1t6AL3QAmqCuq91nUvzT26faAqidZNkyxG3pWKVEABnNRKu6u
- hroAsOSacWslVKFPTUeK+nDg/fohqhyE+oREj7+fmFQ7QMxdzKxRhBrSut54rnQz9npzOVt0AfJ
- e5SkaStfyH4Ux8bc=
-X-Received: by 2002:a05:600c:230d:: with SMTP id
- 13mr2938097wmo.114.1569921461727; 
- Tue, 01 Oct 2019 02:17:41 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzkcqWlJS7X/0FaFvdZuG9LZwHalBKRMfrHPzNttEc2gjLy9181xgM51CNQIOtFuaWqEh0D0w==
-X-Received: by 2002:a05:600c:230d:: with SMTP id
- 13mr2938078wmo.114.1569921461447; 
- Tue, 01 Oct 2019 02:17:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b903:6d6f:a447:e464?
- ([2001:b07:6468:f312:b903:6d6f:a447:e464])
- by smtp.gmail.com with ESMTPSA id z3sm1859334wmi.30.2019.10.01.02.17.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Oct 2019 02:17:40 -0700 (PDT)
-Subject: Re: [PATCH] hw/isa: Introduce a CONFIG_ISA_SUPERIO switch for
- isa-superio.c
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
-References: <20190930150436.18162-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <bddb6717-e1cd-3a0f-cdb3-3862efc407ee@redhat.com>
-Date: Tue, 1 Oct 2019 11:17:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1iFEIN-00056L-Al
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 05:18:11 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2019 02:18:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,570,1559545200"; d="scan'208";a="366272833"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga005.jf.intel.com with ESMTP; 01 Oct 2019 02:18:07 -0700
+Date: Tue, 1 Oct 2019 17:17:49 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Wei Yang <richard.weiyang@gmail.com>
+Subject: Re: [Qemu-devel] [PATCH] migration: use migration_is_active to
+ represent active state
+Message-ID: <20191001091749.GA14044@richard>
+References: <20190717005341.14140-1-richardw.yang@linux.intel.com>
+ <20190913235433.u66jqdhx4afnqae5@master>
 MIME-Version: 1.0
-In-Reply-To: <20190930150436.18162-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190913235433.u66jqdhx4afnqae5@master>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,90 +58,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: quintela@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+ dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/19 17:04, Thomas Huth wrote:
-> Currently, isa-superio.c is always compiled as soon as CONFIG_ISA_BUS
-> is enabled. But there are also machines that have an ISA BUS without
-> any of the superio chips attached to it, so we should not compile
-> isa-superio.c in case we only compile a QEMU for such a machine.
-> Thus add a proper CONFIG_ISA_SUPERIO switch so that this file only gets
-> compiled when we really, really need it.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/isa/Kconfig       | 10 +++++++---
->  hw/isa/Makefile.objs |  2 +-
->  hw/mips/Kconfig      |  1 +
->  3 files changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-> index 6db0d7970c..98a289957e 100644
-> --- a/hw/isa/Kconfig
-> +++ b/hw/isa/Kconfig
-> @@ -13,9 +13,13 @@ config I82378
->      select MC146818RTC
->      select PCSPK
->  
-> -config PC87312
-> +config ISA_SUPERIO
->      bool
->      select ISA_BUS
-> +
-> +config PC87312
-> +    bool
-> +    select ISA_SUPERIO
->      select I8259
->      select I8254
->      select I8257
-> @@ -34,14 +38,14 @@ config PIIX4
->  
->  config VT82C686
->      bool
-> -    select ISA_BUS
-> +    select ISA_SUPERIO
->      select ACPI_SMBUS
->      select SERIAL_ISA
->      select FDC
->  
->  config SMC37C669
->      bool
-> -    select ISA_BUS
-> +    select ISA_SUPERIO
->      select SERIAL_ISA
->      select PARALLEL
->      select FDC
-> diff --git a/hw/isa/Makefile.objs b/hw/isa/Makefile.objs
-> index 9e106df186..ff97485504 100644
-> --- a/hw/isa/Makefile.objs
-> +++ b/hw/isa/Makefile.objs
-> @@ -1,5 +1,5 @@
->  common-obj-$(CONFIG_ISA_BUS) += isa-bus.o
-> -common-obj-$(CONFIG_ISA_BUS) += isa-superio.o
-> +common-obj-$(CONFIG_ISA_SUPERIO) += isa-superio.o
->  common-obj-$(CONFIG_APM) += apm.o
->  common-obj-$(CONFIG_I82378) += i82378.o
->  common-obj-$(CONFIG_PC87312) += pc87312.o
-> diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-> index 62aa01b29e..2c2adbc42a 100644
-> --- a/hw/mips/Kconfig
-> +++ b/hw/mips/Kconfig
-> @@ -13,6 +13,7 @@ config R4K
->  
->  config MALTA
->      bool
-> +    select ISA_SUPERIO
->  
->  config MIPSSIM
->      bool
-> 
+On Fri, Sep 13, 2019 at 11:54:33PM +0000, Wei Yang wrote:
+>On Wed, Jul 17, 2019 at 08:53:41AM +0800, Wei Yang wrote:
+>>Wrap the check into a function to make it easy to read.
+>>
+>
+>Hi, Dave & Juan
+>
+>Do you like this one :-) ?
+>
 
-Queued, thanks.
+Sorry for ping again.
 
-Paolo
+>>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>>---
+>> include/migration/misc.h |  1 +
+>> migration/migration.c    | 12 ++++++++----
+>> 2 files changed, 9 insertions(+), 4 deletions(-)
+>>
+>>diff --git a/include/migration/misc.h b/include/migration/misc.h
+>>index 5cdbabd094..42d6abc920 100644
+>>--- a/include/migration/misc.h
+>>+++ b/include/migration/misc.h
+>>@@ -61,6 +61,7 @@ void migration_object_init(void);
+>> void migration_shutdown(void);
+>> void qemu_start_incoming_migration(const char *uri, Error **errp);
+>> bool migration_is_idle(void);
+>>+bool migration_is_active(MigrationState *);
+>> void add_migration_state_change_notifier(Notifier *notify);
+>> void remove_migration_state_change_notifier(Notifier *notify);
+>> bool migration_in_setup(MigrationState *);
+>>diff --git a/migration/migration.c b/migration/migration.c
+>>index 43fd8297ef..4c066fc85c 100644
+>>--- a/migration/migration.c
+>>+++ b/migration/migration.c
+>>@@ -1529,8 +1529,7 @@ static void migrate_fd_cleanup(MigrationState *s)
+>>         qemu_fclose(tmp);
+>>     }
+>> 
+>>-    assert((s->state != MIGRATION_STATUS_ACTIVE) &&
+>>-           (s->state != MIGRATION_STATUS_POSTCOPY_ACTIVE));
+>>+    assert(!migration_is_active(s));
+>> 
+>>     if (s->state == MIGRATION_STATUS_CANCELLING) {
+>>         migrate_set_state(&s->state, MIGRATION_STATUS_CANCELLING,
+>>@@ -1690,6 +1689,12 @@ bool migration_is_idle(void)
+>>     return false;
+>> }
+>> 
+>>+bool migration_is_active(MigrationState *s)
+>>+{
+>>+    return (s->state == MIGRATION_STATUS_ACTIVE ||
+>>+            s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE);
+>>+}
+>>+
+>> void migrate_init(MigrationState *s)
+>> {
+>>     /*
+>>@@ -3226,8 +3231,7 @@ static void *migration_thread(void *opaque)
+>> 
+>>     trace_migration_thread_setup_complete();
+>> 
+>>-    while (s->state == MIGRATION_STATUS_ACTIVE ||
+>>-           s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE) {
+>>+    while (migration_is_active(s)) {
+>>         int64_t current_time;
+>> 
+>>         if (urgent || !qemu_file_rate_limit(s->to_dst_file)) {
+>>-- 
+>>2.17.1
+>>
+>
+>-- 
+>Wei Yang
+>Help you, Help me
+
+-- 
+Wei Yang
+Help you, Help me
 
