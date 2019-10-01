@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A659AC416A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 21:57:36 +0200 (CEST)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FC8C4181
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Oct 2019 22:02:00 +0200 (CEST)
+Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFOH9-0004Lh-1W
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 15:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54111)
+	id 1iFOLO-0007LT-Po
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 16:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iFO7l-0004YC-I1
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFO7K-0004F0-Ps
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iFO7k-0007pD-97
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58524)
+ (envelope-from <mreitz@redhat.com>) id 1iFO7J-0007bk-Rz
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 15:47:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:61685)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iFO7a-0007gP-Mv; Tue, 01 Oct 2019 15:47:42 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1iFO7H-0007a6-Ky; Tue, 01 Oct 2019 15:47:23 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A1E3230860BD;
- Tue,  1 Oct 2019 19:47:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC6E418C8907;
+ Tue,  1 Oct 2019 19:47:22 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E3555C1D4;
- Tue,  1 Oct 2019 19:47:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76CC85D712;
+ Tue,  1 Oct 2019 19:47:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 08/67] iotests.py: Add filter_json_filename()
-Date: Tue,  1 Oct 2019 21:46:16 +0200
-Message-Id: <20191001194715.2796-9-mreitz@redhat.com>
+Subject: [PATCH 02/67] iotests.py: Add @skip_for_imgopts()
+Date: Tue,  1 Oct 2019 21:46:10 +0200
+Message-Id: <20191001194715.2796-3-mreitz@redhat.com>
 In-Reply-To: <20191001194715.2796-1-mreitz@redhat.com>
 References: <20191001194715.2796-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 01 Oct 2019 19:47:36 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Tue, 01 Oct 2019 19:47:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,24 +62,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qemu-iotests/iotests.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
 y
-index fb0a49372d..9737dd881b 100644
+index 7030900807..cdcb62c4ac 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -378,6 +378,9 @@ def filter_qmp_testfiles(qmsg):
- def filter_generated_node_ids(msg):
-     return re.sub("#block[0-9]+", "NODE_NAME", msg)
+@@ -950,6 +950,19 @@ def skip_if_unsupported(required_formats=3D[], read_=
+only=3DFalse):
+         return func_wrapper
+     return skip_test_decorator
 =20
-+def filter_json_filename(msg):
-+    return re.sub('json:{.*}', 'json:{ /* filtered */ }', msg)
++def skip_for_imgopts(unsupported_opts=3D[]):
++    '''Skip Test Decorator
++       Skips the test if imgopts contains any of the given options'''
++    def skip_test_decorator(func):
++        def func_wrapper(test_case: QMPTestCase, *args, **kwargs):
++            for opt in imgopts:
++                if any(unsupported in opt for unsupported in unsupported=
+_opts):
++                    test_case.case_skip('{}: Option {} is unsupported'.f=
+ormat(
++                                        test_case, opt))
++            return func(test_case, *args, **kwargs)
++        return func_wrapper
++    return skip_test_decorator
 +
- def filter_img_info(output, filename):
-     lines =3D []
-     user_data_file =3D any('data_file' in opt for opt in imgopts)
+ def execute_unittest(debug=3DFalse):
+     """Executes unittests within the calling module."""
+=20
 --=20
 2.21.0
 
