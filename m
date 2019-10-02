@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEFAC8F1D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:58:32 +0200 (CEST)
-Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3FC9C8F19
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:57:38 +0200 (CEST)
+Received: from localhost ([::1]:57731 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFhxO-0003WR-Qs
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
+	id 1iFhwX-0002NF-5W
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr9-00059P-6C
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr9-0005A1-JP
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr7-00039R-PZ
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr8-0003AO-J0
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:03 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46757)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43933)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhr7-00038e-Ig
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:01 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id o18so20444676wrv.13
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:01 -0700 (PDT)
+ id 1iFhr8-00039S-D2
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:02 -0400
+Received: by mail-wr1-x431.google.com with SMTP id q17so20487493wrx.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=0xYz+BH2rMxrOscxGjnU6A3/paa1HYzKHp1tH86q4D0=;
- b=HDZF6nrueaWcRJKbdBaqNYs48QjtrZ+nPE+IKXL8IS3oVOUgxsq9lQgTSBRF1AetPf
- F5GubME4XdkpNiOPwc76gvcXi6hG/dNTZl3HZ0tnNndsILRug7y4m7rusb3u2uos1x8T
- EaZPaFDBVROXa/KuYicrUfKY0655Fm5ywGeq1YVH8OrfiKyeRTC0seBV9xpep00o3YF5
- LizVzYkbwazjrg2Edi7ntR7gM4xlwwKDRyYpIxhuMijVavdSFURbtaj7vyyf8AID8nTg
- a/Xcx26i1R3IeVISWmw+Dk5a2P8EMejc6ZmGnR54NTm/uV0psY9JdRdYJay1X9hggGDz
- PbeQ==
+ bh=3dvmDFlr0gurTBYD4r1hBqQhpgoTuiAsAyqm2OCYvPs=;
+ b=Mwf3ARoN8D3MbOi5qyT4haz16gR0bTX9CWXmr5aDZLNlccgn5e21F89JHjxthCSRjY
+ j2WGjNqCyXd3/ebj2iYxTZO5fsgrc1Ue990s4ErkSnQb4i3ByJYXuE9MXYRw8qdmyurq
+ 2uZrc3vjQy+QCSk0m7Xsub3hT1GsoPC/YlbBQmkP9T2i6+Qk08f7/1O3BNa2qsOtWMFG
+ 2O2Rlh/l725M5h4/GuDcaf7wRM0PiORKQTK+/yKBlJ1UcM5JbXO+UJXDtTN0WA7tYqZI
+ pCZJ79FYwX89nmWG8NYJSMP9eodyUvyFm90INEL02c7b7urDM48K/CBG1efmfeOd0QOi
+ S01w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=0xYz+BH2rMxrOscxGjnU6A3/paa1HYzKHp1tH86q4D0=;
- b=icjg4aZkZOkA51ITzcxc06Ba1vnTLYyEtPErz42WhlG5VtctUxJ6J+OwvsCNgw+47b
- x5zDbIAGP9ERI9l9G13ZKkQeXAaD/Dpd/aylR8cpp36dPjbtieUeVyDEyq1gPQwaZgV+
- kAX09vaFbYO+b3vAbO91QbNhUnUk/CAW0GJJzjgYaTW4ZSBFfyrYdbfccS4VT2pTP84U
- lWQyvYWpaSUckLJ9LL3nOF5j6lyQ0SatJNBeC0vNmwggBEF3LLisTUzkNKU6LbtoRgpW
- lg+3KscbDwYiNMCl9YVX3f0laM7s6UuUh4M6kqFclSTdBX/ChYrFQOr88Ju7RVyf00uy
- bT+g==
-X-Gm-Message-State: APjAAAUxJDjhfBXFDztqV0QVCpfqpH3Nolv3X16+svKROGunFXlRPGMf
- Q+6b2ViT4sThZ0GKcWemXMDKnro5
-X-Google-Smtp-Source: APXvYqwL3y4EI01ZgsW+t+mTq4DEhTaBjrSIoBtQwpEfRpxDsNtSUYlvBYmWdNyXS8ysM6809Ug8qQ==
-X-Received: by 2002:adf:f68f:: with SMTP id v15mr901893wrp.210.1570035120288; 
- Wed, 02 Oct 2019 09:52:00 -0700 (PDT)
+ bh=3dvmDFlr0gurTBYD4r1hBqQhpgoTuiAsAyqm2OCYvPs=;
+ b=Vann0jTDt/sWa6F0DpX7Hdp2YflXRt9bqdGGISWIkSS34iG9Pi1pJwgeudlKQnb/xh
+ cWVSscQkWWbe1M7YzKNrawgBoMHTC/yhxfujKOUnFUWoT9lu22zrbp5z16ER8XszLy2U
+ MvVc3bY7m5tpJuUQyT/bj479A+I4cm22rRWbWOdo9VrcCGTOqaWGFt3LoBzdqa4LcHYP
+ ipp8If9nD2rZ1jD6P3O+AlOMo07yFiKKZkWXaECgfeECr2YyD+2+hxzz5Hc5ptRucXPc
+ gU7pLKnulEUlMHu3J/ImDFtic0/nL5miE7SUEH13EYl1xKkU3gTzidblUTlfbyCNYXGB
+ Ox+w==
+X-Gm-Message-State: APjAAAUYVsycTRpSLB45bJMftMTHKcWhYlRPj6Qwjs4Tan6SDaqrH0aP
+ UBHIZ54WGDADrCqA+rzb4BjfOnVS
+X-Google-Smtp-Source: APXvYqwJKEp/xW3j9PwjretCMxLCxfT13rZZRIkwWEU9MYNFcdqXIzxyBPx9XnWVMa5zGAhSU2zNog==
+X-Received: by 2002:adf:b60b:: with SMTP id f11mr3352379wre.95.1570035121183; 
+ Wed, 02 Oct 2019 09:52:01 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.51.59
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:51:59 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/30] target/i386: add VMX definitions
-Date: Wed,  2 Oct 2019 18:51:28 +0200
-Message-Id: <1570035113-56848-6-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 06/30] vmxcap: correct the name of the variables
+Date: Wed,  2 Oct 2019 18:51:29 +0200
+Message-Id: <1570035113-56848-7-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,162 +78,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These will be used to compile the list of VMX features for named
-CPU models, and/or by the code that sets up the VMX MSRs.
+The low bits are 1 if the control must be one, the high bits
+are 1 if the control can be one.  Correct the variable names
+as they are very confusing.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h | 130 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 130 insertions(+)
+ scripts/kvm/vmxcap | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c00cc35..23a30e1 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -452,6 +452,25 @@ typedef enum X86Seg {
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
- 
-+#define MSR_IA32_VMX_BASIC              0x00000480
-+#define MSR_IA32_VMX_PINBASED_CTLS      0x00000481
-+#define MSR_IA32_VMX_PROCBASED_CTLS     0x00000482
-+#define MSR_IA32_VMX_EXIT_CTLS          0x00000483
-+#define MSR_IA32_VMX_ENTRY_CTLS         0x00000484
-+#define MSR_IA32_VMX_MISC               0x00000485
-+#define MSR_IA32_VMX_CR0_FIXED0         0x00000486
-+#define MSR_IA32_VMX_CR0_FIXED1         0x00000487
-+#define MSR_IA32_VMX_CR4_FIXED0         0x00000488
-+#define MSR_IA32_VMX_CR4_FIXED1         0x00000489
-+#define MSR_IA32_VMX_VMCS_ENUM          0x0000048a
-+#define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b
-+#define MSR_IA32_VMX_EPT_VPID_CAP       0x0000048c
-+#define MSR_IA32_VMX_TRUE_PINBASED_CTLS  0x0000048d
-+#define MSR_IA32_VMX_TRUE_PROCBASED_CTLS 0x0000048e
-+#define MSR_IA32_VMX_TRUE_EXIT_CTLS      0x0000048f
-+#define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
-+#define MSR_IA32_VMX_VMFUNC             0x00000491
-+
- #define XSTATE_FP_BIT                   0
- #define XSTATE_SSE_BIT                  1
- #define XSTATE_YMM_BIT                  2
-@@ -750,6 +769,117 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- 
- #define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
- 
-+/* VMX MSR features */
-+#define MSR_VMX_BASIC_VMCS_REVISION_MASK             0x7FFFFFFFull
-+#define MSR_VMX_BASIC_VMXON_REGION_SIZE_MASK         (0x00001FFFull << 32)
-+#define MSR_VMX_BASIC_VMCS_MEM_TYPE_MASK             (0x003C0000ull << 32)
-+#define MSR_VMX_BASIC_DUAL_MONITOR                   (1ULL << 49)
-+#define MSR_VMX_BASIC_INS_OUTS                       (1ULL << 54)
-+#define MSR_VMX_BASIC_TRUE_CTLS                      (1ULL << 55)
-+
-+#define MSR_VMX_MISC_PREEMPTION_TIMER_SHIFT_MASK     0x1Full
-+#define MSR_VMX_MISC_STORE_LMA                       (1ULL << 5)
-+#define MSR_VMX_MISC_ACTIVITY_HLT                    (1ULL << 6)
-+#define MSR_VMX_MISC_ACTIVITY_SHUTDOWN               (1ULL << 7)
-+#define MSR_VMX_MISC_ACTIVITY_WAIT_SIPI              (1ULL << 8)
-+#define MSR_VMX_MISC_MAX_MSR_LIST_SIZE_MASK          0x0E000000ull
-+#define MSR_VMX_MISC_VMWRITE_VMEXIT                  (1ULL << 29)
-+#define MSR_VMX_MISC_ZERO_LEN_INJECT                 (1ULL << 30)
-+
-+#define MSR_VMX_EPT_EXECONLY                         (1ULL << 0)
-+#define MSR_VMX_EPT_PAGE_WALK_LENGTH_4               (1ULL << 6)
-+#define MSR_VMX_EPT_PAGE_WALK_LENGTH_5               (1ULL << 7)
-+#define MSR_VMX_EPT_UC                               (1ULL << 8)
-+#define MSR_VMX_EPT_WB                               (1ULL << 14)
-+#define MSR_VMX_EPT_2MB                              (1ULL << 16)
-+#define MSR_VMX_EPT_1GB                              (1ULL << 17)
-+#define MSR_VMX_EPT_INVEPT                           (1ULL << 20)
-+#define MSR_VMX_EPT_AD_BITS                          (1ULL << 21)
-+#define MSR_VMX_EPT_ADVANCED_VMEXIT_INFO             (1ULL << 22)
-+#define MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT            (1ULL << 25)
-+#define MSR_VMX_EPT_INVEPT_ALL_CONTEXT               (1ULL << 26)
-+#define MSR_VMX_EPT_INVVPID                          (1ULL << 32)
-+#define MSR_VMX_EPT_INVVPID_SINGLE_ADDR              (1ULL << 40)
-+#define MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT           (1ULL << 41)
-+#define MSR_VMX_EPT_INVVPID_ALL_CONTEXT              (1ULL << 42)
-+#define MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS (1ULL << 43)
-+
-+#define MSR_VMX_VMFUNC_EPT_SWITCHING                 (1ULL << 0)
-+
-+
-+/* VMX controls */
-+#define VMX_CPU_BASED_VIRTUAL_INTR_PENDING          0x00000004
-+#define VMX_CPU_BASED_USE_TSC_OFFSETING             0x00000008
-+#define VMX_CPU_BASED_HLT_EXITING                   0x00000080
-+#define VMX_CPU_BASED_INVLPG_EXITING                0x00000200
-+#define VMX_CPU_BASED_MWAIT_EXITING                 0x00000400
-+#define VMX_CPU_BASED_RDPMC_EXITING                 0x00000800
-+#define VMX_CPU_BASED_RDTSC_EXITING                 0x00001000
-+#define VMX_CPU_BASED_CR3_LOAD_EXITING              0x00008000
-+#define VMX_CPU_BASED_CR3_STORE_EXITING             0x00010000
-+#define VMX_CPU_BASED_CR8_LOAD_EXITING              0x00080000
-+#define VMX_CPU_BASED_CR8_STORE_EXITING             0x00100000
-+#define VMX_CPU_BASED_TPR_SHADOW                    0x00200000
-+#define VMX_CPU_BASED_VIRTUAL_NMI_PENDING           0x00400000
-+#define VMX_CPU_BASED_MOV_DR_EXITING                0x00800000
-+#define VMX_CPU_BASED_UNCOND_IO_EXITING             0x01000000
-+#define VMX_CPU_BASED_USE_IO_BITMAPS                0x02000000
-+#define VMX_CPU_BASED_MONITOR_TRAP_FLAG             0x08000000
-+#define VMX_CPU_BASED_USE_MSR_BITMAPS               0x10000000
-+#define VMX_CPU_BASED_MONITOR_EXITING               0x20000000
-+#define VMX_CPU_BASED_PAUSE_EXITING                 0x40000000
-+#define VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   0x80000000
-+
-+#define VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES 0x00000001
-+#define VMX_SECONDARY_EXEC_ENABLE_EPT               0x00000002
-+#define VMX_SECONDARY_EXEC_DESC                     0x00000004
-+#define VMX_SECONDARY_EXEC_RDTSCP                   0x00000008
-+#define VMX_SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   0x00000010
-+#define VMX_SECONDARY_EXEC_ENABLE_VPID              0x00000020
-+#define VMX_SECONDARY_EXEC_WBINVD_EXITING           0x00000040
-+#define VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST       0x00000080
-+#define VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT       0x00000100
-+#define VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    0x00000200
-+#define VMX_SECONDARY_EXEC_PAUSE_LOOP_EXITING       0x00000400
-+#define VMX_SECONDARY_EXEC_RDRAND_EXITING           0x00000800
-+#define VMX_SECONDARY_EXEC_ENABLE_INVPCID           0x00001000
-+#define VMX_SECONDARY_EXEC_ENABLE_VMFUNC            0x00002000
-+#define VMX_SECONDARY_EXEC_SHADOW_VMCS              0x00004000
-+#define VMX_SECONDARY_EXEC_ENCLS_EXITING            0x00008000
-+#define VMX_SECONDARY_EXEC_RDSEED_EXITING           0x00010000
-+#define VMX_SECONDARY_EXEC_ENABLE_PML               0x00020000
-+#define VMX_SECONDARY_EXEC_XSAVES                   0x00100000
-+
-+#define VMX_PIN_BASED_EXT_INTR_MASK                 0x00000001
-+#define VMX_PIN_BASED_NMI_EXITING                   0x00000008
-+#define VMX_PIN_BASED_VIRTUAL_NMIS                  0x00000020
-+#define VMX_PIN_BASED_VMX_PREEMPTION_TIMER          0x00000040
-+#define VMX_PIN_BASED_POSTED_INTR                   0x00000080
-+
-+#define VMX_VM_EXIT_SAVE_DEBUG_CONTROLS             0x00000004
-+#define VMX_VM_EXIT_HOST_ADDR_SPACE_SIZE            0x00000200
-+#define VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL      0x00001000
-+#define VMX_VM_EXIT_ACK_INTR_ON_EXIT                0x00008000
-+#define VMX_VM_EXIT_SAVE_IA32_PAT                   0x00040000
-+#define VMX_VM_EXIT_LOAD_IA32_PAT                   0x00080000
-+#define VMX_VM_EXIT_SAVE_IA32_EFER                  0x00100000
-+#define VMX_VM_EXIT_LOAD_IA32_EFER                  0x00200000
-+#define VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER       0x00400000
-+#define VMX_VM_EXIT_CLEAR_BNDCFGS                   0x00800000
-+#define VMX_VM_EXIT_PT_CONCEAL_PIP                  0x01000000
-+#define VMX_VM_EXIT_CLEAR_IA32_RTIT_CTL             0x02000000
-+
-+#define VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
-+#define VMX_VM_ENTRY_IA32E_MODE                     0x00000200
-+#define VMX_VM_ENTRY_SMM                            0x00000400
-+#define VMX_VM_ENTRY_DEACT_DUAL_MONITOR             0x00000800
-+#define VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL     0x00002000
-+#define VMX_VM_ENTRY_LOAD_IA32_PAT                  0x00004000
-+#define VMX_VM_ENTRY_LOAD_IA32_EFER                 0x00008000
-+#define VMX_VM_ENTRY_LOAD_BNDCFGS                   0x00010000
-+#define VMX_VM_ENTRY_PT_CONCEAL_PIP                 0x00020000
-+#define VMX_VM_ENTRY_LOAD_IA32_RTIT_CTL             0x00040000
-+
- /* Supported Hyper-V Enlightenments */
- #define HYPERV_FEAT_RELAXED             0
- #define HYPERV_FEAT_VAPIC               1
+diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
+index d8c7d6d..5dfeb2e 100755
+--- a/scripts/kvm/vmxcap
++++ b/scripts/kvm/vmxcap
+@@ -51,15 +51,15 @@ class Control(object):
+         return (val & 0xffffffff, val >> 32)
+     def show(self):
+         print(self.name)
+-        mbz, mb1 = self.read2(self.cap_msr)
+-        tmbz, tmb1 = 0, 0
++        mb1, cb1 = self.read2(self.cap_msr)
++        tmb1, tcb1 = 0, 0
+         if self.true_cap_msr:
+-            tmbz, tmb1 = self.read2(self.true_cap_msr)
++            tmb1, tcb1 = self.read2(self.true_cap_msr)
+         for bit in sorted(self.bits.keys()):
+-            zero = not (mbz & (1 << bit))
+-            one = mb1 & (1 << bit)
+-            true_zero = not (tmbz & (1 << bit))
+-            true_one = tmb1 & (1 << bit)
++            zero = not (mb1 & (1 << bit))
++            one = cb1 & (1 << bit)
++            true_zero = not (tmb1 & (1 << bit))
++            true_one = tcb1 & (1 << bit)
+             s= '?'
+             if (self.true_cap_msr and true_zero and true_one
+                 and one and not zero):
 -- 
 1.8.3.1
 
