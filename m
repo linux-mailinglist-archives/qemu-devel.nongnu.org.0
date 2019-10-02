@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1746C878C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 13:47:12 +0200 (CEST)
-Received: from localhost ([::1]:54026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 325EEC87A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 13:59:01 +0200 (CEST)
+Received: from localhost ([::1]:54148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFd67-0007uj-Oi
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 07:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
+	id 1iFdHY-0003QR-45
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 07:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cmull@us.ibm.com>) id 1iFcum-0005Sx-US
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:35:30 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iFdGB-0002U9-HS
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:57:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cmull@us.ibm.com>) id 1iFcuj-00032W-Nf
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:35:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50372
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cmull@us.ibm.com>) id 1iFcuj-0002za-IL
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:35:25 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x92BVsFa005038
- for <qemu-devel@nongnu.org>; Wed, 2 Oct 2019 07:35:23 -0400
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
- [158.85.210.104])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vcs29kwu5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 07:35:23 -0400
-Received: from localhost
- by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
- for <qemu-devel@nongnu.org> from <cmull@us.ibm.com>;
- Wed, 2 Oct 2019 11:35:22 -0000
-Received: from us1b3-smtp02.a3dr.sjc01.isc4sb.com (10.122.7.175)
- by smtp.notes.na.collabserv.com (10.122.47.44) with
- smtp.notes.na.collabserv.com ESMTP; Wed, 2 Oct 2019 11:35:16 -0000
-Received: from us1b3-mail196.a3dr.sjc03.isc4sb.com ([10.168.5.55])
- by us1b3-smtp02.a3dr.sjc01.isc4sb.com
- with ESMTP id 2019100211351626-347431 ;
- Wed, 2 Oct 2019 11:35:16 +0000 
-In-Reply-To: <20191001114304.GZ9210@angien.pipo.sk>
-From: "Craig Mull" <cmull@us.ibm.com>
-To: pkrempa@redhat.com
-Date: Wed, 2 Oct 2019 11:35:15 +0000
-Sensitivity: 
+ (envelope-from <mreitz@redhat.com>) id 1iFdG9-00033W-Cr
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:57:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50450)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iFdG3-00030d-L5; Wed, 02 Oct 2019 07:57:27 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 786C13084242;
+ Wed,  2 Oct 2019 11:57:26 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A1C5C22C;
+ Wed,  2 Oct 2019 11:57:22 +0000 (UTC)
+Subject: Re: [PATCH v5 1/5] iotests: remove 'linux' from default supported
+ platforms
+To: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190917234549.22910-1-jsnow@redhat.com>
+ <20190917234549.22910-2-jsnow@redhat.com>
+ <a252472e-842a-8401-2743-e4ed948b066b@redhat.com>
+ <450a1f52-9589-cb98-88cb-1d3fcd5f506a@redhat.com>
+ <778487c5-566e-d133-6395-d3908db66adc@redhat.com>
+ <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <16eef993-c16e-3fd7-c60d-6d3c7bfb5148@redhat.com>
+Date: Wed, 2 Oct 2019 13:57:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-References: <20191001114304.GZ9210@angien.pipo.sk>,
- <OFADB7E923.8BF08D6B-ON00258485.0069D537-00258485.006AC672@notes.na.collabserv.com>
- <facf5e37-18e0-7de5-09cf-a088f471d8ad@redhat.com>
- <20191001084553.GA4688@linux.fritz.box>
-Importance: Normal
-X-Priority: 3 (Normal)
-X-Mailer: IBM Verse Build 17652-1619 | IBM Domino Build
- SCN1812108_20180501T0841_FP57 August 05, 2019 at 12:42
-X-KeepSent: 01384F6D:E7CC6611-00258487:003EC1CB;
- type=4; name=$KeepSent
-X-LLNOutbound: False
-X-Disclaimed: 39287
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-x-cbid: 19100211-5525-0000-0000-000000F8126F
-X-IBM-SpamModules-Scores: BY=0.060805; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.386589; ST=0; TS=0; UL=0; ISC=; MB=0.025292
-X-IBM-SpamModules-Versions: BY=3.00011876; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000292; SDB=6.01269608; UDB=6.00671966; IPR=6.01051646; 
- MB=3.00028912; MTD=3.00000008; XFM=3.00000015; UTC=2019-10-02 11:35:20
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2019-10-02 09:30:44 - 6.00010477
-x-cbparentid: 19100211-5526-0000-0000-000062AF131C
-Message-Id: <OF01384F6D.E7CC6611-ON00258487.003EC1CB-00258487.003FA722@notes.na.collabserv.com>
-Subject: RE: Qemu Dirty Bitmap backup to encrypted target
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-02_06:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+In-Reply-To: <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="PdPbAbbEzrrfztt6TAVNNRnJQQXFfjqlU"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Wed, 02 Oct 2019 11:57:26 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,102 +90,340 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Leo Luan <leoluan@us.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<div class=3D"socmaildefaultfont" dir=3D"ltr" style=3D"font-family:Arial, H=
-elvetica, sans-serif;font-size:10pt" ><div dir=3D"ltr" >Thanks to all who r=
-esponded on&nbsp;this thread.</div>
-<div dir=3D"ltr" >&nbsp;</div>
-<div dir=3D"ltr" >This bugzills appears to outline a procedure&nbsp;we can =
-try&nbsp;..&nbsp;<a href=3D"https://bugzilla.redhat.com/show=5Fbug.cgi?id=
-=3D1662412" style=3D"font-size: 10pt;" >https://bugzilla.redhat.com/show=5F=
-bug.cgi?id=3D1662412</a></div>
-<div dir=3D"ltr" ><div class=3D"socmaildefaultfont" dir=3D"ltr" style=3D"fo=
-nt-family:Arial, Helvetica, sans-serif;font-size:10.5pt" ><div class=3D"soc=
-maildefaultfont" dir=3D"ltr" style=3D"font-family:Arial, Helvetica, sans-se=
-rif;font-size:10.5pt" ><div class=3D"socmaildefaultfont" dir=3D"ltr" style=
-=3D"font-family:Arial, Helvetica, sans-serif;font-size:10.5pt" ><div class=
-=3D"socmaildefaultfont" dir=3D"ltr" style=3D"font-family:Arial, Helvetica, =
-sans-serif;font-size:10.5pt" ><div class=3D"socmaildefaultfont" dir=3D"ltr"=
- style=3D"font-family:Arial, Helvetica, sans-serif;font-size:10.5pt" ><div =
-class=3D"socmaildefaultfont" dir=3D"ltr" style=3D"font-family:Arial, Helvet=
-ica, sans-serif;font-size:10.5pt" ><div class=3D"socmaildefaultfont" dir=3D=
-"ltr" style=3D"font-family:Arial, Helvetica, sans-serif;font-size:10.5pt" >=
-<div dir=3D"ltr" ><br>=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F<br>Craig Mull<br>VPC Storage Arc=
-hitect<br>cmull@us.ibm.com<br>&nbsp;</div></div></div></div></div></div></d=
-iv></div></div>
-<div dir=3D"ltr" >&nbsp;</div>
-<div dir=3D"ltr" >&nbsp;</div>
-<blockquote data-history-content-modified=3D"1" dir=3D"ltr" style=3D"border=
--left:solid #aaaaaa 2px; margin-left:5px; padding-left:5px; direction:ltr; =
-margin-right:0px" >----- Original message -----<br>From: Peter Krempa &lt;p=
-krempa@redhat.com&gt;<br>Sent by: "Qemu-devel" &lt;qemu-devel-bounces+cmull=
-=3Dus.ibm.com@nongnu.org&gt;<br>To: Kevin Wolf &lt;kwolf@redhat.com&gt;<br>=
-Cc: Craig Mull &lt;cmull@us.ibm.com&gt;, John Snow &lt;jsnow@redhat.com&gt;=
-, qemu-devel@nongnu.org, Qemu-block &lt;qemu-block@nongnu.org&gt;, Leo Luan=
- &lt;leoluan@us.ibm.com&gt;<br>Subject: [EXTERNAL] Re: Qemu Dirty Bitmap ba=
-ckup to encrypted target<br>Date: Tue, Oct 1, 2019 6:45 AM<br>&nbsp;
-<div><font face=3D"Default Monospace,Courier New,Courier,monospace" size=3D=
-"2" >On Tue, Oct 01, 2019 at 10:45:53 +0200, Kevin Wolf wrote:<br>&gt; Am 0=
-1.10.2019 um 02:24 hat John Snow geschrieben:<br>&gt; &gt;<br>&gt; &gt;<br>=
-&gt; &gt; On 9/30/19 3:26 PM, Craig Mull wrote:<br>&gt; &gt; &gt; How can h=
-ave QEMU backup write the output&nbsp;to an encrypted target?<br>&gt; &gt; =
-&gt; &nbsp;<br>&gt; &gt; &gt; Blocks in the dirty bitmap are unencrypted, a=
-nd as such when I write<br>&gt; &gt; &gt; them with QEMU backup they are wr=
-itten to the target unencrypted.<br>&gt; &gt; &gt; &nbsp;<br>&gt; &gt; &gt;=
- I've experimented with providing a json string as the target but with no<b=
-r>&gt; &gt; &gt; luck.<br>&gt; &gt; &gt; &nbsp;<br>&gt; &gt; &gt;<br>&gt; &=
-gt; &gt; transaction=3D'{ "execute": "transaction",&nbsp;<br>&gt; &gt; &gt;=
-<br>&gt; &gt; &gt; &nbsp; "arguments": {&nbsp;<br>&gt; &gt; &gt;<br>&gt; &g=
-t; &gt; &nbsp; &nbsp; "actions": [<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &nbs=
-p; &nbsp; &nbsp; {"type": "block-dirty-bitmap-add",&nbsp;<br>&gt; &gt; &gt;=
-<br>&gt; &gt; &gt; &nbsp;&nbsp; &nbsp; &nbsp; "data": {"node": "drive-virti=
-o-disk0", "granularity": 2097152,<br>&gt; &gt; &gt; "name": "mybitmap"} },<=
-br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &nbsp; &nbsp; &nbsp; {"type": "drive-ba=
-ckup",<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &nbsp;&nbsp; &nbsp; &nbsp; "data=
-": {"device": "drive-virtio-disk0", "target":<br>&gt; &gt; &gt; "json:{\"en=
-crypt.format\": \"luks\", \"encrypt.key-secret\":<br>&gt; &gt; &gt; \"virti=
-o-disk0-luks-secret0\", \"driver\": \"qcow2\", \"file\":<br>&gt; &gt; &gt; =
-{\"driver\": \"file\", \"filename\": \"/tmp/target-encrypt-test.qcow2\"}}",=
-<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; "sync": "full", "format": "qcow2"} }&nbsp;<br>&gt; &gt; &=
-gt;<br>&gt; &gt; &gt; &nbsp; &nbsp; ]&nbsp;<br>&gt; &gt; &gt;<br>&gt; &gt; =
-&gt; &nbsp; }&nbsp;<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; }'<br>&gt; &gt; &gt=
-;<br>&gt; &gt; &gt; &nbsp;<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; virsh -c qem=
-u:///system qemu-monitor-command --pretty 28 $transaction<br>&gt; &gt; &gt;=
-<br>&gt; &gt; &gt; &nbsp;<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; {<br>&gt; &gt=
-; &gt;<br>&gt; &gt; &gt; &nbsp; "id": "libvirt-45",<br>&gt; &gt; &gt;<br>&g=
-t; &gt; &gt; &nbsp; "error": {<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &nbsp; &=
-nbsp; "class": "GenericError",<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &nbsp; &=
-nbsp; "desc": "Unknown protocol 'json'"<br>&gt; &gt; &gt;<br>&gt; &gt; &gt;=
- &nbsp; }<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; }<br>&gt; &gt; &gt;<br>&gt; &=
-gt; &gt;<br>&gt; &gt;<br>&gt; &gt; I'll be honest, I'm not very good at the=
- json specifications and don't<br>&gt; &gt; really know when they're approp=
-riate to use. At the basic level,<br>&gt; &gt; drive-backup expects a filen=
-ame. Sometimes the filename can get fancy,<br>&gt; &gt; but... I stay away =
-from that.<br>&gt; &gt;<br>&gt; &gt; Try using qmp-blockdev-create to creat=
-e the target node instead, and<br>&gt; &gt; then using blockdev-backup to b=
-ackup to that target.<br>&gt;<br>&gt; As the actual invocation is a virsh c=
-ommand, I think this is more of a<br>&gt; libvirt question than a QEMU one.=
-<br><br>The above virsh command is a direct (unsupported/experimental) comm=
-and<br>passthrough to qemu, thus the syntax is identical to raw QMP.<br><br=
->You must use blockdev-backup as outlined above along with any management<b=
-r>necessary for adding the devices previously. Obviously this may<br>desync=
-hronize state with libvirt.<br><br>&gt; I suspect that libvirt won't suppor=
-t this without -blockdev support<br>&gt; (which will enable blockdev-backup=
- instead of drive-backup), but even<br>&gt; then libvirt might not even off=
-er an API for an encrypted target. Not<br>&gt; sure, though, so CCing Peter=
-.<br><br>The current state is that libvirt will support backup only with<br=
->-blockdev. In that case everything including encrypted images should be<br=
->supported same way as we (will [1]) support them with snapshots or<br>norm=
-al disks.<br><br>This is currently being worked on.<br><br>[1] All the code=
- for blockdev is in but it's not enabled yet as we are<br>waiting for the p=
-ossibility to detect the fix for 'savevm' done<br>recently. -blockdev will =
-be supported with qemu-4.2.</font><br>&nbsp;</div></blockquote>
-<div dir=3D"ltr" >&nbsp;</div></div><BR>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--PdPbAbbEzrrfztt6TAVNNRnJQQXFfjqlU
+Content-Type: multipart/mixed; boundary="OOqjwLymJ9ooyFwkTXqgDbI0gpMLFXMSm"
 
+--OOqjwLymJ9ooyFwkTXqgDbI0gpMLFXMSm
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 02.10.19 06:46, Thomas Huth wrote:
+> On 01/10/2019 20.44, Max Reitz wrote:
+> [...]
+>> As I have said, the conceptual problem is that the iotests now run as
+>> part of make check.  As such, allowing auto tests to run on non-Linux
+>> platforms may introduce build failures that I cannot do anything about=
+=2E
+>=20
+> Well, simply run "make vm-build-openbsd", "make vm-build-freebsd", ...
+> if something fails there, it likely should not be in the auto group.
+
+Then we come to Windows and macOS.
+
+What I=E2=80=99ve proposed to John on IRC was to simply skip the iotests =
+in make
+check for non-Linux systems.
+
+>> And those are very much new failures.
+>>
+>>> I think that I have demonstrated sufficiently that it's not correct t=
+o
+>>> prohibit python tests from running on other platforms wholesale, so I=
+'d
+>>> prefer we don't do that anymore.
+>>
+>> You have not.
+>>
+>> The actual argument to convince me is =E2=80=9CThis does not affect an=
+y tests in
+>> the auto group, so it will not introduce build failures at this time=E2=
+=80=9D.
+>=20
+> I've applied the patch here and it works fine with FreeBSD and macOS:
+>=20
+>  https://cirrus-ci.com/build/5169384718336000
+>  https://travis-ci.com/huth/qemu/builds/129968676
+>=20
+> It also works fine with "make vm-build-openbsd BUILD_TARGET=3Dcheck-blo=
+ck"
+> ... so I think you don't have to worry here.
+
+Obviously, because as I=E2=80=99ve said it doesn=E2=80=99t affect any tes=
+ts in the auto
+group.  Yet.
+
+>>> Further, iotests on FreeBSD already weren't 100% green, so I'm not
+>>> causing a regression in that sense, either.
+>>
+>> My problem is twofold:
+>>
+>> (1) You claim =E2=80=9CSure, there are failures, but let=E2=80=99s jus=
+t deal with them=E2=80=9D
+>> and then you do not deal with them.  Seems wrong to me.
+>>
+>> I=E2=80=99m fine with the argument =E2=80=9CSorry, royal =E2=80=98we=E2=
+=80=99.  But it just doesn=E2=80=99t help
+>> anyone to hide the errors.  If someone=E2=80=99s on BSD and wants to r=
+un the
+>> iotests, let them.=E2=80=9D
+>>
+>> That sounds good to me.
+>>
+>> (2) Maybe someone adds a Python test in the future that is in auto and=
+
+>> that does not specify Linux as the only supported platform.  Then I se=
+nd
+>> a pull request and it breaks on macOS.  Now what?  Remove it from auto=
+?
+>>  Blindly put "macOS" in unsupported platforms?
+>=20
+> I think both solutions are good. If a test does not work on all systems=
+,
+> it either should not be in the "auto" group, or it needs to be modified=
+
+> to skip testing when running in an unsupported environment.
+>=20
+>> In any case, it=E2=80=99ll be a problem for no good reason.
+>=20
+> Really? Is "more test coverage" not a good reason?
+
+It isn=E2=80=99t when the solution is to just reduce the coverage again.
+
+Furthermore, the problem is that we get this additional coverage on
+systems that I will not support.
+
+>> More on that in the next chunk.
+>>
+>>> I'm going to meekly push and ask that we stage this as-is, and when
+>>> something bad happens you can remind me that I wanted this and make m=
+e
+>>> do it.
+>>
+>> Make you do what?  Deal with the fact that a pull request is rejected
+>> because a test fails on macOS?
+>>
+>> This is precisely the kind of problem I already had with adding the
+>> iotests to make check, and I=E2=80=99m already very much not happy abo=
+ut it.
+>> (In that case it was $DISPLAY not being set on Peter=E2=80=99s test sy=
+stem.)
+>>
+>> I=E2=80=99ll let you make the deduction of =E2=80=9CThe problem isn=E2=
+=80=99t allowing the
+>> iotests to run on non-Linux platforms, but the fact that they run in
+>> make check=E2=80=9D yourself, so that I no longer feel like I=E2=80=99=
+m the only one who
+>> considers that having been a mistake.
+>=20
+> Max, I can understand that you are a little bit annoyed that this "make=
+
+> check with iotests" caused some extra hurdles for you. But honestly,
+> removing that again would be quite egoistic by you. Try to put yourself=
+
+> into the position of a "normal", non-blocklayer-maintainer QEMU
+> developer. For me, iotests were a *constant* source of frustration.
+> Often, when I ran them on top of my latest and greatest patches, to
+> check whether I caused a regression, the iotests simply failed. Then I
+> had to start debugging - did my patches cause the break, or is "master"=
+
+> broken, too? In almost all cases, there was an issue in the master
+> branch already, either because they were failing on s390x, or because I=
+
+> was using ext4 instead of xfs, or because I was using an older distro
+> than you, etc... . So while the iotests likely worked fine for the
+> limited set of systems that you, Kevin and the other hard-core block
+> layer developers are using, it's constantly broken for everybody else
+> who is not using the very same setup as you. The only way of *not*
+> getting upset about the iotests was to simply completely *ignore* them.=
+
+> Is it that what you want?
+
+It usually worked fine for me because it=E2=80=99s rather rare that non-b=
+lock
+patches broke the iotests.
+
+I have to admit I actually didn=E2=80=99t think of other people wanting t=
+o run
+the iotests; but to be honest, your mail doesn=E2=80=99t sound like you w=
+ant to
+run the iotests either.  It rather sounds like you have to because
+otherwise I might complain.
+
+(The reason I didn=E2=80=99t think of it is because non-block patches rar=
+ely
+break them, so I wouldn=E2=80=99t run the iotests if I were a non-block
+maintainer.  Sorry.)
+
+
+Part of my problem is precisely with the fact that different systems are
+different and that the iotests are not as deterministic as we=E2=80=99d w=
+ant
+them to be.  Realistically, I don=E2=80=99t think they=E2=80=99ll ever be=
+=2E  I know they
+haven=E2=80=99t been for six years even though it=E2=80=99s been kind of =
+a goal, but it
+hasn=E2=80=99t worked out so far.  (I don=E2=80=99t think it=E2=80=99s po=
+ssible to write iotests
+in a way that they are provably deterministic.)
+
+So now you run the tests on your machine, they pass, you send a pull
+request.  On Peter=E2=80=99s test machines, they pass, too, so the reques=
+t is
+merged.  But then on someone else=E2=80=99s machine, they don=E2=80=99t, =
+so they get a
+make check failure, which is just one step below build failure.  (Or
+maybe it just turns up later on the test machines, because it=E2=80=99s f=
+lakey.
+ Like in the case of 130 a week ago, which I CC=E2=80=99d you on.)
+
+And then it=E2=80=99s my problem even though there=E2=80=99s most likely =
+no real problem
+there.  (And I can=E2=80=99t reproduce it, because, well, I have a differ=
+ent setup.)
+
+
+Maybe my main problem is that I feel like now I have to deal with all of
+the fallout, even though adding the iotests to make check wasn=E2=80=99t =
+my idea
+and neither me nor Kevin ever consented.  (I don=E2=80=99t know whether K=
+evin
+consented implicitly, but I don=E2=80=99t see his name in bdd95e47844f2d8=
+b.)
+
+You can=E2=80=99t just give me more responsibility without my consent and=
+ then
+call me egoistic for not liking it.
+
+> Or maybe let me phrase it differently: Do you consider the iotests as
+> something that is more or less "private" to the hard-core block layer
+> developers, and it's ok if others completely ignore them and break them=
+
+> by accident (and you also don't expect the normal developers to fix the=
+
+> iotests afterwards)?
+
+Well, that=E2=80=99s how it=E2=80=99s always worked, and that didn=E2=80=99=
+t frustrate me.
+
+Also, to give you a bit more perspective on why the situation has just
+worsed for me, it=E2=80=99s because I run many more tests than what we ha=
+ve in
+auto for qcow2.  I=E2=80=99ve rarely had a problem with that very limited=
+ set of
+tests, but with others.  Mostly NBD, actually.
+
+(I run qcow2, qcow2 -o compat=3D0.10, qcow2 -o refcount_bits=3D1, nbd, ra=
+w,
+luks, qcow, qed, cloop, parallels, bochs, vdi, vhdx, vmdk, vpc; only
+x64, but at least both -m64 and -m32.)
+
+First, a disclaimer.  I=E2=80=99m aware that I may be very wrong about th=
+e
+following, because I will not see make check failures on other people=E2=80=
+=99s
+systems that they fix themselves.  But the thing is, you haven=E2=80=99t =
+told me
+about any such failures on your system so far, so I=E2=80=99m just going =
+to give
+you my perspective here.
+
+Honestly, it looks to me like you don=E2=80=99t even want to run the iote=
+sts.  I
+interpret most of what you=E2=80=99ve written as:
+
+- I don=E2=80=99t want to not run the iotests, because then people will h=
+it me
+  for making them fail.
+
+- But they fail all the time, so I always need a baseline for what is
+  expected to sometimes fail and what isn=E2=80=99t.  That=E2=80=99s very=
+ annoying.
+  Let=E2=80=99s introduce a baseline in the form of auto/qcow2, and then =
+let
+  everyone verify that it works.
+
+So to me it looks like we=E2=80=99ve just added all tests that never fail=
+ to
+auto.  But if they never fail, then it=E2=80=99s like we haven=E2=80=99t =
+run the tests
+at all.  (As I=E2=80=99ve said, you need to tell me whether they do fail,=
+
+because I don=E2=80=99t see them fail[1].)
+
+So honestly (I know this is unfair, but it=E2=80=99s my honest POV) it lo=
+oks to
+me like the current situation is just an excuse for everyone to be able
+to claim they run the iotests.  When actually, they don=E2=80=99t, becaus=
+e they
+run only a small well-defined set that doesn=E2=80=99t catch much anyway.=
+  (What
+they do catch is stuff that doesn=E2=80=99t help.)
+
+I know you=E2=80=99ll say that we just need to ensure we can add more tes=
+ts,
+then.  But for one thing, the most important tests are the ones that
+take the longest, like 041.  And the other of course is that adding any
+more tests to make check just brings me more pain, so I won=E2=80=99t do =
+it.
+
+[1] There is the recent case of Kevin=E2=80=99s pull request having been
+rejected because his test failed on anything but x64.  I=E2=80=99m torn h=
+ere,
+because I would have seen that failure on my -m32 build.  So it isn=E2=80=
+=99t
+like it would have evaded our view for long.
+
+But OTOH, yes, this is a failure that could have annoyed quite some
+people for a week; and now it has indeed been caught by make check.
+
+> Then sure, please go ahead and remove the iotests
+> from "make check" again. Maybe I just understood the idea of having
+> common tests in the repository wrong (or maybe the iotests should be
+> moved to a separate repository instead, so that the normal QEMU
+> developers do not get in touch with them anymore?) ... Otherwise, I
+> think it was the right step to add them "make check" so that everybody
+> now *has* to run at least a basic set of the iotests now before they ca=
+n
+> their patches merged.
+
+=46rom what I read you yourself argued that that doesn=E2=80=99t mean muc=
+h,
+though, because everyone has different setups on their machine.
+
+> PS: Sorry, if my mail sounded a little bit harsh... but I really had
+> quite some frustration with the iotests in the past already.
+
+Me too, that=E2=80=99s the point.
+
+
+Overall, I think my main problem is that I feel like you=E2=80=99re leavi=
+ng me
+alone here.  It=E2=80=99s unfair to just add the iotests to make check wi=
+thout
+my consent, then let me deal with the problems, and then call me
+egoistic when I complain.
+
+You have to decide: Either let me deal with the problems, but then I
+have every right to be egoistic about it =E2=80=93 or you help me deal wi=
+th them.
+
+Max
+
+
+--OOqjwLymJ9ooyFwkTXqgDbI0gpMLFXMSm--
+
+--PdPbAbbEzrrfztt6TAVNNRnJQQXFfjqlU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2UkKAACgkQ9AfbAGHV
+z0AtGAf/QrVdzeVuj0r+9YijEBJyBXo5PHlH2AaOYRP7H1p+kddAQQldBIrO1f56
+SjlkpFuvFng0tQy5VyWCakOLFVKOrM9UO0YMyY2sAr7FlAoDWzNRwRJgvTdwXG+m
+rJrLAS79uly5sRy4YhXFEb+7s2bl2NmvZkJNrcjFGLbgi+ZVG8haWNbm/uwEOvHb
+zwD42Nhryy1bfC41RO22QYok1IC2zl+dOYmBDXbJYZTI4qof1tbdWTOjUcameaoP
+qfhn4kKs0P/ZwcMaFWvSTAX7mCeHNAizJW1CQ6IMKPcQVDVesGDFv/0makJ2Abby
+bTq6kKjUDRZXpb/qbEM9HqrMrAAXIg==
+=gAID
+-----END PGP SIGNATURE-----
+
+--PdPbAbbEzrrfztt6TAVNNRnJQQXFfjqlU--
 
