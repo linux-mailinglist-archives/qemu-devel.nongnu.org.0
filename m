@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7BAC8E39
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:24:38 +0200 (CEST)
-Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1959C8E2E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:22:30 +0200 (CEST)
+Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFhQb-0003FE-JS
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58833)
+	id 1iFhOX-0000HH-5F
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iFhLI-0005mS-6U
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:19:09 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iFhLJ-0005nf-2u
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:19:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iFhLG-00021Z-W2
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:19:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53348)
+ (envelope-from <kwolf@redhat.com>) id 1iFhLH-00021u-Ky
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:19:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33764)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iFhLE-0001vt-E2; Wed, 02 Oct 2019 12:19:04 -0400
+ id 1iFhLE-0001wn-Iz; Wed, 02 Oct 2019 12:19:04 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6B2AE316D8D1;
- Wed,  2 Oct 2019 16:19:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C142A307D978;
+ Wed,  2 Oct 2019 16:19:03 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-198.ams2.redhat.com
  [10.36.117.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6432B5D713;
- Wed,  2 Oct 2019 16:19:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B771A5D713;
+ Wed,  2 Oct 2019 16:19:02 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL v2 3/4] iotests: Require Python 3.6 or later
-Date: Wed,  2 Oct 2019 18:18:50 +0200
-Message-Id: <20191002161851.1016-4-kwolf@redhat.com>
+Subject: [PULL v2 4/4] iotests: Remove Python 2 compatibility code
+Date: Wed,  2 Oct 2019 18:18:51 +0200
+Message-Id: <20191002161851.1016-5-kwolf@redhat.com>
 In-Reply-To: <20191002161851.1016-1-kwolf@redhat.com>
 References: <20191002161851.1016-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 02 Oct 2019 16:19:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Wed, 02 Oct 2019 16:19:03 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,57 +61,94 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running iotests is not required to build QEMU, so we can have stricter
-version requirements for Python here and can make use of new features
-and drop compatibility code earlier.
+Some scripts check the Python version number and have two code paths to
+accomodate both Python 2 and 3. Remove the code specific to Python 2 and
+assert the minimum version of 3.6 instead (check skips Python tests in
+this case, so the assertion would only ever trigger if a Python script
+is executed manually).
 
-This makes qemu-iotests skip all Python tests if a Python version before
-3.6 is used for the build.
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/check | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/044        |  3 ---
+ tests/qemu-iotests/163        |  3 ---
+ tests/qemu-iotests/iotests.py | 13 +++----------
+ 3 files changed, 3 insertions(+), 16 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 875399d79f..588c453a94 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -633,6 +633,12 @@ then
-     export SOCKET_SCM_HELPER=3D"$build_iotests/socket_scm_helper"
- fi
+diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+index 05ea1f49c5..8b2afa2a11 100755
+--- a/tests/qemu-iotests/044
++++ b/tests/qemu-iotests/044
+@@ -28,9 +28,6 @@ import struct
+ import subprocess
+ import sys
 =20
-+python_usable=3Dfalse
-+if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >=3D (3,6) els=
-e 1)'
-+then
-+    python_usable=3Dtrue
-+fi
-+
- default_machine=3D$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*=
-//p')
- default_alias_machine=3D$($QEMU_PROG -machine help | \
-    sed -n "/(alias of $default_machine)/ { s/ .*//p; q; }")
-@@ -809,7 +815,12 @@ do
-         start=3D$(_wallclock)
+-if sys.version_info.major =3D=3D 2:
+-    range =3D xrange
+-
+ test_img =3D os.path.join(iotests.test_dir, 'test.img')
 =20
-         if [ "$(head -n 1 "$source_iotests/$seq")" =3D=3D "#!/usr/bin/en=
-v python" ]; then
--            run_command=3D"$PYTHON $seq"
-+            if $python_usable; then
-+                run_command=3D"$PYTHON $seq"
-+            else
-+                run_command=3D"false"
-+                echo "Unsupported Python version" > $seq.notrun
-+            fi
-         else
-             run_command=3D"./$seq"
-         fi
+ class TestRefcountTableGrowth(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+index 081ccc8ac1..d94728e080 100755
+--- a/tests/qemu-iotests/163
++++ b/tests/qemu-iotests/163
+@@ -21,9 +21,6 @@
+ import os, random, iotests, struct, qcow2, sys
+ from iotests import qemu_img, qemu_io, image_size
+=20
+-if sys.version_info.major =3D=3D 2:
+-    range =3D xrange
+-
+ test_img =3D os.path.join(iotests.test_dir, 'test.img')
+ check_img =3D os.path.join(iotests.test_dir, 'check.img')
+=20
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index b26271187c..9fb5181c3d 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -35,6 +35,7 @@ from collections import OrderedDict
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
+hon'))
+ from qemu import qtest
+=20
++assert sys.version_info >=3D (3,6)
+=20
+ # This will not work if arguments contain spaces but is necessary if we
+ # want to support the override options that ./check supports.
+@@ -250,10 +251,7 @@ def image_size(img):
+     return json.loads(r)['virtual-size']
+=20
+ def is_str(val):
+-    if sys.version_info.major >=3D 3:
+-        return isinstance(val, str)
+-    else:
+-        return isinstance(val, str) or isinstance(val, unicode)
++    return isinstance(val, str)
+=20
+ test_dir_re =3D re.compile(r"%s" % test_dir)
+ def filter_test_dir(msg):
+@@ -935,12 +933,7 @@ def execute_test(test_function=3DNone,
+     else:
+         # We need to filter out the time taken from the output so that
+         # qemu-iotest can reliably diff the results against master outpu=
+t.
+-        if sys.version_info.major >=3D 3:
+-            output =3D io.StringIO()
+-        else:
+-            # io.StringIO is for unicode strings, which is not what
+-            # 2.x's test runner emits.
+-            output =3D io.BytesIO()
++        output =3D io.StringIO()
+=20
+     logging.basicConfig(level=3D(logging.DEBUG if debug else logging.WAR=
+N))
+=20
 --=20
 2.20.1
 
