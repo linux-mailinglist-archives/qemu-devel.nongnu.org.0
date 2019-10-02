@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D13C87A7
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 13:58:56 +0200 (CEST)
-Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07355C87AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 14:01:51 +0200 (CEST)
+Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFdHS-0003MH-Qp
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 07:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41259)
+	id 1iFdKI-0005N9-19
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 08:01:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iFdGC-0002V0-E2
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:57:37 -0400
+ (envelope-from <armbru@redhat.com>) id 1iFdHw-0004Ka-I5
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:59:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iFdGB-00034C-4I
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:57:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42780)
+ (envelope-from <armbru@redhat.com>) id 1iFdHv-0003wp-Mx
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:59:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59430)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iFdGA-00033f-VT
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:57:35 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1iFdHs-0003v7-4c; Wed, 02 Oct 2019 07:59:20 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 797733175290;
- Wed,  2 Oct 2019 11:57:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DD8543082149;
+ Wed,  2 Oct 2019 11:59:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4874560BE0;
- Wed,  2 Oct 2019 11:57:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D57C608C0;
+ Wed,  2 Oct 2019 11:58:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C581E113864A; Wed,  2 Oct 2019 13:57:31 +0200 (CEST)
+ id 9AF9A113864A; Wed,  2 Oct 2019 13:58:58 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 2/2] qapi: Allow introspecting fix for savevm's
- cooperation with blockdev
-References: <cover.1568989362.git.pkrempa@redhat.com>
- <992ea9ca130b4fb6dbf82726aa3b1d8040c16944.1568989362.git.pkrempa@redhat.com>
- <87r23w2rbp.fsf@dusky.pond.sub.org>
- <b15fdae1-1e70-fe13-701e-48a04d56c93f@redhat.com>
-Date: Wed, 02 Oct 2019 13:57:31 +0200
-In-Reply-To: <b15fdae1-1e70-fe13-701e-48a04d56c93f@redhat.com> (Eric Blake's
- message of "Tue, 1 Oct 2019 16:07:29 -0500")
-Message-ID: <87a7ajuzpw.fsf@dusky.pond.sub.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 00/31] error: auto propagated local_err
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+Date: Wed, 02 Oct 2019 13:58:58 +0200
+In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 1 Oct 2019 18:52:48 +0300")
+Message-ID: <875zl7uznh.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Wed, 02 Oct 2019 11:57:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Wed, 02 Oct 2019 11:59:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,68 +59,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
+ codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, kraxel@redhat.com, mreitz@redhat.com,
+ qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, joel@jms.id.au, marcandre.lureau@redhat.com,
+ david@gibson.dropbear.id.au, farman@linux.ibm.com, ehabkost@redhat.com,
+ sw@weilnetz.de, groug@kaod.org, yuval.shaia@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, qemu-arm@nongnu.org, clg@kaod.org,
+ stefanha@redhat.com, david@redhat.com, jsnow@redhat.com, rth@twiddle.net,
+ kwolf@redhat.com, integration@gluster.org, berrange@redhat.com,
+ andrew@aj.id.au, cohuck@redhat.com, qemu-s390x@nongnu.org,
+ sundeep.lkml@gmail.com, qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
-
-> On 10/1/19 2:34 PM, Markus Armbruster wrote:
->> Peter Krempa <pkrempa@redhat.com> writes:
->>
->>> savevm was buggy as it considered all monitor owned block device nodes
->>
->> Recommend "monitor-owned block device nodes" or "block device nodes
->> owned by a monitor"
->>
->>> for snapshot. With introduction of -blockdev the common usage made all
->>> nodes including protocol nodes monitor owned and thus considered for
->>> snapshot.
->>
->> What exactly is / was the problem?
->
->
-> Old way: using QMP add_device, you create a drive backend with two BDS
-> (format and protocol) assigned to it; the drive backend has your given
-> name, and both BDS have a generated name (beginning with '#').  The
-> two BDS are not monitor-owned, rather, the drive is.
->
-> New way: using QMP blockdev_add, you create the two BDS manually with
-> names of your choice, then plug that blockdev into an unnamed
-> blockbackend (the drive no longer needs a name, because you can get at
-> everything through the BDS name).  You _could_ do this in one step
-> (the QAPI allows self-recursion where you can define both the format
-> and protocol in one step), but it is easier to do in two steps (define
-> the protocol BDS first, then define the format BDS using a "string"
-> name of the protocol BDS instead of a { "driver":..., args... } object
-> of the protocol layer.  But by making two calls,  now both BDS are
-> monitor-owned.
->
-> At snapshot-time, the code currently looks for all monitor-owned nodes
-> when deciding what to snapshot.  In the old way, this finds the named
-> drive, picks up its associated top-most node, and snapshots the format
-> layer.  In the new way, the drive is unnamed so it is skipped, while
-> there are two named BDS, but we don't want a snapshot of the protocol
-> layer.
-
-So the problem is certain (common & sane) -blockdev use makes savevm
-create additional, unwanted snapshots.
-
-Your explanation should be worked into the commit message along with ...
-
->>>            This was fixed but clients need to be able to detect whether
->>> this fix is present.
->>
->> Fixed where?  Commit hash, if possible.
->
-> Pull request:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04773.html
-> (assuming it doesn't need a respin before landing, 8ec72832)
-
-... a pointer to this fix.
-
-Thanks!
-
-[...]
+Reviewing this series is finally getting close to the head of my work
+queue.  I apologize for the delay.
 
