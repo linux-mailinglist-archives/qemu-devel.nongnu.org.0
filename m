@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6A4C88A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 14:33:35 +0200 (CEST)
-Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F231AC88AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 14:34:01 +0200 (CEST)
+Received: from localhost ([::1]:54886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFdoz-0003ik-PC
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 08:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35197)
+	id 1iFdpQ-0003pB-9h
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 08:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iFcbx-00060P-MO
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:16:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1iFcc1-00060d-Va
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:16:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iFcbv-0006w7-Nf
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:16:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37158)
+ (envelope-from <bounces@canonical.com>) id 1iFcbz-00070W-I4
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:16:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37268)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iFcbv-0006sk-33
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:15:59 -0400
+ id 1iFcbx-0006wW-JY
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:16:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iFcbs-0003jt-Eq
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 11:15:56 +0000
+ id 1iFcbv-0003r0-G1
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 11:15:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 67CC72E80D3
- for <qemu-devel@nongnu.org>; Wed,  2 Oct 2019 11:15:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 768272E80CD
+ for <qemu-devel@nongnu.org>; Wed,  2 Oct 2019 11:15:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 02 Oct 2019 11:02:52 -0000
+Date: Wed, 02 Oct 2019 11:05:59 -0000
 From: Jan Glauber <jglauber@marvell.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -59,15 +59,15 @@ X-Launchpad-Bug-Commenters: dannf jan-glauber-i jnsnow lizhengui rafaeldtinoco
 X-Launchpad-Bug-Reporter: dann frazier (dannf)
 X-Launchpad-Bug-Modifier: Jan Glauber (jan-glauber-i)
 References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <157001417310.31991.6406912492936569906.malone@wampee.canonical.com>
-Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
- Aarch64 when converting images
+Message-Id: <20191002110550.GA3482@hc>
+Subject: [Bug 1805256] Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2
+ possible issues
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19066";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a16f2487cb6abe49251fa34b2b81cae7926d083e
+X-Launchpad-Hash: 5d09170f53216dae3245a3ab8a48577751fe2ed5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -86,17 +86,45 @@ Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debug files for aio-posix generated on 18.04 on ThunderX2.
+On Wed, Oct 02, 2019 at 11:45:19AM +0200, Paolo Bonzini wrote:
+> On 02/10/19 11:23, Jan Glauber wrote:
+> > I've tried to verify me theory with this patch and didn't run into the
+> > issue for ~500 iterations (usually I would trigger the issue ~20 iterat=
+ions).
+> =
 
-Compiler:
+> Awesome!  That would be a compiler bug though, as atomic_add and atomic_s=
+ub
+> are defined as sequentially consistent:
+> =
+
+> #define atomic_add(ptr, n) ((void) __atomic_fetch_add(ptr, n, __ATOMIC_SE=
+Q_CST))
+> #define atomic_sub(ptr, n) ((void) __atomic_fetch_sub(ptr, n, __ATOMIC_SE=
+Q_CST))
+
+Compiler bug sounds kind of unlikely...
+
+> What compiler are you using and what distro?  Can you compile util/aio-po=
+six.c
+> with "-fdump-rtl-all -fdump-tree-all", zip the boatload of debugging file=
+s and
+> send them my way?
+
+This is on Ubuntu 18.04.3,
 gcc version 7.4.0 (Ubuntu/Linaro 7.4.0-1ubuntu1~18.04.1)
 
-Distro:
-Ubuntu 18.04.3 LTS
+I've uploaded the debug files to:
+https://bugs.launchpad.net/qemu/+bug/1805256/+attachment/5293619/+files/aio=
+-posix.tar.xz
 
-** Attachment added: "aio-posix.tar.xz"
-   https://bugs.launchpad.net/qemu/+bug/1805256/+attachment/5293619/+files/=
-aio-posix.tar.xz
+Thanks,
+Jan
+
+> Thanks,
+> =
+
+> Paolo
 
 -- =
 
