@@ -2,47 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1959C8E2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:22:30 +0200 (CEST)
-Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D269FC8E63
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:31:32 +0200 (CEST)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFhOX-0000HH-5F
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:22:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58849)
+	id 1iFhXH-0005ub-JB
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iFhLJ-0005nf-2u
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:19:10 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iFhVv-00053j-Qb
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:30:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iFhLH-00021u-Ky
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:19:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33764)
+ (envelope-from <pbonzini@redhat.com>) id 1iFhVt-0001YU-O0
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:30:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45358)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iFhLE-0001wn-Iz; Wed, 02 Oct 2019 12:19:04 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iFhVt-0001Xy-Ez
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:30:05 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C142A307D978;
- Wed,  2 Oct 2019 16:19:03 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-198.ams2.redhat.com
- [10.36.117.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B771A5D713;
- Wed,  2 Oct 2019 16:19:02 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v2 4/4] iotests: Remove Python 2 compatibility code
-Date: Wed,  2 Oct 2019 18:18:51 +0200
-Message-Id: <20191002161851.1016-5-kwolf@redhat.com>
-In-Reply-To: <20191002161851.1016-1-kwolf@redhat.com>
-References: <20191002161851.1016-1-kwolf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 1EB35356C9
+ for <qemu-devel@nongnu.org>; Wed,  2 Oct 2019 16:30:04 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id t11so7701451wro.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:30:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T7c8flhUbZ1C0bOSjeNuKv8I8JH+Ct/uuLyyQ9szNh8=;
+ b=Z1dMugrfubuvQvA6zksWoQnAUAbTDEYM2TEkdFFLhlEtL4HjsElE3BcMRS1a3p8pgM
+ GrDtQEC8cLLFFcJqXli/UgSC+4aAkcmMfZE9ANCv9Q62Y+U3/hGl4V/fR5PLk/c7CqCo
+ unTWs5o/wHs0MT2Hmv9GHF7zKyo4je9I4BqwhDrLoisaJQbt3yPbtUNzNwFMANZ6RKDG
+ M5/C3Ks9NGCAFnggkT+yA2LuQVQSmH872KP71KTC5hB4MH6J5KuwFyu/bCbEn8zcGxnU
+ JcJhjTmFDeTR1aJSMcy7+x/t/4FVK46qbp3ab7+6IG3azhH5oXhmirCAWQw5Y+h/YnXX
+ JlAg==
+X-Gm-Message-State: APjAAAXxayAXSRLrPsVHaNY5Hqv2mVW5riXg6+KwqoXTQR4QL1okAkzd
+ FzLoo8el+bko2O2thHbvazvcslpMqea9ryQWrn0TNxXPJfJUGxuEHabMt9mNxyDikQLS8WW6QfO
+ QHQ3l4OuRqGqkmZc=
+X-Received: by 2002:a1c:7fcc:: with SMTP id a195mr3666546wmd.27.1570033802764; 
+ Wed, 02 Oct 2019 09:30:02 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyoYsFCLOxTQM2mKh55a9IQpDCY7RO2/RuUKg8te/RCk5JxzZNGqDJ9yywSfGBsJc3SiZw8qw==
+X-Received: by 2002:a1c:7fcc:: with SMTP id a195mr3666518wmd.27.1570033802430; 
+ Wed, 02 Oct 2019 09:30:02 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id f8sm4435998wmb.37.2019.10.02.09.30.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Oct 2019 09:30:01 -0700 (PDT)
+Subject: Re: memory barriers and ATOMIC_SEQ_CST on aarch64 (was Re:
+ [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible issues)
+To: Torvald Riegel <triegel@redhat.com>, Jan Glauber <jglauber@marvell.com>
+References: <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
+ <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
+ <1864070a-2f84-1d98-341e-f01ddf74ec4b@ubuntu.com>
+ <20190924202517.GA21422@xps13.dannf> <20191002092253.GA3857@hc>
+ <ed5c4522-9250-e403-c55d-d3dbcda82540@redhat.com> <20191002110550.GA3482@hc>
+ <96c26e21-5996-0c63-ce8b-99a1b5473453@redhat.com>
+ <12dc4ab638bf8b5af941b24ac989ea45aa8c09b6.camel@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <746238b0-ba75-a752-1402-5f7754a74775@redhat.com>
+Date: Wed, 2 Oct 2019 18:30:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 02 Oct 2019 16:19:03 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <12dc4ab638bf8b5af941b24ac989ea45aa8c09b6.camel@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -57,99 +87,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>,
+ lizhengui <lizhengui@huawei.com>, dann frazier <dann.frazier@canonical.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Bug 1805256 <1805256@bugs.launchpad.net>,
+ QEMU Developers - ARM <qemu-arm@nongnu.org>, Will Deacon <will@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some scripts check the Python version number and have two code paths to
-accomodate both Python 2 and 3. Remove the code specific to Python 2 and
-assert the minimum version of 3.6 instead (check skips Python tests in
-this case, so the assertion would only ever trigger if a Python script
-is executed manually).
+On 02/10/19 16:58, Torvald Riegel wrote:
+> This example looks like Dekker synchronization (if I get the intent right).
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/044        |  3 ---
- tests/qemu-iotests/163        |  3 ---
- tests/qemu-iotests/iotests.py | 13 +++----------
- 3 files changed, 3 insertions(+), 16 deletions(-)
+It is the same pattern.  However, one of the two synchronized variables
+is a counter rather than just a flag.
 
-diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
-index 05ea1f49c5..8b2afa2a11 100755
---- a/tests/qemu-iotests/044
-+++ b/tests/qemu-iotests/044
-@@ -28,9 +28,6 @@ import struct
- import subprocess
- import sys
-=20
--if sys.version_info.major =3D=3D 2:
--    range =3D xrange
--
- test_img =3D os.path.join(iotests.test_dir, 'test.img')
-=20
- class TestRefcountTableGrowth(iotests.QMPTestCase):
-diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
-index 081ccc8ac1..d94728e080 100755
---- a/tests/qemu-iotests/163
-+++ b/tests/qemu-iotests/163
-@@ -21,9 +21,6 @@
- import os, random, iotests, struct, qcow2, sys
- from iotests import qemu_img, qemu_io, image_size
-=20
--if sys.version_info.major =3D=3D 2:
--    range =3D xrange
--
- test_img =3D os.path.join(iotests.test_dir, 'test.img')
- check_img =3D os.path.join(iotests.test_dir, 'check.img')
-=20
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index b26271187c..9fb5181c3d 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -35,6 +35,7 @@ from collections import OrderedDict
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
- from qemu import qtest
-=20
-+assert sys.version_info >=3D (3,6)
-=20
- # This will not work if arguments contain spaces but is necessary if we
- # want to support the override options that ./check supports.
-@@ -250,10 +251,7 @@ def image_size(img):
-     return json.loads(r)['virtual-size']
-=20
- def is_str(val):
--    if sys.version_info.major >=3D 3:
--        return isinstance(val, str)
--    else:
--        return isinstance(val, str) or isinstance(val, unicode)
-+    return isinstance(val, str)
-=20
- test_dir_re =3D re.compile(r"%s" % test_dir)
- def filter_test_dir(msg):
-@@ -935,12 +933,7 @@ def execute_test(test_function=3DNone,
-     else:
-         # We need to filter out the time taken from the output so that
-         # qemu-iotest can reliably diff the results against master outpu=
-t.
--        if sys.version_info.major >=3D 3:
--            output =3D io.StringIO()
--        else:
--            # io.StringIO is for unicode strings, which is not what
--            # 2.x's test runner emits.
--            output =3D io.BytesIO()
-+        output =3D io.StringIO()
-=20
-     logging.basicConfig(level=3D(logging.DEBUG if debug else logging.WAR=
-N))
-=20
---=20
-2.20.1
+> Two possible implementations of this are either (1) with all memory
+> accesses having seq-cst MO, or (2) with relaxed-MO accesses and seq-cst
+> fences on between the store and load on both ends.  It's possible to mix
+> both, but that get's trickier I think.  I'd prefer the one with just
+> fences, just because it's easiest, conceptually.
+
+Got it.
+
+I'd also prefer the one with just fences, because we only really control
+one side of the synchronization primitive (ctx_notify_me in my litmus
+test) and I don't like the idea of forcing seq-cst MO on the other side
+(bh_scheduled).  The performance issue that I mentioned is that x86
+doesn't have relaxed fetch and add, so you'd have a redundant fence like
+this:
+
+	lock	xaddl $2, mem1
+	mfence
+	...
+	movl	mem1, %r8
+
+(Gory QEMU details however allow us to use relaxed load and store here,
+because there's only one writer).
+
+> It works if you use (1) or (2) consistently.  cppmem and the Batty et al.
+> tech report should give you the gory details.
+>
+>> 1) understand why ATOMIC_SEQ_CST is not enough in this case.  QEMU code
+>> seems to be making the same assumptions as Linux about the memory model,
+>> and this is wrong because QEMU uses C11 atomics if available.
+>> Fortunately, this kind of synchronization in QEMU is relatively rare and
+>> only this particular bit seems affected.  If there is a fix which stays
+>> within the C11 memory model, and does not pessimize code on x86, we can
+>> use it[1] and document the pitfall.
+>
+> Using the fences between the store/load pairs in Dekker-like
+> synchronization should do that, right?  It's also relatively easy to deal
+> with.
+> 
+>> 2) if there's no way to fix the bug, qemu/atomic.h needs to switch to
+>> __sync_fetch_and_add and friends.  And again, in this case the
+>> difference between the C11 and Linux/QEMU memory models must be documented.
+>
+> I surely not aware of all the constraints here, but I'd be surprised if the
+> C11 memory model isn't good enough for portable synchronization code (with
+> the exception of the consume MO minefield, perhaps). 
+
+This helps a lot already; I'll work on a documentation and code patch.
+Thanks very much.
+
+Paolo
+
+>>   int main() {
+>>     atomic_int ctx_notify_me = 0;
+>>     atomic_int bh_scheduled = 0;
+>>     {{{ {
+>>           bh_scheduled.store(1, mo_release);
+>>           atomic_thread_fence(mo_seq_cst);
+>>           // must be zero since the bug report shows no notification
+>>           ctx_notify_me.load(mo_relaxed).readsvalue(0);
+>>         }
+>>     ||| {
+>>           ctx_notify_me.store(2, mo_seq_cst);
+>>           r2=bh_scheduled.load(mo_relaxed);
+>>         }
+>>     }}};
+>>     return 0;
+>>   }
 
 
