@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70AF4C45F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:56:22 +0200 (CEST)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339A0C45F4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:56:18 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFUoP-0004ED-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1iFUoJ-0004DN-2N
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUkg-0001Zv-IW
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUkg-0001Zx-Lu
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUkf-0002lt-5Q
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUkf-0002m5-5g
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:30 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46621 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:50325)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFUkb-0002by-NC; Tue, 01 Oct 2019 22:52:28 -0400
+ id 1iFUkb-0002bl-NI; Tue, 01 Oct 2019 22:52:28 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46jgf62Wd0z9sPh; Wed,  2 Oct 2019 12:52:14 +1000 (AEST)
+ id 46jgf639bBz9sCJ; Wed,  2 Oct 2019 12:52:14 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1569984734;
- bh=LDtL5N4JOK/xgl80NjUxnH8/3lQYWSI4nLNfApMKNKg=;
- h=From:To:Cc:Subject:Date:From;
- b=iro0UzWgtfWxRih2rBW2e6RiWwVf8quxM4qDP/Dd+GPI3PgPthntIvXZ4nUWJ1nsH
- huBZZ8TPlcwhKoDSschBsPlEWxxM2G/D+UJazdVy4CzHgHFg5OsdyWVV52eAmojKu1
- WUhTVNqvd+Z5Qjx6ZVYkAIPqtdIDZ8SODKpozBXU=
+ bh=lUi1h7mkfdblyuP4UD186bZ+KRfIT8I60hvDArNEODU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=EivDPiWwQRRFPbaEzAdhUmsDmkFGxYP2CvmL3G1WUFPzC3bqpwcHP/KCbB1RIshPx
+ ZbrDwxW/YNw63q+hWad8Zwbm6qgoXGufB+J2URw73k1/ht10DJaHFQeN38cAm2KhjH
+ OZJ004CMTQKwNzawV9tE8Ltj9UGpmwFcr4ievq1E=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	clg@kaod.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 00/34] spapr: IRQ subsystem cleanup
-Date: Wed,  2 Oct 2019 12:51:34 +1000
-Message-Id: <20191002025208.3487-1-david@gibson.dropbear.id.au>
+Subject: [PATCH v3 02/34] xics: Eliminate 'reject',
+ 'resend' and 'eoi' class hooks
+Date: Wed,  2 Oct 2019 12:51:36 +1000
+Message-Id: <20191002025208.3487-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191002025208.3487-1-david@gibson.dropbear.id.au>
+References: <20191002025208.3487-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,99 +65,195 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a substantial rework to clean up the handling of IRQs in
-spapr.  It includes some cleanups to both the XICS and XIVE interrupt
-controller backends, as well as more to the common spapr irq handling
-infrastructure.
+Currently ics_reject(), ics_resend() and ics_eoi() indirect through
+class methods.  But there's only one implementation of each method,
+the one in TYPE_ICS_SIMPLE.  TYPE_ICS_BASE has no implementation, but
+it's never instantiated, and has no other subtypes.
 
-Changes since v2:
- * Fixed a bug where the "move handling multiple irq frees" to
-   frontend patch was actually freeing one irq over and over, rather
-   than freeing multiple irqs
- * Fixed some places I missed still using only-Error * style, and flow
-   on adjustments
- * New idiom to iterate across all constructed backends for the things
-   that need that (cpu_intc_create, claim & freem), rather than
-   open-coding a call on the xics, then xive versions.
+So clean up by eliminating the method and just having ics_reject(),
+ics_resend() and ics_eoi() contain the logic directly.
 
-Changes since v1:
- * Lots of extra patches
- * Many minor adjustments based on feedback
- * Moved towards return value + Error * style, instead of just Error *
-   style
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ hw/intc/trace-events  |  4 ++--
+ hw/intc/xics.c        | 54 +++++++++++--------------------------------
+ include/hw/ppc/xics.h |  4 ----
+ 3 files changed, 15 insertions(+), 47 deletions(-)
 
-David Gibson (34):
-  xics: Minor fixes for XICSFabric interface
-  xics: Eliminate 'reject', 'resend' and 'eoi' class hooks
-  xics: Rename misleading ics_simple_*() functions
-  xics: Eliminate reset hook
-  xics: Merge TYPE_ICS_BASE and TYPE_ICS_SIMPLE classes
-  xics: Create sPAPR specific ICS subtype
-  spapr: Fold spapr_phb_lsi_qirq() into its single caller
-  spapr: Replace spapr_vio_qirq() helper with spapr_vio_irq_pulse()
-    helper
-  spapr: Clarify and fix handling of nr_irqs
-  spapr: Eliminate nr_irqs parameter to SpaprIrq::init
-  spapr: Fix indexing of XICS irqs
-  spapr: Simplify spapr_qirq() handling
-  spapr: Eliminate SpaprIrq:get_nodename method
-  spapr: Remove unhelpful tracepoints from spapr_irq_free_xics()
-  spapr: Handle freeing of multiple irqs in frontend only
-  spapr, xics, xive: Better use of assert()s on irq claim/free paths
-  xive: Improve irq claim/free path
-  spapr: Use less cryptic representation of which irq backends are
-    supported
-  spapr: Add return value to spapr_irq_check()
-  spapr: Eliminate SpaprIrq::init hook
-  spapr, xics, xive: Introduce SpaprInterruptController QOM interface
-  spapr, xics, xive: Move cpu_intc_create from SpaprIrq to
-    SpaprInterruptController
-  spapr, xics, xive: Move irq claim and free from SpaprIrq to
-    SpaprInterruptController
-  spapr: Formalize notion of active interrupt controller
-  spapr, xics, xive: Move set_irq from SpaprIrq to
-    SpaprInterruptController
-  spapr, xics, xive: Move print_info from SpaprIrq to
-    SpaprInterruptController
-  spapr, xics, xive: Move dt_populate from SpaprIrq to
-    SpaprInterruptController
-  spapr, xics, xive: Match signatures for XICS and XIVE KVM connect
-    routines
-  spapr: Remove SpaprIrq::init_kvm hook
-  spapr, xics, xive: Move SpaprIrq::reset hook logic into
-    activate/deactivate
-  spapr, xics, xive: Move SpaprIrq::post_load hook to backends
-  spapr: Remove SpaprIrq::nr_msis
-  spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass
-  spapr: Remove last pieces of SpaprIrq
-
- hw/char/spapr_vty.c         |   3 +-
- hw/intc/spapr_xive.c        | 298 ++++++++-----
- hw/intc/spapr_xive_kvm.c    |  30 +-
- hw/intc/trace-events        |  10 +-
- hw/intc/xics.c              | 210 +++------
- hw/intc/xics_kvm.c          |   9 +-
- hw/intc/xics_spapr.c        | 157 ++++++-
- hw/net/spapr_llan.c         |   3 +-
- hw/ppc/pnv_psi.c            |   6 +-
- hw/ppc/spapr.c              |  57 ++-
- hw/ppc/spapr_caps.c         |  64 +++
- hw/ppc/spapr_cpu_core.c     |   3 +-
- hw/ppc/spapr_hcall.c        |   7 +-
- hw/ppc/spapr_irq.c          | 847 +++++++++++-------------------------
- hw/ppc/spapr_pci.c          |  10 +-
- hw/ppc/spapr_vio.c          |   3 +-
- hw/ppc/trace-events         |   4 -
- include/hw/pci-host/spapr.h |  11 +-
- include/hw/ppc/spapr.h      |  14 +-
- include/hw/ppc/spapr_irq.h  |  89 ++--
- include/hw/ppc/spapr_vio.h  |   5 +-
- include/hw/ppc/spapr_xive.h |   9 +-
- include/hw/ppc/xics.h       |  33 +-
- include/hw/ppc/xics_spapr.h |  10 +-
- include/hw/ppc/xive.h       |   2 +-
- 25 files changed, 897 insertions(+), 997 deletions(-)
-
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 719f46b516..fdc716c2cc 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -70,8 +70,8 @@ xics_ics_simple_set_irq_msi(int srcno, int nr) "set_irq=
+_msi: srcno %d [irq 0x%x]
+ xics_masked_pending(void) "set_irq_msi: masked pending"
+ xics_ics_simple_set_irq_lsi(int srcno, int nr) "set_irq_lsi: srcno %d [i=
+rq 0x%x]"
+ xics_ics_simple_write_xive(int nr, int srcno, int server, uint8_t priori=
+ty) "ics_write_xive: irq 0x%x [src %d] server 0x%x prio 0x%x"
+-xics_ics_simple_reject(int nr, int srcno) "reject irq 0x%x [src %d]"
+-xics_ics_simple_eoi(int nr) "ics_eoi: irq 0x%x"
++xics_ics_reject(int nr, int srcno) "reject irq 0x%x [src %d]"
++xics_ics_eoi(int nr) "ics_eoi: irq 0x%x"
+=20
+ # s390_flic_kvm.c
+ flic_create_device(int err) "flic: create device failed %d"
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index b2fca2975c..93139b0189 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -98,32 +98,8 @@ void ics_pic_print_info(ICSState *ics, Monitor *mon)
+ #define XISR(icp)   (((icp)->xirr) & XISR_MASK)
+ #define CPPR(icp)   (((icp)->xirr) >> 24)
+=20
+-static void ics_reject(ICSState *ics, uint32_t nr)
+-{
+-    ICSStateClass *k =3D ICS_BASE_GET_CLASS(ics);
+-
+-    if (k->reject) {
+-        k->reject(ics, nr);
+-    }
+-}
+-
+-void ics_resend(ICSState *ics)
+-{
+-    ICSStateClass *k =3D ICS_BASE_GET_CLASS(ics);
+-
+-    if (k->resend) {
+-        k->resend(ics);
+-    }
+-}
+-
+-static void ics_eoi(ICSState *ics, int nr)
+-{
+-    ICSStateClass *k =3D ICS_BASE_GET_CLASS(ics);
+-
+-    if (k->eoi) {
+-        k->eoi(ics, nr);
+-    }
+-}
++static void ics_reject(ICSState *ics, uint32_t nr);
++static void ics_eoi(ICSState *ics, uint32_t nr);
+=20
+ static void icp_check_ipi(ICPState *icp)
+ {
+@@ -427,7 +403,7 @@ Object *icp_create(Object *cpu, const char *type, XIC=
+SFabric *xi, Error **errp)
+ /*
+  * ICS: Source layer
+  */
+-static void ics_simple_resend_msi(ICSState *ics, int srcno)
++static void ics_resend_msi(ICSState *ics, int srcno)
+ {
+     ICSIRQState *irq =3D ics->irqs + srcno;
+=20
+@@ -440,7 +416,7 @@ static void ics_simple_resend_msi(ICSState *ics, int =
+srcno)
+     }
+ }
+=20
+-static void ics_simple_resend_lsi(ICSState *ics, int srcno)
++static void ics_resend_lsi(ICSState *ics, int srcno)
+ {
+     ICSIRQState *irq =3D ics->irqs + srcno;
+=20
+@@ -478,7 +454,7 @@ static void ics_simple_set_irq_lsi(ICSState *ics, int=
+ srcno, int val)
+     } else {
+         irq->status &=3D ~XICS_STATUS_ASSERTED;
+     }
+-    ics_simple_resend_lsi(ics, srcno);
++    ics_resend_lsi(ics, srcno);
+ }
+=20
+ void ics_simple_set_irq(void *opaque, int srcno, int val)
+@@ -512,7 +488,7 @@ static void ics_simple_write_xive_msi(ICSState *ics, =
+int srcno)
+=20
+ static void ics_simple_write_xive_lsi(ICSState *ics, int srcno)
+ {
+-    ics_simple_resend_lsi(ics, srcno);
++    ics_resend_lsi(ics, srcno);
+ }
+=20
+ void ics_simple_write_xive(ICSState *ics, int srcno, int server,
+@@ -534,11 +510,11 @@ void ics_simple_write_xive(ICSState *ics, int srcno=
+, int server,
+     }
+ }
+=20
+-static void ics_simple_reject(ICSState *ics, uint32_t nr)
++static void ics_reject(ICSState *ics, uint32_t nr)
+ {
+     ICSIRQState *irq =3D ics->irqs + nr - ics->offset;
+=20
+-    trace_xics_ics_simple_reject(nr, nr - ics->offset);
++    trace_xics_ics_reject(nr, nr - ics->offset);
+     if (irq->flags & XICS_FLAGS_IRQ_MSI) {
+         irq->status |=3D XICS_STATUS_REJECTED;
+     } else if (irq->flags & XICS_FLAGS_IRQ_LSI) {
+@@ -546,26 +522,26 @@ static void ics_simple_reject(ICSState *ics, uint32=
+_t nr)
+     }
+ }
+=20
+-static void ics_simple_resend(ICSState *ics)
++void ics_resend(ICSState *ics)
+ {
+     int i;
+=20
+     for (i =3D 0; i < ics->nr_irqs; i++) {
+         /* FIXME: filter by server#? */
+         if (ics->irqs[i].flags & XICS_FLAGS_IRQ_LSI) {
+-            ics_simple_resend_lsi(ics, i);
++            ics_resend_lsi(ics, i);
+         } else {
+-            ics_simple_resend_msi(ics, i);
++            ics_resend_msi(ics, i);
+         }
+     }
+ }
+=20
+-static void ics_simple_eoi(ICSState *ics, uint32_t nr)
++static void ics_eoi(ICSState *ics, uint32_t nr)
+ {
+     int srcno =3D nr - ics->offset;
+     ICSIRQState *irq =3D ics->irqs + srcno;
+=20
+-    trace_xics_ics_simple_eoi(nr);
++    trace_xics_ics_eoi(nr);
+=20
+     if (ics->irqs[srcno].flags & XICS_FLAGS_IRQ_LSI) {
+         irq->status &=3D ~XICS_STATUS_SENT;
+@@ -617,10 +593,6 @@ static void ics_simple_class_init(ObjectClass *klass=
+, void *data)
+                                     &isc->parent_realize);
+     device_class_set_parent_reset(dc, ics_simple_reset,
+                                   &isc->parent_reset);
+-
+-    isc->reject =3D ics_simple_reject;
+-    isc->resend =3D ics_simple_resend;
+-    isc->eoi =3D ics_simple_eoi;
+ }
+=20
+ static const TypeInfo ics_simple_info =3D {
+diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+index faa33ae943..ecca17695d 100644
+--- a/include/hw/ppc/xics.h
++++ b/include/hw/ppc/xics.h
+@@ -106,10 +106,6 @@ struct ICSStateClass {
+=20
+     DeviceRealize parent_realize;
+     DeviceReset parent_reset;
+-
+-    void (*reject)(ICSState *s, uint32_t irq);
+-    void (*resend)(ICSState *s);
+-    void (*eoi)(ICSState *s, uint32_t irq);
+ };
+=20
+ struct ICSState {
 --=20
 2.21.0
 
