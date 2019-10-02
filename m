@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2ADC8FAE
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:20:01 +0200 (CEST)
-Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0C4C8F86
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:15:11 +0200 (CEST)
+Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFiIC-0000Gy-Nx
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35518)
+	id 1iFiDW-00059v-56
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrV-0005f3-7g
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:26 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrT-0005dI-Sh
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrT-0003aF-Aa
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:25 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39751)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrS-0003Za-Mj
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:23 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40254)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrT-0003Xn-2x
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:23 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r3so20517875wrj.6
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:23 -0700 (PDT)
+ id 1iFhrS-0003Yf-GR
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:22 -0400
+Received: by mail-wr1-x432.google.com with SMTP id l3so20477996wru.7
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Mr658lAKnetL+4KX58LnRrlMr3PsH5dvajSAOIiuU0c=;
- b=Fi1fS/dSk+Ct64Pu1u/0uDED35uKMd7fQDSP0JcqYXiBEBXCkhMZJD03pUC2JEOu7Z
- brpyLqrtfu//xyALzO4olEClzi92feTtufBLyam65l4idIuIH1OtaN/TjDsCgBOkXycp
- mK/n7NJQ7StiVD7XHvXl0TMKULdJtRqe0hgO4EZxdR/XmxbjKfZ2v87A74+6cSj63SMo
- IY2SAvfQKoOaVytjbynM01+Vn6D4ytatJsZbx+7GmHNOhop1AGXh+uR/oLXeLPn2TBQq
- aWp3B1T+DF1dqd5MBu6SVfTfDV7iFWdR+pWK7BIK8aiXy7ZVfyB9LjXMwT0eQyYhot5s
- W4iA==
+ bh=Iv7FZBtE0/TX/BiHDid9YIJYTMNpsBZPGfCkSfXKG8A=;
+ b=Sr9czxqnWw8POXU3b8S1X3P8AfMAN71pdD2HwtRWUPv3NgdmRri6i2EXQjyolPfxZp
+ S/DbTdm84l4llCSuzX12RawsZtHNHC4Hnp9UIKetulpb3x/hphBNbLpWy2/CKKIJ6tuQ
+ oKCcG3hjhujBa+TJN8HN9VYvGnWc0AUSNQIUwUt9FXODZDuAC4SwqjbKW2GCG+jpSscZ
+ QH5qSQUk5Rd/Y0dw3E//WRS/47mOXZPL1pmgCPiwl5wa3NX02xe+RySWZoO0N4Q+g7Yv
+ 4OITVTMQMd87K4rhD9Q2oln2Bb9a/hoxJ2V3oFXpir1PM0pGhIBVcLIrQVuQRN3x9F0Q
+ 1nuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Mr658lAKnetL+4KX58LnRrlMr3PsH5dvajSAOIiuU0c=;
- b=ovdjonip9oL1FTSWQcnl8hTKDYVfLG9Q/W6ta9FavJHb2sWEN4GRhdqaYhNYoDWURv
- lKBdMWFY88MMK2/MlfASE+mudDlwUdoappMUUu1DmCJbYbW1VD/LI0xNadvzVAtfPA9c
- P7ZOkX8ydvCUlsQDdcQuNO73nVcNCsGZgcRERSFdCThjidPvgiiDXrni50LqVR1KAgDp
- I2xxnyNwoV2xYHqEItsi0h26ps1vc/4I5iDU0lv9XcSogsrxaEFv53USI6JQX4Tr0vJn
- yrX5hpAeDYvhFQPZ2idka7A5Rou77w5oWxn+gpxmBH/PPhhBX8Hi9V+bGwurhSaB8X0K
- hy5Q==
-X-Gm-Message-State: APjAAAX0wR8bEuDYA+SzSJ/p8eE51OKv56Fdv7MhKusGiHtTnS2/0koo
- nzpc7icse5Mz5i69/K1zHwG+9dp/
-X-Google-Smtp-Source: APXvYqxhqEu45mg+p0BrIpUqZ2eIqark9vHanfj2pF132u1sIRe7YteCDnSlbwWOqUXpaKZpaztiqw==
-X-Received: by 2002:a5d:5708:: with SMTP id a8mr3421856wrv.240.1570035139956; 
- Wed, 02 Oct 2019 09:52:19 -0700 (PDT)
+ bh=Iv7FZBtE0/TX/BiHDid9YIJYTMNpsBZPGfCkSfXKG8A=;
+ b=IaLgYs6p1Zvlnx3TdnAporTRvFq3zd5gVOzUhOByo+L3oZOQAtVqxL4WYoI0cA4vpG
+ oMT4mEBbmPijX5h2eF5u7DAMlx322aXdUtfLwmCL1eGhWcfITgWlo3MOBJAZxfS2VMJY
+ 9mIb5ChQ/LrdDPqbFyuWoweE8R7c/jsin2XT1ROz/7lns5wzfzV+aXUwchHlrST021xR
+ 89oErCNL+/pkIDPoi9hwiN6/nE3Mt9SNq6RCiiC1JxOB23LijD7GeOA4MyZEd3H6ZhpQ
+ +TzIgzPBgoxX6qgzeM5ylXw/LvQkEAsqnrKM2e8C7pJYN2RT6AiKfJwAqMlJUXgBPPiC
+ iyLA==
+X-Gm-Message-State: APjAAAXYaC1GkBQcofJYZauWpaUceLydviEQyhGlqiLSM8fAcglX7N5O
+ rZOsye5w9wKApH8XNDhmkGGapQUk
+X-Google-Smtp-Source: APXvYqxt1HTf7IY12qsLPgIF+Mt2M2cat/FxmRwf1SNgqi45ClSfAH23MBKgFD8zcpqIeYN0sy4s5Q==
+X-Received: by 2002:a5d:60c8:: with SMTP id x8mr1090729wrt.107.1570035141202; 
+ Wed, 02 Oct 2019 09:52:21 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.18
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.19
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:18 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/30] memory: allow memory_region_register_iommu_notifier() to
- fail
-Date: Wed,  2 Oct 2019 18:51:47 +0200
-Message-Id: <1570035113-56848-25-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 25/30] Fix wrong behavior of cpu_memory_rw_debug() function in
+ SMM
+Date: Wed,  2 Oct 2019 18:51:48 +0200
+Message-Id: <1570035113-56848-26-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,364 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Dmitry Poletaev <poletaev@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Dmitry Poletaev <poletaev@ispras.ru>
 
-Currently, when a notifier is attempted to be registered and its
-flags are not supported (especially the MAP one) by the IOMMU MR,
-we generally abruptly exit in the IOMMU code. The failure could be
-handled more nicely in the caller and especially in the VFIO code.
+There is a problem, that you don't have access to the data using cpu_memory_rw_debug() function when in SMM. You can't remotely debug SMM mode program because of that for example.
+Likely attrs version of get_phys_page_debug should be used to get correct asidx at the end to handle access properly.
+Here the patch to fix it.
 
-So let's allow memory_region_register_iommu_notifier() to fail as
-well as notify_flag_changed() callback.
-
-All sites implementing the callback are updated. This patch does
-not yet remove the exit(1) in the amd_iommu code.
-
-in SMMUv3 we turn the warning message into an error message saying
-that the assigned device would not work properly.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Dmitry Poletaev <poletaev@ispras.ru>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- exec.c                | 10 ++++++++--
- hw/arm/smmuv3.c       | 18 ++++++++++--------
- hw/i386/amd_iommu.c   | 17 ++++++++++-------
- hw/i386/intel_iommu.c |  8 +++++---
- hw/ppc/spapr_iommu.c  |  8 +++++---
- hw/vfio/common.c      |  9 +++++++--
- hw/virtio/vhost.c     |  9 +++++++--
- include/exec/memory.h | 21 ++++++++++++++++-----
- memory.c              | 31 ++++++++++++++++++++-----------
- 9 files changed, 88 insertions(+), 43 deletions(-)
+ target/i386/cpu.c    | 2 +-
+ target/i386/cpu.h    | 3 ++-
+ target/i386/helper.c | 5 ++++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index 1d6e4d8..bdcfcdf 100644
---- a/exec.c
-+++ b/exec.c
-@@ -660,7 +660,8 @@ static void tcg_register_iommu_notifier(CPUState *cpu,
-      */
-     MemoryRegion *mr = MEMORY_REGION(iommu_mr);
-     TCGIOMMUNotifier *notifier;
--    int i;
-+    Error *err = NULL;
-+    int i, ret;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 313a2ef..8fcb571 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6245,7 +6245,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+ #ifndef CONFIG_USER_ONLY
+     cc->asidx_from_attrs = x86_asidx_from_attrs;
+     cc->get_memory_mapping = x86_cpu_get_memory_mapping;
+-    cc->get_phys_page_debug = x86_cpu_get_phys_page_debug;
++    cc->get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug;
+     cc->write_elf64_note = x86_cpu_write_elf64_note;
+     cc->write_elf64_qemunote = x86_cpu_write_elf64_qemunote;
+     cc->write_elf32_note = x86_cpu_write_elf32_note;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 033991c..eaa5395 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1690,7 +1690,8 @@ void x86_cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
  
-     for (i = 0; i < cpu->iommu_notifiers->len; i++) {
-         notifier = g_array_index(cpu->iommu_notifiers, TCGIOMMUNotifier *, i);
-@@ -689,7 +690,12 @@ static void tcg_register_iommu_notifier(CPUState *cpu,
-                             0,
-                             HWADDR_MAX,
-                             iommu_idx);
--        memory_region_register_iommu_notifier(notifier->mr, &notifier->n);
-+        ret = memory_region_register_iommu_notifier(notifier->mr, &notifier->n,
-+                                                    &err);
-+        if (ret) {
-+            error_report_err(err);
-+            exit(1);
-+        }
-     }
+ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags);
  
-     if (!notifier->active) {
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index db051dc..e2fbb83 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1469,20 +1469,21 @@ static void smmuv3_class_init(ObjectClass *klass, void *data)
-     dc->realize = smmu_realize;
+-hwaddr x86_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
++                                         MemTxAttrs *attrs);
+ 
+ int x86_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 0fa51be..c3a6e4f 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -715,7 +715,8 @@ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4)
  }
  
--static void smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
--                                       IOMMUNotifierFlag old,
--                                       IOMMUNotifierFlag new)
-+static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
-+                                      IOMMUNotifierFlag old,
-+                                      IOMMUNotifierFlag new,
-+                                      Error **errp)
+ #if !defined(CONFIG_USER_ONLY)
+-hwaddr x86_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
++                                         MemTxAttrs *attrs)
  {
-     SMMUDevice *sdev = container_of(iommu, SMMUDevice, iommu);
-     SMMUv3State *s3 = sdev->smmu;
-     SMMUState *s = &(s3->smmu_state);
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+@@ -725,6 +726,8 @@ hwaddr x86_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     uint32_t page_offset;
+     int page_size;
  
-     if (new & IOMMU_NOTIFIER_MAP) {
--        int bus_num = pci_bus_num(sdev->bus);
--        PCIDevice *pcidev = pci_find_device(sdev->bus, bus_num, sdev->devfn);
--
--        warn_report("SMMUv3 does not support notification on MAP: "
--                     "device %s will not function properly", pcidev->name);
-+        error_setg(errp,
-+                   "device %02x.%02x.%x requires iommu MAP notifier which is "
-+                   "not currently supported", pci_bus_num(sdev->bus),
-+                   PCI_SLOT(sdev->devfn), PCI_FUNC(sdev->devfn));
-+        return -EINVAL;
-     }
- 
-     if (old == IOMMU_NOTIFIER_NONE) {
-@@ -1492,6 +1493,7 @@ static void smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
-         trace_smmuv3_notify_flag_del(iommu->parent_obj.name);
-         QLIST_REMOVE(sdev, next);
-     }
-+    return 0;
- }
- 
- static void smmuv3_iommu_memory_region_class_init(ObjectClass *klass,
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 0888452..d372636 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -1466,18 +1466,21 @@ static const MemoryRegionOps mmio_mem_ops = {
-     }
- };
- 
--static void amdvi_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
--                                            IOMMUNotifierFlag old,
--                                            IOMMUNotifierFlag new)
-+static int amdvi_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-+                                           IOMMUNotifierFlag old,
-+                                           IOMMUNotifierFlag new,
-+                                           Error **errp)
- {
-     AMDVIAddressSpace *as = container_of(iommu, AMDVIAddressSpace, iommu);
- 
-     if (new & IOMMU_NOTIFIER_MAP) {
--        error_report("device %02x.%02x.%x requires iommu notifier which is not "
--                     "currently supported", as->bus_num, PCI_SLOT(as->devfn),
--                     PCI_FUNC(as->devfn));
--        exit(1);
-+        error_setg(errp,
-+                   "device %02x.%02x.%x requires iommu notifier which is not "
-+                   "currently supported", as->bus_num, PCI_SLOT(as->devfn),
-+                   PCI_FUNC(as->devfn));
-+        return -EINVAL;
-     }
-+    return 0;
- }
- 
- static void amdvi_init(AMDVIState *s)
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index f1de8fd..771bed2 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2929,9 +2929,10 @@ static IOMMUTLBEntry vtd_iommu_translate(IOMMUMemoryRegion *iommu, hwaddr addr,
-     return iotlb;
- }
- 
--static void vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
--                                          IOMMUNotifierFlag old,
--                                          IOMMUNotifierFlag new)
-+static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-+                                         IOMMUNotifierFlag old,
-+                                         IOMMUNotifierFlag new,
-+                                         Error **errp)
- {
-     VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
-     IntelIOMMUState *s = vtd_as->iommu_state;
-@@ -2944,6 +2945,7 @@ static void vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-     } else if (new == IOMMU_NOTIFIER_NONE) {
-         QLIST_REMOVE(vtd_as, next);
-     }
-+    return 0;
- }
- 
- static int vtd_post_load(void *opaque, int version_id)
-diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
-index e87b3d5..3d3bcc8 100644
---- a/hw/ppc/spapr_iommu.c
-+++ b/hw/ppc/spapr_iommu.c
-@@ -205,9 +205,10 @@ static int spapr_tce_get_attr(IOMMUMemoryRegion *iommu,
-     return -EINVAL;
- }
- 
--static void spapr_tce_notify_flag_changed(IOMMUMemoryRegion *iommu,
--                                          IOMMUNotifierFlag old,
--                                          IOMMUNotifierFlag new)
-+static int spapr_tce_notify_flag_changed(IOMMUMemoryRegion *iommu,
-+                                         IOMMUNotifierFlag old,
-+                                         IOMMUNotifierFlag new,
-+                                         Error **errp)
- {
-     struct SpaprTceTable *tbl = container_of(iommu, SpaprTceTable, iommu);
- 
-@@ -216,6 +217,7 @@ static void spapr_tce_notify_flag_changed(IOMMUMemoryRegion *iommu,
-     } else if (old != IOMMU_NOTIFIER_NONE && new == IOMMU_NOTIFIER_NONE) {
-         spapr_tce_set_need_vfio(tbl, false);
-     }
-+    return 0;
- }
- 
- static int spapr_tce_table_post_load(void *opaque, int version_id)
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index cebbb1c..5ca1148 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -636,9 +636,14 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                             section->offset_within_region,
-                             int128_get64(llend),
-                             iommu_idx);
--        QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
- 
--        memory_region_register_iommu_notifier(section->mr, &giommu->n);
-+        ret = memory_region_register_iommu_notifier(section->mr, &giommu->n,
-+                                                    &err);
-+        if (ret) {
-+            g_free(giommu);
-+            goto fail;
-+        }
-+        QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
-         memory_region_iommu_replay(giommu->iommu, &giommu->n);
- 
-         return;
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 2386b51..99de5f1 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -677,8 +677,9 @@ static void vhost_iommu_region_add(MemoryListener *listener,
-                                          iommu_listener);
-     struct vhost_iommu *iommu;
-     Int128 end;
--    int iommu_idx;
-+    int iommu_idx, ret;
-     IOMMUMemoryRegion *iommu_mr;
-+    Error *err = NULL;
- 
-     if (!memory_region_is_iommu(section->mr)) {
-         return;
-@@ -701,7 +702,11 @@ static void vhost_iommu_region_add(MemoryListener *listener,
-     iommu->iommu_offset = section->offset_within_address_space -
-                           section->offset_within_region;
-     iommu->hdev = dev;
--    memory_region_register_iommu_notifier(section->mr, &iommu->n);
-+    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, &err);
-+    if (ret) {
-+        error_report_err(err);
-+        exit(1);
-+    }
-     QLIST_INSERT_HEAD(&dev->iommu_list, iommu, iommu_next);
-     /* TODO: can replay help performance here? */
- }
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 6e67043..e499dc2 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -288,10 +288,16 @@ typedef struct IOMMUMemoryRegionClass {
-      * @iommu: the IOMMUMemoryRegion
-      * @old_flags: events which previously needed to be notified
-      * @new_flags: events which now need to be notified
-+     *
-+     * Returns 0 on success, or a negative errno; in particular
-+     * returns -EINVAL if the new flag bitmap is not supported by the
-+     * IOMMU memory region. In case of failure, the error object
-+     * must be created
-      */
--    void (*notify_flag_changed)(IOMMUMemoryRegion *iommu,
--                                IOMMUNotifierFlag old_flags,
--                                IOMMUNotifierFlag new_flags);
-+    int (*notify_flag_changed)(IOMMUMemoryRegion *iommu,
-+                               IOMMUNotifierFlag old_flags,
-+                               IOMMUNotifierFlag new_flags,
-+                               Error **errp);
-     /* Called to handle memory_region_iommu_replay().
-      *
-      * The default implementation of memory_region_iommu_replay() is to
-@@ -1079,13 +1085,18 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
-  * memory_region_register_iommu_notifier: register a notifier for changes to
-  * IOMMU translation entries.
-  *
-+ * Returns 0 on success, or a negative errno otherwise. In particular,
-+ * -EINVAL indicates that at least one of the attributes of the notifier
-+ * is not supported (flag/range) by the IOMMU memory region. In case of error
-+ * the error object must be created.
-+ *
-  * @mr: the memory region to observe
-  * @n: the IOMMUNotifier to be added; the notify callback receives a
-  *     pointer to an #IOMMUTLBEntry as the opaque value; the pointer
-  *     ceases to be valid on exit from the notifier.
-  */
--void memory_region_register_iommu_notifier(MemoryRegion *mr,
--                                           IOMMUNotifier *n);
-+int memory_region_register_iommu_notifier(MemoryRegion *mr,
-+                                          IOMMUNotifier *n, Error **errp);
- 
- /**
-  * memory_region_iommu_replay: replay existing IOMMU translations to
-diff --git a/memory.c b/memory.c
-index a99b8c0..978da3d 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1817,33 +1817,38 @@ bool memory_region_is_logging(MemoryRegion *mr, uint8_t client)
-     return memory_region_get_dirty_log_mask(mr) & (1 << client);
- }
- 
--static void memory_region_update_iommu_notify_flags(IOMMUMemoryRegion *iommu_mr)
-+static int memory_region_update_iommu_notify_flags(IOMMUMemoryRegion *iommu_mr,
-+                                                   Error **errp)
- {
-     IOMMUNotifierFlag flags = IOMMU_NOTIFIER_NONE;
-     IOMMUNotifier *iommu_notifier;
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-+    int ret = 0;
- 
-     IOMMU_NOTIFIER_FOREACH(iommu_notifier, iommu_mr) {
-         flags |= iommu_notifier->notifier_flags;
-     }
- 
-     if (flags != iommu_mr->iommu_notify_flags && imrc->notify_flag_changed) {
--        imrc->notify_flag_changed(iommu_mr,
--                                  iommu_mr->iommu_notify_flags,
--                                  flags);
-+        ret = imrc->notify_flag_changed(iommu_mr,
-+                                        iommu_mr->iommu_notify_flags,
-+                                        flags, errp);
-     }
- 
--    iommu_mr->iommu_notify_flags = flags;
-+    if (!ret) {
-+        iommu_mr->iommu_notify_flags = flags;
-+    }
-+    return ret;
- }
- 
--void memory_region_register_iommu_notifier(MemoryRegion *mr,
--                                           IOMMUNotifier *n)
-+int memory_region_register_iommu_notifier(MemoryRegion *mr,
-+                                          IOMMUNotifier *n, Error **errp)
- {
-     IOMMUMemoryRegion *iommu_mr;
-+    int ret;
- 
-     if (mr->alias) {
--        memory_region_register_iommu_notifier(mr->alias, n);
--        return;
-+        return memory_region_register_iommu_notifier(mr->alias, n, errp);
-     }
- 
-     /* We need to register for at least one bitfield */
-@@ -1854,7 +1859,11 @@ void memory_region_register_iommu_notifier(MemoryRegion *mr,
-            n->iommu_idx < memory_region_iommu_num_indexes(iommu_mr));
- 
-     QLIST_INSERT_HEAD(&iommu_mr->iommu_notify, n, node);
--    memory_region_update_iommu_notify_flags(iommu_mr);
-+    ret = memory_region_update_iommu_notify_flags(iommu_mr, errp);
-+    if (ret) {
-+        QLIST_REMOVE(n, node);
-+    }
-+    return ret;
- }
- 
- uint64_t memory_region_iommu_get_min_page_size(IOMMUMemoryRegion *iommu_mr)
-@@ -1907,7 +1916,7 @@ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
-     }
-     QLIST_REMOVE(n, node);
-     iommu_mr = IOMMU_MEMORY_REGION(mr);
--    memory_region_update_iommu_notify_flags(iommu_mr);
-+    memory_region_update_iommu_notify_flags(iommu_mr, NULL);
- }
- 
- void memory_region_notify_one(IOMMUNotifier *notifier,
++    *attrs = cpu_get_mem_attrs(env);
++
+     a20_mask = x86_get_a20_mask(env);
+     if (!(env->cr[0] & CR0_PG_MASK)) {
+         pte = addr & a20_mask;
 -- 
 1.8.3.1
 
