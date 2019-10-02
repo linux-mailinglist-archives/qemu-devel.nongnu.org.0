@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A19C8F64
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:07:56 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC5EC8F77
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:10:51 +0200 (CEST)
+Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFi6U-0005Nh-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35522)
+	id 1iFi9K-0000Us-6p
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:10:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrV-0005fP-Ie
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:26 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrH-0005Ku-NR
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrU-0003bG-8v
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:25 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35043)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrG-0003Jr-PF
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:11 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37566)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrU-0003aU-2o
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:24 -0400
-Received: by mail-wm1-x330.google.com with SMTP id y21so7719816wmi.0
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:24 -0700 (PDT)
+ id 1iFhrG-0003Iw-Jb
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:10 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f22so7708260wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EdmGHfqAaar2VkfjETjdywF+GwsiDwVFg4LO4quUL88=;
- b=QKkS8f+72AoBw4GM1ve5VKEAFO8EBGZdgbHdmcqXRRqyx5B4pbgwdPAHJ11FtzBqye
- nBckuCVjI4i20UOKmVUP+l/nwttfAsHzcWw2btoTsPgCSE0tQrWCCGQ+aohnhienxRXo
- 28G6c/KH0+S4JFkPsIS+kkdYv0YaeMJAYj34TX5yp4mncsgiaTlu2sLM6n0JZBx9l37j
- iQUzaBjrmpp8nWnr6RcGbPSXl/fbaVH11tjj7jYaDelTeae8Q73zapKus5Shu5yLmgcA
- +MD5W+8HfwdJQHCfdIKK76MS+kGRxjEhLXGkEDsRqhzwAes4oP/b+wa3FFOAwpPtg/ip
- bzvA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=iz9uDsoXfYTqHHYiw4kw2GlIgMTkxYJyyAIl7JwKIzw=;
+ b=LackDA61KpmL+54zZOQ7LkQXbAfDSmZpp+jD1getURoorxoN/S0kBF8Io3m2w6RZTh
+ pJ8XRW5BKHa5KltRmhq1ZquZr14SubZDwqufJ1E1O8U5rvq8vN8pzcKpWdovz3NCSUlT
+ hX0pQzcXhWp596iPvAI0f8B/VAkPtfvkslrNd83RNhWNH2S+YjG+oeRy+jIIzviVMs7y
+ 6xlr3zHEQiXagqroUkT6h0nPQZ50DD/5gRe3YzgTSRYqtsE2OvdjE/YLZThOb39t1GJU
+ HyQs97uuisztsek8885nN1e8cWPsmWqUXz8um7PgkZXkN2O4kw9v419ryskFYtKgXFnS
+ ylEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EdmGHfqAaar2VkfjETjdywF+GwsiDwVFg4LO4quUL88=;
- b=NC6qywyt+JVD30+8dhEKtALHzrHrUEzbYO1p0hYKA79au4SAOyoqaJkO7Jws5bC21c
- TidzJrB0pGV23XikHKd1IZ03BJI/7glMkJSYW2GXixORoUfBcnJH1isrN2LRtLvJlVWX
- OxyGQh1H81o0La7eN4jV+cNQXV966mDRM0PYemO83EQlVOiu5ZUqzlZ+pBZMmLfTd2gY
- JZ+fh1JlgshXojvwT38xYs7GaenuXFE7ARWq805fIRA1nDAsYuy/luoTo6W9UEqNS4NS
- kV9Yczj4WQOaOKDq0Ikg+Wz/+r1pdtOnU1OejiRCdeT5hR9Ipm6sNoR6E9ohdw+n3ssf
- 5Gbw==
-X-Gm-Message-State: APjAAAXmut8bMIOYl9D92rHhEG8CrRQLA2i5EBjoayCTOXA3N9g9YKHI
- 8Y+TNgNWPdyKyDEfsNPjY7LBu2Cj
-X-Google-Smtp-Source: APXvYqxP8tUdUrGNbSgz8AYfuJh4Tu38RXMuMg1Q5YXjtK90l7hxHn0wTWPN/MziKavuw26RATVLmA==
-X-Received: by 2002:a1c:4383:: with SMTP id q125mr3422048wma.122.1570035142792; 
- Wed, 02 Oct 2019 09:52:22 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=iz9uDsoXfYTqHHYiw4kw2GlIgMTkxYJyyAIl7JwKIzw=;
+ b=aoQQ/yo7ldWAoucORdRobxcULUh9HeXnpH7In2XkG0xvecgiQdAbulxPYV0AmzekMU
+ iDD+h76eifXHyV6TU9siUTHwgA5n/cfE0PX1LJ6m18+lDom5EZ+VGRlBB0QtHaTA1j5G
+ eUPToVOqx84Nj4Yd4fbHzLKyGGTk5kq8Of7EXwmwTSCvto+2t5upRAplZ1x2M0b2Ky1P
+ DA41l/BcAotIG+L65bUkxyfwY4eWYi5gVQxJllH4OWZ4dSehOyrTv7vxEw8RSd/ebVZK
+ DvHz3pJybUPWDA5Ly7tUGFDFHNJLCcOu9KAInMMhiRta4yvj43BZcZUrGXsZUMv5eTUp
+ 7QYQ==
+X-Gm-Message-State: APjAAAVnLIj3xaM39TapaRtR8PmJIEEqFRGLd8vjhyJqjcoCjPnclAXJ
+ p1breLYjiTx7nVFbXcRDIrR4kF2/
+X-Google-Smtp-Source: APXvYqx+q6+3TBj3Krcfkijv+tsu7dv4hY+T1FvDAfKZxcZF/f9atIq90mmSj5qq/T4GWhX8V/vmRg==
+X-Received: by 2002:a1c:dd0a:: with SMTP id u10mr3598853wmg.100.1570035129276; 
+ Wed, 02 Oct 2019 09:52:09 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.21
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.08
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:21 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/30] util: WSAEWOULDBLOCK on connect should map to EINPROGRESS
-Date: Wed,  2 Oct 2019 18:51:49 +0200
-Message-Id: <1570035113-56848-27-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 14/30] ide: fix leak from qemu_allocate_irqs
+Date: Wed,  2 Oct 2019 18:51:37 +0200
+Message-Id: <1570035113-56848-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +75,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+The array returned by qemu_allocate_irqs is malloced, free it.
 
-In general, WSAEWOULDBLOCK can be mapped to EAGAIN as done by
-socket_error() (or EWOULDBLOCK). But for connect() with non-blocking
-sockets, it actually means the operation is in progress:
-
-https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-connect
-"The socket is marked as nonblocking and the connection cannot be completed immediately."
-
-(this is also the behaviour implemented by GLib GSocket)
-
-This fixes socket_can_bind_connect() test on win32.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- util/oslib-win32.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/ide/cmd646.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index c62cd43..886e400 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -585,7 +585,11 @@ int qemu_connect_wrap(int sockfd, const struct sockaddr *addr,
-     int ret;
-     ret = connect(sockfd, addr, addrlen);
-     if (ret < 0) {
--        errno = socket_error();
-+        if (WSAGetLastError() == WSAEWOULDBLOCK) {
-+            errno = EINPROGRESS;
-+        } else {
-+            errno = socket_error();
-+        }
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index f3ccd11..19984d2 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -300,6 +300,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+         d->bmdma[i].bus = &d->bus[i];
+         ide_register_restart_cb(&d->bus[i]);
      }
-     return ret;
- }
++    g_free(irq);
+ 
+     vmstate_register(DEVICE(dev), 0, &vmstate_ide_pci, d);
+     qemu_register_reset(cmd646_reset, d);
 -- 
 1.8.3.1
 
