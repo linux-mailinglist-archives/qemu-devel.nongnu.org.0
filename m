@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DBFC8F18
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:57:30 +0200 (CEST)
-Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6E6C8F06
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 18:54:49 +0200 (CEST)
+Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFhwO-0002A7-Ht
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
+	id 1iFhto-0006yH-1G
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 12:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr7-00057Y-E7
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:02 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr3-00034o-V2
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr6-000577-4k
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:01 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:56052)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhr4-000362-Rm
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:00 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44082)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhr3-00033d-OE
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:51:57 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id a6so7939040wma.5
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:51:57 -0700 (PDT)
+ id 1iFhr4-00034y-LP
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:51:58 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z9so7359954wrl.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UM9naFb11+jXmkpkEOdz9w/7R4gvI6i+/DkJ8BktyjI=;
- b=HfZLrV5zwM+DUSo3S39wKQ/3vrwt5yp9LK/ua+6mkgHGe2YxZEBw0ZA6SQAd4nbr9u
- RNMDr3Gi6Gt5xTAYyhWG5G5EtDBvR9ookRdCC/BOsfLruNizQH6Aip0bsD1zSVLYKf6+
- 7ylN0ywQKCF8ZEVBrgi6p/vbdilz0wzngsEoHXwVcBHiX6Ls7e9v/jaWCz4UjBlfw7x6
- m9l2DL3ksoaikxHu9orWknGVarwLXjrF0/2pmMuSVgGmvOsUIRKw0E0xTy0p5qC0mpmf
- EW8xZdEE4/AjYTXfErUHFCaAChrSt/760EtL7JCsn0C8sX9yshZ4Toakq1zblVzXajBh
- DAIQ==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=s6juWaeJdvbdYfQYOPZtIdvf+1dOdIoXW07/VCUIeko=;
+ b=X1lGv62/IOZ2T5DwOQ6jsXT2+wRKDs8M88KMgwD6+md/YRYQ6l8lDOTnsEyHn5e5JB
+ +wTw3lDh+8eZ7+eWW39V9F2z3CypXiqZ+pYe9/G3/SyPWlqvSeOjmTmfYHL9KXbUS1WS
+ I6BCsxprf8Qxk24p1S61BkdVcmSgMtGAh6BYwqkFwCRXq3d0qJYKVFNQYQvc+wKqjhZ+
+ Ga/oOJ1MT31WrJuKToKJhIEaHq8wOM39IncU2rge1jNZFo97zCvsf/sUD4ADMmS6jBzU
+ 2y8gjnyu6HyzDr71qGXotH04kf29/3AvoTEKWs60hP2hNTUXtdbnfR/697sHdEo+bfqF
+ xaWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=UM9naFb11+jXmkpkEOdz9w/7R4gvI6i+/DkJ8BktyjI=;
- b=Bu5tPKKMI1+eUVxnzWGij1Gw2CTPN0JxgUzYuw2li9sUf1ZRAfg+jb5JC8txMcNb7L
- rOLx0+hAFaVrklwa1waY0x0PBMPRvW4LhWEXm6Qme5XgEKmXtTWAD2EiAqfreY791sMt
- +UEbtFLgaiRFMLdamp/2KlKfsKZeylRIXeCA/RKOKpzN0SUgYBkvzRUzfnU3Edkzb5OY
- +hi78QUxsqetTaSE/KMYYzhJVZz91Wt+QZTtAPmOmiZHcfqCjQ+AqSubMzVaH2LDVrDr
- 4v7B8txqsNbtQXmR2h5RMiuAZYnI73s30+NWsZiZehIdgqnzk0tllWckswDGMY0zNP7g
- ipJw==
-X-Gm-Message-State: APjAAAX/orMTUllqs2A2wZWiPXkSyh3ePPzgWQwvtXcyfabelgcDl143
- 7YWNUOXaMzrR0fdkgdqghxroTyJ1
-X-Google-Smtp-Source: APXvYqx2dDb8gCUwDoTJqYvP3cxw39YMy538cyDool6YeCuba7OXfqwL0LRlPF63KirE1c8ua6mF2g==
-X-Received: by 2002:a05:600c:2057:: with SMTP id
- p23mr3557628wmg.17.1570035116301; 
- Wed, 02 Oct 2019 09:51:56 -0700 (PDT)
+ bh=s6juWaeJdvbdYfQYOPZtIdvf+1dOdIoXW07/VCUIeko=;
+ b=FQGVFninbJOHHBj/noV6o0c1q2cbM8Hh86bTq5/Pk4EWuESXmaT3CZ+l5E9hPWLuP6
+ S2BwDNpwUoLduNNk1dh8RJRzZDQjXi1+8w6XJz4rslQ03oZrn2TzJ9i566ZSUS0SqfXv
+ 9uggLzPssXW4XCO1/yYNypPtSLJzI7bs79fde1C2FaV7kwqMWbpq1HrJB79Ii6W43mCK
+ X7yoZYql0bk1Nsc834U1Wg3+g3DEdExSD6gWkdU8i67lcCtLXj4h6muxaOdmI3nauXU3
+ ZU12BCM+nfCKOZXWQlkBfH8hQ+zY4H+pmEFz9N40+jYD7RBNvStwQCvHGTBeO6KDaiIn
+ KuZQ==
+X-Gm-Message-State: APjAAAVO9UHF4UmB8fTCA+Ycx1VkCjwPMaudQeOIYwurekhq0QUR/vQb
+ OrpjmJgVovEpymV1u8R18GmTZ6hG
+X-Google-Smtp-Source: APXvYqyvxcp0nV1xM7ze40fhgo5bnLkStIT36/Ptw8ezXwHTSvoFRG1XZ/JiI80YPJOMqh66NNPZ7A==
+X-Received: by 2002:adf:9d88:: with SMTP id p8mr3370327wre.391.1570035117264; 
+ Wed, 02 Oct 2019 09:51:57 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.51.55
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.51.56
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:51:55 -0700 (PDT)
+ Wed, 02 Oct 2019 09:51:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/30] tests/migration: Add a test for auto converge
-Date: Wed,  2 Oct 2019 18:51:24 +0200
-Message-Id: <1570035113-56848-2-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 02/30] target/i386: handle filtered_features in a new function
+ mark_unavailable_features
+Date: Wed,  2 Oct 2019 18:51:25 +0200
+Message-Id: <1570035113-56848-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,234 +76,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yury Kotov <yury-kotov@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yury Kotov <yury-kotov@yandex-team.ru>
+The next patch will add a different reason for filtering features, unrelated
+to host feature support.  Extract a new function that takes care of disabling
+the features and optionally reporting them.
 
-Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20190909131335.16848-4-yury-kotov@yandex-team.ru>
-[Reorganize check_migration_status for rebase. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/migration-test.c | 157 +++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 138 insertions(+), 19 deletions(-)
+ target/i386/cpu.c | 87 ++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 48 insertions(+), 39 deletions(-)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 221a33d..59f291c 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -240,6 +240,17 @@ static int64_t read_ram_property_int(QTestState *who, const char *property)
-     return result;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 9e0bac3..52b3f3e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3096,17 +3096,41 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
+     return NULL;
  }
  
-+static int64_t read_migrate_property_int(QTestState *who, const char *property)
-+{
-+    QDict *rsp_return;
-+    int64_t result;
-+
-+    rsp_return = migrate_query(who);
-+    result = qdict_get_try_int(rsp_return, property, 0);
-+    qobject_unref(rsp_return);
-+    return result;
-+}
-+
- static uint64_t get_migration_pass(QTestState *who)
+-static void report_unavailable_features(FeatureWord w, uint32_t mask)
++static bool x86_cpu_have_filtered_features(X86CPU *cpu)
  {
-     return read_ram_property_int(who, "dirty-sync-count");
-@@ -254,32 +265,46 @@ static void read_blocktime(QTestState *who)
-     qobject_unref(rsp_return);
- }
- 
-+static bool check_migration_status(QTestState *who, const char *goal,
-+                                   const char **ungoals)
-+{
-+    bool ready;
-+    char *current_status;
-+    const char **ungoal;
++    FeatureWord w;
 +
-+    current_status = migrate_query_status(who);
-+    ready = strcmp(current_status, goal) == 0;
-+    if (!ungoals) {
-+        g_assert_cmpstr(current_status, !=, "failed");
-+        /*
-+         * If looking for a state other than completed,
-+         * completion of migration would cause the test to
-+         * hang.
-+         */
-+        if (strcmp(goal, "completed") != 0) {
-+            g_assert_cmpstr(current_status, !=, "completed");
-+        }
-+    } else {
-+        for (ungoal = ungoals; *ungoal; ungoal++) {
-+            g_assert_cmpstr(current_status, !=,  *ungoal);
-+        }
++    for (w = 0; w < FEATURE_WORDS; w++) {
++         if (cpu->filtered_features[w]) {
++             return true;
++         }
 +    }
-+    g_free(current_status);
-+    return ready;
++
++    return false;
 +}
 +
- static void wait_for_migration_status(QTestState *who,
-                                       const char *goal,
-                                       const char **ungoals)
- {
--    while (true) {
--        bool completed;
--        char *status;
--        const char **ungoal;
--
--        status = migrate_query_status(who);
--        completed = strcmp(status, goal) == 0;
--        for (ungoal = ungoals; *ungoal; ungoal++) {
--            g_assert_cmpstr(status, !=,  *ungoal);
--        }
--        g_free(status);
--        if (completed) {
--            return;
--        }
-+    while (!check_migration_status(who, goal, ungoals)) {
-         usleep(1000);
-     }
- }
- 
- static void wait_for_migration_complete(QTestState *who)
- {
--    wait_for_migration_status(who, "completed",
--                              (const char * []) { "failed", NULL });
-+    wait_for_migration_status(who, "completed", NULL);
- }
- 
- static void wait_for_migration_pass(QTestState *who)
-@@ -450,6 +475,17 @@ static void migrate_pause(QTestState *who)
-     qobject_unref(rsp);
- }
- 
-+static void migrate_continue(QTestState *who, const char *state)
++static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
++                                      const char *verbose_prefix)
 +{
-+    QDict *rsp;
-+
-+    rsp = wait_command(who,
-+                       "{ 'execute': 'migrate-continue',"
-+                       "  'arguments': { 'state': %s } }",
-+                       state);
-+    qobject_unref(rsp);
-+}
-+
- static void migrate_recover(QTestState *who, const char *uri)
- {
-     QDict *rsp;
-@@ -814,9 +850,7 @@ static void test_postcopy_recovery(void)
-      * Wait until postcopy is really started; we can only run the
-      * migrate-pause command during a postcopy
-      */
--    wait_for_migration_status(from, "postcopy-active",
--                              (const char * []) { "failed",
--                                                  "completed", NULL });
-+    wait_for_migration_status(from, "postcopy-active", NULL);
++    CPUX86State *env = &cpu->env;
+     FeatureWordInfo *f = &feature_word_info[w];
+     int i;
+     char *feat_word_str;
  
-     /*
-      * Manually stop the postcopy migration. This emulates a network
-@@ -1210,6 +1244,89 @@ static void test_validate_uuid_dst_not_set(void)
-                           false, true);
- }
- 
-+static void test_migrate_auto_converge(void)
-+{
-+    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    QTestState *from, *to;
-+    int64_t remaining, percentage;
++    if (!cpu->force_features) {
++        env->features[w] &= ~mask;
++    }
++    cpu->filtered_features[w] |= mask;
 +
-+    /*
-+     * We want the test to be stable and as fast as possible.
-+     * E.g., with 1Gb/s bandwith migration may pass without throttling,
-+     * so we need to decrease a bandwidth.
-+     */
-+    const int64_t init_pct = 5, inc_pct = 50, max_pct = 95;
-+    const int64_t max_bandwidth = 400000000; /* ~400Mb/s */
-+    const int64_t downtime_limit = 250; /* 250ms */
-+    /*
-+     * We migrate through unix-socket (> 500Mb/s).
-+     * Thus, expected migration speed ~= bandwidth limit (< 500Mb/s).
-+     * So, we can predict expected_threshold
-+     */
-+    const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
-+
-+    if (test_migrate_start(&from, &to, uri, false, false, NULL, NULL)) {
++    if (!verbose_prefix) {
 +        return;
 +    }
 +
-+    migrate_set_capability(from, "auto-converge", true);
-+    migrate_set_parameter_int(from, "cpu-throttle-initial", init_pct);
-+    migrate_set_parameter_int(from, "cpu-throttle-increment", inc_pct);
-+    migrate_set_parameter_int(from, "max-cpu-throttle", max_pct);
-+
-+    /*
-+     * Set the initial parameters so that the migration could not converge
-+     * without throttling.
-+     */
-+    migrate_set_parameter_int(from, "downtime-limit", 1);
-+    migrate_set_parameter_int(from, "max-bandwidth", 100000000); /* ~100Mb/s */
-+
-+    /* To check remaining size after precopy */
-+    migrate_set_capability(from, "pause-before-switchover", true);
-+
-+    /* Wait for the first serial output from the source */
-+    wait_for_serial("src_serial");
-+
-+    migrate(from, uri, "{}");
-+
-+    /* Wait for throttling begins */
-+    percentage = 0;
-+    while (percentage == 0) {
-+        percentage = read_migrate_property_int(from, "cpu-throttle-percentage");
-+        usleep(100);
-+        g_assert_false(got_stop);
-+    }
-+    /* The first percentage of throttling should be equal to init_pct */
-+    g_assert_cmpint(percentage, ==, init_pct);
-+    /* Now, when we tested that throttling works, let it converge */
-+    migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
-+    migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
-+
-+    /*
-+     * Wait for pre-switchover status to check last throttle percentage
-+     * and remaining. These values will be zeroed later
-+     */
-+    wait_for_migration_status(from, "pre-switchover", NULL);
-+
-+    /* The final percentage of throttling shouldn't be greater than max_pct */
-+    percentage = read_migrate_property_int(from, "cpu-throttle-percentage");
-+    g_assert_cmpint(percentage, <=, max_pct);
-+
-+    remaining = read_ram_property_int(from, "remaining");
-+    g_assert_cmpint(remaining, <, expected_threshold);
-+
-+    migrate_continue(from, "pre-switchover");
-+
-+    qtest_qmp_eventwait(to, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+
-+    g_free(uri);
-+
-+    test_migrate_end(from, to, true);
-+}
-+
- int main(int argc, char **argv)
+     for (i = 0; i < 32; ++i) {
+         if ((1UL << i) & mask) {
+             feat_word_str = feature_word_description(f, i);
+-            warn_report("%s doesn't support requested feature: %s%s%s [bit %d]",
+-                        accel_uses_host_cpuid() ? "host" : "TCG",
++            warn_report("%s: %s%s%s [bit %d]",
++                        verbose_prefix,
+                         feat_word_str,
+                         f->feat_names[i] ? "." : "",
+                         f->feat_names[i] ? f->feat_names[i] : "", i);
+@@ -3511,7 +3535,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
+ }
+ 
+ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
+-static int x86_cpu_filter_features(X86CPU *cpu);
++static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
+ 
+ /* Build a list with the name of all features on a feature word array */
+ static void x86_cpu_list_feature_names(FeatureWordArray features,
+@@ -3576,7 +3600,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
+         next = &new->next;
+     }
+ 
+-    x86_cpu_filter_features(xc);
++    x86_cpu_filter_features(xc, false);
+ 
+     x86_cpu_list_feature_names(xc->filtered_features, next);
+ 
+@@ -3784,15 +3808,6 @@ static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     return r;
+ }
+ 
+-static void x86_cpu_report_filtered_features(X86CPU *cpu)
+-{
+-    FeatureWord w;
+-
+-    for (w = 0; w < FEATURE_WORDS; w++) {
+-        report_unavailable_features(w, cpu->filtered_features[w]);
+-    }
+-}
+-
+ static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
  {
-     char template[] = "/tmp/migration-test-XXXXXX";
-@@ -1272,6 +1389,8 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/validate_uuid_dst_not_set",
-                    test_validate_uuid_dst_not_set);
- 
-+    qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
+     PropValue *pv;
+@@ -5154,24 +5169,24 @@ out:
+  *
+  * Returns: 0 if all flags are supported by the host, non-zero otherwise.
+  */
+-static int x86_cpu_filter_features(X86CPU *cpu)
++static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+ {
+     CPUX86State *env = &cpu->env;
+     FeatureWord w;
+-    int rv = 0;
++    const char *prefix = NULL;
 +
-     ret = g_test_run();
++    if (verbose) {
++        prefix = accel_uses_host_cpuid()
++                 ? "host doesn't support requested feature"
++                 : "TCG doesn't support requested feature";
++    }
  
-     g_assert_cmpint(ret, ==, 0);
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         uint32_t host_feat =
+             x86_cpu_get_supported_feature_word(w, false);
+         uint32_t requested_features = env->features[w];
+-        uint32_t available_features = requested_features & host_feat;
+-        if (!cpu->force_features) {
+-            env->features[w] = available_features;
+-        }
+-        cpu->filtered_features[w] = requested_features & ~available_features;
+-        if (cpu->filtered_features[w]) {
+-            rv = 1;
+-        }
++        uint32_t unavailable_features = requested_features & ~host_feat;
++        mark_unavailable_features(cpu, w, unavailable_features, prefix);
+     }
+ 
+     if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
+@@ -5197,13 +5212,9 @@ static int x86_cpu_filter_features(X86CPU *cpu)
+              * host can't emulate the capabilities we report on
+              * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
+              */
+-            env->features[FEAT_7_0_EBX] &= ~CPUID_7_0_EBX_INTEL_PT;
+-            cpu->filtered_features[FEAT_7_0_EBX] |= CPUID_7_0_EBX_INTEL_PT;
+-            rv = 1;
++            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
+         }
+     }
+-
+-    return rv;
+ }
+ 
+ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -5244,16 +5255,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+         goto out;
+     }
+ 
+-    if (x86_cpu_filter_features(cpu) &&
+-        (cpu->check_cpuid || cpu->enforce_cpuid)) {
+-        x86_cpu_report_filtered_features(cpu);
+-        if (cpu->enforce_cpuid) {
+-            error_setg(&local_err,
+-                       accel_uses_host_cpuid() ?
+-                           "Host doesn't support requested features" :
+-                           "TCG doesn't support requested features");
+-            goto out;
+-        }
++    x86_cpu_filter_features(cpu, cpu->check_cpuid || cpu->enforce_cpuid);
++
++    if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
++        error_setg(&local_err,
++                   accel_uses_host_cpuid() ?
++                       "Host doesn't support requested features" :
++                       "TCG doesn't support requested features");
++        goto out;
+     }
+ 
+     /* On AMD CPUs, some CPUID[8000_0001].EDX bits must match the bits on
 -- 
 1.8.3.1
 
