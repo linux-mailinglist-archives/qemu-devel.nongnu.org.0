@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF53C8F3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:04:44 +0200 (CEST)
-Received: from localhost ([::1]:57794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30596C8F65
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:08:01 +0200 (CEST)
+Received: from localhost ([::1]:57824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFi3O-0001VM-OL
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35463)
+	id 1iFi6Z-0005UQ-Hu
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrO-0005UN-V0
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:19 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrQ-0005YU-E1
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrN-0003TG-UL
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:18 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52614)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrP-0003VL-3S
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:20 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42857)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrN-0003SK-OJ
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:17 -0400
-Received: by mail-wm1-x336.google.com with SMTP id r19so7972187wmh.2
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:17 -0700 (PDT)
+ id 1iFhrO-0003Td-SX
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:19 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id n14so20461408wrw.9
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=o4ShqMwkYwxwFlVxZ6kVT6vik/5tXcWE7uO0LUlRUd4=;
- b=d5PPPk2nnU7aUaFAH8CSpKWhlo/QYavS0FIqGOodv1EaJ5/76l3yMDG7wJ+hFWrBUI
- D+pxq9p9SvAYVLrLfcIiC914SDOYkGXDck0vjELcFtfiVVKyYaEYmpcFtQ+TG0x1jRy0
- QIgFzj0nIAhRl3fGQO5VK20F6SFcmXNfER9+pHJ7Ql9KR6tLSKZK+8zKsr5UFPW5AlZ7
- 0pVPpKr9goLvmfb7hHLuE7ycpKvsEkPoHw4tZxOcfI/Ugcchmt8qc/U+2I4ZZ1a7CK3B
- 4jYj4jtnOlqB+gd/XhyUq/xGLpQ4dO9/anGCKh/EM3aRP9BdBxnjOKIxoFGVs6CIvBSh
- TgNQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=vqzgHL7aRM9BJ5Yw7NhTakoGS6o9s+EDo3MElhnA4Yo=;
+ b=YCQvm/r58Rd7V9C4pIDVGgbSnl+SCGIA34OAJuj8Z2qGD5hCEZUwS4D9VVvqGylmag
+ +1Caz/bLtW2B3rqlNESurtD3Rq9t/wEDfnzbz3Po+xU9w5S5EltdjK6F5IIPGsFHp984
+ E455mhamRZUT1Irq7RBvLuUT7TfzLfhYBJlyoX9tsc2UPptvafU+lLa3X0oJ73rYdBRr
+ COyroZwqZ9DLVFfHeDKhgU9Wj0SqAwsScrIw9LBPrCdWwbitvNfiJqQrtw9QV57qgBte
+ L998gYSeKT5Ym9+ESpSjOZWUQMrpY2GKI1JU7G6xrX5LkMpBtaZM0z577KxOCtDSVe9c
+ iTaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=o4ShqMwkYwxwFlVxZ6kVT6vik/5tXcWE7uO0LUlRUd4=;
- b=adYuCOKFSL65iapH7AduTicOGcG+bBHfzINLh8lIg63p6kdCMb26IAvYVSTSfcke9i
- /9MpY+VdsbU9PB1M5bCWSDAiK2G18lrsiC4zze3uOC0iDLG3f99zJDR97SIFr66WCV0A
- e7PXyM5AhiOSdTuUKK9XuQxA1yt2KkQhdP/TqD6Cnb3P/iDb3qAcC2b+S3SuB95wCtE/
- ZO8pDEWXiiAzWxQJcK+9M9IcOpBU28+sI/mURZezj3AMclRCnFQ4pZRwNv3YpnQ2m/Ta
- tXiUoOJPWUDPR0sjZMSxhh7GMvZqR1a5CT0hYrma8/7UIOk+AxqlffL+uA7mFO1ttn/h
- LPLg==
-X-Gm-Message-State: APjAAAU4t2w6U/YiO75S+ifvjVtovo/x6AsV99eiZ0FGnLVb62wp6qt8
- Uan7nQAJ+5e/sajvBjs3ZVOntioI
-X-Google-Smtp-Source: APXvYqw74FGTA+4Wk2EL7bL6U/LjrkxbfC+rfOtFH6+ym9elpGNmytF/ZE3/4WHgg7gjwJbvlvT9mg==
-X-Received: by 2002:a1c:a94b:: with SMTP id s72mr3627073wme.9.1570035136458;
- Wed, 02 Oct 2019 09:52:16 -0700 (PDT)
+ bh=vqzgHL7aRM9BJ5Yw7NhTakoGS6o9s+EDo3MElhnA4Yo=;
+ b=e3Ct5RSaEh/uBu/SvLZ7k8tFWszxnUCE+rIl8dkdADxFZ7EKNVD4imPIOKwaomopZU
+ zD+m4lr4gA4EwbxtT15Qy3650q8Av3qE6Qr/J8UAS7kLTo03IqTuepmjB0I5agbDJghS
+ ug7E2TCTCPQMvB2M2z7nHSjaU/3ZgsZLwKSqX5coO8hrE78UW6fHH/tKPN7ilp6o91lM
+ 0FI0lSYqNyJcaM9PZB0xj9/sE0eE2VGkMkoZJMJFO6+u/RDUKQtcgG2qhl20ev4KdqxO
+ KovNs0XbnQXEZgHo3dihfy92us37ag7nzPLJ6TLZ4S+G576uW7xYNGcZq9Zhkge/yvJ7
+ aHSw==
+X-Gm-Message-State: APjAAAXLE8rIJ3CvSFdcgqJBFLx+Az7gmyT8ZouIsf7PIh0LBfymjvk0
+ 3eTdXTgSM+r5P5q2OmtW/h5/S2lC
+X-Google-Smtp-Source: APXvYqw9OF7jliYLO+M78sZLBp2m+T320tFbytLcZwQFCGC0au/pfrW96Y4IDcImc3P+dgMqW9mS4w==
+X-Received: by 2002:adf:9d87:: with SMTP id p7mr3340604wre.245.1570035137640; 
+ Wed, 02 Oct 2019 09:52:17 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.15
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:15 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/30] docker: test-debug: disable LeakSanitizer
-Date: Wed,  2 Oct 2019 18:51:44 +0200
-Message-Id: <1570035113-56848-22-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 22/30] i386: Add CPUID bit for CLZERO and XSAVEERPTR
+Date: Wed,  2 Oct 2019 18:51:45 +0200
+Message-Id: <1570035113-56848-23-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are just too many leaks in device-introspect-test (especially for
-the plethora of arm and aarch64 boards) to make LeakSanitizer useful;
-disable it for now.
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Whoever is interested in debugging leaks can also use valgrind like this:
+The CPUID bits CLZERO and XSAVEERPTR are availble on AMD's ZEN platform
+and could be passed to the guest.
 
-   QTEST_QEMU_BINARY=aarch64-softmmu/qemu-system-aarch64 \
-   QTEST_QEMU_IMG=qemu-img \
-   valgrind --trace-children=yes --leak-check=full \
-   tests/device-introspect-test -p /aarch64/device/introspect/concrete/defaults/none
-
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/test-debug | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/cpu.c | 2 +-
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/test-debug b/tests/docker/test-debug
-index 137f4f2..c050fa0 100755
---- a/tests/docker/test-debug
-+++ b/tests/docker/test-debug
-@@ -21,6 +21,7 @@ cd "$BUILD_DIR"
- OPTS="--cxx=clang++ --cc=clang --host-cc=clang"
- OPTS="--enable-debug --enable-sanitizers $OPTS"
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 5b771f1..313a2ef 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1130,7 +1130,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+     [FEAT_8000_0008_EBX] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+-            NULL, NULL, NULL, NULL,
++            "clzero", NULL, "xsaveerptr", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, "wbnoinvd", NULL, NULL,
+             "ibpb", NULL, NULL, NULL,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index c62e3b6..033991c 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -723,6 +723,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
  
-+export ASAN_OPTIONS=detect_leaks=0
- build_qemu $OPTS
- check_qemu check V=1
- install_qemu
+ #define CPUID_7_1_EAX_AVX512_BF16 (1U << 5) /* AVX512 BFloat16 Instruction */
+ 
++#define CPUID_8000_0008_EBX_CLZERO		(1U << 0) /* CLZERO instruction */
++#define CPUID_8000_0008_EBX_XSAVEERPTR	(1U << 2) /* Always save/restore FP error pointers */
+ #define CPUID_8000_0008_EBX_WBNOINVD  (1U << 9)  /* Write back and
+                                                                              do not invalidate cache */
+ #define CPUID_8000_0008_EBX_IBPB    (1U << 12) /* Indirect Branch Prediction Barrier */
 -- 
 1.8.3.1
 
