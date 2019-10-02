@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC5EC8F77
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:10:51 +0200 (CEST)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1ECC8F81
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:14:09 +0200 (CEST)
+Received: from localhost ([::1]:57878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFi9K-0000Us-6p
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35379)
+	id 1iFiCW-0003y0-10
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35399)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrH-0005Ku-NR
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:12 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrJ-0005NX-Mc
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrG-0003Jr-PF
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:11 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37566)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrI-0003MC-RA
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:13 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrG-0003Iw-Jb
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:10 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f22so7708260wmc.2
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:10 -0700 (PDT)
+ id 1iFhrI-0003LS-LJ
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:12 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 7so7980621wme.1
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=iz9uDsoXfYTqHHYiw4kw2GlIgMTkxYJyyAIl7JwKIzw=;
- b=LackDA61KpmL+54zZOQ7LkQXbAfDSmZpp+jD1getURoorxoN/S0kBF8Io3m2w6RZTh
- pJ8XRW5BKHa5KltRmhq1ZquZr14SubZDwqufJ1E1O8U5rvq8vN8pzcKpWdovz3NCSUlT
- hX0pQzcXhWp596iPvAI0f8B/VAkPtfvkslrNd83RNhWNH2S+YjG+oeRy+jIIzviVMs7y
- 6xlr3zHEQiXagqroUkT6h0nPQZ50DD/5gRe3YzgTSRYqtsE2OvdjE/YLZThOb39t1GJU
- HyQs97uuisztsek8885nN1e8cWPsmWqUXz8um7PgkZXkN2O4kw9v419ryskFYtKgXFnS
- ylEQ==
+ bh=ctHqzmF5TD8AB7smZxOhtvuEQnZ1yozHJ+9MqxlkUs0=;
+ b=OaeSiMzqglA9jbgYLidNul4LVSa+ezpPObr8nrH34VlW53Diilqgig/XNy6vcsgDA6
+ oGJf20POMjWhJVe4uAb5+B9b8p7Vy63jxgiugiRjcjtUIBm/9fItTAU4azemxY9J+mGo
+ 5iCP4aeA/XpbnLlIZpohBnX3dxH7TsO6lKxHhnPwQU1u8uVsh/Bh2JmorttXlaOXDaox
+ d8Oha6ipz545+cRUukq/KwaiAqzflI0BqjIdn//5KU+yGScQ7aLHIF4jeDEHO9rdHvoC
+ 3AN0kgPn41lSUUGr03A1FgIgvbQZvGHiKcDXHJ9TK/KKhxotkgNUYKmTMFL29bsKbeRb
+ kjEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=iz9uDsoXfYTqHHYiw4kw2GlIgMTkxYJyyAIl7JwKIzw=;
- b=aoQQ/yo7ldWAoucORdRobxcULUh9HeXnpH7In2XkG0xvecgiQdAbulxPYV0AmzekMU
- iDD+h76eifXHyV6TU9siUTHwgA5n/cfE0PX1LJ6m18+lDom5EZ+VGRlBB0QtHaTA1j5G
- eUPToVOqx84Nj4Yd4fbHzLKyGGTk5kq8Of7EXwmwTSCvto+2t5upRAplZ1x2M0b2Ky1P
- DA41l/BcAotIG+L65bUkxyfwY4eWYi5gVQxJllH4OWZ4dSehOyrTv7vxEw8RSd/ebVZK
- DvHz3pJybUPWDA5Ly7tUGFDFHNJLCcOu9KAInMMhiRta4yvj43BZcZUrGXsZUMv5eTUp
- 7QYQ==
-X-Gm-Message-State: APjAAAVnLIj3xaM39TapaRtR8PmJIEEqFRGLd8vjhyJqjcoCjPnclAXJ
- p1breLYjiTx7nVFbXcRDIrR4kF2/
-X-Google-Smtp-Source: APXvYqx+q6+3TBj3Krcfkijv+tsu7dv4hY+T1FvDAfKZxcZF/f9atIq90mmSj5qq/T4GWhX8V/vmRg==
-X-Received: by 2002:a1c:dd0a:: with SMTP id u10mr3598853wmg.100.1570035129276; 
- Wed, 02 Oct 2019 09:52:09 -0700 (PDT)
+ bh=ctHqzmF5TD8AB7smZxOhtvuEQnZ1yozHJ+9MqxlkUs0=;
+ b=lB4IKQBppHEQd5pq2QL8gnlnRJ0ey55WXzpCKbiQbl8dnd4H0RrL7hKLtq7PoQ9MMr
+ /LhL7A/6ygmHLWgjTd5lpWm23EWraDlbJBUYTcN/yb2YBUvNF/wCpWDKJSC1N6jKqUPu
+ nN2mK5nOWlTKhjD8tVUvZ+8sJVPFkZymVoRQlDkTIaBXqqYjva2TUnMjf0gakioe8X/6
+ yF2UjqHQYXgfDacy5WsmVud0GhaWe015IAP54uCimYS1YcdsNrV/Y7svSrWLSZRN/2lt
+ LwtNnZNKWlGmIw3g4sNVY6Mf6h9gzaMWmFZURthz712mQDB1zkDbxRZAZ9sZNRPp54FE
+ 19JQ==
+X-Gm-Message-State: APjAAAUHYPqViwzzsuYD1MKfHYMO7eNSuIvuztbrIrn/eIHJmKBGvE1F
+ uEBSSos8FOYgGirU9Eq2U90xzk6i
+X-Google-Smtp-Source: APXvYqxRaGm2dI0X4OgyKUrl9NdufBR2pkadAxmrTrHFFn1gWKsTHjrDLxjd+UjCS3PiosMexeaYmw==
+X-Received: by 2002:a05:600c:2057:: with SMTP id
+ p23mr3558370wmg.17.1570035131366; 
+ Wed, 02 Oct 2019 09:52:11 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.08
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:08 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/30] ide: fix leak from qemu_allocate_irqs
-Date: Wed,  2 Oct 2019 18:51:37 +0200
-Message-Id: <1570035113-56848-15-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 16/30] mcf5208: fix leak from qemu_allocate_irqs
+Date: Wed,  2 Oct 2019 18:51:39 +0200
+Message-Id: <1570035113-56848-17-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,21 +84,22 @@ The array returned by qemu_allocate_irqs is malloced, free it.
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/ide/cmd646.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/m68k/mcf5208.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index f3ccd11..19984d2 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -300,6 +300,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
-         d->bmdma[i].bus = &d->bus[i];
-         ide_register_restart_cb(&d->bus[i]);
+diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
+index 012710d..60c5802 100644
+--- a/hw/m68k/mcf5208.c
++++ b/hw/m68k/mcf5208.c
+@@ -273,6 +273,8 @@ static void mcf5208evb_init(MachineState *machine)
+                      0xfc030000, pic + 36);
      }
-+    g_free(irq);
  
-     vmstate_register(DEVICE(dev), 0, &vmstate_ide_pci, d);
-     qemu_register_reset(cmd646_reset, d);
++    g_free(pic);
++
+     /*  0xfc000000 SCM.  */
+     /*  0xfc004000 XBS.  */
+     /*  0xfc008000 FlexBus CS.  */
 -- 
 1.8.3.1
 
