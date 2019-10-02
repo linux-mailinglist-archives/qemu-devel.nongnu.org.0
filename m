@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C616C8F63
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:07:52 +0200 (CEST)
-Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BE7C8F27
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:01:02 +0200 (CEST)
+Received: from localhost ([::1]:57756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFi6Q-0005HX-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35356)
+	id 1iFhzo-0005wE-QW
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:01:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrF-0005Ia-WC
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrH-0005Jw-1T
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrE-0003HU-MF
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:09 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33854)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrF-0003IX-NS
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:10 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52612)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrE-0003GZ-GB
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:08 -0400
-Received: by mail-wm1-x341.google.com with SMTP id y135so5358697wmc.1
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:08 -0700 (PDT)
+ id 1iFhrF-0003Hm-HN
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:09 -0400
+Received: by mail-wm1-x335.google.com with SMTP id r19so7971682wmh.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=orwZmwJz4TFkQtH30UdbtL2NHAyTnKMIxHRZCfSWvJU=;
- b=tETMFwNG79kT+wKZgD6uIf28CdGeqW0rn9bFlc/BfNxgP9GM+U3PPQYpVkYYH66JkV
- OYjStpIJI4gLKda2whdqRWQXRN7SSi+bMZTjemPi8iZAP9LGz6ztwOP4OvSfDP33+KDY
- svRLgp4qQwxzu73ADDX2DKOXP/mAb8PupT78sxv1oo8X0lW+spRD67iJqVXmNWi709Gk
- CiPXKDE1NVf/7sEr0WCDRIZHMWj2Y4bsoFcwzLWVjHWHY5i90KQ7/kPUyXEYgUnacrdr
- c83WkmNwNzJD8gMF/PKc6kuEd8pwK0xtN9Ib40BnBod/XP5sZjf+jOrVOcKRsvsh4Nat
- niWA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OfES0nT3k6Z9LTQ7lYjY3cIAvS5cOEPfvSwDFax1+oI=;
+ b=sp55rzD4mHywNngoU3mlFw0WfGRnvEfa6IoPKvHFS3fMPXXVDk5BTEcfcZfzoa82mX
+ +h85Q5XKmok0hiDnfgx+sqscYk3qA1XKS5v5/874qBjHwm/yWLy51E4FGzWkxTKzvZNM
+ boiNhWIkuMTNY9AXxK6TPZmdsPpQwwE3gotq3lRf5KEjIn5tSsWd/ckboLRJIAuGmeM3
+ HOwy8KyGZUrBjFgas48zKeNUOwoQxWWnYBIF3yH1WGWDOkk63aulI5tIGvCYfJl/xqdc
+ gLEDAdcmG7zl8br7k1zhi0Ub2sGKN+WCBk7zGEurGne2CBqb9gpbBW70YEcm8nFEe1Ox
+ 454Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=orwZmwJz4TFkQtH30UdbtL2NHAyTnKMIxHRZCfSWvJU=;
- b=sAPf4hFvbvphf5eX/HEQ+4JkgOv84nKwPvB9x2jR0NZE2CGhI5Ntdt9kvaNHuxgwWA
- DW7KfhS1RWcsBzW6KOfCzwbggifmQmFVjiKk0rBYJi4mzY9jJ1OapLh2+A83CHle2OTJ
- lpU/XXJB3gKoWerNNr7q/31eFS9jb8VO0XxUU8vGw+dAqSJnfG1wv1ZkhcAbHZkpkUCd
- 1BMLO+Bk1mY1QT7uTZe/kvYLBGgikyAl/gTKI81Y66RK5l8V5ozzxuGA7gl9UYmKvQ/L
- Nbt9rOO0EfqaJd5B1NOZUiOQLKTXxvkiYEG0JTSU5JTP1mCwfW0hpc2Rt3gzSer+zZ+Y
- R/rw==
-X-Gm-Message-State: APjAAAXsWxRVtSG2CaAKgSg+Gfz2otWyqTZ+cGdhdvOhPxEU03RvUcxi
- EWQW5/8zIe+94ckgK4EPfSG1lbp1
-X-Google-Smtp-Source: APXvYqz9UaMLInZm1agxeG8vsmEztHbAWIku6qOGVGEBD5imsL9APqwV4bOAWYzmk/wRemGj3/hp9w==
-X-Received: by 2002:a1c:d185:: with SMTP id i127mr3677163wmg.28.1570035127169; 
- Wed, 02 Oct 2019 09:52:07 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=OfES0nT3k6Z9LTQ7lYjY3cIAvS5cOEPfvSwDFax1+oI=;
+ b=oKN6gSDWDBnQH3aqUIwW6DJVjdxxaiAkz/HOUE35RZN9xgEp1oXblaLHqmeLNbk2yF
+ xbY5ksvkT5KJpBlZvRb40kfu3qzLhC3w43UjrtVfw8urtciMDeo5Uj9SCGq6f0eAV/4b
+ Qj89nsD1O3ZrWR9yOkaBV4JvZOJrPop3n8Xy42+R57htk6f1/XZ0osBbBT9Mknc05E+e
+ mlidmsSETmthi1pAe7gmOkM2T6/U9kgkrC15YR7xlyEEKUoazGVq393IMAnQlrDUGpp7
+ utB0T5p0fzfkU+Y5gkI/pgy84GBGw6B3XhjUrHHKORp1vW3zzq5zRGvJnvqWciEQFLpJ
+ LhXQ==
+X-Gm-Message-State: APjAAAWDcDfFCWLM39xbWo71T6gEOMnab+pw9qj65I1FYiIAqZ2/cjnT
+ A5TvHc6o8b6gh5QR0qIr5GM1lluY
+X-Google-Smtp-Source: APXvYqzktRvSs54ozypdhBgAjRyW34oohMdJDQlTbQk6il5ofaTuTr9DVedQMASJVA5HOW7FQXYFmg==
+X-Received: by 2002:a1c:1f89:: with SMTP id f131mr3486276wmf.72.1570035128153; 
+ Wed, 02 Oct 2019 09:52:08 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.06
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.07
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:06 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/30] Makefile: Remove generated files when doing 'distclean'
-Date: Wed,  2 Oct 2019 18:51:35 +0200
-Message-Id: <1570035113-56848-13-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 13/30] hw/isa: Introduce a CONFIG_ISA_SUPERIO switch for
+ isa-superio.c
+Date: Wed,  2 Oct 2019 18:51:36 +0200
+Message-Id: <1570035113-56848-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,74 +85,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-When running "make distclean" we currently leave a lot of generated
-files in the build directory. Fix that.
+Currently, isa-superio.c is always compiled as soon as CONFIG_ISA_BUS
+is enabled. But there are also machines that have an ISA BUS without
+any of the superio chips attached to it, so we should not compile
+isa-superio.c in case we only compile a QEMU for such a machine.
+Thus add a proper CONFIG_ISA_SUPERIO switch so that this file only gets
+compiled when we really, really need it.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile               |  6 +++---
- tests/Makefile.include | 12 +++++++++++-
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ hw/isa/Kconfig       | 10 +++++++---
+ hw/isa/Makefile.objs |  2 +-
+ hw/mips/Kconfig      |  1 +
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 8da3359..47b1e1f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -696,14 +696,14 @@ clean: recurse-clean
- 		-exec rm {} +
- 	rm -f $(edk2-decompressed)
- 	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
--	rm -f fsdev/*.pod scsi/*.pod
-+	rm -f fsdev/*.pod scsi/*.pod docs/*.pod docs/*/*.pod docs/*/.buildinfo
- 	rm -f qemu-img-cmds.h
- 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
- 	@# May not be present in generated-files-y
- 	rm -f trace/generated-tracers-dtrace.dtrace*
- 	rm -f trace/generated-tracers-dtrace.h*
- 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
--	rm -f qapi-gen-timestamp
-+	rm -f qapi-gen-timestamp vhost-user-input
- 	rm -rf qga/qapi-generated
- 	rm -f config-all-devices.mak
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 6db0d79..98a2899 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -13,9 +13,13 @@ config I82378
+     select MC146818RTC
+     select PCSPK
  
-@@ -724,7 +724,7 @@ distclean: clean
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config-all-devices.mak config-all-disas.mak config.status
- 	rm -f $(SUBDIR_DEVICES_MAK)
--	rm -f po/*.mo tests/qemu-iotests/common.env
-+	rm -f po/*.mo
- 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
- 	rm -f qemu-doc.info qemu-doc.aux qemu-doc.cp qemu-doc.cps
- 	rm -f qemu-doc.fn qemu-doc.fns qemu-doc.info qemu-doc.ky qemu-doc.kys
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451..48b52da 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1176,11 +1176,21 @@ check: check-block check-qapi-schema check-unit check-softfloat check-qtest chec
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
--	rm -f tests/test-qapi-gen-timestamp
- 	rm -rf $(TESTS_VENV_DIR) $(TESTS_RESULTS_DIR)
-+	rm -f tests/qemu-iotests/common.env tests/qemu-iotests/check.*
-+	rm -f tests/test-qapi-gen-timestamp tests/qht-bench$(EXESUF) \
-+		tests/fp/fp-test tests/fp/*.out tests/qapi-schema/*.test.*
- 
- clean: check-clean
- 
-+check-distclean:
-+	rm -f tests/test-qapi-types*.c tests/test-qapi-visit*.c \
-+		tests/test-qapi-commands*.c tests/test-qapi-events*.c \
-+		tests/test-qapi-emit-events.[ch] tests/test-qapi-introspect.c \
-+		tests/include/test-qapi-*.c
+-config PC87312
++config ISA_SUPERIO
+     bool
+     select ISA_BUS
 +
-+distclean: check-distclean
-+
- # Build the help program automatically
++config PC87312
++    bool
++    select ISA_SUPERIO
+     select I8259
+     select I8254
+     select I8257
+@@ -34,14 +38,14 @@ config PIIX4
  
- all: $(QEMU_IOTESTS_HELPERS-y)
+ config VT82C686
+     bool
+-    select ISA_BUS
++    select ISA_SUPERIO
+     select ACPI_SMBUS
+     select SERIAL_ISA
+     select FDC
+ 
+ config SMC37C669
+     bool
+-    select ISA_BUS
++    select ISA_SUPERIO
+     select SERIAL_ISA
+     select PARALLEL
+     select FDC
+diff --git a/hw/isa/Makefile.objs b/hw/isa/Makefile.objs
+index 9e106df..ff97485 100644
+--- a/hw/isa/Makefile.objs
++++ b/hw/isa/Makefile.objs
+@@ -1,5 +1,5 @@
+ common-obj-$(CONFIG_ISA_BUS) += isa-bus.o
+-common-obj-$(CONFIG_ISA_BUS) += isa-superio.o
++common-obj-$(CONFIG_ISA_SUPERIO) += isa-superio.o
+ common-obj-$(CONFIG_APM) += apm.o
+ common-obj-$(CONFIG_I82378) += i82378.o
+ common-obj-$(CONFIG_PC87312) += pc87312.o
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 62aa01b..2c2adbc 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -13,6 +13,7 @@ config R4K
+ 
+ config MALTA
+     bool
++    select ISA_SUPERIO
+ 
+ config MIPSSIM
+     bool
 -- 
 1.8.3.1
 
