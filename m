@@ -2,76 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C43AC8C4A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 17:06:41 +0200 (CEST)
-Received: from localhost ([::1]:56296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40116C8C54
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 17:08:33 +0200 (CEST)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFgD9-0006Vf-HV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 11:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
+	id 1iFgEx-0000py-Vk
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 11:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iFgAC-0004iU-Id
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 11:03:37 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFgAh-00051J-DE
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 11:04:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iFgAB-0007mS-8v
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 11:03:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:22797)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFgAB-0007lQ-0t
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 11:03:35 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F191B87630
- for <qemu-devel@nongnu.org>; Wed,  2 Oct 2019 15:03:33 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id s19so2226041wmj.0
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 08:03:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eSxMRX8GN8phVB9NSHa6t4tc2qgaPgMGgXLbL3nw8NA=;
- b=Ue0ZZQFM1GgwHoZ9Q9K9Hz84KJyqOUjwDw3ldUfNyVpD+E/V9SeK5bxes949ckCg01
- SlmJw+ihdB6GZqDW9OkhzwrZNtOataK2f92FiExAgdYJRYAqSvXJC53gY0vwxmgj598e
- CEvUAguwa1+dcCcLI2rbW6reFcVlzLh4wwzOxwhWwJLyQApH8yZ/YzWm3zw3KlKdOvtZ
- CvCAixoywA2zFuHzYXY8vpVZ/vlERrvfTAQT+pITDamJq9vs/MDcrTB04BQU300QoSkt
- BDc3Ob2PcntSMeKQtVO8XPv7avUU3CUmBYUOLUQbMKGG4LTyfjZt6HMv+cmjELFd90rD
- GN0Q==
-X-Gm-Message-State: APjAAAXBb+1PYWobYxbkgQgBHQCqtz+o7YZV1EAkqIpWEn1r48m6N0ZD
- M0SiSKs0DXVZFxNHVfzesCAYqUqZjn+EQufhyzSxXDHHizK+WEBYXww4j0ISfx5mVCXzW/eeSk9
- Gw/psx6zlJqalHgs=
-X-Received: by 2002:adf:f011:: with SMTP id j17mr3189710wro.131.1570028612660; 
- Wed, 02 Oct 2019 08:03:32 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyUFwjkoSlSkZAMw1gCVW+6lIOMj8EGfX9wo7EyYU02QEdSJdtxyxrS7EMcReH+mW/PoMZ/uw==
-X-Received: by 2002:adf:f011:: with SMTP id j17mr3189665wro.131.1570028612323; 
- Wed, 02 Oct 2019 08:03:32 -0700 (PDT)
-Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
- [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id u10sm38054548wrg.55.2019.10.02.08.03.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Oct 2019 08:03:31 -0700 (PDT)
-Subject: Re: [PATCH v13 1/9] esp: add pseudo-DMA as used by Macintosh
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20190927090453.24712-1-laurent@vivier.eu>
- <20190927090453.24712-2-laurent@vivier.eu>
- <84f1108e-cc69-558d-4d67-ebb0b7b5f42a@redhat.com>
- <e62b699d-6e05-1914-65b6-683e81b7640d@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <85676490-43a7-5348-ecf3-c5654eb111ff@redhat.com>
-Date: Wed, 2 Oct 2019 17:03:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
-MIME-Version: 1.0
-In-Reply-To: <e62b699d-6e05-1914-65b6-683e81b7640d@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iFgAg-00082O-37
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 11:04:07 -0400
+Received: from mail-ve1eur03on0705.outbound.protection.outlook.com
+ ([2a01:111:f400:fe09::705]:44609
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iFgAf-0007wK-7n; Wed, 02 Oct 2019 11:04:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZiC2KGbn3UB5tSOPaPW7xwEJX27C3uTneqXkmUzYtoNSb2p+5L4DFIH/H4Se5MokzoV9vCO1TrKA+bzPiAd4DjwC6ni8BulHnOa7E7ralm/vuO3iRnRieK4htAdtiMexc6emcgfxXd5xcXeP7Lf5s38ufrzPmLVSvWKKOsOW9tw0dvhVvioMKObvhPUsroKc8z5gYfP8vScQrQ2i0XxS2g+WksQ+itldTDyDeHJVx3UrLd6MRwlTe0nddcZwZ9GIQZMJqdHBmFdcPi+3g69c5mNqtz3i/uXzWpascPLiwcWoYME8HkwfcK3/6/Jx8+jh33t25qi2QzfirL3Xew4CXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FfZs/9UMs8uomyNm41jkxqZkctdLPmvasGLBJgRJ97c=;
+ b=Muo3XWtCFY3JXHnBpamYq1Di2xdHu+SHjchv3Sc508i+gNE3rG3L/B4Fv240W4tzufxryb8yxf7il3DhpdLSEyYnHVobjjAunibKdOG3S3Q8yx4bEit6F/qLamWoo1DUB6tsZhZF6kBJ4vPakgvayoqyux3TFs96u3AnEK0mTsrvUarX6mFwso/04VusGrMdihqQUvmBn5tajQA22fiyWmoFGlSrdruuEYzTkgQCiKp9+HNa0T4QWhRYyzLEr9HDZtRuDh0Fc7qE42xLTzyYOylJVWf48NrWteYCPJ9kAns42ZTadJ4ssTW54AeFzuz4NQnyRh4AjJLdE3THaeANhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FfZs/9UMs8uomyNm41jkxqZkctdLPmvasGLBJgRJ97c=;
+ b=VX+3j/AmNpWU9qTiZJOIOPMIdI31/LqHtQzJ0EoWaKGzT1BJ/sbQ1jVQD38gQ6Ev6Vtc+DsbLcTxeLZjPAwH84U4JQPnWcwS0jaNBXJpKiaas1bJD8u8bYquLnDZzf5mmZG1dn/dMGkiNR7RsB3Bmid5YCnZncWuLE+coreI6Gg=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB3977.eurprd08.prod.outlook.com (20.179.11.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.17; Wed, 2 Oct 2019 15:03:57 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2305.023; Wed, 2 Oct 2019
+ 15:03:57 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH 3/4] block/mirror: support unaligned write in active mirror
+Thread-Topic: [PATCH 3/4] block/mirror: support unaligned write in active
+ mirror
+Thread-Index: AQHVaXyqGWMlukZLJkOXoRVirVbRLqdHkGAAgAAB3QA=
+Date: Wed, 2 Oct 2019 15:03:57 +0000
+Message-ID: <9a857f23-73b0-44c1-dde2-ac68d45dcf93@virtuozzo.com>
+References: <20190912151338.21225-1-vsementsov@virtuozzo.com>
+ <20190912151338.21225-4-vsementsov@virtuozzo.com>
+ <7dec596f-0175-951e-ba3f-2eb8b2a3d8ed@redhat.com>
+In-Reply-To: <7dec596f-0175-951e-ba3f-2eb8b2a3d8ed@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P195CA0015.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::25)
+ To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191002180354335
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: eb5260a2-8762-44e7-661c-08d74749bfb2
+x-ms-traffictypediagnostic: DB8PR08MB3977:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB8PR08MB3977D03A14834EB3705E172BC19C0@DB8PR08MB3977.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:962;
+x-forefront-prvs: 0178184651
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(366004)(39850400004)(396003)(136003)(189003)(199004)(186003)(31696002)(64756008)(66556008)(8936002)(256004)(8676002)(86362001)(5660300002)(11346002)(476003)(81166006)(66446008)(31686004)(66476007)(99286004)(386003)(76176011)(102836004)(6506007)(53546011)(26005)(2501003)(52116002)(2616005)(66946007)(14444005)(2906002)(446003)(110136005)(6436002)(54906003)(71190400001)(36756003)(6512007)(478600001)(25786009)(316002)(6486002)(81156014)(229853002)(6116002)(3846002)(14454004)(7736002)(66066001)(107886003)(4326008)(305945005)(71200400001)(486006)(6246003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB3977;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yLsgKhA/k77b03zfoGEG1UwbEf7R3cHwzZyMKDBJC41crc4vBmgbKcoNHQdvPDlV0TEYLpwKgugvrgfvvqv9GD2r+CKYW+aJo3MgcA802FD6CoQnNgPUN1J+041Va20/LjNekIVcE3wMiqKdhZB5iJPgYviCBVTrgK1HLugv+LZtWy6R1S1LfEpEolrF25wsTJ9D2mnwo0zye9vMXCnn60+RwMzkRrJoKGADnRJmsfKq5hWNFchy+zK2vDtr7qzge4r6y19IgoGvHGx8a6WB8qXcbGveVHsjt5MU4VT9SEWCPxR+LdN1tj2dt0czWvGbsstgrWu9jfodnRzfoCZBasxpI4E48y7YzaNLgUqHzX1rPbDIkfwF+gxevX5I946EiGNJsEcRUKKcoCgTZhf80HS60936n547NcgUn6RHARU=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8C6F8F1C8C577F4BAA8BACB60494A223@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb5260a2-8762-44e7-661c-08d74749bfb2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 15:03:57.2880 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 663UETp4Q9NzLYsYLuOVmNMGJLtbGyMOFrrNkX4wf/NVkhoYg5ZZ2BChcsGXov4wbgj8Snjq2RqPt58gwiGNNCSp9DTIGnxezHreV1RfDO4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3977
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe09::705
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,116 +112,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/19 2:33 PM, Laurent Vivier wrote:
-> Le 02/10/2019 =C3=A0 13:10, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
-=A0:
->> On 9/27/19 11:04 AM, Laurent Vivier wrote:
->>> There is no DMA in Quadra 800, so the CPU reads/writes the data from =
-the
->>> PDMA register (offset 0x100, ESP_PDMA in hw/m68k/q800.c) and copies t=
-hem
->>> to/from the memory.
->>>
->>> There is a nice assembly loop in the kernel to do that, see
->>> linux/drivers/scsi/mac_esp.c:MAC_ESP_PDMA_LOOP().
->>>
->>> The start of the transfer is triggered by the DREQ interrupt (see lin=
-ux
->>> mac_esp_send_pdma_cmd()), the CPU polls on the IRQ flag to start the
->>> transfer after a SCSI command has been sent (in Quadra 800 it goes
->>> through the VIA2, the via2-irq line and the vIFR register)
->>>
->>> The Macintosh hardware includes hardware handshaking to prevent the C=
-PU
->>> from reading invalid data or writing data faster than the peripheral
->>> device can accept it.
->>>
->>> This is the "blind mode", and from the doc:
->>> "Approximate maximum SCSI transfer rates within a blocks are 1.4 MB p=
-er
->>> second for blind transfers in the Macintosh II"
->>>
->>> Some references can be found in:
->>>  =C2=A0=C2=A0 Apple Macintosh Family Hardware Reference, ISBN 0-201-1=
-9255-1
->>>  =C2=A0=C2=A0 Guide to the Macintosh Family Hardware, ISBN-0-201-5240=
-5-8
->>>
->>> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>> Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>> ---
->>>  =C2=A0 hw/scsi/esp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 338 ++++++++++++++++++++++++++++++++++++++----
->>>  =C2=A0 include/hw/scsi/esp.h |=C2=A0 15 ++
->>
->> I recommend you to install the scripts/git.orderfile file.
->=20
-> done
->=20
->>
->>>  =C2=A0 2 files changed, 324 insertions(+), 29 deletions(-)
->>>
-> ...
->>> --- a/include/hw/scsi/esp.h
->>> +++ b/include/hw/scsi/esp.h
->>> @@ -14,10 +14,18 @@ typedef void (*ESPDMAMemoryReadWriteFunc)(void
->>> *opaque, uint8_t *buf, int len);
->>>  =C2=A0 =C2=A0 typedef struct ESPState ESPState;
->>>  =C2=A0 +enum pdma_origin_id {
->>> +=C2=A0=C2=A0=C2=A0 PDMA,
->>> +=C2=A0=C2=A0=C2=A0 TI,
->>> +=C2=A0=C2=A0=C2=A0 CMD,
->>> +=C2=A0=C2=A0=C2=A0 ASYNC,
->>> +};
->>> +
->>>  =C2=A0 struct ESPState {
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t rregs[ESP_REGS];
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t wregs[ESP_REGS];
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_irq irq;
->>> +=C2=A0=C2=A0=C2=A0 qemu_irq irq_data;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t chip_id;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool tchi_written;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int32_t ti_size;
->>> @@ -48,6 +56,12 @@ struct ESPState {
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ESPDMAMemoryReadWriteFunc dma_memory_=
-write;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *dma_opaque;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void (*dma_cb)(ESPState *s);
->>> +=C2=A0=C2=A0=C2=A0 uint8_t pdma_buf[32];
->>> +=C2=A0=C2=A0=C2=A0 int pdma_origin;
->>
->> 'int' -> 'enum pdma_origin_id'
->>
->> You can also declare the enum in place:
->>
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum pdma_origin_id {
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PDMA,
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 TI,
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CMD,
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ASYNC,
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } pdma_origin;
->=20
-> If I remember correctly I put an "int" here because I didn't find the
-> VMSTATE_XXX() to use and VMSTATE_INT32() doesn't like the enum type
-> (which should be treated as an int).
-
-Yes you are correct, I didn't check this was a migrated enum.
-
-Regards,
-
-Phil.
+MDIuMTAuMjAxOSAxNzo1NywgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxMi4wOS4xOSAxNzoxMywg
+VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IFByaW9yIDlhZGMxY2I0OWFm
+OGQgZG9fc3luY190YXJnZXRfd3JpdGUgaGFkIGEgYnVnOiBpdCByZXNldCBhbGlnbmVkLXVwDQo+
+PiByZWdpb24gaW4gdGhlIGRpcnR5IGJpdG1hcCwgd2hpY2ggbWVhbnMgdGhhdCB3ZSBtYXkgbm90
+IGNvcHkgc29tZSBieXRlcw0KPj4gYW5kIGFzc3VtZSB0aGVtIGNvcGllZCwgd2hpY2ggYWN0dWFs
+bHkgbGVhZHMgdG8gcHJvZHVjaW5nIGNvcnJ1cHRlZA0KPj4gdGFyZ2V0Lg0KPj4NCj4+IFNvIDlh
+ZGMxY2I0OWFmOGQgZm9yY2VkIGRpcnR5IGJpdG1hcCBncmFudWxhcml0eSB0byBiZQ0KPj4gcmVx
+dWVzdF9hbGlnbm1lbnQgZm9yIG1pcnJvci10b3AgZmlsdGVyLCBzbyB3ZSBhcmUgbm90IHdvcmtp
+bmcgd2l0aA0KPj4gdW5hbGlnbmVkIHJlcXVlc3RzLiBIb3dldmVyIGZvcmNpbmcgbGFyZ2UgYWxp
+Z25tZW50IG9idmlvdXNseSBkZWNyZWFzZXMNCj4+IHBlcmZvcm1hbmNlIG9mIHVuYWxpZ25lZCBy
+ZXF1ZXN0cy4NCj4+DQo+PiBUaGlzIGNvbW1pdCBwcm92aWRlcyBhbm90aGVyIHNvbHV0aW9uIGZv
+ciB0aGUgcHJvYmxlbTogaWYgdW5hbGlnbmVkDQo+PiBwYWRkaW5nIGlzIGFscmVhZHkgZGlydHks
+IHdlIGNhbiBzYWZlbHkgaWdub3JlIGl0LCBhcw0KPj4gMS4gSXQncyBkaXJ0eSwgaXQgd2lsbCBi
+ZSBjb3BpZWQgYnkgbWlycm9yX2l0ZXJhdGlvbiBhbnl3YXkNCj4+IDIuIEl0J3MgZGlydHksIHNv
+IHNraXBwaW5nIGl0IG5vdyB3ZSBkb24ndCBpbmNyZWFzZSBkaXJ0aW5lc3Mgb2YgdGhlDQo+PiAg
+ICAgYml0bWFwIGFuZCB0aGVyZWZvcmUgZG9uJ3QgZGFtYWdlICJzeW5jaHJvbmljaXR5IiBvZiB0
+aGUNCj4+ICAgICB3cml0ZS1ibG9ja2luZyBtaXJyb3IuDQo+IA0KPiBCdXQgdGhhdOKAmXMgbm90
+IHdoYXQgYWN0aXZlIG1pcnJvciBpcyBmb3IuICBUaGUgcG9pbnQgb2YgYWN0aXZlIG1pcnJvciBp
+cw0KPiB0aGF0IGl0IG11c3QgY29udmVyZ2UgYmVjYXVzZSBldmVyeSBndWVzdCB3cml0ZSB3aWxs
+IGNvbnRyaWJ1dGUgdG93YXJkcw0KPiB0aGF0IGdvYWwuDQo+IA0KPiBJZiB5b3Ugc2tpcCBhY3Rp
+dmUgbWlycm9yaW5nIGZvciB1bmFsaWduZWQgZ3Vlc3Qgd3JpdGVzLCB0aGV5IHdpbGwgbm90DQo+
+IGNvbnRyaWJ1dGUgdG93YXJkcyBjb252ZXJnaW5nLCBidXQgaW4gZmFjdCBsZWFkIHRvIHRoZSBv
+cHBvc2l0ZS4NCj4gDQoNClRoZSB3aWxsIG5vdCBjb250cmlidXRlIG9ubHkgaWYgcmVnaW9uIGlz
+IGFscmVhZHkgZGlydHkuIEFjdHVhbGx5LCBhZnRlcg0KZmlyc3QgaXRlcmF0aW9uIG9mIG1pcnJv
+cmluZyAoY29weWluZyB0aGUgd2hvbGUgZGlzayksIGFsbCBmb2xsb3dpbmcgd3JpdGVzDQp3aWxs
+IGNvbnRyaWJ1dGUsIHNvIHRoZSB3aG9sZSBwcm9jZXNzIG11c3QgY29udmVyZ2UuIEl0IGlzIGEg
+Yml0IHNpbWlsYXIgd2l0aA0KcnVubmluZyBvbmUgbWlycm9yIGxvb3AgaW4gbm9ybWFsIG1vZGUs
+IGFuZCB0aGVuIGVuYWJsZSB3cml0ZS1ibG9ja2luZy4NCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpW
+bGFkaW1pcg0K
 
