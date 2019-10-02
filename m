@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B14C4630
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:30:06 +0200 (CEST)
-Received: from localhost ([::1]:51132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C41C4632
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:31:59 +0200 (CEST)
+Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFVL2-0006fv-NI
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
+	id 1iFVMq-0000CM-Ro
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iFVJH-0005Jg-Eg
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 23:28:17 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUlC-000250-N9
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:53:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iFVJF-0006Tp-IX
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 23:28:15 -0400
-Resent-Date: Tue, 01 Oct 2019 23:28:15 -0400
-Resent-Message-Id: <E1iFVJF-0006Tp-IX@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21569)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iFVJF-0006RZ-9p; Tue, 01 Oct 2019 23:28:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1569986811; cv=none; d=zoho.com; s=zohoarc; 
- b=gnel97nmIqi6rd22fL1jgAvNMbwtT7sPL9jVxfx7a8cYvKEzHSafapujiv8Gavpd9KK4+MDnhE/DY1DngtPPQo1p6vXUF/pe4rtt4Mo2AeioOt89ow0xADdQewKrHzo9l5fHJekIQn6byNA4hrXchjpj9Ir+Zt0MROS+LaU7IMk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1569986811;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=iUg9ig+omvfOpLfB3/0GPyBrBTOsXqLzCakWztb66Fw=; 
- b=biXJCHHFXyApCGk2255JQXt2nRUf4vF2iUb8q+pTm3+ogsM6lTkjuFWiuMaQnRCcfV3g459Qs91WnRlGr0snfaiTDxasFWiRR8ZDkKKELadKl6zNL2w4mE4+xawAp5smdCZe02fhBT8KqAZeYpliPJ0S3C/e1mlZ4UWbuQk4Lyk=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1569986810481432.6915664156809;
- Tue, 1 Oct 2019 20:26:50 -0700 (PDT)
-Subject: Re: [PATCH v4 00/31] error: auto propagated local_err
-In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
-Message-ID: <156998680565.27524.535640143344337282@8230166b0665>
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUl9-0003Sd-4n
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:53:02 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55291)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iFUl8-0002wZ-GP; Tue, 01 Oct 2019 22:52:59 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46jgfB0GVQz9sS6; Wed,  2 Oct 2019 12:52:18 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1569984738;
+ bh=aFDpdHQJZ6jjurUYUMol1mybZg+itYOgIwMa5QJvJHM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YXHHleuUdxVJogd4Dynt7JRlaswHrGPYjQznyYGlwdXT2nbt1do/DUNV5t4xXvyUt
+ TWOAO2XtUUjX4zf5FNkpfHzXMPJ39xwgCaBJQCaljUawNHz20AACn4VlSOClCl4joa
+ krq6v276I4V8jHLQh+IU2u4iz0ZNwXjYye9v1Dk4=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-ppc@nongnu.org,
+	clg@kaod.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v3 27/34] spapr, xics,
+ xive: Move dt_populate from SpaprIrq to SpaprInterruptController
+Date: Wed,  2 Oct 2019 12:52:01 +1000
+Message-Id: <20191002025208.3487-28-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191002025208.3487-1-david@gibson.dropbear.id.au>
+References: <20191002025208.3487-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Tue, 1 Oct 2019 20:26:50 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.55
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,140 +56,363 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
- codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com, kraxel@redhat.com,
- mreitz@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
- arikalo@wavecomp.com, mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, joel@jms.id.au, marcandre.lureau@redhat.com,
- david@gibson.dropbear.id.au, farman@linux.ibm.com, ehabkost@redhat.com,
- sw@weilnetz.de, groug@kaod.org, yuval.shaia@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, vsementsov@virtuozzo.com, clg@kaod.org,
- stefanha@redhat.com, david@redhat.com, jsnow@redhat.com, rth@twiddle.net,
- kwolf@redhat.com, integration@gluster.org, berrange@redhat.com,
- andrew@aj.id.au, cohuck@redhat.com, qemu-s390x@nongnu.org,
- sundeep.lkml@gmail.com, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, groug@kaod.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAwMTE1NTMxOS44MDY2
-LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTEwMDExNTUzMTku
-ODA2Ni0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjQgMDAvMzFd
-IGVycm9yOiBhdXRvIHByb3BhZ2F0ZWQgbG9jYWxfZXJyCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
-PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
-Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
-ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmYwMTM0Y2IgaXZzaG1lbTog
-Rml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKOTI3ZThkOCBQVlJETUE6
-IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCmM5MDFjNDMgbmJkOiBG
-aXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQphOTkwNDk2IFNvY2tldHM6
-IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjdlOWI3YmUgTWlncmF0
-aW9uOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQpjMzc3NDJmIFFP
-TTogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKZTJkODcyOSBjbWRs
-aW5lOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQoxMTFhMTQ3IGNo
-YXJkZXY6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjdmNzA5NWQg
-YmxvY2s6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjQyOTkyZTIg
-WElWRTogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKYWVmMGQ3MiB2
-aXJ0aW8tOXA6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCmZhZGNj
-MTggdmlydGlvOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQowYjQ2
-ZmU2IHZob3N0OiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQoyYjVh
-OTVmIFZGSU86IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjE3Y2Zm
-NTcgVVNCOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQpiOGM3YmQy
-IFNDU0k6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjI4MzNhYmMg
-UENJOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQo2MWEzMDNlIFBv
-d2VyTlYgKE5vbi1WaXJ0dWFsaXplZCk6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVw
-ZW5kIHVzYWdlCmMyODdiYjQgQm9zdG9uOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJl
-cGVuZCB1c2FnZQoxNjNmZjYzIEFTUEVFRCBCTUNzOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJy
-b3JfcHJlcGVuZCB1c2FnZQoxZWI4NWNiIFNtYXJ0RnVzaW9uMjogRml4IGVycm9yX2FwcGVuZF9o
-aW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKYTI5YmIyZCBhcm06IEZpeCBlcnJvcl9hcHBlbmRfaGlu
-dC9lcnJvcl9wcmVwZW5kIHVzYWdlCmFmNzgxZjIgUG93ZXJQQyBUQ0cgQ1BVczogRml4IGVycm9y
-X2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKMDBjZWIyYiBBUk0gVENHIENQVXM6IEZp
-eCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCmE4YWM1MGMgczM5MDogRml4
-IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKODJlOGM4YiBweXRob246IGFk
-ZCBjb21taXQtcGVyLXN1YnN5c3RlbS5weQphOTdjYWIwIHNjcmlwdHM6IGFkZCBzY3JpcHQgdG8g
-Zml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKOTg3ZmQxMyBlcnJvcjog
-YXV0byBwcm9wYWdhdGVkIGxvY2FsX2VycgpiMjA5NTY0IG5ldC9uZXQ6IGZpeCBsb2NhbCB2YXJp
-YWJsZSBzaGFkb3dpbmcgaW4gbmV0X2NsaWVudF9pbml0Cjg5NmIyZGQgaHcvY29yZS9sb2FkZXIt
-Zml0OiBmaXggZnJlZWluZyBlcnJwIGluIGZpdF9sb2FkX2ZkdApjZDk1M2VlIGVycnA6IHJlbmFt
-ZSBlcnJwIHRvIGVycnBfaW4gd2hlcmUgaXQgaXMgSU4tYXJndW1lbnQKCj09PSBPVVRQVVQgQkVH
-SU4gPT09CjEvMzEgQ2hlY2tpbmcgY29tbWl0IGNkOTUzZWUxYmI4YyAoZXJycDogcmVuYW1lIGVy
-cnAgdG8gZXJycF9pbiB3aGVyZSBpdCBpcyBJTi1hcmd1bWVudCkKMi8zMSBDaGVja2luZyBjb21t
-aXQgODk2YjJkZGU4NWM0IChody9jb3JlL2xvYWRlci1maXQ6IGZpeCBmcmVlaW5nIGVycnAgaW4g
-Zml0X2xvYWRfZmR0KQozLzMxIENoZWNraW5nIGNvbW1pdCBiMjA5NTY0YTNiZjcgKG5ldC9uZXQ6
-IGZpeCBsb2NhbCB2YXJpYWJsZSBzaGFkb3dpbmcgaW4gbmV0X2NsaWVudF9pbml0KQo0LzMxIENo
-ZWNraW5nIGNvbW1pdCA5ODdmZDEzZTY0ZmMgKGVycm9yOiBhdXRvIHByb3BhZ2F0ZWQgbG9jYWxf
-ZXJyKQpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5j
-bG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzcxOiBGSUxFOiBpbmNsdWRlL3FhcGkvZXJyb3Iu
-aDozNTc6CisjZGVmaW5lIEVSUlBfQVVUT19QUk9QQUdBVEUoKSBcCitnX2F1dG8oRXJyb3JQcm9w
-YWdhdG9yKSBfX2F1dG9fZXJycF9wcm9wID0gey5lcnJwID0gZXJycH07IFwKK2VycnAgPSAoKGVy
-cnAgPT0gTlVMTCB8fCAqZXJycCA9PSBlcnJvcl9mYXRhbCkgPyBcCisgICAgJl9fYXV0b19lcnJw
-X3Byb3AubG9jYWxfZXJyIDogZXJycCkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgNDMg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8zMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS8z
-MSBDaGVja2luZyBjb21taXQgYTk3Y2FiMDllY2Q1IChzY3JpcHRzOiBhZGQgc2NyaXB0IHRvIGZp
-eCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMxNjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDI4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvMzEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-Ni8zMSBDaGVja2luZyBjb21taXQgODJlOGM4YmZhNWU5IChweXRob246IGFkZCBjb21taXQtcGVy
-LXN1YnN5c3RlbS5weSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwg
-ZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTM6IApuZXcgZmlsZSBtb2RlIDEwMDc1
-NQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2OSBsaW5lcyBjaGVja2VkCgpQYXRjaCA2
-LzMxIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMzEgQ2hlY2tpbmcgY29tbWl0IGE4YWM1
-MGNjMzVlZCAoczM5MDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2Up
-CjgvMzEgQ2hlY2tpbmcgY29tbWl0IDAwY2ViMmJhZDUwNSAoQVJNIFRDRyBDUFVzOiBGaXggZXJy
-b3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKOS8zMSBDaGVja2luZyBjb21taXQg
-YWY3ODFmMjBmNmEyIChQb3dlclBDIFRDRyBDUFVzOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJy
-b3JfcHJlcGVuZCB1c2FnZSkKMTAvMzEgQ2hlY2tpbmcgY29tbWl0IGEyOWJiMmRjYjJiOSAoYXJt
-OiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTEvMzEgQ2hlY2tp
-bmcgY29tbWl0IDFlYjg1Y2I2OGJhNSAoU21hcnRGdXNpb24yOiBGaXggZXJyb3JfYXBwZW5kX2hp
-bnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTIvMzEgQ2hlY2tpbmcgY29tbWl0IDE2M2ZmNjM2Njhm
-OSAoQVNQRUVEIEJNQ3M6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdl
-KQoxMy8zMSBDaGVja2luZyBjb21taXQgYzI4N2JiNGFiM2IyIChCb3N0b246IEZpeCBlcnJvcl9h
-cHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQoxNC8zMSBDaGVja2luZyBjb21taXQgNjFh
-MzAzZWIyOTFiIChQb3dlck5WIChOb24tVmlydHVhbGl6ZWQpOiBGaXggZXJyb3JfYXBwZW5kX2hp
-bnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTUvMzEgQ2hlY2tpbmcgY29tbWl0IDI4MzNhYmM3NjRk
-NSAoUENJOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTYvMzEg
-Q2hlY2tpbmcgY29tbWl0IGI4YzdiZDIzM2VlMyAoU0NTSTogRml4IGVycm9yX2FwcGVuZF9oaW50
-L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjE3LzMxIENoZWNraW5nIGNvbW1pdCAxN2NmZjU3MDUxYjIg
-KFVTQjogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjE4LzMxIENo
-ZWNraW5nIGNvbW1pdCAyYjVhOTVmMzMzMjUgKFZGSU86IEZpeCBlcnJvcl9hcHBlbmRfaGludC9l
-cnJvcl9wcmVwZW5kIHVzYWdlKQoxOS8zMSBDaGVja2luZyBjb21taXQgMGI0NmZlNjI5MTYzICh2
-aG9zdDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjIwLzMxIENo
-ZWNraW5nIGNvbW1pdCBmYWRjYzE4ZGZiM2QgKHZpcnRpbzogRml4IGVycm9yX2FwcGVuZF9oaW50
-L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjIxLzMxIENoZWNraW5nIGNvbW1pdCBhZWYwZDcyYWVmMjEg
-KHZpcnRpby05cDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjIy
-LzMxIENoZWNraW5nIGNvbW1pdCA0Mjk5MmUyMmZmMjQgKFhJVkU6IEZpeCBlcnJvcl9hcHBlbmRf
-aGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQoyMy8zMSBDaGVja2luZyBjb21taXQgN2Y3MDk1ZDA1
-ZTc5IChibG9jazogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjI0
-LzMxIENoZWNraW5nIGNvbW1pdCAxMTFhMTQ3MmJhZjMgKGNoYXJkZXY6IEZpeCBlcnJvcl9hcHBl
-bmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQoyNS8zMSBDaGVja2luZyBjb21taXQgZTJkODcy
-OTYxZmY4IChjbWRsaW5lOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2Fn
-ZSkKMjYvMzEgQ2hlY2tpbmcgY29tbWl0IGMzNzc0MmYxNTU3MSAoUU9NOiBGaXggZXJyb3JfYXBw
-ZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMjcvMzEgQ2hlY2tpbmcgY29tbWl0IDdlOWI3
-YmVmOTBjOCAoTWlncmF0aW9uOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1
-c2FnZSkKMjgvMzEgQ2hlY2tpbmcgY29tbWl0IGE5OTA0OTY2ZDEzNyAoU29ja2V0czogRml4IGVy
-cm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjI5LzMxIENoZWNraW5nIGNvbW1p
-dCBjOTAxYzQzMmQ0MDYgKG5iZDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQg
-dXNhZ2UpCjMwLzMxIENoZWNraW5nIGNvbW1pdCA5MjdlOGQ4YTY1ODYgKFBWUkRNQTogRml4IGVy
-cm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjMxLzMxIENoZWNraW5nIGNvbW1p
-dCBmMDEzNGNiMTE1N2QgKGl2c2htZW06IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVw
-ZW5kIHVzYWdlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBj
-b2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
-bG9ncy8yMDE5MTAwMTE1NTMxOS44MDY2LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tL3Rlc3Rp
-bmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
-Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
-IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+This method depends only on the active irq controller.  Now that we've
+formalized the notion of active controller we can dispatch directly
+through that, rather than dispatching via SpaprIrq with the dual
+version having to do a second conditional dispatch.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ hw/intc/spapr_xive.c        | 125 ++++++++++++++++++------------------
+ hw/intc/xics_spapr.c        |   5 +-
+ hw/ppc/spapr.c              |   3 +-
+ hw/ppc/spapr_irq.c          |  20 +++---
+ include/hw/ppc/spapr_irq.h  |   6 +-
+ include/hw/ppc/spapr_xive.h |   2 -
+ include/hw/ppc/xics_spapr.h |   2 -
+ 7 files changed, 80 insertions(+), 83 deletions(-)
+
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 700ec5c9c1..37ffb74ca5 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -578,6 +578,68 @@ static void spapr_xive_print_info(SpaprInterruptCont=
+roller *intc, Monitor *mon)
+     spapr_xive_pic_print_info(xive, mon);
+ }
+=20
++static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_se=
+rvers,
++                          void *fdt, uint32_t phandle)
++{
++    SpaprXive *xive =3D SPAPR_XIVE(intc);
++    int node;
++    uint64_t timas[2 * 2];
++    /* Interrupt number ranges for the IPIs */
++    uint32_t lisn_ranges[] =3D {
++        cpu_to_be32(0),
++        cpu_to_be32(nr_servers),
++    };
++    /*
++     * EQ size - the sizes of pages supported by the system 4K, 64K,
++     * 2M, 16M. We only advertise 64K for the moment.
++     */
++    uint32_t eq_sizes[] =3D {
++        cpu_to_be32(16), /* 64K */
++    };
++    /*
++     * The following array is in sync with the reserved priorities
++     * defined by the 'spapr_xive_priority_is_reserved' routine.
++     */
++    uint32_t plat_res_int_priorities[] =3D {
++        cpu_to_be32(7),    /* start */
++        cpu_to_be32(0xf8), /* count */
++    };
++
++    /* Thread Interrupt Management Area : User (ring 3) and OS (ring 2) =
+*/
++    timas[0] =3D cpu_to_be64(xive->tm_base +
++                           XIVE_TM_USER_PAGE * (1ull << TM_SHIFT));
++    timas[1] =3D cpu_to_be64(1ull << TM_SHIFT);
++    timas[2] =3D cpu_to_be64(xive->tm_base +
++                           XIVE_TM_OS_PAGE * (1ull << TM_SHIFT));
++    timas[3] =3D cpu_to_be64(1ull << TM_SHIFT);
++
++    _FDT(node =3D fdt_add_subnode(fdt, 0, xive->nodename));
++
++    _FDT(fdt_setprop_string(fdt, node, "device_type", "power-ivpe"));
++    _FDT(fdt_setprop(fdt, node, "reg", timas, sizeof(timas)));
++
++    _FDT(fdt_setprop_string(fdt, node, "compatible", "ibm,power-ivpe"));
++    _FDT(fdt_setprop(fdt, node, "ibm,xive-eq-sizes", eq_sizes,
++                     sizeof(eq_sizes)));
++    _FDT(fdt_setprop(fdt, node, "ibm,xive-lisn-ranges", lisn_ranges,
++                     sizeof(lisn_ranges)));
++
++    /* For Linux to link the LSIs to the interrupt controller. */
++    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
++    _FDT(fdt_setprop_cell(fdt, node, "#interrupt-cells", 2));
++
++    /* For SLOF */
++    _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
++    _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
++
++    /*
++     * The "ibm,plat-res-int-priorities" property defines the priority
++     * ranges reserved by the hypervisor
++     */
++    _FDT(fdt_setprop(fdt, 0, "ibm,plat-res-int-priorities",
++                     plat_res_int_priorities, sizeof(plat_res_int_priori=
+ties)));
++}
++
+ static void spapr_xive_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+@@ -601,6 +663,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     sicc->free_irq =3D spapr_xive_free_irq;
+     sicc->set_irq =3D spapr_xive_set_irq;
+     sicc->print_info =3D spapr_xive_print_info;
++    sicc->dt =3D spapr_xive_dt;
+ }
+=20
+ static const TypeInfo spapr_xive_info =3D {
+@@ -1601,65 +1664,3 @@ void spapr_xive_hcall_init(SpaprMachineState *spap=
+r)
+     spapr_register_hypercall(H_INT_SYNC, h_int_sync);
+     spapr_register_hypercall(H_INT_RESET, h_int_reset);
+ }
+-
+-void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void *=
+fdt,
+-                   uint32_t phandle)
+-{
+-    SpaprXive *xive =3D spapr->xive;
+-    int node;
+-    uint64_t timas[2 * 2];
+-    /* Interrupt number ranges for the IPIs */
+-    uint32_t lisn_ranges[] =3D {
+-        cpu_to_be32(0),
+-        cpu_to_be32(nr_servers),
+-    };
+-    /*
+-     * EQ size - the sizes of pages supported by the system 4K, 64K,
+-     * 2M, 16M. We only advertise 64K for the moment.
+-     */
+-    uint32_t eq_sizes[] =3D {
+-        cpu_to_be32(16), /* 64K */
+-    };
+-    /*
+-     * The following array is in sync with the reserved priorities
+-     * defined by the 'spapr_xive_priority_is_reserved' routine.
+-     */
+-    uint32_t plat_res_int_priorities[] =3D {
+-        cpu_to_be32(7),    /* start */
+-        cpu_to_be32(0xf8), /* count */
+-    };
+-
+-    /* Thread Interrupt Management Area : User (ring 3) and OS (ring 2) =
+*/
+-    timas[0] =3D cpu_to_be64(xive->tm_base +
+-                           XIVE_TM_USER_PAGE * (1ull << TM_SHIFT));
+-    timas[1] =3D cpu_to_be64(1ull << TM_SHIFT);
+-    timas[2] =3D cpu_to_be64(xive->tm_base +
+-                           XIVE_TM_OS_PAGE * (1ull << TM_SHIFT));
+-    timas[3] =3D cpu_to_be64(1ull << TM_SHIFT);
+-
+-    _FDT(node =3D fdt_add_subnode(fdt, 0, xive->nodename));
+-
+-    _FDT(fdt_setprop_string(fdt, node, "device_type", "power-ivpe"));
+-    _FDT(fdt_setprop(fdt, node, "reg", timas, sizeof(timas)));
+-
+-    _FDT(fdt_setprop_string(fdt, node, "compatible", "ibm,power-ivpe"));
+-    _FDT(fdt_setprop(fdt, node, "ibm,xive-eq-sizes", eq_sizes,
+-                     sizeof(eq_sizes)));
+-    _FDT(fdt_setprop(fdt, node, "ibm,xive-lisn-ranges", lisn_ranges,
+-                     sizeof(lisn_ranges)));
+-
+-    /* For Linux to link the LSIs to the interrupt controller. */
+-    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
+-    _FDT(fdt_setprop_cell(fdt, node, "#interrupt-cells", 2));
+-
+-    /* For SLOF */
+-    _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
+-    _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
+-
+-    /*
+-     * The "ibm,plat-res-int-priorities" property defines the priority
+-     * ranges reserved by the hypervisor
+-     */
+-    _FDT(fdt_setprop(fdt, 0, "ibm,plat-res-int-priorities",
+-                     plat_res_int_priorities, sizeof(plat_res_int_priori=
+ties)));
+-}
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 415defe394..4eabafc7e1 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -308,8 +308,8 @@ static void ics_spapr_realize(DeviceState *dev, Error=
+ **errp)
+     spapr_register_hypercall(H_IPOLL, h_ipoll);
+ }
+=20
+-void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
+fdt,
+-                   uint32_t phandle)
++static void xics_spapr_dt(SpaprInterruptController *intc, uint32_t nr_se=
+rvers,
++                          void *fdt, uint32_t phandle)
+ {
+     uint32_t interrupt_server_ranges_prop[] =3D {
+         0, cpu_to_be32(nr_servers),
+@@ -408,6 +408,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
+void *data)
+     sicc->free_irq =3D xics_spapr_free_irq;
+     sicc->set_irq =3D xics_spapr_set_irq;
+     sicc->print_info =3D xics_spapr_print_info;
++    sicc->dt =3D xics_spapr_dt;
+ }
+=20
+ static const TypeInfo ics_spapr_info =3D {
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 6c38de5927..e880db5d38 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1255,8 +1255,7 @@ static void *spapr_build_fdt(SpaprMachineState *spa=
+pr)
+     _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
+=20
+     /* /interrupt controller */
+-    spapr->irq->dt_populate(spapr, spapr_max_server_number(spapr), fdt,
+-                          PHANDLE_INTC);
++    spapr_irq_dt(spapr, spapr_max_server_number(spapr), fdt, PHANDLE_INT=
+C);
+=20
+     ret =3D spapr_populate_memory(spapr, fdt);
+     if (ret < 0) {
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index a29b527232..a8005072e6 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -134,7 +134,6 @@ SpaprIrq spapr_irq_xics =3D {
+     .xics        =3D true,
+     .xive        =3D false,
+=20
+-    .dt_populate =3D spapr_dt_xics,
+     .post_load   =3D spapr_irq_post_load_xics,
+     .reset       =3D spapr_irq_reset_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+@@ -184,7 +183,6 @@ SpaprIrq spapr_irq_xive =3D {
+     .xics        =3D false,
+     .xive        =3D true,
+=20
+-    .dt_populate =3D spapr_dt_xive,
+     .post_load   =3D spapr_irq_post_load_xive,
+     .reset       =3D spapr_irq_reset_xive,
+     .init_kvm    =3D spapr_irq_init_kvm_xive,
+@@ -209,13 +207,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
+ *spapr)
+         &spapr_irq_xive : &spapr_irq_xics;
+ }
+=20
+-static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
+-                                       uint32_t nr_servers, void *fdt,
+-                                       uint32_t phandle)
+-{
+-    spapr_irq_current(spapr)->dt_populate(spapr, nr_servers, fdt, phandl=
+e);
+-}
+-
+ static int spapr_irq_post_load_dual(SpaprMachineState *spapr, int versio=
+n_id)
+ {
+     /*
+@@ -270,7 +261,6 @@ SpaprIrq spapr_irq_dual =3D {
+     .xics        =3D true,
+     .xive        =3D true,
+=20
+-    .dt_populate =3D spapr_irq_dt_populate_dual,
+     .post_load   =3D spapr_irq_post_load_dual,
+     .reset       =3D spapr_irq_reset_dual,
+     .init_kvm    =3D NULL, /* should not be used */
+@@ -377,6 +367,15 @@ void spapr_irq_print_info(SpaprMachineState *spapr, =
+Monitor *mon)
+     sicc->print_info(spapr->active_intc, mon);
+ }
+=20
++void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
++                  void *fdt, uint32_t phandle)
++{
++    SpaprInterruptControllerClass *sicc
++        =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
++
++    sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
++}
++
+ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
+ {
+     MachineState *machine =3D MACHINE(spapr);
+@@ -686,7 +685,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .xics        =3D true,
+     .xive        =3D false,
+=20
+-    .dt_populate =3D spapr_dt_xics,
+     .post_load   =3D spapr_irq_post_load_xics,
+     .reset       =3D spapr_irq_reset_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index c5081e81d9..1be53a01bb 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -60,6 +60,8 @@ typedef struct SpaprInterruptControllerClass {
+     /* These methods should only be called on the active intc */
+     void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
+     void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
++    void (*dt)(SpaprInterruptController *intc, uint32_t nr_servers,
++               void *fdt, uint32_t phandle);
+ } SpaprInterruptControllerClass;
+=20
+ void spapr_irq_update_active_intc(SpaprMachineState *spapr);
+@@ -67,6 +69,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *sp=
+apr);
+ int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+                               PowerPCCPU *cpu, Error **errp);
+ void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
++void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
++                  void *fdt, uint32_t phandle);
+=20
+ void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
+ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool ali=
+gn,
+@@ -79,8 +83,6 @@ typedef struct SpaprIrq {
+     bool        xics;
+     bool        xive;
+=20
+-    void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
+-                        void *fdt, uint32_t phandle);
+     int (*post_load)(SpaprMachineState *spapr, int version_id);
+     void (*reset)(SpaprMachineState *spapr, Error **errp);
+     void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index 8f875673f5..ebe156eb30 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -58,8 +58,6 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor=
+ *mon);
+ int spapr_xive_post_load(SpaprXive *xive, int version_id);
+=20
+ void spapr_xive_hcall_init(SpaprMachineState *spapr);
+-void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void *=
+fdt,
+-                   uint32_t phandle);
+ void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+ void spapr_xive_map_mmio(SpaprXive *xive);
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 0b35e85c26..8e4fb6adce 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -32,8 +32,6 @@
+ #define TYPE_ICS_SPAPR "ics-spapr"
+ #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
+=20
+-void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
+fdt,
+-                   uint32_t phandle);
+ int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
+ void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
+ bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
+--=20
+2.21.0
 
 
