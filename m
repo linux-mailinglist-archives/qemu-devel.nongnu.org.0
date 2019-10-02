@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65018C4620
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:22:47 +0200 (CEST)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B14C4630
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:30:06 +0200 (CEST)
+Received: from localhost ([::1]:51132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFVDy-0006pd-Aj
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
+	id 1iFVL2-0006fv-NI
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUlE-00026g-0k
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:53:05 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iFVJH-0005Jg-Eg
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 23:28:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUlB-0003We-Qa
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:53:03 -0400
-Received: from ozlabs.org ([203.11.71.1]:46683)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFUlB-0003TY-C3; Tue, 01 Oct 2019 22:53:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46jgfC4wBnz9sSG; Wed,  2 Oct 2019 12:52:19 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569984739;
- bh=2F47wNOBqT6+I+d3Di/Hd6L0CCPCHfTQ4ylitr4Xw44=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eU42+mJ0HSJGRPdPEh63WT7ATI2h4hdrnUsCkDgWcTnMbhC3mI0siFpJ1/iEM5siS
- yt1HXU2sNaqujOZk7/EkonHG/YxXwmvTBqfT2kbJQe4YqK3GrufiBYBL5jdCRnBsI1
- uFxRnnNCu2wTrlqfk4xsOXcfBxaQatrZhc4rBY3c=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-ppc@nongnu.org,
-	clg@kaod.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 33/34] spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass
-Date: Wed,  2 Oct 2019 12:52:07 +1000
-Message-Id: <20191002025208.3487-34-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191002025208.3487-1-david@gibson.dropbear.id.au>
-References: <20191002025208.3487-1-david@gibson.dropbear.id.au>
+ (envelope-from <no-reply@patchew.org>) id 1iFVJF-0006Tp-IX
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 23:28:15 -0400
+Resent-Date: Tue, 01 Oct 2019 23:28:15 -0400
+Resent-Message-Id: <E1iFVJF-0006Tp-IX@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21569)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iFVJF-0006RZ-9p; Tue, 01 Oct 2019 23:28:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1569986811; cv=none; d=zoho.com; s=zohoarc; 
+ b=gnel97nmIqi6rd22fL1jgAvNMbwtT7sPL9jVxfx7a8cYvKEzHSafapujiv8Gavpd9KK4+MDnhE/DY1DngtPPQo1p6vXUF/pe4rtt4Mo2AeioOt89ow0xADdQewKrHzo9l5fHJekIQn6byNA4hrXchjpj9Ir+Zt0MROS+LaU7IMk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1569986811;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=iUg9ig+omvfOpLfB3/0GPyBrBTOsXqLzCakWztb66Fw=; 
+ b=biXJCHHFXyApCGk2255JQXt2nRUf4vF2iUb8q+pTm3+ogsM6lTkjuFWiuMaQnRCcfV3g459Qs91WnRlGr0snfaiTDxasFWiRR8ZDkKKELadKl6zNL2w4mE4+xawAp5smdCZe02fhBT8KqAZeYpliPJ0S3C/e1mlZ4UWbuQk4Lyk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1569986810481432.6915664156809;
+ Tue, 1 Oct 2019 20:26:50 -0700 (PDT)
+Subject: Re: [PATCH v4 00/31] error: auto propagated local_err
+In-Reply-To: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+Message-ID: <156998680565.27524.535640143344337282@8230166b0665>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Tue, 1 Oct 2019 20:26:50 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 136.143.188.55
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,232 +61,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, groug@kaod.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
+ codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com, kraxel@redhat.com,
+ mreitz@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
+ arikalo@wavecomp.com, mst@redhat.com, armbru@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, joel@jms.id.au, marcandre.lureau@redhat.com,
+ david@gibson.dropbear.id.au, farman@linux.ibm.com, ehabkost@redhat.com,
+ sw@weilnetz.de, groug@kaod.org, yuval.shaia@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, vsementsov@virtuozzo.com, clg@kaod.org,
+ stefanha@redhat.com, david@redhat.com, jsnow@redhat.com, rth@twiddle.net,
+ kwolf@redhat.com, integration@gluster.org, berrange@redhat.com,
+ andrew@aj.id.au, cohuck@redhat.com, qemu-s390x@nongnu.org,
+ sundeep.lkml@gmail.com, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the benefit of peripheral device allocation, the number of available
-irqs really wants to be the same on a given machine type version,
-regardless of what irq backends we are using.  That's the case now, but
-only because we make sure the different SpaprIrq instances have the same
-value except for the special legacy one.
-
-Since this really only depends on machine type version, move the value to
-SpaprMachineClass instead of SpaprIrq.  This also puts the code to set it
-to the lower value on old machine types right next to setting
-legacy_irq_allocation, which needs to go hand in hand.
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/spapr.c             |  2 ++
- hw/ppc/spapr_irq.c         | 33 ++++++++++++++++-----------------
- include/hw/ppc/spapr.h     |  1 +
- include/hw/ppc/spapr_irq.h |  1 -
- 4 files changed, 19 insertions(+), 18 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 153cc54354..e1ff03152e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4443,6 +4443,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-     smc->irq =3D &spapr_irq_dual;
-     smc->dr_phb_enabled =3D true;
-     smc->linux_pci_probe =3D true;
-+    smc->nr_xirqs =3D SPAPR_NR_XIRQS;
- }
-=20
- static const TypeInfo spapr_machine_info =3D {
-@@ -4578,6 +4579,7 @@ static void spapr_machine_3_0_class_options(Machine=
-Class *mc)
-     compat_props_add(mc->compat_props, hw_compat_3_0, hw_compat_3_0_len)=
-;
-=20
-     smc->legacy_irq_allocation =3D true;
-+    smc->nr_xirqs =3D 0x400;
-     smc->irq =3D &spapr_irq_xics_legacy;
- }
-=20
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 076da31501..2768f9a765 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -106,7 +106,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptContro=
-ller *, Error **),
-  */
-=20
- SpaprIrq spapr_irq_xics =3D {
--    .nr_xirqs    =3D SPAPR_NR_XIRQS,
-     .xics        =3D true,
-     .xive        =3D false,
- };
-@@ -116,7 +115,6 @@ SpaprIrq spapr_irq_xics =3D {
-  */
-=20
- SpaprIrq spapr_irq_xive =3D {
--    .nr_xirqs    =3D SPAPR_NR_XIRQS,
-     .xics        =3D false,
-     .xive        =3D true,
- };
-@@ -134,7 +132,6 @@ SpaprIrq spapr_irq_xive =3D {
-  * Define values in sync with the XIVE and XICS backend
-  */
- SpaprIrq spapr_irq_dual =3D {
--    .nr_xirqs    =3D SPAPR_NR_XIRQS,
-     .xics        =3D true,
-     .xive        =3D true,
- };
-@@ -251,16 +248,19 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32_=
-t nr_servers,
-=20
- uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
- {
--    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
--        return spapr->irq->nr_xirqs;
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-+
-+    if (smc->legacy_irq_allocation) {
-+        return smc->nr_xirqs;
-     } else {
--        return SPAPR_XIRQ_BASE + spapr->irq->nr_xirqs - SPAPR_IRQ_MSI;
-+        return SPAPR_XIRQ_BASE + smc->nr_xirqs - SPAPR_IRQ_MSI;
-     }
- }
-=20
- void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
- {
-     MachineState *machine =3D MACHINE(spapr);
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-=20
-     if (machine_kernel_irqchip_split(machine)) {
-         error_setg(errp, "kernel_irqchip split mode not supported on pse=
-ries");
-@@ -298,8 +298,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-             return;
-         }
-=20
--        object_property_set_int(obj, spapr->irq->nr_xirqs, "nr-irqs",
--                                &local_err);
-+        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &local_er=
-r);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-@@ -320,8 +319,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
-*errp)
-         int i;
-=20
-         dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
--        qdev_prop_set_uint32(dev, "nr-irqs",
--                             spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE);
-+        qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIRQ_=
-BASE);
-         /*
-          * 8 XIVE END structures per CPU. One for each available
-          * priority
-@@ -346,17 +344,18 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
-     }
-=20
-     spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
--                                      spapr->irq->nr_xirqs + SPAPR_XIRQ_=
-BASE);
-+                                      smc->nr_xirqs + SPAPR_XIRQ_BASE);
- }
-=20
- int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
-*errp)
- {
-     SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-     int i;
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-     int rc;
-=20
-     assert(irq >=3D SPAPR_XIRQ_BASE);
--    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-+    assert(irq < (smc->nr_xirqs + SPAPR_XIRQ_BASE));
-=20
-     for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
-         SpaprInterruptController *intc =3D intcs[i];
-@@ -376,9 +375,10 @@ void spapr_irq_free(SpaprMachineState *spapr, int ir=
-q, int num)
- {
-     SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-     int i, j;
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-=20
-     assert(irq >=3D SPAPR_XIRQ_BASE);
--    assert((irq + num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-+    assert((irq + num) <=3D (smc->nr_xirqs + SPAPR_XIRQ_BASE));
-=20
-     for (i =3D irq; i < (irq + num); i++) {
-         for (j =3D 0; j < ARRAY_SIZE(intcs); j++) {
-@@ -395,6 +395,8 @@ void spapr_irq_free(SpaprMachineState *spapr, int irq=
-, int num)
-=20
- qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
- {
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-+
-     /*
-      * This interface is basically for VIO and PHB devices to find the
-      * right qemu_irq to manipulate, so we only allow access to the
-@@ -403,7 +405,7 @@ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq=
-)
-      * interfaces, we can change this if we need to in future.
-      */
-     assert(irq >=3D SPAPR_XIRQ_BASE);
--    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-+    assert(irq < (smc->nr_xirqs + SPAPR_XIRQ_BASE));
-=20
-     if (spapr->ics) {
-         assert(ics_valid_irq(spapr->ics, irq));
-@@ -556,10 +558,7 @@ int spapr_irq_find(SpaprMachineState *spapr, int num=
-, bool align, Error **errp)
-     return first + ics->offset;
- }
-=20
--#define SPAPR_IRQ_XICS_LEGACY_NR_XIRQS     0x400
--
- SpaprIrq spapr_irq_xics_legacy =3D {
--    .nr_xirqs    =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
-     .xics        =3D true,
-     .xive        =3D false,
- };
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 763da757f0..623e8e3f93 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -119,6 +119,7 @@ struct SpaprMachineClass {
-     bool use_ohci_by_default;  /* use USB-OHCI instead of XHCI */
-     bool pre_2_10_has_unused_icps;
-     bool legacy_irq_allocation;
-+    uint32_t nr_xirqs;
-     bool broken_host_serial_model; /* present real host info to the gues=
-t */
-     bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
-     bool linux_pci_probe;
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index f4742ffbd6..50491cea4f 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -78,7 +78,6 @@ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint3=
-2_t num, bool align,
- void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num)=
-;
-=20
- typedef struct SpaprIrq {
--    uint32_t    nr_xirqs;
-     bool        xics;
-     bool        xive;
- } SpaprIrq;
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAwMTE1NTMxOS44MDY2
+LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
+IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
+cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTEwMDExNTUzMTku
+ODA2Ni0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjQgMDAvMzFd
+IGVycm9yOiBhdXRvIHByb3BhZ2F0ZWQgbG9jYWxfZXJyCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
+Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
+Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
+ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmYwMTM0Y2IgaXZzaG1lbTog
+Rml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKOTI3ZThkOCBQVlJETUE6
+IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCmM5MDFjNDMgbmJkOiBG
+aXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQphOTkwNDk2IFNvY2tldHM6
+IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjdlOWI3YmUgTWlncmF0
+aW9uOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQpjMzc3NDJmIFFP
+TTogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKZTJkODcyOSBjbWRs
+aW5lOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQoxMTFhMTQ3IGNo
+YXJkZXY6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjdmNzA5NWQg
+YmxvY2s6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjQyOTkyZTIg
+WElWRTogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKYWVmMGQ3MiB2
+aXJ0aW8tOXA6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCmZhZGNj
+MTggdmlydGlvOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQowYjQ2
+ZmU2IHZob3N0OiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQoyYjVh
+OTVmIFZGSU86IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjE3Y2Zm
+NTcgVVNCOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQpiOGM3YmQy
+IFNDU0k6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCjI4MzNhYmMg
+UENJOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZQo2MWEzMDNlIFBv
+d2VyTlYgKE5vbi1WaXJ0dWFsaXplZCk6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVw
+ZW5kIHVzYWdlCmMyODdiYjQgQm9zdG9uOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJl
+cGVuZCB1c2FnZQoxNjNmZjYzIEFTUEVFRCBCTUNzOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJy
+b3JfcHJlcGVuZCB1c2FnZQoxZWI4NWNiIFNtYXJ0RnVzaW9uMjogRml4IGVycm9yX2FwcGVuZF9o
+aW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKYTI5YmIyZCBhcm06IEZpeCBlcnJvcl9hcHBlbmRfaGlu
+dC9lcnJvcl9wcmVwZW5kIHVzYWdlCmFmNzgxZjIgUG93ZXJQQyBUQ0cgQ1BVczogRml4IGVycm9y
+X2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKMDBjZWIyYiBBUk0gVENHIENQVXM6IEZp
+eCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlCmE4YWM1MGMgczM5MDogRml4
+IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKODJlOGM4YiBweXRob246IGFk
+ZCBjb21taXQtcGVyLXN1YnN5c3RlbS5weQphOTdjYWIwIHNjcmlwdHM6IGFkZCBzY3JpcHQgdG8g
+Zml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UKOTg3ZmQxMyBlcnJvcjog
+YXV0byBwcm9wYWdhdGVkIGxvY2FsX2VycgpiMjA5NTY0IG5ldC9uZXQ6IGZpeCBsb2NhbCB2YXJp
+YWJsZSBzaGFkb3dpbmcgaW4gbmV0X2NsaWVudF9pbml0Cjg5NmIyZGQgaHcvY29yZS9sb2FkZXIt
+Zml0OiBmaXggZnJlZWluZyBlcnJwIGluIGZpdF9sb2FkX2ZkdApjZDk1M2VlIGVycnA6IHJlbmFt
+ZSBlcnJwIHRvIGVycnBfaW4gd2hlcmUgaXQgaXMgSU4tYXJndW1lbnQKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CjEvMzEgQ2hlY2tpbmcgY29tbWl0IGNkOTUzZWUxYmI4YyAoZXJycDogcmVuYW1lIGVy
+cnAgdG8gZXJycF9pbiB3aGVyZSBpdCBpcyBJTi1hcmd1bWVudCkKMi8zMSBDaGVja2luZyBjb21t
+aXQgODk2YjJkZGU4NWM0IChody9jb3JlL2xvYWRlci1maXQ6IGZpeCBmcmVlaW5nIGVycnAgaW4g
+Zml0X2xvYWRfZmR0KQozLzMxIENoZWNraW5nIGNvbW1pdCBiMjA5NTY0YTNiZjcgKG5ldC9uZXQ6
+IGZpeCBsb2NhbCB2YXJpYWJsZSBzaGFkb3dpbmcgaW4gbmV0X2NsaWVudF9pbml0KQo0LzMxIENo
+ZWNraW5nIGNvbW1pdCA5ODdmZDEzZTY0ZmMgKGVycm9yOiBhdXRvIHByb3BhZ2F0ZWQgbG9jYWxf
+ZXJyKQpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5j
+bG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzcxOiBGSUxFOiBpbmNsdWRlL3FhcGkvZXJyb3Iu
+aDozNTc6CisjZGVmaW5lIEVSUlBfQVVUT19QUk9QQUdBVEUoKSBcCitnX2F1dG8oRXJyb3JQcm9w
+YWdhdG9yKSBfX2F1dG9fZXJycF9wcm9wID0gey5lcnJwID0gZXJycH07IFwKK2VycnAgPSAoKGVy
+cnAgPT0gTlVMTCB8fCAqZXJycCA9PSBlcnJvcl9mYXRhbCkgPyBcCisgICAgJl9fYXV0b19lcnJw
+X3Byb3AubG9jYWxfZXJyIDogZXJycCkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgNDMg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8zMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS8z
+MSBDaGVja2luZyBjb21taXQgYTk3Y2FiMDllY2Q1IChzY3JpcHRzOiBhZGQgc2NyaXB0IHRvIGZp
+eCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQpXQVJOSU5HOiBhZGRlZCwg
+bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
+CiMxNjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
+IDI4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvMzEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+Ni8zMSBDaGVja2luZyBjb21taXQgODJlOGM4YmZhNWU5IChweXRob246IGFkZCBjb21taXQtcGVy
+LXN1YnN5c3RlbS5weSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwg
+ZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTM6IApuZXcgZmlsZSBtb2RlIDEwMDc1
+NQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2OSBsaW5lcyBjaGVja2VkCgpQYXRjaCA2
+LzMxIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
+cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
+c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMzEgQ2hlY2tpbmcgY29tbWl0IGE4YWM1
+MGNjMzVlZCAoczM5MDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2Up
+CjgvMzEgQ2hlY2tpbmcgY29tbWl0IDAwY2ViMmJhZDUwNSAoQVJNIFRDRyBDUFVzOiBGaXggZXJy
+b3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKOS8zMSBDaGVja2luZyBjb21taXQg
+YWY3ODFmMjBmNmEyIChQb3dlclBDIFRDRyBDUFVzOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJy
+b3JfcHJlcGVuZCB1c2FnZSkKMTAvMzEgQ2hlY2tpbmcgY29tbWl0IGEyOWJiMmRjYjJiOSAoYXJt
+OiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTEvMzEgQ2hlY2tp
+bmcgY29tbWl0IDFlYjg1Y2I2OGJhNSAoU21hcnRGdXNpb24yOiBGaXggZXJyb3JfYXBwZW5kX2hp
+bnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTIvMzEgQ2hlY2tpbmcgY29tbWl0IDE2M2ZmNjM2Njhm
+OSAoQVNQRUVEIEJNQ3M6IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdl
+KQoxMy8zMSBDaGVja2luZyBjb21taXQgYzI4N2JiNGFiM2IyIChCb3N0b246IEZpeCBlcnJvcl9h
+cHBlbmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQoxNC8zMSBDaGVja2luZyBjb21taXQgNjFh
+MzAzZWIyOTFiIChQb3dlck5WIChOb24tVmlydHVhbGl6ZWQpOiBGaXggZXJyb3JfYXBwZW5kX2hp
+bnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTUvMzEgQ2hlY2tpbmcgY29tbWl0IDI4MzNhYmM3NjRk
+NSAoUENJOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMTYvMzEg
+Q2hlY2tpbmcgY29tbWl0IGI4YzdiZDIzM2VlMyAoU0NTSTogRml4IGVycm9yX2FwcGVuZF9oaW50
+L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjE3LzMxIENoZWNraW5nIGNvbW1pdCAxN2NmZjU3MDUxYjIg
+KFVTQjogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjE4LzMxIENo
+ZWNraW5nIGNvbW1pdCAyYjVhOTVmMzMzMjUgKFZGSU86IEZpeCBlcnJvcl9hcHBlbmRfaGludC9l
+cnJvcl9wcmVwZW5kIHVzYWdlKQoxOS8zMSBDaGVja2luZyBjb21taXQgMGI0NmZlNjI5MTYzICh2
+aG9zdDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjIwLzMxIENo
+ZWNraW5nIGNvbW1pdCBmYWRjYzE4ZGZiM2QgKHZpcnRpbzogRml4IGVycm9yX2FwcGVuZF9oaW50
+L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjIxLzMxIENoZWNraW5nIGNvbW1pdCBhZWYwZDcyYWVmMjEg
+KHZpcnRpby05cDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjIy
+LzMxIENoZWNraW5nIGNvbW1pdCA0Mjk5MmUyMmZmMjQgKFhJVkU6IEZpeCBlcnJvcl9hcHBlbmRf
+aGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQoyMy8zMSBDaGVja2luZyBjb21taXQgN2Y3MDk1ZDA1
+ZTc5IChibG9jazogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjI0
+LzMxIENoZWNraW5nIGNvbW1pdCAxMTFhMTQ3MmJhZjMgKGNoYXJkZXY6IEZpeCBlcnJvcl9hcHBl
+bmRfaGludC9lcnJvcl9wcmVwZW5kIHVzYWdlKQoyNS8zMSBDaGVja2luZyBjb21taXQgZTJkODcy
+OTYxZmY4IChjbWRsaW5lOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2Fn
+ZSkKMjYvMzEgQ2hlY2tpbmcgY29tbWl0IGMzNzc0MmYxNTU3MSAoUU9NOiBGaXggZXJyb3JfYXBw
+ZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1c2FnZSkKMjcvMzEgQ2hlY2tpbmcgY29tbWl0IDdlOWI3
+YmVmOTBjOCAoTWlncmF0aW9uOiBGaXggZXJyb3JfYXBwZW5kX2hpbnQvZXJyb3JfcHJlcGVuZCB1
+c2FnZSkKMjgvMzEgQ2hlY2tpbmcgY29tbWl0IGE5OTA0OTY2ZDEzNyAoU29ja2V0czogRml4IGVy
+cm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjI5LzMxIENoZWNraW5nIGNvbW1p
+dCBjOTAxYzQzMmQ0MDYgKG5iZDogRml4IGVycm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQg
+dXNhZ2UpCjMwLzMxIENoZWNraW5nIGNvbW1pdCA5MjdlOGQ4YTY1ODYgKFBWUkRNQTogRml4IGVy
+cm9yX2FwcGVuZF9oaW50L2Vycm9yX3ByZXBlbmQgdXNhZ2UpCjMxLzMxIENoZWNraW5nIGNvbW1p
+dCBmMDEzNGNiMTE1N2QgKGl2c2htZW06IEZpeCBlcnJvcl9hcHBlbmRfaGludC9lcnJvcl9wcmVw
+ZW5kIHVzYWdlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBj
+b2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
+bG9ncy8yMDE5MTAwMTE1NTMxOS44MDY2LTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tL3Rlc3Rp
+bmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
+Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
+IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
