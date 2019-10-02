@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BE7C8F27
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:01:02 +0200 (CEST)
-Received: from localhost ([::1]:57756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92349C8F6E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:09:01 +0200 (CEST)
+Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFhzo-0005wE-QW
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
+	id 1iFi7Y-0006We-AN
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrH-0005Jw-1T
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:11 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrJ-0005M9-Ov
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrF-0003IX-NS
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:10 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52612)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrH-0003L0-M0
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:12 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53245)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrF-0003Hm-HN
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:09 -0400
-Received: by mail-wm1-x335.google.com with SMTP id r19so7971682wmh.2
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:09 -0700 (PDT)
+ id 1iFhrH-0003K3-Fo
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:11 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r19so7971807wmh.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OfES0nT3k6Z9LTQ7lYjY3cIAvS5cOEPfvSwDFax1+oI=;
- b=sp55rzD4mHywNngoU3mlFw0WfGRnvEfa6IoPKvHFS3fMPXXVDk5BTEcfcZfzoa82mX
- +h85Q5XKmok0hiDnfgx+sqscYk3qA1XKS5v5/874qBjHwm/yWLy51E4FGzWkxTKzvZNM
- boiNhWIkuMTNY9AXxK6TPZmdsPpQwwE3gotq3lRf5KEjIn5tSsWd/ckboLRJIAuGmeM3
- HOwy8KyGZUrBjFgas48zKeNUOwoQxWWnYBIF3yH1WGWDOkk63aulI5tIGvCYfJl/xqdc
- gLEDAdcmG7zl8br7k1zhi0Ub2sGKN+WCBk7zGEurGne2CBqb9gpbBW70YEcm8nFEe1Ox
- 454Q==
+ bh=+WoidffDv7dztB6biS4Cazx9LEmSg+eKdaHtEuHIgho=;
+ b=Ko81eOA4vN4HlZEfnv5+DmLU6K0OFaHc9nt4EO7Kt7/E1UPEstQuKX0cEFxgUJfBds
+ TKDK0wl2wbiB4IScynGrRt6HvkQf1lGgIOxGQIi2DpIAy62JDt9Erfs6JKEZyq7v/UjZ
+ MfDxrCQt8HJ5kKKFbp0iyF+SFktSc/m88S3xcOjtth9vCq+koWb9RKtABV7QYPfMmjkT
+ mj9vMZk1YvT1DuJ80U6wgJ52YiJ0ZLrzXszXzg/+w1tU0QOSKX+iGDDwKIM6JPW2axzA
+ Im+AnAX7V1iXaAtmnOE7n26ogKMnKGrof/kv9CR2bWHBKh7M/BoDAXm0YH+DxAKhyOWb
+ UxAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OfES0nT3k6Z9LTQ7lYjY3cIAvS5cOEPfvSwDFax1+oI=;
- b=oKN6gSDWDBnQH3aqUIwW6DJVjdxxaiAkz/HOUE35RZN9xgEp1oXblaLHqmeLNbk2yF
- xbY5ksvkT5KJpBlZvRb40kfu3qzLhC3w43UjrtVfw8urtciMDeo5Uj9SCGq6f0eAV/4b
- Qj89nsD1O3ZrWR9yOkaBV4JvZOJrPop3n8Xy42+R57htk6f1/XZ0osBbBT9Mknc05E+e
- mlidmsSETmthi1pAe7gmOkM2T6/U9kgkrC15YR7xlyEEKUoazGVq393IMAnQlrDUGpp7
- utB0T5p0fzfkU+Y5gkI/pgy84GBGw6B3XhjUrHHKORp1vW3zzq5zRGvJnvqWciEQFLpJ
- LhXQ==
-X-Gm-Message-State: APjAAAWDcDfFCWLM39xbWo71T6gEOMnab+pw9qj65I1FYiIAqZ2/cjnT
- A5TvHc6o8b6gh5QR0qIr5GM1lluY
-X-Google-Smtp-Source: APXvYqzktRvSs54ozypdhBgAjRyW34oohMdJDQlTbQk6il5ofaTuTr9DVedQMASJVA5HOW7FQXYFmg==
-X-Received: by 2002:a1c:1f89:: with SMTP id f131mr3486276wmf.72.1570035128153; 
- Wed, 02 Oct 2019 09:52:08 -0700 (PDT)
+ bh=+WoidffDv7dztB6biS4Cazx9LEmSg+eKdaHtEuHIgho=;
+ b=EzwbkYLGw97PH0vdT9lQJ9VullbCudffmRfOGK6/9bBEX+Ecw+dNpwZwIg6jar/Dbe
+ L2s0yR3swMSHyVkqGSoL7Jmczk9gTU76iMLozqfttyY+myusDjHObecNBoFhsaiBxKi4
+ 4IDpUJ4sCDCZYIFtsJtVV4SNcohwGupEmv/O04sBRwmFuceb8ilbBUJHcj+AV8IQUHYc
+ n6z8M5NPGIkIwZ1JI69wYGsYLMuxXsseMubRP16VoX8pdvlGv6+/3mmKR5OzJDURQJR4
+ 3FMcrJFoTS/WeDCIFqR7SPlm64ZZ53IYObFlJghsIxtf7gn7bBOGe2Gy4brHY1IuB6Tj
+ S7Gw==
+X-Gm-Message-State: APjAAAVZTXOfBK7MtsBknb/JmVVP/fGXNGmqC8+65ms4H4phHLsNCNLw
+ 3t/ozCBQLypO2XyEe15Lb+/1Io3J
+X-Google-Smtp-Source: APXvYqyw7eIRYDlkp4E1IB3NzsMgZlO1HTVH4dlVNE5TeH6UPFIG/X0DolIToGGcwx5CnOUVW4GtqQ==
+X-Received: by 2002:a7b:c5c2:: with SMTP id n2mr3554008wmk.20.1570035130240;
+ Wed, 02 Oct 2019 09:52:10 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.07
+ by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.09
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:07 -0700 (PDT)
+ Wed, 02 Oct 2019 09:52:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/30] hw/isa: Introduce a CONFIG_ISA_SUPERIO switch for
- isa-superio.c
-Date: Wed,  2 Oct 2019 18:51:36 +0200
-Message-Id: <1570035113-56848-14-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 15/30] microblaze: fix leak of fdevice tree blob
+Date: Wed,  2 Oct 2019 18:51:38 +0200
+Message-Id: <1570035113-56848-16-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
 References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,87 +79,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+The device tree blob returned by load_device_tree is malloced.
+Free it before returning.
 
-Currently, isa-superio.c is always compiled as soon as CONFIG_ISA_BUS
-is enabled. But there are also machines that have an ISA BUS without
-any of the superio chips attached to it, so we should not compile
-isa-superio.c in case we only compile a QEMU for such a machine.
-Thus add a proper CONFIG_ISA_SUPERIO switch so that this file only gets
-compiled when we really, really need it.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/isa/Kconfig       | 10 +++++++---
- hw/isa/Makefile.objs |  2 +-
- hw/mips/Kconfig      |  1 +
- 3 files changed, 9 insertions(+), 4 deletions(-)
+ hw/microblaze/boot.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-index 6db0d79..98a2899 100644
---- a/hw/isa/Kconfig
-+++ b/hw/isa/Kconfig
-@@ -13,9 +13,13 @@ config I82378
-     select MC146818RTC
-     select PCSPK
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index bade4d2..d1d7dfb 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -100,6 +100,7 @@ static int microblaze_load_dtb(hwaddr addr,
+     }
  
--config PC87312
-+config ISA_SUPERIO
-     bool
-     select ISA_BUS
-+
-+config PC87312
-+    bool
-+    select ISA_SUPERIO
-     select I8259
-     select I8254
-     select I8257
-@@ -34,14 +38,14 @@ config PIIX4
+     cpu_physical_memory_write(addr, fdt, fdt_size);
++    g_free(fdt);
+     return fdt_size;
+ }
  
- config VT82C686
-     bool
--    select ISA_BUS
-+    select ISA_SUPERIO
-     select ACPI_SMBUS
-     select SERIAL_ISA
-     select FDC
- 
- config SMC37C669
-     bool
--    select ISA_BUS
-+    select ISA_SUPERIO
-     select SERIAL_ISA
-     select PARALLEL
-     select FDC
-diff --git a/hw/isa/Makefile.objs b/hw/isa/Makefile.objs
-index 9e106df..ff97485 100644
---- a/hw/isa/Makefile.objs
-+++ b/hw/isa/Makefile.objs
-@@ -1,5 +1,5 @@
- common-obj-$(CONFIG_ISA_BUS) += isa-bus.o
--common-obj-$(CONFIG_ISA_BUS) += isa-superio.o
-+common-obj-$(CONFIG_ISA_SUPERIO) += isa-superio.o
- common-obj-$(CONFIG_APM) += apm.o
- common-obj-$(CONFIG_I82378) += i82378.o
- common-obj-$(CONFIG_PC87312) += pc87312.o
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 62aa01b..2c2adbc 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -13,6 +13,7 @@ config R4K
- 
- config MALTA
-     bool
-+    select ISA_SUPERIO
- 
- config MIPSSIM
-     bool
 -- 
 1.8.3.1
 
