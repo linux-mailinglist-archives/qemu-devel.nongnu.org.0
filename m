@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02ACAC45FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:00:22 +0200 (CEST)
-Received: from localhost ([::1]:50868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126D8C4607
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:10:12 +0200 (CEST)
+Received: from localhost ([::1]:50938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFUsG-0000Zw-Nv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
+	id 1iFV1m-0001Df-TJ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUkk-0001ae-JY
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:38 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUko-0001eZ-7A
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUkh-0002oM-S8
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:34 -0400
-Received: from ozlabs.org ([203.11.71.1]:40399)
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUkl-0002ue-4Q
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:37 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:54387)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFUkh-0002mW-BT; Tue, 01 Oct 2019 22:52:31 -0400
+ id 1iFUkk-0002pn-GF; Tue, 01 Oct 2019 22:52:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46jgf75bGZz9sRD; Wed,  2 Oct 2019 12:52:15 +1000 (AEST)
+ id 46jgf80wRGz9sRR; Wed,  2 Oct 2019 12:52:16 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569984735;
- bh=nIuSmMjmRIP2JxH6+XRAiVaVtFEjEQi4rUDk6u8g8NA=;
+ d=gibson.dropbear.id.au; s=201602; t=1569984736;
+ bh=Bv6Jko921HCxbyel5yjjwjhiYIts5Sy5F0DjgsOXyeo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aVw6HapXVQYUka+6kWCW91DwOWqibX5vgA9H05x3JOIDZ/1vCyaYhVzT/2aqjCI33
- stnljoReR8HpPmglG2yn8K1bnhduN8a+oRlwICQfkPAoS7oGEr8m7xdwQuTxmY8GNT
- 1ULl4hroCPZCKx7yC6cgbcQV/8MCkdPTkBe+XbgE=
+ b=KvXz3kOm+2kocBIbOODNr912WgOHlTX1tadPKXGXrxEcSJbUytDbnkZ5ifihQN9jI
+ +hgeQ62wILr8UwjrIeazkm4fLhQi8FHJyr6WBTOzRKnAUArul6gA98dD1gRLS8tm6f
+ +kPc8fBGtYPA6VQ7vc2Eufaxz9jBnZJjJQLgsxW4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	clg@kaod.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 12/34] spapr: Simplify spapr_qirq() handling
-Date: Wed,  2 Oct 2019 12:51:46 +1000
-Message-Id: <20191002025208.3487-13-david@gibson.dropbear.id.au>
+Subject: [PATCH v3 15/34] spapr: Handle freeing of multiple irqs in frontend
+ only
+Date: Wed,  2 Oct 2019 12:51:49 +1000
+Message-Id: <20191002025208.3487-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191002025208.3487-1-david@gibson.dropbear.id.au>
 References: <20191002025208.3487-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,156 +64,102 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently spapr_qirq(), whic is used to find the qemu_irq for an spapr
-global irq number, redirects through the SpaprIrq::qirq method.  But
-the array of qemu_irqs is allocated in the PAPR layer, not the
-backends, and so the method implementations all return the same thing,
-just differing in the preliminary checks they make.
-
-So, we can remove the method, and just implement spapr_qirq() directly,
-including all the relevant checks in one place.  We change all those
-checks into assert()s as well, since a failure here indicates an error in
-the calling code.
+spapr_irq_free() can be used to free multiple irqs at once. That's useful
+for its callers, but there's no need to make the individual backend hooks
+handle this.  We can loop across the irqs in spapr_irq_free() itself and
+have the hooks just do one at time.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/spapr_irq.c         | 54 ++++++++++++++------------------------
- include/hw/ppc/spapr_irq.h |  1 -
- 2 files changed, 19 insertions(+), 36 deletions(-)
+ hw/ppc/spapr_irq.c         | 27 ++++++++++++---------------
+ include/hw/ppc/spapr_irq.h |  2 +-
+ 2 files changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 8f79aa829f..8f179076c6 100644
+index 9919910a86..d2ac35bbe1 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -150,17 +150,6 @@ static void spapr_irq_free_xics(SpaprMachineState *s=
-papr, int irq, int num)
-     }
+@@ -133,16 +133,13 @@ static int spapr_irq_claim_xics(SpaprMachineState *=
+spapr, int irq, bool lsi,
+     return 0;
  }
 =20
--static qemu_irq spapr_qirq_xics(SpaprMachineState *spapr, int irq)
--{
--    ICSState *ics =3D spapr->ics;
--
--    if (ics_valid_irq(ics, irq)) {
--        return spapr->qirqs[irq];
--    }
--
--    return NULL;
--}
--
- static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor =
-*mon)
+-static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq, int n=
+um)
++static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
  {
-     CPUState *cs;
-@@ -242,7 +231,6 @@ SpaprIrq spapr_irq_xics =3D {
-     .init        =3D spapr_irq_init_xics,
-     .claim       =3D spapr_irq_claim_xics,
-     .free        =3D spapr_irq_free_xics,
--    .qirq        =3D spapr_qirq_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-     .dt_populate =3D spapr_dt_xics,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
-@@ -300,20 +288,6 @@ static void spapr_irq_free_xive(SpaprMachineState *s=
-papr, int irq, int num)
+     ICSState *ics =3D spapr->ics;
+     uint32_t srcno =3D irq - ics->offset;
+-    int i;
+=20
+     if (ics_valid_irq(ics, irq)) {
+-        for (i =3D srcno; i < srcno + num; ++i) {
+-            memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
+-        }
++        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
      }
  }
 =20
--static qemu_irq spapr_qirq_xive(SpaprMachineState *spapr, int irq)
--{
--    SpaprXive *xive =3D spapr->xive;
+@@ -269,13 +266,9 @@ static int spapr_irq_claim_xive(SpaprMachineState *s=
+papr, int irq, bool lsi,
+     return 0;
+ }
+=20
+-static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq, int n=
+um)
++static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
+ {
+-    int i;
 -
--    if ((irq < SPAPR_XIRQ_BASE) || (irq >=3D xive->nr_irqs)) {
--        return NULL;
+-    for (i =3D irq; i < irq + num; ++i) {
+-        spapr_xive_irq_free(spapr->xive, i);
 -    }
--
--    /* The sPAPR machine/device should have claimed the IRQ before */
--    assert(xive_eas_is_valid(&xive->eat[irq]));
--
--    return spapr->qirqs[irq];
--}
--
++    spapr_xive_irq_free(spapr->xive, irq);
+ }
+=20
  static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-                                       Monitor *mon)
- {
-@@ -408,7 +382,6 @@ SpaprIrq spapr_irq_xive =3D {
-     .init        =3D spapr_irq_init_xive,
-     .claim       =3D spapr_irq_claim_xive,
-     .free        =3D spapr_irq_free_xive,
--    .qirq        =3D spapr_qirq_xive,
-     .print_info  =3D spapr_irq_print_info_xive,
-     .dt_populate =3D spapr_dt_xive,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xive,
-@@ -482,11 +455,6 @@ static void spapr_irq_free_dual(SpaprMachineState *s=
-papr, int irq, int num)
-     spapr_irq_xive.free(spapr, irq, num);
+@@ -433,10 +426,10 @@ static int spapr_irq_claim_dual(SpaprMachineState *=
+spapr, int irq, bool lsi,
+     return ret;
  }
 =20
--static qemu_irq spapr_qirq_dual(SpaprMachineState *spapr, int irq)
--{
--    return spapr_irq_current(spapr)->qirq(spapr, irq);
--}
--
+-static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq, int n=
+um)
++static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
+ {
+-    spapr_irq_xics.free(spapr, irq, num);
+-    spapr_irq_xive.free(spapr, irq, num);
++    spapr_irq_xics.free(spapr, irq);
++    spapr_irq_xive.free(spapr, irq);
+ }
+=20
  static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor =
 *mon)
- {
-     spapr_irq_current(spapr)->print_info(spapr, mon);
-@@ -581,7 +549,6 @@ SpaprIrq spapr_irq_dual =3D {
-     .init        =3D spapr_irq_init_dual,
-     .claim       =3D spapr_irq_claim_dual,
-     .free        =3D spapr_irq_free_dual,
--    .qirq        =3D spapr_qirq_dual,
-     .print_info  =3D spapr_irq_print_info_dual,
-     .dt_populate =3D spapr_irq_dt_populate_dual,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_dual,
-@@ -695,7 +662,25 @@ void spapr_irq_free(SpaprMachineState *spapr, int ir=
-q, int num)
+@@ -635,7 +628,11 @@ int spapr_irq_claim(SpaprMachineState *spapr, int ir=
+q, bool lsi, Error **errp)
 =20
- qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
+ void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
  {
--    return spapr->irq->qirq(spapr, irq);
-+    /*
-+     * This interface is basically for VIO and PHB devices to find the
-+     * right qemu_irq to manipulate, so we only allow access to the
-+     * external irqs for now.  Currently anything which needs to
-+     * access the IPIs most naturally gets there via the guest side
-+     * interfaces, we can change this if we need to in future.
-+     */
-+    assert(irq >=3D SPAPR_XIRQ_BASE);
-+    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+-    spapr->irq->free(spapr, irq, num);
++    int i;
 +
-+    if (spapr->ics) {
-+        assert(ics_valid_irq(spapr->ics, irq));
++    for (i =3D irq; i < (irq + num); i++) {
++        spapr->irq->free(spapr, i);
 +    }
-+    if (spapr->xive) {
-+        assert(irq < spapr->xive->nr_irqs);
-+        assert(xive_eas_is_valid(&spapr->xive->eat[irq]));
-+    }
-+
-+    return spapr->qirqs[irq];
  }
 =20
- int spapr_irq_post_load(SpaprMachineState *spapr, int version_id)
-@@ -798,7 +783,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .init        =3D spapr_irq_init_xics,
-     .claim       =3D spapr_irq_claim_xics,
-     .free        =3D spapr_irq_free_xics,
--    .qirq        =3D spapr_qirq_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-     .dt_populate =3D spapr_dt_xics,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
+ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
 diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 7e26288fcd..a4e790ef60 100644
+index 9b60378e28..ed88b4599a 100644
 --- a/include/hw/ppc/spapr_irq.h
 +++ b/include/hw/ppc/spapr_irq.h
-@@ -44,7 +44,6 @@ typedef struct SpaprIrq {
+@@ -43,7 +43,7 @@ typedef struct SpaprIrq {
+=20
      void (*init)(SpaprMachineState *spapr, Error **errp);
      int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **er=
 rp);
-     void (*free)(SpaprMachineState *spapr, int irq, int num);
--    qemu_irq (*qirq)(SpaprMachineState *spapr, int irq);
+-    void (*free)(SpaprMachineState *spapr, int irq, int num);
++    void (*free)(SpaprMachineState *spapr, int irq);
      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
                          void *fdt, uint32_t phandle);
