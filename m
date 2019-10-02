@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E46DC460E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:14:55 +0200 (CEST)
-Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A568C4608
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 05:10:47 +0200 (CEST)
+Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFV6L-0005m0-MD
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59875)
+	id 1iFV2L-0001Yb-Py
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 23:10:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59907)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUko-0001fY-PG
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUkp-0001g4-2L
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFUkl-0002ux-93
+ (envelope-from <dgibson@ozlabs.org>) id 1iFUkl-0002uL-6G
  for qemu-devel@nongnu.org; Tue, 01 Oct 2019 22:52:38 -0400
-Received: from ozlabs.org ([203.11.71.1]:59505)
+Received: from ozlabs.org ([2401:3900:2:1::2]:39019)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFUkk-0002pE-HN; Tue, 01 Oct 2019 22:52:34 -0400
+ id 1iFUkk-0002po-Da; Tue, 01 Oct 2019 22:52:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46jgf76vRfz9sRH; Wed,  2 Oct 2019 12:52:15 +1000 (AEST)
+ id 46jgf826WZz9sRQ; Wed,  2 Oct 2019 12:52:16 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1569984735;
- bh=DQmngEMiivkphtE6NW57+oUk3GSNufbe24fbel5QQ2E=;
+ d=gibson.dropbear.id.au; s=201602; t=1569984736;
+ bh=Wye/qEPS8JlbxvZNXB3cl6mwul/+AF68CA7+4TAPj1c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hY4sO15wgm9UmiXo6hbGZsTEG381n4/4Mz/VDt4uHgV+n+3DWGcS/MyypjvTN1/hI
- TgZLSrh+Vr3pLd56jP61Y4kY8iSb+PDJSeccf876k4IiL/vIwz/md6DUlrF3VQlRZv
- yxDrW5amWpjoy/w2wkuqaypLijKrFpxdM5WHVjw8=
+ b=JKRgt1VBPWAToOvQttyaYjprHL+OEZ/+Q9gCdNyRaI6I6h4aQp80KyRIF7qrg/scq
+ sJIiW15F46t4Uvw67jLjgMyAETJSr3R0es3YoGWa1LP76UHVOsQdcirVdZz1C9sHyg
+ kFdljDHbz1vav2MpepUJsYug4ggD8060Q2Z3AaT4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	clg@kaod.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 14/34] spapr: Remove unhelpful tracepoints from
- spapr_irq_free_xics()
-Date: Wed,  2 Oct 2019 12:51:48 +1000
-Message-Id: <20191002025208.3487-15-david@gibson.dropbear.id.au>
+Subject: [PATCH v3 16/34] spapr, xics,
+ xive: Better use of assert()s on irq claim/free paths
+Date: Wed,  2 Oct 2019 12:51:50 +1000
+Message-Id: <20191002025208.3487-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191002025208.3487-1-david@gibson.dropbear.id.au>
 References: <20191002025208.3487-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,58 +65,109 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These traces contain some useless information (the always-0 source#) and
-have no equivalents for XIVE mode.  For now just remove them, and we can
-put back something more sensible if and when we need it.
+The irq claim and free paths for both XICS and XIVE check for some
+validity conditions.  Some of these represent genuine runtime failures,
+however others - particularly checking that the basic irq number is in a
+sane range - could only fail in the case of bugs in the callin code.
+Therefore use assert()s instead of runtime failures for those.
+
+In addition the non backend-specific part of the claim/free paths should
+only be used for PAPR external irqs, that is in the range SPAPR_XIRQ_BASE
+to the maximum irq number.  Put assert()s for that into the top level
+dispatchers as well.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/spapr_irq.c  | 4 ----
- hw/ppc/trace-events | 4 ----
- 2 files changed, 8 deletions(-)
+ hw/intc/spapr_xive.c |  8 ++------
+ hw/ppc/spapr_irq.c   | 18 ++++++++++--------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index c1c97192a7..47b5ec0b56 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -532,9 +532,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t l=
+isn, bool lsi)
+ {
+     XiveSource *xsrc =3D &xive->source;
+=20
+-    if (lisn >=3D xive->nr_irqs) {
+-        return false;
+-    }
++    assert(lisn < xive->nr_irqs);
+=20
+     /*
+      * Set default values when allocating an IRQ number
+@@ -559,9 +557,7 @@ bool spapr_xive_irq_claim(SpaprXive *xive, uint32_t l=
+isn, bool lsi)
+=20
+ bool spapr_xive_irq_free(SpaprXive *xive, uint32_t lisn)
+ {
+-    if (lisn >=3D xive->nr_irqs) {
+-        return false;
+-    }
++    assert(lisn < xive->nr_irqs);
+=20
+     xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+     return true;
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index ec2229d2d1..9919910a86 100644
+index d2ac35bbe1..025c802e7b 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -140,11 +140,7 @@ static void spapr_irq_free_xics(SpaprMachineState *s=
-papr, int irq, int num)
+@@ -118,11 +118,7 @@ static int spapr_irq_claim_xics(SpaprMachineState *s=
+papr, int irq, bool lsi,
+     ICSState *ics =3D spapr->ics;
+=20
+     assert(ics);
+-
+-    if (!ics_valid_irq(ics, irq)) {
+-        error_setg(errp, "IRQ %d is invalid", irq);
+-        return -1;
+-    }
++    assert(ics_valid_irq(ics, irq));
+=20
+     if (!ics_irq_free(ics, irq - ics->offset)) {
+         error_setg(errp, "IRQ %d is not free", irq);
+@@ -138,9 +134,9 @@ static void spapr_irq_free_xics(SpaprMachineState *sp=
+apr, int irq)
+     ICSState *ics =3D spapr->ics;
+     uint32_t srcno =3D irq - ics->offset;
+=20
+-    if (ics_valid_irq(ics, irq)) {
+-        memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+-    }
++    assert(ics_valid_irq(ics, irq));
++
++    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+ }
+=20
+ static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor =
+*mon)
+@@ -623,6 +619,9 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
+*errp)
+=20
+ int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
+*errp)
+ {
++    assert(irq >=3D SPAPR_XIRQ_BASE);
++    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
++
+     return spapr->irq->claim(spapr, irq, lsi, errp);
+ }
+=20
+@@ -630,6 +629,9 @@ void spapr_irq_free(SpaprMachineState *spapr, int irq=
+, int num)
+ {
      int i;
 =20
-     if (ics_valid_irq(ics, irq)) {
--        trace_spapr_irq_free(0, irq, num);
-         for (i =3D srcno; i < srcno + num; ++i) {
--            if (ics_irq_free(ics, i)) {
--                trace_spapr_irq_free_warn(0, i);
--            }
-             memset(&ics->irqs[i], 0, sizeof(ICSIRQState));
-         }
++    assert(irq >=3D SPAPR_XIRQ_BASE);
++    assert((irq + num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
++
+     for (i =3D irq; i < (irq + num); i++) {
+         spapr->irq->free(spapr, i);
      }
-diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-index 96dad767a1..9ea620f23c 100644
---- a/hw/ppc/trace-events
-+++ b/hw/ppc/trace-events
-@@ -13,10 +13,6 @@ spapr_pci_msi_retry(unsigned config_addr, unsigned req=
-_num, unsigned max_irqs) "
- spapr_cas_failed(unsigned long n) "DT diff buffer is too small: %ld byte=
-s"
- spapr_cas_continue(unsigned long n) "Copy changes to the guest: %ld byte=
-s"
-=20
--# spapr_irq.c
--spapr_irq_free(int src, int irq, int num) "Source#%d, first irq %d, %d i=
-rqs"
--spapr_irq_free_warn(int src, int irq) "Source#%d, irq %d is already free=
-"
--
- # spapr_hcall.c
- spapr_cas_pvr(uint32_t cur_pvr, bool explicit_match, uint32_t new_pvr) "=
-current=3D0x%x, explicit_match=3D%u, new=3D0x%x"
- spapr_h_resize_hpt_prepare(uint64_t flags, uint64_t shift) "flags=3D0x%"=
-PRIx64", shift=3D%"PRIu64
 --=20
 2.21.0
 
