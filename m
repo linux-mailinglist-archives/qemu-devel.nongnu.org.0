@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB121C8FC4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:22:34 +0200 (CEST)
-Received: from localhost ([::1]:57950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDAFC8FDA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 19:25:45 +0200 (CEST)
+Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFiKf-0003is-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35558)
+	id 1iFiNk-0007VX-M2
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 13:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38860)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrY-0005ju-QV
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:29 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iFiHH-0000pM-Tw
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 13:19:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFhrX-0003fC-Ql
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:28 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42469)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFhrX-0003en-Kr
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 12:52:27 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n14so20461935wrw.9
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 09:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=9FxYLphVXY4uST+nxeWKafzobQ3LpK2O54/JNRyeh/U=;
- b=Q8ex01ZDvD42NilWySzXQwWTeTpDqiandsgRDwBY+TEklq8EAkWCJNFBTyM3dCwBZf
- hXi03Jv/JNBzNaSQYcCoEvHP6VxAYHs9NZjR91Xz2Znil0WUshrXMfcXFObW2CUYJHMo
- M0Vh5+pQf1PGx4PvvNrptWo0VCZp8lMIz7KLAyQFKmTGNC7INrL2wFAFdGf/3D43Mxgc
- nWyrtw42FfMFLKcZqa3bNW/Piy7sG6j6wlF7XsWASZ8Zn70vA1VGYZwUbRhxeVgUQPCV
- /1vkF6BIl+AZTY4Y9cQywEQ+M9RHYPY8BWsdw+PQ0BlqHw2jR7X+wGkrpE9MzfmioqLz
- 1DYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=9FxYLphVXY4uST+nxeWKafzobQ3LpK2O54/JNRyeh/U=;
- b=gw4zWYByfBWHAwURxNW+7jdZLkgRqCxXBFSLmkOwVY7vfbKA1yHJFAVp7mkXstbhep
- gCPKsIGbh+wG9Artx+izKpay9KHGKoXOV9rwyj0q249yYcNOQfqGbImYhm89q/PLqtyz
- 1La42PkIY8S5+gWXeQ8cLuQPI3ivGdRj3EHKXHL7lp1EBQM72dt8MY8o4PvT2DZ6J0CV
- vcx6BK8oTb88xrb32SNmTc26xZHpAdHIEJK9X+RAdqQ7AprtdpX9U13bTQV9y2EeVNjC
- 28ncM4b1EYIBfpdvFWspYvrdUscfWXzz57YeoKd+QQ/u1PAu4wS4vV5cbs7fiZUCnFUb
- Sl2A==
-X-Gm-Message-State: APjAAAWGhG48grqC8x9RYOV50cvbY/CwbFTsGQswFISOoyVtD3L5ElmI
- BNtUDaL+jeB6uOZstxPUA5AsDjei
-X-Google-Smtp-Source: APXvYqy9TtJ0VViJOXweruFrA5TPOxCtFx5fakumBX2TGlfqSdCdFuhzs5D66P2z//bzzvcs5uAXKw==
-X-Received: by 2002:a5d:4a52:: with SMTP id v18mr398185wrs.368.1570035146444; 
- Wed, 02 Oct 2019 09:52:26 -0700 (PDT)
-Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g4sm27303990wrw.9.2019.10.02.09.52.25
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Oct 2019 09:52:25 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 29/30] tests/docker: only enable ubsan for test-clang
-Date: Wed,  2 Oct 2019 18:51:52 +0200
-Message-Id: <1570035113-56848-30-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
-References: <1570035113-56848-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+ (envelope-from <no-reply@patchew.org>) id 1iFiHF-0005eO-DX
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 13:19:03 -0400
+Resent-Date: Wed, 02 Oct 2019 13:19:02 -0400
+Resent-Message-Id: <E1iFiHF-0005eO-DX@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21463)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iFiH9-0005cq-TS; Wed, 02 Oct 2019 13:18:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1570036723; cv=none; d=zoho.com; s=zohoarc; 
+ b=aW6OCAJrLwEJweC7jIcwv8vAR3Ra/oSKySBOQlo4xvTFGn2ibSJUEl3o7bXJsSNrsHuSfNmCUZd1AgeBTCjfCs4KjfcT2He2KvQwiMPzOOTfw8b8v9lLTE8jSO8vMUAT363X6Bg2/SLu0qtHESJO/Z6f07oFV0Gg8i2f5AtE5dE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1570036723;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=yzKTJT5UW8MqcBXelWOwNVK46tSR1UmroZmN5sGsF6o=; 
+ b=UVNK3n1O5PVMaw47AyQYFzs2bLIHHg6rUjYEZLlcuEkpMaKVpSEfb3fS8+fjRi2trQji3jNRYTG4uQ5nXuhL70ZwzqiK6/kTLJx5ZsbIb982/PLDoL1Dzt2mxYJul6t44NhlIIBVEe212g9mqn7aDAIlVusc2r7d/u6OSs793F4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1570036722891745.0505682504679;
+ Wed, 2 Oct 2019 10:18:42 -0700 (PDT)
+Subject: Re: [PULL v2 0/4] Block layer patches
+In-Reply-To: <20191002161851.1016-1-kwolf@redhat.com>
+Message-ID: <157003672169.27524.8849361480034357202@8230166b0665>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwolf@redhat.com
+Date: Wed, 2 Oct 2019 10:18:42 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,36 +61,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--fsanitize=undefined is not the same thing as --enable-sanitizers.  After
-commit 47c823e ("tests/docker: add sanitizers back to clang build", 2019-09-11)
-test-clang is almost duplicating the asan (test-debug) test, so
-partly revert commit 47c823e5b while leaving ubsan enabled.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/docker/test-clang | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/tests/docker/test-clang b/tests/docker/test-clang
-index db9e697..8c51ead 100755
---- a/tests/docker/test-clang
-+++ b/tests/docker/test-clang
-@@ -17,7 +17,9 @@ requires clang
- 
- cd "$BUILD_DIR"
- 
--OPTS="--cxx=clang++ --cc=clang --host-cc=clang --enable-sanitizers"
-+OPTS="--cxx=clang++ --cc=clang --host-cc=clang"
-+OPTS="$OPTS --extra-cflags=-fsanitize=undefined \
-+    --extra-cflags=-fno-sanitize=float-divide-by-zero"
- build_qemu $OPTS
- check_qemu
- install_qemu
--- 
-1.8.3.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAwMjE2MTg1MS4xMDE2
+LTEta3dvbGZAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
+ci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5FVFdP
+Uks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9MTQg
+TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgotVGVzdGluZzoKLVFFTVUgWC5ZLlog
+bW9uaXRvciAtIHR5cGUgJ2hlbHAnIGZvciBtb3JlIGluZm9ybWF0aW9uCi0ocWVtdSkgc2F2ZXZt
+IHNuYXAwCi1FcnJvcjogTm8gYmxvY2sgZGV2aWNlIGNhbiBhY2NlcHQgc25hcHNob3RzCi0ocWVt
+dSkgaW5mbyBzbmFwc2hvdHMKLU5vIGF2YWlsYWJsZSBibG9jayBkZXZpY2Ugc3VwcG9ydHMgc25h
+cHNob3RzCi0ocWVtdSkgbG9hZHZtIHNuYXAwCi1FcnJvcjogTm8gYmxvY2sgZGV2aWNlIHN1cHBv
+cnRzIHNuYXBzaG90cwotKHFlbXUpIHF1aXQKK1VzYWdlOiBzZWQgW09QVElPTl0uLi4ge3Njcmlw
+dC1vbmx5LWlmLW5vLW90aGVyLXNjcmlwdH0gW2lucHV0LWZpbGVdLi4uCiAKLS0tCi1UZXN0aW5n
+OiAtZHJpdmUgZHJpdmVyPWZpbGUsZmlsZT1URVNUX0RJUi90LklNR0ZNVCxpZj1ub25lCi1RRU1V
+IFguWS5aIG1vbml0b3IgLSB0eXBlICdoZWxwJyBmb3IgbW9yZSBpbmZvcm1hdGlvbgotKHFlbXUp
+IHNhdmV2bSBzbmFwMAotRXJyb3I6IERldmljZSAnbm9uZTAnIGlzIHdyaXRhYmxlIGJ1dCBkb2Vz
+IG5vdCBzdXBwb3J0IHNuYXBzaG90cwotKHFlbXUpIGluZm8gc25hcHNob3RzCi1ObyBhdmFpbGFi
+bGUgYmxvY2sgZGV2aWNlIHN1cHBvcnRzIHNuYXBzaG90cwotKHFlbXUpIGxvYWR2bSBzbmFwMAot
+RXJyb3I6IERldmljZSAnbm9uZTAnIGlzIHdyaXRhYmxlIGJ1dCBkb2VzIG5vdCBzdXBwb3J0IHNu
+YXBzaG90cwotKHFlbXUpIHF1aXQKLQotRm9ybWF0dGluZyAnVEVTVF9ESVIvdC5JTUdGTVQnLCBm
+bXQ9SU1HRk1UIHNpemU9MTM0MjE3NzI4Ci0tLQotVGVzdGluZzogLWRyaXZlIGRyaXZlcj1maWxl
+LGZpbGU9VEVTVF9ESVIvdC5JTUdGTVQsaWY9dmlydGlvCi1RRU1VIFguWS5aIG1vbml0b3IgLSB0
+eXBlICdoZWxwJyBmb3IgbW9yZSBpbmZvcm1hdGlvbgotKHFlbXUpIHNhdmV2bSBzbmFwMAotRXJy
+b3I6IERldmljZSAndmlydGlvMCcgaXMgd3JpdGFibGUgYnV0IGRvZXMgbm90IHN1cHBvcnQgc25h
+cHNob3RzCi0ocWVtdSkgaW5mbyBzbmFwc2hvdHMKLU5vIGF2YWlsYWJsZSBibG9jayBkZXZpY2Ug
+c3VwcG9ydHMgc25hcHNob3RzCi0ocWVtdSkgbG9hZHZtIHNuYXAwCi1FcnJvcjogRGV2aWNlICd2
+aXJ0aW8wJyBpcyB3cml0YWJsZSBidXQgZG9lcyBub3Qgc3VwcG9ydCBzbmFwc2hvdHMKLShxZW11
+KSBxdWl0Ci0KLUZvcm1hdHRpbmcgJ1RFU1RfRElSL3QuSU1HRk1UJywgZm10PUlNR0ZNVCBzaXpl
+PTEzNDIxNzcyOAotLS0KLVRlc3Rpbmc6IC1ibG9ja2RldiBkcml2ZXI9ZmlsZSxmaWxlbmFtZT1U
+RVNUX0RJUi90LklNR0ZNVCxub2RlLW5hbWU9ZmlsZQotUUVNVSBYLlkuWiBtb25pdG9yIC0gdHlw
+ZSAnaGVscCcgZm9yIG1vcmUgaW5mb3JtYXRpb24KLShxZW11KSBzYXZldm0gc25hcDAKLUVycm9y
+OiBEZXZpY2UgJycgaXMgd3JpdGFibGUgYnV0IGRvZXMgbm90IHN1cHBvcnQgc25hcHNob3RzCi0o
+cWVtdSkgaW5mbyBzbmFwc2hvdHMKLU5vIGF2YWlsYWJsZSBibG9jayBkZXZpY2Ugc3VwcG9ydHMg
+c25hcHNob3RzCi0ocWVtdSkgbG9hZHZtIHNuYXAwCi1FcnJvcjogRGV2aWNlICcnIGlzIHdyaXRh
+YmxlIGJ1dCBkb2VzIG5vdCBzdXBwb3J0IHNuYXBzaG90cwotKHFlbXUpIHF1aXQKLQotRm9ybWF0
+dGluZyAnVEVTVF9ESVIvdC5JTUdGTVQnLCBmbXQ9SU1HRk1UIHNpemU9MTM0MjE3NzI4Ci0tLQog
+KioqIGRvbmUKRmFpbHVyZXM6IDI2NwpGYWlsZWQgMSBvZiAxMDggaW90ZXN0cwptYWtlOiAqKiog
+W2NoZWNrLXRlc3RzL2NoZWNrLWJsb2NrLnNoXSBFcnJvciAxClRyYWNlYmFjayAobW9zdCByZWNl
+bnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2
+MiwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4oKSkKLS0tCiAgICByYWlzZSBDYWxsZWRQ
+cm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjog
+Q29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20u
+cWVtdS5pbnN0YW5jZS51dWlkPTkyNzI2MTg3YTBiZDQ5NWM5YmQ5NjE4ZjgxNWJhN2JiJywgJy11
+JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0n
+LCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICct
+ZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0x
+JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNo
+ZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcv
+dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtaXJ2ZDN5Mnovc3JjL2RvY2tlci1zcmMuMjAxOS0x
+MC0wMi0xMy4wOC41Mi4xNTEzMTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3Jywg
+Jy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhp
+dCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9
+OTI3MjYxODdhMGJkNDk1YzliZDk2MThmODE1YmE3YmIKbWFrZVsxXTogKioqIFtkb2NrZXItcnVu
+XSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRl
+c3Rlci10bXAtaXJ2ZDN5Mnovc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0Bj
+ZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDltNTAuMjA1cwp1c2VyICAgIDBtOC4zMDNzCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MTAw
+MjE2MTg1MS4xMDE2LTEta3dvbGZAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50
+b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
