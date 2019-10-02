@@ -2,71 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFDF1C8712
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 13:18:28 +0200 (CEST)
-Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C981FC8762
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 13:34:19 +0200 (CEST)
+Received: from localhost ([::1]:53880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFceJ-0006f8-PE
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 07:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35345)
+	id 1iFcte-0002dN-5t
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 07:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iFcdE-0006B9-HB
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:17:21 -0400
+ (envelope-from <slp@redhat.com>) id 1iFcqw-0000yZ-0K
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:31:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iFcdC-0007o2-R3
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:17:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45928)
+ (envelope-from <slp@redhat.com>) id 1iFcqu-0008NA-I5
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:31:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFcd9-0007kL-OF
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:17:16 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iFcqu-0008Lp-5W
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 07:31:28 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B4950C0546FB
- for <qemu-devel@nongnu.org>; Wed,  2 Oct 2019 11:17:13 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id c188so1943607wmd.9
- for <qemu-devel@nongnu.org>; Wed, 02 Oct 2019 04:17:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BmYTIcKLsjSP0VeDjPsSNIvplrmTqdntAb0QToAyFZY=;
- b=d7BKZNat7PCAWN8yR5BwIFlhuY7JU5C8rqFanbfg8qdio9ZPOAExWBeLGzL6N8eqr1
- j8BuPPGniHop5QsfmjqLadyasb2fCBOQKx1cc5DDaCjy0ecmIzUpyqvpjaBLL7+PWSLC
- vaTWO+b9C6y/MEDBPoHP4XbGFY+eP2/0SnwS8SS5aUvq5z+FmMzKzFEgDcqXD5nfEL66
- eVIySX1tPsNcKIJm4I5kmgp1cAyAtmFsZgXVKcrucy3L2/e3NlJZxnW+vVcNeG5e8Gzh
- CkPoYGAvt1O9v5qo0N2Ra8j/9f9wWG60Ik26TPsJbgRXRDgScDXiW9tnZcZLRC8Igp2u
- M0SA==
-X-Gm-Message-State: APjAAAVEIsFWTRT2g9tbQteeBYwz6oqyCd2q/my9KwLa7F4otYrscaCa
- ht5GNVd8fKORjhTKSqW/1Xw/lwNNCFG7i9r6KDvdobGZDR62PlcO2m+EGrPizYVlbv+cMKdV4g5
- Q4xAtOJFJrNBBVK4=
-X-Received: by 2002:a5d:5552:: with SMTP id g18mr2196625wrw.386.1570015032520; 
- Wed, 02 Oct 2019 04:17:12 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy8U5wd0sTTEhLk+tsJl+SNEdQAnEJtZl13R6JoaXz0EKjcnTbVJ2zBgGxj1TDPdMPD9viOwA==
-X-Received: by 2002:a5d:5552:: with SMTP id g18mr2196602wrw.386.1570015032326; 
- Wed, 02 Oct 2019 04:17:12 -0700 (PDT)
-Received: from [10.201.33.15] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id o19sm19350854wro.50.2019.10.02.04.17.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Oct 2019 04:17:11 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH 18/19] hw/timer: Declare device little or big
- endian
-To: Tony Nguyen <tony.nguyen@bt.com>, qemu-devel@nongnu.org
-References: <cover.1566829168.git.tony.nguyen@bt.com>
- <9fde52f9085bd7ad607bf2372931178e4a01fabd.1566829168.git.tony.nguyen@bt.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8c66b0cd-f4ee-0b5f-fd1c-e843cae09e48@redhat.com>
-Date: Wed, 2 Oct 2019 13:17:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 403923084032;
+ Wed,  2 Oct 2019 11:31:26 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32A10608C0;
+ Wed,  2 Oct 2019 11:31:12 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/10] Introduce the microvm machine type
+Date: Wed,  2 Oct 2019 13:30:53 +0200
+Message-Id: <20191002113103.45023-1-slp@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9fde52f9085bd7ad607bf2372931178e4a01fabd.1566829168.git.tony.nguyen@bt.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Wed, 02 Oct 2019 11:31:26 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -81,59 +54,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Fabien Chouteau <chouteau@adacore.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- Joel Stanley <joel@jms.id.au>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>, mst@redhat.com,
+ lersek@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/19 4:21 PM, Tony Nguyen wrote:
-> For each device declared with DEVICE_NATIVE_ENDIAN, find the set of
-> targets from the set of target/hw/*/device.o.
-> 
-> If the set of targets are all little or all big endian, re-declare
-> as DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN respectively.
-> 
-> Then, on inspection:
-> - if not used, re-declare as DEVICE_HOST_ENDIAN.
-> - if max/min size=1, re-declare as DEVICE_HOST_ENDIAN.
-> - if just a bit bucket, re-declare as DEVICE_HOST_ENDIAN
-> - if PCI, re-declare as DEVICE_LITTLE_ENDIAN.
-> - if for {ARM|unicore32} only, re-declare as DEVICE_LITTLE_ENDIAN.
-> - if for SPARC only, re-declare as DEVICE_BIG_ENDIAN.
-> 
-> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-> ---
->   hw/timer/a9gtimer.c         | 4 ++--
->   hw/timer/arm_mptimer.c      | 4 ++--
->   hw/timer/arm_timer.c        | 4 ++--
->   hw/timer/armv7m_systick.c   | 2 +-
->   hw/timer/aspeed_rtc.c       | 2 +-
->   hw/timer/cadence_ttc.c      | 2 +-
->   hw/timer/grlib_gptimer.c    | 2 +-
->   hw/timer/hpet.c             | 2 +-
->   hw/timer/imx_epit.c         | 2 +-
->   hw/timer/imx_gpt.c          | 2 +-
->   hw/timer/lm32_timer.c       | 2 +-
->   hw/timer/milkymist-sysctl.c | 2 +-
->   hw/timer/mss-timer.c        | 2 +-
->   hw/timer/pl031.c            | 2 +-
->   hw/timer/puv3_ost.c         | 2 +-
->   hw/timer/slavio_timer.c     | 2 +-
->   hw/timer/stm32f2xx_timer.c  | 2 +-
->   hw/timer/sun4v-rtc.c        | 2 +-
+Microvm is a machine type inspired by Firecracker and constructed
+after the its machine model.
 
-This patch affects various areas, maybe it is worth splitting in at 
-least big/little changes? Or 3: ARM first, then big/little.
+It's a minimalist machine type without PCI nor ACPI support, designed
+for short-lived guests. Microvm also establishes a baseline for
+benchmarking and optimizing both QEMU and guest operating systems,
+since it is optimized for both boot time and footprint.
 
-[...]
+---
+
+Changelog
+v5:
+ - Drop unneeded "[PATCH v4 2/8] hw/i386: Factorize e820 related
+   functions" (Philippe Mathieu-Daud=C3=A9)
+ - Drop unneeded "[PATCH v4 1/8] hw/i386: Factorize PVH related
+   functions" (Stefano Garzarella)
+ - Split X86MachineState introduction into smaller patches (Philippe
+   Mathieu-Daud=C3=A9)
+ - Change option-roms to x-option-roms and kernel-cmdline to
+   auto-kernel-cmdline (Paolo Bonzini)
+ - Make i8259 PIT and i8254 PIC optional (Paolo Bonzini)
+ - Some fixes to the documentation (Paolo Bonzini)
+ - Switch documentation format from txt to rst (Peter Maydell)
+ - Move NMI interface to X86_MACHINE (Philippe Mathieu-Daud=C3=A9, Paolo
+   Bonzini)
+
+v4:
+ - This is a complete rewrite of the whole patchset, with a focus on
+   reusing as much existing code as possible to ease the maintenance burd=
+en
+   and making the machine type as compatible as possible by default. As
+   a result, the number of lines dedicated specifically to microvm is
+   383 (code lines measured by "cloc") and, with the default
+   configuration, it's now able to boot both PVH ELF images and
+   bzImages with either SeaBIOS or qboot.
+
+v3:
+  - Add initrd support (thanks Stefano).
+
+v2:
+  - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
+  - Simplify machine definition (thanks Eduardo).
+  - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
+  - Add a patch to factorize PVH-related functions.
+  - Replace use of Linux's Zero Page with PVH (thanks Maran and Paolo).
+
+---
+Sergio Lopez (10):
+  hw/virtio: Factorize virtio-mmio headers
+  hw/i386/pc: rename functions shared with non-PC machines
+  hw/i386/pc: move shared x86 functions to x86.c and export them
+  hw/i386: split PCMachineState deriving X86MachineState from it
+  hw/i386: make x86.c independent from PCMachineState
+  fw_cfg: add "modify" functions for all types
+  hw/intc/apic: reject pic ints if isa_pic =3D=3D NULL
+  roms: add microvm-bios (qboot) as binary and git submodule
+  docs/microvm.rst: document the new microvm machine type
+  hw/i386: Introduce the microvm machine type
+
+ .gitmodules                      |   3 +
+ default-configs/i386-softmmu.mak |   1 +
+ docs/microvm.rst                 |  98 ++++
+ hw/acpi/cpu_hotplug.c            |  10 +-
+ hw/i386/Kconfig                  |   4 +
+ hw/i386/Makefile.objs            |   2 +
+ hw/i386/acpi-build.c             |  29 +-
+ hw/i386/amd_iommu.c              |   3 +-
+ hw/i386/intel_iommu.c            |   3 +-
+ hw/i386/microvm.c                | 574 ++++++++++++++++++++++
+ hw/i386/pc.c                     | 779 +++---------------------------
+ hw/i386/pc_piix.c                |  46 +-
+ hw/i386/pc_q35.c                 |  38 +-
+ hw/i386/pc_sysfw.c               |  58 +--
+ hw/i386/x86.c                    | 789 +++++++++++++++++++++++++++++++
+ hw/intc/apic.c                   |   2 +-
+ hw/intc/ioapic.c                 |   2 +-
+ hw/nvram/fw_cfg.c                |  29 ++
+ hw/virtio/virtio-mmio.c          |  48 +-
+ include/hw/i386/microvm.h        |  83 ++++
+ include/hw/i386/pc.h             |  28 +-
+ include/hw/i386/x86.h            |  93 ++++
+ include/hw/nvram/fw_cfg.h        |  42 ++
+ include/hw/virtio/virtio-mmio.h  |  73 +++
+ pc-bios/bios-microvm.bin         | Bin 0 -> 65536 bytes
+ roms/Makefile                    |   6 +
+ roms/qboot                       |   1 +
+ 27 files changed, 1948 insertions(+), 896 deletions(-)
+ create mode 100644 docs/microvm.rst
+ create mode 100644 hw/i386/microvm.c
+ create mode 100644 hw/i386/x86.c
+ create mode 100644 include/hw/i386/microvm.h
+ create mode 100644 include/hw/i386/x86.h
+ create mode 100644 include/hw/virtio/virtio-mmio.h
+ create mode 100755 pc-bios/bios-microvm.bin
+ create mode 160000 roms/qboot
+
+--=20
+2.21.0
+
 
