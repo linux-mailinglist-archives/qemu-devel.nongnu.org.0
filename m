@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB6FC45D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:08:27 +0200 (CEST)
-Received: from localhost ([::1]:50572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389F3C45D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:07:35 +0200 (CEST)
+Received: from localhost ([::1]:50568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFU41-00056E-U6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
+	id 1iFU3B-0004Az-PN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52668)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFSFu-0004YD-1Q
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 20:12:35 -0400
+ (envelope-from <nramas@linux.microsoft.com>) id 1iFTVH-000250-Hc
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 21:32:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iFSFs-0001gK-21
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 20:12:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46028)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iFSFo-0001eJ-Fi; Tue, 01 Oct 2019 20:12:28 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9207eic025817; Tue, 1 Oct 2019 20:12:27 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vcdfxx14d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Oct 2019 20:12:27 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x9206lgD011759;
- Wed, 2 Oct 2019 00:12:25 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 2v9y577pwr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Oct 2019 00:12:25 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x920CPd838994196
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Oct 2019 00:12:25 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6ACD528059;
- Wed,  2 Oct 2019 00:12:25 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4FD3028064;
- Wed,  2 Oct 2019 00:12:25 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.213])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  2 Oct 2019 00:12:25 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <nramas@linux.microsoft.com>) id 1iFTVG-0005kC-4G
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 21:32:31 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:35386)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <nramas@linux.microsoft.com>)
+ id 1iFTVC-0005eU-KQ; Tue, 01 Oct 2019 21:32:26 -0400
+Received: from [10.200.157.26] (unknown [131.107.147.154])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 075762007698;
+ Tue,  1 Oct 2019 18:32:25 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 075762007698
+Subject: Re: Is kexec supported in QEMU for ARM64 (qemu-system-aarch64) with
+ arm-trusted-firmware, optee, and u-boot.
+To: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+References: <21633062-b021-a8e7-0cc8-062f4c29dde5@linux.microsoft.com>
+ <ca5c74db-cf5d-0c3f-eb6f-27d1092420ae@linux.microsoft.com>
+ <65b49cb0-c9fb-d966-8dec-1e39d09ab8c7@redhat.com>
+ <88878b22-803f-41fc-9df2-2c6eb551b98d@linux.microsoft.com>
+ <CAKv+Gu8kwg_tsrH7qne3H11hUPyA6zw-J_jpUmiyJMvXo3-SNQ@mail.gmail.com>
+From: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+Message-ID: <5938a592-1494-ca0c-8a34-7df38dbbea0c@linux.microsoft.com>
+Date: Tue, 1 Oct 2019 18:32:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-User-Agent: alot/0.7
-To: qemu-devel@nongnu.org
-Message-ID: <156997513973.19102.11725935467245356865@sif>
-Subject: [ANNOUNCE] QEMU 3.1.1.1 Stable released
-Date: Tue, 01 Oct 2019 19:12:19 -0500
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-01_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=633 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910010207
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+In-Reply-To: <CAKv+Gu8kwg_tsrH7qne3H11hUPyA6zw-J_jpUmiyJMvXo3-SNQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 13.77.154.182
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,36 +56,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi everyone,
+On 10/1/19 9:30 AM, Ard Biesheuvel wrote:
 
-I am pleased to announce that the QEMU v3.1.1.1 stable release is now
-available:
+> 
+> kexec is a linux concept, so whether it is supported should not depend
+> on the secure world firmware or the underlying host.
 
-You can grab the tarball from our download page here:
+I agree Ard.
+When I don't use ATF I am able to do kexec in QEMU and successfully boot 
+into the new kernel.
+Is the following expected?
 
-  https://www.qemu.org/download/#source
+When I execute kexec ("kexec -l <kernel>", followed by "kexec -e") I hit 
+the following assert in ATF (in the file
+arm-trusted-firmware/plat/qemu/qemu_pm.c)
 
-v3.1.1.1 is now tagged in the official qemu.git repository,
-and the stable-3.1 branch has been updated accordingly:
+/*******************************************************************************
+   * Platform handler called when a power domain is about to be turned
+   * off. The target_state encodes the power state that each level should
+   * transition to.
+******************************************************************************/
+void qemu_pwr_domain_off(const psci_power_state_t *target_state)
+{
+      assert(0);
+}
 
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dshortlog;h=3Drefs/heads/stable-3.1
+Thanks,
+  -lakshmi
 
-This is a small update which contains only a security fix for CVE-2019-14378
-(slirp) and a fix for a pvrdma build regression introduced in 3.1.1.
 
-Please see the changelog for additional details and update accordingly.
-
-Thank you to everyone involved!
-
-CHANGELOG:
-
-920019e0e0: Update version for 3.1.1.1 release (Michael Roth)
-9efdbc0224: slrip: ip_reass: Fix use after free (Michael Roth)
-28c1dde9aa: slirp: Fix heap overflow in ip_reass on big packet input (Micha=
-el Roth)
-ab630a065a: pvrdma: Fix compilation error (Cole Robinson)
 
