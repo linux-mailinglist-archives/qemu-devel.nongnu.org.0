@@ -2,49 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18407C45DD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:17:59 +0200 (CEST)
-Received: from localhost ([::1]:50689 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11B1C45D9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Oct 2019 04:14:27 +0200 (CEST)
+Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFUDG-0005jp-2y
-	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46749)
+	id 1iFU9q-0002J4-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 01 Oct 2019 22:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iFS0g-0001HI-TB
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:51 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iFTBM-0007iW-TP
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 21:11:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iFS0f-0002l6-Ky
- for qemu-devel@nongnu.org; Tue, 01 Oct 2019 19:56:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60074)
+ (envelope-from <dgibson@ozlabs.org>) id 1iFTBK-0006qd-BB
+ for qemu-devel@nongnu.org; Tue, 01 Oct 2019 21:11:56 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34115 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iFS0b-0002fX-H3; Tue, 01 Oct 2019 19:56:45 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 552F2308FFB1;
- Tue,  1 Oct 2019 23:56:44 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E2AC60BE0;
- Tue,  1 Oct 2019 23:56:31 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 6/8] bootdevice: Refactor get_boot_devices_list
-Date: Tue,  1 Oct 2019 19:55:50 -0400
-Message-Id: <20191001235552.17790-7-jsnow@redhat.com>
-In-Reply-To: <20191001235552.17790-1-jsnow@redhat.com>
-References: <20191001235552.17790-1-jsnow@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iFTBG-0006kZ-Cj; Tue, 01 Oct 2019 21:11:53 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46jdQ84ZJCz9sPh; Wed,  2 Oct 2019 11:11:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1569978704;
+ bh=OLVxyQW5762cwwR5FN/pK92drJvOD7ZLqtT83C4l6nQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MCRwIX5oNVXztdC8J9dB8XH0WFFlzsDnyJa4onwwhbZTqfvn1tqlRWuoF4G5gAHv7
+ Tc0aUCnbVipiVuKc9zIsecSEoWEkyR9775doh8su/xhbgpdQ+1j85ZNAbM/tHe+qnb
+ N6WHWrNwr74i569WUGfhcRFP130whO8T//ZRXltI=
+Date: Wed, 2 Oct 2019 11:11:26 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 21/33] spapr, xics, xive: Move cpu_intc_create from
+ SpaprIrq to SpaprInterruptController
+Message-ID: <20191002011126.GU11105@umbus.fritz.box>
+References: <20190930014904.GB11105@umbus.fritz.box>
+ <adb67721-5c4e-50ac-f459-a48570a45d6e@kaod.org>
+ <20190930061445.GG11105@umbus.fritz.box>
+ <75672a0f-6bae-406c-0f0c-d23cc58c9c9f@kaod.org>
+ <20191001023102.GN11105@umbus.fritz.box>
+ <9c6c7e17-0578-2313-4324-a5ca75149762@kaod.org>
+ <20191001064726.GP11105@umbus.fritz.box>
+ <5d1910be-7bb7-19d9-73c3-269f2d0c2ee7@kaod.org>
+ <20191001081135.GQ11105@umbus.fritz.box>
+ <2273d09c-1379-cdbe-0aa9-76f3f4ece349@kaod.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 01 Oct 2019 23:56:44 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FfX2iGK5t5ehHnsE"
+Content-Disposition: inline
+In-Reply-To: <2273d09c-1379-cdbe-0aa9-76f3f4ece349@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,121 +65,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Arbel Moshe <arbel.moshe@oracle.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Sam Eiderman <shmuel.eiderman@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Karl Heubaum <karl.heubaum@oracle.com>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Move device name construction to a separate function.
+--FfX2iGK5t5ehHnsE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We will reuse this function in the following commit to pass logical CHS
-parameters through fw_cfg much like we currently pass bootindex.
+On Tue, Oct 01, 2019 at 01:43:12PM +0200, C=E9dric Le Goater wrote:
+> On 01/10/2019 10:11, David Gibson wrote:
+> > On Tue, Oct 01, 2019 at 09:41:27AM +0200, C=E9dric Le Goater wrote:
+> >> On 01/10/2019 08:47, David Gibson wrote:
+> >>> On Tue, Oct 01, 2019 at 07:43:51AM +0200, C=E9dric Le Goater wrote:
+> >>>> On 01/10/2019 04:31, David Gibson wrote:
+> >>>>> On Mon, Sep 30, 2019 at 12:13:14PM +0200, C=E9dric Le Goater wrote:
+> >>>>>> On 30/09/2019 08:14, David Gibson wrote:
+> >>>>>>> On Mon, Sep 30, 2019 at 07:28:45AM +0200, C=E9dric Le Goater wrot=
+e:
+> >>>>>>>> On 30/09/2019 03:49, David Gibson wrote:
+> >>>>>>>>> On Fri, Sep 27, 2019 at 12:16:49PM +0200, Greg Kurz wrote:
+> >>>>>>>>>> On Fri, 27 Sep 2019 15:50:16 +1000
+> >>>>>>>>>> David Gibson <david@gibson.dropbear.id.au> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>>> This method essentially represents code which belongs to the =
+interrupt
+> >>>>>>>>>>> controller, but needs to be called on all possible intcs, rat=
+her than
+> >>>>>>>>>>> just the currently active one.  The "dual" version therefore =
+calls
+> >>>>>>>>>>> into the xics and xive versions confusingly.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Handle this more directly, by making it instead a method on t=
+he intc
+> >>>>>>>>>>> backend, and always calling it on every backend that exists.
+> >>>>>>>>>>>
+> >>>>>>>>>>> While we're there, streamline the error reporting a bit.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> >>>>>>>>> [snip]
+> >>>>>>>>>>> @@ -525,6 +469,30 @@ static void spapr_irq_check(SpaprMachine=
+State *spapr, Error **errp)
+> >>>>>>>>>>>  /*
+> >>>>>>>>>>>   * sPAPR IRQ frontend routines for devices
+> >>>>>>>>>>>   */
+> >>>>>>>>>>> +int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+> >>>>>>>>>>> +                              PowerPCCPU *cpu, Error **errp)
+> >>>>>>>>>>> +{
+> >>>>>>>>>>> +    if (spapr->xive) {
+> >>>>>>>>>>> +        SpaprInterruptController *intc =3D SPAPR_INTC(spapr-=
+>xive);
+> >>>>>>>>>>> +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_G=
+ET_CLASS(intc);
+> >>>>>>>>>>> +
+> >>>>>>>>>>> +        if (sicc->cpu_intc_create(intc, cpu, errp) < 0) {
+> >>>>>>>>>>> +            return -1;
+> >>>>>>>>>>> +        }
+> >>>>>>>>>>> +    }
+> >>>>>>>>>>> +
+> >>>>>>>>>>> +    if (spapr->ics) {
+> >>>>>>>>>>> +        SpaprInterruptController *intc =3D SPAPR_INTC(spapr-=
+>ics);
+> >>>>>>>>>>> +        SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_G=
+ET_CLASS(intc);
+> >>>>>>>>>>> +
+> >>>>>>>>>>> +        if (sicc->cpu_intc_create(intc, cpu, errp) < 0) {
+> >>>>>>>>>>> +            return -1;
+> >>>>>>>>>>> +        }
+> >>>>>>>>>>> +    }
+> >>>>>>>>>>> +
+> >>>>>>>>>>
+> >>>>>>>>>> Instead of these hooks, what about open-coding spapr_xive_cpu_=
+intc_create()
+> >>>>>>>>>> and xics_spapr_cpu_intc_create() directly here, like you alrea=
+dy did for the
+> >>>>>>>>>> ICS and the XIVE objects in spapr_irq_init() ?
+> >>>>>>>>>
+> >>>>>>>>> I'd prefer not to.  The idea is I want to treat this as basical=
+ly:
+> >>>>>>>>>
+> >>>>>>>>> 	foreach_possible_intc(intc)
+> >>>>>>>>> 		intc::cpu_intc_create(...)
+> >>>>>>>>>
+> >>>>>>>>> If I find time I might indeed replace the explicit ics and xive
+> >>>>>>>>> pointers with just an array of SpaprInterruptController *.
+> >>>>>>>>
+> >>>>>>>> Or you could use object_child_foreach() and check for the type. =
+If we had
+> >>>>>>>> a helper object_child_foreach_type(), we could use it elsewhere.
+> >>>>>>>
+> >>>>>>> I thought about that, but I don't think it quite works.  The
+> >>>>>>> complication is that the xics device is made explicitly a child o=
+f the
+> >>>>>>> machine, but the xive device has mmio, so it's a SusBusDevice sit=
+ting
+> >>>>>>> on the root bus instead.
+> >>>>>>
+> >>>>>> PnvXscom works fine with Devices and SysBusDevices.
+> >>>>>
+> >>>>> Uh... what's an example of it working with a SysBusDevice?  All the
+> >>>>> implementors of PNV_XSCOM_INTERFACE I could find were instantiated
+> >>>>> with object_initialize_child() making them explicitly children of t=
+he
+> >>>>> chip.  The SPAPR_XIVE is instantiated with qdev_create(NULL,
+> >>>>> TYPE_SPAPR_XIVE), making it a child of the root bus, not the machin=
+e,
+> >>>>> I believe.
+> >>>>
+> >>>> I see. We should reparent the interrupt controller then.
+> >>>
+> >>> Well, maybe.  It's not obvious to me that that's the right approach
+> >>> just because of this.
+> >>>
+> >>>
+> >>>> Could we rework=20
+> >>>> the code to instantiate and realize the XICS and XIVE model objects =
+?=20
+> >>>> We have the handlers spapr_instance_init() and spapr_machine_init().=
+=20
+> >>>
+> >>> I'm not really sure what you're suggesting here.
+> >>
+> >> Define the device model objects under the machine and not pointers :
+> >>
+> >> 	struct SpaprMachineState {
+> >> 		...
+> >> 		ICSState ics;
+> >> 		SpaprXive  xive;
+> >> 		...
+> >> 	};
+> >>
+> >> in spapr_instance_init() :
+> >>
+> >> 	object_initialize_child(obj, "ics",  &spapr->ics, sizeof(spapr->ics),
+> >>                             TYPE_ICS, &error_abort, NULL);
+> >> 	object_property_add_const_link(OBJECT(&spapr->ics), "xics", obj,
+> >>                                    &error_abort);
+> >>
+> >> 	object_initialize_child(obj, "xive",  &spapr->xive, sizeof(spapr->xiv=
+e),
+> >>                             TYPE_SPAPR_XIVE, &error_abort, NULL);
+> >>
+> >>
+> >> in spapr_machine_init(), call the realize handler depending on the cho=
+sen=20
+> >> 'ic-mode'.
+> >=20
+> > Hm, yeah, maybe.  I don't love having a whole structure in there
+> > that's unused when ic-mode !=3D dual.
+> >=20
+>=20
+> This is the pattern followed in the ARM SoC models. Enough room is=20
+> provisioned for the maximum controllers and depending on the SoC
+> configuration only some are realized.
 
-Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
-Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-id: 20190925110639.100699-7-sameid@google.com
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- bootdevice.c | 61 +++++++++++++++++++++++++++++-----------------------
- 1 file changed, 34 insertions(+), 27 deletions(-)
+Hm, ok, I guess that makes it a pretty promising approach.  Maybe for
+another day though.  In the meantime I've come up with an approach
+that's not totally elegant, but it does remove the duplication of the
+paths for xics vs. xive, keep the individual pointers in the structure
+for now, and isn't *too* verbose.
 
-diff --git a/bootdevice.c b/bootdevice.c
-index bc5e1c2de4..2b12fb85a4 100644
---- a/bootdevice.c
-+++ b/bootdevice.c
-@@ -202,6 +202,39 @@ DeviceState *get_boot_device(uint32_t position)
-     return res;
- }
-=20
-+static char *get_boot_device_path(DeviceState *dev, bool ignore_suffixes=
-,
-+                                  char *suffix)
-+{
-+    char *devpath =3D NULL, *s =3D NULL, *d, *bootpath;
-+
-+    if (dev) {
-+        devpath =3D qdev_get_fw_dev_path(dev);
-+        assert(devpath);
-+    }
-+
-+    if (!ignore_suffixes) {
-+        if (dev) {
-+            d =3D qdev_get_own_fw_dev_path_from_handler(dev->parent_bus,=
- dev);
-+            if (d) {
-+                assert(!suffix);
-+                s =3D d;
-+            } else {
-+                s =3D g_strdup(suffix);
-+            }
-+        } else {
-+            s =3D g_strdup(suffix);
-+        }
-+    }
-+
-+    bootpath =3D g_strdup_printf("%s%s",
-+                               devpath ? devpath : "",
-+                               s ? s : "");
-+    g_free(devpath);
-+    g_free(s);
-+
-+    return bootpath;
-+}
-+
- /*
-  * This function returns null terminated string that consist of new line
-  * separated device paths.
-@@ -218,36 +251,10 @@ char *get_boot_devices_list(size_t *size)
-     bool ignore_suffixes =3D mc->ignore_boot_device_suffixes;
-=20
-     QTAILQ_FOREACH(i, &fw_boot_order, link) {
--        char *devpath =3D NULL,  *suffix =3D NULL;
-         char *bootpath;
--        char *d;
-         size_t len;
-=20
--        if (i->dev) {
--            devpath =3D qdev_get_fw_dev_path(i->dev);
--            assert(devpath);
--        }
--
--        if (!ignore_suffixes) {
--            if (i->dev) {
--                d =3D qdev_get_own_fw_dev_path_from_handler(i->dev->pare=
-nt_bus,
--                                                          i->dev);
--                if (d) {
--                    assert(!i->suffix);
--                    suffix =3D d;
--                } else {
--                    suffix =3D g_strdup(i->suffix);
--                }
--            } else {
--                suffix =3D g_strdup(i->suffix);
--            }
--        }
--
--        bootpath =3D g_strdup_printf("%s%s",
--                                   devpath ? devpath : "",
--                                   suffix ? suffix : "");
--        g_free(devpath);
--        g_free(suffix);
-+        bootpath =3D get_boot_device_path(i->dev, ignore_suffixes, i->su=
-ffix);
-=20
-         if (total) {
-             list[total-1] =3D '\n';
+I've stripped your R-b due to the change, so please have a look in the
+next spin.
+
 --=20
-2.21.0
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--FfX2iGK5t5ehHnsE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2T+T4ACgkQbDjKyiDZ
+s5IVPg/+KphXcYbARR1HecpOADQ96JTcCS5ODic7tEiutH4SpO9Cs7+sHATwGo6M
+Kn9XShKJOGehlqe/iMKu7+S9spgoxunXzhltyiMKunk8PJeTViFjpCN5kYTbfWOJ
+va8xT6n1ZOt5J3R5E9oAlgd/PdmfKVmEMPQDOF+BWkVHb5zVfxzfrssRzYaB+pob
+rBI9b+GcuGuwefHOCDxcSaJjeSnUVwkZKo18Davo8ft2wAQiaBmXRN3ptyglVq1u
+L8VPXi2CPcqtUaJ1/jEA6glLyRKiXC3/DKRXRuywsW5lGVZu//7Wt4OqSjIaPLio
+jBU1+PBIiPtFWk7zYID/r4VyTmIbhkaX+WU7w+5Ge/H+1eWOBjegP+RUW/v0dSoG
+dtji5kU8tNfoAWXfd2U4NZUt/D96JNh+giQYCmr9UarvhliVaiBzIzfeu6kiND8k
+7ObAHGGjJwHgB9Uwsrn023snTyzoGIPIgbh7xCbGdfswXx5k5SPoi+mILytXT2lq
+YCm54JO5zDDrPVPvILjQGCZffh1SaaGXByE/Pv3RAmXUaJ/K3iRy8gf1581hG0SZ
+1Te2ddE3gpnGX26duTBMavsiHoDzXTS82XIEfuziXOIUEI4s/Utt5osrFELv1Kdc
+X6EGSZLYomDZU0Tfz2xi3fRYWGeaD9iHnwOZpXg6FZ/pQYkwwZo=
+=YSPw
+-----END PGP SIGNATURE-----
+
+--FfX2iGK5t5ehHnsE--
 
