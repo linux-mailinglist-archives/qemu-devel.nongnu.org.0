@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380C9CB251
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 01:28:50 +0200 (CEST)
-Received: from localhost ([::1]:41048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F65CB246
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 01:25:15 +0200 (CEST)
+Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGAWe-0007fE-Jp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 19:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46146)
+	id 1iGATB-0005aw-8v
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 19:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iGAAa-0001Mn-M2
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:06:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1iGAAg-0001SN-Vc
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:06:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iGAAV-0006Sw-Qx
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:05:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49574)
+ (envelope-from <philmd@redhat.com>) id 1iGAAc-0006WH-Q2
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:06:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46402)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iGAAN-0006La-A8; Thu, 03 Oct 2019 19:05:47 -0400
+ id 1iGAAV-0006Qs-PG; Thu, 03 Oct 2019 19:05:56 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A2AF0C0578F4;
- Thu,  3 Oct 2019 23:05:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F0AAF20F7;
+ Thu,  3 Oct 2019 23:05:52 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-21.brq.redhat.com [10.40.204.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C85110013A7;
- Thu,  3 Oct 2019 23:05:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6050810013A7;
+ Thu,  3 Oct 2019 23:05:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/14] hw: Move sun4v hypervisor RTC from hw/timer/ to
- hw/rtc/ subdirectory
-Date: Fri,  4 Oct 2019 01:03:56 +0200
-Message-Id: <20191003230404.19384-7-philmd@redhat.com>
+Subject: [PATCH v2 07/14] hw: Move TWL92230 device from hw/timer/ to hw/rtc/
+ subdirectory
+Date: Fri,  4 Oct 2019 01:03:57 +0200
+Message-Id: <20191003230404.19384-8-philmd@redhat.com>
 In-Reply-To: <20191003230404.19384-1-philmd@redhat.com>
 References: <20191003230404.19384-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Thu, 03 Oct 2019 23:05:43 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Thu, 03 Oct 2019 23:05:53 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -77,188 +77,92 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move RTC devices under the hw/rtc/ subdirectory.
+The TWL92230 is an "energy management device" companion with
+a RTC. Since we mostly model the RTC, move it under the hw/rtc/
+subdirectory.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- MAINTAINERS                   |  4 ++--
- hw/rtc/Kconfig                |  3 +++
- hw/rtc/Makefile.objs          |  1 +
- hw/{timer =3D> rtc}/sun4v-rtc.c |  2 +-
- hw/rtc/trace-events           |  4 ++++
- hw/sparc64/niagara.c          |  2 +-
- hw/timer/Kconfig              |  3 ---
- hw/timer/Makefile.objs        |  1 -
- hw/timer/trace-events         |  4 ----
- include/hw/rtc/sun4v-rtc.h    | 19 +++++++++++++++++++
- include/hw/timer/sun4v-rtc.h  |  1 -
- 11 files changed, 31 insertions(+), 13 deletions(-)
- rename hw/{timer =3D> rtc}/sun4v-rtc.c (98%)
- create mode 100644 include/hw/rtc/sun4v-rtc.h
- delete mode 100644 include/hw/timer/sun4v-rtc.h
+ MAINTAINERS                  | 2 +-
+ hw/rtc/Kconfig               | 4 ++++
+ hw/rtc/Makefile.objs         | 1 +
+ hw/{timer =3D> rtc}/twl92230.c | 0
+ hw/timer/Kconfig             | 4 ----
+ hw/timer/Makefile.objs       | 1 -
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+ rename hw/{timer =3D> rtc}/twl92230.c (100%)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0dfaa05d17..31e4fbf579 100644
+index 31e4fbf579..daa92cbff0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1165,8 +1165,8 @@ Sun4v
- M: Artyom Tarasenko <atar4qemu@gmail.com>
- S: Maintained
- F: hw/sparc64/niagara.c
--F: hw/timer/sun4v-rtc.c
--F: include/hw/timer/sun4v-rtc.h
-+F: hw/rtc/sun4v-rtc.c
-+F: include/hw/rtc/sun4v-rtc.h
-=20
- Leon3
- M: Fabien Chouteau <chouteau@adacore.com>
+@@ -663,7 +663,7 @@ F: hw/display/blizzard.c
+ F: hw/input/lm832x.c
+ F: hw/input/tsc2005.c
+ F: hw/misc/cbus.c
+-F: hw/timer/twl92230.c
++F: hw/rtc/twl92230.c
+ F: include/hw/display/blizzard.h
+ F: include/hw/input/tsc2xxx.h
+ F: include/hw/misc/cbus.h
 diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-index 434b20b2b1..cc7fead764 100644
+index cc7fead764..dff9d60946 100644
 --- a/hw/rtc/Kconfig
 +++ b/hw/rtc/Kconfig
-@@ -10,3 +10,6 @@ config PL031
+@@ -8,6 +8,10 @@ config M48T59
+ config PL031
+     bool
 =20
++config TWL92230
++    bool
++    depends on I2C
++
  config MC146818RTC
      bool
-+
-+config SUN4V_RTC
-+    bool
+=20
 diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-index 89e8e48c64..4621b37bc2 100644
+index 4621b37bc2..810a38ee7b 100644
 --- a/hw/rtc/Makefile.objs
 +++ b/hw/rtc/Makefile.objs
-@@ -5,3 +5,4 @@ common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
+@@ -4,5 +4,6 @@ ifeq ($(CONFIG_ISA_BUS),y)
+ common-obj-$(CONFIG_M48T59) +=3D m48t59-isa.o
  endif
  common-obj-$(CONFIG_PL031) +=3D pl031.o
++common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
  obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
-+common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
-diff --git a/hw/timer/sun4v-rtc.c b/hw/rtc/sun4v-rtc.c
-similarity index 98%
-rename from hw/timer/sun4v-rtc.c
-rename to hw/rtc/sun4v-rtc.c
-index 54272a822f..ada01b5774 100644
---- a/hw/timer/sun4v-rtc.c
-+++ b/hw/rtc/sun4v-rtc.c
-@@ -13,7 +13,7 @@
- #include "hw/sysbus.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
--#include "hw/timer/sun4v-rtc.h"
-+#include "hw/rtc/sun4v-rtc.h"
- #include "trace.h"
-=20
-=20
-diff --git a/hw/rtc/trace-events b/hw/rtc/trace-events
-index 54c94ac557..ac9e0e0fba 100644
---- a/hw/rtc/trace-events
-+++ b/hw/rtc/trace-events
-@@ -1,5 +1,9 @@
- # See docs/devel/tracing.txt for syntax documentation.
-=20
-+# sun4v-rtc.c
-+sun4v_rtc_read(uint64_t addr, uint64_t value) "read: addr 0x%" PRIx64 " =
-value 0x%" PRIx64
-+sun4v_rtc_write(uint64_t addr, uint64_t value) "write: addr 0x%" PRIx64 =
-" value 0x%" PRIx64
-+
- # pl031.c
- pl031_irq_state(int level) "irq state %d"
- pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
-diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
-index 167143bffe..dfa0817eae 100644
---- a/hw/sparc64/niagara.c
-+++ b/hw/sparc64/niagara.c
-@@ -30,7 +30,7 @@
- #include "hw/misc/unimp.h"
- #include "hw/loader.h"
- #include "hw/sparc/sparc64.h"
--#include "hw/timer/sun4v-rtc.h"
-+#include "hw/rtc/sun4v-rtc.h"
- #include "exec/address-spaces.h"
- #include "sysemu/block-backend.h"
- #include "qemu/error-report.h"
+ common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
+diff --git a/hw/timer/twl92230.c b/hw/rtc/twl92230.c
+similarity index 100%
+rename from hw/timer/twl92230.c
+rename to hw/rtc/twl92230.c
 diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index a6b668b255..b04c928136 100644
+index b04c928136..9357875f28 100644
 --- a/hw/timer/Kconfig
 +++ b/hw/timer/Kconfig
-@@ -35,9 +35,6 @@ config ALLWINNER_A10_PIT
- config STM32F2XX_TIMER
+@@ -20,10 +20,6 @@ config HPET
+ config I8254
      bool
 =20
--config SUN4V_RTC
+-config TWL92230
 -    bool
+-    depends on I2C
 -
- config CMSDK_APB_TIMER
+ config ALTERA_TIMER
      bool
      select PTIMER
 diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index 2fb12162a6..034bd30255 100644
+index 034bd30255..23be70b71d 100644
 --- a/hw/timer/Makefile.objs
 +++ b/hw/timer/Makefile.objs
-@@ -35,7 +35,6 @@ common-obj-$(CONFIG_ALLWINNER_A10_PIT) +=3D allwinner-a=
-10-pit.o
- common-obj-$(CONFIG_STM32F2XX_TIMER) +=3D stm32f2xx_timer.o
- common-obj-$(CONFIG_ASPEED_SOC) +=3D aspeed_timer.o aspeed_rtc.o
-=20
--common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
- common-obj-$(CONFIG_CMSDK_APB_TIMER) +=3D cmsdk-apb-timer.o
- common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) +=3D cmsdk-apb-dualtimer.o
- common-obj-$(CONFIG_MSF2) +=3D mss-timer.o
-diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-index 6936fe8573..ce34b967db 100644
---- a/hw/timer/trace-events
-+++ b/hw/timer/trace-events
-@@ -70,10 +70,6 @@ cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: =
-reset"
- aspeed_rtc_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " val=
-ue 0x%08" PRIx64
- aspeed_rtc_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " va=
-lue 0x%08" PRIx64
-=20
--# sun4v-rtc.c
--sun4v_rtc_read(uint64_t addr, uint64_t value) "read: addr 0x%" PRIx64 " =
-value 0x%" PRIx64
--sun4v_rtc_write(uint64_t addr, uint64_t value) "write: addr 0x%" PRIx64 =
-" value 0x%" PRIx64
--
- # xlnx-zynqmp-rtc.c
- xlnx_zynqmp_rtc_gettime(int year, int month, int day, int hour, int min,=
- int sec) "Get time from host: %d-%d-%d %2d:%02d:%02d"
-=20
-diff --git a/include/hw/rtc/sun4v-rtc.h b/include/hw/rtc/sun4v-rtc.h
-new file mode 100644
-index 0000000000..fd868f6ed2
---- /dev/null
-+++ b/include/hw/rtc/sun4v-rtc.h
-@@ -0,0 +1,19 @@
-+/*
-+ * QEMU sun4v Real Time Clock device
-+ *
-+ * The sun4v_rtc device (sun4v tod clock)
-+ *
-+ * Copyright (c) 2016 Artyom Tarasenko
-+ *
-+ * This code is licensed under the GNU GPL v3 or (at your option) any la=
-ter
-+ * version.
-+ */
-+
-+#ifndef HW_RTC_SUN4V
-+#define HW_RTC_SUN4V
-+
-+#include "exec/hwaddr.h"
-+
-+void sun4v_rtc_init(hwaddr addr);
-+
-+#endif
-diff --git a/include/hw/timer/sun4v-rtc.h b/include/hw/timer/sun4v-rtc.h
-deleted file mode 100644
-index 407278f918..0000000000
---- a/include/hw/timer/sun4v-rtc.h
-+++ /dev/null
-@@ -1 +0,0 @@
--void sun4v_rtc_init(hwaddr addr);
+@@ -7,7 +7,6 @@ common-obj-$(CONFIG_DS1338) +=3D ds1338.o
+ common-obj-$(CONFIG_HPET) +=3D hpet.o
+ common-obj-$(CONFIG_I8254) +=3D i8254_common.o i8254.o
+ common-obj-$(CONFIG_PUV3) +=3D puv3_ost.o
+-common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
+ common-obj-$(CONFIG_XILINX) +=3D xilinx_timer.o
+ common-obj-$(CONFIG_SLAVIO) +=3D slavio_timer.o
+ common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_timer.o
 --=20
 2.20.1
 
