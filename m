@@ -2,76 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BF9CA80E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 19:06:20 +0200 (CEST)
-Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8D1CA8AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 19:19:34 +0200 (CEST)
+Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG4YU-0003wC-UI
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 13:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
+	id 1iG4lI-0000kx-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 13:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=172cfdf36=alistair.francis@wdc.com>)
- id 1iG4WY-0003FV-B6
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:04:19 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iG4hj-00074E-Nf
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:15:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=172cfdf36=alistair.francis@wdc.com>)
- id 1iG4WW-0001JW-Rk
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:04:17 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:54355)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iG4hi-00005s-MJ
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:15:51 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50258)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=172cfdf36=alistair.francis@wdc.com>)
- id 1iG4WW-0001Hd-7I; Thu, 03 Oct 2019 13:04:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1570122271; x=1601658271;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8TMbnmR/zLiQJyylzxvf42J8aj+45HyIeTyvX3zhMaY=;
- b=Lv7ERghfwm4oPYnM06B18EWq9MNF0BBjNFQclxtl5hH6L78b0HuRHAE2
- 2SuU7JISzuj40lkwva6mLIttzWWN35bqYeUkF7HEUjo0vR4leHiI1l07F
- xu4oenTqsBNze1qjzE/BDoLbUGBbwD5D/qW/sooplKPkgQDVQiy7xRLzG
- HyIHWzmmhQ+pbAGbVfai+wEiW22kOqi+6iIxilzO9wde3V1nBDomU4Lnv
- J3Vj1JkXpIHKNVs7phMDElwU64kbxp/0RhcdCv7GmhA9H6y//DUwWJ4LU
- ukcC3DSjPOm1/r6PK8i2GuCLOqubf0S4tTodo8hiTvAVmWT1uMzu9LnCu A==;
-IronPort-SDR: EeZKZbVKB7GFDzOHY3J5aHelu6J19JX+romRKj5TvT4kPHYwjQBCWo/FOyrylW6jToOoKClK0r
- 8/gJj858rQRICuMJEj2NXVnRVEg1KI/W09dsxJmXJtlreYZDKekf05ikXZa2n3fIgBXmWFuyRs
- 36KFzAWOVw8JBk/pyPSKdrkYtDYyPDFCpuB70WmwNJ+erQsRECDAIZM4adFqJnxOhN2R3MtUyC
- asWKaT2acrOH2IDiIjLJ9MmZX6RPqNbofIj1tk+a7oZN2yxGb2ch/pnrwgdl4Cc+i9WXEzBPBC
- Gb0=
-X-IronPort-AV: E=Sophos;i="5.67,253,1566835200"; d="scan'208";a="220670339"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 Oct 2019 01:04:05 +0800
-IronPort-SDR: ZC598ZwiGSSOH+FCkT5bpzzlvj5ALyKJ7B2TBOlAY1HRwCLZZurIgYiEWcq7HwvSC/6ivxo7mU
- dxeulfZDVjBfWC3PwWseyuu6xeieFf7Qky25P9MLRZ9OyFEeHZT+o1/QQY0iHR6b8ZVOZgvdOV
- XPb6oXhE/Z1FHi+LaC9MXVVImOq82FDKeC5NDLDPGzo3Xf+cfC22Cpk5NFRY9OnjRBRFwHgBM9
- fURrS4jATTvXYcizFMEikdntKGrLtJ/DTxv82iAnPVLfTMJOfhwIjSKJdOHUJwo7fsmYMSUeF4
- NB8cV0Rha/wftq12Prmg4mdT
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Oct 2019 10:00:02 -0700
-IronPort-SDR: spj2QAvGgbCPMhCKbKp41+q0vxM9Ev6v7eIDS4sFcaE9CFmLETfVoBQ5FAlTDib5cYeFoklp6u
- E7mK9iNUbEfyNnwRPKHueckNu4i0nlH+kV2yejmrG9ztniuPb2+2C5gSs09lTNrB+KRu0/YnkF
- 551pkB38bCYBdJ3zLUzG/8LdnPTQVxTe/r0Rr+KLU9ckQCOuDqRtPI60P99as5Y1aKo/Eu7NEh
- msGn8x2F2NEPkEHRgZODkTRW5PilZipLjMd05HxUcXoJ+DHzQDz5oTSMyCjSrNhH8/hmADPmk0
- dbM=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 Oct 2019 10:03:58 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 1/1] riscv/boot: Fix possible memory leak
-Date: Thu,  3 Oct 2019 09:59:29 -0700
-Message-Id: <07ef5d368b4bbada15eaae0d23378a323969026b.1570121723.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iG4hb-0008Tn-LD; Thu, 03 Oct 2019 13:15:43 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iG4hX-0002ks-Us; Thu, 03 Oct 2019 20:15:40 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/6] block-copy: memory limit
+Date: Thu,  3 Oct 2019 20:15:33 +0300
+Message-Id: <20191003171539.12327-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.143.124
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,58 +45,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity (CID 1405786) thinks that there is a possible memory leak as
-we don't guarantee that the memory allocated from riscv_find_firmware()
-is freed. This is a false positive, but let's tidy up the code to fix
-the warning.
+Hi all!
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2:
- - Fix commit typos
+I'm going to bring block-status driven, async copying process to
+block-copy, to make it fast. The first step is to limit memory usage of
+backup, here is it.
 
- hw/riscv/boot.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Based on my "[PATCH v15 0/5] backup-top filter driver for backup":
+Based-on: <20191001131409.14202-1-vsementsov@virtuozzo.com>
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 2e92fb0680..7fee98d2f8 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -38,7 +38,7 @@ void riscv_find_and_load_firmware(MachineState *machine,
-                                   const char *default_machine_firmware,
-                                   hwaddr firmware_load_addr)
- {
--    char *firmware_filename;
-+    char *firmware_filename = NULL;
- 
-     if (!machine->firmware) {
-         /*
-@@ -70,14 +70,11 @@ void riscv_find_and_load_firmware(MachineState *machine,
-          * if no -bios option is set without breaking anything.
-          */
-         firmware_filename = riscv_find_firmware(default_machine_firmware);
--    } else {
--        firmware_filename = machine->firmware;
--        if (strcmp(firmware_filename, "none")) {
--            firmware_filename = riscv_find_firmware(firmware_filename);
--        }
-+    } else if (strcmp(machine->firmware, "none")) {
-+        firmware_filename = riscv_find_firmware(machine->firmware);
-     }
- 
--    if (strcmp(firmware_filename, "none")) {
-+    if (firmware_filename) {
-         /* If not "none" load the firmware */
-         riscv_load_firmware(firmware_filename, firmware_load_addr);
-         g_free(firmware_filename);
+Vladimir Sementsov-Ogievskiy (6):
+  block/block-copy: allocate buffer in block_copy_with_bounce_buffer
+  block/block-copy: limit copy_range_size to 16 MiB
+  block/block-copy: refactor copying
+  util: introduce co-shared-amount
+  block/block-copy: add memory limit
+  block/block-copy: increase buffered copy request
+
+ include/block/block-copy.h      |   5 +-
+ include/qemu/co-shared-amount.h |  66 ++++++++++++
+ block/block-copy.c              | 179 +++++++++++++++++---------------
+ util/qemu-co-shared-amount.c    |  77 ++++++++++++++
+ block/trace-events              |   6 +-
+ util/Makefile.objs              |   1 +
+ 6 files changed, 246 insertions(+), 88 deletions(-)
+ create mode 100644 include/qemu/co-shared-amount.h
+ create mode 100644 util/qemu-co-shared-amount.c
+
 -- 
-2.23.0
+2.21.0
 
 
