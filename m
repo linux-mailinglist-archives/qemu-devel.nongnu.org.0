@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505EBC9EA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:37:46 +0200 (CEST)
-Received: from localhost ([::1]:35862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614F3C9EAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:40:34 +0200 (CEST)
+Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG0Mb-0006JW-2J
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45611)
+	id 1iG0PJ-0001Q6-EP
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:40:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iG0Kn-0005GU-AN
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:35:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iG0MP-0006tk-7v
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:37:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iG0Kl-0004wU-7p
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:35:52 -0400
-Resent-Date: Thu, 03 Oct 2019 08:35:52 -0400
-Resent-Message-Id: <E1iG0Kl-0004wU-7p@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21575)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iG0Kk-0004ty-WC
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:35:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1570106142; cv=none; d=zoho.com; s=zohoarc; 
- b=AwHVPQbab6uE3wdizsA5JS21qCkjydZwmxq0AxKgwnebNvUDXP1BX7ZxA3yELyA0S5ALNOcAMSaeUUdoWa90J9x0YcpnJhuwIQTz+NQq47f3v5SiVmniBrQ68GLsULF3yRsClaA/nWZAaVk7clz+OOWWzQtzBY3L9m3ZPvjJuFk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1570106142;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=SEUNBMfzPxE19t5HEik/K6+R0DbltZkDlD3wI6NK3MQ=; 
- b=oZ67FEC/yPxEZ4r/4KXlAQwVM6D6fNUQ5Sq/Pwwn7YFbJAvMzxY+BeUN9jjC+FsE3j5dyEMK6nouYNBCPRJK5ynQ3aqZEnrigEpud9akh67SaVe+RGrrAj5qu5A/sxHF5HFs64WrjU2PwOweQeyVH20fSYlzy+RfTyrR5tFjBys=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1570106140842756.5004121740259;
- Thu, 3 Oct 2019 05:35:40 -0700 (PDT)
-Subject: Re: [PATCH] migration: Support gtree migration
-In-Reply-To: <20191003114144.30129-1-eric.auger@redhat.com>
-Message-ID: <157010613953.27524.261296622550938122@8230166b0665>
+ (envelope-from <peter.maydell@linaro.org>) id 1iG0MN-0005yd-L6
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:37:32 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:41892)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iG0MN-0005yJ-CI
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:37:31 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id w65so2406849oiw.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 05:37:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0v+4JkKw7MrRnCAHBJnNveESM+njLQT6Mp5SQ1rrJHg=;
+ b=y+/oYOBZSmaXhNSap1f3HLVtyPQZBM/XUTvIP2Yd+MbMpLF5VO7RB67GzB7g1ei9Zj
+ 19MzHrqW/dcmySVjLrhXOsbz9n6jNCWNUdY5fQmcWCSHRNtn/LC/yLDtdp4Vp+LywpFu
+ AjcBFWr6BiyIaijy3iyz17DNPNIdW5oDivJYN3yHyza7KhA1ZJXjt46poT93+ecfhcSM
+ vaq8KmPZRanaYSkA0tH2oj8EgB++EOaOFjPcNWhVMf/6mlo2CJPKADbQ7kZetGpuGI4i
+ ORsvHh3T+2NnTdAueAbQxSi9vcmZ1gaItECQEXvOP9C+hHpu+Lfd8qeMdY4UoDqZyTRf
+ Nmhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0v+4JkKw7MrRnCAHBJnNveESM+njLQT6Mp5SQ1rrJHg=;
+ b=NcAA5NtqeLPwu698l6UQeOG8DAQWqw8XbzpDnoGahcXEDtir7x2G6GdPGDMgY53Byp
+ E0O7uG4ISJwJp80TK4L2i2LPq9nPriyU6S2lEMJDb+ytUqG9dHlFAHFh/8pAogBcuRHC
+ NlsZ0dSzB8/1KjpBlz7jp01yaktpsfjClhODs/I1FjAIrgGwUEpQ9eDGK7Ojskv8jEyK
+ LVzxugS2HmC+8dr5UROXs4sbG38Pcp296QD2PfX4ilT+i8ZGL6EPulY/IW/dyL4LvZ0q
+ tgGi95EmDVtr9IsuM4rFr5jY/6DDM/wzHil7TVYh6xh9iUJPiib1SyYo4vaX+OMEmvVO
+ 4vHg==
+X-Gm-Message-State: APjAAAXEaQsHLxfSGM4CnH9LOS2zz5LLRHQk0TiKaaMY5D5xm6VzS9Qd
+ aEcVatvsp52P5XNF0iLen+lBRCc8wIQ55je7orxxoGyYOUQ=
+X-Google-Smtp-Source: APXvYqweaBS03CAUGfr0mveX33i3ZH/EN3mZsgpYBU20eSejQGGyUlCxLt+wUBwHPCfFDdejcP3LLHUI46jDZLxARCk=
+X-Received: by 2002:aca:b48a:: with SMTP id d132mr2714239oif.98.1570106250252; 
+ Thu, 03 Oct 2019 05:37:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: eric.auger@redhat.com
-Date: Thu, 3 Oct 2019 05:35:40 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.55
+References: <1569942944-10381-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1569942944-10381-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Oct 2019 13:37:19 +0100
+Message-ID: <CAFEAcA9Hzq0NKoU5e_NdLXH0xvmaXeJAx3aAfVFXZeUqmP8sag@mail.gmail.com>
+Subject: Re: [PULL 00/18] MIPS queue for October 1st, 2019
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,57 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: eric.auger@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, eric.auger.pro@gmail.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAwMzExNDE0NC4zMDEy
-OS0xLWVyaWMuYXVnZXJAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhl
-IGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5n
-IGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0
-YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBT
-Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0x
-IE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0x
-IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgdGVzdHMv
-dGVzdC1pby1jaGFubmVsLWNvbW1hbmQubwogIENDICAgICAgdGVzdHMvdGVzdC1pby1jaGFubmVs
-LWJ1ZmZlci5vCiAgQ0MgICAgICB0ZXN0cy90ZXN0LWJhc2U2NC5vCi90bXAvcWVtdS10ZXN0L3Ny
-Yy90ZXN0cy90ZXN0LXZtc3RhdGUuYzo4NTI6NTogZXJyb3I6IGluaXRpYWxpemVyIGVsZW1lbnQg
-aXMgbm90IGNvbnN0YW50CiAgICAgdm1zdGF0ZV9pbnRlcnZhbCwgLyoga2V5ICAgKi8KICAgICBe
-Ci90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy90ZXN0LXZtc3RhdGUuYzo4NTI6NTogZXJyb3I6IChu
-ZWFyIGluaXRpYWxpemF0aW9uIGZvciAndm1zdGF0ZV9pbnRlcnZhbF9tYXBwaW5nWzBdJykKL3Rt
-cC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3Qtdm1zdGF0ZS5jOjg1NDoxOiBlcnJvcjogaW5pdGlh
-bGl6ZXIgZWxlbWVudCBpcyBub3QgY29uc3RhbnQKIH07CiBeCi90bXAvcWVtdS10ZXN0L3NyYy90
-ZXN0cy90ZXN0LXZtc3RhdGUuYzo4NTQ6MTogZXJyb3I6IChuZWFyIGluaXRpYWxpemF0aW9uIGZv
-ciAndm1zdGF0ZV9pbnRlcnZhbF9tYXBwaW5nWzFdJykKL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3Rz
-L3Rlc3Qtdm1zdGF0ZS5jOjkyODoxOiBlcnJvcjogaW5pdGlhbGl6ZXIgZWxlbWVudCBpcyBub3Qg
-Y29uc3RhbnQKIH07CiBeCi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy90ZXN0LXZtc3RhdGUuYzo5
-Mjg6MTogZXJyb3I6IChuZWFyIGluaXRpYWxpemF0aW9uIGZvciAndm1zdGF0ZV9pZF9kb21haW5b
-MV0nKQptYWtlOiAqKiogW3Rlc3RzL3Rlc3Qtdm1zdGF0ZS5vXSBFcnJvciAxCm1ha2U6ICoqKiBX
-YWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2Fs
-bCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2MiwgaW4g
-PG1vZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpz
-dWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2Rv
-Y2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTI5YmVlYzEw
-MjJiNTQ4OWRhYzQ3MDY3ZDBlNzQ1MTExJywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQn
-LCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1l
-JywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1l
-JywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90
-bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2Fj
-aGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LTZjZ25kdmtkL3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMDMtMDguMzEuMzcuMjI1NDA6L3Zhci90
-bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0
-LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRl
-cj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTI5YmVlYzEwMjJiNTQ4OWRhYzQ3MDY3ZDBl
-NzQ1MTExCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5n
-IGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTZjZ25kdmtkL3NyYycKbWFr
-ZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICA0
-bTIuMzM2cwp1c2VyICAgIDBtNy4zODlzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MTAwMzExNDE0NC4zMDEyOS0xLWVyaWMuYXVnZXJA
-cmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0t
-LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
-ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
-YXQuY29t
+On Tue, 1 Oct 2019 at 16:15, Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> The following changes since commit 95e9d74fe4281f7ad79a5a7511400541729aa44a:
+>
+>   Merge remote-tracking branch 'remotes/borntraeger/tags/s390x-20190930' into staging (2019-09-30 14:21:56 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-oct-01-2019
+>
+> for you to fetch changes up to 0a1bb9127ba66c093d5af395ea2630b06b929011:
+>
+>   target/mips: msa: Move helpers for <AND|NOR|OR|XOR>.V (2019-10-01 16:58:45 +0200)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for October 1st, 2019
+>
+> Highlights:
+>
+>   - mostly cleanups related to "checkpatch.pl -f"
+>   - slight optimization of handling of some MSA instructions
+>
 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
