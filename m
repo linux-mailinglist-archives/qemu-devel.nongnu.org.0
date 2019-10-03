@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B01AC9EA9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:39:17 +0200 (CEST)
-Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8A8C9EAC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:39:49 +0200 (CEST)
+Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG0O4-0008Bg-Dc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45698)
+	id 1iG0Oa-0000Nk-9o
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iG0LK-0005Xh-B7
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:28 -0400
+ (envelope-from <bounces@canonical.com>) id 1iG0LP-0005b3-6A
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iG0LI-0005G9-Bq
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46680)
+ (envelope-from <bounces@canonical.com>) id 1iG0LN-0005JZ-Fi
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46846)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iG0LH-0005EX-0A
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:24 -0400
+ id 1iG0LN-0005J8-9I
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:29 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iG0LF-0002Ls-Ig
- for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 12:36:21 +0000
+ id 1iG0LM-0002Q0-4u
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 12:36:28 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 85CA32E80C9
- for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 12:36:21 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 238662E806E
+ for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 12:36:28 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Oct 2019 12:29:00 -0000
+Date: Thu, 03 Oct 2019 12:29:09 -0000
 From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -57,7 +57,7 @@ X-Launchpad-Bug-Commenters: dannf jan-glauber-i jnsnow lizhengui rafaeldtinoco
 X-Launchpad-Bug-Reporter: dann frazier (dannf)
 X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
 References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <157010574006.20314.3695722982511199374.malone@soybean.canonical.com>
+Message-Id: <157010574983.16327.6964028901783866526.malone@gac.canonical.com>
 Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
  Aarch64 when converting images
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -65,7 +65,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19066";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b35846a92988efbf4926b72bc8fcbf163e39f60c
+X-Launchpad-Hash: 61b9ad35a4f5b48c78dd6bd60d6e2e5f16049412
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -83,168 +83,94 @@ Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-10-02 at 15:20 +0200, Paolo Bonzini wrote:
-> On 02/10/19 13:05, Jan Glauber wrote:
->> The arm64 code generated for the
->> atomic_[add|sub] accesses of ctx->notify_me doesn't contain any
->> memory barriers. It is just plain ldaxr/stlxr.
->>
->> From my understanding this is not sufficient for SMP sync.
->>
->>>> If I read this comment correct:
->>>>
->>>>     void aio_notify(AioContext *ctx)
->>>>     {
->>>>         /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pa=
-irs
->>>>          * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
->>>>          */
->>>>         smp_mb();
->>>>         if (ctx->notify_me) {
->>>>
->>>> it points out that the smp_mb() should be paired. But as
->>>> I said the used atomics don't generate any barriers at all.
->>>
->>> Awesome!  That would be a compiler bug though, as atomic_add and atomic=
-_sub
->>> are defined as sequentially consistent:
->>>
->>> #define atomic_add(ptr, n) ((void) __atomic_fetch_add(ptr, n, __ATOMIC_=
-SEQ_CST))
->>> #define atomic_sub(ptr, n) ((void) __atomic_fetch_sub(ptr, n, __ATOMIC_=
-SEQ_CST))
->>
->> Compiler bug sounds kind of unlikely...
->
-> Indeed the assembly produced by the compiler matches for example the
-> mappings at https://www.cl.cam.ac.uk/~pes20/cpp/cpp0xmappings.html.  A
-> small testcase is as follows:
->
->   int ctx_notify_me;
->   int bh_scheduled;
->
->   int x()
->   {
->       int one =3D 1;
->       int ret;
->       __atomic_store(&bh_scheduled, &one, __ATOMIC_RELEASE);     // x1
->       __atomic_thread_fence(__ATOMIC_SEQ_CST);                   // x2
->       __atomic_load(&ctx_notify_me, &ret, __ATOMIC_RELAXED);     // x3
->       return ret;
->   }
->
->   int y()
->   {
->       int ret;
->       __atomic_fetch_add(&ctx_notify_me, 2, __ATOMIC_SEQ_CST);  // y1
->       __atomic_load(&bh_scheduled, &ret, __ATOMIC_RELAXED);     // y2
->       return ret;
->   }
->
-> Here y (which is aio_poll) wants to order the write to ctx->notify_me
-> before reads of bh->scheduled.  However, the processor can speculate the
-> load of bh->scheduled between the load-acquire and store-release of
-> ctx->notify_me.  So you can have something like:
->
->  thread 0 (y)                          thread 1 (x)
->  -----------------------------------   -----------------------------
->  y1: load-acq ctx->notify_me
->  y2: load-rlx bh->scheduled
->                                        x1: store-rel bh->scheduled <-- 1
->                                        x2: memory barrier
->                                        x3: load-rlx ctx->notify_me
->  y1: store-rel ctx->notify_me <-- 2
->
-> Being very puzzled, I tried to put this into cppmem:
->
->   int main() {
->     atomic_int ctx_notify_me =3D 0;
->     atomic_int bh_scheduled =3D 0;
->     {{{ {
->           bh_scheduled.store(1, mo_release);
->           atomic_thread_fence(mo_seq_cst);
->           // must be zero since the bug report shows no notification
->           ctx_notify_me.load(mo_relaxed).readsvalue(0);
->         }
->     ||| {
->           ctx_notify_me.store(2, mo_seq_cst);
->           r2=3Dbh_scheduled.load(mo_relaxed);
->         }
->     }}};
->     return 0;
->   }
->
-> and much to my surprise, the tool said r2 *can* be 0.  Same if I put a
-> CAS like
->
->         cas_strong_explicit(ctx_notify_me.readsvalue(0), 0, 2,
->                             mo_seq_cst, mo_seq_cst);
->
-> which resembles the code in the test case a bit more.
+On 02/10/19 16:58, Torvald Riegel wrote:
+> This example looks like Dekker synchronization (if I get the intent right=
+).
 
-This example looks like Dekker synchronization (if I get the intent
-right).
+It is the same pattern.  However, one of the two synchronized variables
+is a counter rather than just a flag.
 
-Two possible implementations of this are either (1) with all memory
-accesses having seq-cst MO, or (2) with relaxed-MO accesses and seq-cst
-fences on between the store and load on both ends.  It's possible to mix
-both, but that get's trickier I think.  I'd prefer the one with just
-fences, just because it's easiest, conceptually.
+> Two possible implementations of this are either (1) with all memory
+> accesses having seq-cst MO, or (2) with relaxed-MO accesses and seq-cst
+> fences on between the store and load on both ends.  It's possible to mix
+> both, but that get's trickier I think.  I'd prefer the one with just
+> fences, just because it's easiest, conceptually.
 
-> I then found a discussion about using the C11 memory model in Linux
-> (https://gcc.gnu.org/ml/gcc/2014-02/msg00058.html) which contains the
-> following statement, which is a bit disheartening even though it is
-> about a different test:
+Got it.
+
+I'd also prefer the one with just fences, because we only really control
+one side of the synchronization primitive (ctx_notify_me in my litmus
+test) and I don't like the idea of forcing seq-cst MO on the other side
+(bh_scheduled).  The performance issue that I mentioned is that x86
+doesn't have relaxed fetch and add, so you'd have a redundant fence like
+this:
+
+	lock	xaddl $2, mem1
+	mfence
+	...
+	movl	mem1, %r8
+
+(Gory QEMU details however allow us to use relaxed load and store here,
+because there's only one writer).
+
+> It works if you use (1) or (2) consistently.  cppmem and the Batty et al.
+> tech report should give you the gory details.
 >
->    My first gut feeling was that the assertion should never fire, but
->    that was wrong because (as I seem to usually forget) the seq-cst
->    total order is just a constraint but doesn't itself contribute
->    to synchronizes-with -- but this is different for seq-cst fences.
-
-It works if you use (1) or (2) consistently.  cppmem and the Batty et al.
-tech report should give you the gory details.
-My comment is just about seq-cst working differently on memory accesses vs.
-fences (in the way it's specified in the memory model).
-
-> and later in the thread:
+>> 1) understand why ATOMIC_SEQ_CST is not enough in this case.  QEMU code
+>> seems to be making the same assumptions as Linux about the memory model,
+>> and this is wrong because QEMU uses C11 atomics if available.
+>> Fortunately, this kind of synchronization in QEMU is relatively rare and
+>> only this particular bit seems affected.  If there is a fix which stays
+>> within the C11 memory model, and does not pessimize code on x86, we can
+>> use it[1] and document the pitfall.
 >
->    Use of C11 atomics to implement Linux kernel atomic operations
->    requires knowledge of the underlying architecture and the compiler's
->    implementation, as was noted earlier in this thread.
+> Using the fences between the store/load pairs in Dekker-like
+> synchronization should do that, right?  It's also relatively easy to deal
+> with.
 >
-> Indeed if I add an atomic_thread_fence I get only one valid execution,
-> where r2 must be 1.  This is similar to GCC's bug
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D65697, and we can fix it in
-> QEMU by using __sync_fetch_and_add; in fact cppmem also shows one valid
-> execution if the store is replaced with something like GCC's assembly
-> for __sync_fetch_and_add (or Linux's assembly for atomic_add_return):
+>> 2) if there's no way to fix the bug, qemu/atomic.h needs to switch to
+>> __sync_fetch_and_add and friends.  And again, in this case the
+>> difference between the C11 and Linux/QEMU memory models must be document=
+ed.
 >
->         cas_strong_explicit(ctx_notify_me.readsvalue(0), 0, 2,
->                             mo_release, mo_release);
->         atomic_thread_fence(mo_seq_cst);
->
-> So we should:
->
-> 1) understand why ATOMIC_SEQ_CST is not enough in this case.  QEMU code
-> seems to be making the same assumptions as Linux about the memory model,
-> and this is wrong because QEMU uses C11 atomics if available.
-> Fortunately, this kind of synchronization in QEMU is relatively rare and
-> only this particular bit seems affected.  If there is a fix which stays
-> within the C11 memory model, and does not pessimize code on x86, we can
-> use it[1] and document the pitfall.
+> I surely not aware of all the constraints here, but I'd be surprised if t=
+he
+> C11 memory model isn't good enough for portable synchronization code (with
+> the exception of the consume MO minefield, perhaps). =
 
-Using the fences between the store/load pairs in Dekker-like
-synchronization should do that, right?  It's also relatively easy to deal
-with.
 
-> 2) if there's no way to fix the bug, qemu/atomic.h needs to switch to
-> __sync_fetch_and_add and friends.  And again, in this case the
-> difference between the C11 and Linux/QEMU memory models must be documente=
-d.
+This helps a lot already; I'll work on a documentation and code patch.
+Thanks very much.
 
-I surely not aware of all the constraints here, but I'd be surprised if the
-C11 memory model isn't good enough for portable synchronization code (with
-the exception of the consume MO minefield, perhaps).
+Paolo
+
+>>   int main() {
+>>     atomic_int ctx_notify_me =3D 0;
+>>     atomic_int bh_scheduled =3D 0;
+>>     {{{ {
+>>           bh_scheduled.store(1, mo_release);
+>>           atomic_thread_fence(mo_seq_cst);
+>>           // must be zero since the bug report shows no notification
+>>           ctx_notify_me.load(mo_relaxed).readsvalue(0);
+>>         }
+>>     ||| {
+>>           ctx_notify_me.store(2, mo_seq_cst);
+>>           r2=3Dbh_scheduled.load(mo_relaxed);
+>>         }
+>>     }}};
+>>     return 0;
+>>   }
+
+
+
+** Changed in: qemu (Ubuntu Disco)
+   Importance: Undecided =3D> Medium
+
+** Changed in: qemu (Ubuntu Bionic)
+   Importance: Undecided =3D> Medium
+
+** Changed in: qemu (Ubuntu Ff-series)
+   Importance: Undecided =3D> Medium
 
 -- =
 
