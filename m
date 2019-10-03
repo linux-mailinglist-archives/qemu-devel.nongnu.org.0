@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A0ACB29C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 02:02:58 +0200 (CEST)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CA1CB2AA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 02:12:03 +0200 (CEST)
+Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGB3h-00047z-91
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 20:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
+	id 1iGBCU-0000ab-Od
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 20:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iGAfi-0005uC-5d
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:38:15 -0400
+ (envelope-from <philmd@redhat.com>) id 1iGAa1-00035e-9r
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:32:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iGAff-0007Qe-V3
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:38:10 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37574
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iGAZz-0002mb-GN
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:32:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40738
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iGAff-0007QW-S9
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:38:07 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iGAZy-0002hL-7B
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:32:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1570145887;
+ s=mimecast20190719; t=1570145531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DRTZigKCEY4opWJBLHi11l/zrCItDh8Z1O0Kg5+OawA=;
- b=H40JfbAuirE8uoW2rHeUdzL1OC2+densMtyhw/KGUx6pO8P8AuLp2XTWsR/lAVKt3+vgG7
- ki/ztCJZ8BPLMj7kBduvm2+1qwjB0J1P7zbkYrJfjaxNVeP00BMF/+1mP9+Zb2CFfVK0Ur
- 2LSr9vCoAELJ3xUlIppbntVlW6yX0qw=
+ bh=X++9C+o63TLz2yiBE4eVu8eFHPYuFJf499i6Z8ZrnAE=;
+ b=BzfuI4T4iQoLrEGKsaG43mlTcATK6auN7LgZZinch8cgD9mG8p76GCvZJh9QiuipgevbXY
+ gpE3t8zJMXqpMPPox3Q2ULJJYG2UNjiiJXWPLEQvq+TfM8ewKyYvrXU6gRm+p6TElKA1Yx
+ 83szwSL+k/hd/clpvmxQy8D3laibcTI=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-PnM_V3V-MfG76MRQPiY7Eg-1; Thu, 03 Oct 2019 19:38:04 -0400
-Received: by mail-wr1-f69.google.com with SMTP id t11so1823224wro.10
- for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 16:38:03 -0700 (PDT)
+ us-mta-4-RlGk3HSWMUGLGefc7ellXA-1; Thu, 03 Oct 2019 19:32:08 -0400
+Received: by mail-wr1-f69.google.com with SMTP id t11so1816835wro.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 16:32:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZIP0ODjDWHxED5SbJ/GsbdeKZ47VF2Eyu5DtWpV0WjY=;
- b=dM2rLaMnBMJHmMLHWRXA3gu/97hpEwEofF1RjOxyQbnnEMdDeTPPKavwNiQWpifGSo
- Y7nw5VCrhLoYTaUkuKDU1TpjhEi1cOQgxsFa0OLqZ/+WqRSETya7MamXuyNln5QvrTCp
- KZuOpMnvkdQ8lk3RpackJtJnZDIIYPQoMkY0KuaJHxsrDPypinuBpknqdBYZ4jHyPR7J
- RdhLA0g1T1oTh8MopmqfsG+gXq2MCuJ0zQM8BIseajpDuGmX9T+GgT8vv6qKOvK5cBkn
- D5pBshOOTbYIsT9W2dZEtireMDMZ+X5AOmQ3/zeGI339vjAZUU/RZNDEbEAcSUQSBflv
- oyNg==
-X-Gm-Message-State: APjAAAUXkFASSSHm63CT4FtAWcDvmYUBxOIwqsI5Nb+k1ESggCEPn4eR
- UapTxWVY+emqkDGuHzdL1Yq/fMdL/8sA0xnBos+fd39OrvFUVGtMFfqrtlUcyJpDxVs5bzjypC8
- iHznjJwepGd3xVKE=
-X-Received: by 2002:a5d:670c:: with SMTP id o12mr9370771wru.103.1570145883062; 
- Thu, 03 Oct 2019 16:38:03 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxLf2UYSYmJZeZKivO2/5mCjYVxETiLRIHANyAIviHJhdN2IXJjRhNGBsAl8t9BzNkM1in/kg==
-X-Received: by 2002:a5d:670c:: with SMTP id o12mr9370764wru.103.1570145882854; 
- Thu, 03 Oct 2019 16:38:02 -0700 (PDT)
+ bh=6fg+tL8hdMuSlCATnh5vXBFe8nhdX3zEsZie5KLf89k=;
+ b=GGHa9MRX5U8dKkCtJHtpaT1Lmok3j3R8o6Z0Ljge6QYDzMxKzvyn+kIezcOEB1UjIz
+ uvVPuwFuUullcHh7RmKWNiK00IF+SS7PCdl2kL8Kz85BFUhyiiT1LxMdojrnUngNhXYA
+ bAXlZ45dWODQtBkbHdgSbbQ7ggFPGNrjqfPjkw00iYnzGhwUmlgFby2df6aqpl0cPizm
+ gZi91rdwa/+fG1EBeDxUUzygKtEXT2IybzsJ1toq3da9ErvlqN2p7GuPGKpu8PvLmpnu
+ 4YIChVU17XsrgKRnSHn+iVm1G0KjVxQs7H04HqoEcx+8qYytQVufhaWID402s3iFsnCG
+ fHDA==
+X-Gm-Message-State: APjAAAVrhtHxiJpuIkce131QpmyrHlZH+VySuRW34Vo6yommtMOEUMYx
+ xri6G5OKVQN7UHZTdlwt3GC9gTyaVyrP2XdpM6nBgVpTQejthcismjYvOUA/DyzSBfb9vVuzsrB
+ RuerH7s7v7WhLJrQ=
+X-Received: by 2002:a5d:51d1:: with SMTP id n17mr415034wrv.85.1570145527442;
+ Thu, 03 Oct 2019 16:32:07 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyV164HHUw3+MnqRy9NnCtezStk4ZWBQxrbwl/a+sfec4RrTv4r+821tPgL+sApXCs8V9+pnw==
+X-Received: by 2002:a5d:51d1:: with SMTP id n17mr415024wrv.85.1570145527218;
+ Thu, 03 Oct 2019 16:32:07 -0700 (PDT)
 Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id j26sm6242833wrd.2.2019.10.03.16.38.02
+ by smtp.gmail.com with ESMTPSA id t123sm6570271wma.40.2019.10.03.16.32.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Oct 2019 16:38:02 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH v2 12/15] target/arm/arm-semi: Factor out
- implementation of SYS_FLEN
+ Thu, 03 Oct 2019 16:32:06 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH v2 07/15] target/arm/arm-semi: Factor out
+ implementation of SYS_CLOSE
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20190916141544.17540-1-peter.maydell@linaro.org>
- <20190916141544.17540-13-peter.maydell@linaro.org>
+ <20190916141544.17540-8-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <05e204c1-2aa3-7f77-1354-16d9239a901f@redhat.com>
-Date: Fri, 4 Oct 2019 01:38:01 +0200
+Message-ID: <84350edd-f5e7-cf9a-5cfe-c5caf603f492@redhat.com>
+Date: Fri, 4 Oct 2019 01:32:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190916141544.17540-13-peter.maydell@linaro.org>
+In-Reply-To: <20190916141544.17540-8-peter.maydell@linaro.org>
 Content-Language: en-US
-X-MC-Unique: PnM_V3V-MfG76MRQPiY7Eg-1
+X-MC-Unique: RlGk3HSWMUGLGefc7ellXA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,104 +98,112 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/16/19 4:15 PM, Peter Maydell wrote:
-> Factor out the implementation of SYS_FLEN via the new
-> function tables.
+> Currently for the semihosting calls which take a file descriptor
+> (SYS_CLOSE, SYS_WRITE, SYS_READ, SYS_ISTTY, SYS_SEEK, SYS_FLEN)
+> we have effectively two implementations, one for real host files
+> and one for when we indirect via the gdbstub. We want to add a
+> third one to deal with the magic :semihosting-features file.
+>=20
+> Instead of having a three-way if statement in each of these
+> cases, factor out the implementation of the calls to separate
+> functions which we dispatch to via function pointers selected
+> via the GuestFDType for the guest fd.
+>=20
+> In this commit, we set up the framework for the dispatch,
+> and convert the SYS_CLOSE call to use it.
 >=20
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->   target/arm/arm-semi.c | 32 ++++++++++++++++++++++----------
->   1 file changed, 22 insertions(+), 10 deletions(-)
+>   target/arm/arm-semi.c | 44 ++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 37 insertions(+), 7 deletions(-)
 >=20
 > diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> index b5e1d73eb80..87c911f0187 100644
+> index 02cd673d47d..e5f1e2aaaf2 100644
 > --- a/target/arm/arm-semi.c
 > +++ b/target/arm/arm-semi.c
-> @@ -391,6 +391,7 @@ typedef uint32_t sys_readfn(ARMCPU *cpu, GuestFD *gf,
->   typedef uint32_t sys_isattyfn(ARMCPU *cpu, GuestFD *gf);
->   typedef uint32_t sys_seekfn(ARMCPU *cpu, GuestFD *gf,
->                               target_ulong offset);
-> +typedef uint32_t sys_flenfn(ARMCPU *cpu, GuestFD *gf);
+> @@ -109,6 +109,7 @@ static int open_modeflags[12] =3D {
+>   typedef enum GuestFDType {
+>       GuestFDUnused =3D 0,
+>       GuestFDHost =3D 1,
+> +    GuestFDGDB =3D 2,
+>   } GuestFDType;
 >  =20
->   static uint32_t host_closefn(ARMCPU *cpu, GuestFD *gf)
+>   /*
+> @@ -172,14 +173,14 @@ static GuestFD *do_get_guestfd(int guestfd)
+>   /*
+>    * Associate the specified guest fd (which must have been
+>    * allocated via alloc_fd() and not previously used) with
+> - * the specified host fd.
+> + * the specified host/gdb fd.
+>    */
+>   static void associate_guestfd(int guestfd, int hostfd)
 >   {
-> @@ -454,6 +455,17 @@ static uint32_t host_seekfn(ARMCPU *cpu, GuestFD *gf=
-, target_ulong offset)
->       return 0;
+>       GuestFD *gf =3D do_get_guestfd(guestfd);
+>  =20
+>       assert(gf);
+> -    gf->type =3D GuestFDHost;
+> +    gf->type =3D use_gdb_syscalls() ? GuestFDGDB : GuestFDHost;
+>       gf->hostfd =3D hostfd;
 >   }
 >  =20
-> +static uint32_t host_flenfn(ARMCPU *cpu, GuestFD *gf)
+> @@ -376,6 +377,39 @@ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gdb=
+_syscall_complete_cb cb,
+>       return is_a64(env) ? env->xregs[0] : env->regs[0];
+>   }
+>  =20
+> +/*
+> + * Types for functions implementing various semihosting calls
+> + * for specific types of guest file descriptor. These must all
+> + * do the work and return the required return value for the guest,
+> + * setting the guest errno if appropriate.
+> + */
+> +typedef uint32_t sys_closefn(ARMCPU *cpu, GuestFD *gf);
+> +
+> +static uint32_t host_closefn(ARMCPU *cpu, GuestFD *gf)
 > +{
 > +    CPUARMState *env =3D &cpu->env;
-> +    struct stat buf;
-> +    uint32_t ret =3D set_swi_errno(env, fstat(gf->hostfd, &buf));
-> +    if (ret =3D=3D (uint32_t)-1) {
-> +        return -1;
-> +    }
-> +    return buf.st_size;
+> +
+> +    return set_swi_errno(env, close(gf->hostfd));
 > +}
 > +
->   static uint32_t gdb_closefn(ARMCPU *cpu, GuestFD *gf)
->   {
->       return arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->hostfd);
-> @@ -486,12 +498,19 @@ static uint32_t gdb_seekfn(ARMCPU *cpu, GuestFD *gf=
-, target_ulong offset)
->                              gf->hostfd, offset);
->   }
->  =20
-> +static uint32_t gdb_flenfn(ARMCPU *cpu, GuestFD *gf)
+> +static uint32_t gdb_closefn(ARMCPU *cpu, GuestFD *gf)
 > +{
-> +    return arm_gdb_syscall(cpu, arm_semi_flen_cb, "fstat,%x,%x",
-> +                           gf->hostfd, arm_flen_buf(cpu));
+> +    return arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->hostfd);
 > +}
 > +
->   typedef struct GuestFDFunctions {
->       sys_closefn *closefn;
->       sys_writefn *writefn;
->       sys_readfn *readfn;
->       sys_isattyfn *isattyfn;
->       sys_seekfn *seekfn;
-> +    sys_flenfn *flenfn;
->   } GuestFDFunctions;
->  =20
->   static const GuestFDFunctions guestfd_fns[] =3D {
-> @@ -501,6 +520,7 @@ static const GuestFDFunctions guestfd_fns[] =3D {
->           .readfn =3D host_readfn,
->           .isattyfn =3D host_isattyfn,
->           .seekfn =3D host_seekfn,
-> +        .flenfn =3D host_flenfn,
->       },
->       [GuestFDGDB] =3D {
->           .closefn =3D gdb_closefn,
-> @@ -508,6 +528,7 @@ static const GuestFDFunctions guestfd_fns[] =3D {
->           .readfn =3D gdb_readfn,
->           .isattyfn =3D gdb_isattyfn,
->           .seekfn =3D gdb_seekfn,
-> +        .flenfn =3D gdb_flenfn,
->       },
->   };
->  =20
-> @@ -687,16 +708,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+> +typedef struct GuestFDFunctions {
+> +    sys_closefn *closefn;
+> +} GuestFDFunctions;
+> +
+> +static const GuestFDFunctions guestfd_fns[] =3D {
+> +    [GuestFDHost] =3D {
+> +        .closefn =3D host_closefn,
+> +    },
+> +    [GuestFDGDB] =3D {
+> +        .closefn =3D gdb_closefn,
+> +    },
+> +};
+> +
+>   /* Read the input value from the argument block; fail the semihosting
+>    * call if the memory read fails.
+>    */
+> @@ -485,11 +519,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
 >               return set_swi_errno(env, -1);
 >           }
 >  =20
 > -        if (use_gdb_syscalls()) {
-> -            return arm_gdb_syscall(cpu, arm_semi_flen_cb, "fstat,%x,%x",
-> -                                   gf->hostfd, arm_flen_buf(cpu));
+> -            ret =3D arm_gdb_syscall(cpu, arm_semi_cb, "close,%x", gf->ho=
+stfd);
 > -        } else {
-> -            struct stat buf;
-> -            ret =3D set_swi_errno(env, fstat(gf->hostfd, &buf));
-> -            if (ret =3D=3D (uint32_t)-1)
-> -                return -1;
-> -            return buf.st_size;
+> -            ret =3D set_swi_errno(env, close(gf->hostfd));
 > -        }
-> +        return guestfd_fns[gf->type].flenfn(cpu, gf);
->       case TARGET_SYS_TMPNAM:
->           qemu_log_mask(LOG_UNIMP, "%s: SYS_TMPNAM not implemented", __fu=
-nc__);
->           return -1;
+> +        ret =3D guestfd_fns[gf->type].closefn(cpu, gf);
+>           dealloc_guestfd(arg0);
+>           return ret;
+>       case TARGET_SYS_WRITEC:
 >=20
 
 
