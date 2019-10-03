@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3987C96CC
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F6AC96CB
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:46:30 +0200 (CEST)
-Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFr8P-0001qb-57
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40637)
+	id 1iFr8O-0001ql-EX
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5M-00007X-0q
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:21 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-000051-4W
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-0000xP-8g
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:19 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42101)
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5H-0000wj-BY
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:17 -0400
+Received: from ozlabs.org ([203.11.71.1]:33441)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFr5I-0000wD-8z; Wed, 02 Oct 2019 22:43:17 -0400
+ id 1iFr5F-0000wA-RY; Wed, 02 Oct 2019 22:43:14 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kHP93QwZz9sCJ; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
+ id 46kHP94545z9sPJ; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570070589;
- bh=Ak2YepIEOn2zKKfc4xWPRpfRAWskuVvrikE7yy3uoh4=;
+ bh=Bl11ws5UVSYncs6cKehoc+wEXCdueTorraOVxmUFb7Q=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bWXA1bPnhQ9upDn55CyepUdazsdIRXwS6FAJU9T8HK6FxmE4gxBjBB13sppxItU3x
- njIT7cK+/P0cqVR3Y/ibXfLjkisQ2Ojt0aP0QbRm51Lx18I7tKehya8CfpfWmQgW45
- qEr9NjL+mqD5LbYh3LZk5h/kWeasq7zv2q33kuJ0=
-Date: Thu, 3 Oct 2019 11:51:23 +1000
+ b=dsxkJBXg5cpNtbHYM9TDRYeH2R6QY1GxBRTYYamgt6S5KDZ22GF3AoCOdxcJuF1F2
+ QEf4TW15Gu3CwofAL5S0Ffk8Pf/4rwPBeV2l+Ap5LicoIdZ2T5/T6QeuE9vWpU8aJ+
+ xPJtCNKeSUy84iSbYkjphCbaFk37Eb+3DDuh04cE=
+Date: Thu, 3 Oct 2019 11:54:09 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 04/25] ppc/pnv: Introduce a pnv_xive_is_cpu_enabled()
- helper
-Message-ID: <20191003015123.GF11105@umbus.fritz.box>
+Subject: Re: [PATCH v4 05/25] ppc/xive: Introduce a XiveFabric interface
+Message-ID: <20191003015409.GG11105@umbus.fritz.box>
 References: <20190918160645.25126-1-clg@kaod.org>
- <20190918160645.25126-5-clg@kaod.org>
+ <20190918160645.25126-6-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wtUqn8XWZYmnPFNh"
+ protocol="application/pgp-signature"; boundary="M8g8Xvd1npd+rU3W"
 Content-Disposition: inline
-In-Reply-To: <20190918160645.25126-5-clg@kaod.org>
+In-Reply-To: <20190918160645.25126-6-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,54 +61,88 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wtUqn8XWZYmnPFNh
+--M8g8Xvd1npd+rU3W
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 06:06:24PM +0200, C=E9dric Le Goater wrote:
-> and use this helper to exclude CPUs which were not enabled by the XIVE
-> controller.
+On Wed, Sep 18, 2019 at 06:06:25PM +0200, C=E9dric Le Goater wrote:
+> The XiveFabric QOM interface should be implemented by the machine. It
+> acts as the PowerBUS interface between the interrupt controller and
+> the system. On HW, the XIVE sub-engine is responsible for the
+> communication with the other chip is the Common Queue (CQ) bridge
+> unit.
+>=20
+> This interface offers a 'match_nvt' handler to perform the CAM line
+> matching when looking for a XIVE Presenter with a dispatched NVT.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Um.. this has basically the same single method as the XivePresented
+interface you just introduced.  What's the distinction between them?
 
 > ---
->  hw/intc/pnv_xive.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  include/hw/ppc/xive.h | 22 ++++++++++++++++++++++
+>  hw/intc/xive.c        | 10 ++++++++++
+>  2 files changed, 32 insertions(+)
 >=20
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index e1c15b6b5b71..5c97ccda1cad 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -408,6 +408,14 @@ static int cpu_chip_id(PowerPCCPU *cpu)
->      CPU_FOREACH(cs)                                                     \
->          if (chip->chip_id !=3D cpu_chip_id(POWERPC_CPU(cs))) {} else
-> =20
-> +static bool pnv_xive_is_cpu_enabled(PnvXive *xive, PowerPCCPU *cpu)
-> +{
-> +    int pir =3D cpu_pir(cpu);
-> +    int thrd_id =3D pir & 0x7f;
-> +
-> +    return xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(thrd_id);
-> +}
-> +
->  static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index 39de45b87cb9..3c2910e10e25 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -399,6 +399,28 @@ int xive_presenter_tctx_match(XivePresenter *xptr, X=
+iveTCTX *tctx,
 >                                uint8_t nvt_blk, uint32_t nvt_idx,
->                                bool cam_ignore, uint8_t priority,
-> @@ -426,6 +434,10 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, u=
-int8_t format,
->          XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
->          int ring;
+>                                bool cam_ignore, uint32_t logic_serv);
 > =20
-> +        if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
-> +            continue;
-> +        }
+> +/*
+> + * XIVE Fabric (Interface between Interrupt Controller and Machine)
+> + */
 > +
->          /*
->           * Check the thread context CAM lines and record matches.
->           */
+> +typedef struct XiveFabric XiveFabric;
+> +
+> +#define TYPE_XIVE_FABRIC "xive-fabric"
+> +#define XIVE_FABRIC(obj)                                     \
+> +    INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
+> +#define XIVE_FABRIC_CLASS(klass)                                     \
+> +    OBJECT_CLASS_CHECK(XiveFabricClass, (klass), TYPE_XIVE_FABRIC)
+> +#define XIVE_FABRIC_GET_CLASS(obj)                                   \
+> +    OBJECT_GET_CLASS(XiveFabricClass, (obj), TYPE_XIVE_FABRIC)
+> +
+> +typedef struct XiveFabricClass {
+> +    InterfaceClass parent;
+> +    int (*match_nvt)(XiveFabric *xfb, uint8_t format,
+> +                     uint8_t nvt_blk, uint32_t nvt_idx,
+> +                     bool cam_ignore, uint8_t priority,
+> +                     uint32_t logic_serv, XiveTCTXMatch *match);
+> +} XiveFabricClass;
+> +
+>  /*
+>   * XIVE END ESBs
+>   */
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index fff50429f8ac..7a15a64ed7fe 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1841,8 +1841,18 @@ static const TypeInfo xive_presenter_info =3D {
+>      .class_size =3D sizeof(XivePresenterClass),
+>  };
+> =20
+> +/*
+> + * XIVE Fabric
+> + */
+> +static const TypeInfo xive_fabric_info =3D {
+> +    .name =3D TYPE_XIVE_FABRIC,
+> +    .parent =3D TYPE_INTERFACE,
+> +    .class_size =3D sizeof(XiveFabricClass),
+> +};
+> +
+>  static void xive_register_types(void)
+>  {
+> +    type_register_static(&xive_fabric_info);
+>      type_register_static(&xive_source_info);
+>      type_register_static(&xive_notifier_info);
+>      type_register_static(&xive_presenter_info);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -117,25 +150,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---wtUqn8XWZYmnPFNh
+--M8g8Xvd1npd+rU3W
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIyBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VVBsACgkQbDjKyiDZ
-s5LN7g/4+c4olAwTxA++9IG99zVoEDDUSWmpcEMcIpcQ7yxR7NkNap3NiSQ5dL9c
-Tu0uJPO0IIBVCeh3ctoGrQLST+2FinCm9bgGmHbSVCvaigEPmXih9ZMZylvCiIEY
-o+lX3k3KoUfqkUcWGzw3F6zRsqLi6bPd9quJKKzBEx7HPq8RC49iNkgI9UTllMRd
-od9MfGOexv7wtnen2V/iNROmSYmBPkglyH8yZ0/0BCV+mQK+qvyd4/Ezfl+JWr+S
-oCYMMH5FzM6q9dx/rWzaegjmE538Kd+fSQOlaSGATeBj06j1aw4XmrqbuJ7USs3A
-tMS9U1+xOKdt1gyZoD9M6mrWhbSftiv/nuJp8o5PBwBLPMNvSDOIbXtALcW75Mhi
-N4YoIXPxJcPPIn0hZYryJFjBAXsslrQm7ZqzFOJHxf6T2HRGWswQ5qBu9T8/JllP
-PitH5OYYBFPf1+KQK1eZT08/Ew/dTMw+kknudyGUcoAN1si2TGIercTsu10davqV
-ek1nqpmv4hV8msCvCvlMB9FibvVOmMqq+WAo0MSytyQ6mg3IUBzZ6ufESiCuPTeC
-DsV8H9qgpizS8rDH7H7KFyF29oUMZU2/U0H/prEoUmnEPkfmnJ2NCLru5LRXlBcA
-1MtVPps3kC6xBNusx0u6V7c2xyRM3ZvNL3XaRfwrdGYfl2YN8g==
-=ybGP
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VVMEACgkQbDjKyiDZ
+s5Lhuw/9EpdW2GeqbwLRrlOJ4Q/tdsj4LsSJ1QZboUZng2XGEnkezeGfryGN4GI+
+0zvoCyA10/+Hnft3qdpDEU1nPl8zdaxMnXSvv4C9soE1+y8yPms/Xa2KXWCsO5Uq
+ZtJS/brLmEN278js263szbjEnbGE27fw4utXFI5wqfaMQaqXYP9xK7jajbwOjPRD
+qSImeeQHiYy5csgI4CbK56hSc2ezxqkptX5QcdyqzOhmXPvyZVm6WtW7gNcuolFx
+OjqxE0y9i83C1sUTU9PDG8faX56iVPt9An7n8nS/0Onincu2PT7iFMzTF3314pw9
+Cgly5xVYy7RiJahSKpCnDgnELAt3d/SYIUt16BZXCDssEKiulDHYYu/HbGpH0KRs
+wv0ef50yYMqbMGLxCdeWrQyLWl4Je/c3bw3X5dZgrkhnTv/2T+hl10ACgoX6baG8
+i6URt/J9ef6UgQxD5F2ILz+z43xlPF0VFYInVSI23jbGAdKoLTspzHCpVGvXI+My
+5tXw8GzNmMGYQPJtk0v26GpYZIYV22RVixLzflxz4VYasVI4NrDtrHysoHocPTqp
+Srqob3Dm8x9rnE9xuZUzPv+TqcEgDL4pwGBx7a88YDu+/MzzK/VHO2HHwTEprx64
+Xv1KIk6Cu3XrtH7q1dvzTvgCxP3Pkw3XxlyJpZasLIaHP6apg5U=
+=qILI
 -----END PGP SIGNATURE-----
 
---wtUqn8XWZYmnPFNh--
+--M8g8Xvd1npd+rU3W--
 
