@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F338EC96D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:53:51 +0200 (CEST)
-Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C13C96D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:50:50 +0200 (CEST)
+Received: from localhost ([::1]:60774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFrFW-000096-SO
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40647)
+	id 1iFrCa-0005bW-S7
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5M-00007f-Bk
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5M-00007n-LA
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-0000xT-9L
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-0000yA-Ve
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:20 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:59441)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45761 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFr5I-0000wE-9I; Wed, 02 Oct 2019 22:43:17 -0400
+ id 1iFr5K-0000wp-9X; Wed, 02 Oct 2019 22:43:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kHP95nvyz9sPL; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
+ id 46kHPB2k0Yz9sPh; Thu,  3 Oct 2019 12:43:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570070589;
- bh=mTN9VjpZMT1HLOs/HSsbjzc7k9UfSwliXhrPLdqw+5g=;
+ d=gibson.dropbear.id.au; s=201602; t=1570070590;
+ bh=h2MMpDmBrgbXfzhn6sRqy3nLm/+RksZ/9+FnSJihtm4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RpvDNni7IFRCIR4sGrawsKXX+74ANsfgrBd98rM7wxlp/dC7pPriICKHKwmukEktP
- eGXaGh0n1kSHtHxPU6lzwv0DBNqcAELlx3bnC4+efF683xIGkKQH/eetgzFYYpA/4c
- Fhy4qV0OGjzL6ZGXS1fslGd64YERy33QqNjTy1NY=
-Date: Thu, 3 Oct 2019 12:08:59 +1000
+ b=oZS3Cib2Hrs15pP+sFFG3c449zros4BkLbSzfP0g7Vv7O6LWmHl+WlnHr0qIMavE2
+ 9Rk9k1cZVeaoLNqEgmggWkj7aaljmHjxHiMv4wweRvFNVZXYxFtH3NiqiLOG0DuApC
+ 37fOZyQ8M+r2FD1C/P69V2MAAp0DaD0C2reUW3nU=
+Date: Thu, 3 Oct 2019 12:11:37 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 11/25] ppc/xive: Move the TIMA operations to the
- controller model
-Message-ID: <20191003020859.GJ11105@umbus.fritz.box>
+Subject: Re: [PATCH v4 13/25] ppc/xive: Introduce a xive_tctx_ipb_update()
+ helper
+Message-ID: <20191003021137.GK11105@umbus.fritz.box>
 References: <20190918160645.25126-1-clg@kaod.org>
- <20190918160645.25126-12-clg@kaod.org>
+ <20190918160645.25126-14-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dYuLH7fbMjVsPkFl"
+ protocol="application/pgp-signature"; boundary="NrP+m7YXMSGlHqXH"
 Content-Disposition: inline
-In-Reply-To: <20190918160645.25126-12-clg@kaod.org>
+In-Reply-To: <20190918160645.25126-14-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,210 +62,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---dYuLH7fbMjVsPkFl
+--NrP+m7YXMSGlHqXH
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 06:06:31PM +0200, C=E9dric Le Goater wrote:
-> This also removes the need of the get_tctx() XiveRouter handler in the
-> core XIVE framework.
-
-In general these commit messages could really do with more context.
-What exactly is the "controller model"?  Where were the TIMA
-operations before now.  Why is having them in the controller model
-better?
-
-I could probably answer those with some investigation, but the point
-is that the commit message is supposed to make it easy to find that
-information.
-
+On Wed, Sep 18, 2019 at 06:06:33PM +0200, C=E9dric Le Goater wrote:
+> We will use it to resend missed interrupts when a vCPU context is
+> pushed a HW thread.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  include/hw/ppc/xive.h |  1 -
->  hw/intc/pnv_xive.c    | 35 ++++++++++++++++++++++++++++++++++-
->  hw/intc/spapr_xive.c  | 33 +++++++++++++++++++++++++++++++--
->  hw/intc/xive.c        | 29 -----------------------------
->  4 files changed, 65 insertions(+), 33 deletions(-)
+>  include/hw/ppc/xive.h |  1 +
+>  hw/intc/xive.c        | 15 +++++++++++----
+>  2 files changed, 12 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index 536deea8c622..9d9cd88dd17e 100644
+> index f35ff3b64791..a461753f5da5 100644
 > --- a/include/hw/ppc/xive.h
 > +++ b/include/hw/ppc/xive.h
-> @@ -462,7 +462,6 @@ typedef struct XiveENDSource {
->  #define XIVE_TM_OS_PAGE         0x2
->  #define XIVE_TM_USER_PAGE       0x3
+> @@ -467,6 +467,7 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveT=
+CTX *tctx, hwaddr offset,
 > =20
-> -extern const MemoryRegionOps xive_tm_ops;
->  void xive_tctx_tm_write(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offs=
-et,
->                          uint64_t value, unsigned size);
->  uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveTCTX *tctx, hwaddr o=
-ffset,
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index 3d6fcf9ac139..40e18fb44811 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -1475,6 +1475,39 @@ static const MemoryRegionOps xive_tm_indirect_ops =
-=3D {
->      },
->  };
+>  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+>  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+> +void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
 > =20
-> +static void pnv_xive_tm_write(void *opaque, hwaddr offset,
-> +                              uint64_t value, unsigned size)
-> +{
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
-> +    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
-> +    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-> +
-> +    xive_tctx_tm_write(XIVE_PRESENTER(xive), tctx, offset, value, size);
-> +}
-> +
-> +static uint64_t pnv_xive_tm_read(void *opaque, hwaddr offset, unsigned s=
-ize)
-> +{
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
-> +    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
-> +    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-> +
-> +    return xive_tctx_tm_read(XIVE_PRESENTER(xive), tctx, offset, size);
-
-You're not using the opaque pointer in either of these cases.  So
-couldn't you make it point to the presenter for pnv as well, then...
-
-> +}
-> +
-> +const MemoryRegionOps pnv_xive_tm_ops =3D {
-> +    .read =3D pnv_xive_tm_read,
-> +    .write =3D pnv_xive_tm_write,
-> +    .endianness =3D DEVICE_BIG_ENDIAN,
-> +    .valid =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +    },
-> +    .impl =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +    },
-> +};
-> +
->  /*
->   * Interrupt controller XSCOM region.
->   */
-> @@ -1832,7 +1865,7 @@ static void pnv_xive_realize(DeviceState *dev, Erro=
-r **errp)
->                            "xive-pc", PNV9_XIVE_PC_SIZE);
-> =20
->      /* Thread Interrupt Management Area (Direct) */
-> -    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops,
-> +    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &pnv_xive_tm_ops,
->                            xive, "xive-tima", PNV9_XIVE_TM_SIZE);
-> =20
->      qemu_register_reset(pnv_xive_reset, dev);
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index eefc0d4c36b9..e00a9bdd901b 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -222,6 +222,35 @@ void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
->      memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
->  }
-> =20
-> +static void spapr_xive_tm_write(void *opaque, hwaddr offset,
-> +                          uint64_t value, unsigned size)
-> +{
-> +    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
-> +
-> +    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value,
-> size);
-
-=2E.. there would be no difference from the spapr versions, AFAICT.
-
-> +}
-> +
-> +static uint64_t spapr_xive_tm_read(void *opaque, hwaddr offset, unsigned=
- size)
-> +{
-> +    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
-> +
-> +    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size);
-> +}
-> +
-> +const MemoryRegionOps spapr_xive_tm_ops =3D {
-> +    .read =3D spapr_xive_tm_read,
-> +    .write =3D spapr_xive_tm_write,
-> +    .endianness =3D DEVICE_BIG_ENDIAN,
-> +    .valid =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +    },
-> +    .impl =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +    },
-> +};
-> +
->  static void spapr_xive_end_reset(XiveEND *end)
+>  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
 >  {
->      memset(end, 0, sizeof(*end));
-> @@ -331,8 +360,8 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
-r **errp)
->      qemu_register_reset(spapr_xive_reset, dev);
-> =20
->      /* TIMA initialization */
-> -    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops, xi=
-ve,
-> -                          "xive.tima", 4ull << TM_SHIFT);
-> +    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &spapr_xive_tm_o=
-ps,
-> +                          xive, "xive.tima", 4ull << TM_SHIFT);
->      sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xive->tm_mmio);
-> =20
->      /*
 > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 9bb09ed6ee7b..11432f04f5c3 100644
+> index 68d3361d1c3f..5f7c37b091a7 100644
 > --- a/hw/intc/xive.c
 > +++ b/hw/intc/xive.c
-> @@ -483,35 +483,6 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, Xive=
-TCTX *tctx, hwaddr offset,
->      return xive_tm_raw_read(tctx, offset, size);
+> @@ -135,6 +135,15 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
+_t ring, uint8_t cppr)
+>      xive_tctx_notify(tctx, ring);
 >  }
 > =20
-> -static void xive_tm_write(void *opaque, hwaddr offset,
-> -                          uint64_t value, unsigned size)
-> -{
-> -    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
-_cpu);
-> -
-> -    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
-);
-> -}
-> -
-> -static uint64_t xive_tm_read(void *opaque, hwaddr offset, unsigned size)
-> -{
-> -    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
-_cpu);
-> -
-> -    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size);
-> -}
-> -
-> -const MemoryRegionOps xive_tm_ops =3D {
-> -    .read =3D xive_tm_read,
-> -    .write =3D xive_tm_write,
-> -    .endianness =3D DEVICE_BIG_ENDIAN,
-> -    .valid =3D {
-> -        .min_access_size =3D 1,
-> -        .max_access_size =3D 8,
-> -    },
-> -    .impl =3D {
-> -        .min_access_size =3D 1,
-> -        .max_access_size =3D 8,
-> -    },
-> -};
-> -
->  static char *xive_tctx_ring_print(uint8_t *ring)
+> +void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb)
+> +{
+> +    uint8_t *regs =3D &tctx->regs[ring];
+> +
+> +    regs[TM_IPB] |=3D ipb;
+> +    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
+
+You're opencoding the existing ipb_update() here, but not eliminating
+it.  That doesn't seem like a good idea.
+
+> +    xive_tctx_notify(tctx, ring);
+> +}
+> +
+>  static inline uint32_t xive_tctx_word2(uint8_t *ring)
 >  {
->      uint32_t w2 =3D xive_tctx_word2(ring);
+>      return *((uint32_t *) &ring[TM_WORD2]);
+> @@ -336,8 +345,7 @@ static void xive_tm_set_os_cppr(XivePresenter *xptr, =
+XiveTCTX *tctx,
+>  static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
+>                                     hwaddr offset, uint64_t value, unsign=
+ed size)
+>  {
+> -    ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
+> -    xive_tctx_notify(tctx, TM_QW1_OS);
+> +    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff));
+>  }
+> =20
+>  static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+> @@ -1382,8 +1390,7 @@ static bool xive_presenter_notify(uint8_t format,
+> =20
+>      /* handle CPU exception delivery */
+>      if (count) {
+> -        ipb_update(&match.tctx->regs[match.ring], priority);
+> -        xive_tctx_notify(match.tctx, match.ring);
+> +        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(pri=
+ority));
+>      }
+> =20
+>      return count;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -273,25 +146,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---dYuLH7fbMjVsPkFl
+--NrP+m7YXMSGlHqXH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VWDgACgkQbDjKyiDZ
-s5Jrdw/+Lb1jwCGIY3sJoTMQdUtELEGbpSXYdcPx4hhVL1qsZKuCVCgdxnuoOApt
-hfl10A/DwvoFxaOkUUbV/ZnT4Twjr8uMJUrL+VGRMfpRjmJgXMaahccmxD1eq7/6
-dbkUN+UZcGOtBcDDIhX0S7HIN3/K7dq9HOut2X8d0h5X1JEdhGKN0IctJPAxkCuO
-EOGHfVRFDpDnM190mpfHhqOkkqM6VXvUGkqarZwT4JWSe7hXyl6BSnYMlc/KHAjh
-NKzFOcKNLpTXAfICrgGvNH0khG6xu81+GlK5NfK9oLivw8F9Z1X9TliC3IbBYX4E
-uO6IrNB+RdBLGwNkFmxNEVGtLcApGXej3GWmF28xORRJ6ZSuVE1irxVq2arp+asg
-Ammsbqft4SJ52IkedEsUdl1GwLszUV8A/HKyTHlk3OR/Jqc44Sh4Stgo3TDjBPuu
-xW/E5SEx94tusw6QDVQImgr9ct1MrTCFA7IItGAay3f0Xt85pqrl3XafVfPKycjc
-azqycOT7h2gJAfDHNj0R86vn3573BtvIAsnuWV2cTVOR3Zwsmip3UFgJmdxeE9i/
-OUJff9svPv7Hml9tE+jKOxZcwA8sF07uo/pLrTvJY+5iH4yxc5toAIhUv3BpVEyl
-4VWw7/5/NbA4LHBNcUkvsFa74SApB/Qs0qgTNPl029urkjlkofg=
-=V8tV
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VWNkACgkQbDjKyiDZ
+s5JCEg//fMlQGIN48kUga9cXSyiPj3jGDmGYMDTBOKBj0/1zja06iBdW+gD8txjk
+6XUgMZdeEKW1NL6NQU24uR8dHlm0igsfrW/424ZWiC+2BzCbe6eBtb7rQxYdgyoS
+/dweR1mCBxFy1qa7DPvkwSkLR025Zbule8DRKZD6uqCtEY7OlvoPuZHROQbIAnY/
+SkzyCZRsA3ot2smtLQR95FWaH7KxrYMn0s0mlV2RberwOWw6H1X4yIGewQo+4jAr
+4AvD9Zgl1YqFa+ulTwxg842e4/blCerITjkoZnZtwfBPxC9m4IQGQBTxjtRceMMj
+BhlNf9dlDJ4aR36LMNp14egXhQknA8jM83iKeYDrxZBqCjbR/DhZgHi/rJ+zAblY
+vldDCexFZWrUe/bttHivRxVWesmJ9I7QYueSuUJFxbVlC/x5xm/0wgK5bYJ9Bxoe
+PuYR01Mp1yMJlW1CLPSoffV+pJNOW/dIc+LbjCnT0Taj1uax0my+oYRLsyU+BiH8
+PynfwvYC17O+YeSEGeJT4JunG++s3Z1VS6CsYGSoLD36H38MplJFoYrPKZKsXFre
+7xKYlQYJBnSQCcM/BPTw7dWGV7dFkkRMptIosEytOz8ZXTsTruFHT0Fcwor5btCR
+5fqAnoERVyTFytA3HqTmRbogJeyL6XMEahxZg/RhupRVWyuWNjA=
+=Ssys
 -----END PGP SIGNATURE-----
 
---dYuLH7fbMjVsPkFl--
+--NrP+m7YXMSGlHqXH--
 
