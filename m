@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B26DC96CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:46:37 +0200 (CEST)
-Received: from localhost ([::1]:60736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D34C96D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:50:50 +0200 (CEST)
+Received: from localhost ([::1]:60772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFr8V-0001wk-GK
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
+	id 1iFrCb-0005aj-Un
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5N-00007q-9T
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:23 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5L-0000yM-3x
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5M-00007Y-15
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:21 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43429 helo=ozlabs.org)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-0000xQ-8X
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:19 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:38617)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFr5K-0000wt-9L; Wed, 02 Oct 2019 22:43:18 -0400
+ id 1iFr5I-0000wB-8j; Wed, 02 Oct 2019 22:43:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kHPB0DMkz9sPd; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
+ id 46kHP92jTMz9sN1; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570070590;
- bh=u+uCZCaCBXL67IBVelmcQPIxTDuXjr23etMrKCUmF50=;
+ d=gibson.dropbear.id.au; s=201602; t=1570070589;
+ bh=kuQo7v3meGGppIl4DcmZDigutTgIl6ckR6zxEjCHaPM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SeEJPB1zXTjpSaEQ6S5T7eQGrjCglKdnCMI0taE7bOIjqIGvHseqm4NfSw2YEeedJ
- UGZI6NR6PPvcJxvqpMrUtOf3yWJrfbmMr7QyeehyN4ZY3NTsvj3yz2+5SKXPAZi4+F
- pySPBz77ivWSsbulivxseSKs/q4vyv//RKABumqU=
-Date: Thu, 3 Oct 2019 11:58:15 +1000
+ b=Mq6Mu3DUpqWQmpFxCOUhhTUIULocRZxwN19hlepiFfgqQsgb5kuxAmfWLrFUISm4z
+ pkQDoku8z2r3pUHdnxTvz7gz99EfDo8Zuyt1Kd/G1z09LhlC1LC4na94/5cnIShlQL
+ G8XfqvudpvilR9Z4x6rl+iE53UV0Tz5p4hrM1I28=
+Date: Thu, 3 Oct 2019 11:50:17 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 07/25] ppc/spapr: Implement the XiveFabric interface
-Message-ID: <20191003015815.GI11105@umbus.fritz.box>
+Subject: Re: [PATCH v4 03/25] ppc/pnv: Introduce a PNV_CHIP_CPU_FOREACH()
+ helper
+Message-ID: <20191003015017.GE11105@umbus.fritz.box>
 References: <20190918160645.25126-1-clg@kaod.org>
- <20190918160645.25126-8-clg@kaod.org>
+ <20190918160645.25126-4-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="McTFpSeH7KqpdXA3"
+ protocol="application/pgp-signature"; boundary="Zljh9u/ceMLi+8mf"
 Content-Disposition: inline
-In-Reply-To: <20190918160645.25126-8-clg@kaod.org>
+In-Reply-To: <20190918160645.25126-4-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,207 +62,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---McTFpSeH7KqpdXA3
+--Zljh9u/ceMLi+8mf
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 06:06:27PM +0200, C=E9dric Le Goater wrote:
-> The CAM line matching sequence in the pseries machine does not change
-> much apart from the use of the new QOM interfaces. There is an extra
-> indirection because of the sPAPR IRQ backend of the machine. Only the
-> XIVE backend implements the new 'match_nvt' handler.
+On Wed, Sep 18, 2019 at 06:06:23PM +0200, C=E9dric Le Goater wrote:
+> As there is now easy way to loop on the CPUs belonging to a chip, add
+> a helper to filter out external CPUs.
+
+This seems a somewhat odd way to go about it, given that the chip does
+have a cores array and the cores then have a threads array.  What's
+the difficulty with using that rather than looping through all vcpus
+and filtering?
+
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  include/hw/ppc/spapr_irq.h |  6 ++++++
->  hw/ppc/spapr.c             | 34 ++++++++++++++++++++++++++++++++++
->  hw/ppc/spapr_irq.c         | 25 +++++++++++++++++++++++++
->  3 files changed, 65 insertions(+)
+>  hw/intc/pnv_xive.c | 23 ++++++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 5db305165ce2..859780efaf95 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -31,6 +31,8 @@ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint3=
-2_t num, bool align,
->                          Error **errp);
->  void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num);
-> =20
-> +struct XiveTCTXMatch;
-> +
->  typedef struct SpaprIrq {
->      uint32_t    nr_irqs;
->      uint32_t    nr_msis;
-> @@ -50,6 +52,10 @@ typedef struct SpaprIrq {
->      void (*set_irq)(void *opaque, int srcno, int val);
->      const char *(*get_nodename)(SpaprMachineState *spapr);
->      void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
-> +    int (*match_nvt)(SpaprMachineState *spapr, uint8_t format,
-> +                     uint8_t nvt_blk, uint32_t nvt_idx,
-> +                     bool cam_ignore, uint8_t priority,
-> +                     uint32_t logic_serv, struct XiveTCTXMatch *match);
-
-Obviously this will need some rework against my stuff.
-
-But more importantly, I don't see the point of indirecting via here,
-when the method is only relevant for the xive case.  Why not just
-assert that XIVE is in use in the XiveFabric hook, and go directly  to
-the XIVE matching code.
-
->  } SpaprIrq;
-> =20
->  extern SpaprIrq spapr_irq_xics;
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 2725b139a7f0..90f6f5fb9536 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4360,6 +4360,37 @@ static void spapr_pic_print_info(InterruptStatsPro=
-vider *obj,
->                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index ae449aa1119b..e1c15b6b5b71 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -392,15 +392,36 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8=
+_t blk, uint32_t idx,
+>      return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
 >  }
 > =20
-> +static int spapr_xive_match_nvt(XiveFabric *xfb, uint8_t format,
-> +                                uint8_t nvt_blk, uint32_t nvt_idx,
-> +                                bool cam_ignore, uint8_t priority,
-> +                                uint32_t logic_serv, XiveTCTXMatch *matc=
-h)
+> +static int cpu_pir(PowerPCCPU *cpu)
 > +{
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
-> +    int count;
-> +
-> +    count =3D spapr->irq->match_nvt(spapr, format, nvt_blk, nvt_idx, cam=
-_ignore,
-> +                                  priority, logic_serv, match);
-> +    if (count < 0) {
-> +        return count;
-> +    }
-> +
-> +    /*
-> +     * When we implement the save and restore of the thread interrupt
-> +     * contexts in the enter/exit CPU handlers of the machine and the
-> +     * escalations in QEMU, we should be able to handle non dispatched
-> +     * vCPUs.
-> +     *
-> +     * Until this is done, the sPAPR machine should find at least one
-> +     * matching context always.
-> +     */
-> +    if (count =3D=3D 0) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is not dispatche=
-d\n",
-> +                      nvt_blk, nvt_idx);
-> +    }
-> +
-> +    return count;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    return env->spr_cb[SPR_PIR].default_value;
 > +}
 > +
->  int spapr_get_vcpu_id(PowerPCCPU *cpu)
+> +static int cpu_chip_id(PowerPCCPU *cpu)
+> +{
+> +    int pir =3D cpu_pir(cpu);
+> +    return (pir >> 8) & 0x7f;
+> +}
+> +
+> +#define PNV_CHIP_CPU_FOREACH(chip, cs)                                  \
+> +    CPU_FOREACH(cs)                                                     \
+> +        if (chip->chip_id !=3D cpu_chip_id(POWERPC_CPU(cs))) {} else
+> +
+>  static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+>                                uint8_t nvt_blk, uint32_t nvt_idx,
+>                                bool cam_ignore, uint8_t priority,
+>                                uint32_t logic_serv, XiveTCTXMatch *match)
 >  {
->      return cpu->vcpu_id;
-> @@ -4456,6 +4487,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      PPCVirtualHypervisorClass *vhc =3D PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
->      XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
->      InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
-(oc);
-> +    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
+> +    PnvXive *xive =3D PNV_XIVE(xptr);
+>      CPUState *cs;
+>      int count =3D 0;
 > =20
->      mc->desc =3D "pSeries Logical Partition (PAPR compliant)";
->      mc->ignore_boot_device_suffixes =3D true;
-> @@ -4514,6 +4546,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->       */
->      mc->numa_mem_align_shift =3D 28;
->      mc->numa_mem_supported =3D true;
-> +    xfc->match_nvt =3D spapr_xive_match_nvt;
-> =20
->      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
-> @@ -4547,6 +4580,7 @@ static const TypeInfo spapr_machine_info =3D {
->          { TYPE_PPC_VIRTUAL_HYPERVISOR },
->          { TYPE_XICS_FABRIC },
->          { TYPE_INTERRUPT_STATS_PROVIDER },
-> +        { TYPE_XIVE_FABRIC },
->          { }
->      },
->  };
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index d8f46b6797f8..8a6d79a59af2 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -257,6 +257,7 @@ SpaprIrq spapr_irq_xics =3D {
->      .set_irq     =3D spapr_irq_set_irq_xics,
->      .get_nodename =3D spapr_irq_get_nodename_xics,
->      .init_kvm    =3D spapr_irq_init_kvm_xics,
-> +    .match_nvt   =3D NULL, /* should not be used */
->  };
-> =20
->  /*
-> @@ -406,6 +407,18 @@ static void spapr_irq_init_kvm_xive(SpaprMachineStat=
-e *spapr, Error **errp)
->      }
->  }
-> =20
-> +static int spapr_irq_match_nvt_xive(SpaprMachineState *spapr, uint8_t fo=
-rmat,
-> +                                    uint8_t nvt_blk, uint32_t nvt_idx,
-> +                                    bool cam_ignore, uint8_t priority,
-> +                                    uint32_t logic_serv, XiveTCTXMatch *=
-match)
-> +{
-> +    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
-> +    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-> +
-> +    return xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
-> +                          priority, logic_serv, match);
-> +}
-> +
->  /*
->   * XIVE uses the full IRQ number space. Set it to 8K to be compatible
->   * with XICS.
-> @@ -431,6 +444,7 @@ SpaprIrq spapr_irq_xive =3D {
->      .set_irq     =3D spapr_irq_set_irq_xive,
->      .get_nodename =3D spapr_irq_get_nodename_xive,
->      .init_kvm    =3D spapr_irq_init_kvm_xive,
-> +    .match_nvt   =3D spapr_irq_match_nvt_xive,
->  };
-> =20
->  /*
-> @@ -585,6 +599,15 @@ static const char *spapr_irq_get_nodename_dual(Spapr=
-MachineState *spapr)
->      return spapr_irq_current(spapr)->get_nodename(spapr);
->  }
-> =20
-> +static int spapr_irq_match_nvt_dual(SpaprMachineState *spapr, uint8_t fo=
-rmat,
-> +                                    uint8_t nvt_blk, uint32_t nvt_idx,
-> +                                    bool cam_ignore, uint8_t priority,
-> +                                    uint32_t logic_serv, XiveTCTXMatch *=
-match)
-> +{
-> +    return spapr_irq_current(spapr)->match_nvt(spapr, format, nvt_blk, n=
-vt_idx,
-> +                                     cam_ignore, priority, logic_serv, m=
-atch);
-> +}
-> +
->  /*
->   * Define values in sync with the XIVE and XICS backend
->   */
-> @@ -608,6 +631,7 @@ SpaprIrq spapr_irq_dual =3D {
->      .set_irq     =3D spapr_irq_set_irq_dual,
->      .get_nodename =3D spapr_irq_get_nodename_dual,
->      .init_kvm    =3D NULL, /* should not be used */
-> +    .match_nvt   =3D spapr_irq_match_nvt_dual,
->  };
-> =20
-> =20
-> @@ -825,4 +849,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
->      .set_irq     =3D spapr_irq_set_irq_xics,
->      .get_nodename =3D spapr_irq_get_nodename_xics,
->      .init_kvm    =3D spapr_irq_init_kvm_xics,
-> +    .match_nvt   =3D NULL, /* should not be used */
->  };
+> -    CPU_FOREACH(cs) {
+> +    /*
+> +     * Loop on all CPUs of the machine and filter out the CPUs
+> +     * belonging to another chip.
+> +     */
+> +    PNV_CHIP_CPU_FOREACH(xive->chip, cs) {
+>          PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>          XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+>          int ring;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -269,25 +132,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---McTFpSeH7KqpdXA3
+--Zljh9u/ceMLi+8mf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VVbcACgkQbDjKyiDZ
-s5LlsA//R8o9fgAMr5vY1x3XVP6+55/vXjxopBkJMW4mueu4cB2aC09n7KT1xNEH
-Bt7AxjOvgGO3MOnkPb2R1+rHKzVKO4t6hGRAns8/r9SQrpRf4dtYDHYVaetWkc7u
-uvbpV27hncgPE9ZQU2BwUcMbGg9KM3u8t4OkNnhJWO9P2AJB1aXMqHPASpLqr0hb
-gAomTT68HAtFDB6km7cPz0bqSwGk/EBhwIbe/b0bXWl7TCoV2IjeVv/Ur6TBLdmq
-FSw24RSg+bzoLzecBt8s6OOK7YBznQe2x0sSgRvlKcn9BuLQcBBoZUCKssv2hdz9
-V4FslZF4gGmQdKYOPM5ZP0gGxuzm0TRDFSdcDXHhwMIElgD2HhnmCWdB6EnZTW8A
-7/xID8O+K+OKZKqRYVQUJmymiy22n1FOv2SyZ0kspCGi4kEUjvYZ4Q8O15HJHoxB
-Up2lcH1Dh2xxPvBm8qwmLvOOUblSCRcGRF1Vl6oa/XeL23oDULdoihmbg1L8nBD2
-DPLqbWKC45Egg2d3QKisejYSUujfxUZSxc1vuOrZvu8jQm/srZFZzV3A2jsWe/5i
-MmfnBKY/iBTPwhgrQRAbD1gqsahcOg9qYLxgLlDrB9c2F31kH1r3MfswkRkenftt
-/X1OqfzuOO9zN+pALYlBUNoPIom/otDO20ZAFiwTZqY1y58WueE=
-=JY4/
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VU9cACgkQbDjKyiDZ
+s5KCJhAArH5y2NwFIj7D0wYGjIdkFW9LKjVg6AiKIjQwP4Dchjt0sSbuKBC1kd2k
+oC7FyvpkUwBtr+lM58kvaAutPLIPGinmR9HbT5N1gPnQyURhPlbl8ug01pKlBUQN
+Np5pecCGXVHkTveiPgW/rWrpLvoRKaNKCub8q4dWA02KkEwHJ00NY9hUyV0OJvvI
+YdZO4v3j1U/2r07dLLCZp7JqmRwgnoWPCWQKlevuKUL8H74vdDXAiIVy+wHAThjX
+IOq5wvBtjLWkpwQYhOad+sGkr9cmB0+M843W+c9LK8QXuf6vBn2SGdyAIlZDcdSD
+odko1PA3SNnYAnXASSIodZDHta2ZeLrl8OBkCii668oUADU/YaIsAZhLEYRv+db0
+JFIVTlsJGDQEg0VGPlrvSAWB1VIW19iN1ZjjgxtCHP7G0K2oS3vOVL4/d3PtVJCE
+nMj9n5x75yw4RmNqvo239FfXqgWcUHAIXS9Z8Twa+EhViK5VXAAf8Bx6ZALoLNva
+3cqGmIrTED/Ce+hbTIpRwpgE2mEXkzjyzZ+NuKOoaB/RMb20+09B3ZTuYSCqK7zF
+W6/7tk0x/IVKBU5bkWOeOwRTXlecwQTeHl/mtTdDkTfFDiceNnjuDtOGOtvEviFk
+1O9CDu2P9U1YJWPW581cBDPzhQhVmQlLL1KE0yzKxoyFHUsw/jE=
+=IMPZ
 -----END PGP SIGNATURE-----
 
---McTFpSeH7KqpdXA3--
+--Zljh9u/ceMLi+8mf--
 
