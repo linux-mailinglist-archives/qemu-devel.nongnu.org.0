@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513ECCAA59
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 19:26:02 +0200 (CEST)
-Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B451ACAB72
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 19:28:19 +0200 (CEST)
+Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG4rZ-0006tX-AJ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 13:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33437)
+	id 1iG4tm-0001T7-Kj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 13:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34076)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iG4nJ-0003S5-FX
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:21:38 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iG4s6-0000IR-Tb
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:26:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iG4nI-00029y-9k
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:21:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45058)
+ (envelope-from <jsnow@redhat.com>) id 1iG4s5-0003qx-Lg
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:26:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59853)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iG4nD-00028h-Hr; Thu, 03 Oct 2019 13:21:31 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iG4s2-0003qA-Ht; Thu, 03 Oct 2019 13:26:30 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AEC0E3003A49;
- Thu,  3 Oct 2019 17:21:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B436C308620B;
+ Thu,  3 Oct 2019 17:26:29 +0000 (UTC)
 Received: from [10.18.17.165] (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06304196AE;
- Thu,  3 Oct 2019 17:21:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF4D35D9E1;
+ Thu,  3 Oct 2019 17:26:16 +0000 (UTC)
 Subject: Re: [PULL 0/8] Ide patches
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20191001235552.17790-1-jsnow@redhat.com>
@@ -108,8 +108,8 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <4ca75c8a-9b6f-2188-9f80-c91c367f3022@redhat.com>
-Date: Thu, 3 Oct 2019 13:21:19 -0400
+Message-ID: <bf8fe3f9-5d38-7c77-81a0-6382ce1bdbee@redhat.com>
+Date: Thu, 3 Oct 2019 13:26:15 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
@@ -117,9 +117,9 @@ In-Reply-To: <CAFEAcA8q2UgQNxO41CGyAS=c7sb9V-v8kvcBFRZ9wW67Q7eo-w@mail.gmail.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 03 Oct 2019 17:21:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 03 Oct 2019 17:26:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -181,11 +181,17 @@ On 10/3/19 11:35 AM, Peter Maydell wrote:
 > as the maintainer on the commits in this pullreq. Could you
 > fix that and resend, please?
 > 
-> thanks
-> -- PMM
-> 
 
-I knew I'd forget something after reconfiguring git-publish :)
+... I see what happened now, actually.
 
-Sorry about that.
+The emails got signed but the commits didn't.
+
+I didn't sign them when I applied the patches, but I signed them when
+using git-publish --pull-request --signoff, and it applies the signature
+before send, but after mirroring.
+
+I'll try to fix that when I have the time to make sure it doesn't happen
+again.
+
+--js
 
