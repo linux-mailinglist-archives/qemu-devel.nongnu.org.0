@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446ADC9C09
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 12:19:29 +0200 (CEST)
-Received: from localhost ([::1]:34428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F175C9BDB
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 12:14:56 +0200 (CEST)
+Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFyCl-0005eo-OW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 06:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54940)
+	id 1iFy8M-0002EB-VT
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 06:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iFyBQ-00055F-Ur
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:18:09 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iFy7J-0001Zr-8V
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:13:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iFyBP-0006oF-NK
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:18:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36782)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iFyBP-0006nw-GC
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:18:03 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iFyBN-00076A-9r
- for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 10:18:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2F9CF2E80DE
- for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 10:18:01 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1iFy7H-0004w5-DV
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:13:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47152)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iFy7H-0004vW-4a
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:13:47 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0DAEC369CA
+ for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 10:13:46 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id c188so494214wmd.9
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 03:13:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0Idv59k3ks8keb9H5Qtp1k/hVlx1fmHmEQ0grMs3eUc=;
+ b=JJnU6+6kNVt3JgYCVDHGpW+WhY5j2xl9q+4PPwtBtTegbS7PSe/B01z3IExMFHsWuW
+ fzHF+i4Iu8PRCZEma782IzKdGV4WU8yI9TKlLAy3+YDPglsWhQDSI7kAYvYypxLKXM7f
+ 6SCY4xVgqzqw8C+Ur12r6CAx4OzX80PzDwWR3RjRLM3Zh9waVJPMvsr3CdCjVpPJE9/B
+ uPdlsLIDj6Ife8tw3aWc9TrjgTyKCEhWE17YRhSZ27IlLdZno+gNmExtVgUOhx5Y2nw+
+ sVIsLOzKReTOTrPSe+6ndT5zGZr3O7N2zLqcdnhuzxdlY1n89Ta738uHxmxZa1cmlfjQ
+ iBzQ==
+X-Gm-Message-State: APjAAAXioca+OCJODYJnHsvOgR07baQwscRDj74FVMeMSYDDZCht1qJW
+ W4kKNsZsSykYA/VakTQ+wCngMolqEkLb96xo+mUxAluSAndmp9GDKUqskH1gD2GfXuoRaxMGyvN
+ QLTHoaXAcW2Bh6dQ=
+X-Received: by 2002:adf:ee92:: with SMTP id b18mr6011752wro.217.1570097624713; 
+ Thu, 03 Oct 2019 03:13:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxLxPmYwdxrCRKJrL0xKedumnnmguZ9+3DJ8+sWuH8asImxJoHZoRDg1uAobGOT2iskrMi+zg==
+X-Received: by 2002:adf:ee92:: with SMTP id b18mr6011730wro.217.1570097624401; 
+ Thu, 03 Oct 2019 03:13:44 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:b903:6d6f:a447:e464?
+ ([2001:b07:6468:f312:b903:6d6f:a447:e464])
+ by smtp.gmail.com with ESMTPSA id h14sm1797764wro.44.2019.10.03.03.13.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Oct 2019 03:13:43 -0700 (PDT)
+Subject: Re: [PATCH] test-bdrv-drain: fix iothread_join() hang
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191003100103.331-1-stefanha@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <ed42e887-42b2-249c-186a-8798bd19b662@redhat.com>
+Date: Thu, 3 Oct 2019 12:13:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Oct 2019 10:03:23 -0000
-From: Po-Hsu Lin <po-hsu.lin@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
- status=Won't Fix; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu-kvm; component=main; 
- status=Invalid; importance=Low; assignee=None; 
-X-Launchpad-Bug: distribution=fedora; sourcepackage=linux; component=None;
- status=Won't Fix; importance=Medium; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug kernel-core kernel-reviewed kj-triage
- lucid uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amit-redhat-bugs anthony-codemonkey
- ariel-redhat-bugs bug-redhat-bugs cypressyew fedora-redhat-bugs hggdh2
- james-redhat-bugs jeremyfoshee justin-redhat-bugs serge-hallyn smoser
-X-Launchpad-Bug-Reporter: Scott Moser (smoser)
-X-Launchpad-Bug-Modifier: Po-Hsu Lin (cypressyew)
-References: <20100324221929.19590.58686.malonedeb@wampee.canonical.com>
-Message-Id: <157009700400.16699.3226138387992830590.malone@gac.canonical.com>
-Subject: [Bug 546458] Re: kernel NULL pointer in -virtual (-server) kernel
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19066";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f017ad2222b455d5751df9d5e13675a879c3ef8c
+In-Reply-To: <20191003100103.331-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,91 +81,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 546458 <546458@bugs.launchpad.net>
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Closing this bug with Won't fix as this kernel / release is no longer suppo=
-rted.
-Please feel free to open a new bug report if you're still experiencing this=
- on a newer release (Bionic 18.04.3 / Disco 19.04)
+On 03/10/19 12:01, Stefan Hajnoczi wrote:
+> tests/test-bdrv-drain can hang in tests/iothread.c:iothread_run():
+> 
+>   while (!atomic_read(&iothread->stopping)) {
+>       aio_poll(iothread->ctx, true);
+>   }
+> 
+> The iothread_join() function works as follows:
+> 
+>   void iothread_join(IOThread *iothread)
+>   {
+>       iothread->stopping = true;
+>       aio_notify(iothread->ctx);
+>       qemu_thread_join(&iothread->thread);
+> 
+> If iothread_run() checks iothread->stopping before the iothread_join()
+> thread sets stopping to true, then aio_notify() may be optimized away
+> and iothread_run() hangs forever in aio_poll().
+> 
+> The correct way to change iothread->stopping is from a BH that executes
+> within iothread_run().  This ensures that iothread->stopping is checked
+> after we set it to true.
+> 
+> This was already fixed for ./iothread.c (note this is a different source
+> file!) by commit 2362a28ea11c145e1a13ae79342d76dc118a72a6 ("iothread:
+> fix iothread_stop() race condition"), but not for tests/iothread.c.
+> 
+> Fixes: 0c330a734b51c177ab8488932ac3b0c4d63a718a
+>        ("aio: introduce aio_co_schedule and aio_co_wake")
+> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tests/iothread.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/iothread.c b/tests/iothread.c
+> index 777d9eea46..13c9fdcd8d 100644
+> --- a/tests/iothread.c
+> +++ b/tests/iothread.c
+> @@ -55,10 +55,16 @@ static void *iothread_run(void *opaque)
+>      return NULL;
+>  }
+>  
+> -void iothread_join(IOThread *iothread)
+> +static void iothread_stop_bh(void *opaque)
+>  {
+> +    IOThread *iothread = opaque;
+> +
+>      iothread->stopping = true;
+> -    aio_notify(iothread->ctx);
+> +}
+> +
+> +void iothread_join(IOThread *iothread)
+> +{
+> +    aio_bh_schedule_oneshot(iothread->ctx, iothread_stop_bh, iothread);
+>      qemu_thread_join(&iothread->thread);
+>      qemu_cond_destroy(&iothread->init_done_cond);
+>      qemu_mutex_destroy(&iothread->init_done_lock);
+> 
+
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+
 Thanks!
 
-** Changed in: linux (Ubuntu)
-       Status: Triaged =3D> Won't Fix
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/546458
-
-Title:
-  kernel NULL pointer in -virtual (-server) kernel
-
-Status in QEMU:
-  Invalid
-Status in linux package in Ubuntu:
-  Won't Fix
-Status in qemu-kvm package in Ubuntu:
-  Invalid
-Status in linux package in Fedora:
-  Won't Fix
-
-Bug description:
-  When stress testing eucalyptus we have run into this oops inside VMs
-  [   82.907577] BUG: unable to handle kernel NULL pointer dereference at 0=
-000000000000358^M
-  [   82.908842] IP: [<ffffffff813982e8>] sym_int_sir+0x2a8/0x750^M
-  [   82.909773] PGD 0 ^M
-  [   82.910110] Thread overran stack, or stack corrupted^M
-  [   82.910870] Oops: 0000 [#1] SMP ^M
-  [   82.911407] last sysfs file: /sys/devices/virtual/block/ram9/uevent^M
-
-  We launched 18 instances, 2 of them failed this way.  The instances
-  run with 192M of memory.  With 6 VM launches on a single node all at
-  the same time the host is under heavy load.
-
-  This occurred in 20100323 lucid x86_64 uec-image instance.
-
-  ProblemType: Bug
-  AlsaDevices: Error: command ['ls', '-l', '/dev/snd/'] failed with exit co=
-de 2: ls: cannot access /dev/snd/: No such file or directory
-  AplayDevices: Error: [Errno 2] No such file or directory
-  Architecture: amd64
-  ArecordDevices: Error: [Errno 2] No such file or directory
-  CurrentDmesg:
-   =
-
-  Date: Wed Mar 24 22:06:32 2010
-  DistroRelease: Ubuntu 10.04
-  Frequency: Once a day.
-  Lsusb: Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
-  MachineType: Bochs Bochs
-  Package: linux-image-2.6.32-16-virtual 2.6.32-16.25
-  PciMultimedia:
-   =
-
-  ProcCmdLine: root=3D/dev/sda1 console=3DttyS0
-  ProcEnviron:
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcVersionSignature: User Name 2.6.32-16.25-server
-  Regression: No
-  Reproducible: No
-  SourcePackage: linux
-  TestedUpstream: No
-  Uname: Linux 2.6.32-16-server x86_64
-  dmi.bios.date: 01/01/2007
-  dmi.bios.vendor: Bochs
-  dmi.bios.version: Bochs
-  dmi.chassis.type: 1
-  dmi.chassis.vendor: Bochs
-  dmi.modalias: dmi:bvnBochs:bvrBochs:bd01/01/2007:svnBochs:pnBochs:pvr:cvn=
-Bochs:ct1:cvr:
-  dmi.product.name: Bochs
-  dmi.sys.vendor: Bochs
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/546458/+subscriptions
+Paolo
 
