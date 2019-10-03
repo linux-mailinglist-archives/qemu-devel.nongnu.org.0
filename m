@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C13C96D3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:50:50 +0200 (CEST)
-Received: from localhost ([::1]:60774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7573BC96D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:50:49 +0200 (CEST)
+Received: from localhost ([::1]:60770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFrCa-0005bW-S7
+	id 1iFrCa-0005a0-6Y
 	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5M-00007n-LA
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5M-00007l-ID
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-0000yA-Ve
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-0000xj-NQ
  for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:20 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45761 helo=ozlabs.org)
+Received: from ozlabs.org ([2401:3900:2:1::2]:37291)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFr5K-0000wp-9X; Wed, 02 Oct 2019 22:43:18 -0400
+ id 1iFr5K-0000wu-6I; Wed, 02 Oct 2019 22:43:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kHPB2k0Yz9sPh; Thu,  3 Oct 2019 12:43:10 +1000 (AEST)
+ id 46kHPB4DKWz9sPk; Thu,  3 Oct 2019 12:43:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570070590;
- bh=h2MMpDmBrgbXfzhn6sRqy3nLm/+RksZ/9+FnSJihtm4=;
+ bh=GTYXh1L5k2UqdQaiMEgA0uDG+ovgdPLDLCqEA5+Bei4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oZS3Cib2Hrs15pP+sFFG3c449zros4BkLbSzfP0g7Vv7O6LWmHl+WlnHr0qIMavE2
- 9Rk9k1cZVeaoLNqEgmggWkj7aaljmHjxHiMv4wweRvFNVZXYxFtH3NiqiLOG0DuApC
- 37fOZyQ8M+r2FD1C/P69V2MAAp0DaD0C2reUW3nU=
-Date: Thu, 3 Oct 2019 12:11:37 +1000
+ b=A4DqPz1chwYmGkVVdNm4TjUVf3J+avWNpWMCOwgP2UByWWLBnqut1EllLygjP/EE4
+ MF23pyfTfi4X94VIl9L9FSZ1x5quEnwHDq1rmfuuOUNSLJMFCcpBKPFV2MnlTZ26de
+ 8nki+reVUjaYuAGzmmXxwU6gTkNBP1MpzMLTNQAk=
+Date: Thu, 3 Oct 2019 12:12:58 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 13/25] ppc/xive: Introduce a xive_tctx_ipb_update()
- helper
-Message-ID: <20191003021137.GK11105@umbus.fritz.box>
+Subject: Re: [PATCH v4 14/25] ppc/xive: Introduce helpers for the NVT id
+Message-ID: <20191003021258.GL11105@umbus.fritz.box>
 References: <20190918160645.25126-1-clg@kaod.org>
- <20190918160645.25126-14-clg@kaod.org>
+ <20190918160645.25126-15-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NrP+m7YXMSGlHqXH"
+ protocol="application/pgp-signature"; boundary="ibe32dcbQs37CEZO"
 Content-Disposition: inline
-In-Reply-To: <20190918160645.25126-14-clg@kaod.org>
+In-Reply-To: <20190918160645.25126-15-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,83 +61,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---NrP+m7YXMSGlHqXH
+--ibe32dcbQs37CEZO
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 06:06:33PM +0200, C=E9dric Le Goater wrote:
-> We will use it to resend missed interrupts when a vCPU context is
-> pushed a HW thread.
+On Wed, Sep 18, 2019 at 06:06:34PM +0200, C=E9dric Le Goater wrote:
+> The NVT space is 19 bits wide, giving a maximum of 512K per chip. When
+> dispatched on a HW thread, the NVT identifier of a vCPU is pushed/stored
+> in the CAM line (word2) of the thread interrupt context.
+
+Ok, that's interesting, but how does it lead to this patch?  Connect
+the dots, please.
+
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  include/hw/ppc/xive.h |  1 +
->  hw/intc/xive.c        | 15 +++++++++++----
->  2 files changed, 12 insertions(+), 4 deletions(-)
+>  include/hw/ppc/xive.h      |  5 -----
+>  include/hw/ppc/xive_regs.h | 21 +++++++++++++++++++++
+>  2 files changed, 21 insertions(+), 5 deletions(-)
 >=20
 > diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index f35ff3b64791..a461753f5da5 100644
+> index a461753f5da5..794dfcaae0f8 100644
 > --- a/include/hw/ppc/xive.h
 > +++ b/include/hw/ppc/xive.h
-> @@ -467,6 +467,7 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveT=
-CTX *tctx, hwaddr offset,
-> =20
->  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+> @@ -469,11 +469,6 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monito=
+r *mon);
 >  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-> +void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
+>  void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
 > =20
->  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+> -static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
 dx)
->  {
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 68d3361d1c3f..5f7c37b091a7 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -135,6 +135,15 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
-_t ring, uint8_t cppr)
->      xive_tctx_notify(tctx, ring);
->  }
+> -{
+> -    return (nvt_blk << 19) | nvt_idx;
+> -}
+> -
+>  /*
+>   * KVM XIVE device helpers
+>   */
+> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+> index 08c8bf7172e2..3d7b6fd09664 100644
+> --- a/include/hw/ppc/xive_regs.h
+> +++ b/include/hw/ppc/xive_regs.h
+> @@ -251,4 +251,25 @@ typedef struct XiveNVT {
 > =20
-> +void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb)
-> +{
-> +    uint8_t *regs =3D &tctx->regs[ring];
+>  #define xive_nvt_is_valid(nvt)    (be32_to_cpu((nvt)->w0) & NVT_W0_VALID)
+> =20
+> +/*
+> + * The VP number space in a block is defined by the END_W6_NVT_INDEX
+> + * field of the XIVE END
+> + */
+> +#define XIVE_NVT_SHIFT                19
 > +
-> +    regs[TM_IPB] |=3D ipb;
-> +    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
-
-You're opencoding the existing ipb_update() here, but not eliminating
-it.  That doesn't seem like a good idea.
-
-> +    xive_tctx_notify(tctx, ring);
+> +static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
+> +{
+> +    return (nvt_blk << XIVE_NVT_SHIFT) | nvt_idx;
 > +}
 > +
->  static inline uint32_t xive_tctx_word2(uint8_t *ring)
->  {
->      return *((uint32_t *) &ring[TM_WORD2]);
-> @@ -336,8 +345,7 @@ static void xive_tm_set_os_cppr(XivePresenter *xptr, =
-XiveTCTX *tctx,
->  static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
->                                     hwaddr offset, uint64_t value, unsign=
-ed size)
->  {
-> -    ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
-> -    xive_tctx_notify(tctx, TM_QW1_OS);
-> +    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff));
->  }
-> =20
->  static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
-> @@ -1382,8 +1390,7 @@ static bool xive_presenter_notify(uint8_t format,
-> =20
->      /* handle CPU exception delivery */
->      if (count) {
-> -        ipb_update(&match.tctx->regs[match.ring], priority);
-> -        xive_tctx_notify(match.tctx, match.ring);
-> +        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(pri=
-ority));
->      }
-> =20
->      return count;
+> +static inline uint32_t xive_nvt_idx(uint32_t cam_line)
+> +{
+> +    return cam_line & ((1 << XIVE_NVT_SHIFT) - 1);
+> +}
+> +
+> +static inline uint32_t xive_nvt_blk(uint32_t cam_line)
+> +{
+> +    return (cam_line >> XIVE_NVT_SHIFT) & 0xf;
+> +}
+> +
+>  #endif /* PPC_XIVE_REGS_H */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -146,25 +137,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---NrP+m7YXMSGlHqXH
+--ibe32dcbQs37CEZO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VWNkACgkQbDjKyiDZ
-s5JCEg//fMlQGIN48kUga9cXSyiPj3jGDmGYMDTBOKBj0/1zja06iBdW+gD8txjk
-6XUgMZdeEKW1NL6NQU24uR8dHlm0igsfrW/424ZWiC+2BzCbe6eBtb7rQxYdgyoS
-/dweR1mCBxFy1qa7DPvkwSkLR025Zbule8DRKZD6uqCtEY7OlvoPuZHROQbIAnY/
-SkzyCZRsA3ot2smtLQR95FWaH7KxrYMn0s0mlV2RberwOWw6H1X4yIGewQo+4jAr
-4AvD9Zgl1YqFa+ulTwxg842e4/blCerITjkoZnZtwfBPxC9m4IQGQBTxjtRceMMj
-BhlNf9dlDJ4aR36LMNp14egXhQknA8jM83iKeYDrxZBqCjbR/DhZgHi/rJ+zAblY
-vldDCexFZWrUe/bttHivRxVWesmJ9I7QYueSuUJFxbVlC/x5xm/0wgK5bYJ9Bxoe
-PuYR01Mp1yMJlW1CLPSoffV+pJNOW/dIc+LbjCnT0Taj1uax0my+oYRLsyU+BiH8
-PynfwvYC17O+YeSEGeJT4JunG++s3Z1VS6CsYGSoLD36H38MplJFoYrPKZKsXFre
-7xKYlQYJBnSQCcM/BPTw7dWGV7dFkkRMptIosEytOz8ZXTsTruFHT0Fcwor5btCR
-5fqAnoERVyTFytA3HqTmRbogJeyL6XMEahxZg/RhupRVWyuWNjA=
-=Ssys
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VWSoACgkQbDjKyiDZ
+s5JYcA//Uf2R68G++EtHjUHOmB7i1sjdKzalJD+byNiFzYEZuryiiBM70nqm63Lu
+CF+0UTwv3lZ8CibKLqrYMd+l+31nUwN1HNjqwHi/ohgfMDoyACE36Rg4ovuVD/AD
+Mqkrct32/SQlKCPoaazM7bQkyipVOLf9HGPrhzvtJVYn3kPoKGVQKOWzbb7efcXF
+8/hX5NWW8bPBaUGpZ8x8QW44sKOuB9VNVCPBBQnv+EyJKTGv0/cgJeHbd2QKMsW8
+mnapf9KZPfvEvXuZ69T1GRzXjBlousCDUqiEVPs3mBMF/blx0WJNjL9An6fDa4hY
+ao2p6tM6JmwVbgLvxyTJGBhbU7F4sKQH056SKwo7Gb1Av8YYHLxsFgVSDKlG/Tfp
+efqGTrre0sDZtRekriHCpsuuTHtQ0yyFm/NTCLyus+is9DnBzMKDAK0FjQuGjISG
+HCPmvvhP6IhNbv3GPBXDKrLsMm/P0Wa4kvauPfT4jBbyzmZx2cGOb0zZKEgJfYxI
+g/oQxMLN+buXjt0+Plv+BRLuLhvvwx69I/6WLDeuSyQ5gRYxOd4ON3+tHZW2D0Mj
+09zoQuIjuIROqdYP+0xcPdNx07jh1cj59k7xGYZFDU45QWHg7zWVzT+VaBPUD8UU
+e61vtwNOjUrN9PQYZ4d7MfQ5Bg93hdxXdDOUbg7i2Teg8wQonUw=
+=r9RE
 -----END PGP SIGNATURE-----
 
---NrP+m7YXMSGlHqXH--
+--ibe32dcbQs37CEZO--
 
