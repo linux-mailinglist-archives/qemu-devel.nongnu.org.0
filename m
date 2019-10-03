@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B42FC9E64
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:27:25 +0200 (CEST)
-Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B066DC9EA5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:38:19 +0200 (CEST)
+Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG0Ca-0008Gi-Kc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44532)
+	id 1iG0N8-00075U-MW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iG0BM-0007gT-KK
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:26:09 -0400
+ (envelope-from <bounces@canonical.com>) id 1iG0LA-0005S6-B9
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iG0BL-0005kJ-4c
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:26:08 -0400
-Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:38820)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iG0BK-0005is-U2
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:26:07 -0400
-Received: from player758.ha.ovh.net (unknown [10.109.143.175])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id BE64911ACF9
- for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 14:26:04 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player758.ha.ovh.net (Postfix) with ESMTPSA id 776A9A906D02;
- Thu,  3 Oct 2019 12:25:59 +0000 (UTC)
-Subject: Re: [PATCH 3/7] spapr, xics, xive: Drop nr_servers argument in
- DT-related functions
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <157010404888.246126.9768030542733152637.stgit@bahia.lan>
- <157010407899.246126.7691819104525548257.stgit@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <4a35c881-e499-0539-790c-25b6f5f0068e@kaod.org>
-Date: Thu, 3 Oct 2019 14:25:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <bounces@canonical.com>) id 1iG0L8-00059a-AD
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:16 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46544)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iG0L8-00058z-3u
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:36:14 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iG0L6-0002EA-Fa
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 12:36:12 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 749BA2E80C7
+ for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 12:36:12 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <157010407899.246126.7691819104525548257.stgit@bahia.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 16779286315878419264
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrgeekgdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Oct 2019 12:28:50 -0000
+From: Rafael David Tinoco <rafaeldtinoco@kernelpath.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=New; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=New; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=In Progress; importance=Medium;
+ assignee=rafaeldtinoco@kernelpath.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=ff-series;
+ sourcepackage=qemu; component=None; status=New; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dannf jan-glauber-i jnsnow lizhengui rafaeldtinoco
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <157010573031.15810.7616346342056233035.malone@gac.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19066";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9b766f4cd1df30c05cd2203f090fe7da3b132a51
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.251.49
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,152 +79,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/10/2019 14:01, Greg Kurz wrote:
-> Both XICS and XIVE backends can access nr_servers by other means. No
-> need to pass it around anymore.
+Documenting this here as bug# was dropped from the mail thread:
 
-OK. You are doing the clean up in this patch.
+On 02/10/19 13:05, Jan Glauber wrote:
+> The arm64 code generated for the
+> atomic_[add|sub] accesses of ctx->notify_me doesn't contain any
+> memory barriers. It is just plain ldaxr/stlxr.
+>
+> From my understanding this is not sufficient for SMP sync.
+>
+>>> If I read this comment correct:
+>>>
+>>>     void aio_notify(AioContext *ctx)
+>>>     {
+>>>         /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pai=
+rs
+>>>          * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
+>>>          */
+>>>         smp_mb();
+>>>         if (ctx->notify_me) {
+>>>
+>>> it points out that the smp_mb() should be paired. But as
+>>> I said the used atomics don't generate any barriers at all.
+>>
+>> Awesome!  That would be a compiler bug though, as atomic_add and atomic_=
+sub
+>> are defined as sequentially consistent:
+>>
+>> #define atomic_add(ptr, n) ((void) __atomic_fetch_add(ptr, n, __ATOMIC_S=
+EQ_CST))
+>> #define atomic_sub(ptr, n) ((void) __atomic_fetch_sub(ptr, n, __ATOMIC_S=
+EQ_CST))
+>
+> Compiler bug sounds kind of unlikely...
+Indeed the assembly produced by the compiler matches for example the
+mappings at https://www.cl.cam.ac.uk/~pes20/cpp/cpp0xmappings.html.  A
+small testcase is as follows:
 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+  int ctx_notify_me;
+  int bh_scheduled;
 
-even if spapr_irq removal is programmed,=20
+  int x()
+  {
+      int one =3D 1;
+      int ret;
+      __atomic_store(&bh_scheduled, &one, __ATOMIC_RELEASE);     // x1
+      __atomic_thread_fence(__ATOMIC_SEQ_CST);                   // x2
+      __atomic_load(&ctx_notify_me, &ret, __ATOMIC_RELAXED);     // x3
+      return ret;
+  }
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+  int y()
+  {
+      int ret;
+      __atomic_fetch_add(&ctx_notify_me, 2, __ATOMIC_SEQ_CST);  // y1
+      __atomic_load(&bh_scheduled, &ret, __ATOMIC_RELAXED);     // y2
+      return ret;
+  }
 
-> ---
->  hw/intc/spapr_xive.c        |    3 +--
->  hw/intc/xics_spapr.c        |    3 +--
->  hw/ppc/spapr.c              |    3 +--
->  hw/ppc/spapr_irq.c          |    5 ++---
->  include/hw/ppc/spapr_irq.h  |    3 +--
->  include/hw/ppc/spapr_xive.h |    3 +--
->  include/hw/ppc/xics_spapr.h |    3 +--
->  7 files changed, 8 insertions(+), 15 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 62888ddc68db..56d851169cf6 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -1552,8 +1552,7 @@ void spapr_xive_hcall_init(SpaprMachineState *spa=
-pr)
->      spapr_register_hypercall(H_INT_RESET, h_int_reset);
->  }
-> =20
-> -void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle)
-> +void spapr_dt_xive(SpaprMachineState *spapr, void *fdt, uint32_t phand=
-le)
->  {
->      SpaprXive *xive =3D spapr->xive;
->      int node;
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index aa568ed0dc0d..015753c19c5d 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -308,8 +308,7 @@ static void ics_spapr_realize(DeviceState *dev, Err=
-or **errp)
->      spapr_register_hypercall(H_IPOLL, h_ipoll);
->  }
-> =20
-> -void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle)
-> +void spapr_dt_xics(SpaprMachineState *spapr, void *fdt, uint32_t phand=
-le)
->  {
->      ICSState *ics =3D spapr->ics;
->      uint32_t interrupt_server_ranges_prop[] =3D {
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index b8b9796c88e4..8f59f08c102e 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1255,8 +1255,7 @@ static void *spapr_build_fdt(SpaprMachineState *s=
-papr)
->      _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
-> =20
->      /* /interrupt controller */
-> -    spapr->irq->dt_populate(spapr, spapr_max_server_number(spapr), fdt=
-,
-> -                          PHANDLE_INTC);
-> +    spapr->irq->dt_populate(spapr, fdt, PHANDLE_INTC);
-> =20
->      ret =3D spapr_populate_memory(spapr, fdt);
->      if (ret < 0) {
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 025fd00143a2..02e1b5503b65 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -368,11 +368,10 @@ static void spapr_irq_print_info_dual(SpaprMachin=
-eState *spapr, Monitor *mon)
->      spapr_irq_current(spapr)->print_info(spapr, mon);
->  }
-> =20
-> -static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
-> -                                       uint32_t nr_servers, void *fdt,
-> +static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr, void =
-*fdt,
->                                         uint32_t phandle)
->  {
-> -    spapr_irq_current(spapr)->dt_populate(spapr, nr_servers, fdt, phan=
-dle);
-> +    spapr_irq_current(spapr)->dt_populate(spapr, fdt, phandle);
->  }
-> =20
->  static void spapr_irq_cpu_intc_create_dual(SpaprMachineState *spapr,
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 69a37f608e01..1736e503a8e9 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -45,8 +45,7 @@ typedef struct SpaprIrq {
->      int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **=
-errp);
->      void (*free)(SpaprMachineState *spapr, int irq);
->      void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
-> -    void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
-> -                        void *fdt, uint32_t phandle);
-> +    void (*dt_populate)(SpaprMachineState *spapr, void *fdt, uint32_t =
-phandle);
->      void (*cpu_intc_create)(SpaprMachineState *spapr, PowerPCCPU *cpu,
->                              Error **errp);
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index 4a4a6fc6be7f..fae075d51815 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -61,8 +61,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monit=
-or *mon);
->  int spapr_xive_post_load(SpaprXive *xive, int version_id);
-> =20
->  void spapr_xive_hcall_init(SpaprMachineState *spapr);
-> -void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle);
-> +void spapr_dt_xive(SpaprMachineState *spapr, void *fdt, uint32_t phand=
-le);
->  void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
->  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
->  void spapr_xive_map_mmio(SpaprXive *xive);
-> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> index 0b35e85c266a..ecb67c6c340a 100644
-> --- a/include/hw/ppc/xics_spapr.h
-> +++ b/include/hw/ppc/xics_spapr.h
-> @@ -32,8 +32,7 @@
->  #define TYPE_ICS_SPAPR "ics-spapr"
->  #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-> =20
-> -void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle);
-> +void spapr_dt_xics(SpaprMachineState *spapr, void *fdt, uint32_t phand=
-le);
->  int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
->  void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
->  bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
->=20
+Here y (which is aio_poll) wants to order the write to ctx->notify_me
+before reads of bh->scheduled.  However, the processor can speculate the
+load of bh->scheduled between the load-acquire and store-release of
+ctx->notify_me.  So you can have something like:
 
+ thread 0 (y)                          thread 1 (x)
+ -----------------------------------   -----------------------------
+ y1: load-acq ctx->notify_me
+ y2: load-rlx bh->scheduled
+                                       x1: store-rel bh->scheduled <-- 1
+                                       x2: memory barrier
+                                       x3: load-rlx ctx->notify_me
+ y1: store-rel ctx->notify_me <-- 2
+
+Being very puzzled, I tried to put this into cppmem:
+
+  int main() {
+    atomic_int ctx_notify_me =3D 0;
+    atomic_int bh_scheduled =3D 0;
+    {{{ {
+          bh_scheduled.store(1, mo_release);
+          atomic_thread_fence(mo_seq_cst);
+          // must be zero since the bug report shows no notification
+          ctx_notify_me.load(mo_relaxed).readsvalue(0);
+        }
+    ||| {
+          ctx_notify_me.store(2, mo_seq_cst);
+          r2=3Dbh_scheduled.load(mo_relaxed);
+        }
+    }}};
+    return 0;
+  }
+
+and much to my surprise, the tool said r2 *can* be 0.  Same if I put a
+CAS like
+
+        cas_strong_explicit(ctx_notify_me.readsvalue(0), 0, 2,
+                            mo_seq_cst, mo_seq_cst);
+
+which resembles the code in the test case a bit more.
+
+I then found a discussion about using the C11 memory model in Linux
+(https://gcc.gnu.org/ml/gcc/2014-02/msg00058.html) which contains the
+following statement, which is a bit disheartening even though it is
+about a different test:
+
+   My first gut feeling was that the assertion should never fire, but
+   that was wrong because (as I seem to usually forget) the seq-cst
+   total order is just a constraint but doesn't itself contribute
+   to synchronizes-with -- but this is different for seq-cst fences.
+
+and later in the thread:
+
+   Use of C11 atomics to implement Linux kernel atomic operations
+   requires knowledge of the underlying architecture and the compiler's
+   implementation, as was noted earlier in this thread.
+
+Indeed if I add an atomic_thread_fence I get only one valid execution,
+where r2 must be 1.  This is similar to GCC's bug
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D65697, and we can fix it in
+QEMU by using __sync_fetch_and_add; in fact cppmem also shows one valid
+execution if the store is replaced with something like GCC's assembly
+for __sync_fetch_and_add (or Linux's assembly for atomic_add_return):
+
+        cas_strong_explicit(ctx_notify_me.readsvalue(0), 0, 2,
+                            mo_release, mo_release);
+        atomic_thread_fence(mo_seq_cst);
+
+So we should:
+
+1) understand why ATOMIC_SEQ_CST is not enough in this case.  QEMU code
+seems to be making the same assumptions as Linux about the memory model,
+and this is wrong because QEMU uses C11 atomics if available.
+Fortunately, this kind of synchronization in QEMU is relatively rare and
+only this particular bit seems affected.  If there is a fix which stays
+within the C11 memory model, and does not pessimize code on x86, we can
+use it[1] and document the pitfall.
+
+2) if there's no way to fix the bug, qemu/atomic.h needs to switch to
+__sync_fetch_and_add and friends.  And again, in this case the
+difference between the C11 and Linux/QEMU memory models must be documented.
+
+Torvald, Will, help me please... :((
+
+Paolo
+
+[1] as would be the case if fetch_add was implemented as
+fetch_add(RELEASE)+thread_fence(SEQ_CST).
+
+
+** Bug watch added: GCC Bugzilla #65697
+   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D65697
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
+
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  In Progress
+Status in qemu source package in Bionic:
+  New
+Status in qemu source package in Disco:
+  New
+Status in qemu source package in Eoan:
+  In Progress
+Status in qemu source package in FF-Series:
+  New
+
+Bug description:
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  [ Original Description ]
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1805256/+subscriptions
 
