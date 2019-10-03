@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692C7CAF6E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 21:40:52 +0200 (CEST)
-Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3ABCAF84
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 21:48:03 +0200 (CEST)
+Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG6y0-0008Fm-3P
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 15:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51849)
+	id 1iG74z-00040w-Gb
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 15:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iG6qy-0005X4-7V
+ (envelope-from <jsnow@redhat.com>) id 1iG6qy-0005Xe-St
  for qemu-devel@nongnu.org; Thu, 03 Oct 2019 15:33:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iG6qw-0004vr-TP
+ (envelope-from <jsnow@redhat.com>) id 1iG6qx-0004wc-HY
  for qemu-devel@nongnu.org; Thu, 03 Oct 2019 15:33:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38630)
+Received: from mx1.redhat.com ([209.132.183.28]:49580)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iG6qt-0004t0-L7; Thu, 03 Oct 2019 15:33:28 -0400
+ id 1iG6qu-0004tj-LT; Thu, 03 Oct 2019 15:33:28 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E080A3024558;
- Thu,  3 Oct 2019 19:33:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D0FB3898112;
+ Thu,  3 Oct 2019 19:33:27 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-165.bos.redhat.com [10.18.17.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD38F10018F8;
- Thu,  3 Oct 2019 19:33:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E20E10018F8;
+ Thu,  3 Oct 2019 19:33:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 6/8] bootdevice: Refactor get_boot_devices_list
-Date: Thu,  3 Oct 2019 15:32:43 -0400
-Message-Id: <20191003193245.8993-7-jsnow@redhat.com>
+Subject: [PULL v2 7/8] bootdevice: FW_CFG interface for LCHS values
+Date: Thu,  3 Oct 2019 15:32:44 -0400
+Message-Id: <20191003193245.8993-8-jsnow@redhat.com>
 In-Reply-To: <20191003193245.8993-1-jsnow@redhat.com>
 References: <20191003193245.8993-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 03 Oct 2019 19:33:25 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Thu, 03 Oct 2019 19:33:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -70,106 +70,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-Move device name construction to a separate function.
+Using fw_cfg, supply logical CHS values directly from QEMU to the BIOS.
 
-We will reuse this function in the following commit to pass logical CHS
-parameters through fw_cfg much like we currently pass bootindex.
+Non-standard logical geometries break under QEMU.
+
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=3D08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will report - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
+
+In addition we cannot force SeaBIOS to rely on physical geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
+report more than 16 physical heads when moved to an IDE controller,
+since the ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
+
+By supplying the logical geometries directly we are able to support such
+"exotic" disks.
+
+We serialize this information in a similar way to the "bootorder"
+interface.
+The new fw_cfg entry is "bios-geometry".
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-id: 20190925110639.100699-7-sameid@google.com
+Message-id: 20190925110639.100699-8-sameid@google.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- bootdevice.c | 61 +++++++++++++++++++++++++++++-----------------------
- 1 file changed, 34 insertions(+), 27 deletions(-)
+ include/sysemu/sysemu.h |  1 +
+ bootdevice.c            | 32 ++++++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c       | 14 +++++++++++---
+ 3 files changed, 44 insertions(+), 3 deletions(-)
 
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 5bc5c79cbc..80c57fdc4e 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -106,6 +106,7 @@ void validate_bootdevices(const char *devices, Error =
+**errp);
+ void add_boot_device_lchs(DeviceState *dev, const char *suffix,
+                           uint32_t lcyls, uint32_t lheads, uint32_t lsec=
+s);
+ void del_boot_device_lchs(DeviceState *dev, const char *suffix);
++char *get_boot_devices_lchs_list(size_t *size);
+=20
+ /* handler to set the boot_device order for a specific type of MachineCl=
+ass */
+ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
 diff --git a/bootdevice.c b/bootdevice.c
-index bc5e1c2de4..2b12fb85a4 100644
+index 2b12fb85a4..b034ad7bdc 100644
 --- a/bootdevice.c
 +++ b/bootdevice.c
-@@ -202,6 +202,39 @@ DeviceState *get_boot_device(uint32_t position)
-     return res;
+@@ -405,3 +405,35 @@ void del_boot_device_lchs(DeviceState *dev, const ch=
+ar *suffix)
+         }
+     }
+ }
++
++/* Serialized as: (device name\0 + lchs struct) x devices */
++char *get_boot_devices_lchs_list(size_t *size)
++{
++    FWLCHSEntry *i;
++    size_t total =3D 0;
++    char *list =3D NULL;
++
++    QTAILQ_FOREACH(i, &fw_lchs, link) {
++        char *bootpath;
++        char *chs_string;
++        size_t len;
++
++        bootpath =3D get_boot_device_path(i->dev, false, i->suffix);
++        chs_string =3D g_strdup_printf("%s %" PRIu32 " %" PRIu32 " %" PR=
+Iu32,
++                                     bootpath, i->lcyls, i->lheads, i->l=
+secs);
++
++        if (total) {
++            list[total - 1] =3D '\n';
++        }
++        len =3D strlen(chs_string) + 1;
++        list =3D g_realloc(list, total + len);
++        memcpy(&list[total], chs_string, len);
++        total +=3D len;
++        g_free(chs_string);
++        g_free(bootpath);
++    }
++
++    *size =3D total;
++
++    return list;
++}
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 7dc3ac378e..18aff658c0 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -920,13 +920,21 @@ void *fw_cfg_modify_file(FWCfgState *s, const char =
+*filename,
+=20
+ static void fw_cfg_machine_reset(void *opaque)
+ {
++    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
++    FWCfgState *s =3D opaque;
+     void *ptr;
+     size_t len;
+-    FWCfgState *s =3D opaque;
+-    char *bootindex =3D get_boot_devices_list(&len);
++    char *buf;
+=20
+-    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)bootindex, len=
+);
++    buf =3D get_boot_devices_list(&len);
++    ptr =3D fw_cfg_modify_file(s, "bootorder", (uint8_t *)buf, len);
+     g_free(ptr);
++
++    if (!mc->legacy_fw_cfg_order) {
++        buf =3D get_boot_devices_lchs_list(&len);
++        ptr =3D fw_cfg_modify_file(s, "bios-geometry", (uint8_t *)buf, l=
+en);
++        g_free(ptr);
++    }
  }
 =20
-+static char *get_boot_device_path(DeviceState *dev, bool ignore_suffixes=
-,
-+                                  char *suffix)
-+{
-+    char *devpath =3D NULL, *s =3D NULL, *d, *bootpath;
-+
-+    if (dev) {
-+        devpath =3D qdev_get_fw_dev_path(dev);
-+        assert(devpath);
-+    }
-+
-+    if (!ignore_suffixes) {
-+        if (dev) {
-+            d =3D qdev_get_own_fw_dev_path_from_handler(dev->parent_bus,=
- dev);
-+            if (d) {
-+                assert(!suffix);
-+                s =3D d;
-+            } else {
-+                s =3D g_strdup(suffix);
-+            }
-+        } else {
-+            s =3D g_strdup(suffix);
-+        }
-+    }
-+
-+    bootpath =3D g_strdup_printf("%s%s",
-+                               devpath ? devpath : "",
-+                               s ? s : "");
-+    g_free(devpath);
-+    g_free(s);
-+
-+    return bootpath;
-+}
-+
- /*
-  * This function returns null terminated string that consist of new line
-  * separated device paths.
-@@ -218,36 +251,10 @@ char *get_boot_devices_list(size_t *size)
-     bool ignore_suffixes =3D mc->ignore_boot_device_suffixes;
-=20
-     QTAILQ_FOREACH(i, &fw_boot_order, link) {
--        char *devpath =3D NULL,  *suffix =3D NULL;
-         char *bootpath;
--        char *d;
-         size_t len;
-=20
--        if (i->dev) {
--            devpath =3D qdev_get_fw_dev_path(i->dev);
--            assert(devpath);
--        }
--
--        if (!ignore_suffixes) {
--            if (i->dev) {
--                d =3D qdev_get_own_fw_dev_path_from_handler(i->dev->pare=
-nt_bus,
--                                                          i->dev);
--                if (d) {
--                    assert(!i->suffix);
--                    suffix =3D d;
--                } else {
--                    suffix =3D g_strdup(i->suffix);
--                }
--            } else {
--                suffix =3D g_strdup(i->suffix);
--            }
--        }
--
--        bootpath =3D g_strdup_printf("%s%s",
--                                   devpath ? devpath : "",
--                                   suffix ? suffix : "");
--        g_free(devpath);
--        g_free(suffix);
-+        bootpath =3D get_boot_device_path(i->dev, ignore_suffixes, i->su=
-ffix);
-=20
-         if (total) {
-             list[total-1] =3D '\n';
+ static void fw_cfg_machine_ready(struct Notifier *n, void *data)
 --=20
 2.21.0
 
