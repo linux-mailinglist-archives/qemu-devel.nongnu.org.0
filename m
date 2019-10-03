@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48640C96D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:53:50 +0200 (CEST)
-Received: from localhost ([::1]:60802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B87C96D7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:55:39 +0200 (CEST)
+Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFrFU-0000AZ-RI
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40735)
+	id 1iFrHG-0002UD-Al
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:55:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5P-00009k-4g
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:24 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5P-0000AK-G1
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5N-00010i-7O
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:22 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47103 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5N-00010d-6L
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:23 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58509 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFr5M-0000xr-Kk; Wed, 02 Oct 2019 22:43:21 -0400
+ id 1iFr5M-0000xq-Io; Wed, 02 Oct 2019 22:43:21 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kHPB5ypqz9sPj; Thu,  3 Oct 2019 12:43:10 +1000 (AEST)
+ id 46kHPC0Nvsz9sQv; Thu,  3 Oct 2019 12:43:11 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570070590;
- bh=gKfD0N75QStGIGd9tY1bg28lPN5C8s83GDqk/VptEkE=;
+ d=gibson.dropbear.id.au; s=201602; t=1570070591;
+ bh=D83nMpK3B9GzE0sRrNbZuOBzfObm9XI3qmffYjMJbUs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lOUpiybleYC1yxAiV8Wmc39FSjm87jAX+p1mWDWVVAdm3Wysq5AnszDWJOMVp2OKv
- JfyibVU8e/H9BnpHCQLLXQo4wSHSSTbLrU/e/7JD4pCAGgui0U8oPpELKaYotN/9uQ
- t6TJeQ0CHutqu2Vy5Shf8kLvDZqBNc2BAkGezLlQ=
-Date: Thu, 3 Oct 2019 12:34:51 +1000
+ b=jfembrSgwSHMJ+HBuIILOmlTggdLAUoaqcDW6tIWeLV0CG8FymB0ILbtbcg7L86eV
+ zdgndoDr9jZeOlZuvCCJTQBSYVtwabD8yWlukFL03aP//XY3nPjaw21tCZ9nAGXSPO
+ dSWFMNDmnwD2SG1Ym7xy4CdyBT1NlFMcXBv2AZU8=
+Date: Thu, 3 Oct 2019 12:41:56 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 22/25] ppc/xive: Introduce a xive_os_cam_decode() helper
-Message-ID: <20191003023451.GP11105@umbus.fritz.box>
+Subject: Re: [PATCH v4 24/25] ppc/pnv: Improve trigger data definition
+Message-ID: <20191003024156.GQ11105@umbus.fritz.box>
 References: <20190918160645.25126-1-clg@kaod.org>
- <20190918160645.25126-23-clg@kaod.org>
+ <20190918160645.25126-25-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OxpYUbrsx40GOZXC"
+ protocol="application/pgp-signature"; boundary="fTD7sGci972winw4"
 Content-Disposition: inline
-In-Reply-To: <20190918160645.25126-23-clg@kaod.org>
+In-Reply-To: <20190918160645.25126-25-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,88 +61,158 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---OxpYUbrsx40GOZXC
-Content-Type: text/plain; charset=iso-8859-1
+--fTD7sGci972winw4
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 06:06:42PM +0200, C=E9dric Le Goater wrote:
-> The OS CAM line has a special encoding exploited by the HW. Provide a
-> helper routine to hide the details to the TIMA command handlers. This
-> also clarifies the endian ness of different variables : 'qw1w2' is
-> big-endian and 'cam' is native.
+On Wed, Sep 18, 2019 at 06:06:44PM +0200, C=C3=A9dric Le Goater wrote:
+> The trigger definition is used for triggers both for HW source
+> interrupts, PHB, PSI, as well as for rerouting interrupts between
+> Interrupt Controller.
 >=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> HW source controllers set bit0 of word0 to =E2=80=980=E2=80=99 as they pr=
+ovide EAS
+> information (EAS block + EAS index) in the 8 byte data and not END
+> information, and bit1 of word0 to =E2=80=981=E2=80=99 to signal that the =
+state bit
+> check has been performed.
+>=20
+> Introduce these new trigger bits and rename the XIVE_SRCNO macros in
+> XIVE_EAS to reflect better the nature of the data. This is breaking
+> the notification for the PSI model which will be fixed in the next
+> patch.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > ---
->  hw/intc/xive.c | 35 ++++++++++++++++++++++++++---------
->  1 file changed, 26 insertions(+), 9 deletions(-)
+>  include/hw/ppc/xive_regs.h | 24 +++++++++++++++++++++---
+>  hw/intc/pnv_xive.c         | 16 ++++++++++++----
+>  hw/intc/xive.c             |  4 ++--
+>  3 files changed, 35 insertions(+), 9 deletions(-)
 >=20
+> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+> index dd42c33cef35..83a2f2cc1318 100644
+> --- a/include/hw/ppc/xive_regs.h
+> +++ b/include/hw/ppc/xive_regs.h
+> @@ -22,9 +22,27 @@
+>  /*
+>   * Interrupt source number encoding on PowerBUS
+>   */
+> -#define XIVE_SRCNO_BLOCK(srcno) (((srcno) >> 28) & 0xf)
+> -#define XIVE_SRCNO_INDEX(srcno) ((srcno) & 0x0fffffff)
+> -#define XIVE_SRCNO(blk, idx)    ((uint32_t)(blk) << 28 | (idx))
+> +/*
+> + * Trigger data definition
+> + *
+> + * The trigger definition is used for triggers both for HW source
+> + * interrupts (PHB, PSI), as well as for rerouting interrupts between
+> + * Interrupt Controller.
+> + *
+> + * HW source controllers set bit0 of word0 to =E2=80=980=E2=80=99 as the=
+y provide EAS
+> + * information (EAS block + EAS index) in the 8 byte data and not END
+> + * information, and bit1 of word0 to =E2=80=981=E2=80=99 to signal that =
+the state bit
+> + * check has been performed.
+> + */
+> +#define XIVE_TRIGGER_END        PPC_BIT(0)
+> +#define XIVE_TRIGGER_EAS        PPC_BIT(1)
+
+These names seem really confusing in light of the comment above.  HW
+source controllers set the XIVE_TRIGGER_END bit in order to indicate
+that they're providing EAS info, not END info??  And also set the
+XIVE_TRIGGER_EAS bit to indicate something different?
+
+Also, the comment implies that HW source controllers set both bits,
+but I'm not really sure if that's what you meant.  Expanding on what
+non-HW source controllers might set could be helpful, too..
+
+> +
+> +/*
+> + * QEMU macros to manipulate the trigger payload in native endian
+> + */
+> +#define XIVE_EAS_BLOCK(n)       (((n) >> 28) & 0xf)
+> +#define XIVE_EAS_INDEX(n)       ((n) & 0x0fffffff)
+> +#define XIVE_EAS(blk, idx)      ((uint32_t)(blk) << 28 | (idx))
+> =20
+>  #define TM_SHIFT                16
+> =20
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 4c1fa024cdf5..61af3f23000f 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -385,7 +385,7 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_t=
+ blk, uint32_t idx,
+>       * EAT lookups should be local to the IC
+>       */
+>      if (pnv_xive_block_id(xive) !=3D blk) {
+> -        xive_error(xive, "VST: EAS %x is remote !?", XIVE_SRCNO(blk, idx=
+));
+> +        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx));
+>          return -1;
+>      }
+> =20
+> @@ -502,7 +502,7 @@ static void pnv_xive_notify(XiveNotifier *xn, uint32_=
+t srcno)
+>      PnvXive *xive =3D PNV_XIVE(xn);
+>      uint8_t blk =3D pnv_xive_block_id(xive);
+> =20
+> -    xive_router_notify(xn, XIVE_SRCNO(blk, srcno));
+> +    xive_router_notify(xn, XIVE_EAS(blk, srcno));
+>  }
+> =20
+>  /*
+> @@ -1287,12 +1287,20 @@ static const MemoryRegionOps pnv_xive_ic_reg_ops =
+=3D {
+> =20
+>  static void pnv_xive_ic_hw_trigger(PnvXive *xive, hwaddr addr, uint64_t =
+val)
+>  {
+> +    uint8_t blk =3D XIVE_EAS_BLOCK(val);
+> +    uint32_t idx =3D XIVE_EAS_INDEX(val);
+> +
+>      /*
+>       * Forward the source event notification directly to the Router.
+>       * The source interrupt number should already be correctly encoded
+>       * with the chip block id by the sending device (PHB, PSI).
+>       */
+> -    xive_router_notify(XIVE_NOTIFIER(xive), val);
+> +    if (val & XIVE_TRIGGER_EAS) {
+> +        xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
+> +    } else {
+> +        xive_error(xive, "IC: END trigger at @0x%"HWADDR_PRIx" data 0x%"=
+PRIx64,
+> +                   addr, val);
+> +    }
+>  }
+> =20
+>  static void pnv_xive_ic_notify_write(void *opaque, hwaddr addr, uint64_t=
+ val,
+> @@ -1683,7 +1691,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
+>      XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+>      uint8_t blk =3D pnv_xive_block_id(xive);
+>      uint8_t chip_id =3D xive->chip->chip_id;
+> -    uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
+> +    uint32_t srcno0 =3D XIVE_EAS(blk, 0);
+>      uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+>      XiveEAS eas;
+>      XiveEND end;
 > diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index dfae584a319f..cdc4ea8b0e51 100644
+> index 07b7c3586c12..6702f32be601 100644
 > --- a/hw/intc/xive.c
 > +++ b/hw/intc/xive.c
-> @@ -342,14 +342,29 @@ static void xive_tm_set_os_pending(XivePresenter *x=
-ptr, XiveTCTX *tctx,
->      xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff));
->  }
-> =20
-> +static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
-> +                               uint32_t *nvt_idx, bool *vo)
-> +{
-> +    *nvt_blk =3D xive_nvt_blk(cam);
-> +    *nvt_idx =3D xive_nvt_idx(cam);
-> +    *vo =3D !!(cam & TM_QW1W2_VO);
-> +}
-> +
->  static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
->                                      hwaddr offset, unsigned size)
+> @@ -1652,8 +1652,8 @@ do_escalation:
+>  void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
 >  {
-> -    uint32_t qw1w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
-> -    uint32_t qw1w2;
-> +    uint32_t qw1w2 =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
-> +    uint32_t qw1w2_new;
-> +    uint32_t cam =3D be32_to_cpu(qw1w2);
-> +    uint8_t nvt_blk;
-> +    uint32_t nvt_idx;
-> +    bool vo;
+>      XiveRouter *xrtr =3D XIVE_ROUTER(xn);
+> -    uint8_t eas_blk =3D XIVE_SRCNO_BLOCK(lisn);
+> -    uint32_t eas_idx =3D XIVE_SRCNO_INDEX(lisn);
+> +    uint8_t eas_blk =3D XIVE_EAS_BLOCK(lisn);
+> +    uint32_t eas_idx =3D XIVE_EAS_INDEX(lisn);
+>      XiveEAS eas;
 > =20
-> -    qw1w2 =3D xive_set_field32(TM_QW1W2_VO, qw1w2_prev, 0);
-> -    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
-
-I'd kind of prefer to fold both the memcpy and the endian swizzle into
-a read/write_register_word helper of some sort.
-
-> +    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
-> +
-> +    /* Invalidate CAM line */
-> +    qw1w2_new =3D xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
-> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2_new, 4);
->      return qw1w2;
->  }
-> =20
-> @@ -387,13 +402,15 @@ static void xive_tctx_need_resend(XiveRouter *xrtr,=
- XiveTCTX *tctx,
->  static void xive_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
->                                  hwaddr offset, uint64_t value, unsigned =
-size)
->  {
-> -    uint32_t qw1w2 =3D value;
-> -    uint8_t nvt_blk =3D xive_nvt_blk(qw1w2);
-> -    uint32_t nvt_idx =3D xive_nvt_idx(qw1w2);
-> -    bool vo =3D !!(qw1w2 & TM_QW1W2_VO);
-> +    uint32_t cam =3D value;
-> +    uint32_t qw1w2 =3D cpu_to_be32(cam);
-> +    uint8_t nvt_blk;
-> +    uint32_t nvt_idx;
-> +    bool vo;
-> +
-> +    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
-> =20
->      /* First update the registers */
-> -    qw1w2 =3D cpu_to_be32(qw1w2);
->      memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
-> =20
->      /* Check the interrupt pending bits */
+>      /* EAS cache lookup */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -150,25 +220,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---OxpYUbrsx40GOZXC
+--fTD7sGci972winw4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VXksACgkQbDjKyiDZ
-s5LKUA//Qjdv467c0mQfMkAk60LwcxIT18DnnNd28k8davoYPcn3m7Lf5w6G/aYI
-VKQJwMFOwLWwzfFO3Izjx+sIfMst7tqimMG0GRU6tOl1YiSEjM0SnjUUJdNHC7WY
-TfoCVSoc6FeTADOfTjF2EhEvxDJV65QjA2v7sZW9YdY+UiOZ+Vti/hHCXItZgjZ8
-mUVXVX/ROqSnGQpflHUfuA4xtDdXVzmkNITOLvjVDrxnIo63gVoBGdrET5pvXdDy
-1U61XEK98kNT9JNcjqKlAiisHT5GXy8UMPVfYqSRK3LVE6dOuGQv9aUOn58zGSuF
-b+NakTxD67VEw/9qtWYWDQ3wTByMDKkkWT6mL4pvbkIKPvj4TJKyOjYeVxUAbFp/
-KhXcJBmjyLWlWuym/Vh0HO7VJEy5VFhQJfFh6Njyo+1LrieTsyJUVwlSWWjjz51t
-kM81eOCZuRNw0nVDUsZFlt7CPiicD04HbdyYQjAiF24Qa7I9mfgWiwdoYNpwDtZh
-zmQgW1UgLgj00agtcrSKwfkXrVMqIlHfcjaFbRpsDT28SdWLZBwasN4uUHCsuOXT
-XjmhDrw/Wp6h7KteZ5W9eOFoksaxDq22T0KGLKWhot9hGk/TiI9L8o9I2POp+QCx
-7zPHafZApA7j1itH54uRMkgrJVeVK0WoIQRLViTqwSSGxElqMwU=
-=r7+N
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VX/QACgkQbDjKyiDZ
+s5KGxhAAqudJeJXRkJKk+12i6ZUVf/zfJXy5QtZYiQxYe1v4zA0DP9e+RUFuQ8vW
+7gUvbHELmN+bdL3I408ClWEwn4L54rhXewv8NgiUFrePk2qinuiXwZPRJN69Zkfg
+r7POEFQxPS8yRkSp1LO7igYigeIZIZDZMklpiDDvzs0P8ScnUdpJm3HOhZAAqYm+
+TVWVq7PDng5PhpZssALzudzWzMGjlmNY0d6QyrXDHpsHPXGPTi9Qku3LpZ9pLMGh
+5yqMUy+ms8GyCRRo9qM29e4fmEtX/GJP+XH51xU9MxAm5hYFGgEEu8edXS6lJLRz
+MLH1eAAePTtPr4ea6QDU/S5L5AGHnwLe7b3F+lWViYRG3mEawVCv267VaMy/kzg1
+uDxarb4uRD9a1enL+s8fwEU++gxdj9J3majqRgxrebkubAs9ZOzHo7dC8RXpxcIu
+rDN+LsQMN13mFtbS3FKZYiITy2AeFiMZluMV3vGQNtUNl2iZnbb/+PLjIg5lsRkD
+YxX+zBx2xrqcw4ANPFc4SSGUQpq8o9lrYnUXGpaClaU+Bb8awxBD8hSiTG/M2BPW
+JGbNSEFBJG18MoUw1iJ/l0iLNXnvDR+B9V4x8rdlgbf4O9JpfZGb221sVn4PV5uU
+zSQtHfxKJOnLigPHpiYefa7TdSS3A+3yHMTc4jzdz4DvkvmURkk=
+=pDIr
 -----END PGP SIGNATURE-----
 
---OxpYUbrsx40GOZXC--
+--fTD7sGci972winw4--
 
