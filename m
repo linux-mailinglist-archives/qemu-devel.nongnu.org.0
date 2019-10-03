@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842F5C96CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:46:30 +0200 (CEST)
-Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B26DC96CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 04:46:37 +0200 (CEST)
+Received: from localhost ([::1]:60736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFr8O-0001r3-I3
-	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:46:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
+	id 1iFr8V-0001wk-GK
+	for lists+qemu-devel@lfdr.de; Wed, 02 Oct 2019 22:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5K-000052-3r
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:20 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5N-00007q-9T
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iFr5H-0000wd-BN
- for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:17 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46771 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iFr5L-0000yM-3x
+ for qemu-devel@nongnu.org; Wed, 02 Oct 2019 22:43:21 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43429 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iFr5F-0000wC-Ta; Wed, 02 Oct 2019 22:43:14 -0400
+ id 1iFr5K-0000wt-9L; Wed, 02 Oct 2019 22:43:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kHP954gtz9sPZ; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
+ id 46kHPB0DMkz9sPd; Thu,  3 Oct 2019 12:43:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570070589;
- bh=PmaToBwo/KJ6dcDZROnMivxc7CwJBCpATM7MQzZ4d+w=;
+ d=gibson.dropbear.id.au; s=201602; t=1570070590;
+ bh=u+uCZCaCBXL67IBVelmcQPIxTDuXjr23etMrKCUmF50=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nO7YjVkQQ+0uSfbPgM0HN3EoXGAjVunKBbGWY6aU0DcBECyFeEGPmiJRWbprLiJMo
- 4A/9X5NUHQbExLflQx4WhBVUVNR4p+StFKjjqUsGJmJUpsdCzEnbmNv3tf7P4uuGOh
- /T25gQJZSe2mALmoCIDuatQIIwKyluEOgiKYBzAY=
-Date: Thu, 3 Oct 2019 11:55:55 +1000
+ b=SeEJPB1zXTjpSaEQ6S5T7eQGrjCglKdnCMI0taE7bOIjqIGvHseqm4NfSw2YEeedJ
+ UGZI6NR6PPvcJxvqpMrUtOf3yWJrfbmMr7QyeehyN4ZY3NTsvj3yz2+5SKXPAZi4+F
+ pySPBz77ivWSsbulivxseSKs/q4vyv//RKABumqU=
+Date: Thu, 3 Oct 2019 11:58:15 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 06/25] ppc/pnv: Implement the XiveFabric interface
-Message-ID: <20191003015555.GH11105@umbus.fritz.box>
+Subject: Re: [PATCH v4 07/25] ppc/spapr: Implement the XiveFabric interface
+Message-ID: <20191003015815.GI11105@umbus.fritz.box>
 References: <20190918160645.25126-1-clg@kaod.org>
- <20190918160645.25126-7-clg@kaod.org>
+ <20190918160645.25126-8-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zVyz+SkbhTrRQGHt"
+ protocol="application/pgp-signature"; boundary="McTFpSeH7KqpdXA3"
 Content-Disposition: inline
-In-Reply-To: <20190918160645.25126-7-clg@kaod.org>
+In-Reply-To: <20190918160645.25126-8-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,89 +61,207 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---zVyz+SkbhTrRQGHt
+--McTFpSeH7KqpdXA3
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 18, 2019 at 06:06:26PM +0200, C=E9dric Le Goater wrote:
-> The CAM line matching on the PowerNV machine now scans all chips of
-> the system and all CPUs of a chip to find a dispatched NVT in the
-> thread contexts.
+On Wed, Sep 18, 2019 at 06:06:27PM +0200, C=E9dric Le Goater wrote:
+> The CAM line matching sequence in the pseries machine does not change
+> much apart from the use of the new QOM interfaces. There is an extra
+> indirection because of the sPAPR IRQ backend of the machine. Only the
+> XIVE backend implements the new 'match_nvt' handler.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  hw/ppc/pnv.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+>  include/hw/ppc/spapr_irq.h |  6 ++++++
+>  hw/ppc/spapr.c             | 34 ++++++++++++++++++++++++++++++++++
+>  hw/ppc/spapr_irq.c         | 25 +++++++++++++++++++++++++
+>  3 files changed, 65 insertions(+)
 >=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 77a86c6a2301..ca24dd62df23 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1378,6 +1378,35 @@ static void pnv_pic_print_info(InterruptStatsProvi=
-der *obj,
->      }
+> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> index 5db305165ce2..859780efaf95 100644
+> --- a/include/hw/ppc/spapr_irq.h
+> +++ b/include/hw/ppc/spapr_irq.h
+> @@ -31,6 +31,8 @@ int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint3=
+2_t num, bool align,
+>                          Error **errp);
+>  void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num);
+> =20
+> +struct XiveTCTXMatch;
+> +
+>  typedef struct SpaprIrq {
+>      uint32_t    nr_irqs;
+>      uint32_t    nr_msis;
+> @@ -50,6 +52,10 @@ typedef struct SpaprIrq {
+>      void (*set_irq)(void *opaque, int srcno, int val);
+>      const char *(*get_nodename)(SpaprMachineState *spapr);
+>      void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
+> +    int (*match_nvt)(SpaprMachineState *spapr, uint8_t format,
+> +                     uint8_t nvt_blk, uint32_t nvt_idx,
+> +                     bool cam_ignore, uint8_t priority,
+> +                     uint32_t logic_serv, struct XiveTCTXMatch *match);
+
+Obviously this will need some rework against my stuff.
+
+But more importantly, I don't see the point of indirecting via here,
+when the method is only relevant for the xive case.  Why not just
+assert that XIVE is in use in the XiveFabric hook, and go directly  to
+the XIVE matching code.
+
+>  } SpaprIrq;
+> =20
+>  extern SpaprIrq spapr_irq_xics;
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 2725b139a7f0..90f6f5fb9536 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4360,6 +4360,37 @@ static void spapr_pic_print_info(InterruptStatsPro=
+vider *obj,
+>                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
 >  }
 > =20
-> +static int pnv_xive_match_nvt(XiveFabric *xfb, uint8_t format,
-> +                               uint8_t nvt_blk, uint32_t nvt_idx,
-> +                               bool cam_ignore, uint8_t priority,
-> +                               uint32_t logic_serv,
-> +                               XiveTCTXMatch *match)
+> +static int spapr_xive_match_nvt(XiveFabric *xfb, uint8_t format,
+> +                                uint8_t nvt_blk, uint32_t nvt_idx,
+> +                                bool cam_ignore, uint8_t priority,
+> +                                uint32_t logic_serv, XiveTCTXMatch *matc=
+h)
 > +{
-> +    PnvMachineState *pnv =3D PNV_MACHINE(xfb);
-> +    int total_count =3D 0;
-> +    int i;
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
+> +    int count;
 > +
-> +    for (i =3D 0; i < pnv->num_chips; i++) {
-> +        Pnv9Chip *chip9 =3D PNV9_CHIP(pnv->chips[i]);
-> +        XivePresenter *xptr =3D XIVE_PRESENTER(&chip9->xive);
-> +        XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-> +        int count;
-> +
-> +        count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ign=
-ore,
-> +                               priority, logic_serv, match);
-> +
-> +        if (count < 0) {
-> +            return count;
-> +        }
-> +
-> +        total_count +=3D count;
+> +    count =3D spapr->irq->match_nvt(spapr, format, nvt_blk, nvt_idx, cam=
+_ignore,
+> +                                  priority, logic_serv, match);
+> +    if (count < 0) {
+> +        return count;
 > +    }
 > +
-> +    return total_count;
+> +    /*
+> +     * When we implement the save and restore of the thread interrupt
+> +     * contexts in the enter/exit CPU handlers of the machine and the
+> +     * escalations in QEMU, we should be able to handle non dispatched
+> +     * vCPUs.
+> +     *
+> +     * Until this is done, the sPAPR machine should find at least one
+> +     * matching context always.
+> +     */
+> +    if (count =3D=3D 0) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is not dispatche=
+d\n",
+> +                      nvt_blk, nvt_idx);
+> +    }
+> +
+> +    return count;
 > +}
 > +
->  static void pnv_get_num_chips(Object *obj, Visitor *v, const char *name,
->                                void *opaque, Error **errp)
+>  int spapr_get_vcpu_id(PowerPCCPU *cpu)
 >  {
-> @@ -1441,9 +1470,11 @@ static void pnv_machine_power8_class_init(ObjectCl=
-ass *oc, void *data)
->  static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
+>      return cpu->vcpu_id;
+> @@ -4456,6 +4487,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+>      PPCVirtualHypervisorClass *vhc =3D PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
+>      XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
+>      InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
+(oc);
 > +    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
 > =20
->      mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER9";
->      mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power9_v2.0");
-> +    xfc->match_nvt =3D pnv_xive_match_nvt;
+>      mc->desc =3D "pSeries Logical Partition (PAPR compliant)";
+>      mc->ignore_boot_device_suffixes =3D true;
+> @@ -4514,6 +4546,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+>       */
+>      mc->numa_mem_align_shift =3D 28;
+>      mc->numa_mem_supported =3D true;
+> +    xfc->match_nvt =3D spapr_xive_match_nvt;
 > =20
->      mc->alias =3D "powernv";
->  }
-> @@ -1495,6 +1526,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
- void *data)
->          .interfaces =3D (InterfaceInfo[]) {               \
->              { TYPE_XICS_FABRIC },                       \
->              { TYPE_INTERRUPT_STATS_PROVIDER },          \
-> +            { TYPE_XIVE_FABRIC },                       \
-
-Hmm.. this should probably be on the powernv9 machine only, not
-powernv8 as well, yes?
-
->              { },                                        \
->          },                                              \
+>      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
+>      smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
+> @@ -4547,6 +4580,7 @@ static const TypeInfo spapr_machine_info =3D {
+>          { TYPE_PPC_VIRTUAL_HYPERVISOR },
+>          { TYPE_XICS_FABRIC },
+>          { TYPE_INTERRUPT_STATS_PROVIDER },
+> +        { TYPE_XIVE_FABRIC },
+>          { }
+>      },
+>  };
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index d8f46b6797f8..8a6d79a59af2 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -257,6 +257,7 @@ SpaprIrq spapr_irq_xics =3D {
+>      .set_irq     =3D spapr_irq_set_irq_xics,
+>      .get_nodename =3D spapr_irq_get_nodename_xics,
+>      .init_kvm    =3D spapr_irq_init_kvm_xics,
+> +    .match_nvt   =3D NULL, /* should not be used */
+>  };
+> =20
+>  /*
+> @@ -406,6 +407,18 @@ static void spapr_irq_init_kvm_xive(SpaprMachineStat=
+e *spapr, Error **errp)
 >      }
+>  }
+> =20
+> +static int spapr_irq_match_nvt_xive(SpaprMachineState *spapr, uint8_t fo=
+rmat,
+> +                                    uint8_t nvt_blk, uint32_t nvt_idx,
+> +                                    bool cam_ignore, uint8_t priority,
+> +                                    uint32_t logic_serv, XiveTCTXMatch *=
+match)
+> +{
+> +    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
+> +    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
+> +
+> +    return xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
+> +                          priority, logic_serv, match);
+> +}
+> +
+>  /*
+>   * XIVE uses the full IRQ number space. Set it to 8K to be compatible
+>   * with XICS.
+> @@ -431,6 +444,7 @@ SpaprIrq spapr_irq_xive =3D {
+>      .set_irq     =3D spapr_irq_set_irq_xive,
+>      .get_nodename =3D spapr_irq_get_nodename_xive,
+>      .init_kvm    =3D spapr_irq_init_kvm_xive,
+> +    .match_nvt   =3D spapr_irq_match_nvt_xive,
+>  };
+> =20
+>  /*
+> @@ -585,6 +599,15 @@ static const char *spapr_irq_get_nodename_dual(Spapr=
+MachineState *spapr)
+>      return spapr_irq_current(spapr)->get_nodename(spapr);
+>  }
+> =20
+> +static int spapr_irq_match_nvt_dual(SpaprMachineState *spapr, uint8_t fo=
+rmat,
+> +                                    uint8_t nvt_blk, uint32_t nvt_idx,
+> +                                    bool cam_ignore, uint8_t priority,
+> +                                    uint32_t logic_serv, XiveTCTXMatch *=
+match)
+> +{
+> +    return spapr_irq_current(spapr)->match_nvt(spapr, format, nvt_blk, n=
+vt_idx,
+> +                                     cam_ignore, priority, logic_serv, m=
+atch);
+> +}
+> +
+>  /*
+>   * Define values in sync with the XIVE and XICS backend
+>   */
+> @@ -608,6 +631,7 @@ SpaprIrq spapr_irq_dual =3D {
+>      .set_irq     =3D spapr_irq_set_irq_dual,
+>      .get_nodename =3D spapr_irq_get_nodename_dual,
+>      .init_kvm    =3D NULL, /* should not be used */
+> +    .match_nvt   =3D spapr_irq_match_nvt_dual,
+>  };
+> =20
+> =20
+> @@ -825,4 +849,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+>      .set_irq     =3D spapr_irq_set_irq_xics,
+>      .get_nodename =3D spapr_irq_get_nodename_xics,
+>      .init_kvm    =3D spapr_irq_init_kvm_xics,
+> +    .match_nvt   =3D NULL, /* should not be used */
+>  };
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -151,25 +269,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---zVyz+SkbhTrRQGHt
+--McTFpSeH7KqpdXA3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIyBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VVSoACgkQbDjKyiDZ
-s5JIFA/462wezaKiHqThY3tOi3RGMCEZB4StQCPmli3bFRB6X1CTNg5rWTh6wsby
-lV7+lJJ2ZZf+2YVZX7hT6PX+hlX6PiO5X15zWsMJzgo6jB09ObcCeZqhgH0+UVEG
-PyRfnaWaTtDJ/6dD2bqwwmjxh1S41g9I64YzmN3hfyw0DXr3O1JbzkrpeYf3sANZ
-swkgpeoQY/5AcBacnKsANR1c6Q/HnoiPXxVD27ANIjPrPRzOistHWmjOmqx5MpMN
-dNsZ4rzw3Sbyjm/W5HummH1D4LVUUbrxT4XerUr6VxMNcg61wHNBUGPlW0IKXl82
-v93kWuXFzJCeyHjC12ApqQwE/gbx4u9K0u0pZcxvNnIgnIs2LhEtJ1pAfpipJ/6A
-3Bpvczpn8IYRXphw+9bEHLN5fzhDIcyBeZJFlbqgx4XZRTHwYd0xUjVFdC7wAvuA
-qx+q1z+DTLWm6ff8WMx98cBDOR8sphsqEnmhFwqcQgG15dPvxEJO3WN1ix+Do9JN
-3OflXtoVvL3Z/wQ1KhzzchK2w5GJ76jxQKEHE0uCzc5jR7k/TxoALod3JUicOLwR
-XEC43S9X/t0J+XLNNj4hPUGWFQ4lVrUT2lGlMgF8QXLfGFyMktzZP6sg2X/9RPFl
-5i4qP7uM7sG7txtioD0owPniGOknorG2GvQbr9Gnc9RRkD2J5A==
-=GrzQ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2VVbcACgkQbDjKyiDZ
+s5LlsA//R8o9fgAMr5vY1x3XVP6+55/vXjxopBkJMW4mueu4cB2aC09n7KT1xNEH
+Bt7AxjOvgGO3MOnkPb2R1+rHKzVKO4t6hGRAns8/r9SQrpRf4dtYDHYVaetWkc7u
+uvbpV27hncgPE9ZQU2BwUcMbGg9KM3u8t4OkNnhJWO9P2AJB1aXMqHPASpLqr0hb
+gAomTT68HAtFDB6km7cPz0bqSwGk/EBhwIbe/b0bXWl7TCoV2IjeVv/Ur6TBLdmq
+FSw24RSg+bzoLzecBt8s6OOK7YBznQe2x0sSgRvlKcn9BuLQcBBoZUCKssv2hdz9
+V4FslZF4gGmQdKYOPM5ZP0gGxuzm0TRDFSdcDXHhwMIElgD2HhnmCWdB6EnZTW8A
+7/xID8O+K+OKZKqRYVQUJmymiy22n1FOv2SyZ0kspCGi4kEUjvYZ4Q8O15HJHoxB
+Up2lcH1Dh2xxPvBm8qwmLvOOUblSCRcGRF1Vl6oa/XeL23oDULdoihmbg1L8nBD2
+DPLqbWKC45Egg2d3QKisejYSUujfxUZSxc1vuOrZvu8jQm/srZFZzV3A2jsWe/5i
+MmfnBKY/iBTPwhgrQRAbD1gqsahcOg9qYLxgLlDrB9c2F31kH1r3MfswkRkenftt
+/X1OqfzuOO9zN+pALYlBUNoPIom/otDO20ZAFiwTZqY1y58WueE=
+=JY4/
 -----END PGP SIGNATURE-----
 
---zVyz+SkbhTrRQGHt--
+--McTFpSeH7KqpdXA3--
 
