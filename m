@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E6BC9BF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 12:16:54 +0200 (CEST)
-Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408EBC9C0E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 12:20:03 +0200 (CEST)
+Received: from localhost ([::1]:34430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFyAH-0003ec-PL
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 06:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54508)
+	id 1iFyDK-0006HO-5w
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 06:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iFy8Z-0002kR-Es
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:15:08 -0400
+ (envelope-from <philmd@redhat.com>) id 1iFyBv-0005PY-58
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:18:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iFy8X-0005ik-W4
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:15:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49702)
+ (envelope-from <philmd@redhat.com>) id 1iFyBu-00071J-2p
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:18:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55922)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFy8X-0005iP-O1
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:15:05 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iFyBt-000713-Qx
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:18:34 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 79C75C01B81A
- for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 10:15:04 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id n3so936965wmf.3
- for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 03:15:04 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D5DAB83F3B
+ for <qemu-devel@nongnu.org>; Thu,  3 Oct 2019 10:18:32 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id m16so496989wmg.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 03:18:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=110pg/R/6quKydyAPUDStbEinZE05RYFGyxpolzxe30=;
- b=fFKfVEoyTwkfkFPNXGowhcon8Yiz5sBdkkBHy/FmMC2mwfUhS9seQuDId3hDZKOwdz
- ryTdIq41xoXnNqvcy8eM86gd7iRu0CWfrJI0K+Pn29A0tYm98Hm668DtQ2a4bCAYfG3r
- S4ZKgGUILMrQZw1b9vk15QZJD9t2HZtT7IAerRR6Z99/5ge2GflWhhZ5R52rFFBk3BUC
- b2DsI6evmoxDqHtdyBqb1a0Baf1CO1P01NW8qtE2971MfXgg3Nli3vWQv+tP7hgvI/r+
- x4sPzJwFxLmZN3+cJYfoCYMoTAhmP7MPrxlvxQVYEWHgT1B2ep8gyoJYeBpf99dgyBFt
- aOfA==
-X-Gm-Message-State: APjAAAVynMRjmNXax1mPdy/ETrUuRaiTe9w/LBbyiYE+3e+TKjW0VZou
- HGhPHZ95gEh8TNfKRIXNCHxum329V4s6M0Xe3l6DhWin6QIfnm6BGzCNs1Xoil+Qm+IIxnrc85h
- /OmKjEFhCqc29lac=
-X-Received: by 2002:a7b:c5c2:: with SMTP id n2mr6151900wmk.20.1570097703122;
- Thu, 03 Oct 2019 03:15:03 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxD4QffscLTOeo90j0D2jO7nDVBSPfzI1WCKGo5fbLpfc9dx2QYcFRh7V4aQ5NHBBerbncT2w==
-X-Received: by 2002:a7b:c5c2:: with SMTP id n2mr6151878wmk.20.1570097702895;
- Thu, 03 Oct 2019 03:15:02 -0700 (PDT)
+ bh=kJvG7AsVE1kOxpy6R0lC9bIz0B0NBEXKBgW46F4eplU=;
+ b=N/m43MgQqu5s8ODUNqxjFu40Wt0p6Jpu6EJynN55uLeZfDqhohry7J2yrFG0SM4N9d
+ 6xRenWuLaLr/zsfcET0yDzR15mVmFmEVdWar5nYtIgSJfrXx9DcjDqeVsv7ckAR3Juzy
+ ePnGS9N3lBxZHg7rTyZe0KtbzaeZQzVz7pBRcsP4k0/LH3YEgTnumw0rsRyfDapcp1Ie
+ m8+u6SAvvvpSVIqEdWe0X/yG+BPK6JDvWY4Lm1pgr7JXxo7pG/dcdmHsxVwNQJ/il7jG
+ 3zQw/djtrhB5o38r5v2HCL+XfQvFChX/iiPBnsxyNQdhVv5pr5LU4cX1mHTYr5dhg88Q
+ 5Qnw==
+X-Gm-Message-State: APjAAAWVX8KjyhjUwvqbcmd08bt65y1snuUKSs2aLLDyi2JEV2Bm0b7T
+ zdaaLdd05WYzRJRB4cK+Q9zGEIo1pn9giYx5ATRSJ/steDKHLSVmSsivL9KqdOdQHYjXbM4Svak
+ xXAlyDpTCLPKX9ps=
+X-Received: by 2002:a5d:43c7:: with SMTP id v7mr5375032wrr.135.1570097911580; 
+ Thu, 03 Oct 2019 03:18:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxyOo9+WbTEPSnrxk0HoOCGPhnve3bI8R+NZJKF9mI6DFxEWj+2jdnElRKabbYCZ/v+7iwKyg==
+X-Received: by 2002:a5d:43c7:: with SMTP id v7mr5375020wrr.135.1570097911387; 
+ Thu, 03 Oct 2019 03:18:31 -0700 (PDT)
 Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id f83sm2447702wmf.43.2019.10.03.03.15.01
+ by smtp.gmail.com with ESMTPSA id h17sm3405934wme.6.2019.10.03.03.18.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Oct 2019 03:15:02 -0700 (PDT)
-Subject: Re: [PATCH v5 01/10] hw/virtio: Factorize virtio-mmio headers
-To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
-References: <20191002113103.45023-1-slp@redhat.com>
- <20191002113103.45023-2-slp@redhat.com>
+ Thu, 03 Oct 2019 03:18:30 -0700 (PDT)
+Subject: Re: [PATCH] accel/kvm: ensure ret always set
+To: Stefano Garzarella <sgarzare@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20191002102212.6100-1-alex.bennee@linaro.org>
+ <05d59eb3-1693-d5f4-0f6d-9642fd46c32a@redhat.com>
+ <20191003092213.etjzlwgd7nlnzqay@steredhat>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <96ff1ae1-fc3f-af56-08bd-a8b821385572@redhat.com>
-Date: Thu, 3 Oct 2019 12:15:00 +0200
+Message-ID: <e85b2eaa-1190-c372-5875-6a024ae3a9cd@redhat.com>
+Date: Thu, 3 Oct 2019 12:18:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191002113103.45023-2-slp@redhat.com>
+In-Reply-To: <20191003092213.etjzlwgd7nlnzqay@steredhat>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -81,178 +84,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, ehabkost@redhat.com,
- mst@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, lersek@redhat.com, rth@twiddle.net
+Cc: qemu-devel@nongnu.org, "open list:Overall KVM CPUs" <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/19 1:30 PM, Sergio Lopez wrote:
-> Put QOM and main struct definition in a separate header file, so it
-> can be accessed from other components.
+On 10/3/19 11:22 AM, Stefano Garzarella wrote:
+> On Wed, Oct 02, 2019 at 01:08:40PM +0200, Paolo Bonzini wrote:
+>> On 02/10/19 12:22, Alex Benn=C3=A9e wrote:
+>>> Some of the cross compilers rightly complain there are cases where re=
+t
+>>> may not be set. 0 seems to be the reasonable default unless particula=
+r
+>>> slot explicitly returns -1.
+>>>
 >=20
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->   hw/virtio/virtio-mmio.c         | 48 +---------------------
->   include/hw/virtio/virtio-mmio.h | 73 ++++++++++++++++++++++++++++++++=
-+
->   2 files changed, 74 insertions(+), 47 deletions(-)
->   create mode 100644 include/hw/virtio/virtio-mmio.h
->=20
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index 3d5ca0f667..94d934c44b 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -29,57 +29,11 @@
->   #include "qemu/host-utils.h"
->   #include "qemu/module.h"
->   #include "sysemu/kvm.h"
-> -#include "hw/virtio/virtio-bus.h"
-> +#include "hw/virtio/virtio-mmio.h"
->   #include "qemu/error-report.h"
->   #include "qemu/log.h"
->   #include "trace.h"
->  =20
-> -/* QOM macros */
-> -/* virtio-mmio-bus */
-> -#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
-> -#define VIRTIO_MMIO_BUS(obj) \
-> -        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
-> -#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
-> -        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
-> -#define VIRTIO_MMIO_BUS_CLASS(klass) \
-> -        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_B=
-US)
-> -
-> -/* virtio-mmio */
-> -#define TYPE_VIRTIO_MMIO "virtio-mmio"
-> -#define VIRTIO_MMIO(obj) \
-> -        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
-> -
-> -#define VIRT_MAGIC 0x74726976 /* 'virt' */
-> -#define VIRT_VERSION 2
-> -#define VIRT_VERSION_LEGACY 1
-> -#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
-> -
-> -typedef struct VirtIOMMIOQueue {
-> -    uint16_t num;
-> -    bool enabled;
-> -    uint32_t desc[2];
-> -    uint32_t avail[2];
-> -    uint32_t used[2];
-> -} VirtIOMMIOQueue;
-> -
-> -typedef struct {
-> -    /* Generic */
-> -    SysBusDevice parent_obj;
-> -    MemoryRegion iomem;
-> -    qemu_irq irq;
-> -    bool legacy;
-> -    /* Guest accessible state needing migration and reset */
-> -    uint32_t host_features_sel;
-> -    uint32_t guest_features_sel;
-> -    uint32_t guest_page_shift;
-> -    /* virtio-bus */
-> -    VirtioBusState bus;
-> -    bool format_transport_address;
-> -    /* Fields only used for non-legacy (v2) devices */
-> -    uint32_t guest_features[2];
-> -    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
-> -} VirtIOMMIOProxy;
-> -
->   static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
->   {
->       return kvm_eventfds_enabled();
-> diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio=
--mmio.h
-> new file mode 100644
-> index 0000000000..c8a6ef20de
-> --- /dev/null
-> +++ b/include/hw/virtio/virtio-mmio.h
-> @@ -0,0 +1,73 @@
-> +/*
-> + * Virtio MMIO bindings
-> + *
-> + * Copyright (c) 2011 Linaro Limited
-> + *
-> + * Author:
-> + *  Peter Maydell <peter.maydell@linaro.org>
-> + *
-> + * This program is free software; you can redistribute it and/or modif=
-y
-> + * it under the terms of the GNU General Public License; either versio=
-n 2
-> + * of the License, or (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License a=
-long
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef QEMU_VIRTIO_MMIO_H
-> +#define QEMU_VIRTIO_MMIO_H
+> Even Coverity reported it (CID 1405857).
 
-I'd rather use HW_VIRTIO_MMIO_H
+And GCC ;)
 
-Regardless:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+/home/phil/source/qemu/accel/kvm/kvm-all.c: In function =E2=80=98kvm_log_=
+clear=E2=80=99:
+/home/phil/source/qemu/accel/kvm/kvm-all.c:1121:8: error: =E2=80=98ret=E2=
+=80=99 may be=20
+used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+      if (r < 0) {
+         ^
+cc1: all warnings being treated as errors
+make[1]: *** [/home/phil/source/qemu/rules.mak:69: accel/kvm/kvm-all.o]=20
+Error 1
 
-> +
-> +#include "hw/virtio/virtio-bus.h"
-> +
-> +/* QOM macros */
-> +/* virtio-mmio-bus */
-> +#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
-> +#define VIRTIO_MMIO_BUS(obj) \
-> +        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
-> +#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
-> +        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
-> +#define VIRTIO_MMIO_BUS_CLASS(klass) \
-> +        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_B=
-US)
-> +
-> +/* virtio-mmio */
-> +#define TYPE_VIRTIO_MMIO "virtio-mmio"
-> +#define VIRTIO_MMIO(obj) \
-> +        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
-> +
-> +#define VIRT_MAGIC 0x74726976 /* 'virt' */
-> +#define VIRT_VERSION 2
-> +#define VIRT_VERSION_LEGACY 1
-> +#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
-> +
-> +typedef struct VirtIOMMIOQueue {
-> +    uint16_t num;
-> +    bool enabled;
-> +    uint32_t desc[2];
-> +    uint32_t avail[2];
-> +    uint32_t used[2];
-> +} VirtIOMMIOQueue;
-> +
-> +typedef struct {
-> +    /* Generic */
-> +    SysBusDevice parent_obj;
-> +    MemoryRegion iomem;
-> +    qemu_irq irq;
-> +    bool legacy;
-> +    /* Guest accessible state needing migration and reset */
-> +    uint32_t host_features_sel;
-> +    uint32_t guest_features_sel;
-> +    uint32_t guest_page_shift;
-> +    /* virtio-bus */
-> +    VirtioBusState bus;
-> +    bool format_transport_address;
-> +    /* Fields only used for non-legacy (v2) devices */
-> +    uint32_t guest_features[2];
-> +    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
-> +} VirtIOMMIOProxy;
-> +
-> +#endif
+Fixes: 4222147dfb7
+
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>>   accel/kvm/kvm-all.c | 6 +++---
+>>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>>> index aabe097c41..d2d96d73e8 100644
+>>> --- a/accel/kvm/kvm-all.c
+>>> +++ b/accel/kvm/kvm-all.c
+>>> @@ -712,11 +712,11 @@ static int kvm_physical_log_clear(KVMMemoryList=
+ener *kml,
+>>>       KVMState *s =3D kvm_state;
+>>>       uint64_t start, size, offset, count;
+>>>       KVMSlot *mem;
+>>> -    int ret, i;
+>>> +    int ret =3D 0, i;
+>>>  =20
+>>>       if (!s->manual_dirty_log_protect) {
+>>>           /* No need to do explicit clear */
+>>> -        return 0;
+>>> +        return ret;
+>>>       }
+>>>  =20
+>>>       start =3D section->offset_within_address_space;
+>>> @@ -724,7 +724,7 @@ static int kvm_physical_log_clear(KVMMemoryListen=
+er *kml,
+>>>  =20
+>>>       if (!size) {
+>>>           /* Nothing more we can do... */
+>>> -        return 0;
+>>> +        return ret;
+>>>       }
+>>>  =20
+>>>       kvm_slots_lock(kml);
+>>>
+>>
+>> Queued, thanks.
+>>
+>> Paolo
+>>
 >=20
 
