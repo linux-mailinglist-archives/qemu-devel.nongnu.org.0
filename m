@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E47CB277
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 01:47:47 +0200 (CEST)
-Received: from localhost ([::1]:41232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834D8CB278
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 01:47:56 +0200 (CEST)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGAof-0001fb-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 19:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46657)
+	id 1iGAp9-0002JK-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 19:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iGABI-0001wa-PS
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:06:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1iGABf-0002SY-AF
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:07:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iGABH-0006tn-MG
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:06:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45508)
+ (envelope-from <philmd@redhat.com>) id 1iGABe-00079E-5b
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:07:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37032)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iGABD-0006qF-JE; Thu, 03 Oct 2019 19:06:39 -0400
+ id 1iGABb-00074y-Id; Thu, 03 Oct 2019 19:07:03 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8738E307D84D;
- Thu,  3 Oct 2019 23:06:38 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7CE455117D;
+ Thu,  3 Oct 2019 23:07:02 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-21.brq.redhat.com [10.40.204.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 49D9510013A7;
- Thu,  3 Oct 2019 23:06:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 541BC10018F8;
+ Thu,  3 Oct 2019 23:06:48 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/14] hw: Move Exynos4210 RTC from hw/timer/ to hw/rtc/
- subdirectory
-Date: Fri,  4 Oct 2019 01:04:00 +0200
-Message-Id: <20191003230404.19384-11-philmd@redhat.com>
+Subject: [PATCH v2 12/14] hw/rtc/mc146818: Include mc146818rtc_regs.h a bit
+ less
+Date: Fri,  4 Oct 2019 01:04:02 +0200
+Message-Id: <20191003230404.19384-13-philmd@redhat.com>
 In-Reply-To: <20191003230404.19384-1-philmd@redhat.com>
 References: <20191003230404.19384-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 03 Oct 2019 23:06:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Thu, 03 Oct 2019 23:07:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -77,44 +77,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move RTC devices under the hw/rtc/ subdirectory.
+Only 2 source files require the "mc146818rtc_regs.h" header.
+Instead of having it processed 12 times, by all objects
+using "mc146818rtc.h", include it directly where used.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/rtc/Makefile.objs               | 1 +
- hw/{timer =3D> rtc}/exynos4210_rtc.c | 0
- hw/timer/Makefile.objs             | 1 -
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename hw/{timer =3D> rtc}/exynos4210_rtc.c (100%)
+ hw/rtc/mc146818rtc.c         | 1 +
+ hw/timer/hpet.c              | 1 +
+ include/hw/rtc/mc146818rtc.h | 1 -
+ 3 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
-index 543a550a0f..3d4763fc26 100644
---- a/hw/rtc/Makefile.objs
-+++ b/hw/rtc/Makefile.objs
-@@ -7,5 +7,6 @@ endif
- common-obj-$(CONFIG_PL031) +=3D pl031.o
- common-obj-$(CONFIG_TWL92230) +=3D twl92230.o
- common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-rtc.o
-+common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_rtc.o
- obj-$(CONFIG_MC146818RTC) +=3D mc146818rtc.o
- common-obj-$(CONFIG_SUN4V_RTC) +=3D sun4v-rtc.o
-diff --git a/hw/timer/exynos4210_rtc.c b/hw/rtc/exynos4210_rtc.c
-similarity index 100%
-rename from hw/timer/exynos4210_rtc.c
-rename to hw/rtc/exynos4210_rtc.c
-diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index 294465ef47..33191d74cb 100644
---- a/hw/timer/Makefile.objs
-+++ b/hw/timer/Makefile.objs
-@@ -19,7 +19,6 @@ common-obj-$(CONFIG_NRF51_SOC) +=3D nrf51_timer.o
- common-obj-$(CONFIG_ALTERA_TIMER) +=3D altera_timer.o
- common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_mct.o
- common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_pwm.o
--common-obj-$(CONFIG_EXYNOS4) +=3D exynos4210_rtc.o
- common-obj-$(CONFIG_OMAP) +=3D omap_gptimer.o
- common-obj-$(CONFIG_OMAP) +=3D omap_synctimer.o
- common-obj-$(CONFIG_PXA2XX) +=3D pxa2xx_timer.o
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index ced15f764f..9d4ed54f65 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -35,6 +35,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "hw/rtc/mc146818rtc.h"
++#include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-misc-target.h"
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 02bf8a8ce8..9f17aaa278 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -34,6 +34,7 @@
+ #include "hw/timer/hpet.h"
+ #include "hw/sysbus.h"
+ #include "hw/rtc/mc146818rtc.h"
++#include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/timer/i8254.h"
+=20
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 2e9331637a..7fa59d4279 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -10,7 +10,6 @@
+ #define HW_RTC_MC146818RTC_H
+=20
+ #include "hw/isa/isa.h"
+-#include "hw/rtc/mc146818rtc_regs.h"
+=20
+ #define TYPE_MC146818_RTC "mc146818rtc"
+=20
 --=20
 2.20.1
 
