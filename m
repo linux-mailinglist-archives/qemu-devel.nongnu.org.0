@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A9DCA9E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 19:22:27 +0200 (CEST)
-Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523B6CAA4B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 19:25:56 +0200 (CEST)
+Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iG4o6-0003K7-Gx
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 13:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60966)
+	id 1iG4rN-0006gK-Ma
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 13:25:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60993)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iG4hk-00074e-Qd
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:15:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iG4hl-00075d-KW
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:15:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iG4hj-00006T-LQ
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:15:52 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50260)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iG4hj-00006c-Mh
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 13:15:53 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iG4hd-0008To-Pg; Thu, 03 Oct 2019 13:15:45 -0400
+ id 1iG4hd-0008Tq-R9; Thu, 03 Oct 2019 13:15:46 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iG4hY-0002ks-9X; Thu, 03 Oct 2019 20:15:40 +0300
+ id 1iG4hY-0002ks-CI; Thu, 03 Oct 2019 20:15:40 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/6] block/block-copy: limit copy_range_size to 16 MiB
-Date: Thu,  3 Oct 2019 20:15:35 +0300
-Message-Id: <20191003171539.12327-3-vsementsov@virtuozzo.com>
+Subject: [PATCH 3/6] block/block-copy: refactor copying
+Date: Thu,  3 Oct 2019 20:15:36 +0300
+Message-Id: <20191003171539.12327-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191003171539.12327-1-vsementsov@virtuozzo.com>
 References: <20191003171539.12327-1-vsementsov@virtuozzo.com>
@@ -52,48 +52,224 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Large copy range may imply memory allocation and large io effort, so
-using 2G copy range request may be bad idea. Let's limit it to 16 MiB.
-It also helps the following patch to refactor copy-with-offload
-fallback to copy-with-bounce-buffer.
+Merge copying code into one function block_copy_do_copy, which only
+calls bdrv_ io functions and don't do any synchronization (like dirty
+bitmap set/reset).
 
-Note, that total memory usage of backup is still not limited, it will
-be fixed in further commit.
+Refactor block_copy() function so that it takes full decision about
+size of chunk to be copied and does all the synchronization (checking
+intersecting requests, set/reset dirty bitmaps).
+
+It will help:
+ - introduce parallel processing of block_copy iterations: we need to
+   calculate chunk size, start async chunk copying and go to the next
+   iteration
+ - simplify synchronization improvement (like memory limiting in
+   further commit and reducing critical section (now we lock the whole
+   requested range, when actually we need to lock only dirty region
+   which we handle at the moment))
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-copy.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ block/block-copy.c | 113 ++++++++++++++++++++-------------------------
+ block/trace-events |   6 +--
+ 2 files changed, 53 insertions(+), 66 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index aca0f893d7..75287ce24d 100644
+index 75287ce24d..cc49d2345d 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -18,6 +18,9 @@
- #include "qapi/error.h"
- #include "block/block-copy.h"
- #include "sysemu/block-backend.h"
-+#include "qemu/units.h"
-+
-+#define BLOCK_COPY_MAX_COPY_RANGE (16 * MiB)
+@@ -126,25 +126,43 @@ void block_copy_set_callbacks(
+ }
  
- static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
-                                                        int64_t start,
-@@ -70,9 +73,12 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+ /*
+- * Copy range to target with a bounce buffer and return the bytes copied. If
+- * error occurred, return a negative error number
++ * block_copy_do_copy
++ *
++ * Do copy of cluser-aligned chunk. @end is allowed to exceed s->len only to
++ * cover last cluster when s->len is not aligned to clusters.
++ *
++ * No sync here: nor bitmap neighter intersecting requests handling, only copy.
++ *
++ * Returns 0 on success.
+  */
+-static int coroutine_fn block_copy_with_bounce_buffer(BlockCopyState *s,
+-                                                      int64_t start,
+-                                                      int64_t end,
+-                                                      bool *error_is_read)
++static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
++                                           int64_t start, int64_t end,
++                                           bool *error_is_read)
  {
-     BlockCopyState *s;
-     BdrvDirtyBitmap *copy_bitmap;
-+
-+    /* Ignore BLOCK_COPY_MAX_COPY_RANGE if requested cluster_size is larger */
-     uint32_t max_transfer =
--            MIN_NON_ZERO(INT_MAX, MIN_NON_ZERO(source->bs->bl.max_transfer,
--                                               target->bs->bl.max_transfer));
-+            MIN_NON_ZERO(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
-+                         MIN_NON_ZERO(source->bs->bl.max_transfer,
-+                                      target->bs->bl.max_transfer));
+     int ret;
+-    int nbytes;
+-    void *bounce_buffer = qemu_blockalign(s->source->bs, s->cluster_size);
++    int nbytes = MIN(end, s->len) - start;
++    void *bounce_buffer = NULL;
  
-     copy_bitmap = bdrv_create_dirty_bitmap(source->bs, cluster_size, NULL,
-                                            errp);
+     assert(QEMU_IS_ALIGNED(start, s->cluster_size));
+-    bdrv_reset_dirty_bitmap(s->copy_bitmap, start, s->cluster_size);
+-    nbytes = MIN(s->cluster_size, s->len - start);
++    assert(QEMU_IS_ALIGNED(end, s->cluster_size));
++    assert(end < s->len || end == QEMU_ALIGN_UP(s->len, s->cluster_size));
++
++    if (s->use_copy_range) {
++        ret = bdrv_co_copy_range(s->source, start, s->target, start, nbytes,
++                                 0, s->write_flags);
++        if (ret < 0) {
++            trace_block_copy_copy_range_fail(s, start, ret);
++            s->use_copy_range = false;
++        } else {
++            return ret;
++        }
++    }
++
++    bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
+ 
+     ret = bdrv_co_pread(s->source, start, nbytes, bounce_buffer, 0);
+     if (ret < 0) {
+-        trace_block_copy_with_bounce_buffer_read_fail(s, start, ret);
++        trace_block_copy_read_fail(s, start, ret);
+         if (error_is_read) {
+             *error_is_read = true;
+         }
+@@ -154,7 +172,7 @@ static int coroutine_fn block_copy_with_bounce_buffer(BlockCopyState *s,
+     ret = bdrv_co_pwrite(s->target, start, nbytes, bounce_buffer,
+                          s->write_flags);
+     if (ret < 0) {
+-        trace_block_copy_with_bounce_buffer_write_fail(s, start, ret);
++        trace_block_copy_write_fail(s, start, ret);
+         if (error_is_read) {
+             *error_is_read = false;
+         }
+@@ -163,42 +181,12 @@ static int coroutine_fn block_copy_with_bounce_buffer(BlockCopyState *s,
+ 
+     qemu_vfree(bounce_buffer);
+ 
+-    return nbytes;
++    return 0;
++
+ fail:
+     qemu_vfree(bounce_buffer);
+-    bdrv_set_dirty_bitmap(s->copy_bitmap, start, s->cluster_size);
+-    return ret;
+-
+-}
+-
+-/*
+- * Copy range to target and return the bytes copied. If error occurred, return a
+- * negative error number.
+- */
+-static int coroutine_fn block_copy_with_offload(BlockCopyState *s,
+-                                                int64_t start,
+-                                                int64_t end)
+-{
+-    int ret;
+-    int nr_clusters;
+-    int nbytes;
+ 
+-    assert(QEMU_IS_ALIGNED(s->copy_range_size, s->cluster_size));
+-    assert(QEMU_IS_ALIGNED(start, s->cluster_size));
+-    nbytes = MIN(s->copy_range_size, MIN(end, s->len) - start);
+-    nr_clusters = DIV_ROUND_UP(nbytes, s->cluster_size);
+-    bdrv_reset_dirty_bitmap(s->copy_bitmap, start,
+-                            s->cluster_size * nr_clusters);
+-    ret = bdrv_co_copy_range(s->source, start, s->target, start, nbytes,
+-                            0, s->write_flags);
+-    if (ret < 0) {
+-        trace_block_copy_with_offload_fail(s, start, ret);
+-        bdrv_set_dirty_bitmap(s->copy_bitmap, start,
+-                              s->cluster_size * nr_clusters);
+-        return ret;
+-    }
+-
+-    return nbytes;
++    return ret;
+ }
+ 
+ /*
+@@ -294,7 +282,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
+     block_copy_inflight_req_begin(s, &req, start, end);
+ 
+     while (start < end) {
+-        int64_t dirty_end;
++        int64_t next_zero, chunk_end;
+ 
+         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, start)) {
+             trace_block_copy_skip(s, start);
+@@ -302,10 +290,15 @@ int coroutine_fn block_copy(BlockCopyState *s,
+             continue; /* already copied */
+         }
+ 
+-        dirty_end = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, start,
+-                                                (end - start));
+-        if (dirty_end < 0) {
+-            dirty_end = end;
++        chunk_end = MIN(end, start + (s->use_copy_range ?
++                                      s->copy_range_size : s->cluster_size));
++
++        next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, start,
++                                                chunk_end - start);
++        if (next_zero >= 0) {
++            assert(next_zero > start); /* start is dirty */
++            assert(next_zero < chunk_end); /* no need to do MIN() */
++            chunk_end = next_zero;
+         }
+ 
+         if (s->skip_unallocated) {
+@@ -316,27 +309,21 @@ int coroutine_fn block_copy(BlockCopyState *s,
+                 continue;
+             }
+             /* Clamp to known allocated region */
+-            dirty_end = MIN(dirty_end, start + status_bytes);
++            chunk_end = MIN(chunk_end, start + status_bytes);
+         }
+ 
+         trace_block_copy_process(s, start);
+ 
+-        if (s->use_copy_range) {
+-            ret = block_copy_with_offload(s, start, dirty_end);
+-            if (ret < 0) {
+-                s->use_copy_range = false;
+-            }
+-        }
+-        if (!s->use_copy_range) {
+-            ret = block_copy_with_bounce_buffer(s, start, dirty_end,
+-                                                error_is_read);
+-        }
++        bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
++
++        ret = block_copy_do_copy(s, start, chunk_end, error_is_read);
+         if (ret < 0) {
++            bdrv_set_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+             break;
+         }
+ 
+-        start += ret;
+-        s->progress_bytes_callback(ret, s->progress_opaque);
++        s->progress_bytes_callback(chunk_end - start, s->progress_opaque);
++        start = chunk_end;
+         ret = 0;
+     }
+ 
+diff --git a/block/trace-events b/block/trace-events
+index b8d70f5242..ccde15a14c 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -45,9 +45,9 @@ backup_do_cow_return(void *job, int64_t offset, uint64_t bytes, int ret) "job %p
+ block_copy_skip(void *bcs, int64_t start) "bcs %p start %"PRId64
+ block_copy_skip_range(void *bcs, int64_t start, uint64_t bytes) "bcs %p start %"PRId64" bytes %"PRId64
+ block_copy_process(void *bcs, int64_t start) "bcs %p start %"PRId64
+-block_copy_with_bounce_buffer_read_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PRId64" ret %d"
+-block_copy_with_bounce_buffer_write_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PRId64" ret %d"
+-block_copy_with_offload_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PRId64" ret %d"
++block_copy_copy_range_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PRId64" ret %d"
++block_copy_read_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PRId64" ret %d"
++block_copy_write_fail(void *bcs, int64_t start, int ret) "bcs %p start %"PRId64" ret %d"
+ 
+ # ../blockdev.c
+ qmp_block_job_cancel(void *job) "job %p"
 -- 
 2.21.0
 
