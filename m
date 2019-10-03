@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9C9C9CC9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 13:02:40 +0200 (CEST)
-Received: from localhost ([::1]:34710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C5BC9CD2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 13:06:02 +0200 (CEST)
+Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFysY-0003aD-VS
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 07:02:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59329)
+	id 1iFyvp-0006nk-GW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 07:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFypU-0002O5-VD
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:59:30 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFyqC-0002pw-3f
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 07:00:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iFypP-0003uS-LU
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:59:28 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33077)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iFyqA-0004kx-LR
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 07:00:11 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38236)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iFypP-0003rD-7l
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 06:59:23 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b9so2484432wrs.0
- for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 03:59:23 -0700 (PDT)
+ id 1iFyqA-0004iA-Et
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 07:00:10 -0400
+Received: by mail-wr1-x443.google.com with SMTP id w12so2461866wro.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 04:00:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
  bh=mj08ruo+mSzrmNeE9C3Au4yHvuIS25YuGCkEgbFLHmU=;
- b=lrdbP2cKnQGLRL4tF0JFoPKEYNL8BOCFButZ41O1sU5JUnLLrbgIXJmgDDsf9n/8ie
- 9OtbCbV8r+Rm1CCJ/gqufzepsS9j/T1m/W+gfdWfCnRKu9ZYpJO2jxVUXRC6B0vhKnGS
- IZb1DfKnZsf43JMU11fEgFv5NFdr4rkqaKBX3qDLVTmv+lsSQ58WRxIkHgh0J8tsjz/r
- ML2h5m54r1Thi1aoYY9/JOdVhNECCPyTb1DTb7rfDG9ikeTN9sqdyYTjAJFwaaC7VMcE
- R1xa4HtNxXqrg4kZDzBfjv/YaKoZPnky6z336P9eVUBxUH/IzHVnQzbAxc78rHZJsHHo
- hq9g==
+ b=nPorOTUHnmYyeBjkevzH/zy4B7u8xdrigeDc/nspRCiUyoDxh21iWM2sT0kGoVsQhE
+ a0+NWkUk+PZqtbKfmx7jzzf65bSh3c3N1zzmuUXSrdCf5Zam7jjqLoFYo3Yj+tzCpRrK
+ AX9idYpdEs1HdvZ5mn5dTFnI0uO8VN9TdEBLlziBcnrJ3p3uJL8WuOb9GW6hpcV7toXw
+ b5tl3TZjxn3q2X2vYoHfd+IxB8hXVMwo3FoDoxXRv5JKwc/6WgsDY2kd/qCbVWpnHJPE
+ bHPWKqyMM19/9lnWQQPKnu0tkNGUF8M6aVP4fryXzddVubTlmnhfkE1tA5UMd6rsqKZ3
+ oPYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
+ :mime-version:content-transfer-encoding;
  bh=mj08ruo+mSzrmNeE9C3Au4yHvuIS25YuGCkEgbFLHmU=;
- b=PNJ+lsWxtwxJinmqjAW9tgMxMl3h2HsxTSzXmU4vGjnMGKHaIYDRNw6YXM0aPHJ8AJ
- ar+kuOFoM41eZa0+64yCI5Qq2T1bqPbNyD5vptxlZRXpfvBW1x8L6Z9RzLL4UA+bWaRm
- Ot1xBz594bksWiXcOPB6IBPoOfCjflBEWTSWzHMzJILVGh5LMMKmp9w7mFAcm7CCCV9u
- skSEoiEyESOp1x0EoIhdzZLqRu8aoXAZzTbLle0QLx0GucQ6ejeJ55YNv8fANsr37sTq
- RnHz/55nqcwjHtjb3LYGCa9vo7BgfqOX7NUTH6v0SLbL8uOOh4+oeUs4s1OtUNMkpFU0
- JpSg==
-X-Gm-Message-State: APjAAAUtZ732FVVapp2N4HJLIj7prWZbezd106+AzOUks4GJF3j8O15i
- TQGIHXPAtI9Iy0M36QG4djjswsR9
-X-Google-Smtp-Source: APXvYqzs2+CZaVI5ph10mibUGkFXNUNKn79nRqu2kPPJrUCfwOVgm9CMMpFQsBawt3EXufnqZL0BFw==
-X-Received: by 2002:a5d:6701:: with SMTP id o1mr7097273wru.6.1570100361201;
- Thu, 03 Oct 2019 03:59:21 -0700 (PDT)
+ b=L+Bhb2A4HeA2scQ3XOxlLdO0aeTrrwuqBIyvQd6ivcTwq1OVxkRHE0oLFsf7IKhXje
+ XDVwoWrc0UKr0xltlaSvza49siNUdpvsfqSmpSNoYoKEkTeq1u4gEiJy4BNIIfnEAkO1
+ DwnssUneRVDpMkrhy26+HWi88uIxyMP2Exvi2+bjTAOwHWUiieObyxlOyvUdY6mD3w2n
+ G1y+HeHOfALGmc1QRIxKfz7yw3O+8RLtNOEvUAqBHmF+lkLePHWeSr5MuJtTxFdE14iS
+ mAsKwXNnkGqbEK6dLO/RnADjwbEkcA4GYBtdIbIu0HK590dXJmtLySBsRLT7ILLhEmFk
+ hjoA==
+X-Gm-Message-State: APjAAAXUnt2WVARjQzpBY8K++0biUTVjkIPW670nSkAS+TkfZErDFiBk
+ UkJu1ae+ixAKz0tKNGx7S1Si8RKP
+X-Google-Smtp-Source: APXvYqxOVDzmULvdJvJEIH7unEI+3PFITAr1CDin3xEMRmTohZA2cjdNyMgNh+yY3p30NLiGgzZuVA==
+X-Received: by 2002:adf:9c93:: with SMTP id d19mr5208282wre.383.1570100408685; 
+ Thu, 03 Oct 2019 04:00:08 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id l10sm3391485wrh.20.2019.10.03.03.59.20
+ by smtp.gmail.com with ESMTPSA id 33sm3512459wra.41.2019.10.03.04.00.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 03 Oct 2019 03:59:20 -0700 (PDT)
+ Thu, 03 Oct 2019 04:00:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Subject: [PULL v2 00/22] Misc patches for 2010-10-02
-Date: Thu,  3 Oct 2019 12:59:18 +0200
-Message-Id: <1570100358-22344-2-git-send-email-pbonzini@redhat.com>
+Date: Thu,  3 Oct 2019 13:00:07 +0200
+Message-Id: <1570100407-22549-1-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1570100358-22344-1-git-send-email-pbonzini@redhat.com>
-References: <1570100358-22344-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
