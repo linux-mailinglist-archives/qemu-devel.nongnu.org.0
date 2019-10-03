@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8E0CB234
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 01:17:57 +0200 (CEST)
-Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96EBCB228
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 01:11:01 +0200 (CEST)
+Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGAM5-0000QP-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 19:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41211)
+	id 1iGAFO-0003k9-9G
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 19:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iGA0o-0004BE-Vg
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 18:55:56 -0400
+ (envelope-from <philmd@redhat.com>) id 1iGA9X-0000rD-2E
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:04:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iGA0n-0008TN-Im
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 18:55:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45248)
+ (envelope-from <philmd@redhat.com>) id 1iGA9P-0005sl-Bh
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 19:04:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:26606)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iGA0k-0008QZ-1N
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 18:55:52 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1iGA94-0005oE-I9; Thu, 03 Oct 2019 19:04:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5EFBFC057F23;
- Thu,  3 Oct 2019 22:55:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 625AF10C0928;
+ Thu,  3 Oct 2019 23:04:24 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-21.brq.redhat.com [10.40.204.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC4AD600C4;
- Thu,  3 Oct 2019 22:55:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91D381001B20;
+ Thu,  3 Oct 2019 23:04:07 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] tests/fw_cfg: Run the tests on big-endian targets
-Date: Fri,  4 Oct 2019 00:54:37 +0200
-Message-Id: <20191003225437.16651-8-philmd@redhat.com>
-In-Reply-To: <20191003225437.16651-1-philmd@redhat.com>
-References: <20191003225437.16651-1-philmd@redhat.com>
+Subject: [PATCH v2 00/14] hw: Split RTC devices from hw/timer/ to hw/rtc/
+Date: Fri,  4 Oct 2019 01:03:50 +0200
+Message-Id: <20191003230404.19384-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 03 Oct 2019 22:55:42 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Thu, 03 Oct 2019 23:04:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -56,103 +54,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-trivial@nongnu.org, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have been restricting our fw_cfg tests to the PC machine,
-which is a little-endian architecture.
-The fw_cfg device is also used on the SPARC and PowerPC
-architectures, which can run in big-endian configuration.
+Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03334.=
+html
+- addressed review comments (described in patches 3 and 4)
+- added R-b/A-b tags
 
-Since we want to be sure our device does not regress
-regardless the endianess used, enable this test one
-these targets.
+Whole series now reviewed.
 
-The NUMA selector is X86 specific, restrict it to this arch.
+v1 blurb:
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/Makefile.include |  2 ++
- tests/fw_cfg-test.c    | 18 +++++++++++++++---
- 2 files changed, 17 insertions(+), 3 deletions(-)
+When working on timers, I found it confuse to have RTC devices
+mixed in the hw/timer/ directory.
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451ed3..322bdb36ff 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -242,6 +242,7 @@ check-qtest-ppc64-$(CONFIG_VGA) +=3D tests/display-vg=
-a-test$(EXESUF)
- check-qtest-ppc64-y +=3D tests/numa-test$(EXESUF)
- check-qtest-ppc64-$(CONFIG_IVSHMEM_DEVICE) +=3D tests/ivshmem-test$(EXES=
-UF)
- check-qtest-ppc64-y +=3D tests/cpu-plug-test$(EXESUF)
-+check-qtest-ppc64-y +=3D tests/fw_cfg-test$(EXESUF)
-=20
- check-qtest-sh4-$(CONFIG_ISA_TESTDEV) =3D tests/endianness-test$(EXESUF)
-=20
-@@ -250,6 +251,7 @@ check-qtest-sh4eb-$(CONFIG_ISA_TESTDEV) =3D tests/end=
-ianness-test$(EXESUF)
- check-qtest-sparc-y +=3D tests/prom-env-test$(EXESUF)
- check-qtest-sparc-y +=3D tests/m48t59-test$(EXESUF)
- check-qtest-sparc-y +=3D tests/boot-serial-test$(EXESUF)
-+check-qtest-sparc-y +=3D tests/fw_cfg-test$(EXESUF)
-=20
- check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) =3D tests/endianness-test$(EXE=
-SUF)
- check-qtest-sparc64-y +=3D tests/prom-env-test$(EXESUF)
-diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
-index 12dbaf4e67..39bbc9647e 100644
---- a/tests/fw_cfg-test.c
-+++ b/tests/fw_cfg-test.c
-@@ -209,13 +209,22 @@ static void test_fw_cfg_splash_time(const void *opa=
-que)
-=20
- int main(int argc, char **argv)
- {
-+    const char *arch =3D qtest_get_arch();
-     QTestCtx *ctx =3D g_new(QTestCtx, 1);
-     int ret;
-=20
-     g_test_init(&argc, &argv, NULL);
-=20
--    ctx->machine_name =3D "pc";
--    ctx->fw_cfg =3D pc_fw_cfg_init();
-+    if (g_str_equal(arch, "i386") || g_str_equal(arch, "x86_64")) {
-+        ctx->machine_name =3D "pc";
-+        ctx->fw_cfg =3D pc_fw_cfg_init();
-+    } else if (g_str_equal(arch, "sparc")) {
-+        ctx->machine_name =3D "SS-5";
-+        ctx->fw_cfg =3D mm_fw_cfg_init(0xd00000510ULL);
-+    } else if (g_str_equal(arch, "ppc64")) {
-+        ctx->machine_name =3D "mac99";
-+        ctx->fw_cfg =3D mm_fw_cfg_init(0xf0000510);
-+    }
-=20
-     qtest_add_data_func("fw_cfg/signature", ctx, test_fw_cfg_signature);
-     qtest_add_data_func("fw_cfg/id", ctx, test_fw_cfg_id);
-@@ -230,12 +239,15 @@ int main(int argc, char **argv)
-     qtest_add_func("fw_cfg/boot_device", test_fw_cfg_boot_device);
- #endif
-     qtest_add_data_func("fw_cfg/max_cpus", ctx, test_fw_cfg_max_cpus);
--    qtest_add_data_func("fw_cfg/numa", ctx, test_fw_cfg_numa);
-     qtest_add_data_func("fw_cfg/boot_menu", ctx, test_fw_cfg_boot_menu);
-     qtest_add_data_func("fw_cfg/reboot_timeout", ctx,
-                         test_fw_cfg_reboot_timeout);
-     qtest_add_data_func("fw_cfg/splash_time", ctx, test_fw_cfg_splash_ti=
-me);
-=20
-+    if (g_str_equal(arch, "i386") || g_str_equal(arch, "x86_64")) {
-+        qtest_add_data_func("fw_cfg/numa", ctx, test_fw_cfg_numa);
-+    }
-+
-     ret =3D g_test_run();
-=20
-     g_free(ctx->fw_cfg);
+We can see the models use slighly different APIs:
+
+  $ git grep '#include' hw/timer/|cut -d: -f3-|sort|uniq -c|egrep -v '^  =
+    1 '|sort -rn
+     33 #include "qemu/osdep.h"
+     29 #include "hw/irq.h"
+     28 #include "qemu/module.h"
+     23 #include "migration/vmstate.h"
+     21 #include "hw/sysbus.h"
+     20 #include "qemu/timer.h"
+     20 #include "qemu/main-loop.h"
+     17 #include "qemu/log.h"
+     14 #include "hw/qdev-properties.h"
+     14 #include "hw/ptimer.h"
+      9 #include "trace.h"
+      7 #include "qapi/error.h"
+      5 #include "hw/hw.h"
+      3 #include "sysemu/runstate.h"
+      3 #include "qemu/error-report.h"
+      3 #include "hw/timer/i8254.h"
+      2 #include "qemu/bitops.h"
+      2 #include "hw/timer/i8254_internal.h"
+      2 #include "hw/registerfields.h"
+      2 #include "hw/core/cpu.h"
+      2 #include "hw/arm/omap.h"
+      2 #include "hw/arm/exynos4210.h"
+
+  $ git grep '#include' hw/rtc/|cut -d: -f3-|sort|uniq -c|egrep -v '^    =
+  1 '|sort -rn
+     11 #include "qemu/osdep.h"
+     10 #include "qemu/module.h"
+      9 #include "qemu-common.h"
+      8 #include "qemu/timer.h"
+      8 #include "migration/vmstate.h"
+      6 #include "qemu/bcd.h"
+      6 #include "hw/irq.h"
+      5 #include "sysemu/sysemu.h"
+      5 #include "qemu/log.h"
+      5 #include "hw/sysbus.h"
+      4 #include "trace.h"
+      4 #include "hw/qdev-properties.h"
+      3 #include "qemu/cutils.h"
+      3 #include "hw/i2c/i2c.h"
+      2 #include "sysemu/runstate.h"
+      2 #include "m48t59-internal.h"
+      2 #include "hw/rtc/m48t59.h"
+      2 #include "exec/address-spaces.h"
+
+Split the RTC-related files in the new hw/rtc/ directory.
+
+Philippe Mathieu-Daud=C3=A9 (14):
+  hw/timer: Compile devices not target-dependent as common object
+  hw: Move PL031 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move MC146818 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move M48T59 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move M41T80 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move sun4v hypervisor RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move TWL92230 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move DS1338 device from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move Xilinx ZynqMP RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move Exynos4210 RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw: Move Aspeed RTC from hw/timer/ to hw/rtc/ subdirectory
+  hw/rtc/mc146818: Include mc146818rtc_regs.h a bit less
+  hw/rtc/xlnx-zynqmp-rtc: Remove unused "ptimer.h" include
+  hw/rtc/aspeed_rtc: Remove unused includes
+
+ MAINTAINERS                                  | 20 +++----
+ Makefile.objs                                |  1 +
+ hw/Kconfig                                   |  1 +
+ hw/Makefile.objs                             |  1 +
+ hw/alpha/dp264.c                             |  2 +-
+ hw/arm/musca.c                               |  2 +-
+ hw/hppa/machine.c                            |  2 +-
+ hw/i386/acpi-build.c                         |  2 +-
+ hw/i386/pc.c                                 |  2 +-
+ hw/i386/pc_q35.c                             |  2 +-
+ hw/mips/mips_fulong2e.c                      |  2 +-
+ hw/mips/mips_jazz.c                          |  2 +-
+ hw/mips/mips_malta.c                         |  2 +-
+ hw/mips/mips_r4k.c                           |  2 +-
+ hw/ppc/pnv.c                                 |  2 +-
+ hw/ppc/ppc405_boards.c                       |  2 +-
+ hw/ppc/prep.c                                |  4 +-
+ hw/rtc/Kconfig                               | 23 ++++++++
+ hw/rtc/Makefile.objs                         | 13 +++++
+ hw/{timer =3D> rtc}/aspeed_rtc.c               |  2 +-
+ hw/{timer =3D> rtc}/ds1338.c                   |  0
+ hw/{timer =3D> rtc}/exynos4210_rtc.c           |  0
+ hw/{timer =3D> rtc}/m41t80.c                   |  0
+ hw/{timer =3D> rtc}/m48t59-internal.h          |  0
+ hw/{timer =3D> rtc}/m48t59-isa.c               |  4 +-
+ hw/{timer =3D> rtc}/m48t59.c                   |  2 +-
+ hw/{timer =3D> rtc}/mc146818rtc.c              |  3 +-
+ hw/{timer =3D> rtc}/pl031.c                    |  2 +-
+ hw/{timer =3D> rtc}/sun4v-rtc.c                |  2 +-
+ hw/rtc/trace-events                          | 19 +++++++
+ hw/{timer =3D> rtc}/twl92230.c                 |  0
+ hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c          |  3 +-
+ hw/sparc/sun4m.c                             |  2 +-
+ hw/sparc64/niagara.c                         |  2 +-
+ hw/sparc64/sun4u.c                           |  2 +-
+ hw/timer/Kconfig                             | 24 ---------
+ hw/timer/Makefile.objs                       | 35 ++++--------
+ hw/timer/hpet.c                              |  3 +-
+ hw/timer/trace-events                        | 18 -------
+ include/hw/arm/aspeed_soc.h                  |  2 +-
+ include/hw/arm/xlnx-zynqmp.h                 |  2 +-
+ include/hw/{timer =3D> rtc}/aspeed_rtc.h       |  9 ++--
+ include/hw/rtc/m48t59.h                      | 57 ++++++++++++++++++++
+ include/hw/{timer =3D> rtc}/mc146818rtc.h      | 13 +++--
+ include/hw/{timer =3D> rtc}/mc146818rtc_regs.h |  5 +-
+ include/hw/{timer =3D> rtc}/pl031.h            |  5 +-
+ include/hw/rtc/sun4v-rtc.h                   | 19 +++++++
+ include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h  |  6 +--
+ include/hw/timer/m48t59.h                    | 32 -----------
+ include/hw/timer/sun4v-rtc.h                 |  1 -
+ tests/rtc-test.c                             |  2 +-
+ 51 files changed, 208 insertions(+), 155 deletions(-)
+ create mode 100644 hw/rtc/Kconfig
+ create mode 100644 hw/rtc/Makefile.objs
+ rename hw/{timer =3D> rtc}/aspeed_rtc.c (99%)
+ rename hw/{timer =3D> rtc}/ds1338.c (100%)
+ rename hw/{timer =3D> rtc}/exynos4210_rtc.c (100%)
+ rename hw/{timer =3D> rtc}/m41t80.c (100%)
+ rename hw/{timer =3D> rtc}/m48t59-internal.h (100%)
+ rename hw/{timer =3D> rtc}/m48t59-isa.c (98%)
+ rename hw/{timer =3D> rtc}/m48t59.c (99%)
+ rename hw/{timer =3D> rtc}/mc146818rtc.c (99%)
+ rename hw/{timer =3D> rtc}/pl031.c (99%)
+ rename hw/{timer =3D> rtc}/sun4v-rtc.c (98%)
+ create mode 100644 hw/rtc/trace-events
+ rename hw/{timer =3D> rtc}/twl92230.c (100%)
+ rename hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.c (99%)
+ rename include/hw/{timer =3D> rtc}/aspeed_rtc.h (80%)
+ create mode 100644 include/hw/rtc/m48t59.h
+ rename include/hw/{timer =3D> rtc}/mc146818rtc.h (63%)
+ rename include/hw/{timer =3D> rtc}/mc146818rtc_regs.h (96%)
+ rename include/hw/{timer =3D> rtc}/pl031.h (93%)
+ create mode 100644 include/hw/rtc/sun4v-rtc.h
+ rename include/hw/{timer =3D> rtc}/xlnx-zynqmp-rtc.h (95%)
+ delete mode 100644 include/hw/timer/m48t59.h
+ delete mode 100644 include/hw/timer/sun4v-rtc.h
+
 --=20
 2.20.1
 
