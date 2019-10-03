@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224CFC9E07
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:06:44 +0200 (CEST)
-Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F80C9DFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Oct 2019 14:04:14 +0200 (CEST)
+Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iFzsY-0004x1-Op
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39840)
+	id 1iFzq9-0001ov-1K
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 08:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iFznO-0008Ns-1v
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:01:23 -0400
+ (envelope-from <groug@kaod.org>) id 1iFznX-0008V3-VN
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iFznM-0007PT-4I
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:01:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18958
+ (envelope-from <groug@kaod.org>) id 1iFznW-0007g8-Jl
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:01:31 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54922
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iFznL-0007P6-VN
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:01:20 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x93BvFQ3020314
- for <qemu-devel@nongnu.org>; Thu, 3 Oct 2019 08:01:19 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vdfe1a91y-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iFznW-0007ew-EG
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 08:01:30 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x93BvehE075758
+ for <qemu-devel@nongnu.org>; Thu, 3 Oct 2019 08:01:28 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vdg8m0tdh-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 08:01:19 -0400
+ for <qemu-devel@nongnu.org>; Thu, 03 Oct 2019 08:01:28 -0400
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 3 Oct 2019 13:01:17 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Thu, 3 Oct 2019 13:01:26 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 3 Oct 2019 13:01:15 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x93C1EBD43188412
+ Thu, 3 Oct 2019 13:01:24 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x93C1N4G40894658
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Oct 2019 12:01:14 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EBA85A406E;
- Thu,  3 Oct 2019 12:01:13 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C150FA4069;
- Thu,  3 Oct 2019 12:01:13 +0000 (GMT)
+ Thu, 3 Oct 2019 12:01:24 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B6F8842047;
+ Thu,  3 Oct 2019 12:01:23 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 866FD42049;
+ Thu,  3 Oct 2019 12:01:23 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.67.254])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  3 Oct 2019 12:01:13 +0000 (GMT)
-Subject: [PATCH 2/7] spapr,
- xive: Turn "nr-ends" property into "nr-servers" property
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  3 Oct 2019 12:01:23 +0000 (GMT)
+Subject: [PATCH 3/7] spapr, xics,
+ xive: Drop nr_servers argument in DT-related functions
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>,
  =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Thu, 03 Oct 2019 14:01:13 +0200
+Date: Thu, 03 Oct 2019 14:01:23 +0200
 In-Reply-To: <157010404888.246126.9768030542733152637.stgit@bahia.lan>
 References: <157010404888.246126.9768030542733152637.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -67,15 +67,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19100312-4275-0000-0000-0000036DAAC4
+x-cbid: 19100312-0012-0000-0000-00000353AB8E
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100312-4276-0000-0000-00003880B0D6
-Message-Id: <157010406203.246126.13381271918474281392.stgit@bahia.lan>
+x-cbparentid: 19100312-0013-0000-0000-0000218EB25D
+Message-Id: <157010407899.246126.7691819104525548257.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-03_05:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910030113
@@ -96,117 +96,121 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sPAPR XIVE object has an nr_ends field which happens to be a
-multiple of spapr_max_server_number(). It is currently set with
-the help of "nr-ends" property. This is a bit unfortunate since
-it exposes to the sPAPR irq frontend what should remain an
-implemantation detail within the XIVE backend.
-
-It will be possible soon to inform the XIVE KVM device about the
-range of VCPU ids that may be used in the VM, as returned by the
-spapr_max_server_number() function. This will allow the device
-to substantially reduce the consumption of scarce resources
-in the XIVE HW.
-
-For both reasons, replace the "nr-ends" property with an "nr-servers"
-one. The existing nr_ends field must be kept though since it tells how
-many ENDs are migrated, it is derived from "nr-servers" at realize time
-for simplicity. Convert spapr_dt_xive() to use it as well.
+Both XICS and XIVE backends can access nr_servers by other means. No
+need to pass it around anymore.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/spapr_xive.c        |   21 ++++++++++++++++-----
- hw/ppc/spapr_irq.c          |    2 +-
- include/hw/ppc/spapr_xive.h |    1 +
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ hw/intc/spapr_xive.c        |    3 +--
+ hw/intc/xics_spapr.c        |    3 +--
+ hw/ppc/spapr.c              |    3 +--
+ hw/ppc/spapr_irq.c          |    5 ++---
+ include/hw/ppc/spapr_irq.h  |    3 +--
+ include/hw/ppc/spapr_xive.h |    3 +--
+ include/hw/ppc/xics_spapr.h |    3 +--
+ 7 files changed, 8 insertions(+), 15 deletions(-)
 
 diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 04879abf2e7a..62888ddc68db 100644
+index 62888ddc68db..56d851169cf6 100644
 --- a/hw/intc/spapr_xive.c
 +++ b/hw/intc/spapr_xive.c
-@@ -99,6 +99,15 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
-     return 0;
+@@ -1552,8 +1552,7 @@ void spapr_xive_hcall_init(SpaprMachineState *spapr)
+     spapr_register_hypercall(H_INT_RESET, h_int_reset);
  }
  
-+static uint32_t spapr_xive_vcpu_id_to_end_idx(uint32_t vcpu_id)
-+{
-+    /*
-+     * 8 XIVE END structures per CPU. One for each available
-+     * priority
-+     */
-+    return vcpu_id << 3;
-+}
-+
- static void spapr_xive_cpu_to_end(PowerPCCPU *cpu, uint8_t prio,
-                                   uint8_t *out_end_blk, uint32_t *out_end_idx)
+-void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
+-                   uint32_t phandle)
++void spapr_dt_xive(SpaprMachineState *spapr, void *fdt, uint32_t phandle)
  {
-@@ -109,7 +118,7 @@ static void spapr_xive_cpu_to_end(PowerPCCPU *cpu, uint8_t prio,
-     }
- 
-     if (out_end_idx) {
--        *out_end_idx = (cpu->vcpu_id << 3) + prio;
-+        *out_end_idx = spapr_xive_vcpu_id_to_end_idx(cpu->vcpu_id) + prio;
-     }
+     SpaprXive *xive = spapr->xive;
+     int node;
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index aa568ed0dc0d..015753c19c5d 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -308,8 +308,7 @@ static void ics_spapr_realize(DeviceState *dev, Error **errp)
+     spapr_register_hypercall(H_IPOLL, h_ipoll);
  }
  
-@@ -283,11 +292,13 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+-void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
+-                   uint32_t phandle)
++void spapr_dt_xics(SpaprMachineState *spapr, void *fdt, uint32_t phandle)
+ {
+     ICSState *ics = spapr->ics;
+     uint32_t interrupt_server_ranges_prop[] = {
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index b8b9796c88e4..8f59f08c102e 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1255,8 +1255,7 @@ static void *spapr_build_fdt(SpaprMachineState *spapr)
+     _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
  
--    if (!xive->nr_ends) {
--        error_setg(errp, "Number of interrupt needs to be greater 0");
-+    if (!xive->nr_servers) {
-+        error_setg(errp, "Number of interrupt servers must be greater than 0");
-         return;
-     }
+     /* /interrupt controller */
+-    spapr->irq->dt_populate(spapr, spapr_max_server_number(spapr), fdt,
+-                          PHANDLE_INTC);
++    spapr->irq->dt_populate(spapr, fdt, PHANDLE_INTC);
  
-+    xive->nr_ends = spapr_xive_vcpu_id_to_end_idx(xive->nr_servers);
-+
-     /*
-      * Initialize the internal sources, for IPIs and virtual devices.
-      */
-@@ -489,7 +500,7 @@ static const VMStateDescription vmstate_spapr_xive = {
- 
- static Property spapr_xive_properties[] = {
-     DEFINE_PROP_UINT32("nr-irqs", SpaprXive, nr_irqs, 0),
--    DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
-+    DEFINE_PROP_UINT32("nr-servers", SpaprXive, nr_servers, 0),
-     DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BASE),
-     DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BASE),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -1550,7 +1561,7 @@ void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
-     /* Interrupt number ranges for the IPIs */
-     uint32_t lisn_ranges[] = {
-         cpu_to_be32(0),
--        cpu_to_be32(nr_servers),
-+        cpu_to_be32(xive->nr_servers),
-     };
-     /*
-      * EQ size - the sizes of pages supported by the system 4K, 64K,
+     ret = spapr_populate_memory(spapr, fdt);
+     if (ret < 0) {
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 457eabe24cda..025fd00143a2 100644
+index 025fd00143a2..02e1b5503b65 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -591,7 +591,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
-          * 8 XIVE END structures per CPU. One for each available
-          * priority
-          */
--        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-+        qdev_prop_set_uint32(dev, "nr-servers", nr_servers);
-         qdev_init_nofail(dev);
+@@ -368,11 +368,10 @@ static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor *mon)
+     spapr_irq_current(spapr)->print_info(spapr, mon);
+ }
  
-         spapr->xive = SPAPR_XIVE(dev);
+-static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
+-                                       uint32_t nr_servers, void *fdt,
++static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr, void *fdt,
+                                        uint32_t phandle)
+ {
+-    spapr_irq_current(spapr)->dt_populate(spapr, nr_servers, fdt, phandle);
++    spapr_irq_current(spapr)->dt_populate(spapr, fdt, phandle);
+ }
+ 
+ static void spapr_irq_cpu_intc_create_dual(SpaprMachineState *spapr,
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index 69a37f608e01..1736e503a8e9 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -45,8 +45,7 @@ typedef struct SpaprIrq {
+     int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **errp);
+     void (*free)(SpaprMachineState *spapr, int irq);
+     void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
+-    void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
+-                        void *fdt, uint32_t phandle);
++    void (*dt_populate)(SpaprMachineState *spapr, void *fdt, uint32_t phandle);
+     void (*cpu_intc_create)(SpaprMachineState *spapr, PowerPCCPU *cpu,
+                             Error **errp);
+     int (*post_load)(SpaprMachineState *spapr, int version_id);
 diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 0df20a6590a5..4a4a6fc6be7f 100644
+index 4a4a6fc6be7f..fae075d51815 100644
 --- a/include/hw/ppc/spapr_xive.h
 +++ b/include/hw/ppc/spapr_xive.h
-@@ -22,6 +22,7 @@ typedef struct SpaprXive {
-     /* Internal interrupt source for IPIs and virtual devices */
-     XiveSource    source;
-     hwaddr        vc_base;
-+    uint32_t      nr_servers;
+@@ -61,8 +61,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+ int spapr_xive_post_load(SpaprXive *xive, int version_id);
  
-     /* END ESB MMIOs */
-     XiveENDSource end_source;
+ void spapr_xive_hcall_init(SpaprMachineState *spapr);
+-void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
+-                   uint32_t phandle);
++void spapr_dt_xive(SpaprMachineState *spapr, void *fdt, uint32_t phandle);
+ void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
+ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
+ void spapr_xive_map_mmio(SpaprXive *xive);
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 0b35e85c266a..ecb67c6c340a 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -32,8 +32,7 @@
+ #define TYPE_ICS_SPAPR "ics-spapr"
+ #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
+ 
+-void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
+-                   uint32_t phandle);
++void spapr_dt_xics(SpaprMachineState *spapr, void *fdt, uint32_t phandle);
+ int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
+ void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
+ bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
 
 
