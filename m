@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF6BCC33E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 21:03:00 +0200 (CEST)
-Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124D4CC349
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 21:06:22 +0200 (CEST)
+Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGSqx-0005EB-By
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 15:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36957)
+	id 1iGSuD-0007as-2X
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 15:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iGSiX-0000V3-P8
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:54:19 -0400
+ (envelope-from <lersek@redhat.com>) id 1iGSm2-00039c-P8
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:57:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iGSiS-00020c-JX
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:54:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51078)
+ (envelope-from <lersek@redhat.com>) id 1iGSlx-0004Lf-7O
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:57:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58190)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iGSiQ-0001tt-MJ
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:54:11 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iGSlx-0004LR-2N
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:57:49 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 96DBE8A1CA7;
- Fri,  4 Oct 2019 18:54:06 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 577AD1001DC2;
- Fri,  4 Oct 2019 18:54:03 +0000 (UTC)
-Date: Fri, 4 Oct 2019 19:54:00 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Add pread64() to seccomp list for
- posix_fallocate()
-Message-ID: <20191004185400.GH2772@work-vm>
-References: <20191004110759.32665-1-misono.tomohiro@jp.fujitsu.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 24DA8210C;
+ Fri,  4 Oct 2019 18:57:48 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-253.rdu2.redhat.com
+ [10.10.121.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F7345C21A;
+ Fri,  4 Oct 2019 18:57:37 +0000 (UTC)
+Subject: Re: [PATCH 5/7] tests/libqos/fw_cfg: Pass QTestState as argument
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191003225437.16651-1-philmd@redhat.com>
+ <20191003225437.16651-6-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <a9ebbc5e-7241-fab1-5f9a-cf31fe50e115@redhat.com>
+Date: Fri, 4 Oct 2019 20:57:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191004110759.32665-1-misono.tomohiro@jp.fujitsu.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20191003225437.16651-6-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Fri, 04 Oct 2019 18:54:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.71]); Fri, 04 Oct 2019 18:57:48 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -58,58 +62,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Misono Tomohiro (misono.tomohiro@jp.fujitsu.com) wrote:
-> I test virtiofs with NFS 4.0 as backend and notice that fallocate
-> causes system hang (kernel: 5.4-rc1, qemu: virtio-fs-dev branch):
->  $ mount -t virtiofs myfs /mnt
->  $ dd if=/dev/urandom bs=1000 seek=1 count=1 of=/mnt/file
->  $ fallocate -l 2000 /mnt/file # system hang
-> 
-> This is because:
->  1. virtiofs supports fallocate syscall while NFS 4.0 does not.
->  2. virtiofsd uses posix_fallocate() and it fallbacks to pread64()/
->     pwrite64() sequence to reserve blocks if fallocate syscall is
->     not available.
->  3. pread64() syscall is prohibited by seccomp and virtiofsd thread
->     is killed by SIGSYS.
-> 
-> So, just add pread64() to seccomp white list to fix this problem.
-> 
-> Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-
-Thanks, I've squashed this into our seccomp commit.
-(It'll be a little while before I push it out, I need to finish a tidyup
-I'm doing).
-
-Dave
-
+On 10/04/19 00:54, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since a QFWCFG object is not tied to a particular test, we can
+> call *_fw_cfg_init() once before creating QTests and use the same
+> for all the tests, then release the object with g_free() once all
+> the tests are run.
+>=20
+> Refactor the qfw_cfg* API to take QTestState as argument.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  contrib/virtiofsd/seccomp.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/virtiofsd/seccomp.c b/contrib/virtiofsd/seccomp.c
-> index 93b679271d..88b61bca42 100644
-> --- a/contrib/virtiofsd/seccomp.c
-> +++ b/contrib/virtiofsd/seccomp.c
-> @@ -61,6 +61,7 @@ static const int syscall_whitelist[] = {
->  	SCMP_SYS(ppoll),
->  	SCMP_SYS(prctl), /* TODO restrict to just PR_SET_NAME? */
->  	SCMP_SYS(preadv),
-> +	SCMP_SYS(pread64),
->  	SCMP_SYS(pwritev),
->  	SCMP_SYS(pwrite64),
->  	SCMP_SYS(read),
-> -- 
-> 2.21.0
-> 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://www.redhat.com/mailman/listinfo/virtio-fs
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  tests/boot-order-test.c  | 12 ++++----
+>  tests/fw_cfg-test.c      | 49 ++++++++++++++++----------------
+>  tests/libqos/fw_cfg.c    | 61 ++++++++++++++++++++--------------------
+>  tests/libqos/fw_cfg.h    | 30 +++++++++-----------
+>  tests/libqos/malloc-pc.c |  4 +--
+>  5 files changed, 77 insertions(+), 79 deletions(-)
+
+Not much fun to review. :)
+
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 
