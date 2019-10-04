@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1765CB7AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:52:53 +0200 (CEST)
-Received: from localhost ([::1]:43902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBA8CB7AD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:53:24 +0200 (CEST)
+Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKGa-0002Rm-7u
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52351)
+	id 1iGKH4-00035i-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2H-0004sX-R6
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:07 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2f-0005He-9b
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2F-00054A-Lt
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:05 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:58775)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2d-0005Ph-Sg
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:29 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:60047)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK2F-0004zx-7u; Fri, 04 Oct 2019 05:38:03 -0400
+ id 1iGK2d-00054Y-Fr; Fri, 04 Oct 2019 05:38:27 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YG5G6qz9sRH; Fri,  4 Oct 2019 19:37:54 +1000 (AEST)
+ id 46l4YH2N6Vz9sRY; Fri,  4 Oct 2019 19:37:55 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570181874;
- bh=wMSJrTrrk3rDaatkmeiMUkI8qRp5yU1grK2SOBjNKd0=;
+ d=gibson.dropbear.id.au; s=201602; t=1570181875;
+ bh=89KyJjUcwP9bHAU1OyRkuXlWihVQWtOKSTECqsZvs2Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ro7mP7eZYfhffcGYD8De1G9roAb9DpWO2ghz1M1Q2C08piAVTRO9hXdyMY4j4SUgf
- gNOTPfRNZDKoA941UnCQH8DnqS+FO9T2Ly5hOG0hECY7XIOn++/+4PTYPSV7pa1gR4
- zGSQKU9AOwhQPZ5uhwj9MLmVt/wZEy5MmSt7McTo=
+ b=KD0RiHEZa7FpzbVHTXy7i9PA2FF0B+GTOMNnT2RloCukSGJw0/6+x6kKmOPFIJBBq
+ /Kh/GVn0ZVBYGWe00sCzSyyuoppJkE9REJhnxql8128zG8zbZzyHzzYn8p8i1HXv8f
+ rxQjoFs6npYscwU/etfzligHImwKxpq2O9qvpOPI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/53] ppc: Add support for 'mffscrn','mffscrni' instructions
-Date: Fri,  4 Oct 2019 19:37:05 +1000
-Message-Id: <20191004093747.31350-12-david@gibson.dropbear.id.au>
+Subject: [PULL 15/53] spapr: Simplify handling of pre ISA 3.0 guest workaround
+ handling
+Date: Fri,  4 Oct 2019 19:37:09 +1000
+Message-Id: <20191004093747.31350-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -53,223 +55,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>, "Paul A. Clarke" <pc@us.ibm.com>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Paul A. Clarke" <pc@us.ibm.com>
+Certain old guest versions don't understand the radix MMU introduced with
+POWER ISA 3.0, but incorrectly select it if presented with the option at
+CAS time.  We workaround this in qemu by explicitly excluding the radix
+(and other ISA 3.0 linked) options if the guest doesn't explicitly note
+support for ISA 3.0.
 
-ISA 3.0B added a set of Floating-Point Status and Control Register (FPSCR=
-)
-instructions: mffsce, mffscdrn, mffscdrni, mffscrn, mffscrni, mffsl.
-This patch adds support for 'mffscrn' and 'mffscrni' instructions.
+This is handled by the 'cas_legacy_guest_workaround' flag, which is prett=
+y
+vague.  Rename it to 'cas_pre_isa3_guest' to be clearer about what it's f=
+or.
 
-'mffscrn' and 'mffscrni' are similar to 'mffsl', except they do not retur=
-n
-the status bits (FI, FR, FPRF) and they also set the rounding mode in the
-FPSCR.
+In addition, we unnecessarily call spapr_populate_pa_features() with
+different options when initially constructing the device tree and when
+adjusting it at CAS time.  At the initial construct time cas_pre_isa3_gue=
+st
+is already false, so we can still use the flag, rather than explicitly
+overriding it to be false at the callsite.
 
-On CPUs without support for 'mffscrn'/'mffscrni' (below ISA 3.0), the
-instructions will execute identically to 'mffs'.
-
-Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
-Message-Id: <1568817081-1345-1-git-send-email-pc@us.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 ---
- target/ppc/cpu.h                   |  9 +++-
- target/ppc/dfp_helper.c            |  2 +-
- target/ppc/internal.h              |  3 ++
- target/ppc/translate/fp-impl.inc.c | 69 +++++++++++++++++++++++++++++-
- target/ppc/translate/fp-ops.inc.c  |  4 ++
- 5 files changed, 84 insertions(+), 3 deletions(-)
+ hw/ppc/spapr.c         | 10 ++++------
+ hw/ppc/spapr_hcall.c   |  3 +--
+ include/hw/ppc/spapr.h |  2 +-
+ 3 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index eaee1a5575..a23c6455b9 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -559,6 +559,9 @@ enum {
-=20
- /***********************************************************************=
-******/
- /* Floating point status and control register                           =
-     */
-+#define FPSCR_DRN2   34 /* Decimal Floating-Point rounding control      =
-     */
-+#define FPSCR_DRN1   33 /* Decimal Floating-Point rounding control      =
-     */
-+#define FPSCR_DRN0   32 /* Decimal Floating-Point rounding control      =
-     */
- #define FPSCR_FX     31 /* Floating-point exception summary             =
-     */
- #define FPSCR_FEX    30 /* Floating-point enabled exception summary     =
-     */
- #define FPSCR_VX     29 /* Floating-point invalid operation exception su=
-mm.  */
-@@ -592,6 +595,7 @@ enum {
- #define FPSCR_NI     2  /* Floating-point non-IEEE mode                 =
-     */
- #define FPSCR_RN1    1
- #define FPSCR_RN0    0  /* Floating-point rounding control              =
-     */
-+#define fpscr_drn    (((env->fpscr) & FP_DRN) >> FPSCR_DRN0)
- #define fpscr_fex    (((env->fpscr) >> FPSCR_FEX)    & 0x1)
- #define fpscr_vx     (((env->fpscr) >> FPSCR_VX)     & 0x1)
- #define fpscr_ox     (((env->fpscr) >> FPSCR_OX)     & 0x1)
-@@ -627,6 +631,10 @@ enum {
- #define fpscr_eex (((env->fpscr) >> FPSCR_XX) & ((env->fpscr) >> FPSCR_X=
-E) &  \
-                    0x1F)
-=20
-+#define FP_DRN2         (1ull << FPSCR_DRN2)
-+#define FP_DRN1         (1ull << FPSCR_DRN1)
-+#define FP_DRN0         (1ull << FPSCR_DRN0)
-+#define FP_DRN          (FP_DRN2 | FP_DRN1 | FP_DRN0)
- #define FP_FX           (1ull << FPSCR_FX)
- #define FP_FEX          (1ull << FPSCR_FEX)
- #define FP_VX           (1ull << FPSCR_VX)
-@@ -662,7 +670,6 @@ enum {
- #define FP_RN0          (1ull << FPSCR_RN0)
- #define FP_RN           (FP_RN1 | FP_RN0)
-=20
--#define FP_MODE         FP_RN
- #define FP_ENABLES      (FP_VE | FP_OE | FP_UE | FP_ZE | FP_XE)
- #define FP_STATUS       (FP_FR | FP_FI | FP_FPRF)
-=20
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index f102177572..da8e08a35c 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -48,7 +48,7 @@ static void dfp_prepare_rounding_mode(decContext *conte=
-xt, uint64_t fpscr)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 2725b139a7..b906ac6547 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -220,8 +220,7 @@ static int spapr_fixup_cpu_numa_dt(void *fdt, int off=
+set, PowerPCCPU *cpu)
+ /* Populate the "ibm,pa-features" property */
+ static void spapr_populate_pa_features(SpaprMachineState *spapr,
+                                        PowerPCCPU *cpu,
+-                                       void *fdt, int offset,
+-                                       bool legacy_guest)
++                                       void *fdt, int offset)
  {
-     enum rounding rnd;
+     uint8_t pa_features_206[] =3D { 6, 0,
+         0xf6, 0x1f, 0xc7, 0x00, 0x80, 0xc0 };
+@@ -287,7 +286,7 @@ static void spapr_populate_pa_features(SpaprMachineSt=
+ate *spapr,
+     if ((spapr_get_cap(spapr, SPAPR_CAP_HTM) !=3D 0) && pa_size > 24) {
+         pa_features[24] |=3D 0x80;    /* Transactional memory support */
+     }
+-    if (legacy_guest && pa_size > 40) {
++    if (spapr->cas_pre_isa3_guest && pa_size > 40) {
+         /* Workaround for broken kernels that attempt (guest) radix
+          * mode when they can't handle it, if they see the radix bit set
+          * in pa-features. So hide it from them. */
+@@ -350,8 +349,7 @@ static int spapr_fixup_cpu_dt(void *fdt, SpaprMachine=
+State *spapr)
+             return ret;
+         }
 =20
--    switch ((fpscr >> 32) & 0x7) {
-+    switch ((fpscr & FP_DRN) >> FPSCR_DRN0) {
-     case 0:
-         rnd =3D DEC_ROUND_HALF_EVEN;
-         break;
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index d3d327e548..15d655b356 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -157,6 +157,9 @@ EXTRACT_HELPER(FPL, 25, 1);
- EXTRACT_HELPER(FPFLM, 17, 8);
- EXTRACT_HELPER(FPW, 16, 1);
-=20
-+/* mffscrni */
-+EXTRACT_HELPER(RM, 11, 2);
-+
- /* addpcis */
- EXTRACT_HELPER_SPLIT_3(DX, 10, 6, 6, 5, 16, 1, 1, 0, 0)
- #if defined(TARGET_PPC64)
-diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp=
--impl.inc.c
-index 7cd9d8db05..75f9523b07 100644
---- a/target/ppc/translate/fp-impl.inc.c
-+++ b/target/ppc/translate/fp-impl.inc.c
-@@ -634,11 +634,78 @@ static void gen_mffsl(DisasContext *ctx)
-     gen_reset_fpstatus();
-     tcg_gen_extu_tl_i64(t0, cpu_fpscr);
-     /* Mask everything except mode, status, and enables.  */
--    tcg_gen_andi_i64(t0, t0, FP_MODE | FP_STATUS | FP_ENABLES);
-+    tcg_gen_andi_i64(t0, t0, FP_DRN | FP_STATUS | FP_ENABLES | FP_RN);
-     set_fpr(rD(ctx->opcode), t0);
-     tcg_temp_free_i64(t0);
+-        spapr_populate_pa_features(spapr, cpu, fdt, offset,
+-                                   spapr->cas_legacy_guest_workaround);
++        spapr_populate_pa_features(spapr, cpu, fdt, offset);
+     }
+     return ret;
  }
+@@ -553,7 +551,7 @@ static void spapr_populate_cpu_dt(CPUState *cs, void =
+*fdt, int offset,
+                           page_sizes_prop, page_sizes_prop_size)));
+     }
 =20
-+static void gen_helper_mffscrn(DisasContext *ctx, TCGv_i64 t1)
-+{
-+    TCGv_i64 t0 =3D tcg_temp_new_i64();
-+    TCGv_i32 mask =3D tcg_const_i32(0x0001);
-+
-+    gen_reset_fpstatus();
-+    tcg_gen_extu_tl_i64(t0, cpu_fpscr);
-+    tcg_gen_andi_i64(t0, t0, FP_DRN | FP_ENABLES | FP_RN);
-+    set_fpr(rD(ctx->opcode), t0);
-+
-+    /* Mask FPSCR value to clear RN.  */
-+    tcg_gen_andi_i64(t0, t0, ~FP_RN);
-+
-+    /* Merge RN into FPSCR value.  */
-+    tcg_gen_or_i64(t0, t0, t1);
-+
-+    gen_helper_store_fpscr(cpu_env, t0, mask);
-+
-+    tcg_temp_free_i32(mask);
-+    tcg_temp_free_i64(t0);
-+}
-+
-+/* mffscrn */
-+static void gen_mffscrn(DisasContext *ctx)
-+{
-+    TCGv_i64 t1;
-+
-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-+        return gen_mffs(ctx);
-+    }
-+
-+    if (unlikely(!ctx->fpu_enabled)) {
-+        gen_exception(ctx, POWERPC_EXCP_FPU);
-+        return;
-+    }
-+
-+    t1 =3D tcg_temp_new_i64();
-+    get_fpr(t1, rB(ctx->opcode));
-+    /* Mask FRB to get just RN.  */
-+    tcg_gen_andi_i64(t1, t1, FP_RN);
-+
-+    gen_helper_mffscrn(ctx, t1);
-+
-+    tcg_temp_free_i64(t1);
-+}
-+
-+/* mffscrni */
-+static void gen_mffscrni(DisasContext *ctx)
-+{
-+    TCGv_i64 t1;
-+
-+    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-+        return gen_mffs(ctx);
-+    }
-+
-+    if (unlikely(!ctx->fpu_enabled)) {
-+        gen_exception(ctx, POWERPC_EXCP_FPU);
-+        return;
-+    }
-+
-+    t1 =3D tcg_const_i64((uint64_t)RM(ctx->opcode));
-+
-+    gen_helper_mffscrn(ctx, t1);
-+
-+    tcg_temp_free_i64(t1);
-+}
-+
- /* mtfsb0 */
- static void gen_mtfsb0(DisasContext *ctx)
- {
-diff --git a/target/ppc/translate/fp-ops.inc.c b/target/ppc/translate/fp-=
-ops.inc.c
-index 88ebc2526c..f2bcf0e67b 100644
---- a/target/ppc/translate/fp-ops.inc.c
-+++ b/target/ppc/translate/fp-ops.inc.c
-@@ -107,6 +107,10 @@ GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC=
-_FLOAT),
- GEN_HANDLER_E_2(mffs, 0x3F, 0x07, 0x12, 0x00, 0x00000000, PPC_FLOAT, PPC=
-_NONE),
- GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
-     PPC2_ISA300),
-+GEN_HANDLER_E_2(mffscrn, 0x3F, 0x07, 0x12, 0x16, 0x00000000, PPC_FLOAT,
-+    PPC_NONE),
-+GEN_HANDLER_E_2(mffscrni, 0x3F, 0x07, 0x12, 0x17, 0x00000000, PPC_FLOAT,
-+    PPC_NONE),
- GEN_HANDLER(mtfsb0, 0x3F, 0x06, 0x02, 0x001FF800, PPC_FLOAT),
- GEN_HANDLER(mtfsb1, 0x3F, 0x06, 0x01, 0x001FF800, PPC_FLOAT),
- GEN_HANDLER(mtfsf, 0x3F, 0x07, 0x16, 0x00000000, PPC_FLOAT),
+-    spapr_populate_pa_features(spapr, cpu, fdt, offset, false);
++    spapr_populate_pa_features(spapr, cpu, fdt, offset);
+=20
+     _FDT((fdt_setprop_cell(fdt, offset, "ibm,chip-id",
+                            cs->cpu_index / vcpus_per_socket)));
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 23e4bdb829..3d3a67149a 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1765,8 +1765,7 @@ static target_ulong h_client_architecture_support(P=
+owerPCCPU *cpu,
+             exit(EXIT_FAILURE);
+         }
+     }
+-    spapr->cas_legacy_guest_workaround =3D !spapr_ovec_test(ov1_guest,
+-                                                          OV1_PPC_3_00);
++    spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PPC_3_=
+00);
+     spapr_ovec_cleanup(ov1_guest);
+     if (!spapr->cas_reboot) {
+         /* If spapr_machine_reset() did not set up a HPT but one is nece=
+ssary
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 03111fd55b..dfec8e8e76 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -175,7 +175,7 @@ struct SpaprMachineState {
+=20
+     /* ibm,client-architecture-support option negotiation */
+     bool cas_reboot;
+-    bool cas_legacy_guest_workaround;
++    bool cas_pre_isa3_guest;
+     SpaprOptionVector *ov5;         /* QEMU-supported option vectors */
+     SpaprOptionVector *ov5_cas;     /* negotiated (via CAS) option vecto=
+rs */
+     uint32_t max_compat_pvr;
 --=20
 2.21.0
 
