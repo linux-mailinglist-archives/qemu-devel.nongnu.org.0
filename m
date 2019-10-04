@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABEECB987
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:53:44 +0200 (CEST)
-Received: from localhost ([::1]:47158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDACFCB98E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:56:46 +0200 (CEST)
+Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGM9X-00076k-Dm
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55228)
+	id 1iGMC9-0002GQ-Oh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55539)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iGM4s-0003UG-Rh
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:48:56 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1iGM6D-0004q5-Qs
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:50:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iGM4r-00013h-MY
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:48:54 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44583)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iGM4r-00012u-GJ
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:48:53 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z9so6763897wrl.11
- for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 04:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tWO1/w2pbq76WDihTU7NTfFwpS052NS/zIcxZUmg9Z8=;
- b=VaahP1bJi2xcdpZhg4k/R8BFCQFmrQYArrykQIiM8pk+iSZTAzNfkqW01rTKJ/HBwD
- JYTCSgpQGxFSNQdKpxx/nOjFyc3hipOiPj1vJxVBvR2hiQjisBao7pHUmBVnp7iieEeU
- zpLc3/HTMMz+k75G98FtI2+Xnv6NnSSC8TriTnLcZh0r2fd4qZm23Se5aEmeJVpzbTa0
- js5WjDUkScoDwgR9xGBNmCJjWnq2Sd19Q+vYmeFKcTCzER01OVapPnAEnAEbKRhcHwQt
- X5+foWggR9vpSoK+hPcWkk81cMVzaHbR+/tN9PgZVWn6nSEPOJ1OD7TH4Z4qPajsqL26
- n7Ew==
+ (envelope-from <sgarzare@redhat.com>) id 1iGM6B-0001rc-1V
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:50:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53762)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iGM6A-0001qd-Re
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:50:14 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E7CE69080
+ for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 11:50:13 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id f63so1512090wma.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 04:50:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tWO1/w2pbq76WDihTU7NTfFwpS052NS/zIcxZUmg9Z8=;
- b=TzqO/gS6ryUlyjimHR9H1FKdzh5FeOqY2zob0GobxQQhg/YvEPl4uzoVUPAE1zFvLc
- Tp2LRRdn86lus/iEWx/MNk20kbIKgRgRO3kVntxrv2LvndcGOo6csSMQ7rkzcje6OVO9
- NAab/MIMclclhJejR0yqL3rwCvmOwmqhXVdtKTdpo905iDED9uTJyGYEs2r/mbkYFcRs
- WYMkPfF+wlQMq/w0HJe/yJXWfbFc2FTYDGtNrVb3Me7sr5Vu3ZBXnBQqRgg7b4phUvVo
- fYtnAwxqbeWvgjdMlEu+KnTfqt5mdTovZvYL69FnCm3F2nAxTNfFVfnUQONB4t3fEsSl
- +ayQ==
-X-Gm-Message-State: APjAAAWcfrT0fYFTsbwjkbUtjsrGuxCyqtGIM47me1II1eg4fzzNfIxZ
- aiPiQo1ERs5eZ4eWUt0xQnu62A==
-X-Google-Smtp-Source: APXvYqwTw9AH0FDLiRvJx65Zve+aM97SE6hg4t30FuS7+ZdCT2oAREl5HvYTNtylXed3Q9uIer9rnw==
-X-Received: by 2002:adf:fcc7:: with SMTP id f7mr11092345wrs.319.1570189732496; 
- Fri, 04 Oct 2019 04:48:52 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t17sm11962094wrp.72.2019.10.04.04.48.51
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IeQDfqEDiaOIX9D/Z7G68K2MD86xoGirbsLN/kUjxvk=;
+ b=X47DrNknS1hSANY3yGO1IizWGe9dtwOWXhaEHJs/OU9JvvQGaIVoVd5LA01sl9HMiU
+ P4a4b+EdGtzH/wrZ+VutoOHYtPT1OzaJF2i881S4rFSlPoia1UtnvJAcwTszjaQ57SZY
+ vK5ELdokfqWT0nvl2H9E2r+Kj25RPyYJUu7X+Tio8HM2Ezw1x9TpuX6izfqikexqxzcR
+ rSG5da1HgaA2EdzPcWx/JV9q831EXVAWFpFNPPFtKhL07LujvzSnG2E54T12IQiIMCfo
+ mU7fZ4zXkUzI7DLAIjR5sSDOXYVF6HKtl+AAboz9Fwhy/erpIGHCecBpr4wrnHdjWsxi
+ z0LQ==
+X-Gm-Message-State: APjAAAUabvpdPQWnO7Vj+A1/K2fDd/bCKAJmR0083T3R1Ig8sCneW6ng
+ 3jUnb7J9v5QZTTHCbwAP+3ez2BNlelF4EvOxVkx4KxeEGyiwDQfWa25CjX8xFyEYFugpEeS+9JB
+ 1eXdA9nnstU5ox5A=
+X-Received: by 2002:adf:b3d2:: with SMTP id x18mr11863321wrd.264.1570189811739; 
+ Fri, 04 Oct 2019 04:50:11 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxHfJCTmDaBu3UkVfAVzZwF6fMiDDxwAgYxiQ0l9prsSauK+UucboFWLxbGePv+RQpALLkXBw==
+X-Received: by 2002:adf:b3d2:: with SMTP id x18mr11863298wrd.264.1570189811510; 
+ Fri, 04 Oct 2019 04:50:11 -0700 (PDT)
+Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it.
+ [79.52.200.174])
+ by smtp.gmail.com with ESMTPSA id s10sm8925374wmf.48.2019.10.04.04.50.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Oct 2019 04:48:52 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [RFC 1/4] hw/timer/arm_timer: Add trace events
-Date: Fri,  4 Oct 2019 12:48:45 +0100
-Message-Id: <20191004114848.16831-2-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191004114848.16831-1-peter.maydell@linaro.org>
-References: <20191004114848.16831-1-peter.maydell@linaro.org>
+ Fri, 04 Oct 2019 04:50:11 -0700 (PDT)
+Date: Fri, 4 Oct 2019 13:50:08 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH v6 08/10] roms: add microvm-bios (qboot) as binary and
+ git submodule
+Message-ID: <20191004115008.rx2ory7yixbc4nny@steredhat>
+References: <20191004093752.16564-1-slp@redhat.com>
+ <20191004093752.16564-9-slp@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004093752.16564-9-slp@redhat.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,114 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, lersek@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some basic trace events to the arm_timer device.
+On Fri, Oct 04, 2019 at 11:37:50AM +0200, Sergio Lopez wrote:
+> qboot is a minimalist x86 firmware for booting Linux kernels. It does
+> the mininum amount of work required for the task, and it's able to
+> boot both PVH images and bzImages without relying on option roms.
+> 
+> This characteristics make it an ideal companion for the microvm
+> machine type.
+> 
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+>  .gitmodules              |   3 +++
+>  pc-bios/bios-microvm.bin | Bin 0 -> 65536 bytes
+>  roms/Makefile            |   6 ++++++
+>  roms/qboot               |   1 +
+>  4 files changed, 10 insertions(+)
+>  create mode 100755 pc-bios/bios-microvm.bin
+>  create mode 160000 roms/qboot
+> 
+> diff --git a/.gitmodules b/.gitmodules
+> index c5c474169d..19792c9a11 100644
+> --- a/.gitmodules
+> +++ b/.gitmodules
+> @@ -58,3 +58,6 @@
+>  [submodule "roms/opensbi"]
+>  	path = roms/opensbi
+>  	url = 	https://git.qemu.org/git/opensbi.git
+> +[submodule "roms/qboot"]
+> +	path = roms/qboot
+> +	url = https://github.com/bonzini/qboot
+> diff --git a/pc-bios/bios-microvm.bin b/pc-bios/bios-microvm.bin
+> new file mode 100755
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/arm_timer.c  | 27 +++++++++++++++++++++------
- hw/timer/trace-events |  7 +++++++
- 2 files changed, 28 insertions(+), 6 deletions(-)
+Others rom have 644 permissions, should we be aligned or doesn't matter?
 
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index c2e6211188b..283ae1e74a9 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -17,6 +17,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "qemu/log.h"
-+#include "trace.h"
- 
- /* Common timer implementation.  */
- 
-@@ -43,7 +44,10 @@ typedef struct {
- static void arm_timer_update(arm_timer_state *s)
- {
-     /* Update interrupts.  */
--    if (s->int_level && (s->control & TIMER_CTRL_IE)) {
-+    int level = s->int_level && (s->control & TIMER_CTRL_IE);
-+
-+    trace_sp804_arm_timer_update(level);
-+    if (level) {
-         qemu_irq_raise(s->irq);
-     } else {
-         qemu_irq_lower(s->irq);
-@@ -216,17 +220,21 @@ static uint64_t sp804_read(void *opaque, hwaddr offset,
-                            unsigned size)
- {
-     SP804State *s = (SP804State *)opaque;
-+    uint64_t res;
- 
-     if (offset < 0x20) {
--        return arm_timer_read(s->timer[0], offset);
-+        res = arm_timer_read(s->timer[0], offset);
-+        goto out;
-     }
-     if (offset < 0x40) {
--        return arm_timer_read(s->timer[1], offset - 0x20);
-+        res = arm_timer_read(s->timer[1], offset - 0x20);
-+        goto out;
-     }
- 
-     /* TimerPeriphID */
-     if (offset >= 0xfe0 && offset <= 0xffc) {
--        return sp804_ids[(offset - 0xfe0) >> 2];
-+        res = sp804_ids[(offset - 0xfe0) >> 2];
-+        goto out;
-     }
- 
-     switch (offset) {
-@@ -236,12 +244,17 @@ static uint64_t sp804_read(void *opaque, hwaddr offset,
-         qemu_log_mask(LOG_UNIMP,
-                       "%s: integration test registers unimplemented\n",
-                       __func__);
--        return 0;
-+        res = 0;
-+        goto out;
-     }
- 
-     qemu_log_mask(LOG_GUEST_ERROR,
-                   "%s: Bad offset %x\n", __func__, (int)offset);
--    return 0;
-+    res = 0;
-+
-+out:
-+    trace_sp804_read(offset, res);
-+    return res;
- }
- 
- static void sp804_write(void *opaque, hwaddr offset,
-@@ -249,6 +262,8 @@ static void sp804_write(void *opaque, hwaddr offset,
- {
-     SP804State *s = (SP804State *)opaque;
- 
-+    trace_sp804_write(offset, value);
-+
-     if (offset < 0x20) {
-         arm_timer_write(s->timer[0], offset, value);
-         return;
-diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-index db02a9142cd..600b002c7bf 100644
---- a/hw/timer/trace-events
-+++ b/hw/timer/trace-events
-@@ -87,3 +87,10 @@ pl031_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl031_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl031_alarm_raised(void) "alarm raised"
- pl031_set_alarm(uint32_t ticks) "alarm set for %u ticks"
-+
-+# arm_timer.c
-+sp804_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
-+sp804_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
-+# Note that this trace event can't distinguish which of the two timers
-+# in the sp804 is being updated
-+sp804_arm_timer_update(int level) "level %d"
--- 
-2.20.1
+Anyway this patch LGTM:
 
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
