@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B41CB8B4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:55:37 +0200 (CEST)
-Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A92CB8C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:59:28 +0200 (CEST)
+Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGLFI-0000Xg-RL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
+	id 1iGLJ1-0004OR-Fm
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iGK81-0003Ca-Ac
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:44:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1iGKA6-0005ku-M3
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:46:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iGK7z-0001cu-EB
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:44:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42820)
+ (envelope-from <philmd@redhat.com>) id 1iGKA4-0003EA-N5
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:46:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40290)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iGK7x-0001aw-If
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:43:59 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iGKA4-0003Dc-8u
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:46:08 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 667005117D
- for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 09:43:56 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id g67so1394952wmg.4
- for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 02:43:56 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 25E1EC04D312
+ for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 09:46:07 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id o8so2412130wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 02:46:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=so92RmyzpSBPlQMlFqQ9gQn20WQcsSKTXy/qkSJ9eI4=;
- b=Bcvcpv3+RGPGWuP7oj8TFKuyoDJOyEPX31/lrTOCnvNPmRoH/Tp37b9/7P9VsLrSBu
- CpfxsfMHmSBe06YGBAjkX7R3MX3S9h/fOulzwV/fJluwg6hXwqmTdef4Na87ByolGmxL
- K5ANoItWU1T62va2mtv2E3Hn3bY/teutvwQ12OVTsOyHrZ9TiAFqNnSaloQjfdRIWyOq
- Ey4s3sR7cYeDW6NBJBR0Uh36TTC8lz7vGw/4Og+QEVq1qyCRIDFG8giA8RixzrQ81c85
- HZ8vPk16Nw3xb0eZLVeb6G9nOReZ+ZgR0DdU59Y6AnoUnFty/j1ldhyVhD0ZGRKN+map
- 7Rdg==
-X-Gm-Message-State: APjAAAVfm41ac/ylabQ34O9Z1Gm/sIxOgp/1SDUc8cxGgX42V4bXQqYZ
- Y1u2YMMIjPnX0dFtckbZBGd4b7+go9zsEM1QaSA6LE/xBChKU1fGVioacEbVANbsWmiqIh6XpCO
- hrdWUZFtEj0GoqoQ=
-X-Received: by 2002:a1c:9a46:: with SMTP id c67mr10201924wme.115.1570182235068; 
- Fri, 04 Oct 2019 02:43:55 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxrp0sUP254DdZZXWAIPrx0+ZAQoyzu3ak9BPav/Os4yetuNaOGf8d0EGSTFvydny/B8nQ/Bw==
-X-Received: by 2002:a1c:9a46:: with SMTP id c67mr10201903wme.115.1570182234796; 
- Fri, 04 Oct 2019 02:43:54 -0700 (PDT)
+ bh=fc5wbp4por5utFSOISUW7ek3wTwr/ogel1DqzPVItxc=;
+ b=JlxGfIiipgPE/8RrbjHARLkOuEaN0TSbYq9u/uWJGIPX8eiSqDSlCrnFqDSIj2CEEv
+ 7FwU2B8VCdD0zxXqd5+lhg2KuDPjDLcJH7cM4MeCrD1tTVwCkvzS9YZ8PvXYZeQ21cXN
+ tvxhQln2/0UQOgwxso+zEFCcpSQk6NHkP9cMpRLa8bz/n8hqFWg0umeHiyhL2l7LCNuU
+ +e7e8jmrZsvW2HSVp27teEFm83MEArPMUnYEkHxjPesO2wjENfKHUO+9lx0SgkeIXm6A
+ UmHYItmq3dM2zE0p9kk09FIMPriPXr2XtP3T/6HR+j2D6yUpVt1ASKwZNprHg6hebubv
+ vmjg==
+X-Gm-Message-State: APjAAAWV78dLJK0UV6YzeV6DBXkP2AR2urNETE1+u6Cvv0+fi8jsqylg
+ 0P2KN6ebo0mvTOjEcKAEESu1+zY7GRY29wkXkmWppxgEiywTbLgZZr8GemnY6zlQEO2PJ1dhEw4
+ vslDVoMqWyjGoe4Y=
+X-Received: by 2002:a1c:f20c:: with SMTP id s12mr893765wmc.43.1570182365827;
+ Fri, 04 Oct 2019 02:46:05 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyRqtNrRhM0mhn3GX0nglETfsIbsVm27XG1PpHRF0oOWWLNZmMRsx3CPSNsVe2BKIk9DQeYRA==
+X-Received: by 2002:a1c:f20c:: with SMTP id s12mr893741wmc.43.1570182365513;
+ Fri, 04 Oct 2019 02:46:05 -0700 (PDT)
 Received: from [192.168.1.35] (240.red-88-21-68.staticip.rima-tde.net.
  [88.21.68.240])
- by smtp.gmail.com with ESMTPSA id a10sm6165747wrm.52.2019.10.04.02.43.53
+ by smtp.gmail.com with ESMTPSA id s12sm7500013wrn.90.2019.10.04.02.46.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Oct 2019 02:43:54 -0700 (PDT)
-Subject: Re: [PATCH v6 01/10] hw/virtio: Factorize virtio-mmio headers
+ Fri, 04 Oct 2019 02:46:04 -0700 (PDT)
+Subject: Re: [PATCH v6 02/10] hw/i386/pc: rename functions shared with non-PC
+ machines
 To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
 References: <20191004093752.16564-1-slp@redhat.com>
- <20191004093752.16564-2-slp@redhat.com>
+ <20191004093752.16564-3-slp@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c197783a-a845-9448-ae39-960fb7dc305b@redhat.com>
-Date: Fri, 4 Oct 2019 11:43:53 +0200
+Message-ID: <b6731c26-978b-a50a-94ff-95a9a1c269f6@redhat.com>
+Date: Fri, 4 Oct 2019 11:46:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191004093752.16564-2-slp@redhat.com>
+In-Reply-To: <20191004093752.16564-3-slp@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -86,176 +87,229 @@ Cc: ehabkost@redhat.com, mst@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sergio,
-
 On 10/4/19 11:37 AM, Sergio Lopez wrote:
-> Put QOM and main struct definition in a separate header file, so it
-> can be accessed from other components.
+> The following functions are named *pc* but are not PC-machine specific
+> but generic to the X86 architecture, rename them:
+>=20
+>    load_linux                 -> x86_load_linux
+>    pc_new_cpu                 -> x86_new_cpu
+>    pc_cpus_init               -> x86_cpus_init
+>    pc_cpu_index_to_props      -> x86_cpu_index_to_props
+>    pc_get_default_cpu_node_id -> x86_get_default_cpu_node_id
+>    pc_possible_cpu_arch_ids   -> x86_possible_cpu_arch_ids
+>    old_pc_system_rom_init     -> x86_system_rom_init
 >=20
 > Signed-off-by: Sergio Lopez <slp@redhat.com>
 
-Please collect/keep reviewer tags between iterations, this will save=20
-them time. Only reset (remove) them if you want the reviewer to review=20
-your patch carefully again.
-
-Only cosmetic change since v5 which had:
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->   include/hw/virtio/virtio-mmio.h | 73 ++++++++++++++++++++++++++++++++=
-+
->   hw/virtio/virtio-mmio.c         | 48 +---------------------
->   2 files changed, 74 insertions(+), 47 deletions(-)
->   create mode 100644 include/hw/virtio/virtio-mmio.h
+>   include/hw/i386/pc.h |  2 +-
+>   hw/i386/pc.c         | 28 ++++++++++++++--------------
+>   hw/i386/pc_piix.c    |  2 +-
+>   hw/i386/pc_q35.c     |  2 +-
+>   hw/i386/pc_sysfw.c   |  6 +++---
+>   5 files changed, 20 insertions(+), 20 deletions(-)
 >=20
-> diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio=
--mmio.h
-> new file mode 100644
-> index 0000000000..7dbfd03dcf
-> --- /dev/null
-> +++ b/include/hw/virtio/virtio-mmio.h
-> @@ -0,0 +1,73 @@
-> +/*
-> + * Virtio MMIO bindings
-> + *
-> + * Copyright (c) 2011 Linaro Limited
-> + *
-> + * Author:
-> + *  Peter Maydell <peter.maydell@linaro.org>
-> + *
-> + * This program is free software; you can redistribute it and/or modif=
-y
-> + * it under the terms of the GNU General Public License; either versio=
-n 2
-> + * of the License, or (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License a=
-long
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HW_VIRTIO_MMIO_H
-> +#define HW_VIRTIO_MMIO_H
-> +
-> +#include "hw/virtio/virtio-bus.h"
-> +
-> +/* QOM macros */
-> +/* virtio-mmio-bus */
-> +#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
-> +#define VIRTIO_MMIO_BUS(obj) \
-> +        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
-> +#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
-> +        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
-> +#define VIRTIO_MMIO_BUS_CLASS(klass) \
-> +        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_B=
-US)
-> +
-> +/* virtio-mmio */
-> +#define TYPE_VIRTIO_MMIO "virtio-mmio"
-> +#define VIRTIO_MMIO(obj) \
-> +        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
-> +
-> +#define VIRT_MAGIC 0x74726976 /* 'virt' */
-> +#define VIRT_VERSION 2
-> +#define VIRT_VERSION_LEGACY 1
-> +#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
-> +
-> +typedef struct VirtIOMMIOQueue {
-> +    uint16_t num;
-> +    bool enabled;
-> +    uint32_t desc[2];
-> +    uint32_t avail[2];
-> +    uint32_t used[2];
-> +} VirtIOMMIOQueue;
-> +
-> +typedef struct {
-> +    /* Generic */
-> +    SysBusDevice parent_obj;
-> +    MemoryRegion iomem;
-> +    qemu_irq irq;
-> +    bool legacy;
-> +    /* Guest accessible state needing migration and reset */
-> +    uint32_t host_features_sel;
-> +    uint32_t guest_features_sel;
-> +    uint32_t guest_page_shift;
-> +    /* virtio-bus */
-> +    VirtioBusState bus;
-> +    bool format_transport_address;
-> +    /* Fields only used for non-legacy (v2) devices */
-> +    uint32_t guest_features[2];
-> +    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
-> +} VirtIOMMIOProxy;
-> +
-> +#endif
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index 3d5ca0f667..94d934c44b 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -29,57 +29,11 @@
->   #include "qemu/host-utils.h"
->   #include "qemu/module.h"
->   #include "sysemu/kvm.h"
-> -#include "hw/virtio/virtio-bus.h"
-> +#include "hw/virtio/virtio-mmio.h"
->   #include "qemu/error-report.h"
->   #include "qemu/log.h"
->   #include "trace.h"
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 6df4f4b6fb..d12f42e9e5 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -195,7 +195,7 @@ bool pc_machine_is_smm_enabled(PCMachineState *pcms=
+);
+>   void pc_register_ferr_irq(qemu_irq irq);
+>   void pc_acpi_smi_interrupt(void *opaque, int irq, int level);
 >  =20
-> -/* QOM macros */
-> -/* virtio-mmio-bus */
-> -#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
-> -#define VIRTIO_MMIO_BUS(obj) \
-> -        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
-> -#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
-> -        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
-> -#define VIRTIO_MMIO_BUS_CLASS(klass) \
-> -        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_B=
-US)
-> -
-> -/* virtio-mmio */
-> -#define TYPE_VIRTIO_MMIO "virtio-mmio"
-> -#define VIRTIO_MMIO(obj) \
-> -        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
-> -
-> -#define VIRT_MAGIC 0x74726976 /* 'virt' */
-> -#define VIRT_VERSION 2
-> -#define VIRT_VERSION_LEGACY 1
-> -#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
-> -
-> -typedef struct VirtIOMMIOQueue {
-> -    uint16_t num;
-> -    bool enabled;
-> -    uint32_t desc[2];
-> -    uint32_t avail[2];
-> -    uint32_t used[2];
-> -} VirtIOMMIOQueue;
-> -
-> -typedef struct {
-> -    /* Generic */
-> -    SysBusDevice parent_obj;
-> -    MemoryRegion iomem;
-> -    qemu_irq irq;
-> -    bool legacy;
-> -    /* Guest accessible state needing migration and reset */
-> -    uint32_t host_features_sel;
-> -    uint32_t guest_features_sel;
-> -    uint32_t guest_page_shift;
-> -    /* virtio-bus */
-> -    VirtioBusState bus;
-> -    bool format_transport_address;
-> -    /* Fields only used for non-legacy (v2) devices */
-> -    uint32_t guest_features[2];
-> -    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
-> -} VirtIOMMIOProxy;
-> -
->   static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
+> -void pc_cpus_init(PCMachineState *pcms);
+> +void x86_cpus_init(PCMachineState *pcms);
+>   void pc_hot_add_cpu(MachineState *ms, const int64_t id, Error **errp)=
+;
+>   void pc_smp_parse(MachineState *ms, QemuOpts *opts);
+>  =20
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index bcda50efcc..fd08c6704b 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1019,8 +1019,8 @@ static bool load_elfboot(const char *kernel_filen=
+ame,
+>       return true;
+>   }
+>  =20
+> -static void load_linux(PCMachineState *pcms,
+> -                       FWCfgState *fw_cfg)
+> +static void x86_load_linux(PCMachineState *pcms,
+> +                           FWCfgState *fw_cfg)
 >   {
->       return kvm_eventfds_enabled();
+>       uint16_t protocol;
+>       int setup_size, kernel_size, cmdline_size;
+> @@ -1374,7 +1374,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq,=
+ int level)
+>       }
+>   }
+>  =20
+> -static void pc_new_cpu(PCMachineState *pcms, int64_t apic_id, Error **=
+errp)
+> +static void x86_cpu_new(PCMachineState *pcms, int64_t apic_id, Error *=
+*errp)
+>   {
+>       Object *cpu =3D NULL;
+>       Error *local_err =3D NULL;
+> @@ -1490,14 +1490,14 @@ void pc_hot_add_cpu(MachineState *ms, const int=
+64_t id, Error **errp)
+>           return;
+>       }
+>  =20
+> -    pc_new_cpu(PC_MACHINE(ms), apic_id, &local_err);
+> +    x86_cpu_new(PC_MACHINE(ms), apic_id, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+>           return;
+>       }
+>   }
+>  =20
+> -void pc_cpus_init(PCMachineState *pcms)
+> +void x86_cpus_init(PCMachineState *pcms)
+>   {
+>       int i;
+>       const CPUArchIdList *possible_cpus;
+> @@ -1518,7 +1518,7 @@ void pc_cpus_init(PCMachineState *pcms)
+>                                                        ms->smp.max_cpus=
+ - 1) + 1;
+>       possible_cpus =3D mc->possible_cpu_arch_ids(ms);
+>       for (i =3D 0; i < ms->smp.cpus; i++) {
+> -        pc_new_cpu(pcms, possible_cpus->cpus[i].arch_id, &error_fatal)=
+;
+> +        x86_cpu_new(pcms, possible_cpus->cpus[i].arch_id, &error_fatal=
+);
+>       }
+>   }
+>  =20
+> @@ -1621,7 +1621,7 @@ void xen_load_linux(PCMachineState *pcms)
+>       fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
+>       rom_set_fw(fw_cfg);
+>  =20
+> -    load_linux(pcms, fw_cfg);
+> +    x86_load_linux(pcms, fw_cfg);
+>       for (i =3D 0; i < nb_option_roms; i++) {
+>           assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+>                  !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+> @@ -1756,7 +1756,7 @@ void pc_memory_init(PCMachineState *pcms,
+>       }
+>  =20
+>       if (linux_boot) {
+> -        load_linux(pcms, fw_cfg);
+> +        x86_load_linux(pcms, fw_cfg);
+>       }
+>  =20
+>       for (i =3D 0; i < nb_option_roms; i++) {
+> @@ -2678,7 +2678,7 @@ static void pc_machine_wakeup(MachineState *machi=
+ne)
+>   }
+>  =20
+>   static CpuInstanceProperties
+> -pc_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+> +x86_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+>   {
+>       MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+>       const CPUArchIdList *possible_cpus =3D mc->possible_cpu_arch_ids(=
+ms);
+> @@ -2687,7 +2687,7 @@ pc_cpu_index_to_props(MachineState *ms, unsigned =
+cpu_index)
+>       return possible_cpus->cpus[cpu_index].props;
+>   }
+>  =20
+> -static int64_t pc_get_default_cpu_node_id(const MachineState *ms, int =
+idx)
+> +static int64_t x86_get_default_cpu_node_id(const MachineState *ms, int=
+ idx)
+>   {
+>      X86CPUTopoInfo topo;
+>      PCMachineState *pcms =3D PC_MACHINE(ms);
+> @@ -2699,7 +2699,7 @@ static int64_t pc_get_default_cpu_node_id(const M=
+achineState *ms, int idx)
+>      return topo.pkg_id % ms->numa_state->num_nodes;
+>   }
+>  =20
+> -static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
+> +static const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms=
+)
+>   {
+>       PCMachineState *pcms =3D PC_MACHINE(ms);
+>       int i;
+> @@ -2801,9 +2801,9 @@ static void pc_machine_class_init(ObjectClass *oc=
+, void *data)
+>       assert(!mc->get_hotplug_handler);
+>       mc->get_hotplug_handler =3D pc_get_hotplug_handler;
+>       mc->hotplug_allowed =3D pc_hotplug_allowed;
+> -    mc->cpu_index_to_instance_props =3D pc_cpu_index_to_props;
+> -    mc->get_default_cpu_node_id =3D pc_get_default_cpu_node_id;
+> -    mc->possible_cpu_arch_ids =3D pc_possible_cpu_arch_ids;
+> +    mc->cpu_index_to_instance_props =3D x86_cpu_index_to_props;
+> +    mc->get_default_cpu_node_id =3D x86_get_default_cpu_node_id;
+> +    mc->possible_cpu_arch_ids =3D x86_possible_cpu_arch_ids;
+>       mc->auto_enable_numa_with_memhp =3D true;
+>       mc->has_hotpluggable_cpus =3D true;
+>       mc->default_boot_order =3D "cad";
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 6824b72124..de09e076cd 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -152,7 +152,7 @@ static void pc_init1(MachineState *machine,
+>           }
+>       }
+>  =20
+> -    pc_cpus_init(pcms);
+> +    x86_cpus_init(pcms);
+>  =20
+>       if (kvm_enabled() && pcmc->kvmclock_enabled) {
+>           kvmclock_create();
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 8fad20f314..894989b64e 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -179,7 +179,7 @@ static void pc_q35_init(MachineState *machine)
+>           xen_hvm_init(pcms, &ram_memory);
+>       }
+>  =20
+> -    pc_cpus_init(pcms);
+> +    x86_cpus_init(pcms);
+>  =20
+>       kvmclock_create();
+>  =20
+> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+> index a9983f0bfb..28cb1f63c9 100644
+> --- a/hw/i386/pc_sysfw.c
+> +++ b/hw/i386/pc_sysfw.c
+> @@ -211,7 +211,7 @@ static void pc_system_flash_map(PCMachineState *pcm=
+s,
+>       }
+>   }
+>  =20
+> -static void old_pc_system_rom_init(MemoryRegion *rom_memory, bool isap=
+c_ram_fw)
+> +static void x86_bios_rom_init(MemoryRegion *rom_memory, bool isapc_ram=
+_fw)
+>   {
+>       char *filename;
+>       MemoryRegion *bios, *isa_bios;
+> @@ -272,7 +272,7 @@ void pc_system_firmware_init(PCMachineState *pcms,
+>       BlockBackend *pflash_blk[ARRAY_SIZE(pcms->flash)];
+>  =20
+>       if (!pcmc->pci_enabled) {
+> -        old_pc_system_rom_init(rom_memory, true);
+> +        x86_bios_rom_init(rom_memory, true);
+>           return;
+>       }
+>  =20
+> @@ -293,7 +293,7 @@ void pc_system_firmware_init(PCMachineState *pcms,
+>  =20
+>       if (!pflash_blk[0]) {
+>           /* Machine property pflash0 not set, use ROM mode */
+> -        old_pc_system_rom_init(rom_memory, false);
+> +        x86_bios_rom_init(rom_memory, false);
+>       } else {
+>           if (kvm_enabled() && !kvm_readonly_mem_enabled()) {
+>               /*
 >=20
 
