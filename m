@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01E5CB791
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:44:56 +0200 (CEST)
-Received: from localhost ([::1]:43812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2FACB798
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:49:24 +0200 (CEST)
+Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGK8t-0003Ai-MH
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52349)
+	id 1iGKDC-0006xC-PX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2H-0004sV-PJ
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:07 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2H-0004ry-CO
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2F-00053o-Ey
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2F-00054Q-Pc
  for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:05 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:34791)
+Received: from ozlabs.org ([2401:3900:2:1::2]:45553)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK2F-0004zt-0t; Fri, 04 Oct 2019 05:38:03 -0400
+ id 1iGK2F-0004zy-CV; Fri, 04 Oct 2019 05:38:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YG4K3fz9sR6; Fri,  4 Oct 2019 19:37:54 +1000 (AEST)
+ id 46l4YG6W1Wz9sRM; Fri,  4 Oct 2019 19:37:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570181874;
- bh=OirAMtv4UlayQDyT8sYysuEo+ORX8REYSURSmh6PVJc=;
+ bh=0zIgGb9ZpShprkbrlZSPiKcM+hjW4q8CoJVbG3S44vk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V5WwOPuUGpdl8AhRKkhv+Zml06KPhXgAOURjvyyGmVBU25BVJUdwFGWXYpl9KKAXB
- ukH0zhtqMJ5AIiTbG+gu74H0KOIdI3xr+o11uuOzwOu/ujgXDap4S0lPgnjmhVUO4T
- 4v82yA29XZScvIGLATC1aok85sPu6SfLXdl2Lmz4=
+ b=VGWQxzTt0C1RqOCOlXPwCiYu6N3RfohmiT2tC5PjZVyf/4uWn67oT8Agi0vNlAY/r
+ RkGSPDeYE2MENl3mHkkFiRnr9NbzLOGXs/+2rg1vm76+tLh9Vl+1n4Inqz6I6ZTnjN
+ UF2o+TazoGWxOSSKL85mxBW0ZWLlGWIbBfcx1NUE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/53] spapr/irq: Only claim VALID interrupts at the KVM level
-Date: Fri,  4 Oct 2019 19:37:04 +1000
-Message-Id: <20191004093747.31350-11-david@gibson.dropbear.id.au>
+Subject: [PULL 12/53] ppc: Add support for 'mffsce' instruction
+Date: Fri,  4 Oct 2019 19:37:06 +1000
+Message-Id: <20191004093747.31350-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -54,159 +53,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>, "Paul A. Clarke" <pc@us.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: "Paul A. Clarke" <pc@us.ibm.com>
 
-A typical pseries VM with 16 vCPUs, one disk, one network adapater
-uses less than 100 interrupts but the whole IRQ number space of the
-QEMU machine is allocated at reset time and it is 8K wide. This is
-wasting a considerable amount of interrupt numbers in the global IRQ
-space which has 1M interrupts per socket on a POWER9.
+ISA 3.0B added a set of Floating-Point Status and Control Register (FPSCR=
+)
+instructions: mffsce, mffscdrn, mffscdrni, mffscrn, mffscrni, mffsl.
+This patch adds support for 'mffsce' instruction.
 
-To optimise the HW resources, only request at the KVM level interrupts
-which have been claimed by the guest. This will help to increase the
-maximum number of VMs per system and also help supporting nested guests
-using the XIVE interrupt mode.
+'mffsce' is identical to 'mffs', except that it also clears the exception
+enable bits in the FPSCR.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190911133937.2716-3-clg@kaod.org>
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156942766014.1274533.10792048853177121231.stgit@bahia.lan>
-[dwg: Folded in fix up from Greg Kurz]
+On CPUs without support for 'mffsce' (below ISA 3.0), the
+instruction will execute identically to 'mffs'.
+
+Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <1568817082-1384-1-git-send-email-pc@us.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 40 +++++++++++++++++++++++++++++++++++++---
- hw/intc/xics_kvm.c       |  8 ++++++++
- 2 files changed, 45 insertions(+), 3 deletions(-)
+ target/ppc/translate/fp-impl.inc.c | 30 ++++++++++++++++++++++++++++++
+ target/ppc/translate/fp-ops.inc.c  |  2 ++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 17af4d19f5..2006f96aec 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -255,11 +255,16 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc,=
- int srcno, Error **errp)
+diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp=
+-impl.inc.c
+index 75f9523b07..d8e27bf4d5 100644
+--- a/target/ppc/translate/fp-impl.inc.c
++++ b/target/ppc/translate/fp-impl.inc.c
+@@ -639,6 +639,36 @@ static void gen_mffsl(DisasContext *ctx)
+     tcg_temp_free_i64(t0);
+ }
 =20
- static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
++/* mffsce */
++static void gen_mffsce(DisasContext *ctx)
++{
++    TCGv_i64 t0;
++    TCGv_i32 mask;
++
++    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
++        return gen_mffs(ctx);
++    }
++
++    if (unlikely(!ctx->fpu_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_FPU);
++        return;
++    }
++
++    t0 =3D tcg_temp_new_i64();
++
++    gen_reset_fpstatus();
++    tcg_gen_extu_tl_i64(t0, cpu_fpscr);
++    set_fpr(rD(ctx->opcode), t0);
++
++    /* Clear exception enable bits in the FPSCR.  */
++    tcg_gen_andi_i64(t0, t0, ~FP_ENABLES);
++    mask =3D tcg_const_i32(0x0003);
++    gen_helper_store_fpscr(cpu_env, t0, mask);
++
++    tcg_temp_free_i32(mask);
++    tcg_temp_free_i64(t0);
++}
++
+ static void gen_helper_mffscrn(DisasContext *ctx, TCGv_i64 t1)
  {
-+    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
-     int i;
-=20
-     for (i =3D 0; i < xsrc->nr_irqs; i++) {
-         Error *local_err =3D NULL;
-=20
-+        if (!xive_eas_is_valid(&xive->eat[i])) {
-+            continue;
-+        }
-+
-         kvmppc_xive_source_reset_one(xsrc, i, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-@@ -328,11 +333,18 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int s=
-rcno, uint32_t offset,
-=20
- static void kvmppc_xive_source_get_state(XiveSource *xsrc)
- {
-+    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
-     int i;
-=20
-     for (i =3D 0; i < xsrc->nr_irqs; i++) {
-+        uint8_t pq;
-+
-+        if (!xive_eas_is_valid(&xive->eat[i])) {
-+            continue;
-+        }
-+
-         /* Perform a load without side effect to retrieve the PQ bits */
--        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-+        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-=20
-         /* and save PQ locally */
-         xive_source_esb_set(xsrc, i, pq);
-@@ -521,9 +533,14 @@ static void kvmppc_xive_change_state_handler(void *o=
-paque, int running,
-      */
-     if (running) {
-         for (i =3D 0; i < xsrc->nr_irqs; i++) {
--            uint8_t pq =3D xive_source_esb_get(xsrc, i);
-+            uint8_t pq;
-             uint8_t old_pq;
-=20
-+            if (!xive_eas_is_valid(&xive->eat[i])) {
-+                continue;
-+            }
-+
-+            pq =3D xive_source_esb_get(xsrc, i);
-             old_pq =3D xive_esb_read(xsrc, i, XIVE_ESB_SET_PQ_00 + (pq <=
-< 8));
-=20
-             /*
-@@ -545,7 +562,13 @@ static void kvmppc_xive_change_state_handler(void *o=
-paque, int running,
-      * migration is in progress.
-      */
-     for (i =3D 0; i < xsrc->nr_irqs; i++) {
--        uint8_t pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-+        uint8_t pq;
-+
-+        if (!xive_eas_is_valid(&xive->eat[i])) {
-+            continue;
-+        }
-+
-+        pq =3D xive_esb_read(xsrc, i, XIVE_ESB_GET);
-=20
-         /*
-          * PQ is set to PENDING to possibly catch a triggered
-@@ -655,6 +678,17 @@ int kvmppc_xive_post_load(SpaprXive *xive, int versi=
-on_id)
-             continue;
-         }
-=20
-+        /*
-+         * We can only restore the source config if the source has been
-+         * previously set in KVM. Since we don't do that for all interru=
-pts
-+         * at reset time anymore, let's do it now.
-+         */
-+        kvmppc_xive_source_reset_one(&xive->source, i, &local_err);
-+        if (local_err) {
-+            error_report_err(local_err);
-+            return -1;
-+        }
-+
-         kvmppc_xive_set_source_config(xive, i, &xive->eat[i], &local_err=
-);
-         if (local_err) {
-             error_report_err(local_err);
-diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index a4d2e876cc..ba90d6dc96 100644
---- a/hw/intc/xics_kvm.c
-+++ b/hw/intc/xics_kvm.c
-@@ -190,6 +190,10 @@ void ics_get_kvm_state(ICSState *ics)
-     for (i =3D 0; i < ics->nr_irqs; i++) {
-         ICSIRQState *irq =3D &ics->irqs[i];
-=20
-+        if (ics_irq_free(ics, i)) {
-+            continue;
-+        }
-+
-         kvm_device_access(kernel_xics_fd, KVM_DEV_XICS_GRP_SOURCES,
-                           i + ics->offset, &state, false, &error_fatal);
-=20
-@@ -301,6 +305,10 @@ int ics_set_kvm_state(ICSState *ics, Error **errp)
-         Error *local_err =3D NULL;
-         int ret;
-=20
-+        if (ics_irq_free(ics, i)) {
-+            continue;
-+        }
-+
-         ret =3D ics_set_kvm_state_one(ics, i, &local_err);
-         if (ret < 0) {
-             error_propagate(errp, local_err);
+     TCGv_i64 t0 =3D tcg_temp_new_i64();
+diff --git a/target/ppc/translate/fp-ops.inc.c b/target/ppc/translate/fp-=
+ops.inc.c
+index f2bcf0e67b..88fab65628 100644
+--- a/target/ppc/translate/fp-ops.inc.c
++++ b/target/ppc/translate/fp-ops.inc.c
+@@ -105,6 +105,8 @@ GEN_HANDLER_E(fmrgew, 0x3F, 0x06, 0x1E, 0x00000001, P=
+PC_NONE, PPC2_VSX207),
+ GEN_HANDLER_E(fmrgow, 0x3F, 0x06, 0x1A, 0x00000001, PPC_NONE, PPC2_VSX20=
+7),
+ GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC_FLOAT),
+ GEN_HANDLER_E_2(mffs, 0x3F, 0x07, 0x12, 0x00, 0x00000000, PPC_FLOAT, PPC=
+_NONE),
++GEN_HANDLER_E_2(mffsce, 0x3F, 0x07, 0x12, 0x01, 0x00000000, PPC_FLOAT,
++    PPC2_ISA300),
+ GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
+     PPC2_ISA300),
+ GEN_HANDLER_E_2(mffscrn, 0x3F, 0x07, 0x12, 0x16, 0x00000000, PPC_FLOAT,
 --=20
 2.21.0
 
