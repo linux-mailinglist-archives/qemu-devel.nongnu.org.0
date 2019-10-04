@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8CECBFE8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 17:59:02 +0200 (CEST)
-Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E52CCC022
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 18:07:06 +0200 (CEST)
+Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGPyu-0000fo-V2
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 11:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42236)
+	id 1iGQ6i-0004yZ-GV
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 12:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iGPuU-0006Ll-H9
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 11:54:30 -0400
+ id 1iGPuT-0006L7-L2
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 11:54:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iGPuS-0000Y2-JI
+ id 1iGPuS-0000Xx-Id
  for qemu-devel@nongnu.org; Fri, 04 Oct 2019 11:54:25 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:44636 helo=huawei.com)
+Received: from szxga07-in.huawei.com ([45.249.212.35]:44540 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iGPuO-0000QO-93; Fri, 04 Oct 2019 11:54:20 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id BB987C4B2364335D9FB1;
- Fri,  4 Oct 2019 23:54:12 +0800 (CST)
+ id 1iGPuO-0000Mn-93; Fri, 04 Oct 2019 11:54:20 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id D0FF42812587D8540905;
+ Fri,  4 Oct 2019 23:54:07 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
  DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 4 Oct 2019 23:54:03 +0800
+ 14.3.439.0; Fri, 4 Oct 2019 23:54:00 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Subject: [PATCH 1/5] hw/arm: Align ACPI blob len to PAGE size
-Date: Fri, 4 Oct 2019 16:52:58 +0100
-Message-ID: <20191004155302.4632-2-shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH 0/5] ARM virt: Add NVDIMM support
+Date: Fri, 4 Oct 2019 16:52:57 +0100
+Message-ID: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
-In-Reply-To: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
-References: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.202.227.237]
 X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 45.249.212.35
@@ -60,58 +59,57 @@ Cc: peter.maydell@linaro.org, lersek@redhat.com, linuxarm@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If ACPI blob length modifications happens after the initial
-virt_acpi_build() call, and the changed blob length is within
-the PAGE size boundary, then the revised size is not seen by
-the firmware on Guest reboot. The is because in the
-virt_acpi_build_update() -> acpi_ram_update() -> qemu_ram_resize()
-path, qemu_ram_resize() uses ram_block size which is aligned
-to PAGE size and the "resize callback" to update the size seen
-by firmware is not getting invoked. Hence align ACPI blob sizes
-to PAGE boundary.
+This series adds NVDIMM support to arm/virt platform.
+This has a dependency on [0] and make use of the GED
+device for NVDIMM hotplug events. The series reuses
+some of=C2=A0the=C2=A0patches posted by Eric in his earlier
+attempt here[1].
 
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
----
-More details on this issue can be found here,
-https://patchwork.kernel.org/patch/11154757/
+Patch 1/5 is a fix to the Guest reboot issue on NVDIMM
+hot add case described here[2].
 
----
- hw/arm/virt-acpi-build.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+I have done basic sanity testing of NVDIMM deviecs with
+both ACPI and DT Guest boot. Further testing is always
+welcome.
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 4cd50175e0..074e0c858e 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -790,6 +790,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     GArray *table_offsets;
-     unsigned dsdt, xsdt;
-     GArray *tables_blob = tables->table_data;
-+    GArray *cmd_blob = tables->linker->cmd_blob;
-     MachineState *ms = MACHINE(vms);
- 
-     table_offsets = g_array_new(false, true /* clear */,
-@@ -854,6 +855,19 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-         build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
-     }
- 
-+    /*
-+     * Align the ACPI blob lengths to PAGE size so that on ACPI table
-+     * regeneration, the length that firmware sees really gets updated
-+     * through 'resize' callback in qemu_ram_resize() in the
-+     * virt_acpi_build_update() -> acpi_ram_update() -> qemu_ram_resize()
-+     * path.
-+     */
-+    g_array_set_size(tables_blob,
-+                     TARGET_PAGE_ALIGN(acpi_data_len(tables_blob)));
-+    g_array_set_size(tables->rsdp,
-+                     TARGET_PAGE_ALIGN(acpi_data_len(tables->rsdp)));
-+    g_array_set_size(cmd_blob,
-+                     TARGET_PAGE_ALIGN(acpi_data_len(cmd_blob)));
-     /* Cleanup memory that's no longer used. */
-     g_array_free(table_offsets, true);
- }
--- 
+Please let me know your feedback.
+
+Thanks,
+Shameer
+
+[0] https://patchwork.kernel.org/cover/11150345/
+[1] https://patchwork.kernel.org/cover/10830777/
+[2] https://patchwork.kernel.org/patch/11154757/
+
+Eric Auger (1):
+  hw/arm/boot: Expose the pmem nodes in the DT
+
+Kwangwoo Lee (2):
+  nvdimm: Use configurable ACPI IO base and size
+  hw/arm/virt: Add nvdimm hot-plug infrastructure
+
+Shameer Kolothum (2):
+  hw/arm: Align ACPI blob len to PAGE size
+  hw/arm/virt: Add nvdimm hotplug support
+
+ docs/specs/acpi_hw_reduced_hotplug.rst |  1 +
+ hw/acpi/generic_event_device.c         | 13 ++++++++
+ hw/acpi/nvdimm.c                       | 32 ++++++++++++------
+ hw/arm/Kconfig                         |  1 +
+ hw/arm/boot.c                          | 45 ++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c               | 20 ++++++++++++
+ hw/arm/virt.c                          | 42 ++++++++++++++++++++----
+ hw/i386/acpi-build.c                   |  6 ++++
+ hw/i386/acpi-build.h                   |  3 ++
+ hw/i386/pc_piix.c                      |  2 ++
+ hw/i386/pc_q35.c                       |  2 ++
+ hw/mem/Kconfig                         |  2 +-
+ include/hw/acpi/generic_event_device.h |  1 +
+ include/hw/arm/virt.h                  |  1 +
+ include/hw/mem/nvdimm.h                |  3 ++
+ 15 files changed, 157 insertions(+), 17 deletions(-)
+
+--=20
 2.17.1
 
 
