@@ -2,46 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B501CCB347
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 04:31:11 +0200 (CEST)
-Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7A2CB374
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 05:11:44 +0200 (CEST)
+Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGDN8-0008Qm-2D
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 22:31:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46193)
+	id 1iGE0M-0006eo-LD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 23:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGDHa-0006VV-UO
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 22:25:29 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGDzA-00068I-Fs
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:10:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGDHZ-00011V-AD
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 22:25:26 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56017)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGDz9-0008JH-Cd
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:10:28 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56505 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGDHV-0000uF-Lx; Thu, 03 Oct 2019 22:25:24 -0400
+ id 1iGDz5-00088f-3Z; Thu, 03 Oct 2019 23:10:24 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kty23HRxz9sPq; Fri,  4 Oct 2019 12:25:14 +1000 (AEST)
+ id 46kvy15zhRz9sPq; Fri,  4 Oct 2019 13:10:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570155914;
- bh=JXYfyJWqmwUgKWts+J50NYzPm8aCRHAvHjyxMKQBlmg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jjn9Bf7PjvM/b0KBmV0Opt4a5S9xtqHs3HiP79dufjG9saq9NPXWtEw9NQdS7LUL4
- beicNxLifPABFQHDZxE0+YdgJFThV9lTvM3W9nWtCkGt+p5g75WZT/cPcapVFYkcgZ
- XKQWEQQq7KLRuPjhizeKrVhU2P1MBm6L7SOfC+NM=
-Date: Fri, 4 Oct 2019 10:25:45 +1000
+ d=gibson.dropbear.id.au; s=201602; t=1570158617;
+ bh=6BzysK04Egnj4VKoHR3IxJqfPZVBBXwQCCXvuB1yqd8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hJ+31lckGHqwbdvDTm47x9QoXTsNuvXT6qeVH+0oXb2I0AerZUn0qIHvS9Xo8HCcs
+ 9pgMe5FK3eeUDyIPQYkfmgKOsi4MW8U+Fr3pt3GP//BWN3dpQh3VqwtaaZv+V+aZN5
+ DaT/f1eLiT8pWDIQYAq/9gkP45GiqIQP9rilKUZA=
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] ppc/pnv: Remove the XICSFabric Interface from the POWER9
- machine
-Message-ID: <20191004002545.GA27597@umbus.fritz.box>
-References: <20191003143617.21682-1-clg@kaod.org>
+To: i.mitsyanko@gmail.com,
+	peter.maydell@linaro.org
+Subject: [PATCH] exynos4210_gic: Suppress gcc9 format-truncation warnings
+Date: Fri,  4 Oct 2019 12:55:09 +1000
+Message-Id: <20191004025509.3012-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n8g4imXOkfNTN/H1"
-Content-Disposition: inline
-In-Reply-To: <20191003143617.21682-1-clg@kaod.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -56,112 +52,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+exynos4210_gic_realize() prints the number of cpus into some temporary
+buffers, but it only allows 3 bytes space for it.  That's plenty - I'm
+pretty sure that existing machines will only ever set this value to 2
+(EXYNOS4210_NCPUS).  But the compiler can't really be expected to figure
+that out.
 
---n8g4imXOkfNTN/H1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some[*] gcc9 versions therefore emit -Wformat-truncation warnings.  Fix
+that by allowing more space in the temporary buffers - these are on stack
+very briefly before being essentially strdup()ed inside the memory region
+code, so there's not much cost to doing so.
 
-On Thu, Oct 03, 2019 at 04:36:17PM +0200, C=E9dric Le Goater wrote:
-> The POWER8 PowerNV machine needs to implement a XICSFabric interface
-> as this is the POWER8 interrupt controller model. But the POWER9
-> machine uselessly inherits of XICSFabric from the common PowerNV
-> machine definition.
->=20
-> Open code machine definitions to have a better control on the
-> different interfaces each machine should define.
->=20
-> Fixes: f30c843ced50 ("ppc/pnv: Introduce PowerNV machines with fixed CPU =
-models")
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+[*] The bizarre thing here, is that I've long gotten these warnings
+compiling in a 32-bit x86 container as host - Fedora 30 with
+gcc-9.2.1-1.fc30.i686 - but it compiles just fine on my normal x86_64 hos=
+t
+- Fedora 30 with and gcc-9.2.1-1.fc30.x86_64.
 
-Applied to ppc-for-4.2, thanks.
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/intc/exynos4210_gic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> ---
->  hw/ppc/pnv.c | 31 ++++++++++++++-----------------
->  1 file changed, 14 insertions(+), 17 deletions(-)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 77a86c6a2301..7cf64b6d2533 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1485,23 +1485,21 @@ static void pnv_machine_class_init(ObjectClass *o=
-c, void *data)
->          .parent        =3D TYPE_PNV9_CHIP,          \
->      }
-> =20
-> -#define DEFINE_PNV_MACHINE_TYPE(cpu, class_initfn)      \
-> -    {                                                   \
-> -        .name          =3D MACHINE_TYPE_NAME(cpu),        \
-> -        .parent        =3D TYPE_PNV_MACHINE,              \
-> -        .instance_size =3D sizeof(PnvMachineState),       \
-> -        .instance_init =3D pnv_machine_instance_init,     \
-> -        .class_init    =3D class_initfn,                  \
-> -        .interfaces =3D (InterfaceInfo[]) {               \
-> -            { TYPE_XICS_FABRIC },                       \
-> -            { TYPE_INTERRUPT_STATS_PROVIDER },          \
-> -            { },                                        \
-> -        },                                              \
-> -    }
-> -
->  static const TypeInfo types[] =3D {
-> -    DEFINE_PNV_MACHINE_TYPE("powernv8", pnv_machine_power8_class_init),
-> -    DEFINE_PNV_MACHINE_TYPE("powernv9", pnv_machine_power9_class_init),
-> +    {
-> +        .name          =3D MACHINE_TYPE_NAME("powernv9"),
-> +        .parent        =3D TYPE_PNV_MACHINE,
-> +        .class_init    =3D pnv_machine_power9_class_init,
-> +    },
-> +    {
-> +        .name          =3D MACHINE_TYPE_NAME("powernv8"),
-> +        .parent        =3D TYPE_PNV_MACHINE,
-> +        .class_init    =3D pnv_machine_power8_class_init,
-> +        .interfaces =3D (InterfaceInfo[]) {
-> +            { TYPE_XICS_FABRIC },
-> +            { },
-> +        },
-> +    },
->      {
->          .name          =3D TYPE_PNV_MACHINE,
->          .parent        =3D TYPE_MACHINE,
-> @@ -1510,7 +1508,6 @@ static const TypeInfo types[] =3D {
->          .instance_init =3D pnv_machine_instance_init,
->          .class_init    =3D pnv_machine_class_init,
->          .interfaces =3D (InterfaceInfo[]) {
-> -            { TYPE_XICS_FABRIC },
->              { TYPE_INTERRUPT_STATS_PROVIDER },
->              { },
->          },
-
+diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
+index a1b699b6ba..2e5e47f9ec 100644
+--- a/hw/intc/exynos4210_gic.c
++++ b/hw/intc/exynos4210_gic.c
+@@ -290,8 +290,8 @@ static void exynos4210_gic_realize(DeviceState *dev, =
+Error **errp)
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+     const char cpu_prefix[] =3D "exynos4210-gic-alias_cpu";
+     const char dist_prefix[] =3D "exynos4210-gic-alias_dist";
+-    char cpu_alias_name[sizeof(cpu_prefix) + 3];
+-    char dist_alias_name[sizeof(cpu_prefix) + 3];
++    char cpu_alias_name[sizeof(cpu_prefix) + 10];
++    char dist_alias_name[sizeof(cpu_prefix) + 10];
+     SysBusDevice *gicbusdev;
+     uint32_t i;
+=20
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.21.0
 
---n8g4imXOkfNTN/H1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2WkYkACgkQbDjKyiDZ
-s5LC3w/9FWZ9xwFkz2KzYYah7AsoiUu/zJyP9gBkDQrxaS6yzSjdn9jWJx9d5M3a
-EUZXeHRd8uX2Vspq7e/jb+miBJ7afdRLZHTfjdzzd8mdZkKYcUrcSQNq6oYhSRiu
-P2ejglxzHjeA0GBdcAEnBWnvPohMiHR+tDotSsBe9heEQeapU15Nvl8qT1MR+IaK
-jiiRC4nUv8xVLQdMTVZbJXD+Pdhgi7ELWDH/+etnd7zcZtgvdzjjq1vbHGPyqGT8
-sNIywza0CJa8dUn4YY3K10rRkdMIuUliUoojmkOE/yoPkM1mqTb32u5BQXEU5JMn
-Oi5GDJc3+QNXfYga+S3kN0D/0Bjt2oy+6y6cHmiBThv9dnMECfCXtwVQmzktu/Xp
-8K53vqiSBiEYOpq7mg03GTIwMK3yPhYJJcpqiNXResCxdPlthllzg1QZbjT5AYkb
-8JffNtcQ2JQfg5LrVeDAShNs+vO9tBRi/H0QaB+uvCkN8p3tcocEmtQ31+TSgRYi
-ZwKQxt58DxmeeYogS7c7RgCm2kp/+vqbjls7Y64moTH1L3zlzeWRSmReJD4lfFhd
-blkiEHxkUqEA4qvZueGhcsCfTBRt7B9naxzGnGU08D/MZH0D0CQt7ATMKu4LZGrr
-JLdKGXqSP+kPf0n8MAWOU171UKIqgXtch5GBgG9NHzw4XTzjQqY=
-=83VT
------END PGP SIGNATURE-----
-
---n8g4imXOkfNTN/H1--
 
