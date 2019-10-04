@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FDDCBA32
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 14:19:16 +0200 (CEST)
-Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42461CBA4F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 14:23:59 +0200 (CEST)
+Received: from localhost ([::1]:47706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGMYD-0007T2-OG
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 08:19:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59993)
+	id 1iGMcn-0002lL-IV
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 08:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iGMSX-0005tU-0s
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:13:22 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iGMDZ-0004nl-FC
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:57:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iGMSV-00064q-IW
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:13:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50866)
+ (envelope-from <pbonzini@redhat.com>) id 1iGMDX-0006sI-Kq
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:57:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35626)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iGMSU-00063R-FR
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:13:19 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iGMDX-0006rW-ET
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:57:51 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 66F45C010925
- for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 12:13:16 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id s19so1538004wmj.0
- for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 05:13:16 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 41B20796ED
+ for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 11:57:49 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id a189so1981726wma.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 04:57:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=I/+3oWvTBkjp4fCjo+Yb0vZD4x6p3dKk8JBZFOgKexY=;
- b=oX655PJ5IYrUMgTUuRYcSYfMA0aQZlu/GzA3PH4SkRkK0pReX8sKtOmY7i4r63AyEy
- qZ70RzlcYW+tcfLdqnVEX2XvyFC14sadQ51Zyop3n+UU8Ytf4JvX9iWNqw49hS+KcsP6
- 0KJdUJJWNpEiIQx4NscZ9igQpFP3VwQjsOwEN4hSXxf+GBWyrRPQlg6fi6Ut4cTD3IS0
- DPpFzTWNQq0pImS8Ydoi87f6Lywtq0v+wdxPUSeN4fjSd5wA+gssetUpWHuOvsD0ehSr
- WauVJgSdaYAHud/THTP3tS8xAcdkETjFpMB4Z07UvMYc40rS1QAfl5OC0VI0lW1S6O+0
- FlGA==
-X-Gm-Message-State: APjAAAWKortL4OIE85lWd5CIpRmZr3is8VGVQTlBHbNpkNBzK2AjtBqt
- 9ILmLJsqBET0eHT/RV/Z+ZbqL2cZ/AKecKQ+ZcJ6grMJzXZjyOO82BtzaDXaH+TpjSm387BJCei
- Rqbk/3hofhhlwufk=
-X-Received: by 2002:a5d:4751:: with SMTP id o17mr11301802wrs.113.1570191195034; 
- Fri, 04 Oct 2019 05:13:15 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzPXdFKYk3BVQydJV3NFDhKxg+UUfTKLrEW2Nvagl08HtFLoRLTiV2RAWcP2YbyOGd7bYN8Kg==
-X-Received: by 2002:a5d:4751:: with SMTP id o17mr11301774wrs.113.1570191194730; 
- Fri, 04 Oct 2019 05:13:14 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e56d:fbdf:8b79:c79c?
- ([2001:b07:6468:f312:e56d:fbdf:8b79:c79c])
- by smtp.gmail.com with ESMTPSA id a2sm7184100wrp.11.2019.10.04.05.13.11
+ bh=SOiPGYJGI/JNSb6E3x3vKGwWs1DLS5EVXD4POQk1UEE=;
+ b=RfD6TSSwbb/ki6hUYdh9RuYI6BptfwlEbg17i0tthivmyeZTnw0ygQdWfMpSwVQsT2
+ uinCUeLeD1jOb0CMy7cQamrKiKtRZOxdy8l1HIqSXap55BY9YL8dTf5/rFQ3eFdTCY6N
+ WSx3gVNqkNo8gof/ESzBLoIREuwww89FsnZsal9HcsplXolXpBO6sHgDErCYbN9Snm+d
+ ChHQP+mAEmgGQpITPqL9Kj3ilWtUqSBOk/wY4NDOHCDCPHok6H82A7TtToyTJddNqYzQ
+ 9FSZD+aMoGAkeMOAMSoE27fFpkEZG1FZgsnr7ZXlsP7oaFigO7FMxlph2lwnfkTy15Fa
+ dq9A==
+X-Gm-Message-State: APjAAAXcEhRs7A/Dba6DeqYCFI31NRVuNaUzhw3SqEPMxUkF3xCjJxNs
+ t3YvvJLOAsL7rIKC+Y8uQQoAxh/coo+n7mpS2V2wHdpxw0U78b+9nSoHGQKXXjnPQ4/ladMGdkl
+ CD1zdhFJ1ka6QeuU=
+X-Received: by 2002:adf:9068:: with SMTP id h95mr10641432wrh.253.1570190267955; 
+ Fri, 04 Oct 2019 04:57:47 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwUjSLFQDMWNHkEk7CbokoZoqB4Gpn19p4jOVds7/Le5134malNSYjDhVJPZTloP8cf4OcUJw==
+X-Received: by 2002:adf:9068:: with SMTP id h95mr10641418wrh.253.1570190267719; 
+ Fri, 04 Oct 2019 04:57:47 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id r18sm7032623wme.48.2019.10.04.04.57.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Oct 2019 05:13:14 -0700 (PDT)
-Subject: Re: libvirt? qemu change that mmaps ELF files breaks libvirt svirt
- handling for os.kernel
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-devel
- <qemu-devel@nongnu.org>, Libvirt <libvir-list@redhat.com>,
- Marc Hartmayer <mhartmay@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
-References: <d450afbe-06ae-f6f7-3bc0-f1a54c31907c@de.ibm.com>
+ Fri, 04 Oct 2019 04:57:47 -0700 (PDT)
+Subject: Re: [RFC 0/4] transaction-based ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20191004114848.16831-1-peter.maydell@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <1dc0a320-b771-072d-d1f4-4eda2ab51a1f@redhat.com>
-Date: Fri, 4 Oct 2019 14:13:12 +0200
+Message-ID: <2edcfdab-0682-2728-2632-e4f5bb6cd7e2@redhat.com>
+Date: Fri, 4 Oct 2019 13:57:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <d450afbe-06ae-f6f7-3bc0-f1a54c31907c@de.ibm.com>
+In-Reply-To: <20191004114848.16831-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -86,38 +81,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/10/19 14:03, Christian Borntraeger wrote:
-> Stefano, Paolo,
-> 
-> I have an interesting fail in QEMU 
-> 
-> 2019-10-04T12:00:32.675188Z qemu-system-s390x: GLib: g_mapped_file_unref: assertion 'file != NULL' failed
-> that bisected to 
-> commit 816b9fe450220e19acb91a0ce4a8ade7000648d1 (refs/bisect/bad)
->     elf-ops.h: Map into memory the ELF to load
-> 
-> strace tells that I can read the ELF file, but not mmap
-> strace:
-> 214365 openat(AT_FDCWD, "/var/lib/libvirt/images/test_cpu_timer.elf", O_RDONLY) = 36
-> 214365 read(46, "\177ELF\2\2\1\0\0\0\0\0\0\0\0\0", 16) = 16
-> 214365 lseek(46, 0, SEEK_SET)           = 0
-> [...]
-> 214365 fstat(46, {st_mode=S_IFREG|0755, st_size=168176, ...}) = 0
-> 214365 mmap(NULL, 168176, PROT_READ|PROT_WRITE, MAP_PRIVATE, 46, 0) = -1 EACCES (Permission denied)
-> 
-> So reading from /var/lib/libvirt/images/test_cpu_timer.elf does work, mmaping does not.
-> setenforce 0 makes the problem go away. 
-> 
-> This might be more of an issue in libvirt, setting the svirt context too
-> restrictive, but I am not too deep into the svirt part of libvirt.
-> Reverting the qemu commit makes the problem go away.
+On 04/10/19 13:48, Peter Maydell wrote:
+> must be between matched calls to ptimer_transaction_begin() and
+> ptimer_transaction_commit().  When ptimer_transaction_commit() is
+> called it will evaluate the state of the timer after all the changes
+> in the transaction, and call the callback if necessary.
 
-Yes, the policy is too restrictive in my opinion.
-
-Can you include the output of "audit2allow" and/or "audit2allow -R"?
+Could ptimer_stop/ptimer_run act as the begin and commit functions?
+That is, ptimer_set_* can be called only between ptimer_stop and ptimer_run?
 
 Thanks,
 
