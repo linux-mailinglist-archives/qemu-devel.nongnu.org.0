@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE5ACB861
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:34:50 +0200 (CEST)
-Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B835CB840
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:30:36 +0200 (CEST)
+Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKvB-0005EC-2S
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53505)
+	id 1iGKr4-0001JY-DI
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK3U-0006Fd-4U
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK3U-0006Fk-79
  for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK3S-0006K4-Jy
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:19 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:37061)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK3S-0006KD-LI
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:20 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:45185)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK3S-00061n-7Z; Fri, 04 Oct 2019 05:39:18 -0400
+ id 1iGK3S-00061m-8z; Fri, 04 Oct 2019 05:39:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YR2s5Nz9sST; Fri,  4 Oct 2019 19:38:03 +1000 (AEST)
+ id 46l4YR4738z9sSW; Fri,  4 Oct 2019 19:38:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570181883;
- bh=nIuSmMjmRIP2JxH6+XRAiVaVtFEjEQi4rUDk6u8g8NA=;
+ bh=dRmc8C87IgfOESV6wlmWQRDExLiKHVz7EnhGNOYr28s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hxeHxdB0zJuFJQu9sNLyDbRQh53WjgoWXFBzy24hzvER3JLDOuk47l16TCx+wbjRP
- qqYPiMhHTON9JdG5cao82aULDHuaa+jLhaYOh3VkQYpHkPWRxi67bQoRMKL8hWqeA2
- aj/RlJX/xu64MuCsg0UHzMCxCOiqgDqKH29exOh8=
+ b=Tkx09MTq4SbJHq4K6sGrS9iGrT8JnDfDqFA8Ok2JeE4Vn5ORqCv68uAmy6geCgqRg
+ 4TPf8YRm8KngW6GVrUsY64wonkE7s9iBZOhl7+3NzEMVBDe+2pztpytb11gUipe4vn
+ uV4NfONjsIzuLcx2AttDAN3QtTeC5qUuJXzDPyKI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 44/53] spapr: Simplify spapr_qirq() handling
-Date: Fri,  4 Oct 2019 19:37:38 +1000
-Message-Id: <20191004093747.31350-45-david@gibson.dropbear.id.au>
+Subject: [PULL 45/53] spapr: Eliminate SpaprIrq:get_nodename method
+Date: Fri,  4 Oct 2019 19:37:39 +1000
+Message-Id: <20191004093747.31350-46-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
@@ -61,159 +61,167 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently spapr_qirq(), whic is used to find the qemu_irq for an spapr
-global irq number, redirects through the SpaprIrq::qirq method.  But
-the array of qemu_irqs is allocated in the PAPR layer, not the
-backends, and so the method implementations all return the same thing,
-just differing in the preliminary checks they make.
+This method is used to determine the name of the irq backend's node in th=
+e
+device tree, so that we can find its phandle (after SLOF may have modifie=
+d
+it from the phandle we initially gave it).
 
-So, we can remove the method, and just implement spapr_qirq() directly,
-including all the relevant checks in one place.  We change all those
-checks into assert()s as well, since a failure here indicates an error in
-the calling code.
+But, in the two cases the only difference between the node name is the
+presence of a unit address.  Searching for a node name without considerin=
+g
+unit address is standard practice for the device tree, and
+fdt_subnode_offset() will do exactly that, making this method unecessary.
+
+While we're there, remove the XICS_NODENAME define.  The name
+"interrupt-controller" is required by PAPR (and IEEE1275), and a bunch of
+places assume it already.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr_irq.c         | 54 ++++++++++++++------------------------
- include/hw/ppc/spapr_irq.h |  1 -
- 2 files changed, 19 insertions(+), 36 deletions(-)
+ hw/intc/xics_spapr.c        |  2 +-
+ hw/ppc/spapr_irq.c          | 25 +++----------------------
+ include/hw/ppc/spapr_irq.h  |  1 -
+ include/hw/ppc/xics_spapr.h |  2 --
+ 4 files changed, 4 insertions(+), 26 deletions(-)
 
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index e6dd004587..6e5eb24b3c 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -316,7 +316,7 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_t=
+ nr_servers, void *fdt,
+     };
+     int node;
+=20
+-    _FDT(node =3D fdt_add_subnode(fdt, 0, XICS_NODENAME));
++    _FDT(node =3D fdt_add_subnode(fdt, 0, "interrupt-controller"));
+=20
+     _FDT(fdt_setprop_string(fdt, node, "device_type",
+                             "PowerPC-External-Interrupt-Presentation"));
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 8f79aa829f..8f179076c6 100644
+index 8f179076c6..ec2229d2d1 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -150,17 +150,6 @@ static void spapr_irq_free_xics(SpaprMachineState *s=
-papr, int irq, int num)
+@@ -211,11 +211,6 @@ static void spapr_irq_reset_xics(SpaprMachineState *=
+spapr, Error **errp)
      }
  }
 =20
--static qemu_irq spapr_qirq_xics(SpaprMachineState *spapr, int irq)
+-static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spapr)
 -{
--    ICSState *ics =3D spapr->ics;
--
--    if (ics_valid_irq(ics, irq)) {
--        return spapr->qirqs[irq];
--    }
--
--    return NULL;
+-    return XICS_NODENAME;
 -}
 -
- static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor =
-*mon)
+ static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **er=
+rp)
  {
-     CPUState *cs;
-@@ -242,7 +231,6 @@ SpaprIrq spapr_irq_xics =3D {
-     .init        =3D spapr_irq_init_xics,
-     .claim       =3D spapr_irq_claim_xics,
-     .free        =3D spapr_irq_free_xics,
--    .qirq        =3D spapr_qirq_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-     .dt_populate =3D spapr_dt_xics,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
-@@ -300,20 +288,6 @@ static void spapr_irq_free_xive(SpaprMachineState *s=
-papr, int irq, int num)
+     if (kvm_enabled()) {
+@@ -237,7 +232,6 @@ SpaprIrq spapr_irq_xics =3D {
+     .post_load   =3D spapr_irq_post_load_xics,
+     .reset       =3D spapr_irq_reset_xics,
+     .set_irq     =3D spapr_irq_set_irq_xics,
+-    .get_nodename =3D spapr_irq_get_nodename_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+ };
+=20
+@@ -362,11 +356,6 @@ static void spapr_irq_set_irq_xive(void *opaque, int=
+ irq, int val)
      }
  }
 =20
--static qemu_irq spapr_qirq_xive(SpaprMachineState *spapr, int irq)
+-static const char *spapr_irq_get_nodename_xive(SpaprMachineState *spapr)
 -{
--    SpaprXive *xive =3D spapr->xive;
--
--    if ((irq < SPAPR_XIRQ_BASE) || (irq >=3D xive->nr_irqs)) {
--        return NULL;
--    }
--
--    /* The sPAPR machine/device should have claimed the IRQ before */
--    assert(xive_eas_is_valid(&xive->eat[irq]));
--
--    return spapr->qirqs[irq];
+-    return spapr->xive->nodename;
 -}
 -
- static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-                                       Monitor *mon)
+ static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **er=
+rp)
  {
-@@ -408,7 +382,6 @@ SpaprIrq spapr_irq_xive =3D {
-     .init        =3D spapr_irq_init_xive,
-     .claim       =3D spapr_irq_claim_xive,
-     .free        =3D spapr_irq_free_xive,
--    .qirq        =3D spapr_qirq_xive,
-     .print_info  =3D spapr_irq_print_info_xive,
-     .dt_populate =3D spapr_dt_xive,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xive,
-@@ -482,11 +455,6 @@ static void spapr_irq_free_dual(SpaprMachineState *s=
-papr, int irq, int num)
-     spapr_irq_xive.free(spapr, irq, num);
+     if (kvm_enabled()) {
+@@ -388,7 +377,6 @@ SpaprIrq spapr_irq_xive =3D {
+     .post_load   =3D spapr_irq_post_load_xive,
+     .reset       =3D spapr_irq_reset_xive,
+     .set_irq     =3D spapr_irq_set_irq_xive,
+-    .get_nodename =3D spapr_irq_get_nodename_xive,
+     .init_kvm    =3D spapr_irq_init_kvm_xive,
+ };
+=20
+@@ -533,11 +521,6 @@ static void spapr_irq_set_irq_dual(void *opaque, int=
+ irq, int val)
+     spapr_irq_current(spapr)->set_irq(spapr, irq, val);
  }
 =20
--static qemu_irq spapr_qirq_dual(SpaprMachineState *spapr, int irq)
+-static const char *spapr_irq_get_nodename_dual(SpaprMachineState *spapr)
 -{
--    return spapr_irq_current(spapr)->qirq(spapr, irq);
+-    return spapr_irq_current(spapr)->get_nodename(spapr);
 -}
 -
- static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor =
-*mon)
- {
-     spapr_irq_current(spapr)->print_info(spapr, mon);
-@@ -581,7 +549,6 @@ SpaprIrq spapr_irq_dual =3D {
-     .init        =3D spapr_irq_init_dual,
-     .claim       =3D spapr_irq_claim_dual,
-     .free        =3D spapr_irq_free_dual,
--    .qirq        =3D spapr_qirq_dual,
-     .print_info  =3D spapr_irq_print_info_dual,
-     .dt_populate =3D spapr_irq_dt_populate_dual,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_dual,
-@@ -695,7 +662,25 @@ void spapr_irq_free(SpaprMachineState *spapr, int ir=
-q, int num)
+ /*
+  * Define values in sync with the XIVE and XICS backend
+  */
+@@ -555,7 +538,6 @@ SpaprIrq spapr_irq_dual =3D {
+     .post_load   =3D spapr_irq_post_load_dual,
+     .reset       =3D spapr_irq_reset_dual,
+     .set_irq     =3D spapr_irq_set_irq_dual,
+-    .get_nodename =3D spapr_irq_get_nodename_dual,
+     .init_kvm    =3D NULL, /* should not be used */
+ };
 =20
- qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq)
- {
--    return spapr->irq->qirq(spapr, irq);
-+    /*
-+     * This interface is basically for VIO and PHB devices to find the
-+     * right qemu_irq to manipulate, so we only allow access to the
-+     * external irqs for now.  Currently anything which needs to
-+     * access the IPIs most naturally gets there via the guest side
-+     * interfaces, we can change this if we need to in future.
-+     */
-+    assert(irq >=3D SPAPR_XIRQ_BASE);
-+    assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-+
-+    if (spapr->ics) {
-+        assert(ics_valid_irq(spapr->ics, irq));
-+    }
-+    if (spapr->xive) {
-+        assert(irq < spapr->xive->nr_irqs);
-+        assert(xive_eas_is_valid(&spapr->xive->eat[irq]));
-+    }
-+
-+    return spapr->qirqs[irq];
- }
+@@ -699,13 +681,13 @@ void spapr_irq_reset(SpaprMachineState *spapr, Erro=
+r **errp)
 =20
- int spapr_irq_post_load(SpaprMachineState *spapr, int version_id)
-@@ -798,7 +783,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .init        =3D spapr_irq_init_xics,
-     .claim       =3D spapr_irq_claim_xics,
-     .free        =3D spapr_irq_free_xics,
--    .qirq        =3D spapr_qirq_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-     .dt_populate =3D spapr_dt_xics,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
+ int spapr_irq_get_phandle(SpaprMachineState *spapr, void *fdt, Error **e=
+rrp)
+ {
+-    const char *nodename =3D spapr->irq->get_nodename(spapr);
++    const char *nodename =3D "interrupt-controller";
+     int offset, phandle;
+=20
+     offset =3D fdt_subnode_offset(fdt, 0, nodename);
+     if (offset < 0) {
+-        error_setg(errp, "Can't find node \"%s\": %s", nodename,
+-                   fdt_strerror(offset));
++        error_setg(errp, "Can't find node \"%s\": %s",
++                   nodename, fdt_strerror(offset));
+         return -1;
+     }
+=20
+@@ -789,6 +771,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .post_load   =3D spapr_irq_post_load_xics,
+     .reset       =3D spapr_irq_reset_xics,
+     .set_irq     =3D spapr_irq_set_irq_xics,
+-    .get_nodename =3D spapr_irq_get_nodename_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+ };
 diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 7e26288fcd..a4e790ef60 100644
+index a4e790ef60..9b60378e28 100644
 --- a/include/hw/ppc/spapr_irq.h
 +++ b/include/hw/ppc/spapr_irq.h
-@@ -44,7 +44,6 @@ typedef struct SpaprIrq {
-     void (*init)(SpaprMachineState *spapr, Error **errp);
-     int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **er=
-rp);
-     void (*free)(SpaprMachineState *spapr, int irq, int num);
--    qemu_irq (*qirq)(SpaprMachineState *spapr, int irq);
-     void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
-     void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
-                         void *fdt, uint32_t phandle);
+@@ -52,7 +52,6 @@ typedef struct SpaprIrq {
+     int (*post_load)(SpaprMachineState *spapr, int version_id);
+     void (*reset)(SpaprMachineState *spapr, Error **errp);
+     void (*set_irq)(void *opaque, int srcno, int val);
+-    const char *(*get_nodename)(SpaprMachineState *spapr);
+     void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
+ } SpaprIrq;
+=20
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 691a6d00f7..0b35e85c26 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -29,8 +29,6 @@
+=20
+ #include "hw/ppc/spapr.h"
+=20
+-#define XICS_NODENAME "interrupt-controller"
+-
+ #define TYPE_ICS_SPAPR "ics-spapr"
+ #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
+=20
 --=20
 2.21.0
 
