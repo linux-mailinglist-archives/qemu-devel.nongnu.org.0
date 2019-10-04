@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEFACB8E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:06:46 +0200 (CEST)
-Received: from localhost ([::1]:46268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08FFFCB8EB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:12:15 +0200 (CEST)
+Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGLQ4-0001rX-QO
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44241)
+	id 1iGLV3-0006aW-KV
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iGLB3-0006kD-Rp
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:51:16 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iGKNm-00034Q-LL
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:00:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iGLB2-0004p9-Lf
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:51:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36862)
+ (envelope-from <kwolf@redhat.com>) id 1iGKNk-0007Ae-G1
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:00:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45074)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iGLB2-0004oC-Dv; Fri, 04 Oct 2019 06:51:12 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iGKNd-00077C-Uv; Fri, 04 Oct 2019 06:00:11 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A489D7F747;
- Fri,  4 Oct 2019 10:51:11 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-116-35.ams2.redhat.com [10.36.116.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2AE75D6B2;
- Fri,  4 Oct 2019 10:51:09 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/7] s390x/mmu: Move DAT protection handling out of
- mmu_translate_asce()
-Date: Fri,  4 Oct 2019 12:50:57 +0200
-Message-Id: <20191004105102.15821-3-david@redhat.com>
-In-Reply-To: <20191004105102.15821-1-david@redhat.com>
-References: <20191004105102.15821-1-david@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id C003910576C4;
+ Fri,  4 Oct 2019 10:00:07 +0000 (UTC)
+Received: from linux.fritz.box.com (unknown [10.36.118.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94ED8608A5;
+ Fri,  4 Oct 2019 10:00:06 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL v3 1/4] block/snapshot: Restrict set of snapshot nodes
+Date: Fri,  4 Oct 2019 11:59:56 +0200
+Message-Id: <20191004095959.22891-2-kwolf@redhat.com>
+In-Reply-To: <20191004095959.22891-1-kwolf@redhat.com>
+References: <20191004095959.22891-1-kwolf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Fri, 04 Oct 2019 10:51:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.64]); Fri, 04 Oct 2019 10:00:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -56,114 +55,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll reuse the ilen and tec definitions in mmu_translate
-soon also for all other DAT exceptions we inject. Move it to the caller,
-where we can later pair it up with other protection checks, like IEP.
+Nodes involved in internal snapshots were those that were returned by
+bdrv_next(), inserted and not read-only. bdrv_next() in turn returns all
+nodes that are either the root node of a BlockBackend or monitor-owned
+nodes.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+With the typical -drive use, this worked well enough. However, in the
+typical -blockdev case, the user defines one node per option, making all
+nodes monitor-owned nodes. This includes protocol nodes etc. which often
+are not snapshottable, so "savevm" only returns an error.
+
+Change the conditions so that internal snapshot still include all nodes
+that have a BlockBackend attached (we definitely want to snapshot
+anything attached to a guest device and probably also the built-in NBD
+server; snapshotting block job BlockBackends is more of an accident, but
+a preexisting one), but other monitor-owned nodes are only included if
+they have no parents.
+
+This makes internal snapshots usable again with typical -blockdev
+configurations.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+Tested-by: Peter Krempa <pkrempa@redhat.com>
 ---
- target/s390x/mmu_helper.c | 39 ++++++++++++++++-----------------------
- 1 file changed, 16 insertions(+), 23 deletions(-)
+ block/snapshot.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 6a7ad33c4d..847fb240fb 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -48,20 +48,6 @@ static void trigger_access_exception(CPUS390XState *en=
-v, uint32_t type,
-     }
+diff --git a/block/snapshot.c b/block/snapshot.c
+index f2f48f926a..8081616ae9 100644
+--- a/block/snapshot.c
++++ b/block/snapshot.c
+@@ -31,6 +31,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qemu/option.h"
++#include "sysemu/block-backend.h"
+=20
+ QemuOptsList internal_snapshot_opts =3D {
+     .name =3D "snapshot",
+@@ -384,6 +385,16 @@ int bdrv_snapshot_load_tmp_by_id_or_name(BlockDriver=
+State *bs,
+     return ret;
  }
 =20
--static void trigger_prot_fault(CPUS390XState *env, target_ulong vaddr,
--                               uint64_t asc, int rw, bool exc)
--{
--    uint64_t tec;
--
--    tec =3D vaddr | (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ) | 4 =
-| asc >> 46;
--
--    if (!exc) {
--        return;
--    }
--
--    trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, tec);
--}
--
- static void trigger_page_fault(CPUS390XState *env, target_ulong vaddr,
-                                uint32_t type, uint64_t asc, int rw, bool=
- exc)
- {
-@@ -229,7 +215,6 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
-                               int *flags, int rw, bool exc)
- {
-     int level;
--    int r;
-=20
-     if (asce & ASCE_REAL_SPACE) {
-         /* direct mapping */
-@@ -277,14 +262,8 @@ static int mmu_translate_asce(CPUS390XState *env, ta=
-rget_ulong vaddr,
-         break;
-     }
-=20
--    r =3D mmu_translate_region(env, vaddr, asc, asce, level, raddr, flag=
-s, rw,
--                             exc);
--    if (!r && rw =3D=3D MMU_DATA_STORE && !(*flags & PAGE_WRITE)) {
--        trigger_prot_fault(env, vaddr, asc, rw, exc);
--        return -1;
--    }
--
--    return r;
-+    return mmu_translate_region(env, vaddr, asc, asce, level, raddr, fla=
-gs, rw,
-+                                exc);
- }
-=20
- static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
-@@ -369,6 +348,10 @@ static void mmu_handle_skey(target_ulong addr, int r=
-w, int *flags)
- int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64=
-_t asc,
-                   target_ulong *raddr, int *flags, bool exc)
- {
-+    /* Code accesses have an undefined ilc, let's use 2 bytes. */
-+    const int ilen =3D (rw =3D=3D MMU_INST_FETCH) ? 2 : ILEN_AUTO;
-+    uint64_t tec =3D (vaddr & TARGET_PAGE_MASK) | (asc >> 46) |
-+                   (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ);
-     uint64_t asce;
-     int r;
-=20
-@@ -421,6 +404,16 @@ int mmu_translate(CPUS390XState *env, target_ulong v=
-addr, int rw, uint64_t asc,
-         return r;
-     }
-=20
-+    /* check for DAT protection */
-+    if (unlikely(rw =3D=3D MMU_DATA_STORE && !(*flags & PAGE_WRITE))) {
-+        if (exc) {
-+            /* DAT sets bit 61 only */
-+            tec |=3D 0x4;
-+            trigger_access_exception(env, PGM_PROTECTION, ilen, tec);
-+        }
-+        return -1;
++static bool bdrv_all_snapshots_includes_bs(BlockDriverState *bs)
++{
++    if (!bdrv_is_inserted(bs) || bdrv_is_read_only(bs)) {
++        return false;
 +    }
 +
- nodat:
-     /* Convert real address -> absolute address */
-     *raddr =3D mmu_real2abs(env, *raddr);
++    /* Include all nodes that are either in use by a BlockBackend, or th=
+at
++     * aren't attached to any node, but owned by the monitor. */
++    return bdrv_has_blk(bs) || QLIST_EMPTY(&bs->parents);
++}
+=20
+ /* Group operations. All block drivers are involved.
+  * These functions will properly handle dataplane (take aio_context_acqu=
+ire
+@@ -399,7 +410,7 @@ bool bdrv_all_can_snapshot(BlockDriverState **first_b=
+ad_bs)
+         AioContext *ctx =3D bdrv_get_aio_context(bs);
+=20
+         aio_context_acquire(ctx);
+-        if (bdrv_is_inserted(bs) && !bdrv_is_read_only(bs)) {
++        if (bdrv_all_snapshots_includes_bs(bs)) {
+             ok =3D bdrv_can_snapshot(bs);
+         }
+         aio_context_release(ctx);
+@@ -426,8 +437,9 @@ int bdrv_all_delete_snapshot(const char *name, BlockD=
+riverState **first_bad_bs,
+         AioContext *ctx =3D bdrv_get_aio_context(bs);
+=20
+         aio_context_acquire(ctx);
+-        if (bdrv_can_snapshot(bs) &&
+-                bdrv_snapshot_find(bs, snapshot, name) >=3D 0) {
++        if (bdrv_all_snapshots_includes_bs(bs) &&
++            bdrv_snapshot_find(bs, snapshot, name) >=3D 0)
++        {
+             ret =3D bdrv_snapshot_delete(bs, snapshot->id_str,
+                                        snapshot->name, err);
+         }
+@@ -455,7 +467,7 @@ int bdrv_all_goto_snapshot(const char *name, BlockDri=
+verState **first_bad_bs,
+         AioContext *ctx =3D bdrv_get_aio_context(bs);
+=20
+         aio_context_acquire(ctx);
+-        if (bdrv_can_snapshot(bs)) {
++        if (bdrv_all_snapshots_includes_bs(bs)) {
+             ret =3D bdrv_snapshot_goto(bs, name, errp);
+         }
+         aio_context_release(ctx);
+@@ -481,7 +493,7 @@ int bdrv_all_find_snapshot(const char *name, BlockDri=
+verState **first_bad_bs)
+         AioContext *ctx =3D bdrv_get_aio_context(bs);
+=20
+         aio_context_acquire(ctx);
+-        if (bdrv_can_snapshot(bs)) {
++        if (bdrv_all_snapshots_includes_bs(bs)) {
+             err =3D bdrv_snapshot_find(bs, &sn, name);
+         }
+         aio_context_release(ctx);
+@@ -512,7 +524,7 @@ int bdrv_all_create_snapshot(QEMUSnapshotInfo *sn,
+         if (bs =3D=3D vm_state_bs) {
+             sn->vm_state_size =3D vm_state_size;
+             err =3D bdrv_snapshot_create(bs, sn);
+-        } else if (bdrv_can_snapshot(bs)) {
++        } else if (bdrv_all_snapshots_includes_bs(bs)) {
+             sn->vm_state_size =3D 0;
+             err =3D bdrv_snapshot_create(bs, sn);
+         }
+@@ -538,7 +550,7 @@ BlockDriverState *bdrv_all_find_vmstate_bs(void)
+         bool found;
+=20
+         aio_context_acquire(ctx);
+-        found =3D bdrv_can_snapshot(bs);
++        found =3D bdrv_all_snapshots_includes_bs(bs) && bdrv_can_snapsho=
+t(bs);
+         aio_context_release(ctx);
+=20
+         if (found) {
 --=20
-2.21.0
+2.20.1
 
 
