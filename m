@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2139ACC2EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 20:50:46 +0200 (CEST)
-Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7D6CC321
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 20:57:01 +0200 (CEST)
+Received: from localhost ([::1]:51162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGSf6-0005US-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 14:50:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35606)
+	id 1iGSl9-0001BC-SQ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 14:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iGSXO-0003ZO-Bi
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:42:49 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iGSaS-0005Dw-Gp
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:45:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iGSXM-0002xc-JA
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:42:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46024)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iGSXM-0002u0-BC
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:42:44 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2029710DCC85;
- Fri,  4 Oct 2019 18:42:43 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-121-253.rdu2.redhat.com
- [10.10.121.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2F9819C68;
- Fri,  4 Oct 2019 18:42:32 +0000 (UTC)
-Subject: Re: [PATCH 3/7] tests/libqos/fw_cfg: Document pc_fw_cfg_init to drop
- pc_fw_cfg_uninit
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191003225437.16651-1-philmd@redhat.com>
- <20191003225437.16651-4-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <21230ed6-32dc-0155-2ad3-8ca37ecde6dd@redhat.com>
-Date: Fri, 4 Oct 2019 20:42:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iGSaR-0004Zx-Eh
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 14:45:56 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44745)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iGSaQ-0004Ua-Fd; Fri, 04 Oct 2019 14:45:55 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w6so6602196oie.11;
+ Fri, 04 Oct 2019 11:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k8d1E5mr2/5/aLpC4Q9/O9VsIHNrRvEIdRReSf/BG7o=;
+ b=JoGDbG//2xInBL3c4S7FV9tUIYrq0uREr7D2pgmrRtaRZPrFEbls1IMjf7X1W1DYng
+ JO1VSN35ItTYIkj5ZnFO9QIOGNgz33LPkYjsvxvezrCwCy+508HcxLdwIfahzquahTGX
+ JWf90yGIwUwMiHo9HEffRUXP12rRfW77NrEkszCvySZFLwLnVfhM8TNNM79LjaU7icfn
+ c+8vkr0G9/3Joa4dMJ/WWmX51NYGCRLKWCdChp1wuvreh+n4GnU5/os3bpQa5HI83hIb
+ VeSXoPV2pZy7zHyYOLu1beGwMfPPWW5ydhBBBd+0p/eUjA2IZASmITjxlokRwwbU6xCu
+ Z2ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k8d1E5mr2/5/aLpC4Q9/O9VsIHNrRvEIdRReSf/BG7o=;
+ b=Dz61E226rSR7d/kAeSnc0esIq12xqrec3DhOfqgGLQuzNVa1kAIMRQU2h+XLPh7hsU
+ 5P03jmN2jyVxOiLr2P2AAq9CEmYUuELLDOi15POZkz+8skLTRrgfkvQZf/vwfHyuLWhW
+ fPdqSDB34OVfUkzqLD2xDOl8RY9wLiQ8mwms0MvxtQkkAIvAfmtyiC3yyCV3rMVyPSVQ
+ mlcpqCaehdN/DtmOLJyObXpHFLXgajmyS9r7+tu4v24p6145q0R0yEkX0CnbBjhQG2OJ
+ UD6TokVwkAYWKfYVNEt+hPddfDtl/2WJ+5IrFLyTnOuSvTpkZYT/0BHTq1Myfp/b7zOq
+ 3t2g==
+X-Gm-Message-State: APjAAAU2l7RW98Vvd20P59TtrDt/ieI1ikG0ZnqBNMMzA+KdksPqEC6l
+ T6qbchdD5r2tCFwX6ANEEZnNR0EfwZEyszO+g7w=
+X-Google-Smtp-Source: APXvYqzzNRWyMZBoQ3SsxgB98/hh3mUptlqwsyyneQ/Qw02SDHpWMpobwzp+d4h79Tug1auA+iCctIO2oGvAKn82NXQ=
+X-Received: by 2002:aca:f002:: with SMTP id o2mr8444266oih.62.1570214744577;
+ Fri, 04 Oct 2019 11:45:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191003225437.16651-4-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 04 Oct 2019 18:42:43 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <1570196639-7025-1-git-send-email-stefan.brankovic@rt-rk.com>
+ <1570196639-7025-2-git-send-email-stefan.brankovic@rt-rk.com>
+In-Reply-To: <1570196639-7025-2-git-send-email-stefan.brankovic@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 4 Oct 2019 20:45:33 +0200
+Message-ID: <CAL1e-=ih85afhTMGU8ig9GhXWFGNc3zL95L1mgxeujmWO56O-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] target/ppc: Fix for optimized vsl/vsr instructions
+To: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,179 +71,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: richard.hendreson@linaro.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:ppc4xx" <qemu-ppc@nongnu.org>, "Paul A. Clarke" <pc@us.ibm.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/04/19 00:54, Philippe Mathieu-Daud=C3=A9 wrote:
-> Document pc_fw_cfg_init() return value must be released
-> with g_free(). Directly calling g_free() we don't really
-> need pc_fw_cfg_uninit(): remove it.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/fw_cfg-test.c      | 22 +++++++++++-----------
->  tests/libqos/fw_cfg.h    | 14 +++++++++-----
->  tests/libqos/malloc-pc.c |  2 +-
->  3 files changed, 21 insertions(+), 17 deletions(-)
->=20
-> diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
-> index 1d3147f821..53ae82f7c8 100644
-> --- a/tests/fw_cfg-test.c
-> +++ b/tests/fw_cfg-test.c
-> @@ -36,7 +36,7 @@ static void test_fw_cfg_signature(void)
->      buf[4] =3D 0;
-> =20
->      g_assert_cmpstr(buf, =3D=3D, "QEMU");
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -52,7 +52,7 @@ static void test_fw_cfg_id(void)
->      id =3D qfw_cfg_get_u32(fw_cfg, FW_CFG_ID);
->      g_assert((id =3D=3D 1) ||
->               (id =3D=3D 3));
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -73,7 +73,7 @@ static void test_fw_cfg_uuid(void)
->      qfw_cfg_get(fw_cfg, FW_CFG_UUID, buf, 16);
->      g_assert(memcmp(buf, uuid, sizeof(buf)) =3D=3D 0);
-> =20
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
-> =20
->  }
-> @@ -88,7 +88,7 @@ static void test_fw_cfg_ram_size(void)
-> =20
->      g_assert_cmpint(qfw_cfg_get_u64(fw_cfg, FW_CFG_RAM_SIZE), =3D=3D, =
-ram_size);
-> =20
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -102,7 +102,7 @@ static void test_fw_cfg_nographic(void)
-> =20
->      g_assert_cmpint(qfw_cfg_get_u16(fw_cfg, FW_CFG_NOGRAPHIC), =3D=3D,=
- 0);
-> =20
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -116,7 +116,7 @@ static void test_fw_cfg_nb_cpus(void)
-> =20
->      g_assert_cmpint(qfw_cfg_get_u16(fw_cfg, FW_CFG_NB_CPUS), =3D=3D, n=
-b_cpus);
-> =20
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -129,7 +129,7 @@ static void test_fw_cfg_max_cpus(void)
->      fw_cfg =3D pc_fw_cfg_init(s);
-> =20
->      g_assert_cmpint(qfw_cfg_get_u16(fw_cfg, FW_CFG_MAX_CPUS), =3D=3D, =
-max_cpus);
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -158,7 +158,7 @@ static void test_fw_cfg_numa(void)
-> =20
->      g_free(node_mask);
->      g_free(cpu_mask);
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -171,7 +171,7 @@ static void test_fw_cfg_boot_menu(void)
->      fw_cfg =3D pc_fw_cfg_init(s);
-> =20
->      g_assert_cmpint(qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_MENU), =3D=3D,=
- boot_menu);
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -190,7 +190,7 @@ static void test_fw_cfg_reboot_timeout(void)
->      g_assert_cmpint(filesize, =3D=3D, sizeof(reboot_timeout));
->      reboot_timeout =3D le32_to_cpu(reboot_timeout);
->      g_assert_cmpint(reboot_timeout, =3D=3D, 15);
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> @@ -209,7 +209,7 @@ static void test_fw_cfg_splash_time(void)
->      g_assert_cmpint(filesize, =3D=3D, sizeof(splash_time));
->      splash_time =3D le16_to_cpu(splash_time);
->      g_assert_cmpint(splash_time, =3D=3D, 12);
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->      qtest_quit(s);
->  }
-> =20
-> diff --git a/tests/libqos/fw_cfg.h b/tests/libqos/fw_cfg.h
-> index 3247fd4000..6316f4c354 100644
-> --- a/tests/libqos/fw_cfg.h
-> +++ b/tests/libqos/fw_cfg.h
-> @@ -54,14 +54,18 @@ QFWCFG *mm_fw_cfg_init(QTestState *qts, uint64_t ba=
-se);
->   */
->  QFWCFG *io_fw_cfg_init(QTestState *qts, uint16_t base);
-> =20
-> +/**
-> + * pc_fw_cfg_init():
-> + * @qts: The #QTestState that will be referred to by the QFWCFG object=
-.
-> + *
-> + * This function is specific to the PC machine (X86).
-> + *
-> + * Returns a newly allocated QFWCFG object which must be released
-> + * with a call to g_free() when no longer required.
-> + */
->  static inline QFWCFG *pc_fw_cfg_init(QTestState *qts)
->  {
->      return io_fw_cfg_init(qts, 0x510);
->  }
-> =20
-> -static inline void pc_fw_cfg_uninit(QFWCFG *fw_cfg)
-> -{
-> -    g_free(fw_cfg);
-> -}
-> -
->  #endif
-> diff --git a/tests/libqos/malloc-pc.c b/tests/libqos/malloc-pc.c
-> index 6f92ce4135..949a99361d 100644
-> --- a/tests/libqos/malloc-pc.c
-> +++ b/tests/libqos/malloc-pc.c
-> @@ -29,5 +29,5 @@ void pc_alloc_init(QGuestAllocator *s, QTestState *qt=
-s, QAllocOpts flags)
->      alloc_init(s, flags, 1 << 20, MIN(ram_size, 0xE0000000), PAGE_SIZE=
-);
-> =20
->      /* clean-up */
-> -    pc_fw_cfg_uninit(fw_cfg);
-> +    g_free(fw_cfg);
->  }
->=20
+> Reported-by: Paul Clark <pc@us.ibm.com>
 
-I'm getting the impression we're trying to remove "PC" (x86) references
-from the cleanup action :)
+Stefan,
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Paul's full name is Paul A. Clarke.
+
+Thanks for the fix!
+
+Aleksandar
 
