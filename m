@@ -2,53 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB83CB762
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:32:55 +0200 (CEST)
-Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7002ECB78C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:44:36 +0200 (CEST)
+Received: from localhost ([::1]:43808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGJxG-0003QC-IQ
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51083)
+	id 1iGK8Y-0002ae-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iGJvx-0002za-OC
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:31:34 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2C-0004oz-Id
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iGJvv-0008VV-8O
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:31:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39984)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2B-0004ym-3A
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:00 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60137 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iGJvv-0008VG-2I
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:31:31 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 86BAA898113;
- Fri,  4 Oct 2019 09:31:29 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50FC65D9E1;
- Fri,  4 Oct 2019 09:31:26 +0000 (UTC)
-Date: Fri, 4 Oct 2019 10:31:24 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: more automated/public CI for QEMU pullreqs
-Message-ID: <20191004093124.GH505@stefanha-x1.localdomain>
-References: <CAFEAcA8kEKVcRu62+VGDkzRj2J87QPxzjg05dCHszeBC6X76pg@mail.gmail.com>
- <20190822104957.GE20491@stefanha-x1.localdomain>
- <CAFEAcA_FLN=bpBr4RriqAOS9e2v2bkv2Wnqwm9Rwcm4oX2PteQ@mail.gmail.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iGK2A-0004vd-LH; Fri, 04 Oct 2019 05:37:59 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46l4YD5wFQz9sQn; Fri,  4 Oct 2019 19:37:52 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570181872;
+ bh=9sNrV3fIK79qRSsFHVhpf0yb3OOfexGJVF5ay8gwKVs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HVwtaO6AsAGq3wjKM6vh15uE9tlnBGC/ho3UVQ9aggoqqswJbrgRYR66RDpFVnAfk
+ zLUc1ZjLa5JntR6Wr2eJ13upJc35RSYAd475TzyjyZQ1TvODEliDQdC7jqPSe20LDV
+ 8t4Wn05AzG7fMc2VGlUPuS2A54lDqmXRfLZoVRwo=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/53] ppc-for-4.2 queue 20191004
+Date: Fri,  4 Oct 2019 19:36:54 +1000
+Message-Id: <20191004093747.31350-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xQmOcGOVkeO43v2v"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_FLN=bpBr4RriqAOS9e2v2bkv2Wnqwm9Rwcm4oX2PteQ@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 04 Oct 2019 09:31:30 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,77 +52,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 4f59102571fce49af180cfc6d4cdd2b5df7bdb=
+14:
 
---xQmOcGOVkeO43v2v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-oct-01-=
+2019' into staging (2019-10-01 16:21:42 +0100)
 
-On Mon, Sep 30, 2019 at 01:53:16PM +0100, Peter Maydell wrote:
-> On Thu, 22 Aug 2019 at 11:50, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > Thanks for writing up this summary!  The requirements and possible
-> > solutions are now clear.
-> >
-> > We need someone willing to set up and maintain the CI.
-> >
-> > One-off tasks:
-> >
-> > 1. Create CI runners that offer similar cross-architecture coverage to
-> >    Peter's current setup.  qemu.org has some x86, ppc, and s390 server
-> >    resources available.  I'm not sure about ARM and other architectures.
-> >
-> > 2. Write CI configuration to run Peter's "make && make check && make
-> >    check-tcg && linux-user-test".
-> >
-> > 3. Document the CI on wiki.qemu.org.
-> >
-> > Ongoing responsibilities:
-> >
-> > 1. Triage failures that the qemu.git maintainer thinks are related to CI
-> >    runners.
-> >
-> > 2. Keep the CI up-to-date and runners online.
-> >
-> > Any volunteers?
->=20
-> I see this call for volunteers didn't attract any offers :-/
->=20
-> Thread consensus seems to be toward using gitlab CI -- assuming
-> we can hand-build the gitlab runner for the architectures
-> we need without having to block on gitlab fixing their weird
-> "build for all architectures at once" packaging ?
+are available in the Git repository at:
 
-Let's tackle the issue of CI at KVM Forum.  The main issue is to get
-people.
+  git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191004
 
-I will talk to colleagues beforehand to see if anyone is available for
-this role.
+for you to fetch changes up to 1aba8716c8335e88b8c358002a6e1ac89f7dd258:
 
-Stefan
+  ppc/pnv: Remove the XICSFabric Interface from the POWER9 machine (2019-=
+10-04 19:08:23 +1000)
 
---xQmOcGOVkeO43v2v
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+ppc patch queue 2019-10-04
 
------BEGIN PGP SIGNATURE-----
+Here's the next batch of ppc and spapr patches.  Includes:
+  * Fist part of a large cleanup to irq infrastructure
+  * Recreate the full FDT at CAS time, instead of making a difficult
+    to follow set of updates.  This will help us move towards
+    eliminating CAS reboots altogether
+  * No longer provide RTAS blob to SLOF - SLOF can include it just as
+    well itself, since guests will generally need to relocate it with
+    a call to instantiate-rtas
+  * A number of DFP fixes and cleanups from Mark Cave-Ayland
+  * Assorted bugfixes
+  * Several new small devices for powernv
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2XEWwACgkQnKSrs4Gr
-c8hpbQf+Oqo7JOa9OzTvt7h0TSSt5r8IwhnT/G50J4KkBjo85Ct9hnytCnprFXV2
-K/YMlnlE/vKfvPBSeB2VdGeWEdGQ8XpVtykFuA62TTX2sUbTpEWxhUzJdrPlB6YB
-yxw3/UYEWxEDl8R9+lNlLfTukGJgsytZK0m9pGK87zsBoEuLmd4dWYlYItyzfY6t
-GnHINvRc+tncd+d+dgPo0p96YhdBF4g6Jt3zxNeHPDYOWE7Bv5+7fT7BlOORwoNz
-z1RkM2WD7glcDSHZfWU+GZaakxfryecQNeaq0sCuLageoruTpzNIyUR+gfHZje64
-FW7ZOG4/6cohl3T+uBa0Y4ecaq832A==
-=FERy
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Alexey Kardashevskiy (8):
+      ppc/kvm: Skip writing DPDES back when in run time state
+      spapr: Fixes a leak in CAS
+      spapr: Skip leading zeroes from memory@ DT node names
+      spapr: Do not put empty properties for -kernel/-initrd/-append
+      spapr: Stop providing RTAS blob
+      pseries: Update SLOF firmware image
+      spapr-pci: Stop providing assigned-addresses
+      spapr: Render full FDT on ibm,client-architecture-support
 
---xQmOcGOVkeO43v2v--
+Balamuruhan S (4):
+      hw/ppc/pnv: fix checkpatch.pl coding style warnings
+      hw/ppc/pnv_xscom: retrieve homer/occ base address from PBA BARs
+      hw/ppc/pnv_occ: add sram device model for occ common area
+      hw/ppc/pnv_homer: add PowerNV homer device model
+
+C=C3=A9dric Le Goater (5):
+      ppc/pnv: fix "bmc" node name in DT
+      spapr/irq: Introduce an ics_irq_free() helper
+      spapr/irq: Only claim VALID interrupts at the KVM level
+      spapr/xive: skip partially initialized vCPUs in presenter
+      ppc/pnv: Remove the XICSFabric Interface from the POWER9 machine
+
+David Gibson (22):
+      spapr: Simplify handling of pre ISA 3.0 guest workaround handling
+      spapr: Move handling of special NVLink numa node from reset to init
+      xics: Minor fixes for XICSFabric interface
+      xics: Eliminate 'reject', 'resend' and 'eoi' class hooks
+      xics: Rename misleading ics_simple_*() functions
+      xics: Eliminate reset hook
+      xics: Merge TYPE_ICS_BASE and TYPE_ICS_SIMPLE classes
+      xics: Create sPAPR specific ICS subtype
+      spapr: Fold spapr_phb_lsi_qirq() into its single caller
+      spapr: Replace spapr_vio_qirq() helper with spapr_vio_irq_pulse() h=
+elper
+      spapr: Clarify and fix handling of nr_irqs
+      spapr: Eliminate nr_irqs parameter to SpaprIrq::init
+      spapr: Fix indexing of XICS irqs
+      spapr: Simplify spapr_qirq() handling
+      spapr: Eliminate SpaprIrq:get_nodename method
+      spapr: Remove unhelpful tracepoints from spapr_irq_free_xics()
+      spapr: Handle freeing of multiple irqs in frontend only
+      spapr, xics, xive: Better use of assert()s on irq claim/free paths
+      xive: Improve irq claim/free path
+      spapr: Use less cryptic representation of which irq backends are su=
+pported
+      spapr: Add return value to spapr_irq_check()
+      spapr: Eliminate SpaprIrq::init hook
+
+Greg Kurz (2):
+      spapr-tpm-proxy: Drop misleading check
+      spapr: Report kvm_irqchip_in_kernel() in 'info pic'
+
+Laurent Vivier (1):
+      pseries: do not allow memory-less/cpu-less NUMA node
+
+Mark Cave-Ayland (8):
+      target/ppc: introduce get_dfp{64,128}() helper functions
+      target/ppc: introduce set_dfp{64,128}() helper functions
+      target/ppc: update {get,set}_dfp{64,128}() helper functions to read=
+/write DFP numbers correctly
+      target/ppc: introduce dfp_finalize_decimal{64,128}() helper functio=
+ns
+      target/ppc: change struct PPC_DFP decimal storage from uint64[2] to=
+ ppc_vsr_t
+      target/ppc: use existing VsrD() macro to eliminate HI_IDX and LO_ID=
+X from dfp_helper.c
+      target/ppc: remove unnecessary if() around calls to set_dfp{64,128}=
+() in DFP macros
+      target/ppc: use Vsr macros in BCD helpers
+
+Paul A. Clarke (3):
+      ppc: Add support for 'mffscrn','mffscrni' instructions
+      ppc: Add support for 'mffsce' instruction
+      ppc: Use FPSCR defines instead of constants
+
+ MAINTAINERS                        |   2 -
+ Makefile                           |   2 +-
+ configure                          |   6 +-
+ hw/char/spapr_vty.c                |   3 +-
+ hw/intc/spapr_xive.c               |  26 +--
+ hw/intc/spapr_xive_kvm.c           |  48 ++++-
+ hw/intc/trace-events               |  10 +-
+ hw/intc/xics.c                     | 210 +++++++-------------
+ hw/intc/xics_kvm.c                 |   8 +
+ hw/intc/xics_spapr.c               |  48 ++++-
+ hw/intc/xive.c                     |   8 +
+ hw/net/spapr_llan.c                |   3 +-
+ hw/ppc/Makefile.objs               |   1 +
+ hw/ppc/pnv.c                       | 118 +++++++----
+ hw/ppc/pnv_bmc.c                   |   5 +-
+ hw/ppc/pnv_homer.c                 | 272 +++++++++++++++++++++++++
+ hw/ppc/pnv_occ.c                   |  78 ++++++++
+ hw/ppc/pnv_psi.c                   |   6 +-
+ hw/ppc/pnv_xscom.c                 |  34 +++-
+ hw/ppc/spapr.c                     | 219 ++++++++-------------
+ hw/ppc/spapr_hcall.c               |   9 +-
+ hw/ppc/spapr_irq.c                 | 345 +++++++++++++------------------=
+-
+ hw/ppc/spapr_pci.c                 |  45 +----
+ hw/ppc/spapr_rtas.c                |  41 ----
+ hw/ppc/spapr_tpm_proxy.c           |   2 +-
+ hw/ppc/spapr_vio.c                 |   3 +-
+ hw/ppc/trace-events                |   4 -
+ include/hw/pci-host/spapr.h        |   7 -
+ include/hw/ppc/pnv.h               |  21 ++
+ include/hw/ppc/pnv_homer.h         |  53 +++++
+ include/hw/ppc/pnv_occ.h           |   3 +
+ include/hw/ppc/spapr.h             |   4 +-
+ include/hw/ppc/spapr_irq.h         |  27 +--
+ include/hw/ppc/spapr_vio.h         |   5 +-
+ include/hw/ppc/spapr_xive.h        |   4 +-
+ include/hw/ppc/xics.h              |  38 ++--
+ include/hw/ppc/xics_spapr.h        |   4 +-
+ include/hw/ppc/xive.h              |   2 +-
+ pc-bios/README                     |   2 +-
+ pc-bios/slof.bin                   | Bin 930656 -> 930640 bytes
+ pc-bios/spapr-rtas.bin             | Bin 20 -> 0 bytes
+ pc-bios/spapr-rtas/Makefile        |  27 ---
+ pc-bios/spapr-rtas/spapr-rtas.S    |  37 ----
+ roms/SLOF                          |   2 +-
+ target/ppc/cpu.h                   |  10 +-
+ target/ppc/dfp_helper.c            | 394 ++++++++++++++++++-------------=
+------
+ target/ppc/fpu_helper.c            | 122 ++++++------
+ target/ppc/helper.h                |   2 +-
+ target/ppc/int_helper.c            |  72 +++----
+ target/ppc/internal.h              |   3 +
+ target/ppc/kvm.c                   |   5 +
+ target/ppc/translate/fp-impl.inc.c |  99 +++++++++-
+ target/ppc/translate/fp-ops.inc.c  |   6 +
+ target/ppc/translate_init.inc.c    |   9 +-
+ 54 files changed, 1421 insertions(+), 1093 deletions(-)
+ create mode 100644 hw/ppc/pnv_homer.c
+ create mode 100644 include/hw/ppc/pnv_homer.h
+ delete mode 100644 pc-bios/spapr-rtas.bin
+ delete mode 100644 pc-bios/spapr-rtas/Makefile
+ delete mode 100644 pc-bios/spapr-rtas/spapr-rtas.S
 
