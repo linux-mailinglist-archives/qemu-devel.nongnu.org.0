@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E7ECC36D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 21:12:04 +0200 (CEST)
-Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7152ECC375
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 21:14:45 +0200 (CEST)
+Received: from localhost ([::1]:51426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGSzj-00032q-Mx
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 15:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38881)
+	id 1iGT2K-0004md-FR
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 15:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iGSyZ-0002VX-GV
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:10:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iGSyp-0002dU-00
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iGSyX-0000NB-Ox
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:10:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41558)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iGSyX-0000Mb-Ix
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:10:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iGSyV-0007wK-2d
- for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 19:10:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0B2612E80C8
- for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 19:10:47 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iGSyn-0000WQ-3h
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:11:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57468)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iGSyi-0000T0-AC; Fri, 04 Oct 2019 15:11:00 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8545688FFF7;
+ Fri,  4 Oct 2019 19:10:58 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-31.brq.redhat.com
+ [10.40.204.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 658C05D9DC;
+ Fri,  4 Oct 2019 19:10:54 +0000 (UTC)
+Subject: Re: [PATCH v2 00/11] RFC crypto/luks: encryption key managment using
+ amend interface
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <fb2cd2e0-2718-215f-d6af-59b64b229b4f@redhat.com>
+Date: Fri, 4 Oct 2019 21:10:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 04 Oct 2019 18:56:05 -0000
-From: Leonardo <1846816@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: aix
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: leohori
-X-Launchpad-Bug-Reporter: Leonardo (leohori)
-X-Launchpad-Bug-Modifier: Leonardo (leohori)
-Message-Id: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1846816] [NEW] Booting error on AIX 6.1 "Illegal Trap
- Instruction Interrupt in Kernel""
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0da163d7d94c823fa5a1c75e33ce1e57542fa6f0
+In-Reply-To: <20190912223028.18496-1-mlevitsk@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="qV2i7o8QLouIVRpdPWmJQBmdkrnV0vfFU"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 04 Oct 2019 19:10:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,283 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--qV2i7o8QLouIVRpdPWmJQBmdkrnV0vfFU
+Content-Type: multipart/mixed; boundary="YmrJOB98JEuByGlowhXXS3aUvxMubCzS1"
 
-# ls -ltr
-total 8750584
--rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
--rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
--rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
--rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
+--YmrJOB98JEuByGlowhXXS3aUvxMubCzS1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-# qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 -s=
-erial mon:stdio \
-> -drive file=3D/qemu/BST/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
-> -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-di=
-sk0 \
-> -cdrom /qemu/BST/AIX.vol1.iso \
-> -prom-env boot-command=3D'boot cdrom: -s verbose'
+On 13.09.19 00:30, Maxim Levitsky wrote:
+> This patch series is continuation of my work to add encryption
+> key managment to luks/qcow2 with luks.
+>=20
+> This is second version of this patch set.
+> The changes are mostly addressing the review feedback,
+> plus I tested (and fixed sadly) the somewhat ugly code
+> that allows to still write share a raw luks device,
+> while preveting the key managment from happening in this case,
+> as it is unsafe.
+> I added a new iotest dedicated to that as well.
+>=20
+> Best regards,
+> 	Maxim Levitsky
 
+At least for an RFC looks good from my perspective.  I didn=E2=80=99t loo=
+k at
+the crypto things very closely (assuming Dan would do so), and I didn=E2=80=
+=99t
+check the iotests in detail.  (But it definitely doesn=E2=80=99t look lik=
+e they
+lack in breadth.  Maybe I=E2=80=99d like to see a test that you cannot ha=
+ve
+other useful nodes attached to the LUKS or qcow2 node while the
+amendment process is ongoing (because CONSISTENT_READ is unshared).  But
+that=E2=80=99s the only thing I can think of.)
 
-VNC server running on ::1:5900
-qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ibs=
-=3Dworkaround
-
-
-SLOF **********************************************************************
-QEMU Starting
- Build Date =3D Jul  3 2019 12:26:14
- FW Version =3D git-ba1ab360eebe6338
- Press "s" to enter Open Firmware.
-
-Populating /vdevice methods
-Populating /vdevice/vty@71000000
-Populating /vdevice/nvram@71000001
-Populating /vdevice/l-lan@71000002
-Populating /vdevice/v-scsi@71000003
-       SCSI: Looking for devices
-          8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
-Populating /pci@800000020000000
-                     00 0000 (D) : 1234 1111    qemu vga
-                     00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
-                     00 1000 (D) : 1af4 1004    virtio [ scsi ]
-Populating /pci@800000020000000/scsi@2
-       SCSI: Looking for devices
-          100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
-Installing QEMU fb
+Max
 
 
-Scanning USB
-  XHCI: Initializing
-    USB Keyboard
-    USB mouse
-No console specified using screen & keyboard
+--YmrJOB98JEuByGlowhXXS3aUvxMubCzS1--
 
-  Welcome to Open Firmware
+--qV2i7o8QLouIVRpdPWmJQBmdkrnV0vfFU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
-  This program and the accompanying materials are made available
-  under the terms of the BSD License available at
-  http://www.opensource.org/licenses/bsd-license.php
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2XmTwACgkQ9AfbAGHV
+z0AF3ggAnqEAGmWF1hxpLdPnV4GeNYqGL85NNhh+q+rE5UDPxBXHH70qjxxzll32
+1GlFMUTMev4UJkh4hmdXZrJV02Hoj4QUk++6whKdyIKY1jj7dENXl8lyOh7TaWb7
+u/xPsPA1fE2Q660P54oLq9l5gQyR1n9Z81EBFTe+p0GaXUSoiptu1CXJHB7HFzPJ
+2rezhnRXyfvRfZ68TA6eY0cpM/jOczsWzjor9EzDIF8vxI0P3R+6ePo5x/B2pgMB
+xSBaZqSksPOQyysCixVSCXskjFbBvBhdWxgIAMHegMMu/gFVJJUsGMrq7guOuUYJ
+a+ITgWMBBlPTh9utq86qIlObsEDVTg==
+=/U3q
+-----END PGP SIGNATURE-----
 
-Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@820000000000=
-0000: ...   Successfully loaded
-qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
-AIX
-StarLED{814}
-
-AIX Version 6.1
-exec(/etc/init){1,0}
-
-INIT: EXECUTING /sbin/rc.boot 1
-exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
-exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
-+ PHASE=3D1
-+ + bootinfo -p
-exec(/usr/sbin/bootinfo,-p){1179684,1114146}
-PLATFORM=3Dchrp
-+ [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
-+ [ 1 -eq 1 ]
-+ 1> /usr/lib/libc.a
-+ init -c unlink /usr/lib/boot/bin/!(*_chrp)
-exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
-+ chramfs -t
-exec(/usr/sbin/chramfs,-t){1179688,1114146}
-+ init -c unlink /usr/sbin/chramfs
-+ 1> /dev/null
-exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
-+ + bootinfo -t
-exec(/usr/sbin/bootinfo,-t){1179692,1114146}
-BOOTYPE=3D3
-+ [ 0 -ne 0 ]
-+ [ -z 3 ]
-+ unset pdev_to_ldev undolt native_netboot_cfg
-+ unset disknet_odm_init config_ATM
-+ /usr/lib/methods/showled 0x510 DEV CFG 1 START
-exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
-+ cfgmgr -f -v
-exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
-cfgmgr is running in phase 1
-----------------
-Time: 0 LEDS: 0x538
-Invoking top level program -- "/etc/methods/defsys"
-exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
-exec(/etc/methods/defsys){1245222,1179696}
-exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){131=
-0760,1245222}
-exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,124522=
-2}
-Time: 0 LEDS: 0x539
-Return code =3D 0
-***** stdout *****
-sys0
-
-*** no stderr ****
-----------------
-Attempting to configure device 'sys0'
-Time: 0 LEDS: 0x811
-Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
-exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
-Number of running methods: 1
-exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
-LED{A20}
-Illegal Trap Instruction Interrupt in Kernel
-04151A74      tweqi    r0,0                r0=3D0
-KDB(0)>
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: aix
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1846816
-
-Title:
-  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
-  Kernel""
-
-Status in QEMU:
-  New
-
-Bug description:
-  # ls -ltr
-  total 8750584
-  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
-  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
-  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
-  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
-
-  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
--serial mon:stdio \
-  > -drive file=3D/qemu/BST/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
-  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
-disk0 \
-  > -cdrom /qemu/BST/AIX.vol1.iso \
-  > -prom-env boot-command=3D'boot cdrom: -s verbose'
-
-  =
-
-  VNC server running on ::1:5900
-  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
-s=3Dworkaround
-
-  =
-
-  SLOF ********************************************************************=
-**
-  QEMU Starting
-   Build Date =3D Jul  3 2019 12:26:14
-   FW Version =3D git-ba1ab360eebe6338
-   Press "s" to enter Open Firmware.
-
-  Populating /vdevice methods
-  Populating /vdevice/vty@71000000
-  Populating /vdevice/nvram@71000001
-  Populating /vdevice/l-lan@71000002
-  Populating /vdevice/v-scsi@71000003
-         SCSI: Looking for devices
-            8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
-  Populating /pci@800000020000000
-                       00 0000 (D) : 1234 1111    qemu vga
-                       00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
-                       00 1000 (D) : 1af4 1004    virtio [ scsi ]
-  Populating /pci@800000020000000/scsi@2
-         SCSI: Looking for devices
-            100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
-  Installing QEMU fb
-
-
-  Scanning USB
-    XHCI: Initializing
-      USB Keyboard
-      USB mouse
-  No console specified using screen & keyboard
-
-    Welcome to Open Firmware
-
-    Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
-    This program and the accompanying materials are made available
-    under the terms of the BSD License available at
-    http://www.opensource.org/licenses/bsd-license.php
-
-  =
-
-  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
-000000: ...   Successfully loaded
-  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
-  AIX
-  StarLED{814}
-
-  AIX Version 6.1
-  exec(/etc/init){1,0}
-
-  INIT: EXECUTING /sbin/rc.boot 1
-  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
-  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
-  + PHASE=3D1
-  + + bootinfo -p
-  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
-  PLATFORM=3Dchrp
-  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
-  + [ 1 -eq 1 ]
-  + 1> /usr/lib/libc.a
-  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
-  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
-  + chramfs -t
-  exec(/usr/sbin/chramfs,-t){1179688,1114146}
-  + init -c unlink /usr/sbin/chramfs
-  + 1> /dev/null
-  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
-  + + bootinfo -t
-  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
-  BOOTYPE=3D3
-  + [ 0 -ne 0 ]
-  + [ -z 3 ]
-  + unset pdev_to_ldev undolt native_netboot_cfg
-  + unset disknet_odm_init config_ATM
-  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
-  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
-  + cfgmgr -f -v
-  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
-  cfgmgr is running in phase 1
-  ----------------
-  Time: 0 LEDS: 0x538
-  Invoking top level program -- "/etc/methods/defsys"
-  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
-  exec(/etc/methods/defsys){1245222,1179696}
-  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
-310760,1245222}
-  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
-222}
-  Time: 0 LEDS: 0x539
-  Return code =3D 0
-  ***** stdout *****
-  sys0
-
-  *** no stderr ****
-  ----------------
-  Attempting to configure device 'sys0'
-  Time: 0 LEDS: 0x811
-  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
-  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
-  Number of running methods: 1
-  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
-  LED{A20}
-  Illegal Trap Instruction Interrupt in Kernel
-  04151A74      tweqi    r0,0                r0=3D0
-  KDB(0)>
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
+--qV2i7o8QLouIVRpdPWmJQBmdkrnV0vfFU--
 
