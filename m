@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E5BCB7D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:03:01 +0200 (CEST)
-Received: from localhost ([::1]:44076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B81CB7DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:06:19 +0200 (CEST)
+Received: from localhost ([::1]:44380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKQN-0003Zo-Mc
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
+	id 1iGKTZ-0006bO-7P
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2N-00050i-53
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:14 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2L-0004yY-Q7
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2K-00058X-1n
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:10 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54241 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2K-00058c-2M
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:09 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:57501 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK2J-00053W-AE; Fri, 04 Oct 2019 05:38:07 -0400
+ id 1iGK2J-00053e-IC; Fri, 04 Oct 2019 05:38:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YH0Dslz9sRK; Fri,  4 Oct 2019 19:37:54 +1000 (AEST)
+ id 46l4YH10r8z9sRN; Fri,  4 Oct 2019 19:37:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570181875;
- bh=gr7vPnuA1NJ1hxsfVcagFCp3lPVblQHfA6cCICX5aQU=;
+ bh=iAhEVGL4zAQy2b2SNPtrcxo6ut1E3Y9YBbav2lZpwHI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fQhEP80eE8aAy967Oh8xd83P5Zf798S90TyHjhP3c5Ajlb2Lfz5WE1ZwlOCv95n11
- 264ZB6u07gqUTPAUSKscrUWWnI+6woSI9KJe06rpi2obJlg88rPdtY/8LCZhz2pKJi
- xYeGPUK5GSmWNCHHZ2cpkY3LhAmUiDvGk1f2mkyw=
+ b=gssjBKUaWnrzjI/gfqL3c5MBQ8ZJNX6jkDE+yu2cOjMx18SgvmnFC8dcx0XwR8a6u
+ A/Wki09ME6vTwPd5rfasDKLOBFc1hNO1K5f2uXPcCf4O+kvJbB/ZvFQm9QSZOcudJs
+ tFVwUQn/+w93rkQawR8HgyBNRO2/hwcPskLRMDMA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/53] ppc: Use FPSCR defines instead of constants
-Date: Fri,  4 Oct 2019 19:37:07 +1000
-Message-Id: <20191004093747.31350-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/53] ppc/kvm: Skip writing DPDES back when in run time state
+Date: Fri,  4 Oct 2019 19:37:08 +1000
+Message-Id: <20191004093747.31350-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
@@ -53,495 +53,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>, "Paul A. Clarke" <pc@us.ibm.com>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Paul A. Clarke" <pc@us.ibm.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-There are FPSCR-related defines in target/ppc/cpu.h which can be used in
-place of constants and explicit shifts which arguably improve the code a
-bit in places.
+On POWER8 systems the Directed Privileged Door-bell Exception State
+register (DPDES) stores doorbell pending status, one bit per a thread
+of a core, set by "msgsndp" instruction. The register is shared among
+threads of the same core and KVM on POWER9 emulates it in a similar way
+(POWER9 does not have DPDES).
 
-Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
-Message-Id: <1568817169-1721-1-git-send-email-pc@us.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+DPDES is shared but QEMU assumes all SPRs are per thread so the only safe
+way to write DPDES back to VCPU before running a guest is doing so
+while all threads are pulled out of the guest so DPDES cannot change.
+There is only one situation when this condition is met: incoming migratio=
+n
+when all threads are stopped. Otherwise any QEMU HMP/QMP command causing
+kvm_arch_put_registers() (for example printing registers or dumping memor=
+y)
+can clobber DPDES in a race with other vcpu threads.
+
+This changes DPDES handling so it is not written to KVM at runtime.
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20190923084110.34643-1-aik@ozlabs.ru>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/dfp_helper.c |   8 +--
- target/ppc/fpu_helper.c | 122 ++++++++++++++++++++--------------------
- 2 files changed, 65 insertions(+), 65 deletions(-)
+ target/ppc/kvm.c                | 5 +++++
+ target/ppc/translate_init.inc.c | 9 ++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index da8e08a35c..753399177c 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -220,8 +220,8 @@ static void dfp_set_FPRF_from_FRT_with_context(struct=
- PPC_DFP *dfp,
-     default:
-         assert(0); /* should never get here */
-     }
--    dfp->env->fpscr &=3D ~(0x1F << 12);
--    dfp->env->fpscr |=3D (fprf << 12);
-+    dfp->env->fpscr &=3D ~FP_FPRF;
-+    dfp->env->fpscr |=3D (fprf << FPSCR_FPRF);
- }
-=20
- static void dfp_set_FPRF_from_FRT(struct PPC_DFP *dfp)
-@@ -369,8 +369,8 @@ static void dfp_set_CRBF_from_T(struct PPC_DFP *dfp)
-=20
- static void dfp_set_FPCC_from_CRBF(struct PPC_DFP *dfp)
- {
--    dfp->env->fpscr &=3D ~(0xF << 12);
--    dfp->env->fpscr |=3D (dfp->crbf << 12);
-+    dfp->env->fpscr &=3D ~FP_FPCC;
-+    dfp->env->fpscr |=3D (dfp->crbf << FPSCR_FPCC);
- }
-=20
- static inline void dfp_makeQNaN(decNumber *dn)
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 4b1a2e6178..dc383242f7 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -180,7 +180,7 @@ static void set_fprf_from_class(CPUPPCState *env, int=
- class)
-     };
-     bool isneg =3D class & is_neg;
-=20
--    env->fpscr &=3D ~(0x1F << FPSCR_FPRF);
-+    env->fpscr &=3D ~FP_FPRF;
-     env->fpscr |=3D fprf[ctz32(class)][isneg] << FPSCR_FPRF;
- }
-=20
-@@ -199,12 +199,12 @@ COMPUTE_FPRF(float128)
- static void finish_invalid_op_excp(CPUPPCState *env, int op, uintptr_t r=
-etaddr)
- {
-     /* Update the floating-point invalid operation summary */
--    env->fpscr |=3D 1 << FPSCR_VX;
-+    env->fpscr |=3D FP_VX;
-     /* Update the floating-point exception summary */
-     env->fpscr |=3D FP_FX;
-     if (fpscr_ve !=3D 0) {
-         /* Update the floating-point enabled exception summary */
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         if (fp_exceptions_enabled(env)) {
-             raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-                                    POWERPC_EXCP_FP | op, retaddr);
-@@ -215,11 +215,11 @@ static void finish_invalid_op_excp(CPUPPCState *env=
-, int op, uintptr_t retaddr)
- static void finish_invalid_op_arith(CPUPPCState *env, int op,
-                                     bool set_fpcc, uintptr_t retaddr)
- {
--    env->fpscr &=3D ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
-+    env->fpscr &=3D ~(FP_FR | FP_FI);
-     if (fpscr_ve =3D=3D 0) {
-         if (set_fpcc) {
--            env->fpscr &=3D ~(0xF << FPSCR_FPCC);
--            env->fpscr |=3D 0x11 << FPSCR_FPCC;
-+            env->fpscr &=3D ~FP_FPCC;
-+            env->fpscr |=3D (FP_C | FP_FU);
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 8c5b1f25cc..820724cc7d 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -993,6 +993,10 @@ int kvm_arch_put_registers(CPUState *cs, int level)
          }
+=20
+         kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &env->tb_env->tb_offs=
+et);
++
++        if (level > KVM_PUT_RUNTIME_STATE) {
++            kvm_put_one_spr(cs, KVM_REG_PPC_DPDES, SPR_DPDES);
++        }
+ #endif /* TARGET_PPC64 */
      }
-     finish_invalid_op_excp(env, op, retaddr);
-@@ -228,7 +228,7 @@ static void finish_invalid_op_arith(CPUPPCState *env,=
- int op,
- /* Signalling NaN */
- static void float_invalid_op_vxsnan(CPUPPCState *env, uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXSNAN;
-+    env->fpscr |=3D FP_VXSNAN;
-     finish_invalid_op_excp(env, POWERPC_EXCP_FP_VXSNAN, retaddr);
- }
 =20
-@@ -236,7 +236,7 @@ static void float_invalid_op_vxsnan(CPUPPCState *env,=
- uintptr_t retaddr)
- static void float_invalid_op_vxisi(CPUPPCState *env, bool set_fpcc,
-                                    uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXISI;
-+    env->fpscr |=3D FP_VXISI;
-     finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXISI, set_fpcc, retadd=
-r);
- }
-=20
-@@ -244,7 +244,7 @@ static void float_invalid_op_vxisi(CPUPPCState *env, =
-bool set_fpcc,
- static void float_invalid_op_vxidi(CPUPPCState *env, bool set_fpcc,
-                                    uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXIDI;
-+    env->fpscr |=3D FP_VXIDI;
-     finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXIDI, set_fpcc, retadd=
-r);
- }
-=20
-@@ -252,7 +252,7 @@ static void float_invalid_op_vxidi(CPUPPCState *env, =
-bool set_fpcc,
- static void float_invalid_op_vxzdz(CPUPPCState *env, bool set_fpcc,
-                                    uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXZDZ;
-+    env->fpscr |=3D FP_VXZDZ;
-     finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXZDZ, set_fpcc, retadd=
-r);
- }
-=20
-@@ -260,7 +260,7 @@ static void float_invalid_op_vxzdz(CPUPPCState *env, =
-bool set_fpcc,
- static void float_invalid_op_vximz(CPUPPCState *env, bool set_fpcc,
-                                    uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXIMZ;
-+    env->fpscr |=3D FP_VXIMZ;
-     finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXIMZ, set_fpcc, retadd=
-r);
- }
-=20
-@@ -268,7 +268,7 @@ static void float_invalid_op_vximz(CPUPPCState *env, =
-bool set_fpcc,
- static void float_invalid_op_vxsqrt(CPUPPCState *env, bool set_fpcc,
-                                     uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXSQRT;
-+    env->fpscr |=3D FP_VXSQRT;
-     finish_invalid_op_arith(env, POWERPC_EXCP_FP_VXSQRT, set_fpcc, retad=
-dr);
- }
-=20
-@@ -276,13 +276,13 @@ static void float_invalid_op_vxsqrt(CPUPPCState *en=
-v, bool set_fpcc,
- static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
-                                   uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXVC;
-+    env->fpscr |=3D FP_VXVC;
-     if (set_fpcc) {
--        env->fpscr &=3D ~(0xF << FPSCR_FPCC);
--        env->fpscr |=3D 0x11 << FPSCR_FPCC;
-+        env->fpscr &=3D ~FP_FPCC;
-+        env->fpscr |=3D (FP_C | FP_FU);
-     }
-     /* Update the floating-point invalid operation summary */
--    env->fpscr |=3D 1 << FPSCR_VX;
-+    env->fpscr |=3D FP_VX;
-     /* Update the floating-point exception summary */
-     env->fpscr |=3D FP_FX;
-     /* We must update the target FPR before raising the exception */
-@@ -292,7 +292,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, b=
-ool set_fpcc,
-         cs->exception_index =3D POWERPC_EXCP_PROGRAM;
-         env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
-         /* Update the floating-point enabled exception summary */
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         /* Exception is differed */
-     }
- }
-@@ -301,12 +301,12 @@ static void float_invalid_op_vxvc(CPUPPCState *env,=
- bool set_fpcc,
- static void float_invalid_op_vxcvi(CPUPPCState *env, bool set_fpcc,
-                                    uintptr_t retaddr)
- {
--    env->fpscr |=3D 1 << FPSCR_VXCVI;
--    env->fpscr &=3D ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
-+    env->fpscr |=3D FP_VXCVI;
-+    env->fpscr &=3D ~(FP_FR | FP_FI);
-     if (fpscr_ve =3D=3D 0) {
-         if (set_fpcc) {
--            env->fpscr &=3D ~(0xF << FPSCR_FPCC);
--            env->fpscr |=3D 0x11 << FPSCR_FPCC;
-+            env->fpscr &=3D ~FP_FPCC;
-+            env->fpscr |=3D (FP_C | FP_FU);
+@@ -1297,6 +1301,7 @@ int kvm_arch_get_registers(CPUState *cs)
          }
-     }
-     finish_invalid_op_excp(env, POWERPC_EXCP_FP_VXCVI, retaddr);
-@@ -314,13 +314,13 @@ static void float_invalid_op_vxcvi(CPUPPCState *env=
-, bool set_fpcc,
 =20
- static inline void float_zero_divide_excp(CPUPPCState *env, uintptr_t ra=
-ddr)
+         kvm_get_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &env->tb_env->tb_offs=
+et);
++        kvm_get_one_spr(cs, KVM_REG_PPC_DPDES, SPR_DPDES);
+ #endif
+     }
+=20
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 0fb11c7ac6..ba726dec4d 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8200,11 +8200,10 @@ static void gen_spr_power8_dpdes(CPUPPCState *env=
+)
  {
--    env->fpscr |=3D 1 << FPSCR_ZX;
--    env->fpscr &=3D ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
-+    env->fpscr |=3D FP_ZX;
-+    env->fpscr &=3D ~(FP_FR | FP_FI);
-     /* Update the floating-point exception summary */
-     env->fpscr |=3D FP_FX;
-     if (fpscr_ze !=3D 0) {
-         /* Update the floating-point enabled exception summary */
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         if (fp_exceptions_enabled(env)) {
-             raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-                                    POWERPC_EXCP_FP | POWERPC_EXCP_FP_ZX,
-@@ -333,19 +333,19 @@ static inline void float_overflow_excp(CPUPPCState =
-*env)
- {
-     CPUState *cs =3D env_cpu(env);
-=20
--    env->fpscr |=3D 1 << FPSCR_OX;
-+    env->fpscr |=3D FP_OX;
-     /* Update the floating-point exception summary */
-     env->fpscr |=3D FP_FX;
-     if (fpscr_oe !=3D 0) {
-         /* XXX: should adjust the result */
-         /* Update the floating-point enabled exception summary */
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         /* We must update the target FPR before raising the exception */
-         cs->exception_index =3D POWERPC_EXCP_PROGRAM;
-         env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_OX;
-     } else {
--        env->fpscr |=3D 1 << FPSCR_XX;
--        env->fpscr |=3D 1 << FPSCR_FI;
-+        env->fpscr |=3D FP_XX;
-+        env->fpscr |=3D FP_FI;
-     }
- }
-=20
-@@ -353,13 +353,13 @@ static inline void float_underflow_excp(CPUPPCState=
- *env)
- {
-     CPUState *cs =3D env_cpu(env);
-=20
--    env->fpscr |=3D 1 << FPSCR_UX;
-+    env->fpscr |=3D FP_UX;
-     /* Update the floating-point exception summary */
-     env->fpscr |=3D FP_FX;
-     if (fpscr_ue !=3D 0) {
-         /* XXX: should adjust the result */
-         /* Update the floating-point enabled exception summary */
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         /* We must update the target FPR before raising the exception */
-         cs->exception_index =3D POWERPC_EXCP_PROGRAM;
-         env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_UX;
-@@ -370,13 +370,13 @@ static inline void float_inexact_excp(CPUPPCState *=
-env)
- {
-     CPUState *cs =3D env_cpu(env);
-=20
--    env->fpscr |=3D 1 << FPSCR_FI;
--    env->fpscr |=3D 1 << FPSCR_XX;
-+    env->fpscr |=3D FP_FI;
-+    env->fpscr |=3D FP_XX;
-     /* Update the floating-point exception summary */
-     env->fpscr |=3D FP_FX;
-     if (fpscr_xe !=3D 0) {
-         /* Update the floating-point enabled exception summary */
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         /* We must update the target FPR before raising the exception */
-         cs->exception_index =3D POWERPC_EXCP_PROGRAM;
-         env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_XX;
-@@ -433,7 +433,7 @@ void helper_fpscr_clrbit(CPUPPCState *env, uint32_t b=
-it)
-         case FPSCR_VXCVI:
-             if (!fpscr_ix) {
-                 /* Set VX bit to zero */
--                env->fpscr &=3D ~(1 << FPSCR_VX);
-+                env->fpscr &=3D ~FP_VX;
-             }
-             break;
-         case FPSCR_OX:
-@@ -447,7 +447,7 @@ void helper_fpscr_clrbit(CPUPPCState *env, uint32_t b=
-it)
-         case FPSCR_XE:
-             if (!fpscr_eex) {
-                 /* Set the FEX bit */
--                env->fpscr &=3D ~(1 << FPSCR_FEX);
-+                env->fpscr &=3D ~FP_FEX;
-             }
-             break;
-         default:
-@@ -504,7 +504,7 @@ void helper_fpscr_setbit(CPUPPCState *env, uint32_t b=
-it)
-         case FPSCR_VXSOFT:
-         case FPSCR_VXSQRT:
-         case FPSCR_VXCVI:
--            env->fpscr |=3D 1 << FPSCR_VX;
-+            env->fpscr |=3D FP_VX;
-             env->fpscr |=3D FP_FX;
-             if (fpscr_ve !=3D 0) {
-                 goto raise_ve;
-@@ -580,7 +580,7 @@ void helper_fpscr_setbit(CPUPPCState *env, uint32_t b=
-it)
-             break;
-         raise_excp:
-             /* Update the floating-point enabled exception summary */
--            env->fpscr |=3D 1 << FPSCR_FEX;
-+            env->fpscr |=3D FP_FEX;
-             /* We have to update Rc1 before raising the exception */
-             cs->exception_index =3D POWERPC_EXCP_PROGRAM;
-             break;
-@@ -596,8 +596,8 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t ar=
-g, uint32_t mask)
-=20
-     prev =3D env->fpscr;
-     new =3D (target_ulong)arg;
--    new &=3D ~0x60000000LL;
--    new |=3D prev & 0x60000000LL;
-+    new &=3D ~(FP_FEX | FP_VX);
-+    new |=3D prev & (FP_FEX | FP_VX);
-     for (i =3D 0; i < sizeof(target_ulong) * 2; i++) {
-         if (mask & (1 << i)) {
-             env->fpscr &=3D ~(0xFLL << (4 * i));
-@@ -606,17 +606,17 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t =
-arg, uint32_t mask)
-     }
-     /* Update VX and FEX */
-     if (fpscr_ix !=3D 0) {
--        env->fpscr |=3D 1 << FPSCR_VX;
-+        env->fpscr |=3D FP_VX;
-     } else {
--        env->fpscr &=3D ~(1 << FPSCR_VX);
-+        env->fpscr &=3D ~FP_VX;
-     }
-     if ((fpscr_ex & fpscr_eex) !=3D 0) {
--        env->fpscr |=3D 1 << FPSCR_FEX;
-+        env->fpscr |=3D FP_FEX;
-         cs->exception_index =3D POWERPC_EXCP_PROGRAM;
-         /* XXX: we should compute it properly */
-         env->error_code =3D POWERPC_EXCP_FP;
-     } else {
--        env->fpscr &=3D ~(1 << FPSCR_FEX);
-+        env->fpscr &=3D ~FP_FEX;
-     }
-     fpscr_set_rounding_mode(env);
- }
-@@ -639,7 +639,7 @@ static void do_float_check_status(CPUPPCState *env, u=
-intptr_t raddr)
-     if (status & float_flag_inexact) {
-         float_inexact_excp(env);
-     } else {
--        env->fpscr &=3D ~(1 << FPSCR_FI); /* clear the FPSCR[FI] bit */
-+        env->fpscr &=3D ~FP_FI; /* clear the FPSCR[FI] bit */
-     }
-=20
-     if (cs->exception_index =3D=3D POWERPC_EXCP_PROGRAM &&
-@@ -1138,8 +1138,8 @@ void helper_fcmpu(CPUPPCState *env, uint64_t arg1, =
-uint64_t arg2,
-         ret =3D 0x02UL;
-     }
-=20
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
--    env->fpscr |=3D ret << FPSCR_FPRF;
-+    env->fpscr &=3D ~FP_FPCC;
-+    env->fpscr |=3D ret << FPSCR_FPCC;
-     env->crf[crfD] =3D ret;
-     if (unlikely(ret =3D=3D 0x01UL
-                  && (float64_is_signaling_nan(farg1.d, &env->fp_status) =
-||
-@@ -1169,9 +1169,9 @@ void helper_fcmpo(CPUPPCState *env, uint64_t arg1, =
-uint64_t arg2,
-         ret =3D 0x02UL;
-     }
-=20
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
--    env->fpscr |=3D ret << FPSCR_FPRF;
--    env->crf[crfD] =3D ret;
-+    env->fpscr &=3D ~FP_FPCC;
-+    env->fpscr |=3D ret << FPSCR_FPCC;
-+    env->crf[crfD] =3D (uint32_t) ret;
-     if (unlikely(ret =3D=3D 0x01UL)) {
-         float_invalid_op_vxvc(env, 1, GETPC());
-         if (float64_is_signaling_nan(farg1.d, &env->fp_status) ||
-@@ -2431,8 +2431,8 @@ void helper_xscmpexpdp(CPUPPCState *env, uint32_t o=
-pcode,
-         }
-     }
-=20
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
--    env->fpscr |=3D cc << FPSCR_FPRF;
-+    env->fpscr &=3D ~FP_FPCC;
-+    env->fpscr |=3D cc << FPSCR_FPCC;
-     env->crf[BF(opcode)] =3D cc;
-=20
-     do_float_check_status(env, GETPC());
-@@ -2460,8 +2460,8 @@ void helper_xscmpexpqp(CPUPPCState *env, uint32_t o=
-pcode,
-         }
-     }
-=20
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
--    env->fpscr |=3D cc << FPSCR_FPRF;
-+    env->fpscr &=3D ~FP_FPCC;
-+    env->fpscr |=3D cc << FPSCR_FPCC;
-     env->crf[BF(opcode)] =3D cc;
-=20
-     do_float_check_status(env, GETPC());
-@@ -2505,8 +2505,8 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,=
-                      \
-         cc |=3D CRF_EQ;                                                 =
-   \
-     }                                                                   =
- \
-                                                                         =
- \
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);                              =
-   \
--    env->fpscr |=3D cc << FPSCR_FPRF;                                   =
-   \
-+    env->fpscr &=3D ~FP_FPCC;                                           =
-   \
-+    env->fpscr |=3D cc << FPSCR_FPCC;                                   =
-   \
-     env->crf[BF(opcode)] =3D cc;                                        =
-   \
-                                                                         =
- \
-     do_float_check_status(env, GETPC());                                =
- \
-@@ -2553,8 +2553,8 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,=
-                     \
-         cc |=3D CRF_EQ;                                                 =
-  \
-     }                                                                   =
-\
-                                                                         =
-\
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);                              =
-  \
--    env->fpscr |=3D cc << FPSCR_FPRF;                                   =
-  \
-+    env->fpscr &=3D ~FP_FPCC;                                           =
-  \
-+    env->fpscr |=3D cc << FPSCR_FPCC;                                   =
-  \
-     env->crf[BF(opcode)] =3D cc;                                        =
-  \
-                                                                         =
-\
-     do_float_check_status(env, GETPC());                                =
-\
-@@ -3242,8 +3242,8 @@ void helper_##op(CPUPPCState *env, uint32_t opcode)=
-         \
-                                                             \
-         if (scrf) {                                         \
-             cc =3D sign << CRF_LT_BIT | match << CRF_EQ_BIT;  \
--            env->fpscr &=3D ~(0x0F << FPSCR_FPRF);            \
--            env->fpscr |=3D cc << FPSCR_FPRF;                 \
-+            env->fpscr &=3D ~FP_FPCC;                         \
-+            env->fpscr |=3D cc << FPSCR_FPCC;                 \
-             env->crf[BF(opcode)] =3D cc;                      \
-         } else {                                            \
-             t.tfld =3D match ? fld_max : 0;                   \
-@@ -3286,8 +3286,8 @@ void helper_xststdcsp(CPUPPCState *env, uint32_t op=
-code, ppc_vsr_t *xb)
-                              &env->fp_status), &env->fp_status);
-=20
-     cc =3D sign << CRF_LT_BIT | match << CRF_EQ_BIT | not_sp << CRF_SO_B=
-IT;
--    env->fpscr &=3D ~(0x0F << FPSCR_FPRF);
--    env->fpscr |=3D cc << FPSCR_FPRF;
-+    env->fpscr &=3D ~FP_FPCC;
-+    env->fpscr |=3D cc << FPSCR_FPCC;
-     env->crf[BF(opcode)] =3D cc;
+ #if !defined(CONFIG_USER_ONLY)
+     /* Directed Privileged Door-bell Exception State, used for IPI */
+-    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
+-                        SPR_NOACCESS, SPR_NOACCESS,
+-                        &spr_read_generic, SPR_NOACCESS,
+-                        &spr_read_generic, &spr_write_generic,
+-                        KVM_REG_PPC_DPDES, 0x00000000);
++    spr_register(env, SPR_DPDES, "DPDES",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, SPR_NOACCESS,
++                 0x00000000);
+ #endif
  }
 =20
 --=20
