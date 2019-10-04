@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA4ECB9A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:59:13 +0200 (CEST)
-Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE74CB984
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:52:17 +0200 (CEST)
+Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGMEq-00058w-34
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52504)
+	id 1iGM88-0005cT-1M
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iGLpU-0000Se-Vv
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:33:02 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iGM4s-0003U8-SK
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:48:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iGLpT-0000tt-UZ
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:33:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39516)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1iGLpT-0000tl-P4; Fri, 04 Oct 2019 07:32:59 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D37D98A1CA3;
- Fri,  4 Oct 2019 11:32:58 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95E9A1001B30;
- Fri,  4 Oct 2019 11:32:51 +0000 (UTC)
-Date: Fri, 4 Oct 2019 13:32:51 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 01/11] hw/acpi/piix4: Convert reset handler to DeviceReset
-Message-ID: <20191004133251.1ca7791c@redhat.com>
-In-Reply-To: <20190926151733.25349-2-philmd@redhat.com>
-References: <20190926151733.25349-1-philmd@redhat.com>
- <20190926151733.25349-2-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iGM4r-00013C-2Z
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:48:54 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45825)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iGM4q-00012N-Rj
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 07:48:53 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r5so6753639wrm.12
+ for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 04:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KKScjR57hVzYNGoNM4hmpoJkxC9aOZTTXFxkpS3XYJU=;
+ b=PLe/dyjbnLO0yCxR5hbSOoMAb7CyHzT37GXzRhEWA23w3LqPmLjJX2e17O8PAg+tJB
+ HfFQKoQJdLQPFyiKTXTW8nyB8pBJVpa+r/Qfyl7aEjvZvjYJIGLeQkge0J/7Fe2MKnDM
+ ukyo2fLWoAuBmrSu56ErEz1KOP/KSOW3fQog+Jp6kfRKr/NkBBJzavXuvfuvEfGVw+Rm
+ KHtTjko2x3MmYyUu/asDZWJ6UdrdLJGN0RisW2EaiDbyrmEntwEBRhve+s2g5Rt+xUUY
+ 20Q/XH/vGgZ6NJCMWL6FETLArdak0z3TEyVWDDkMRu+F+DWsYPu/94Q0+qP/1xOw6kKb
+ f1Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KKScjR57hVzYNGoNM4hmpoJkxC9aOZTTXFxkpS3XYJU=;
+ b=S3p4ha3qCz8ix1b1A2Hd0jtsuiZmZkadT28/pqZuLhTOQGoxkGY3+P2Ox0nPN7OMOZ
+ gGRyLnNnXjwNTJacKwnLUSUM/pL1F8tO55Cga8mDOUhPp2UMEbXVmBEhikmaxweI20Gz
+ 3EiAIuFmCM0rTWQH68Q9G2fyj+cAuHCFmpQI+XP29qb2wHpd5mB5hL4ERN5KiDiFbd/Q
+ jcqv4kdRxIwhBx541Lep51zmlZKcJ3uCYAdiKAHlOtxN4hio0l5RF0lHCvSd2kp0DF/T
+ r9lEFGPen296PD4uCVD5GCQ6ibaSltcWATwAVTtb/FvBKq4VDsF1iLZOqk9rtdDlRRbV
+ ascw==
+X-Gm-Message-State: APjAAAXz8nLOC8t1u0+lmLcqHjTSsxPMXJ33cYEBaWEiXk2xy7ZVz0uM
+ jzzV24JpPFv1E54Ug7bSMVks3Q==
+X-Google-Smtp-Source: APXvYqxSPEomsx5j7PfcgzVIDNTnzrtnmcDVv549POv8jLxo8Zlu4VWzqr5iN7QC7G5SwD8JuYuo3g==
+X-Received: by 2002:adf:ec44:: with SMTP id w4mr10820503wrn.251.1570189731325; 
+ Fri, 04 Oct 2019 04:48:51 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id t17sm11962094wrp.72.2019.10.04.04.48.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Oct 2019 04:48:50 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [RFC 0/4] transaction-based ptimer API
+Date: Fri,  4 Oct 2019 12:48:44 +0100
+Message-Id: <20191004114848.16831-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Fri, 04 Oct 2019 11:32:59 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,67 +76,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 17:17:23 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+Currently the ptimer design uses a QEMU bottom-half as its mechanism
+for calling back into the device model using the ptimer when the
+timer has expired.  Unfortunately this design is fatally flawed,
+because it means that there is a lag between the ptimer updating its
+own state and the device callback function updating device state, and
+guest accesses to device registers between the two can return
+inconsistent device state. This was reported as a bug in a specific
+timer device but it's a problem with the generic ptimer code:
+https://bugs.launchpad.net/qemu/+bug/1777777
 
-> Convert the reset handler into a proper Device reset method.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+This RFC patchset introduces a change to the ptimer API so that
+instead of using a bottom-half for the trigger a device can choose to
+use a new 'transaction' based approach.  In this design (suggested by
+RTH) all calls which modify ptimer state:
+     - ptimer_set_period()
+     - ptimer_set_freq()
+     - ptimer_set_limit()
+     - ptimer_set_count()
+     - ptimer_run()
+     - ptimer_stop()
+must be between matched calls to ptimer_transaction_begin() and
+ptimer_transaction_commit().  When ptimer_transaction_commit() is
+called it will evaluate the state of the timer after all the changes
+in the transaction, and call the callback if necessary.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+I'm sending this out as an RFC to get opinions on the new API
+before I proceed to converting all the users of ptimer. (My
+plan is that the final patchset will start with these patches,
+have another couple of dozen patches changing the other timer
+devices using ptimer, and then have a "delete the BH API/code"
+patch. Or we could split the "change to new API" parts into
+smaller per-architecture ones.)
 
-> ---
->  hw/acpi/piix4.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 5742c3df87..4e079b39bd 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -27,7 +27,6 @@
->  #include "hw/pci/pci.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/acpi/acpi.h"
-> -#include "sysemu/reset.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/sysemu.h"
->  #include "qapi/error.h"
-> @@ -344,9 +343,9 @@ static const VMStateDescription vmstate_acpi =3D {
->      }
->  };
-> =20
-> -static void piix4_reset(void *opaque)
-> +static void piix4_pm_reset(DeviceState *dev)
->  {
-> -    PIIX4PMState *s =3D opaque;
-> +    PIIX4PMState *s =3D PIIX4_PM(dev);
->      PCIDevice *d =3D PCI_DEVICE(s);
->      uint8_t *pci_conf =3D d->config;
-> =20
-> @@ -542,7 +541,6 @@ static void piix4_pm_realize(PCIDevice *dev, Error **=
-errp)
-> =20
->      s->machine_ready.notify =3D piix4_pm_machine_ready;
->      qemu_add_machine_init_done_notifier(&s->machine_ready);
-> -    qemu_register_reset(piix4_reset, s);
-> =20
->      piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
->                                     pci_get_bus(dev), s);
-> @@ -692,6 +690,7 @@ static void piix4_pm_class_init(ObjectClass *klass, v=
-oid *data)
->      k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB_3;
->      k->revision =3D 0x03;
->      k->class_id =3D PCI_CLASS_BRIDGE_OTHER;
-> +    dc->reset =3D piix4_pm_reset;
->      dc->desc =3D "PM";
->      dc->vmsd =3D &vmstate_acpi;
->      dc->props =3D piix4_pm_properties;
+Patch 1 is some new trace events I added to the arm_timer code
+while I was investigating the original bug report.
+Patch 2 is just a function rename so we can keep the nicer
+"ptimer_init()" name for the new API.
+Patch 3 adds the new API and its implementation.
+Patch 4 is a sample conversion of a ptimer-using device,
+which fixes the reported bug:
+https://bugs.launchpad.net/qemu/+bug/1777777
+
+thanks
+-- PMM
+
+Peter Maydell (4):
+  hw/timer/arm_timer: Add trace events
+  ptimer: Rename ptimer_init() to ptimer_init_with_bh()
+  ptimer: Provide new transaction-based API
+  hw/timer/arm_timer.c: Switch to transaction-based ptimer API
+
+ include/hw/ptimer.h              |  77 ++++++++++++++++++--
+ hw/arm/musicpal.c                |   2 +-
+ hw/core/ptimer.c                 | 116 +++++++++++++++++++++++++++----
+ hw/dma/xilinx_axidma.c           |   2 +-
+ hw/m68k/mcf5206.c                |   2 +-
+ hw/m68k/mcf5208.c                |   2 +-
+ hw/net/fsl_etsec/etsec.c         |   2 +-
+ hw/net/lan9118.c                 |   2 +-
+ hw/timer/allwinner-a10-pit.c     |   2 +-
+ hw/timer/altera_timer.c          |   2 +-
+ hw/timer/arm_mptimer.c           |   6 +-
+ hw/timer/arm_timer.c             |  43 +++++++++---
+ hw/timer/cmsdk-apb-dualtimer.c   |   2 +-
+ hw/timer/cmsdk-apb-timer.c       |   2 +-
+ hw/timer/digic-timer.c           |   2 +-
+ hw/timer/etraxfs_timer.c         |   6 +-
+ hw/timer/exynos4210_mct.c        |   7 +-
+ hw/timer/exynos4210_pwm.c        |   2 +-
+ hw/timer/exynos4210_rtc.c        |   4 +-
+ hw/timer/grlib_gptimer.c         |   2 +-
+ hw/timer/imx_epit.c              |   4 +-
+ hw/timer/imx_gpt.c               |   2 +-
+ hw/timer/lm32_timer.c            |   2 +-
+ hw/timer/milkymist-sysctl.c      |   4 +-
+ hw/timer/mss-timer.c             |   2 +-
+ hw/timer/puv3_ost.c              |   2 +-
+ hw/timer/sh_timer.c              |   2 +-
+ hw/timer/slavio_timer.c          |   2 +-
+ hw/timer/xilinx_timer.c          |   2 +-
+ hw/watchdog/cmsdk-apb-watchdog.c |   2 +-
+ tests/ptimer-test.c              |  22 +++---
+ hw/timer/trace-events            |   7 ++
+ 32 files changed, 263 insertions(+), 75 deletions(-)
+
+-- 
+2.20.1
 
 
