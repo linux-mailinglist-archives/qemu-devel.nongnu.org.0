@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7A2CB374
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 05:11:44 +0200 (CEST)
-Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CCBCB392
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 05:47:30 +0200 (CEST)
+Received: from localhost ([::1]:42010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGE0M-0006eo-LD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 23:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
+	id 1iGEYy-0005Hj-Ry
+	for lists+qemu-devel@lfdr.de; Thu, 03 Oct 2019 23:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGDzA-00068I-Fs
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:10:29 -0400
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1iGEVv-0003mt-08
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:44:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGDz9-0008JH-Cd
- for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:10:28 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56505 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGDz5-00088f-3Z; Thu, 03 Oct 2019 23:10:24 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46kvy15zhRz9sPq; Fri,  4 Oct 2019 13:10:17 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570158617;
- bh=6BzysK04Egnj4VKoHR3IxJqfPZVBBXwQCCXvuB1yqd8=;
- h=From:To:Cc:Subject:Date:From;
- b=hJ+31lckGHqwbdvDTm47x9QoXTsNuvXT6qeVH+0oXb2I0AerZUn0qIHvS9Xo8HCcs
- 9pgMe5FK3eeUDyIPQYkfmgKOsi4MW8U+Fr3pt3GP//BWN3dpQh3VqwtaaZv+V+aZN5
- DaT/f1eLiT8pWDIQYAq/9gkP45GiqIQP9rilKUZA=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: i.mitsyanko@gmail.com,
-	peter.maydell@linaro.org
-Subject: [PATCH] exynos4210_gic: Suppress gcc9 format-truncation warnings
-Date: Fri,  4 Oct 2019 12:55:09 +1000
-Message-Id: <20191004025509.3012-1-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1iGEVt-0001k9-I8
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:44:18 -0400
+Received: from cmccmta2.chinamobile.com ([221.176.66.80]:2631)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1iGEVs-0001dC-PZ
+ for qemu-devel@nongnu.org; Thu, 03 Oct 2019 23:44:17 -0400
+Received: from spf.mail.chinamobile.com (unknown[172.16.121.1]) by
+ rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee85d96c000b64-b287d;
+ Fri, 04 Oct 2019 11:44:00 +0800 (CST)
+X-RM-TRANSID: 2ee85d96c000b64-b287d
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG: 00000000
+Received: from maozy-host.lan (unknown[180.108.8.156])
+ by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee15d96bff81ac-a1ae6;
+ Fri, 04 Oct 2019 11:44:00 +0800 (CST)
+X-RM-TRANSID: 2ee15d96bff81ac-a1ae6
+From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] some fix in tests/migration
+Date: Fri,  4 Oct 2019 11:43:45 +0800
+Message-Id: <cover.1570159624.git.maozhongyi@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 221.176.66.80
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,50 +52,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: tony.nguyen@bt.com, alex.bennee@linaro.org, armbru@redhat.com,
+ Mao Zhongyi <maozhongyi@cmss.chinamobile.com>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-exynos4210_gic_realize() prints the number of cpus into some temporary
-buffers, but it only allows 3 bytes space for it.  That's plenty - I'm
-pretty sure that existing machines will only ever set this value to 2
-(EXYNOS4210_NCPUS).  But the compiler can't really be expected to figure
-that out.
+This patchset mainly fixes memory leak, typo and return
+value of stress function in stress test.
 
-Some[*] gcc9 versions therefore emit -Wformat-truncation warnings.  Fix
-that by allowing more space in the temporary buffers - these are on stack
-very briefly before being essentially strdup()ed inside the memory region
-code, so there's not much cost to doing so.
+v3->v2:
+p1: 
+- replace malloc with g_malloc   [Laurent Vivier]
+p3:
+- change stressone type to void and stree return value
+  to -1 to make the path of 'if (stress(ramsizeGB, ncpus) < 0)'
+  can be reached.                [Laurent Vivier]
+- update the commit message.
 
-[*] The bizarre thing here, is that I've long gotten these warnings
-compiling in a 32-bit x86 container as host - Fedora 30 with
-gcc-9.2.1-1.fc30.i686 - but it compiles just fine on my normal x86_64 hos=
-t
-- Fedora 30 with and gcc-9.2.1-1.fc30.x86_64.
+v2->v1:
+- use g_autofree to release memory automatically instead
+  of free().                     [Alex Bennée]
+                      
+Cc: armbru@redhat.com 
+Cc: laurent@vivier.eu 
+Cc: tony.nguyen@bt.com
+Cc: alex.bennee@linaro.org
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/intc/exynos4210_gic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Mao Zhongyi (3):
+  tests/migration: mem leak fix
+  tests/migration: fix a typo in comment
+  tests/migration：fix unreachable path in stress test
 
-diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
-index a1b699b6ba..2e5e47f9ec 100644
---- a/hw/intc/exynos4210_gic.c
-+++ b/hw/intc/exynos4210_gic.c
-@@ -290,8 +290,8 @@ static void exynos4210_gic_realize(DeviceState *dev, =
-Error **errp)
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-     const char cpu_prefix[] =3D "exynos4210-gic-alias_cpu";
-     const char dist_prefix[] =3D "exynos4210-gic-alias_dist";
--    char cpu_alias_name[sizeof(cpu_prefix) + 3];
--    char dist_alias_name[sizeof(cpu_prefix) + 3];
-+    char cpu_alias_name[sizeof(cpu_prefix) + 10];
-+    char dist_alias_name[sizeof(cpu_prefix) + 10];
-     SysBusDevice *gicbusdev;
-     uint32_t i;
-=20
---=20
-2.21.0
+ tests/migration/stress.c | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
+
+-- 
+2.17.1
+
+
 
 
