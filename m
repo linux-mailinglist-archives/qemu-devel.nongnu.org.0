@@ -2,135 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E071CBAD2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 14:51:38 +0200 (CEST)
-Received: from localhost ([::1]:48244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78B3CBB0A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 14:59:05 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGN3Y-0002Jk-V1
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 08:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37533)
+	id 1iGNAl-0008HW-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 08:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39079)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iGN09-0000rp-TH
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:48:07 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iGN7N-00067S-63
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:55:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iGN06-0007Zt-Jb
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:48:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54360)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iGN02-0007UQ-7m
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:47:59 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x94Clqiu130641
- for <qemu-devel@nongnu.org>; Fri, 4 Oct 2019 08:47:55 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ve3uepv8f-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 04 Oct 2019 08:47:54 -0400
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Fri, 4 Oct 2019 13:47:45 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 4 Oct 2019 13:47:41 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x94CleBj55115844
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Oct 2019 12:47:40 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 274B9A4040;
- Fri,  4 Oct 2019 12:47:40 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1C13A404D;
- Fri,  4 Oct 2019 12:47:39 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.146])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  4 Oct 2019 12:47:39 +0000 (GMT)
-Subject: Re: libvirt? qemu change that mmaps ELF files breaks libvirt svirt
- handling for os.kernel
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <d450afbe-06ae-f6f7-3bc0-f1a54c31907c@de.ibm.com>
- <1dc0a320-b771-072d-d1f4-4eda2ab51a1f@redhat.com>
- <a12ee0e1-44cc-e197-68e3-4a7137c8b972@de.ibm.com>
- <20191004123613.GF25716@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- syiRa+UVlsKmx1hsEg==
-Date: Fri, 4 Oct 2019 14:47:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <mreitz@redhat.com>) id 1iGN7M-0006WF-7Z
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 08:55:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46516)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iGN7C-0005qY-U3; Fri, 04 Oct 2019 08:55:24 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 65B228372F0;
+ Fri,  4 Oct 2019 12:55:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-31.brq.redhat.com
+ [10.40.204.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B61919C69;
+ Fri,  4 Oct 2019 12:55:20 +0000 (UTC)
+Subject: Re: [PATCH 02/67] iotests.py: Add @skip_for_imgopts()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191001194715.2796-1-mreitz@redhat.com>
+ <20191001194715.2796-3-mreitz@redhat.com>
+ <5e803464-8257-c61e-c459-16a3b898c192@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <904ae6a9-e746-f483-c2bf-c59264ccfcfd@redhat.com>
+Date: Fri, 4 Oct 2019 14:55:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191004123613.GF25716@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19100412-0012-0000-0000-0000035405E1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100412-0013-0000-0000-0000218F10D5
-Message-Id: <b44c70b1-71b6-2249-d50a-9a9e02f79259@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-04_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910040118
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x94Clqiu130641
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+In-Reply-To: <5e803464-8257-c61e-c459-16a3b898c192@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jUtK1tXoEMG8W2S8WP2IliMVyEyvz47jC"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 04 Oct 2019 12:55:21 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -142,103 +87,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Libvirt <libvir-list@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Marc Hartmayer <mhartmay@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jUtK1tXoEMG8W2S8WP2IliMVyEyvz47jC
+Content-Type: multipart/mixed; boundary="vyWtEGqU5esZ6WrOtUElBZLeTqbsi061N"
+
+--vyWtEGqU5esZ6WrOtUElBZLeTqbsi061N
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 03.10.19 17:19, Vladimir Sementsov-Ogievskiy wrote:
+> 01.10.2019 22:46, Max Reitz wrote:
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   tests/qemu-iotests/iotests.py | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotest=
+s.py
+>> index 7030900807..cdcb62c4ac 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -950,6 +950,19 @@ def skip_if_unsupported(required_formats=3D[], re=
+ad_only=3DFalse):
+>>           return func_wrapper
+>>       return skip_test_decorator
+>>  =20
+>> +def skip_for_imgopts(unsupported_opts=3D[]):
+>> +    '''Skip Test Decorator
+>> +       Skips the test if imgopts contains any of the given options'''=
+
+>> +    def skip_test_decorator(func):
+>> +        def func_wrapper(test_case: QMPTestCase, *args, **kwargs):
+>=20
+> how about
+>=20
+> unsup =3D set(imgopts) & set(unsupported_opts)
+> if unsup:
+>     test_case.case_skip('... Options {} are ...', format(..., ', '.join=
+(map(str, unsup)))
+
+Sure.
+
+Max
 
 
-On 04.10.19 14:36, Daniel P. Berrang=C3=A9 wrote:
-> On Fri, Oct 04, 2019 at 02:18:49PM +0200, Christian Borntraeger wrote:
->>
->>
->> On 04.10.19 14:13, Paolo Bonzini wrote:
->>> On 04/10/19 14:03, Christian Borntraeger wrote:
->>>> Stefano, Paolo,
->>>>
->>>> I have an interesting fail in QEMU=20
->>>>
->>>> 2019-10-04T12:00:32.675188Z qemu-system-s390x: GLib: g_mapped_file_u=
-nref: assertion 'file !=3D NULL' failed
->>>> that bisected to=20
->>>> commit 816b9fe450220e19acb91a0ce4a8ade7000648d1 (refs/bisect/bad)
->>>>     elf-ops.h: Map into memory the ELF to load
->>>>
->>>> strace tells that I can read the ELF file, but not mmap
->>>> strace:
->>>> 214365 openat(AT_FDCWD, "/var/lib/libvirt/images/test_cpu_timer.elf"=
-, O_RDONLY) =3D 36
->>>> 214365 read(46, "\177ELF\2\2\1\0\0\0\0\0\0\0\0\0", 16) =3D 16
->>>> 214365 lseek(46, 0, SEEK_SET)           =3D 0
->>>> [...]
->>>> 214365 fstat(46, {st_mode=3DS_IFREG|0755, st_size=3D168176, ...}) =3D=
- 0
->>>> 214365 mmap(NULL, 168176, PROT_READ|PROT_WRITE, MAP_PRIVATE, 46, 0) =
-=3D -1 EACCES (Permission denied)
->>>>
->>>> So reading from /var/lib/libvirt/images/test_cpu_timer.elf does work=
-, mmaping does not.
->>>> setenforce 0 makes the problem go away.=20
->>>>
->>>> This might be more of an issue in libvirt, setting the svirt context=
- too
->>>> restrictive, but I am not too deep into the svirt part of libvirt.
->>>> Reverting the qemu commit makes the problem go away.
->>>
->>> Yes, the policy is too restrictive in my opinion.
->>>
->>> Can you include the output of "audit2allow" and/or "audit2allow -R"?
->>>
->>> Thanks,
->>>
->>> Paolo
->>>
->>
->> require {
->> 	type unconfined_t;
->> 	type virt_content_t;
->> 	type svirt_t;
->> 	type systemd_tmpfiles_t;
->> 	type user_home_t;
->> 	type NetworkManager_t;
->> 	class file { entrypoint execute ioctl lock map open read write };
->> 	class bpf prog_run;
->> }
->>
->> #=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D svirt_t =3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->> allow svirt_t user_home_t:file { entrypoint execute ioctl lock open re=
-ad write };
->>
->> #!!!! This avc can be allowed using the boolean 'domain_can_mmap_files=
-'
->=20
-> This is an unrelated boolean and we don't want to use that so ignore
-> this suggestion !
->=20
->> allow svirt_t virt_content_t:file map;
->=20
-> This matches your strace.  virt_content_t is the label we use on
-> files that are exposed to QEMU read-only.
->=20
-> The svirt policy only allows mmap on files that re exposed read-write
-> currently.
->=20
-> I believe we can safely allow this mmap on read-only files too
-> because  the read-only restriction is enforced at time of open,
-> and any writes to the mapped file  will result in a private
-> copy on write.
->=20
-> Please file a bz entry against the selinux-policy component for
-> whatever distro you're using, and/or Fedora rawhide, and CC me
-> on it too.
+--vyWtEGqU5esZ6WrOtUElBZLeTqbsi061N--
 
-Done. This was on Fedora 30.
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1758525
+--jUtK1tXoEMG8W2S8WP2IliMVyEyvz47jC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
- Now sure about others like RHEL. RHV.
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2XQTYACgkQ9AfbAGHV
+z0AC2ggAuo+2Hnd0010KHAEAyn26d3RQZ97g1jsSAIJtslwzITCuDYhE68Zt4mBb
+SD9NYP6xvCE3HelmbuOBlhmX+zpuNzb/iuIxNEs7dZf0Y4ZCjH21YDt1NtO05mDj
+MjBXzI79v+JSOgI1XoyEhw+ePpstXWcooKLTvapPFim9f/mAanhoThjkSKycI1Ue
+Vw6TkXbbZ1LhaSTkx6RqLyM9OimXDjZFGB5iYp905Rz5hcwxJvdsUs1iI8jJZju6
+Ng59geLC2bsHEYoP8/KG8tOsVCmyAYD7I3FJXU27du8dfTj72wGZrxJgv7Yl16qZ
+0tvk5MXieobkpRIXvi6lVv1n7SDW9w==
+=2XvR
+-----END PGP SIGNATURE-----
+
+--jUtK1tXoEMG8W2S8WP2IliMVyEyvz47jC--
 
