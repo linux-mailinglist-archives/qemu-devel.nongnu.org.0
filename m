@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735B8CB81C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:20:05 +0200 (CEST)
-Received: from localhost ([::1]:44888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622F4CB7F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:11:20 +0200 (CEST)
+Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKgu-0005qG-4L
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53192)
+	id 1iGKYQ-0004lp-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK37-0005jj-J5
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:00 -0400
+ (envelope-from <slp@redhat.com>) id 1iGK32-0005Zh-5x
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK36-00061K-2S
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:57 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37759 helo=ozlabs.org)
+ (envelope-from <slp@redhat.com>) id 1iGK2z-0005rm-Jp
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK35-0005Yg-KB; Fri, 04 Oct 2019 05:38:55 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YP3DY0z9sSM; Fri,  4 Oct 2019 19:38:01 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570181881;
- bh=1DtTW1OF6hT7tfzi6fXxKl2FRK1cUrxrcPViCs66eyw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ShcepupfiZe50cwWTmNTpwCTe6YDfLcnJ+ctiERgixgI0E6QCcppBQXJ+VP0yeXOp
- V6TSt16o7EdGWvfdzkkioupHywoyHnnZ1JyjSAy4K+mM4EVFXq3Il1fSMZDlOWpusJ
- n0/V0alkATpIlZ7TNLkuGlw1zU+cO+/r8JOZ+rK8=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 38/53] xics: Create sPAPR specific ICS subtype
-Date: Fri,  4 Oct 2019 19:37:32 +1000
-Message-Id: <20191004093747.31350-39-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
-References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iGK2x-0005pu-I6
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:49 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2A6FD7FDCD;
+ Fri,  4 Oct 2019 09:38:46 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55D471001B28;
+ Fri,  4 Oct 2019 09:38:43 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 01/10] hw/virtio: Factorize virtio-mmio headers
+Date: Fri,  4 Oct 2019 11:37:43 +0200
+Message-Id: <20191004093752.16564-2-slp@redhat.com>
+In-Reply-To: <20191004093752.16564-1-slp@redhat.com>
+References: <20191004093752.16564-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Fri, 04 Oct 2019 09:38:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,127 +55,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>, mst@redhat.com,
+ lersek@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We create a subtype of TYPE_ICS specifically for sPAPR.  For now all this
-does is move the setup of the PAPR specific hcalls and RTAS calls to
-the realize() function for this, rather than requiring the PAPR code to
-explicitly call xics_spapr_init().  In future it will have some more
-function.
+Put QOM and main struct definition in a separate header file, so it
+can be accessed from other components.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- hw/intc/xics_spapr.c        | 34 +++++++++++++++++++++++++++++++++-
- hw/ppc/spapr_irq.c          |  6 ++----
- include/hw/ppc/xics_spapr.h |  4 +++-
- 3 files changed, 38 insertions(+), 6 deletions(-)
+ include/hw/virtio/virtio-mmio.h | 73 +++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-mmio.c         | 48 +---------------------
+ 2 files changed, 74 insertions(+), 47 deletions(-)
+ create mode 100644 include/hw/virtio/virtio-mmio.h
 
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 3e9444813a..e6dd004587 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -283,8 +283,18 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachin=
-eState *spapr,
-     rtas_st(rets, 0, RTAS_OUT_SUCCESS);
- }
+diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-m=
+mio.h
+new file mode 100644
+index 0000000000..7dbfd03dcf
+--- /dev/null
++++ b/include/hw/virtio/virtio-mmio.h
+@@ -0,0 +1,73 @@
++/*
++ * Virtio MMIO bindings
++ *
++ * Copyright (c) 2011 Linaro Limited
++ *
++ * Author:
++ *  Peter Maydell <peter.maydell@linaro.org>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License; either version =
+2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_VIRTIO_MMIO_H
++#define HW_VIRTIO_MMIO_H
++
++#include "hw/virtio/virtio-bus.h"
++
++/* QOM macros */
++/* virtio-mmio-bus */
++#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
++#define VIRTIO_MMIO_BUS(obj) \
++        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
++#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
++        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
++#define VIRTIO_MMIO_BUS_CLASS(klass) \
++        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS=
+)
++
++/* virtio-mmio */
++#define TYPE_VIRTIO_MMIO "virtio-mmio"
++#define VIRTIO_MMIO(obj) \
++        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
++
++#define VIRT_MAGIC 0x74726976 /* 'virt' */
++#define VIRT_VERSION 2
++#define VIRT_VERSION_LEGACY 1
++#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
++
++typedef struct VirtIOMMIOQueue {
++    uint16_t num;
++    bool enabled;
++    uint32_t desc[2];
++    uint32_t avail[2];
++    uint32_t used[2];
++} VirtIOMMIOQueue;
++
++typedef struct {
++    /* Generic */
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++    qemu_irq irq;
++    bool legacy;
++    /* Guest accessible state needing migration and reset */
++    uint32_t host_features_sel;
++    uint32_t guest_features_sel;
++    uint32_t guest_page_shift;
++    /* virtio-bus */
++    VirtioBusState bus;
++    bool format_transport_address;
++    /* Fields only used for non-legacy (v2) devices */
++    uint32_t guest_features[2];
++    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
++} VirtIOMMIOProxy;
++
++#endif
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 3d5ca0f667..94d934c44b 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -29,57 +29,11 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
+-#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/virtio-mmio.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "trace.h"
 =20
--void xics_spapr_init(SpaprMachineState *spapr)
-+static void ics_spapr_realize(DeviceState *dev, Error **errp)
- {
-+    ICSState *ics =3D ICS_SPAPR(dev);
-+    ICSStateClass *icsc =3D ICS_GET_CLASS(ics);
-+    Error *local_err =3D NULL;
-+
-+    icsc->parent_realize(dev, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     spapr_rtas_register(RTAS_IBM_SET_XIVE, "ibm,set-xive", rtas_set_xive=
-);
-     spapr_rtas_register(RTAS_IBM_GET_XIVE, "ibm,get-xive", rtas_get_xive=
-);
-     spapr_rtas_register(RTAS_IBM_INT_OFF, "ibm,int-off", rtas_int_off);
-@@ -319,3 +329,25 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_=
-t nr_servers, void *fdt,
-     _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
-     _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
- }
-+
-+static void ics_spapr_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    ICSStateClass *isc =3D ICS_CLASS(klass);
-+
-+    device_class_set_parent_realize(dc, ics_spapr_realize,
-+                                    &isc->parent_realize);
-+}
-+
-+static const TypeInfo ics_spapr_info =3D {
-+    .name =3D TYPE_ICS_SPAPR,
-+    .parent =3D TYPE_ICS,
-+    .class_init =3D ics_spapr_class_init,
-+};
-+
-+static void xics_spapr_register_types(void)
-+{
-+    type_register_static(&ics_spapr_info);
-+}
-+
-+type_init(xics_spapr_register_types)
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 6c45d2a3c0..8c26fa2d1e 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -98,7 +98,7 @@ static void spapr_irq_init_xics(SpaprMachineState *spap=
-r, int nr_irqs,
-     Object *obj;
-     Error *local_err =3D NULL;
-=20
--    obj =3D object_new(TYPE_ICS);
-+    obj =3D object_new(TYPE_ICS_SPAPR);
-     object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-     object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-                                    &error_fatal);
-@@ -109,9 +109,7 @@ static void spapr_irq_init_xics(SpaprMachineState *sp=
-apr, int nr_irqs,
-         return;
-     }
-=20
--    spapr->ics =3D ICS(obj);
+-/* QOM macros */
+-/* virtio-mmio-bus */
+-#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
+-#define VIRTIO_MMIO_BUS(obj) \
+-        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
+-        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
+-#define VIRTIO_MMIO_BUS_CLASS(klass) \
+-        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS=
+)
 -
--    xics_spapr_init(spapr);
-+    spapr->ics =3D ICS_SPAPR(obj);
- }
-=20
- static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool =
-lsi,
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 5dabc9a138..691a6d00f7 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -31,11 +31,13 @@
-=20
- #define XICS_NODENAME "interrupt-controller"
-=20
-+#define TYPE_ICS_SPAPR "ics-spapr"
-+#define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-+
- void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
-fdt,
-                    uint32_t phandle);
- int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
- void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
- bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
--void xics_spapr_init(SpaprMachineState *spapr);
-=20
- #endif /* XICS_SPAPR_H */
+-/* virtio-mmio */
+-#define TYPE_VIRTIO_MMIO "virtio-mmio"
+-#define VIRTIO_MMIO(obj) \
+-        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
+-
+-#define VIRT_MAGIC 0x74726976 /* 'virt' */
+-#define VIRT_VERSION 2
+-#define VIRT_VERSION_LEGACY 1
+-#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
+-
+-typedef struct VirtIOMMIOQueue {
+-    uint16_t num;
+-    bool enabled;
+-    uint32_t desc[2];
+-    uint32_t avail[2];
+-    uint32_t used[2];
+-} VirtIOMMIOQueue;
+-
+-typedef struct {
+-    /* Generic */
+-    SysBusDevice parent_obj;
+-    MemoryRegion iomem;
+-    qemu_irq irq;
+-    bool legacy;
+-    /* Guest accessible state needing migration and reset */
+-    uint32_t host_features_sel;
+-    uint32_t guest_features_sel;
+-    uint32_t guest_page_shift;
+-    /* virtio-bus */
+-    VirtioBusState bus;
+-    bool format_transport_address;
+-    /* Fields only used for non-legacy (v2) devices */
+-    uint32_t guest_features[2];
+-    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
+-} VirtIOMMIOProxy;
+-
+ static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
+ {
+     return kvm_eventfds_enabled();
 --=20
 2.21.0
 
