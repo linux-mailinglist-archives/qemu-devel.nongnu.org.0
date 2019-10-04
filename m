@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2890CB807
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:17:15 +0200 (CEST)
-Received: from localhost ([::1]:44828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B350DCB800
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:13:42 +0200 (CEST)
+Received: from localhost ([::1]:44762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKeA-0002bk-4p
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:17:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
+	id 1iGKai-0007CC-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2m-0005Rp-5z
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:37 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2k-0005Yu-5A
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2k-0005OO-07
  for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:35 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:45751)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2i-0005Vc-3H
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:33 -0400
+Received: from ozlabs.org ([203.11.71.1]:58615)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK2j-0005Bl-NZ; Fri, 04 Oct 2019 05:38:34 -0400
+ id 1iGK2h-0005Rh-La; Fri, 04 Oct 2019 05:38:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YK65kFz9sRp; Fri,  4 Oct 2019 19:37:57 +1000 (AEST)
+ id 46l4YM444Gz9sSD; Fri,  4 Oct 2019 19:37:59 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570181877;
- bh=Kp19NRaTYZalRan3w5m7M/FYcimhEaePhZoUsGmS3Yo=;
+ d=gibson.dropbear.id.au; s=201602; t=1570181879;
+ bh=KkBbadXgHLKHE0giSnukY5QoB/39g3F8C/fxNfwAoZ4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GI1wqkd1AsnlZYxSm8/9JlHEIlHA3TGbACovzgWtse8XEITk8JXbybYkTnMo74f2U
- CIfeSaQAynH5dbeEmUQNq0jJ6khQlTE2JYEjC5gIQw74ighLh2Gg2YL5PrtF2uDPGW
- PpERNojWSxQtSXK8YpMTqIXA5UTzQ9CKIAo+Pnjo=
+ b=pPxRe5gQtwN1g5osgkniLUaMcKIJ4UTvFkODLWmHL6qR6FDbssNBXpKx7oA4rCKfW
+ pKLiav7I/AItMmIs+NBeqhew2ffTTaZ/bTZRNABoBaJpusTwiTQe8Zeke3c7Yu9xq1
+ Xp3x+ciiBwuj5gXcvFjCH5x6xBAupG2G5eN5VsKs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 25/53] target/ppc: introduce dfp_finalize_decimal{64,
- 128}() helper functions
-Date: Fri,  4 Oct 2019 19:37:19 +1000
-Message-Id: <20191004093747.31350-26-david@gibson.dropbear.id.au>
+Subject: [PULL 30/53] spapr: Render full FDT on ibm,
+ client-architecture-support
+Date: Fri,  4 Oct 2019 19:37:24 +1000
+Message-Id: <20191004093747.31350-31-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,270 +54,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-Most of the DFP helper functions call decimal{64,128}FromNumber() just be=
-fore
-returning in order to convert the decNumber stored in dfp.t64 back to a
-Decimal{64,128} to write back to the FP registers.
+The ibm,client-architecture-support call is a way for the guest to
+negotiate capabilities with a hypervisor. It is implemented as:
+- the guest calls SLOF via client interface;
+- SLOF calls QEMU (H_CAS hypercall) with an options vector from the guest=
+;
+- QEMU returns a device tree diff (which uses FDT format with
+an additional header before it);
+- SLOF walks through the partial diff tree and updates its internal tree
+with the values from the diff.
 
-Introduce new dfp_finalize_decimal{64,128}() helper functions which both =
-enable
-the parameter list to be reduced considerably, and also help minimise the
-changes required in the next patch.
+This changes QEMU to simply re-render the entire tree and send it as
+an update. SLOF can handle this already mostly, [1] is needed before this
+can be applied. This stores the resulting tree in the spapr machine to ha=
+ve
+the latest valid FDT copy possible (this should not matter much as
+H_UPDATE_DT happens right after that but nevertheless).
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190926185801.11176-5-mark.cave-ayland@ilande.co.uk>
+The benefit is reduced code size as there is no need for another set of
+DT rendering helpers such as spapr_fixup_cpu_dt().
+
+The downside is that the updates are bigger now (as they include all
+nodes and properties) but the difference on a '-smp 256,threads=3D1' syst=
+em
+before/after is 2.35s vs. 2.5s.
+
+[1] https://patchwork.ozlabs.org/patch/1152915/
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/dfp_helper.c | 42 ++++++++++++++++++++++-------------------
- 1 file changed, 23 insertions(+), 19 deletions(-)
+ hw/ppc/spapr.c | 88 ++++++--------------------------------------------
+ 1 file changed, 9 insertions(+), 79 deletions(-)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index ab5e91d8ed..8e1ea2971a 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -191,6 +191,16 @@ static void dfp_prepare_decimal128(struct PPC_DFP *d=
-fp, ppc_fprp_t *a,
-     }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 3742a8cf06..43920c140d 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -295,64 +295,6 @@ static void spapr_populate_pa_features(SpaprMachineS=
+tate *spapr,
+     _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_si=
+ze)));
  }
 =20
-+static void dfp_finalize_decimal64(struct PPC_DFP *dfp)
-+{
-+    decimal64FromNumber((decimal64 *)&dfp->t64, &dfp->t, &dfp->context);
-+}
-+
-+static void dfp_finalize_decimal128(struct PPC_DFP *dfp)
-+{
-+    decimal128FromNumber((decimal128 *)&dfp->t64, &dfp->t, &dfp->context=
-);
-+}
-+
- static void dfp_set_FPSCR_flag(struct PPC_DFP *dfp, uint64_t flag,
-                 uint64_t enabled)
+-static int spapr_fixup_cpu_dt(void *fdt, SpaprMachineState *spapr)
+-{
+-    MachineState *ms =3D MACHINE(spapr);
+-    int ret =3D 0, offset, cpus_offset;
+-    CPUState *cs;
+-    char cpu_model[32];
+-    uint32_t pft_size_prop[] =3D {0, cpu_to_be32(spapr->htab_shift)};
+-
+-    CPU_FOREACH(cs) {
+-        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-        DeviceClass *dc =3D DEVICE_GET_CLASS(cs);
+-        int index =3D spapr_get_vcpu_id(cpu);
+-        int compat_smt =3D MIN(ms->smp.threads, ppc_compat_max_vthreads(=
+cpu));
+-
+-        if (!spapr_is_thread0_in_vcore(spapr, cpu)) {
+-            continue;
+-        }
+-
+-        snprintf(cpu_model, 32, "%s@%x", dc->fw_name, index);
+-
+-        cpus_offset =3D fdt_path_offset(fdt, "/cpus");
+-        if (cpus_offset < 0) {
+-            cpus_offset =3D fdt_add_subnode(fdt, 0, "cpus");
+-            if (cpus_offset < 0) {
+-                return cpus_offset;
+-            }
+-        }
+-        offset =3D fdt_subnode_offset(fdt, cpus_offset, cpu_model);
+-        if (offset < 0) {
+-            offset =3D fdt_add_subnode(fdt, cpus_offset, cpu_model);
+-            if (offset < 0) {
+-                return offset;
+-            }
+-        }
+-
+-        ret =3D fdt_setprop(fdt, offset, "ibm,pft-size",
+-                          pft_size_prop, sizeof(pft_size_prop));
+-        if (ret < 0) {
+-            return ret;
+-        }
+-
+-        if (ms->numa_state->num_nodes > 1) {
+-            ret =3D spapr_fixup_cpu_numa_dt(fdt, offset, cpu);
+-            if (ret < 0) {
+-                return ret;
+-            }
+-        }
+-
+-        ret =3D spapr_fixup_cpu_smt_dt(fdt, offset, cpu, compat_smt);
+-        if (ret < 0) {
+-            return ret;
+-        }
+-
+-        spapr_populate_pa_features(spapr, cpu, fdt, offset);
+-    }
+-    return ret;
+-}
+-
+ static hwaddr spapr_node0_size(MachineState *machine)
  {
-@@ -422,7 +432,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *a,               \
-     struct PPC_DFP dfp;                                                 =
-       \
-     dfp_prepare_decimal##size(&dfp, a, b, env);                         =
-       \
-     dnop(&dfp.t, &dfp.a, &dfp.b, &dfp.context);                         =
-       \
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.con=
-text); \
-+    dfp_finalize_decimal##size(&dfp);                                   =
-       \
-     postprocs(&dfp);                                                    =
-       \
-     if (size =3D=3D 64) {                                               =
-           \
-         set_dfp64(t, dfp.t64);                                          =
-       \
-@@ -491,7 +501,7 @@ uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a,=
- ppc_fprp_t *b)           \
-     struct PPC_DFP dfp;                                                 =
-       \
-     dfp_prepare_decimal##size(&dfp, a, b, env);                         =
-       \
-     dnop(&dfp.t, &dfp.a, &dfp.b, &dfp.context);                         =
-       \
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.con=
-text); \
-+    dfp_finalize_decimal##size(&dfp);                                   =
-       \
-     postprocs(&dfp);                                                    =
-       \
-     return dfp.crbf;                                                    =
-       \
- }
-@@ -741,8 +751,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *b,        \
-     dfp.a.exponent =3D (int32_t)((int8_t)(te << 3) >> 3);               =
-  \
-                                                                         =
-\
-     dfp_quantize(rmc, &dfp);                                            =
-\
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,         =
-\
--                              &dfp.context);                            =
-\
-+    dfp_finalize_decimal##size(&dfp);                                   =
-\
-     QUA_PPs(&dfp);                                                      =
-\
-                                                                         =
-\
-     if (size =3D=3D 64) {                                               =
-    \
-@@ -764,8 +773,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *a,        \
-     dfp_prepare_decimal##size(&dfp, a, b, env);                         =
-\
-                                                                         =
-\
-     dfp_quantize(rmc, &dfp);                                            =
-\
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,         =
-\
--                              &dfp.context);                            =
-\
-+    dfp_finalize_decimal##size(&dfp);                                   =
-\
-     QUA_PPs(&dfp);                                                      =
-\
-                                                                         =
-\
-     if (size =3D=3D 64) {                                               =
-    \
-@@ -847,8 +855,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *a,        \
-     ref_sig =3D a64 & 0x3f;                                             =
-  \
-                                                                         =
-\
-     _dfp_reround(rmc, ref_sig, xmax, &dfp);                             =
-\
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,         =
-\
--                              &dfp.context);                            =
-\
-+    dfp_finalize_decimal##size(&dfp);                                   =
-\
-     QUA_PPs(&dfp);                                                      =
-\
-                                                                         =
-\
-     if (size =3D=3D 64) {                                               =
-    \
-@@ -871,7 +878,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *b,               \
-                                                                         =
-       \
-     dfp_set_round_mode_from_immediate(r, rmc, &dfp);                    =
-       \
-     decNumberToIntegralExact(&dfp.t, &dfp.b, &dfp.context);             =
-       \
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.con=
-text); \
-+    dfp_finalize_decimal##size(&dfp);                                   =
-       \
-     postprocs(&dfp);                                                    =
-       \
-                                                                         =
-       \
-     if (size =3D=3D 64) {                                               =
-           \
-@@ -911,7 +918,7 @@ void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, pp=
-c_fprp_t *b)
-=20
-     dfp_prepare_decimal64(&dfp, 0, 0, env);
-     decimal32ToNumber((decimal32 *)&b_short, &dfp.t);
--    decimal64FromNumber((decimal64 *)&dfp.t64, &dfp.t, &dfp.context);
-+    dfp_finalize_decimal64(&dfp);
-     set_dfp64(t, dfp.t64);
-     dfp_set_FPRF_from_FRT(&dfp);
- }
-@@ -927,7 +934,7 @@ void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *b)
-     dfp_check_for_VXSNAN_and_convert_to_QNaN(&dfp);
-     dfp_set_FPRF_from_FRT(&dfp);
-=20
--    decimal128FromNumber((decimal128 *)&dfp.t64, &dfp.t, &dfp.context);
-+    dfp_finalize_decimal128(&dfp);
-     set_dfp128(t, dfp.t64);
+     if (machine->numa_state->num_nodes) {
+@@ -983,11 +925,13 @@ static bool spapr_hotplugged_dev_before_cas(void)
+     return false;
  }
 =20
-@@ -963,7 +970,7 @@ void helper_drdpq(CPUPPCState *env, ppc_fprp_t *t, pp=
-c_fprp_t *b)
-     dfp_check_for_XX(&dfp);
++static void *spapr_build_fdt(SpaprMachineState *spapr);
++
+ int spapr_h_cas_compose_response(SpaprMachineState *spapr,
+                                  target_ulong addr, target_ulong size,
+                                  SpaprOptionVector *ov5_updates)
+ {
+-    void *fdt, *fdt_skel;
++    void *fdt;
+     SpaprDeviceTreeUpdateHeader hdr =3D { .version_id =3D 1 };
 =20
-     dfp.t64[0] =3D dfp.t64[1] =3D 0;
--    decimal64FromNumber((decimal64 *)dfp.t64, &dfp.t, &dfp.context);
-+    dfp_finalize_decimal64(&dfp);
-     set_dfp128(t, dfp.t64);
+     if (spapr_hotplugged_dev_before_cas()) {
+@@ -1003,25 +947,7 @@ int spapr_h_cas_compose_response(SpaprMachineState =
+*spapr,
+=20
+     size -=3D sizeof(hdr);
+=20
+-    /* Create skeleton */
+-    fdt_skel =3D g_malloc0(size);
+-    _FDT((fdt_create(fdt_skel, size)));
+-    _FDT((fdt_finish_reservemap(fdt_skel)));
+-    _FDT((fdt_begin_node(fdt_skel, "")));
+-    _FDT((fdt_end_node(fdt_skel)));
+-    _FDT((fdt_finish(fdt_skel)));
+-    fdt =3D g_malloc0(size);
+-    _FDT((fdt_open_into(fdt_skel, fdt, size)));
+-    g_free(fdt_skel);
+-
+-    /* Fixup cpu nodes */
+-    _FDT((spapr_fixup_cpu_dt(fdt, spapr)));
+-
+-    if (spapr_dt_cas_updates(spapr, fdt, ov5_updates)) {
+-        return -1;
+-    }
+-
+-    /* Pack resulting tree */
++    fdt =3D spapr_build_fdt(spapr);
+     _FDT((fdt_pack(fdt)));
+=20
+     if (fdt_totalsize(fdt) + sizeof(hdr) > size) {
+@@ -1033,7 +959,11 @@ int spapr_h_cas_compose_response(SpaprMachineState =
+*spapr,
+     cpu_physical_memory_write(addr, &hdr, sizeof(hdr));
+     cpu_physical_memory_write(addr + sizeof(hdr), fdt, fdt_totalsize(fdt=
+));
+     trace_spapr_cas_continue(fdt_totalsize(fdt) + sizeof(hdr));
+-    g_free(fdt);
++
++    g_free(spapr->fdt_blob);
++    spapr->fdt_size =3D fdt_totalsize(fdt);
++    spapr->fdt_initial_size =3D spapr->fdt_size;
++    spapr->fdt_blob =3D fdt;
+=20
+     return 0;
  }
-=20
-@@ -975,7 +982,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *b)               \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         =
-       \
-     get_dfp64(&b64, b);                                                 =
-       \
-     decNumberFromInt64(&dfp.t, (int64_t)b64);                           =
-       \
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, &dfp.con=
-text); \
-+    dfp_finalize_decimal##size(&dfp);                                   =
-       \
-     CFFIX_PPs(&dfp);                                                    =
-       \
-                                                                         =
-       \
-     if (size =3D=3D 64) {                                               =
-           \
-@@ -1155,8 +1162,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *b,             \
-     if (s && sgn)  {                                                    =
-     \
-         dfp.t.bits |=3D DECNEG;                                         =
-       \
-     }                                                                   =
-     \
--    decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,         =
-     \
--                              &dfp.context);                            =
-     \
-+    dfp_finalize_decimal##size(&dfp);                                   =
-     \
-     dfp_set_FPRF_from_FRT(&dfp);                                        =
-     \
-     if ((size) =3D=3D 64) {                                             =
-         \
-         set_dfp64(t, dfp.t64);                                          =
-     \
-@@ -1259,8 +1265,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *a,          \
-             dfp.t.bits &=3D ~DECSPECIAL;                                =
-    \
-         }                                                               =
-  \
-         dfp.t.exponent =3D exp - bias;                                  =
-    \
--        decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t,     =
-  \
--                                  &dfp.context);                        =
-  \
-+        dfp_finalize_decimal##size(&dfp);                               =
-  \
-     }                                                                   =
-  \
-     if (size =3D=3D 64) {                                               =
-      \
-         set_dfp64(t, dfp.t64);                                          =
-  \
-@@ -1340,8 +1345,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *a,    \
-             dfp.t.digits =3D max_digits - 1;                          \
-         }                                                           \
-                                                                     \
--        decimal##size##FromNumber((decimal##size *)dfp.t64, &dfp.t, \
--                                  &dfp.context);                    \
-+        dfp_finalize_decimal##size(&dfp);                           \
-     } else {                                                        \
-         if ((size) =3D=3D 64) {                                         =
-\
-             dfp.t64[0] =3D dfp.a64[0] & 0xFFFC000000000000ULL;        \
 --=20
 2.21.0
 
