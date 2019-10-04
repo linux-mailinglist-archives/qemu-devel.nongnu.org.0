@@ -2,57 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E047CB909
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:21:43 +0200 (CEST)
-Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E71CB910
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 13:24:54 +0200 (CEST)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGLeX-00076X-LH
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:21:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34815)
+	id 1iGLhc-0001bK-Re
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 07:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iGKgv-0007GH-P0
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:20:10 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iGKhp-0008WQ-Uu
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:21:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iGKgt-0002K1-GW
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:20:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:3419)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iGKho-0002lp-HM
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:21:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59793)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iGKgp-0002CS-Fa; Fri, 04 Oct 2019 06:19:59 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1iGKho-0002l5-9S
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:21:00 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EC91E335DC;
- Fri,  4 Oct 2019 10:19:57 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C5696060D;
- Fri,  4 Oct 2019 10:19:54 +0000 (UTC)
-Date: Fri, 4 Oct 2019 12:19:52 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v5 1/5] iotests: remove 'linux' from default supported
- platforms
-Message-ID: <20191004101952.GC5491@linux.fritz.box>
-References: <20190917234549.22910-1-jsnow@redhat.com>
- <20190917234549.22910-2-jsnow@redhat.com>
- <a252472e-842a-8401-2743-e4ed948b066b@redhat.com>
- <450a1f52-9589-cb98-88cb-1d3fcd5f506a@redhat.com>
- <778487c5-566e-d133-6395-d3908db66adc@redhat.com>
- <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
- <16eef993-c16e-3fd7-c60d-6d3c7bfb5148@redhat.com>
- <20191002164438.GD5819@localhost.localdomain>
- <a7f532cc-68cb-175e-6c8f-930401221ef9@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 867EB3090FDE
+ for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 10:20:58 +0000 (UTC)
+Received: from localhost (ovpn-112-73.ams2.redhat.com [10.36.112.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81B5960BE1;
+ Fri,  4 Oct 2019 10:20:53 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/8] Add dbus-vmstate
+Date: Fri,  4 Oct 2019 14:20:43 +0400
+Message-Id: <20191004102051.19738-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
-Content-Disposition: inline
-In-Reply-To: <a7f532cc-68cb-175e-6c8f-930401221ef9@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 04 Oct 2019 10:19:57 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Fri, 04 Oct 2019 10:20:58 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -67,136 +55,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: berrange@redhat.com, quintela@redhat.com, mprivozn@redhat.com,
+ dgilbert@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---C7zPtVaVf+AK4Oqc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+With external processes or helpers participating to the VM support, it
+becomes necessary to handle their migration. Various options exist to
+transfer their state:
+1) as the VM memory, RAM or devices (we could say that's how
+   vhost-user devices can be handled today, they are expected to
+   restore from ring state)
+2) other "vmstate" (as with TPM emulator state blobs)
+3) left to be handled by management layer
 
-Am 02.10.2019 um 19:47 hat Max Reitz geschrieben:
-> On 02.10.19 18:44, Kevin Wolf wrote:
-> > Am 02.10.2019 um 13:57 hat Max Reitz geschrieben:
-> >> It usually worked fine for me because it=E2=80=99s rather rare that no=
-n-block
-> >> patches broke the iotests.
-> >=20
-> > I disagree. It happened all the time that someone else broke the iotests
-> > in master and we needed to fix it up.
->=20
-> OK.
->=20
-> (In my experience, it=E2=80=99s still mostly block patches, only that the=
-y tend
-> to go through non-block trees.)
+1) is not practical, since an external processes may legitimatelly
+need arbitrary state date to back a device or a service, or may not
+even have an associated device.
 
-Fair enough, it's usually code that touches block code. I assumed "block
-patches" to mean patches that go through one of the block trees and for
-which iotests are run before sending a pull request.
+2) needs ad-hoc code for each helper, but is simple and working
 
-In the end, I don't care what code these patches touched. I do an
-innocent git pull, and when I finally see that it's master that breaks
-iotests and not my patches on top of it, I'm annoyed.
+3) is complicated for management layer, QEMU has the migration timing
 
-> >> Maybe my main problem is that I feel like now I have to deal with all =
-of
-> >> the fallout, even though adding the iotests to make check wasn=E2=80=
-=99t my idea
-> >> and neither me nor Kevin ever consented.  (I don=E2=80=99t know whethe=
-r Kevin
-> >> consented implicitly, but I don=E2=80=99t see his name in bdd95e47844f=
-2d8b.)
-> >>
-> >> You can=E2=80=99t just give me more responsibility without my consent =
-and then
-> >> call me egoistic for not liking it.
-> >=20
-> > I think I may have implicitly consented by helping Alex with the changes
-> > to 'check' that made its output fit better in 'make check'.
-> >=20
-> > Basically, my stance is that I share your dislike for the effects on me
-> > personally (also, I can't run 'make check' any more before a pull
-> > request without testing half of the iotests twice because I still need a
-> > full iotests run), but I also think that having iotests in 'make check'
-> > is really the right thing for the project despite the inconvenience it
-> > means for me.
->=20
-> Then I expect you to NACK Thomas=E2=80=99s patch, and I take it to mean t=
-hat I
-> can rely on you to handle basically all make check iotests failures that
-> are not caused by my own pull requests.
->=20
-> Works for me.
+The proposed "dbus-vmstate" object will connect to a given D-Bus
+address, and save/load from org.qemu.VMState1 owners on migration.
 
-Ah, we can also play this game the other way round.
+Thus helpers can easily have their state migrated with QEMU, without
+implementing ad-hoc support (such as done for TPM emulation)
 
-So if you merge that revert, when iotests break in master, I take it I
-can rely on you to fix it up before it impacts my working branch?
+D-Bus is ubiquitous on Linux (it is systemd IPC), and can be made to
+work on various other OSes. There are several implementations and good
+bindings for various languages.  (the tests/dbus-vmstate-test.c is a
+good example of how simple the implementation of services can be, even
+in C)
 
-> >> I know you=E2=80=99ll say that we just need to ensure we can add more =
-tests,
-> >> then.  But for one thing, the most important tests are the ones that
-> >> take the longest, like 041.  And the other of course is that adding any
-> >> more tests to make check just brings me more pain, so I won=E2=80=99t =
-do it.
-> >=20
-> > That's something that can be fixed by tweaking the auto group.
-> >=20
-> > Can we run tests in 'auto' that require the system emulator? If so,
-> > let's add 030 040 041 to the default set. They take long, but they are
-> > among the most valuable tests we have. If this makes the tests take too
-> > much time, let's remove some less important ones instead.
-> >=20
-> >> [1] There is the recent case of Kevin=E2=80=99s pull request having be=
-en
-> >> rejected because his test failed on anything but x64.  I=E2=80=99m tor=
-n here,
-> >> because I would have seen that failure on my -m32 build.  So it isn=E2=
-=80=99t
-> >> like it would have evaded our view for long.
-> >=20
-> > I messed up, so this pull request was rightly stopped. I consider this
-> > one a feature, not a bug.
->=20
-> Sure, that was a good thing.  I just wonder whether that instance is
-> enough to justify the pain.
+dbus-vmstate is put into use by the libvirt series "[PATCH 00/23] Use
+a slirp helper process".
 
-Yes, making iotests stable on CI probably involves some pain, especially
-initially. However, if we don't fix them upstream, they'll end up on our
-desk again downstream because people run tests neither on your nor on my
-laptop.
+v5:
+- trying to fix patchew/ci: install dbus-daemon in containers, skip
+  test if unavailable
 
-I think we might actually save time by fixing them once and for all,
-even if they are problems in the test cases and not in QEMU, and making
-new test cases portable from the start, instead of getting individual
-reports one at a time and having to look at the same test cases again
-and again.
+v4:
+- add Daniel security scenarios to the D-Bus document
+- misc doc improvements
+- add "util: add dbus helper unit" patch, with
+  qemu_dbus_get_queued_owners()
+- add "configure: add GDBUS_CODEGEN", explaining why gio-unix is
+  required when available
+- silence the expected failing tests
+- update copyright headers, MAINTAINERS
+- add r-b/a-b tags
+- rebased
 
-Kevin
+(Note: patchew dbus test fails for unclear reasons, but I can't
+reproduce locally nor on travis)
 
---C7zPtVaVf+AK4Oqc
-Content-Type: application/pgp-signature; name="signature.asc"
+v3:
+- after various discussions on helper processes, we settled on a
+  preference for having a bus for communications. This version is
+  actually v1 updated.
+- added a dbus.rst document to describe D-Bus recommendations for QEMU
+- added dbus-vmstate-daemon.sh to play with the dbus-daemon configuration
+  (although it is not very useful in the context of a single UID)
+- added a new vmstate interface, so that any object can implement
+  VMStateDescription, and converted dbus-vmstate
+- added "migration: fix vmdesc leak on vmstate_save() error"
+- convert to g_auto
 
------BEGIN PGP SIGNATURE-----
+v2:
+- D-Bus is most common and practical through a bus, but it requires a
+  daemon to be running. I argue that the benefits outweight the cost
+  of running an extra daemon in v1 in the context of multi-process
+  qemu, but it is also possible to connect in p2p mode as done in this
+  new version.
 
-iQIcBAEBAgAGBQJdlxzIAAoJEH8JsnLIjy/WLX4P/0oT0ZqAGxNqgs25eRRy5UCs
-vKH/Bpj84TP52/PmuPvyp16AJqknOQ1Rk4A8HCWK6MqM5dcfYKT0/X2A2Gr0DJp1
-JSYEckzOdwMlv80c9wdaB/Vj3c3LNRualnZi+LNA555u2ByCg7pwhxdrDSdpdjxG
-5ffsUCAQJ+HLSbTIJcRuIUJlnEHDdfaT9aGNJ8ti9dudN2fSARxQ1Tn7WruAbN0U
-eAE7UvlzW3jpsj8vNATxd1VE9wobMin/EgeszejMFvkMsBoiG8Y+2U2Wc21Cnt7D
-OJmSxBrN7PyN2atVJXGBRhW4/Z0aqezviPFGxY0/OnOehiWzC5mUX8o8l7IFxp2V
-75boweamxQgwkB7q7h7oWgLaLsDKqIY5n6D1vwv96Bsmt/9cKPQPWaSopiKtdelZ
-m+6Xuc9uGZMPLKmTI0yzIGagabGmGJWi3KJZmkP1b6mErrArN+tgRh7+Mt2rxnqt
-E0dZ+ULhJmySGaBylhfChzpyDIKnSZdQgAOkVGSsbV9uWVOEY5j5VgscJolrQh+7
-H0cuD7CCSfL3cuVRi69AYeWHGk4gj6BiOC4d9q1WYYSwfqB63MPd6K44aszpSKGU
-vJckcvF2qpkxiZctahFKbUiZF9W/KwjJICIFCkNLfxWDai86NwmNmkBuRsFaYSgK
-mDd3ndyd56TuKuWX16Fn
-=SKs8
------END PGP SIGNATURE-----
+Marc-Andr=C3=A9 Lureau (8):
+  vmstate: add qom interface to get id
+  vmstate: replace DeviceState with VMStateIf
+  docs: start a document to describe D-Bus usage
+  util: add dbus helper unit
+  Add dbus-vmstate object
+  configure: add GDBUS_CODEGEN
+  dockerfiles: add dbus-daemon to some of latest distributions
+  tests: add dbus-vmstate-test
 
---C7zPtVaVf+AK4Oqc--
+ MAINTAINERS                              |  12 +
+ backends/Makefile.objs                   |   4 +
+ backends/dbus-vmstate.c                  | 496 +++++++++++++++++++++++
+ configure                                |   7 +
+ docs/interop/dbus-vmstate.rst            |  74 ++++
+ docs/interop/dbus.rst                    | 104 +++++
+ docs/interop/index.rst                   |   2 +
+ hw/block/onenand.c                       |   2 +-
+ hw/core/Makefile.objs                    |   1 +
+ hw/core/qdev.c                           |  21 +-
+ hw/core/vmstate-if.c                     |  23 ++
+ hw/ide/cmd646.c                          |   2 +-
+ hw/ide/isa.c                             |   2 +-
+ hw/ide/piix.c                            |   2 +-
+ hw/ide/via.c                             |   2 +-
+ hw/misc/max111x.c                        |   2 +-
+ hw/net/eepro100.c                        |   4 +-
+ hw/nvram/eeprom93xx.c                    |   4 +-
+ hw/ppc/spapr_drc.c                       |   9 +-
+ hw/ppc/spapr_iommu.c                     |   4 +-
+ hw/s390x/s390-skeys.c                    |   2 +-
+ include/hw/vmstate-if.h                  |  40 ++
+ include/migration/register.h             |   4 +-
+ include/migration/vmstate.h              |  10 +-
+ include/qemu/dbus.h                      |  18 +
+ migration/savevm.c                       |  20 +-
+ stubs/vmstate.c                          |   4 +-
+ tests/Makefile.include                   |  23 +-
+ tests/dbus-vmstate-daemon.sh             |  95 +++++
+ tests/dbus-vmstate-test.c                | 399 ++++++++++++++++++
+ tests/dbus-vmstate1.xml                  |  12 +
+ tests/docker/dockerfiles/centos7.docker  |   1 +
+ tests/docker/dockerfiles/debian10.docker |   1 +
+ tests/docker/dockerfiles/fedora.docker   |   1 +
+ tests/docker/dockerfiles/ubuntu.docker   |   1 +
+ util/Makefile.objs                       |   3 +
+ util/dbus.c                              |  55 +++
+ 37 files changed, 1428 insertions(+), 38 deletions(-)
+ create mode 100644 backends/dbus-vmstate.c
+ create mode 100644 docs/interop/dbus-vmstate.rst
+ create mode 100644 docs/interop/dbus.rst
+ create mode 100644 hw/core/vmstate-if.c
+ create mode 100644 include/hw/vmstate-if.h
+ create mode 100644 include/qemu/dbus.h
+ create mode 100755 tests/dbus-vmstate-daemon.sh
+ create mode 100644 tests/dbus-vmstate-test.c
+ create mode 100644 tests/dbus-vmstate1.xml
+ create mode 100644 util/dbus.c
+
+--=20
+2.23.0
+
 
