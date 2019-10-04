@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09B5CB444
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 07:54:47 +0200 (CEST)
-Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DE4CB475
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 08:25:17 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGGYA-0007vD-BN
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 01:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38133)
+	id 1iGH1f-0003ud-UJ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 02:25:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iGGWo-00070J-Pk
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 01:53:23 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGG9d-0003NP-3p
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 01:29:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iGGWn-0008Eh-MG
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 01:53:22 -0400
-Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:37160)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGG9b-0004aX-G2
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 01:29:24 -0400
+Received: from ozlabs.org ([203.11.71.1]:38905)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iGGWn-0008De-Gm
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 01:53:21 -0400
-Received: from player746.ha.ovh.net (unknown [10.108.42.196])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 043642513D1
- for <qemu-devel@nongnu.org>; Fri,  4 Oct 2019 07:53:18 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player746.ha.ovh.net (Postfix) with ESMTPSA id AB716AA646FE;
- Fri,  4 Oct 2019 05:53:14 +0000 (UTC)
-Subject: Re: [PATCH 2/7] spapr, xive: Turn "nr-ends" property into
- "nr-servers" property
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <157010404888.246126.9768030542733152637.stgit@bahia.lan>
- <157010406203.246126.13381271918474281392.stgit@bahia.lan>
- <20191004040725.GB27597@umbus.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <6313a1ea-f891-d7a0-c5f1-ecf656b58bc3@kaod.org>
-Date: Fri, 4 Oct 2019 07:53:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iGG9Z-0004VE-41
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 01:29:23 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46kz2G320kz9sPw; Fri,  4 Oct 2019 15:29:10 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570166950;
+ bh=uXl4/sIGY5mRu5kIBOlLm8n9Y4qaBXFp5OI9TutNwaY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=pA9qlgKtp+VpYMhlvdRUYTwy0BP9RGLnpH+07p9CbnwmUFkzwGiGguWbLQHcLLhuf
+ 3rtq5nYfpwajoH81CcU4CtFdCZHfOVdNbm6m2tPN4OBDCifXgHwc7IH/OzT2jW/R5j
+ eL/chmJusJLYOGFUKh/8XsdkZJKQnbVMLnHHza1s=
+Date: Fri, 4 Oct 2019 15:29:06 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Skip
+ LinuxInitrd.test_with_2gib_file_should_exit_error_msg_with_linux_v3_6 on
+ 32-bit hosts?
+Message-ID: <20191004052906.GC27597@umbus.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <20191004040725.GB27597@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 16018740927404084032
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrhedtgdefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1ccMZA6j1vT5UqiK"
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.174.144
+X-Received-From: 203.11.71.1
+X-Mailman-Approved-At: Fri, 04 Oct 2019 02:23:42 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,28 +56,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Caio Carrara <ccarrara@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> @@ -283,11 +292,13 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
->>          return;
->>      }
->>  
->> -    if (!xive->nr_ends) {
->> -        error_setg(errp, "Number of interrupt needs to be greater 0");
->> +    if (!xive->nr_servers) {
->> +        error_setg(errp, "Number of interrupt servers must be greater than 0");
->>          return;
->>      }
->>  
->> +    xive->nr_ends = spapr_xive_vcpu_id_to_end_idx(xive->nr_servers);
-> 
-> I'd prefer not to store both nr_servers and nr_servers * 8 in the
-> structure.  I think you just want xive->nr_servers, then derive it any
-> any places that current look at xive->nr_ends.
 
-Yes I agree. This is a small change.
+--1ccMZA6j1vT5UqiK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-C. 
+When I run make check-acceptance in a 32-bit (i686) container, this
+test fails, because it tries to start a guest with 4G of RAM, which
+can't fit in the userspace address space on a 32-bit host, obviously.
+
+ (16/44) /home/dwg/src/qemu/tests/acceptance/linux_initrd.py:LinuxInitrd.te=
+st_with_2gib_file_should_exit_error_msg_with_linux_v3_6: FAIL: Regex didn't=
+ match: '.*initrd is too large.*max: \\d+, need 2147483648.*' not found in =
+'qemu-system-x86_64: -m 4096: ram size too large\n' (0.12 s)
+
+Should we simply skip this test on 32-bit hosts?
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--1ccMZA6j1vT5UqiK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2W2KIACgkQbDjKyiDZ
+s5KuYBAA0AzduJcHTBLGdIxxeMV9F0iXgd7G4MAJSW+v9KMUX+IRJsi8nO9amzbg
+s0S2cQpEPjZ4WIBUvdZWFl9LK57n54EPlG/p1r254oWqorL2TE8tsjNNXAGAy2CA
+6lZrXaa/GeEgLfoZyqCIYE48UIiGH3pQpbIxc4wquxq7ocfE6JLtX4msSzEO49sE
+W4gqEZ644TU9qUtk8pOIOC7MkiJbxiCfm+up54+7ErcPTvxZBvBkuwqOmKrAEBHT
+Qj0ieZrLsIWF4pkIo4G2JVpGV2quwGaPG8X4teuv0zLnVQIhKoY9Xg6penvjcNly
+UNJ21rwhugctQp+YExPx3Q10mv3QyO+ae6f2/9XsLmt/pgCwXUnxmJZmqdWb5AQC
+LUUeGAOg94iYzO5lcanwdtmcr5ZAYEfvY7XcuUhwvGC/oYr1wB606C10M622tpxN
+eceGzzpS0ihyKKTAjA71gjw05ncFfciGLBBJlFVLKh2z4pcvLgy+QmRpRScai0rI
+pfJFk810uQSftl002fOIP/pd+r1v9OA3w6e8TY59gFwdYNe4PEiin2xiqqaqLb8X
+hTPmBCjc9/1iE4F7TJY8xi/Sl0ixhVDwR3DaonjunSULfXNnSQWxoYYydTztEGiQ
+uYGsBtlwYrMpLmWKYl4bTlLBFXji1dCBkYg4SvzZUqqXfJ4qLsk=
+=ytxQ
+-----END PGP SIGNATURE-----
+
+--1ccMZA6j1vT5UqiK--
 
