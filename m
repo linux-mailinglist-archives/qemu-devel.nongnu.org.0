@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADB3CC04F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 18:13:04 +0200 (CEST)
-Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D47ECC0DB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 18:33:25 +0200 (CEST)
+Received: from localhost ([::1]:50518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGQCV-0001Lt-46
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 12:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42328)
+	id 1iGQWB-0006Cg-Kh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 12:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iGPuf-0006N3-60
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 11:54:38 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iGQUt-0005dg-7L
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 12:32:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iGPud-0000f7-TQ
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 11:54:37 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:50966 helo=huawei.com)
+ (envelope-from <mreitz@redhat.com>) id 1iGQUs-0008PA-1h
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 12:32:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:1992)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1iGPuU-0000XK-GF; Fri, 04 Oct 2019 11:54:26 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id D6CA060ED9B3CA423F9F;
- Fri,  4 Oct 2019 23:54:22 +0800 (CST)
-Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 4 Oct 2019 23:54:13 +0800
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
- <imammedo@redhat.com>
-Subject: [PATCH 5/5] hw/arm/virt: Add nvdimm hotplug support
-Date: Fri, 4 Oct 2019 16:53:02 +0100
-Message-ID: <20191004155302.4632-6-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
-In-Reply-To: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
-References: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iGQUo-0008Ny-4x; Fri, 04 Oct 2019 12:31:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C59B0881366;
+ Fri,  4 Oct 2019 16:31:56 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-31.brq.redhat.com
+ [10.40.204.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB6BB6012C;
+ Fri,  4 Oct 2019 16:31:52 +0000 (UTC)
+Subject: Re: [PATCH 3/4] block/mirror: support unaligned write in active mirror
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20190912151338.21225-1-vsementsov@virtuozzo.com>
+ <20190912151338.21225-4-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6fd6a449-0443-ecfa-0eec-23e3b515b303@redhat.com>
+Date: Fri, 4 Oct 2019 18:31:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.202.227.237]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20190912151338.21225-4-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="NnRTkHir4cCIKYDsS0FEEjxOGi1iPk5C0"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Fri, 04 Oct 2019 16:31:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,156 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, lersek@redhat.com, linuxarm@huawei.com,
- xuwei5@hisilicon.com, shannon.zhaosl@gmail.com
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds support for nvdimm hotplug events through GED
-and enables nvdimm for the arm/virt. Now Guests with DT boot
-can have nvdimm cold plug and with ACPI both cold/hot plug.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--NnRTkHir4cCIKYDsS0FEEjxOGi1iPk5C0
+Content-Type: multipart/mixed; boundary="y6cCdsqYswb8L3Wjn3vovrA32MRNgMHpp"
 
-Hot removal functionality is not yet supported.
+--y6cCdsqYswb8L3Wjn3vovrA32MRNgMHpp
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
----
- docs/specs/acpi_hw_reduced_hotplug.rst |  1 +
- hw/acpi/generic_event_device.c         | 13 +++++++++++++
- hw/arm/virt.c                          | 20 +++++++++++++++-----
- include/hw/acpi/generic_event_device.h |  1 +
- 4 files changed, 30 insertions(+), 5 deletions(-)
+On 12.09.19 17:13, Vladimir Sementsov-Ogievskiy wrote:
+> Prior 9adc1cb49af8d do_sync_target_write had a bug: it reset aligned-up=
 
-diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_reduced_hotplug.rst
-index 911a98255b..e3abe975bf 100644
---- a/docs/specs/acpi_hw_reduced_hotplug.rst
-+++ b/docs/specs/acpi_hw_reduced_hotplug.rst
-@@ -63,6 +63,7 @@ GED IO interface (4 byte access)
-     bits:
-        0: Memory hotplug event
-        1: System power down event
-+       2: NVDIMM hotplug event
-     2-31: Reserved
- 
- **write_access:**
-diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-index 9cee90cc70..ad1b684304 100644
---- a/hw/acpi/generic_event_device.c
-+++ b/hw/acpi/generic_event_device.c
-@@ -16,6 +16,7 @@
- #include "hw/acpi/generic_event_device.h"
- #include "hw/irq.h"
- #include "hw/mem/pc-dimm.h"
-+#include "hw/mem/nvdimm.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qemu/error-report.h"
-@@ -23,6 +24,7 @@
- static const uint32_t ged_supported_events[] = {
-     ACPI_GED_MEM_HOTPLUG_EVT,
-     ACPI_GED_PWR_DOWN_EVT,
-+    ACPI_GED_NVDIMM_HOTPLUG_EVT,
- };
- 
- /*
-@@ -110,6 +112,11 @@ void build_ged_aml(Aml *table, const char *name, HotplugHandler *hotplug_dev,
-                            aml_notify(aml_name(ACPI_POWER_BUTTON_DEVICE),
-                                       aml_int(0x80)));
-                 break;
-+            case ACPI_GED_NVDIMM_HOTPLUG_EVT:
-+                aml_append(if_ctx,
-+                           aml_notify(aml_name("\\_SB.NVDR"),
-+                                      aml_int(0x80)));
-+                break;
-             default:
-                 /*
-                  * Please make sure all the events in ged_supported_events[]
-@@ -175,7 +182,11 @@ static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
-     AcpiGedState *s = ACPI_GED(hotplug_dev);
- 
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-+        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
-+            nvdimm_acpi_plug_cb(hotplug_dev, dev);
-+        } else {
-             acpi_memory_plug_cb(hotplug_dev, &s->memhp_state, dev, errp);
-+        }
-     } else {
-         error_setg(errp, "virt: device plug request for unsupported device"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -192,6 +203,8 @@ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
-         sel = ACPI_GED_MEM_HOTPLUG_EVT;
-     } else if (ev & ACPI_POWER_DOWN_STATUS) {
-         sel = ACPI_GED_PWR_DOWN_EVT;
-+    } else if (ev & ACPI_NVDIMM_HOTPLUG_STATUS) {
-+        sel = ACPI_GED_NVDIMM_HOTPLUG_EVT;
-     } else {
-         /* Unknown event. Return without generating interrupt. */
-         warn_report("GED: Unsupported event %d. No irq injected", ev);
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 30bc8a7803..acdcba9638 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -543,6 +543,10 @@ static inline DeviceState *create_acpi_ged(VirtMachineState *vms, qemu_irq *pic)
-         event |= ACPI_GED_MEM_HOTPLUG_EVT;
-     }
- 
-+    if (ms->nvdimms_state->is_enabled) {
-+        event |= ACPI_GED_NVDIMM_HOTPLUG_EVT;
-+    }
-+
-     dev = qdev_create(NULL, TYPE_ACPI_GED);
-     qdev_prop_set_uint32(dev, "ged-event", event);
- 
-@@ -1938,9 +1942,12 @@ static void virt_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     }
- 
-     if (!vms->acpi_dev) {
--        error_setg(errp,
--                   "memory hotplug is not enabled: missing acpi-ged device");
--        return;
-+        /* Allow nvdimm DT or cold plug */
-+        if (!(is_nvdimm && !dev->hotplugged)) {
-+            error_setg(errp,
-+                       "memory hotplug is not enabled: missing acpi-ged device");
-+            return;
-+         }
-     }
- 
-     pc_dimm_pre_plug(PC_DIMM(dev), MACHINE(hotplug_dev), NULL, errp);
-@@ -1964,8 +1971,10 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
-         nvdimm_plug(ms->nvdimms_state);
-     }
- 
--    hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
--    hhc->plug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &error_abort);
-+    if (vms->acpi_dev) {
-+        hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
-+        hhc->plug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &error_abort);
-+    }
- out:
-     error_propagate(errp, local_err);
- }
-@@ -2073,6 +2082,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     hc->plug = virt_machine_device_plug_cb;
-     hc->unplug_request = virt_machine_device_unplug_request_cb;
-     mc->numa_mem_supported = true;
-+    mc->nvdimm_supported = true;
-     mc->auto_enable_numa_with_memhp = true;
- }
- 
-diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
-index d157eac088..9eb86ca4fd 100644
---- a/include/hw/acpi/generic_event_device.h
-+++ b/include/hw/acpi/generic_event_device.h
-@@ -82,6 +82,7 @@
-  */
- #define ACPI_GED_MEM_HOTPLUG_EVT   0x1
- #define ACPI_GED_PWR_DOWN_EVT      0x2
-+#define ACPI_GED_NVDIMM_HOTPLUG_EVT 0x4
- 
- typedef struct GEDState {
-     MemoryRegion io;
--- 
-2.17.1
+> region in the dirty bitmap, which means that we may not copy some bytes=
+
+> and assume them copied, which actually leads to producing corrupted
+> target.
+>=20
+> So 9adc1cb49af8d forced dirty bitmap granularity to be
+> request_alignment for mirror-top filter, so we are not working with
+> unaligned requests. However forcing large alignment obviously decreases=
+
+> performance of unaligned requests.
+>=20
+> This commit provides another solution for the problem: if unaligned
+> padding is already dirty, we can safely ignore it, as
+> 1. It's dirty, it will be copied by mirror_iteration anyway
+> 2. It's dirty, so skipping it now we don't increase dirtiness of the
+>    bitmap and therefore don't damage "synchronicity" of the
+>    write-blocking mirror.
+>=20
+> If unaligned padding is not dirty, we just write it, no reason to touch=
+
+> dirty bitmap if we succeed (on failure we'll set the whole region
+> ofcourse, but we loss "synchronicity" on failure anyway).
+>=20
+> Note: we need to disable dirty_bitmap, otherwise we will not be able to=
+
+> see in do_sync_target_write bitmap state before current operation. We
+> may of course check dirty bitmap before the operation in
+> bdrv_mirror_top_do_write and remember it, but we don't need active
+> dirty bitmap for write-blocking mirror anyway.
+>=20
+> New code-path is unused until the following commit reverts
+> 9adc1cb49af8d.
+>=20
+> Suggested-by: Denis V. Lunev <den@openvz.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/mirror.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 38 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/block/mirror.c b/block/mirror.c
+> index d176bf5920..d192f6a96b 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -1204,6 +1204,39 @@ do_sync_target_write(MirrorBlockJob *job, Mirror=
+Method method,
+>                       QEMUIOVector *qiov, int flags)
+>  {
+>      int ret;
+> +    size_t qiov_offset =3D 0;
+> +
+> +    if (!QEMU_IS_ALIGNED(offset, job->granularity) &&
+> +        bdrv_dirty_bitmap_get(job->dirty_bitmap, offset)) {
+> +            /*
+> +             * Dirty unaligned padding
+> +             * 1. It's already dirty, no damage to "actively_synced" i=
+f we just
+> +             *    skip unaligned part.
+> +             * 2. If we copy it, we can't reset corresponding bit in
+> +             *    dirty_bitmap as there may be some "dirty" bytes stil=
+l not
+> +             *    copied.
+> +             * So, just ignore it.
+> +             */
+> +            qiov_offset =3D QEMU_ALIGN_UP(offset, job->granularity) - =
+offset;
+> +            if (bytes <=3D qiov_offset) {
+> +                /* nothing to do after shrink */
+> +                return;
+> +            }
+> +            offset +=3D qiov_offset;
+> +            bytes -=3D qiov_offset;
+> +    }
+> +
+> +    if (!QEMU_IS_ALIGNED(offset + bytes, job->granularity) &&
+> +        bdrv_dirty_bitmap_get(job->dirty_bitmap, offset + bytes - 1))
+> +    {
+> +        uint64_t tail =3D (offset + bytes) % job->granularity;
+> +
+> +        if (bytes <=3D tail) {
+> +            /* nothing to do after shrink */
+> +            return;
+> +        }
+> +        bytes -=3D tail;
+> +    }
+> =20
+>      bdrv_reset_dirty_bitmap(job->dirty_bitmap, offset, bytes);
+> =20
+
+The bdrv_set_dirty_bitmap() in the error case below needs to use the
+original offset/bytes, I suppose.
+
+Apart from that, looks good to me.
+
+Max
 
 
+--y6cCdsqYswb8L3Wjn3vovrA32MRNgMHpp--
+
+--NnRTkHir4cCIKYDsS0FEEjxOGi1iPk5C0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2Xc/cACgkQ9AfbAGHV
+z0BHKQf/YTvtx4f7SKBt+T9Nhb9ORb76cjz4TGrajZd/Ox+XsHnRSK5nyotK+nc+
+VljtG2Q/qnr7mBFTCu6E+fbKclsWCkHXDRDXP/RVau8814L35cfPf2qROwYx2mnM
+m5loesf58K+PKoyulkzDWpmEsc7kduNkdO3ZfWCmb/z+IO5X4p7S3AM/QzggJsE+
+JOmkCDkgCdfErBscropthejhvUcRM+cEsmuUtRbUxznv1fhbB6kZn+YwctmT6E1q
+dPakREbHbdgtEyS8cMbpYr52Auwv90Ks5V/Mg/Yd8c1MVuU3/Cb++sw9LUnRUJni
+Xqh780TKSpojbCzUWOUugsZRdhPtUg==
+=5MmK
+-----END PGP SIGNATURE-----
+
+--NnRTkHir4cCIKYDsS0FEEjxOGi1iPk5C0--
 
