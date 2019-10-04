@@ -2,91 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DAACBD98
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 16:42:15 +0200 (CEST)
-Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F978CBE16
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 16:52:59 +0200 (CEST)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGOmc-0003uA-4C
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 10:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58013)
+	id 1iGOx0-0008Pd-4c
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 10:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iGOkn-0003GZ-HY
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 10:40:23 -0400
+ (envelope-from <giuseppe@lettieri.iet.unipi.it>) id 1iGNF5-00033N-Ph
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 09:03:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iGOkm-00045o-7z
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 10:40:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55245)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iGOkj-00042a-9D; Fri, 04 Oct 2019 10:40:17 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 885B53C93E;
- Fri,  4 Oct 2019 14:40:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-31.brq.redhat.com
- [10.40.204.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97DDE60C18;
- Fri,  4 Oct 2019 14:40:12 +0000 (UTC)
-Subject: Re: [PATCH v5 1/5] iotests: remove 'linux' from default supported
- platforms
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190917234549.22910-1-jsnow@redhat.com>
- <20190917234549.22910-2-jsnow@redhat.com>
- <a252472e-842a-8401-2743-e4ed948b066b@redhat.com>
- <450a1f52-9589-cb98-88cb-1d3fcd5f506a@redhat.com>
- <778487c5-566e-d133-6395-d3908db66adc@redhat.com>
- <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
- <16eef993-c16e-3fd7-c60d-6d3c7bfb5148@redhat.com>
- <20191002164438.GD5819@localhost.localdomain>
- <a7f532cc-68cb-175e-6c8f-930401221ef9@redhat.com>
- <20191004101952.GC5491@linux.fritz.box>
- <d194e22c-7125-e558-0a80-131a28a87419@redhat.com>
- <CAFEAcA-4-ttpQ5S-HuEtv86TeNjBnFzp77D5ML1D9CZMYGR5Ow@mail.gmail.com>
- <2873f340-cac2-c168-d46a-e22c0571e83d@redhat.com>
- <CAFEAcA99ezCejkZi9+yVYK-SRpNOvPng9vrkF+kcuS12LQBmuQ@mail.gmail.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <77909bda-ebcc-41be-2547-c81870db79ab@redhat.com>
-Date: Fri, 4 Oct 2019 16:40:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <giuseppe@lettieri.iet.unipi.it>) id 1iGNF4-0002ak-7U
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 09:03:31 -0400
+Received: from smtp2.unipi.it ([131.114.21.21]:44168 helo=smtp.unipi.it)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <giuseppe@lettieri.iet.unipi.it>) id 1iGNF3-0002UG-Tu
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 09:03:30 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.unipi.it (Postfix) with ESMTP id 2F16440EAB;
+ Fri,  4 Oct 2019 15:03:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at unipi.it
+Received: from lettieri.iet.unipi.it (triderg7.iet.unipi.it [131.114.58.42])
+ (Authenticated User)
+ by smtp.unipi.it (Postfix) with ESMTPSA id 855A340EAA;
+ Fri,  4 Oct 2019 15:03:20 +0200 (CEST)
+Received: by lettieri.iet.unipi.it (Postfix, from userid 1000)
+ id 4AFE040AC; Fri,  4 Oct 2019 15:03:05 +0200 (CEST)
+From: Giuseppe Lettieri <g.lettieri@iet.unipi.it>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH] netmap: support git-submodule build otption
+Date: Fri,  4 Oct 2019 15:02:42 +0200
+Message-Id: <20191004130242.27267-1-g.lettieri@iet.unipi.it>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <874l13qmvb.fsf@dusky.pond.sub.org>
+References: <874l13qmvb.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA99ezCejkZi9+yVYK-SRpNOvPng9vrkF+kcuS12LQBmuQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sot3Lu3Pdqn2YIRfDu62j2StjS8B7NzsU"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 04 Oct 2019 14:40:16 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 131.114.21.21
+X-Mailman-Approved-At: Fri, 04 Oct 2019 10:50:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,128 +54,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Vincenzo Maffione <v.maffione@gmail.com>,
+ Giuseppe Lettieri <giuseppe.lettieri@unipi.it>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Luigi Rizzo <rizzo@iet.unipi.it>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sot3Lu3Pdqn2YIRfDu62j2StjS8B7NzsU
-Content-Type: multipart/mixed; boundary="6njDLKAZxWjUv3h0tNTHJ8o9mKW6ayVHW"
+From: Giuseppe Lettieri <giuseppe.lettieri@unipi.it>
 
---6njDLKAZxWjUv3h0tNTHJ8o9mKW6ayVHW
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+With this patch, netmap support can be enabled with
+the following options to the configure script:
 
-On 04.10.19 16:05, Peter Maydell wrote:
-> On Fri, 4 Oct 2019 at 14:50, Max Reitz <mreitz@redhat.com> wrote:
->> On 04.10.19 15:16, Peter Maydell wrote:
->>> 'make check' does have the restriction
->>> that we don't want the tests to take too long to run, but in
->>> general the block layer should be running some reasonable subset
->>> of tests in the project's standard "run the tests please" command.
->>> (I have no opinion on exactly what that subset ought to be, beyond
->>> that it would be good if that subset doesn't have known intermittent
->>> failures in it.)
->>
->> Deciding the subset is difficult.  My stance was that it=E2=80=99s bet=
-ter to not
->> choose an arbitrary subset here but ensure that really everything gets=
+  --enable-netmap[=3Dsystem]
 
->> run as part of CI, that is asynchronously so it doesn=E2=80=99t block =
-anyone and
->> can take as long as it wants.
->=20
-> I wonder if we have a terminology difference confusion here.
-> To me "CI" means "we have tests which we automatically run
-> before pushing commits to master, and if they fail then we
-> don't push". So (a) they have to run synchronously and (b) there
-> is a need for them to run in a reasonable period of time because
-> otherwise it takes too long to run the tests before pushing
-> to master and we get a backlog of unprocessed pullrequests
-> and annoying delays.
+	Use the host system netmap installation.
+	Fail if not found.
 
-Hm, yes.  In that case, there=E2=80=99s of course no point in moving it.
+  --enable-netmap=3Dgit
 
-I meant moving the tests to somewhere where they run asynchronously.
+	clone the official netmap repository on
+	github (mostly useful for CI)
 
->> If we decide to get pull requests based on that, then that=E2=80=99d b=
-ring even
->> more pain, but at least it=E2=80=99d be honest.  But just running half=
- of the
->> qcow2 tests to me seems only like we want to pretend we ran the iotest=
-s.
->>  So for me, iotests still break, and we need to deal with make check
->> failures on top.  I=E2=80=99d at least prefer one or the other.
->=20
-> I think the ideal we're aiming for here is:
->  (1) people doing active work in the block subsystem are probably
-> often going to want to run all the iotests, and certainly the
-> subsystem maintainers will want to do that as they put together
-> pull requests.
->  (2) but people who *don't* do active work in the block subsystem
-> still sometimes touch it in passing as part of things like global
-> refactorings or other changes that touch big parts of the tree,
-> or accidentally break it with a change to some other bit of QEMU
-> entirely. These people won't run the full iotests, but it is
-> reasonable to expect them to run 'make check', and it would be good
-> if that caught "whoops you broke the block subsystem".
->=20
-> Similarly, "make check" has incredibly spotty coverage of
-> various arm boards and devices, but it does do some basic
-> checks which do catch accidental breakage.
+Signed-off-by: Giuseppe Lettieri <giuseppe.lettieri@unipi.it>
+---
+ .gitmodules |  3 +++
+ configure   | 64 +++++++++++++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 58 insertions(+), 9 deletions(-)
 
-Yes, it has its use, but at the same time it means that intermittent
-failure can appear in make check because some iotest is broken.  (The
-past has shown that it=E2=80=99s hard to predict which tests will at some=
- point
-start to exhibit such behavior.)
+diff --git a/.gitmodules b/.gitmodules
+index c5c474169d..bf75dbc5e3 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -58,3 +58,6 @@
+ [submodule "roms/opensbi"]
+ 	path =3D roms/opensbi
+ 	url =3D 	https://git.qemu.org/git/opensbi.git
++[submodule "netmap"]
++	path =3D netmap
++	url =3D https://github.com/luigirizzo/netmap.git
+diff --git a/configure b/configure
+index 8f8446f52b..cb2c6c70d6 100755
+--- a/configure
++++ b/configure
+@@ -1132,6 +1132,10 @@ for opt do
+   ;;
+   --enable-netmap) netmap=3D"yes"
+   ;;
++  --enable-netmap=3Dgit) netmap=3D"git"
++  ;;
++  --enable-netmap=3Dsystem) netmap=3D"system"
++  ;;
+   --disable-xen) xen=3D"no"
+   ;;
+   --enable-xen) xen=3D"yes"
+@@ -3318,8 +3322,9 @@ fi
+ # a minor/major version number. Minor new features will be marked with v=
+alues up
+ # to 15, and if something happens that requires a change to the backend =
+we will
+ # move above 15, submit the backend fixes and modify this two bounds.
+-if test "$netmap" !=3D "no" ; then
+-  cat > $TMPC << EOF
++case "$netmap" in
++    "" | yes | system)
++      cat > $TMPC << EOF
+ #include <inttypes.h>
+ #include <net/if.h>
+ #include <net/netmap.h>
+@@ -3330,14 +3335,55 @@ if test "$netmap" !=3D "no" ; then
+ int main(void) { return 0; }
+ EOF
+   if compile_prog "" "" ; then
+-    netmap=3Dyes
++    netmap_system=3Dyes
+   else
+-    if test "$netmap" =3D "yes" ; then
+-      feature_not_found "netmap"
+-    fi
+-    netmap=3Dno
++    netmap_system=3Dno
+   fi
+-fi
++  ;;
++esac
++
++case "$netmap" in
++  "" | yes)
++    if test "$netmap_system" =3D "yes"; then
++      netmap=3Dsystem
++    elif test -e "${source_path}/.git" && test $git_update =3D 'yes' ; t=
+hen
++      netmap=3Dgit
++    elif test -e "${source_path}/netmap/configure" ; then
++      netmap=3Dinternal
++    elif test -z "$netmap" ; then
++      netmap=3Dno
++    else
++      feature_not_found "netmap" "Install netmap or git submodule"
++    fi
++    ;;
++
++  system)
++    if test "$netmap_system" =3D "no"; then
++      feature_not_found "netmap" "Install netmap"
++    fi
++    ;;
++esac
++
++case "$netmap" in
++  git | internal)
++    if test "$netmap" =3D git; then
++      git_submodules=3D"${git_submodules} netmap"
++    fi
++    mkdir -p netmap
++    QEMU_CFLAGS=3D"$QEMU_CFLAGS -I\$(SRC_PATH)/netmap/sys"
++    ;;
++
++  system)
++    ;;
++
++  no)
++    ;;
++  *)
++    error_exit "Unknown state for netmap: $netmap"
++    ;;
++esac
++
++##########################################
+=20
+ ##########################################
+ # libcap-ng library probe
+@@ -6585,7 +6631,7 @@ if test "$vde" =3D "yes" ; then
+   echo "CONFIG_VDE=3Dy" >> $config_host_mak
+   echo "VDE_LIBS=3D$vde_libs" >> $config_host_mak
+ fi
+-if test "$netmap" =3D "yes" ; then
++if test "$netmap" !=3D "no" ; then
+   echo "CONFIG_NETMAP=3Dy" >> $config_host_mak
+ fi
+ if test "$l2tpv3" =3D "yes" ; then
+--=20
+2.21.0
 
-This then requires immediate attention, and I simply want help with that
-from someone who really cares about having the test be part of make
-check, as I wrote in my reply to Thomas=E2=80=99s patch =E2=80=9Ciotests:=
- Do not run the
-iotests during "make check" anymore=E2=80=9D.
-
-The issues are just half as pressing when it isn=E2=80=99t make check tha=
-t=E2=80=99s
-intermittently failing.  (I hope nobody takes this as =E2=80=9CHe doesn=E2=
-=80=99t want
-to fix intermittent failures=E2=80=9D, because I do really try to do that=
-=2E  So I
-don=E2=80=99t consider this a good kind of pressure.)
-
-
-I suppose my main problem is that I=E2=80=99m just lucky that I can=E2=80=
-=99t remember a
-case where the block subsystem was really broken and iotests in make
-check would have caught it; and that I=E2=80=99m na=C3=AFve enough to exp=
-ect this to
-continue into the future.
-
-Max
-
-
---6njDLKAZxWjUv3h0tNTHJ8o9mKW6ayVHW--
-
---sot3Lu3Pdqn2YIRfDu62j2StjS8B7NzsU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2XWcsACgkQ9AfbAGHV
-z0BHwwf7BVEibAmsYSWfrD1kYsomh9Ye1/rJKB1YdBLU1Ntj9qXFBCHZ/hx8WIw/
-AysXNOVIQATjj/mV7hO/T0l/LVVxo7Pa5SWzsUtnqzVlnU7Qd6sGsdEorp44RJWH
-4wBgqQ0eZ5Y2c0PCP7Z8SN8+KsgT6e80JyYMOcmQ4CAZcZp66G7e6aE09kxrDTYQ
-sVqzXLTRWgLG75c8sLelDEHeubRJktmvmMStOqyYps/8ePAL6UcPRBtQfTAvUcXX
-EmqTydusm1f5fOFt6x0JsjriRfgohWaWn/MxXyca8XokiIi57AYsfg614LeINxaZ
-6icAdTV4XsrXiUaj/iJ7bdcAZ1j3Aw==
-=3MUd
------END PGP SIGNATURE-----
-
---sot3Lu3Pdqn2YIRfDu62j2StjS8B7NzsU--
 
