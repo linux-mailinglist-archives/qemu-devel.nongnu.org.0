@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1789CB875
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:38:04 +0200 (CEST)
-Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D08BCB883
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:40:44 +0200 (CEST)
+Received: from localhost ([::1]:45868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKy9-0000p9-AR
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53846)
+	id 1iGL0t-0003tk-1e
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iGK3o-0006nZ-VF
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:41 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK3o-0006n3-M4
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iGK3n-0006e4-QL
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK3n-0006dd-AZ
  for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54226)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54975 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iGK3n-0006cW-L7
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:39 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD1D03090FDE;
- Fri,  4 Oct 2019 09:39:38 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 651831001B28;
- Fri,  4 Oct 2019 09:39:31 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 07/10] hw/intc/apic: reject pic ints if isa_pic == NULL
-Date: Fri,  4 Oct 2019 11:37:49 +0200
-Message-Id: <20191004093752.16564-8-slp@redhat.com>
-In-Reply-To: <20191004093752.16564-1-slp@redhat.com>
-References: <20191004093752.16564-1-slp@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iGK3m-0006Iy-VX; Fri, 04 Oct 2019 05:39:39 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46l4YT0SFdz9sSb; Fri,  4 Oct 2019 19:38:04 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570181885;
+ bh=FwPA1UCWDxFC1kFf5rMGk2U3mKvgbSbEKO/0mZf2f+4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TcVVaW/0RNZJzLd5+SGiEvLA1GfN1Yo2rBPSNvdLHdjhsxc6V7nEkCtNBX+KXni6d
+ rQqiNuImyvIXE/+pD4dIUEQAESmwn6IL7RTaVV0l9Eex6Dx2tzYNeTGkRDz8snM/ym
+ UX1Sp3DShrvS0/G/iJN36IYbOdOByG25trSDkyUI=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 50/53] spapr: Use less cryptic representation of which irq
+ backends are supported
+Date: Fri,  4 Oct 2019 19:37:44 +1000
+Message-Id: <20191004093747.31350-51-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
+References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 04 Oct 2019 09:39:38 +0000 (UTC)
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,34 +55,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>, mst@redhat.com,
- lersek@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In apic_accept_pic_intr(), reject PIC interruptions if a i8259 PIC has
-not been instantiated (isa_pic =3D=3D NULL).
+SpaprIrq::ov5 stores the value for a particular byte in PAPR option vecto=
+r
+5 which indicates whether XICS, XIVE or both interrupt controllers are
+available.  As usual for PAPR, the encoding is kind of overly complicated
+and confusing (though to be fair there are some backwards compat things i=
+t
+has to handle).
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Sergio Lopez <slp@redhat.com>
+But to make our internal code clearer, have SpaprIrq encode more directly
+which backends are available as two booleans, and derive the OV5 value fr=
+om
+that at the point we need it.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/apic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/spapr.c             | 15 ++++++++++++---
+ hw/ppc/spapr_hcall.c       |  6 +++---
+ hw/ppc/spapr_irq.c         | 12 ++++++++----
+ include/hw/ppc/spapr_irq.h |  3 ++-
+ 4 files changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index bce89911dc..2a74f7b4bf 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -610,7 +610,7 @@ int apic_accept_pic_intr(DeviceState *dev)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 43920c140d..514a17ae74 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1066,19 +1066,28 @@ static void spapr_dt_ov5_platform_support(SpaprMa=
+chineState *spapr, void *fdt,
+     PowerPCCPU *first_ppc_cpu =3D POWERPC_CPU(first_cpu);
 =20
-     if ((s->apicbase & MSR_IA32_APICBASE_ENABLE) =3D=3D 0 ||
-         (lvt0 & APIC_LVT_MASKED) =3D=3D 0)
--        return 1;
-+        return isa_pic !=3D NULL;
+     char val[2 * 4] =3D {
+-        23, spapr->irq->ov5, /* Xive mode. */
++        23, 0x00, /* XICS / XIVE mode */
+         24, 0x00, /* Hash/Radix, filled in below. */
+         25, 0x00, /* Hash options: Segment Tables =3D=3D no, GTSE =3D=3D=
+ no. */
+         26, 0x40, /* Radix options: GTSE =3D=3D yes. */
+     };
 =20
-     return 0;
- }
++    if (spapr->irq->xics && spapr->irq->xive) {
++        val[1] =3D SPAPR_OV5_XIVE_BOTH;
++    } else if (spapr->irq->xive) {
++        val[1] =3D SPAPR_OV5_XIVE_EXPLOIT;
++    } else {
++        assert(spapr->irq->xics);
++        val[1] =3D SPAPR_OV5_XIVE_LEGACY;
++    }
++
+     if (!ppc_check_compat(first_ppc_cpu, CPU_POWERPC_LOGICAL_3_00, 0,
+                           first_ppc_cpu->compat_pvr)) {
+         /*
+          * If we're in a pre POWER9 compat mode then the guest should
+          * do hash and use the legacy interrupt mode
+          */
+-        val[1] =3D 0x00; /* XICS */
++        val[1] =3D SPAPR_OV5_XIVE_LEGACY; /* XICS */
+         val[3] =3D 0x00; /* Hash */
+     } else if (kvm_enabled()) {
+         if (kvmppc_has_cap_mmu_radix() && kvmppc_has_cap_mmu_hash_v3()) =
+{
+@@ -2767,7 +2776,7 @@ static void spapr_machine_init(MachineState *machin=
+e)
+     spapr_ovec_set(spapr->ov5, OV5_DRMEM_V2);
+=20
+     /* advertise XIVE on POWER9 machines */
+-    if (spapr->irq->ov5 & (SPAPR_OV5_XIVE_EXPLOIT | SPAPR_OV5_XIVE_BOTH)=
+) {
++    if (spapr->irq->xive) {
+         spapr_ovec_set(spapr->ov5, OV5_XIVE_EXPLOIT);
+     }
+=20
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 3d3a67149a..140f05c1c6 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1784,13 +1784,13 @@ static target_ulong h_client_architecture_support=
+(PowerPCCPU *cpu,
+      * terminate the boot.
+      */
+     if (guest_xive) {
+-        if (spapr->irq->ov5 =3D=3D SPAPR_OV5_XIVE_LEGACY) {
++        if (!spapr->irq->xive) {
+             error_report(
+ "Guest requested unavailable interrupt mode (XIVE), try the ic-mode=3Dxi=
+ve or ic-mode=3Ddual machine property");
+             exit(EXIT_FAILURE);
+         }
+     } else {
+-        if (spapr->irq->ov5 =3D=3D SPAPR_OV5_XIVE_EXPLOIT) {
++        if (!spapr->irq->xics) {
+             error_report(
+ "Guest requested unavailable interrupt mode (XICS), either don't set the=
+ ic-mode machine property or try ic-mode=3Dxics or ic-mode=3Ddual");
+             exit(EXIT_FAILURE);
+@@ -1804,7 +1804,7 @@ static target_ulong h_client_architecture_support(P=
+owerPCCPU *cpu,
+      */
+     if (!spapr->cas_reboot) {
+         spapr->cas_reboot =3D spapr_ovec_test(ov5_updates, OV5_XIVE_EXPL=
+OIT)
+-            && spapr->irq->ov5 & SPAPR_OV5_XIVE_BOTH;
++            && spapr->irq->xics && spapr->irq->xive;
+     }
+=20
+     spapr_ovec_cleanup(ov5_updates);
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 516bf00a35..3ac67ba0c7 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -210,7 +210,8 @@ static void spapr_irq_init_kvm_xics(SpaprMachineState=
+ *spapr, Error **errp)
+ SpaprIrq spapr_irq_xics =3D {
+     .nr_xirqs    =3D SPAPR_NR_XIRQS,
+     .nr_msis     =3D SPAPR_NR_MSIS,
+-    .ov5         =3D SPAPR_OV5_XIVE_LEGACY,
++    .xics        =3D true,
++    .xive        =3D false,
+=20
+     .init        =3D spapr_irq_init_xics,
+     .claim       =3D spapr_irq_claim_xics,
+@@ -350,7 +351,8 @@ static void spapr_irq_init_kvm_xive(SpaprMachineState=
+ *spapr, Error **errp)
+ SpaprIrq spapr_irq_xive =3D {
+     .nr_xirqs    =3D SPAPR_NR_XIRQS,
+     .nr_msis     =3D SPAPR_NR_MSIS,
+-    .ov5         =3D SPAPR_OV5_XIVE_EXPLOIT,
++    .xics        =3D false,
++    .xive        =3D true,
+=20
+     .init        =3D spapr_irq_init_xive,
+     .claim       =3D spapr_irq_claim_xive,
+@@ -511,7 +513,8 @@ static void spapr_irq_set_irq_dual(void *opaque, int =
+irq, int val)
+ SpaprIrq spapr_irq_dual =3D {
+     .nr_xirqs    =3D SPAPR_NR_XIRQS,
+     .nr_msis     =3D SPAPR_NR_MSIS,
+-    .ov5         =3D SPAPR_OV5_XIVE_BOTH,
++    .xics        =3D true,
++    .xive        =3D true,
+=20
+     .init        =3D spapr_irq_init_dual,
+     .claim       =3D spapr_irq_claim_dual,
+@@ -754,7 +757,8 @@ int spapr_irq_find(SpaprMachineState *spapr, int num,=
+ bool align, Error **errp)
+ SpaprIrq spapr_irq_xics_legacy =3D {
+     .nr_xirqs    =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+     .nr_msis     =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
+-    .ov5         =3D SPAPR_OV5_XIVE_LEGACY,
++    .xics        =3D true,
++    .xive        =3D false,
+=20
+     .init        =3D spapr_irq_init_xics,
+     .claim       =3D spapr_irq_claim_xics,
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index ed88b4599a..d3f3b85eb9 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -39,7 +39,8 @@ void spapr_irq_msi_free(SpaprMachineState *spapr, int i=
+rq, uint32_t num);
+ typedef struct SpaprIrq {
+     uint32_t    nr_xirqs;
+     uint32_t    nr_msis;
+-    uint8_t     ov5;
++    bool        xics;
++    bool        xive;
+=20
+     void (*init)(SpaprMachineState *spapr, Error **errp);
+     int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **er=
+rp);
 --=20
 2.21.0
 
