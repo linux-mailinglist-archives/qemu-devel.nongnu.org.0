@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D569FCB89F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:49:35 +0200 (CEST)
-Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE137CB8A8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 12:51:23 +0200 (CEST)
+Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGL9S-0003rM-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
+	id 1iGLB1-0005Jk-WF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 06:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53955)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iGKNm-00034e-Vg
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:00:23 -0400
+ (envelope-from <slp@redhat.com>) id 1iGK42-00078G-Ff
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iGKNk-0007Ad-Fc
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 06:00:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43068)
+ (envelope-from <slp@redhat.com>) id 1iGK41-0006rh-4M
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52790)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iGKNf-000784-Uv; Fri, 04 Oct 2019 06:00:12 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iGK40-0006r9-Ss
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:39:53 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A3D138A1CA3;
- Fri,  4 Oct 2019 10:00:10 +0000 (UTC)
-Received: from linux.fritz.box.com (unknown [10.36.118.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AA946060D;
- Fri,  4 Oct 2019 10:00:09 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL v3 3/4] iotests: Require Python 3.6 or later
-Date: Fri,  4 Oct 2019 11:59:58 +0200
-Message-Id: <20191004095959.22891-4-kwolf@redhat.com>
-In-Reply-To: <20191004095959.22891-1-kwolf@redhat.com>
-References: <20191004095959.22891-1-kwolf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2CDC718CB903;
+ Fri,  4 Oct 2019 09:39:52 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2365D1001B28;
+ Fri,  4 Oct 2019 09:39:46 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 09/10] docs/microvm.rst: document the new microvm machine
+ type
+Date: Fri,  4 Oct 2019 11:37:51 +0200
+Message-Id: <20191004093752.16564-10-slp@redhat.com>
+In-Reply-To: <20191004093752.16564-1-slp@redhat.com>
+References: <20191004093752.16564-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Fri, 04 Oct 2019 10:00:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.63]); Fri, 04 Oct 2019 09:39:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -56,62 +56,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>, mst@redhat.com,
+ lersek@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Running iotests is not required to build QEMU, so we can have stricter
-version requirements for Python here and can make use of new features
-and drop compatibility code earlier.
+Document the new microvm machine type.
 
-This makes qemu-iotests skip all Python tests if a Python version before
-3.6 is used for the build.
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- tests/qemu-iotests/check | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ docs/microvm.rst | 98 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
+ create mode 100644 docs/microvm.rst
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 875399d79f..588c453a94 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -633,6 +633,12 @@ then
-     export SOCKET_SCM_HELPER=3D"$build_iotests/socket_scm_helper"
- fi
-=20
-+python_usable=3Dfalse
-+if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >=3D (3,6) els=
-e 1)'
-+then
-+    python_usable=3Dtrue
-+fi
+diff --git a/docs/microvm.rst b/docs/microvm.rst
+new file mode 100644
+index 0000000000..dc36ecf7c3
+--- /dev/null
++++ b/docs/microvm.rst
+@@ -0,0 +1,98 @@
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Microvm Machine Type
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
- default_machine=3D$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*=
-//p')
- default_alias_machine=3D$($QEMU_PROG -machine help | \
-    sed -n "/(alias of $default_machine)/ { s/ .*//p; q; }")
-@@ -809,7 +815,12 @@ do
-         start=3D$(_wallclock)
-=20
-         if [ "$(head -n 1 "$source_iotests/$seq")" =3D=3D "#!/usr/bin/en=
-v python" ]; then
--            run_command=3D"$PYTHON $seq"
-+            if $python_usable; then
-+                run_command=3D"$PYTHON $seq"
-+            else
-+                run_command=3D"false"
-+                echo "Unsupported Python version" > $seq.notrun
-+            fi
-         else
-             run_command=3D"./$seq"
-         fi
++Microvm is a machine type inspired by ``Firecracker`` and constructed
++after the its machine model.
++
++It's a minimalist machine type without ``PCI`` nor ``ACPI`` support,
++designed for short-lived guests. Microvm also establishes a baseline
++for benchmarking and optimizing both QEMU and guest operating systems,
++since it is optimized for both boot time and footprint.
++
++
++Supported devices
++-----------------
++
++The microvm machine type supports the following devices:
++
++- ISA bus
++- i8259 PIC (optional)
++- i8254 PIT (optional)
++- MC146818 RTC (optional)
++- One ISA serial port (optional)
++- LAPIC
++- IOAPIC (with kernel-irqchip=3Dsplit by default)
++- kvmclock (if using KVM)
++- fw_cfg
++- Up to eight virtio-mmio devices (configured by the user)
++
++
++Using the microvm machine type
++------------------------------
++
++Machine-specific options
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++It supports the following machine-specific options:
++
++- microvm.x-option-roms=3Dbool (Set off to disable loading option ROMs)
++- microvm.pit=3DOnOffAuto (Enable i8254 PIT)
++- microvm.isa-serial=3Dbool (Set off to disable the instantiation an ISA=
+ serial port)
++- microvm.pic=3DOnOffAuto (Enable i8259 PIC)
++- microvm.rtc=3DOnOffAuto (Enable MC146818 RTC)
++- microvm.auto-kernel-cmdline=3Dbool (Set off to disable adding virtio-m=
+mio devices to the kernel cmdline)
++
++
++Boot options
++~~~~~~~~~~~~
++
++By default, microvm uses ``qboot`` as its BIOS, to obtain better boot
++times, but it's also compatible with ``SeaBIOS``.
++
++As no current FW is able to boot from a block device using
++``virtio-mmio`` as its transport, a microvm-based VM needs to be run
++using a host-side kernel and, optionally, an initrd image.
++
++
++Running a microvm-based VM
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++By default, microvm aims for maximum compatibility, enabling both
++legacy and non-legacy devices. In this example, a VM is created
++without passing any additional machine-specific option, using the
++legacy ``ISA serial`` device as console::
++
++  $ qemu-system-x86_64 -M microvm \
++     -enable-kvm -cpu host -m 512m -smp 2 \
++     -kernel vmlinux -append "earlyprintk=3DttyS0 console=3DttyS0 root=3D=
+/dev/vda" \
++     -nodefaults -no-user-config -nographic \
++     -serial stdio \
++     -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
++     -device virtio-blk-device,drive=3Dtest \
++     -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
++     -device virtio-net-device,netdev=3Dtap0
++
++While the example above works, you might be interested in reducing the
++footprint further by disabling some legacy devices. If you're using
++``KVM``, you can disable the ``RTC``, making the Guest rely on
++``kvmclock`` exclusively. Additionally, if your host's CPUs have the
++``TSC_DEADLINE`` feature, you can also disable both the i8259 PIC and
++the i8254 PIT (make sure you're also emulating a CPU with such feature
++in the guest).
++
++This is an example of a VM with all optional legacy features
++disabled::
++
++  $ qemu-system-x86_64 \
++     -M microvm,x-option-roms=3Doff,pit=3Doff,pic=3Doff,isa-serial=3Doff=
+,rtc=3Doff \
++     -enable-kvm -cpu host -m 512m -smp 2 \
++     -kernel vmlinux -append "console=3Dhvc0 root=3D/dev/vda" \
++     -nodefaults -no-user-config -nographic \
++     -chardev stdio,id=3Dvirtiocon0,server \
++     -device virtio-serial-device \
++     -device virtconsole,chardev=3Dvirtiocon0 \
++     -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
++     -device virtio-blk-device,drive=3Dtest \
++     -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
++     -device virtio-net-device,netdev=3Dtap0
 --=20
-2.20.1
+2.21.0
 
 
