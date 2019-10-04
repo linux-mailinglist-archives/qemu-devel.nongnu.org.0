@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B257CC374
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 21:14:20 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70884CC37D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 21:20:06 +0200 (CEST)
+Received: from localhost ([::1]:51462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGT1v-0004Rz-6i
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 15:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39055)
+	id 1iGT7V-0007X5-4n
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 15:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iGSzl-0003OI-1N
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:12:06 -0400
+ (envelope-from <no-reply@patchew.org>) id 1iGT5U-0006TM-H2
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:18:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iGSzk-0000zA-0H
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:12:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45886)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iGSzh-0000vr-E7; Fri, 04 Oct 2019 15:12:01 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ABF68309DEED;
- Fri,  4 Oct 2019 19:12:00 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-31.brq.redhat.com
- [10.40.204.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44A495D6B7;
- Fri,  4 Oct 2019 19:11:56 +0000 (UTC)
-Subject: Re: [PATCH v2 11/11] iotests : add tests for encryption key management
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190912223028.18496-1-mlevitsk@redhat.com>
- <20190912223028.18496-12-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d66665e3-5eed-eef7-f56f-6392418913bf@redhat.com>
-Date: Fri, 4 Oct 2019 21:11:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <no-reply@patchew.org>) id 1iGT5S-0003Y4-L4
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 15:17:59 -0400
+Resent-Date: Fri, 04 Oct 2019 15:17:59 -0400
+Resent-Message-Id: <E1iGT5S-0003Y4-L4@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21519)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iGT5S-0003Xh-DB; Fri, 04 Oct 2019 15:17:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1570216666; cv=none; d=zoho.com; s=zohoarc; 
+ b=W06mf5A0P4EAjhHmJVHi3wVGctfjAxjv9ut1gKPZhgOLI9/YpdV7oNzep/KTnT+plC3bwczEDoPSikFwp38xHf9Xd/yHc3BoLQ9Ev9BwkqykYu0wRhg8XEMnrnzlNKCLadDbvobdEFf58IxfN+Z0xvQZ+YJE+/sjrnGm/D9jMKo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1570216666;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=12em7lGr+BlbtBpbDDf3U7J8dU5dgpOXl2Gp2EHOVWg=; 
+ b=hip/y8cP/vmLIL6LeIhZLS2u7SISRmmzbsTiM9I13Y3SuV4PU3wU4JypBDDZ3Gck+26YQFp1hyalhUzb1LTsyy63bRiYMQMgj0VcvclAFgMVpA8IFGpKHby2lBqAw4qfsW+/rR/pcnyw4ENsoYVHtxXxT63kkd0fFVGcXSQbjTk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1570216664085562.2652022907888;
+ Fri, 4 Oct 2019 12:17:44 -0700 (PDT)
+Subject: Re: [PATCH v2] target/arm/arch_dump: Add SVE notes
+In-Reply-To: <20191004120313.5347-1-drjones@redhat.com>
+Message-ID: <157021666243.31166.13502635150843909281@8230166b0665>
 MIME-Version: 1.0
-In-Reply-To: <20190912223028.18496-12-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="E2G0hklPUcubadvdC04s3yHiOYaYi9pav"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 04 Oct 2019 19:12:00 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: drjones@redhat.com
+Date: Fri, 4 Oct 2019 12:17:44 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 136.143.188.55
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,84 +61,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---E2G0hklPUcubadvdC04s3yHiOYaYi9pav
-Content-Type: multipart/mixed; boundary="KJNA0jAkzYHSgNEyvUU7tmZjS8claQF5n"
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAwNDEyMDMxMy41MzQ3
+LTEtZHJqb25lc0ByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTEwMDQxMjAzMTMuNTM0Ny0x
+LWRyam9uZXNAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIHRhcmdldC9hcm0vYXJjaF9k
+dW1wOiBBZGQgU1ZFIG5vdGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
+CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
+dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
+Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo5ZDIxYTlhIHRhcmdldC9hcm0vYXJjaF9k
+dW1wOiBBZGQgU1ZFIG5vdGVzCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogY29kZSBpbmRl
+bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyMTogRklMRTogaW5jbHVkZS9lbGYuaDoxNjUzOgor
+I2RlZmluZSBOVF9BUk1fU1ZFXkkweDQwNV5JXkkvKiBBUk0gU2NhbGFibGUgVmVjdG9yIEV4dGVu
+c2lvbiQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBh
+cmF0ZSBsaW5lCiMyMTogRklMRTogaW5jbHVkZS9lbGYuaDoxNjUzOgorI2RlZmluZSBOVF9BUk1f
+U1ZFICAgICAweDQwNSAgICAgICAgICAgLyogQVJNIFNjYWxhYmxlIFZlY3RvciBFeHRlbnNpb24K
+CkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzIyOiBGSUxFOiBpbmNs
+dWRlL2VsZi5oOjE2NTQ6CiteSV5JXkleSV5JICAgcmVnaXN0ZXJzICovJAoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjI6IEZJTEU6IGluY2x1ZGUv
+ZWxmLmg6MTY1NDoKKyNkZWZpbmUgTlRfQVJNX1NWRSAgICAgMHg0MDUgICAgICAgICAgIC8qIEFS
+TSBTY2FsYWJsZSBWZWN0b3IgRXh0ZW5zaW9uCisgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICByZWdpc3RlcnMgKi8KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBh
+IHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMjI6IEZJTEU6IGluY2x1ZGUvZWxmLmg6
+MTY1NDoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlZ2lzdGVy
+cyAqLwoKdG90YWw6IDIgZXJyb3JzLCAzIHdhcm5pbmdzLCAxODMgbGluZXMgY2hlY2tlZAoKQ29t
+bWl0IDlkMjFhOWE1Y2JhMiAodGFyZ2V0L2FybS9hcmNoX2R1bXA6IEFkZCBTVkUgbm90ZXMpIGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5k
+IGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6
+Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMDA0MTIwMzEzLjUzNDctMS1kcmpvbmVzQHJlZGhhdC5j
+b20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
+YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
+ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
---KJNA0jAkzYHSgNEyvUU7tmZjS8claQF5n
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 13.09.19 00:30, Maxim Levitsky wrote:
-> Note that currently I add tests 300-302, which are
-> placeholders to ease the rebase. In final version
-> of these patches I will update these.
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  tests/qemu-iotests/300     | 202 +++++++++++++++++++++++++++++
->  tests/qemu-iotests/300.out |  98 +++++++++++++++
->  tests/qemu-iotests/301     |  90 +++++++++++++
->  tests/qemu-iotests/301.out |  30 +++++
->  tests/qemu-iotests/302     | 252 +++++++++++++++++++++++++++++++++++++=
-
->  tests/qemu-iotests/302.out |  18 +++
->  tests/qemu-iotests/303     | 228 +++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/303.out |  28 +++++
->  tests/qemu-iotests/group   |   9 ++
->  9 files changed, 955 insertions(+)
->  create mode 100755 tests/qemu-iotests/300
->  create mode 100644 tests/qemu-iotests/300.out
->  create mode 100755 tests/qemu-iotests/301
->  create mode 100644 tests/qemu-iotests/301.out
->  create mode 100644 tests/qemu-iotests/302
->  create mode 100644 tests/qemu-iotests/302.out
->  create mode 100644 tests/qemu-iotests/303
->  create mode 100644 tests/qemu-iotests/303.out
-
-[...]
-
-> diff --git a/tests/qemu-iotests/303.out b/tests/qemu-iotests/303.out
-> new file mode 100644
-> index 0000000000..1cf3917208
-> --- /dev/null
-> +++ b/tests/qemu-iotests/303.out
-> @@ -0,0 +1,28 @@
-> +qemu-img: Failed to get shared "consistent read" lock
-> +Is another process using the image [/home/mlevitsk/USERSPACE/qemu/buil=
-d-luks/tests/qemu-iotests/scratch/test.img]?
-
-Ah, this should be filtered.
-
-Max
-
-
---KJNA0jAkzYHSgNEyvUU7tmZjS8claQF5n--
-
---E2G0hklPUcubadvdC04s3yHiOYaYi9pav
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2XmXoACgkQ9AfbAGHV
-z0CpaAf9Fx6RgFxZyaKl/hA9VSE3VrkyhLwhW5tC1UoNbKhRXAJW6BfuIknYou3/
-xiw5bQC5s1VUeeZT5H5oIcr87N/wo7THFXPGbZW+bAS8rSdydBYshHkDXLNkxgDn
-Hm/w+J2I6WemR3aOFwTMp44LCNeA2M9WZJbzbQweGCQy1/ZuxZCF1IOb8WxTBPan
-g+vnbPkUNuVN5zC5EGmU7YhQ+dD1rb4BjxeQXp3vNb/57P5KHpVfdN20cCPRqskr
-ONTQEaYpWBgojMSCepkZ/rGvZ/+6MtistZGTYz+i3+GltNvfnxmObEH/Q0sXyu6A
-d18ROoN8WRY95y5n6SoTLdVC4L1tTQ==
-=rgwH
------END PGP SIGNATURE-----
-
---E2G0hklPUcubadvdC04s3yHiOYaYi9pav--
 
