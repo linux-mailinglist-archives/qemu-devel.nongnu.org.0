@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404BDCB7B2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:54:03 +0200 (CEST)
-Received: from localhost ([::1]:43912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520ABCB7BC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Oct 2019 11:57:47 +0200 (CEST)
+Received: from localhost ([::1]:43954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGKHi-0003te-32
-	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52619)
+	id 1iGKLJ-0007n0-Tq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Oct 2019 05:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2T-000579-8z
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:21 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2i-0005Lf-8p
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iGK2Q-0005Eb-SE
- for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:17 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57393 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGK2g-0005Tt-HO
+ for qemu-devel@nongnu.org; Fri, 04 Oct 2019 05:38:32 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:38251 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iGK2Q-0005CL-67; Fri, 04 Oct 2019 05:38:14 -0400
+ id 1iGK2g-0005RR-2Z; Fri, 04 Oct 2019 05:38:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46l4YL0Wqkz9sRv; Fri,  4 Oct 2019 19:37:57 +1000 (AEST)
+ id 46l4YL5N2Mz9sRw; Fri,  4 Oct 2019 19:37:58 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570181878;
- bh=ItLkNPyo9aMFiziy6unAveqF9BXmWCRdpp0rapSTQiA=;
+ bh=mcYe6Whs+n4x6tJ7GY0LQhcrxugvkVwyWbic5PeYlWk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V3YAsP/rZHlavUNxrWqMsKRWG7AtV1RgHydPnAJpejr1fLmZh62tm13qy7o3SKCAW
- X4/Zsn/Ebo2fA4EbwGRDzGKrNdFd7VnQXaSAyOaAX4piJ9MIHa9B+btvBH4YPBVwbO
- ABSElzOhLarGAlep08TJgg9nXpp9b3syG9eYR588=
+ b=gbceV4dWOdnE96x47Itx3ck2EWu2eJGP1xjgSqjXrPeubgvUkC1YgBE0GRxc2jbhS
+ xewc2HY3tdx/U0VUZ+ZVFJQ5APOOv+6aqviSQpWXon0Pf8B3B+VJkXOtJYJW9injUf
+ D197f5VtXU5M7iqfF/8vT9ZrZENN014HyHCVhefo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 26/53] target/ppc: change struct PPC_DFP decimal storage from
- uint64[2] to ppc_vsr_t
-Date: Fri,  4 Oct 2019 19:37:20 +1000
-Message-Id: <20191004093747.31350-27-david@gibson.dropbear.id.au>
+Subject: [PULL 28/53] target/ppc: remove unnecessary if() around calls to
+ set_dfp{64, 128}() in DFP macros
+Date: Fri,  4 Oct 2019 19:37:22 +1000
+Message-Id: <20191004093747.31350-29-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
 References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
@@ -64,807 +64,246 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-There are several places in dfp_helper.c that access the decimal number
-representations in struct PPC_DFP via HI_IDX and LO_IDX defines which are=
- set
-at the top of dfp_helper.c according to the host endian.
-
-However we can instead switch to using ppc_vsr_t for decimal numbers and =
-then
-make subsequent use of the existing VsrD() macros to access the correct
-element regardless of host endian. Note that 64-bit decimals are stored i=
-n the
-LSB of ppc_vsr_t (equivalent to VsrD(1)).
+Now that the parameters to both set_dfp64() and set_dfp128() are exactly =
+the
+same, there is no need for an explicit if() statement to determine which
+function should be called based upon size. Instead we can simply use the
+preprocessor to generate the call to set_dfp##size() directly.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190926185801.11176-6-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20190926185801.11176-8-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/dfp_helper.c | 210 +++++++++++++++++++++-------------------
- 1 file changed, 108 insertions(+), 102 deletions(-)
+ target/ppc/dfp_helper.c | 60 +++++++----------------------------------
+ 1 file changed, 10 insertions(+), 50 deletions(-)
 
 diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index 8e1ea2971a..b72084d50a 100644
+index c2bb458a78..2c65badae4 100644
 --- a/target/ppc/dfp_helper.c
 +++ b/target/ppc/dfp_helper.c
-@@ -36,31 +36,31 @@
- #define LO_IDX 0
- #endif
-=20
--static void get_dfp64(uint64_t *dst, ppc_fprp_t *dfp)
-+static void get_dfp64(ppc_vsr_t *dst, ppc_fprp_t *dfp)
- {
--    dst[0] =3D dfp->VsrD(0);
-+    dst->VsrD(1) =3D dfp->VsrD(0);
- }
-=20
--static void get_dfp128(uint64_t *dst, ppc_fprp_t *dfp)
-+static void get_dfp128(ppc_vsr_t *dst, ppc_fprp_t *dfp)
- {
--    dst[HI_IDX] =3D dfp[0].VsrD(0);
--    dst[LO_IDX] =3D dfp[1].VsrD(0);
-+    dst->VsrD(0) =3D dfp[0].VsrD(0);
-+    dst->VsrD(1) =3D dfp[1].VsrD(0);
- }
-=20
--static void set_dfp64(ppc_fprp_t *dfp, uint64_t *src)
-+static void set_dfp64(ppc_fprp_t *dfp, ppc_vsr_t *src)
- {
--    dfp->VsrD(0) =3D src[0];
-+    dfp->VsrD(0) =3D src->VsrD(1);
- }
-=20
--static void set_dfp128(ppc_fprp_t *dfp, uint64_t *src)
-+static void set_dfp128(ppc_fprp_t *dfp, ppc_vsr_t *src)
- {
--    dfp[0].VsrD(0) =3D src[HI_IDX];
--    dfp[1].VsrD(0) =3D src[LO_IDX];
-+    dfp[0].VsrD(0) =3D src->VsrD(0);
-+    dfp[1].VsrD(0) =3D src->VsrD(1);
- }
-=20
- struct PPC_DFP {
-     CPUPPCState *env;
--    uint64_t t64[2], a64[2], b64[2];
-+    ppc_vsr_t vt, va, vb;
-     decNumber t, a, b;
-     decContext context;
-     uint8_t crbf;
-@@ -151,18 +151,18 @@ static void dfp_prepare_decimal64(struct PPC_DFP *d=
-fp, ppc_fprp_t *a,
-     dfp->env =3D env;
-=20
-     if (a) {
--        get_dfp64(dfp->a64, a);
--        decimal64ToNumber((decimal64 *)dfp->a64, &dfp->a);
-+        get_dfp64(&dfp->va, a);
-+        decimal64ToNumber((decimal64 *)&dfp->va.VsrD(1), &dfp->a);
-     } else {
--        dfp->a64[0] =3D 0;
-+        dfp->va.VsrD(1) =3D 0;
-         decNumberZero(&dfp->a);
-     }
-=20
-     if (b) {
--        get_dfp64(dfp->b64, b);
--        decimal64ToNumber((decimal64 *)dfp->b64, &dfp->b);
-+        get_dfp64(&dfp->vb, b);
-+        decimal64ToNumber((decimal64 *)&dfp->vb.VsrD(1), &dfp->b);
-     } else {
--        dfp->b64[0] =3D 0;
-+        dfp->vb.VsrD(1) =3D 0;
-         decNumberZero(&dfp->b);
-     }
- }
-@@ -175,30 +175,30 @@ static void dfp_prepare_decimal128(struct PPC_DFP *=
-dfp, ppc_fprp_t *a,
-     dfp->env =3D env;
-=20
-     if (a) {
--        get_dfp128(dfp->a64, a);
--        decimal128ToNumber((decimal128 *)dfp->a64, &dfp->a);
-+        get_dfp128(&dfp->va, a);
-+        decimal128ToNumber((decimal128 *)&dfp->va, &dfp->a);
-     } else {
--        dfp->a64[0] =3D dfp->a64[1] =3D 0;
-+        dfp->va.VsrD(0) =3D dfp->va.VsrD(1) =3D 0;
-         decNumberZero(&dfp->a);
-     }
-=20
-     if (b) {
--        get_dfp128(dfp->b64, b);
--        decimal128ToNumber((decimal128 *)dfp->b64, &dfp->b);
-+        get_dfp128(&dfp->vb, b);
-+        decimal128ToNumber((decimal128 *)&dfp->vb, &dfp->b);
-     } else {
--        dfp->b64[0] =3D dfp->b64[1] =3D 0;
-+        dfp->vb.VsrD(0) =3D dfp->vb.VsrD(1) =3D 0;
-         decNumberZero(&dfp->b);
-     }
- }
-=20
- static void dfp_finalize_decimal64(struct PPC_DFP *dfp)
- {
--    decimal64FromNumber((decimal64 *)&dfp->t64, &dfp->t, &dfp->context);
-+    decimal64FromNumber((decimal64 *)&dfp->vt.VsrD(1), &dfp->t, &dfp->co=
-ntext);
- }
-=20
- static void dfp_finalize_decimal128(struct PPC_DFP *dfp)
- {
--    decimal128FromNumber((decimal128 *)&dfp->t64, &dfp->t, &dfp->context=
-);
-+    decimal128FromNumber((decimal128 *)&dfp->vt, &dfp->t, &dfp->context)=
-;
- }
-=20
- static void dfp_set_FPSCR_flag(struct PPC_DFP *dfp, uint64_t flag,
-@@ -435,9 +435,9 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *a,               \
+@@ -427,11 +427,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, pp=
+c_fprp_t *a,               \
+     dnop(&dfp.t, &dfp.a, &dfp.b, &dfp.context);                         =
+       \
      dfp_finalize_decimal##size(&dfp);                                   =
        \
      postprocs(&dfp);                                                    =
        \
-     if (size =3D=3D 64) {                                               =
+-    if (size =3D=3D 64) {                                               =
            \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
        \
-+        set_dfp64(t, &dfp.vt);                                          =
-       \
-     } else if (size =3D=3D 128) {                                       =
+-    } else if (size =3D=3D 128) {                                       =
            \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
        \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
        \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
        \
  }
 =20
-@@ -647,12 +647,12 @@ uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *=
-a, ppc_fprp_t *b)     \
- {                                                                       =
- \
-     struct PPC_DFP dfp;                                                 =
- \
-     unsigned k;                                                         =
- \
--    uint64_t a64;                                                       =
- \
-+    ppc_vsr_t va;                                                       =
- \
-                                                                         =
- \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         =
- \
-                                                                         =
- \
--    get_dfp64(&a64, a);                                                 =
- \
--    k =3D a64 & 0x3F;                                                   =
-   \
-+    get_dfp64(&va, a);                                                  =
- \
-+    k =3D va.VsrD(1) & 0x3F;                                            =
-   \
-                                                                         =
- \
-     if (unlikely(decNumberIsSpecial(&dfp.b))) {                         =
- \
-         dfp.crbf =3D 1;                                                 =
-   \
-@@ -755,9 +755,9 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *b,        \
-     QUA_PPs(&dfp);                                                      =
-\
-                                                                         =
-\
-     if (size =3D=3D 64) {                                               =
-    \
--        set_dfp64(t, dfp.t64);                                          =
-\
-+        set_dfp64(t, &dfp.vt);                                          =
-\
-     } else if (size =3D=3D 128) {                                       =
-    \
--        set_dfp128(t, dfp.t64);                                         =
-\
-+        set_dfp128(t, &dfp.vt);                                         =
-\
-     }                                                                   =
-\
- }
-=20
-@@ -777,9 +777,9 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *a,        \
-     QUA_PPs(&dfp);                                                      =
-\
-                                                                         =
-\
-     if (size =3D=3D 64) {                                               =
-    \
--        set_dfp64(t, dfp.t64);                                          =
-\
-+        set_dfp64(t, &dfp.vt);                                          =
-\
-     } else if (size =3D=3D 128) {                                       =
-    \
--        set_dfp128(t, dfp.t64);                                         =
-\
-+        set_dfp128(t, &dfp.vt);                                         =
-\
-     }                                                                   =
-\
- }
-=20
-@@ -845,23 +845,23 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *a,        \
-                  ppc_fprp_t *b, uint32_t rmc)                           =
-\
- {                                                                       =
-\
-     struct PPC_DFP dfp;                                                 =
-\
--    uint64_t a64;                                                       =
-\
-+    ppc_vsr_t va;                                                       =
-\
-     int32_t ref_sig;                                                    =
-\
-     int32_t xmax =3D ((size) =3D=3D 64) ? 369 : 6111;                   =
-      \
-                                                                         =
-\
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         =
-\
-                                                                         =
-\
--    get_dfp64(&a64, a);                                                 =
-\
--    ref_sig =3D a64 & 0x3f;                                             =
-  \
-+    get_dfp64(&va, a);                                                  =
-\
-+    ref_sig =3D va.VsrD(1) & 0x3f;                                      =
-  \
-                                                                         =
-\
-     _dfp_reround(rmc, ref_sig, xmax, &dfp);                             =
-\
+ static void ADD_PPs(struct PPC_DFP *dfp)
+@@ -747,11 +743,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, pp=
+c_fprp_t *b,        \
      dfp_finalize_decimal##size(&dfp);                                   =
 \
      QUA_PPs(&dfp);                                                      =
 \
                                                                          =
 \
-     if (size =3D=3D 64) {                                               =
+-    if (size =3D=3D 64) {                                               =
     \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
 \
-+        set_dfp64(t, &dfp.vt);                                          =
-\
-     } else if (size =3D=3D 128) {                                       =
+-    } else if (size =3D=3D 128) {                                       =
     \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
 \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
 \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
 \
  }
 =20
-@@ -882,9 +882,9 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc=
-_fprp_t *b,               \
+ DFP_HELPER_QUAI(dquai, 64)
+@@ -769,11 +761,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, pp=
+c_fprp_t *a,        \
+     dfp_finalize_decimal##size(&dfp);                                   =
+\
+     QUA_PPs(&dfp);                                                      =
+\
+                                                                         =
+\
+-    if (size =3D=3D 64) {                                               =
+    \
+-        set_dfp64(t, &dfp.vt);                                          =
+\
+-    } else if (size =3D=3D 128) {                                       =
+    \
+-        set_dfp128(t, &dfp.vt);                                         =
+\
+-    }                                                                   =
+\
++    set_dfp##size(t, &dfp.vt);                                          =
+\
+ }
+=20
+ DFP_HELPER_QUA(dqua, 64)
+@@ -851,11 +839,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, pp=
+c_fprp_t *a,        \
+     dfp_finalize_decimal##size(&dfp);                                   =
+\
+     QUA_PPs(&dfp);                                                      =
+\
+                                                                         =
+\
+-    if (size =3D=3D 64) {                                               =
+    \
+-        set_dfp64(t, &dfp.vt);                                          =
+\
+-    } else if (size =3D=3D 128) {                                       =
+    \
+-        set_dfp128(t, &dfp.vt);                                         =
+\
+-    }                                                                   =
+\
++    set_dfp##size(t, &dfp.vt);                                          =
+\
+ }
+=20
+ DFP_HELPER_RRND(drrnd, 64)
+@@ -874,11 +858,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, pp=
+c_fprp_t *b,               \
+     dfp_finalize_decimal##size(&dfp);                                   =
+       \
      postprocs(&dfp);                                                    =
        \
                                                                          =
        \
-     if (size =3D=3D 64) {                                               =
+-    if (size =3D=3D 64) {                                               =
            \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
        \
-+        set_dfp64(t, &dfp.vt);                                          =
-       \
-     } else if (size =3D=3D 128) {                                       =
+-    } else if (size =3D=3D 128) {                                       =
            \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
        \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
        \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
        \
  }
 =20
-@@ -910,39 +910,39 @@ DFP_HELPER_RINT(drintnq, RINTN_PPs, 128)
- void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
--    uint64_t b64;
-+    ppc_vsr_t vb;
-     uint32_t b_short;
-=20
--    get_dfp64(&b64, b);
--    b_short =3D (uint32_t)b64;
-+    get_dfp64(&vb, b);
-+    b_short =3D (uint32_t)vb.VsrD(1);
-=20
-     dfp_prepare_decimal64(&dfp, 0, 0, env);
-     decimal32ToNumber((decimal32 *)&b_short, &dfp.t);
-     dfp_finalize_decimal64(&dfp);
--    set_dfp64(t, dfp.t64);
-+    set_dfp64(t, &dfp.vt);
-     dfp_set_FPRF_from_FRT(&dfp);
- }
-=20
- void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
--    uint64_t b64;
-+    ppc_vsr_t vb;
-     dfp_prepare_decimal128(&dfp, 0, 0, env);
--    get_dfp64(&b64, b);
--    decimal64ToNumber((decimal64 *)&b64, &dfp.t);
-+    get_dfp64(&vb, b);
-+    decimal64ToNumber((decimal64 *)&vb.VsrD(1), &dfp.t);
-=20
-     dfp_check_for_VXSNAN_and_convert_to_QNaN(&dfp);
-     dfp_set_FPRF_from_FRT(&dfp);
-=20
-     dfp_finalize_decimal128(&dfp);
--    set_dfp128(t, dfp.t64);
-+    set_dfp128(t, &dfp.vt);
- }
-=20
- void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
-     uint32_t t_short =3D 0;
--    uint64_t t64;
-+    ppc_vsr_t vt;
-     dfp_prepare_decimal64(&dfp, 0, b, env);
-     decimal32FromNumber((decimal32 *)&t_short, &dfp.b, &dfp.context);
-     decimal32ToNumber((decimal32 *)&t_short, &dfp.t);
-@@ -952,16 +952,16 @@ void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *b)
-     dfp_check_for_UX(&dfp);
-     dfp_check_for_XX(&dfp);
-=20
--    t64 =3D (uint64_t)t_short;
--    set_dfp64(t, &t64);
-+    vt.VsrD(1) =3D (uint64_t)t_short;
-+    set_dfp64(t, &vt);
- }
-=20
- void helper_drdpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
-     dfp_prepare_decimal128(&dfp, 0, b, env);
--    decimal64FromNumber((decimal64 *)&dfp.t64, &dfp.b, &dfp.context);
--    decimal64ToNumber((decimal64 *)&dfp.t64, &dfp.t);
-+    decimal64FromNumber((decimal64 *)&dfp.vt.VsrD(1), &dfp.b, &dfp.conte=
-xt);
-+    decimal64ToNumber((decimal64 *)&dfp.vt.VsrD(1), &dfp.t);
-=20
-     dfp_check_for_VXSNAN_and_convert_to_QNaN(&dfp);
-     dfp_set_FPRF_from_FRT_long(&dfp);
-@@ -969,26 +969,26 @@ void helper_drdpq(CPUPPCState *env, ppc_fprp_t *t, =
-ppc_fprp_t *b)
-     dfp_check_for_UX(&dfp);
-     dfp_check_for_XX(&dfp);
-=20
--    dfp.t64[0] =3D dfp.t64[1] =3D 0;
-+    dfp.vt.VsrD(0) =3D dfp.vt.VsrD(1) =3D 0;
-     dfp_finalize_decimal64(&dfp);
--    set_dfp128(t, dfp.t64);
-+    set_dfp128(t, &dfp.vt);
- }
-=20
- #define DFP_HELPER_CFFIX(op, size)                                      =
-       \
- void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)        =
-       \
- {                                                                       =
-       \
-     struct PPC_DFP dfp;                                                 =
-       \
--    uint64_t b64;                                                       =
-       \
-+    ppc_vsr_t vb;                                                       =
-       \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         =
-       \
--    get_dfp64(&b64, b);                                                 =
-       \
--    decNumberFromInt64(&dfp.t, (int64_t)b64);                           =
-       \
-+    get_dfp64(&vb, b);                                                  =
-       \
-+    decNumberFromInt64(&dfp.t, (int64_t)vb.VsrD(1));                    =
-       \
+ static void RINTX_PPs(struct PPC_DFP *dfp)
+@@ -978,11 +958,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, pp=
+c_fprp_t *b)               \
      dfp_finalize_decimal##size(&dfp);                                   =
        \
      CFFIX_PPs(&dfp);                                                    =
        \
                                                                          =
        \
-     if (size =3D=3D 64) {                                               =
+-    if (size =3D=3D 64) {                                               =
            \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
        \
-+        set_dfp64(t, &dfp.vt);                                          =
-       \
-     } else if (size =3D=3D 128) {                                       =
+-    } else if (size =3D=3D 128) {                                       =
            \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
        \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
        \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
        \
  }
 =20
-@@ -1010,28 +1010,30 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t,=
- ppc_fprp_t *b)              \
-     if (unlikely(decNumberIsSpecial(&dfp.b))) {                         =
-      \
-         uint64_t invalid_flags =3D FP_VX | FP_VXCVI;                    =
-        \
-         if (decNumberIsInfinite(&dfp.b)) {                              =
-      \
--            dfp.t64[0] =3D decNumberIsNegative(&dfp.b) ? INT64_MIN : INT=
-64_MAX; \
-+            dfp.vt.VsrD(1) =3D decNumberIsNegative(&dfp.b) ? INT64_MIN :=
-        \
-+                                                           INT64_MAX;   =
-      \
-         } else { /* NaN */                                              =
-      \
--            dfp.t64[0] =3D INT64_MIN;                                   =
-        \
-+            dfp.vt.VsrD(1) =3D INT64_MIN;                               =
-        \
-             if (decNumberIsSNaN(&dfp.b)) {                              =
-      \
-                 invalid_flags |=3D FP_VXSNAN;                           =
-        \
-             }                                                           =
-      \
-         }                                                               =
-      \
-         dfp_set_FPSCR_flag(&dfp, invalid_flags, FP_VE);                 =
-      \
-     } else if (unlikely(decNumberIsZero(&dfp.b))) {                     =
-      \
--        dfp.t64[0] =3D 0;                                               =
-        \
-+        dfp.vt.VsrD(1) =3D 0;                                           =
-        \
-     } else {                                                            =
-      \
-         decNumberToIntegralExact(&dfp.b, &dfp.b, &dfp.context);         =
-      \
--        dfp.t64[0] =3D decNumberIntegralToInt64(&dfp.b, &dfp.context);  =
-        \
-+        dfp.vt.VsrD(1) =3D decNumberIntegralToInt64(&dfp.b, &dfp.context=
-);      \
-         if (decContextTestStatus(&dfp.context, DEC_Invalid_operation)) {=
-      \
--            dfp.t64[0] =3D decNumberIsNegative(&dfp.b) ? INT64_MIN : INT=
-64_MAX; \
-+            dfp.vt.VsrD(1) =3D decNumberIsNegative(&dfp.b) ? INT64_MIN :=
-        \
-+                                                           INT64_MAX;   =
-      \
-             dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FP_VE);          =
-      \
-         } else {                                                        =
-      \
-             dfp_check_for_XX(&dfp);                                     =
-      \
-         }                                                               =
-      \
-     }                                                                   =
-      \
-                                                                         =
-      \
--    set_dfp64(t, dfp.t64);                                              =
-      \
-+    set_dfp64(t, &dfp.vt);                                              =
-      \
- }
-=20
- DFP_HELPER_CTFIX(dctfix, 64)
-@@ -1075,11 +1077,11 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t,=
- ppc_fprp_t *b,          \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         =
-  \
-                                                                         =
-  \
-     decNumberGetBCD(&dfp.b, digits);                                    =
-  \
--    dfp.t64[0] =3D dfp.t64[1] =3D 0;                                    =
-      \
-+    dfp.vt.VsrD(0) =3D dfp.vt.VsrD(1) =3D 0;                            =
-      \
-     N =3D dfp.b.digits;                                                 =
-    \
-                                                                         =
-  \
-     for (i =3D 0; (i < N) && (i < (size)/4); i++) {                     =
-    \
--        dfp_set_bcd_digit_##size(dfp.t64, digits[N-i-1], i);            =
-  \
-+        dfp_set_bcd_digit_##size(&dfp.vt.u64[0], digits[N - i - 1], i); =
+ static void CFFIX_PPs(struct PPC_DFP *dfp)
+@@ -1088,11 +1064,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, =
+ppc_fprp_t *b,          \
+         dfp_set_sign_##size(&dfp.vt, sgn);                              =
   \
      }                                                                   =
   \
                                                                          =
   \
-     if (sp & 2) {                                                       =
-  \
-@@ -1090,13 +1092,13 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t,=
- ppc_fprp_t *b,          \
-         } else {                                                        =
-  \
-             sgn =3D ((sp & 1) ? 0xF : 0xC);                             =
-    \
-         }                                                               =
-  \
--        dfp_set_sign_##size(dfp.t64, sgn);                              =
-  \
-+        dfp_set_sign_##size(&dfp.vt.u64[0], sgn);                       =
-  \
-     }                                                                   =
-  \
-                                                                         =
-  \
-     if (size =3D=3D 64) {                                               =
+-    if (size =3D=3D 64) {                                               =
       \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
   \
-+        set_dfp64(t, &dfp.vt);                                          =
-  \
-     } else if (size =3D=3D 128) {                                       =
+-    } else if (size =3D=3D 128) {                                       =
       \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
   \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
   \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
   \
  }
 =20
-@@ -1126,7 +1128,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *b,             \
-     decNumberZero(&dfp.t);                                              =
+ DFP_HELPER_DEDPD(ddedpd, 64)
+@@ -1160,11 +1132,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, =
+ppc_fprp_t *b,             \
+     }                                                                   =
      \
-                                                                         =
-     \
-     if (s) {                                                            =
-     \
--        uint8_t sgnNibble =3D dfp_get_bcd_digit_##size(dfp.b64, offset++=
-);     \
-+        uint8_t sgnNibble =3D dfp_get_bcd_digit_##size(&dfp.vb.u64[0],  =
-       \
-+                                                     offset++);         =
-     \
-         switch (sgnNibble) {                                            =
-     \
-         case 0xD:                                                       =
-     \
-         case 0xB:                                                       =
-     \
-@@ -1146,7 +1149,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *b,             \
-                                                                         =
-     \
-     while (offset < (size) / 4) {                                       =
-     \
-         n++;                                                            =
-     \
--        digits[(size) / 4 - n] =3D dfp_get_bcd_digit_##size(dfp.b64, off=
-set++); \
-+        digits[(size) / 4 - n] =3D dfp_get_bcd_digit_##size(&dfp.vb.u64[=
-0],    \
-+                                                          offset++);    =
-     \
-         if (digits[(size) / 4 - n] > 10) {                              =
-     \
-             dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FPSCR_VE);       =
-     \
-             return;                                                     =
-     \
-@@ -1165,9 +1169,9 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *b,             \
      dfp_finalize_decimal##size(&dfp);                                   =
      \
      dfp_set_FPRF_from_FRT(&dfp);                                        =
      \
-     if ((size) =3D=3D 64) {                                             =
+-    if ((size) =3D=3D 64) {                                             =
          \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
      \
-+        set_dfp64(t, &dfp.vt);                                          =
-     \
-     } else if ((size) =3D=3D 128) {                                     =
+-    } else if ((size) =3D=3D 128) {                                     =
          \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
      \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
      \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
      \
  }
 =20
-@@ -1178,30 +1182,30 @@ DFP_HELPER_ENBCD(denbcdq, 128)
- void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
- {                                                              \
-     struct PPC_DFP dfp;                                        \
--    uint64_t t64;                                              \
-+    ppc_vsr_t vt;                                              \
-                                                                \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                \
-                                                                \
-     if (unlikely(decNumberIsSpecial(&dfp.b))) {                \
-         if (decNumberIsInfinite(&dfp.b)) {                     \
--            t64 =3D -1;                                          \
-+            vt.VsrD(1) =3D -1;                                   \
-         } else if (decNumberIsSNaN(&dfp.b)) {                  \
--            t64 =3D -3;                                          \
-+            vt.VsrD(1) =3D -3;                                   \
-         } else if (decNumberIsQNaN(&dfp.b)) {                  \
--            t64 =3D -2;                                          \
-+            vt.VsrD(1) =3D -2;                                   \
-         } else {                                               \
-             assert(0);                                         \
-         }                                                      \
--        set_dfp64(t, &t64);                                    \
-+        set_dfp64(t, &vt);                                     \
-     } else {                                                   \
-         if ((size) =3D=3D 64) {                                    \
--            t64 =3D dfp.b.exponent + 398;                        \
-+            vt.VsrD(1) =3D dfp.b.exponent + 398;                 \
-         } else if ((size) =3D=3D 128) {                            \
--            t64 =3D dfp.b.exponent + 6176;                       \
-+            vt.VsrD(1) =3D dfp.b.exponent + 6176;                \
-         } else {                                               \
-             assert(0);                                         \
-         }                                                      \
--        set_dfp64(t, &t64);                                    \
-+        set_dfp64(t, &vt);                                     \
-     }                                                          \
- }
-=20
-@@ -1225,12 +1229,13 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t,=
- ppc_fprp_t *a,          \
-                  ppc_fprp_t *b)                                         =
-  \
- {                                                                       =
-  \
-     struct PPC_DFP dfp;                                                 =
-  \
--    uint64_t raw_qnan, raw_snan, raw_inf, max_exp, a64;                 =
-  \
-+    uint64_t raw_qnan, raw_snan, raw_inf, max_exp;                      =
-  \
-+    ppc_vsr_t va;                                                       =
-  \
-     int bias;                                                           =
-  \
-     int64_t exp;                                                        =
-  \
-                                                                         =
-  \
--    get_dfp64(&a64, a);                                                 =
-  \
--    exp =3D (int64_t)a64;                                               =
+ DFP_HELPER_ENBCD(denbcd, 64)
+@@ -1264,11 +1232,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, =
+ppc_fprp_t *a,          \
+         dfp.t.exponent =3D exp - bias;                                  =
     \
-+    get_dfp64(&va, a);                                                  =
-  \
-+    exp =3D (int64_t)va.VsrD(1);                                        =
-    \
-     dfp_prepare_decimal##size(&dfp, 0, b, env);                         =
-  \
-                                                                         =
-  \
-     if ((size) =3D=3D 64) {                                             =
-      \
-@@ -1250,14 +1255,14 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t,=
- ppc_fprp_t *a,          \
-     }                                                                   =
-  \
-                                                                         =
-  \
-     if (unlikely((exp < 0) || (exp > max_exp))) {                       =
-  \
--        dfp.t64[0] =3D dfp.b64[0];                                      =
-    \
--        dfp.t64[1] =3D dfp.b64[1];                                      =
-    \
-+        dfp.vt.VsrD(0) =3D dfp.vb.VsrD(0);                              =
-    \
-+        dfp.vt.VsrD(1) =3D dfp.vb.VsrD(1);                              =
-    \
-         if (exp =3D=3D -1) {                                            =
-      \
--            dfp_set_raw_exp_##size(dfp.t64, raw_inf);                   =
-  \
-+            dfp_set_raw_exp_##size(&dfp.vt.u64[0], raw_inf);            =
-  \
-         } else if (exp =3D=3D -3) {                                     =
-      \
--            dfp_set_raw_exp_##size(dfp.t64, raw_snan);                  =
-  \
-+            dfp_set_raw_exp_##size(&dfp.vt.u64[0], raw_snan);           =
-  \
-         } else {                                                        =
-  \
--            dfp_set_raw_exp_##size(dfp.t64, raw_qnan);                  =
-  \
-+            dfp_set_raw_exp_##size(&dfp.vt.u64[0], raw_qnan);           =
-  \
-         }                                                               =
-  \
-     } else {                                                            =
-  \
-         dfp.t =3D dfp.b;                                                =
-    \
-@@ -1268,9 +1273,9 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, p=
-pc_fprp_t *a,          \
          dfp_finalize_decimal##size(&dfp);                               =
   \
      }                                                                   =
   \
-     if (size =3D=3D 64) {                                               =
+-    if (size =3D=3D 64) {                                               =
       \
--        set_dfp64(t, dfp.t64);                                          =
+-        set_dfp64(t, &dfp.vt);                                          =
   \
-+        set_dfp64(t, &dfp.vt);                                          =
-  \
-     } else if (size =3D=3D 128) {                                       =
+-    } else if (size =3D=3D 128) {                                       =
       \
--        set_dfp128(t, dfp.t64);                                         =
+-        set_dfp128(t, &dfp.vt);                                         =
   \
-+        set_dfp128(t, &dfp.vt);                                         =
+-    }                                                                   =
   \
-     }                                                                   =
++    set_dfp##size(t, &dfp.vt);                                          =
   \
  }
 =20
-@@ -1348,20 +1353,21 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t,=
- ppc_fprp_t *a,    \
-         dfp_finalize_decimal##size(&dfp);                           \
-     } else {                                                        \
-         if ((size) =3D=3D 64) {                                         =
-\
--            dfp.t64[0] =3D dfp.a64[0] & 0xFFFC000000000000ULL;        \
--            dfp_clear_lmd_from_g5msb(dfp.t64);                      \
-+            dfp.vt.VsrD(1) =3D dfp.va.VsrD(1) &                       \
-+                             0xFFFC000000000000ULL;                 \
-+            dfp_clear_lmd_from_g5msb(&dfp.vt.VsrD(1));              \
-         } else {                                                    \
--            dfp.t64[HI_IDX] =3D dfp.a64[HI_IDX] &                     \
--                              0xFFFFC00000000000ULL;                \
--            dfp_clear_lmd_from_g5msb(dfp.t64 + HI_IDX);             \
--            dfp.t64[LO_IDX] =3D 0;                                    \
-+            dfp.vt.VsrD(0) =3D dfp.va.VsrD(0) &                       \
-+                             0xFFFFC00000000000ULL;                 \
-+            dfp_clear_lmd_from_g5msb(&dfp.vt.VsrD(0));              \
-+            dfp.vt.VsrD(1) =3D 0;                                     \
+ DFP_HELPER_IEX(diex, 64)
+@@ -1356,11 +1320,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, =
+ppc_fprp_t *a,    \
          }                                                           \
      }                                                               \
                                                                      \
-     if ((size) =3D=3D 64) {                                             =
+-    if ((size) =3D=3D 64) {                                             =
 \
--        set_dfp64(t, dfp.t64);                                      \
-+        set_dfp64(t, &dfp.vt);                                      \
-     } else {                                                        \
--        set_dfp128(t, dfp.t64);                                     \
-+        set_dfp128(t, &dfp.vt);                                     \
-     }                                                               \
+-        set_dfp64(t, &dfp.vt);                                      \
+-    } else {                                                        \
+-        set_dfp128(t, &dfp.vt);                                     \
+-    }                                                               \
++    set_dfp##size(t, &dfp.vt);                                      \
  }
 =20
+ DFP_HELPER_SHIFT(dscli, 64, 1)
 --=20
 2.21.0
 
