@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1200CCD03
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 00:11:43 +0200 (CEST)
-Received: from localhost ([::1]:59108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661F5CCD0D
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 00:19:05 +0200 (CEST)
+Received: from localhost ([::1]:59158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGsH8-00074y-G5
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 18:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47952)
+	id 1iGsOF-0005B2-Rm
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 18:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iGs5T-0005GM-7H
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:40 -0400
+ (envelope-from <mst@redhat.com>) id 1iGs5U-0005IQ-Lm
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iGs5P-0004Qt-V0
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45820)
+ (envelope-from <mst@redhat.com>) id 1iGs5T-0004Ra-L6
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45824)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iGs5P-0004QP-DS
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:35 -0400
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iGs5T-0004RM-Cy
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:39 -0400
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B8496369CA
- for <qemu-devel@nongnu.org>; Sat,  5 Oct 2019 21:59:33 +0000 (UTC)
-Received: by mail-qk1-f200.google.com with SMTP id r17so10631728qkm.16
- for <qemu-devel@nongnu.org>; Sat, 05 Oct 2019 14:59:33 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 97E4E369CA
+ for <qemu-devel@nongnu.org>; Sat,  5 Oct 2019 21:59:38 +0000 (UTC)
+Received: by mail-qk1-f197.google.com with SMTP id g65so10678694qkf.19
+ for <qemu-devel@nongnu.org>; Sat, 05 Oct 2019 14:59:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZUsRuHusQn13NajHmVe0uglldXJ2FT++dNwEWoKKktk=;
- b=ojEhi4WhvOrGnBSAPqLpagCM/8EzzFDOUWhzvmlgE5DGAezRaS1HIywdVsNFsZ5O33
- a+lmnl89FGy4MrD3fj8/aHg+kGDY976H088YuPN6ncnsL/pSo4FUYz6lcOese7BMU6Y1
- PMglcdkGa0Jxaic32rGdotFD/p5gIuL0qNWbMH0lmM3Gh3C5EYHI0AeDUesmVkk+M+zH
- zBHETrfzE0+7ItIvRgy2wQRKoTkve6alEMLcLCFXOIQvkP25bkfP4cQE3CuG0UAPyYYo
- MOXYhZ9Pj0mU5Kq1wEaZnGDGpxnwmNdFspMkmB4LxH0HLhttjjKi1zF9kM1UsguF6ftN
- 9JWg==
-X-Gm-Message-State: APjAAAXkr2Z8Aqn/TZxzHnnItij86KEx3CQCmy7IgRY/L967e6HrwFmJ
- xc3F4TfSXVX6k/39c3wUUPvx3oQ+orze4kIAxM6FX0qmHun5EOGpW6CTDpqtnKKLU8D/RNt/MWZ
- fj2I6HiUBlrYufs4=
-X-Received: by 2002:a37:a2cd:: with SMTP id
- l196mr17055283qke.357.1570312772653; 
- Sat, 05 Oct 2019 14:59:32 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyAZSymRm758gv0ALEROxHgwcwcx+i7pqDm7F1DhAbqL9v/+kWgecQcfUR8KBwsBRQh5ldKWg==
-X-Received: by 2002:a37:a2cd:: with SMTP id
- l196mr17055268qke.357.1570312772399; 
- Sat, 05 Oct 2019 14:59:32 -0700 (PDT)
+ bh=TIjODluR1dwfx5in3nPj8adbjCCWoVI4poFEHgVck48=;
+ b=STy83Gw50oCJho4Q93P3Vnl7hR8lHvwq14pE7yEF+yReZhPQuZknikW4NJzoGXm3gT
+ wsANCREgZDKiW1xL6dbN7whr+57N0U3c1HTj6qlvYna/8Cm5JxMxzh7vclMOoSUUTBxE
+ BPDKfrpO4ehRMW7ibOei2iuHcJo54SCXETiZSV6wta3LtdbRSGF4zAIhL//7IK5o1f2P
+ GkV1+Q3VpjnMp7OnKRcaU8+8qeVgAW71mmrO4ChcSRraaCrcY6On+tKCTvB7aVn3KDV4
+ e4navhCHeSV4fRdY8RhIld6idiXjRyz7tu8D4avdAdl9yeHqUBuRYy8MgMLapvqx3YQv
+ 30Iw==
+X-Gm-Message-State: APjAAAUG2A3Mf6ynmF03afVEM/wu1AtYReeGpgdYEKjJqEUTlrKL3hUf
+ 64YIt8f1wGOxZFbvY1SbHv2FVQ1DpFBrfN58xQt/KkljycoASzIRdq+L/Rgm4OblIPBIL4YmfKV
+ AkfxqQwgVgDSj3FM=
+X-Received: by 2002:ac8:70b:: with SMTP id g11mr22925743qth.58.1570312777602; 
+ Sat, 05 Oct 2019 14:59:37 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwM52Mic4AIXUKcJ01oCy1Jz+Umt1pi+dq+8joUqOCLTHjFrxf8yaqmkB29i7kcbegi0ogdWQ==
+X-Received: by 2002:ac8:70b:: with SMTP id g11mr22925734qth.58.1570312777428; 
+ Sat, 05 Oct 2019 14:59:37 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- x12sm7114595qtb.32.2019.10.05.14.59.29
+ c8sm5126621qko.102.2019.10.05.14.59.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Oct 2019 14:59:31 -0700 (PDT)
-Date: Sat, 5 Oct 2019 17:59:27 -0400
+ Sat, 05 Oct 2019 14:59:36 -0700 (PDT)
+Date: Sat, 5 Oct 2019 17:59:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/19] docs/specs: Add ACPI GED documentation
-Message-ID: <20190918130633.4872-10-shameerali.kolothum.thodi@huawei.com>
+Subject: [PULL 11/19] tests: Update ACPI tables list for upcoming arm/virt
+ tests
+Message-ID: <20190918130633.4872-11-shameerali.kolothum.thodi@huawei.com>
 References: <20191005215508.28754-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -80,117 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Eric Auger <eric.auger@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 
-Documents basic concepts of ACPI Generic Event device(GED)
-and interface between QEMU and the ACPI BIOS.
+This is in preparation to add numamem and memhp tests to
+arm/virt platform. The bios-tables-test-allowed-diff.h
+is updated with a list of expected ACPI tables that needs to be
+present in tests/data/acpi/virt folder.
 
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20190918130633.4872-10-shameerali.kolothum.thodi@huawei.com>
+Message-Id: <20190918130633.4872-11-shameerali.kolothum.thodi@huawei.com>
 Acked-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- docs/specs/acpi_hw_reduced_hotplug.rst | 70 ++++++++++++++++++++++++++
- docs/specs/index.rst                   |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 docs/specs/acpi_hw_reduced_hotplug.rst
+ tests/bios-tables-test-allowed-diff.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_reduced_hotplug.rst
-new file mode 100644
-index 0000000000..911a98255b
---- /dev/null
-+++ b/docs/specs/acpi_hw_reduced_hotplug.rst
-@@ -0,0 +1,70 @@
-+==================================================
-+QEMU and ACPI BIOS Generic Event Device interface
-+==================================================
-+
-+The ACPI *Generic Event Device* (GED) is a HW reduced platform
-+specific device introduced in ACPI v6.1 that handles all platform
-+events, including the hotplug ones. GED is modelled as a device
-+in the namespace with a _HID defined to be ACPI0013. This document
-+describes the interface between QEMU and the ACPI BIOS.
-+
-+GED allows HW reduced platforms to handle interrupts in ACPI ASL
-+statements. It follows a very similar approach to the _EVT method
-+from GPIO events. All interrupts are listed in  _CRS and the handler
-+is written in _EVT method. However, the QEMU implementation uses a
-+single interrupt for the GED device, relying on an IO memory region
-+to communicate the type of device affected by the interrupt. This way,
-+we can support up to 32 events with a unique interrupt.
-+
-+**Here is an example,**
-+
-+::
-+
-+   Device (\_SB.GED)
-+   {
-+       Name (_HID, "ACPI0013")
-+       Name (_UID, Zero)
-+       Name (_CRS, ResourceTemplate ()
-+       {
-+           Interrupt (ResourceConsumer, Edge, ActiveHigh, Exclusive, ,, )
-+           {
-+               0x00000029,
-+           }
-+       })
-+       OperationRegion (EREG, SystemMemory, 0x09080000, 0x04)
-+       Field (EREG, DWordAcc, NoLock, WriteAsZeros)
-+       {
-+           ESEL,   32
-+       }
-+       Method (_EVT, 1, Serialized)
-+       {
-+           Local0 = ESEL // ESEL = IO memory region which specifies the
-+                         // device type.
-+           If (((Local0 & One) == One))
-+           {
-+               MethodEvent1()
-+           }
-+           If ((Local0 & 0x2) == 0x2)
-+           {
-+               MethodEvent2()
-+           }
-+           ...
-+       }
-+   }
-+
-+GED IO interface (4 byte access)
-+--------------------------------
-+**read access:**
-+
-+::
-+
-+   [0x0-0x3] Event selector bit field (32 bit) set by QEMU.
-+
-+    bits:
-+       0: Memory hotplug event
-+       1: System power down event
-+    2-31: Reserved
-+
-+**write_access:**
-+
-+Nothing is expected to be written into GED IO memory
-diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-index 40adb97c5e..984ba44029 100644
---- a/docs/specs/index.rst
-+++ b/docs/specs/index.rst
-@@ -12,3 +12,4 @@ Contents:
- 
-    ppc-xive
-    ppc-spapr-xive
-+   acpi_hw_reduced_hotplug
+diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
+index 7b4adbc822..3776dd2f3d 100644
+--- a/tests/bios-tables-test-allowed-diff.h
++++ b/tests/bios-tables-test-allowed-diff.h
+@@ -1,2 +1,17 @@
+ /* List of comma-separated changed AML files to ignore */
+ "tests/data/acpi/virt/DSDT",
++"tests/data/acpi/virt/APIC.memhp",
++"tests/data/acpi/virt/APIC.numamem",
++"tests/data/acpi/virt/DSDT.memhp",
++"tests/data/acpi/virt/DSDT.numamem",
++"tests/data/acpi/virt/FACP.memhp",
++"tests/data/acpi/virt/FACP.numamem",
++"tests/data/acpi/virt/GTDT.memhp",
++"tests/data/acpi/virt/GTDT.numamem",
++"tests/data/acpi/virt/MCFG.memhp",
++"tests/data/acpi/virt/MCFG.numamem",
++"tests/data/acpi/virt/SLIT.memhp",
++"tests/data/acpi/virt/SPCR.memhp",
++"tests/data/acpi/virt/SPCR.numamem",
++"tests/data/acpi/virt/SRAT.memhp",
++"tests/data/acpi/virt/SRAT.numamem",
 -- 
 MST
 
