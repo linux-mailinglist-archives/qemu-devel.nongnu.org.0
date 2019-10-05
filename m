@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE14CC9CB
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Oct 2019 14:09:38 +0200 (CEST)
-Received: from localhost ([::1]:56284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D368CCA10
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Oct 2019 15:16:52 +0200 (CEST)
+Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGisT-0007QV-Bt
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 08:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50274)
+	id 1iGjvV-0005U6-6w
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 09:16:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iGirV-0006z0-8s
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 08:08:38 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1iGjkx-0002my-EM
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iGirU-0002ji-7i
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 08:08:37 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:38724)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iGirU-0002jM-4A; Sat, 05 Oct 2019 08:08:36 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id x4so3042263ybr.5;
- Sat, 05 Oct 2019 05:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CDGg1+HUjwfIQhQbE7gNj8BSYDtqDSqlom25bWUyY8Y=;
- b=Ol3TNqP3hGPvGoe/yUfK59pB0kyv4KZJvsiqa8vRLrjJFtCN5T6PZvkrkvfpcEna65
- PQqvnx2ILVagljjhRdPWMiDhgua/2k5URutbnwHFJn7pvxUGPhsmKXn7tutMYgnnCLBw
- y0K6FBNvnsksi3pFxBsHk6i+M3r7gLf02BB8LCU8Hat5hRM3z10/YSFUng6VIuv7W61T
- aO3fEO6SVyPjfbMIFZy5fAZUnzktkEuAMH6tGIKY42SWuba/htctOYb6FtLMBf3NMVxV
- JFDTSv2AVciyCMWi6Wcw1CetfjNoUy+ylMcTyxSlrQhiiPn5iqvggsi1mWdp/+NGSW3M
- M1/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CDGg1+HUjwfIQhQbE7gNj8BSYDtqDSqlom25bWUyY8Y=;
- b=TnHuqptDeASvIpHkg/xQR0XLhaqxL2eZuaDO2nk8W9dxU+mF8b40kNjke4OX5fIeRW
- qSg2mVB3r+561G9HOv2P60vs1VmJvw5gO49gM+TwTSOw6SsTmk7aIVaTqivOxDa70LPs
- nUNaKVZQJj3LiKlMlRjWJEHlTl91RHYi8RzquMo5eHNm+6U/w8xS9BUzggVGe8fgttaI
- XWRccDMbLhVVMS5lxVX9/sz2d20hJXj4eo6BZu2j8jf8+2bo/ozP3NgwT8zuGvptK2yk
- w7xghuPqR71bQ7Uoe09GPkhmUK6/N8E70zelzqyk3gFBorkkqcEcRmS0XZylbBRRqiyP
- bBBQ==
-X-Gm-Message-State: APjAAAXhiSPiFQ6TNjXpFc11Fj9vfFacpbqdnsvcBM0cUgyWeoB8aWYX
- vgZ0gLSHE2TYMFxSx1fxfXea+Up2X3DXAhuUtWk=
-X-Google-Smtp-Source: APXvYqykSmP6uBcb3jHCHOa9XjYLENBGHEcsKJTSFjseZE4rx1iIql6x2aXDiLmxL5qN7f/Zxv4xJ7cQie34f6B11Tg=
-X-Received: by 2002:a05:6902:4f0:: with SMTP id
- w16mr5364899ybs.11.1570277314831; 
- Sat, 05 Oct 2019 05:08:34 -0700 (PDT)
+ (envelope-from <lukasstraub2@web.de>) id 1iGjkv-0005VR-AE
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:55 -0400
+Received: from mout.web.de ([212.227.17.11]:56709)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
+ id 1iGjks-0005QH-Qc; Sat, 05 Oct 2019 09:05:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1570280719;
+ bh=yF+eHxnUrNZCjpVP2+f53IFIbETlOy/g33p9pTG35YY=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=iWD6T5GjSxbyyuYjBaoMVYODoDcyiCNEzoB0/Ca+fGTn0+h2L4udCHecmsnnKXcu/
+ 8L0nGBeaotkJzW6LMhjjOMivlThMOS/4llH7yHjdHdXmDBdhqDR+a6aZ+qCoE+aARV
+ 8SwEQRvj4JCP/es3uiyQbzQAhp5NEAwjrh4AuloE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([87.123.206.231]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MPYJJ-1iCasw2PRp-004gjT; Sat, 05
+ Oct 2019 15:05:19 +0200
+Date: Sat, 5 Oct 2019 15:05:16 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v6 0/4] colo: Add support for continuous replication
+Message-ID: <cover.1570280098.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-References: <20191004151614.81516-1-jonathan@fintelia.io>
-In-Reply-To: <20191004151614.81516-1-jonathan@fintelia.io>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 5 Oct 2019 20:08:24 +0800
-Message-ID: <CAEUhbmXBtTghDsVXitER5O7U2_UnzEOyPxVXAQ9_5X2t_WxvNw@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Expose "priv" register for GDB
-To: Jonathan Behrens <jonathan@fintelia.io>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zgXmEhbgHNNe2u8p+OfwtZ6UtCO8GNYlnMkzPzdPH56T7V5NlK2
+ EuAf1vrWjIKXLn4DoJzZACkvImZpfFA7ewHw1wMHZcurUe98hSpQOlxrmtD2wJv8vvHY1oM
+ AU0221rSiVl2PRGH/N/khuSt1gzF3UhNNuVjFlzZk5JwMpDJUdKCNSaZJaErGAXEPJiRWC5
+ acixCFjVEjDsntKe/kfpg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1vVNW9b+iP4=:87k+r61uAvx6gFzs9gXsNL
+ k6WXDEoQcwDObL3rUX+QvFHr/xABpIRN+PuJ+mVJaGNYlBdCU0eOCQW20vFrZPJ1A936Xz81Q
+ I3/H540WZWBCFQnJi23WuDmzZ6gUUhq0/7ZAn7i0HvZ2xQqCSRNFoVFDNsw83NDHjQDk6OmXj
+ pcFdGKsTm4R0fh6GzUtGPbkgscrFE6hhvMCde1wmjgSZT4usYgmtYucE085q5NbXyQ5tn/nRc
+ gZmBC6jEmxAEDJWxOHxX9F+1ZnErOxJhy+DCiHCngNO3zk3JSZfxLt+a7TeVb7kmnesEuP3t7
+ vWsuFaf/KfiRMphm4ddS5sc8B8HIK3SxRkpaA9eS1t1dSKtqv/vgYjbUFRSvk8ZJPyf5Z3Imk
+ IHCLIgZmcE4RZYOa9Ozh2GYzIJJXeu70TuYROuNBM6orFmZ2js8hmtx02K74egbZJIuN4hi1X
+ SFfmhAop7RPGgmk12g+0rQL0kRt6M7BjOEKVFtaizxRjfH9KKeXCNO6jh9LgNHwHPe2PTQQLc
+ IOZVqk6QAllqFt3DcsKwJj91ryY26Xoyv5FBfQ2niSndspkWv/bCYkDsGiVvBQ7qHRCDDcLYB
+ j3+S9LQ/uEuKpJ7K0lOksPeVcC8K03aWPBb1M+mIpqmb3n0adA1bRNw4oOAKVoz7SssF54sYD
+ Aj2hLHEWtHxhJk9WwEttn/H6JvXIHgsaYJ3Z+cNDaB77XBuG89ST2NaqxV/rSR8Tx8pZvcCgV
+ Y5Kr5qqcY0pkyqovCDuIIJmXHobIik8Y8VyzG7+3z1hDzl0kNszNt5ygyorQJIwpzkXP1WMaB
+ lMHg5OlT5aobp/31UouyKMndTsQPhTwBceitQyFsq69bbswls+zBDZ+hhZeTmDdNDtsxzw26S
+ lDG2n3mmEqefGRIQRy7Odr8t5FGdwD6nMkEtTL4vRc8wOnhxwftbl0f57fP8Mu/v/BWbsG00Y
+ Pk4D3gPUWY4UQOWt5ejpDaT7jcetkpWwzTZ/aK3U+G2axBpYMm9X/FTG26HM2sRPtiMkB6W7E
+ mtnP/pA1M8vAGs0dmjBTOFw0A2Ga2qa31gq/ANR6t20P1bPWjMpjq6GTNyZPTDYHm9LeMKOvM
+ sdy7MXGzZ8V+59kfI3I2IFLSZTBu5DjDsmLR6o3TbA2KLgqNVHc2n6uSOjgga3HLGH6G7O7/n
+ OfUS5zz4bg4v1+Kpl1TWDgHFqJgQufj/GIPgVK2jLbgnFLkw4f6IIYkCYAVriE0oUu426+sv4
+ jx/CLBqRMOT4SQ4twP8wtiZedTfF0eUavUkDZwrukvc4YMxlfoYFYeadJqEQ=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.17.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 4, 2019 at 11:18 PM Jonathan Behrens <jonathan@fintelia.io> wrote:
->
-> This patch enables a debugger to read and write the current privilege level via
-> a special "priv" register. When compiled with CONFIG_USER_ONLY the register is
-> still visible but is hardwired to zero.
->
-> Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-> ---
->  gdb-xml/riscv-32bit-cpu.xml |  1 +
->  gdb-xml/riscv-64bit-cpu.xml |  1 +
->  target/riscv/cpu.c          |  2 +-
->  target/riscv/gdbstub.c      | 14 ++++++++++++++
->  4 files changed, 17 insertions(+), 1 deletion(-)
-> ---
-> Changelog V2:
-> - Use PRV_H and PRV_S instead of integer literals
->
+Hello Everyone,
+These Patches add support for continuous replication to colo. This means
+that after the Primary fails and the Secondary did a failover, the Seconda=
+ry
+can then become Primary and resume replication to a new Secondary.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
+Regards,
+Lukas Straub
+
+v6:
+ - properly documented the position=3D and insert=3D options
+ - renamed replication test
+ - clarified documentation by using different ip's for primary and seconda=
+ry
+ - added Reviewed-by tags
+
+v5:
+ - change syntax for the position=3D parameter
+ - fix spelling mistake
+
+v4:
+ - fix checkpatch.pl warnings
+
+v3:
+ - add test for replication changes
+ - check if the filter to be inserted before/behind belongs to the same in=
+terface
+ - fix the error message for the position=3D parameter
+ - rename term "after" -> "behind" and variable "insert_before" -> "insert=
+_before_flag"
+ - document the quorum node on the secondary side
+ - simplify quorum parameters in documentation
+ - remove trailing spaces in documentation
+ - clarify the testing procedure in documentation
+
+v2:
+ - fix email formating
+ - fix checkpatch.pl warnings
+ - fix patchew error
+ - clearer commit messages
+
+
+Lukas Straub (4):
+  block/replication.c: Ignore requests after failover
+  tests/test-replication.c: Add test for for secondary node continuing
+    replication
+  net/filter.c: Add Options to insert filters anywhere in the filter
+    list
+  colo: Update Documentation for continuous replication
+
+ block/replication.c        |  38 ++++++-
+ docs/COLO-FT.txt           | 213 +++++++++++++++++++++++++++----------
+ docs/block-replication.txt |  28 +++--
+ include/net/filter.h       |   2 +
+ net/filter.c               |  92 +++++++++++++++-
+ qemu-options.hx            |  31 +++++-
+ tests/test-replication.c   |  52 +++++++++
+ 7 files changed, 380 insertions(+), 76 deletions(-)
+
+=2D-
+2.20.1
 
