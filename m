@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D368CCA10
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Oct 2019 15:16:52 +0200 (CEST)
-Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54EECCA0E
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Oct 2019 15:15:20 +0200 (CEST)
+Received: from localhost ([::1]:56654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGjvV-0005U6-6w
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 09:16:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56792)
+	id 1iGju2-0004yz-EX
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 09:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1iGjkx-0002my-EM
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:58 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1iGjkt-0002ki-An
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1iGjkv-0005VR-AE
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:55 -0400
-Received: from mout.web.de ([212.227.17.11]:56709)
+ (envelope-from <lukasstraub2@web.de>) id 1iGjks-0005SV-39
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:51 -0400
+Received: from mout.web.de ([217.72.192.78]:52685)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
- id 1iGjks-0005QH-Qc; Sat, 05 Oct 2019 09:05:51 -0400
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1iGjkr-0005Qu-MM
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 09:05:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1570280719;
- bh=yF+eHxnUrNZCjpVP2+f53IFIbETlOy/g33p9pTG35YY=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=iWD6T5GjSxbyyuYjBaoMVYODoDcyiCNEzoB0/Ca+fGTn0+h2L4udCHecmsnnKXcu/
- 8L0nGBeaotkJzW6LMhjjOMivlThMOS/4llH7yHjdHdXmDBdhqDR+a6aZ+qCoE+aARV
- 8SwEQRvj4JCP/es3uiyQbzQAhp5NEAwjrh4AuloE=
+ s=dbaedf251592; t=1570280725;
+ bh=R0IRo8VMRmUK4dg5KQRbFBwzAqI8nGg0X+OwDoGxLWM=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=ehfGa9U9l/1J0bEnnjAUzFhCeV8F5HcWz/0jyLMXdMWEwWXUQyPDCZdQGTnh5+lI9
+ L6D2ljk2rDNaoQ12cWSsMAt20sH0V/FV2PVB1ZTA83pU82BHKZhmlaX731GSgT7DBt
+ a//2Fy6+2WJZSdkMSebYIKWKZeOqT9T8iw3FKEQA=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.231]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MPYJJ-1iCasw2PRp-004gjT; Sat, 05
- Oct 2019 15:05:19 +0200
-Date: Sat, 5 Oct 2019 15:05:16 +0200
+Received: from luklap ([87.123.206.231]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MTh6a-1ihErV2C5A-00QTQZ; Sat, 05
+ Oct 2019 15:05:25 +0200
+Date: Sat, 5 Oct 2019 15:05:23 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v6 0/4] colo: Add support for continuous replication
-Message-ID: <cover.1570280098.git.lukasstraub2@web.de>
+Subject: [PATCH v6 1/4] block/replication.c: Ignore requests after failover
+Message-ID: <596a6f07850002a09461f317afa75f3e0c9bb784.1570280098.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1570280098.git.lukasstraub2@web.de>
+References: <cover.1570280098.git.lukasstraub2@web.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zgXmEhbgHNNe2u8p+OfwtZ6UtCO8GNYlnMkzPzdPH56T7V5NlK2
- EuAf1vrWjIKXLn4DoJzZACkvImZpfFA7ewHw1wMHZcurUe98hSpQOlxrmtD2wJv8vvHY1oM
- AU0221rSiVl2PRGH/N/khuSt1gzF3UhNNuVjFlzZk5JwMpDJUdKCNSaZJaErGAXEPJiRWC5
- acixCFjVEjDsntKe/kfpg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1vVNW9b+iP4=:87k+r61uAvx6gFzs9gXsNL
- k6WXDEoQcwDObL3rUX+QvFHr/xABpIRN+PuJ+mVJaGNYlBdCU0eOCQW20vFrZPJ1A936Xz81Q
- I3/H540WZWBCFQnJi23WuDmzZ6gUUhq0/7ZAn7i0HvZ2xQqCSRNFoVFDNsw83NDHjQDk6OmXj
- pcFdGKsTm4R0fh6GzUtGPbkgscrFE6hhvMCde1wmjgSZT4usYgmtYucE085q5NbXyQ5tn/nRc
- gZmBC6jEmxAEDJWxOHxX9F+1ZnErOxJhy+DCiHCngNO3zk3JSZfxLt+a7TeVb7kmnesEuP3t7
- vWsuFaf/KfiRMphm4ddS5sc8B8HIK3SxRkpaA9eS1t1dSKtqv/vgYjbUFRSvk8ZJPyf5Z3Imk
- IHCLIgZmcE4RZYOa9Ozh2GYzIJJXeu70TuYROuNBM6orFmZ2js8hmtx02K74egbZJIuN4hi1X
- SFfmhAop7RPGgmk12g+0rQL0kRt6M7BjOEKVFtaizxRjfH9KKeXCNO6jh9LgNHwHPe2PTQQLc
- IOZVqk6QAllqFt3DcsKwJj91ryY26Xoyv5FBfQ2niSndspkWv/bCYkDsGiVvBQ7qHRCDDcLYB
- j3+S9LQ/uEuKpJ7K0lOksPeVcC8K03aWPBb1M+mIpqmb3n0adA1bRNw4oOAKVoz7SssF54sYD
- Aj2hLHEWtHxhJk9WwEttn/H6JvXIHgsaYJ3Z+cNDaB77XBuG89ST2NaqxV/rSR8Tx8pZvcCgV
- Y5Kr5qqcY0pkyqovCDuIIJmXHobIik8Y8VyzG7+3z1hDzl0kNszNt5ygyorQJIwpzkXP1WMaB
- lMHg5OlT5aobp/31UouyKMndTsQPhTwBceitQyFsq69bbswls+zBDZ+hhZeTmDdNDtsxzw26S
- lDG2n3mmEqefGRIQRy7Odr8t5FGdwD6nMkEtTL4vRc8wOnhxwftbl0f57fP8Mu/v/BWbsG00Y
- Pk4D3gPUWY4UQOWt5ejpDaT7jcetkpWwzTZ/aK3U+G2axBpYMm9X/FTG26HM2sRPtiMkB6W7E
- mtnP/pA1M8vAGs0dmjBTOFw0A2Ga2qa31gq/ANR6t20P1bPWjMpjq6GTNyZPTDYHm9LeMKOvM
- sdy7MXGzZ8V+59kfI3I2IFLSZTBu5DjDsmLR6o3TbA2KLgqNVHc2n6uSOjgga3HLGH6G7O7/n
- OfUS5zz4bg4v1+Kpl1TWDgHFqJgQufj/GIPgVK2jLbgnFLkw4f6IIYkCYAVriE0oUu426+sv4
- jx/CLBqRMOT4SQ4twP8wtiZedTfF0eUavUkDZwrukvc4YMxlfoYFYeadJqEQ=
+X-Provags-ID: V03:K1:YOVCmClvx9HEE1dFzp4GHc9NXGOxuebHDtMPBOu9EOhb9psnocK
+ xUjUxlxc3wlDfaMwPRKBshOSW5MDOfpfX89dPkVhGNsxtZ8s3r0DulmbrJv1iRv1HBzdvNQ
+ Ql3pBpIeQzy78d/9sMSIFMaJNiH7WLlMn+4lit3kCV/puC6w8DLaRKaDMsSWSnGCibI9NU9
+ xRCEnimUZXSCzmEezWmXQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:w0A6Urtw3cA=:UgS6dH2fGSksF4B+YgeDB6
+ GxxTWEAWlYLtgfnhiIdvm9rvFyNSZDHomiMMdjpmScr1TpCG5SYB9ROHGVGbfd0m8YlBdIt1K
+ uWsYY5vuVrvmrCnj1Bg6smzrwaAOexR3+1oMRCxbvstj2+ZfP7mIRaGtziIZROPVb8KNuHzhS
+ nWjx6tJ1TQWgcl1WzeTqQT/AUSZeTYdGjxFpaUGcRGXWuDzv6Ro2LBvEmaHNxMnTL3tWSok1B
+ wp8Bsak4XOXHauPtCV8cl9Uy+sjp41OUaUPB/epabmmqIQfGhmmBZ/dVlg6Dx6BMFvLv4z7oy
+ Y2Wt4UXzoistUzRQ+isxhzwcNTJhjc81nC7NoQXer+lq5+qs0jdaC3CGj8e4UXhao3tvow3Xs
+ tGG4MyY4k2FmhK8+i2PXZuzLlGh9mvBkt5lA8FgAeULlHxLRvtlkUVSyrJlsT6chxgdebErHh
+ XurnaznFFz8hWosHXbmF1c9+qIBzXsnHDS6MBBqM6Hgk7JZs/3aB9pwHH5Ei4gAiwogIR2ccl
+ r+qRA5Dc/I5AFnS/1CvpQ6Z2sYjII+2zrwtsD981ufM2yW6ec+PPipcdUUf82cyYIwS/jLQW/
+ fsML6XnNtrLTw9xv3muCkEvQvG1rrCgc6p4oopr4apX6On1h5abZWbcwA9LKcZxcDz3hxwG/R
+ j1MLhJ1Su78wamV9G6JOaolnvxFsqQFaw1zzuVQRAIW6Vq+hd2yumt8ivLXn2K/J1GIBslrx+
+ kySfXj8Ima5tIBX/HV6S6TEhYR28gsv4jND5SZF9iRWDH3MS8xp/nVENqdLv6MI+IlV/rwt6R
+ 2w+lnbzERHqOZQwLscBMK0yQCmTwliADrnl1v65E+9+mNpWhJTuhQLcD7h6KaLZ8qyF0KrjaI
+ ThzobHjvK1nh2XVIlU9rMuxcImBtUhvwV31sGzBUsbQfN4lJfuF+l5iGR+zqpI9gE4HNG7csM
+ NlUNn5DRO/NFBFV3KgVPJTvJR/t5xu0ORU5za1ynPS7sE/938RkxLcZ8L84HfyMtgJsk7F8NS
+ rUlHFVdULOutJvPhS+KJt62y26v+GX+tG4mlujEj9UW7+uuLVUd4kVOWyDBrcQ9DSwW2gZUkc
+ Ozl/stij6jSGWMYD/qYT87SkcxJ9GDJz8dOBN+Dm8BH9/Ckd9sLT6XI/Ggqx9zAljKA4gKEuW
+ 8162exq47M+No9puzorOSfdwsNNjbYB4nnDXztmRXu3a8q0Tuey68jVneD2Bl0nDXUqHEk1SO
+ YI47H7djA6NPQyapgW6j1/Hl5/YaWdFD7IttmfTNGEisbCS6wb9bwOzdI7dc=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.11
+X-Received-From: 217.72.192.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,65 +85,106 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Everyone,
-These Patches add support for continuous replication to colo. This means
-that after the Primary fails and the Secondary did a failover, the Seconda=
-ry
-can then become Primary and resume replication to a new Secondary.
+After failover the Secondary side of replication shouldn't change state, b=
+ecause
+it now functions as our primary disk.
 
-Regards,
-Lukas Straub
+In replication_start, replication_do_checkpoint, replication_stop, ignore
+the request if current state is BLOCK_REPLICATION_DONE (sucessful failover=
+) or
+BLOCK_REPLICATION_FAILOVER (failover in progres i.e. currently merging act=
+ive
+and hidden images into the base image).
 
-v6:
- - properly documented the position=3D and insert=3D options
- - renamed replication test
- - clarified documentation by using different ip's for primary and seconda=
-ry
- - added Reviewed-by tags
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+=2D--
+ block/replication.c | 38 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 35 insertions(+), 3 deletions(-)
 
-v5:
- - change syntax for the position=3D parameter
- - fix spelling mistake
+diff --git a/block/replication.c b/block/replication.c
+index 3d4dedddfc..97cc65c0cf 100644
+=2D-- a/block/replication.c
++++ b/block/replication.c
+@@ -454,6 +454,17 @@ static void replication_start(ReplicationState *rs, R=
+eplicationMode mode,
+     aio_context_acquire(aio_context);
+     s =3D bs->opaque;
 
-v4:
- - fix checkpatch.pl warnings
++    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
++        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
++        /*
++         * This case happens when a secondary is promoted to primary.
++         * Ignore the request because the secondary side of replication
++         * doesn't have to do anything anymore.
++         */
++        aio_context_release(aio_context);
++        return;
++    }
++
+     if (s->stage !=3D BLOCK_REPLICATION_NONE) {
+         error_setg(errp, "Block replication is running or done");
+         aio_context_release(aio_context);
+@@ -529,8 +540,7 @@ static void replication_start(ReplicationState *rs, Re=
+plicationMode mode,
+                    "Block device is in use by internal backup job");
 
-v3:
- - add test for replication changes
- - check if the filter to be inserted before/behind belongs to the same in=
-terface
- - fix the error message for the position=3D parameter
- - rename term "after" -> "behind" and variable "insert_before" -> "insert=
-_before_flag"
- - document the quorum node on the secondary side
- - simplify quorum parameters in documentation
- - remove trailing spaces in documentation
- - clarify the testing procedure in documentation
+         top_bs =3D bdrv_lookup_bs(s->top_id, s->top_id, NULL);
+-        if (!top_bs || !bdrv_is_root_node(top_bs) ||
+-            !check_top_bs(top_bs, bs)) {
++        if (!top_bs || !check_top_bs(top_bs, bs)) {
+             error_setg(errp, "No top_bs or it is invalid");
+             reopen_backing_file(bs, false, NULL);
+             aio_context_release(aio_context);
+@@ -577,6 +587,17 @@ static void replication_do_checkpoint(ReplicationStat=
+e *rs, Error **errp)
+     aio_context_acquire(aio_context);
+     s =3D bs->opaque;
 
-v2:
- - fix email formating
- - fix checkpatch.pl warnings
- - fix patchew error
- - clearer commit messages
++    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
++        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
++        /*
++         * This case happens when a secondary was promoted to primary.
++         * Ignore the request because the secondary side of replication
++         * doesn't have to do anything anymore.
++         */
++        aio_context_release(aio_context);
++        return;
++    }
++
+     if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
+         secondary_do_checkpoint(s, errp);
+     }
+@@ -593,7 +614,7 @@ static void replication_get_error(ReplicationState *rs=
+, Error **errp)
+     aio_context_acquire(aio_context);
+     s =3D bs->opaque;
 
+-    if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
++    if (s->stage =3D=3D BLOCK_REPLICATION_NONE) {
+         error_setg(errp, "Block replication is not running");
+         aio_context_release(aio_context);
+         return;
+@@ -635,6 +656,17 @@ static void replication_stop(ReplicationState *rs, bo=
+ol failover, Error **errp)
+     aio_context_acquire(aio_context);
+     s =3D bs->opaque;
 
-Lukas Straub (4):
-  block/replication.c: Ignore requests after failover
-  tests/test-replication.c: Add test for for secondary node continuing
-    replication
-  net/filter.c: Add Options to insert filters anywhere in the filter
-    list
-  colo: Update Documentation for continuous replication
-
- block/replication.c        |  38 ++++++-
- docs/COLO-FT.txt           | 213 +++++++++++++++++++++++++++----------
- docs/block-replication.txt |  28 +++--
- include/net/filter.h       |   2 +
- net/filter.c               |  92 +++++++++++++++-
- qemu-options.hx            |  31 +++++-
- tests/test-replication.c   |  52 +++++++++
- 7 files changed, 380 insertions(+), 76 deletions(-)
-
++    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
++        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
++        /*
++         * This case happens when a secondary was promoted to primary.
++         * Ignore the request because the secondary side of replication
++         * doesn't have to do anything anymore.
++         */
++        aio_context_release(aio_context);
++        return;
++    }
++
+     if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
+         error_setg(errp, "Block replication is not running");
+         aio_context_release(aio_context);
 =2D-
 2.20.1
+
 
