@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A352CCD5E
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 02:06:12 +0200 (CEST)
-Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835B6CCD81
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 02:35:30 +0200 (CEST)
+Received: from localhost ([::1]:59542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGu3u-0007s9-VI
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 20:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57808)
+	id 1iGuWH-0006n5-J3
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 20:35:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iGu1C-0006I8-Ji
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 20:03:23 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iGuUl-0005j4-IR
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 20:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iGu1B-0001l3-Ic
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 20:03:22 -0400
-Received: from mga09.intel.com ([134.134.136.24]:11793)
+ (envelope-from <dgibson@ozlabs.org>) id 1iGuUk-0001mR-9l
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 20:33:55 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46433 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iGu1B-0001kY-AT
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 20:03:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2019 17:03:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,261,1566889200"; d="scan'208";a="191929247"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga008.fm.intel.com with ESMTP; 05 Oct 2019 17:03:20 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: quintela@redhat.com,
-	dgilbert@redhat.com
-Subject: [PATCH 3/3] migration/postcopy: replace have_listen_thread check with
- PostcopyState check
-Date: Sun,  6 Oct 2019 08:02:49 +0800
-Message-Id: <20191006000249.29926-4-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191006000249.29926-1-richardw.yang@linux.intel.com>
-References: <20191006000249.29926-1-richardw.yang@linux.intel.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iGuUi-0001jE-7i; Sat, 05 Oct 2019 20:33:54 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46m4NS6whgz9sPZ; Sun,  6 Oct 2019 11:33:44 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570322024;
+ bh=vZOaaC4Z1O1WVUpE4oA2ivH+PXKawBBHWPS/hgkWAu0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pYJ6sM8wiNs9xI176bjQC2fR99WKLr6zOBwMwqZ7AOyCZ2u35vKr9uHiL+BkYETth
+ fqepXhxxMstD5hoD//WOOKHy/cIeHMl9ExhA+/ENKvBAqtwQmC1Gk7LFCCN2NP1PsE
+ lghRZA5ieWbDHsQq0T+u9Z24NfI65bYPFPJMHxa0=
+Date: Sat, 5 Oct 2019 20:21:00 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] xive: Make some device types not user creatable
+Message-ID: <20191005102100.GD29310@umbus.fritz.box>
+References: <157017473006.331610.2983143972519884544.stgit@bahia.lan>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9l24NVCWtSuIVIod"
+Content-Disposition: inline
+In-Reply-To: <157017473006.331610.2983143972519884544.stgit@bahia.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.24
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,92 +55,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After previous cleanup, postcopy thread is running only when
-PostcopyState is LISTENNING or RUNNING. This means it is not necessary
-to spare a variable have_listen_thread to represent the state.
 
-Replace the check on have_listen_thread with PostcopyState and remove
-the variable.
+--9l24NVCWtSuIVIod
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
----
- migration/migration.h | 1 -
- migration/ram.c       | 2 +-
- migration/ram.h       | 1 +
- migration/savevm.c    | 4 +---
- 4 files changed, 3 insertions(+), 5 deletions(-)
+On Fri, Oct 04, 2019 at 09:38:50AM +0200, Greg Kurz wrote:
+65;5603;1c> Some device types of the XIVE model are exposed to the QEMU com=
+mand
+> line:
+>=20
+> $ ppc64-softmmu/qemu-system-ppc64 -device help | grep xive
+> name "xive-end-source", desc "XIVE END Source"
+> name "xive-source", desc "XIVE Interrupt Source"
+> name "xive-tctx", desc "XIVE Interrupt Thread Context"
+>=20
+> These are internal devices that shouldn't be instantiable by the
+> user. By the way, they can't be because their respective realize
+> functions expect link properties that can't be set from the command
+> line:
+>=20
+> qemu-system-ppc64: -device xive-source: required link 'xive' not found:
+>  Property '.xive' not found
+> qemu-system-ppc64: -device xive-end-source: required link 'xive' not foun=
+d:
+>  Property '.xive' not found
+> qemu-system-ppc64: -device xive-tctx: required link 'cpu' not found:
+>  Property '.cpu' not found
+>=20
+> Hide them by setting dc->user_creatable to false in their respective
+> class init functions.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/migration/migration.h b/migration/migration.h
-index 4f2fe193dc..a4d639663d 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -63,7 +63,6 @@ struct MigrationIncomingState {
-     /* Set this when we want the fault thread to quit */
-     bool           fault_thread_quit;
- 
--    bool           have_listen_thread;
-     QemuThread     listen_thread;
-     QemuSemaphore  listen_thread_sem;
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 769d3f6454..dfc50d57d5 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -4188,7 +4188,7 @@ static bool postcopy_is_advised(void)
-     return ps >= POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_END;
- }
- 
--static bool postcopy_is_running(void)
-+bool postcopy_is_running(void)
- {
-     PostcopyState ps = postcopy_state_get();
-     return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
-diff --git a/migration/ram.h b/migration/ram.h
-index bd0eee79b6..44fe4753ad 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -59,6 +59,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms);
- /* For incoming postcopy discard */
- int ram_discard_range(const char *block_name, uint64_t start, size_t length);
- int ram_postcopy_incoming_init(MigrationIncomingState *mis);
-+bool postcopy_is_running(void);
- 
- void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
- 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index dcad8897a3..2a0e0b94df 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1836,7 +1836,6 @@ static void *postcopy_ram_listen_thread(void *opaque)
-     qemu_loadvm_state_cleanup();
- 
-     rcu_unregister_thread();
--    mis->have_listen_thread = false;
-     postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
- 
-     return NULL;
-@@ -1880,7 +1879,6 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-         return -1;
-     }
- 
--    mis->have_listen_thread = true;
-     /* Start up the listening thread and wait for it to signal ready */
-     qemu_sem_init(&mis->listen_thread_sem, 0);
-     qemu_thread_create(&mis->listen_thread, "postcopy/listen",
-@@ -2518,7 +2516,7 @@ int qemu_loadvm_state(QEMUFile *f)
- 
-     trace_qemu_loadvm_state_post_main(ret);
- 
--    if (mis->have_listen_thread) {
-+    if (postcopy_is_running()) {
-         /* Listen thread still going, can't clean up yet */
-         return ret;
-     }
--- 
-2.17.1
+Applied to ppc-for-4.2.
 
+> ---
+>  hw/intc/xive.c |    3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 29df06df1136..6c54a35fd4bb 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -670,6 +670,7 @@ static void xive_tctx_class_init(ObjectClass *klass, =
+void *data)
+>      dc->realize =3D xive_tctx_realize;
+>      dc->unrealize =3D xive_tctx_unrealize;
+>      dc->vmsd =3D &vmstate_xive_tctx;
+> +    dc->user_creatable =3D false;
+>  }
+> =20
+>  static const TypeInfo xive_tctx_info =3D {
+> @@ -1118,6 +1119,7 @@ static void xive_source_class_init(ObjectClass *kla=
+ss, void *data)
+>      dc->props   =3D xive_source_properties;
+>      dc->realize =3D xive_source_realize;
+>      dc->vmsd    =3D &vmstate_xive_source;
+> +    dc->user_creatable =3D false;
+>  }
+> =20
+>  static const TypeInfo xive_source_info =3D {
+> @@ -1853,6 +1855,7 @@ static void xive_end_source_class_init(ObjectClass =
+*klass, void *data)
+>      dc->desc    =3D "XIVE END Source";
+>      dc->props   =3D xive_end_source_properties;
+>      dc->realize =3D xive_end_source_realize;
+> +    dc->user_creatable =3D false;
+>  }
+> =20
+>  static const TypeInfo xive_end_source_info =3D {
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--9l24NVCWtSuIVIod
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2YbokACgkQbDjKyiDZ
+s5J8yBAAxcqQPRwd9yzbWxySbZTAHJyxtfRdCN0cIEqvjzxRts9JqwfbHTGTUnvF
+6isqb75PwUpiaLxxivqoV18NSHauax7idU/61o3v27OomRJNj9rP2hkLTDHv01+k
+vXsz+pjtzO8UM8WmUe01BRQYgvWChQFotGgbkHygiR9IYg5+FTlV4D0xy+hLavZY
+YGZZSEBDo/pAEcunN1MHfSxj61ZALT0XRxR6vC7p5v4uvduVgHSrRuFcFUb60rC1
+XzSAyBCnaGbASTFDE3Kk49p1i9gQlEUOkgYubnZlTwtgbOMkfuyDjNQ8fCZU0ywq
+w+HE2Yh5mn6c9LSrl9vkF79a3EqREq366Y+tYknLEYFrONxuEzL8y7Yt3pcvAHtZ
+1N2LfKz/ONs+AdF8mCzv5E+NBgCHjkgitQBxr2JoEyKxawV8dCAXRgZQmGpVdOVx
+pfErgjWGqJ5DUvPqCefrXnEOdmfoEk2qBBJggFW0wMlUQSrhTBrE6qH/O25EFucJ
+HaZ7A1569Do+7s72DXIeYC5VCRhraF32hhtJnpiKKEUYpwVHxG4aAmXseq2T9cJV
+Jz02th4sEYsHCmKW88JAG9r8rhN27jexGpDe+x5s9RgxFW8mS1ENR0cL8ETkHHlC
+i6FMzZOhl+0356nQkWHvdfixpc4HAJS70i0fBBEn1oqZ8iaoZnE=
+=R3cu
+-----END PGP SIGNATURE-----
+
+--9l24NVCWtSuIVIod--
 
