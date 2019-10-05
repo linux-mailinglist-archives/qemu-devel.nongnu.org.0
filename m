@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661F5CCD0D
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 00:19:05 +0200 (CEST)
-Received: from localhost ([::1]:59158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4F4CCD08
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 00:14:29 +0200 (CEST)
+Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGsOF-0005B2-Rm
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 18:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47963)
+	id 1iGsJn-0001Vd-Qt
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 18:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iGs5U-0005IQ-Lm
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:41 -0400
+ (envelope-from <mst@redhat.com>) id 1iGs5e-0005T3-9c
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iGs5T-0004Ra-L6
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45824)
+ (envelope-from <mst@redhat.com>) id 1iGs5b-0004Ta-U8
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:50 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34831
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iGs5T-0004RM-Cy
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:39 -0400
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 97E4E369CA
- for <qemu-devel@nongnu.org>; Sat,  5 Oct 2019 21:59:38 +0000 (UTC)
-Received: by mail-qk1-f197.google.com with SMTP id g65so10678694qkf.19
- for <qemu-devel@nongnu.org>; Sat, 05 Oct 2019 14:59:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iGs5b-0004TM-NF
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1570312787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=as81qNY/8jBNK5sdM7N/UPpLXYBV1axo5JCdlWpRnME=;
+ b=Lav1iR2D9TmWQhJyZPtYIbYgeBRjSMzcCoStTB7l46OeiOENQaF/PY5vQR3BKeFttGBGFy
+ d2OinDTgjdxOTL4XQDLnfeY/sM1yACk3WP3M730oEgIoEH+7pCg4wsiZJerg2lRm33tXEx
+ rz8TUxPN+OfkBGDCvZfq/JYhmxKfnOw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-A9fDCVJlNFOo_f1NYKZ7KA-1; Sat, 05 Oct 2019 17:59:43 -0400
+Received: by mail-qt1-f198.google.com with SMTP id o34so10875537qtf.22
+ for <qemu-devel@nongnu.org>; Sat, 05 Oct 2019 14:59:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=TIjODluR1dwfx5in3nPj8adbjCCWoVI4poFEHgVck48=;
- b=STy83Gw50oCJho4Q93P3Vnl7hR8lHvwq14pE7yEF+yReZhPQuZknikW4NJzoGXm3gT
- wsANCREgZDKiW1xL6dbN7whr+57N0U3c1HTj6qlvYna/8Cm5JxMxzh7vclMOoSUUTBxE
- BPDKfrpO4ehRMW7ibOei2iuHcJo54SCXETiZSV6wta3LtdbRSGF4zAIhL//7IK5o1f2P
- GkV1+Q3VpjnMp7OnKRcaU8+8qeVgAW71mmrO4ChcSRraaCrcY6On+tKCTvB7aVn3KDV4
- e4navhCHeSV4fRdY8RhIld6idiXjRyz7tu8D4avdAdl9yeHqUBuRYy8MgMLapvqx3YQv
- 30Iw==
-X-Gm-Message-State: APjAAAUG2A3Mf6ynmF03afVEM/wu1AtYReeGpgdYEKjJqEUTlrKL3hUf
- 64YIt8f1wGOxZFbvY1SbHv2FVQ1DpFBrfN58xQt/KkljycoASzIRdq+L/Rgm4OblIPBIL4YmfKV
- AkfxqQwgVgDSj3FM=
-X-Received: by 2002:ac8:70b:: with SMTP id g11mr22925743qth.58.1570312777602; 
- Sat, 05 Oct 2019 14:59:37 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwM52Mic4AIXUKcJ01oCy1Jz+Umt1pi+dq+8joUqOCLTHjFrxf8yaqmkB29i7kcbegi0ogdWQ==
-X-Received: by 2002:ac8:70b:: with SMTP id g11mr22925734qth.58.1570312777428; 
- Sat, 05 Oct 2019 14:59:37 -0700 (PDT)
+ bh=Hg7rvNqDATjoCvchW/YNuYPA53VKP1VfBxpr+nGemAQ=;
+ b=hSUQ5MxaT/a3q0aQYir1DPnSuD1gbNvzBPSkiI1b+fbkhDcdJtqProJDBSg3rj18Hb
+ SnBb1rNnnpdQjUw3MqfO7kLpw9Gu1U5Ke0S7MfNXZUMWtGDBjpwOp/X+6q/UIIKvIpRV
+ 8XaykpriCqr/07Sl+BFOW9lvQFoBCrWD2wqjKdYQd1ok8y4jht8uKbVdPL+qxhYeAeVK
+ dKsjO3cN75HDtwMMLyvw9GL7SRyaVNYOREOsFNDtHKUa1yEzYOU1JYMtHLAMTjK0vhu/
+ f/hguUjyssWoxLffBpAPiKTSqr02eEw9wN6uwUdR9oEtzNpbUa078cQ++BfSB7nW7c1F
+ lvQQ==
+X-Gm-Message-State: APjAAAXTCE9d3GhDsH91GO/nWAKK9qlKdmqfVcHIQpJvHYFUbocp+c+S
+ OIsjMEhOCgHMlSlGC2bBxtFw+c6m2m9G0F7tj5aLc2Q+r0PUg/d1AtmJQvC1+Sq/KQOuBHUHj58
+ 3HGKAP+JFdPXwvCs=
+X-Received: by 2002:aed:3b62:: with SMTP id q31mr23606353qte.246.1570312782165; 
+ Sat, 05 Oct 2019 14:59:42 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx/AhIP9a8LJflq7JWs2FUCwVjSD6/DUtzvrUiG6R50C/OKiT8qiPz0E/8M7wwtxBPY8kOlZw==
+X-Received: by 2002:aed:3b62:: with SMTP id q31mr23606348qte.246.1570312781966; 
+ Sat, 05 Oct 2019 14:59:41 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- c8sm5126621qko.102.2019.10.05.14.59.35
+ m14sm4785888qki.27.2019.10.05.14.59.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Oct 2019 14:59:36 -0700 (PDT)
-Date: Sat, 5 Oct 2019 17:59:33 -0400
+ Sat, 05 Oct 2019 14:59:41 -0700 (PDT)
+Date: Sat, 5 Oct 2019 17:59:38 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/19] tests: Update ACPI tables list for upcoming arm/virt
- tests
-Message-ID: <20190918130633.4872-11-shameerali.kolothum.thodi@huawei.com>
+Subject: [PULL 12/19] tests/acpi: add empty files
+Message-ID: <20191005215508.28754-13-mst@redhat.com>
 References: <20191005215508.28754-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20191005215508.28754-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
+X-MC-Unique: A9fDCVJlNFOo_f1NYKZ7KA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,52 +89,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Needed to make tests pass. Will replace with actual files.
 
-This is in preparation to add numamem and memhp tests to
-arm/virt platform. The bios-tables-test-allowed-diff.h
-is updated with a list of expected ACPI tables that needs to be
-present in tests/data/acpi/virt folder.
-
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Message-Id: <20190918130633.4872-11-shameerali.kolothum.thodi@huawei.com>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/bios-tables-test-allowed-diff.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tests/data/acpi/virt/APIC.memhp   | 0
+ tests/data/acpi/virt/APIC.numamem | 0
+ tests/data/acpi/virt/DSDT.memhp   | 0
+ tests/data/acpi/virt/DSDT.numamem | 0
+ tests/data/acpi/virt/FACP.memhp   | 0
+ tests/data/acpi/virt/FACP.numamem | 0
+ tests/data/acpi/virt/GTDT.memhp   | 0
+ tests/data/acpi/virt/GTDT.numamem | 0
+ tests/data/acpi/virt/MCFG.memhp   | 0
+ tests/data/acpi/virt/MCFG.numamem | 0
+ tests/data/acpi/virt/SLIT.memhp   | 0
+ tests/data/acpi/virt/SPCR.memhp   | 0
+ tests/data/acpi/virt/SPCR.numamem | 0
+ tests/data/acpi/virt/SRAT.memhp   | 0
+ tests/data/acpi/virt/SRAT.numamem | 0
+ 15 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 tests/data/acpi/virt/APIC.memhp
+ create mode 100644 tests/data/acpi/virt/APIC.numamem
+ create mode 100644 tests/data/acpi/virt/DSDT.memhp
+ create mode 100644 tests/data/acpi/virt/DSDT.numamem
+ create mode 100644 tests/data/acpi/virt/FACP.memhp
+ create mode 100644 tests/data/acpi/virt/FACP.numamem
+ create mode 100644 tests/data/acpi/virt/GTDT.memhp
+ create mode 100644 tests/data/acpi/virt/GTDT.numamem
+ create mode 100644 tests/data/acpi/virt/MCFG.memhp
+ create mode 100644 tests/data/acpi/virt/MCFG.numamem
+ create mode 100644 tests/data/acpi/virt/SLIT.memhp
+ create mode 100644 tests/data/acpi/virt/SPCR.memhp
+ create mode 100644 tests/data/acpi/virt/SPCR.numamem
+ create mode 100644 tests/data/acpi/virt/SRAT.memhp
+ create mode 100644 tests/data/acpi/virt/SRAT.numamem
 
-diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-index 7b4adbc822..3776dd2f3d 100644
---- a/tests/bios-tables-test-allowed-diff.h
-+++ b/tests/bios-tables-test-allowed-diff.h
-@@ -1,2 +1,17 @@
- /* List of comma-separated changed AML files to ignore */
- "tests/data/acpi/virt/DSDT",
-+"tests/data/acpi/virt/APIC.memhp",
-+"tests/data/acpi/virt/APIC.numamem",
-+"tests/data/acpi/virt/DSDT.memhp",
-+"tests/data/acpi/virt/DSDT.numamem",
-+"tests/data/acpi/virt/FACP.memhp",
-+"tests/data/acpi/virt/FACP.numamem",
-+"tests/data/acpi/virt/GTDT.memhp",
-+"tests/data/acpi/virt/GTDT.numamem",
-+"tests/data/acpi/virt/MCFG.memhp",
-+"tests/data/acpi/virt/MCFG.numamem",
-+"tests/data/acpi/virt/SLIT.memhp",
-+"tests/data/acpi/virt/SPCR.memhp",
-+"tests/data/acpi/virt/SPCR.numamem",
-+"tests/data/acpi/virt/SRAT.memhp",
-+"tests/data/acpi/virt/SRAT.numamem",
--- 
+diff --git a/tests/data/acpi/virt/APIC.memhp b/tests/data/acpi/virt/APIC.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/APIC.numamem b/tests/data/acpi/virt/APIC.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/FACP.memhp b/tests/data/acpi/virt/FACP.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/FACP.numamem b/tests/data/acpi/virt/FACP.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/GTDT.memhp b/tests/data/acpi/virt/GTDT.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/GTDT.numamem b/tests/data/acpi/virt/GTDT.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/MCFG.memhp b/tests/data/acpi/virt/MCFG.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/MCFG.numamem b/tests/data/acpi/virt/MCFG.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/SLIT.memhp b/tests/data/acpi/virt/SLIT.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/SPCR.memhp b/tests/data/acpi/virt/SPCR.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/SPCR.numamem b/tests/data/acpi/virt/SPCR.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/SRAT.memhp b/tests/data/acpi/virt/SRAT.me=
+mhp
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/SRAT.numamem b/tests/data/acpi/virt/SRAT.=
+numamem
+new file mode 100644
+index 0000000000..e69de29bb2
+--=20
 MST
 
 
