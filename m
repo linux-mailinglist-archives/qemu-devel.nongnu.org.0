@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF442CCD09
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 00:14:52 +0200 (CEST)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17913CCD10
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 00:19:35 +0200 (CEST)
+Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGsKB-0002B9-5k
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 18:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
+	id 1iGsOj-0005Zd-EO
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 18:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iGs5m-0005XX-PZ
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 18:00:00 -0400
+ (envelope-from <mst@redhat.com>) id 1iGs5q-0005dG-Kj
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 18:00:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iGs5k-0004Wc-GI
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52746)
+ (envelope-from <mst@redhat.com>) id 1iGs5p-0004Y2-E7
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 18:00:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48778)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iGs5i-0004Uq-Hj
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 17:59:56 -0400
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iGs5p-0004XL-55
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 18:00:01 -0400
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ACB7483F3F
- for <qemu-devel@nongnu.org>; Sat,  5 Oct 2019 21:59:53 +0000 (UTC)
-Received: by mail-qt1-f199.google.com with SMTP id c8so10911647qtd.20
- for <qemu-devel@nongnu.org>; Sat, 05 Oct 2019 14:59:53 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5AFB6C057EC6
+ for <qemu-devel@nongnu.org>; Sat,  5 Oct 2019 21:59:59 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id m6so10854367qtk.23
+ for <qemu-devel@nongnu.org>; Sat, 05 Oct 2019 14:59:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aQhVmGkFzS24dv6PIBrmiGUubZt2us2kS6DieR1TqNw=;
- b=SCEic/vGnslQrb71wjx8wMy4YWgZB18HZbBJZX89+CUrUDkPTZaE/Flre4x+AH4d7u
- OFgEPvDFlpRiderAQjpox2pSakfdIa0P0bZgnB3tbh+qCn/OMx9XzbL6OYLpcDwWayHA
- dXRiSkRcV8+8XiUPqrs3a1h7rz7JfMQjYSx7Ils/4pdZCDzWRXZz3U0xEiYubFmbYbL7
- SQdZ/AQWD757s3N6OVQe39dy5dZoQ50xjm7hVCysh654JKqDwtdpOBZpu81ZLu7EgakP
- edbBr0x+1pLYfX6NkOQ3PIPIIorx4ScaB767t9D5xP1lfMKiQiDprfl1ooU7SMYSZDZ6
- JtEA==
-X-Gm-Message-State: APjAAAW9NefyLEtYlEGDYmkWgT4J8q4zQOu6WWgQX3sa9ofcr3b8WkxD
- AcqGXIrkxCzphVosPKU3R56GtFkbC9eeiA3Qi9O1MOgcswG4JnfGfl946piEiEyBTEvrVLgfRP8
- TQ3WSkTt+4nDBypA=
-X-Received: by 2002:ac8:1b32:: with SMTP id y47mr3743436qtj.241.1570312792724; 
- Sat, 05 Oct 2019 14:59:52 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwyC2qocKVRtP6UHS8xs0VDycXjYq3O+tEhByXDc1tGyfaIMW95s8anX7RlK3BMV9kqDfUOxQ==
-X-Received: by 2002:ac8:1b32:: with SMTP id y47mr3743421qtj.241.1570312792548; 
- Sat, 05 Oct 2019 14:59:52 -0700 (PDT)
+ bh=Amj4PpRLJKQT0ZPCZm5InuKFsg1DBINwnumBQfGWOYY=;
+ b=id8pnXKa3a1aBr+hRaLU3q/OpnseJgtYED9+yBoNvbYQO4z3UZEHYpHSpIrZ9X2yL4
+ D0fRV5JUjaddcrs+chxOvmVNfYzMUUCupmgrgLkDPbFTC/XQDzRzKaW0ORsNdjv7vtfR
+ f36kQHyQqu983rxmj0fv/qnZDAyOm3TWn6yuxefuSJ4qOx2A/0V5wHn4GHRD03Dkjb5w
+ n4QVXojDiFJyK/rMCkt0dIYQI4ss70udvCIcph+HeiR7EVGvgujC++ZY9km1oSNLK4pX
+ bF++/52Pa6m9eleO0sBl1mvRIjjaTCJkQoe1HC2SjrmH0bJwXSdkOg+XkAWWKzaTlldT
+ KPOQ==
+X-Gm-Message-State: APjAAAWnF208RtRENmiJzZA0HXLuzvD74sWhuy0t3QajCyLpgW6mv1uX
+ OkoEyzI/vCHRECQ/apErckt9s0ExrK64Uo9XVzoo1+AEVsyV23mL25K9qLcRT3mDUBCFa5xNZ+S
+ pvR6BLoeEkKa6E0A=
+X-Received: by 2002:ad4:4431:: with SMTP id e17mr20474611qvt.76.1570312798101; 
+ Sat, 05 Oct 2019 14:59:58 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqznhscbK+t07LgkmxMYHVGNvutoiIrofBzFziOHCOY3vhz5tL2SGvb6q5Yta24LjBlJS6fzPg==
+X-Received: by 2002:ad4:4431:: with SMTP id e17mr20474597qvt.76.1570312797841; 
+ Sat, 05 Oct 2019 14:59:57 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- v7sm4883430qte.29.2019.10.05.14.59.49
+ v13sm4374649qtp.61.2019.10.05.14.59.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Oct 2019 14:59:51 -0700 (PDT)
-Date: Sat, 5 Oct 2019 17:59:47 -0400
+ Sat, 05 Oct 2019 14:59:57 -0700 (PDT)
+Date: Sat, 5 Oct 2019 17:59:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/19] tests: Add bios tests to arm/virt
-Message-ID: <20190918130633.4872-12-shameerali.kolothum.thodi@huawei.com>
+Subject: [PULL 15/19] tests: document how to update acpi tables
+Message-ID: <20191005215508.28754-16-mst@redhat.com>
 References: <20191005215508.28754-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -80,92 +80,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Looks like no one understands how to do it.
+Document the process.
 
-This adds numamem and memhp tests for arm/virt platform.
-
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20190918130633.4872-12-shameerali.kolothum.thodi@huawei.com>
-Acked-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/bios-tables-test.c | 49 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ tests/bios-tables-test.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 8b066cc8f9..652a78773f 100644
+index 652a78773f..0b33fb265f 100644
 --- a/tests/bios-tables-test.c
 +++ b/tests/bios-tables-test.c
-@@ -873,6 +873,53 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-     test_acpi_tcg_dimm_pxm(MACHINE_PC);
- }
+@@ -10,6 +10,33 @@
+  * See the COPYING file in the top-level directory.
+  */
  
-+static void test_acpi_virt_tcg_memhp(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .accel = "tcg",
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 256ULL * 1024 * 1024,
-+    };
++/*
++ * How to add or update the tests:
++ * Contributor:
++ * 1. add empty files for new tables, if any, under tests/data/acpi
++ * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
++ * 3. commit the above *before* making changes that affect the tables
++ * Maintainer:
++ * After 1-3 above tests will pass but ignore differences with the expected files.
++ * You will also notice that tests/bios-tables-test-allowed-diff.h lists
++ * a bunch of files. This is your hint that you need to do the below:
++ * 4. Run
++ *      make check V=1
++ * this will produce a bunch of warnings about differences
++ * beween actual and expected ACPI tables. If you have IASL installed,
++ * they will also be disassembled so you can look at the disassembled
++ * output. If not - disassemble them yourself in any way you like.
++ * Look at the differences - make sure they make sense and match what the
++ * changes you are merging are supposed to do.
++ *
++ * 5. From build directory, run:
++ *      $(SRC_PATH)/tests/data/acpi/rebuild-expected-aml.sh
++ * 6. Now commit any changes.
++ * 7. Before doing a pull request, make sure tests/bios-tables-test-allowed-diff.h
++ *    is empty - this will ensure following changes to ACPI tables will
++ *    be noticed.
++ */
 +
-+    data.variant = ".memhp";
-+    test_acpi_one(" -cpu cortex-a57"
-+                  " -m 256M,slots=3,maxmem=1G"
-+                  " -object memory-backend-ram,id=ram0,size=128M"
-+                  " -object memory-backend-ram,id=ram1,size=128M"
-+                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
-+                  " -numa dist,src=0,dst=1,val=21",
-+                  &data);
-+
-+    free_test_data(&data);
-+
-+}
-+
-+static void test_acpi_virt_tcg_numamem(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .accel = "tcg",
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
-+
-+    data.variant = ".numamem";
-+    test_acpi_one(" -cpu cortex-a57"
-+                  " -object memory-backend-ram,id=ram0,size=128M"
-+                  " -numa node,memdev=ram0",
-+                  &data);
-+
-+    free_test_data(&data);
-+
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -919,6 +966,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-+        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-+        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+ #include "qemu/osdep.h"
+ #include <glib/gstdio.h>
+ #include "qemu-common.h"
 -- 
 MST
 
