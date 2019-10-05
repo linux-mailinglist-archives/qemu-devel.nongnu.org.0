@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCAACCAED
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Oct 2019 17:52:39 +0200 (CEST)
-Received: from localhost ([::1]:57524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B75CCAEF
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Oct 2019 17:53:59 +0200 (CEST)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iGmMI-000405-FP
-	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 11:52:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
+	id 1iGmNa-0005bl-VS
+	for lists+qemu-devel@lfdr.de; Sat, 05 Oct 2019 11:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iGmHo-0008KJ-Pv
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 11:48:02 -0400
+ id 1iGmHs-0008LC-E4
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 11:48:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iGmHn-0007zT-IW
- for qemu-devel@nongnu.org; Sat, 05 Oct 2019 11:48:00 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53529)
+ id 1iGmHp-00080U-Nt
+ for qemu-devel@nongnu.org; Sat, 05 Oct 2019 11:48:04 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33268)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iGmHn-0007z2-C6; Sat, 05 Oct 2019 11:47:59 -0400
-Received: by mail-wm1-x341.google.com with SMTP id i16so8509789wmd.3;
- Sat, 05 Oct 2019 08:47:59 -0700 (PDT)
+ id 1iGmHp-0007zj-BQ; Sat, 05 Oct 2019 11:48:01 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r17so11681578wme.0;
+ Sat, 05 Oct 2019 08:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dTLpadbDkv5ZbECq3hhQLZXW2FlV9PLUwUKPlrgWr+I=;
- b=GPCTy0gw951EGOqZEvDUJw2NKt1hzuZWalF45US8vgcteH99p39RsYLLuR8wGh+uyS
- 25fdx10MGXMJVzoBr+wUJ5MyH9UtIEf33mDVy+LN6gpr2UJzm/6Mj3fayYj6rCtGWl7x
- 0r8qkK6wlWGW6dFY8UREkdaKT/Q8mXeIy2lDLGEUxcrkwMaiz492hV+IGsJpQ4kZWNDA
- /IEgooFRoQSmzXC6lBYDYqjy2ff6s981VaY+ZcSN7CnhfBgVGs5o+UqSwPp30OjUFIt5
- ttrZz6lAsIkI5HKGkIeqAnJY920bUnRc4y8eH+GEbxJv/FUn9sbEXCngWrRsBuGu6+19
- RRqw==
+ bh=hXjDLUOk17jtBgjZt49xK2ZebEtJ7ImDjgQZ+Uu6f2U=;
+ b=Tzj4FmPu/HaKqj1qTdbL/WkHveMBafQ4JPLjObEOxEwfEYGnhONmkYv9im6jjsMyFj
+ /AEyEsRFCK9AXKWYkLdacrE2/U2I1ko2Hr/5RsX1qg40ki5u1K7IJyu3t3rzx535fCqT
+ 3BGp+fcMUcuU7CJ5SKLNFe30tSJyv3ipcSTvvPz8W+NhIhnGZoPmRmkNn03Em2rDyeoP
+ x3csxmMkvDIIbRkBeIyJQwKbD/zPSxZdJIDL0CI7dFhJvkk+b9pUYa2x/hd5C7/6k76f
+ hUKf4us1EBTj/7suHuPkaJKhJCUXgyu/+vX/cu2tkDTS0zozu3C0ebiqJc6pTqHelKxb
+ Yg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dTLpadbDkv5ZbECq3hhQLZXW2FlV9PLUwUKPlrgWr+I=;
- b=X+Cg/nYg+MsicUo+PSS8wpT4LHEYrSZtSRZCW3FZbJUklMdKNqR4o1Q46r6x1N6WK9
- WznMEXmyGOoUYtfZ0u5KFq8OrrRV9ecHR9/om1zFI9mNmlVbvIS+ShIzDEi9ZbcV2MX+
- fTQ2+RrYtMuzRZxtrT+3WdOTEl7Q3lvUJxXeA6NKeaKngq4oZtK58ggFPBBpd/jtxzWH
- dhhg/RmyhyXrXq95i4SMNIOi8xt0/jR0cBpRNOH8FapK000tmqA+BT1Cu4nKk+Hp8i9G
- K1+fllT3OI/vbKnsoz4EG0IkFQS3Q2pQUztn7eQJk/OH7QdICEoD1mWDJ1+BCOhHLjue
- zF+A==
-X-Gm-Message-State: APjAAAVu/jZ/zwc+eG2EWU+DUXWj5hwoJ4W7JH5zTO87S8fYY4/N8CiD
- BOIH30vooSi67yZc/+QcdqBfzPSX+Hg=
-X-Google-Smtp-Source: APXvYqzIEHJ/hg5ePThlp3SzPvMweoStrrxOCdkcpTRsFG8gKWh3Duxft2nsK4KX11CaN69emW+kYQ==
-X-Received: by 2002:a1c:a8d8:: with SMTP id
- r207mr14153461wme.135.1570290478218; 
- Sat, 05 Oct 2019 08:47:58 -0700 (PDT)
+ bh=hXjDLUOk17jtBgjZt49xK2ZebEtJ7ImDjgQZ+Uu6f2U=;
+ b=G5mxH3D/lzVHYtALZUOqnNC6UM19zBwYn1a2mNVu21r1DalFb5yLH+BwCz62kwhxQG
+ OJIktzHnqRrJ+DAm/+hK/jL9tXTPvnG91hp1HSGcoy85LRqaoCAtGkSlEpyr2ho8tjBg
+ B3ayqnV5ka0y6viB2BW7qsYZJ6Lv6qyN1EIqC98FnGzaeTciCDLH145Hhp9k9CfrUbma
+ j3NbOZFfNiMvEbdkejDhRIkU6bKKUh1nUaKEWfhxZJtIC04GaFgJtU1zDUaEDJCps7oT
+ SUJ/RMXywNrTHouotXHkTR+k2oFe+3bIZMKecuXsk84kNw72MzayJwQ4Ub9wVTTByKnL
+ UPXQ==
+X-Gm-Message-State: APjAAAVEMZT/Qo1UEMEQY3MMbzoaQFlxKu2h8zxpHjXVwy9EjuQXFj0y
+ bMGNkRFpj31NALcIP6yHIczEydTdy4U=
+X-Google-Smtp-Source: APXvYqzXnigEyEQXruScyjwRCXZTJ6NIQEAVqNa1tLooPc+pS6Ui3yHk+9z27HXny3gEIia/zptGCQ==
+X-Received: by 2002:a1c:7306:: with SMTP id d6mr11950366wmb.62.1570290479745; 
+ Sat, 05 Oct 2019 08:47:59 -0700 (PDT)
 Received: from localhost.localdomain (46.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id o22sm24542294wra.96.2019.10.05.08.47.56
+ by smtp.gmail.com with ESMTPSA id o22sm24542294wra.96.2019.10.05.08.47.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Oct 2019 08:47:57 -0700 (PDT)
+ Sat, 05 Oct 2019 08:47:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/arm/exynos4210: Use the Samsung s3c SDHCI controller
-Date: Sat,  5 Oct 2019 17:47:47 +0200
-Message-Id: <20191005154748.21718-5-f4bug@amsat.org>
+Subject: [PATCH 5/5] tests/boot_linux_console: Add sdcard test for the
+ Exynos4210
+Date: Sat,  5 Oct 2019 17:47:48 +0200
+Message-Id: <20191005154748.21718-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191005154748.21718-1-f4bug@amsat.org>
 References: <20191005154748.21718-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,47 +98,85 @@ Cc: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20Basse?= <contact@fredericb.info>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Exynos SoC has specific SDHCI registers. Use the s3c SDHCI
-model which handle these specific registers.
+This test boots a Linux kernel on a smdkc210 board and verify
+the serial output is working.
 
-This silents the following "SDHC ... not implemented" warnings so
-we can focus on the important registers missing:
+The cpio image used comes from the linux-build-test project:
+https://github.com/groeck/linux-build-test
 
-  $ qemu-system-arm ... -d unimp \
-    -append "... root=/dev/mmcblk0 rootfstype=ext4 rw rootwait" \
-    -drive file=linux-build-test/rootfs/arm/rootfs-armv5.ext2,if=sd,format=raw
-  [...]
-  [   25.744858] sdhci: Secure Digital Host Controller Interface driver
-  [   25.745862] sdhci: Copyright(c) Pierre Ossman
-  [   25.783188] s3c-sdhci 12530000.sdhci: clock source 2: mmc_busclk.2 (12000000 Hz)
-  SDHC rd_4b @0x80 not implemented
-  SDHC wr_4b @0x80 <- 0x00000020 not implemented
-  SDHC wr_4b @0x8c <- 0x00030000 not implemented
-  SDHC rd_4b @0x80 not implemented
-  SDHC wr_4b @0x80 <- 0xc0004100 not implemented
-  SDHC wr_4b @0x84 <- 0x80808080 not implemented
-  [   26.013318] mmc0: SDHCI controller on samsung-hsmmc [12530000.sdhci] using ADMA
-  [   26.032318] Synopsys Designware Multimedia Card Interface Driver
-  [   42.024885] Waiting for root device /dev/mmcblk0...
+Since this test is not reliable due to clock timing issues,
+it is disabled with the 'skip' property.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/exynos4210.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index a9f8a5c868..77fbe1baab 100644
---- a/hw/arm/exynos4210.c
-+++ b/hw/arm/exynos4210.c
-@@ -405,7 +405,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
-          * public datasheet which is very similar (implementing
-          * MMC Specification Version 4.0 being the only difference noted)
-          */
--        dev = qdev_create(NULL, TYPE_SYSBUS_SDHCI);
-+        dev = qdev_create(NULL, TYPE_S3C_SDHCI);
-         qdev_prop_set_uint64(dev, "capareg", EXYNOS4210_SDHCI_CAPABILITIES);
-         qdev_init_nofail(dev);
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 197358a69c..2d0d82b013 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -14,6 +14,7 @@ import lzma
+ import gzip
+ import shutil
  
++from avocado import skip
+ from avocado_qemu import Test
+ from avocado.utils import process
+ from avocado.utils import archive
+@@ -359,6 +360,52 @@ class BootLinuxConsole(Test):
+         self.wait_for_console_pattern('Boot successful.')
+         # TODO user command, for now the uart is stuck
+ 
++    @skip("unstable clock timings")
++    def test_arm_exynos4210_sdcard(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:smdkc210
++        """
++        deb_url = ('https://snapshot.debian.org/archive/debian/'
++                   '20190928T224601Z/pool/main/l/linux/'
++                   'linux-image-4.19.0-6-armmp_4.19.67-2+deb10u1_armhf.deb')
++        deb_hash = 'fa9df4a0d38936cb50084838f2cb933f570d7d82'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinuz-4.19.0-6-armmp')
++        dtb_path = '/usr/lib/linux-image-4.19.0-6-armmp/exynos4210-smdkv310.dtb'
++        dtb_path = self.extract_from_deb(deb_path, dtb_path)
++
++        rootfs_url = ('https://github.com/groeck/linux-build-test/raw/'
++                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
++                      'arm/rootfs-armv5.ext2.gz')
++        rootfs_hash = '093e89d2b4d982234bf528bc9fb2f2f17a9d1f93'
++        rootfs_path_gz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
++        rootfs_path = os.path.join(self.workdir, 'rootfs.ext2')
++        gunzip(rootfs_path_gz, rootfs_path)
++
++        self.vm.set_machine('smdkc210')
++        self.vm.set_console(console_id=1)
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'earlycon=exynos4210,0x13810000 earlyprintk ' +
++                               'console=ttySAC1,115200n8 ' +
++                               'random.trust_cpu=off cryptomgr.notests ' +
++                               'root=/dev/mmcblk0 rootwait rw ' +
++                               'cpuidle.off=1 panic=-1 noreboot')
++
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-append', kernel_command_line,
++                         # The external MMC is on the 3rd slot
++                         '-drive', 'if=sd,driver=null-co',
++                         '-drive', 'if=sd,driver=null-co',
++                         '-drive', 'if=sd,file=' + rootfs_path + ',format=raw',
++                         '-no-reboot')
++        self.vm.launch()
++
++        self.wait_for_console_pattern('Boot successful.')
++        # TODO user command, for now the uart is stuck
++
+     def test_s390x_s390_ccw_virtio(self):
+         """
+         :avocado: tags=arch:s390x
 -- 
 2.20.1
 
