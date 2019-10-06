@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C441ECD92B
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 22:33:54 +0200 (CEST)
-Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCC2CD92E
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Oct 2019 22:35:05 +0200 (CEST)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHDE1-0004yk-So
-	for lists+qemu-devel@lfdr.de; Sun, 06 Oct 2019 16:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
+	id 1iHDFA-00063y-TF
+	for lists+qemu-devel@lfdr.de; Sun, 06 Oct 2019 16:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iHDCJ-0004SL-QL
- for qemu-devel@nongnu.org; Sun, 06 Oct 2019 16:32:08 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iHDCM-0004TM-5I
+ for qemu-devel@nongnu.org; Sun, 06 Oct 2019 16:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iHDCI-0007Zh-U6
- for qemu-devel@nongnu.org; Sun, 06 Oct 2019 16:32:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59218)
+ (envelope-from <jsnow@redhat.com>) id 1iHDCK-0007aP-Th
+ for qemu-devel@nongnu.org; Sun, 06 Oct 2019 16:32:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52224)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iHDCA-0007X7-8D; Sun, 06 Oct 2019 16:32:04 -0400
+ id 1iHDCG-0007XO-WB; Sun, 06 Oct 2019 16:32:05 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7B6488AC6F5;
- Sun,  6 Oct 2019 20:31:57 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA52A18C8916;
+ Sun,  6 Oct 2019 20:31:58 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-120-66.rdu2.redhat.com [10.10.120.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1774819C6A;
- Sun,  6 Oct 2019 20:31:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABACA19C6A;
+ Sun,  6 Oct 2019 20:31:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] IDE: Deprecate ide-drive
-Date: Sun,  6 Oct 2019 16:31:49 -0400
-Message-Id: <20191006203150.13054-1-jsnow@redhat.com>
+Subject: [PATCH 1/1] IDE: deprecate ide-drive
+Date: Sun,  6 Oct 2019 16:31:50 -0400
+Message-Id: <20191006203150.13054-2-jsnow@redhat.com>
+In-Reply-To: <20191006203150.13054-1-jsnow@redhat.com>
+References: <20191006203150.13054-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Sun, 06 Oct 2019 20:31:57 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Sun, 06 Oct 2019 20:31:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,16 +61,84 @@ Cc: libvir-list@redhat.com, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It's an old compatibility shim that just delegates to ide-cd or ide-hd.
+I'd like to refactor these some day, and getting rid of the super-object
+will make that easier.
 
+Either way, we don't need this.
 
-John Snow (1):
-  IDE: deprecate ide-drive
-
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
  qemu-deprecated.texi          | 5 +++++
  hw/ide/qdev.c                 | 3 +++
  tests/qemu-iotests/051.pc.out | 6 ++++--
  3 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 01245e0b1c4..f802d83983e 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -247,6 +247,11 @@ quite a bit. It will be removed without replacement =
+unless some users speaks
+ up at the @email{qemu-devel@@nongnu.org} mailing list with information a=
+bout
+ their usecases.
+=20
++@subsection ide-drive (since 4.2)
++
++The 'ide-drive' device is deprecated. Users should use 'ide-hd' or
++'ide-cd' as appropriate to get an IDE hard disk or CDROM as needed.
++
+ @section System emulator machines
+=20
+ @subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 6fba6b62b87..9ecee4da074 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -279,6 +279,9 @@ static void ide_drive_realize(IDEDevice *dev, Error *=
+*errp)
+ {
+     DriveInfo *dinfo =3D NULL;
+=20
++    warn_report("The 'ide-drive' device is deprecated. "
++                "Use 'ide-hd' or 'ide-cd' instead");
++
+     if (dev->conf.blk) {
+         dinfo =3D blk_legacy_dinfo(dev->conf.blk);
+     }
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.ou=
+t
+index 000557c7c83..93b9a1f82ca 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -158,7 +158,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+=20
+ Testing: -drive if=3Dnone,id=3Ddisk -device ide-drive,drive=3Ddisk
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: -device ide-drive,drive=3Ddisk: Device needs media, bu=
+t drive is empty
++(qemu) QEMU_PROG: -device ide-drive,drive=3Ddisk: warning: The 'ide-driv=
+e' device is deprecated. Use 'ide-hd' or 'ide-cd' instead
++QEMU_PROG: -device ide-drive,drive=3Ddisk: Device needs media, but drive=
+ is empty
+=20
+ Testing: -drive if=3Dnone,id=3Ddisk -device ide-hd,drive=3Ddisk
+ QEMU X.Y.Z monitor - type 'help' for more information
+@@ -228,7 +229,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+=20
+ Testing: -drive file=3DTEST_DIR/t.qcow2,if=3Dnone,id=3Ddisk,readonly=3Do=
+n -device ide-drive,drive=3Ddisk
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: -device ide-drive,drive=3Ddisk: Block node is read-onl=
+y
++(qemu) QEMU_PROG: -device ide-drive,drive=3Ddisk: warning: The 'ide-driv=
+e' device is deprecated. Use 'ide-hd' or 'ide-cd' instead
++QEMU_PROG: -device ide-drive,drive=3Ddisk: Block node is read-only
+=20
+ Testing: -drive file=3DTEST_DIR/t.qcow2,if=3Dnone,id=3Ddisk,readonly=3Do=
+n -device ide-hd,drive=3Ddisk
+ QEMU X.Y.Z monitor - type 'help' for more information
 --=20
 2.21.0
 
