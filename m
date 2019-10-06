@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B7ECD964
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 00:03:33 +0200 (CEST)
-Received: from localhost ([::1]:37204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8266ACD9C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 01:57:38 +0200 (CEST)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHEcm-00018X-Et
-	for lists+qemu-devel@lfdr.de; Sun, 06 Oct 2019 18:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43744)
+	id 1iHGPB-0001nU-GB
+	for lists+qemu-devel@lfdr.de; Sun, 06 Oct 2019 19:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <msmarduch@digitalocean.com>) id 1iHEb4-0000Sg-NR
- for qemu-devel@nongnu.org; Sun, 06 Oct 2019 18:01:47 -0400
+ (envelope-from <samuel.thibault@ens-lyon.org>) id 1iHGNQ-0000tg-SH
+ for qemu-devel@nongnu.org; Sun, 06 Oct 2019 19:55:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <msmarduch@digitalocean.com>) id 1iHEb1-00080b-EK
- for qemu-devel@nongnu.org; Sun, 06 Oct 2019 18:01:45 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33405)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <msmarduch@digitalocean.com>)
- id 1iHEb0-0007zd-85
- for qemu-devel@nongnu.org; Sun, 06 Oct 2019 18:01:43 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 60so9445676otu.0
- for <qemu-devel@nongnu.org>; Sun, 06 Oct 2019 15:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=digitalocean.com; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9DFR8yC2x/5u/5qAWy8C41+BwugyFIuapuCKaLIFcSY=;
- b=CQH24xo/dEdJvX6QxaIQ1ZXB482Q//hKKufBtwTAC81oFBmQfx54Ym1xpeMrMSVEOc
- ZWP2OE4RGc7CLZ++NsXGRC2oReDrnapBbQEJzLC2MGYoRxy2JDu+bdKkUb8oGJTjudxA
- MSOhLzhmVEtszK3RfsMdIW9Wbj37oElTZcW5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9DFR8yC2x/5u/5qAWy8C41+BwugyFIuapuCKaLIFcSY=;
- b=lM3RAowiAeg70KJT8na/NCSq6dctg50BtOQ5uUk8hT5qRe32rd3K0O/fc4f3/QNWGH
- bFkomYRi7lGubCblxwbcAPPhMYOdXDz/bakxXGPYpBX1EJ19hXCSIgsGxgYhvKeHaFE1
- cVzv87JowJAs1Hy2xnjCDi5Jf/3zyqtPOODTb1JXqtTP1MEQTiMeF+jyTlrPLzBQjXDs
- uUOxtl2gkuw1vFI/pWjkh7FidhXicCdxm3QE813kTv8gbBUH+QHfsdiPas0xNBPxx/R1
- suIqK1Zm+mICUCdLAs9j3s5w8TOkqQ9eBCtIZ73UITY89OXH6Py737ILOreNUmmdoqtC
- IRbQ==
-X-Gm-Message-State: APjAAAXmvqUoYQdfZfZ6pGWwPyudTQDb2BRBIe9Kfyz9+GCN5Q0aP49U
- /k648a4bBqGtAUw/Hg4FJuB1QQ==
-X-Google-Smtp-Source: APXvYqw19IkA27esOslvO0Wla1T1BepeOZ0b6ca9J6ipzCRIyCsCmB8hL7bG3dXPxoIEtcpXTmNWSw==
-X-Received: by 2002:a05:6830:1292:: with SMTP id
- z18mr19510887otp.7.1570399299419; 
- Sun, 06 Oct 2019 15:01:39 -0700 (PDT)
-Received: from ?IPv6:2600:1700:4a30:84c0:a5c5:faec:38bb:f557?
- ([2600:1700:4a30:84c0:a5c5:faec:38bb:f557])
- by smtp.gmail.com with ESMTPSA id a88sm4065197otb.0.2019.10.06.15.01.37
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 06 Oct 2019 15:01:38 -0700 (PDT)
-Subject: Re: [PATCH] target/i386: log guest name and memory error type AO, AR
- for MCEs
-To: Paolo Bonzini <pbonzini@redhat.com>, mtosatti@redhat.com, armbru@redhat.com
-Cc: qemu-devel@nongnu.org, rth@twiddle.net, ehabkost@redhat.com,
- qemu-trivial@nongnu.org
-References: <ceb4d639-842a-30bd-5d54-bfacb07b5cc4@digitalocean.com>
- <c78d014f-20f4-d25f-e50a-92c960200d7e@redhat.com>
-From: Mario Smarduch <msmarduch@digitalocean.com>
-Message-ID: <5032a0a0-afff-a7e6-1adc-996dbe4cf086@digitalocean.com>
-Date: Sun, 6 Oct 2019 15:01:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+ (envelope-from <samuel.thibault@ens-lyon.org>) id 1iHGNP-0008Bs-Tp
+ for qemu-devel@nongnu.org; Sun, 06 Oct 2019 19:55:48 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:54132)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1iHGNP-0008Bk-O2
+ for qemu-devel@nongnu.org; Sun, 06 Oct 2019 19:55:47 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 230741FD4;
+ Mon,  7 Oct 2019 01:55:40 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 77tFWhywbz32; Mon,  7 Oct 2019 01:55:39 +0200 (CEST)
+Received: from function.home (lfbn-bor-1-306-163.w109-215.abo.wanadoo.fr
+ [109.215.28.163])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 3285E1E8A;
+ Mon,  7 Oct 2019 01:55:39 +0200 (CEST)
+Received: from samy by function.home with local (Exim 4.92.2)
+ (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1iHGNG-0008L8-7J; Mon, 07 Oct 2019 01:55:38 +0200
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 0/1] slirp update
+Date: Mon,  7 Oct 2019 01:55:36 +0200
+Message-Id: <20191006235537.32016-1-samuel.thibault@ens-lyon.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <c78d014f-20f4-d25f-e50a-92c960200d7e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 185.233.100.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,28 +59,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 860d9048c78ce59c5903c3d5209df56f384009=
+86:
 
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20190924-pull-r=
+equest' into staging (2019-09-24 13:51:51 +0100)
 
-On 10/06/2019 09:11 AM, Paolo Bonzini wrote:
-> On 05/10/19 01:53, Mario Smarduch wrote:
->> Guest [Droplet-12345678] 2019-08-02T05:00:11.940270Z qemu-system-x86_64:
->> Guest MCE Memory Error at qemu addr 0x7f3c7622f000 and guest 78e42f000
->> addr of type BUS_MCEERR_AR injected
->>
->> with enterprise logging environment we can to take further actions.
->>
->> Signed-off-by: Mario Smarduch <msmarduch@digitalocean.com>
-> 
-> The guest name part should be a separate patch, controlled by "-msg
-> name=on" or something like that.  The MCE parts look good okay.  Can you
-> split the patch in two?
-> 
-> Paolo
-> 
-Yes will do.
+are available in the Git repository at:
 
-thanks.
+  https://people.debian.org/~sthibault/qemu.git tags/samuel-thibault
+
+for you to fetch changes up to 120b721f5b590393971673a315f02969ec89cccb:
+
+  slirp: Allow non-local DNS address when restrict is off (2019-10-01 19:=
+03:08 +0200)
+
+----------------------------------------------------------------
+slirp: Allow non-local DNS address when restrict is off
+
+----------------------------------------------------------------
+Samuel Thibault (1):
+      slirp: Allow non-local DNS address when restrict is off
+
+ net/slirp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
