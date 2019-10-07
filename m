@@ -2,74 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB95CEA6E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 19:19:53 +0200 (CEST)
-Received: from localhost ([::1]:48048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69041CEA54
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 19:13:24 +0200 (CEST)
+Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHWfo-00021e-NQ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 13:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36999)
+	id 1iHWZX-0004Uh-5d
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 13:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iHWTH-0006k5-Sj
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:06:57 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iHWWw-00032J-Oy
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:10:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iHWTF-0004ut-Rm
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:06:55 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38709)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iHWTF-0004uZ-KI; Mon, 07 Oct 2019 13:06:53 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 3so262871wmi.3;
- Mon, 07 Oct 2019 10:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e1Snfw54qByhFem85dbkNaD4L+dqPgwwgdg4e/O7Ibc=;
- b=NAXJKlWYcUB/LUYRANjRSqPjRaIn6iB91jdJl5Xn029Mzo9UqXjpN0UKY+bqOPoL17
- mDU71Jz2bhdQZMdprLFbZ4HU9AXSxf34KnPkmo9ifbRwN0jBp/wTrg55/RtSOHvXHj4N
- FTLJ+LEdwecQzWl8L1geTErpY5hi6a5l2GENUOm6mJJYhxGpnNtL5u4RGoSQo7YXo36N
- E/NJhKcKyZAElzb3Uq1E/KGJhtnLg3OEGIV2O58/TFZDxcJidujtXQtbGlXdOVXGuprB
- U4+HeBQPO1t7VU+c62OPlJRr/uwKWs4zG+UmjEHTfMTyf3iiHnzX31/XdDHmtLazaRE9
- 7adg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e1Snfw54qByhFem85dbkNaD4L+dqPgwwgdg4e/O7Ibc=;
- b=UD5kklZB/+YIfSq+rBvGatWOhf36YHp52PLR+wwJQq2T00NA5f+00ik/qtE9l41Oh0
- rWVno911dSDIrX+M8kzOrZK3HQa+eLECI4HAQdw1P9WSs6X/O4AzXWLs0wNTZ1olUkQf
- 9Sw/h+tfI08cHnj20vw5ObbBBo/0CUBoBcaJXPa9qGpoMXd1HbFHDdezt0zKPk8Kbkv1
- gRiaQoOYMDqdkYBx4i8vZaPnJn7ZsBPZLfmPmdOVxUB2PLaq0HUZNrTX8rjPsWIYKK5v
- BsX7CJyeZZj/y/SiNih5qcUYGwfP6b+IRXU90myv90nUaNU24jFtwOkIFIzFPPUUQJ8l
- n9Bw==
-X-Gm-Message-State: APjAAAWDqq3HbxIj739N2vxEIcFWn1nOYmXIRZr73ZTBvoy29vWXU+4i
- 11EchpzJWyb5zDiAkovuOJfgknojCmM=
-X-Google-Smtp-Source: APXvYqyBu9Iat3kMycK9D9B9YrRS+adpZ1OjfNu7j1QNJ5nvfADvKaTt+XP9CyqowNp6Sx15TKPIug==
-X-Received: by 2002:a1c:1b0b:: with SMTP id b11mr249281wmb.82.1570468012040;
- Mon, 07 Oct 2019 10:06:52 -0700 (PDT)
-Received: from x1w.redhat.com (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id x5sm14036603wrt.75.2019.10.07.10.06.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2019 10:06:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] hw/char: Add the BCM2835 miniuart
-Date: Mon,  7 Oct 2019 19:06:44 +0200
-Message-Id: <20191007170646.14961-2-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191007170646.14961-1-f4bug@amsat.org>
-References: <20191007170646.14961-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iHWWv-0006Um-AY
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:10:42 -0400
+Received: from mail-vi1eur04on0709.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0e::709]:10049
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iHWWu-0006Tf-FE; Mon, 07 Oct 2019 13:10:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kwBwtdC0Zi1ZCNh0krIqwGM6OulJDrs2x7K8mQmkzJ84tsiJ+P2vo0Y3U3ZWMe2BUQU5ubvC6pg0/sUrnsOQ3Ywu1JO5BaRnAxez0Fvgr0YWyFAGc7oOF569PO6aHcFsIeXMUL0nAPVbWlyWGeTDeiMA80g4Ovcp1tNE+D2HKXCXTUno+sERwzDHaHV/j0DRdVB1IMgvLS/GgODaS1M9/OYrwZGsVbXsRi6RPspaE1eu5ZXXENGcTPV/3hX6kEMZGoK6c7+gJCtGZBcw9e83nLxn4guZ3irzZtVr5jLIggl0jJt/6cwyZ8Kt43Jkmh0C1lWIrNb1kkmRQV3sxHtTrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WsKeXw9flGPF4nXVvyfIt80qTCxXWrTWKuv8CJrhOyA=;
+ b=kNvtqE6ITQYbWXi9Yg0GGEplfiMFojfXvCbghEyaaPUkx5uPNb2zKoJD1YL4hB2XXXlhSj/WiBd5US7EfxKVzVN+rky2kXI65iqWUoNmbWgUYemxRhR6Q8fmEWvCw25rjAol6AI0N4eaSs/9td1L6vRMwWg4DrLCjCmutoHn2APimwdgTiJk3rwudbXh9PEAMBFccsJQ+ro+6qwpn8jSOU9LiM7RNAPfy34iGwSVB8oQflre/o7M7j+vK0ANpsNThjHjH+0lNqyh1mXwVI14WZdt1lygMvi1lqu07A4+f4pqsq9z3Za+FVfEVAJr6PklR6tb9fjNjUSol4zbhN+nbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WsKeXw9flGPF4nXVvyfIt80qTCxXWrTWKuv8CJrhOyA=;
+ b=pQuG0v/0o1iLLFtGR5nRQVyFlyaE45H1SZl+e3HISzbA6NyxPcabrniUC1GeAyWKJ40Z2F+OtLZdR7sTNplmOW0dtBiDshCK0XT6JGEZqcbsiI28IehQTFA2BpNndSFiJNOWvqlQ9nEUUp6o+XGXOXbZT2JOD/2aj/pOK4Bf56E=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB4044.eurprd08.prod.outlook.com (20.179.10.80) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.24; Mon, 7 Oct 2019 17:10:37 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2327.023; Mon, 7 Oct 2019
+ 17:10:37 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH 5/6] block/block-copy: add memory limit
+Thread-Topic: [PATCH 5/6] block/block-copy: add memory limit
+Thread-Index: AQHVeg4yoh/rEPB1r0SkNCk9cwC6DKdPU0UAgAAc4QA=
+Date: Mon, 7 Oct 2019 17:10:37 +0000
+Message-ID: <49b99621-2d8a-f4a8-d31a-e64a727952a9@virtuozzo.com>
+References: <20191003171539.12327-1-vsementsov@virtuozzo.com>
+ <20191003171539.12327-6-vsementsov@virtuozzo.com>
+ <8aa011d7-3f11-2df5-d77e-5c5176ab63ed@redhat.com>
+In-Reply-To: <8aa011d7-3f11-2df5-d77e-5c5176ab63ed@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0902CA0044.eurprd09.prod.outlook.com
+ (2603:10a6:7:15::33) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191007201034748
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b987287f-4b60-49d7-e799-08d74b4945c4
+x-ms-traffictypediagnostic: DB8PR08MB4044:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB8PR08MB4044226FAFE1686251AF111EC19B0@DB8PR08MB4044.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:55;
+x-forefront-prvs: 01834E39B7
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(376002)(346002)(396003)(39840400004)(136003)(199004)(189003)(71200400001)(229853002)(2501003)(14444005)(256004)(110136005)(305945005)(107886003)(316002)(3846002)(31686004)(2906002)(6246003)(4326008)(6116002)(7736002)(6436002)(54906003)(6486002)(71190400001)(6512007)(25786009)(66446008)(11346002)(76176011)(81166006)(81156014)(8676002)(99286004)(5660300002)(8936002)(52116002)(102836004)(386003)(6506007)(53546011)(478600001)(66556008)(31696002)(86362001)(14454004)(36756003)(446003)(64756008)(26005)(66946007)(486006)(186003)(66066001)(66476007)(476003)(2616005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4044;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8vweP/sSp1MAtMI1DYipae3/3PDhYJ3w1vk57JfBUn2tOGNEeElGiaF7LLGlJZi0wy8PUUv/cu1baMPKFb9tKlQM/kYyBuoFpmDBqz9K12R1esAs9/rTfMOYpet76Z9P0n1gApfVdlk/EFNHpb3YTvtzw/bMfGWfrmY/CVCYaoO7HMNtejCf3t/5lFveg9fCSObtKilTO2qtEaWIRmi9WVUQe9X2GGJLu/8C6n61hE2J1wQX0OhYOy9vr4CtDFosQ/423FKLjDeJTTgdSTL7bulUZHmK8zSLPRgAZcm2rH3qqFKPp30Tx+p27m9LGVIXliX0lsD8uC6rnRb4oh1tt/nznG3YuZ93FCmVAULApWz+v3ySqyaQYF1TOdwO+CeVpj2DllHJfZrwI58lSyVLKdxbrVYYSSguhnFlWuMPqMo=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-ID: <80F89A084EEE2141B9444135C09E72B1@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b987287f-4b60-49d7-e799-08d74b4945c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2019 17:10:37.3253 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4fWVTvrjURQF9X2UG87mTmm6tS0cibZ41DOoWFeoqwOkQ9/3mM/Rk4AUsMFLrLdFlDKDxoMLmZEanFMzwjsm93veXy3ohoNSJLvMXP/2FGY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4044
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe0e::709
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,435 +111,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marc-Andre Lureau <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The miniuart code is already present in the multi-device
-hw/char/bcm2835_aux.c. Simply extracting it does not generate
-patch easy to review. Instead, add it again, rename the function
-names accordingly, use the "hw/registerfields.h" API.
-This is roughtly a copy of commit 97398d900caacc.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/char/Makefile.objs              |   1 +
- hw/char/bcm2835_miniuart.c         | 327 +++++++++++++++++++++++++++++
- hw/char/trace-events               |   4 +
- include/hw/char/bcm2835_miniuart.h |  37 ++++
- 4 files changed, 369 insertions(+)
- create mode 100644 hw/char/bcm2835_miniuart.c
- create mode 100644 include/hw/char/bcm2835_miniuart.h
-
-diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
-index 02d8a66925..5bd93bde9f 100644
---- a/hw/char/Makefile.objs
-+++ b/hw/char/Makefile.objs
-@@ -22,6 +22,7 @@ obj-$(CONFIG_DIGIC) += digic-uart.o
- obj-$(CONFIG_STM32F2XX_USART) += stm32f2xx_usart.o
- obj-$(CONFIG_RASPI) += bcm2835_aux.o
- 
-+common-obj-$(CONFIG_RASPI) += bcm2835_miniuart.o
- common-obj-$(CONFIG_CMSDK_APB_UART) += cmsdk-apb-uart.o
- common-obj-$(CONFIG_ETRAXFS) += etraxfs_ser.o
- common-obj-$(CONFIG_ISA_DEBUG) += debugcon.o
-diff --git a/hw/char/bcm2835_miniuart.c b/hw/char/bcm2835_miniuart.c
-new file mode 100644
-index 0000000000..0e99cecce7
---- /dev/null
-+++ b/hw/char/bcm2835_miniuart.c
-@@ -0,0 +1,327 @@
-+/*
-+ * BCM2835 (Raspberry Pi) mini UART block.
-+ *
-+ * Copyright (c) 2015, Microsoft
-+ * Written by Andrew Baumann
-+ * Based on pl011.c.
-+ *
-+ * This code is licensed under the GPL.
-+ *
-+ * At present only the core UART functions (data path for tx/rx) are
-+ * implemented. The following features/registers are unimplemented:
-+ *  - Line/modem control
-+ *  - Scratch register
-+ *  - Extra control
-+ *  - Baudrate
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "hw/char/bcm2835_miniuart.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/registerfields.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
-+
-+REG32(MU_IO,        0x00)
-+REG32(MU_IER,       0x04)
-+REG32(MU_IIR,       0x08)
-+REG32(MU_LCR,       0x0c)
-+REG32(MU_MCR,       0x10)
-+REG32(MU_LSR,       0x14)
-+REG32(MU_MSR,       0x18)
-+REG32(MU_SCRATCH,   0x1c)
-+REG32(MU_CNTL,      0x20)
-+REG32(MU_STAT,      0x24)
-+REG32(MU_BAUD,      0x28)
-+
-+/* bits in IER/IIR registers */
-+#define RX_INT  0x1
-+#define TX_INT  0x2
-+
-+static void bcm2835_miniuart_update(BCM2835MiniUartState *s)
-+{
-+    /*
-+     * Signal an interrupt if either:
-+     *
-+     * 1. rx interrupt is enabled and we have a non-empty rx fifo, or
-+     * 2. the tx interrupt is enabled (since we instantly drain the tx fifo)
-+     */
-+    s->iir = 0;
-+    if ((s->ier & RX_INT) && s->read_count != 0) {
-+        s->iir |= RX_INT;
-+    }
-+    if (s->ier & TX_INT) {
-+        s->iir |= TX_INT;
-+    }
-+    qemu_set_irq(s->irq, s->iir != 0);
-+}
-+
-+static bool is_16650(hwaddr offset)
-+{
-+    return offset < A_MU_CNTL;
-+}
-+
-+static uint64_t bcm2835_miniuart_read(void *opaque, hwaddr offset,
-+                                      unsigned size)
-+{
-+    BCM2835MiniUartState *s = opaque;
-+    uint32_t c, res = 0;
-+
-+    switch (offset) {
-+    case A_MU_IO:
-+        /* "DLAB bit set means access baudrate register" is NYI */
-+        c = s->read_fifo[s->read_pos];
-+        if (s->read_count > 0) {
-+            s->read_count--;
-+            if (++s->read_pos == BCM2835_MINIUART_RX_FIFO_LEN) {
-+                s->read_pos = 0;
-+            }
-+        }
-+        qemu_chr_fe_accept_input(&s->chr);
-+        bcm2835_miniuart_update(s);
-+        res = c;
-+        break;
-+
-+    case A_MU_IER:
-+        /* "DLAB bit set means access baudrate register" is NYI */
-+        res = 0xc0 | s->ier; /* FIFO enables always read 1 */
-+        break;
-+
-+    case A_MU_IIR:
-+        res = 0xc0; /* FIFO enables */
-+        /*
-+         * The spec is unclear on what happens when both tx and rx
-+         * interrupts are active, besides that this cannot occur. At
-+         * present, we choose to prioritise the rx interrupt, since
-+         * the tx fifo is always empty.
-+         */
-+        if (s->read_count != 0) {
-+            res |= 0x4;
-+        } else {
-+            res |= 0x2;
-+        }
-+        if (s->iir == 0) {
-+            res |= 0x1;
-+        }
-+        break;
-+
-+    case A_MU_LCR:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_LCR_REG unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_MCR:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_MCR_REG unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_LSR:
-+        res = 0x60; /* tx idle, empty */
-+        if (s->read_count != 0) {
-+            res |= 0x1;
-+        }
-+        break;
-+
-+    case A_MU_MSR:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_MSR_REG unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_SCRATCH:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_SCRATCH unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_CNTL:
-+        res = 0x3; /* tx, rx enabled */
-+        break;
-+
-+    case A_MU_STAT:
-+        res = 0x30e; /* space in the output buffer, empty tx fifo, idle tx/rx */
-+        if (s->read_count > 0) {
-+            res |= 0x1; /* data in input buffer */
-+            assert(s->read_count < BCM2835_MINIUART_RX_FIFO_LEN);
-+            res |= ((uint32_t)s->read_count) << 16; /* rx fifo fill level */
-+        }
-+        break;
-+
-+    case A_MU_BAUD:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_BAUD_REG unsupported\n", __func__);
-+        break;
-+
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+                      __func__, offset);
-+        break;
-+    }
-+
-+    if (is_16650(offset)) {
-+        trace_serial_ioport_read((offset & 0x1f) >> 2, res);
-+    } else {
-+        trace_bcm2835_miniuart_read(offset, res);
-+    }
-+
-+    return res;
-+}
-+
-+static void bcm2835_miniuart_write(void *opaque, hwaddr offset, uint64_t value,
-+                                   unsigned size)
-+{
-+    BCM2835MiniUartState *s = opaque;
-+    unsigned char ch;
-+
-+    if (is_16650(offset)) {
-+        trace_serial_ioport_write((offset & 0x1f) >> 2, value);
-+    } else {
-+        trace_bcm2835_miniuart_write(offset, value);
-+    }
-+
-+    switch (offset) {
-+    case A_MU_IO:
-+        /* "DLAB bit set means access baudrate register" is NYI */
-+        ch = value;
-+        /*
-+         * XXX this blocks entire thread. Rewrite to use
-+         * qemu_chr_fe_write and background I/O callbacks
-+         */
-+        qemu_chr_fe_write_all(&s->chr, &ch, 1);
-+        break;
-+
-+    case A_MU_IER:
-+        /* "DLAB bit set means access baudrate register" is NYI */
-+        s->ier = value & (TX_INT | RX_INT);
-+        bcm2835_miniuart_update(s);
-+        break;
-+
-+    case A_MU_IIR:
-+        if (value & 0x2) {
-+            s->read_count = 0;
-+        }
-+        break;
-+
-+    case A_MU_LCR:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_LCR_REG unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_MCR:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_MCR_REG unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_SCRATCH:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_SCRATCH unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_CNTL:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_CNTL_REG unsupported\n", __func__);
-+        break;
-+
-+    case A_MU_BAUD:
-+        qemu_log_mask(LOG_UNIMP, "%s: A_MU_BAUD_REG unsupported\n", __func__);
-+        break;
-+
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+                      __func__, offset);
-+    }
-+
-+    bcm2835_miniuart_update(s);
-+}
-+
-+static int bcm2835_miniuart_can_receive(void *opaque)
-+{
-+    BCM2835MiniUartState *s = opaque;
-+
-+    return s->read_count < BCM2835_MINIUART_RX_FIFO_LEN;
-+}
-+
-+static void bcm2835_miniuart_put_fifo(void *opaque, uint8_t value)
-+{
-+    BCM2835MiniUartState *s = opaque;
-+    int slot;
-+
-+    slot = s->read_pos + s->read_count;
-+    if (slot >= BCM2835_MINIUART_RX_FIFO_LEN) {
-+        slot -= BCM2835_MINIUART_RX_FIFO_LEN;
-+    }
-+    s->read_fifo[slot] = value;
-+    s->read_count++;
-+    if (s->read_count == BCM2835_MINIUART_RX_FIFO_LEN) {
-+        /* buffer full */
-+    }
-+    bcm2835_miniuart_update(s);
-+}
-+
-+static void bcm2835_miniuart_receive(void *opaque, const uint8_t *buf, int size)
-+{
-+    bcm2835_miniuart_put_fifo(opaque, *buf);
-+}
-+
-+static const MemoryRegionOps bcm2835_miniuart_ops = {
-+    .read = bcm2835_miniuart_read,
-+    .write = bcm2835_miniuart_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+};
-+
-+static const VMStateDescription vmstate_bcm2835_aux = {
-+    .name = TYPE_BCM2835_MINIUART,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8_ARRAY(read_fifo, BCM2835MiniUartState,
-+                            BCM2835_MINIUART_RX_FIFO_LEN),
-+        VMSTATE_UINT8(read_pos, BCM2835MiniUartState),
-+        VMSTATE_UINT8(read_count, BCM2835MiniUartState),
-+        VMSTATE_UINT8(ier, BCM2835MiniUartState),
-+        VMSTATE_UINT8(iir, BCM2835MiniUartState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void bcm2835_miniuart_init(Object *obj)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    BCM2835MiniUartState *s = BCM2835_MINIUART(obj);
-+
-+    memory_region_init_io(&s->iomem, OBJECT(s), &bcm2835_miniuart_ops, s,
-+                          TYPE_BCM2835_MINIUART, 0x40);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+    sysbus_init_irq(sbd, &s->irq);
-+}
-+
-+static void bcm2835_miniuart_realize(DeviceState *dev, Error **errp)
-+{
-+    BCM2835MiniUartState *s = BCM2835_MINIUART(dev);
-+
-+    qemu_chr_fe_set_handlers(&s->chr, bcm2835_miniuart_can_receive,
-+                             bcm2835_miniuart_receive, NULL, NULL,
-+                             s, NULL, true);
-+}
-+
-+static Property bcm2835_miniuart_props[] = {
-+    DEFINE_PROP_CHR("chardev", BCM2835MiniUartState, chr),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void bcm2835_miniuart_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->realize = bcm2835_miniuart_realize;
-+    dc->vmsd = &vmstate_bcm2835_aux;
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+    dc->props = bcm2835_miniuart_props;
-+}
-+
-+static const TypeInfo bcm2835_miniuart_info = {
-+    .name          = TYPE_BCM2835_MINIUART,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(BCM2835MiniUartState),
-+    .instance_init = bcm2835_miniuart_init,
-+    .class_init    = bcm2835_miniuart_class_init,
-+};
-+
-+static void bcm2835_miniuart_register_types(void)
-+{
-+    type_register_static(&bcm2835_miniuart_info);
-+}
-+
-+type_init(bcm2835_miniuart_register_types)
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 2ce7f2f998..f1e6dd9918 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -1,5 +1,9 @@
- # See docs/devel/tracing.txt for syntax documentation.
- 
-+# bcm2835_miniuart.c
-+bcm2835_miniuart_read(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" value 0x%x"
-+bcm2835_miniuart_write(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" value 0x%x"
-+
- # parallel.c
- parallel_ioport_read(const char *desc, uint16_t addr, uint8_t value) "read [%s] addr 0x%02x val 0x%02x"
- parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "write [%s] addr 0x%02x val 0x%02x"
-diff --git a/include/hw/char/bcm2835_miniuart.h b/include/hw/char/bcm2835_miniuart.h
-new file mode 100644
-index 0000000000..54d3b622ed
---- /dev/null
-+++ b/include/hw/char/bcm2835_miniuart.h
-@@ -0,0 +1,37 @@
-+/*
-+ * BCM2835 (Raspberry Pi) mini UART block.
-+ *
-+ * Copyright (c) 2015, Microsoft
-+ * Written by Andrew Baumann
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_CHAR_BCM2835_MINIUART_H
-+#define HW_CHAR_BCM2835_MINIUART_H
-+
-+#include "chardev/char-fe.h"
-+#include "hw/sysbus.h"
-+#include "hw/irq.h"
-+
-+#define TYPE_BCM2835_MINIUART "bcm2835-miniuart"
-+#define BCM2835_MINIUART(obj) \
-+            OBJECT_CHECK(BCM2835MiniUartState, (obj), TYPE_BCM2835_MINIUART)
-+
-+#define BCM2835_MINIUART_RX_FIFO_LEN 8
-+
-+typedef struct {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion iomem;
-+    CharBackend chr;
-+    qemu_irq irq;
-+
-+    uint8_t read_fifo[BCM2835_MINIUART_RX_FIFO_LEN];
-+    uint8_t read_pos, read_count;
-+    uint8_t ier, iir;
-+} BCM2835MiniUartState;
-+
-+#endif
--- 
-2.21.0
-
+MDcuMTAuMjAxOSAxODoyNywgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAwMy4xMC4xOSAxOToxNSwg
+VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IEN1cnJlbnRseSB0b3RhbCBh
+bGxvY2F0aW9uIGZvciBwYXJhbGxlbCByZXF1ZXN0cyB0byBibG9jay1jb3B5IGluc3RhbmNlDQo+
+PiBpcyB1bmxpbWl0ZWQuIExldCdzIGxpbWl0IGl0IHRvIDEyOCBNaUIuDQo+Pg0KPj4gRm9yIG5v
+dyBibG9jay1jb3B5IGlzIHVzZWQgb25seSBpbiBiYWNrdXAsIHNvIGFjdHVhbGx5IHdlIGxpbWl0
+IHRvdGFsDQo+PiBhbGxvY2F0aW9uIGZvciBiYWNrdXAgam9iLg0KPj4NCj4+IFNpZ25lZC1vZmYt
+Ynk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNv
+bT4NCj4+IC0tLQ0KPj4gICBpbmNsdWRlL2Jsb2NrL2Jsb2NrLWNvcHkuaCB8IDMgKysrDQo+PiAg
+IGJsb2NrL2Jsb2NrLWNvcHkuYyAgICAgICAgIHwgNSArKysrKw0KPj4gICAyIGZpbGVzIGNoYW5n
+ZWQsIDggaW5zZXJ0aW9ucygrKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Jsb2NrL2Js
+b2NrLWNvcHkuaCBiL2luY2x1ZGUvYmxvY2svYmxvY2stY29weS5oDQo+PiBpbmRleCBlMmUxMzVm
+ZjFiLi5iYjY2NmU3MDY4IDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9ibG9jay9ibG9jay1jb3B5
+LmgNCj4+ICsrKyBiL2luY2x1ZGUvYmxvY2svYmxvY2stY29weS5oDQo+PiBAQCAtMTYsNiArMTYs
+NyBAQA0KPj4gICAjZGVmaW5lIEJMT0NLX0NPUFlfSA0KPj4gICANCj4+ICAgI2luY2x1ZGUgImJs
+b2NrL2Jsb2NrLmgiDQo+PiArI2luY2x1ZGUgInFlbXUvY28tc2hhcmVkLWFtb3VudC5oIg0KPj4g
+ICANCj4+ICAgdHlwZWRlZiBzdHJ1Y3QgQmxvY2tDb3B5SW5GbGlnaHRSZXEgew0KPj4gICAgICAg
+aW50NjRfdCBzdGFydF9ieXRlOw0KPj4gQEAgLTY5LDYgKzcwLDggQEAgdHlwZWRlZiBzdHJ1Y3Qg
+QmxvY2tDb3B5U3RhdGUgew0KPj4gICAgICAgICovDQo+PiAgICAgICBQcm9ncmVzc1Jlc2V0Q2Fs
+bGJhY2tGdW5jIHByb2dyZXNzX3Jlc2V0X2NhbGxiYWNrOw0KPj4gICAgICAgdm9pZCAqcHJvZ3Jl
+c3Nfb3BhcXVlOw0KPj4gKw0KPj4gKyAgICBRZW11Q29TaGFyZWRBbW91bnQgKm1lbTsNCj4+ICAg
+fSBCbG9ja0NvcHlTdGF0ZTsNCj4+ICAgDQo+PiAgIEJsb2NrQ29weVN0YXRlICpibG9ja19jb3B5
+X3N0YXRlX25ldyhCZHJ2Q2hpbGQgKnNvdXJjZSwgQmRydkNoaWxkICp0YXJnZXQsDQo+PiBkaWZm
+IC0tZ2l0IGEvYmxvY2svYmxvY2stY29weS5jIGIvYmxvY2svYmxvY2stY29weS5jDQo+PiBpbmRl
+eCBjYzQ5ZDIzNDVkLi5lNzAwYzIwZDBmIDEwMDY0NA0KPj4gLS0tIGEvYmxvY2svYmxvY2stY29w
+eS5jDQo+PiArKysgYi9ibG9jay9ibG9jay1jb3B5LmMNCj4+IEBAIC0yMSw2ICsyMSw3IEBADQo+
+PiAgICNpbmNsdWRlICJxZW11L3VuaXRzLmgiDQo+PiAgIA0KPj4gICAjZGVmaW5lIEJMT0NLX0NP
+UFlfTUFYX0NPUFlfUkFOR0UgKDE2ICogTWlCKQ0KPj4gKyNkZWZpbmUgQkxPQ0tfQ09QWV9NQVhf
+TUVNICgxMjggKiBNaUIpDQo+PiAgIA0KPj4gICBzdGF0aWMgdm9pZCBjb3JvdXRpbmVfZm4gYmxv
+Y2tfY29weV93YWl0X2luZmxpZ2h0X3JlcXMoQmxvY2tDb3B5U3RhdGUgKnMsDQo+PiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQ2NF90
+IHN0YXJ0LA0KPj4gQEAgLTY0LDYgKzY1LDcgQEAgdm9pZCBibG9ja19jb3B5X3N0YXRlX2ZyZWUo
+QmxvY2tDb3B5U3RhdGUgKnMpDQo+PiAgICAgICB9DQo+PiAgIA0KPj4gICAgICAgYmRydl9yZWxl
+YXNlX2RpcnR5X2JpdG1hcChzLT5zb3VyY2UtPmJzLCBzLT5jb3B5X2JpdG1hcCk7DQo+PiArICAg
+IHFlbXVfY29fc2hhcmVkX2Ftb3VudF9mcmVlKHMtPm1lbSk7DQo+PiAgICAgICBnX2ZyZWUocyk7
+DQo+PiAgIH0NCj4+ICAgDQo+PiBAQCAtOTUsNiArOTcsNyBAQCBCbG9ja0NvcHlTdGF0ZSAqYmxv
+Y2tfY29weV9zdGF0ZV9uZXcoQmRydkNoaWxkICpzb3VyY2UsIEJkcnZDaGlsZCAqdGFyZ2V0LA0K
+Pj4gICAgICAgICAgIC5jbHVzdGVyX3NpemUgPSBjbHVzdGVyX3NpemUsDQo+PiAgICAgICAgICAg
+LmxlbiA9IGJkcnZfZGlydHlfYml0bWFwX3NpemUoY29weV9iaXRtYXApLA0KPj4gICAgICAgICAg
+IC53cml0ZV9mbGFncyA9IHdyaXRlX2ZsYWdzLA0KPj4gKyAgICAgICAgLm1lbSA9IHFlbXVfY29f
+c2hhcmVkX2Ftb3VudF9uZXcoQkxPQ0tfQ09QWV9NQVhfTUVNKSwNCj4+ICAgICAgIH07DQo+PiAg
+IA0KPj4gICAgICAgcy0+Y29weV9yYW5nZV9zaXplID0gUUVNVV9BTElHTl9ET1dOKG1heF90cmFu
+c2ZlciwgY2x1c3Rlcl9zaXplKSwNCj4+IEBAIC0zMTYsNyArMzE5LDkgQEAgaW50IGNvcm91dGlu
+ZV9mbiBibG9ja19jb3B5KEJsb2NrQ29weVN0YXRlICpzLA0KPj4gICANCj4+ICAgICAgICAgICBi
+ZHJ2X3Jlc2V0X2RpcnR5X2JpdG1hcChzLT5jb3B5X2JpdG1hcCwgc3RhcnQsIGNodW5rX2VuZCAt
+IHN0YXJ0KTsNCj4+ICAgDQo+PiArICAgICAgICBxZW11X2NvX2dldF9hbW91bnQocy0+bWVtLCBj
+aHVua19lbmQgLSBzdGFydCk7DQo+IA0KPiBOb3cgdGhhdCBJIHNlZSBpdCBsaWtlIHRoaXMsIG1h
+eWJlIHRoZSBuYW1lIGlzIHRvbyBzaG9ydC4gIFRoaXMgc291bmRzDQo+IGxpa2UgaXQgd2FzIHRy
+eWluZyB0byBnZXQgc29tZSBhbW91bnQgb2YgY29yb3V0aW5lcy4NCj4gDQo+IFdvdWxkIOKAnHFl
+bXVfY29fZ2V0X2Zyb21fc2hhcmVkX2Ftb3VudOKAnSBiZSB0b28gbG9uZz8gIChTb21ldGhpbmcg
+bGlrZQ0KPiBxZW11X2NvX3NoYW1fYWxsb2MoKSB3b3VsZCBiZSBmdW5ueSwgYnV0IG1heWJlIG5v
+dC4gIDotKSAgT3IgbWF5YmUNCj4gZXhhY3RseSBiZWNhdXNlIGl04oCdcyBmdW5ueS4pDQo+IA0K
+DQpobW0gc2hhbSBtYXkgYmUgaW50ZXJwcmV0ZWQgYXMgc2hhcmVkIG1lbW9yeSwgbm90IG9ubHkg
+bGlrZSBzaGFtZS4uDQoNCkFuZCBpZiB3ZSBjYWxsIGl0IF9hbGxvYywgdGhlIG9wcG9zaXRlIHNo
+b3VsZCBiZSBfZnJlZSwgYnV0IGhvdyB0bw0KZGlzdGluZ3Vpc2ggaXQgZnJvbSBmcmVlaW5nIHRo
+ZSB3aG9sZSBvYmplY3Q/IEhtbSwgdXNlIGNyZWF0ZS9kZXN0cm95IGZvcg0KdGhlIHdob2xlIG9i
+amVjdCBtYXliZS4NCg0KTWF5IGJlLCBkcm9wICJxZW11XyIgPyBJdCdzIG5vdCB2ZXJ5IGluZm9y
+bWF0aXZlLiBPciBtYXkgYmUgZHJvcCAiY29fIj8uDQoNCkkgZG9uJ3QgbGlrZSBzaGFtaW5nIG15
+IHNoYXJlZCBhbW91bnQgOikNCg0KTWF5IGJlLCB3ZSBzaG91bGQgaW1hZ2luZSwgd2hhdCBhcmUg
+d2UgYWxsb2NhdGluZz8gTWF5IGJlIGJhbGxzPw0KDQpzdHJ1Y3QgQmFsbEFsbG9jYXRvcg0KDQpi
+YWxsX2FsbG9jYXRvcl9jcmVhdGUNCmJhbGxfYWxsb2NhdG9yX2Rlc3Ryb3kNCg0KY29fdHJ5X2Fs
+bG9jX2JhbGxzDQpjb19hbGxvY19iYWxscw0KY29fZnJlZV9iYWxscw0KDQpPciBiYXJzPyBPciB3
+aGljaCB0aGluZyBtYXkgYmUgdXNlZCBmb3IgZnVubnkgbmFtaW5nIGFuZCB0byBub3QgaW50ZXJz
+ZWN0DQp3aXRoIGV4aXN0aW5nIGNvbmNlcHRzIGxpa2UgbWVtb3J5Pw0KDQo+IA0KPj4gICAgICAg
+ICAgIHJldCA9IGJsb2NrX2NvcHlfZG9fY29weShzLCBzdGFydCwgY2h1bmtfZW5kLCBlcnJvcl9p
+c19yZWFkKTsNCj4+ICsgICAgICAgIHFlbXVfY29fcHV0X2Ftb3VudChzLT5tZW0sIGNodW5rX2Vu
+ZCAtIHN0YXJ0KTsNCj4+ICAgICAgICAgICBpZiAocmV0IDwgMCkgew0KPj4gICAgICAgICAgICAg
+ICBiZHJ2X3NldF9kaXJ0eV9iaXRtYXAocy0+Y29weV9iaXRtYXAsIHN0YXJ0LCBjaHVua19lbmQg
+LSBzdGFydCk7DQo+PiAgICAgICAgICAgICAgIGJyZWFrOw0KPj4NCj4gDQo+IA0KDQoNCi0tIA0K
+QmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
