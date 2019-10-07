@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFF7CDCB6
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 09:58:55 +0200 (CEST)
-Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CEDCDC90
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 09:50:29 +0200 (CEST)
+Received: from localhost ([::1]:41330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHNuw-0006qs-Th
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 03:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44256)
+	id 1iHNml-0003wz-Si
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 03:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43501)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iHNsC-0005yP-Pd
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:56:05 -0400
+ (envelope-from <armbru@redhat.com>) id 1iHNls-0003Se-Va
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:49:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iHNsB-00056c-NV
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:56:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50754)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iHNsB-00056I-IP
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:56:03 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iHNsA-0008E2-D3
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 07:56:02 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 39DBB2E8073
- for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 07:56:02 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1iHNlr-000225-J0
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:49:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50442)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1iHNln-00020T-JO; Mon, 07 Oct 2019 03:49:27 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E17B518C8911;
+ Mon,  7 Oct 2019 07:49:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 35EB260127;
+ Mon,  7 Oct 2019 07:49:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8E4A21138648; Mon,  7 Oct 2019 09:49:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v2 02/11] qcrypto-luks: extend the create
+ options for upcoming encryption key management
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+ <20190912223028.18496-3-mlevitsk@redhat.com>
+Date: Mon, 07 Oct 2019 09:49:19 +0200
+In-Reply-To: <20190912223028.18496-3-mlevitsk@redhat.com> (Maxim Levitsky's
+ message of "Fri, 13 Sep 2019 01:30:19 +0300")
+Message-ID: <87imp1j8qo.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Oct 2019 07:44:34 -0000
-From: Thomas Huth <1623998@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: programmingkidx th-huth
-X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160915151441.12160.56338.malonedeb@gac.canonical.com>
-Message-Id: <157043427479.9599.2536129012233487125.malone@wampee.canonical.com>
-Subject: [Bug 1623998] Re: pulseaudio Invalid argument error
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9a578709c30e9e0090512e5e9acaf6c91c6f0b0e
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Mon, 07 Oct 2019 07:49:25 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,40 +61,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1623998 <1623998@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What output do you get when you run "qemu-system-x86_64 -audio-help" ?
-Could you provide your full command line, please?
+Quick QAPI schema review only.
 
--- =
+Maxim Levitsky <mlevitsk@redhat.com> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1623998
+> Now you can specify which slot to put the encryption key to
+> Plus add 'active' option which will let  user erase the key secret
+> instead of adding it.
+> Check that active=true it when creating.
+>
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+[...]
+> diff --git a/qapi/crypto.json b/qapi/crypto.json
+> index b2a4cff683..9b83a70634 100644
+> --- a/qapi/crypto.json
+> +++ b/qapi/crypto.json
+> @@ -190,6 +190,20 @@
+   ##
+   # @QCryptoBlockCreateOptionsLUKS:
+   #
+   # The options that apply to LUKS encryption format initialization
+   #
+   # @cipher-alg: the cipher algorithm for data encryption
+   #              Currently defaults to 'aes-256'.
+   # @cipher-mode: the cipher mode for data encryption
+   #               Currently defaults to 'xts'
+   # @ivgen-alg: the initialization vector generator
+   #             Currently defaults to 'plain64'
+   # @ivgen-hash-alg: the initialization vector generator hash
+>  #                  Currently defaults to 'sha256'
+>  # @hash-alg: the master key hash algorithm
+>  #            Currently defaults to 'sha256'
+> +#
+> +# @active: Should the new secret be added (true) or erased (false)
+> +#          (amend only, since 4.2)
 
-Title:
-  pulseaudio Invalid argument error
+Is "active" established terminology?  I wouldn't have guessed its
+meaning from its name...
 
-Status in QEMU:
-  Incomplete
+As far as I can see, QCryptoBlockCreateOptionsLUKS is used just for
+blockdev-create with options.driver \in { luks, qcow, qcow2 }:
 
-Bug description:
-  When using qemu-system-ppc on Ubuntu Mate 15 with the usb audio card,
-  I see these error messages:
+   { 'command': 'blockdev-create',
+     'data': { ...
+               'options': 'BlockdevCreateOptions' } }
 
-  pulseaudio: set_sink_input_volume() failed
-  pulseaudio: Reason: Invalid argument
-  pulseaudio: set_sink_input_mute() failed
-  pulseaudio: Reason: Invalid argument
+   { 'union': 'BlockdevCreateOptions',
+     ...
+     'data': {
+         ...
+         'luks':           'BlockdevCreateOptionsLUKS',
+         ...
+         'qcow':           'BlockdevCreateOptionsQcow',
+         'qcow2':          'BlockdevCreateOptionsQcow2',
+         ... } }
 
-  No audio plays. When an attempt is made, QEMU seems to freeze for a
-  moment.
+With luks:
 
-  I use "-device usb-audio" to add the usb sound card. This issue is
-  present in both emulation and KVM mode.
+   { 'struct': 'BlockdevCreateOptionsLUKS',
+     'base': 'QCryptoBlockCreateOptionsLUKS',
+     ... }
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1623998/+subscriptions
+With qcow and qcow2:
+
+    { 'struct': 'BlockdevCreateOptionsQcow',
+      'data': { ...
+                '*encrypt':         'QCryptoBlockCreateOptions' } }
+    { 'struct': 'BlockdevCreateOptionsQcow2',
+      'data': { ...
+                '*encrypt':         'QCryptoBlockCreateOptions',
+                ... } }
+
+    { 'union': 'QCryptoBlockCreateOptions',
+      'base': 'QCryptoBlockOptionsBase',
+      'discriminator': 'format',
+      'data': { ...
+                'luks': 'QCryptoBlockCreateOptionsLUKS' } }
+
+I think I understand why we want blockdev-create to be able to specify a
+new secret.
+
+Why do we want it to be able to delete an existing secret?  How would
+that even work?  Color me confused...
+
+> +#
+> +# @slot: The slot in which to put/erase the secret
+> +#        if not given, will select first free slot for secret addtion
+> +#        and erase all matching keyslots for erase. except last one
+> +#        (optional, since 4.2)
+
+Excuse my possibly ignorant question: what exactly is a "matching
+keyslot"?
+
+> +#
+> +# @unlock-secret: The secret to use to unlock the image
+> +#        If not given, will use the secret that was used
+> +#        when opening the image.
+> +#        (optional, for amend only, since 4.2)
+
+More ignorance: what is "amend"?  No mention of it in qapi/*json...
+
+> +#
+>  # @iter-time: number of milliseconds to spend in
+>  #             PBKDF passphrase processing. Currently defaults
+>  #             to 2000. (since 2.8)
+> @@ -201,7 +215,12 @@
+>              '*cipher-mode': 'QCryptoCipherMode',
+>              '*ivgen-alg': 'QCryptoIVGenAlgorithm',
+>              '*ivgen-hash-alg': 'QCryptoHashAlgorithm',
+> +
+>              '*hash-alg': 'QCryptoHashAlgorithm',
+> +            '*active' : 'bool',
+> +            '*slot': 'int',
+> +            '*unlock-secret': 'str',
+> +
+>              '*iter-time': 'int'}}
+>  
+>  
+[...]
 
