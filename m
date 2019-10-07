@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E8CCDE08
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 11:11:53 +0200 (CEST)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D81FCDE42
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 11:33:36 +0200 (CEST)
+Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHP3Y-0004mK-3W
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 05:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52619)
+	id 1iHPOY-0001mZ-KK
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 05:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54685)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <k.kozlowski.k@gmail.com>) id 1iHP2E-0003uc-IS
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:10:31 -0400
+ (envelope-from <armbru@redhat.com>) id 1iHPNj-0001MW-SU
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:32:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <k.kozlowski.k@gmail.com>) id 1iHP2D-0000Dn-4W
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:10:30 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52092)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <k.kozlowski.k@gmail.com>)
- id 1iHP2C-0000Df-UY; Mon, 07 Oct 2019 05:10:29 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 7so11776553wme.1;
- Mon, 07 Oct 2019 02:10:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=Y6nZ6LcRDjdVl8384Zn9eJ0wmkcvEHxhAf9Dve/iToI=;
- b=e0kcuL4YRtOgY8mdy7pJbwqkXOz74dA1sAZR53/W1e8cQE+DDnq7a1Z+K8Izdrm5Io
- VypejqgdVG/7Mor8u9Yhy75Ufnzk953VebirjqTtZotemAhHKQZPOzCa5gD9Nfp59Xdv
- XpcZQ+7i745+2BQC3V3r1cCq4L2Dx4mOtnIfIa75JB23md5gTST1h17O3glzDUQVKuAF
- 2+xY8WxYcyA3efAbScV3tcqMbROb19l9b/bvtvupfoufNW2tGxCZzgE+lmRTHjfe24L3
- wBjuViPCVwbNpDB/055KThs0gr+juR+YCq3AF6jVItUMZPwsM6/TloJnq4vXmmlr+XEx
- E3/g==
-X-Gm-Message-State: APjAAAXiC2/mqULyaGGJDEl+4MGwESGBm9KLNcoaq3aGyrc6pF6Yv/2z
- z5RhGEqqR+CzDNJjm1ftHsU=
-X-Google-Smtp-Source: APXvYqxOouUyRJmLoxpomBzsyAe5h6sktFWw1BD+OIqgpB8ub2dUOqNbqm0ma1+hB1RIFyX4sE1riA==
-X-Received: by 2002:a1c:1aca:: with SMTP id
- a193mr20240492wma.120.1570439427628; 
- Mon, 07 Oct 2019 02:10:27 -0700 (PDT)
-Received: from pi3 ([194.230.155.145])
- by smtp.googlemail.com with ESMTPSA id r13sm24795572wrn.0.2019.10.07.02.10.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2019 02:10:26 -0700 (PDT)
-Date: Mon, 7 Oct 2019 11:10:24 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/5] hw/arm/exynos4210: Add acceptance tests to the
- SMDKC210 board
-Message-ID: <20191007091024.GC541@pi3>
-References: <20191005154748.21718-1-f4bug@amsat.org>
+ (envelope-from <armbru@redhat.com>) id 1iHPNh-0000AM-2D
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:32:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47640)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iHPNg-0000AG-Qd
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:32:41 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DF68A1107;
+ Mon,  7 Oct 2019 09:32:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA3CF5D9CD;
+ Mon,  7 Oct 2019 09:32:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5A23D1138648; Mon,  7 Oct 2019 11:32:03 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v5 01/10] hw/virtio: Factorize virtio-mmio headers
+References: <20191002113103.45023-1-slp@redhat.com>
+ <20191002113103.45023-2-slp@redhat.com>
+ <96ff1ae1-fc3f-af56-08bd-a8b821385572@redhat.com>
+ <87ftkahxyo.fsf@redhat.com>
+ <099a33d3-c1ab-f1c9-65e1-7dbd396a4817@redhat.com>
+Date: Mon, 07 Oct 2019 11:32:03 +0200
+In-Reply-To: <099a33d3-c1ab-f1c9-65e1-7dbd396a4817@redhat.com> (Eric Blake's
+ message of "Thu, 3 Oct 2019 08:11:54 -0500")
+Message-ID: <877e5gj3zg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20191005154748.21718-1-f4bug@amsat.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Mon, 07 Oct 2019 09:32:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.68
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,113 +64,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?RnLDqWTDqXJpYw==?= Basse <contact@fredericb.info>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Evgeny Voevodin <e.voevodin@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-devel@nongnu.org,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
- Dmitry Solodkiy <d.solodkiy@samsung.com>, Cleber Rosa <crosa@redhat.com>,
- Maksim Kozlov <m.kozlov@samsung.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, ehabkost@redhat.com,
+ Sergio Lopez <slp@redhat.com>, mst@redhat.com, lersek@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com, sgarzare@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 05, 2019 at 05:47:43PM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi all,
->=20
-> Yesterday Peter Maydell asked on IRC if I had any working Exynos4
-> image. I looked at some old backuped notes and could boot Guenter
-> initrd with BusyBox.
-> I'll use this cover letter to share my notes, they might help to
-> have this board fully usable again.
->=20
-> This board is listed as "Odd Fixes". Since we have it covered, I
-> thought it was worthwhile to have it covered by tests to avoid
-> more regressions.
->=20
-> Fr=C3=A9d=C3=A9ric Basse used this board last year:
-> https://fredericb.info/2018/03/emulating-exynos-4210-bootrom-in-qemu.html
->=20
-> I'll have a look a these particular commits he added:
->=20
-> - https://github.com/frederic/qemu-exynos-bootrom/commit/9be5c9f2253dbc04=
-ee
->=20
->    sd: add sd clock support to SDHC_CLKCON
->=20
-> - https://github.com/frederic/qemu-exynos-bootrom/commit/6f045949ee2fdec6=
-24
->=20
->    sd: always reply to ACMD41 (SD_APP_OP_COND)
->=20
-> Guenter also carries on this patch:
->=20
-> - https://github.com/groeck/qemu/commit/0a80543cc910d
->=20
->   hw/timer/exynos4210_mct: Initialize timer before starting it
->=20
->   When booting a recent Linux kernel, the qemu message "Timer with period
->   zero, disabling" is seen, apparently because a timer is started before
->   being initialized.  Fix the problem by initializing the offending timer
->   before starting it.
->=20
-> It might also be interesting to use Krzysztof's initramfs image:
-> https://github.com/krzk/tools/blob/master/run-qemu.sh#L29
+Eric Blake <eblake@redhat.com> writes:
 
-I haven't been working on QEMU since 2 years but I can try to find that
-initramfs image.
+> On 10/3/19 6:26 AM, Sergio Lopez wrote:
+>>
+>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>
+>>> On 10/2/19 1:30 PM, Sergio Lopez wrote:
+>>>> Put QOM and main struct definition in a separate header file, so it
+>>>> can be accessed from other components.
+>>>>
+>>>> Signed-off-by: Sergio Lopez <slp@redhat.com>
+>
+>>>> +
+>>>> +#ifndef QEMU_VIRTIO_MMIO_H
+>>>> +#define QEMU_VIRTIO_MMIO_H
+>>>
+>>> I'd rather use HW_VIRTIO_MMIO_H
+>>
+>> Looks like there isn't a consensus in this regard:
+>>
+>> $ grep "ifndef" *
+>
+>>
+>> Do we have an actual policy written somewhere?
+>
+> Past history shows several cleanups near commit fe2611b016, including
+> commit c0a9956b which mentions scripts/clean-header-guards
+> specifically for this purpose.  So yes, we have a policy, although it
+> is not always enforced in a timely manner.
 
-The recent initramfs I create, is for testing kernel under my Buildbot.
-I take standard initramfs from Arch ARM and then I add some more stuff:
-Source/instruction is here:
-https://github.com/krzk/tools/tree/master/buildbot/initramfs
-and the script making it for each boot is here:
-https://github.com/krzk/tools/blob/master/buildbot/build-slave-deploy.sh#L50
-https://github.com/krzk/tools/blob/master/pi/make-initramfs.sh
+We haven't adopted a strict policy.
 
-Best regards,
-Krzysztof
+I created clean-header-guards.pl to help me tidy up the resulting mess
+somewhat.  The script can clean up "untidy" header guards.  This may
+involve replacing the guard symbol.  It derives the replacement symbol
+from the file name the obvious way: convert a-z to A_Z, replace any
+character that isn't okay in an identifier by '_'.  Guard symbols chosen
+that way are fairly unlikely to collide.
+
+Existing guard symbols often omit directories, and the script tolerates
+that.  For instance, in sub/dir/base.h, anything ending in BASE_H is
+considered tidy enough.  Might be a bad idea.
+
+I wouldn't go as far as calling this a policy.  Perhaps it should be.
 
 
->=20
-> The 1st test added works fine, however the 2nd (SD card) is not
-> reliable so it is disabled. We might need to adapt the ADMA patch
-> Igor sent once:
-> https://patchwork.ozlabs.org/patch/181854/
->=20
-> If you want to run the Avocado tests, you need these other patches
-> pending review:
->=20
-> - https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg06439.html
->   "tests/boot_linux_console: Extract the gunzip() helper"
->=20
-> - https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg06438.html
->   "python/qemu/machine: Allow to use other serial consoles than default"
->   (only for the 2nd disabled test)
->=20
-> Regards,
->=20
-> Phil.
->=20
-> Based-on: 20190926173428.10713-16-f4bug@amsat.org
->=20
-> Philippe Mathieu-Daud=C3=A9 (5):
->   tests/boot_linux_console: Add initrd test for the Exynos4210
->   hw/sd/sdhci: Add a comment to distinct the i.MX eSDHC functions
->   hw/sd/sdhci: Add dummy Samsung SDHCI controller
->   hw/arm/exynos4210: Use the Samsung s3c SDHCI controller
->   tests/boot_linux_console: Add sdcard test for the Exynos4210
->=20
->  hw/arm/exynos4210.c                    |  2 +-
->  hw/sd/sdhci.c                          | 68 +++++++++++++++++++-
->  include/hw/sd/sdhci.h                  |  2 +
->  tests/acceptance/boot_linux_console.py | 88 ++++++++++++++++++++++++++
->  4 files changed, 158 insertions(+), 2 deletions(-)
->=20
-> --=20
-> 2.20.1
->=20
+commit 2dbc4ebc1712a5cf9e6a36327dce0b465abd5bbe
+Author: Markus Armbruster <armbru@redhat.com>
+Date:   Tue Jun 28 13:07:36 2016 +0200
+
+    scripts: New clean-header-guards.pl
+=20=20=20=20
+    The conventional way to ensure a header can be included multiple times
+    is to bracket it like this:
+=20=20=20=20
+        #ifndef HEADER_NAME_H
+        #define HEADER_NAME_H
+        ...
+        #endif
+=20=20=20=20
+    where HEADER_NAME_H is a symbol unique to this header.
+=20=20=20=20
+    The endif may be optionally decorated like this:
+=20=20=20=20
+        #endif /* HEADER_NAME_H */
+=20=20=20=20
+    Unconventional ways present in our code:
+=20=20=20=20
+    * Identifiers reserved for any use:
+        #define _FILEOP_H
+=20=20=20=20
+    * Lowercase (bad idea for object-like macros):
+        #define __linux_video_vga_h__
+=20=20=20=20
+    * Roundabout ways to say the same thing (and hide from grep):
+        #if !defined(__PPC_MAC_H__)
+        #endif /* !defined(__PPC_MAC_H__) */
+=20=20=20=20
+    * Redundant values:
+        #define HW_ALPHA_H 1
+=20=20=20=20
+    * Funny redundant values:
+        # define PXA_H                 "pxa.h"
+=20=20=20=20
+    * Decorations with bangs:
+=20=20=20=20
+        #endif /* !QEMU_ARM_GIC_INTERNAL_H */
+=20=20=20=20
+      The negation actually makes sense, but almost all our header guard
+      #endif decorations don't negate.
+=20=20=20=20
+    * Useless decorations:
+=20=20=20=20
+       #endif  /* audio.h */
+=20=20=20=20
+    Header guards are not the place to show off creativity.  This script
+    normalizes them to the conventional way, and cleans up whitespace
+    while there.  It warns when it renames guard symbols, and explains how
+    to find occurences of these symbols that may have to be updated
+    manually.
+=20=20=20=20
+    Another issue is use of the same guard symbol in multiple headers.
+    That's okay only for headers that cannot be used together, such as the
+    *-user/*/target_syscall.h.  This script can't tell, so it warns when
+    it sees a reuse.
+=20=20=20=20
+    The script also warns when preprocessing a header with its guard
+    symbol defined produces anything but whitespace.
+=20=20=20=20
+    The next commits will put the script to use.
+=20=20=20=20
+    Signed-off-by: Markus Armbruster <armbru@redhat.com>
+    Reviewed-by: Richard Henderson <rth@twiddle.net>
 
