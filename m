@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1648DCE1A8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:27:08 +0200 (CEST)
-Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EF3CE18C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:25:21 +0200 (CEST)
+Received: from localhost ([::1]:43990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHS6U-000056-SC
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48227)
+	id 1iHS4l-0006le-MO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:25:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iHRr2-0002Ua-Bo
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:09 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iHRrE-0002kh-Qt
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iHRr1-0004oH-Cp
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57028)
+ (envelope-from <stefanha@redhat.com>) id 1iHRrD-0004qq-Av
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36462)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iHRqz-0004nL-8a; Mon, 07 Oct 2019 08:11:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iHRrA-0004pv-K3; Mon, 07 Oct 2019 08:11:16 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5B72799C43;
- Mon,  7 Oct 2019 12:11:04 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C9D1C85362;
+ Mon,  7 Oct 2019 12:11:15 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD52BA227;
- Mon,  7 Oct 2019 12:10:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE47C6061E;
+ Mon,  7 Oct 2019 12:11:05 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/16] block/io_uring: adds userspace completion polling
-Date: Mon,  7 Oct 2019 13:09:31 +0100
-Message-Id: <20191007120937.5862-11-stefanha@redhat.com>
+Subject: [PATCH 11/16] qemu-io: adds option to use aio engine
+Date: Mon,  7 Oct 2019 13:09:32 +0100
+Message-Id: <20191007120937.5862-12-stefanha@redhat.com>
 In-Reply-To: <20191007120937.5862-1-stefanha@redhat.com>
 References: <20191007120937.5862-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Mon, 07 Oct 2019 12:11:04 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Mon, 07 Oct 2019 12:11:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -68,47 +68,92 @@ From: Aarushi Mehta <mehta.aaru20@gmail.com>
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io_uring.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ qemu-io.c | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index a5c0d16220..56892fd1ab 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -274,6 +274,21 @@ static void qemu_luring_completion_cb(void *opaque)
-     luring_process_completions_and_submit(s);
- }
+diff --git a/qemu-io.c b/qemu-io.c
+index f64eca6940..0abb4af134 100644
+--- a/qemu-io.c
++++ b/qemu-io.c
+@@ -130,7 +130,8 @@ static void open_help(void)
+ " -C, -- use copy-on-read\n"
+ " -n, -- disable host cache, short for -t none\n"
+ " -U, -- force shared permissions\n"
+-" -k, -- use kernel AIO implementation (on Linux only)\n"
++" -k, -- use kernel AIO implementation (Linux only, prefer use of -i)\n"
++" -i, -- use AIO mode (threads, native or io_uring)\n"
+ " -t, -- use the given cache mode for the image\n"
+ " -d, -- use the given discard mode for the image\n"
+ " -o, -- options to be given to the block driver"
+@@ -172,7 +173,7 @@ static int open_f(BlockBackend *blk, int argc, char *=
+*argv)
+     QDict *opts;
+     bool force_share =3D false;
 =20
-+static bool qemu_luring_poll_cb(void *opaque)
-+{
-+    LuringState *s =3D opaque;
-+    struct io_uring_cqe *cqes;
-+
-+    if (io_uring_peek_cqe(&s->ring, &cqes) =3D=3D 0) {
-+        if (cqes) {
-+            luring_process_completions_and_submit(s);
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static void ioq_init(LuringQueue *io_q)
+-    while ((c =3D getopt(argc, argv, "snCro:kt:d:U")) !=3D -1) {
++    while ((c =3D getopt(argc, argv, "snCro:ki:t:d:U")) !=3D -1) {
+         switch (c) {
+         case 's':
+             flags |=3D BDRV_O_SNAPSHOT;
+@@ -204,6 +205,13 @@ static int open_f(BlockBackend *blk, int argc, char =
+**argv)
+                 return -EINVAL;
+             }
+             break;
++        case 'i':
++            if (bdrv_parse_aio(optarg, &flags) < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                qemu_opts_reset(&empty_opts);
++                return -EINVAL;
++            }
++            break;
+         case 'o':
+             if (imageOpts) {
+                 printf("--image-opts and 'open -o' are mutually exclusiv=
+e\n");
+@@ -291,7 +299,9 @@ static void usage(const char *name)
+ "  -n, --nocache        disable host cache, short for -t none\n"
+ "  -C, --copy-on-read   enable copy-on-read\n"
+ "  -m, --misalign       misalign allocations for O_DIRECT\n"
+-"  -k, --native-aio     use kernel AIO implementation (on Linux only)\n"
++"  -k, --native-aio     use kernel AIO implementation\n"
++"                       (Linux only, prefer use of -i)\n"
++"  -i, --aio=3DMODE       use AIO mode (threads, native or io_uring)\n"
+ "  -t, --cache=3DMODE     use the given cache mode for the image\n"
+ "  -d, --discard=3DMODE   use the given discard mode for the image\n"
+ "  -T, --trace [[enable=3D]<pattern>][,events=3D<file>][,file=3D<file>]\=
+n"
+@@ -489,7 +499,7 @@ static QemuOptsList file_opts =3D {
+ int main(int argc, char **argv)
  {
-     QSIMPLEQ_INIT(&io_q->submit_queue);
-@@ -387,7 +402,7 @@ void luring_attach_aio_context(LuringState *s, AioCon=
-text *new_context)
-     s->aio_context =3D new_context;
-     s->completion_bh =3D aio_bh_new(new_context, qemu_luring_completion_=
-bh, s);
-     aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
--                       qemu_luring_completion_cb, NULL, NULL, s);
-+                       qemu_luring_completion_cb, NULL, qemu_luring_poll=
-_cb, s);
- }
-=20
- LuringState *luring_init(Error **errp)
+     int readonly =3D 0;
+-    const char *sopt =3D "hVc:d:f:rsnCmkt:T:U";
++    const char *sopt =3D "hVc:d:f:rsnCmki:t:T:U";
+     const struct option lopt[] =3D {
+         { "help", no_argument, NULL, 'h' },
+         { "version", no_argument, NULL, 'V' },
+@@ -501,6 +511,7 @@ int main(int argc, char **argv)
+         { "copy-on-read", no_argument, NULL, 'C' },
+         { "misalign", no_argument, NULL, 'm' },
+         { "native-aio", no_argument, NULL, 'k' },
++        { "aio", required_argument, NULL, 'i' },
+         { "discard", required_argument, NULL, 'd' },
+         { "cache", required_argument, NULL, 't' },
+         { "trace", required_argument, NULL, 'T' },
+@@ -568,6 +579,12 @@ int main(int argc, char **argv)
+         case 'k':
+             flags |=3D BDRV_O_NATIVE_AIO;
+             break;
++        case 'i':
++            if (bdrv_parse_aio(optarg, &flags) < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                exit(1);
++            }
++            break;
+         case 't':
+             if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0=
+) {
+                 error_report("Invalid cache option: %s", optarg);
 --=20
 2.21.0
 
