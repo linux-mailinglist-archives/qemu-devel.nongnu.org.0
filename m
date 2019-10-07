@@ -2,43 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D609CCDC82
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 09:42:46 +0200 (CEST)
-Received: from localhost ([::1]:41290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFF7CDCB6
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 09:58:55 +0200 (CEST)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHNfJ-0000vj-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 03:42:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42676)
+	id 1iHNuw-0006qs-Th
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 03:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mikhail.abakumov@ispras.ru>) id 1iHNdu-0008U4-Q7
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:41:20 -0400
+ (envelope-from <bounces@canonical.com>) id 1iHNsC-0005yP-Pd
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:56:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mikhail.abakumov@ispras.ru>) id 1iHNdt-00089H-5Q
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:41:18 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:49226)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <mikhail.abakumov@ispras.ru>) id 1iHNds-00084y-PP
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:41:17 -0400
-Received: from mail.ispras.ru (localhost [127.0.0.1])
- by mail.ispras.ru (Postfix) with ESMTPSA id 1C71F540082;
- Mon,  7 Oct 2019 10:41:13 +0300 (MSK)
+ (envelope-from <bounces@canonical.com>) id 1iHNsB-00056c-NV
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:56:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50754)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iHNsB-00056I-IP
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 03:56:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iHNsA-0008E2-D3
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 07:56:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 39DBB2E8073
+ for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 07:56:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Mon, 07 Oct 2019 10:41:13 +0300
-From: Mikhail Abakumov <mikhail.abakumov@ispras.ru>
-To: Qemu Devel <qemu-devel@nongnu.org>
-Subject: [PATCH] target/mips: add gdb xml files
-Message-ID: <caedac8d3f9f15f3245011b7d6b3f7bf@ispras.ru>
-X-Sender: mikhail.abakumov@ispras.ru
-User-Agent: Roundcube Webmail/1.1.2
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 83.149.199.45
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 07 Oct 2019 07:44:34 -0000
+From: Thomas Huth <1623998@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: programmingkidx th-huth
+X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20160915151441.12160.56338.malonedeb@gac.canonical.com>
+Message-Id: <157043427479.9599.2536129012233487125.malone@wampee.canonical.com>
+Subject: [Bug 1623998] Re: pulseaudio Invalid argument error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9a578709c30e9e0090512e5e9acaf6c91c6f0b0e
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -47,265 +66,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, philmd@redhat.com, alex.bennee@linaro.org,
- amarkovic@wavecomp.com, aurelien@aurel32.net
+Reply-To: Bug 1623998 <1623998@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- From: Mikhail Abakumov <mikhail.abakumov@ispras>
+What output do you get when you run "qemu-system-x86_64 -audio-help" ?
+Could you provide your full command line, please?
 
-This patch add xml files with gdb registers for mips.
+-- =
 
-Signed-off-by: Mikhail Abakumov <mikhail.abakumov@ispras>
----
-  configure               |  3 ++
-  gdb-xml/mips-core.xml   | 84 +++++++++++++++++++++++++++++++++++++++++
-  gdb-xml/mips64-core.xml | 84 +++++++++++++++++++++++++++++++++++++++++
-  target/mips/cpu.c       | 11 ++++++
-  4 files changed, 182 insertions(+)
-  create mode 100644 gdb-xml/mips-core.xml
-  create mode 100644 gdb-xml/mips64-core.xml
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1623998
 
-diff --git a/configure b/configure
-index 8f8446f52b..5bb2c62194 100755
---- a/configure
-+++ b/configure
-@@ -7466,12 +7466,14 @@ case "$target_name" in
-    mips|mipsel)
-      mttcg="yes"
-      TARGET_ARCH=mips
-+    gdb_xml_files="mips-core.xml"
-      echo "TARGET_ABI_MIPSO32=y" >> $config_target_mak
-    ;;
-    mipsn32|mipsn32el)
-      mttcg="yes"
-      TARGET_ARCH=mips64
-      TARGET_BASE_ARCH=mips
-+    gdb_xml_files="mips64-core.xml"
-      echo "TARGET_ABI_MIPSN32=y" >> $config_target_mak
-      echo "TARGET_ABI32=y" >> $config_target_mak
-    ;;
-@@ -7479,6 +7481,7 @@ case "$target_name" in
-      mttcg="yes"
-      TARGET_ARCH=mips64
-      TARGET_BASE_ARCH=mips
-+    gdb_xml_files="mips64-core.xml"
-      echo "TARGET_ABI_MIPSN64=y" >> $config_target_mak
-    ;;
-    moxie)
-diff --git a/gdb-xml/mips-core.xml b/gdb-xml/mips-core.xml
-new file mode 100644
-index 0000000000..a46b2993eb
---- /dev/null
-+++ b/gdb-xml/mips-core.xml
-@@ -0,0 +1,84 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2010-2019 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without 
-modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.mips">
-+  <reg name="zero" bitsize="32"/>
-+  <reg name="at" bitsize="32"/>
-+  <reg name="v0" bitsize="32"/>
-+  <reg name="v1" bitsize="32"/>
-+  <reg name="a0" bitsize="32"/>
-+  <reg name="a1" bitsize="32"/>
-+  <reg name="a2" bitsize="32"/>
-+  <reg name="a3" bitsize="32"/>
-+  <reg name="t0" bitsize="32"/>
-+  <reg name="t1" bitsize="32"/>
-+  <reg name="t2" bitsize="32"/>
-+  <reg name="t3" bitsize="32"/>
-+  <reg name="t4" bitsize="32"/>
-+  <reg name="t5" bitsize="32"/>
-+  <reg name="t6" bitsize="32"/>
-+  <reg name="t7" bitsize="32"/>
-+  <reg name="s0" bitsize="32"/>
-+  <reg name="s1" bitsize="32"/>
-+  <reg name="s2" bitsize="32"/>
-+  <reg name="s3" bitsize="32"/>
-+  <reg name="s4" bitsize="32"/>
-+  <reg name="s5" bitsize="32"/>
-+  <reg name="s6" bitsize="32"/>
-+  <reg name="s7" bitsize="32"/>
-+  <reg name="t8" bitsize="32"/>
-+  <reg name="t9" bitsize="32"/>
-+  <reg name="k0" bitsize="32"/>
-+  <reg name="k1" bitsize="32"/>
-+  <reg name="gp" bitsize="32"/>
-+  <reg name="sp" bitsize="32"/>
-+  <reg name="s8" bitsize="32"/>
-+  <reg name="ra" bitsize="32"/>
-+  <reg name="sr" bitsize="32"/>
-+  <reg name="lo" bitsize="32"/>
-+  <reg name="hi" bitsize="32"/>
-+  <reg name="bad" bitsize="32"/>
-+  <reg name="cause" bitsize="32"/>
-+  <reg name="pc" bitsize="32"/>
-+
-+  <reg name="f0" bitsize="32" regnum="38"/>
-+  <reg name="f1" bitsize="32"/>
-+  <reg name="f2" bitsize="32"/>
-+  <reg name="f3" bitsize="32"/>
-+  <reg name="f4" bitsize="32"/>
-+  <reg name="f5" bitsize="32"/>
-+  <reg name="f6" bitsize="32"/>
-+  <reg name="f7" bitsize="32"/>
-+  <reg name="f8" bitsize="32"/>
-+  <reg name="f9" bitsize="32"/>
-+  <reg name="f10" bitsize="32"/>
-+  <reg name="f11" bitsize="32"/>
-+  <reg name="f12" bitsize="32"/>
-+  <reg name="f13" bitsize="32"/>
-+  <reg name="f14" bitsize="32"/>
-+  <reg name="f15" bitsize="32"/>
-+  <reg name="f16" bitsize="32"/>
-+  <reg name="f17" bitsize="32"/>
-+  <reg name="f18" bitsize="32"/>
-+  <reg name="f19" bitsize="32"/>
-+  <reg name="f20" bitsize="32"/>
-+  <reg name="f21" bitsize="32"/>
-+  <reg name="f22" bitsize="32"/>
-+  <reg name="f23" bitsize="32"/>
-+  <reg name="f24" bitsize="32"/>
-+  <reg name="f25" bitsize="32"/>
-+  <reg name="f26" bitsize="32"/>
-+  <reg name="f27" bitsize="32"/>
-+  <reg name="f28" bitsize="32"/>
-+  <reg name="f29" bitsize="32"/>
-+  <reg name="f30" bitsize="32"/>
-+  <reg name="f31" bitsize="32"/>
-+  <reg name="fsr" bitsize="32" group="float"/>
-+  <reg name="fir" bitsize="32" group="float"/>
-+  <reg name="fp" bitsize="32" group="float"/>
-+</feature>
-diff --git a/gdb-xml/mips64-core.xml b/gdb-xml/mips64-core.xml
-new file mode 100644
-index 0000000000..cc1a15ad56
---- /dev/null
-+++ b/gdb-xml/mips64-core.xml
-@@ -0,0 +1,84 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2010-2019 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without 
-modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.mips64">
-+  <reg name="zero" bitsize="64"/>
-+  <reg name="at" bitsize="64"/>
-+  <reg name="v0" bitsize="64"/>
-+  <reg name="v1" bitsize="64"/>
-+  <reg name="a0" bitsize="64"/>
-+  <reg name="a1" bitsize="64"/>
-+  <reg name="a2" bitsize="64"/>
-+  <reg name="a3" bitsize="64"/>
-+  <reg name="t0" bitsize="64"/>
-+  <reg name="t1" bitsize="64"/>
-+  <reg name="t2" bitsize="64"/>
-+  <reg name="t3" bitsize="64"/>
-+  <reg name="t4" bitsize="64"/>
-+  <reg name="t5" bitsize="64"/>
-+  <reg name="t6" bitsize="64"/>
-+  <reg name="t7" bitsize="64"/>
-+  <reg name="s0" bitsize="64"/>
-+  <reg name="s1" bitsize="64"/>
-+  <reg name="s2" bitsize="64"/>
-+  <reg name="s3" bitsize="64"/>
-+  <reg name="s4" bitsize="64"/>
-+  <reg name="s5" bitsize="64"/>
-+  <reg name="s6" bitsize="64"/>
-+  <reg name="s7" bitsize="64"/>
-+  <reg name="t8" bitsize="64"/>
-+  <reg name="t9" bitsize="64"/>
-+  <reg name="k0" bitsize="64"/>
-+  <reg name="k1" bitsize="64"/>
-+  <reg name="gp" bitsize="64"/>
-+  <reg name="sp" bitsize="64"/>
-+  <reg name="s8" bitsize="64"/>
-+  <reg name="ra" bitsize="64"/>
-+  <reg name="sr" bitsize="64"/>
-+  <reg name="lo" bitsize="64"/>
-+  <reg name="hi" bitsize="64"/>
-+  <reg name="bad" bitsize="64"/>
-+  <reg name="cause" bitsize="64"/>
-+  <reg name="pc" bitsize="64"/>
-+
-+  <reg name="f0" bitsize="64" regnum="38"/>
-+  <reg name="f1" bitsize="64"/>
-+  <reg name="f2" bitsize="64"/>
-+  <reg name="f3" bitsize="64"/>
-+  <reg name="f4" bitsize="64"/>
-+  <reg name="f5" bitsize="64"/>
-+  <reg name="f6" bitsize="64"/>
-+  <reg name="f7" bitsize="64"/>
-+  <reg name="f8" bitsize="64"/>
-+  <reg name="f9" bitsize="64"/>
-+  <reg name="f10" bitsize="64"/>
-+  <reg name="f11" bitsize="64"/>
-+  <reg name="f12" bitsize="64"/>
-+  <reg name="f13" bitsize="64"/>
-+  <reg name="f14" bitsize="64"/>
-+  <reg name="f15" bitsize="64"/>
-+  <reg name="f16" bitsize="64"/>
-+  <reg name="f17" bitsize="64"/>
-+  <reg name="f18" bitsize="64"/>
-+  <reg name="f19" bitsize="64"/>
-+  <reg name="f20" bitsize="64"/>
-+  <reg name="f21" bitsize="64"/>
-+  <reg name="f22" bitsize="64"/>
-+  <reg name="f23" bitsize="64"/>
-+  <reg name="f24" bitsize="64"/>
-+  <reg name="f25" bitsize="64"/>
-+  <reg name="f26" bitsize="64"/>
-+  <reg name="f27" bitsize="64"/>
-+  <reg name="f28" bitsize="64"/>
-+  <reg name="f29" bitsize="64"/>
-+  <reg name="f30" bitsize="64"/>
-+  <reg name="f31" bitsize="64"/>
-+  <reg name="fsr" bitsize="64" group="float"/>
-+  <reg name="fir" bitsize="64" group="float"/>
-+  <reg name="fp" bitsize="64" group="float"/>
-+</feature>
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index bbcf7ca463..014f1db59e 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -181,6 +181,11 @@ static ObjectClass *mips_cpu_class_by_name(const 
-char *cpu_model)
-      return oc;
-  }
+Title:
+  pulseaudio Invalid argument error
 
-+static gchar *mips_gdb_arch_name(CPUState *cs)
-+{
-+    return g_strdup("mips");
-+}
-+
-  static void mips_cpu_class_init(ObjectClass *c, void *data)
-  {
-      MIPSCPUClass *mcc = MIPS_CPU_CLASS(c);
-@@ -213,6 +218,12 @@ static void mips_cpu_class_init(ObjectClass *c, 
-void *data)
-      cc->tlb_fill = mips_cpu_tlb_fill;
-  #endif
+Status in QEMU:
+  Incomplete
 
-+    cc->gdb_arch_name = mips_gdb_arch_name;
-+#ifdef TARGET_MIPS64
-+    cc->gdb_core_xml_file = "mips64-core.xml";
-+#else
-+    cc->gdb_core_xml_file = "mips-core.xml";
-+#endif
-      cc->gdb_num_core_regs = 73;
-      cc->gdb_stop_before_watchpoint = true;
-  }
--- 
-2.17.1
+Bug description:
+  When using qemu-system-ppc on Ubuntu Mate 15 with the usb audio card,
+  I see these error messages:
+
+  pulseaudio: set_sink_input_volume() failed
+  pulseaudio: Reason: Invalid argument
+  pulseaudio: set_sink_input_mute() failed
+  pulseaudio: Reason: Invalid argument
+
+  No audio plays. When an attempt is made, QEMU seems to freeze for a
+  moment.
+
+  I use "-device usb-audio" to add the usb sound card. This issue is
+  present in both emulation and KVM mode.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1623998/+subscriptions
 
