@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2F3CDDBE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 10:52:35 +0200 (CEST)
-Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDB8CDDDF
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 11:02:01 +0200 (CEST)
+Received: from localhost ([::1]:41896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHOks-00057X-8r
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 04:52:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49094)
+	id 1iHOtz-00008T-NL
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 05:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iHOad-0003ih-L5
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:42:03 -0400
+ (envelope-from <k.kozlowski.k@gmail.com>) id 1iHOrh-0007u5-Ed
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:59:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iHOaW-000433-Ei
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:41:59 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10840)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iHOa8-0003oI-H3
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:41:52 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x978bPap129422
- for <qemu-devel@nongnu.org>; Mon, 7 Oct 2019 04:41:20 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vg0avk5vt-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 04:41:20 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <clg@kaod.org>;
- Mon, 7 Oct 2019 09:41:17 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 7 Oct 2019 09:41:14 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x978fEK257606146
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Oct 2019 08:41:14 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3EDA11C05E;
- Mon,  7 Oct 2019 08:41:13 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE7FE11C05C;
- Mon,  7 Oct 2019 08:41:13 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  7 Oct 2019 08:41:13 +0000 (GMT)
-Received: from yukon.kaod.org.com (sig-9-145-169-184.de.ibm.com
- [9.145.169.184])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 0D21622006B;
- Mon,  7 Oct 2019 10:41:12 +0200 (CEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 6/9] ppc/pnv: Dump the XIVE NVT table
-Date: Mon,  7 Oct 2019 10:40:59 +0200
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191007084102.29776-1-clg@kaod.org>
-References: <20191007084102.29776-1-clg@kaod.org>
+ (envelope-from <k.kozlowski.k@gmail.com>) id 1iHOrf-00037q-Vb
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:59:37 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43265)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <k.kozlowski.k@gmail.com>)
+ id 1iHOrf-00037g-Pp; Mon, 07 Oct 2019 04:59:35 -0400
+Received: by mail-wr1-f68.google.com with SMTP id j18so13427340wrq.10;
+ Mon, 07 Oct 2019 01:59:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=utwvcIpWoCf4fLYtGad1B4OrN11KTAkB3AP1bTyt7PQ=;
+ b=HOmrljLX8QaJ3gZlRUZ2IzOeRa66JbzbLaZonyzIKoVdsYSnzybVjf3+qXi1fX8CaV
+ seKZdZpWG6/9m5ySyqI7LEwOUlaxCkNnwTJTFwCC/UaQO4HkFb5qnskrkCOEuVwafecH
+ YulAuEz+iG+dTB0uweq8ILDq5Rqi796/fmcmPASvjhiBDEiBVOfdHhtakXHz1l8aNTsD
+ p0YlAQsIaXt/JoeoanXIFZbkJlogMOiW1DEyI21Ah7sDM4H1K0PZ0GaFUE/M4HfeL3UA
+ waoj7WGb2OxUgLtK64DzekP1W1CLQDV5x6J1ommuNf+1gUppl5O+sk03Ne8UDU5Sc0BT
+ 2qyw==
+X-Gm-Message-State: APjAAAXgzBEQ45IuESbHpvSogDGfydiyPPW7FCjSJACjvslCg+xT6ZmE
+ 1EKIFFknlsfV3K7QcAYZvwo=
+X-Google-Smtp-Source: APXvYqx+pYtDBfq77StySFbOlL/TxSS94tnS3HgqEwqlT3ehwcV5WckpH4hmEalZZMvEXzV53jIURw==
+X-Received: by 2002:a5d:5692:: with SMTP id f18mr23288468wrv.68.1570438774311; 
+ Mon, 07 Oct 2019 01:59:34 -0700 (PDT)
+Received: from pi3 ([194.230.155.145])
+ by smtp.googlemail.com with ESMTPSA id r13sm24744576wrn.0.2019.10.07.01.59.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2019 01:59:33 -0700 (PDT)
+Date: Mon, 7 Oct 2019 10:59:31 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 3/5] hw/sd/sdhci: Add dummy Samsung SDHCI controller
+Message-ID: <20191007085931.GA541@pi3>
+References: <20191005154748.21718-1-f4bug@amsat.org>
+ <20191005154748.21718-4-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-x-cbid: 19100708-4275-0000-0000-0000036EC40F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100708-4276-0000-0000-00003881D12F
-Message-Id: <20191007084102.29776-7-clg@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-07_01:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=842 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910070090
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x978bPap129422
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+In-Reply-To: <20191005154748.21718-4-f4bug@amsat.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,95 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: =?utf-8?B?RnLDqWTDqXJpYw==?= Basse <contact@fredericb.info>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Evgeny Voevodin <e.voevodin@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-devel@nongnu.org,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
+ Dmitry Solodkiy <d.solodkiy@samsung.com>, Cleber Rosa <crosa@redhat.com>,
+ Maksim Kozlov <m.kozlov@samsung.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is useful to dump the contexts of the KVM vCPUs : configuration
-of the base END index of the vCPU and the Interrupt Pending Buffer,
-which is updated when an interrupt can not be presented.
+On Sat, Oct 05, 2019 at 05:47:46PM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
+> The Linux kernel access few S3C-specific registers [1] to set some
+> clock. We don't care about this part for device emulation [2]. Add
+> a dummy device to properly ignore these accesses, so we can focus
+> on the important registers missing.
 
-When dumping the NVT table, we skip empty indirect pages which are not
-necessarily allocated.
+The CONTROL2  has also few other settings, not clock related, but they
+can be skipped as well.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/ppc/xive_regs.h |  2 ++
- hw/intc/pnv_xive.c         | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 32 insertions(+)
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index 1a5622f8ded8..94338b4b551e 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -252,6 +252,8 @@ typedef struct XiveNVT {
-         uint32_t        w0;
- #define NVT_W0_VALID             PPC_BIT32(0)
-         uint32_t        w1;
-+#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
-+#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
-         uint32_t        w2;
-         uint32_t        w3;
-         uint32_t        w4;
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 0b142fd9f112..9f7e0e1662d6 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1554,6 +1554,27 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
-     },
- };
-=20
-+/*
-+ * skiboot uses an indirect NVT table with 64k subpages
-+ */
-+#define XIVE_NVT_COUNT          (1 << XIVE_NVT_SHIFT)
-+#define XIVE_NVT_PER_PAGE       (0x10000 / sizeof(XiveNVT))
-+
-+static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
-+                                    Monitor *mon)
-+{
-+    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
-+    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
-+
-+    if (!xive_nvt_is_valid(nvt)) {
-+        return;
-+    }
-+
-+    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n", nvt_idx,
-+                   eq_blk, eq_idx,
-+                   xive_get_field32(NVT_W4_IPB, nvt->w4));
-+}
-+
- void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
- {
-     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
-@@ -1562,6 +1583,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
- *mon)
-     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
-     XiveEAS eas;
-     XiveEND end;
-+    XiveNVT nvt;
-     int i;
-=20
-     monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0,
-@@ -1590,6 +1612,14 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
-r *mon)
-     while (!xive_router_get_end(xrtr, blk, i, &end)) {
-         xive_end_eas_pic_print_info(&end, i++, mon);
-     }
-+
-+    monitor_printf(mon, "XIVE[%x] NVTT %08x .. %08x\n", blk, 0,
-+                   XIVE_NVT_COUNT - 1);
-+    for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D XIVE_NVT_PER_PAGE) {
-+        while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
-+            xive_nvt_pic_print_info(&nvt, i++, mon);
-+        }
-+    }
- }
-=20
- static void pnv_xive_reset(void *dev)
---=20
-2.21.0
+Best regards,
+Krzysztof
 
+>=20
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/mmc/host/sdhci-s3c-regs.h?h=3Dcc014f3
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/drivers/mmc/host/sdhci-s3c.c?h=3Dv5.3#n263
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Eventually we should add the ADMA changes Igor sent in this patch:
+> https://patchwork.ozlabs.org/patch/181854/
+> They might solve the boot timing issues when using SD cards.
+> ---
+>  hw/sd/sdhci.c         | 65 +++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/sd/sdhci.h |  2 ++
+>  2 files changed, 67 insertions(+)
+>=20
 
