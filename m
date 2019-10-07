@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6822ACE3D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 15:35:35 +0200 (CEST)
-Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4A3CE3DE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 15:38:14 +0200 (CEST)
+Received: from localhost ([::1]:44886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHTAk-0002ls-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 09:35:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59695)
+	id 1iHTDJ-0005Aw-4l
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 09:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60061)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iHT8J-0001XJ-AA
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:33:04 -0400
+ (envelope-from <philmd@redhat.com>) id 1iHTAy-0003cc-S3
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:35:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iHT8I-00064P-5D
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:33:03 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:35218)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iHT8I-000641-0c
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:33:02 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id r134so5119910ywg.2
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 06:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MRdGrjnVYud8BhclSAqXUKtTaj5FCsVWoMT+pyhJ+f8=;
- b=AKG5dUtqX0Zp3RIxHMsLr6tPTlxxWBrqKXscThB8dd29dMTv9qlKnKAIiRcN3qNu1d
- P8sVPsjkAkqooBnMuJap5cZBr09ZtD44YyLaa2wuxO5JTwWWNT+ND+z7WrsuMMkthTnF
- LsWQhoOt9sKf/lbgECyusm8+aZJre5Kvhr/KrmnuvHSCLWRkIpx0D5iCUoNZlql8a5ij
- 6LbeoHmlrJOxIWb7GR1baN/1i79k4WlUeEf1fYuCuReoeUWm0RjLB5LVR8yyRssUprN6
- sGFRch+gXzRLuNZw4PBe2UH1LpOKD3sRGyFmLvrinmbZhzaYKGZGf8zF+ux2cpqRfIa2
- qw4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MRdGrjnVYud8BhclSAqXUKtTaj5FCsVWoMT+pyhJ+f8=;
- b=W0E+VI7fQ4v3wi6YVxnRIcI0e5V/EqOgVn5MTagXLkrJUlsBjZo097IvQjWKCzikQt
- 9WeGp6mAauhAm4mn1zwrrpdrcftzG2jili9QKhg6tetYwGFJN2EZudMCyLMm5HGWRIkk
- Cii9id2RgG73IgUhIkdcXEKs4tw2lcBZlhM6DxWUqTNeLzEEYOpgVrJ13/QnWOZOUZO4
- AcKqN/INSfSFrMKW5cBTWjncpqZdvCO5Un4qEWeqyyXJdzo44D1FJ0vHionHALKRtFfK
- G8vZBWvn1G90L7bkz7szVfO63d7YRlIbm7gZGHKh3vlMscVobnHWe7R7DWdv1C7qM2g1
- cxsA==
-X-Gm-Message-State: APjAAAUfYzkk2dPNPDzeNbrr7QDCennMMBNxR/taLnf3wli4erB5H9Wh
- 8rJa0ctn0Lpbb/CsNQ4PpUNMhw==
-X-Google-Smtp-Source: APXvYqwu9n0wonkVpch/vmC15VxlpqJE4RoL3G5My73AwX9brn1Fl7U0I0r9d1dg6zQ+a6iWNf4/CQ==
-X-Received: by 2002:a81:2781:: with SMTP id n123mr19481084ywn.3.1570455180539; 
- Mon, 07 Oct 2019 06:33:00 -0700 (PDT)
-Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
- by smtp.gmail.com with ESMTPSA id n11sm3713909ywh.82.2019.10.07.06.32.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Oct 2019 06:32:59 -0700 (PDT)
-Subject: Re: [RFC 4/4] hw/timer/arm_timer.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20191004114848.16831-1-peter.maydell@linaro.org>
- <20191004114848.16831-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <6b596f9e-5dfe-1118-69a6-692cd83be98b@linaro.org>
-Date: Mon, 7 Oct 2019 09:32:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <philmd@redhat.com>) id 1iHTAx-0007HH-KI
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:35:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36686)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHTAx-0007Gw-FS
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:35:47 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8C77576520
+ for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 13:35:46 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.206.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E057F60127;
+ Mon,  7 Oct 2019 13:35:42 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] edk2-next patches for 2019-10-07
+Date: Mon,  7 Oct 2019 15:35:35 +0200
+Message-Id: <20191007133540.30623-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191004114848.16831-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 07 Oct 2019 13:35:46 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,27 +54,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/19 4:48 AM, Peter Maydell wrote:
-> Switch the arm_timer.c code away from bottom-half based ptimers
-> to the new transaction-based ptimer API. This just requires
-> adding begin/commit calls around the various arms of
-> arm_timer_write() that modify the ptimer state, and using the
-> new ptimer_init() function to create the timer.
-> 
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1777777
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/timer/arm_timer.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+The following changes since commit 9e5319ca52a5b9e84d55ad9c36e2c0b317a122=
+bb:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into s=
+taging (2019-10-04 18:32:34 +0100)
 
+are available in the Git repository at:
 
-r~
+  https://gitlab.com/philmd/qemu.git tags/edk2-next-20191007
+
+for you to fetch changes up to 037973bb0d2b1a3c8618ccf41caa4da3666588c3:
+
+  edk2 build scripts: work around TianoCore#1607 without forcing Python 2=
+ (2019-10-07 15:14:15 +0200)
+
+----------------------------------------------------------------
+Improve scripts relying on the EDK2 submodule,
+drop Python2 dependency in EDK2 build scripts.
+
+----------------------------------------------------------------
+
+Laszlo Ersek (2):
+  edk2 build scripts: honor external BaseTools flags with
+    uefi-test-tools
+  edk2 build scripts: work around TianoCore#1607 without forcing Python
+    2
+
+Michael Roth (2):
+  make-release: pull in edk2 submodules so we can build it from tarballs
+  roms/Makefile.edk2: don't pull in submodules when building from
+    tarball
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  roms: Add a 'make help' target alias
+
+ roms/Makefile                  |  3 ++-
+ roms/Makefile.edk2             |  7 ++++++-
+ roms/edk2-build.sh             |  4 ++--
+ roms/edk2-funcs.sh             | 17 +++++++++++++++++
+ scripts/make-release           |  8 ++++++++
+ tests/uefi-test-tools/Makefile |  5 ++++-
+ tests/uefi-test-tools/build.sh |  6 ++++--
+ 7 files changed, 43 insertions(+), 7 deletions(-)
+
+--=20
+2.21.0
 
 
