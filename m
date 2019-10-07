@@ -2,55 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B47BCE575
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 16:39:26 +0200 (CEST)
-Received: from localhost ([::1]:45583 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD18CCE598
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 16:45:42 +0200 (CEST)
+Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHUAW-00062h-PD
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 10:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41247)
+	id 1iHUGb-0004gg-Gu
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 10:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iHU84-0003yi-CL
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:36:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1iHUC7-0000gt-GN
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:41:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iHU82-0005S3-9I
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:36:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:61617)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iHU81-0005Rd-Vv
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:36:50 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3B83318C8921
- for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 14:36:49 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-145.ams2.redhat.com
- [10.36.117.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 386F060C05;
- Mon,  7 Oct 2019 14:36:48 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	pbonzini@redhat.com,
-	berrange@redhat.com
-Subject: [PATCH v4 3/5] migration: Use automatic rcu_read unlock in ram.c
-Date: Mon,  7 Oct 2019 15:36:39 +0100
-Message-Id: <20191007143642.301445-4-dgilbert@redhat.com>
-In-Reply-To: <20191007143642.301445-1-dgilbert@redhat.com>
-References: <20191007143642.301445-1-dgilbert@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iHUC5-00073k-QS
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:41:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iHUC5-00073C-Kk
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:41:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iHUC3-0007yn-OP
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 14:40:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9109E2E807C
+ for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 14:40:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Mon, 07 Oct 2019 14:36:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 07 Oct 2019 14:27:06 -0000
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: aix ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gkurz leohori philmd th-huth
+X-Launchpad-Bug-Reporter: Leonardo (leohori)
+X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
+References: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157045842692.22121.2637569933907895308.malone@gac.canonical.com>
+Subject: [Bug 1846816] Re: Booting error on AIX 6.1 "Illegal Trap Instruction
+ Interrupt in Kernel""
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d345e1ef42af0594dfbfbfc869b65bc906509578
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,506 +67,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+The "tweqi r0,0 r0=3D0" is likely an assert() in the AIX code IIRC. Not sur=
+e it helps to see
+previous instructions.
 
-Use the automatic read unlocker in migration/ram.c
+About "Unimplemented SPAPR hcall 0x00000000000002b8":
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- migration/ram.c | 259 ++++++++++++++++++++++--------------------------
- 1 file changed, 121 insertions(+), 138 deletions(-)
+arch/powerpc/include/asm/hvcall.h:#define H_GET_EM_PARMS
+0x2B8
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 484d66379a..e29c8b3408 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -181,14 +181,14 @@ int foreach_not_ignored_block(RAMBlockIterFunc func=
-, void *opaque)
-     RAMBlock *block;
-     int ret =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-+
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         ret =3D func(block, opaque);
-         if (ret) {
-             break;
-         }
-     }
--    rcu_read_unlock();
-     return ret;
- }
-=20
-@@ -1848,12 +1848,12 @@ static void migration_bitmap_sync(RAMState *rs)
-     memory_global_dirty_log_sync();
-=20
-     qemu_mutex_lock(&rs->bitmap_mutex);
--    rcu_read_lock();
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        ramblock_sync_dirty_bitmap(rs, block);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+            ramblock_sync_dirty_bitmap(rs, block);
-+        }
-+        ram_counters.remaining =3D ram_bytes_remaining();
-     }
--    ram_counters.remaining =3D ram_bytes_remaining();
--    rcu_read_unlock();
-     qemu_mutex_unlock(&rs->bitmap_mutex);
-=20
-     memory_global_after_dirty_log_sync();
-@@ -2397,13 +2397,12 @@ static void migration_page_queue_free(RAMState *r=
-s)
-     /* This queue generally should be empty - but in the case of a faile=
-d
-      * migration might have some droppings in.
-      */
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     QSIMPLEQ_FOREACH_SAFE(mspr, &rs->src_page_requests, next_req, next_m=
-spr) {
-         memory_region_unref(mspr->rb->mr);
-         QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
-         g_free(mspr);
-     }
--    rcu_read_unlock();
- }
-=20
- /**
-@@ -2424,7 +2423,8 @@ int ram_save_queue_pages(const char *rbname, ram_ad=
-dr_t start, ram_addr_t len)
-     RAMState *rs =3D ram_state;
-=20
-     ram_counters.postcopy_requests++;
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-+
-     if (!rbname) {
-         /* Reuse last RAMBlock */
-         ramblock =3D rs->last_req_rb;
-@@ -2466,12 +2466,10 @@ int ram_save_queue_pages(const char *rbname, ram_=
-addr_t start, ram_addr_t len)
-     QSIMPLEQ_INSERT_TAIL(&rs->src_page_requests, new_entry, next_req);
-     migration_make_urgent_request();
-     qemu_mutex_unlock(&rs->src_page_req_mutex);
--    rcu_read_unlock();
-=20
-     return 0;
-=20
- err:
--    rcu_read_unlock();
-     return -1;
- }
-=20
-@@ -2700,7 +2698,8 @@ static uint64_t ram_bytes_total_common(bool count_i=
-gnored)
-     RAMBlock *block;
-     uint64_t total =3D 0;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-+
-     if (count_ignored) {
-         RAMBLOCK_FOREACH_MIGRATABLE(block) {
-             total +=3D block->used_length;
-@@ -2710,7 +2709,6 @@ static uint64_t ram_bytes_total_common(bool count_i=
-gnored)
-             total +=3D block->used_length;
-         }
-     }
--    rcu_read_unlock();
-     return total;
- }
-=20
-@@ -3034,7 +3032,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState=
- *ms)
-     RAMBlock *block;
-     int ret;
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-=20
-     /* This should be our last sync, the src is now paused */
-     migration_bitmap_sync(rs);
-@@ -3048,7 +3046,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState=
- *ms)
-         /* Deal with TPS !=3D HPS and huge pages */
-         ret =3D postcopy_chunk_hostpages(ms, block);
-         if (ret) {
--            rcu_read_unlock();
-             return ret;
-         }
-=20
-@@ -3060,7 +3057,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState=
- *ms)
-     trace_ram_postcopy_send_discard_bitmap();
-=20
-     ret =3D postcopy_each_ram_send_discard(ms);
--    rcu_read_unlock();
-=20
-     return ret;
- }
-@@ -3081,7 +3077,7 @@ int ram_discard_range(const char *rbname, uint64_t =
-start, size_t length)
-=20
-     trace_ram_discard_range(rbname, start, length);
-=20
--    rcu_read_lock();
-+    RCU_READ_LOCK_GUARD();
-     RAMBlock *rb =3D qemu_ram_block_by_name(rbname);
-=20
-     if (!rb) {
-@@ -3101,8 +3097,6 @@ int ram_discard_range(const char *rbname, uint64_t =
-start, size_t length)
-     ret =3D ram_block_discard_range(rb, start, length);
-=20
- err:
--    rcu_read_unlock();
--
-     return ret;
- }
-=20
-@@ -3231,13 +3225,12 @@ static void ram_init_bitmaps(RAMState *rs)
-     /* For memory_global_dirty_log_start below.  */
-     qemu_mutex_lock_iothread();
-     qemu_mutex_lock_ramlist();
--    rcu_read_lock();
-=20
--    ram_list_init_bitmaps();
--    memory_global_dirty_log_start();
--    migration_bitmap_sync_precopy(rs);
--
--    rcu_read_unlock();
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        ram_list_init_bitmaps();
-+        memory_global_dirty_log_start();
-+        migration_bitmap_sync_precopy(rs);
-+    }
-     qemu_mutex_unlock_ramlist();
-     qemu_mutex_unlock_iothread();
- }
-@@ -3424,55 +3417,57 @@ static int ram_save_iterate(QEMUFile *f, void *op=
-aque)
-         goto out;
-     }
-=20
--    rcu_read_lock();
--    if (ram_list.version !=3D rs->last_version) {
--        ram_state_reset(rs);
--    }
--
--    /* Read version before ram_list.blocks */
--    smp_rmb();
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        if (ram_list.version !=3D rs->last_version) {
-+            ram_state_reset(rs);
-+        }
-=20
--    ram_control_before_iterate(f, RAM_CONTROL_ROUND);
-+        /* Read version before ram_list.blocks */
-+        smp_rmb();
-=20
--    t0 =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
--    i =3D 0;
--    while ((ret =3D qemu_file_rate_limit(f)) =3D=3D 0 ||
--            !QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
--        int pages;
-+        ram_control_before_iterate(f, RAM_CONTROL_ROUND);
-=20
--        if (qemu_file_get_error(f)) {
--            break;
--        }
-+        t0 =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-+        i =3D 0;
-+        while ((ret =3D qemu_file_rate_limit(f)) =3D=3D 0 ||
-+                !QSIMPLEQ_EMPTY(&rs->src_page_requests)) {
-+            int pages;
-=20
--        pages =3D ram_find_and_save_block(rs, false);
--        /* no more pages to sent */
--        if (pages =3D=3D 0) {
--            done =3D 1;
--            break;
--        }
-+            if (qemu_file_get_error(f)) {
-+                break;
-+            }
-=20
--        if (pages < 0) {
--            qemu_file_set_error(f, pages);
--            break;
--        }
-+            pages =3D ram_find_and_save_block(rs, false);
-+            /* no more pages to sent */
-+            if (pages =3D=3D 0) {
-+                done =3D 1;
-+                break;
-+            }
-=20
--        rs->target_page_count +=3D pages;
--
--        /* we want to check in the 1st loop, just in case it was the 1st=
- time
--           and we had to sync the dirty bitmap.
--           qemu_clock_get_ns() is a bit expensive, so we only check each=
- some
--           iterations
--        */
--        if ((i & 63) =3D=3D 0) {
--            uint64_t t1 =3D (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - t0=
-) / 1000000;
--            if (t1 > MAX_WAIT) {
--                trace_ram_save_iterate_big_wait(t1, i);
-+            if (pages < 0) {
-+                qemu_file_set_error(f, pages);
-                 break;
-             }
-+
-+            rs->target_page_count +=3D pages;
-+
-+            /*
-+             * we want to check in the 1st loop, just in case it was the=
- 1st
-+             * time and we had to sync the dirty bitmap.
-+             * qemu_clock_get_ns() is a bit expensive, so we only check =
-each
-+             * some iterations
-+             */
-+            if ((i & 63) =3D=3D 0) {
-+                uint64_t t1 =3D (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) =
-- t0) /
-+                              1000000;
-+                if (t1 > MAX_WAIT) {
-+                    trace_ram_save_iterate_big_wait(t1, i);
-+                    break;
-+                }
-+            }
-+            i++;
-         }
--        i++;
-     }
--    rcu_read_unlock();
-=20
-     /*
-      * Must occur before EOS (or any QEMUFile operation)
-@@ -3510,35 +3505,33 @@ static int ram_save_complete(QEMUFile *f, void *o=
-paque)
-     RAMState *rs =3D *temp;
-     int ret =3D 0;
-=20
--    rcu_read_lock();
--
--    if (!migration_in_postcopy()) {
--        migration_bitmap_sync_precopy(rs);
--    }
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        if (!migration_in_postcopy()) {
-+            migration_bitmap_sync_precopy(rs);
-+        }
-=20
--    ram_control_before_iterate(f, RAM_CONTROL_FINISH);
-+        ram_control_before_iterate(f, RAM_CONTROL_FINISH);
-=20
--    /* try transferring iterative blocks of memory */
-+        /* try transferring iterative blocks of memory */
-=20
--    /* flush all remaining blocks regardless of rate limiting */
--    while (true) {
--        int pages;
-+        /* flush all remaining blocks regardless of rate limiting */
-+        while (true) {
-+            int pages;
-=20
--        pages =3D ram_find_and_save_block(rs, !migration_in_colo_state()=
-);
--        /* no more blocks to sent */
--        if (pages =3D=3D 0) {
--            break;
--        }
--        if (pages < 0) {
--            ret =3D pages;
--            break;
-+            pages =3D ram_find_and_save_block(rs, !migration_in_colo_sta=
-te());
-+            /* no more blocks to sent */
-+            if (pages =3D=3D 0) {
-+                break;
-+            }
-+            if (pages < 0) {
-+                ret =3D pages;
-+                break;
-+            }
-         }
--    }
--
--    flush_compressed_data(rs);
--    ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-=20
--    rcu_read_unlock();
-+        flush_compressed_data(rs);
-+        ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-+    }
-=20
-     multifd_send_sync_main(rs);
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-@@ -3561,9 +3554,9 @@ static void ram_save_pending(QEMUFile *f, void *opa=
-que, uint64_t max_size,
-     if (!migration_in_postcopy() &&
-         remaining_size < max_size) {
-         qemu_mutex_lock_iothread();
--        rcu_read_lock();
--        migration_bitmap_sync_precopy(rs);
--        rcu_read_unlock();
-+        WITH_RCU_READ_LOCK_GUARD() {
-+            migration_bitmap_sync_precopy(rs);
-+        }
-         qemu_mutex_unlock_iothread();
-         remaining_size =3D rs->migration_dirty_pages * TARGET_PAGE_SIZE;
-     }
-@@ -3907,7 +3900,13 @@ int colo_init_ram_cache(void)
-             error_report("%s: Can't alloc memory for COLO cache of block=
- %s,"
-                          "size 0x" RAM_ADDR_FMT, __func__, block->idstr,
-                          block->used_length);
--            goto out_locked;
-+            RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+                if (block->colo_cache) {
-+                    qemu_anon_ram_free(block->colo_cache, block->used_le=
-ngth);
-+                    block->colo_cache =3D NULL;
-+                }
-+            }
-+            return -errno;
-         }
-         memcpy(block->colo_cache, block->host, block->used_length);
-     }
-@@ -3933,18 +3932,6 @@ int colo_init_ram_cache(void)
-     memory_global_dirty_log_start();
-=20
-     return 0;
--
--out_locked:
--
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        if (block->colo_cache) {
--            qemu_anon_ram_free(block->colo_cache, block->used_length);
--            block->colo_cache =3D NULL;
--        }
--    }
--
--    rcu_read_unlock();
--    return -errno;
- }
-=20
- /* It is need to hold the global lock to call this helper */
-@@ -3958,16 +3945,14 @@ void colo_release_ram_cache(void)
-         block->bmap =3D NULL;
-     }
-=20
--    rcu_read_lock();
--
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        if (block->colo_cache) {
--            qemu_anon_ram_free(block->colo_cache, block->used_length);
--            block->colo_cache =3D NULL;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+            if (block->colo_cache) {
-+                qemu_anon_ram_free(block->colo_cache, block->used_length=
-);
-+                block->colo_cache =3D NULL;
-+            }
-         }
-     }
--
--    rcu_read_unlock();
-     qemu_mutex_destroy(&ram_state->bitmap_mutex);
-     g_free(ram_state);
-     ram_state =3D NULL;
-@@ -4205,31 +4190,30 @@ static void colo_flush_ram_cache(void)
-     unsigned long offset =3D 0;
-=20
-     memory_global_dirty_log_sync();
--    rcu_read_lock();
--    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
--        ramblock_sync_dirty_bitmap(ram_state, block);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+            ramblock_sync_dirty_bitmap(ram_state, block);
-+        }
-     }
--    rcu_read_unlock();
-=20
-     trace_colo_flush_ram_cache_begin(ram_state->migration_dirty_pages);
--    rcu_read_lock();
--    block =3D QLIST_FIRST_RCU(&ram_list.blocks);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        block =3D QLIST_FIRST_RCU(&ram_list.blocks);
-=20
--    while (block) {
--        offset =3D migration_bitmap_find_dirty(ram_state, block, offset)=
-;
-+        while (block) {
-+            offset =3D migration_bitmap_find_dirty(ram_state, block, off=
-set);
-=20
--        if (offset << TARGET_PAGE_BITS >=3D block->used_length) {
--            offset =3D 0;
--            block =3D QLIST_NEXT_RCU(block, next);
--        } else {
--            migration_bitmap_clear_dirty(ram_state, block, offset);
--            dst_host =3D block->host + (offset << TARGET_PAGE_BITS);
--            src_host =3D block->colo_cache + (offset << TARGET_PAGE_BITS=
-);
--            memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-+            if (offset << TARGET_PAGE_BITS >=3D block->used_length) {
-+                offset =3D 0;
-+                block =3D QLIST_NEXT_RCU(block, next);
-+            } else {
-+                migration_bitmap_clear_dirty(ram_state, block, offset);
-+                dst_host =3D block->host + (offset << TARGET_PAGE_BITS);
-+                src_host =3D block->colo_cache + (offset << TARGET_PAGE_=
-BITS);
-+                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-+            }
-         }
-     }
--
--    rcu_read_unlock();
-     trace_colo_flush_ram_cache_end();
- }
-=20
-@@ -4428,16 +4412,15 @@ static int ram_load(QEMUFile *f, void *opaque, in=
-t version_id)
-      * it will be necessary to reduce the granularity of this
-      * critical section.
-      */
--    rcu_read_lock();
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        if (postcopy_running) {
-+            ret =3D ram_load_postcopy(f);
-+        } else {
-+            ret =3D ram_load_precopy(f);
-+        }
-=20
--    if (postcopy_running) {
--        ret =3D ram_load_postcopy(f);
--    } else {
--        ret =3D ram_load_precopy(f);
-+        ret |=3D wait_for_decompress_done();
-     }
--
--    ret |=3D wait_for_decompress_done();
--    rcu_read_unlock();
-     trace_ram_load_complete(ret, seq_iter);
-=20
-     if (!ret  && migration_incoming_in_colo_state()) {
---=20
-2.23.0
+and indeed QEMU doesn't implement this hcall.
 
+I've just realized this is AIX 6.1, which is so old that I'm pretty sure it=
+ doesn't run under QEMU.
+And anyway, you need AIX 7.2 to have support for virtio devices.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846816
+
+Title:
+  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
+  Kernel""
+
+Status in QEMU:
+  New
+
+Bug description:
+  # ls -ltr
+  total 8750584
+  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
+  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
+  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
+  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
+
+  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
+-serial mon:stdio \
+  > -drive file=3D/qemu/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
+  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
+disk0 \
+  > -cdrom /qemu/AIX.vol1.iso \
+  > -prom-env boot-command=3D'boot cdrom: -s verbose'
+
+  VNC server running on ::1:5900
+  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
+s=3Dworkaround
+
+  SLOF ********************************************************************=
+**
+  QEMU Starting
+  =C2=A0Build Date =3D Jul  3 2019 12:26:14
+  =C2=A0FW Version =3D git-ba1ab360eebe6338
+  =C2=A0Press "s" to enter Open Firmware.
+
+  Populating /vdevice methods
+  Populating /vdevice/vty@71000000
+  Populating /vdevice/nvram@71000001
+  Populating /vdevice/l-lan@71000002
+  Populating /vdevice/v-scsi@71000003
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A08200000000000=
+000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+  Populating /pci@800000020000000
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0000 (D) : 1234 11=
+11    qemu vga
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 0800 (D) : 1033 01=
+94    serial bus [ usb-xhci ]
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A000 1000 (D) : 1af4 10=
+04    virtio [ scsi ]
+  Populating /pci@800000020000000/scsi@2
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SCSI: Looking for devices
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A01000000000000=
+00 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+  Installing QEMU fb
+
+  Scanning USB
+  =C2=A0=C2=A0XHCI: Initializing
+  =C2=A0=C2=A0=C2=A0=C2=A0USB Keyboard
+  =C2=A0=C2=A0=C2=A0=C2=A0USB mouse
+  No console specified using screen & keyboard
+
+  =C2=A0=C2=A0Welcome to Open Firmware
+
+  =C2=A0=C2=A0Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+  =C2=A0=C2=A0This program and the accompanying materials are made available
+  =C2=A0=C2=A0under the terms of the BSD License available at
+  =C2=A0=C2=A0http://www.opensource.org/licenses/bsd-license.php
+
+  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
+000000: ...   Successfully loaded
+  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
+  AIX
+  StarLED{814}
+
+  AIX Version 6.1
+  exec(/etc/init){1,0}
+
+  INIT: EXECUTING /sbin/rc.boot 1
+  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
+  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
+  + PHASE=3D1
+  + + bootinfo -p
+  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
+  PLATFORM=3Dchrp
+  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
+  + [ 1 -eq 1 ]
+  + 1> /usr/lib/libc.a
+  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
+  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
+  + chramfs -t
+  exec(/usr/sbin/chramfs,-t){1179688,1114146}
+  + init -c unlink /usr/sbin/chramfs
+  + 1> /dev/null
+  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
+  + + bootinfo -t
+  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
+  BOOTYPE=3D3
+  + [ 0 -ne 0 ]
+  + [ -z 3 ]
+  + unset pdev_to_ldev undolt native_netboot_cfg
+  + unset disknet_odm_init config_ATM
+  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
+  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
+  + cfgmgr -f -v
+  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
+  cfgmgr is running in phase 1
+  ----------------
+  Time: 0 LEDS: 0x538
+  Invoking top level program -- "/etc/methods/defsys"
+  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
+  exec(/etc/methods/defsys){1245222,1179696}
+  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
+310760,1245222}
+  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
+222}
+  Time: 0 LEDS: 0x539
+  Return code =3D 0
+  ***** stdout *****
+  sys0
+
+  *** no stderr ****
+  ----------------
+  Attempting to configure device 'sys0'
+  Time: 0 LEDS: 0x811
+  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
+  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
+  Number of running methods: 1
+  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
+  LED{A20}
+  Illegal Trap Instruction Interrupt in Kernel
+  04151A74      tweqi    r0,0                r0=3D0
+  KDB(0)>
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
 
