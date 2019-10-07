@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716D4CE82E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:47:41 +0200 (CEST)
-Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3466CE800
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:41:43 +0200 (CEST)
+Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVEa-0008CW-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48979)
+	id 1iHV8o-0003vi-4J
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwP-0002hB-UW
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:56 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwP-0002g8-0J
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwN-0005D5-AN
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:53 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40499)
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwN-0005DJ-Lk
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:52 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50904)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHUwN-0005Cf-0m
+ id 1iHUwN-0005Cq-EV
  for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:51 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h4so7115109wrv.7
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:50 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5so13176013wmg.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T4HMZgJ1Rxlmg8Ern4sSS2h2E1T91khiCacVECvr12c=;
- b=l5wKWy4Ar2iH1p7q8hEe+nyy9Fnlm9r/RPgMLb+BDLiQwJ243rN/rSUWL8sOtyN3eb
- j4izBQsb2O3YBQq2BI6LeuPJgkaZnKb/ttSD9otLKAerni16RiEJNvWBKCM84bG5uA01
- Kt1ZAU/lHtvJ05NwXPxLo+AYo165YWX/O3VlxiOa7E41l529+LHGbW6iHKQWvOrJQVw6
- DCefmfBcQw5K+5PZ0NLTVfi3aGJdW8Owk91rdTq8H+Wz3dVmqAD+v89Df+vQAqE/O/zi
- d84ar9ZNw72LGgCf851XF/Ea6A38ekIZ/ek3Pb3fd2r02LHxmLXtfMtJMJ6BFtghiRKt
- p/mg==
+ bh=YDBJO83fFMPFHsguCkuLARuLU3nbWbIEfUOqbeuNP6c=;
+ b=TIGMGrUW9sr9ncmhU4HLzl6a0/7ts2oEV5UuyE2MWL+4XtI7gv7vJcHCcuGtExwHvg
+ lvmXv5G4Gl4XRg+PbNhu5NN7kBGnsEEbBKVMg1+LNnwPZkLK9kR7DDD0ORiZaAQxq7Me
+ R2ERPOsSCb7A6hoslnhWyxlxa+4Ar3Nq54INfJxMcePPvzUGcDWktSxKELdHBdefCvdX
+ Rj/C72DM+nNnlXH0pIUXzWHoHYHjHbl6d1CRskHiXi+Sbi+6e0f3X/qbVAzMsSXMkkK0
+ EYDBKnzApZ6zcgTH5yXWIIcvxR5L7xj83A7Rgkslv3sDuFcAoKeBkSEGhNTM8wtwMkju
+ j0eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T4HMZgJ1Rxlmg8Ern4sSS2h2E1T91khiCacVECvr12c=;
- b=WgFJrHfd0HZNdcz2Z55Z/pzUAUL4126pFqLX5EZb71ZKFbvF5wwNNcx8a01AA+j/cY
- 0OMGiV8TT9uRXSGlEJ2qOATD0EmWD+buGiH5ri0LO1hAeGhBKouKSHkC1SIMqw/ZxQdV
- TR8tprAIirgzbKzPc03Mi/c9+5RuWFzALgTrn4RGimtxZ7kyJ3ysKStpydm6ofur4wIp
- lqSfovl7zHJX7P77P+lcAlPrRvq3fLwQaQTqNHMkBS9Zz50v7B3tAkoTUHj7qCA6K+vn
- xx954pIDyUJvJV8+ShUYPunjKPDFWGkl42Z3Kr0RMMH2jNEXLL2tg55qZc1sdJAVOP+r
- lqLQ==
-X-Gm-Message-State: APjAAAV8SasEzBryp3mANkSYf/Cv+FzK+XmcuIvYAvZ9rUyF5mCiU7ut
- eBAJNk7XAJ9my6SOYWDcVPcO0g==
-X-Google-Smtp-Source: APXvYqyFDaNCuIQMYkXvBgHoVRzBFjcVeIVJqAMQPv1/EnjNx8xLvc7NDsmW4Mxcm/AO7YeP/p3KzA==
-X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr22923034wru.63.1570462129758; 
- Mon, 07 Oct 2019 08:28:49 -0700 (PDT)
+ bh=YDBJO83fFMPFHsguCkuLARuLU3nbWbIEfUOqbeuNP6c=;
+ b=LifjM8YsxkWrEOGczdIBbFfLiXohAmPus8K0kIFbLyWM25mX5rgqAWvBuBnpD5YwaB
+ Scou2J5uIpXFcDQd77CRsUAkaX20MJ7dO79tAObiOceW5St3jBGKHAbq7NuSLWXqvocm
+ 2QGQb+AkjrZc5pt7nCkyOqpoQOQR4fiVf2hpDaPQmygAtJgxEGZYfbcQi3k6NdJwfrjZ
+ GPbZlkWU02gy9JsksWQ0zYKayKeIDiUMvdAxWdbgFIM9aoqPVQ8aH1e0r60Oh/HMIXyh
+ 1rHq/xGWt1qcnalsnGeASX5LqmsbDuwm4QBj1aNqmCiU4KBTYAeAlw3Ma6DxGvPS6vmX
+ Jovg==
+X-Gm-Message-State: APjAAAWYj+Vg1oon/gd8+4x9mfBCC5v/Cc7fs8zrgA6yWxHRfuzVjYmc
+ vCPe9xCBvCOAq1zLQOW65rcpeQ==
+X-Google-Smtp-Source: APXvYqyC4tfwDE522+pyTvwHuqGfFMgYbV7fX3Knr53kAlSyKPKsPoXdBl0m+qKza6/OV6EMtJIK4w==
+X-Received: by 2002:a1c:5fd6:: with SMTP id
+ t205mr20768288wmb.124.1570462130265; 
+ Mon, 07 Oct 2019 08:28:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t123sm25635432wma.40.2019.10.07.08.28.43
+ by smtp.gmail.com with ESMTPSA id r140sm14661979wme.47.2019.10.07.08.28.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 07 Oct 2019 08:28:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8AA471FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 9EEC71FF87;
  Mon,  7 Oct 2019 16:28:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v9 11/13] accel/tcg: adding integration with linux perf
-Date: Mon,  7 Oct 2019 16:28:37 +0100
-Message-Id: <20191007152839.30804-12-alex.bennee@linaro.org>
+Subject: [PATCH  v9 12/13] tb-stats: adding TBStatistics info into perf dump
+Date: Mon,  7 Oct 2019 16:28:38 +0100
+Message-Id: <20191007152839.30804-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191007152839.30804-1-alex.bennee@linaro.org>
 References: <20191007152839.30804-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,452 +82,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
 
-This commit adds support to Linux Perf in order to be able to analyze
-qemu jitted code and also to able to see the TBs PC in it.
-
-When using "-perf" qemu creates a jitdump file in the current working
-directory. You then integrate the file using perf inject.
-
-Example of use:
- perf record -k 1 qemu-x86_64 -perf ./a.out
- perf inject -j -i perf.data -o perf.data.jitted
- perf report -i perf.data.jitted
+Adding TBStatistics information to linux perf TB's symbol names.
 
 Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-Message-Id: <20190830121903.17585-2-vandersonmr2@gmail.com>
-[AJB: rebase and various fixes]
+Message-Id: <20190830121903.17585-3-vandersonmr2@gmail.com>
+[AJB: fix authorship, auto-strings]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
 AJB:
-   - use get_clock instead of repeating ourselves
-   - add lock for writing to file
-   - use canonical kernel.org links
-   - g_autoptr/g_autofree strings
+  - use g_string and auto free
 ---
- accel/tcg/Makefile.objs      |   2 +-
- accel/tcg/perf/Makefile.objs |   1 +
- accel/tcg/perf/jitdump.c     | 194 +++++++++++++++++++++++++++++++++++
- accel/tcg/perf/jitdump.h     |  36 +++++++
- accel/tcg/translate-all.c    |  14 +++
- docs/devel/tcg.rst           |  15 +++
- include/qemu-common.h        |   3 +
- linux-user/main.c            |   7 ++
- os-posix.c                   |   5 +
- qemu-options.hx              |  11 ++
- 10 files changed, 287 insertions(+), 1 deletion(-)
- create mode 100644 accel/tcg/perf/Makefile.objs
- create mode 100644 accel/tcg/perf/jitdump.c
- create mode 100644 accel/tcg/perf/jitdump.h
+ accel/tcg/perf/jitdump.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-index 49ffe81b5d..6a1ad59199 100644
---- a/accel/tcg/Makefile.objs
-+++ b/accel/tcg/Makefile.objs
-@@ -3,6 +3,6 @@ obj-$(CONFIG_SOFTMMU) += cputlb.o
- obj-y += tcg-runtime.o tcg-runtime-gvec.o
- obj-y += cpu-exec.o cpu-exec-common.o translate-all.o
- obj-y += translator.o tb-stats.o
--
-+obj-y += perf/
- obj-$(CONFIG_USER_ONLY) += user-exec.o
- obj-$(call lnot,$(CONFIG_SOFTMMU)) += user-exec-stub.o
-diff --git a/accel/tcg/perf/Makefile.objs b/accel/tcg/perf/Makefile.objs
-new file mode 100644
-index 0000000000..ca9abb4f48
---- /dev/null
-+++ b/accel/tcg/perf/Makefile.objs
-@@ -0,0 +1 @@
-+obj-$(CONFIG_LINUX) += jitdump.o
 diff --git a/accel/tcg/perf/jitdump.c b/accel/tcg/perf/jitdump.c
-new file mode 100644
-index 0000000000..e1d6f2214e
---- /dev/null
+index e1d6f2214e..e7b86173e0 100644
+--- a/accel/tcg/perf/jitdump.c
 +++ b/accel/tcg/perf/jitdump.c
-@@ -0,0 +1,194 @@
-+/*
-+ * This code implements an interface to create and fill jitdump files. These files
-+ * store information used by Linux Perf to enhance the presentation of jitted
-+ * code and to allow the disassembly of jitted code.
-+ *
-+ * The jitdump file specification can be found in the Linux Kernel Source tree:
-+ *    tools/perf/Documentation/jitdump-specification.txt
-+ *
-+ * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/tools/perf/Documentation/jitdump-specification.txt
-+ *
-+ * Copyright (c) 2019 Vanderson M. do Rosario
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include <sys/syscall.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <time.h>
-+#include <elf.h>
-+
-+#include "disas/disas.h"
-+#include "jitdump.h"
-+#include "qemu-common.h"
-+#include "qemu/timer.h"
-+#include "exec/tb-stats.h"
-+
-+struct jitheader {
-+    uint32_t magic;     /* characters "jItD" */
-+    uint32_t version;   /* header version */
-+    uint32_t total_size;/* total size of header */
-+    uint32_t elf_mach;  /* elf mach target */
-+    uint32_t pad1;      /* reserved */
-+    uint32_t pid;       /* JIT process id */
-+    uint64_t timestamp; /* timestamp */
-+    uint64_t flags;     /* flags */
-+};
-+
-+enum jit_record_type {
-+    JIT_CODE_LOAD       = 0,
-+    JIT_CODE_MOVE       = 1,
-+    JIT_CODE_DEBUG_INFO = 2,
-+    JIT_CODE_CLOSE      = 3,
-+
-+    JIT_CODE_MAX,
-+};
-+
-+/* record prefix (mandatory in each record) */
-+struct jr_prefix {
-+    uint32_t id;
-+    uint32_t total_size;
-+    uint64_t timestamp;
-+};
-+
-+struct jr_code_load {
-+    struct jr_prefix p;
-+
-+    uint32_t pid;
-+    uint32_t tid;
-+    uint64_t vma;
-+    uint64_t code_addr;
-+    uint64_t code_size;
-+    uint64_t code_index;
-+};
-+
-+struct jr_code_close {
-+    struct jr_prefix p;
-+};
-+
-+struct jr_code_move {
-+    struct jr_prefix p;
-+
-+    uint32_t pid;
-+    uint32_t tid;
-+    uint64_t vma;
-+    uint64_t old_code_addr;
-+    uint64_t new_code_addr;
-+    uint64_t code_size;
-+    uint64_t code_index;
-+};
-+
-+FILE *dumpfile;
-+QemuMutex dumpfile_lock;
-+void *perf_marker;
-+
-+static uint32_t get_e_machine(void)
-+{
-+    uint32_t e_machine = EM_NONE;
-+    Elf64_Ehdr elf_header;
-+    FILE *exe = fopen("/proc/self/exe", "r");
-+
-+    if (exe == NULL) {
-+        return e_machine;
-+    }
-+
-+    if (fread(&elf_header, sizeof(Elf64_Ehdr), 1, exe) != 1) {
-+        goto end;
-+    }
-+
-+    e_machine = elf_header.e_machine;
-+
-+end:
-+    fclose(exe);
-+    return e_machine;
-+}
-+
-+void start_jitdump_file(void)
-+{
-+    g_autofree gchar *dumpfile_name = g_strdup_printf("./jit-%d.dump", getpid());
-+    dumpfile = fopen(dumpfile_name, "w+");
-+
-+    /* 'Perf record' saves mmaped files during the execution of a program and
-+     * 'perf inject' iterate over them to reconstruct all used/executed binary.
-+     * So, we create a mmap with the path of our jitdump that is processed
-+     * and used by 'perf inject' to reconstruct jitted binaries.
-+     */
-+    perf_marker = mmap(NULL, sysconf(_SC_PAGESIZE),
-+                          PROT_READ | PROT_EXEC,
-+                          MAP_PRIVATE,
-+                          fileno(dumpfile), 0);
-+
-+    if (perf_marker == MAP_FAILED) {
-+        printf("Failed to create mmap marker file for perf %d\n", fileno(dumpfile));
-+        fclose(dumpfile);
-+        return;
-+    }
-+
-+    struct jitheader header;
-+    header.magic = 0x4A695444;
-+    header.version = 1;
-+    header.elf_mach = get_e_machine();
-+    header.total_size = sizeof(struct jitheader);
-+    header.pid = getpid();
-+    header.timestamp = get_clock();
-+    header.flags = 0;
-+
-+    fwrite(&header, header.total_size, 1, dumpfile);
-+
-+    fflush(dumpfile);
-+
-+    qemu_mutex_init(&dumpfile_lock);
-+}
-+
-+void append_load_in_jitdump_file(TranslationBlock *tb)
-+{
-+    gchar *func_name = g_strdup_printf("TB virt:0x"TARGET_FMT_lx, tb->pc);
-+
-+    /* Serialise the writing of the dump file */
-+    qemu_mutex_lock(&dumpfile_lock);
-+
-+    struct jr_code_load load_event;
-+    load_event.p.id = JIT_CODE_LOAD;
-+    load_event.p.total_size =
-+        sizeof(struct jr_code_load) + func_name->len + 1 + tb->tc.size;
-+    load_event.p.timestamp = get_clock();
-+    load_event.pid = getpid();
-+    load_event.tid = syscall(SYS_gettid);
-+    load_event.vma = tb->pc;
-+    load_event.code_addr = (uint64_t) tb->tc.ptr;
-+    load_event.code_size = tb->tc.size;
-+    load_event.code_index = tb->pc;
-+
-+    fwrite(&load_event, sizeof(struct jr_code_load), 1, dumpfile);
-+    fwrite(func_name->str, func_name->len + 1, 1, dumpfile);
-+    fwrite(tb->tc.ptr, tb->tc.size, 1, dumpfile);
-+
-+    g_free(func_name);
-+    fflush(dumpfile);
-+
-+    qemu_mutex_unlock(&dumpfile_lock);
-+}
-+
-+void close_jitdump_file(void)
-+{
-+    fclose(dumpfile);
-+    if (perf_marker != MAP_FAILED) {
-+        munmap(perf_marker, sysconf(_SC_PAGESIZE));
-+    }
-+}
-+
-+bool is_jitdump_enabled;
-+
-+void enable_jitdump(void)
-+{
-+    is_jitdump_enabled = true;
-+}
-+
-+bool jitdump_enabled(void)
-+{
-+    return is_jitdump_enabled;
-+}
-diff --git a/accel/tcg/perf/jitdump.h b/accel/tcg/perf/jitdump.h
-new file mode 100644
-index 0000000000..5d6df3ec91
---- /dev/null
-+++ b/accel/tcg/perf/jitdump.h
-@@ -0,0 +1,36 @@
-+/*
-+ * QEMU Linux Perf Support
-+ *
-+ * Copyright (c) 2019 Vanderson M. do Rosario (vandersonmr2@gmail.com)
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#ifndef JITDUMP_H
-+#define JITDUMP_H
-+
-+#include "exec/exec-all.h"
-+
-+void start_jitdump_file(void);
-+
-+void append_load_in_jitdump_file(TranslationBlock *tb);
-+void append_move_in_jitdump_file(TranslationBlock *tb);
-+
-+void close_jitdump_file(void);
-+
-+#endif
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 871d91d559..3fafb656e7 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -58,6 +58,10 @@
- #include "sysemu/cpus.h"
- #include "sysemu/tcg.h"
+@@ -146,7 +146,20 @@ void start_jitdump_file(void)
  
-+#ifdef __linux__
-+#include "perf/jitdump.h"
-+#endif
-+
- /* #define DEBUG_TB_INVALIDATE */
- /* #define DEBUG_TB_FLUSH */
- /* make various TB consistency checks */
-@@ -1167,6 +1171,11 @@ void tcg_exec_init(unsigned long tb_size)
-     cpu_gen_init();
-     page_init();
-     tb_htable_init();
-+#ifdef __linux__
-+    if (jitdump_enabled()) {
-+        start_jitdump_file();
-+    }
-+#endif
-     code_gen_alloc(tb_size);
- #if defined(CONFIG_SOFTMMU)
-     /* There's no guest base to take into account, so go ahead and
-@@ -1978,6 +1987,11 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-         return existing_tb;
-     }
-     tcg_tb_insert(tb);
-+#ifdef __linux__
-+    if (jitdump_enabled()) {
-+        append_load_in_jitdump_file(tb);
-+    }
-+#endif
-     return tb;
- }
- 
-diff --git a/docs/devel/tcg.rst b/docs/devel/tcg.rst
-index 4956a30a4e..ab5639cf67 100644
---- a/docs/devel/tcg.rst
-+++ b/docs/devel/tcg.rst
-@@ -109,3 +109,18 @@ memory areas instead calls out to C code for device emulation.
- Finally, the MMU helps tracking dirty pages and pages pointed to by
- translation blocks.
- 
-+Profiling JITted code
-+---------------------
-+
-+The Linux `perf` tool will treat all JITed code as a single block as
-+unlike the main code it can't use debug information to link individual
-+program counter samples with larger functions. To overcome this
-+limitation you can use the `--perf` option to generate a map file.
-+This needs to be integrated with the `perf.data` file before the final
-+report can be viewed.
-+
-+.. code::
-+
-+  perf record -k 1 $QEMU --perf $REMAINING_ARGS
-+  perf inject -i perf.data -j -o perf.data.jitted
-+  perf report -i perf.data.jitted
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 8d84db90b0..a16e0e7eb6 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -129,4 +129,7 @@ void page_size_init(void);
-  * returned. */
- bool dump_in_progress(void);
- 
-+void enable_jitdump(void);
-+bool jitdump_enabled(void);
-+
- #endif
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 560d053f72..18f771c0be 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -377,6 +377,11 @@ static void handle_arg_strace(const char *arg)
-     do_strace = 1;
- }
- 
-+static void handle_arg_perf(const char *arg)
-+{
-+    enable_jitdump();
-+}
-+
- static void handle_arg_version(const char *arg)
+ void append_load_in_jitdump_file(TranslationBlock *tb)
  {
-     printf("qemu-" TARGET_NAME " version " QEMU_FULL_VERSION
-@@ -449,6 +454,8 @@ static const struct qemu_argument arg_table[] = {
-      "",           "Seed for pseudo-random number generator"},
-     {"trace",      "QEMU_TRACE",       true,  handle_arg_trace,
-      "",           "[[enable=]<pattern>][,events=<file>][,file=<file>]"},
-+    {"perf",      "QEMU_PERF",         false, handle_arg_perf,
-+     "",           "dump jitdump files to help linux perf JIT code visualization"},
-     {"version",    "QEMU_VERSION",     false, handle_arg_version,
-      "",           "display version information and exit"},
- #if defined(TARGET_XTENSA)
-diff --git a/os-posix.c b/os-posix.c
-index 86cffd2c7d..36ea3a08ca 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -191,6 +191,11 @@ int os_parse_cmd_args(int index, const char *optarg)
-     case QEMU_OPTION_enablefips:
-         fips_set_state(true);
-         break;
-+#if defined(CONFIG_TCG) && defined (CLOCK_MONOTONIC)
-+    case QEMU_OPTION_perf:
-+        enable_jitdump();
-+        break;
-+#endif
- #endif
-     default:
-         return -1;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 2a04ca6ac5..2924032c3b 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4160,6 +4160,17 @@ STEXI
- Enable FIPS 140-2 compliance mode.
- ETEXI
- 
-+#ifdef __linux__
-+DEF("perf", 0, QEMU_OPTION_perf,
-+    "-perf  dump jitdump files to help linux perf JIT code visualization\n",
-+    QEMU_ARCH_ALL)
-+#endif
-+STEXI
-+@item -perf
-+@findex -perf
-+Dumps jitdump files to help linux perf JIT code visualization
-+ETEXI
+-    gchar *func_name = g_strdup_printf("TB virt:0x"TARGET_FMT_lx, tb->pc);
++    g_autoptr(GString) func_name = g_string_new("TB virt:");
 +
- HXCOMM Deprecated by -accel tcg
- DEF("no-kvm", 0, QEMU_OPTION_no_kvm, "", QEMU_ARCH_I386)
++    g_string_append_printf(func_name, "0x"TARGET_FMT_lx, tb->pc);
++
++    if (tb->tb_stats) {
++        TBStatistics *tbs = tb->tb_stats;
++        unsigned g = stat_per_translation(tbs, code.num_guest_inst);
++        unsigned ops = stat_per_translation(tbs, code.num_tcg_ops);
++        unsigned ops_opt = stat_per_translation(tbs, code.num_tcg_ops_opt);
++        unsigned spills = stat_per_translation(tbs, code.spills);
++
++        g_string_append_printf(func_name, " (g:%u op:%u opt:%u spills:%d)",
++                               g, ops, ops_opt, spills);
++    }
  
+     /* Serialise the writing of the dump file */
+     qemu_mutex_lock(&dumpfile_lock);
+@@ -167,7 +180,6 @@ void append_load_in_jitdump_file(TranslationBlock *tb)
+     fwrite(func_name->str, func_name->len + 1, 1, dumpfile);
+     fwrite(tb->tc.ptr, tb->tc.size, 1, dumpfile);
+ 
+-    g_free(func_name);
+     fflush(dumpfile);
+ 
+     qemu_mutex_unlock(&dumpfile_lock);
 -- 
 2.20.1
 
