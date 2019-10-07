@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6A7CEC02
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 20:35:16 +0200 (CEST)
-Received: from localhost ([::1]:48806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD7ACEC1B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 20:45:13 +0200 (CEST)
+Received: from localhost ([::1]:48908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHXqk-0006BQ-QS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 14:35:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50964)
+	id 1iHY0O-0002V4-0d
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 14:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52270)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iHXpE-0005et-Rp
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:33:42 -0400
+ (envelope-from <dayeol@berkeley.edu>) id 1iHXwy-0001jv-J0
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:41:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iHXpC-0003Hz-9b
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:33:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48746)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iHXpC-0003Gu-1H
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:33:38 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AC6C5C049E1A;
- Mon,  7 Oct 2019 18:33:36 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-11.rdu2.redhat.com
- [10.10.120.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2718D60127;
- Mon,  7 Oct 2019 18:33:26 +0000 (UTC)
-Subject: Re: [PATCH v2 7/7] tests/fw_cfg: Run the tests on big-endian targets
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191007151905.32766-1-philmd@redhat.com>
- <20191007151905.32766-8-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a6e070e3-a910-5aa7-68e3-94644509cdd0@redhat.com>
-Date: Mon, 7 Oct 2019 20:33:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <dayeol@berkeley.edu>) id 1iHXww-0006R3-Qg
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:41:40 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45311)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dayeol@berkeley.edu>) id 1iHXww-0006Qf-HN
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:41:38 -0400
+Received: by mail-pf1-x443.google.com with SMTP id y72so9167497pfb.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 11:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=berkeley-edu.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KJzG2axKoZkgi+l/x9Y+YilciqreDl/CMUAdZrHp2aw=;
+ b=iGcgrGOCKgHnYj0SOxs4byq0fzbx3qX+oOOzRHokaMHdEiD8mDY6Q3JygO931nMbqJ
+ fzWFuzu8hPpdhWk9JEnpE9d6x6zzAzcKHAEg2Na+INFJAhv2R6MjZtcaHYVNgf4QI37D
+ DJHpuk9lHL1TtvncnkAmP+sOVvxQxpuOEpdJj6gkcHoVTyTXvsbvxUILntTXb9dQ8gcf
+ Z6LRr/tYlTaRBPD1Hfdz+sKjaKSnjMpdbfjjuufDgw5Vt+YvzSTKtUSVrbtfDlneELT8
+ I1c74nccf5kKFy1rhccOhr50gar9wY4rJrAUbthHyDcAJkW6rmbxmppVpHe0BJjFH4+z
+ 21Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KJzG2axKoZkgi+l/x9Y+YilciqreDl/CMUAdZrHp2aw=;
+ b=McRW9dQw7l+iMbYbr0P1vuy7PKEOdyKX6cW/j5ZyFTYBFikA/MrQI35C4daJSGE55c
+ T6cWCbknxapoZQtFZVPD6Ljs1Sku1atenXzG+X4gPbve4SfjmftlbwHduUZ/bySnD9r+
+ Di1lPdWnnlGttxpTI+3ns61WSOdAevCi94pOfLUwCQJCz+vjC7RfI7FZCkh1wQJ6BBCF
+ I4jPOnqm3KnVkDLmcZcLMThcfaSPKyvyLXrNHltUPK6KuTg2AESVpalyGRIeAX40n7dM
+ vEsklGq8n2lWjeO/2zty43Dogp7GpPpff8LDZ5Zw9AjcqAa+ELugg7Pk6nUk3g645Ktz
+ PPHA==
+X-Gm-Message-State: APjAAAVe3qYfVvbS/1ZXsrUy8zVITFzMjK86hkCVUkuPahHWf7fO5MCf
+ bJTh+IPbsmMn30wl+mSzDPqBstKKY/X2eW1tadOMGg==
+X-Google-Smtp-Source: APXvYqy56w92ZslacwtCzrc4WCV82EQC6F0vE5pppvDkBeVbKt5gFBFOxqcL+j6uZvTu+A5wjfNQqF6iLd1S+OS1L5I=
+X-Received: by 2002:aa7:8816:: with SMTP id c22mr25727116pfo.197.1570473697061; 
+ Mon, 07 Oct 2019 11:41:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191007151905.32766-8-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 07 Oct 2019 18:33:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191007052813.25814-1-dayeol@berkeley.edu>
+ <5583387c-5c5b-8890-999b-2ba4d75cd69d@linaro.org>
+ <CACjxMEsw+Deh176JLP2aF4Pdkb_s8MiPApwMON-_K6ed61-Zyw@mail.gmail.com>
+ <3747223d-23ee-1f28-e165-b2b0c5746b68@linaro.org>
+In-Reply-To: <3747223d-23ee-1f28-e165-b2b0c5746b68@linaro.org>
+From: Dayeol Lee <dayeol@berkeley.edu>
+Date: Mon, 7 Oct 2019 11:41:26 -0700
+Message-ID: <CACjxMEtPRxTQdOYFL97G7aYXC6KTBuGY2avf1bPJLYGEpURh=Q@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: PMP violation due to wrong size parameter
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000d7ce0905945666d7"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,128 +74,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/07/19 17:19, Philippe Mathieu-Daud=C3=A9 wrote:
-> We have been restricting our fw_cfg tests to the PC machine,
-> which is a little-endian architecture.
-> The fw_cfg device is also used on the SPARC and PowerPC
-> architectures, which can run in big-endian configuration.
->=20
-> Since we want to be sure our device does not regress
-> regardless the endianess used, enable this test one
-> these targets.
->=20
-> The NUMA selector is X86 specific, restrict it to this arch.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> v2: test ppc32 too (lvivier)
-> ---
->  tests/Makefile.include |  2 ++
->  tests/fw_cfg-test.c    | 33 +++++++++++++++++++++++++++------
->  2 files changed, 29 insertions(+), 6 deletions(-)
->=20
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 3543451ed3..4ae3d5140a 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -226,6 +226,7 @@ check-qtest-ppc-y +=3D tests/prom-env-test$(EXESUF)
->  check-qtest-ppc-y +=3D tests/drive_del-test$(EXESUF)
->  check-qtest-ppc-y +=3D tests/boot-serial-test$(EXESUF)
->  check-qtest-ppc-$(CONFIG_M48T59) +=3D tests/m48t59-test$(EXESUF)
-> +check-qtest-ppc-y +=3D tests/fw_cfg-test$(EXESUF)
-> =20
->  check-qtest-ppc64-y +=3D $(check-qtest-ppc-y)
->  check-qtest-ppc64-$(CONFIG_PSERIES) +=3D tests/device-plug-test$(EXESU=
-F)
-> @@ -250,6 +251,7 @@ check-qtest-sh4eb-$(CONFIG_ISA_TESTDEV) =3D tests/e=
-ndianness-test$(EXESUF)
->  check-qtest-sparc-y +=3D tests/prom-env-test$(EXESUF)
->  check-qtest-sparc-y +=3D tests/m48t59-test$(EXESUF)
->  check-qtest-sparc-y +=3D tests/boot-serial-test$(EXESUF)
-> +check-qtest-sparc-y +=3D tests/fw_cfg-test$(EXESUF)
-> =20
->  check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) =3D tests/endianness-test$(E=
-XESUF)
->  check-qtest-sparc64-y +=3D tests/prom-env-test$(EXESUF)
-> diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
-> index 35af0de7e6..1250e87097 100644
-> --- a/tests/fw_cfg-test.c
-> +++ b/tests/fw_cfg-test.c
-> @@ -210,13 +210,30 @@ static void test_fw_cfg_splash_time(const void *o=
-paque)
-> =20
->  int main(int argc, char **argv)
->  {
-> -    QTestCtx ctx;
-> -    int ret;
-> +    const char *arch =3D qtest_get_arch();
-> +    bool has_numa =3D false;
-> +    QTestCtx ctx =3D {};
-> +    int ret =3D 0;
-> =20
->      g_test_init(&argc, &argv, NULL);
-> =20
-> -    ctx.machine_name =3D "pc";
-> -    ctx.fw_cfg =3D pc_fw_cfg_init();
-> +    if (g_str_equal(arch, "i386") || g_str_equal(arch, "x86_64")) {
-> +        has_numa =3D true;
-> +        ctx.machine_name =3D "pc";
-> +        ctx.fw_cfg =3D pc_fw_cfg_init();
-> +    } else if (g_str_equal(arch, "sparc")) {
-> +        ctx.machine_name =3D "SS-5";
-> +        ctx.fw_cfg =3D mm_fw_cfg_init(0xd00000510ULL);
-> +    } else if (g_str_equal(arch, "ppc") || g_str_equal(arch, "ppc64"))=
- {
-> +        /*
-> +         * The mac99 machine is different for 32/64-bit target:
-> +         *
-> +         * ppc(32): the G4 which can be either little or big endian,
-> +         * ppc64:   the G5 (970FX) is only big-endian.
-> +         */
-> +        ctx.machine_name =3D "mac99";
-> +        ctx.fw_cfg =3D mm_fw_cfg_init(0xf0000510);
-> +    }
-> =20
->      qtest_add_data_func("fw_cfg/signature", &ctx, test_fw_cfg_signatur=
-e);
->      qtest_add_data_func("fw_cfg/id", &ctx, test_fw_cfg_id);
-> @@ -231,14 +248,18 @@ int main(int argc, char **argv)
->      qtest_add_func("fw_cfg/boot_device", test_fw_cfg_boot_device);
->  #endif
->      qtest_add_data_func("fw_cfg/max_cpus", &ctx, test_fw_cfg_max_cpus)=
-;
-> -    qtest_add_data_func("fw_cfg/numa", &ctx, test_fw_cfg_numa);
->      qtest_add_data_func("fw_cfg/boot_menu", &ctx, test_fw_cfg_boot_men=
-u);
->      qtest_add_data_func("fw_cfg/reboot_timeout", &ctx,
->                          test_fw_cfg_reboot_timeout);
->      qtest_add_data_func("fw_cfg/splash_time", &ctx, test_fw_cfg_splash=
-_time);
-> =20
-> -    ret =3D g_test_run();
-> +    if (has_numa) {
-> +        qtest_add_data_func("fw_cfg/numa", &ctx, test_fw_cfg_numa);
-> +    }
-> =20
-> +    if (ctx.machine_name) {
-> +        ret =3D g_test_run();
-> +    }
->      g_free(ctx.fw_cfg);
-> =20
->      return ret;
->=20
+--000000000000d7ce0905945666d7
+Content-Type: text/plain; charset="UTF-8"
 
-Too many foreign arch bits in this patch for me to give an R-b, but
-structurally it looks OK to me.
+On Mon, Oct 7, 2019 at 11:25 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-Acked-by: Laszlo Ersek <lersek@redhat.com>
+> On 10/7/19 10:19 AM, Dayeol Lee wrote:
+> > Thank you very much for the clarification!
+> >
+> > I found tlb_set_page with size != TARGET_PAGE_SIZE makes the translation
+> way
+> > too slow; the Linux doesn't seem to boot.
+>
+> To clarify, PMP specifies a range.  That range has only two end points.
+> Therefore, a maximum of 2 pages may be affected by a mis-aligned PMP
+> boundary.
+>
+> It sounds like you're getting size != TARGET_PAGE_SIZE for all pages.
+>
+>
+The cause of the problem is not a mis-aligned PMP boundary.
+Let's say a PMP range is 0x1000 - 0x2000
+if pmp_hart_has_privs() gets addr=0x2000 and size=0,
+pmp_hart_has_privs() will ALWAYS return false because the code assumes size
+> 0.
+It checks if (addr) and (addr + size - 1) are within the PMP range for each
+PMP entry.
+(addr + size - 1) is supposed to be the last byte address of the memory
+access, but it ends up with (addr - 1) if size = 0.
+Thus, pmp_hart_has_privs() returns false as (addr - 1) = 0x1fff is within
+the range, and addr = 0x2000 is out of the range (partial match violation).
 
-Thanks
-Laszlo
+--000000000000d7ce0905945666d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Oct 7, 2019 at 11:25 AM Richard H=
+enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
+son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 10/7/19 10:19 AM, Dayeol Lee wr=
+ote:<br>
+&gt; Thank you very much for the clarification!<br>
+&gt; <br>
+&gt; I found tlb_set_page with size !=3D TARGET_PAGE_SIZE makes the transla=
+tion way<br>
+&gt; too slow; the Linux doesn&#39;t seem to boot.<br>
+<br>
+To clarify, PMP specifies a range.=C2=A0 That range has only two end points=
+.<br>
+Therefore, a maximum of 2 pages may be affected by a mis-aligned PMP bounda=
+ry.<br>
+<br>
+It sounds like you&#39;re getting size !=3D TARGET_PAGE_SIZE for all pages.=
+<br><br></blockquote><div><br></div><div>The cause of the problem is not a =
+mis-aligned PMP boundary.</div><div>Let&#39;s say a PMP range is 0x1000 - 0=
+x2000</div><div>if pmp_hart_has_privs() gets addr=3D0x2000 and size=3D0,</d=
+iv><div>pmp_hart_has_privs() will ALWAYS return false because the code assu=
+mes size &gt; 0.</div><div>It checks if (addr) and (addr=C2=A0+ size - 1) a=
+re within the PMP range for each PMP entry.</div><div>(addr=C2=A0+ size - 1=
+) is supposed to be the last byte address of the memory access, but it ends=
+ up with (addr - 1) if size =3D 0.</div><div>Thus, pmp_hart_has_privs() ret=
+urns false as (addr - 1) =3D 0x1fff is within the range, and addr =3D 0x200=
+0 is out of the range (partial match violation).</div><div><br></div><div><=
+br></div><div><br></div></div></div>
+
+--000000000000d7ce0905945666d7--
 
