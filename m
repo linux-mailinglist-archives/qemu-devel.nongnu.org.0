@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41450CE7BE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:37:56 +0200 (CEST)
-Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98838CE81A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:44:07 +0200 (CEST)
+Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHV59-0000IM-34
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48939)
+	id 1iHVB7-0005VX-Vv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48855)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwN-0002dd-Id
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:53 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwH-0002Wu-RS
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwL-0005CA-8b
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:51 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41996)
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwF-00058L-LC
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:45 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54594)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHUwK-0005Bc-VM
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:49 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n14so15801927wrw.9
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:48 -0700 (PDT)
+ id 1iHUwF-00056N-Cs
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:43 -0400
+Received: by mail-wm1-x343.google.com with SMTP id p7so13155639wmp.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7gCV4zFcfwB/MqyFrxlDjzbDS1zMRutLLkzPj4QW9Yk=;
- b=IeovF85JWo8oxbPzCVzRpSEbLanGm4HKDdhNpt0WT4SqJtnnEVhnx28G+vo6fto/T+
- 3yCJxBM6VcRPMa2M2zu1GMDqbm/l31qkQYgVujlZyaUtwSXw1M/vXaagriucXfin2TS7
- FInyMJUXKTO6f2rTfmaJXFTPrPuEyiL+Y28tUcRg4Q9BBActsHDZXVFfEWYrA889ncoM
- 7TTsD4G7S8VYpnVGpz/43Gpw1Fhe/y90p8EwVAh3pr/lcGECZe2oIkMMnzuuevbwPgZw
- xm9iiLVVWD4+jTQ4GQRKvuE/EoAf1FXNdblmLsAyOpo9V/BaHgT6c7K5pNZO7cPaAD03
- VOaw==
+ bh=iek8Qe/zrNC0/kJNkNMtZvO/A84+ne8Hmh0aHdialcc=;
+ b=AQuUOSgQilvgiisA56Uw+1RSoVBC2Sw2dAG35RlozMv3I1H7KT42nrVlsmTNfsYB9j
+ +nsYKNZYFj+8VNTROD1mXcvrrovutt1qLbV5QWBWl6/IcDNw3QzZHbFh6m6EyJhCEpI4
+ +sjQHkEQWkKNraARYgBmz5o5MDUSzBk2Kbp4RpT7Sj0JqNiAeSGL3LyBuZ9tFUcc+ij5
+ Olknguw0P1ys2oNHzDKdfLMgJHVJcEImpoi7p8M7xRCzRuiw4Ov7tt0mNP9INIw+RKbe
+ EHPwArHhmB0N+70N+3N6O0Di/FEzWdjFAekVZox41dePNnPIbUMbvGaO2EmUMSAAecRT
+ L5QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7gCV4zFcfwB/MqyFrxlDjzbDS1zMRutLLkzPj4QW9Yk=;
- b=tGvF+ZZ+Xzx1gdsgYmtuysUP3pRR0TMafw+P3K2077N8stezm1kZpZwH8e2JdR1qgW
- TXIj3J4C76Iy2ceC7OCwjEkl8/3WDjUjxEgy9+fDX76kR9JfIrodXi0qw55kL1wIdJp9
- 5jW7MdK8X+Bmy5+3gM39Ag4Ips4Mvtqr8I1CSktPzDEh+Uxv6Km8HTwhC7KnwYzvnApP
- n5xftYBqYMeddOyD1Rzr73HUdds3QC+2vvqf1OAc+Rz6uy18O4yiqW2yNiZAREDB9zlf
- rMY2F8hPAAB1zT+55Kald3lXg44h/XPibE0S/kWOfXK4DnTglqP7c8LHoYGJ56Nplp40
- RSnA==
-X-Gm-Message-State: APjAAAXZOus+s3JuLTJzzQc0e5CwqQX/hFXveb8d4FHHG+opwQHa60Nc
- T9bCBekUecInjCP4EC7QwaNzyA==
-X-Google-Smtp-Source: APXvYqyTLkdYcHSmztmzAOfAANnuxIAAt+AnxDeFfBzFrVrBhJSb41bUTDwVSi65hh9gMMLQFGszIA==
-X-Received: by 2002:adf:f950:: with SMTP id q16mr8124174wrr.225.1570462127811; 
- Mon, 07 Oct 2019 08:28:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 207sm21693651wme.17.2019.10.07.08.28.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=iek8Qe/zrNC0/kJNkNMtZvO/A84+ne8Hmh0aHdialcc=;
+ b=cMQ2r5T2d9ykBy1DngWU5sSENm/sMoT5/0Uswo6ev4U7ecwov9h7Oxwd2UmG5nXeom
+ /pTf7Tme4Glb7jaFP4DIfAnobnw/wDOPfBHzOP2VkkuaQHImuzA2LJMcxeNr+MKCku3O
+ OJ/Fk+psPsK9w3DnyS4z2w2btBJPmMkw+hANEhUXV6zuNwY5DvCd2EvnmtnhCAXWs/h8
+ SkxE/09xLOufWgjQdlPZe+CYDPgcVng7Jarq6/IrGGTTPt0xJSLmHt6B065bA4P4Z40K
+ OJ7Ui5/JLh5oQ3ngCM/JNWEAKVTB06RT8Noso5bRqZ6jEiWRHJZDeYdvuYuYWa4e4KD1
+ 0g2A==
+X-Gm-Message-State: APjAAAUl/pDx4jnmjmafVYsLpQQGXTQ0kp6LJbRv0ttX7ND4PlfxFEcA
+ K6kkn/Kh4jqExHU8MQ2nAgQhYg==
+X-Google-Smtp-Source: APXvYqz2nAMnlEWeY97HR1v74wdonmdjAzGCCw1SxzQQIB07GWNBNnbYCIkyu6qMrunSYiMXEV9wNw==
+X-Received: by 2002:a05:600c:295d:: with SMTP id
+ n29mr19925671wmd.36.1570462122021; 
  Mon, 07 Oct 2019 08:28:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l9sm15548131wme.45.2019.10.07.08.28.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2019 08:28:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 64F731FF9A;
- Mon,  7 Oct 2019 16:28:40 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 43F041FF8C;
+ Mon,  7 Oct 2019 16:28:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v9 10/13] tb-stats: dump hot TBs at the end of the execution
-Date: Mon,  7 Oct 2019 16:28:36 +0100
-Message-Id: <20191007152839.30804-11-alex.bennee@linaro.org>
+Subject: [PATCH  v9 01/13] accel/tcg: introduce TBStatistics structure
+Date: Mon,  7 Oct 2019 16:28:27 +0100
+Message-Id: <20191007152839.30804-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191007152839.30804-1-alex.bennee@linaro.org>
 References: <20191007152839.30804-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,226 +82,358 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
+ "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
 
-Dump the hottest TBs if -d tb_stats,dump_limit=N is used.
+To store statistics for each TB, we created a TBStatistics structure
+which is linked with the TBs. TBStatistics can stay alive after
+tb_flush and be relinked to a regenerated TB. So the statistics can
+be accumulated even through flushes.
 
-Example of output for the 3 hottest TBs:
+The goal is to have all present and future qemu/tcg statistics and
+meta-data stored in this new structure.
 
-TB id:1 | phys:0x34d54 virt:0x0000000000034d54 flags:0x0000f0
-        | exec:4828932/0 guest inst cov:16.38%
-        | trans:1 ints: g:3 op:82 op_opt:34 spills:3
-        | h/g (host bytes / guest insts): 90.666664
-        | time to gen at 2.4GHz => code:3150.83(ns) IR:712.08(ns)
-        | targets: 0x0000000000034d5e (id:11), 0x0000000000034d0d (id:2)
-
-TB id:2 | phys:0x34d0d virt:0x0000000000034d0d flags:0x0000f0
-        | exec:4825842/0 guest inst cov:21.82%
-        | trans:1 ints: g:4 op:80 op_opt:38 spills:2
-        | h/g (host bytes / guest insts): 84.000000
-        | time to gen at 2.4GHz => code:3362.92(ns) IR:793.75(ns)
-        | targets: 0x0000000000034d19 (id:12), 0x0000000000034d54 (id:1)
-
-TB id:3 | phys:0xec1c1 virt:0x00000000000ec1c1 flags:0x0000b0
-        | exec:872032/0 guest inst cov:1.97%
-        | trans:1 ints: g:2 op:56 op_opt:26 spills:1
-        | h/g (host bytes / guest insts): 68.000000
-        | time to gen at 2.4GHz => code:1692.08(ns) IR:473.75(ns)
-        | targets: 0x00000000000ec1c5 (id:4), 0x00000000000ec1cb (id:13)
-
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-Message-Id: <20190829173437.5926-12-vandersonmr2@gmail.com>
-[AJB: fix authorship, ad softmmu support]
+Message-Id: <20190829173437.5926-2-vandersonmr2@gmail.com>
+[AJB: fix git author, review comments]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
-AJB:
-  - move vars into tb_stats.c
-  - support softmmu as well
+AJB
+  - move tcg_collect_tb_stats inside tb-stats.c
+  - add spdx header
+  - drop tb from tbstats and associated functions
 ---
- accel/tcg/tb-stats.c          | 21 +++++++++++++++++++++
- include/exec/tb-stats-dump.h  | 21 +++++++++++++++++++++
- include/exec/tb-stats-flags.h |  1 +
- linux-user/exit.c             |  2 ++
- stubs/tb-stats.c              |  5 +++++
- util/log.c                    |  4 ++--
- vl.c                          |  2 ++
- 7 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 include/exec/tb-stats-dump.h
+ accel/tcg/Makefile.objs   |  2 +-
+ accel/tcg/tb-stats.c      | 52 +++++++++++++++++++++++++++++++++
+ accel/tcg/translate-all.c | 60 ++++++++++++++++++++++++++++++++++++++
+ include/exec/exec-all.h   | 15 +++-------
+ include/exec/tb-context.h | 12 ++++++++
+ include/exec/tb-hash.h    |  7 +++++
+ include/exec/tb-stats.h   | 61 +++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 197 insertions(+), 12 deletions(-)
+ create mode 100644 accel/tcg/tb-stats.c
+ create mode 100644 include/exec/tb-stats.h
 
+diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
+index d381a02f34..49ffe81b5d 100644
+--- a/accel/tcg/Makefile.objs
++++ b/accel/tcg/Makefile.objs
+@@ -2,7 +2,7 @@ obj-$(CONFIG_SOFTMMU) += tcg-all.o
+ obj-$(CONFIG_SOFTMMU) += cputlb.o
+ obj-y += tcg-runtime.o tcg-runtime-gvec.o
+ obj-y += cpu-exec.o cpu-exec-common.o translate-all.o
+-obj-y += translator.o
++obj-y += translator.o tb-stats.o
+ 
+ obj-$(CONFIG_USER_ONLY) += user-exec.o
+ obj-$(call lnot,$(CONFIG_SOFTMMU)) += user-exec-stub.o
 diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-index 3c1cc8cd06..60a9ee4b9c 100644
---- a/accel/tcg/tb-stats.c
+new file mode 100644
+index 0000000000..8208f4a0ad
+--- /dev/null
 +++ b/accel/tcg/tb-stats.c
-@@ -15,6 +15,7 @@
- #include "qemu/qemu-print.h"
- 
- #include "exec/tb-stats.h"
-+#include "exec/tb-stats-dump.h"
- 
- /* TBStatistic collection controls */
- enum TBStatsStatus {
-@@ -26,6 +27,7 @@ enum TBStatsStatus {
- 
- static enum TBStatsStatus tcg_collect_tb_stats;
- static uint32_t default_tbstats_flag;
-+static int max_dump_tbs;
- /* only accessed in safe work */
- static GList *last_search;
- static int id = 1; /* display_id increment counter */
-@@ -591,6 +593,20 @@ void dump_tb_info(int id, int log_mask, bool use_monitor)
- }
- 
- 
+@@ -0,0 +1,52 @@
 +/*
-+ * Dump the final stats
++ * QEMU System Emulator, Code Quality Monitor System
++ *
++ * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
-+void tb_stats_dump(void)
-+{
-+    if (!tb_stats_collection_enabled()) {
-+        return;
-+    }
 +
-+    dump_tbs_info(max_dump_tbs, SORT_BY_HOTNESS, false);
-+}
++#include "qemu/osdep.h"
++
++#include "disas/disas.h"
++
++#include "exec/tb-stats.h"
 +
 +/* TBStatistic collection controls */
++enum TBStatsStatus { TB_STATS_RUNNING, TB_STATS_PAUSED, TB_STATS_STOPPED };
 +
- void enable_collect_tb_stats(void)
- {
-     init_tb_stats_htable_if_not();
-@@ -639,3 +655,8 @@ void set_default_tbstats_flag(uint32_t flags)
- {
-     default_tbstats_flag = flags;
- }
++static enum TBStatsStatus tcg_collect_tb_stats;
 +
-+void set_tbstats_max_tbs(int max)
++void init_tb_stats_htable_if_not(void)
 +{
-+    max_dump_tbs = max;
++    if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
++        qht_init(&tb_ctx.tb_stats, tb_stats_cmp,
++                CODE_GEN_HTABLE_SIZE, QHT_MODE_AUTO_RESIZE);
++    }
 +}
-diff --git a/include/exec/tb-stats-dump.h b/include/exec/tb-stats-dump.h
-new file mode 100644
-index 0000000000..197c6148e9
---- /dev/null
-+++ b/include/exec/tb-stats-dump.h
-@@ -0,0 +1,21 @@
++
++void enable_collect_tb_stats(void)
++{
++    init_tb_stats_htable_if_not();
++    tcg_collect_tb_stats = TB_STATS_RUNNING;
++}
++
++void disable_collect_tb_stats(void)
++{
++    tcg_collect_tb_stats = TB_STATS_PAUSED;
++}
++
++void pause_collect_tb_stats(void)
++{
++    tcg_collect_tb_stats = TB_STATS_STOPPED;
++}
++
++bool tb_stats_collection_enabled(void)
++{
++    return tcg_collect_tb_stats == TB_STATS_RUNNING;
++}
++
++bool tb_stats_collection_paused(void)
++{
++    return tcg_collect_tb_stats == TB_STATS_PAUSED;
++}
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 66d4bc4341..114ebe48bf 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1118,6 +1118,23 @@ static inline void code_gen_alloc(size_t tb_size)
+     }
+ }
+ 
 +/*
-+ * TB Stats common dump functions across sysemu/linux-user
-+ *
-+ * Copyright (c) 2019 Linaro
-+ *
-+ * SPDX-License-Identifier: GPL-3.0-or-later
++ * This is the more or less the same compare as tb_cmp(), but the
++ * data persists over tb_flush. We also aggregate the various
++ * variations of cflags under one record and ignore the details of
++ * page overlap (although we can count it).
 + */
++bool tb_stats_cmp(const void *ap, const void *bp)
++{
++    const TBStatistics *a = ap;
++    const TBStatistics *b = bp;
 +
-+#ifndef _TB_STATS_DUMP_H_
-+#define _TB_STATS_DUMP_H_
++    return a->phys_pc == b->phys_pc &&
++        a->pc == b->pc &&
++        a->cs_base == b->cs_base &&
++        a->flags == b->flags;
++}
 +
-+/**
-+ * tb_stats_dump: dump final tb_stats at end of execution
-+ */
-+#ifdef CONFIG_TCG
-+void tb_stats_dump(void);
+ static bool tb_cmp(const void *ap, const void *bp)
+ {
+     const TranslationBlock *a = ap;
+@@ -1137,6 +1154,7 @@ static void tb_htable_init(void)
+     unsigned int mode = QHT_MODE_AUTO_RESIZE;
+ 
+     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
++    init_tb_stats_htable_if_not();
+ }
+ 
+ /* Must be called before using the QEMU cpus. 'tb_size' is the size
+@@ -1666,6 +1684,37 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+     return tb;
+ }
+ 
++static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong pc,
++                                  target_ulong cs_base, uint32_t flags)
++{
++    TBStatistics *new_stats = g_new0(TBStatistics, 1);
++    uint32_t hash = tb_stats_hash_func(phys_pc, pc, flags);
++    void *existing_stats = NULL;
++    new_stats->phys_pc = phys_pc;
++    new_stats->pc = pc;
++    new_stats->cs_base = cs_base;
++    new_stats->flags = flags;
++
++    /*
++     * All initialisation must be complete before we insert into qht
++     * table otherwise another thread might get a partially created
++     * structure.
++     */
++    qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
++
++    if (unlikely(existing_stats)) {
++        /*
++         * If there is already a TBStatistic for this TB from a previous flush
++         * then just make the new TB point to the older TBStatistic
++         */
++        g_free(new_stats);
++        return existing_stats;
++    } else {
++        return new_stats;
++    }
++}
++
++
+ /* Called with mmap_lock held for user mode emulation.  */
+ TranslationBlock *tb_gen_code(CPUState *cpu,
+                               target_ulong pc, target_ulong cs_base,
+@@ -1732,6 +1781,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     ti = profile_getclock();
+ #endif
+ 
++    /*
++     * We want to fetch the stats structure before we start code
++     * generation so we can count interesting things about this
++     * generation.
++     */
++    if (tb_stats_collection_enabled()) {
++        tb->tb_stats = tb_get_stats(phys_pc, pc, cs_base, flags);
++    } else {
++        tb->tb_stats = NULL;
++    }
++
+     tcg_func_start(tcg_ctx);
+ 
+     tcg_ctx->cpu = env_cpu(env);
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 49db07ba0b..73b15db7a7 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -23,21 +23,11 @@
+ #include "cpu.h"
+ #include "exec/tb-context.h"
+ #include "sysemu/cpus.h"
++#include "exec/tb-stats.h"
+ 
+ /* allow to see translation results - the slowdown should be negligible, so we leave it */
+ #define DEBUG_DISAS
+ 
+-/* Page tracking code uses ram addresses in system mode, and virtual
+-   addresses in userspace mode.  Define tb_page_addr_t to be an appropriate
+-   type.  */
+-#if defined(CONFIG_USER_ONLY)
+-typedef abi_ulong tb_page_addr_t;
+-#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
+-#else
+-typedef ram_addr_t tb_page_addr_t;
+-#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+-#endif
+-
+ #include "qemu/log.h"
+ 
+ void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns);
+@@ -410,6 +400,9 @@ struct TranslationBlock {
+     uintptr_t jmp_list_head;
+     uintptr_t jmp_list_next[2];
+     uintptr_t jmp_dest[2];
++
++    /* Pointer to a struct where statistics from the TB is stored */
++    TBStatistics *tb_stats;
+ };
+ 
+ extern bool parallel_cpus;
+diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
+index feb585e0a7..3cfb62a338 100644
+--- a/include/exec/tb-context.h
++++ b/include/exec/tb-context.h
+@@ -23,6 +23,17 @@
+ #include "qemu/thread.h"
+ #include "qemu/qht.h"
+ 
++/* Page tracking code uses ram addresses in system mode, and virtual
++   addresses in userspace mode.  Define tb_page_addr_t to be an appropriate
++   type.  */
++#if defined(CONFIG_USER_ONLY)
++typedef abi_ulong tb_page_addr_t;
++#define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
 +#else
-+static inline void tb_stats_dump(void) { /* do nothing */ };
++typedef ram_addr_t tb_page_addr_t;
++#define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
 +#endif
 +
-+#endif /* _TB_STATS_DUMP_H_ */
-diff --git a/include/exec/tb-stats-flags.h b/include/exec/tb-stats-flags.h
-index 252304d685..a5bf44f824 100644
---- a/include/exec/tb-stats-flags.h
-+++ b/include/exec/tb-stats-flags.h
-@@ -24,6 +24,7 @@ void pause_collect_tb_stats(void);
- bool tb_stats_collection_enabled(void);
- bool tb_stats_collection_paused(void);
+ #define CODE_GEN_HTABLE_BITS     15
+ #define CODE_GEN_HTABLE_SIZE     (1 << CODE_GEN_HTABLE_BITS)
  
-+void set_tbstats_max_tbs(int max);
- uint32_t get_default_tbstats_flag(void);
- void set_default_tbstats_flag(uint32_t);
+@@ -35,6 +46,7 @@ struct TBContext {
  
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index bdda720553..c00700bb96 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -21,6 +21,7 @@
- #ifdef TARGET_GPROF
- #include <sys/gmon.h>
- #endif
-+#include "exec/tb-stats-dump.h"
+     /* statistics */
+     unsigned tb_flush_count;
++    struct qht tb_stats;
+ };
  
- #ifdef CONFIG_GCOV
- extern void __gcov_dump(void);
-@@ -35,4 +36,5 @@ void preexit_cleanup(CPUArchState *env, int code)
-         __gcov_dump();
- #endif
-         gdb_exit(env, code);
-+        tb_stats_dump();
- }
-diff --git a/stubs/tb-stats.c b/stubs/tb-stats.c
-index d212c2a1fa..a3e1406b88 100644
---- a/stubs/tb-stats.c
-+++ b/stubs/tb-stats.c
-@@ -21,6 +21,11 @@ bool tb_stats_collection_enabled(void)
-     return false;
+ extern TBContext tb_ctx;
+diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
+index 805235d321..dd8e8f252a 100644
+--- a/include/exec/tb-hash.h
++++ b/include/exec/tb-hash.h
+@@ -66,4 +66,11 @@ uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_ulong pc, uint32_t flags,
+     return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
  }
  
-+void set_tbstats_max_tbs(int max)
++static inline
++uint32_t tb_stats_hash_func(tb_page_addr_t phys_pc, target_ulong pc,
++                            uint32_t flags)
 +{
-+    return;
++    return qemu_xxhash5(phys_pc, pc, flags);
 +}
 +
- void set_default_tbstats_flag(uint32_t flags)
- {
-     return;
-diff --git a/util/log.c b/util/log.c
-index fa78e2bca9..b6e4f71c1f 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -32,7 +32,6 @@ FILE *qemu_logfile;
- int qemu_loglevel;
- static int log_append = 0;
- static GArray *debug_regions;
--int32_t max_num_hot_tbs_to_dump;
- static bool to_monitor;
- bool to_string;
- 
-@@ -337,7 +336,8 @@ int qemu_str_to_log_mask(const char *str)
-             enable_collect_tb_stats();
-         } else if (tb_stats_collection_enabled() &&
-                    g_str_has_prefix(*tmp, "dump_limit=")) {
--            max_num_hot_tbs_to_dump = atoi((*tmp) + 11);
-+            int hot_tbs = atoi((*tmp) + 11);
-+            set_tbstats_max_tbs(hot_tbs);
-         } else if (tb_stats_collection_enabled() &&
-                    g_str_has_prefix(*tmp, "level=")) {
-             uint32_t flags = 0;
-diff --git a/vl.c b/vl.c
-index 781fddaf18..9ceb401007 100644
---- a/vl.c
-+++ b/vl.c
-@@ -35,6 +35,7 @@
- #include "sysemu/runstate.h"
- #include "sysemu/seccomp.h"
- #include "sysemu/tcg.h"
-+#include "exec/tb-stats-dump.h"
- 
- #ifdef CONFIG_SDL
- #if defined(__APPLE__) || defined(main)
-@@ -4514,6 +4515,7 @@ int main(int argc, char **argv, char **envp)
-     /* No more vcpu or device emulation activity beyond this point */
-     vm_shutdown();
- 
-+    tb_stats_dump();
-     job_cancel_sync_all();
-     bdrv_close_all();
- 
+ #endif
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+new file mode 100644
+index 0000000000..4be6522da0
+--- /dev/null
++++ b/include/exec/tb-stats.h
+@@ -0,0 +1,61 @@
++/*
++ * QEMU System Emulator, Code Quality Monitor System
++ *
++ * Copyright (c) 2019 Vanderson M. do Rosario <vandersonmr2@gmail.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef TB_STATS_H
++
++#define TB_STATS_H
++
++#include "exec/cpu-common.h"
++#include "exec/tb-context.h"
++#include "tcg.h"
++
++typedef struct TBStatistics TBStatistics;
++
++/*
++ * This struct stores statistics such as execution count of the
++ * TranslationBlocks. Each sets of TBs for a given phys_pc/pc/flags
++ * has its own TBStatistics which will persist over tb_flush.
++ *
++ * We include additional counters to track number of translations as
++ * well as variants for compile flags.
++ */
++struct TBStatistics {
++    tb_page_addr_t phys_pc;
++    target_ulong pc;
++    uint32_t     flags;
++    /* cs_base isn't included in the hash but we do check for matches */
++    target_ulong cs_base;
++};
++
++bool tb_stats_cmp(const void *ap, const void *bp);
++
++void init_tb_stats_htable_if_not(void);
++
++void enable_collect_tb_stats(void);
++void disable_collect_tb_stats(void);
++void pause_collect_tb_stats(void);
++bool tb_stats_collection_enabled(void);
++bool tb_stats_collection_paused(void);
++
++#endif
 -- 
 2.20.1
 
