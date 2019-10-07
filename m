@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A51DCE1D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:36:28 +0200 (CEST)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF93CE1E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:40:00 +0200 (CEST)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHSFW-0006Xz-Vm
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50904)
+	id 1iHSIw-0001yg-SZ
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51854)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHSCo-0004na-B8
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:33:39 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iHSHQ-00012k-2G
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:38:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHSCm-0005DX-AL
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:33:38 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:44475)
+ (envelope-from <peter.maydell@linaro.org>) id 1iHSHO-0007uX-85
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:38:23 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40262)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHSCk-0005AR-IV
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:33:36 -0400
-Received: by mail-ot1-x330.google.com with SMTP id 21so10737601otj.11
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 05:33:33 -0700 (PDT)
+ id 1iHSHN-0007u4-1h
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:38:22 -0400
+Received: by mail-ot1-x344.google.com with SMTP id y39so10782546ota.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 05:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DF85m79MdXazF+UGlJIYlHGlRwKp+XKXiXGKov+KI4I=;
- b=IhWyx8Xufr1t7q6j7aYf9P7CWTEGReVcdywEm2YoACu+rGiLHKNHEc6aRoONOPTOah
- yK3IZth4FstvX0rtA/b/q+SxoPQbUsmIyjsz2vaUpMEPMwqtKbVLffZAIMqKVvUcfMXc
- hZClLRPBaflBvgeXkZ58xxxQdovafZeJq4HMi9fUJ2j/Ca4u1BtnI8FdQTKwyA8gUYr5
- 2fXP8506CsV5RcCuoCtCiPEN+N/znxGc8CT+LhKiUYI70bJf/60D4iSrWX/JSBAcaXvz
- uUbMUgQsy9fr55wWuVN6oOB8c6oz0gDz1u/eaf1Ak+XquGNp43f4UDOknaXKiscHqu1B
- ZCMQ==
+ :cc:content-transfer-encoding;
+ bh=Eitmdur7IFclm5OmiXUKql+34LRIF1lT1xgTvve69ts=;
+ b=ed3jLDbUAmrtGYFsu8M8Avqmtxo3QrYokXKJp/mvGdzrN9fY0DiqKKKErWKS5ev/vv
+ czFe8MsctlO8/5cN2sMYiWwHa0B1/rnQCsQqPMn1VLQpkuB/GySdW9A569rN8goUwuEo
+ 0zbkdrIVSNicnj3bw+cETwRAgPTsVllwuTSdF54CNbJJnhIhoSAnRCeJN6qReNdRGyDb
+ y0tDOywY/pzLB++4WLe7wKISlOjW5UdRe3jG4LKbUs2Flm8ceS5Lio0OqYfuaYwHaRng
+ OpbHL9fRManjh5WaqPNUMCFCL8nPEZBY9XYvlEN74BbOT6QMET+03Zvb71l4th9975SJ
+ R2yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DF85m79MdXazF+UGlJIYlHGlRwKp+XKXiXGKov+KI4I=;
- b=FLVfrd5Kd6H/6ecAPZW193E89BgUS8b99RRTtr0byPsWO628vrcNGI+GJcMp6X1NOo
- 3ITvZcslC1xOo5WmrUEgh+mjGa0Y2PI8J/Iby85cVKL+vdI0FpfGoVEXqUCLiQBVv2B4
- 4yeGHKoEdh5kpdDM0NruTFKGOph4TEwAnQpiHH2G78oxpO+0tS6s1w89gkdaUyd1JjyI
- 9WI6Xga3610FkL0CxkaM8004xhiPNLITJ3WNhGmekYvcssriTO7ZIsp+v0R7l3v79mac
- 5QX6QjTA834jvtLwHkjNBt8Y6di3p+4iVAMAHPYkLcWt7ZHJhXPxt8AxBnG4uxEF50Kf
- Pezw==
-X-Gm-Message-State: APjAAAW8NvjiLSXGMY3+xKBPMwjgYVOZ6RhcA6EEcfql+j2BTtplkOgJ
- NcQ/tgyLWUcrVc1CObQaFnABmaVPOoUq4oXjbEoWGw==
-X-Google-Smtp-Source: APXvYqym6omKpj1+yfMEJJBCTdjljdDYg6CLTc+R85zj7fmKDkdrlfE5TzBn3iPblQ8QeQwK6ZckzCB/YPOVMm8x1Ik=
-X-Received: by 2002:a9d:4615:: with SMTP id y21mr19569752ote.97.1570451612286; 
- Mon, 07 Oct 2019 05:33:32 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Eitmdur7IFclm5OmiXUKql+34LRIF1lT1xgTvve69ts=;
+ b=hAS6ABTauZz65ZTDy6FNhpj0157gOOFjCl/LpoE2oh3cMsspk7BsZSGdZkB08U2YfJ
+ 1BP1pE849/V7KN6fO8Xzc3BNvwDftU0Ky8aZQ/KtHOop0NkYQqBIakuUqo6SRr8HrtK+
+ +sGuKJg1TL29U3rv71xMYGrd+1GEnbBpi1rXTTSZqSsDjBXDA+YdW6yS0X/VU6diN3J4
+ XNqKLwOfrUX9zH9hp5jZXBJ14r15uIwP06P5SHHBV46dzoA/+qqzHRuxt8TPaSBm+oOv
+ 8g2D3hFoSwnJCp65RI06/9p5FE+z+/ez0+btFkWLr8gGzsSjrbU69TzSUrtFwUk4l2QV
+ U0Ew==
+X-Gm-Message-State: APjAAAWEQWEL2cjJJemKYv12B84LVnkwBjN5+jSB+KoJnkmH+Smx+iuJ
+ +zBUysWBRJ0hLtGROhRMNxzTxYlcN7eql7qgEQM/2OL+Xvw=
+X-Google-Smtp-Source: APXvYqz43s/hk3CKx3en2NHRlqUEpBwheUz7q4AlYtcn+cq2YaaD9u60x9ha1rjY6xf9tJaIg2J4dgPHkpxv8fuiGYk=
+X-Received: by 2002:a9d:6d0a:: with SMTP id o10mr19552790otp.221.1570451899897; 
+ Mon, 07 Oct 2019 05:38:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191003193245.8993-1-jsnow@redhat.com>
-In-Reply-To: <20191003193245.8993-1-jsnow@redhat.com>
+References: <20190917234549.22910-1-jsnow@redhat.com>
+ <20190917234549.22910-2-jsnow@redhat.com>
+ <a252472e-842a-8401-2743-e4ed948b066b@redhat.com>
+ <450a1f52-9589-cb98-88cb-1d3fcd5f506a@redhat.com>
+ <778487c5-566e-d133-6395-d3908db66adc@redhat.com>
+ <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
+ <16eef993-c16e-3fd7-c60d-6d3c7bfb5148@redhat.com>
+ <20191002164438.GD5819@localhost.localdomain>
+ <a7f532cc-68cb-175e-6c8f-930401221ef9@redhat.com>
+ <20191004101952.GC5491@linux.fritz.box>
+ <d194e22c-7125-e558-0a80-131a28a87419@redhat.com>
+ <e7d5cc8a-7a61-70a2-7efc-8f1af8e7a41f@redhat.com>
+In-Reply-To: <e7d5cc8a-7a61-70a2-7efc-8f1af8e7a41f@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Oct 2019 13:33:21 +0100
-Message-ID: <CAFEAcA9Z92iuYwEUdsSpej_pGiAX6H6FBaGySqKxXHGjGRueNw@mail.gmail.com>
-Subject: Re: [PULL v2 0/8] Ide patches
-To: John Snow <jsnow@redhat.com>
+Date: Mon, 7 Oct 2019 13:38:08 +0100
+Message-ID: <CAFEAcA8iPnom=M+jTAmeynzTvOmC78xK42B+hb_oFv0m6k9jKw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/5] iotests: remove 'linux' from default supported
+ platforms
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::330
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,57 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Oct 2019 at 20:33, John Snow <jsnow@redhat.com> wrote:
+On Mon, 7 Oct 2019 at 13:32, Thomas Huth <thuth@redhat.com> wrote:
+> On 04/10/2019 14.44, Max Reitz wrote:
+> > Whenever make check fails, it=E2=80=99s urgent.  Without iotests runnin=
+g in make
+> > check, we had some time to sort the situation out.  That=E2=80=99s no l=
+onger the
+> > case.
+> >
+> > That means we need to take care of everything immediately.  And I purel=
+y
+> > want help with that.
 >
-> The following changes since commit 7f21573c822805a8e6be379d9bcf3ad9effef3dc:
+> While that sounds noble at a first glance, I think you've maybe got too
+> high expectations at yourself here? I mean, all other maintainers of
+> other subsystems with tests have the same "problem" if the tests for
+> their subsystem run in "make check". The "normal" behavior that I've
+> seen so far (and which I think is the right way to deal with it):
 >
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-10-01' into staging (2019-10-01 13:13:38 +0100)
+> 1) If a pull request gets rejected due to a "make check" failure, simply
+> drop the offending patches from the pull request, send a v2 pull req
+> without them, and tell the author of the offending patches to fix the
+> problem (unless the fix is completely trivial and could immediately be
+> applied to the v2 pull req). You really don't have to fix each and every
+> issue on your own as a maintainer and can redirect this to the patch
+> authors again.
 >
-> are available in the Git repository at:
->
->   https://github.com/jnsnow/qemu.git tags/ide-pull-request
->
-> for you to fetch changes up to f6d61c9509c56eea3cdd2d23b40d285601b1c1ca:
->
->   hd-geo-test: Add tests for lchs override (2019-10-03 14:36:54 -0400)
->
-> ----------------------------------------------------------------
-> Pull request V2
->
-> - Added signoff into the mirrored commits themselves (vs just the email)
-> - Kudos to `stg-foreach stg edit --sign`
->
-> ----------------------------------------------------------------
+> 2) If a test fails occasionally during "make check" (due to race
+> conditions or whatever), it gets disabled from "make check" if it can't
+> be fixed easily (e.g. in the qtests it gets moved to the "SPEED=3Dslow"
+> category, or in iotests it would get removed from the "auto" group).
 
-Hi; the new tests in hd-geo-test seem to hang on
-big-endian hosts (both s390x and ppc64 hung here):
+I would agree with this and would also suggest that things tested
+in 'make check' should ideally be reducing work for the maintainer:
+if something fails 'make check' then that change won't get into
+the tree and the task of getting it to work is pushed back to the
+original patch submitter. If something causes failures but they're
+not caught by 'make check' then the patch will get into the tree and
+now it's likely the subsystem maintainer's job to track down and
+fix the bug after the fact.
 
-linux1@lxub05:~/qemu/build/all$ QTEST_QEMU_IMG=./qemu-img
-QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64
-./tests/hd-geo-test
-/x86_64/hd-geo/ide/none: OK
-/x86_64/hd-geo/ide/drive/cd_0: OK
-/x86_64/hd-geo/ide/drive/mbr/blank: OK
-/x86_64/hd-geo/ide/drive/mbr/lba: OK
-/x86_64/hd-geo/ide/drive/mbr/chs: OK
-/x86_64/hd-geo/ide/device/mbr/blank: OK
-/x86_64/hd-geo/ide/device/mbr/lba: OK
-/x86_64/hd-geo/ide/device/mbr/chs: OK
-/x86_64/hd-geo/ide/device/user/chs: OK
-/x86_64/hd-geo/ide/device/user/chst: OK
-/x86_64/hd-geo/override/ide:
+> So if you like, I can send a patch to remove 130 from the "auto" group
+> (personally, I'd rather wait to see if it fails anytime soon again, or
+> if this was maybe rather a one-time issue due to a non-clean test system
+> ...)
 
+FWIW I haven't seen that iotest 130 failure again...
 
 thanks
 -- PMM
