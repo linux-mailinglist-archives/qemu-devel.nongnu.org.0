@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB4ECE3F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 15:42:53 +0200 (CEST)
-Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43706CE42D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 15:48:35 +0200 (CEST)
+Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHTHo-0002Rn-Kn
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 09:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60615)
+	id 1iHTNJ-00071k-Gr
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 09:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iHTCu-0005op-DZ
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:37:49 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iHTFU-0000hy-JH
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:40:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iHTCs-0008Jb-Fd
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:37:48 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:44600)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iHTCs-0008JI-B0
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:37:46 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id m13so5098130ywa.11
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 06:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kjGEkegORlysiCvDcBVThRl7o0UalPLlBqkuzJN6oyA=;
- b=PGn6pZxFk6UjITHYaKjIXHAs/qgRpHa3gsAO/G6gYN1NwxcbVjYpBZi5IBeOiW6k51
- M5RSAKriSKPdO/25dU8ZxtcmhF64WBzfK7lkhV/YzcAxLmmko2u52OvEFw152+aLB2sQ
- 5nskhDUOQBm7623qy8jGDz49y2SgF0LoAkacGfhT06Z2t3EE8HoOIbOKiExw8sF+PLbG
- EFc2TxQcRF4EBSXtqxNuLdq4UL8UJQCFfe5DlzusmCatdcvkOkhd4N/hZ/h0a5VeXc1h
- z9fW68+5NmkFUS88/gpySYgufVuPlhuubEvoBziQMfFu8LLGSXlRUSOnmmzD9Svs30Vu
- vJgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kjGEkegORlysiCvDcBVThRl7o0UalPLlBqkuzJN6oyA=;
- b=i3ob3jF4Ju/pZ8qd1EvqwwuKP9Yh6VT4UM/XZCJU/OxFWeH/H5gNLhP34hzLfYxtl4
- G6UYkTrH06jizoiDPtC9c7vcr1V1PSRFFuaeNMYdViYtuW+WsVaRcRXQrZLOBn1eqWBX
- 9gRg7d0z/M5KsuSvJxHEa/rwcq8zKuEm6iiTbQXI3MSG6pw6i+MZIJHbRWAGL/0jtWyw
- 1auUjo65cs7mCZE8x4NQhIFWPoLQbG18nEBEZDwCT0rP1Q1C7jk3RM4Qt46rB9VBAi1k
- ZER/PjKJLBae8E4WdA+/evMtSP08KHGcO75vQJwDCkPDDo2OhFEEuW8c/1GYtDRB6xUt
- xM6w==
-X-Gm-Message-State: APjAAAXyfQVQXbhi62x09BN1ItjWXDgWAzUvNfjiXcB04u2UGP09DSiN
- /fiR8qvtLZXH97mXz3v50hZqPw==
-X-Google-Smtp-Source: APXvYqzRbDoV11Xq8RUZa3izNtIYsb4feRG+vTQXBCk3z66HjjTgB8cwBMW6Dhq6nu19nHcJIoCGvg==
-X-Received: by 2002:a81:a903:: with SMTP id g3mr11917115ywh.188.1570455465740; 
- Mon, 07 Oct 2019 06:37:45 -0700 (PDT)
-Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
- by smtp.gmail.com with ESMTPSA id v204sm3779080ywb.23.2019.10.07.06.37.44
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Oct 2019 06:37:45 -0700 (PDT)
-Subject: Re: [Qemu-devel] [PATCH v2 02/15] target/arm/arm-semi: Always set
- some kind of errno for failed calls
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190916141544.17540-1-peter.maydell@linaro.org>
- <20190916141544.17540-3-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <ea400570-4446-5d2d-9e19-82229b9e69e1@linaro.org>
-Date: Mon, 7 Oct 2019 09:37:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <mreitz@redhat.com>) id 1iHTFT-0001Gy-Ay
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:40:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49710)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iHTFQ-0001E3-SX; Mon, 07 Oct 2019 09:40:25 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DF3923001FEB;
+ Mon,  7 Oct 2019 13:40:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 56C5160C4B;
+ Mon,  7 Oct 2019 13:40:19 +0000 (UTC)
+Subject: Re: [PATCH 2/6] block/block-copy: limit copy_range_size to 16 MiB
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191003171539.12327-1-vsementsov@virtuozzo.com>
+ <20191003171539.12327-3-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d493d006-3a1f-73b9-2b0c-6c8b19ea4cf0@redhat.com>
+Date: Mon, 7 Oct 2019 15:40:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190916141544.17540-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
+In-Reply-To: <20191003171539.12327-3-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="f7moLMYL4ws4bdKRFDPMdArt2ipwkPsuI"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 07 Oct 2019 13:40:23 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,24 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/19 7:15 AM, Peter Maydell wrote:
-> If we fail a semihosting call we should always set the
-> semihosting errno to something; we were failing to do
-> this for some of the "check inputs for sanity" cases.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--f7moLMYL4ws4bdKRFDPMdArt2ipwkPsuI
+Content-Type: multipart/mixed; boundary="NrZVrb3IFIFtiqNBc17lXHT7CvEcYF4TZ"
+
+--NrZVrb3IFIFtiqNBc17lXHT7CvEcYF4TZ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 03.10.19 19:15, Vladimir Sementsov-Ogievskiy wrote:
+> Large copy range may imply memory allocation and large io effort, so
+> using 2G copy range request may be bad idea. Let's limit it to 16 MiB.
+> It also helps the following patch to refactor copy-with-offload
+> fallback to copy-with-bounce-buffer.
+>=20
+> Note, that total memory usage of backup is still not limited, it will
+> be fixed in further commit.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  target/arm/arm-semi.c | 45 ++++++++++++++++++++++++++-----------------
->  1 file changed, 27 insertions(+), 18 deletions(-)
+>  block/block-copy.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
-r~
+--NrZVrb3IFIFtiqNBc17lXHT7CvEcYF4TZ--
 
+--f7moLMYL4ws4bdKRFDPMdArt2ipwkPsuI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2bQEEACgkQ9AfbAGHV
+z0D+JQgAtEOB+u/bEIjSK+sRXmLccWJd74jRO2ihjAxRzt9lP6a96XVEKOgZ9ZMG
+PqyGr+G3FQTv9caVf0awl8piQHdv9TP272Nadlx3U1BO5mFgqwlXagDgnXDpD/kY
+xnVZkNz0dGEHtfwbzqEilbOvafVrUpvSTLlzU0Okw3H+msSywSZ7H8O/3UYI7+MI
+tbb1cj7iW5hI8tmZtv+d1dW8Oh6f72vFPra3MJ9hwJvVRD0F1uks7dVWG1u5sKq0
+6jfRGAKF4reEA8SUNem5rQNlIr6bQ/1XNZvdUdTz/VdcwFN2T+bcOSc3n+gnraXD
+gsuRFQHl8dWvK2LUJvTwpHrKNQssjg==
+=uAcF
+-----END PGP SIGNATURE-----
+
+--f7moLMYL4ws4bdKRFDPMdArt2ipwkPsuI--
 
