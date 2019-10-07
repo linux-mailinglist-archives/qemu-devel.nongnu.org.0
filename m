@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A565CE880
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:58:37 +0200 (CEST)
-Received: from localhost ([::1]:46678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0985FCE857
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:53:52 +0200 (CEST)
+Received: from localhost ([::1]:46566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVP9-0003lV-Vr
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
+	id 1iHVKY-0006cE-NP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iHVC5-0007rU-A4
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:45:07 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iHVEg-0001Ke-OB
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:47:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iHVC4-0004Nb-4R
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:45:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49838)
+ (envelope-from <mreitz@redhat.com>) id 1iHVEf-0005QE-NL
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:47:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60488)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iHVC3-0004Lh-SA
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:45:04 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iHVEd-0005Oj-38; Mon, 07 Oct 2019 11:47:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4C48C7BDA9;
- Mon,  7 Oct 2019 15:45:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 77B0E5C1D4;
- Mon,  7 Oct 2019 15:44:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EF7EF1138648; Mon,  7 Oct 2019 17:44:44 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] netmap: support git-submodule build otption
-References: <874l13qmvb.fsf@dusky.pond.sub.org>
- <20191004130242.27267-1-g.lettieri@iet.unipi.it>
- <CAFEAcA8ut__ruS4yEMT7-qCKu+BFihFwhaNoq7L1cdoqxpXx6g@mail.gmail.com>
- <87pnj8ltih.fsf@dusky.pond.sub.org>
- <CAFEAcA9KLDruPS6o85H5XJnQjoSXV2+-d=dnNGPvc80jiBthiQ@mail.gmail.com>
-Date: Mon, 07 Oct 2019 17:44:44 +0200
-In-Reply-To: <CAFEAcA9KLDruPS6o85H5XJnQjoSXV2+-d=dnNGPvc80jiBthiQ@mail.gmail.com>
- (Peter Maydell's message of "Mon, 7 Oct 2019 12:58:38 +0100")
-Message-ID: <87a7acftlf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0C7E518C8922;
+ Mon,  7 Oct 2019 15:47:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16EA44108;
+ Mon,  7 Oct 2019 15:47:37 +0000 (UTC)
+Subject: Re: [PATCH 6/6] block/block-copy: increase buffered copy request
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191003171539.12327-1-vsementsov@virtuozzo.com>
+ <20191003171539.12327-7-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <c6c8da57-69d9-e22a-21c1-fbf73b37f024@redhat.com>
+Date: Mon, 7 Oct 2019 17:47:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 07 Oct 2019 15:45:01 +0000 (UTC)
+In-Reply-To: <20191003171539.12327-7-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Mon, 07 Oct 2019 15:47:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,68 +85,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu?= =?utf-8?Q?-Daud=C3=A9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Vincenzo Maffione <v.maffione@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Giuseppe Lettieri <giuseppe.lettieri@unipi.it>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM
+Content-Type: multipart/mixed; boundary="i2eKaxMnLsv0p60UfD4MrycpA79VRzpxm"
 
-> On Mon, 7 Oct 2019 at 11:50, Markus Armbruster <armbru@redhat.com> wrote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->> > Basically new submodules are a pain so we seek to minimize
->> > the use of them.
->>
->> I suggested making it a submodule upthread[*].  Let me try to distill
->> the conversation into a rationale.  Giuseppe, please correct mistakes.
->>
->> To make use of QEMU's netmap backend (CONFIG_NETMAP), you have to build
->> and install netmap software from sources[**].  Which pretty much ensures
->> developers compile with CONFIG_NETMAP off, and the code rots.
->>
->> For other dependencies that aren't readily available on common
->> development hosts (slirp, capstone), we use submodules to avoid such
->> rot.  If the system provides, we use that, and if it doesn't, we fall
->> back to the submodule.  This has served us well.
->
-> I would put this differently. We don't use submodules to avoid
-> code-rot. We use submodules where a dependency is needed for us
-> to provide QEMU features that are sufficiently important that we
-> want to provide them to users even if those users don't have the
-> dependency available to them as a system library.
->
-> There are lots of features of QEMU that only compile with sufficiently
-> recent versions of dependencies, and we don't try to submodule-ize
-> them because the features aren't really that important for the bulk
-> of our users. For instance, we provided pixman as a submodule for
-> a while because the features that require it (our graphics layer
-> code) are important to almost all users. But we didn't provide
-> spice as a module even when you pretty much needed to be
-> running bleeding-edge redhat to satisfy the version dependency
-> we had, because most users don't care about spice support.
+--i2eKaxMnLsv0p60UfD4MrycpA79VRzpxm
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-The ability to compile close to everything in a single build tree is
-nevertheless convenient for developers.  Submodules aren't necessary for
-that as long as "bleeding-edge redhat" can do the job.  And it pretty
-much can: in my "everything" tree, config.status shows less than two
-dozen "no", and most of them are uninteresting for compile-testing
-(e.g. tcmalloc and jemalloc), or simply impossible to have (e.g. KVM is
-for Linux, HAX is not for Linux, can't have both).  netmap's "no" is one
-of the few that is due to missing dependencies.  Another one is vde.
+On 03.10.19 19:15, Vladimir Sementsov-Ogievskiy wrote:
+> No reason to limit buffered copy to one cluster. Let's allow up to 1
+> MiB.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/block-copy.h |  2 +-
+>  block/block-copy.c         | 44 +++++++++++++++++++++++++++-----------=
 
-> Shipping our dependencies as submodules imposes real costs
-> on the project (for instance we then need to track the upstream
-> to see when we should be updating, including checking whether
-> we need to update to fix security issues). Submodules should be
-> the exception, not the rule.
+>  2 files changed, 32 insertions(+), 14 deletions(-)
 
-Point taken.
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-[...]
+
+--i2eKaxMnLsv0p60UfD4MrycpA79VRzpxm--
+
+--U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2bXhgACgkQ9AfbAGHV
+z0COzQf+LUhjpEyP2EkC/wSC7sRmGm3IZLKi2FF3Gev7Q2tIOFD4HYMleocfvgyj
+SsjHpfVYPlJ4OgpFfQniM/WEkFASkGTgWbklaz+DsS2QNO3T9815RtCX5L1JQvvQ
+H6Vh1au+IrCJA9Hel61McjKeC39b5PiH0cNxMOuDv66UT3EJeDSAtXDXUHK43q2U
+F2cxxJ32dGKwONi6ABncCuofqqIe8NQKyroTbWhDiyMX7xhmBU9GoqblmpjqVraZ
+St7ErkmPaKVSPF9lQAzdxcxeo9qH9jwCXVTKFSfV53mwQsnPz4NlccghxtQ2ojJ9
+mW+4h8XwogOIpvabYMxcoYqeYZfpuA==
+=CIih
+-----END PGP SIGNATURE-----
+
+--U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM--
 
