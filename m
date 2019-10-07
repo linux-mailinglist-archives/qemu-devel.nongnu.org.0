@@ -2,42 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE5DCE29F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 15:05:48 +0200 (CEST)
-Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 431C5CE2C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 15:10:56 +0200 (CEST)
+Received: from localhost ([::1]:44486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHShv-0004PP-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 09:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55093)
+	id 1iHSmt-0007Wr-Bc
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 09:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iHSgP-0003sh-Q7
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:04:15 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iHSlh-0006eg-Fb
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:09:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iHSgO-0001m7-6X
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:04:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43642)
+ (envelope-from <mreitz@redhat.com>) id 1iHSlg-0003oc-HF
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 09:09:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iHSgF-0001jl-Ch; Mon, 07 Oct 2019 09:04:03 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iHSlW-0003gq-NH; Mon, 07 Oct 2019 09:09:30 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 53608883851;
- Mon,  7 Oct 2019 13:04:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0E669757C7;
+ Mon,  7 Oct 2019 13:09:29 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.196])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ABD41001B11;
- Mon,  7 Oct 2019 13:03:58 +0000 (UTC)
-Subject: Re: [PATCH] iotests: Do not run the iotests during "make check"
- anymore
-To: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20191002142146.6124-1-thuth@redhat.com>
- <20191002150329.GA30342@redhat.com>
- <1b6616ed-bb06-332e-6451-b2acd748e891@redhat.com>
- <1bf47905-9237-eff6-9a3e-d1693a3d597a@redhat.com>
- <e2463f58-f5f0-7391-0e70-bc2f9970bdfa@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B24EC5C219;
+ Mon,  7 Oct 2019 13:09:26 +0000 (UTC)
+Subject: Re: [PATCH 0/4] iotests: trivial cleanups
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20190927141728.7137-1-crosa@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -63,18 +57,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <40541b4f-047e-20d9-ded2-7c8679e3de72@redhat.com>
-Date: Mon, 7 Oct 2019 15:03:56 +0200
+Message-ID: <ac7839be-eea2-6fa7-eff5-146d2aedf059@redhat.com>
+Date: Mon, 7 Oct 2019 15:09:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <e2463f58-f5f0-7391-0e70-bc2f9970bdfa@redhat.com>
+In-Reply-To: <20190927141728.7137-1-crosa@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="sQbAGE3jtgi7gmo2EO1LckTtI4FunTCHE"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Mon, 07 Oct 2019 13:04:02 +0000 (UTC)
+ boundary="q4A6GDD7Pe50mWIdoxbfJLmusa57xL3se"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 07 Oct 2019 13:09:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -89,102 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sQbAGE3jtgi7gmo2EO1LckTtI4FunTCHE
-Content-Type: multipart/mixed; boundary="bubaw3gm22mVPm17F51wbQZU0zrS2q2yj"
+--q4A6GDD7Pe50mWIdoxbfJLmusa57xL3se
+Content-Type: multipart/mixed; boundary="ICrdpE1WHIcedPIfK6KeUxtQBqP3Peb4c"
 
---bubaw3gm22mVPm17F51wbQZU0zrS2q2yj
+--ICrdpE1WHIcedPIfK6KeUxtQBqP3Peb4c
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 03.10.19 01:51, John Snow wrote:
+On 27.09.19 16:17, Cleber Rosa wrote:
+> The most trivial set of cleanups to iotests common libraries and the
+> 044 test.
 >=20
+> Cleber Rosa (4):
+>   qemu-iotests: remove bash shebang from library files
+>   qemu-iotests: remove forceful execution success from library files
+>   qemu-iotests: 044: pass is actually a noop, so remove it
+>   qemu-iotests: 044: remove inaccurate docstring class description
 >=20
-> On 10/2/19 11:50 AM, Max Reitz wrote:
->> On 02.10.19 17:10, Thomas Huth wrote:
->>> On 02/10/2019 17.03, Daniel P. Berrang=C3=A9 wrote:
->>>> On Wed, Oct 02, 2019 at 04:21:46PM +0200, Thomas Huth wrote:
->>>>> Running the iotests during "make check" is causing more headaches t=
-han
->>>>> benefits for the block layer maintainers, so let's disable the iote=
-sts
->>>>> during "make check" again.
->>>>>
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>> ---
->>>>>  tests/Makefile.include   | 2 +-
->>>>>  tests/qemu-iotests/group | 2 +-
->>>>>  2 files changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> I don't have any objection to removing from 'make check', but I feel=
+>  tests/qemu-iotests/044            | 4 ----
+>  tests/qemu-iotests/common.config  | 5 -----
+>  tests/qemu-iotests/common.filter  | 5 -----
+>  tests/qemu-iotests/common.nbd     | 1 -
+>  tests/qemu-iotests/common.pattern | 2 --
+>  tests/qemu-iotests/common.qemu    | 2 --
+>  tests/qemu-iotests/common.rc      | 5 -----
+>  tests/qemu-iotests/common.tls     | 2 --
+>  8 files changed, 26 deletions(-)
 
->>>> like this commit should be modifying the travis.yml config so that
->>>> it explicitly runs the block tests, otherwise we're loosing automate=
-d
->>>> CI and the block tests will increase their rate of bitrot again.
->>>
->>> I was planning to send a separate patch for that (once my Travis buil=
-ds
->>> are through...), but if it is preferred, I can also send a v2 of this=
-
->>> patch here where I include that change.
->>>
->>> Max, any preferences?
->>
->> I don=E2=80=99t mind either way.  I don=E2=80=99t think we=E2=80=99re =
-in danger of you
->> forgetting to send the Travis patch.
->>
->> As for running the tests on macOS: Good question.  I=E2=80=99d just le=
-t them run
->> now and maybe see later whether that decision hurts.  macOS has its ow=
-n
->> filesystem, so it may be worth testing there.
->>
->> Max
->>
->=20
-> There are absolutely known bugs and problems using APFS that we have no=
-t
-> fixed.
-
-Sorry, somehow missed your reply. :-/
-
-Yes, that was the idea why I said that maybe running the tests there
-would be worth it, because it=E2=80=99s a different FS that produces, wel=
-l,
-interesting results.
-
-But on second thought, who=E2=80=99s going to address those problems?  So=
-, yeah,
-that wouldn=E2=80=99t really help.
+Looks OK to me, but I=E2=80=99d like to know what you think about Eric=E2=
+=80=99s concern
+on patch 1.
 
 Max
 
 
---bubaw3gm22mVPm17F51wbQZU0zrS2q2yj--
+--ICrdpE1WHIcedPIfK6KeUxtQBqP3Peb4c--
 
---sQbAGE3jtgi7gmo2EO1LckTtI4FunTCHE
+--q4A6GDD7Pe50mWIdoxbfJLmusa57xL3se
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2bN7wACgkQ9AfbAGHV
-z0Cttwf+PdM3Qgs0gqzpyEqKGgpm3FpSK2DdHUJchTmRI+0O59beJep6hZ+ARwPz
-gw6NR3+zqAHWm3xkdhaFX0Qd/0HZ/mawEPVP2kUPhwGclBNqjsdvh5sePrhOmJJN
-91LZBlCA0sF3tUEGbaJfo74YYnNqwV9EmY8uc7wmaiSBX3txQxj+4mr6Wvc4n2Tg
-Lg5ajGWSp19HngIR9xPsbEsm2HMBUlMPOMvgPn88nCzOYgXqKvxUDeoqjg9HtZxc
-v/s74EU/ZHhW3B2CRB7JhHL1k3UBDf3+sMcFvIikCcOX5uwvNvNxRRhtyBwekAyV
-Tlkdv2JS+mqEUM/VdSFIbDGewcQGDw==
-=Y/G1
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2bOQUACgkQ9AfbAGHV
+z0AusAf+MhPU/gCCL9lePOtV0aSeMQe5BrIOHX/YVsr+eeNvjjZsbAcYRE6oslXl
+q5keUgv40h7P6P7HZjFwbe22zhAhtZTPEIt1FBneuWSz5SjOtXeEDx7Vk9S+32xN
+HEUZifpPcq/nBhWqEEjwdgvl+g9uQ6WIRoT0MGDlY6DCLCzvhophJAv2Hy3PeFHp
+KEeSlq59v9jGIFKapeBwrHq/axRI2XXU+5w8gwHRECe38FZ7sadZ3KcPwyQ2HTSr
+T5cxLVGKFMzV7jbhlPHq3qpoQjTphUMcR0ZLtt/M0ivOOyjra9l4qLaH6Y5sCQwY
+dGyksXogVTwoV+1GllwHtsedriQnUw==
+=in/i
 -----END PGP SIGNATURE-----
 
---sQbAGE3jtgi7gmo2EO1LckTtI4FunTCHE--
+--q4A6GDD7Pe50mWIdoxbfJLmusa57xL3se--
 
