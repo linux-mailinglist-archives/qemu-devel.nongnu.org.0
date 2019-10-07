@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E033CE90D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:23:20 +0200 (CEST)
-Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FB6CE907
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:22:18 +0200 (CEST)
+Received: from localhost ([::1]:47304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVn5-00031o-8x
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55322)
+	id 1iHVm4-0001mQ-CO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHVXZ-00047e-9L
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:07:18 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iHVcx-0001t8-VS
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:12:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHVXX-0007l7-Rb
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:07:16 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35283)
+ (envelope-from <alex.bennee@linaro.org>) id 1iHVcw-0001aH-3t
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:12:51 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50645)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHVXX-0007kq-Fp
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:07:15 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id y21so92105wmi.0
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 09:07:15 -0700 (PDT)
+ id 1iHVcv-0001Z4-Rm
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:12:50 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 5so118156wmg.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 09:12:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0P+yCHvg6Zq0/M0VZGGhX2NWbAulJ6mBTNGWb6Tu3QM=;
- b=v0ORVjcHaIczIYNipaLwDIDfeuMb9Im9Rkwnklxf8ofGebRRLmxrWpt2NiKuErm1G5
- BibpUOAerS3dPqTiU7ZdT7sMWjNXaEbETD9Jmd3NskOOu9xJFBsGixFCN0Fkz7tU0JYl
- owkkOJvZSGMsmrvyPva/njmnxdg0LTIzYDoDzkg3PZ6e2iaZM+aLE1wUjN5ho+LAqjDG
- OW69ajnWYvvPEOPEzmoGe7szl9JXdwma3r/mWH033xQsVzxIUMCyHRMddpV9VUXGybfV
- +XMI6xl0w/5xT/64/Pw8bCFYdvpAzkseXLMsr8X6li/TQjsnp825uXhO0XeeW3ybO7is
- +gkw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=uZMWKzuhe3VEqLo6JfdYkI2KhpJEWSxDlaIL7GMkiUg=;
+ b=qvtsFx2l0zsfPEDr4F0KsytsS11w7ozfPTpVaaftsUfZHqF8N37y7bj/QBPVDNDnSe
+ Y9cmtQe+0c7Q/l5wdBFjze4TgZAVVqu3vkreFJKIsh+2JfJpk3fMQ36uDALOWfNXE7PH
+ Ti73iLIb444yUKJDVF/nsTzxrokgX/N6KmZWmtHyoNnFSe0u0tYVrdTYE71rGHM3YPuz
+ qYduTPoASP4sdDeL5rUJpPuxi7/mtub7Ka6+2kkZBB7IiZ/NDmRHl1NzJkYRlAVJ5ZQU
+ 8jZ/5FOOQnLpsNvf2BL8y61GGITkxIx2MIQWEN9FIcXBQa4otCXuw+jQXppZfoWGHNtB
+ RDnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0P+yCHvg6Zq0/M0VZGGhX2NWbAulJ6mBTNGWb6Tu3QM=;
- b=hAGl9YHf5jU70/Mw/fj73fra40yY2ADSSDpX9XAA41uFpUjjAGvw6klQWPfu/Z02Pj
- 4SfGV11OFFj9yThsSPkO4kMgAFBS6GgzyAvqW+HV2Q5zWcrE0NHLYDuUqBvoGSwEzyE4
- teE5yw2l6c27Wfb6YfbR7IGRMXIayZHkwpTFi1jRDv/apcps3sd3gggLLeUutKkCSJUc
- ayc2Df7IQ4Yl5wWVmVImsN43Fla5OnDGfaC+H1Rcz5MyhWqZfmEud+JEI399Tc3NWjQo
- Yibs4O0ixzZQoaAkSmm83rmoNCfP2aeZ8FBTZvtcrzcl5gbNkpnJtG5KuGn3gmknD6Tp
- gWoA==
-X-Gm-Message-State: APjAAAV11LVnnwKJ+vUW3Tig4o1y77+HAtPfERj0FieKwcuh50WpQg66
- gXvWH2pnEO8BNUDThAGMPqb94g==
-X-Google-Smtp-Source: APXvYqwANr/3WnYKNPm0VfCc77KdPgu/3nKw0WK4MRb63hoVGwenHnfSjXEn656fmB4k/28xU95tkw==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr52102wmi.88.1570464433220;
- Mon, 07 Oct 2019 09:07:13 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=uZMWKzuhe3VEqLo6JfdYkI2KhpJEWSxDlaIL7GMkiUg=;
+ b=OFr9bsy5cfR2Ty1Ln4c1Fr7BbFN6p9KEdXglv7zYw+L1aTVvnp+SFm4YBNGd05BUyT
+ od1Lfn/s4R5Dzz9vATBCn4j0qOPpmmKZ//5b/DHz2uSMua+Gd+zsp9rWMr6VCODhXcMT
+ L3gCFXkOUn4O3o66mTOma4tM9vwESYmEaECPtdDZ5uzy8s8bDn3WnJO6D1FirnYLCRNS
+ JSKrsl1beJAxJuhp790v2JeDt4Sr3C1UkEsUfnshIQJpdd7K293O83oNp0dQDEsDpI73
+ shOtjEgRTwgeigIScedAlPh4S1PJ9FYmvyiNonbicmFNPs2aHUR7FKTToQnMRXqMqckz
+ 39cg==
+X-Gm-Message-State: APjAAAURsSKtypzChSkaepKMLN3GwEYkBX5fkjAv/72FRjcjh0RJ2c/T
+ 0+RgqU+aob/LQVekA9JgfhhH2w==
+X-Google-Smtp-Source: APXvYqxHgjD8j4/ZgLtTP8zNLTloyNKzJ66ofL4SccFlaf6bSu/PbxlHxYvpocuTquWrSuNmJ/ZqPQ==
+X-Received: by 2002:a1c:a546:: with SMTP id o67mr37215wme.57.1570464767964;
+ Mon, 07 Oct 2019 09:12:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e15sm18928955wrt.94.2019.10.07.09.07.12
+ by smtp.gmail.com with ESMTPSA id z142sm48541wmc.24.2019.10.07.09.12.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2019 09:07:12 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B68381FF87;
- Mon,  7 Oct 2019 17:07:11 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] .travis.yml: reduce scope of the --enable-debug build
-Date: Mon,  7 Oct 2019 17:07:08 +0100
-Message-Id: <20191007160708.26208-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Mon, 07 Oct 2019 09:12:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 843581FF87;
+ Mon,  7 Oct 2019 17:12:46 +0100 (BST)
+References: <20190920001823.23279-1-jsnow@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH RFC] docker: automatic dependencies for dockerfiles
+In-reply-to: <20190920001823.23279-1-jsnow@redhat.com>
+Date: Mon, 07 Oct 2019 17:12:46 +0100
+Message-ID: <878spwk001.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,40 +82,175 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding debug makes things run a bit slower so lets not hammer all the
-targets.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .travis.yml | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+John Snow <jsnow@redhat.com> writes:
 
-diff --git a/.travis.yml b/.travis.yml
-index d0b9e099b9..fc0888aff5 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -124,12 +124,13 @@ matrix:
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
- 
- 
-+    # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
-     - env:
--        - CONFIG="--enable-debug --enable-debug-tcg --disable-user"
-+        - CONFIG="--enable-debug --enable-debug-tcg --target-list=${MAIN_SOFTMMU_TARGETS}"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
- 
- 
--    # TCG debug can be run just on it's own and is mostly agnostic to user/softmmu distinctions
-+    # TCG debug can be run just on its own and is mostly agnostic to user/softmmu distinctions
-     - env:
-         - CONFIG="--enable-debug-tcg --disable-system"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug"
--- 
-2.20.1
+> This is a demo for using makefile dependencies for image requisites.
+> Honestly, I don't like it -- Makefile sorcery is a bit beyond my
+> comprehension.
+>
+> This is as near as I could stab, and it has the unfortunate requisite
+> that it will generate all of the *.d files at first run and not in an
+> on-demand way. Boo.
+>
+> But, I wanted to raise the point that manually managing the variables
+> is not long-term viable -- we should manage them automatically if we
+> can.
 
+I think this gets more complicated when we want to handle multiple host
+architectures as well. We might for example have a final image that is
+based of a native docker base in one case and a linux-user docker base
+in another.
+
+> As far as "partial" images vs "full" images, we should manage this
+> too; perhaps by subdirectory on the dockerfiles -- that way these
+> won't get out of date, either.
+
+I'll have an experiment with different layouts and see.
+
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/docker/Makefile.include | 37 ++++++++-------------------------
+>  tests/docker/deputil.py       | 39 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 48 insertions(+), 28 deletions(-)
+>  create mode 100755 tests/docker/deputil.py
+>
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index 50a400b573..266395d927 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -21,6 +21,7 @@ DOCKER_TOOLS :=3D travis
+>  ENGINE :=3D auto
+>
+>  DOCKER_SCRIPT=3D$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
+> +DEPTOOL=3D$(SRC_PATH)/tests/docker/deputil.py
+>
+>  TESTS ?=3D %
+>  IMAGES ?=3D %
+> @@ -47,12 +48,12 @@ docker-image: ${DOCKER_TARGETS}
+>  # invoked with SKIP_DOCKER_BUILD we still check the image is up to date
+>  # though
+>  ifdef SKIP_DOCKER_BUILD
+> -docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+> +docker-image-%: $(DOCKER_FILES_DIR)/%.docker %.d
+>  	$(call quiet-command, \
+>  		$(DOCKER_SCRIPT) check --quiet qemu:$* $<, \
+>  		"CHECK", "$*")
+>  else
+> -docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+> +docker-image-%: $(DOCKER_FILES_DIR)/%.docker %.d
+>  	$(call quiet-command,\
+>  		$(DOCKER_SCRIPT) build qemu:$* $< \
+>  		$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) \
+> @@ -88,23 +89,17 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/deb=
+ian-bootstrap.docker
+>  endif
+>
+>  # Enforce dependencies for composite images
+> -docker-image-debian9-mxe: docker-image-debian9
+> +%.d: $(DOCKER_FILES_DIR)/%.docker
+> +	$(call quiet-command, $(DEPTOOL) $(DOCKER_FILES_DIR)/$*.docker > $@)
+> +
+> +DEPFILES :=3D $(DOCKER_IMAGES:%=3D%.d)
+> +include $(DEPFILES)
+> +
+>  ifeq ($(ARCH),x86_64)
+> -docker-image-debian-amd64: docker-image-debian9
+>  DOCKER_PARTIAL_IMAGES +=3D debian-amd64-cross
+>  else
+> -docker-image-debian-amd64-cross: docker-image-debian10
+>  DOCKER_PARTIAL_IMAGES +=3D debian-amd64
+>  endif
+> -docker-image-debian-armel-cross: docker-image-debian9
+> -docker-image-debian-armhf-cross: docker-image-debian9
+> -docker-image-debian-mips-cross: docker-image-debian9
+> -docker-image-debian-mipsel-cross: docker-image-debian9
+> -docker-image-debian-mips64el-cross: docker-image-debian9
+> -docker-image-debian-ppc64el-cross: docker-image-debian9
+> -docker-image-debian-s390x-cross: docker-image-debian9
+> -docker-image-debian-win32-cross: docker-image-debian9-mxe
+> -docker-image-debian-win64-cross: docker-image-debian9-mxe
+>
+>  # For non-x86 hosts not all cross-compilers have been packaged
+>  ifneq ($(ARCH),x86_64)
+> @@ -115,22 +110,8 @@ DOCKER_PARTIAL_IMAGES +=3D debian-win32-cross debian=
+-win64-cross
+>  DOCKER_PARTIAL_IMAGES +=3D fedora travis
+>  endif
+>
+> -docker-image-debian-alpha-cross: docker-image-debian10
+> -docker-image-debian-arm64-cross: docker-image-debian10
+> -docker-image-debian-hppa-cross: docker-image-debian10
+> -docker-image-debian-m68k-cross: docker-image-debian10
+> -docker-image-debian-mips64-cross: docker-image-debian10
+> -docker-image-debian-powerpc-cross: docker-image-debian10
+> -docker-image-debian-ppc64-cross: docker-image-debian10
+> -docker-image-debian-riscv64-cross: docker-image-debian10
+> -docker-image-debian-sh4-cross: docker-image-debian10
+> -docker-image-debian-sparc64-cross: docker-image-debian10
+> -
+>  docker-image-travis: NOUSER=3D1
+>
+> -# Specialist build images, sometimes very limited tools
+> -docker-image-tricore-cross: docker-image-debian9
+> -
+>  # These images may be good enough for building tests but not for test bu=
+ilds
+>  DOCKER_PARTIAL_IMAGES +=3D debian-alpha-cross
+>  DOCKER_PARTIAL_IMAGES +=3D debian-hppa-cross
+> diff --git a/tests/docker/deputil.py b/tests/docker/deputil.py
+> new file mode 100755
+> index 0000000000..69711cf85e
+> --- /dev/null
+> +++ b/tests/docker/deputil.py
+> @@ -0,0 +1,39 @@
+> +#!/usr/bin/env python3
+> +import os
+> +import re
+> +import sys
+> +from typing import IO, Optional
+> +
+> +def get_dep(infile: IO[str]) -> Optional[str]:
+> +    """Get a dependency as a string from a dockerfile."""
+> +    for line in infile:
+> +        match =3D re.match(r'FROM (.+)', line)
+> +        if match:
+> +            return match[1]
+> +    return None
+> +
+> +def get_qemu_dep(infile: IO[str]) -> Optional[str]:
+> +    """Get a dependency on the qemu: namespace from a dockerfile."""
+> +    dep =3D get_dep(infile) or ''
+> +    match =3D re.match(r'qemu:(.+)', dep)
+> +    return match[1] if match else None
+> +
+> +def main() -> None:
+> +    filename =3D sys.argv[1]
+> +    basefile =3D os.path.basename(filename)
+> +    base =3D os.path.splitext(basefile)[0]
+> +    depfile =3D f"{base}.d"
+> +    deps =3D [filename]
+> +
+> +    print(f"{depfile}: {filename}")
+> +    with open(filename, "r") as infile:
+> +        match =3D get_qemu_dep(infile) or ''
+> +        if match:
+> +            deps.append(f"docker-image-{match}")
+> +    print("{}: {}".format(
+> +        f"docker-image-{base}",
+> +        " ".join(deps)
+> +    ))
+> +
+> +if __name__ =3D=3D '__main__':
+> +    main()
+
+
+--
+Alex Benn=C3=A9e
 
