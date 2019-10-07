@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41EFCE74B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:22:47 +0200 (CEST)
-Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B00CE74A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:22:42 +0200 (CEST)
+Received: from localhost ([::1]:45994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHUqT-00046n-Q9
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47264)
+	id 1iHUqO-00049P-K1
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47282)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iHUnH-0002OX-Gt
+ (envelope-from <philmd@redhat.com>) id 1iHUnI-0002QE-2e
  for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:19:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iHUnE-0007sj-Gh
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:19:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55258)
+ (envelope-from <philmd@redhat.com>) id 1iHUnG-0007th-Hm
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:19:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50376)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHUnC-0007r3-F2
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:19:24 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHUnG-0007tE-BR
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:19:26 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 75482800DF3;
- Mon,  7 Oct 2019 15:19:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 91C5E309DEF2;
+ Mon,  7 Oct 2019 15:19:25 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 612D119C5B;
- Mon,  7 Oct 2019 15:19:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D29C19D70;
+ Mon,  7 Oct 2019 15:19:20 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/7] fw_cfg: Run tests on big-endian
-Date: Mon,  7 Oct 2019 17:18:58 +0200
-Message-Id: <20191007151905.32766-1-philmd@redhat.com>
+Subject: [PATCH v2 1/7] tests/libqos/fw_cfg: Document io_fw_cfg_init to drop
+ io_fw_cfg_uninit
+Date: Mon,  7 Oct 2019 17:18:59 +0200
+Message-Id: <20191007151905.32766-2-philmd@redhat.com>
+In-Reply-To: <20191007151905.32766-1-philmd@redhat.com>
+References: <20191007151905.32766-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Mon, 07 Oct 2019 15:19:20 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 07 Oct 2019 15:19:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,53 +65,65 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series allow fw_cfg tests to run on big-endian targets.
+Document io_fw_cfg_init() return value must be released
+with g_free(). Directly calling g_free() we don't really
+need io_fw_cfg_uninit(): remove it.
 
-since v1 [1]:
-- addressed Laszlo/Laurent/Thomas comments
-- added Laszlo R-b tags
+This partly reverts commit 0729d833d6d6:
+"tests/libqos: Add io_fw_cfg_uninit()"
 
-This should help us to notice regression such this one
-introduced in QEMU v4.0.0:
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/libqos/fw_cfg.c |  5 -----
+ tests/libqos/fw_cfg.h | 11 +++++++++--
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-  commit ee5d0f89de3e53cdb0dcf51acc1502b310ed3bd2
-  Date:   Tue Nov 20 21:10:25 2018 -0800
-
-    fw_cfg: Fix -boot reboot-timeout error checking
-
-Later fixed in QEMU v4.1.0:
-
-  commit 04da973501b591525ce68c2925c61c8886badd4d
-  Date:   Wed Apr 24 07:06:41 2019 -0700
-
-    hw/nvram/fw_cfg: Store 'reboot-timeout' as little endian
-
-And older one that required manual testing [2], such:
-
-  commit 36b62ae6a58f9a588fd33be9386e18a2b90103f5
-
-    fw_cfg: fix endianness in fw_cfg_data_mem_read() / _write()
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg00926.html
-[2] https://lists.gnu.org/archive/html/qemu-devel/2014-12/msg03762.html
-
-Philippe Mathieu-Daud=C3=A9 (7):
-  tests/libqos/fw_cfg: Document io_fw_cfg_init to drop io_fw_cfg_uninit
-  tests/libqos/fw_cfg: Document mm_fw_cfg_init to drop mm_fw_cfg_uninit
-  tests/libqos/fw_cfg: Document pc_fw_cfg_init to drop pc_fw_cfg_uninit
-  tests/fw_cfg: Let the tests use a context
-  tests/libqos/fw_cfg: Pass QTestState as argument
-  tests/fw_cfg: Declare one QFWCFG for all tests
-  tests/fw_cfg: Run the tests on big-endian targets
-
- tests/Makefile.include   |   2 +
- tests/boot-order-test.c  |  12 +--
- tests/fw_cfg-test.c      | 189 ++++++++++++++++++++++-----------------
- tests/libqos/fw_cfg.c    |  71 +++++++--------
- tests/libqos/fw_cfg.h    |  56 +++++++-----
- tests/libqos/malloc-pc.c |   6 +-
- 6 files changed, 186 insertions(+), 150 deletions(-)
-
+diff --git a/tests/libqos/fw_cfg.c b/tests/libqos/fw_cfg.c
+index 1f46258f96..37c3f2cf4d 100644
+--- a/tests/libqos/fw_cfg.c
++++ b/tests/libqos/fw_cfg.c
+@@ -157,8 +157,3 @@ QFWCFG *io_fw_cfg_init(QTestState *qts, uint16_t base=
+)
+=20
+     return fw_cfg;
+ }
+-
+-void io_fw_cfg_uninit(QFWCFG *fw_cfg)
+-{
+-    g_free(fw_cfg);
+-}
+diff --git a/tests/libqos/fw_cfg.h b/tests/libqos/fw_cfg.h
+index 13325cc4ff..15604040bd 100644
+--- a/tests/libqos/fw_cfg.h
++++ b/tests/libqos/fw_cfg.h
+@@ -36,8 +36,15 @@ size_t qfw_cfg_get_file(QFWCFG *fw_cfg, const char *fi=
+lename,
+=20
+ QFWCFG *mm_fw_cfg_init(QTestState *qts, uint64_t base);
+ void mm_fw_cfg_uninit(QFWCFG *fw_cfg);
++/**
++ * io_fw_cfg_init():
++ * @qts: The #QTestState that will be referred to by the QFWCFG object.
++ * @base: The I/O address of the fw_cfg device in the guest.
++ *
++ * Returns a newly allocated QFWCFG object which must be released
++ * with a call to g_free() when no longer required.
++ */
+ QFWCFG *io_fw_cfg_init(QTestState *qts, uint16_t base);
+-void io_fw_cfg_uninit(QFWCFG *fw_cfg);
+=20
+ static inline QFWCFG *pc_fw_cfg_init(QTestState *qts)
+ {
+@@ -46,7 +53,7 @@ static inline QFWCFG *pc_fw_cfg_init(QTestState *qts)
+=20
+ static inline void pc_fw_cfg_uninit(QFWCFG *fw_cfg)
+ {
+-    io_fw_cfg_uninit(fw_cfg);
++    g_free(fw_cfg);
+ }
+=20
+ #endif
 --=20
 2.21.0
 
