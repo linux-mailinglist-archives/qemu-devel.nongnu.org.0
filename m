@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3466CE800
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:41:43 +0200 (CEST)
-Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331FCCE84E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:52:26 +0200 (CEST)
+Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHV8o-0003vi-4J
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
+	id 1iHVJA-0004Yc-Tp
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwP-0002g8-0J
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:54 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwL-0002bT-G8
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwN-0005DJ-Lk
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:52 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50904)
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwJ-0005BF-QH
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:49 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39100)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHUwN-0005Cq-EV
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:51 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 5so13176013wmg.0
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:51 -0700 (PDT)
+ id 1iHUwJ-0005An-IS
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:47 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v17so12819265wml.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YDBJO83fFMPFHsguCkuLARuLU3nbWbIEfUOqbeuNP6c=;
- b=TIGMGrUW9sr9ncmhU4HLzl6a0/7ts2oEV5UuyE2MWL+4XtI7gv7vJcHCcuGtExwHvg
- lvmXv5G4Gl4XRg+PbNhu5NN7kBGnsEEbBKVMg1+LNnwPZkLK9kR7DDD0ORiZaAQxq7Me
- R2ERPOsSCb7A6hoslnhWyxlxa+4Ar3Nq54INfJxMcePPvzUGcDWktSxKELdHBdefCvdX
- Rj/C72DM+nNnlXH0pIUXzWHoHYHjHbl6d1CRskHiXi+Sbi+6e0f3X/qbVAzMsSXMkkK0
- EYDBKnzApZ6zcgTH5yXWIIcvxR5L7xj83A7Rgkslv3sDuFcAoKeBkSEGhNTM8wtwMkju
- j0eA==
+ bh=hggjK8Ae7uaAUz2uVJWEK720XDx0HS+iysTy3zwJ5bU=;
+ b=MWLw29C5a2/tlUtOGDP/AnatDJmaxu0PByRmZLHFIsv+fah23hB3Q2g8z4cbTD/LpR
+ BftdHZtbtz0OvC+5HOdflMFx5fn8Va8EgNyFEkiot5GoQdnbh8oKYTEbrwGB9lIfW7wl
+ g0mOQerJ/niZ585wyebpDqijrjySlMafW/wsv9iruG8kpIyHV7tYD16RnUkTSRJbYFb2
+ CBcJ9t+4+QSM91Pr+Z42ztrGeOVGirFNyk5WtK9wIpgasjTVUKbiLPkdwSSF3+3+B11b
+ UZqxQaZGKtJv9HtIazpiKLkoMiMBnrQX1DD1kcRAvDoCE2rwYmbucOSNqwSN0FdbTd4w
+ 5N9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YDBJO83fFMPFHsguCkuLARuLU3nbWbIEfUOqbeuNP6c=;
- b=LifjM8YsxkWrEOGczdIBbFfLiXohAmPus8K0kIFbLyWM25mX5rgqAWvBuBnpD5YwaB
- Scou2J5uIpXFcDQd77CRsUAkaX20MJ7dO79tAObiOceW5St3jBGKHAbq7NuSLWXqvocm
- 2QGQb+AkjrZc5pt7nCkyOqpoQOQR4fiVf2hpDaPQmygAtJgxEGZYfbcQi3k6NdJwfrjZ
- GPbZlkWU02gy9JsksWQ0zYKayKeIDiUMvdAxWdbgFIM9aoqPVQ8aH1e0r60Oh/HMIXyh
- 1rHq/xGWt1qcnalsnGeASX5LqmsbDuwm4QBj1aNqmCiU4KBTYAeAlw3Ma6DxGvPS6vmX
- Jovg==
-X-Gm-Message-State: APjAAAWYj+Vg1oon/gd8+4x9mfBCC5v/Cc7fs8zrgA6yWxHRfuzVjYmc
- vCPe9xCBvCOAq1zLQOW65rcpeQ==
-X-Google-Smtp-Source: APXvYqyC4tfwDE522+pyTvwHuqGfFMgYbV7fX3Knr53kAlSyKPKsPoXdBl0m+qKza6/OV6EMtJIK4w==
-X-Received: by 2002:a1c:5fd6:: with SMTP id
- t205mr20768288wmb.124.1570462130265; 
- Mon, 07 Oct 2019 08:28:50 -0700 (PDT)
+ bh=hggjK8Ae7uaAUz2uVJWEK720XDx0HS+iysTy3zwJ5bU=;
+ b=JO8eJPixliPUkg05AWCmWZHgOzEpVmvR7JgVUBt4j4Iy83Uh3XMHPKrYG74mySmhq7
+ jyPJ+VQ4DuAYAIlzecNRQHA71S48lo6IY7k3Tz04IFSFvpQiaU+8OR83jnYYPhKv9nQR
+ yNFg1KXceOU3el+6gWbR3rHROeKhcGKcCugMvNPx3pCfTsspREPqmDLrul7Q/EZEhON4
+ 3riBfHllr8oOrq2zoNS8srwBJq/9HeJvX20PPKL7nmG3a4/fmA9ssnAqpB21o631Vp90
+ 4CAdZco1U/vjVlRlw6MQ+4Gy5i9fvDB+HeFJ595JYe7L2AhbYhQaa5MaVATFxvheAxi1
+ iLdg==
+X-Gm-Message-State: APjAAAUX1+zLSQNlE5qJjYmnfweCPX74lYdOljyhp2AI6x0gUuNWu+UZ
+ 5gjtM3XGb4AdTcJm14h+RgpgGQ==
+X-Google-Smtp-Source: APXvYqz4zPDjbhCqy5hBdXcWCGhQ9m9CvQOX8K050s4Gh2Eyw2G+jazsFdpmxZpuT/UinBaR68omwA==
+X-Received: by 2002:a1c:a404:: with SMTP id n4mr17163987wme.137.1570462126494; 
+ Mon, 07 Oct 2019 08:28:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r140sm14661979wme.47.2019.10.07.08.28.43
+ by smtp.gmail.com with ESMTPSA id y13sm21402104wrg.8.2019.10.07.08.28.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2019 08:28:47 -0700 (PDT)
+ Mon, 07 Oct 2019 08:28:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9EEC71FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 23B8E1FF98;
  Mon,  7 Oct 2019 16:28:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v9 12/13] tb-stats: adding TBStatistics info into perf dump
-Date: Mon,  7 Oct 2019 16:28:38 +0100
-Message-Id: <20191007152839.30804-13-alex.bennee@linaro.org>
+Subject: [PATCH  v9 08/13] tb-stats: reset the tracked TBs on a tb_flush
+Date: Mon,  7 Oct 2019 16:28:34 +0100
+Message-Id: <20191007152839.30804-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191007152839.30804-1-alex.bennee@linaro.org>
 References: <20191007152839.30804-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,62 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
- "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
+We keep track of translations but can only do so up until the
+translation cache is flushed. At that point we really have no idea if
+we can re-create a translation because all the active tracking
+information has been reset.
 
-Adding TBStatistics information to linux perf TB's symbol names.
-
-Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-Message-Id: <20190830121903.17585-3-vandersonmr2@gmail.com>
-[AJB: fix authorship, auto-strings]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-AJB:
-  - use g_string and auto free
----
- accel/tcg/perf/jitdump.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ accel/tcg/tb-stats.c      | 19 +++++++++++++++++++
+ accel/tcg/translate-all.c |  2 +-
+ include/exec/tb-stats.h   |  8 ++++++++
+ 3 files changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/accel/tcg/perf/jitdump.c b/accel/tcg/perf/jitdump.c
-index e1d6f2214e..e7b86173e0 100644
---- a/accel/tcg/perf/jitdump.c
-+++ b/accel/tcg/perf/jitdump.c
-@@ -146,7 +146,20 @@ void start_jitdump_file(void)
+diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
+index dabc5150f9..f08e5f2540 100644
+--- a/accel/tcg/tb-stats.c
++++ b/accel/tcg/tb-stats.c
+@@ -247,6 +247,25 @@ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
+     g_free(cmdinfo);
+ }
  
- void append_load_in_jitdump_file(TranslationBlock *tb)
- {
--    gchar *func_name = g_strdup_printf("TB virt:0x"TARGET_FMT_lx, tb->pc);
-+    g_autoptr(GString) func_name = g_string_new("TB virt:");
++/*
++ * We have to reset the tbs array on a tb_flush as those
++ * TranslationBlocks no longer exist and we no loner know if the
++ * current mapping is still valid.
++ */
 +
-+    g_string_append_printf(func_name, "0x"TARGET_FMT_lx, tb->pc);
++static void reset_tbs_array(void *p, uint32_t hash, void *userp)
++{
++    TBStatistics *tbs = p;
++    g_ptr_array_set_size(tbs->tbs, 0);
++}
 +
-+    if (tb->tb_stats) {
-+        TBStatistics *tbs = tb->tb_stats;
-+        unsigned g = stat_per_translation(tbs, code.num_guest_inst);
-+        unsigned ops = stat_per_translation(tbs, code.num_tcg_ops);
-+        unsigned ops_opt = stat_per_translation(tbs, code.num_tcg_ops_opt);
-+        unsigned spills = stat_per_translation(tbs, code.spills);
-+
-+        g_string_append_printf(func_name, " (g:%u op:%u opt:%u spills:%d)",
-+                               g, ops, ops_opt, spills);
++void tbstats_reset_tbs(void)
++{
++    if (tb_ctx.tb_stats.map) {
++        qht_iter(&tb_ctx.tb_stats, reset_tbs_array, NULL);
 +    }
++}
++
+ void init_tb_stats_htable_if_not(void)
+ {
+     if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 396e63c3e7..871d91d559 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1273,7 +1273,7 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
  
-     /* Serialise the writing of the dump file */
-     qemu_mutex_lock(&dumpfile_lock);
-@@ -167,7 +180,6 @@ void append_load_in_jitdump_file(TranslationBlock *tb)
-     fwrite(func_name->str, func_name->len + 1, 1, dumpfile);
-     fwrite(tb->tc.ptr, tb->tc.size, 1, dumpfile);
+     qht_reset_size(&tb_ctx.htable, CODE_GEN_HTABLE_SIZE);
+     page_flush_tb();
+-
++    tbstats_reset_tbs();
+     tcg_region_reset_all();
+     /* XXX: flush processor icache at this point if cache flush is
+        expensive */
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+index 921da38c97..c20a3e6439 100644
+--- a/include/exec/tb-stats.h
++++ b/include/exec/tb-stats.h
+@@ -125,4 +125,12 @@ struct TbstatsCommand {
  
--    g_free(func_name);
-     fflush(dumpfile);
+ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
  
-     qemu_mutex_unlock(&dumpfile_lock);
++/**
++ * tbstats_reset_tbs: reset the linked array of TBs
++ *
++ * Reset the list of tbs for a given array. Should be called from
++ * safe work during tb_flush.
++ */
++void tbstats_reset_tbs(void);
++
+ #endif
 -- 
 2.20.1
 
