@@ -2,47 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F92CE8CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:13:25 +0200 (CEST)
-Received: from localhost ([::1]:47102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E33CE8E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:16:22 +0200 (CEST)
+Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVdU-0001BA-1M
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54798)
+	id 1iHVgK-0004PR-Hf
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iHVVV-0001kA-0n
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:10 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iHVVQ-0001g8-7c
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iHVVO-0006ZY-IA
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33642)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iHVVP-0006Zx-3S
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:04 -0400
+Received: from relay.sw.ru ([185.231.240.75]:56608)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHVVO-0006Yp-83
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:02 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 54EFC300501F;
- Mon,  7 Oct 2019 16:05:01 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.206.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D5BA1001B11;
- Mon,  7 Oct 2019 16:04:52 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] .travis.yml: Test the release tarball
-Date: Mon,  7 Oct 2019 18:04:49 +0200
-Message-Id: <20191007160450.3619-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iHVVH-0006SF-3m; Mon, 07 Oct 2019 12:04:55 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iHVVD-0003oB-Jq; Mon, 07 Oct 2019 19:04:51 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v7 0/2] qcow2: add zstd cluster compression
+Date: Mon,  7 Oct 2019 19:04:49 +0300
+Message-Id: <20191007160451.27334-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Mon, 07 Oct 2019 16:05:01 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,73 +45,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Bruce Rogers <brogers@suse.com>, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, den@virtuozzo.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, dplotnikov@virtuozzo.com,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to generate the release tarball and build/install few
-QEMU targets from it.
+Hi all!
 
-Ideally we should build the 'efi' target from the 'roms' directory,
-but it is too time consuming.
+Here is my proposal, about how to correctly update qcow2 specification
+to introduce new field, keeping in mind currently existing images and
+downstream Qemu instances.
 
-This job is only triggered when a tag starting with 'v' is pushed,
-which is the case with release candidate tags.
+Let's consider discussing from this.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v2: addressed mdroth comments
+I called it v7, as it's a continuation of
+"[PATCH v6 0/3] qcow2: add zstd cluster compression". Still there are
+actually only two preparing patches, so, if we like them (may be after
+some resends) Denis's series should be rebased on these two patches.
 
-This job is quick enough: Ran for 16 min 33 sec
-https://travis-ci.org/philmd/qemu/jobs/594565293
+Vladimir Sementsov-Ogievskiy (2):
+  docs: improve qcow2 spec about extending image header
+  docs: qcow2: introduce compression type feature
 
-Based-on: <20191007133540.30623-1-philmd@redhat.com>
-pull request including "Fix tarball builds of UEFI/EDK2 firmware"
-https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg02734.html
----
- .travis.yml | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ docs/interop/qcow2.txt | 43 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 40 insertions(+), 3 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index d0b9e099b9..d881ea0849 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -339,3 +339,26 @@ matrix:
-         - CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64-s=
-oftmmu,alpha-softmmu"
-         - TEST_CMD=3D"make -j3 check-tcg V=3D1"
-         - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
-+
-+
-+    # Release builds
-+    # The make-release script expect a QEMU version, so our tag must sta=
-rt with a 'v'.
-+    # This is the case when release candidate tags are created.
-+    - if: tag IS present AND tag =3D~ /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-+      env:
-+        # We want to build from the release tarball
-+        - BUILD_DIR=3D"release/build/dir" SRC_DIR=3D"../../.."
-+        - BASE_CONFIG=3D"--prefix=3D$PWD/dist"
-+        - CONFIG=3D"--target-list=3Dx86_64-softmmu,aarch64-softmmu,armeb=
--linux-user,ppc-linux-user"
-+        - TEST_CMD=3D"make install -j3"
-+        - QEMU_VERSION=3D"${TRAVIS_TAG:1}"
-+        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
-+      before_script:
-+        - command -v ccache && ccache --zero-stats
-+        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-+      script:
-+        - make -C ${SRC_DIR} qemu-${QEMU_VERSION}.tar.bz2
-+        - ls -l ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2
-+        - tar -xf ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2 && cd qemu-${Q=
-EMU_VERSION}
-+        - ./configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && ex=
-it 1; }
-+        - make install
---=20
+-- 
 2.21.0
 
 
