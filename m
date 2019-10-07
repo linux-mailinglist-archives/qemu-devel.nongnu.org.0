@@ -2,51 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5C1CE1A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:27:03 +0200 (CEST)
-Received: from localhost ([::1]:44004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECCECE1D8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:36:28 +0200 (CEST)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHS6Q-0008L6-Am
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:27:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48483)
+	id 1iHSFW-0006aC-Dm
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iHRrs-0003P7-SP
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:12:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1iHS0L-00038z-8g
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:20:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iHRrr-0005NU-4N
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:12:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49404)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iHRrn-0005L9-6e; Mon, 07 Oct 2019 08:11:55 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 64391308FC22;
- Mon,  7 Oct 2019 12:11:54 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D5801001B39;
- Mon,  7 Oct 2019 12:11:46 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 15/16] tests/qemu-iotests: use AIOMODE with various tests
-Date: Mon,  7 Oct 2019 13:09:36 +0100
-Message-Id: <20191007120937.5862-16-stefanha@redhat.com>
-In-Reply-To: <20191007120937.5862-1-stefanha@redhat.com>
-References: <20191007120937.5862-1-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iHS0J-0007u0-MN
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:20:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34738)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iHS0J-0007tw-Gp
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:20:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iHS0I-0005v7-8a
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 12:20:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3B4232E8079
+ for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 12:20:42 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 07 Oct 2019 12:11:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 07 Oct 2019 12:06:12 -0000
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: aix ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gkurz leohori th-huth
+X-Launchpad-Bug-Reporter: Leonardo (leohori)
+X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
+References: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157044997214.22049.15982083758378060194.malone@gac.canonical.com>
+Subject: [Bug 1846816] Re: Booting error on AIX 6.1 "Illegal Trap Instruction
+ Interrupt in Kernel""
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0e9c2a6a7c938e9f24e7d939f3077b25ae930929
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,336 +67,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: oleksandr@redhat.com, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Julia Suvorova <jusual@mail.ru>, Julia Suvorova <jusual@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aarushi Mehta <mehta.aaru20@gmail.com>
+There are some limitations but an AIX guest can run in QEMU:
 
-Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- tests/qemu-iotests/028 |  3 ++-
- tests/qemu-iotests/058 |  2 +-
- tests/qemu-iotests/089 |  4 ++--
- tests/qemu-iotests/091 |  7 ++++---
- tests/qemu-iotests/109 |  3 ++-
- tests/qemu-iotests/147 |  5 +++--
- tests/qemu-iotests/181 | 10 +++++-----
- tests/qemu-iotests/183 |  7 ++++---
- tests/qemu-iotests/185 | 17 ++++++++++++-----
- tests/qemu-iotests/200 |  3 ++-
- tests/qemu-iotests/201 | 10 +++++-----
- 11 files changed, 42 insertions(+), 29 deletions(-)
+https://www.ibm.com/support/knowledgecenter/ssw_aix_72/aixnutanix/nutanix_c=
+oncepts.html
 
-diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
-index 71301ec6e5..eb69ef7872 100755
---- a/tests/qemu-iotests/028
-+++ b/tests/qemu-iotests/028
-@@ -108,7 +108,8 @@ echo block-backup
- echo
-=20
- qemu_comm_method=3D"monitor"
--_launch_qemu -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk
-+_launch_qemu -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D${AI=
-OMODE},\
-+id=3Ddisk
- h=3D$QEMU_HANDLE
- if [ "${VALGRIND_QEMU}" =3D=3D "y" ]; then
-     QEMU_COMM_TIMEOUT=3D7
-diff --git a/tests/qemu-iotests/058 b/tests/qemu-iotests/058
-index 8c3212a72f..38d1ed90c0 100755
---- a/tests/qemu-iotests/058
-+++ b/tests/qemu-iotests/058
-@@ -64,7 +64,7 @@ nbd_snapshot_img=3D"nbd:unix:$nbd_unix_socket"
- converted_image=3D$TEST_IMG.converted
-=20
- # Use -f raw instead of -f $IMGFMT for the NBD connection
--QEMU_IO_NBD=3D"$QEMU_IO -f raw --cache=3D$CACHEMODE"
-+QEMU_IO_NBD=3D"$QEMU_IO -f raw --cache=3D$CACHEMODE --aio=3D$AIOMODE"
-=20
- echo
- echo "=3D=3D preparing image =3D=3D"
-diff --git a/tests/qemu-iotests/089 b/tests/qemu-iotests/089
-index ad029f1f09..059ad75e28 100755
---- a/tests/qemu-iotests/089
-+++ b/tests/qemu-iotests/089
-@@ -64,7 +64,7 @@ $QEMU_IO -c 'write -P 42 0 512' -c 'write -P 23 512 512=
-' \
-=20
- $QEMU_IMG convert -f raw -O $IMGFMT "$TEST_IMG.base" "$TEST_IMG"
-=20
--$QEMU_IO_PROG --cache $CACHEMODE \
-+$QEMU_IO_PROG --cache $CACHEMODE --aio $AIOMODE \
-          -c 'read -P 42 0 512' -c 'read -P 23 512 512' \
-          -c 'read -P 66 1024 512' "json:{
-     \"driver\": \"$IMGFMT\",
-@@ -111,7 +111,7 @@ $QEMU_IO -c 'write -P 42 0x38000 512' "$TEST_IMG" | _=
-filter_qemu_io
-=20
- # The "image.filename" part tests whether "a": { "b": "c" } and "a.b": "=
-c" do
- # the same (which they should).
--$QEMU_IO_PROG --cache $CACHEMODE \
-+$QEMU_IO_PROG --cache $CACHEMODE --aio $AIOMODE  \
-      -c 'read -P 42 0x38000 512' "json:{
-     \"driver\": \"$IMGFMT\",
-     \"file\": {
-diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
-index f4b44659ae..9fd45a2c94 100755
---- a/tests/qemu-iotests/091
-+++ b/tests/qemu-iotests/091
-@@ -60,14 +60,15 @@ echo =3D=3D=3D Starting QEMU VM1 =3D=3D=3D
- echo
-=20
- qemu_comm_method=3D"monitor"
--_launch_qemu -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk
-+_launch_qemu -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D${AI=
-OMODE},\
-+             id=3Ddisk
- h1=3D$QEMU_HANDLE
-=20
- echo
- echo =3D=3D=3D Starting QEMU VM2 =3D=3D=3D
- echo
--_launch_qemu -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk =
-\
--             -incoming "exec: cat '${MIG_FIFO}'"
-+_launch_qemu -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D${AI=
-OMODE},\
-+             id=3Ddisk -incoming "exec: cat '${MIG_FIFO}'"
- h2=3D$QEMU_HANDLE
-=20
- echo
-diff --git a/tests/qemu-iotests/109 b/tests/qemu-iotests/109
-index 9897ceb6cd..451709689a 100755
---- a/tests/qemu-iotests/109
-+++ b/tests/qemu-iotests/109
-@@ -52,7 +52,8 @@ run_qemu()
-     local qmp_format=3D"$3"
-     local qmp_event=3D"$4"
-=20
--    _launch_qemu -drive file=3D"${source_img}",format=3Draw,cache=3D${CA=
-CHEMODE},id=3Dsrc
-+    _launch_qemu -drive file=3D"${source_img}",format=3Draw,cache=3D${CA=
-CHEMODE},\
-+                 aio=3D${AIOMODE},id=3Dsrc
-     _send_qemu_cmd $QEMU_HANDLE "{ 'execute': 'qmp_capabilities' }" "ret=
-urn"
-=20
-     _send_qemu_cmd $QEMU_HANDLE \
-diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
-index ab8480b9a4..6bc50ff5d9 100755
---- a/tests/qemu-iotests/147
-+++ b/tests/qemu-iotests/147
-@@ -24,7 +24,7 @@ import socket
- import stat
- import time
- import iotests
--from iotests import cachemode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_earl=
-y_pipe
-+from iotests import cachemode, aiomode, imgfmt, qemu_img, qemu_nbd, qemu=
-_nbd_early_pipe
-=20
- NBD_PORT_START      =3D 32768
- NBD_PORT_END        =3D NBD_PORT_START + 1024
-@@ -134,7 +134,8 @@ class BuiltinNBD(NBDBlockdevAddBase):
-         self.server.add_drive_raw('if=3Dnone,id=3Dnbd-export,' +
-                                   'file=3D%s,' % test_img +
-                                   'format=3D%s,' % imgfmt +
--                                  'cache=3D%s' % cachemode)
-+                                  'cache=3D%s' % cachemode +
-+                                  'aio=3D%s' % aiomode)
-         self.server.launch()
-=20
-     def tearDown(self):
-diff --git a/tests/qemu-iotests/181 b/tests/qemu-iotests/181
-index e317e63422..547c1b47b0 100755
---- a/tests/qemu-iotests/181
-+++ b/tests/qemu-iotests/181
-@@ -58,21 +58,21 @@ qemu_comm_method=3D"monitor"
-=20
- if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
-     _launch_qemu \
--        -drive "${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk
-+        -drive "${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,id=3Ddi=
-sk
- else
-     _launch_qemu \
--        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},driver=3D$IMGFM=
-T,id=3Ddisk
-+        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,=
-driver=3D$IMGFMT,id=3Ddisk
- fi
- src=3D$QEMU_HANDLE
-=20
- if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
-     _launch_qemu \
--        -drive "${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk \
-+        -drive "${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,id=3Ddi=
-sk \
-         -incoming "unix:${MIG_SOCKET}"
- else
-     _launch_qemu \
--        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},driver=3D$IMGFM=
-T,id=3Ddisk \
--        -incoming "unix:${MIG_SOCKET}"
-+        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,=
-driver=3D$IMGFMT,\
-+        id=3Ddisk -incoming "unix:${MIG_SOCKET}"
- fi
- dest=3D$QEMU_HANDLE
-=20
-diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
-index 04fb344d08..057fdf0514 100755
---- a/tests/qemu-iotests/183
-+++ b/tests/qemu-iotests/183
-@@ -56,13 +56,14 @@ echo
- qemu_comm_method=3D"qmp"
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,driver=3D$IMGFMT,id=3D=
-disk
-+    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,aio=3D$AIOMODE,\
-+    driver=3D$IMGFMT,id=3Ddisk
- src=3D$QEMU_HANDLE
- _send_qemu_cmd $src "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}.dest",cache=3D$CACHEMODE,driver=3D$IMGFMT=
-,id=3Ddisk \
--    -incoming "unix:${MIG_SOCKET}"
-+    -drive file=3D"${TEST_IMG}.dest",cache=3D$CACHEMODE,aio=3D$AIOMODE,\
-+    driver=3D$IMGFMT,id=3Ddisk -incoming "unix:${MIG_SOCKET}"
- dest=3D$QEMU_HANDLE
- _send_qemu_cmd $dest "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
-diff --git a/tests/qemu-iotests/185 b/tests/qemu-iotests/185
-index 454ff600cc..1c74a0ef5a 100755
---- a/tests/qemu-iotests/185
-+++ b/tests/qemu-iotests/185
-@@ -54,7 +54,8 @@ echo
- qemu_comm_method=3D"qmp"
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}.base",cache=3D$CACHEMODE,driver=3D$IMGFMT=
-,id=3Ddisk
-+    -drive file=3D"${TEST_IMG}.base",cache=3D$CACHEMODE,aio=3D$AIOMODE,\
-+    driver=3D$IMGFMT,id=3Ddisk
- h=3D$QEMU_HANDLE
- _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
-@@ -125,7 +126,8 @@ echo =3D=3D=3D Start active commit job and exit qemu =
-=3D=3D=3D
- echo
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,driver=3D$IMGFMT,id=3D=
-disk
-+    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,aio=3D$AIOMODE,driver=
-=3D$IMGFMT,\
-+    id=3Ddisk
- h=3D$QEMU_HANDLE
- _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
-@@ -147,7 +149,8 @@ echo =3D=3D=3D Start mirror job and exit qemu =3D=3D=3D
- echo
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,driver=3D$IMGFMT,id=3D=
-disk
-+    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,aio=3D$AIOMODE,driver=
-=3D$IMGFMT,\
-+    id=3Ddisk
- h=3D$QEMU_HANDLE
- _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
-@@ -172,7 +175,9 @@ echo =3D=3D=3D Start backup job and exit qemu =3D=3D=3D
- echo
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,driver=3D$IMGFMT,id=3D=
-disk
-+    _launch_qemu \
-+    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,aio=3D$AIOMODE,driver=
-=3D$IMGFMT,\
-+    id=3Ddisk
- h=3D$QEMU_HANDLE
- _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
-@@ -196,7 +201,9 @@ echo =3D=3D=3D Start streaming job and exit qemu =3D=3D=
-=3D
- echo
-=20
- _launch_qemu \
--    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,driver=3D$IMGFMT,id=3D=
-disk
-+    _launch_qemu \
-+    -drive file=3D"${TEST_IMG}",cache=3D$CACHEMODE,aio=3D$AIOMODE,driver=
-=3D$IMGFMT,\
-+    id=3Ddisk
- h=3D$QEMU_HANDLE
- _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
-=20
-diff --git a/tests/qemu-iotests/200 b/tests/qemu-iotests/200
-index 72d431f251..b554dd947b 100755
---- a/tests/qemu-iotests/200
-+++ b/tests/qemu-iotests/200
-@@ -66,7 +66,8 @@ echo =3D=3D=3D Starting QEMU VM =3D=3D=3D
- echo
- qemu_comm_method=3D"qmp"
- _launch_qemu -object iothread,id=3Diothread0 $virtio_scsi \
--             -drive file=3D"${TEST_IMG}",media=3Ddisk,if=3Dnone,cache=3D=
-$CACHEMODE,id=3Ddrive_sysdisk,format=3D$IMGFMT \
-+             -drive file=3D"${TEST_IMG}",media=3Ddisk,if=3Dnone,cache=3D=
-$CACHEMODE,\
-+             aio=3D$AIOMODE,id=3Ddrive_sysdisk,format=3D$IMGFMT \
-              -device scsi-hd,drive=3Ddrive_sysdisk,bus=3Dscsi0.0,id=3Dsy=
-sdisk,bootindex=3D0
- h1=3D$QEMU_HANDLE
-=20
-diff --git a/tests/qemu-iotests/201 b/tests/qemu-iotests/201
-index 7abf740fe4..48837c4f30 100755
---- a/tests/qemu-iotests/201
-+++ b/tests/qemu-iotests/201
-@@ -58,21 +58,21 @@ qemu_comm_method=3D"monitor"
-=20
- if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
-     _launch_qemu \
--        -drive "${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk
-+        -drive "${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,id=3Ddi=
-sk
- else
-     _launch_qemu \
--        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},driver=3D$IMGFM=
-T,id=3Ddisk
-+        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,=
-driver=3D$IMGFMT,id=3Ddisk
- fi
- src=3D$QEMU_HANDLE
-=20
- if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
-     _launch_qemu \
--        -drive "${TEST_IMG}",cache=3D${CACHEMODE},id=3Ddisk \
-+        -drive "${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,id=3Ddi=
-sk \
-         -incoming "unix:${MIG_SOCKET}"
- else
-     _launch_qemu \
--        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},driver=3D$IMGFM=
-T,id=3Ddisk \
--        -incoming "unix:${MIG_SOCKET}"
-+        -drive file=3D"${TEST_IMG}",cache=3D${CACHEMODE},aio=3D$AIOMODE,=
-driver=3D$IMGFMT,\
-+        id=3Ddisk -incoming "unix:${MIG_SOCKET}"
- fi
- dest=3D$QEMU_HANDLE
-=20
---=20
-2.21.0
+The command line in the bug description uses an old syntax:
 
+# qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries ...
+
+This should be:
+
+# qemu-system-ppc64 -cpu POWER8 -machine pseries,max-cpu-compat=3Dpower7
+
+The following error message seems to indicate that this AIX instance
+doesn't support POWER7 architected mode (which I don't think is actively
+tested and supported by the way).
+
+ qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
+
+Maybe try again with max-cpu-compat=3Dpower8 instead ?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846816
+
+Title:
+  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
+  Kernel""
+
+Status in QEMU:
+  New
+
+Bug description:
+  # ls -ltr
+  total 8750584
+  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
+  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
+  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
+  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
+
+  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
+-serial mon:stdio \
+  > -drive file=3D/qemu/BST/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
+  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
+disk0 \
+  > -cdrom /qemu/BST/AIX.vol1.iso \
+  > -prom-env boot-command=3D'boot cdrom: -s verbose'
+
+  =
+
+  VNC server running on ::1:5900
+  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
+s=3Dworkaround
+
+  =
+
+  SLOF ********************************************************************=
+**
+  QEMU Starting
+   Build Date =3D Jul  3 2019 12:26:14
+   FW Version =3D git-ba1ab360eebe6338
+   Press "s" to enter Open Firmware.
+
+  Populating /vdevice methods
+  Populating /vdevice/vty@71000000
+  Populating /vdevice/nvram@71000001
+  Populating /vdevice/l-lan@71000002
+  Populating /vdevice/v-scsi@71000003
+         SCSI: Looking for devices
+            8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+  Populating /pci@800000020000000
+                       00 0000 (D) : 1234 1111    qemu vga
+                       00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
+                       00 1000 (D) : 1af4 1004    virtio [ scsi ]
+  Populating /pci@800000020000000/scsi@2
+         SCSI: Looking for devices
+            100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+  Installing QEMU fb
+
+
+  Scanning USB
+    XHCI: Initializing
+      USB Keyboard
+      USB mouse
+  No console specified using screen & keyboard
+
+    Welcome to Open Firmware
+
+    Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+    This program and the accompanying materials are made available
+    under the terms of the BSD License available at
+    http://www.opensource.org/licenses/bsd-license.php
+
+  =
+
+  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
+000000: ...   Successfully loaded
+  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
+  AIX
+  StarLED{814}
+
+  AIX Version 6.1
+  exec(/etc/init){1,0}
+
+  INIT: EXECUTING /sbin/rc.boot 1
+  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
+  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
+  + PHASE=3D1
+  + + bootinfo -p
+  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
+  PLATFORM=3Dchrp
+  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
+  + [ 1 -eq 1 ]
+  + 1> /usr/lib/libc.a
+  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
+  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
+  + chramfs -t
+  exec(/usr/sbin/chramfs,-t){1179688,1114146}
+  + init -c unlink /usr/sbin/chramfs
+  + 1> /dev/null
+  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
+  + + bootinfo -t
+  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
+  BOOTYPE=3D3
+  + [ 0 -ne 0 ]
+  + [ -z 3 ]
+  + unset pdev_to_ldev undolt native_netboot_cfg
+  + unset disknet_odm_init config_ATM
+  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
+  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
+  + cfgmgr -f -v
+  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
+  cfgmgr is running in phase 1
+  ----------------
+  Time: 0 LEDS: 0x538
+  Invoking top level program -- "/etc/methods/defsys"
+  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
+  exec(/etc/methods/defsys){1245222,1179696}
+  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
+310760,1245222}
+  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
+222}
+  Time: 0 LEDS: 0x539
+  Return code =3D 0
+  ***** stdout *****
+  sys0
+
+  *** no stderr ****
+  ----------------
+  Attempting to configure device 'sys0'
+  Time: 0 LEDS: 0x811
+  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
+  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
+  Number of running methods: 1
+  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
+  LED{A20}
+  Illegal Trap Instruction Interrupt in Kernel
+  04151A74      tweqi    r0,0                r0=3D0
+  KDB(0)>
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
 
