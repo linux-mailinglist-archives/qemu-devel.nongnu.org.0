@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EF3CE18C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:25:21 +0200 (CEST)
-Received: from localhost ([::1]:43990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA53CE17F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:21:04 +0200 (CEST)
+Received: from localhost ([::1]:43940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHS4l-0006le-MO
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:25:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48279)
+	id 1iHS0d-0002KG-MY
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:21:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48331)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iHRrE-0002kh-Qt
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:21 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iHRrU-0002sn-DY
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iHRrD-0004qq-Av
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36462)
+ (envelope-from <stefanha@redhat.com>) id 1iHRrS-00050f-Cb
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:11:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37326)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iHRrA-0004pv-K3; Mon, 07 Oct 2019 08:11:16 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iHRrK-0004rn-FN; Mon, 07 Oct 2019 08:11:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C9D1C85362;
- Mon,  7 Oct 2019 12:11:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3F5AB30832C8;
+ Mon,  7 Oct 2019 12:11:25 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE47C6061E;
- Mon,  7 Oct 2019 12:11:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 376AA1001B39;
+ Mon,  7 Oct 2019 12:11:17 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/16] qemu-io: adds option to use aio engine
-Date: Mon,  7 Oct 2019 13:09:32 +0100
-Message-Id: <20191007120937.5862-12-stefanha@redhat.com>
+Subject: [PATCH 12/16] qemu-img: adds option to use aio engine for benchmarking
+Date: Mon,  7 Oct 2019 13:09:33 +0100
+Message-Id: <20191007120937.5862-13-stefanha@redhat.com>
 In-Reply-To: <20191007120937.5862-1-stefanha@redhat.com>
 References: <20191007120937.5862-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 07 Oct 2019 12:11:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Mon, 07 Oct 2019 12:11:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -68,92 +68,106 @@ From: Aarushi Mehta <mehta.aaru20@gmail.com>
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- qemu-io.c | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+v10:
+ * Add missing space to qemu-img command-line documentation
+---
+ qemu-img.c       | 11 ++++++++++-
+ qemu-img-cmds.hx |  4 ++--
+ qemu-img.texi    |  5 ++++-
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/qemu-io.c b/qemu-io.c
-index f64eca6940..0abb4af134 100644
---- a/qemu-io.c
-+++ b/qemu-io.c
-@@ -130,7 +130,8 @@ static void open_help(void)
- " -C, -- use copy-on-read\n"
- " -n, -- disable host cache, short for -t none\n"
- " -U, -- force shared permissions\n"
--" -k, -- use kernel AIO implementation (on Linux only)\n"
-+" -k, -- use kernel AIO implementation (Linux only, prefer use of -i)\n"
-+" -i, -- use AIO mode (threads, native or io_uring)\n"
- " -t, -- use the given cache mode for the image\n"
- " -d, -- use the given discard mode for the image\n"
- " -o, -- options to be given to the block driver"
-@@ -172,7 +173,7 @@ static int open_f(BlockBackend *blk, int argc, char *=
-*argv)
-     QDict *opts;
-     bool force_share =3D false;
-=20
--    while ((c =3D getopt(argc, argv, "snCro:kt:d:U")) !=3D -1) {
-+    while ((c =3D getopt(argc, argv, "snCro:ki:t:d:U")) !=3D -1) {
-         switch (c) {
-         case 's':
-             flags |=3D BDRV_O_SNAPSHOT;
-@@ -204,6 +205,13 @@ static int open_f(BlockBackend *blk, int argc, char =
-**argv)
-                 return -EINVAL;
-             }
+diff --git a/qemu-img.c b/qemu-img.c
+index 384c6f38bc..77084c127b 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -4202,7 +4202,8 @@ static int img_bench(int argc, char **argv)
+             {"force-share", no_argument, 0, 'U'},
+             {0, 0, 0, 0}
+         };
+-        c =3D getopt_long(argc, argv, ":hc:d:f:no:qs:S:t:wU", long_optio=
+ns, NULL);
++        c =3D getopt_long(argc, argv, ":hc:d:f:ni:o:qs:S:t:wU", long_opt=
+ions,
++                        NULL);
+         if (c =3D=3D -1) {
              break;
-+        case 'i':
-+            if (bdrv_parse_aio(optarg, &flags) < 0) {
-+                error_report("Invalid aio option: %s", optarg);
-+                qemu_opts_reset(&empty_opts);
-+                return -EINVAL;
-+            }
-+            break;
-         case 'o':
-             if (imageOpts) {
-                 printf("--image-opts and 'open -o' are mutually exclusiv=
-e\n");
-@@ -291,7 +299,9 @@ static void usage(const char *name)
- "  -n, --nocache        disable host cache, short for -t none\n"
- "  -C, --copy-on-read   enable copy-on-read\n"
- "  -m, --misalign       misalign allocations for O_DIRECT\n"
--"  -k, --native-aio     use kernel AIO implementation (on Linux only)\n"
-+"  -k, --native-aio     use kernel AIO implementation\n"
-+"                       (Linux only, prefer use of -i)\n"
-+"  -i, --aio=3DMODE       use AIO mode (threads, native or io_uring)\n"
- "  -t, --cache=3DMODE     use the given cache mode for the image\n"
- "  -d, --discard=3DMODE   use the given discard mode for the image\n"
- "  -T, --trace [[enable=3D]<pattern>][,events=3D<file>][,file=3D<file>]\=
-n"
-@@ -489,7 +499,7 @@ static QemuOptsList file_opts =3D {
- int main(int argc, char **argv)
- {
-     int readonly =3D 0;
--    const char *sopt =3D "hVc:d:f:rsnCmkt:T:U";
-+    const char *sopt =3D "hVc:d:f:rsnCmki:t:T:U";
-     const struct option lopt[] =3D {
-         { "help", no_argument, NULL, 'h' },
-         { "version", no_argument, NULL, 'V' },
-@@ -501,6 +511,7 @@ int main(int argc, char **argv)
-         { "copy-on-read", no_argument, NULL, 'C' },
-         { "misalign", no_argument, NULL, 'm' },
-         { "native-aio", no_argument, NULL, 'k' },
-+        { "aio", required_argument, NULL, 'i' },
-         { "discard", required_argument, NULL, 'd' },
-         { "cache", required_argument, NULL, 't' },
-         { "trace", required_argument, NULL, 'T' },
-@@ -568,6 +579,12 @@ int main(int argc, char **argv)
-         case 'k':
+         }
+@@ -4245,6 +4246,14 @@ static int img_bench(int argc, char **argv)
+         case 'n':
              flags |=3D BDRV_O_NATIVE_AIO;
              break;
 +        case 'i':
-+            if (bdrv_parse_aio(optarg, &flags) < 0) {
++            ret =3D bdrv_parse_aio(optarg, &flags);
++            if (ret < 0) {
 +                error_report("Invalid aio option: %s", optarg);
-+                exit(1);
++                ret =3D -1;
++                goto out;
 +            }
 +            break;
-         case 't':
-             if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0=
-) {
-                 error_report("Invalid cache option: %s", optarg);
+         case 'o':
+         {
+             offset =3D cvtnum(optarg);
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 1c93e6d185..77b5a8dda8 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -20,9 +20,9 @@ STEXI
+ ETEXI
+=20
+ DEF("bench", img_bench,
+-    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
+rval] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer=
+_size] [-S step_size] [-t cache] [-w] [-U] filename")
++    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
+rval] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer=
+_size] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
+ STEXI
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-in=
+terval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pat=
+tern=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-=
+t @var{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-in=
+terval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pat=
+tern=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-=
+t @var{cache}] [-i @var{aio}] [-w] [-U] @var{filename}
+ ETEXI
+=20
+ DEF("check", img_check,
+diff --git a/qemu-img.texi b/qemu-img.texi
+index b5156d6316..20136fcb94 100644
+--- a/qemu-img.texi
++++ b/qemu-img.texi
+@@ -206,7 +206,7 @@ Command description:
+ Amends the image format specific @var{options} for the image file
+ @var{filename}. Not all file formats support this operation.
+=20
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-in=
+terval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pat=
+tern=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-=
+t @var{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-in=
+terval=3D@var{flush_interval}] [-n] [-i @var{aio}] [--no-drain] [-o @var{=
+offset}] [--pattern=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var=
+{step_size}] [-t @var{cache}] [-w] [-U] @var{filename}
+=20
+ Run a simple sequential I/O benchmark on the specified image. If @code{-=
+w} is
+ specified, a write test is performed, otherwise a read test is performed=
+.
+@@ -227,6 +227,9 @@ If @code{-n} is specified, the native AIO backend is =
+used if possible. On
+ Linux, this option only works if @code{-t none} or @code{-t directsync} =
+is
+ specified as well.
+=20
++If @code{-i} is specified, aio option can be used to specify different A=
+IO
++backends: @var{threads}, @var{native} or @var{io_uring}.
++
+ For write tests, by default a buffer filled with zeros is written. This =
+can be
+ overridden with a pattern byte specified by @var{pattern}.
+=20
 --=20
 2.21.0
 
