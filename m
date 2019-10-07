@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0985FCE857
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:53:52 +0200 (CEST)
-Received: from localhost ([::1]:46566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87687CE866
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:55:51 +0200 (CEST)
+Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVKY-0006cE-NP
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
+	id 1iHVMU-0000q9-0U
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:55:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iHVEg-0001Ke-OB
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:47:48 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iHVFn-0001sU-F0
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:48:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iHVEf-0005QE-NL
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:47:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60488)
+ (envelope-from <mreitz@redhat.com>) id 1iHVFm-00062f-7B
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:48:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43690)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iHVEd-0005Oj-38; Mon, 07 Oct 2019 11:47:43 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iHVFj-0005yn-I0; Mon, 07 Oct 2019 11:48:51 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0C7E518C8922;
- Mon,  7 Oct 2019 15:47:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BFCECC049E1A;
+ Mon,  7 Oct 2019 15:48:50 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.196])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16EA44108;
- Mon,  7 Oct 2019 15:47:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E65085D9CC;
+ Mon,  7 Oct 2019 15:48:46 +0000 (UTC)
 Subject: Re: [PATCH 6/6] block/block-copy: increase buffered copy request
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
@@ -59,18 +59,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c6c8da57-69d9-e22a-21c1-fbf73b37f024@redhat.com>
-Date: Mon, 7 Oct 2019 17:47:36 +0200
+Message-ID: <441fc41e-0432-978a-9568-60b651cbf25b@redhat.com>
+Date: Mon, 7 Oct 2019 17:48:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
 In-Reply-To: <20191003171539.12327-7-vsementsov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Mon, 07 Oct 2019 15:47:42 +0000 (UTC)
+ boundary="IGDOpKAG81JZzKypHCpbzYUQdGTZ3XlOG"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Mon, 07 Oct 2019 15:48:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -90,10 +90,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM
-Content-Type: multipart/mixed; boundary="i2eKaxMnLsv0p60UfD4MrycpA79VRzpxm"
+--IGDOpKAG81JZzKypHCpbzYUQdGTZ3XlOG
+Content-Type: multipart/mixed; boundary="EkYls8C4E5UJ9XdzSyWfhDu9gMoKZXn5v"
 
---i2eKaxMnLsv0p60UfD4MrycpA79VRzpxm
+--EkYls8C4E5UJ9XdzSyWfhDu9gMoKZXn5v
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -109,27 +109,87 @@ On 03.10.19 19:15, Vladimir Sementsov-Ogievskiy wrote:
 
 >  2 files changed, 32 insertions(+), 14 deletions(-)
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+Er, oops, looks like I was a bit quick there...
+
+> @@ -100,17 +101,28 @@ BlockCopyState *block_copy_state_new(BdrvChild *s=
+ource, BdrvChild *target,
+>          .mem =3D qemu_co_shared_amount_new(BLOCK_COPY_MAX_MEM),
+>      };
+> =20
+> -    s->copy_range_size =3D QEMU_ALIGN_DOWN(max_transfer, cluster_size)=
+,
+> -    /*
+> -     * Set use_copy_range, consider the following:
+> -     * 1. Compression is not supported for copy_range.
+> -     * 2. copy_range does not respect max_transfer (it's a TODO), so w=
+e factor
+> -     *    that in here. If max_transfer is smaller than the job->clust=
+er_size,
+> -     *    we do not use copy_range (in that case it's zero after align=
+ing down
+> -     *    above).
+> -     */
+> -    s->use_copy_range =3D
+> -        !(write_flags & BDRV_REQ_WRITE_COMPRESSED) && s->copy_range_si=
+ze > 0;
+> +    if (max_transfer < cluster_size) {
+> +        /*
+> +         * copy_range does not respect max_transfer. We don't want to =
+bother
+> +         * with requests smaller than block-copy cluster size, so fall=
+back to
+> +         * buffered copying (read and write respect max_transfer on th=
+eir
+> +         * behalf).
+> +         */
+> +        s->use_copy_range =3D false;
+> +        s->copy_size =3D cluster_size;
+> +    } else if (write_flags & BDRV_REQ_WRITE_COMPRESSED) {
+> +        /* Compression is not supported for copy_range */
+> +        s->use_copy_range =3D false;
+> +        s->copy_size =3D MAX(cluster_size, BLOCK_COPY_MAX_BUFFER);
+> +    } else {
+> +        /*
+> +         * copy_range does not respect max_transfer (it's a TODO), so =
+we factor
+> +         * that in here.
+> +         */
+> +        s->use_copy_range =3D true;
+> +        s->copy_size =3D MIN(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RAN=
+GE),
+
+This is already part of max_transfer, isn=E2=80=99t it?
+
+(That doesn=E2=80=99t make it wrong, but I think max_transfer will always=
+ be
+less than or equal to MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE) anyway=
+=2E)
+
+Max
+
+> +                           QEMU_ALIGN_DOWN(max_transfer, cluster_size)=
+);
 
 
---i2eKaxMnLsv0p60UfD4MrycpA79VRzpxm--
+--EkYls8C4E5UJ9XdzSyWfhDu9gMoKZXn5v--
 
---U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM
+--IGDOpKAG81JZzKypHCpbzYUQdGTZ3XlOG
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2bXhgACgkQ9AfbAGHV
-z0COzQf+LUhjpEyP2EkC/wSC7sRmGm3IZLKi2FF3Gev7Q2tIOFD4HYMleocfvgyj
-SsjHpfVYPlJ4OgpFfQniM/WEkFASkGTgWbklaz+DsS2QNO3T9815RtCX5L1JQvvQ
-H6Vh1au+IrCJA9Hel61McjKeC39b5PiH0cNxMOuDv66UT3EJeDSAtXDXUHK43q2U
-F2cxxJ32dGKwONi6ABncCuofqqIe8NQKyroTbWhDiyMX7xhmBU9GoqblmpjqVraZ
-St7ErkmPaKVSPF9lQAzdxcxeo9qH9jwCXVTKFSfV53mwQsnPz4NlccghxtQ2ojJ9
-mW+4h8XwogOIpvabYMxcoYqeYZfpuA==
-=CIih
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2bXl0ACgkQ9AfbAGHV
+z0Cccgf/fVCWEiGWvL3pIu4g/BTz8scnhzB9u+G0BL+ugdi741jc0UE/RcCPPM3V
+lS4U5+cTiYPfEKAwByzFOtIUyo2fvcvvq2u4pxT7otOFk1b/RuRrLTqa4s0BJXxP
+qqW0SMvR5cC21BgQY4H5Z9pXXqQ8+91loTxIjnkkPEw0Eg1e8xf/ANSRhpfP5TGi
+wsHCX38ngZycyzFsW2SNWNrFewHoUJnQnTIGT5J4s6cDvkyDwpNtZwhHxsm2yQn0
+lZIuQKFXdz2DGicPThqmWxeZBUejKkBsVjQDHpg5KOjh7yBwB54PCFzte0VI+PBr
+fmtYcHNcmpA5BzJxWxaM/xjd2BUM0g==
+=ozrR
 -----END PGP SIGNATURE-----
 
---U8VcHXSeVmlwXd6pPtF7slCEvRFr2P4NM--
+--IGDOpKAG81JZzKypHCpbzYUQdGTZ3XlOG--
 
