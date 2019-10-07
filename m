@@ -2,52 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4EACDDEC
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 11:04:43 +0200 (CEST)
-Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8E6CDE0A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 11:12:07 +0200 (CEST)
+Received: from localhost ([::1]:41988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHOwd-0002ZM-1H
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 05:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51705)
+	id 1iHP3m-00052A-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 05:12:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52651)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iHOul-0001PV-BR
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:02:52 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iHP2M-00040g-43
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:10:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iHOui-0005K4-JC
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:02:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55436)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iHP2K-0000Gj-Ne
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:10:37 -0400
+Received: from mga14.intel.com ([192.55.52.115]:12001)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1iHOui-0005J9-BB; Mon, 07 Oct 2019 05:02:44 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 935D086663;
- Mon,  7 Oct 2019 09:02:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FCFA5C1D4;
- Mon,  7 Oct 2019 09:02:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 70FCD1138648; Mon,  7 Oct 2019 11:02:26 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] xive: Make some device types not user creatable
-References: <157017473006.331610.2983143972519884544.stgit@bahia.lan>
-Date: Mon, 07 Oct 2019 11:02:26 +0200
-In-Reply-To: <157017473006.331610.2983143972519884544.stgit@bahia.lan> (Greg
- Kurz's message of "Fri, 04 Oct 2019 09:38:50 +0200")
-Message-ID: <87lftxhqsd.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 07 Oct 2019 09:02:42 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1iHP2K-0000Dv-GF
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 05:10:36 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2019 02:10:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,267,1566889200"; d="scan'208";a="193039245"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga007.fm.intel.com with ESMTP; 07 Oct 2019 02:10:27 -0700
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: quintela@redhat.com,
+	dgilbert@redhat.com
+Subject: [PATCH] migration/postcopy: not necessary to discard all RAM at the
+ beginning
+Date: Mon,  7 Oct 2019 17:10:08 +0800
+Message-Id: <20191007091008.9435-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,93 +52,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
+ram_discard_range() unmap page for specific range. To be specific, this
+clears related page table entries so that userfault would be triggered.
+But this step is not necessary at the very beginning.
 
-> Some device types of the XIVE model are exposed to the QEMU command
-> line:
->
-> $ ppc64-softmmu/qemu-system-ppc64 -device help | grep xive
-> name "xive-end-source", desc "XIVE END Source"
-> name "xive-source", desc "XIVE Interrupt Source"
-> name "xive-tctx", desc "XIVE Interrupt Thread Context"
->
-> These are internal devices that shouldn't be instantiable by the
-> user. By the way, they can't be because their respective realize
-> functions expect link properties that can't be set from the command
-> line:
->
-> qemu-system-ppc64: -device xive-source: required link 'xive' not found:
->  Property '.xive' not found
-> qemu-system-ppc64: -device xive-end-source: required link 'xive' not found:
->  Property '.xive' not found
-> qemu-system-ppc64: -device xive-tctx: required link 'cpu' not found:
->  Property '.cpu' not found
->
-> Hide them by setting dc->user_creatable to false in their respective
-> class init functions.
->
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  hw/intc/xive.c |    3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 29df06df1136..6c54a35fd4bb 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -670,6 +670,7 @@ static void xive_tctx_class_init(ObjectClass *klass, void *data)
->      dc->realize = xive_tctx_realize;
->      dc->unrealize = xive_tctx_unrealize;
->      dc->vmsd = &vmstate_xive_tctx;
-> +    dc->user_creatable = false;
->  }
->  
->  static const TypeInfo xive_tctx_info = {
-> @@ -1118,6 +1119,7 @@ static void xive_source_class_init(ObjectClass *klass, void *data)
->      dc->props   = xive_source_properties;
->      dc->realize = xive_source_realize;
->      dc->vmsd    = &vmstate_xive_source;
-> +    dc->user_creatable = false;
->  }
->  
->  static const TypeInfo xive_source_info = {
-> @@ -1853,6 +1855,7 @@ static void xive_end_source_class_init(ObjectClass *klass, void *data)
->      dc->desc    = "XIVE END Source";
->      dc->props   = xive_end_source_properties;
->      dc->realize = xive_end_source_realize;
-> +    dc->user_creatable = false;
->  }
->  
->  static const TypeInfo xive_end_source_info = {
+ram_postcopy_incoming_init() is called when destination gets ADVISE
+command. ADVISE command is sent when migration thread just starts, which
+implies destination is not running yet. This means no page fault
+happened and memory region's page tables entries are empty.
 
-These all need a comment like the existing ->user_creatable = false
-have.
+This patch removes the discard at the beginning.
 
-Your commit message mentions link properties.  Based on that:
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+---
+ migration/postcopy-ram.c | 46 ----------------------------------------
+ migration/postcopy-ram.h |  7 ------
+ migration/ram.c          | 16 --------------
+ migration/ram.h          |  1 -
+ migration/savevm.c       |  4 ----
+ 5 files changed, 74 deletions(-)
 
-    /*
-     * Reason: link property 'NAME-OF-PROP' needs to be wired up.
-     */
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 5da6de8c8b..459be8e780 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -443,32 +443,6 @@ out:
+     return ret;
+ }
+ 
+-/*
+- * Setup an area of RAM so that it *can* be used for postcopy later; this
+- * must be done right at the start prior to pre-copy.
+- * opaque should be the MIS.
+- */
+-static int init_range(RAMBlock *rb, void *opaque)
+-{
+-    const char *block_name = qemu_ram_get_idstr(rb);
+-    void *host_addr = qemu_ram_get_host_addr(rb);
+-    ram_addr_t offset = qemu_ram_get_offset(rb);
+-    ram_addr_t length = qemu_ram_get_used_length(rb);
+-    trace_postcopy_init_range(block_name, host_addr, offset, length);
+-
+-    /*
+-     * We need the whole of RAM to be truly empty for postcopy, so things
+-     * like ROMs and any data tables built during init must be zero'd
+-     * - we're going to get the copy from the source anyway.
+-     * (Precopy will just overwrite this data, so doesn't need the discard)
+-     */
+-    if (ram_discard_range(block_name, 0, length)) {
+-        return -1;
+-    }
+-
+-    return 0;
+-}
+-
+ /*
+  * At the end of migration, undo the effects of init_range
+  * opaque should be the MIS.
+@@ -506,20 +480,6 @@ static int cleanup_range(RAMBlock *rb, void *opaque)
+     return 0;
+ }
+ 
+-/*
+- * Initialise postcopy-ram, setting the RAM to a state where we can go into
+- * postcopy later; must be called prior to any precopy.
+- * called from arch_init's similarly named ram_postcopy_incoming_init
+- */
+-int postcopy_ram_incoming_init(MigrationIncomingState *mis)
+-{
+-    if (foreach_not_ignored_block(init_range, NULL)) {
+-        return -1;
+-    }
+-
+-    return 0;
+-}
+-
+ /*
+  * Manage a single vote to the QEMU balloon inhibitor for all postcopy usage,
+  * last caller wins.
+@@ -1282,12 +1242,6 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
+     return false;
+ }
+ 
+-int postcopy_ram_incoming_init(MigrationIncomingState *mis)
+-{
+-    error_report("postcopy_ram_incoming_init: No OS support");
+-    return -1;
+-}
+-
+ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
+ {
+     assert(0);
+diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+index c0ccf64a96..1c79c6e51f 100644
+--- a/migration/postcopy-ram.h
++++ b/migration/postcopy-ram.h
+@@ -22,13 +22,6 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis);
+  */
+ int postcopy_ram_incoming_setup(MigrationIncomingState *mis);
+ 
+-/*
+- * Initialise postcopy-ram, setting the RAM to a state where we can go into
+- * postcopy later; must be called prior to any precopy.
+- * called from ram.c's similarly named ram_postcopy_incoming_init
+- */
+-int postcopy_ram_incoming_init(MigrationIncomingState *mis);
+-
+ /*
+  * At the end of a migration where postcopy_ram_incoming_init was called.
+  */
+diff --git a/migration/ram.c b/migration/ram.c
+index dfc50d57d5..9a853703d8 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4015,22 +4015,6 @@ static int ram_load_cleanup(void *opaque)
+     return 0;
+ }
+ 
+-/**
+- * ram_postcopy_incoming_init: allocate postcopy data structures
+- *
+- * Returns 0 for success and negative if there was one error
+- *
+- * @mis: current migration incoming state
+- *
+- * Allocate data structures etc needed by incoming migration with
+- * postcopy-ram. postcopy-ram's similarly names
+- * postcopy_ram_incoming_init does the work.
+- */
+-int ram_postcopy_incoming_init(MigrationIncomingState *mis)
+-{
+-    return postcopy_ram_incoming_init(mis);
+-}
+-
+ /**
+  * ram_load_postcopy: load a page in postcopy case
+  *
+diff --git a/migration/ram.h b/migration/ram.h
+index 44fe4753ad..66cbff1d52 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -58,7 +58,6 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms);
+ int ram_postcopy_send_discard_bitmap(MigrationState *ms);
+ /* For incoming postcopy discard */
+ int ram_discard_range(const char *block_name, uint64_t start, size_t length);
+-int ram_postcopy_incoming_init(MigrationIncomingState *mis);
+ bool postcopy_is_running(void);
+ 
+ void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 9dc191e0a0..d2a427a3bf 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1674,10 +1674,6 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+         return -1;
+     }
+ 
+-    if (ram_postcopy_incoming_init(mis)) {
+-        return -1;
+-    }
+-
+     return 0;
+ }
+ 
+-- 
+2.17.1
 
-Rather minimal, though.  Several existing similar cases are a bit more
-specific, which is nice:
-
-    /*
-     * Reason: part of WHATEVER, needs to be wired up by FUNCTION().
-     */
-
-or if there is or could be more than one FUNCTION():
-
-    /*
-     * Reason: part of WHATEVER, needs to be wired up, e.g. by FUNCTION().
-     */
-
-David queued your patch already.  If it goes into master without such
-comments, please post them as a follow-up patch.
 
