@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8809CCDD6F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 10:36:46 +0200 (CEST)
-Received: from localhost ([::1]:41648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C007CDD8A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 10:44:40 +0200 (CEST)
+Received: from localhost ([::1]:41698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHOVZ-0002HV-K0
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 04:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48466)
+	id 1iHOdD-0005qP-5H
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 04:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHOUW-0001kP-1T
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:35:41 -0400
+ (envelope-from <clg@kaod.org>) id 1iHOaX-0003gp-Tb
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:41:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHOUU-0001Tk-QS
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:35:39 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33296)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHOUU-0001T7-Hi
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:35:38 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b9so14177347wrs.0
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 01:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=e36vx9BToZ9Dyu8TCTwUtoyCICJ1SNfGmKrG/1vaxjk=;
- b=SW2myWjbGRJ3n7ZCL6NRU0MF/vj6L2Ksa4XHbo6OvDg80VA7ikxcgjd5Tm8PuwMxhP
- cYp+wHr3+D7AiF7Fi7um9hbbWejk550t80MNHVFAXREh2qL9D5FT+VCLXIEEL7igXNdN
- i4Z+hXoBR6x2XvNQ7LVVlhVfMcSLUJWYHreNO0CBaSsd0wbpV9aCIdMpvJgBvXng1KKN
- yM+XZvyX3TFLU0RoHT3iUt8a1DuFcYxrBEFjjPv59IXD0NboHUjYOdEPu2xkM+PmPhAP
- O9qH/dpO8hLP3EX/4YnVIMByZZFlQ1slSAbAw/bqlCWG8N9uqt9r2/Zo+hInrXLuqhor
- P/RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=e36vx9BToZ9Dyu8TCTwUtoyCICJ1SNfGmKrG/1vaxjk=;
- b=QZ+ESssFE28RXRl1SP6H+LXw5Zy0738tiM6OuhHYjmnuJMhkZw+bTFY2S+aItnv06Y
- Oy+e6mAuOAh9uCZ4qPEEkfdS7Z9hRdbTGXVCuTb86KVn0Ua9dY7shqKSHcxLCK7+XVn6
- DbNYDHKsQ6d25t9Z0svWm0d+B+LXi0gulNol1/EpBAKvB5IVtK8P1OLhMqpqb2JMUUP0
- P8i6ZJiA7fDD6V+75ge1mSrLkyFNutF6MoZWpgzz/IbMRgcJlBZGZebBWuLzE6Ro2oTH
- xU2f4VbvBAE/0Z5+RKMk+tRtQZPfqOIxDkifXKpG577sCobsKh3L46fobjXtkyQBAi6t
- i/ZQ==
-X-Gm-Message-State: APjAAAVHDbspVV/EXZAKgvkYehgqlm0U9vmqiaRRr4adwb8i7Tap815m
- 347mXy8rJhs7CrydupdMCkoHNA==
-X-Google-Smtp-Source: APXvYqx2gELxpTSKDNvcU+IIVQe4jqR2Qh/oopbyBRkXOUmL70XR0Mu04t6Wq3mBS28l8oT1s2nGkw==
-X-Received: by 2002:a5d:45c7:: with SMTP id b7mr12595680wrs.356.1570437336473; 
- Mon, 07 Oct 2019 01:35:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a13sm38308974wrf.73.2019.10.07.01.35.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2019 01:35:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2B0A81FF87;
- Mon,  7 Oct 2019 09:35:35 +0100 (BST)
-References: <20191001125845.8793-1-drjones@redhat.com>
- <20191001125845.8793-5-drjones@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH v5 4/9] target/arm/cpu64: max cpu: Introduce sve<N>
- properties
-In-reply-to: <20191001125845.8793-5-drjones@redhat.com>
-Date: Mon, 07 Oct 2019 09:35:35 +0100
-Message-ID: <87d0f9j6lk.fsf@linaro.org>
+ (envelope-from <clg@kaod.org>) id 1iHOaV-0003zs-Gs
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:41:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2012
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iHOa4-0003mf-8j
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 04:41:51 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x978d8EF029800
+ for <qemu-devel@nongnu.org>; Mon, 7 Oct 2019 04:41:14 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vg1h9913x-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 04:41:14 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <clg@kaod.org>;
+ Mon, 7 Oct 2019 09:41:12 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 7 Oct 2019 09:41:10 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x978f9QW54722738
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Oct 2019 08:41:09 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4628FA4054;
+ Mon,  7 Oct 2019 08:41:09 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2F6A3A4062;
+ Mon,  7 Oct 2019 08:41:09 +0000 (GMT)
+Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  7 Oct 2019 08:41:09 +0000 (GMT)
+Received: from yukon.kaod.org.com (sig-9-145-169-184.de.ibm.com
+ [9.145.169.184])
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 6CC1E22006B;
+ Mon,  7 Oct 2019 10:41:08 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH 0/9] ppc/pnv: XIVE cleanup and fixes
+Date: Mon,  7 Oct 2019 10:40:53 +0200
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+x-cbid: 19100708-0012-0000-0000-00000354C27F
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19100708-0013-0000-0000-0000218FD254
+Message-Id: <20191007084102.29776-1-clg@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-07_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=364 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910070090
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id x978d8EF029800
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,71 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, armbru@redhat.com, eric.auger@redhat.com,
- qemu-arm@nongnu.org, imammedo@redhat.com, Dave.Martin@arm.com
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
-Andrew Jones <drjones@redhat.com> writes:
+Here is a short series adding the cleanups and fixes of the bigger
+series "ppc/pnv: add XIVE support for KVM guests". There is still some
+rework to be done on the XivePresenter before it can be resent.
 
-> Introduce cpu properties to give fine control over SVE vector lengths.
-> We introduce a property for each valid length up to the current
-> maximum supported, which is 2048-bits. The properties are named, e.g.
-> sve128, sve256, sve384, sve512, ..., where the number is the number of
-> bits. See the updates to docs/arm-cpu-features.rst for a description
-> of the semantics and for example uses.
->
-> Note, as sve-max-vq is still present and we'd like to be able to
-> support qmp_query_cpu_model_expansion with guests launched with e.g.
-> -cpu max,sve-max-vq=3D8 on their command lines, then we do allow
-> sve-max-vq and sve<N> properties to be provided at the same time, but
-> this is not recommended, and is why sve-max-vq is not mentioned in the
-> document.  If sve-max-vq is provided then it enables all lengths smaller
-> than and including the max and disables all lengths larger. It also has
-> the side-effect that no larger lengths may be enabled and that the max
-> itself cannot be disabled. Smaller non-power-of-two lengths may,
-> however, be disabled, e.g. -cpu max,sve-max-vq=3D4,sve384=3Doff provides a
-> guest the vector lengths 128, 256, and 512 bits.
->
-> This patch has been co-authored with Richard Henderson, who reworked
-> the target/arm/cpu64.c changes in order to push all the validation and
-> auto-enabling/disabling steps into the finalizer, resulting in a nice
-> LOC reduction.
->
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> ---
->  docs/arm-cpu-features.rst | 168 +++++++++++++++++++++++++++++++--
->  include/qemu/bitops.h     |   1 +
->  target/arm/cpu.c          |  19 ++++
->  target/arm/cpu.h          |  19 ++++
->  target/arm/cpu64.c        | 192 ++++++++++++++++++++++++++++++++++++-
->  target/arm/helper.c       |  10 +-
->  target/arm/monitor.c      |  12 +++
->  tests/arm-cpu-features.c  | 194 ++++++++++++++++++++++++++++++++++++++
->  8 files changed, 606 insertions(+), 9 deletions(-)
->
-> diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-> index c79dcffb5556..2ea4d6e90c02 100644
-> --- a/docs/arm-cpu-features.rst
-> +++ b/docs/arm-cpu-features.rst
-> @@ -48,18 +48,31 @@ block in the script for usage) is used to issue the Q=
-MP commands.
->        (QEMU) query-cpu-model-expansion type=3Dfull model=3D{"name":"max"}
->        { "return": {
->          "model": { "name": "max", "props": {
-> -        "pmu": true, "aarch64": true
-> +        "sve1664": true, "pmu": true, "sve1792": true, "sve1920": true,
-> +        "sve128": true, "aarch64": true, "sve1024": true, "sve": true,
-> +        "sve640": true, "sve768": true, "sve1408": true, "sve256": true,
-> +        "sve1152": true, "sve512": true, "sve384": true, "sve1536": true,
-> +        "sve896": true, "sve1280": true, "sve2048": true
+These are valuable changes which can come first and which should not
+impact the work yet to come. Comments have been addressed. They were
+mostly on the changelog.
 
-Does having a list of VL's not have implications for the versioning of
-the API? Do we need to tick a version each time a new vector length is
-added?
+Thanks,
 
---
-Alex Benn=C3=A9e
+C.
+
+C=C3=A9dric Le Goater (9):
+  ppc/pnv: Improve trigger data definition
+  ppc/pnv: Use address_space_stq_be() when triggering an interrupt from
+    PSI
+  ppc/xive: Record the IPB in the associated NVT
+  ppc/xive: Introduce helpers for the NVT id
+  ppc/pnv: Remove pnv_xive_vst_size() routine
+  ppc/pnv: Dump the XIVE NVT table
+  ppc/pnv: Quiesce some XIVE errors
+  ppc/xive: Introduce OS CAM line helpers
+  ppc/xive: Check V bit in TM_PULL_POOL_CTX
+
+ include/hw/ppc/xive.h      |   5 --
+ include/hw/ppc/xive_regs.h |  50 ++++++++++-
+ hw/intc/pnv_xive.c         | 166 +++++++++++++++++++++----------------
+ hw/intc/xive.c             |  61 ++++++++++++--
+ hw/ppc/pnv_psi.c           |  15 +++-
+ 5 files changed, 206 insertions(+), 91 deletions(-)
+
+--=20
+2.21.0
+
 
