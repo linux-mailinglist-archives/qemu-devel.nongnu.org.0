@@ -2,49 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E654ECEA6D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 19:18:36 +0200 (CEST)
-Received: from localhost ([::1]:48038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A70FCEA42
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 19:11:14 +0200 (CEST)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHWeZ-0000pj-VV
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 13:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
+	id 1iHWXQ-0002SO-SK
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 13:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iHWT4-0006PP-II
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:06:44 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iHWTF-0006gn-Hq
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:06:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iHWT2-0004s9-VL
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:06:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53622)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1iHWSz-0004qW-IU; Mon, 07 Oct 2019 13:06:37 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5A21A307CDD1;
- Mon,  7 Oct 2019 17:06:36 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1275E5D9C9;
- Mon,  7 Oct 2019 17:06:34 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [RFC PATCH 5/5] target/arm/cpu: Add the kvm-adjvtime CPU property
-Date: Mon,  7 Oct 2019 19:06:22 +0200
-Message-Id: <20191007170622.1814-6-drjones@redhat.com>
-In-Reply-To: <20191007170622.1814-1-drjones@redhat.com>
-References: <20191007170622.1814-1-drjones@redhat.com>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iHWTE-0004uR-Ib
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 13:06:53 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34057)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iHWTE-0004uA-D7; Mon, 07 Oct 2019 13:06:52 -0400
+Received: by mail-wr1-x441.google.com with SMTP id j11so10436819wrp.1;
+ Mon, 07 Oct 2019 10:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+3UBHXl0Q3tHZixwPH6fsHjN2QJ1bQEaKGonQtRbZd4=;
+ b=uNoGvRiwUiJCmtif4CMZwT/OIBf3S16hlWuLfBWCCXfgBFUaX9G1tIMwRHG13jyilN
+ vRHCU5qu8YrV9G5S8Quvx2AHrS7d6jWpYWzmzO52/ODpgv8LvE1TQ7NdNBQkmLbaCqrp
+ 9yJIKdSv1YJ5x8yDyZuKbhi+VaqeJqdqzpefUPbl0tok/H8PT4oX59FeNIU+k7nn7WqE
+ mPmu7Rs4UOunzrfVdZ0ZmGV/Jb+pF2oGsbDiqSaUPQ7tVtqhyuZj/s9KWby09Vv7yIhs
+ G8XbKzQUDKy1yXnGsdzS9RVwazbMnogz34TikL07BfEJq/oNi+XlhacCNaJtBtsaPYXB
+ o6+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=+3UBHXl0Q3tHZixwPH6fsHjN2QJ1bQEaKGonQtRbZd4=;
+ b=J6YxVH3ZNw5M1HWP+KPylaOcF3nsdAPZtNBsezgEtqkPuCjY+gqBU1b/hzk4w11iJF
+ SjVrOGc9nXuahpdiftSLa8yVe1qIR71vN/kkFtF1ZF7MjccyDXtp8rGpBgxaHm/QsUC7
+ lB9pQNvoW8UBhoz2N0NHPKXQsyjNA58JGSiXIWfVHQZUnWXl+q0urCNW3NQhGUUmDGQs
+ EuE+28h6BOsYgEzJFmDSSEf6wM7ajc0dAfGKPEErwDkbdoCucjy4xsSqALBW2bS4fBJd
+ u9lEbgHFidNyCS1SAARvqHAAH1CVFWO8/ESudOCzHR6ysE1kEyCexmD3QR1G5F8CmbfN
+ GZwg==
+X-Gm-Message-State: APjAAAWSnWbK8Dv9/GZwaCAkORPFS2Qu0L7sJxjnJOau3fLBJRycFzgz
+ FKfzi5TX80WyguOgxEyE0ETiy/oQPlk=
+X-Google-Smtp-Source: APXvYqz+YxgmR2IZ7rrtBhmeQuIvakF9WZ//tH3LTCuRFeOxVAX9XKYtpW+CxNQCzVb3wXih5YKQkA==
+X-Received: by 2002:a5d:6a4b:: with SMTP id t11mr21350322wrw.24.1570468010620; 
+ Mon, 07 Oct 2019 10:06:50 -0700 (PDT)
+Received: from x1w.redhat.com (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id x5sm14036603wrt.75.2019.10.07.10.06.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2019 10:06:49 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw/arm/raspi: Split the UART block from the AUX block
+Date: Mon,  7 Oct 2019 19:06:43 +0200
+Message-Id: <20191007170646.14961-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 07 Oct 2019 17:06:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,232 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bijan.mottahedeh@oracle.com, maz@kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm-adjvtime is a KVM specific CPU property and a first of its kind.
-To accommodate it we also add kvm_arm_add_vcpu_properties() and a
-KVM specific CPU properties description to the CPU features document.
+The BCM2838 has many more peripherals than his little brother,
+the BCM2837. With the raspi4, the Linux kernel takes more steps
+to configure the various MUXed devices. At some point it started
+to bug me, so I plan to add a dummy simple BCM2835_SPI block.
+It is cleaner to add it as a separate device than mixed with the
+AUX block. As a first step, split the UART block out.
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
----
- docs/arm-cpu-features.rst | 27 ++++++++++++++++++++++++++-
- target/arm/cpu.c          |  2 ++
- target/arm/cpu64.c        |  1 +
- target/arm/kvm.c          | 27 +++++++++++++++++++++++++++
- target/arm/kvm_arm.h      | 11 +++++++++++
- target/arm/monitor.c      |  1 +
- tests/arm-cpu-features.c  |  4 ++++
- 7 files changed, 72 insertions(+), 1 deletion(-)
+Since this part is self-contained and my raspi4 branch is getting
+too big, I'm sending it as a single series.
 
-diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-index 1b367e22e16e..5c317296845f 100644
---- a/docs/arm-cpu-features.rst
-+++ b/docs/arm-cpu-features.rst
-@@ -31,7 +31,9 @@ supporting the feature or only supporting the feature u=
-nder certain
- configurations.  For example, the `aarch64` CPU feature, which, when
- disabled, enables the optional AArch32 CPU feature, is only supported
- when using the KVM accelerator and when running on a host CPU type that
--supports the feature.
-+supports the feature.  While `aarch64` currently only works with KVM,
-+it could work with TCG.  CPU features that are specific to KVM are
-+prefixed with "kvm-" and are described in "KVM VCPU Features".
-=20
- CPU Feature Probing
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-@@ -171,6 +173,29 @@ disabling many SVE vector lengths would be quite ver=
-bose, the `sve<N>` CPU
- properties have special semantics (see "SVE CPU Property Parsing
- Semantics").
-=20
-+KVM VCPU Features
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+KVM VCPU features are CPU features that are specific to KVM, such as
-+paravirt features or features that enable CPU virtualization extensions.
-+The features' CPU properties are only available when KVM is enabled and =
-are
-+named with the prefix "kvm-".  KVM VCPU features may be probed, enabled,=
- and
-+disabled in the same way as other CPU features.  Below is the list of KV=
-M
-+VCPU features and their descriptions.
-+
-+  kvm-adjvtime             When enabled, each time the VM transitions ba=
-ck
-+                           to running state the VCPU's vitual counter is
-+                           updated to ensure stopped time is not counted=
-.
-+                           This avoids time jumps surprising guest OSes =
-and
-+                           applications, as long as they use the virtual
-+                           counter for timekeeping, but has the side eff=
-ect
-+                           of the virtual and physical counters divergin=
-g.
-+                           All timekeeping based on the virtual counter =
-will
-+                           appear to lag behind any timekeeping that doe=
-s
-+                           not subtract VM stopped time.  The guest may
-+                           resynchronize its virtual counter with other =
-time
-+                           sources as needed.
-+
- SVE CPU Properties
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 7695ae551218..d8ad26438f9f 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2483,6 +2483,7 @@ static void arm_max_initfn(Object *obj)
-=20
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
-+        kvm_arm_add_vcpu_properties(obj);
-     } else {
-         cortex_a15_initfn(obj);
-=20
-@@ -2674,6 +2675,7 @@ static void arm_host_initfn(Object *obj)
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-     }
-+    kvm_arm_add_vcpu_properties(obj);
-     arm_cpu_post_init(obj);
- }
-=20
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 68baf0482ffa..c9a657a178ce 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -620,6 +620,7 @@ static void aarch64_max_initfn(Object *obj)
-=20
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
-+        kvm_arm_add_vcpu_properties(obj);
-     } else {
-         uint64_t t;
-         uint32_t u;
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index f79b9b8ef57a..1652e3febe51 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -17,6 +17,8 @@
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qom/object.h"
-+#include "qapi/error.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
- #include "sysemu/kvm_int.h"
-@@ -179,6 +181,31 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
-     env->features =3D arm_host_cpu_features.features;
- }
-=20
-+static bool kvm_adjvtime_get(Object *obj, Error **errp)
-+{
-+    return ARM_CPU(obj)->kvm_adjvtime;
-+}
-+
-+static void kvm_adjvtime_set(Object *obj, bool value, Error **errp)
-+{
-+    ARM_CPU(obj)->kvm_adjvtime =3D value;
-+}
-+
-+/* KVM VCPU properties should be prefixed with "kvm-". */
-+void kvm_arm_add_vcpu_properties(Object *obj)
-+{
-+    if (!kvm_enabled()) {
-+        return;
-+    }
-+
-+    object_property_add_bool(obj, "kvm-adjvtime", kvm_adjvtime_get,
-+                             kvm_adjvtime_set, &error_abort);
-+    object_property_set_description(obj, "kvm-adjvtime",
-+                                    "Set on to enable the adjustment of =
-"
-+                                    "the virtual counter. VM stopped tim=
-e "
-+                                    "will not be counted.", &error_abort=
-);
-+}
-+
- bool kvm_arm_pmu_supported(CPUState *cpu)
- {
-     KVMState *s =3D KVM_STATE(current_machine->accelerator);
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index d506c4e84be6..5d8077df6a4a 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -232,6 +232,15 @@ void kvm_arm_sve_get_vls(CPUState *cs, unsigned long=
- *map);
-  */
- void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
-=20
-+/**
-+ * void kvm_arm_add_vcpu_properties:
-+ * @obj: The CPU object to add the properties to
-+ *
-+ * Add all KVM specific CPU properties to the CPU object. These
-+ * are the CPU properties with "kvm-" prefixed names.
-+ */
-+void kvm_arm_add_vcpu_properties(Object *obj);
-+
- /**
-  * void kvm_arm_set_virtual_time:
-  * @cs: CPUState
-@@ -308,6 +317,8 @@ static inline void kvm_arm_set_cpu_features_from_host=
-(ARMCPU *cpu)
-     cpu->host_cpu_probe_failed =3D true;
- }
-=20
-+static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
-+
- static inline bool kvm_arm_aarch32_supported(CPUState *cs)
- {
-     return false;
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index e912ed2cefa0..a89976fe7e4b 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -103,6 +103,7 @@ static const char *cpu_model_advertised_features[] =3D=
- {
-     "sve128", "sve256", "sve384", "sve512",
-     "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
-     "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
-+    "kvm-adjvtime",
-     NULL
- };
-=20
-diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-index ee444b04010f..c207a2bec9e9 100644
---- a/tests/arm-cpu-features.c
-+++ b/tests/arm-cpu-features.c
-@@ -417,6 +417,8 @@ static void test_query_cpu_model_expansion(const void=
- *data)
-     assert_has_feature_enabled(qts, "cortex-a15", "pmu");
-     assert_has_not_feature(qts, "cortex-a15", "aarch64");
-=20
-+    assert_has_not_feature(qts, "max", "kvm-adjvtime");
-+
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-         assert_has_feature_enabled(qts, "max", "aarch64");
-         assert_has_feature_enabled(qts, "max", "sve");
-@@ -445,6 +447,8 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-=20
-     assert_has_feature_enabled(qts, "host", "pmu");
-=20
-+    assert_has_feature_disabled(qts, "host", "kvm-adjvtime");
-+
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-         bool kvm_supports_sve;
-         char max_name[8], name[8];
---=20
-2.20.1
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daudé (3):
+  hw/char: Add the BCM2835 miniuart
+  hw/char/bcm2835_aux: Use the BCM2835 miniuart block
+  hw: Move BCM2835 AUX device from hw/char/ to hw/misc/
+
+ hw/char/Makefile.objs                   |   2 +-
+ hw/char/bcm2835_aux.c                   | 317 -----------------------
+ hw/char/bcm2835_miniuart.c              | 327 ++++++++++++++++++++++++
+ hw/char/trace-events                    |   4 +
+ hw/misc/Makefile.objs                   |   1 +
+ hw/misc/bcm2835_aux.c                   | 189 ++++++++++++++
+ hw/misc/trace-events                    |   4 +
+ include/hw/arm/bcm2835_peripherals.h    |   2 +-
+ include/hw/char/bcm2835_miniuart.h      |  37 +++
+ include/hw/{char => misc}/bcm2835_aux.h |  10 +-
+ 10 files changed, 567 insertions(+), 326 deletions(-)
+ delete mode 100644 hw/char/bcm2835_aux.c
+ create mode 100644 hw/char/bcm2835_miniuart.c
+ create mode 100644 hw/misc/bcm2835_aux.c
+ create mode 100644 include/hw/char/bcm2835_miniuart.h
+ rename include/hw/{char => misc}/bcm2835_aux.h (73%)
+
+-- 
+2.21.0
 
 
