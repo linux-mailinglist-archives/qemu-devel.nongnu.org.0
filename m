@@ -2,63 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECCECE1D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:36:28 +0200 (CEST)
-Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A127CE1BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 14:32:23 +0200 (CEST)
+Received: from localhost ([::1]:44048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHSFW-0006aC-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
+	id 1iHSBZ-0002zD-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 08:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iHS0L-00038z-8g
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:20:46 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iHRrw-0003Sp-Gg
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:12:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iHS0J-0007u0-MN
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:20:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34738)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iHS0J-0007tw-Gp
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:20:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iHS0I-0005v7-8a
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 12:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3B4232E8079
- for <qemu-devel@nongnu.org>; Mon,  7 Oct 2019 12:20:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Oct 2019 12:06:12 -0000
-From: Greg Kurz <groug@kaod.org>
+ (envelope-from <stefanha@redhat.com>) id 1iHRrt-0005O8-WB
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 08:12:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57484)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1iHRrq-0005MZ-1J; Mon, 07 Oct 2019 08:11:58 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3D7EA4E926;
+ Mon,  7 Oct 2019 12:11:57 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1E9410013A1;
+ Mon,  7 Oct 2019 12:11:55 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: aix ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gkurz leohori th-huth
-X-Launchpad-Bug-Reporter: Leonardo (leohori)
-X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
-References: <157021536568.1047.12130451733202459497.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157044997214.22049.15982083758378060194.malone@gac.canonical.com>
-Subject: [Bug 1846816] Re: Booting error on AIX 6.1 "Illegal Trap Instruction
- Interrupt in Kernel""
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0e9c2a6a7c938e9f24e7d939f3077b25ae930929
+Subject: [PATCH 16/16] block/io_uring: adds fd registration
+Date: Mon,  7 Oct 2019 13:09:37 +0100
+Message-Id: <20191007120937.5862-17-stefanha@redhat.com>
+In-Reply-To: <20191007120937.5862-1-stefanha@redhat.com>
+References: <20191007120937.5862-1-stefanha@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Mon, 07 Oct 2019 12:11:57 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,172 +55,364 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1846816 <1846816@bugs.launchpad.net>
+Cc: oleksandr@redhat.com, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Julia Suvorova <jusual@mail.ru>, Julia Suvorova <jusual@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some limitations but an AIX guest can run in QEMU:
+From: Aarushi Mehta <mehta.aaru20@gmail.com>
 
-https://www.ibm.com/support/knowledgecenter/ssw_aix_72/aixnutanix/nutanix_c=
-oncepts.html
+File descriptor registration eliminates the need to get file descriptors
+for each request on the host kernel side.  The host kernel keeps
+references to a set of files that were registered by the application.
+These files can be quickly accessed by index instead of a traditional
+file descriptor number.
 
-The command line in the bug description uses an old syntax:
+Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+v10:
+ * Add io_uring_register_files() return value to trace_luring_fd_register=
+()
+ * Fix indentation in luring_fd_unregister()
+ * Set s->fd_reg.fd_array to NULL after g_free() to avoid dangling pointe=
+rs
+ * Simplify fd registration code
+ * Add luring_fd_unregister() and call it from file-posix.c to prevent
+   fd leaks
+ * Add trace_luring_fd_unregister() trace event
+---
+ include/block/raw-aio.h |   1 +
+ block/file-posix.c      |  18 +++++
+ block/io_uring.c        | 150 +++++++++++++++++++++++++++++++++++++++-
+ block/trace-events      |   2 +
+ 4 files changed, 170 insertions(+), 1 deletion(-)
 
-# qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries ...
+diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+index 251b10d273..5fe6481bc4 100644
+--- a/include/block/raw-aio.h
++++ b/include/block/raw-aio.h
+@@ -68,6 +68,7 @@ void luring_detach_aio_context(LuringState *s, AioConte=
+xt *old_context);
+ void luring_attach_aio_context(LuringState *s, AioContext *new_context);
+ void luring_io_plug(BlockDriverState *bs, LuringState *s);
+ void luring_io_unplug(BlockDriverState *bs, LuringState *s);
++void luring_fd_unregister(LuringState *s, int fd);
+ #endif
+=20
+ #ifdef _WIN32
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 264c44fc3f..604b5427c3 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2010,6 +2010,20 @@ static int raw_co_flush_to_disk(BlockDriverState *=
+bs)
+     return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
+ }
+=20
++static void raw_aio_detach_aio_context(BlockDriverState *bs)
++{
++#ifdef CONFIG_LINUX_IO_URING
++    BDRVRawState *s =3D bs->opaque;
++
++    if (s->fd >=3D 0 && s->use_linux_io_uring) {
++        LuringState *luring;
++
++        luring =3D aio_get_linux_io_uring(bdrv_get_aio_context(bs));
++        luring_fd_unregister(luring, s->fd);
++    }
++#endif
++}
++
+ static void raw_aio_attach_aio_context(BlockDriverState *bs,
+                                        AioContext *new_context)
+ {
+@@ -2994,6 +3008,7 @@ BlockDriver bdrv_file =3D {
+     .bdrv_refresh_limits =3D raw_refresh_limits,
+     .bdrv_io_plug =3D raw_aio_plug,
+     .bdrv_io_unplug =3D raw_aio_unplug,
++    .bdrv_detach_aio_context =3D raw_aio_detach_aio_context,
+     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
+=20
+     .bdrv_co_truncate =3D raw_co_truncate,
+@@ -3470,6 +3485,7 @@ static BlockDriver bdrv_host_device =3D {
+     .bdrv_refresh_limits =3D raw_refresh_limits,
+     .bdrv_io_plug =3D raw_aio_plug,
+     .bdrv_io_unplug =3D raw_aio_unplug,
++    .bdrv_detach_aio_context =3D raw_aio_detach_aio_context,
+     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
+=20
+     .bdrv_co_truncate       =3D raw_co_truncate,
+@@ -3594,6 +3610,7 @@ static BlockDriver bdrv_host_cdrom =3D {
+     .bdrv_refresh_limits =3D raw_refresh_limits,
+     .bdrv_io_plug =3D raw_aio_plug,
+     .bdrv_io_unplug =3D raw_aio_unplug,
++    .bdrv_detach_aio_context =3D raw_aio_detach_aio_context,
+     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
+=20
+     .bdrv_co_truncate    =3D raw_co_truncate,
+@@ -3726,6 +3743,7 @@ static BlockDriver bdrv_host_cdrom =3D {
+     .bdrv_refresh_limits =3D raw_refresh_limits,
+     .bdrv_io_plug =3D raw_aio_plug,
+     .bdrv_io_unplug =3D raw_aio_unplug,
++    .bdrv_detach_aio_context =3D raw_aio_detach_aio_context,
+     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
+=20
+     .bdrv_co_truncate    =3D raw_co_truncate,
+diff --git a/block/io_uring.c b/block/io_uring.c
+index 56892fd1ab..4d6e50ce19 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -46,10 +46,16 @@ typedef struct LuringQueue {
+     QSIMPLEQ_HEAD(, LuringAIOCB) submit_queue;
+ } LuringQueue;
+=20
++typedef struct LuringFd {
++    int *fd_array;
++    GHashTable *fd_lookup;
++} LuringFd;
++
+ typedef struct LuringState {
+     AioContext *aio_context;
+=20
+     struct io_uring ring;
++    LuringFd fd_reg;
+=20
+     /* io queue for submit at batch.  Protected by AioContext lock. */
+     LuringQueue io_q;
+@@ -298,6 +304,136 @@ static void ioq_init(LuringQueue *io_q)
+     io_q->blocked =3D false;
+ }
+=20
++/**
++ * luring_fd_unregister:
++ *
++ * Remove a file descriptor from the registered fds list.  This is a slo=
+w
++ * operation because all registered fds are refreshed, but this function=
+ should
++ * not be called often anyway.
++ *
++ * Only call this function while there are no requests in flight.
++ */
++void luring_fd_unregister(LuringState *s, int fd)
++{
++    LuringFd *fd_reg =3D &s->fd_reg;
++    void *value;
++    int idx;
++    int ret;
++    int nr;
++    int i;
++
++    if (!g_hash_table_lookup_extended(fd_reg->fd_lookup, GINT_TO_POINTER=
+(fd),
++                                      NULL, &value)) {
++        return;
++    }
++
++    ret =3D io_uring_unregister_files(&s->ring);
++    if (ret < 0) {
++        return;
++    }
++
++    idx =3D GPOINTER_TO_INT(value);
++    nr =3D g_hash_table_size(fd_reg->fd_lookup) - 1; /* minus this fd */
++
++    trace_luring_fd_unregister(s, fd, idx);
++
++    memmove(&fd_reg->fd_array[idx], &fd_reg->fd_array[idx + 1], nr - idx=
+);
++
++    /* Rebuild hash table */
++    g_hash_table_remove_all(fd_reg->fd_lookup);
++    for (i =3D 0; i < nr; i++) {
++        g_hash_table_insert(fd_reg->fd_lookup,
++                            GINT_TO_POINTER(fd_reg->fd_array[i]),
++                            GINT_TO_POINTER(i));
++    }
++
++    io_uring_register_files(&s->ring, fd_reg->fd_array, nr);
++}
++
++/**
++ * luring_fd_register:
++ *
++ * Register file descriptors, see luring_fd_lookup
++ */
++static int luring_fd_register(struct io_uring *ring, LuringFd *fd_reg, i=
+nt fd)
++{
++    int ret, nr;
++    GHashTable *lookup =3D fd_reg->fd_lookup;
++    nr =3D g_hash_table_size(lookup);
++
++    /* If adding new, API requires older registrations to be removed */
++    if (nr) {
++        /*
++         * See linux b19062a56726, register needs the ring mutex, any
++         * submission in progress will complete before unregistering beg=
+ins
++         * and new ones will have to wait.
++         */
++        ret =3D io_uring_unregister_files(ring);
++        if (ret < 0) {
++            return ret;
++        }
++    }
++
++    fd_reg->fd_array =3D g_realloc_n(fd_reg->fd_array, nr + 1, sizeof(in=
+t));
++    fd_reg->fd_array[nr] =3D fd;
++
++    g_hash_table_insert(lookup, GINT_TO_POINTER(fd), GINT_TO_POINTER(nr)=
+);
++    ret =3D io_uring_register_files(ring, fd_reg->fd_array, nr + 1);
++    trace_luring_fd_register(fd, nr, ret);
++    if (ret < 0) {
++        /* Leave fd_array[] alone, fd will be overwritten next time anyw=
+ay */
++        g_hash_table_remove(lookup, GINT_TO_POINTER(fd));
++        return ret;
++    }
++    return nr;
++}
++
++/**
++ * luring_fd_init:
++ *
++ * Initialize file descriptors
++ */
++static void luring_fd_init(LuringState *s)
++{
++    s->fd_reg.fd_lookup =3D g_hash_table_new(g_direct_hash, g_direct_equ=
+al);
++}
++
++/**
++ * luring_fd_cleanup:
++ *
++ * Unregisters file descriptors, TODO: error handling
++ */
++static void luring_fd_cleanup(LuringState *s)
++{
++    io_uring_unregister_files(&s->ring);
++    g_hash_table_unref(s->fd_reg.fd_lookup);
++    g_free(s->fd_reg.fd_array);
++    s->fd_reg.fd_array =3D NULL;
++}
++
++/**
++ * luring_fd_lookup:
++ *
++ * Used to lookup fd index in registered array at submission time
++ * If the lookup table has not been created or the fd is not in the tabl=
+e,
++ * the fd is registered.
++ *
++ * If registration errors, this function returns -errno.
++ *
++ * Unregistering is done in luring_detach_aio_context().
++ */
++static int luring_fd_lookup(LuringState *s, int fd)
++{
++    void *index;
++
++    if (g_hash_table_lookup_extended(s->fd_reg.fd_lookup, GINT_TO_POINTE=
+R(fd),
++                                     NULL, &index)) {
++        return GPOINTER_TO_INT(index);
++    }
++
++    return luring_fd_register(&s->ring, &s->fd_reg, fd);
++}
++
+ void luring_io_plug(BlockDriverState *bs, LuringState *s)
+ {
+     trace_luring_io_plug(s);
+@@ -329,9 +465,14 @@ void luring_io_unplug(BlockDriverState *bs, LuringSt=
+ate *s)
+ static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *=
+s,
+                             uint64_t offset, int type)
+ {
+-    int ret;
++    int ret, fd_index;
+     struct io_uring_sqe *sqes =3D &luringcb->sqeq;
+=20
++    fd_index =3D luring_fd_lookup(s, fd);
++    if (fd_index >=3D 0) {
++        fd =3D fd_index;
++    }
++
+     switch (type) {
+     case QEMU_AIO_WRITE:
+         io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
+@@ -349,7 +490,11 @@ static int luring_do_submit(int fd, LuringAIOCB *lur=
+ingcb, LuringState *s,
+                         __func__, type);
+         abort();
+     }
++
+     io_uring_sqe_set_data(sqes, luringcb);
++    if (fd_index >=3D 0) {
++        io_uring_sqe_set_flags(sqes, IOSQE_FIXED_FILE);
++    }
+=20
+     QSIMPLEQ_INSERT_TAIL(&s->io_q.submit_queue, luringcb, next);
+     s->io_q.in_queue++;
+@@ -375,6 +520,7 @@ int coroutine_fn luring_co_submit(BlockDriverState *b=
+s, LuringState *s, int fd,
+         .qiov       =3D qiov,
+         .is_read    =3D (type =3D=3D QEMU_AIO_READ),
+     };
++
+     trace_luring_co_submit(bs, s, &luringcb, fd, offset, qiov ? qiov->si=
+ze : 0,
+                            type);
+     ret =3D luring_do_submit(fd, &luringcb, s, offset, type);
+@@ -391,6 +537,7 @@ int coroutine_fn luring_co_submit(BlockDriverState *b=
+s, LuringState *s, int fd,
+=20
+ void luring_detach_aio_context(LuringState *s, AioContext *old_context)
+ {
++    luring_fd_cleanup(s);
+     aio_set_fd_handler(old_context, s->ring.ring_fd, false, NULL, NULL, =
+NULL,
+                        s);
+     qemu_bh_delete(s->completion_bh);
+@@ -403,6 +550,7 @@ void luring_attach_aio_context(LuringState *s, AioCon=
+text *new_context)
+     s->completion_bh =3D aio_bh_new(new_context, qemu_luring_completion_=
+bh, s);
+     aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
+                        qemu_luring_completion_cb, NULL, qemu_luring_poll=
+_cb, s);
++    luring_fd_init(s);
+ }
+=20
+ LuringState *luring_init(Error **errp)
+diff --git a/block/trace-events b/block/trace-events
+index 2e3a9851b6..6a19cc00b7 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -72,6 +72,8 @@ luring_co_submit(void *bs, void *s, void *luringcb, int=
+ fd, uint64_t offset, siz
+ luring_process_completion(void *s, void *aiocb, int ret) "LuringState %p=
+ luringcb %p ret %d"
+ luring_io_uring_submit(void *s, int ret) "LuringState %p ret %d"
+ luring_resubmit_short_read(void *s, void *luringcb, int nread) "LuringSt=
+ate %p luringcb %p nread %d"
++luring_fd_register(int fd, int index, int ret) "fd %d index %d ret %d"
++luring_fd_unregister(void *s, int fd, int index) "LuringState %p fd %d i=
+ndex %d"
+=20
+ # qcow2.c
+ qcow2_writev_start_req(void *co, int64_t offset, int bytes) "co %p offse=
+t 0x%" PRIx64 " bytes %d"
+--=20
+2.21.0
 
-This should be:
-
-# qemu-system-ppc64 -cpu POWER8 -machine pseries,max-cpu-compat=3Dpower7
-
-The following error message seems to indicate that this AIX instance
-doesn't support POWER7 architected mode (which I don't think is actively
-tested and supported by the way).
-
- qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
-
-Maybe try again with max-cpu-compat=3Dpower8 instead ?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1846816
-
-Title:
-  Booting error on AIX 6.1 "Illegal Trap Instruction Interrupt in
-  Kernel""
-
-Status in QEMU:
-  New
-
-Bug description:
-  # ls -ltr
-  total 8750584
-  -rw-rw-r--  1 linux linux 4274997248 Oct  4 18:33 AIX.vol1.iso
-  -rw-rw-r--  1 linux linux 4293888000 Oct  4 18:45 AIX.vol2.iso
-  -rw-rw-r--  1 linux linux  391485440 Oct  4 18:50 AIX.vol3.iso
-  -rw-r--r--  1 root  root      204608 Oct  4 19:00 AIX61.img
-
-  # qemu-system-ppc64 -cpu POWER8,compat=3Dpower7 -machine pseries -m 8192 =
--serial mon:stdio \
-  > -drive file=3D/qemu/BST/AIX61.img,if=3Dnone,id=3Ddrive-virtio-disk0 \
-  > -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Ddrive-virtio-=
-disk0 \
-  > -cdrom /qemu/BST/AIX.vol1.iso \
-  > -prom-env boot-command=3D'boot cdrom: -s verbose'
-
-  =
-
-  VNC server running on ::1:5900
-  qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
-s=3Dworkaround
-
-  =
-
-  SLOF ********************************************************************=
-**
-  QEMU Starting
-   Build Date =3D Jul  3 2019 12:26:14
-   FW Version =3D git-ba1ab360eebe6338
-   Press "s" to enter Open Firmware.
-
-  Populating /vdevice methods
-  Populating /vdevice/vty@71000000
-  Populating /vdevice/nvram@71000001
-  Populating /vdevice/l-lan@71000002
-  Populating /vdevice/v-scsi@71000003
-         SCSI: Looking for devices
-            8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
-  Populating /pci@800000020000000
-                       00 0000 (D) : 1234 1111    qemu vga
-                       00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
-                       00 1000 (D) : 1af4 1004    virtio [ scsi ]
-  Populating /pci@800000020000000/scsi@2
-         SCSI: Looking for devices
-            100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
-  Installing QEMU fb
-
-
-  Scanning USB
-    XHCI: Initializing
-      USB Keyboard
-      USB mouse
-  No console specified using screen & keyboard
-
-    Welcome to Open Firmware
-
-    Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
-    This program and the accompanying materials are made available
-    under the terms of the BSD License available at
-    http://www.opensource.org/licenses/bsd-license.php
-
-  =
-
-  Trying to load: -s verbose from: /vdevice/v-scsi@71000003/disk@8200000000=
-000000: ...   Successfully loaded
-  qemu-system-ppc64: Couldn't negotiate a suitable PVR during CAS
-  AIX
-  StarLED{814}
-
-  AIX Version 6.1
-  exec(/etc/init){1,0}
-
-  INIT: EXECUTING /sbin/rc.boot 1
-  exec(/usr/bin/sh,-c,/sbin/rc.boot 1){1114146,1}
-  exec(/sbin/rc.boot,/sbin/rc.boot,1){1114146,1}
-  + PHASE=3D1
-  + + bootinfo -p
-  exec(/usr/sbin/bootinfo,-p){1179684,1114146}
-  PLATFORM=3Dchrp
-  + [ ! -x /usr/lib/boot/bin/bootinfo_chrp ]
-  + [ 1 -eq 1 ]
-  + 1> /usr/lib/libc.a
-  + init -c unlink /usr/lib/boot/bin/!(*_chrp)
-  exec(/etc/init,-c,unlink /usr/lib/boot/bin/!(*_chrp)){1179686,1114146}
-  + chramfs -t
-  exec(/usr/sbin/chramfs,-t){1179688,1114146}
-  + init -c unlink /usr/sbin/chramfs
-  + 1> /dev/null
-  exec(/etc/init,-c,unlink /usr/sbin/chramfs){1179690,1114146}
-  + + bootinfo -t
-  exec(/usr/sbin/bootinfo,-t){1179692,1114146}
-  BOOTYPE=3D3
-  + [ 0 -ne 0 ]
-  + [ -z 3 ]
-  + unset pdev_to_ldev undolt native_netboot_cfg
-  + unset disknet_odm_init config_ATM
-  + /usr/lib/methods/showled 0x510 DEV CFG 1 START
-  exec(/usr/lib/methods/showled,0x510,DEV CFG 1 START){1179694,1114146}
-  + cfgmgr -f -v
-  exec(/usr/sbin/cfgmgr,-f,-v){1179696,1114146}
-  cfgmgr is running in phase 1
-  ----------------
-  Time: 0 LEDS: 0x538
-  Invoking top level program -- "/etc/methods/defsys"
-  exec(/bin/sh,-c,/etc/methods/defsys ){1245222,1179696}
-  exec(/etc/methods/defsys){1245222,1179696}
-  exec(/bin/sh,-c,/usr/lib/methods/define_rspc -n -c sys -s node -t chrp){1=
-310760,1245222}
-  exec(/usr/lib/methods/define_rspc,-n,-c,sys,-s,node,-t,chrp){1310760,1245=
-222}
-  Time: 0 LEDS: 0x539
-  Return code =3D 0
-  ***** stdout *****
-  sys0
-
-  *** no stderr ****
-  ----------------
-  Attempting to configure device 'sys0'
-  Time: 0 LEDS: 0x811
-  Invoking /usr/lib/methods/cfgsys_chrp -1 -l sys0
-  exec(/bin/sh,-c,/usr/lib/methods/cfgsys_chrp -1 -l sys0){1245224,1179696}
-  Number of running methods: 1
-  exec(/usr/lib/methods/cfgsys_chrp,-1,-l,sys0){1245224,1179696}
-  LED{A20}
-  Illegal Trap Instruction Interrupt in Kernel
-  04151A74      tweqi    r0,0                r0=3D0
-  KDB(0)>
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1846816/+subscriptions
 
