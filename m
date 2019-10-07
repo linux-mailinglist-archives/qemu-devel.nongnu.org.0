@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6591CE592
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 16:43:56 +0200 (CEST)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37481CE5A0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 16:47:36 +0200 (CEST)
+Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHUEt-0003TZ-Tr
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 10:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41663)
+	id 1iHUIQ-00066w-A8
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 10:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHUBv-0000Ra-Vb
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:40:53 -0400
+ (envelope-from <dann.frazier@canonical.com>) id 1iHUFd-0004QA-I7
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:44:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHUBu-0006z9-Ra
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:40:51 -0400
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:33742)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHUBu-0006yt-Na
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:40:50 -0400
-Received: by mail-ot1-x32d.google.com with SMTP id 60so11188450otu.0
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 07:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wmM9vna5q8ED7fQwnaF8wd/LqQ1opahY+TKOeojp8oI=;
- b=Gbxi3gYoOgFTaD/SqbyOuhrf52s9beJSu5sxlRWKed1bW4L5ReBnPTTcHi4x2MBh4L
- UoC+wIJIxoaHBP7nre7SShRrDMpMYh2t2Kz7oL+q+3h/YUJlRwIxNwyb8iavdYjOtVS6
- eyRbuUdV0TBcMABulL4I8c/LAY+VrGldxEv6BXQH+5wnpmKkB99cNevuaH4SewKli5MX
- amWYkuqxM73ek9EkBlmISxzg5p9FgDa8rw9R/+fJEhOVopSQxHDwejplsBzsPi4fZHNZ
- cq6YMDm7qLQtq2pPjep4xHjuiX2l7gKVTvfTH8T581bY3AtuHXduQxYC32YyUfNe1AF5
- v0Iw==
+ (envelope-from <dann.frazier@canonical.com>) id 1iHUFa-00088L-OA
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:44:41 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:37268)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dann.frazier@canonical.com>)
+ id 1iHUFa-00087N-GF
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 10:44:38 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <dann.frazier@canonical.com>) id 1iHUFX-0004WK-Cn
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 14:44:35 +0000
+Received: by mail-io1-f69.google.com with SMTP id f9so27100973ioh.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 07:44:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wmM9vna5q8ED7fQwnaF8wd/LqQ1opahY+TKOeojp8oI=;
- b=Xq77e8Xm5JYYo+Kbp06efx0B/ZyBH2ZO88/E2NJO9j7iF74olcVUKGJ9hHcb566pAX
- F+HydAvEBqdDei5yshFNzQjGrJrJNq1xtuUW2FC7PPoJ7bpVw7GGUMw0C99R3dIqB20o
- sR5cJ68auUC6gnsfRafjO5yhhsX1BVlcjQsDUJLkdIBoEPQJ+vYEI/pb8OPVyCxAcvfZ
- EcGkzByU+H362iyNfVjRvvuQKCJEbjbBljG+IpAjjFI5xOy3nvuGwNKV3iCcYpTS0ZYo
- Fjd5zAe0pqQIIWNj3POFjPd5H7WhXGR51Ym3xpvRgzdwMkhwrev9HuwUvesAlTXyfN3z
- eJow==
-X-Gm-Message-State: APjAAAUuRion4MTeGG/zFur1xsmuDnfpT2G4vUeZTIF+WuLjLEM4pCKU
- n3+djg+XMwFycUqYo9W3fOkeUKfmn3belaP2W4UngQ==
-X-Google-Smtp-Source: APXvYqxJOh45ISAkYT6YyzVErqpq1v5kVEDPy+4LW7K4R1e2mWJdb9Y172XacIgru+tBBullH8CiB7pbHwlQTbVnV2k=
-X-Received: by 2002:a05:6830:1357:: with SMTP id
- r23mr21451560otq.91.1570459244518; 
- Mon, 07 Oct 2019 07:40:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Qz0cNZx7tN0+PqIxSXAiFM8scEeNgD2Q1wMag7r7P6o=;
+ b=cv9iUR1RG4SPDbH7u/RbkYlqUWNzBlIqkBfg1Dr/ZJnuCqGHQ5pYULp9+qNy/VNGQi
+ cPNazbX8/pHdHE5EWIln/fHOKnUt6fBUwCgyUMfjU95WUBdaILhWpnY5UmkEBhA4Ayfy
+ yANnaGXK8o+brboVNT2dyGb/K8v8jICD/HuBJcWfIQAwbj5aj2sjvuv2xrJ+gSWjwDFG
+ dSVtCATLIJJ7LCNwQLwKhubqjI+WclTBrb74fczNhBI4R5TKRwQypTCICRSbFJTVDj2W
+ BV73uOYoAJHyIV3ZkT+VG7aK0Xesn71A2xC5RV/Pf8VSCLEAwDg3kCsSGZpyj090reLE
+ V7lA==
+X-Gm-Message-State: APjAAAXq9Anjrxx4w5PgcjsvmVjmyvzzRsj5zWd7U5Fo2B3ScHjNvbTW
+ dPm+m6DBgc48xWrCxx+DKzCy9f/gOwQhidvukCx/kIsAX/P++nzvU9fJ6bKQBwREehUVgLpGQrJ
+ 6cI5y+neWxW5/zGFQFHhUFazYAs+9Bno4
+X-Received: by 2002:a5d:8911:: with SMTP id b17mr12261780ion.287.1570459474311; 
+ Mon, 07 Oct 2019 07:44:34 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzRIt9HFuwleVAM3KbcYDYO/E8XE1RpWo5xqluX8wIUYyIBhH0ebeLqLcP0cGjibsg3+F2LQw==
+X-Received: by 2002:a5d:8911:: with SMTP id b17mr12261752ion.287.1570459473926; 
+ Mon, 07 Oct 2019 07:44:33 -0700 (PDT)
+Received: from xps13.canonical.com (c-71-56-235-36.hsd1.co.comcast.net.
+ [71.56.235.36])
+ by smtp.gmail.com with ESMTPSA id 197sm6125516ioc.78.2019.10.07.07.44.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Oct 2019 07:44:33 -0700 (PDT)
+Date: Mon, 7 Oct 2019 08:44:32 -0600
+From: dann frazier <dann.frazier@canonical.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible issues
+Message-ID: <20191007144432.GA29958@xps13.dannf>
+References: <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
+ <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
+ <1864070a-2f84-1d98-341e-f01ddf74ec4b@ubuntu.com>
+ <20190924202517.GA21422@xps13.dannf> <20191002092253.GA3857@hc>
+ <6dd73749-49b0-0fbc-b9bb-44c3736642b8@redhat.com>
 MIME-Version: 1.0
-References: <20191004093747.31350-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20191004093747.31350-1-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Oct 2019 15:40:33 +0100
-Message-ID: <CAFEAcA8PVHBKj4TVRe5jW9BTbiUZYHVfV48dy9AxbOa3hyfqiA@mail.gmail.com>
-Subject: Re: [PULL 00/53] ppc-for-4.2 queue 20191004
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6dd73749-49b0-0fbc-b9bb-44c3736642b8@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 91.189.89.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,48 +80,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>,
+ lizhengui <lizhengui@huawei.com>, Jan Glauber <jglauber@marvell.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Bug 1805256 <1805256@bugs.launchpad.net>,
+ QEMU Developers - ARM <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Oct 2019 at 10:37, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit 4f59102571fce49af180cfc6d4cdd2b5df7bdb14:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-oct-01-2019' into staging (2019-10-01 16:21:42 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191004
->
-> for you to fetch changes up to 1aba8716c8335e88b8c358002a6e1ac89f7dd258:
->
->   ppc/pnv: Remove the XICSFabric Interface from the POWER9 machine (2019-10-04 19:08:23 +1000)
->
-> ----------------------------------------------------------------
-> ppc patch queue 2019-10-04
->
-> Here's the next batch of ppc and spapr patches.  Includes:
->   * Fist part of a large cleanup to irq infrastructure
->   * Recreate the full FDT at CAS time, instead of making a difficult
->     to follow set of updates.  This will help us move towards
->     eliminating CAS reboots altogether
->   * No longer provide RTAS blob to SLOF - SLOF can include it just as
->     well itself, since guests will generally need to relocate it with
->     a call to instantiate-rtas
->   * A number of DFP fixes and cleanups from Mark Cave-Ayland
->   * Assorted bugfixes
->   * Several new small devices for powernv
->
+On Mon, Oct 07, 2019 at 01:06:20PM +0200, Paolo Bonzini wrote:
+> On 02/10/19 11:23, Jan Glauber wrote:
+> > I've looked into this on ThunderX2. The arm64 code generated for the
+> > atomic_[add|sub] accesses of ctx->notify_me doesn't contain any
+> > memory barriers. It is just plain ldaxr/stlxr.
+> > 
+> > From my understanding this is not sufficient for SMP sync.
+> > 
+> > If I read this comment correct:
+> > 
+> >     void aio_notify(AioContext *ctx)
+> >     {
+> >         /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
+> >          * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
+> >          */
+> >         smp_mb();
+> >         if (ctx->notify_me) {
+> > 
+> > it points out that the smp_mb() should be paired. But as
+> > I said the used atomics don't generate any barriers at all.
+> 
+> Based on the rest of the thread, this patch should also fix the bug:
+> 
+> diff --git a/util/async.c b/util/async.c
+> index 47dcbfa..721ea53 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -249,7 +249,7 @@ aio_ctx_check(GSource *source)
+>      aio_notify_accept(ctx);
+>  
+>      for (bh = ctx->first_bh; bh; bh = bh->next) {
+> -        if (bh->scheduled) {
+> +        if (atomic_mb_read(&bh->scheduled)) {
+>              return true;
+>          }
+>      }
+> 
+> 
+> And also the memory barrier in aio_notify can actually be replaced
+> with a SEQ_CST load:
+> 
+> diff --git a/util/async.c b/util/async.c
+> index 47dcbfa..721ea53 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -349,11 +349,11 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
+>  
+>  void aio_notify(AioContext *ctx)
+>  {
+> -    /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
+> -     * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
+> +    /* Using atomic_mb_read ensures that e.g. bh->scheduled is written before
+> +     * ctx->notify_me is read.  Pairs with atomic_or in aio_ctx_prepare or
+> +     * atomic_add in aio_poll.
+>       */
+> -    smp_mb();
+> -    if (ctx->notify_me) {
+> +    if (atomic_mb_read(&ctx->notify_me)) {
+>          event_notifier_set(&ctx->notifier);
+>          atomic_mb_set(&ctx->notified, true);
+>      }
+> 
+> 
+> Would you be able to test these (one by one possibly)?
 
+Paolo,
+  I tried them both separately and together on a Hi1620 system, each
+time it hung in the first iteration. Here's a backtrace of a run with
+both patches applied:
 
-Applied, thanks.
+(gdb) thread apply all bt
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+Thread 3 (Thread 0xffff8154b820 (LWP 63900)):
+#0  0x0000ffff8b9402cc in __GI___sigtimedwait (set=<optimized out>, set@entry=0xaaaaf1e08070, 
+    info=info@entry=0xffff8154ad98, timeout=timeout@entry=0x0) at ../sysdeps/unix/sysv/linux/sigtimedwait.c:42
+#1  0x0000ffff8ba77fac in __sigwait (set=set@entry=0xaaaaf1e08070, sig=sig@entry=0xffff8154ae74)
+    at ../sysdeps/unix/sysv/linux/sigwait.c:28
+#2  0x0000aaaab7dc1610 in sigwait_compat (opaque=0xaaaaf1e08070) at util/compatfd.c:35
+#3  0x0000aaaab7dc3e80 in qemu_thread_start (args=<optimized out>) at util/qemu-thread-posix.c:519
+#4  0x0000ffff8ba6d088 in start_thread (arg=0xffffceefbf4f) at pthread_create.c:463
+#5  0x0000ffff8b9dd4ec in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
 
--- PMM
+Thread 2 (Thread 0xffff81d4c820 (LWP 63899)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000aaaab7dc4cd8 in qemu_futex_wait (val=<optimized out>, f=<optimized out>)
+    at /home/ubuntu/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0xaaaab7e48708 <rcu_call_ready_event>) at util/qemu-thread-posix.c:459
+#3  0x0000aaaab7ddf44c in call_rcu_thread (opaque=<optimized out>) at util/rcu.c:260
+#4  0x0000aaaab7dc3e80 in qemu_thread_start (args=<optimized out>) at util/qemu-thread-posix.c:519
+#5  0x0000ffff8ba6d088 in start_thread (arg=0xffffceefc05f) at pthread_create.c:463
+#6  0x0000ffff8b9dd4ec in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+
+Thread 1 (Thread 0xffff81e83010 (LWP 63898)):
+#0  0x0000ffff8b9d4154 in __GI_ppoll (fds=0xaaaaf1e0dbc0, nfds=187650205809964, timeout=<optimized out>, 
+    timeout@entry=0x0, sigmask=0xffffceefbef0) at ../sysdeps/unix/sysv/linux/ppoll.c:39
+#1  0x0000aaaab7dbedb0 in ppoll (__ss=0x0, __timeout=0x0, __nfds=<optimized out>, __fds=<optimized out>)
+    at /usr/include/aarch64-linux-gnu/bits/poll2.h:77
+#2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>, timeout=timeout@entry=-1) at util/qemu-timer.c:340
+#3  0x0000aaaab7dbfd2c in os_host_main_loop_wait (timeout=-1) at util/main-loop.c:236
+#4  main_loop_wait (nonblocking=<optimized out>) at util/main-loop.c:517
+#5  0x0000aaaab7ce86e8 in convert_do_copy (s=0xffffceefc068) at qemu-img.c:2028
+#6  img_convert (argc=<optimized out>, argv=<optimized out>) at qemu-img.c:2520
+#7  0x0000aaaab7ce1e54 in main (argc=8, argv=<optimized out>) at qemu-img.c:5097
+
+> > I've tried to verify me theory with this patch and didn't run into the
+> > issue for ~500 iterations (usually I would trigger the issue ~20 iterations).
+> 
+> Sorry for asking the obvious---500 iterations of what?
+
+$ for i in $(seq 1 500); do echo "==$i=="; ./qemu/qemu-img convert -p -f qcow2 -O qcow2 bionic-server-cloudimg-arm64.img out.img; done
+==1==
+    (37.19/100%)
+
+  -dann
 
