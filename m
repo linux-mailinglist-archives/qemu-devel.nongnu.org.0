@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E33CE8E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:16:22 +0200 (CEST)
-Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4930DCE8BD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:10:41 +0200 (CEST)
+Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVgK-0004PR-Hf
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
+	id 1iHVap-0006f1-Jw
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iHVVQ-0001g8-7c
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:05 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iHVVN-0001d9-Hh
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iHVVP-0006Zx-3S
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:04 -0400
-Received: from relay.sw.ru ([185.231.240.75]:56608)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iHVVL-0006Xa-W8
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:05:01 -0400
+Received: from relay.sw.ru ([185.231.240.75]:56606)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iHVVH-0006SF-3m; Mon, 07 Oct 2019 12:04:55 -0400
+ id 1iHVVH-0006SH-Ef; Mon, 07 Oct 2019 12:04:55 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iHVVD-0003oB-Jq; Mon, 07 Oct 2019 19:04:51 +0300
+ id 1iHVVD-0003oB-Uk; Mon, 07 Oct 2019 19:04:52 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 0/2] qcow2: add zstd cluster compression
-Date: Mon,  7 Oct 2019 19:04:49 +0300
-Message-Id: <20191007160451.27334-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 1/2] docs: improve qcow2 spec about extending image header
+Date: Mon,  7 Oct 2019 19:04:50 +0300
+Message-Id: <20191007160451.27334-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191007160451.27334-1-vsementsov@virtuozzo.com>
+References: <20191007160451.27334-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
@@ -51,26 +53,58 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, den@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Make it more obvious how to add new fields to the version 3 header and
+how to interpret them.
 
-Here is my proposal, about how to correctly update qcow2 specification
-to introduce new field, keeping in mind currently existing images and
-downstream Qemu instances.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ docs/interop/qcow2.txt | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-Let's consider discussing from this.
-
-I called it v7, as it's a continuation of
-"[PATCH v6 0/3] qcow2: add zstd cluster compression". Still there are
-actually only two preparing patches, so, if we like them (may be after
-some resends) Denis's series should be rebased on these two patches.
-
-Vladimir Sementsov-Ogievskiy (2):
-  docs: improve qcow2 spec about extending image header
-  docs: qcow2: introduce compression type feature
-
- docs/interop/qcow2.txt | 43 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 40 insertions(+), 3 deletions(-)
-
+diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
+index af5711e533..3f2855593f 100644
+--- a/docs/interop/qcow2.txt
++++ b/docs/interop/qcow2.txt
+@@ -79,9 +79,9 @@ The first cluster of a qcow2 image contains the file header:
+                     Offset into the image file at which the snapshot table
+                     starts. Must be aligned to a cluster boundary.
+ 
+-If the version is 3 or higher, the header has the following additional fields.
+-For version 2, the values are assumed to be zero, unless specified otherwise
+-in the description of a field.
++For version 2, header is always 72 bytes length and finishes here.
++For version 3 or higher the header length is at least 104 bytes and has at
++least next five fields, up to the @header_length field.
+ 
+          72 -  79:  incompatible_features
+                     Bitmask of incompatible features. An implementation must
+@@ -165,6 +165,26 @@ in the description of a field.
+                     Length of the header structure in bytes. For version 2
+                     images, the length is always assumed to be 72 bytes.
+ 
++Additional fields (version 3 and higher)
++
++The following fields of the header are optional: if software don't know how to
++interpret the field, it may safely ignore it. Still the field must be kept as is
++when rewriting the image. @header_length must be bound to the end of one of
++these fields (or to @header_length field end itself, to be 104 bytes).
++This definition implies the following:
++1. Software may support some of these optional fields and ignore the others,
++   which means that features may be backported to downstream Qemu independently.
++2. Software may check @header_length, if it knows optional fields specification
++   enough (knows about the field which exceeds @header_length).
++3. If @header_length is higher than the highest field end that software knows,
++   it should assume that additional fields are correct, @header_length is
++   correct and keep @header_length and additional unknown fields as is on
++   rewriting the image.
++3. If we want to add incompatible field (or a field, for which some its values
++   would be incompatible), it must be accompanied by incompatible feature bit.
++
++        < ... No additional fields in the header currently ... >
++
+ Directly after the image header, optional sections called header extensions can
+ be stored. Each extension has a structure like the following:
+ 
 -- 
 2.21.0
 
