@@ -2,103 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187AFCE954
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:35:14 +0200 (CEST)
-Received: from localhost ([::1]:47614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA4ACE960
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 18:38:05 +0200 (CEST)
+Received: from localhost ([::1]:47644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVya-00083M-Rz
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58493)
+	id 1iHW1M-0002Qt-Nl
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 12:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iHVmT-0003YP-DI
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:22:42 -0400
+ (envelope-from <thuth@redhat.com>) id 1iHVs7-0002N5-Ka
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:28:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iHVmR-0006ra-Tv
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:22:41 -0400
-Received: from mail-eopbgr10117.outbound.protection.outlook.com
- ([40.107.1.117]:8251 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iHVmR-0006qr-3R; Mon, 07 Oct 2019 12:22:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e7fFXN02AzphW6/Z9xLBNZn3IlNYaOLV60AXUABQo81ZEiMqJWnXqXAXqBnVyd5/SjXFbi1Pk478HYQzRUrJwwQNgFk3/3/FfqXjdVmORn35EJybspeIS7JFunep2tW+vtbLz4k4Z5ZWHMK9nK2wIklkg3g5mfA23RO7uBrB3LT0PczqPYiL8xVtAUo9kj5TBCs0B0+SJtnZYdFr5lGWifLkzqe9dpbXKFKJ0IDZwmGmUpVqXv8CuHd5IYe+EzuemO0PgjuwtkxwvSlRHmreI6OOy35iMQP34b9V2mQruXcZ9SjPx2xT4CTPQIe65e2momacAwLGy2bOqRpG+M/6SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rdLhhdA3CGipJXmUDWDW85HwCQKvULGpQoll/bP4KwE=;
- b=cGOXAno8V9kX4S4L3xGKbtFrwzQpWEORx092DKbD4tNTRz29oDtVhT+gsWRVLGybCCkZxoXpO0bqZpgG7aQQDFHQzh1MtnaDd1Y/KFzSGPDewn7+hAQsvbbnvj8xBsrEGC/wt6+WPQw0RfmU8MyHJ25jLVqNXubv766ePGknPn5HdK1EG0RemvWqHgCmcGkQjNQ4JxKgGPDlpdvNvQ9inRVK5wOWbE/UGHmx+Y3BZdhvweXsnvvCvynQmgK0v1y7H1DBwIz/PDOjSA/aCjTdvHoTOavEHdQbPbPM+wykNPdcpp3SCvnGqpRd8NBfy+QyQ8QE03PiNWS0nTyo6Aw/1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rdLhhdA3CGipJXmUDWDW85HwCQKvULGpQoll/bP4KwE=;
- b=K2uVeixsfCT//K1JHGb4gsbkMvC5R4Fz3xlfhHtl/HuUe5RDj+8++kWS078yYtW8yBDs1POyz2iFOLQTmBkapiTbTrE66NENabDlcteq82VPD9yPv9ajHvunDIGJaexRbx0dMVGvCyogPS7fRd/xZxFfv4Hw2gvcYKWW5kIjilc=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5371.eurprd08.prod.outlook.com (52.133.240.199) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2327.25; Mon, 7 Oct 2019 16:22:35 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2327.023; Mon, 7 Oct 2019
- 16:22:35 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH 6/6] block/block-copy: increase buffered copy request
-Thread-Topic: [PATCH 6/6] block/block-copy: increase buffered copy request
-Thread-Index: AQHVeg4ynth9X7X//UWnJvT5uNEBcqdPWUqAgAAJcoA=
-Date: Mon, 7 Oct 2019 16:22:35 +0000
-Message-ID: <0dab53ed-c993-c923-2374-bad9faece27d@virtuozzo.com>
-References: <20191003171539.12327-1-vsementsov@virtuozzo.com>
- <20191003171539.12327-7-vsementsov@virtuozzo.com>
- <441fc41e-0432-978a-9568-60b651cbf25b@redhat.com>
-In-Reply-To: <441fc41e-0432-978a-9568-60b651cbf25b@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR1001CA0023.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:3:f7::33) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191007192233183
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f96f0f1f-3b88-43a2-5341-08d74b42902d
-x-ms-traffictypediagnostic: DB8PR08MB5371:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB5371C6C28B57753A347CB78BC19B0@DB8PR08MB5371.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2150;
-x-forefront-prvs: 01834E39B7
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39840400004)(346002)(376002)(396003)(366004)(136003)(199004)(189003)(486006)(478600001)(81166006)(81156014)(476003)(86362001)(31696002)(25786009)(8936002)(7736002)(8676002)(5660300002)(305945005)(186003)(446003)(11346002)(52116002)(54906003)(76176011)(26005)(110136005)(53546011)(6506007)(386003)(316002)(102836004)(2616005)(99286004)(107886003)(229853002)(71190400001)(6486002)(71200400001)(14444005)(36756003)(2501003)(256004)(66556008)(64756008)(66946007)(66476007)(66446008)(4326008)(6246003)(6512007)(2906002)(6436002)(31686004)(14454004)(66066001)(3846002)(6116002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5371;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Aos7jaAsiPsXim8Nl8jcwhxC0m4KHkzH1G7g2Kser6qDNrT0+6BMbDXEBo9iFmvgkaS9TvfJKQ4spPTNQmbg9tTsiueGuetF5JD3Lycz7X/Oj8rG6M31Asg+6DHRWeCvPxtc4zKApAb6bEIRv+Dxsh/8h0cy/EFYBYwf9Mp2Q7W95g+eTHYkDQ28no5k4heddiUGfFjWkVW1ix6ue9n+IuE5d8cbhldMv+HFRPkZbUoVUoWJaV7SUB/m+ALXrdq8QUY54lmuoo8mIpafWl1XS+JpMx7t7OHNgjkR1okf6U5VSsnxZDkaEL88MlUEkMPh9mNCfQgS/WQOBC18pCFVfuIvnaD/BpGFdUgmjaxo11RQmjCjSfDuyUD+e40thKxe1jwYPNfZfEzNr2IbnIsgvPnrSKwkZwvZKjz0iPbSFuw=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8EDC68C159AD5C478202DD58A7F389F0@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <thuth@redhat.com>) id 1iHVs6-0001BN-BW
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 12:28:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58782)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iHVs2-000192-Nj; Mon, 07 Oct 2019 12:28:26 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 90902C049E1A;
+ Mon,  7 Oct 2019 16:28:25 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FEB71001DE1;
+ Mon,  7 Oct 2019 16:28:22 +0000 (UTC)
+Subject: Re: [PATCH v5 1/5] iotests: remove 'linux' from default supported
+ platforms
+From: Thomas Huth <thuth@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20190917234549.22910-1-jsnow@redhat.com>
+ <20190917234549.22910-2-jsnow@redhat.com>
+ <a252472e-842a-8401-2743-e4ed948b066b@redhat.com>
+ <450a1f52-9589-cb98-88cb-1d3fcd5f506a@redhat.com>
+ <778487c5-566e-d133-6395-d3908db66adc@redhat.com>
+ <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
+ <16eef993-c16e-3fd7-c60d-6d3c7bfb5148@redhat.com>
+ <20191002164438.GD5819@localhost.localdomain>
+ <a7f532cc-68cb-175e-6c8f-930401221ef9@redhat.com>
+ <20191004101952.GC5491@linux.fritz.box>
+ <d194e22c-7125-e558-0a80-131a28a87419@redhat.com>
+ <e7d5cc8a-7a61-70a2-7efc-8f1af8e7a41f@redhat.com>
+ <8a6b9c09-70f2-e2cc-4c65-33375396d319@redhat.com>
+ <793fa056-2fc5-8d15-c563-046d3a336f2f@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <c7b5052c-45d6-9d6e-9cc5-373c7522d6df@redhat.com>
+Date: Mon, 7 Oct 2019 18:28:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f96f0f1f-3b88-43a2-5341-08d74b42902d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2019 16:22:35.6930 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GwCAFzT/lgfwkrnSwxoZ+fENRTTxAjcTjMrbMWz7MTJeVSBDqAGtWGQtCUthrrd/CUNPPBlYfCpTng7nmgrZiuRL/5uqNF+43ojrrWX8JXI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5371
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.117
+In-Reply-To: <793fa056-2fc5-8d15-c563-046d3a336f2f@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="sYKadnwR6oJtCUJKGHkjCN3XKgXfm9gVj"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Mon, 07 Oct 2019 16:28:25 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,58 +117,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Denis Lunev <den@virtuozzo.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDcuMTAuMjAxOSAxODo0OCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAwMy4xMC4xOSAxOToxNSwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IE5vIHJlYXNvbiB0byBsaW1p
-dCBidWZmZXJlZCBjb3B5IHRvIG9uZSBjbHVzdGVyLiBMZXQncyBhbGxvdyB1cCB0byAxDQo+PiBN
-aUIuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8
-dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KPj4gLS0tDQo+PiAgIGluY2x1ZGUvYmxvY2svYmxv
-Y2stY29weS5oIHwgIDIgKy0NCj4+ICAgYmxvY2svYmxvY2stY29weS5jICAgICAgICAgfCA0NCAr
-KysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQ0KPj4gICAyIGZpbGVzIGNoYW5n
-ZWQsIDMyIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQ0KPiANCj4gDQo+IEVyLCBvb3Bz
-LCBsb29rcyBsaWtlIEkgd2FzIGEgYml0IHF1aWNrIHRoZXJlLi4uDQo+IA0KPj4gQEAgLTEwMCwx
-NyArMTAxLDI4IEBAIEJsb2NrQ29weVN0YXRlICpibG9ja19jb3B5X3N0YXRlX25ldyhCZHJ2Q2hp
-bGQgKnNvdXJjZSwgQmRydkNoaWxkICp0YXJnZXQsDQo+PiAgICAgICAgICAgLm1lbSA9IHFlbXVf
-Y29fc2hhcmVkX2Ftb3VudF9uZXcoQkxPQ0tfQ09QWV9NQVhfTUVNKSwNCj4+ICAgICAgIH07DQo+
-PiAgIA0KPj4gLSAgICBzLT5jb3B5X3JhbmdlX3NpemUgPSBRRU1VX0FMSUdOX0RPV04obWF4X3Ry
-YW5zZmVyLCBjbHVzdGVyX3NpemUpLA0KPj4gLSAgICAvKg0KPj4gLSAgICAgKiBTZXQgdXNlX2Nv
-cHlfcmFuZ2UsIGNvbnNpZGVyIHRoZSBmb2xsb3dpbmc6DQo+PiAtICAgICAqIDEuIENvbXByZXNz
-aW9uIGlzIG5vdCBzdXBwb3J0ZWQgZm9yIGNvcHlfcmFuZ2UuDQo+PiAtICAgICAqIDIuIGNvcHlf
-cmFuZ2UgZG9lcyBub3QgcmVzcGVjdCBtYXhfdHJhbnNmZXIgKGl0J3MgYSBUT0RPKSwgc28gd2Ug
-ZmFjdG9yDQo+PiAtICAgICAqICAgIHRoYXQgaW4gaGVyZS4gSWYgbWF4X3RyYW5zZmVyIGlzIHNt
-YWxsZXIgdGhhbiB0aGUgam9iLT5jbHVzdGVyX3NpemUsDQo+PiAtICAgICAqICAgIHdlIGRvIG5v
-dCB1c2UgY29weV9yYW5nZSAoaW4gdGhhdCBjYXNlIGl0J3MgemVybyBhZnRlciBhbGlnbmluZyBk
-b3duDQo+PiAtICAgICAqICAgIGFib3ZlKS4NCj4+IC0gICAgICovDQo+PiAtICAgIHMtPnVzZV9j
-b3B5X3JhbmdlID0NCj4+IC0gICAgICAgICEod3JpdGVfZmxhZ3MgJiBCRFJWX1JFUV9XUklURV9D
-T01QUkVTU0VEKSAmJiBzLT5jb3B5X3JhbmdlX3NpemUgPiAwOw0KPj4gKyAgICBpZiAobWF4X3Ry
-YW5zZmVyIDwgY2x1c3Rlcl9zaXplKSB7DQo+PiArICAgICAgICAvKg0KPj4gKyAgICAgICAgICog
-Y29weV9yYW5nZSBkb2VzIG5vdCByZXNwZWN0IG1heF90cmFuc2Zlci4gV2UgZG9uJ3Qgd2FudCB0
-byBib3RoZXINCj4+ICsgICAgICAgICAqIHdpdGggcmVxdWVzdHMgc21hbGxlciB0aGFuIGJsb2Nr
-LWNvcHkgY2x1c3RlciBzaXplLCBzbyBmYWxsYmFjayB0bw0KPj4gKyAgICAgICAgICogYnVmZmVy
-ZWQgY29weWluZyAocmVhZCBhbmQgd3JpdGUgcmVzcGVjdCBtYXhfdHJhbnNmZXIgb24gdGhlaXIN
-Cj4+ICsgICAgICAgICAqIGJlaGFsZikuDQo+PiArICAgICAgICAgKi8NCj4+ICsgICAgICAgIHMt
-PnVzZV9jb3B5X3JhbmdlID0gZmFsc2U7DQo+PiArICAgICAgICBzLT5jb3B5X3NpemUgPSBjbHVz
-dGVyX3NpemU7DQo+PiArICAgIH0gZWxzZSBpZiAod3JpdGVfZmxhZ3MgJiBCRFJWX1JFUV9XUklU
-RV9DT01QUkVTU0VEKSB7DQo+PiArICAgICAgICAvKiBDb21wcmVzc2lvbiBpcyBub3Qgc3VwcG9y
-dGVkIGZvciBjb3B5X3JhbmdlICovDQo+PiArICAgICAgICBzLT51c2VfY29weV9yYW5nZSA9IGZh
-bHNlOw0KPj4gKyAgICAgICAgcy0+Y29weV9zaXplID0gTUFYKGNsdXN0ZXJfc2l6ZSwgQkxPQ0tf
-Q09QWV9NQVhfQlVGRkVSKTsNCj4+ICsgICAgfSBlbHNlIHsNCj4+ICsgICAgICAgIC8qDQo+PiAr
-ICAgICAgICAgKiBjb3B5X3JhbmdlIGRvZXMgbm90IHJlc3BlY3QgbWF4X3RyYW5zZmVyIChpdCdz
-IGEgVE9ETyksIHNvIHdlIGZhY3Rvcg0KPj4gKyAgICAgICAgICogdGhhdCBpbiBoZXJlLg0KPj4g
-KyAgICAgICAgICovDQo+PiArICAgICAgICBzLT51c2VfY29weV9yYW5nZSA9IHRydWU7DQo+PiAr
-ICAgICAgICBzLT5jb3B5X3NpemUgPSBNSU4oTUFYKGNsdXN0ZXJfc2l6ZSwgQkxPQ0tfQ09QWV9N
-QVhfQ09QWV9SQU5HRSksDQo+IA0KPiBUaGlzIGlzIGFscmVhZHkgcGFydCBvZiBtYXhfdHJhbnNm
-ZXIsIGlzbuKAmXQgaXQ/DQo+IA0KPiAoVGhhdCBkb2VzbuKAmXQgbWFrZSBpdCB3cm9uZywgYnV0
-IEkgdGhpbmsgbWF4X3RyYW5zZmVyIHdpbGwgYWx3YXlzIGJlDQo+IGxlc3MgdGhhbiBvciBlcXVh
-bCB0byBNQVgoY2x1c3Rlcl9zaXplLCBCTE9DS19DT1BZX01BWF9DT1BZX1JBTkdFKSBhbnl3YXku
-KQ0KPiANCj4gTWF4DQoNCkhtbSwgb29wcywgeWVzLiBJdCdkIGJldHRlciBiZSBqdXN0IFFFTVVf
-QUxJR05fRE9XTihtYXhfdHJhbnNmZXIsIGNsdXN0ZXJfc2l6ZSkNCg0KPiANCj4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBRRU1VX0FMSUdOX0RPV04obWF4X3RyYW5zZmVyLCBjbHVzdGVy
-X3NpemUpKTsNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--sYKadnwR6oJtCUJKGHkjCN3XKgXfm9gVj
+Content-Type: multipart/mixed; boundary="11ZOEopt1HODalUQJjZ95g7qp5DepsLBJ";
+ protected-headers="v1"
+From: Thomas Huth <thuth@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Message-ID: <c7b5052c-45d6-9d6e-9cc5-373c7522d6df@redhat.com>
+Subject: Re: [PATCH v5 1/5] iotests: remove 'linux' from default supported
+ platforms
+References: <20190917234549.22910-1-jsnow@redhat.com>
+ <20190917234549.22910-2-jsnow@redhat.com>
+ <a252472e-842a-8401-2743-e4ed948b066b@redhat.com>
+ <450a1f52-9589-cb98-88cb-1d3fcd5f506a@redhat.com>
+ <778487c5-566e-d133-6395-d3908db66adc@redhat.com>
+ <62cf912a-8ee9-d023-84c2-1ad6ea94e3b8@redhat.com>
+ <16eef993-c16e-3fd7-c60d-6d3c7bfb5148@redhat.com>
+ <20191002164438.GD5819@localhost.localdomain>
+ <a7f532cc-68cb-175e-6c8f-930401221ef9@redhat.com>
+ <20191004101952.GC5491@linux.fritz.box>
+ <d194e22c-7125-e558-0a80-131a28a87419@redhat.com>
+ <e7d5cc8a-7a61-70a2-7efc-8f1af8e7a41f@redhat.com>
+ <8a6b9c09-70f2-e2cc-4c65-33375396d319@redhat.com>
+ <793fa056-2fc5-8d15-c563-046d3a336f2f@redhat.com>
+In-Reply-To: <793fa056-2fc5-8d15-c563-046d3a336f2f@redhat.com>
+
+--11ZOEopt1HODalUQJjZ95g7qp5DepsLBJ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 07/10/2019 15.11, Thomas Huth wrote:
+> On 07/10/2019 14.52, Max Reitz wrote:
+>> On 07.10.19 14:16, Thomas Huth wrote:
+>>> On 04/10/2019 14.44, Max Reitz wrote:
+>>>> On 04.10.19 12:19, Kevin Wolf wrote:
+>>>>> Am 02.10.2019 um 19:47 hat Max Reitz geschrieben:
+>>>>>> On 02.10.19 18:44, Kevin Wolf wrote:
+>>>>>>> Am 02.10.2019 um 13:57 hat Max Reitz geschrieben:
+>>>>>>>> It usually worked fine for me because it=E2=80=99s rather rare t=
+hat non-block
+>>>>>>>> patches broke the iotests.
+>>>>>>>
+>>>>>>> I disagree. It happened all the time that someone else broke the =
+iotests
+>>>>>>> in master and we needed to fix it up.
+>>>>>>
+>>>>>> OK.
+>>>>>>
+>>>>>> (In my experience, it=E2=80=99s still mostly block patches, only t=
+hat they tend
+>>>>>> to go through non-block trees.)
+>>>>>
+>>>>> Fair enough, it's usually code that touches block code. I assumed "=
+block
+>>>>> patches" to mean patches that go through one of the block trees and=
+ for
+>>>>> which iotests are run before sending a pull request.
+>>>>>
+>>>>> In the end, I don't care what code these patches touched. I do an
+>>>>> innocent git pull, and when I finally see that it's master that bre=
+aks
+>>>>> iotests and not my patches on top of it, I'm annoyed.
+>>>>
+>>>> Hm.  Part of my point was that this still happens all the time.
+>>>>
+>>>> Which is why I=E2=80=99d prefer more tests to run in CI than a handf=
+ul of not
+>>>> very useful ones in make check.
+>>>
+>>> Ok, so let's try to add some more useful test to the "auto" group. Ke=
+vin
+>>> mentioned 030, 040 and 041, and I think it should be ok to enable the=
+m
+>>> (IIRC the only issue was that they run a little bit longer, but if th=
+ey
+>>> are very useful, we should include them anyway).
+>>
+>> I agree on those.  (Maybe not 040, but definitely 030 and 041.)
+>>
+>> Maybe one of the issues was the =E2=80=9Cpath too long=E2=80=9D thing =
+for Unix sockets?
+>=20
+> Ah, right. I've applied John's "remove 'linux' from default" patch and
+> added the three iotests to the "auto" group, and indeed, they fail now
+> on cirrus-ci due to the "path too long" socket problem. "We" (royal we,=
+
+> I guess) should likely fix that first...
+
+FWIW, 041 also fails on macOS on Travis (which does not have the "path
+too long" issue):
+
+ https://travis-ci.com/huth/qemu/jobs/242942716#L8415
+
+=2E.. so we might need to declare this as "linux only" again after John's=
+
+patch gets merged.
+
+ Thomas
+
+
+--11ZOEopt1HODalUQJjZ95g7qp5DepsLBJ--
+
+--sYKadnwR6oJtCUJKGHkjCN3XKgXfm9gVj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJ7iIR+7gJQEY8+q5LtnXdP5wLbUFAl2bZ58ACgkQLtnXdP5w
+LbUf6BAAo26sP+IVOlGFFYepvE+S0naRj7ou0lVFfTIA3iWSyFTwawqVg+nLDKYq
+6Y+HZElOY9GZ3alO0pjioDv3tTOKOxdKtGTQSq7OCIa5947PRBgewAgQ+2iz6Egy
+vjjnF2uVBN0QdAKP64OYrku/XTLqdXbLLZ5S5NjijWnyT6ydCaLdcbxXQZ4+UiDl
+yRxjJlyQtOKNtXJEdlvU7HfXqYU1K/vSZ2BrkVI0OvMMHgK3oQ6E6d+pS7PS6xIP
+Sr9sfb+5Fi6mLM8sBRWZmmYS4uWkUO+JNu8asQSHZqYNGNc0+4We7VtNQoRAwRVa
+I6QJEtmNHZxZDH6DE58HlS1YNDta2ldGC1DlwFwv0831YSffuYe51vArWy/T5Xod
+Y39vsbPVRuHPetkT5//3P3hNS0j9bc72/cCVIVxAob2nU0fOvvTy+/ICXz4c1gs3
+cEa4mxAnXtfAsz3brM7S/Hj0zseOJx/DQPHSLz6vNfpvnIgJBZk7xnSSwbhLcrJ6
+xKuGvCu75XVHqJbyxsS/cTWWgFUack2ycR64L9BmfmPy2TpblOwW1h5KhVdO/bm2
+QkC1yKZlPKiXLs2kNnHd7HV11xYwJjL55mnrw/mtNs0dCLhLWok3C8saYHYhmQO9
+GJpwVnnR5DbauHl+DK5YtjWCDt1mQJdqvwE12Kuv9D5IKGB+k4U=
+=2m32
+-----END PGP SIGNATURE-----
+
+--sYKadnwR6oJtCUJKGHkjCN3XKgXfm9gVj--
 
