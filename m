@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331FCCE84E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:52:26 +0200 (CEST)
-Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78346CE848
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Oct 2019 17:50:40 +0200 (CEST)
+Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHVJA-0004Yc-Tp
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48913)
+	id 1iHVHT-0001kZ-59
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 11:50:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwL-0002bT-G8
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwQ-0002hX-DG
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHUwJ-0005BF-QH
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:49 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39100)
+ (envelope-from <alex.bennee@linaro.org>) id 1iHUwO-0005Dg-It
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:54 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45038)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHUwJ-0005An-IS
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:47 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v17so12819265wml.4
- for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:47 -0700 (PDT)
+ id 1iHUwO-0005DN-CW
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 11:28:52 -0400
+Received: by mail-wr1-x442.google.com with SMTP id z9so15800534wrl.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Oct 2019 08:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hggjK8Ae7uaAUz2uVJWEK720XDx0HS+iysTy3zwJ5bU=;
- b=MWLw29C5a2/tlUtOGDP/AnatDJmaxu0PByRmZLHFIsv+fah23hB3Q2g8z4cbTD/LpR
- BftdHZtbtz0OvC+5HOdflMFx5fn8Va8EgNyFEkiot5GoQdnbh8oKYTEbrwGB9lIfW7wl
- g0mOQerJ/niZ585wyebpDqijrjySlMafW/wsv9iruG8kpIyHV7tYD16RnUkTSRJbYFb2
- CBcJ9t+4+QSM91Pr+Z42ztrGeOVGirFNyk5WtK9wIpgasjTVUKbiLPkdwSSF3+3+B11b
- UZqxQaZGKtJv9HtIazpiKLkoMiMBnrQX1DD1kcRAvDoCE2rwYmbucOSNqwSN0FdbTd4w
- 5N9A==
+ bh=lS//Prbb20uTZPpM5BoU1FCIVJv7TIfQwriRsFwYsbE=;
+ b=q0q31hCko5BcR1wSoNcIg+oEK5ZdP4by+oAwyhQ1opGwPP+tRPHA/bp50prwOF+XzA
+ LxxzrhX/oscbPobeYONsmDfx0x4jjaDeR2eeL6khvsX5o0ji+/VQomBPbU/NTpiXTdES
+ MmHlPIm9R5bG6oJU3Qp42NAoo+wOBYTJuiZcm8qiM1KjwJLcaIkMlMi/FjzDPl1ZjI48
+ vBjWI9S/l9F7FwO9a8Dof9lPNbJz1P/kdfUIgeGUIiciq0ZaQpe8LW/pomSMwvXliRxt
+ URFM9Z25VVP4g+6nX503jgVuA28slLaSVHV/ckv7d0n2nH1V0HrD4AJzoDWm7dd4JXXb
+ PKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hggjK8Ae7uaAUz2uVJWEK720XDx0HS+iysTy3zwJ5bU=;
- b=JO8eJPixliPUkg05AWCmWZHgOzEpVmvR7JgVUBt4j4Iy83Uh3XMHPKrYG74mySmhq7
- jyPJ+VQ4DuAYAIlzecNRQHA71S48lo6IY7k3Tz04IFSFvpQiaU+8OR83jnYYPhKv9nQR
- yNFg1KXceOU3el+6gWbR3rHROeKhcGKcCugMvNPx3pCfTsspREPqmDLrul7Q/EZEhON4
- 3riBfHllr8oOrq2zoNS8srwBJq/9HeJvX20PPKL7nmG3a4/fmA9ssnAqpB21o631Vp90
- 4CAdZco1U/vjVlRlw6MQ+4Gy5i9fvDB+HeFJ595JYe7L2AhbYhQaa5MaVATFxvheAxi1
- iLdg==
-X-Gm-Message-State: APjAAAUX1+zLSQNlE5qJjYmnfweCPX74lYdOljyhp2AI6x0gUuNWu+UZ
- 5gjtM3XGb4AdTcJm14h+RgpgGQ==
-X-Google-Smtp-Source: APXvYqz4zPDjbhCqy5hBdXcWCGhQ9m9CvQOX8K050s4Gh2Eyw2G+jazsFdpmxZpuT/UinBaR68omwA==
-X-Received: by 2002:a1c:a404:: with SMTP id n4mr17163987wme.137.1570462126494; 
- Mon, 07 Oct 2019 08:28:46 -0700 (PDT)
+ bh=lS//Prbb20uTZPpM5BoU1FCIVJv7TIfQwriRsFwYsbE=;
+ b=LU35IoZKPeSwJDs6rGitLir2U0zW3POasSfCc42I8fkzCUWAjJRqOnM3KT1lhEygRa
+ kYrpgAPSwwCVMVdfS7BqsmZrdvcGyt2pJPIMgPf+2CwlzRRYMG+R0u7UKMgBQeHvxf3E
+ z/LIhNTjxrqvjP3rSaJMp8L2ZjoMvxqfFkjbuLIaVJZLqASfaj9pUv5GZptFP67Ug1yF
+ 1f15gDaCO7yyLQpuA+aSzt+cytz8bocoJ9Fqe2edFx0TCCgxAALLr9KjlzD4CH4puUon
+ PvYA4kOSHsfW230QjUUwf4VLkd2pPSZ9IcOlCtRZUkoqJknakMfA24ShBBBnv6wWdrP0
+ EG8A==
+X-Gm-Message-State: APjAAAW/rMXS779+jdAC54GwQF/wz7VNk3435wr4p/1uYI9caBc2PQgN
+ 59wxQL0NUn43S9LGYZMdtlFvmA==
+X-Google-Smtp-Source: APXvYqwCeLYyFo3D5ZihBHqxy6O+9wto4CWEVlEZrRBLnzNCuwttcRzXAg9sw2gj9PHJ42QbWXKPuw==
+X-Received: by 2002:a5d:5111:: with SMTP id s17mr21137961wrt.59.1570462131347; 
+ Mon, 07 Oct 2019 08:28:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y13sm21402104wrg.8.2019.10.07.08.28.41
+ by smtp.gmail.com with ESMTPSA id w5sm16461634wrs.34.2019.10.07.08.28.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Oct 2019 08:28:42 -0700 (PDT)
+ Mon, 07 Oct 2019 08:28:48 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 23B8E1FF98;
+ by zen.linaroharston (Postfix) with ESMTP id B197A1FF9C;
  Mon,  7 Oct 2019 16:28:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v9 08/13] tb-stats: reset the tracked TBs on a tb_flush
-Date: Mon,  7 Oct 2019 16:28:34 +0100
-Message-Id: <20191007152839.30804-9-alex.bennee@linaro.org>
+Subject: [PATCH v9 13/13] configure: remove the final bits of --profiler
+ support
+Date: Mon,  7 Oct 2019 16:28:39 +0100
+Message-Id: <20191007152839.30804-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191007152839.30804-1-alex.bennee@linaro.org>
 References: <20191007152839.30804-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,84 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: cota@braap.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We keep track of translations but can only do so up until the
-translation cache is flushed. At that point we really have no idea if
-we can re-create a translation because all the active tracking
-information has been reset.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/tb-stats.c      | 19 +++++++++++++++++++
- accel/tcg/translate-all.c |  2 +-
- include/exec/tb-stats.h   |  8 ++++++++
- 3 files changed, 28 insertions(+), 1 deletion(-)
+ configure | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-index dabc5150f9..f08e5f2540 100644
---- a/accel/tcg/tb-stats.c
-+++ b/accel/tcg/tb-stats.c
-@@ -247,6 +247,25 @@ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
-     g_free(cmdinfo);
- }
+diff --git a/configure b/configure
+index eedeb9016e..dfd0f67170 100755
+--- a/configure
++++ b/configure
+@@ -419,7 +419,6 @@ oss_lib=""
+ bsd="no"
+ linux="no"
+ solaris="no"
+-profiler="no"
+ cocoa="no"
+ softmmu="yes"
+ linux_user="no"
+@@ -1192,8 +1191,6 @@ for opt do
+   ;;
+   --enable-libnfs) libnfs="yes"
+   ;;
+-  --enable-profiler) profiler="yes"
+-  ;;
+   --disable-cocoa) cocoa="no"
+   ;;
+   --enable-cocoa)
+@@ -1702,7 +1699,6 @@ Advanced options (experts only):
+   --with-win-sdk=SDK-path  path to Windows Platform SDK (to build VSS .tlb)
+   --tls-priority           default TLS protocol/cipher priority string
+   --enable-gprof           QEMU profiling with gprof
+-  --enable-profiler        profiler support
+   --enable-debug-stack-usage
+                            track the maximum stack usage of stacks created by qemu_alloc_stack
  
-+/*
-+ * We have to reset the tbs array on a tb_flush as those
-+ * TranslationBlocks no longer exist and we no loner know if the
-+ * current mapping is still valid.
-+ */
-+
-+static void reset_tbs_array(void *p, uint32_t hash, void *userp)
-+{
-+    TBStatistics *tbs = p;
-+    g_ptr_array_set_size(tbs->tbs, 0);
-+}
-+
-+void tbstats_reset_tbs(void)
-+{
-+    if (tb_ctx.tb_stats.map) {
-+        qht_iter(&tb_ctx.tb_stats, reset_tbs_array, NULL);
-+    }
-+}
-+
- void init_tb_stats_htable_if_not(void)
- {
-     if (tb_stats_collection_enabled() && !tb_ctx.tb_stats.map) {
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 396e63c3e7..871d91d559 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1273,7 +1273,7 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
- 
-     qht_reset_size(&tb_ctx.htable, CODE_GEN_HTABLE_SIZE);
-     page_flush_tb();
--
-+    tbstats_reset_tbs();
-     tcg_region_reset_all();
-     /* XXX: flush processor icache at this point if cache flush is
-        expensive */
-diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-index 921da38c97..c20a3e6439 100644
---- a/include/exec/tb-stats.h
-+++ b/include/exec/tb-stats.h
-@@ -125,4 +125,12 @@ struct TbstatsCommand {
- 
- void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
- 
-+/**
-+ * tbstats_reset_tbs: reset the linked array of TBs
-+ *
-+ * Reset the list of tbs for a given array. Should be called from
-+ * safe work during tb_flush.
-+ */
-+void tbstats_reset_tbs(void);
-+
- #endif
+@@ -6307,7 +6303,6 @@ echo "target list       $target_list"
+ echo "gprof enabled     $gprof"
+ echo "sparse enabled    $sparse"
+ echo "strip binaries    $strip_opt"
+-echo "profiler          $profiler"
+ echo "static build      $static"
+ if test "$darwin" = "yes" ; then
+     echo "Cocoa support     $cocoa"
 -- 
 2.20.1
 
