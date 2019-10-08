@@ -2,63 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8242DCFC8B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:38:25 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9F9CFC83
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:35:29 +0200 (CEST)
+Received: from localhost ([::1]:56698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHqd6-0000qq-7b
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49268)
+	id 1iHqaG-0005al-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iHqM7-000348-OV
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:20:53 -0400
+ (envelope-from <thuth@redhat.com>) id 1iHqLj-0002U7-67
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:20:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iHqM6-0004Al-6r
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:20:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56940)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iHqM6-00048q-0W
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:20:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iHqM4-0006Iz-1P
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 14:20:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DCB552E80CC
- for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 14:20:47 +0000 (UTC)
+ (envelope-from <thuth@redhat.com>) id 1iHqLh-0003bu-FD
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:20:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36776)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iHqLh-0003aD-6L; Tue, 08 Oct 2019 10:20:25 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D865010DCC9D;
+ Tue,  8 Oct 2019 14:20:23 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 145701001B11;
+ Tue,  8 Oct 2019 14:20:19 +0000 (UTC)
+Subject: Re: [PATCH v4 6/7] s390x/mmu: DAT table definition overhaul
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20191004105102.15821-1-david@redhat.com>
+ <20191004105102.15821-7-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <2cc19c4c-d40c-4315-951f-bfd24ee8f64e@redhat.com>
+Date: Tue, 8 Oct 2019 16:20:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Oct 2019 14:11:38 -0000
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: davidhildenbrand ivmn
-X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
-X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
-References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
- <61ce859f-0817-0eba-7eb8-2c16b3e73889@redhat.com>
-Message-Id: <7a661e58-72df-94bc-4712-f306ce5ee7c6@vmfacility.fr>
-Subject: Re: [Bug 1847232] [NEW] qemu TCG in s390x mode issue with calculating
- HASH
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0b7cc24fa8a045dda92ce6ff2bf83760e884d7c2
+In-Reply-To: <20191004105102.15821-7-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 08 Oct 2019 14:20:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,120 +104,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Ivan Warren <ivan@vmfacility.fr>
-From: Ivan Warren via <qemu-devel@nongnu.org>
 
-On 10/8/2019 3:35 PM, David Hildenbrand wrote:
-> On 08.10.19 14:11, Cornelia Huck wrote:
->> On Tue, 08 Oct 2019 11:19:25 -0000
->> Ivan Warren via <qemu-devel@nongnu.org> wrote:
->>
->>> Public bug reported:
->>>
->>> When using go on s390x on Debian x64 (buster) (host) and debian s390x
->>> (sid) (guest) I run into the following problem :
->>>
->>> The following occurs while trying to build a custom project :
->>>
->>> go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
->>> Get
->>> https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0=
--20150613233007-fe3947df716e.mod:
->>> local error: tls: bad record MAC
->>>
->>> Doing a git bisect I find that this problem only occurs on and after
->>> commit 08ef92d556c584c7faf594ff3af46df456276e1b
->>>
->>> Before that commit, all works fine. Past this commit, build always
->>> fails.
->> What version are you using? Current master?
->>
->> Can you please share your command line?
->>
->>> Without any proof, It looks like a hash calculation bug related to using
->>> z/Arch vector facilities...
->> Not an unreasonable guess, cc:ing David in case he has seen that before.
->>
-> Can you reproduce with "-cpu qemu,vx=3Doff" added to the QEMU command
-> line? Could be some fallout from vector instruction support. Currently
-> ill, will have a look when I'm feeling better.
+On 04/10/2019 12.51, David Hildenbrand wrote:
+> Let's use consitent names for the region/section/page table entries and
+> for the macros to extract relevant parts from virtual address. Make them
+> match the definitions in the PoP - e.g., how the relevant bits are actually
+> called.
+> 
+> Introduce defines for all bits declared in the PoP. This will come in
+> handy in follow-up patches.
+> 
+> Add a note where additional information about s390x and the used
+> definitions can be found.
+> 
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/cpu.h        | 78 +++++++++++++++++++++++++++++----------
+>  target/s390x/mem_helper.c | 12 +++---
+>  target/s390x/mmu_helper.c | 37 ++++++++++---------
+>  3 files changed, 84 insertions(+), 43 deletions(-)
 
-Reposted with a reply all... (sorry for the duplicates)
-
-So it does !
-
-
-My qemu command line is now (forget the odd funny networking things..)
-
-qemu-system-s390x \
- =C2=A0=C2=A0=C2=A0 -drive =
-
-file=3DDEB002.IMG.NEW,discard=3Dunmap,cache=3Dwriteback,id=3Ddrive-0,if=3Dn=
-one \
- =C2=A0=C2=A0=C2=A0 -device virtio-scsi-ccw,id=3Dvirtio-scsi-0 \
- =C2=A0=C2=A0=C2=A0 -device scsi-hd,id=3Dscsi-hd-0,drive=3Ddrive-0 \
- =C2=A0=C2=A0=C2=A0 -m 8G \
- =C2=A0=C2=A0=C2=A0 -net nic,macaddr=3D52:54:00:00:00:02 \
- =C2=A0=C2=A0=C2=A0 -net tap,ifname=3Dtaparm,script=3Dno \
- =C2=A0=C2=A0=C2=A0 -nographic -accel tcg,thread=3Dmulti \
- =C2=A0=C2=A0=C2=A0 -monitor unix:ms,server,nowait \
- =C2=A0=C2=A0=C2=A0 -cpu qemu,vx=3Doff \=C2=A0 ##### THAT WAS ADDED as inst=
-ructed - without it =
-
-everything goes kaput !
- =C2=A0=C2=A0=C2=A0 -smp 12
-
-And using the latest bleeding edge qemu from github, my build works (the =
-
-problem goes away).
-
-So the z/Arch vector instructions may have a glitch is a venue to =
-
-consider.. Probably one that couldn't be screened through conventional =
-
-methods.
-
-I'm not that versed into z/Arch vector instruction, but if there =
-
-anything I can help with, I will !
-
---Ivan
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847232
-
-Title:
-  qemu TCG in s390x mode issue with calculating HASH
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using go on s390x on Debian x64 (buster) (host) and debian s390x
-  (sid) (guest) I run into the following problem :
-
-  The following occurs while trying to build a custom project :
-
-  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
-  Get
-  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
-0150613233007-fe3947df716e.mod:
-  local error: tls: bad record MAC
-
-  Doing a git bisect I find that this problem only occurs on and after
-  commit 08ef92d556c584c7faf594ff3af46df456276e1b
-
-  Before that commit, all works fine. Past this commit, build always
-  fails.
-
-  Without any proof, It looks like a hash calculation bug related to
-  using z/Arch vector facilities...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
