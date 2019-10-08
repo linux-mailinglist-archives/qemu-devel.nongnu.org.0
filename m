@@ -2,47 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26864CF5B2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 11:11:01 +0200 (CEST)
-Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D678CF5D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 11:19:12 +0200 (CEST)
+Received: from localhost ([::1]:52760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHlWG-00035r-5T
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 05:11:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33640)
+	id 1iHleA-00076h-Pr
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 05:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@pond.sub.org>) id 1iHlUP-0001yR-1f
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:09:06 -0400
+ (envelope-from <groug@kaod.org>) id 1iHlaL-0004od-0U
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:15:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@pond.sub.org>) id 1iHlUN-0007Jj-3N
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:09:04 -0400
-Received: from oxygen.pond.sub.org ([2a01:4f8:13b:3ad0:1::3]:37786)
+ (envelope-from <groug@kaod.org>) id 1iHlaJ-0006Di-6g
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:15:12 -0400
+Received: from 10.mo69.mail-out.ovh.net ([46.105.73.241]:48668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@pond.sub.org>) id 1iHlUM-0007ER-PX
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:09:03 -0400
-Received: from blackfin.pond.sub.org
- (p200300D36F484800DACB8AFFFEE0C842.dip0.t-ipconnect.de
- [IPv6:2003:d3:6f48:4800:dacb:8aff:fee0:c842])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by oxygen.pond.sub.org (Postfix) with ESMTPSA id 3902B47E93;
- Tue,  8 Oct 2019 11:08:58 +0200 (CEST)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 021391138648; Tue,  8 Oct 2019 11:08:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 01/31] errp: rename errp to errp_in where it is
- IN-argument
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-2-vsementsov@virtuozzo.com>
-Date: Tue, 08 Oct 2019 11:08:55 +0200
-Message-ID: <878spvmwns.fsf@dusky.pond.sub.org>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iHlaJ-0006Ak-01
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:15:11 -0400
+Received: from player692.ha.ovh.net (unknown [10.108.54.97])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 29B4C6BD13
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 11:15:07 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id 24905A923CBF;
+ Tue,  8 Oct 2019 09:15:01 +0000 (UTC)
+Date: Tue, 8 Oct 2019 11:14:59 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [Qemu-devel] [PATCH v7 0/3] 9p: Fix file ID collisions
+Message-ID: <20191008111459.048e659f@bahia.lan>
+In-Reply-To: <1590425.yRI6RxI3rl@silver>
+References: <cover.1567680121.git.qemu_oss@crudebyte.com>
+ <7439377.rdf1oF7g69@silver> <20190923185012.06131248@bahia.lan>
+ <1590425.yRI6RxI3rl@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:13b:3ad0:1::3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 6024408926595815744
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrheelgdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.73.241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,252 +58,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, "Daniel P.
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Antonios Motakis <antonios.motakis@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On Tue, 24 Sep 2019 11:31:06 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
-> pointer to NULL-initialized pointer, or pointer to error_abort or
-> error_fatal, for callee to report error.
+> On Montag, 23. September 2019 18:50:12 CEST Greg Kurz wrote:
+> > > > > If yes, and since that would mean I was the only person ever having
+> > > > > tested
+> > > > > the actual fix, shouldn't --multidevs=remap|forbid better be marked as
+> > > > > experimental (docs and runtime warning) for now? Maybe that would also
+> > > > > anticipate receiving feedback from people actually using it later on.
+> > > > 
+> > > > Makes sense. I don't think it is worth having a runtime warning,
+> > > > but I'll turn remap to x-remap and amend the docs.
+> > > 
+> > > Mwa, I would like to veto against your "x-remap" plan though. Keep in mind
+> > > I also have to send out a patch for libvirt for this fix. Even I would
+> > > not have read "x" to stand for "experimental". So I would definitely
+> > > favor a runtime warning instead of renaming that parameter.
+> > 
+> > Hmmm... I don't see the point in adding a warning for a feature that
+> > is only active if the user explicitly asks for it. 
+> 
+> Because many people might be using this option without ever reading the docs, 
+> e.g. because of being suggested by copy & paste tutorials or any stack*.com 
+> forum.
+> 
+> > And, anyway, this
+> > still is an experimental feature, right ? 
+> 
+> No, it is not a feature. It is still a fix. :) I cannot use 9p without this 
+> fix at all, so it is not some optional "feature" for me.
+> 
 
-Yes.
+I understand your need but this is still arguable. The 9p device has
+a limitation with cross-device setups. The actual bug is to silently
+cause inode number collisions in the guest. This is partly fixed by the
+"9p: Treat multiple devices on one export as an error" patch. Thinking
+again, it would even make sense to move "remap" from "9p: Added virtfs
+option 'multidevs=remap|forbid|warn'" to its own patch. We could then
+consider that the bug is fully fixed with "multidevs=forbid|warn".
 
-> But very few functions instead get Error **errp as IN-argument:
-> it's assumed to be set, and callee should clean it.
+Then comes the "remap" feature which is expected to lift the limitation
+with cross-device setups, with a "not yet determined" performance cost
+and light reviewing of the code.
 
-What do you mean by "callee should clean"?  Let's see below.
+> x-remap would just make things unnecessarily more complicated without adding 
+> anything useful.
+> 
 
-> In such cases, rename errp to errp_in.
+Not really. This gives a crucial information to the user about the
+level of confidence we have in this feature.
 
-I acknowledge that errp arguments that don't have the usual meaning can
-be confusing.
+> A warning/info log could be used to motivate people providing feedback and 
+> make them clearly aware about their current version still being an 
+> experimental fix in their specific qemu version. That warning/info is just a 
+> one line change that can easily be dropped at some point in future after this 
+> qid fix proofed to be reliable (i.e. from users' feedback and test cases).
+> 
 
-Naming can help, comments can help, but perhaps we can tweak the code to
-avoid the problem instead.  Let's see:
+The overwhelming majority of feedbacks I had on 9p the last few years
+are CVEs. Antonios and you are the only users who ever seemed to care
+for cross-device setups. So I don't expect much feedback on that area
+and I don't buy the "motivate people" argument, especially since "remap"
+won't be the default.
 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  include/monitor/hmp.h |  2 +-
->  include/qapi/error.h  |  2 +-
->  ui/vnc.h              |  2 +-
->  monitor/hmp-cmds.c    |  8 ++++----
->  ui/vnc.c              | 10 +++++-----
->  util/error.c          |  8 ++++----
->  6 files changed, 16 insertions(+), 16 deletions(-)
->
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index a0e9511440..f929814f1a 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -16,7 +16,7 @@
->  
->  #include "qemu/readline.h"
->  
-> -void hmp_handle_error(Monitor *mon, Error **errp);
-> +void hmp_handle_error(Monitor *mon, Error **errp_in);
->  
->  void hmp_info_name(Monitor *mon, const QDict *qdict);
->  void hmp_info_version(Monitor *mon, const QDict *qdict);
-> diff --git a/include/qapi/error.h b/include/qapi/error.h
-> index 3f95141a01..9376f59c35 100644
-> --- a/include/qapi/error.h
-> +++ b/include/qapi/error.h
-> @@ -283,7 +283,7 @@ void error_free(Error *err);
->  /*
->   * Convenience function to assert that *@errp is set, then silently free it.
->   */
-> -void error_free_or_abort(Error **errp);
-> +void error_free_or_abort(Error **errp_in);
->  
->  /*
->   * Convenience function to warn_report() and free @err.
-> diff --git a/ui/vnc.h b/ui/vnc.h
-> index fea79c2fc9..00e0b48f2f 100644
-> --- a/ui/vnc.h
-> +++ b/ui/vnc.h
-> @@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
->  
->  /* Protocol stage functions */
->  void vnc_client_error(VncState *vs);
-> -size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
-> +size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp_in);
->  
->  void start_client_init(VncState *vs);
->  void start_auth_vnc(VncState *vs);
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index b2551c16d1..941d5d0a45 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -60,11 +60,11 @@
->  #include <spice/enums.h>
->  #endif
->  
-> -void hmp_handle_error(Monitor *mon, Error **errp)
-> +void hmp_handle_error(Monitor *mon, Error **errp_in)
->  {
-> -    assert(errp);
-> -    if (*errp) {
-> -        error_reportf_err(*errp, "Error: ");
-> +    assert(errp_in);
-> +    if (*errp_in) {
-> +        error_reportf_err(*errp_in, "Error: ");
->      }
->  }
+> > Not sure it is time to have
+> > libvirt to support it yet.
+> 
+> Most people are using libvirt xml configs instead of calling qemu directly 
+> with command line options. So of course I will suggest a libvirt patch as soon 
+> as this patch set is pulled on qemu side.
+> 
 
-This functions frees the error.  It leaves nothing for the caller to
-clean up.
+Yes and before a feature has a chance to be officially supported
+in libvirt, people usually rely on the <qemu:commandline> domain
+XML tag to pass extra arguments to QEMU.
 
-All callers pass &ERR, where ERR is a local variable.  Perhaps a more
-robust way to signal "@errp is not the usual out-argument" would be
-peeling off an indirection: pass ERR, drop the assertion.
+https://blog.vmsplice.net/2011/04/how-to-pass-qemu-command-line-options.html
 
->  
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 87b8045afe..9d6384d9b1 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
->      g_free(vs);
->  }
->  
-> -size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-> +size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp_in)
->  {
->      if (ret <= 0) {
->          if (ret == 0) {
-> @@ -1320,14 +1320,14 @@ size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
->              vnc_disconnect_start(vs);
->          } else if (ret != QIO_CHANNEL_ERR_BLOCK) {
->              trace_vnc_client_io_error(vs, vs->ioc,
-> -                                      errp ? error_get_pretty(*errp) :
-> +                                      errp_in ? error_get_pretty(*errp_in) :
->                                        "Unknown");
->              vnc_disconnect_start(vs);
->          }
->  
-> -        if (errp) {
-> -            error_free(*errp);
-> -            *errp = NULL;
-> +        if (errp_in) {
-> +            error_free(*errp_in);
-> +            *errp_in = NULL;
->          }
->          return 0;
->      }
+With the current fsdev implementation, we can only pass properties
+to the -fsdev command line option. So this would require to not
+use the <filesystem type='mount'> XML tag and manually _open-code_
+the needed QEMU arguments:
 
-This function isn't trivial, and lacks a contract, so let's figure out
-what it does and how it's used.
+<qemu:commandline>
+  <qemu:arg value='-fsdev'/>
+  <qemu:arg value='local,id=fsdev0,path=/var/tmp/virtfs,security_model=passthrough,multidevs=remap'/>
+  <qemu:arg value='-device'/>
+  <qemu:arg value='virtio-9p,id=virtio-9p0,mount_tag=host,fsdev=fsdev0'/>
+</qemu:commandline>
 
-@ret can be:
+And if fsdev is converted to be a proper QEMU device, it would as
+easy as:
 
-* Zero
+<qemu:commandline>
+  <qemu:arg value='-set'/>
+  <qemu:arg value='device.fsdev0.multidevs=remap'/>
+</qemu:commandline>
 
-  Trace EOF, call vnc_disconnect_start(), free the error, return zero.
+This is unrelated but it would also allow to drop a lot
+of code in fsdev that mimics what qdev would give us
+for free. :)
 
-  Aside: freeing the error without looking at it feels odd.  Can this
-  happen?
+> 
+> 
 
-* Negative other than QIO_CHANNEL_ERR_BLOCK
+Also, I strongly recommend you try out "virtio-fs" which is
+going to be soon the production grade way of sharing files
+between host and guest.
 
-  Trace the error if any, else "Unknown" error, call
-  vnc_disconnect_start(), free the error if any, return zero.
+https://www.mail-archive.com/libvir-list@redhat.com/msg182457.html
 
-  Note that we can't have errp && !*errp here, or else tracing crashes
-  in error_get_pretty().
+Cheers,
 
-* QIO_CHANNEL_ERR_BLOCK
-
-  Free the error, return zero
-
-* Positive
-
-  Do nothing, return @ret
-
-Callers pass one of the following:
-
-* ret = -1 and errp = NULL
-
-  This uses case "Negative other than QIO_CHANNEL_ERR_BLOCK".  Since
-  error is null, it traces an "Unknown" error.
-
-* ret and &err, where ret = FUN(..., &err), and FUN is
-  qio_channel_read() or qio_channel_write().
-
-  qio_channel_read(), _write() are documented to return non-negative on
-  success, QIO_CHANNEL_ERR_BLOCK on "would block", and -1 on other
-  error.  By convention, they set an error exactly when they fail,
-  i.e. when they return a negative value.
-
-  When qio_channel_read() / _write() succeed, we use case "Positive" or
-  "Zero".  We don't free the error, which is fine, as none was returned.
-  Aside: I *guess* the channel is non-blocking, and "zero" can happen
-  only when read hits EOF.
-
-  When qio_channel_read() / _write() fail, we use one of the error
-  cases.
-
-Looks like vnc_client_io_error() takes an error code @ret and an
-optional error object in @errp with additional details.  If @ret is
-non-negative, @errp must be null or point to null.  If @ret is negative,
-@errp must be null or point to non-null.
-
-vnc_client_io_error() frees the error.  It leaves nothing for the caller
-to clean up.
-
-I think we can again peel off an indirection.  The two kinds of calls
-become:
-
-* ret = -1 and err = NULL
-
-  No textual change, but the NULL gets converted to Error * instead of
-  Error **.
-
-* ret and err
-
-  Pass the (possibly null) error object instead of a pointer to the
-  local variable.
-
-> diff --git a/util/error.c b/util/error.c
-> index d4532ce318..b3ff3832d6 100644
-> --- a/util/error.c
-> +++ b/util/error.c
-> @@ -271,11 +271,11 @@ void error_free(Error *err)
->      }
->  }
->  
-> -void error_free_or_abort(Error **errp)
-> +void error_free_or_abort(Error **errp_in)
->  {
-> -    assert(errp && *errp);
-> -    error_free(*errp);
-> -    *errp = NULL;
-> +    assert(errp_in && *errp_in);
-> +    error_free(*errp_in);
-> +    *errp_in = NULL;
->  }
->  
->  void error_propagate(Error **dst_errp, Error *local_err)
-
-This functions frees the error.  It leaves nothing for the caller to
-clean up.
-
-All callers pass &ERR, where ERR is a local variable.  We can peel off
-an indirection.
-
-
-I figure your commit message's "But very few functions instead get Error
-**errp as IN-argument: it's assumed to be set, and callee should clean
-it" is to be read as "a few functions take Error **errp as IN-argument,
-and free it".
-
-You found three instances of confusing Error **errp.  How?  I'm asking
-because I wonder whether there are more.
-
-We can avoid the confusing Error **errp in all three cases by peeling
-off an indirection.  What do you think?
+--
+Greg
 
