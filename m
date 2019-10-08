@@ -2,65 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F77D002C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 19:53:27 +0200 (CEST)
-Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9473ED002A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 19:50:29 +0200 (CEST)
+Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHtfq-00048U-7I
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 13:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
+	id 1iHtcy-0001MD-D3
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 13:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHtB3-0002LE-L3
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:21:38 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iHtRR-0000nO-4h
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:38:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHtB2-0004Cd-IT
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:21:37 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:43828)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHtB2-0004CK-Bx
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:21:36 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id o44so14689561ota.10
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 10:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TLjkqf9SpFpb97CVRwxlScyAMeg6SxMTa5nj5s7xdGM=;
- b=orlgcU3NMZM6t1KU7pS2xugvaY4RzHvOipcOtQjsh93tamxfcuuTySJqrT7lFtx6C3
- wPR3cdyM3wMqcoxIWdXpclUrGSSUzbFosWd7sHcLgBpOCj4aBVGU3oiw/PkzxGAXEv1T
- H6WduJNMSF8py/g2fTcIZ/4KsarBh+TBxlpIRSE+UCirUNyv2NPr3yearpse1x/WwK0O
- 7Dok0cGk6P2qxBR0niSb/rCwtW9MVWJy9c4qOmSgksd8v1Fdr3aQaGbCDEGUIrp6A44k
- TFVCsTCbRU09kjiIZreGF9kCkS0lCEWZGFqfKXf56mWYyvBIfDZ7lp6vU/8FP9IkPKoY
- M7ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TLjkqf9SpFpb97CVRwxlScyAMeg6SxMTa5nj5s7xdGM=;
- b=PRaV+fMH6jwI3ZcqnbaLbZcdCGCy1Wb9aCgRL2+z/OJfZ/Oe8Qte9e1RXP49JACIKo
- +W7HuS2iHZHRFUm3PWZpABGzP7kMTG/pRctADvktBQCaARi5qW6tTzWef9pkNP+inLaI
- LoLn+hTZjW2nTb1VsmfKQHDUQ1gcDflcaek+E3OT31eIRB81+serNfTG90SGH/6DDGG+
- We6q8iWYMCz0GuX+YEg/8dadZxI5wfj02RpcklGp5aunR37gvBznuncCKUgUd3W836kS
- JZp83bk8/Lj7dTYZE5IIH/Rq3lPr5miqZ/3jv6VgQV3g6lirXBM5zj9UxxQvY+ReNKz/
- hFkA==
-X-Gm-Message-State: APjAAAXsC3G7zlPrnk/CsNFD1tpys3B6n20gGZVIjrwo4QBQUmnA/DSh
- 141EuXBmxkAktr5OmpiuZpv4vgf3vmFhwZIWbw7wyw==
-X-Google-Smtp-Source: APXvYqxU9/VRhpO1Get+UOSPnTOmpQMoEqllRbaWXB7MpCtJKP2F5W4Lpgw/ZIIKWh76kfETQ25JAfBeN0Mgb2WtVwE=
-X-Received: by 2002:a05:6830:1357:: with SMTP id
- r23mr26322809otq.91.1570555295393; 
- Tue, 08 Oct 2019 10:21:35 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1iHtRP-0007Aq-85
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:38:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41868)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iHtRP-0007AZ-2D
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:38:31 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1002B2026F;
+ Tue,  8 Oct 2019 17:38:30 +0000 (UTC)
+Received: from work-vm (ovpn-116-59.ams2.redhat.com [10.36.116.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC1BD600CE;
+ Tue,  8 Oct 2019 17:38:27 +0000 (UTC)
+Date: Tue, 8 Oct 2019 18:38:25 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [PATCH 1/4] migration/ram: only possible bit set in
+ invalid_flags is RAM_SAVE_FLAG_COMPRESS_PAGE
+Message-ID: <20191008173825.GI3441@work-vm>
+References: <20191005220517.24029-1-richardw.yang@linux.intel.com>
+ <20191005220517.24029-2-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-References: <20191008145505.3641-1-stefanha@redhat.com>
-In-Reply-To: <20191008145505.3641-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Oct 2019 18:21:24 +0100
-Message-ID: <CAFEAcA99UC=V2NzFbfdq13QbbGKKdXDVsGKhH5diZx8dmUhJoA@mail.gmail.com>
-Subject: Re: [PULL 0/4] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191005220517.24029-2-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 08 Oct 2019 17:38:30 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,41 +59,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Oct 2019 at 15:55, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 560009f2c8b57b7cdd31a5693ea86ab369382f49:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-10-07 15:40:53 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to 4d804b5305ffb4d5fa414c38d4f1bdfb987c8d0b:
->
->   iotests/262: Switch source/dest VM launch order (2019-10-08 14:28:25 +0100)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> This pull request also contains the two commits from the previous pull request
-> that was dropped due to a mingw compilation error.  The compilation should now
-> be fixed.
->
-> ----------------------------------------------------------------
->
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> The only possible bit set in invalid_flags is
+> RAM_SAVE_FLAG_COMPRESS_PAGE at the beginning of function
+> ram_load_precopy(), which means it is not necessary to do
+> another check for RAM_SAVE_FLAG_COMPRESS_PAGE bit.
+> 
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> ---
+>  migration/ram.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 31051935c8..769d3f6454 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -4263,10 +4263,7 @@ static int ram_load_precopy(QEMUFile *f)
+>          addr &= TARGET_PAGE_MASK;
+>  
+>          if (flags & invalid_flags) {
+> -            if (flags & invalid_flags & RAM_SAVE_FLAG_COMPRESS_PAGE) {
+> -                error_report("Received an unexpected compressed page");
+> -            }
+> -
+> +            error_report("Received an unexpected compressed page");
+>              ret = -EINVAL;
 
+I'd rather keep this one; I think Juan's idea is that we might make
+other flags illegal here and then it's easy to add to invalid_flags at
+the top.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
-
--- PMM
+Dave
+>              break;
+>          }
+> -- 
+> 2.17.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
