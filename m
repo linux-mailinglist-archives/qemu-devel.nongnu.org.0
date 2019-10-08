@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B86CFFB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 19:20:54 +0200 (CEST)
-Received: from localhost ([::1]:58974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD70CFFC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 19:25:49 +0200 (CEST)
+Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHtAL-0000Dd-6A
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 13:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48768)
+	id 1iHtF5-0004dC-V1
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 13:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHt7R-0006cM-8B
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:17:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iHt7T-0006fP-Hs
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:17:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHt7P-0002EB-OE
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:17:53 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38953)
+ (envelope-from <peter.maydell@linaro.org>) id 1iHt7R-0002Fc-5x
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:17:54 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43025)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHt7P-0002DR-CR
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:17:51 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v17so3928256wml.4
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 10:17:51 -0700 (PDT)
+ id 1iHt7Q-0002ER-Qs
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:17:53 -0400
+Received: by mail-wr1-x444.google.com with SMTP id j18so19527935wrq.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 10:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=naa7xg2s4V4Ih3fFkoGzCGOvDaxJr7Ss6St8GXFDrdg=;
- b=Fybt316FzjeS3HF9a6qrViSMmsZaV7kgC+Ee2l59Zh4st3gK8fyskTJqzmxDnjfi9a
- bPt0U7taa+Rlc3QixUjfB5WdUmUSP+rTgsgdp75LsXvZVl2+rKUQwvO2ORbuKgeN6Oa0
- FsinJEwk9YmXf6rPSgpjDJYD6d5/QdD6JWFt+arGUcLkBQBtEIL3+UFVbJDcGUbkgov5
- lHRODwz5kUJ1gDE1zwzlAMo5RE3+zjvVHqkn3eAXhHs4GNpIkab3epgaILUJJZHeIZah
- YaOAHYdxxjLF1aa5KtiqPk+bf2SXbGzA2pSZTCsWW4zHnJnAkFfVsDKR2Ndk+lmdlhmq
- OBMA==
+ bh=jKb9Rbp8gXPT0bACEbKBu5D4v0cg+tsMxucN4ICfYFw=;
+ b=TCDKiM1WzJoK/uWnKEXcIpAJL+L1HRBXg6r2xaCO9DHH1ZI6jwgu7N4cSrLpUM9WjL
+ QGayGO5T+uEYCBDBmnanaHTbtwUMUvj0zI3XCwk5LL2RCD8SIUmUxwX6LB6hF6suj7dN
+ VeN0yyoruDnREAEJPQrhDm9I2QJMm1T7cCn8ooQ5WrJdo+tsGp2iSXUkbX2E/sLd0bQZ
+ HAtXImvtEDj/aeNQAplB3HXugKhnnU3mQh3Vu+maHsBXuya0scq/c8wISi3O+bHy7L6S
+ 6uxQWppua6ROF7pgf/v8fRhoC7jvdCRMlU4RlJ5NesSUJq0NFcqkWPOpOXl2cWKfl7kY
+ DtVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=naa7xg2s4V4Ih3fFkoGzCGOvDaxJr7Ss6St8GXFDrdg=;
- b=pbHCGJMzMLS+FlKTCA5AXZ7TN2H4D1Of6E3RAboLhdfRtkqi3EchL8/N/N55cQ9P6G
- /fVmNfyqk/RUXF3OkaqgpxccI3jUmCJCvXv2rrySLVw+7ghH5r7q8Gd4gOKNYEjfFuXT
- b5BWlpZzT6qEfk+te+chtobJmbUXrIkHCqFyfwIib3GBLops1OCEOQYe441lMpulZAiR
- 1+880x9bfVUemCds3LE//NIYzcoKdV4qodHollCUfEs1LJPhCWjyXtGZ7pSc1Tkl40WG
- 6dJoZ7BtLG9vKipMTJ9jXF3iKi938/xtvbT3DfsVFAqDHssqZzSpP4A+O+2O+J49K/Sz
- LyXg==
-X-Gm-Message-State: APjAAAW6pJZPuvq9vlsYTkp3LcMtMD5ajpqVUHQHwpV3LETcg8qIskuF
- MA6rMhnpbJpXG4jyyc817Mks9g==
-X-Google-Smtp-Source: APXvYqxoykkcq0rqepQ6/Dmopbc1EYZU6JfJU4M2jEIy2g9wRQ1+G8FrLEd+SR+mMqx5bIX8bVR7DA==
-X-Received: by 2002:a05:600c:2489:: with SMTP id
- 9mr4591426wms.131.1570555070234; 
- Tue, 08 Oct 2019 10:17:50 -0700 (PDT)
+ bh=jKb9Rbp8gXPT0bACEbKBu5D4v0cg+tsMxucN4ICfYFw=;
+ b=leL5P9NVR4BdieSqDHNRb7cwo5L13iYw8I2bD3f11os5pKvQAY8F6bYGpuYAMWqrz8
+ 3rc6Y7rMSn24aAfLKNSe5QzVjWTDVErPvn1huWIvqRwJRoPSAIhOoR8QhZmLGP9F/DxE
+ uSxvemOUx8oCplJgNbQlpqezgEXsdKMG6bVoZM90kpLNHuP5ICBM0abWpaZUME4XAK5m
+ iebfAlKWoGZd9A8H6fqPMw0n4WhynjP99NTCiHXnIZ33TQppNJEpXC1z3QlhbzNsGiM0
+ rhOyre+5dQxgBNJZhM2WcoL5ZF7/qfI5gTOX2R9MAZieYoJCILbPaV7fasB7D+oLq9Q3
+ psmQ==
+X-Gm-Message-State: APjAAAVKmfGkLTwYSsPk1F3iXAzP8M3AfsY2YeHLqFrXQv64sD/9tnX4
+ sk6o+M8Ed5HeU2JTp/n8PgS/Mw5jvNj2Cw==
+X-Google-Smtp-Source: APXvYqxE3Ei06SIYcvafrTXFVmwNL+phMsbf/asXBt06uk8D4Tb3RreH/lfYr7YMc6SwcG1SWtB3ag==
+X-Received: by 2002:a5d:49cb:: with SMTP id t11mr25862841wrs.366.1570555071679; 
+ Tue, 08 Oct 2019 10:17:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm19135541wrl.35.2019.10.08.10.17.49
+ by smtp.gmail.com with ESMTPSA id z9sm19135541wrl.35.2019.10.08.10.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2019 10:17:49 -0700 (PDT)
+ Tue, 08 Oct 2019 10:17:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 05/21] hw/arm/musicpal.c: Switch to transaction-based
- ptimer API
-Date: Tue,  8 Oct 2019 18:17:24 +0100
-Message-Id: <20191008171740.9679-6-peter.maydell@linaro.org>
+Subject: [PATCH v2 06/21] hw/timer/allwinner-a10-pit.c: Switch to
+ transaction-based ptimer API
+Date: Tue,  8 Oct 2019 18:17:25 +0100
+Message-Id: <20191008171740.9679-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191008171740.9679-1-peter.maydell@linaro.org>
 References: <20191008171740.9679-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,74 +85,84 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the musicpal code away from bottom-half based ptimers to
+Switch the allwinner-a10-pit code away from bottom-half based ptimers to
 the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
 state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/musicpal.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ hw/timer/allwinner-a10-pit.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index b3624d5e280..f68a399a984 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -843,13 +843,10 @@ static void mv88w8618_timer_tick(void *opaque)
- static void mv88w8618_timer_init(SysBusDevice *dev, mv88w8618_timer_state *s,
-                                  uint32_t freq)
- {
--    QEMUBH *bh;
--
-     sysbus_init_irq(dev, &s->irq);
-     s->freq = freq;
+diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
+index 28d055e42f3..aae880f5b35 100644
+--- a/hw/timer/allwinner-a10-pit.c
++++ b/hw/timer/allwinner-a10-pit.c
+@@ -22,7 +22,6 @@
+ #include "hw/timer/allwinner-a10-pit.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
  
--    bh = qemu_bh_new(mv88w8618_timer_tick, s);
--    s->ptimer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_DEFAULT);
+ static void a10_pit_update_irq(AwA10PITState *s)
+@@ -80,6 +79,7 @@ static uint64_t a10_pit_read(void *opaque, hwaddr offset, unsigned size)
+     return 0;
  }
  
- static uint64_t mv88w8618_pit_read(void *opaque, hwaddr offset,
-@@ -879,16 +876,19 @@ static void mv88w8618_pit_write(void *opaque, hwaddr offset,
-     case MP_PIT_TIMER1_LENGTH ... MP_PIT_TIMER4_LENGTH:
-         t = &s->timer[offset >> 2];
-         t->limit = value;
-+        ptimer_transaction_begin(t->ptimer);
-         if (t->limit > 0) {
-             ptimer_set_limit(t->ptimer, t->limit, 1);
-         } else {
-             ptimer_stop(t->ptimer);
-         }
-+        ptimer_transaction_commit(t->ptimer);
-         break;
- 
-     case MP_PIT_CONTROL:
-         for (i = 0; i < 4; i++) {
-             t = &s->timer[i];
-+            ptimer_transaction_begin(t->ptimer);
-             if (value & 0xf && t->limit > 0) {
-                 ptimer_set_limit(t->ptimer, t->limit, 0);
-                 ptimer_set_freq(t->ptimer, t->freq);
-@@ -896,6 +896,7 @@ static void mv88w8618_pit_write(void *opaque, hwaddr offset,
++/* Must be called inside a ptimer transaction block for s->timer[index] */
+ static void a10_pit_set_freq(AwA10PITState *s, int index)
+ {
+     uint32_t prescaler, source, source_freq;
+@@ -118,6 +118,7 @@ static void a10_pit_write(void *opaque, hwaddr offset, uint64_t value,
+         switch (offset & 0x0f) {
+         case AW_A10_PIT_TIMER_CONTROL:
+             s->control[index] = value;
++            ptimer_transaction_begin(s->timer[index]);
+             a10_pit_set_freq(s, index);
+             if (s->control[index] & AW_A10_PIT_TIMER_RELOAD) {
+                 ptimer_set_count(s->timer[index], s->interval[index]);
+@@ -131,10 +132,13 @@ static void a10_pit_write(void *opaque, hwaddr offset, uint64_t value,
              } else {
-                 ptimer_stop(t->ptimer);
+                 ptimer_stop(s->timer[index]);
              }
-+            ptimer_transaction_commit(t->ptimer);
-             value >>= 4;
-         }
-         break;
-@@ -914,8 +915,11 @@ static void mv88w8618_pit_reset(DeviceState *d)
-     int i;
++            ptimer_transaction_commit(s->timer[index]);
+             break;
+         case AW_A10_PIT_TIMER_INTERVAL:
+             s->interval[index] = value;
++            ptimer_transaction_begin(s->timer[index]);
+             ptimer_set_limit(s->timer[index], s->interval[index], 1);
++            ptimer_transaction_commit(s->timer[index]);
+             break;
+         case AW_A10_PIT_TIMER_COUNT:
+             s->count[index] = value;
+@@ -225,8 +229,10 @@ static void a10_pit_reset(DeviceState *dev)
+         s->control[i] = AW_A10_PIT_DEFAULT_CLOCK;
+         s->interval[i] = 0;
+         s->count[i] = 0;
++        ptimer_transaction_begin(s->timer[i]);
+         ptimer_stop(s->timer[i]);
+         a10_pit_set_freq(s, i);
++        ptimer_transaction_commit(s->timer[i]);
+     }
+     s->watch_dog_mode = 0;
+     s->watch_dog_control = 0;
+@@ -255,7 +261,6 @@ static void a10_pit_init(Object *obj)
+ {
+     AwA10PITState *s = AW_A10_PIT(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+-    QEMUBH * bh[AW_A10_PIT_TIMER_NR];
+     uint8_t i;
  
-     for (i = 0; i < 4; i++) {
--        ptimer_stop(s->timer[i].ptimer);
--        s->timer[i].limit = 0;
-+        mv88w8618_timer_state *t = &s->timer[i];
-+        ptimer_transaction_begin(t->ptimer);
-+        ptimer_stop(t->ptimer);
-+        ptimer_transaction_commit(t->ptimer);
-+        t->limit = 0;
+     for (i = 0; i < AW_A10_PIT_TIMER_NR; i++) {
+@@ -270,8 +275,7 @@ static void a10_pit_init(Object *obj)
+ 
+         tc->container = s;
+         tc->index = i;
+-        bh[i] = qemu_bh_new(a10_pit_timer_cb, tc);
+-        s->timer[i] = ptimer_init_with_bh(bh[i], PTIMER_POLICY_DEFAULT);
++        s->timer[i] = ptimer_init(a10_pit_timer_cb, tc, PTIMER_POLICY_DEFAULT);
      }
  }
  
