@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A7BD0239
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 22:37:44 +0200 (CEST)
-Received: from localhost ([::1]:37072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51762D0246
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 22:42:02 +0200 (CEST)
+Received: from localhost ([::1]:37100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHwEp-00088l-Du
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 16:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40550)
+	id 1iHwIz-0002un-CN
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 16:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHwCZ-0006qd-1f
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:35:24 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iHwHs-0002LK-5z
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:40:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHwCX-0007cM-RR
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:35:22 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38064)
+ (envelope-from <palmer@dabbelt.com>) id 1iHwHq-00026o-TB
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:40:51 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:39121)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHwCX-0007c2-KF
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:35:21 -0400
-Received: by mail-ot1-x342.google.com with SMTP id e11so15240625otl.5
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 13:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O2OwHo9MN7fRpyZkAqSHujkBVze1HAYlPsNEGEZfsLE=;
- b=jVOGArVa3OiRya7bwg3k68g+htGbG7sMHfPd2dsrCGriK7pqYVVh0LOulNWLlhM8kh
- L0EoKS4z+30T6p9iHXbz+AYk9yDyObZJ8U/tvR/G/49Wj8/XuZhZmRh6Rc53oQNWCyvO
- /PwCS9Gfetd+dM+XmLgc+eeyt2oDtczfQAAppDotVt0R1AY6SbtT2u6QhODPNXgGlUkK
- K4tLrVhPEeY0ZHCEiePYqxtg5t8puFhD+1aGxYqhP8FmStVdlZbYETNPoto3UCHsQqU6
- 6HeWceao0n7T9looRjcdqRfhrGUgUMvvSibdPRVkdI3ClIG2po6QlFKfKLKxADevBesq
- gdmQ==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iHwHq-00025n-Ml
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:40:50 -0400
+Received: by mail-pf1-f195.google.com with SMTP id v4so71750pff.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 13:40:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O2OwHo9MN7fRpyZkAqSHujkBVze1HAYlPsNEGEZfsLE=;
- b=JVdv3Cj8/RcLmxdzHbHsg1f3GDXluwvWAapljIdRWyDmp5NWRX8PEE4j4mgaGIXnby
- qsfKdIRDpnHZ9AqJ12jbpsewl/PUqClmNQTRCTLuz9d1uiVaT46mEt/woM2E6K69Cpcq
- NYsutL+4QeYq64fxrW6Bz2kI/jMP+ozNwOpfmdf0NrY1QHZYeB3M8s6CzXvE3TVfM98G
- RCtPOuAVbpIxCCnAOS3Jw4nAoiU/HX8Grx67j1QSD0h/WcXXmtxdBlI5Tx2qmt6BPrkY
- lrZJP61il62ftlMYCdYzer9KizE2vRiFjVCW73+U0ULiQNVJOto/kTmT/w4X2dw0p9Md
- 4uYQ==
-X-Gm-Message-State: APjAAAV64NKpbHvV1X6rKasJV2XoY6NiDycfLnRpdIBTvcsFE1YjUzTv
- TQgQpSE+LL+SmvRprac+FUkKK+Fpox2Ti1pjjQe0Ww==
-X-Google-Smtp-Source: APXvYqyXP7NXDIap+/WbZM1445Sd1/FVqn+adfqxf+R6W11lan33e5Qhp6VaLEwJDjkOVmaUgWdNKPkxjpARNMQBqrI=
-X-Received: by 2002:a9d:398a:: with SMTP id y10mr101939otb.97.1570566920340;
- Tue, 08 Oct 2019 13:35:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191007151905.32766-1-philmd@redhat.com>
- <20191007151905.32766-8-philmd@redhat.com>
- <CAKXe6S+B8y5fdFowN3+40baR-b4c0RDrsi+LvuNcx1g-Mx7LpA@mail.gmail.com>
- <f0178880-2526-c3ee-6ad5-1d66f2e23fd9@redhat.com>
-In-Reply-To: <f0178880-2526-c3ee-6ad5-1d66f2e23fd9@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Oct 2019 21:35:09 +0100
-Message-ID: <CAFEAcA9Xn=UTG7otjSX5e88ewVXmCmip=d=dvHwuM_jZ8X8QqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] tests/fw_cfg: Run the tests on big-endian targets
-To: Laszlo Ersek <lersek@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=f3kudtvGYxlXh3MAOnee5/ieD/uknhf/2EwfZfkIDgE=;
+ b=SuMacqMpBuYVT6IEisA0vc/aJxLUB82ul9G5MKgO5oHvcpqdfgqjqr6q7HzFXNW482
+ 1BBwsrCS6GWfoEzNZSEvdGhQcbNqStQq7kQx3xDGfCAHLj/jqcEB4YIwNa1qEBRxd97S
+ aT7UoBGe95iLdD0LsY1C4kksGEmWR50QfJwAoSqbQE3Pnvg6IHBuRlNGdSnZDcnGAdgx
+ r4QkdlAZtjijxVWas7hnrePKXaz/wmZnPYKEK4NA18jXks3Z83Ndl7LanKvvynuGeQ2n
+ rWWg8R5YP8NOM+tR1D1IoVAjKTl77kNT+9xsBF9XsbLbXHRGrMWQp4n/ZYCKLuvHBZCL
+ I2fQ==
+X-Gm-Message-State: APjAAAW+qT8SPO/dnEeiIS6uOr9rrf/tbCkdwo+Wo7eYRP0yLUyoFdXt
+ Yp2GrA5GyKRGSblUn841Anu3yA==
+X-Google-Smtp-Source: APXvYqyzhIGuhFt1ZDQsmHRXZwV+9RVGAZgxmpGIZqC74rU24LhaZI9YA+rh+gyYMU6cWuFBGVokjA==
+X-Received: by 2002:a17:90a:9318:: with SMTP id
+ p24mr7950258pjo.31.1570567249069; 
+ Tue, 08 Oct 2019 13:40:49 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id c14sm14088pfm.179.2019.10.08.13.40.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2019 13:40:48 -0700 (PDT)
+Date: Tue, 08 Oct 2019 13:40:48 -0700 (PDT)
+X-Google-Original-Date: Tue, 08 Oct 2019 13:40:35 PDT (-0700)
+Subject: Re: [PATCH] memory: Replace DEBUG_UNASSIGNED printf calls by trace
+ events
+In-Reply-To: <CAFEAcA-O6b5zc=Qp-49Fc9_tQ+a+Stk6DfnwwzDON+RZfSDSfA@mail.gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: pbonzini@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-86e6be44-c5dd-4ecb-bdcb-1f490db0f2cf@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.210.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,30 +69,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: laurent.desnogues@gmail.com, pbonzini@redhat.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Oct 2019 at 21:29, Laszlo Ersek <lersek@redhat.com> wrote:
-> In that case, the original initializer will remain in effect, from:
+On Fri, 20 Sep 2019 07:20:34 PDT (-0700), Peter Maydell wrote:
+> On Fri, 20 Sep 2019 at 15:17, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>> I think it's simplest if all series (RISC-V, remove unassigned_access,
+>> this one) go through the RISC-V tree.
 >
->   QTestCtx ctx = {};
->
-> (Admittedly, this is an ugly GNU-ism; for standard C, it should be
->
->   QTestCtx ctx = { 0 };
->
-> but the GNU-ism is used quite frequently in QEMU elsewhere, so meh :) )
+> I don't inherently object but IME the risc-v tree tends to move
+> comparatively slowly. The initial risc-v conversion patchset
+> should definitely go via the risc-v tree, anyway.
 
-This is deliberate -- some compilers grumble about "{ 0 }" in
-some situations, so we generally recommend using "{}" which
-is accepted by all compilers we care about. (Cf commit message
-for commit 039d4e3df0049bdd.)
+We still don't have the riscv_cpu_unassigned_access() removal patches in, which 
+IIRC got blocked on review but I can no longer dig out of my inbox.  IIRC the 
+patches Alistair sent were still "From: Palmer", which means I can't review 
+them.
 
-thanks
--- PMM
+I'm fine taking this on top of those, but it looks like there's still some 
+debate about the patch itself.  I don't see a v2.
 
