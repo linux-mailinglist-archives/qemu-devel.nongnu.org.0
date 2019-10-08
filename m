@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDA8CFC17
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:14:03 +0200 (CEST)
-Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EA0CFC1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:14:57 +0200 (CEST)
+Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHqFW-0003vN-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:14:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46772)
+	id 1iHqGO-0004jk-7I
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iHq6H-0002RI-Cp
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:04:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iHqA7-0006r1-Bf
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:08:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iHq6A-0001d0-AF
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:04:27 -0400
-Received: from rs224.mailgun.us ([209.61.151.224]:12094)
+ (envelope-from <peter.maydell@linaro.org>) id 1iHqA2-0003ja-DM
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:08:27 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:36684)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iHq67-0000eZ-P7
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:04:20 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
- s=pic; 
- t=1570543460; h=Content-Type: Cc: To: Subject: Message-ID: Date: From:
- In-Reply-To: References: MIME-Version: Sender;
- bh=ARcmfoo+pNlCLcWaW1bmfG72qrKEQJ7pT54h3e3Iz6g=;
- b=OnPx92mgoHZ1kOlPZAwHsDV1gynRlK6FY/GjLvg5vieSbSBKRvQW0oWfryaZPymL92+bGUTZ
- hui0gUP2dYmrdRrDIb1YRFuHSqNLttEBszBaAzVulhaO5Qlttpzy24qLWV9u4MqwHjdVsOaT
- QQb2ZzmiBcGvqER6f2SyALnO0sZnw9rC0XL0HJsnpt0ng+jxBvikYpoqumwK9es4VKqhvDJs
- GsbtkB3Wyr5G9Vdrku3lSXAHv+S00q3D66K8fCsNoe9FJ8ZPkzw2/c3OSJkdBe5EaAzb1EM2
- aZJz696iMoB+GZIgiwgmQ4o75y8OEtKSiu9t8870VrUjffqkeIaRKw==
-X-Mailgun-Sending-Ip: 209.61.151.224
-X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by mxa.mailgun.org with ESMTP id 5d9c975f.7f04ba04ddb0-smtp-out-n02;
- Tue, 08 Oct 2019 14:04:15 -0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id y23so17666699lje.9;
- Tue, 08 Oct 2019 07:04:14 -0700 (PDT)
-X-Gm-Message-State: APjAAAXRLyH+BNBeIn5LusIqoI6hvUF8lizoRj79HnsfLqDlUJTDKfhd
- dn3eAXpIDBT3MXjgGQA6G6vpvLdJWlUe3I8ZOeg=
-X-Google-Smtp-Source: APXvYqwHj7+W5g+aM0u0KXofntuYBm4LWkZSX4gDECu0K1UMJZZ5WtsTb/n25vXK0iYSVIilrmkmw8bWIc3vQBaAPJw=
-X-Received: by 2002:a2e:29dc:: with SMTP id p89mr22872031ljp.228.1570543452435; 
- Tue, 08 Oct 2019 07:04:12 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iHqA2-0003jT-73
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:08:22 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id k20so14904349oih.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 07:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DaK4LFhDMurmiD/03hY6fQL9Kpa5N1Imhd3ePMwymoM=;
+ b=DgLF8s6ysngRTKkE6pDNWG40ck+VwORjW/+Xx0pB9JJU7ymfIUMQR0YMF9JiofgGb3
+ B4lYhQEGKRIsgJk6m3GMU/DZY9ZGi8kTh5TKLYzA7ocTRbo3Fxk7XD4DFGNMObdq2eHI
+ BjSltVve2qMj7MHhcrPOY6iWR3JhGH7rjsbaIc4FdW24UJ8UUfytD2Ymc9xhtOrV+Hbh
+ YfARTjrOw1MrihFztb79LuKTIhjlMfgKjW/5FAJvvXdK26VfPzen0Lt6v8B/c2dMs41g
+ 41YLAc0FC8k/DMBv3q7xMrWJXa4fEch7zZZz9NptnpHeMGroKAyOk7mX9hmLViD7oXZF
+ IR1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DaK4LFhDMurmiD/03hY6fQL9Kpa5N1Imhd3ePMwymoM=;
+ b=S+xzrV45nlVtNuQ1mXECS0jjLkcxA3UtiG0rcCTFmyF2Jux/+Ibr+gkSb7xLd8N+fi
+ SuVBlPR2dSiQF9SV06DyvKYm6+1xs7Klw0aAW5d5d+YM9YYjyDEWfG6T9rzrXK0zEOid
+ jhS3GZszKpkQlslICnM0iobnb31VfZAirun2Ezo+PxQvyPnPMptYsvb3UkU1M2JqJpWt
+ wwoZnMFeQU5l+1iT4nwAgD1V/cISRUOq3+bfd46WzrP0goXKSg3Fn5tUuD2Q36Zas8wX
+ gquyQQA66x9Ge0GaIdx7J+p/pUT0TOlOPsyaCn0KGjbksqSpR7ktq4/T1Nj5UZ5jxjLv
+ /xcQ==
+X-Gm-Message-State: APjAAAVnK2ilYZpuSUF5NJKiopT7VScfAzVqCtd6f6NJ5o9wVWx45rw/
+ ZyNCQxEzUrNH7xQaTK2sdvJVyFeBwyWqfNLDT8DfBpS3Ays=
+X-Google-Smtp-Source: APXvYqwZ8c0hK8JzGRNqEM31Q4u4Lk8mpCnSyI5cVt+uf7iyAH0snNUVfQwDImhVkLRG6e9ATVUfm6WZm7ZZK1Df5io=
+X-Received: by 2002:aca:b646:: with SMTP id g67mr4087596oif.163.1570543701400; 
+ Tue, 08 Oct 2019 07:08:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008001318.219367-1-jonathan@fintelia.io>
- <20191008001318.219367-3-jonathan@fintelia.io>
- <CAEUhbmWcwUhVjO97z7z3prg1WYU4ushOBgDMW9_ruaMk4___Zg@mail.gmail.com>
-In-Reply-To: <CAEUhbmWcwUhVjO97z7z3prg1WYU4ushOBgDMW9_ruaMk4___Zg@mail.gmail.com>
-From: Jonathan Behrens <jonathan@fintelia.io>
-Date: Tue, 8 Oct 2019 10:03:07 -0400
-X-Gmail-Original-Message-ID: <CANnJOVHmJfyRmkeCTebCSc92bMEjBx6UYryS9MD4WhiJHvq+fA@mail.gmail.com>
-Message-ID: <CANnJOVHmJfyRmkeCTebCSc92bMEjBx6UYryS9MD4WhiJHvq+fA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] target/riscv: Expose priv register for GDB for
- reads
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20191007133540.30623-1-philmd@redhat.com>
+In-Reply-To: <20191007133540.30623-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Oct 2019 15:08:10 +0100
+Message-ID: <CAFEAcA-+WMMgP36i4XBrRXhs+-nBna-ruZmyhGdn0wY0RO479Q@mail.gmail.com>
+Subject: Re: [PULL 0/5] edk2-next patches for 2019-10-07
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.61.151.224
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,145 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 8, 2019 at 8:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, 7 Oct 2019 at 14:37, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
 >
-> On Tue, Oct 8, 2019 at 8:18 AM Jonathan Behrens <jonathan@fintelia.io> wrote:
-> >
-> > This patch enables a debugger to read the current privilege level via a virtual
-> > "priv" register. When compiled with CONFIG_USER_ONLY the register is still
-> > visible but always reports the value zero.
-> >
-> > Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-> > ---
-> >  configure                       |  4 ++--
-> >  gdb-xml/riscv-32bit-virtual.xml | 11 +++++++++++
-> >  gdb-xml/riscv-64bit-virtual.xml | 11 +++++++++++
-> >  target/riscv/gdbstub.c          | 23 +++++++++++++++++++++++
-> >  4 files changed, 47 insertions(+), 2 deletions(-)
-> >  create mode 100644 gdb-xml/riscv-32bit-virtual.xml
-> >  create mode 100644 gdb-xml/riscv-64bit-virtual.xml
-> >
-> > diff --git a/configure b/configure
-> > index 30544f52e6..6118a6a045 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -7520,13 +7520,13 @@ case "$target_name" in
-> >      TARGET_BASE_ARCH=riscv
-> >      TARGET_ABI_DIR=riscv
-> >      mttcg=yes
-> > -    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit-csr.xml"
-> > +    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
-> >    ;;
-> >    riscv64)
-> >      TARGET_BASE_ARCH=riscv
-> >      TARGET_ABI_DIR=riscv
-> >      mttcg=yes
-> > -    gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml"
-> > +    gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml riscv-64bit-virtual.xml"
-> >    ;;
-> >    sh4|sh4eb)
-> >      TARGET_ARCH=sh4
-> > diff --git a/gdb-xml/riscv-32bit-virtual.xml b/gdb-xml/riscv-32bit-virtual.xml
-> > new file mode 100644
-> > index 0000000000..905f1c555d
-> > --- /dev/null
-> > +++ b/gdb-xml/riscv-32bit-virtual.xml
-> > @@ -0,0 +1,11 @@
-> > +<?xml version="1.0"?>
-> > +<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
-> > +
-> > +     Copying and distribution of this file, with or without modification,
-> > +     are permitted in any medium without royalty provided the copyright
-> > +     notice and this notice are preserved.  -->
-> > +
-> > +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> > +<feature name="org.gnu.gdb.riscv.virtual">
-> > +  <reg name="priv" bitsize="32"/>
-> > +</feature>
-> > diff --git a/gdb-xml/riscv-64bit-virtual.xml b/gdb-xml/riscv-64bit-virtual.xml
-> > new file mode 100644
-> > index 0000000000..62d86c237b
-> > --- /dev/null
-> > +++ b/gdb-xml/riscv-64bit-virtual.xml
-> > @@ -0,0 +1,11 @@
-> > +<?xml version="1.0"?>
-> > +<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
-> > +
-> > +     Copying and distribution of this file, with or without modification,
-> > +     are permitted in any medium without royalty provided the copyright
-> > +     notice and this notice are preserved.  -->
-> > +
-> > +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> > +<feature name="org.gnu.gdb.riscv.virtual">
-> > +  <reg name="priv" bitsize="64"/>
-> > +</feature>
-> > diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> > index cb5bfd3d50..33cf7c4c7d 100644
-> > --- a/target/riscv/gdbstub.c
-> > +++ b/target/riscv/gdbstub.c
-> > @@ -373,6 +373,23 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
-> >      return 0;
-> >  }
-> >
-> > +static int riscv_gdb_get_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
-> > +{
-> > +    if (n == 0) {
-> > +#ifdef CONFIG_USER_ONLY
-> > +        return gdb_get_regl(mem_buf, 0);
-> > +#else
-> > +        return gdb_get_regl(mem_buf, cs->priv);
-> > +#endif
-> > +    }
-> > +    return 0;
-> > +}
-> > +
-> > +static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
-> > +{
-> > +    return 0;
-> > +}
-> > +
-> >  void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-> >  {
-> >      RISCVCPU *cpu = RISCV_CPU(cs);
-> > @@ -385,6 +402,9 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-> >
-> >      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
-> >                               240, "riscv-32bit-csr.xml", 0);
-> > +
-> > +    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
-> > +                             1, "riscv-32bit-csr.xml", 0);
+> The following changes since commit 9e5319ca52a5b9e84d55ad9c36e2c0b317a122=
+bb:
 >
-> This should be riscv-32bit-virtual.xml
-
-Good catch. I'll fix this in the next version.
+>   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into s=
+taging (2019-10-04 18:32:34 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/philmd/qemu.git tags/edk2-next-20191007
+>
+> for you to fetch changes up to 037973bb0d2b1a3c8618ccf41caa4da3666588c3:
+>
+>   edk2 build scripts: work around TianoCore#1607 without forcing Python 2=
+ (2019-10-07 15:14:15 +0200)
+>
+> ----------------------------------------------------------------
+> Improve scripts relying on the EDK2 submodule,
+> drop Python2 dependency in EDK2 build scripts.
+>
+> ----------------------------------------------------------------
 
 
->
-> >  #elif defined(TARGET_RISCV64)
-> >      if (env->misa & RVF) {
-> >          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-> > @@ -393,5 +413,8 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-> >
-> >      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
-> >                               240, "riscv-64bit-csr.xml", 0);
-> > +
-> > +    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
-> > +                             1, "riscv-64bit-virtual.xml", 0);
-> >  #endif
-> >  }
->
-> Regards,
-> Bin
->
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
