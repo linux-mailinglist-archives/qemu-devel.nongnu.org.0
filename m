@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3898DD0292
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 22:59:10 +0200 (CEST)
-Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4A7D0299
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 23:03:34 +0200 (CEST)
+Received: from localhost ([::1]:37272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHwZZ-0001oq-55
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 16:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
+	id 1iHwdo-0004Xz-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 17:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iHwXm-0000Ts-BN
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:57:19 -0400
+ (envelope-from <prvs=177211c83=alistair.francis@wdc.com>)
+ id 1iHwWw-0008AQ-6o
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:56:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iHwXl-0002Sn-8N
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:57:18 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:35774)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iHwXl-0002SD-0O
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:57:17 -0400
-Received: by mail-lj1-x242.google.com with SMTP id m7so264796lji.2
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 13:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LzUtaF7vK7c0x0tdepO69D9vN8F8r3IQyn1ygxLFyvw=;
- b=JOcER1WLjSfg8HJCmOWFVet/g+na0rs9P2GM0aGzd30WrrTIOH8zexfQOe2Ug+4IST
- t1UKvR8D0YwgS3g4R7ChwEyao1Hb2CY6a4Xz1t5TtpFgt+uM1cBq6C+dtNsLKF0htheP
- /zZ2w1YH2IYhnDFuCiaSSbD/fTlEWJmnCP+MLWh37OrFt2OijfEqPzW6EjhlnP2Ual7M
- hKK1+kPehQoeLDdDVtkglxnABj5mVl6G2Fnu9wm560MWIoAzfmBD7sDeqSpGzOxoHaKB
- yD/n2KDF6/sJAud5HUWm0LKGPs62mwKNLjkkVPFYVPaDkwrzcWur5NESPDQ5EuAvimQI
- kbvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LzUtaF7vK7c0x0tdepO69D9vN8F8r3IQyn1ygxLFyvw=;
- b=sHMB2GyAvV+Ysh9fBDfL1E1PZvxlorYIII87lKvAO+8bTOg/0ZHHo3RMrzeUsYkcr6
- nkyLT30S6WMpe2/+AaPHiDsVCMNnBr8LwghgWTd9kMUpk9x5QWR2mHt6AOMB+lSIoFGl
- KDtKcdobqQElIifxEPwOX9day3hRP8HrVrwN3lNp90zO5/9IGonm37mZDHUZwkaxbEcV
- WFC1sX2rrGOjedHKdIYl3zqKakRO2JSDaTFt7UXV3MxLvbCU+bgJs+1VV6cGrm2W/rjK
- zLh0V1JqEVtcwLgkvsX04CfcKlYfpmne3+qQniJO12YPuL2cFkynA4XXd7Xeg1bpt6rV
- tFdA==
-X-Gm-Message-State: APjAAAV52UhgYQi9MSe5LstnKCeHys+MWzqiS3ss+k9UEJdiIvZHYfoJ
- yxOM6NldH2dzwYTDkzeqv9j8sRChCD8yTemxTH0=
-X-Google-Smtp-Source: APXvYqw/pIVLs3MlG3SBWLO6hpGHBN/b7XK87d5n1EOzccdmNGZsuW5Qi0/96Zf9JIpKVubROS+JXmk/gwSkL6WZ6qI=
-X-Received: by 2002:a2e:b17b:: with SMTP id a27mr104168ljm.7.1570568235548;
- Tue, 08 Oct 2019 13:57:15 -0700 (PDT)
+ (envelope-from <prvs=177211c83=alistair.francis@wdc.com>)
+ id 1iHwWu-0002HS-V3
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:56:26 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:46689)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=177211c83=alistair.francis@wdc.com>)
+ id 1iHwWu-0002HA-NF; Tue, 08 Oct 2019 16:56:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1570568184; x=1602104184;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=pvc66Uik+KxP3YvrM1LSPSwpT4x8ShXKtIkGQgR5Bdg=;
+ b=lyLarlJodQVCcdcwIOFziiYPR3sxunTutcqv4vENjtTwslzQJcM69u/W
+ HTdHud/evVCu7/UnSv7lI8ITjbahm7N5KVJMsNUNKPgDcD3Zgef843c/4
+ 7TjPhONpsqJLMMVM08HOGd8ITVAnG2jKMaK53R/U5uFqy0XW+74WwOPY3
+ wkwe5xyC5gkhfQKP03U06F1vI6mven26OkvF83u36ch+5s5y0OuyDckhi
+ p3U/tt2vo5uBAzYXRuNBcL+pmJlbvJCS77ah34qaj+ElGpYJlNePYPDLG
+ OtwidFAGzc3dcJsRCnBlUd1Gp9nsLW5DtLiYqFFQFXkVCwha65woR39Y6 A==;
+IronPort-SDR: n5mw6F6QXI42U8TYKGtizQPxntQAuBOoaNkdLt8v97wqJqMkZnm9tR22w3eLn91LpkSYbJYwle
+ I+fYbL06fIIGHtyP+Gcfa57CCxzpG3L9Sl6K/EmE6XaPq/bClyIoolGml1/YhdxHBAEScAOhpf
+ lhiBi6U6UyoYK/n4iOO7vP5/37U/sSXThF3G+A/xFKMD/OSNLCijoXpXTyx9jp2m5ThrcipELM
+ yaTZOQXklhAlWxXVSQaTmJD4+j0WYy+Ffj/b6ZPP7Nm30nXooPOXOQqdxgD72PEWGnthsbh6pK
+ EJY=
+X-IronPort-AV: E=Sophos;i="5.67,272,1566835200"; d="scan'208";a="227047829"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Oct 2019 04:56:23 +0800
+IronPort-SDR: uyCXAFmjkgdzdBfQRCC6Px/mloPNR9nIGxANa35k3FkTr5cRm2LLU7ow1ze6LNYC4kXEJghO7G
+ cB4LPoZDr0h+CbpKeKPd2b1F8flvO/i9Rd8DxishehX6L+u/fM7n6Y5q7OXbFkwghYKegToyV3
+ XYdCPOvuz3w4OZUWr7d5QMMpJb+M82A5auekFwroaATVTPreJu7iUIo4eZ1/tvn4lCgR+aerXR
+ 9vVfxOKfuuWF/07zJCAkg3XY41u8EcOsoapPZB0srMmpqbU7qM4qWI2TBKi20O6KbXjpc7kXsH
+ bJq2M0Ec0B2shWgm6s+JS2aG
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2019 13:52:24 -0700
+IronPort-SDR: Y367CMfUEkQnQgvot/seoHQB7LaLgcGmDEsHLMq6ISm8QO/h2J8mbECjbGDnpxB5hJ9AZMQNGl
+ z67BxHVYN0ibz//R3z1//CrSQ+SL7LQa6oVPU/G66IPj7fmaQI166Y27udSNJ0SKGZPfejmlLU
+ 3k8nbjzmFpeB25xCkXDpzD0TI9uwi5KHA4gdElBh4dXpbRxypAVy1RjoF3/OPLBjEOIcEre28+
+ N5A9fjTcsAReRxAZhhagjWd4tcOOv1oQkEUZqJeMX6N0DUybT1k/DvHGOACHuPvHAu9K1bVRBU
+ Qo8=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+ by uls-op-cesaip01.wdc.com with ESMTP; 08 Oct 2019 13:56:24 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 2/2] RISC-V: Implement cpu_do_transaction_failed
+Date: Tue,  8 Oct 2019 13:51:52 -0700
+Message-Id: <ffc9ba71259b9d212ff3fa29462a5cac6e0710b2.1570567870.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <cover.1570567870.git.alistair.francis@wdc.com>
+References: <cover.1570567870.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-References: <CAFEAcA-O6b5zc=Qp-49Fc9_tQ+a+Stk6DfnwwzDON+RZfSDSfA@mail.gmail.com>
- <mhng-86e6be44-c5dd-4ecb-bdcb-1f490db0f2cf@palmer-si-x1e>
- <CAKmqyKN6byATOyb9MatRsh6LUZ5LXb5yf_wCa+0EQZYa53FuHQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKN6byATOyb9MatRsh6LUZ5LXb5yf_wCa+0EQZYa53FuHQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 8 Oct 2019 13:52:17 -0700
-Message-ID: <CAKmqyKOu94-cdzr1uSafhRFpR7Rpc1ZxcrvuG+rGFXOMQfrpZA@mail.gmail.com>
-Subject: Re: [PATCH] memory: Replace DEBUG_UNASSIGNED printf calls by trace
- events
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.141.245
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,45 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Laurent Desnogues <laurent.desnogues@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 8, 2019 at 1:41 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Oct 8, 2019 at 1:41 PM Palmer Dabbelt <palmer@sifive.com> wrote:
-> >
-> > On Fri, 20 Sep 2019 07:20:34 PDT (-0700), Peter Maydell wrote:
-> > > On Fri, 20 Sep 2019 at 15:17, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > >> I think it's simplest if all series (RISC-V, remove unassigned_access,
-> > >> this one) go through the RISC-V tree.
-> > >
-> > > I don't inherently object but IME the risc-v tree tends to move
-> > > comparatively slowly. The initial risc-v conversion patchset
-> > > should definitely go via the risc-v tree, anyway.
-> >
-> > We still don't have the riscv_cpu_unassigned_access() removal patches in, which
-> > IIRC got blocked on review but I can no longer dig out of my inbox.  IIRC the
-> > patches Alistair sent were still "From: Palmer", which means I can't review
-> > them.
->
-> The patches are reviewed by Richard and Philippe, they should be ready to merge.
+From: Palmer Dabbelt <palmer@sifive.com>
 
-Just sent a v2, so you should be able to find them now.
+This converts our port over from cpu_do_unassigned_access to
+cpu_do_transaction_failed, as cpu_do_unassigned_access has been
+deprecated.
 
-Alistair
+Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ target/riscv/cpu.c        |  2 +-
+ target/riscv/cpu.h        |  7 +++++--
+ target/riscv/cpu_helper.c | 11 +++++++----
+ 3 files changed, 13 insertions(+), 7 deletions(-)
 
->
-> Alistair
->
-> >
-> > I'm fine taking this on top of those, but it looks like there's still some
-> > debate about the patch itself.  I don't see a v2.
-> >
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f13e298a36..3939963b71 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -484,7 +484,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     cc->gdb_stop_before_watchpoint = true;
+     cc->disas_set_info = riscv_cpu_disas_set_info;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_unassigned_access = riscv_cpu_unassigned_access;
++    cc->do_transaction_failed = riscv_cpu_do_transaction_failed;
+     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
+ #endif
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 124ed33ee4..8c64c68538 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -264,8 +264,11 @@ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+                         bool probe, uintptr_t retaddr);
+-void riscv_cpu_unassigned_access(CPUState *cpu, hwaddr addr, bool is_write,
+-                                 bool is_exec, int unused, unsigned size);
++void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
++                                     vaddr addr, unsigned size,
++                                     MMUAccessType access_type,
++                                     int mmu_idx, MemTxAttrs attrs,
++                                     MemTxResult response, uintptr_t retaddr);
+ char *riscv_isa_string(RISCVCPU *cpu);
+ void riscv_cpu_list(void);
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index c82e7ed52b..917252f71b 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -408,20 +408,23 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     return phys_addr;
+ }
+ 
+-void riscv_cpu_unassigned_access(CPUState *cs, hwaddr addr, bool is_write,
+-                                 bool is_exec, int unused, unsigned size)
++void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
++                                     vaddr addr, unsigned size,
++                                     MMUAccessType access_type,
++                                     int mmu_idx, MemTxAttrs attrs,
++                                     MemTxResult response, uintptr_t retaddr)
+ {
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
+ 
+-    if (is_write) {
++    if (access_type == MMU_DATA_STORE) {
+         cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
+     } else {
+         cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
+     }
+ 
+     env->badaddr = addr;
+-    riscv_raise_exception(&cpu->env, cs->exception_index, GETPC());
++    riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
+ }
+ 
+ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+-- 
+2.23.0
+
 
