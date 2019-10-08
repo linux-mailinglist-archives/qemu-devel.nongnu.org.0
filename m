@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92C1CFCF4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:58:08 +0200 (CEST)
-Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CD6CFD17
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:04:26 +0200 (CEST)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHqwB-0002f0-4j
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
+	id 1iHr2H-0000DL-MB
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iHqth-0000tu-GS
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:55:34 -0400
+ (envelope-from <bounces@canonical.com>) id 1iHqzo-0006vr-S3
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:01:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iHqtg-00043c-5m
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:55:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35414)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iHqtd-0003wI-3D; Tue, 08 Oct 2019 10:55:29 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4021EC0546FF;
- Tue,  8 Oct 2019 14:55:28 +0000 (UTC)
-Received: from localhost (ovpn-116-36.ams2.redhat.com [10.36.116.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB6185C1D4;
- Tue,  8 Oct 2019 14:55:27 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] block: Skip COR for inactive nodes
-Date: Tue,  8 Oct 2019 15:55:04 +0100
-Message-Id: <20191008145505.3641-4-stefanha@redhat.com>
-In-Reply-To: <20191008145505.3641-1-stefanha@redhat.com>
-References: <20191008145505.3641-1-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iHqzn-0001IN-BZ
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:01:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39974)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iHqzn-0001Hl-56
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:01:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iHqzl-0004VV-EN
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 15:01:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 69EAF2E80CE
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 15:01:49 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 08 Oct 2019 14:55:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 08 Oct 2019 14:47:57 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1633508@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: libvirt
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: havok4u paelzer th-huth
+X-Launchpad-Bug-Reporter: Tim Epkes (havok4u)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <20161014143633.7783.6982.malonedeb@gac.canonical.com>
+Message-Id: <157054607755.22315.205061503565236664.malone@gac.canonical.com>
+Subject: [Bug 1633508] Re: libvirt cannot hot insert interfaces to qemu
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 12a3877fc63d093e0740fc05b51e08856f0455b2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,105 +68,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1633508 <1633508@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+That seems to be the Libvirt of Ubuntu in Xenial.
 
-We must not write data to inactive nodes, and a COR is certainly
-something we can simply not do without upsetting anyone.  So skip COR
-operations on inactive nodes.
+In the past similar issues were uncommon configs or changed behavior on
+updates that triggered apparmor or SELinux protection.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20191001174827.11081-2-mreitz@redhat.com
-Message-Id: <20191001174827.11081-2-mreitz@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/io.c | 41 +++++++++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 14 deletions(-)
+=3D> https://bugs.launchpad.net/ubuntu/+source/libvirt/+bug/1747442
+=3D> https://bugzilla.redhat.com/show_bug.cgi?id=3D731243
 
-diff --git a/block/io.c b/block/io.c
-index f8c3596131..4f9ee97c2b 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1246,11 +1246,18 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(=
-BdrvChild *child,
-     int max_transfer =3D MIN_NON_ZERO(bs->bl.max_transfer,
-                                     BDRV_REQUEST_MAX_BYTES);
-     unsigned int progress =3D 0;
-+    bool skip_write;
-=20
-     if (!drv) {
-         return -ENOMEDIUM;
-     }
-=20
-+    /*
-+     * Do not write anything when the BDS is inactive.  That is not
-+     * allowed, and it would not help.
-+     */
-+    skip_write =3D (bs->open_flags & BDRV_O_INACTIVE);
-+
-     /* FIXME We cannot require callers to have write permissions when al=
-l they
-      * are doing is a read request. If we did things right, write permis=
-sions
-      * would be obtained anyway, but internally by the copy-on-read code=
-. As
-@@ -1274,23 +1281,29 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(=
-BdrvChild *child,
-     while (cluster_bytes) {
-         int64_t pnum;
-=20
--        ret =3D bdrv_is_allocated(bs, cluster_offset,
--                                MIN(cluster_bytes, max_transfer), &pnum)=
-;
--        if (ret < 0) {
--            /* Safe to treat errors in querying allocation as if
--             * unallocated; we'll probably fail again soon on the
--             * read, but at least that will set a decent errno.
--             */
-+        if (skip_write) {
-+            ret =3D 1; /* "already allocated", so nothing will be copied=
- */
-             pnum =3D MIN(cluster_bytes, max_transfer);
--        }
-+        } else {
-+            ret =3D bdrv_is_allocated(bs, cluster_offset,
-+                                    MIN(cluster_bytes, max_transfer), &p=
-num);
-+            if (ret < 0) {
-+                /*
-+                 * Safe to treat errors in querying allocation as if
-+                 * unallocated; we'll probably fail again soon on the
-+                 * read, but at least that will set a decent errno.
-+                 */
-+                pnum =3D MIN(cluster_bytes, max_transfer);
-+            }
-=20
--        /* Stop at EOF if the image ends in the middle of the cluster */
--        if (ret =3D=3D 0 && pnum =3D=3D 0) {
--            assert(progress >=3D bytes);
--            break;
--        }
-+            /* Stop at EOF if the image ends in the middle of the cluste=
-r */
-+            if (ret =3D=3D 0 && pnum =3D=3D 0) {
-+                assert(progress >=3D bytes);
-+                break;
-+            }
-=20
--        assert(skip_bytes < pnum);
-+            assert(skip_bytes < pnum);
-+        }
-=20
-         if (ret <=3D 0) {
-             QEMUIOVector local_qiov;
---=20
-2.21.0
+It could as well be some variant of bug 1677398.
 
+If you are still affected by this, could you check:
+1. if it also happens on newer libvirt versions e.g. do a trial run in the =
+most recent Ubuntu
+2. if it does could you check dmesg in your setup for related apparmor deni=
+als?
+
+
+** Bug watch added: Red Hat Bugzilla #731243
+   https://bugzilla.redhat.com/show_bug.cgi?id=3D731243
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1633508
+
+Title:
+  libvirt cannot hot insert interfaces to qemu
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  When attempting to hot insert an interface using Ubuntu 16.04.1, I get th=
+e following
+  $ virsh attach-interface --domain gluster1 --type direct \
+  >         --source test0 --model virtio \
+  >         --mac 2a:b6:b0:dc:c7:c4 --config --live
+  error: Failed to attach interface
+  error: internal error: unable to execute QEMU command 'getfd': No file de=
+scriptor supplied via SCM_RIGHTS
+
+  test0 exists:
+  $ ip link show test0
+  35: test0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast =
+state DOWN mode DEFAULT group default qlen 1000
+      link/ether aa:8c:65:2e:79:61 brd ff:ff:ff:ff:ff:ff
+
+  Just in case I did it wrong with direct, I did network
+  $ virsh net-list
+   Name                 State      Autostart     Persistent
+  ----------------------------------------------------------
+   default              active     yes           yes
+   mgmtnet0             active     yes           yes
+
+  $ virsh attach-interface --domain gluster1 --type network \
+  >         --source default --model virtio \
+  >         --mac 2a:b6:b0:dc:c7:c4 --config --live
+  error: Failed to attach interface
+  error: internal error: unable to execute QEMU command 'getfd': No file de=
+scriptor supplied via SCM_RIGHTS
+
+  =
+
+  This seems to be an old bug, but is still present.  Other relevant inform=
+ation:
+  $ qemu-system-x86_64 --version
+  QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.5), Copyright (c=
+) 2003-2008 Fabrice Bellard
+  $ virsh -v
+  1.3.1
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1633508/+subscriptions
 
