@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDF4CFD77
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:21:23 +0200 (CEST)
-Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94755CFD82
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:23:49 +0200 (CEST)
+Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHrIg-0007x0-5i
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
+	id 1iHrL2-0001bi-Ji
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58297)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iHrH3-00071H-87
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:19:42 -0400
+ (envelope-from <groug@kaod.org>) id 1iHrH9-00072O-1E
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:19:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iHrH0-0000Pi-UB
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:19:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22576
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <groug@kaod.org>) id 1iHrH6-0000WD-VV
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:19:46 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31834)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iHrH0-0000Nm-KH
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:19:38 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x98FEiPT139216
- for <qemu-devel@nongnu.org>; Tue, 8 Oct 2019 11:19:36 -0400
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iHrH4-0000Rb-Vo
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:19:44 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x98FDc6v117447
+ for <qemu-devel@nongnu.org>; Tue, 8 Oct 2019 11:19:40 -0400
 Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vgvuv0cgf-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vgtayfeuw-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 11:19:35 -0400
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 11:19:40 -0400
 Received: from localhost
  by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Tue, 8 Oct 2019 16:19:34 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ Tue, 8 Oct 2019 16:19:37 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
  by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 8 Oct 2019 16:19:32 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x98FJVMj45547538
+ Tue, 8 Oct 2019 16:19:34 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x98FJXOR40239196
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 8 Oct 2019 15:19:32 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E127B42047;
- Tue,  8 Oct 2019 15:19:31 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD42A42045;
- Tue,  8 Oct 2019 15:19:31 +0000 (GMT)
+ Tue, 8 Oct 2019 15:19:33 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DEF07AE059;
+ Tue,  8 Oct 2019 15:19:32 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C1279AE058;
+ Tue,  8 Oct 2019 15:19:32 +0000 (GMT)
 Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  8 Oct 2019 15:19:31 +0000 (GMT)
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  8 Oct 2019 15:19:32 +0000 (GMT)
 Received: from bahia.tls.ibm.com (bahia.tls.ibm.com [9.101.4.41])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 9AE032201ED;
- Tue,  8 Oct 2019 17:19:31 +0200 (CEST)
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 8A4FF2201ED;
+ Tue,  8 Oct 2019 17:19:32 +0200 (CEST)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] 9p patches 2019-10-08
-Date: Tue,  8 Oct 2019 17:19:21 +0200
+Subject: [PULL 1/4] 9p: unsigned type for type, version, path
+Date: Tue,  8 Oct 2019 17:19:22 +0200
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191008151925.1021706-1-groug@kaod.org>
+References: <20191008151925.1021706-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19100815-0008-0000-0000-000003201E64
+x-cbid: 19100815-0008-0000-0000-000003201E66
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100815-0009-0000-0000-00004A3F2005
-Message-Id: <20191008151925.1021706-1-groug@kaod.org>
+x-cbparentid: 19100815-0009-0000-0000-00004A3F2007
+Message-Id: <20191008151925.1021706-2-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-08_06:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=824 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1908290000 definitions=main-1910080135
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,45 +91,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0f0b43868a566068fc137632fd51bd3cbb23f350:
+From: Antonios Motakis <antonios.motakis@huawei.com>
 
-  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.2-20191004' into staging (2019-10-07 13:49:02 +0100)
+There is no need for signedness on these QID fields for 9p.
 
-are available in the Git repository at:
+Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+[CS: - Also make QID type unsigned.
+     - Adjust donttouch_stat() to new types.
+     - Adjust trace-events to new types. ]
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ fsdev/9p-marshal.h   |  6 +++---
+ hw/9pfs/9p.c         |  6 +++---
+ hw/9pfs/trace-events | 14 +++++++-------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-  https://github.com/gkurz/qemu.git tags/9p-next-2019-10-08
-
-for you to fetch changes up to bc6c3cbf43dcc55e34e05bfcbd302bf1a4b92af7:
-
-  9p: Treat multiple devices on one export as an error (2019-10-08 11:50:11 +0200)
-
-----------------------------------------------------------------
-The most notable change is to detect cross-device setups and warn the
-user that this may result in inode number collisions and chaos in the
-guest. The rest is cosmetic cleanup.
-
-----------------------------------------------------------------
-Antonios Motakis (2):
-      9p: unsigned type for type, version, path
-      9p: Treat multiple devices on one export as an error
-
-Greg Kurz (2):
-      9p: Simplify error path of v9fs_device_realize_common()
-      fsdev: Add return value to fsdev_throttle_parse_opts()
-
- fsdev/9p-marshal.h          |  6 +--
- fsdev/qemu-fsdev-throttle.c |  4 +-
- fsdev/qemu-fsdev-throttle.h |  2 +-
- hw/9pfs/9p-local.c          |  7 +++-
- hw/9pfs/9p-proxy.c          |  4 ++
- hw/9pfs/9p.c                | 92 ++++++++++++++++++++++++++++++++-------------
- hw/9pfs/9p.h                |  1 +
- hw/9pfs/trace-events        | 14 +++----
- 8 files changed, 88 insertions(+), 42 deletions(-)
+diff --git a/fsdev/9p-marshal.h b/fsdev/9p-marshal.h
+index c8823d878f98..8f3babb60a05 100644
+--- a/fsdev/9p-marshal.h
++++ b/fsdev/9p-marshal.h
+@@ -9,9 +9,9 @@ typedef struct V9fsString
+ 
+ typedef struct V9fsQID
+ {
+-    int8_t type;
+-    int32_t version;
+-    int64_t path;
++    uint8_t type;
++    uint32_t version;
++    uint64_t path;
+ } V9fsQID;
+ 
+ typedef struct V9fsStat
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index cce2366219be..cf317bdd2b92 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -744,9 +744,9 @@ static int donttouch_stat(V9fsStat *stat)
+ {
+     if (stat->type == -1 &&
+         stat->dev == -1 &&
+-        stat->qid.type == -1 &&
+-        stat->qid.version == -1 &&
+-        stat->qid.path == -1 &&
++        stat->qid.type == 0xff &&
++        stat->qid.version == (uint32_t) -1 &&
++        stat->qid.path == (uint64_t) -1 &&
+         stat->mode == -1 &&
+         stat->atime == -1 &&
+         stat->mtime == -1 &&
+diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+index c0a0a4ab5de8..10188daf7fa5 100644
+--- a/hw/9pfs/trace-events
++++ b/hw/9pfs/trace-events
+@@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id %d err %d"
+ v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
+ v9fs_version_return(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
+ v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char* uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"
+-v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
++v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %u id %u type %u version %u path %"PRIu64
+ v9fs_stat(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_stat_return(uint16_t tag, uint8_t id, int32_t mode, int32_t atime, int32_t mtime, int64_t length) "tag %d id %d stat={mode %d atime %d mtime %d length %"PRId64"}"
+ v9fs_getattr(uint16_t tag, uint8_t id, int32_t fid, uint64_t request_mask) "tag %d id %d fid %d request_mask %"PRIu64
+@@ -14,9 +14,9 @@ v9fs_getattr_return(uint16_t tag, uint8_t id, uint64_t result_mask, uint32_t mod
+ v9fs_walk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, uint16_t nwnames) "tag %d id %d fid %d newfid %d nwnames %d"
+ v9fs_walk_return(uint16_t tag, uint8_t id, uint16_t nwnames, void* qids) "tag %d id %d nwnames %d qids %p"
+ v9fs_open(uint16_t tag, uint8_t id, int32_t fid, int32_t mode) "tag %d id %d fid %d mode %d"
+-v9fs_open_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
++v9fs_open_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %u id %u qid={type %u version %u path %"PRIu64"} iounit %d"
+ v9fs_lcreate(uint16_t tag, uint8_t id, int32_t dfid, int32_t flags, int32_t mode, uint32_t gid) "tag %d id %d dfid %d flags %d mode %d gid %u"
+-v9fs_lcreate_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
++v9fs_lcreate_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int32_t iounit) "tag %u id %u qid={type %u version %u path %"PRIu64"} iounit %d"
+ v9fs_fsync(uint16_t tag, uint8_t id, int32_t fid, int datasync) "tag %d id %d fid %d datasync %d"
+ v9fs_clunk(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_read(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t max_count) "tag %d id %d fid %d off %"PRIu64" max_count %u"
+@@ -26,21 +26,21 @@ v9fs_readdir_return(uint16_t tag, uint8_t id, uint32_t count, ssize_t retval) "t
+ v9fs_write(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t count, int cnt) "tag %d id %d fid %d off %"PRIu64" count %u cnt %d"
+ v9fs_write_return(uint16_t tag, uint8_t id, int32_t total, ssize_t err) "tag %d id %d total %d err %zd"
+ v9fs_create(uint16_t tag, uint8_t id, int32_t fid, char* name, int32_t perm, int8_t mode) "tag %d id %d fid %d name %s perm %d mode %d"
+-v9fs_create_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
++v9fs_create_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %u id %u qid={type %u version %u path %"PRIu64"} iounit %d"
+ v9fs_symlink(uint16_t tag, uint8_t id, int32_t fid,  char* name, char* symname, uint32_t gid) "tag %d id %d fid %d name %s symname %s gid %u"
+-v9fs_symlink_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
++v9fs_symlink_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %u id %u qid={type %u version %u path %"PRIu64"}"
+ v9fs_flush(uint16_t tag, uint8_t id, int16_t flush_tag) "tag %d id %d flush_tag %d"
+ v9fs_link(uint16_t tag, uint8_t id, int32_t dfid, int32_t oldfid, char* name) "tag %d id %d dfid %d oldfid %d name %s"
+ v9fs_remove(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_wstat(uint16_t tag, uint8_t id, int32_t fid, int32_t mode, int32_t atime, int32_t mtime) "tag %u id %u fid %d stat={mode %d atime %d mtime %d}"
+ v9fs_mknod(uint16_t tag, uint8_t id, int32_t fid, int mode, int major, int minor) "tag %d id %d fid %d mode %d major %d minor %d"
+-v9fs_mknod_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
++v9fs_mknod_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %u id %u qid={type %u version %u path %"PRIu64"}"
+ v9fs_lock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length) "tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
+ v9fs_lock_return(uint16_t tag, uint8_t id, int8_t status) "tag %d id %d status %d"
+ v9fs_getlock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length)"tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
+ v9fs_getlock_return(uint16_t tag, uint8_t id, uint8_t type, uint64_t start, uint64_t length, uint32_t proc_id) "tag %d id %d type %d start %"PRIu64" length %"PRIu64" proc_id %u"
+ v9fs_mkdir(uint16_t tag, uint8_t id, int32_t fid, char* name, int mode, uint32_t gid) "tag %u id %u fid %d name %s mode %d gid %u"
+-v9fs_mkdir_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
++v9fs_mkdir_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int err) "tag %u id %u qid={type %u version %u path %"PRIu64"} err %d"
+ v9fs_xattrwalk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, char* name) "tag %d id %d fid %d newfid %d name %s"
+ v9fs_xattrwalk_return(uint16_t tag, uint8_t id, int64_t size) "tag %d id %d size %"PRId64
+ v9fs_xattrcreate(uint16_t tag, uint8_t id, int32_t fid, char* name, uint64_t size, int flags) "tag %d id %d fid %d name %s size %"PRIu64" flags %d"
 -- 
 2.21.0
 
