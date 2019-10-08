@@ -2,56 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974D6D021E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 22:29:17 +0200 (CEST)
-Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52E0D023F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 22:39:37 +0200 (CEST)
+Received: from localhost ([::1]:37088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHw6e-0004e1-Ll
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 16:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39314)
+	id 1iHwGe-0001NQ-D7
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 16:39:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41155)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iHw4l-0003Ix-KD
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:27:20 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iHwFZ-0000pg-IB
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:38:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iHw4i-0004JM-Q0
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:27:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39372)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iHw4i-0004JB-HQ
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:27:16 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 36C6C69066;
- Tue,  8 Oct 2019 20:27:15 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-109.rdu2.redhat.com
- [10.10.120.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B52210013A1;
- Tue,  8 Oct 2019 20:27:05 +0000 (UTC)
-Subject: Re: [PATCH v2 7/7] tests/fw_cfg: Run the tests on big-endian targets
-To: Li Qiang <liq3ea@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20191007151905.32766-1-philmd@redhat.com>
- <20191007151905.32766-8-philmd@redhat.com>
- <CAKXe6S+B8y5fdFowN3+40baR-b4c0RDrsi+LvuNcx1g-Mx7LpA@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <f0178880-2526-c3ee-6ad5-1d66f2e23fd9@redhat.com>
-Date: Tue, 8 Oct 2019 22:27:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <alistair23@gmail.com>) id 1iHwFX-0000fX-Mz
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 16:38:29 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:45679)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iHwFX-0000eB-De; Tue, 08 Oct 2019 16:38:27 -0400
+Received: by mail-lf1-x141.google.com with SMTP id r134so12978089lff.12;
+ Tue, 08 Oct 2019 13:38:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XCPjj57kQgQLJcPcvoqbLBI71lfQjENYLDR7lzwPQVM=;
+ b=PBMHKsplcYsVLC+ZLjSuqIduxzRUp92gBw6p7zXj87dCJe+k66D2HwwxhK6QdgPO4v
+ DD7yyMMuRyklPAjyQngEWodVjACtqwebQ+UYhsdTRQvCOdGhI5HQPD/kkh2JKn8/+WC4
+ KFGI0k/4cmwdTXHXaWQufMNeE27FOG5D8Sb8DlE7OB126KT7t87rx54j2caCx5Jdl7Rf
+ JIQCDqdvLB6lNaU3Dg31RT3FFxiKxtIzqQ9PAQbGjIOsygiBRoaceogge74MjoTBbLVL
+ acb1eS3lxqVyILrWpYZJHjlBspXX9rk/2gb3RwlGTq2eZmRIhy/1K1WzsTzVRrq7BYO1
+ mBGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XCPjj57kQgQLJcPcvoqbLBI71lfQjENYLDR7lzwPQVM=;
+ b=IrI66cuovhQuDiYYcVXFcKwpudcIFC6eS3Pd2eQZjZE7T3UHN4ULjJ+ezK0CSf0vQf
+ SthW9NYI2kz+4YJFpjDK9rZ9BnSdq+/PpDYD/h5//tJU2CeZ+jGMcp/F1+FxX+Da0SUi
+ R82wl7lfNz6mFlR1fGARbxEbXhHCqn7XQHYqDqdkUNrQnc6J9jr4z7a6lJwPY7UyBDzx
+ Zp4sb+T+6AqMuEfHJKm1/lLBvTSHn8JHTGf5BO0LqqkIHbLZlizHkQpke2faOxezy0Bk
+ 5XzcHVSaQAFYmsGUnpfnSBNx4BeIfFr70FzZ+TtMjJ2/IJC/hmUL4+On0IrCLO2YhGOv
+ WU8g==
+X-Gm-Message-State: APjAAAVyLDQ2wkAOdeNXQ2HvOAui9MWfadBVG+aQYDbXSoXguoQ2PksL
+ rETKL1EAv+NeUtSztPDTPRJCJcIwlyy3Dc2VYG0=
+X-Google-Smtp-Source: APXvYqx5XBJQKq44cAbltXdfUE+pDOK7ljgZwV+CKlWPtOeMhiXglmVudQt3hnMvc79p3w0AIoaSetKQTmdRhZgEXWg=
+X-Received: by 2002:a19:4912:: with SMTP id w18mr21093275lfa.93.1570567105492; 
+ Tue, 08 Oct 2019 13:38:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6S+B8y5fdFowN3+40baR-b4c0RDrsi+LvuNcx1g-Mx7LpA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 08 Oct 2019 20:27:15 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <CAKmqyKPMOAq3oeU-_MQHBAbzTv__iKr=uR8WkCfGbH8yk4afFg@mail.gmail.com>
+ <mhng-1d294790-a5b7-4fa7-8b5e-9adf550c5d1a@palmer-si-x1e>
+In-Reply-To: <mhng-1d294790-a5b7-4fa7-8b5e-9adf550c5d1a@palmer-si-x1e>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Oct 2019 13:33:26 -0700
+Message-ID: <CAKmqyKPnA=GzRVT=AVPcs0-MghBOrnms4_xx=oE0O4UkrG4r7A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] riscv/sifive_u: Add the start-in-flash property
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,141 +71,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/19 17:04, Li Qiang wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2019=E5=B9=B41=
-0=E6=9C=887=E6=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=8811:20=E5=86=99=E9=
-=81=93=EF=BC=9A
->=20
->> We have been restricting our fw_cfg tests to the PC machine,
->> which is a little-endian architecture.
->> The fw_cfg device is also used on the SPARC and PowerPC
->> architectures, which can run in big-endian configuration.
->>
->> Since we want to be sure our device does not regress
->> regardless the endianess used, enable this test one
->> these targets.
->>
->> The NUMA selector is X86 specific, restrict it to this arch.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> v2: test ppc32 too (lvivier)
->> ---
->>  tests/Makefile.include |  2 ++
->>  tests/fw_cfg-test.c    | 33 +++++++++++++++++++++++++++------
->>  2 files changed, 29 insertions(+), 6 deletions(-)
->>
->> diff --git a/tests/Makefile.include b/tests/Makefile.include
->> index 3543451ed3..4ae3d5140a 100644
->> --- a/tests/Makefile.include
->> +++ b/tests/Makefile.include
->> @@ -226,6 +226,7 @@ check-qtest-ppc-y +=3D tests/prom-env-test$(EXESUF=
-)
->>  check-qtest-ppc-y +=3D tests/drive_del-test$(EXESUF)
->>  check-qtest-ppc-y +=3D tests/boot-serial-test$(EXESUF)
->>  check-qtest-ppc-$(CONFIG_M48T59) +=3D tests/m48t59-test$(EXESUF)
->> +check-qtest-ppc-y +=3D tests/fw_cfg-test$(EXESUF)
->>
->>  check-qtest-ppc64-y +=3D $(check-qtest-ppc-y)
->>  check-qtest-ppc64-$(CONFIG_PSERIES) +=3D tests/device-plug-test$(EXES=
-UF)
->> @@ -250,6 +251,7 @@ check-qtest-sh4eb-$(CONFIG_ISA_TESTDEV) =3D
->> tests/endianness-test$(EXESUF)
->>  check-qtest-sparc-y +=3D tests/prom-env-test$(EXESUF)
->>  check-qtest-sparc-y +=3D tests/m48t59-test$(EXESUF)
->>  check-qtest-sparc-y +=3D tests/boot-serial-test$(EXESUF)
->> +check-qtest-sparc-y +=3D tests/fw_cfg-test$(EXESUF)
->>
->>  check-qtest-sparc64-$(CONFIG_ISA_TESTDEV) =3D tests/endianness-test$(=
-EXESUF)
->>  check-qtest-sparc64-y +=3D tests/prom-env-test$(EXESUF)
->> diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
->> index 35af0de7e6..1250e87097 100644
->> --- a/tests/fw_cfg-test.c
->> +++ b/tests/fw_cfg-test.c
->> @@ -210,13 +210,30 @@ static void test_fw_cfg_splash_time(const void
->> *opaque)
->>
->>  int main(int argc, char **argv)
->>  {
->> -    QTestCtx ctx;
->> -    int ret;
->> +    const char *arch =3D qtest_get_arch();
->> +    bool has_numa =3D false;
->> +    QTestCtx ctx =3D {};
->> +    int ret =3D 0;
->>
->>      g_test_init(&argc, &argv, NULL);
->>
->> -    ctx.machine_name =3D "pc";
->> -    ctx.fw_cfg =3D pc_fw_cfg_init();
->> +    if (g_str_equal(arch, "i386") || g_str_equal(arch, "x86_64")) {
->> +        has_numa =3D true;
->> +        ctx.machine_name =3D "pc";
->> +        ctx.fw_cfg =3D pc_fw_cfg_init();
->> +    } else if (g_str_equal(arch, "sparc")) {
->> +        ctx.machine_name =3D "SS-5";
->> +        ctx.fw_cfg =3D mm_fw_cfg_init(0xd00000510ULL);
->> +    } else if (g_str_equal(arch, "ppc") || g_str_equal(arch, "ppc64")=
-) {
->> +        /*
->> +         * The mac99 machine is different for 32/64-bit target:
->> +         *
->> +         * ppc(32): the G4 which can be either little or big endian,
->> +         * ppc64:   the G5 (970FX) is only big-endian.
->> +         */
->> +        ctx.machine_name =3D "mac99";
->> +        ctx.fw_cfg =3D mm_fw_cfg_init(0xf0000510);
->> +    }
->>
->>      qtest_add_data_func("fw_cfg/signature", &ctx, test_fw_cfg_signatu=
-re);
->>      qtest_add_data_func("fw_cfg/id", &ctx, test_fw_cfg_id);
->> @@ -231,14 +248,18 @@ int main(int argc, char **argv)
->>      qtest_add_func("fw_cfg/boot_device", test_fw_cfg_boot_device);
->>  #endif
->>      qtest_add_data_func("fw_cfg/max_cpus", &ctx, test_fw_cfg_max_cpus=
-);
->> -    qtest_add_data_func("fw_cfg/numa", &ctx, test_fw_cfg_numa);
->>      qtest_add_data_func("fw_cfg/boot_menu", &ctx, test_fw_cfg_boot_me=
-nu);
->>      qtest_add_data_func("fw_cfg/reboot_timeout", &ctx,
->>                          test_fw_cfg_reboot_timeout);
->>      qtest_add_data_func("fw_cfg/splash_time", &ctx,
->> test_fw_cfg_splash_time);
->>
->> -    ret =3D g_test_run();
->> +    if (has_numa) {
->> +        qtest_add_data_func("fw_cfg/numa", &ctx, test_fw_cfg_numa);
->> +    }
->>
->> +    if (ctx.machine_name) {
->> +        ret =3D g_test_run();
->> +    }
->>
->=20
-> I think we can omit this if statement. In which case the ctx.machine_na=
-me
-> will be NULL?
+On Tue, Oct 8, 2019 at 1:12 PM Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> On Mon, 30 Sep 2019 11:04:45 PDT (-0700), alistair23@gmail.com wrote:
+> > On Fri, Sep 27, 2019 at 12:57 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >> On Fri, Sep 27, 2019 at 8:55 AM Alistair Francis
+> >> <alistair.francis@wdc.com> wrote:
+> >> >
+> >> > Add a property that when set to true QEMU will jump from the ROM code to
+> >> > the start of flash memory instead of DRAM which is the default
+> >> > behaviour.
+> >> >
+> >> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> >> > ---
+> >> >  hw/riscv/sifive_u.c         | 27 +++++++++++++++++++++++++++
+> >> >  include/hw/riscv/sifive_u.h |  2 ++
+> >> >  2 files changed, 29 insertions(+)
+> >> >
+> >> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> >> > index f5741e9a38..33b55d0d5b 100644
+> >> > --- a/hw/riscv/sifive_u.c
+> >> > +++ b/hw/riscv/sifive_u.c
+> >> > @@ -373,6 +373,10 @@ static void riscv_sifive_u_init(MachineState *machine)
+> >> >                                         /* dtb: */
+> >> >      };
+> >> >
+> >> > +    if (s->start_in_flash) {
+> >> > +        reset_vec[6] = memmap[SIFIVE_U_FLASH0].base; /* start: .dword FLASH0_BASE */
+> >> > +    }
+> >>
+> >> Please change to use the way that patch "[v2,7/7] riscv/virt: Jump to
+> >> pflash if specified" does for consistency, ie:
+> >>
+> >>     if (s->start_in_flash) {
+> >>         start_addr = memmap[SIFIVE_U_FLASH0].base; /* start: .dword
+> >> FLASH0_BASE */
+> >>     }
+> >>
+> >> > +
+> >> >      /* copy in the reset vector in little_endian byte order */
+> >> >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> >> >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
+> >> > @@ -432,8 +436,31 @@ static void riscv_sifive_u_soc_init(Object *obj)
+> >> >                            TYPE_CADENCE_GEM);
+> >> >  }
+> >> >
+> >> > +static bool virt_get_start_in_flash(Object *obj, Error **errp)
+> >>
+> >> sifive_u_get_start_in_flash()
+> >>
+> >> > +{
+> >> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
+> >> > +
+> >> > +    return s->start_in_flash;
+> >> > +}
+> >> > +
+> >> > +static void virt_set_start_in_flash(Object *obj, bool value, Error **errp)
+> >>
+> >> sifive_u_set_start_in_flash()
+> >
+> > Yep, I have fixed all of these.
+>
+> Did I miss the v3?
 
-When "arch" differs from all of i386, x86_64, sparc, ppc, ppc64.
+Nope, I'll send it today.
 
-In that case, the original initializer will remain in effect, from:
+Alistair
 
-  QTestCtx ctx =3D {};
-
-(Admittedly, this is an ugly GNU-ism; for standard C, it should be
-
-  QTestCtx ctx =3D { 0 };
-
-but the GNU-ism is used quite frequently in QEMU elsewhere, so meh :) )
-
-Thanks
-Laszlo
+>
+> >
+> > Alistair
+> >
+> >>
+> >> > +{
+> >> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
+> >> > +
+> >> > +    s->start_in_flash = value;
+> >> > +}
+> >> > +
+> >> >  static void riscv_sifive_u_machine_instance_init(Object *obj)
+> >> >  {
+> >> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
+> >> > +
+> >> > +    s->start_in_flash = false;
+> >> > +    object_property_add_bool(obj, "start-in-flash", virt_get_start_in_flash,
+> >> > +                             virt_set_start_in_flash, NULL);
+> >> > +    object_property_set_description(obj, "start-in-flash",
+> >> > +                                    "Set on to tell QEMU's ROM to jump to " \
+> >> > +                                    "flash. Otherwise QEMU will jump to DRAM",
+> >> > +                                    NULL);
+> >> >  }
+> >> >
+> >> >  static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+> >> > diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> >> > index a921079fbe..2656b43c58 100644
+> >> > --- a/include/hw/riscv/sifive_u.h
+> >> > +++ b/include/hw/riscv/sifive_u.h
+> >> > @@ -57,6 +57,8 @@ typedef struct SiFiveUState {
+> >> >
+> >> >      void *fdt;
+> >> >      int fdt_size;
+> >> > +
+> >> > +    bool start_in_flash;
+> >> >  } SiFiveUState;
+> >> >
+> >>
+> >> Regards,
+> >> Bin
 
