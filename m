@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D9DCFB7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 15:40:54 +0200 (CEST)
-Received: from localhost ([::1]:55756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B7BCFB95
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 15:49:19 +0200 (CEST)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHpjR-0001lZ-6c
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 09:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43592)
+	id 1iHprb-0006UR-0H
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 09:49:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iHphU-0000X9-A7
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:38:53 -0400
+ (envelope-from <groug@kaod.org>) id 1iHpqA-0005t1-MU
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:47:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iHphS-00084u-Oy
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:38:51 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:37527)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iHphS-00083V-Iu
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:38:50 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id m7so6437673ywe.4
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 06:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VW4tEZruyzprI7t2CjlEklhngXvOdD9HnD2FgB1/ah0=;
- b=iD+1gII3GdoykZrxTJAd8Ur+/9DRqgIntJ7oOV29LejU7yVDwmwxzfmpMRpHYu9YLS
- 6K4jV4wqbi4jtNvJU1DB71EsJznlDuBzYAZNwVyLY/Ozc7czeNJdNHBzUEjZRr4rSilE
- JK9NOmcWm/0OT6N4P9xusqMI6lg3QcFveO1NayY9GFU0wwihVtstbM1otUCv8c79FwGa
- ZTVMgnb1Kmcy4dcghsG+kvOCP+s95pjSn6xeWF3ZBdBcfD4iFuRqOtstcXQYIIJtRLKu
- oJuACjv1IfqSGBC4/O3n1aUX8mPMAouhK5xrzskyEAv8qelEk1dkym+fQSA2Hy7zckZV
- 8+3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VW4tEZruyzprI7t2CjlEklhngXvOdD9HnD2FgB1/ah0=;
- b=ARGXnDBv1Jj7HllmhG0Acrv7U4itjC+C9aqhDzNiXavPVgKnCWhE0QoH1p8W4zA8IR
- V5POlzTD5TAtO7AaX3f+Azgvzhg9vE1YVys9oG+NgNTKfDnSx8WrxFU7AhNqtDg9y6Sc
- mmYTk0rW2mlXFp0Bw3j+AhPFQ9W1/QJaGVMnb7nrqee1UBmECDfZ5FYJvQ15Zw0e7l92
- d71PBTbYm+w+NjJtnNuUooBqjv0LXQvVJ/mIToqsqq0wyeN5IISNxdeBHL3SprNM9KeH
- PTWGUwb6wHqvYGHH3/4NncVwuZlRVpuUSm30UmsUcK61nZFxslvdohDccNPZ31L2eZtd
- apDg==
-X-Gm-Message-State: APjAAAV2VMSwcQICNqWbnZr9ujZ+RWRFLFClA3nx5CYrqEy6rSKh5s5I
- rYk01P0XIjZRoEQpbosdi0Jncg==
-X-Google-Smtp-Source: APXvYqxJxK+t38FH60piWP4pMb+d83o8XmKp66Qjbxqa3PD/uVHrsF2gfowHsu7nEYYx2QxFsTNyIw==
-X-Received: by 2002:a81:4895:: with SMTP id
- v143mr24170975ywa.154.1570541929405; 
- Tue, 08 Oct 2019 06:38:49 -0700 (PDT)
-Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
- by smtp.gmail.com with ESMTPSA id u138sm4435882ywf.7.2019.10.08.06.38.48
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 08 Oct 2019 06:38:48 -0700 (PDT)
-Subject: Re: [PATCH v9 03/13] accel: collecting JIT statistics
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191007152839.30804-1-alex.bennee@linaro.org>
- <20191007152839.30804-4-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c9b4b7e3-9ba3-f40f-7ef3-eb2a34290f82@linaro.org>
-Date: Tue, 8 Oct 2019 09:38:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <groug@kaod.org>) id 1iHpq9-0006fJ-5W
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:47:50 -0400
+Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:59558)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iHpq8-0006ah-VH
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:47:49 -0400
+Received: from player734.ha.ovh.net (unknown [10.108.54.36])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 88B496BC0B
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 15:47:40 +0200 (CEST)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id E0ACFAA6D878;
+ Tue,  8 Oct 2019 13:47:32 +0000 (UTC)
+Date: Tue, 8 Oct 2019 15:47:29 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [Qemu-devel] [PATCH v7 0/3] 9p: Fix file ID collisions
+Message-ID: <20191008154729.5b16ef26@bahia.lan>
+In-Reply-To: <2456208.kOTvEbKLdM@silver>
+References: <cover.1567680121.git.qemu_oss@crudebyte.com>
+ <1590425.yRI6RxI3rl@silver> <20191008111459.048e659f@bahia.lan>
+ <2456208.kOTvEbKLdM@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191007152839.30804-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 10627369224858409280
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrheelgdejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.42.102
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,80 +58,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
- "Vanderson M. do Rosario" <vandersonmr2@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, "Daniel P.
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Antonios Motakis <antonios.motakis@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/19 11:28 AM, Alex Bennée wrote:
-> @@ -1795,6 +1799,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->          if (flag & TB_EXEC_STATS) {
->              tb->tb_stats->stats_enabled |= TB_EXEC_STATS;
->          }
-> +
-> +        if (flag & TB_JIT_STATS) {
-> +            tb->tb_stats->stats_enabled |= TB_JIT_STATS;
-> +        }
+On Tue, 08 Oct 2019 14:05:28 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-So, assuming that you really meant this, and not replacing as I was guessing vs
-patch 2, then this is
+> On Dienstag, 8. Oktober 2019 11:14:59 CEST Greg Kurz wrote:
+> > > No, it is not a feature. It is still a fix. :) I cannot use 9p without
+> > > this
+> > > fix at all, so it is not some optional "feature" for me.
+> > 
+> > I understand your need but this is still arguable. The 9p device has
+> > a limitation with cross-device setups. The actual bug is to silently
+> > cause inode number collisions in the guest. This is partly fixed by the
+> > "9p: Treat multiple devices on one export as an error" patch. Thinking
+> > again, it would even make sense to move "remap" from "9p: Added virtfs
+> > option 'multidevs=remap|forbid|warn'" to its own patch. We could then
+> > consider that the bug is fully fixed with "multidevs=forbid|warn".
+> > 
+> > Then comes the "remap" feature which is expected to lift the limitation
+> > with cross-device setups, with a "not yet determined" performance cost
+> > and light reviewing of the code.
+> 
+> Are these patch transfer requests addressed at me to be done?
+> 
 
-    tb->tb_stats->stats_enabled |=
-        flag & (TB_EXEC_STATS | TB_JIT_STATS);
+It would certainly be appreciated :) and if it happens to be done
+before 2019-10-29, it can even be shipped with QEMU 4.2.
 
-But I still think it's weird to be wanting to modify the shared structure.
-What does that mean for concurrent code generation?
+> > Also, I strongly recommend you try out "virtio-fs" which is
+> > going to be soon the production grade way of sharing files
+> > between host and guest.
+> > 
+> > https://www.mail-archive.com/libvir-list@redhat.com/msg182457.html
+> 
+> Yes I know, I am following the development of virtio-fs already of course. 
+> However for me it is far too early to actually use it in a production 
+> environment. It e.g. seems to require bleeding edge kernel versions. And the 
+> real argument for switching from 9p to virtio-fs would be a significant 
+> performance increase. However so far (correct me if I am wrong) I have not 
+> seen benchmarks that would show that this was already the case (yet).
+> 
+> I wonder though whether virtio-fs suffers from the same file ID collisions 
+> problem when sharing multiple file systems.
+> 
 
-> +    /*
-> +     * Collect JIT stats when enabled. We batch them all up here to
-> +     * avoid spamming the cache with atomic accesses
-> +     */
-> +    if (tb_stats_enabled(tb, TB_JIT_STATS)) {
-> +        TBStatistics *ts = tb->tb_stats;
-> +        qemu_mutex_lock(&ts->jit_stats_lock);
-> +
-> +        ts->code.num_guest_inst += prof->translation.nb_guest_insns;
-> +        ts->code.num_tcg_ops += prof->translation.nb_ops_pre_opt;
-> +        ts->code.num_tcg_ops_opt += tcg_ctx->nb_ops;
-> +        ts->code.spills += prof->translation.nb_spills;
-> +        ts->code.out_len += tb->tc.size;
-> +
-> +        ts->translations.total++;
-> +        if (phys_page2 != -1) {
-> +            ts->translations.spanning++;
-> +        }
-> +
-> +        g_ptr_array_add(ts->tbs, tb);
-> +
-> +        qemu_mutex_unlock(&ts->jit_stats_lock);
-> +    }
+I don't know.
 
-Hmm.  So we're to interpret all of code.field as sums, the average of which can
-be obtained by dividing by translations.total.  Ok, but that should probably be
-mentioned in a comment in/near the structure definition.
+> What is your long-term plan for 9p? Will it be dropped completely after 
+> virtio-fs became stable?
+> 
 
-What are we planning to do with the set of all tb's collected here?
+No, 9p will survive. The local backend has an advantage despite its various
+limitations: it is really easy to use. No extra command needed. I also want
+to keep the synth backend around for testing, but I'll gladly drop the
+proxy backend which is clearly superseded by virtio-fs.
 
-> @@ -3125,6 +3126,7 @@ static void temp_sync
->          case TEMP_VAL_REG:
->              tcg_out_st(s, ts->type, ts->reg,
->                         ts->mem_base->reg, ts->mem_offset);
-> +            s->prof.translation.nb_spills++;
->              break;
->  
->          case TEMP_VAL_MEM:
+Cheers,
 
-This is not a spill in the common compiler definition.
+--
+Greg
 
-This is "write the temp to its backing storage".  While this does happen in the
-course of spilling, the vast majority of these are because we've finished
-modifying a global temp and must now update memory.  Which is not nearly the
-same thing as "spill".
-
-A spill in the compiler definition happens in tcg_reg_alloc, right after the
-comment "We must spill something".  ;-)
-
-
-r~
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
