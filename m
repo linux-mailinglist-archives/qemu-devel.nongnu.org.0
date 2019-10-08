@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F75CF841
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 13:31:50 +0200 (CEST)
-Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09761CF87F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 13:35:17 +0200 (CEST)
+Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHniX-0000Y7-SO
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 07:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51189)
+	id 1iHnlr-0002VN-Ll
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 07:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHngc-0007y8-RI
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:29:51 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iHnj5-0000zo-QG
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:32:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHngb-00083z-Gj
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:29:50 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36564)
+ (envelope-from <alex.bennee@linaro.org>) id 1iHnj0-0000u4-Ra
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:32:21 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37709)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHngb-00083b-B3
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:29:49 -0400
-Received: by mail-oi1-x241.google.com with SMTP id k20so14485401oih.3
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 04:29:49 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iHniy-0000qq-Rq
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:32:17 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f22so2748827wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 04:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dgBh35W6hYKy6Z4T5nFE0D3RCI/mNttBLeqA/Hn9uy8=;
- b=mQ8A9MiS2aK5i1DJ2NUTEnRP5IGxfu+UBic34RhFLdMUdynDYpRpfRiWIWNaNZrSuG
- 6TlRtFAPnfSz+T1PDIPq5zkW1f7v2Z7sTZ+MRD+356QAaB6GBKNZjGll4LUm0SJiZzqV
- nEY87vKlLGJnzEr03pIOQjOC89oE0nppdEmmwivWknn9/BHYWCHvAv2MtITUXtCHb9YK
- MnYlMJiYLUEJ1MA2Wj/AEhlSq6wl/1sKjoOs3Oju/7iFzEuiaAj8d/OsTprh1h4h4Q1Z
- 2GzWBOHFqxy8xCffJcSd+OBrEbquBZ3kYL8zIqtpLkiQErtjt7fkMCYW++ZfD1nZafP5
- BHyg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ofj6Equz5xEgi6bS+/yltqkzQhKqD0+OdBLZGgmbhng=;
+ b=LoNZXwbL84biY2OTDkIFEZZdtYaKHDEqC71k/DXh8WmTmhBjkLSWLjtxA3ZMp+cek6
+ KNu136QBy5m2k8D8ecKcN51X4DBwX4zrwoMDp6sr87FeBpu2i64PUmP8x5rkCppqf9Kn
+ YcIMaTdp5S+xWL5k2+/80AGNZY2FkEDueCrtLJ1V62JTzRljQ7Yhl+HjO/61MVviglLw
+ WLsF7v7wSCheoKV1DOwg9Eaw4MLSrNODTZt4D6lP71Xf50TNlfCbDhmhBpsuqoC93MC5
+ /NwpM8LDiv6hReXJg3RUljeZzMQW2sHG1Rlj0jn1NC6y6KIWY9f3uYeDWnEr8fTe0edP
+ i3Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dgBh35W6hYKy6Z4T5nFE0D3RCI/mNttBLeqA/Hn9uy8=;
- b=CncL0pzZk7KGxiNX3phk8EypQLPSS6vQKQs8VM2CXrgXoMhVTWyvNGQTpSC+mka71c
- SxsfcvaS+ra0eG62m1HfItq14ZUkpbI8zKH1huf+EDwiPZGvJFWY5aIZOlYVlhMLc6r5
- NKzNaarsz5AbnXZBWmsJ+RWvHSFOBXZtl5orolBV8GORRmOFsdIvTF3LbxTaCIK7teWj
- EWA5WAf3M3nKkEgsgieSzgzHaCnH9lt1Yyx8dKkimx+KGJiF6nopuHxZnguA7fFXknJM
- 52eX790SufHuxvgiSaT9mU9HAQBnpOtjQj6kSUZzZbDTJ3Cz6tBeWXR5UfFoJ8FiYGDv
- ltlw==
-X-Gm-Message-State: APjAAAU6eYs2FwtnD/zLO8/n+mnR0K58vVjRTXNHWjrsUYWG7xnpOiEn
- bcAeKU/Vr1sXTahMLg7Z2x9PW4+8/9Bwp6iW297wJ9g453U=
-X-Google-Smtp-Source: APXvYqz40E6yNWU8GoAldEU50nIgE2RJOlj3HWpyDqxG0Fy9dulBDkhySMz9Zg5ZcEz5KgorXbx85Mzn5sAoj22NwL4=
-X-Received: by 2002:aca:f54d:: with SMTP id t74mr3533094oih.170.1570534187653; 
- Tue, 08 Oct 2019 04:29:47 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ofj6Equz5xEgi6bS+/yltqkzQhKqD0+OdBLZGgmbhng=;
+ b=hX/t5/GyuOaA8Afvg3TX2HVPe6FOWRfcrGbX1lswDP42PEFul/5x61OLjAZEq5BMIU
+ aC3n9Kbr6SLo0qQ8HYbqacgdK1eQkz2fYxaCsCvcao8auwmYPV8KZARrS+4G7k4KFAln
+ YMEf0gSGPpH6TpLZsaeVSAY9pgETRFQ+x4dnLTKkZVekes7+CHxytXOlf3sxAqQZbrso
+ 6H2eoLwoUTCSfLG64JnjuKxBqR3tuCIc0JewGgZF/GM2zXTFN3FYBaJyoCfcYeS7uHwl
+ AIDc3FGSoC33t7O6G1zB4dWvdrDGDEiq5DhTbja1cc4BptC9ZAFClkAWXpbZIo5E3VK8
+ eMTQ==
+X-Gm-Message-State: APjAAAUv4Bm78eSOhWOOM55TNM0so63alvcmMF6ENBcjNVIMZLunwwuZ
+ YM6tBGqPcVpdgoKhYXxXO2a7RQ==
+X-Google-Smtp-Source: APXvYqzHX4aDAZoonQqjU8Y2ivFfqGpO7CmTrguy6AjfTrtya6Z49eHs1cINgD0zfelAd1PiHLyrkA==
+X-Received: by 2002:a05:600c:48e:: with SMTP id
+ d14mr3630238wme.175.1570534334307; 
+ Tue, 08 Oct 2019 04:32:14 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y186sm6225902wmd.26.2019.10.08.04.32.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2019 04:32:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BDE2F1FF87;
+ Tue,  8 Oct 2019 12:32:12 +0100 (BST)
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-8-f4bug@amsat.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 07/19] hw/misc/bcm2835_mbox: Add trace events
+In-reply-to: <20190926173428.10713-8-f4bug@amsat.org>
+Date: Tue, 08 Oct 2019 12:32:12 +0100
+Message-ID: <87wodfiibn.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20191006235537.32016-1-samuel.thibault@ens-lyon.org>
-In-Reply-To: <20191006235537.32016-1-samuel.thibault@ens-lyon.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Oct 2019 12:29:36 +0100
-Message-ID: <CAFEAcA-YQHv+q1MLVSDbpfO9ygxhW4s5yXA-PnNNi3_2tgp=Fw@mail.gmail.com>
-Subject: Re: [PULL 0/1] slirp update
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +83,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Zolt=C3=A1n?= Baldaszti <bztemail@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Oct 2019 at 00:55, Samuel Thibault
-<samuel.thibault@ens-lyon.org> wrote:
->
-> The following changes since commit 860d9048c78ce59c5903c3d5209df56f38400986:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20190924-pull-request' into staging (2019-09-24 13:51:51 +0100)
->
-> are available in the Git repository at:
->
->   https://people.debian.org/~sthibault/qemu.git tags/samuel-thibault
->
-> for you to fetch changes up to 120b721f5b590393971673a315f02969ec89cccb:
->
->   slirp: Allow non-local DNS address when restrict is off (2019-10-01 19:03:08 +0200)
->
-> ----------------------------------------------------------------
-> slirp: Allow non-local DNS address when restrict is off
->
-> ----------------------------------------------------------------
-> Samuel Thibault (1):
->       slirp: Allow non-local DNS address when restrict is off
->
->  net/slirp.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
+> Add trace events for read/write accesses and IRQ.
+>
+> Properties are structures used for the ARM particular MBOX.
+> Since one call in bcm2835_property.c concerns the mbox block,
+> name this trace event in the same bcm2835_mbox* namespace.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/misc/bcm2835_mbox.c     | 5 +++++
+>  hw/misc/bcm2835_property.c | 2 ++
+>  hw/misc/trace-events       | 6 ++++++
+>  3 files changed, 13 insertions(+)
+>
+> diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
+> index 77285624c9..77d2d80706 100644
+> --- a/hw/misc/bcm2835_mbox.c
+> +++ b/hw/misc/bcm2835_mbox.c
+> @@ -15,6 +15,7 @@
+>  #include "migration/vmstate.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> +#include "trace.h"
+>
+>  #define MAIL0_PEEK   0x90
+>  #define MAIL0_SENDER 0x94
+> @@ -123,6 +124,7 @@ static void bcm2835_mbox_update(BCM2835MboxState *s)
+>              set =3D true;
+>          }
+>      }
+> +    trace_bcm2835_mbox_irq(set);
+>      qemu_set_irq(s->arm_irq, set);
 
-Applied, thanks.
+I'm kind surprised we don't have a common trace point for all IRQs.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+>  }
+>
+> @@ -178,8 +180,10 @@ static uint64_t bcm2835_mbox_read(void *opaque, hwad=
+dr offset, unsigned size)
+>      default:
+>          qemu_log_mask(LOG_UNIMP, "%s: Unsupported offset 0x%"HWADDR_PRIx=
+"\n",
+>                        __func__, offset);
+> +        trace_bcm2835_mbox_read(size, offset, res);
+>          return 0;
+>      }
+> +    trace_bcm2835_mbox_read(size, offset, res);
+>
+>      bcm2835_mbox_update(s);
+>
+> @@ -195,6 +199,7 @@ static void bcm2835_mbox_write(void *opaque, hwaddr o=
+ffset,
+>
+>      offset &=3D 0xff;
+>
+> +    trace_bcm2835_mbox_write(size, offset, value);
+>      switch (offset) {
+>      case MAIL0_SENDER:
+>          break;
+> diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+> index 43a5465c5d..0eea2e20f7 100644
+> --- a/hw/misc/bcm2835_property.c
+> +++ b/hw/misc/bcm2835_property.c
+> @@ -13,6 +13,7 @@
+>  #include "sysemu/dma.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> +#include "trace.h"
+>
+>  /* https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interfa=
+ce */
+>
+> @@ -283,6 +284,7 @@ static void bcm2835_property_mbox_push(BCM2835Propert=
+yState *s, uint32_t value)
+>              break;
+>          }
+>
+> +        trace_bcm2835_mbox_property(tag, bufsize, resplen);
+>          if (tag =3D=3D 0) {
+>              break;
+>          }
+> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+> index 74276225f8..1deb1d08c1 100644
+> --- a/hw/misc/trace-events
+> +++ b/hw/misc/trace-events
+> @@ -143,3 +143,9 @@ armsse_mhu_write(uint64_t offset, uint64_t data, unsi=
+gned size) "SSE-200 MHU wri
+>
+>  # aspeed_xdma.c
+>  aspeed_xdma_write(uint64_t offset, uint64_t data) "XDMA write: offset 0x=
+%" PRIx64 " data 0x%" PRIx64
+> +
+> +# bcm2835_mbox.c
+> +bcm2835_mbox_write(unsigned int size, uint64_t addr, uint64_t value) "mb=
+ox write sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
+> +bcm2835_mbox_read(unsigned int size, uint64_t addr, uint64_t value) "mbo=
+x read sz:%u addr:0x%"PRIx64" data:0x%"PRIx64
+> +bcm2835_mbox_irq(unsigned level) "mbox irq:ARM level:%u"
+> +bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "m=
+box property tag:0x%08x in_sz:%u out_sz:%zu"
 
--- PMM
+Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--
+Alex Benn=C3=A9e
 
