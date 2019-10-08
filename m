@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3DFCFA19
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 14:39:40 +0200 (CEST)
-Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B94CFA3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 14:44:29 +0200 (CEST)
+Received: from localhost ([::1]:55212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHom9-0005Mz-Gl
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 08:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59669)
+	id 1iHoqq-0007vi-13
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 08:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iHoka-0004Qv-Oy
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:38:05 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iHonp-0006G8-1N
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iHokZ-0001cK-Mz
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:38:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44832)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iHokZ-0001ZH-GM
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:37:59 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CE8AF69084
- for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 12:37:57 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id z205so1320231wmb.7
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 05:37:57 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iHonn-0007pR-Mu
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:20 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44277)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iHonm-0007j1-G0
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:19 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w6so14577430oie.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 05:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=F4VpDAVVA0BdbVXXiCokr3TC1MIF05PM5d0Fz4YQTxU=;
+ b=F2+62V3YWK8lR+PbUFikW5KJX4gyNt7Ny7LHt59MdPMSyLzupjZj6zcd/vkO4RuqMp
+ t88rizSfaS0Z6TWdXRPSB/RHHNqLrC72asSStJHFo0Ic8mAUwY4L5rJHOxLsQAXj3yFk
+ N/qUXwTh2bK2vG53OwVTaCP0USeXMSj4L1qBPDB1gmBElIQnwNHJOpHEOYn3IWXhnLre
+ u6s7Se03gm4tVeFIfISAdVGCq1o/B3iwVaIFa64qxhITSPyEACeCZFkhl1T7lZ38g/qe
+ 0kv6Krr/kz+0/4wPgrzFrzPyi/10US01yeOanNaTdPowoOZ3Xn9xhljAXfiwPBQF9N4v
+ xiHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tjbTVogCbl+ygzXugjXuak3cazxNxJU/R/xsya7Dk9Y=;
- b=LQqqYqwSHE/9VLzXalDAgzuPssUQIGkoCG0v8hq+OsnQKLbO0DU21lvHybc/pRzm5j
- +k/RVz2wnrkfjTHIlV0Z2+JJyJ/Ifo0PzU4DKXhZcDcqAuhqlncS22HZhMIaa3Y+EaJg
- xoPdJKVM0gFMueCdZKTYEcISf4zaseNCoj0rRK3DB2zWDRqqxfb+bzokXRD9SHWNpFUB
- UZfbpvmbhR5MDssl9tD0TCpP0tudnE8PGiQ+jNlkpmPg9loJGahHh7ZAqnao8f+vDmzJ
- KeX3SMILyyWmY/GlvU8zilnvOYtRcwakKKV37b1EN9l8WNPXTqsQXe2fGLCyUQuLOa+B
- VTuQ==
-X-Gm-Message-State: APjAAAV5uLqQ6raZ+5Zv6CnZwUDUesmM1o17ZUEtEmjzLfoRFFapGeoD
- 8BxA74OFeu1IZ8c0T556x3xX4XvtJyqCiYXCpYw9yrJNNsa/nkNyunpcUiKbzQOCd/WT8T8L+eF
- oZqdL9g92n4jaS3g=
-X-Received: by 2002:a1c:2d54:: with SMTP id t81mr3792526wmt.167.1570538276460; 
- Tue, 08 Oct 2019 05:37:56 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxsXCqHaRo0wFM/RSgQ0o8v/w6LVcNXW+vbugIkiQy4+nTIbwqawzSDR9M/ssghANXD84+vbw==
-X-Received: by 2002:a1c:2d54:: with SMTP id t81mr3792500wmt.167.1570538276211; 
- Tue, 08 Oct 2019 05:37:56 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s9sm3861497wme.36.2019.10.08.05.37.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Oct 2019 05:37:55 -0700 (PDT)
-Subject: Re: [PATCH v6 00/10] Introduce the microvm machine type
-To: qemu-devel@nongnu.org, slp@redhat.com
-References: <157020969258.31166.12339648498600507707@8230166b0665>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <c273fcaf-4e43-b964-b537-d57bfac2738b@redhat.com>
-Date: Tue, 8 Oct 2019 14:37:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=F4VpDAVVA0BdbVXXiCokr3TC1MIF05PM5d0Fz4YQTxU=;
+ b=unmDW7ULr+iACab9BTljjTwZe7pUdXFpwBOR//0Pf8n/A/PmHKRjv2eKqF/8ayMJ8t
+ aSjSrNqF+xCeRKtmF4XZ2wjm6+8crHqhXrIiqxa/jHdSmoCydPOOdyEsSApM/TBJbRM2
+ mgpc0YHQlZuCQhmPlMLi2CSTzXG9SUugz6Tq6EfH4AeDhbGDPgt2JJByWNZ3YvwhJHdx
+ pAPrJCAf53jWcMALh1DcZ9TF8GYKocHX3PTEslbeiJEGiKvDFj6Ls3rGHNPpKnj1X4zJ
+ GQyA2NEMi4tnGS/c3KSEV+c2UWAIVXJICOHnbt4u/ylSor8b++bgZXPePGIOMLkEXib9
+ SCGA==
+X-Gm-Message-State: APjAAAU7kVO3tqw74Sd+QpmOz4CrL4Suq/FHgGBnAGc+Tu6TxFmlsHGc
+ sBsXf+ddbhImlvfsw11sOu/BVMc8wEYWjCdDidqysg==
+X-Google-Smtp-Source: APXvYqwKsR/yv5OUIoFls/2aqqiUr3Zg70ke6psJVhdjMYzFbUoIirFeVoJLzzpDcxgO2+duzHaVZ9OyiXBqxwh4NVA=
+X-Received: by 2002:aca:f54d:: with SMTP id t74mr3781638oih.170.1570538475123; 
+ Tue, 08 Oct 2019 05:41:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <157020969258.31166.12339648498600507707@8230166b0665>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191008082815.8267-1-thuth@redhat.com>
+ <CAL1e-=gYkhM99Ee0LxZJ5dCjeEdC08G4_Tm3WCZpCSWvJ=b26Q@mail.gmail.com>
+ <4bfea125-eb63-f4a2-bca0-bce462f73d89@redhat.com>
+In-Reply-To: <4bfea125-eb63-f4a2-bca0-bce462f73d89@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Oct 2019 13:41:04 +0100
+Message-ID: <CAFEAcA_+V7SNsxPSgsd04s8f7PnP3qdyXMp6NvS2inHjE08pJw@mail.gmail.com>
+Subject: Re: [PATCH v2] Makefile: Remove generated files when doing
+ 'distclean' (and 'clean')
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,24 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, philmd@redhat.com, kraxel@redhat.com,
- imammedo@redhat.com, rth@twiddle.net, lersek@redhat.com, sgarzare@redhat.com
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/10/19 19:21, no-reply@patchew.org wrote:
-> qemu-system-x86_64: missing kernel image file name, required by microvm
-> Broken pipe
-> /tmp/qemu-test/src/tests/libqtest.c:140: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
-> ERROR - too few tests run (expected 7, got 4)
-> make: *** [check-qtest-x86_64] Error 1
-> make: *** Waiting for unfinished jobs....
->   TEST    iotest-qcow2: 159
->   TEST    iotest-qcow2: 161
-> ---
->     raise CalledProcessError(retcode, cmd)
+On Tue, 8 Oct 2019 at 13:37, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 08/10/2019 14.18, Aleksandar Markovic wrote:
+> > If I remember well, QAPI-related c files are generated while doing
+> > 'make'. If that is true, these files should be deleted by 'make clean',
+> > shouldn't they?
+>
+> I think that's a philosophical question. Should "make clean" delete all
+> files that have been generated by a Makefile (i.e. not by "configure"),
+> or rather mainly the binary files?
 
-I think this needs some kind of blacklisting?
+https://www.gnu.org/software/automake/manual/html_node/Clean.html
 
-Paolo
+The autoconf manual suggests some heuristics:
+ - If make built it, and it is commonly something that one would want
+   to rebuild (for instance, a .o file), then mostlyclean should delete it.
+ - Otherwise, if make built it, then clean should delete it.
+ - If configure built it, then distclean should delete it.
+ - If the maintainer built it (for instance, a .info file), then
+   maintainer-clean should delete it. However maintainer-clean should
+   not delete anything that needs to exist in order to run
+'./configure && make'.
+
+Not all of that applies for QEMU, but it seems like a reasonable
+set of ideas.
+
+thanks
+-- PMM
 
