@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3494DCFD8B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:26:31 +0200 (CEST)
-Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C07ACFD8D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:26:39 +0200 (CEST)
+Received: from localhost ([::1]:57398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHrNd-0003mb-W6
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58811)
+	id 1iHrNl-0004Bz-Py
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:26:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHrKM-0001jH-QA
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:23:08 -0400
+ (envelope-from <mlureau@redhat.com>) id 1iHrLR-0002hc-0d
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:24:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHrKK-0004bO-HI
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:23:06 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36401)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHrKH-0004Z8-0l
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:23:02 -0400
-Received: by mail-wm1-x344.google.com with SMTP id m18so3574633wmc.1
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 08:23:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Ev7ZIva5izovwJvRFXzQDP6nMGi/bwMmQ/wsqQwtv9Q=;
- b=t71QOpncc3InF256WFv/YXCFcOKmOskc+pXDh2sYSiUmBEUYJMzqI15ukynzvlrUNT
- UjFf0tDb0sMusIH2AsJNYmJI7P38Wl8PWyatypLht4eSfjFWtTy/6pVhiDueCcJWYW3t
- RsRC+Ts45SHS1Lm+utitFGG2Ofv311oCkxrwmRBi+dIk7dvj+MMxZJYJzbL/jkYt8pdr
- MLEQmR/RijDSCWvjyaA/HdYSfqGxlhqVDu65W0zar5neDZvePQ+x3CAVQeTWz36kGkdL
- LykWZXhvoRXbvPv0t/oO5mDc7yWZ1vy+JhMBzVZ3vstMaYfhf1sEZqlRmSHqczVbBzJi
- 3jsA==
+ (envelope-from <mlureau@redhat.com>) id 1iHrLO-0005BV-9X
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:24:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42764)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iHrLO-0005Ae-3p
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:24:10 -0400
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 97BC881DFF
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 15:24:08 +0000 (UTC)
+Received: by mail-oi1-f199.google.com with SMTP id r67so10523854oif.18
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 08:24:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Ev7ZIva5izovwJvRFXzQDP6nMGi/bwMmQ/wsqQwtv9Q=;
- b=ZXpSscqKjNh6Om/sdtvpcxYGcO1SbfO6i+uB2qNaCjjfFMckrNO1Oygk5Kuy2Xj9nP
- VyDagH6Y8EeYdDEW4Fy1bgL8jgpzpSKe3p21QGuV+xmHAGB1ZItczW8UifduAQEL8IiW
- NJA7ah3Gw2LdX1kplok4gMx/WNlDEYpvkppta478QoNaPEtVmZNQAUTguWlDFtTbRlu8
- bErSOnlUQWls4PNV5OFF1nt6lfzzxnx3uZDHbqPfIfZv7Tns832BbpxWut6CIOXhYMZO
- cRQaLz9TGvMzQr3o/WR5pWS6kviT6keteCfLXi7Ku+s9hqG82ILQNpUsnwM6jVkz4R0a
- dz+g==
-X-Gm-Message-State: APjAAAWMiOJNQbInpAF8LJm/hGGIKS+aF6EJhd32w072U+nnwZAdScTa
- zI8P6IO3Ya/Ix9cA9+k/84QtLQ==
-X-Google-Smtp-Source: APXvYqzX98m1otly3IpbZaWSOUuFGzFrGfZZTOVrX4+nw841XwT+Ki9+mJ1JSdB20rRMi36Omrq7Ew==
-X-Received: by 2002:a1c:f417:: with SMTP id z23mr4384417wma.77.1570548179651; 
- Tue, 08 Oct 2019 08:22:59 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a14sm3004727wmm.44.2019.10.08.08.22.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2019 08:22:58 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2375F1FF87;
- Tue,  8 Oct 2019 16:22:58 +0100 (BST)
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-12-f4bug@amsat.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 11/19] hw/arm/bcm2835_peripherals: Use the SYS_timer
-In-reply-to: <20190926173428.10713-12-f4bug@amsat.org>
-Date: Tue, 08 Oct 2019 16:22:58 +0100
-Message-ID: <87sgo3i7n1.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bzOmYQJewAD87cYIIqXUY5II3HO/40im1mjq18p1WiU=;
+ b=HPINUwZ6UwuXBzfO/4+HxuD2fXt82HmkBKGFvV4aDuF6bDf5NprT34j02S6Zuzt+4j
+ NplszDcSEYSSd7vFLQK60tyex6Pmmt1ZNT9cu2Jy9ZqNEv63chsA9QD9JHCYW9HwpkUz
+ B+1xE5UJpWSE8rM3TeQ+j+1Qpg19QDjuwfzJG7UKMh7SoomVPzvFCP+S6eJYZPjsHDtK
+ 2/V9AKfwtPquZFYpB0Sq9MO8R2wZJuw96eKrqDcRcw6rIJm6sHUjEzWm0iO8nsxKMsRq
+ Wz4iDhc3mCgH1To44taV6IJbYIK6CzciVcPPrnS+ZJyC7CPJkQNypQNWdCVXmoxnMU+D
+ 5y0g==
+X-Gm-Message-State: APjAAAWufjkIteV1jRsdvsfgKT7+OFUT162plmpnZcdKKy9Ita4iZ5Xj
+ NQld6SJROJkuvj7mUbtdC6HHInD3GoaJ5y3T0V8NfPzMKaPrThjLKP83ZsH0dPwofeJhDvM1P+k
+ 1+W97dsnjA9b07BYFM9RlC+Y2xOC60Hs=
+X-Received: by 2002:a05:6830:1649:: with SMTP id
+ h9mr24264044otr.38.1570548248112; 
+ Tue, 08 Oct 2019 08:24:08 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwEHYDe6vAtrlTTs2FwT4TPxmHFdPzhsMdrzslBMW2CQgi1aVuPJ7kNBbEXNu3bT6azcneEHEUXJdpu1wFU11Y=
+X-Received: by 2002:a05:6830:1649:: with SMTP id
+ h9mr24264029otr.38.1570548247864; 
+ Tue, 08 Oct 2019 08:24:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20191008142539.7793-1-philmd@redhat.com>
+ <20191008143455.8524-1-philmd@redhat.com>
+In-Reply-To: <20191008143455.8524-1-philmd@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 8 Oct 2019 19:23:56 +0400
+Message-ID: <CAMxuvawO28bNsjygDB5FsT_SDTrcbmh5v-NJKJ7SbViB9P2aYw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] hw/misc/vmcoreinfo: Add comment about reset handler
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,114 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Zolt=C3=A1n?= Baldaszti <bztemail@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> Connect the recently added SYS_timer.
-> Now U-Boot does not hang anymore polling a free running counter
-> stuck at 0.
-> This timer is also used by the Linux kernel thermal subsystem.
+On Tue, Oct 8, 2019 at 6:35 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> The VM coreinfo device does not sit on a bus, so it won't be
+> reset automatically. This is why it calls qemu_register_reset().
+>
+> Add a comment about it, so we don't convert its reset handler
+> to a DeviceReset method.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/arm/bcm2835_peripherals.c         | 21 ++++++++++++++++++++-
->  include/hw/arm/bcm2835_peripherals.h |  3 ++-
->  2 files changed, 22 insertions(+), 2 deletions(-)
+>  hw/misc/vmcoreinfo.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index 70bf927a02..965f4c1f3d 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -58,6 +58,10 @@ static void bcm2835_peripherals_init(Object *obj)
->      /* Interrupt Controller */
->      sysbus_init_child_obj(obj, "ic", &s->ic, sizeof(s->ic), TYPE_BCM2835=
-_IC);
+> diff --git a/hw/misc/vmcoreinfo.c b/hw/misc/vmcoreinfo.c
+> index 326a3ce8f4..a9d718fc23 100644
+> --- a/hw/misc/vmcoreinfo.c
+> +++ b/hw/misc/vmcoreinfo.c
+> @@ -61,6 +61,10 @@ static void vmcoreinfo_realize(DeviceState *dev, Error=
+ **errp)
+>                               NULL, fw_cfg_vmci_write, s,
+>                               &s->vmcoreinfo, sizeof(s->vmcoreinfo), fals=
+e);
 >
-> +    /* SYS Timer */
-> +    sysbus_init_child_obj(obj, "systimer", &s->systmr, sizeof(s->systmr),
-> +                          TYPE_BCM2835_SYSTIMER);
-> +
->      /* UART0 */
->      sysbus_init_child_obj(obj, "uart0", &s->uart0, sizeof(s->uart0),
->                            TYPE_PL011);
-> @@ -171,6 +175,22 @@ static void bcm2835_peripherals_realize(DeviceState =
-*dev, Error **errp)
->                  sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ic), 0));
->      sysbus_pass_irq(SYS_BUS_DEVICE(s), SYS_BUS_DEVICE(&s->ic));
+> +    /*
+> +     * This device requires to register a global reset because it is
+> +     * not plugged to a bus (which, as its QOM parent, would reset it).
+> +     */
+>      qemu_register_reset(vmcoreinfo_reset, dev);
+>      vmcoreinfo_state =3D s;
+>  }
+> --
+> 2.21.0
 >
-> +    /* Sys Timer */
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-
-This looks like an extra check because err is checked above and hasn't
-been messed with since.
-
-> +    object_property_set_bool(OBJECT(&s->systmr), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +    memory_region_add_subregion(&s->peri_mr, ST_OFFSET,
-> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systmr), 0));
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 0,
-> +        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
-> +                               INTERRUPT_ARM_TIMER));
-> +
->      /* UART0 */
->      qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
->      object_property_set_bool(OBJECT(&s->uart0), true, "realized", &err);
-> @@ -352,7 +372,6 @@ static void bcm2835_peripherals_realize(DeviceState *=
-dev, Error **errp)
->      }
->
->      create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET=
-, 0x40);
-> -    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
->      create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
->      create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
->      create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
-> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm283=
-5_peripherals.h
-> index be7ad9b499..5b9fc89453 100644
-> --- a/include/hw/arm/bcm2835_peripherals.h
-> +++ b/include/hw/arm/bcm2835_peripherals.h
-> @@ -24,6 +24,7 @@
->  #include "hw/sd/sdhci.h"
->  #include "hw/sd/bcm2835_sdhost.h"
->  #include "hw/gpio/bcm2835_gpio.h"
-> +#include "hw/timer/bcm2835_systmr.h"
->  #include "hw/misc/unimp.h"
->
->  #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
-> @@ -39,7 +40,7 @@ typedef struct BCM2835PeripheralState {
->      MemoryRegion ram_alias[4];
->      qemu_irq irq, fiq;
->
-> -    UnimplementedDeviceState systmr;
-> +    BCM2835SysTimerState systmr;
->      UnimplementedDeviceState armtmr;
->      UnimplementedDeviceState cprman;
->      UnimplementedDeviceState a2w;
-
-
---
-Alex Benn=C3=A9e
 
