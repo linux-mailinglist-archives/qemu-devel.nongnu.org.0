@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5C3CF806
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 13:23:27 +0200 (CEST)
-Received: from localhost ([::1]:53834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29099CF87C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 13:35:08 +0200 (CEST)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHnaQ-000667-7m
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 07:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
+	id 1iHnli-0002PG-MU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 07:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51300)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iHnZO-0005Y5-8v
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:22:23 -0400
+ (envelope-from <bounces@canonical.com>) id 1iHnhb-0000Nt-KL
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:30:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iHnZM-0004Np-SV
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:22:21 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33172)
+ (envelope-from <bounces@canonical.com>) id 1iHnhZ-0000FK-9d
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:30:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49914)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iHnZL-0004Ml-HD
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:22:19 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r17so2147447wme.0
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 04:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=AH3jPH+i0W+CL9FV2+ec+wh2iMgVkQ17kzaHGG5gOds=;
- b=KDRACVHg4JM2QDaxGzq33Hr6v1aUgQtTpr/qcExlHo+lwHns/jdWwmmc9Afem+QVuJ
- er+ghRT1ZiCeVQHQHj98msiqDV8IJahpdX7t7CaYGif+srMR8Tr9C+gjFzqtoAZNluRO
- GWyO/ALIfkiGIf5BeqGdocoWYJ3CRSEl36kKX91OjmsvRDf+kmqwgg3YdMkyr1BK3p7V
- ls+Hxt1ClMe1OR5zopimGt7CcpqrUc4hq3zUqwQ5bQxiIjSjh3uVXCawiR8T2AfPLs3P
- 2qWXv7Nle8yU2kyoKChT1kjYLKEiLbsHOzVIMYmryKkAi9D8hAQry6upvHK9ZtiWKgIh
- Q2wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=AH3jPH+i0W+CL9FV2+ec+wh2iMgVkQ17kzaHGG5gOds=;
- b=Hd5SgT+cmldUaAUYJK6OdA7QU1LWdb08nLxna3oSZk/7UAltP5ZHQSSs0LS4v1x1K+
- 8e3/E6g2hbUlNYQslmTk1yQetTVOSYNqozoPCHDkHqzSagLSYdFc7fKh5XRf7QS2LNhv
- bBlkxXBmAB1VUSmx83sLioFIGtmDKX6Ur56xE18NlFstZbSMSGfWdznK6KQdQhvXxwSV
- TfcAiDtaA7EhzIDh5hUxMLQS+qLxRSKx5+ZZOoXVKTYgBbsLZwIU6gXv6akEoFB92jMu
- 9WaDwu14zyqOSvZ82Ws4ZTxHcP0DvHS/4yVEmkgh9L5V8H0gWLry3NMM4W2/fHfqNMDo
- uJRQ==
-X-Gm-Message-State: APjAAAWvo9GyWgSgM4EXlwIYGsesB3V12Vm35rem7jx+WNppZOkxW9gk
- aOJK0kwI3EkAxvd1bqJb39Xw2g==
-X-Google-Smtp-Source: APXvYqxvllo9HT4rUPOwzhgqeiytmqeQFcC2Vv1lUt14kyTdXTfHmtTzDqArBpmF/gCgKqPBiss10g==
-X-Received: by 2002:a1c:4e09:: with SMTP id g9mr3485437wmh.96.1570533737846;
- Tue, 08 Oct 2019 04:22:17 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q192sm4652163wme.23.2019.10.08.04.22.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2019 04:22:17 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 810641FF87;
- Tue,  8 Oct 2019 12:22:16 +0100 (BST)
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-7-f4bug@amsat.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH 06/19] hw/char/bcm2835_aux: Add trace events
-In-reply-to: <20190926173428.10713-7-f4bug@amsat.org>
-Date: Tue, 08 Oct 2019 12:22:16 +0100
-Message-ID: <87y2xviis7.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iHnhZ-0000DX-43
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:30:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iHnhW-0001Gk-Pc
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 11:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 983822E80D4
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 11:30:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Date: Tue, 08 Oct 2019 11:19:25 -0000
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ivmn
+X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
+X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
+Message-Id: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
+Subject: [Bug 1847232] [NEW] qemu TCG in s390x mode issue with calculating HASH
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 100fca4359b71954440ab58b5fdafb6a44c69d98
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,60 +63,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?utf-8?Q?Zolt=C3=A1n?= Baldaszti <bztemail@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <f4bug@amsat.org>,
- Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
- Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Ivan Warren <ivan@vmfacility.fr>
+From: Ivan Warren via <qemu-devel@nongnu.org>
 
+Public bug reported:
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+When using go on s390x on Debian x64 (buster) (host) and debian s390x
+(sid) (guest) I run into the following problem :
 
-> The BCM2835 AUX UART is compatible with the 16650 model, when
-> the registers belong the the 16650 block, use its trace events,
-> else use bcm2835_aux_read/write.
+The following occurs while trying to build a custom project :
 
-My only concern here is how we surface that detail to the potential
-user. It's not a major thing as I assume most users of the trace points
-are developers so maybe...
-> diff --git a/hw/char/trace-events b/hw/char/trace-events
-> index 2ce7f2f998..a7d477ab1e 100644
-> --- a/hw/char/trace-events
-> +++ b/hw/char/trace-events
-> @@ -1,5 +1,9 @@
->  # See docs/devel/tracing.txt for syntax documentation.
->
-> +# bcm2835_aux.c
+go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
+Get
+https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-201=
+50613233007-fe3947df716e.mod:
+local error: tls: bad record MAC
 
-"(accesses to the 16650 areas are logged via the serial_ioport_write tracep=
-oint)"?
+Doing a git bisect I find that this problem only occurs on and after
+commit 08ef92d556c584c7faf594ff3af46df456276e1b
 
-> +bcm2835_aux_read(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" v=
-alue 0x%x"
-> +bcm2835_aux_write(uint64_t addr, uint32_t value) "read addr 0x%"PRIx64" =
-value 0x%x"
-> +
->  # parallel.c
->  parallel_ioport_read(const char *desc, uint16_t addr, uint8_t value) "re=
-ad [%s] addr 0x%02x val 0x%02x"
->  parallel_ioport_write(const char *desc, uint16_t addr, uint8_t value) "w=
-rite [%s] addr 0x%02x val 0x%02x"
+Before that commit, all works fine. Past this commit, build always
+fails.
 
-Otherwise:
+Without any proof, It looks like a hash calculation bug related to using
+z/Arch vector facilities...
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
---
-Alex Benn=C3=A9e
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847232
+
+Title:
+  qemu TCG in s390x mode issue with calculating HASH
+
+Status in QEMU:
+  New
+
+Bug description:
+  When using go on s390x on Debian x64 (buster) (host) and debian s390x
+  (sid) (guest) I run into the following problem :
+
+  The following occurs while trying to build a custom project :
+
+  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
+  Get
+  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
+0150613233007-fe3947df716e.mod:
+  local error: tls: bad record MAC
+
+  Doing a git bisect I find that this problem only occurs on and after
+  commit 08ef92d556c584c7faf594ff3af46df456276e1b
+
+  Before that commit, all works fine. Past this commit, build always
+  fails.
+
+  Without any proof, It looks like a hash calculation bug related to
+  using z/Arch vector facilities...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
 
