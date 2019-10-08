@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63309D0003
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 19:39:40 +0200 (CEST)
-Received: from localhost ([::1]:59310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D2CCFFFB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 19:35:05 +0200 (CEST)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHtSU-0000Ek-LM
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 13:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49065)
+	id 1iHtO3-0004SE-7a
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 13:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iHt7e-0006oP-IW
+ (envelope-from <peter.maydell@linaro.org>) id 1iHt7e-0006ok-L8
  for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:18:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iHt7d-0002Oi-1s
+ (envelope-from <peter.maydell@linaro.org>) id 1iHt7d-0002Oy-6n
  for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:18:06 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36850)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40682)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iHt7c-0002N1-OF
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:18:04 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y19so20349777wrd.3
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 10:18:03 -0700 (PDT)
+ id 1iHt7c-0002No-RL
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 13:18:05 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b24so3925226wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 10:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PYOd0vFS/gYS2A8DyTJAHBtn1FfEmdBSCZ1qScpfiwA=;
- b=Sw+8Rwp+JVvkoGA81kds513BxAOtOGzaAYuqHSmvsuztgpfgmpNCOn0rsBjvQel+Ha
- QfDWKdx6SgqNzO2TRtPGXIdSAp3RmtGda+Q9zK5Nny6b6YzE2ELsQ2WZyVEh92yz6Qso
- whK8ZlzCIhKJX9I+mrynZ9/0eoMcm3zFcNq4hYmxXTbYCa5GMSVZlbj8hl7ZeLtQC+Nl
- WybL2bsTPMCrYVDoz8buGXfd1qgo3Aw8nJTDha5T7hJVlquEC/JyOpwGBOB1Kq4mMDZf
- q9Bhc7Ad9v85DCyZqjtokVwZZF2EQqcv0D91GLjkzcsT9BlGZb7gblDTSkVcxpznQKrj
- QVTw==
+ bh=YG0gX4qWdrO9GT0PeX8Gop+wch2VyWRSSaF9t3LJ9nc=;
+ b=TpCIrSAKnC+ubgTuHzcWi7xGznG+/JaMKEd1aE538WLALpO9OSGu+9B7sUshwK4tEU
+ kkFLeaKq1pzihfNMPe41qXO/jk1Lq6L0mmna5gO3jGVQGXL2tpb2scJw5Omm7H/kZBpi
+ exjT5XV4Qy+HFjV40S+zAhmRzRHJVjtLXezbTMkZ33PHOTtCTOlCkbsgJRwnTQrr+oQc
+ uKXFk8NwTc5gnRnjEazCuLBOWQ2+PoEGix6fXuQIsWMfuY2cZ5OAZA3SEDYyFKHnNONt
+ yWi8naR3uF90HtASyOVYNauz7uGwF5MY/NyZQi4SFMHLYTCZKcjMHon5/yOjTJa+Qea9
+ mUzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PYOd0vFS/gYS2A8DyTJAHBtn1FfEmdBSCZ1qScpfiwA=;
- b=BcYzr5XhxkYzTAlv/be9ozcUN1XcxzwzPXfCPiOT71pRSoMK/N5Hi5/SJfA7pnnnC/
- 3BESZSc6VsoS4C4peIo3EI5UWu1rYUyZlaR9Yjr8hwDEdg4vRNAgxSYYdySis2aRtL4+
- ByhQXy1vjDWv/DfvGwGNAyXksKmKwVFLpJBT51crp2+4MLwpF0fOcmicoOq5VXEsNyTa
- mK1Omn8cOCfwz8vPW7gjSN0Nz8yeL1XjvWHepmMsICykEH0gO/n/kJf/GGCsNtsRpkRN
- zvgirO6vac6zmEw1bXyNW+zE9QvttPxw4mhWfOOJyl4yCrxUivKnSGgFMJaXF8VVeKpQ
- RimQ==
-X-Gm-Message-State: APjAAAWnJEoKjKJzbfeJ0Itz1AjobWn7wYcri+WSK+/3tBrNhU43kIRb
- oeG4kerYe+Hq6qZPqbq9cIdLFg==
-X-Google-Smtp-Source: APXvYqwW/OSAYdKmjJ9sWUoSRGtcCnrSipKaUhWEPl66SaEj0TS/25mfQVgMDb9+TqB41naucRKldQ==
-X-Received: by 2002:a5d:4a84:: with SMTP id o4mr3844941wrq.165.1570555082655; 
- Tue, 08 Oct 2019 10:18:02 -0700 (PDT)
+ bh=YG0gX4qWdrO9GT0PeX8Gop+wch2VyWRSSaF9t3LJ9nc=;
+ b=ep/EA0JkF+P1TSHXmMtYW4U8tCja4VZxkgJzfl5QkX/VKNVMVBgYQQA2WVJMuN3fu2
+ aJKinTMCUWpWVRvrvXfX9YqJKLo2e8wo1rocPeskzLHfP5EC9JpxcMqwe06BafsK2xgH
+ Sa1pf1J2zKDzcDadNZKvx329dC5SivGbPfIvtwgWvk9XWJlVNtETxXPWTFsCrqySGoaS
+ VpkLkg7uqNQRGic2q/PpiLxiQGwUsuF6mil7WWy/pDffvkCK+TIs0GErp74ZNHdkYnmM
+ OuMZzxrmunw0VD+9cDBIfJspsrohyr5J0vfJF1fPEnOyArlrN1xNDOl4aUht/f0+qBQF
+ rqSw==
+X-Gm-Message-State: APjAAAXFQmCy/SvPdb+AHGKKU8hq2HvH0gs6gtJWZ7vbwDkGC6Iiwopc
+ B6KDM1+9vFP/7SkNsOqbOT1kDQ==
+X-Google-Smtp-Source: APXvYqz1+amI1wGizxub69MRVAZm6lD05unmpVsu+Y0zqL+2RvdpLU+lKDO26bgTieaF5a0ZFfr7zA==
+X-Received: by 2002:a1c:2382:: with SMTP id j124mr5026948wmj.154.1570555083764; 
+ Tue, 08 Oct 2019 10:18:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z9sm19135541wrl.35.2019.10.08.10.18.01
+ by smtp.gmail.com with ESMTPSA id z9sm19135541wrl.35.2019.10.08.10.18.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2019 10:18:02 -0700 (PDT)
+ Tue, 08 Oct 2019 10:18:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 15/21] hw/timer/exynos4210_rtc.c: Switch 1Hz ptimer to
+Subject: [PATCH v2 16/21] hw/timer/exynos4210_rtc.c: Switch main ptimer to
  transaction-based API
-Date: Tue,  8 Oct 2019 18:17:34 +0100
-Message-Id: <20191008171740.9679-16-peter.maydell@linaro.org>
+Date: Tue,  8 Oct 2019 18:17:35 +0100
+Message-Id: <20191008171740.9679-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191008171740.9679-1-peter.maydell@linaro.org>
 References: <20191008171740.9679-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,59 +85,77 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the exynos41210_rtc 1Hz ptimer over to the transaction-based
-API. (We will switch the other ptimer used by this device in a
-separate commit.)
+Switch the exynos41210_rtc main ptimer over to the transaction-based
+API, completing the transition for this device.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/exynos4210_rtc.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ hw/timer/exynos4210_rtc.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/hw/timer/exynos4210_rtc.c b/hw/timer/exynos4210_rtc.c
-index d5d7c91fb15..b7ae99e9aa7 100644
+index b7ae99e9aa7..f85483a07f8 100644
 --- a/hw/timer/exynos4210_rtc.c
 +++ b/hw/timer/exynos4210_rtc.c
-@@ -401,6 +401,7 @@ static void exynos4210_rtc_write(void *opaque, hwaddr offset,
-         }
+@@ -28,7 +28,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/log.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+@@ -195,6 +194,7 @@ static void check_alarm_raise(Exynos4210RTCState *s)
+  * RTC update frequency
+  * Parameters:
+  *     reg_value - current RTCCON register or his new value
++ * Must be called within a ptimer_transaction_begin/commit block for s->ptimer.
+  */
+ static void exynos4210_rtc_update_freq(Exynos4210RTCState *s,
+                                        uint32_t reg_value)
+@@ -402,6 +402,7 @@ static void exynos4210_rtc_write(void *opaque, hwaddr offset,
          break;
      case RTCCON:
-+        ptimer_transaction_begin(s->ptimer_1Hz);
+         ptimer_transaction_begin(s->ptimer_1Hz);
++        ptimer_transaction_begin(s->ptimer);
          if (value & RTC_ENABLE) {
              exynos4210_rtc_update_freq(s, value);
          }
-@@ -430,6 +431,7 @@ static void exynos4210_rtc_write(void *opaque, hwaddr offset,
-                 ptimer_stop(s->ptimer);
+@@ -432,6 +433,7 @@ static void exynos4210_rtc_write(void *opaque, hwaddr offset,
              }
          }
-+        ptimer_transaction_commit(s->ptimer_1Hz);
+         ptimer_transaction_commit(s->ptimer_1Hz);
++        ptimer_transaction_commit(s->ptimer);
          s->reg_rtccon = value;
          break;
      case TICCNT:
-@@ -539,7 +541,9 @@ static void exynos4210_rtc_reset(DeviceState *d)
+@@ -539,8 +541,10 @@ static void exynos4210_rtc_reset(DeviceState *d)
  
+     s->reg_curticcnt = 0;
+ 
++    ptimer_transaction_begin(s->ptimer);
      exynos4210_rtc_update_freq(s, s->reg_rtccon);
      ptimer_stop(s->ptimer);
-+    ptimer_transaction_begin(s->ptimer_1Hz);
++    ptimer_transaction_commit(s->ptimer);
+     ptimer_transaction_begin(s->ptimer_1Hz);
      ptimer_stop(s->ptimer_1Hz);
-+    ptimer_transaction_commit(s->ptimer_1Hz);
- }
+     ptimer_transaction_commit(s->ptimer_1Hz);
+@@ -559,12 +563,12 @@ static void exynos4210_rtc_init(Object *obj)
+ {
+     Exynos4210RTCState *s = EXYNOS4210_RTC(obj);
+     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
+-    QEMUBH *bh;
  
- static const MemoryRegionOps exynos4210_rtc_ops = {
-@@ -562,9 +566,11 @@ static void exynos4210_rtc_init(Object *obj)
+-    bh = qemu_bh_new(exynos4210_rtc_tick, s);
+-    s->ptimer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++    s->ptimer = ptimer_init(exynos4210_rtc_tick, s, PTIMER_POLICY_DEFAULT);
++    ptimer_transaction_begin(s->ptimer);
      ptimer_set_freq(s->ptimer, RTC_BASE_FREQ);
      exynos4210_rtc_update_freq(s, 0);
++    ptimer_transaction_commit(s->ptimer);
  
--    bh = qemu_bh_new(exynos4210_rtc_1Hz_tick, s);
--    s->ptimer_1Hz = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->ptimer_1Hz = ptimer_init(exynos4210_rtc_1Hz_tick,
-+                                s, PTIMER_POLICY_DEFAULT);
-+    ptimer_transaction_begin(s->ptimer_1Hz);
-     ptimer_set_freq(s->ptimer_1Hz, RTC_BASE_FREQ);
-+    ptimer_transaction_commit(s->ptimer_1Hz);
- 
-     sysbus_init_irq(dev, &s->alm_irq);
-     sysbus_init_irq(dev, &s->tick_irq);
+     s->ptimer_1Hz = ptimer_init(exynos4210_rtc_1Hz_tick,
+                                 s, PTIMER_POLICY_DEFAULT);
 -- 
 2.20.1
 
