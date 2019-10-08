@@ -2,64 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CD6CFD17
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:04:26 +0200 (CEST)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9E4CFCFE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 17:00:39 +0200 (CEST)
+Received: from localhost ([::1]:57134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHr2H-0000DL-MB
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
+	id 1iHqyc-0005Sj-3K
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 11:00:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iHqzo-0006vr-S3
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:01:54 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iHqtf-0000rZ-Ob
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:55:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iHqzn-0001IN-BZ
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:01:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39974)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iHqzn-0001Hl-56
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 11:01:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iHqzl-0004VV-EN
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 15:01:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 69EAF2E80CE
- for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 15:01:49 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Oct 2019 14:47:57 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1633508@bugs.launchpad.net>
+ (envelope-from <stefanha@redhat.com>) id 1iHqte-00040k-Ct
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:55:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47186)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1iHqtb-0003so-9h; Tue, 08 Oct 2019 10:55:27 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7CA1D2CE905;
+ Tue,  8 Oct 2019 14:55:26 +0000 (UTC)
+Received: from localhost (ovpn-116-36.ams2.redhat.com [10.36.116.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 050E65C22F;
+ Tue,  8 Oct 2019 14:55:14 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: libvirt
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: havok4u paelzer th-huth
-X-Launchpad-Bug-Reporter: Tim Epkes (havok4u)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <20161014143633.7783.6982.malonedeb@gac.canonical.com>
-Message-Id: <157054607755.22315.205061503565236664.malone@gac.canonical.com>
-Subject: [Bug 1633508] Re: libvirt cannot hot insert interfaces to qemu
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 12a3877fc63d093e0740fc05b51e08856f0455b2
+Subject: [PULL 2/4] virtio-blk: schedule virtio_notify_config to run on main
+ context
+Date: Tue,  8 Oct 2019 15:55:03 +0100
+Message-Id: <20191008145505.3641-3-stefanha@redhat.com>
+In-Reply-To: <20191008145505.3641-1-stefanha@redhat.com>
+References: <20191008145505.3641-1-stefanha@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 08 Oct 2019 14:55:26 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,82 +56,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1633508 <1633508@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-That seems to be the Libvirt of Ubuntu in Xenial.
+From: Sergio Lopez <slp@redhat.com>
 
-In the past similar issues were uncommon configs or changed behavior on
-updates that triggered apparmor or SELinux protection.
+virtio_notify_config() needs to acquire the global mutex, which isn't
+allowed from an iothread, and may lead to a deadlock like this:
 
-=3D> https://bugs.launchpad.net/ubuntu/+source/libvirt/+bug/1747442
-=3D> https://bugzilla.redhat.com/show_bug.cgi?id=3D731243
+ - main thead
+  * Has acquired: qemu_global_mutex.
+  * Is trying the acquire: iothread AioContext lock via
+    AIO_WAIT_WHILE (after aio_poll).
 
-It could as well be some variant of bug 1677398.
+ - iothread
+  * Has acquired: AioContext lock.
+  * Is trying to acquire: qemu_global_mutex (via
+    virtio_notify_config->prepare_mmio_access).
 
-If you are still affected by this, could you check:
-1. if it also happens on newer libvirt versions e.g. do a trial run in the =
-most recent Ubuntu
-2. if it does could you check dmesg in your setup for related apparmor deni=
-als?
+If virtio_blk_resize() is called from an iothread, schedule
+virtio_notify_config() to be run in the main context BH.
 
+[Removed unnecessary newline as suggested by Kevin Wolf
+<kwolf@redhat.com>.
+--Stefan]
 
-** Bug watch added: Red Hat Bugzilla #731243
-   https://bugzilla.redhat.com/show_bug.cgi?id=3D731243
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-id: 20190916112411.21636-1-slp@redhat.com
+Message-Id: <20190916112411.21636-1-slp@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ hw/block/virtio-blk.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
--- =
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 18851601cb..ed2ddebd2b 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -16,6 +16,7 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
++#include "qemu/main-loop.h"
+ #include "trace.h"
+ #include "hw/block/block.h"
+ #include "hw/qdev-properties.h"
+@@ -1086,11 +1087,24 @@ static int virtio_blk_load_device(VirtIODevice *v=
+dev, QEMUFile *f,
+     return 0;
+ }
+=20
++static void virtio_resize_cb(void *opaque)
++{
++    VirtIODevice *vdev =3D opaque;
++
++    assert(qemu_get_current_aio_context() =3D=3D qemu_get_aio_context())=
+;
++    virtio_notify_config(vdev);
++}
++
+ static void virtio_blk_resize(void *opaque)
+ {
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(opaque);
+=20
+-    virtio_notify_config(vdev);
++    /*
++     * virtio_notify_config() needs to acquire the global mutex,
++     * so it can't be called from an iothread. Instead, schedule
++     * it to be run in the main context BH.
++     */
++    aio_bh_schedule_oneshot(qemu_get_aio_context(), virtio_resize_cb, vd=
+ev);
+ }
+=20
+ static const BlockDevOps virtio_block_ops =3D {
+--=20
+2.21.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1633508
-
-Title:
-  libvirt cannot hot insert interfaces to qemu
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  When attempting to hot insert an interface using Ubuntu 16.04.1, I get th=
-e following
-  $ virsh attach-interface --domain gluster1 --type direct \
-  >         --source test0 --model virtio \
-  >         --mac 2a:b6:b0:dc:c7:c4 --config --live
-  error: Failed to attach interface
-  error: internal error: unable to execute QEMU command 'getfd': No file de=
-scriptor supplied via SCM_RIGHTS
-
-  test0 exists:
-  $ ip link show test0
-  35: test0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast =
-state DOWN mode DEFAULT group default qlen 1000
-      link/ether aa:8c:65:2e:79:61 brd ff:ff:ff:ff:ff:ff
-
-  Just in case I did it wrong with direct, I did network
-  $ virsh net-list
-   Name                 State      Autostart     Persistent
-  ----------------------------------------------------------
-   default              active     yes           yes
-   mgmtnet0             active     yes           yes
-
-  $ virsh attach-interface --domain gluster1 --type network \
-  >         --source default --model virtio \
-  >         --mac 2a:b6:b0:dc:c7:c4 --config --live
-  error: Failed to attach interface
-  error: internal error: unable to execute QEMU command 'getfd': No file de=
-scriptor supplied via SCM_RIGHTS
-
-  =
-
-  This seems to be an old bug, but is still present.  Other relevant inform=
-ation:
-  $ qemu-system-x86_64 --version
-  QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.5), Copyright (c=
-) 2003-2008 Fabrice Bellard
-  $ virsh -v
-  1.3.1
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1633508/+subscriptions
 
