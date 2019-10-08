@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BBED00F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 21:07:49 +0200 (CEST)
-Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4622FD012C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 21:28:34 +0200 (CEST)
+Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHupo-0000OQ-5u
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 15:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43419)
+	id 1iHv9s-0008Ue-Nn
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 15:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iHuoF-0007ug-5c
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 15:06:12 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iHuxh-0003W3-Mn
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 15:15:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iHuoD-0002ai-AA
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 15:06:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51242)
+ (envelope-from <dgilbert@redhat.com>) id 1iHuxf-0006p1-CZ
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 15:15:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57362)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iHuoD-0002aM-4O
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 15:06:09 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iHuxf-0006oh-4I
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 15:15:55 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 23A664E83E;
- Tue,  8 Oct 2019 19:06:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 591E630B6506;
+ Tue,  8 Oct 2019 19:15:54 +0000 (UTC)
 Received: from work-vm (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EA1160BE2;
- Tue,  8 Oct 2019 19:06:06 +0000 (UTC)
-Date: Tue, 8 Oct 2019 20:06:04 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C87461341;
+ Tue,  8 Oct 2019 19:15:53 +0000 (UTC)
+Date: Tue, 8 Oct 2019 20:15:51 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH 2/3] migration/postcopy: postpone setting PostcopyState
- to END
-Message-ID: <20191008190604.GM3441@work-vm>
+Subject: Re: [PATCH 3/3] migration/postcopy: replace have_listen_thread check
+ with PostcopyState check
+Message-ID: <20191008191551.GN3441@work-vm>
 References: <20191006000249.29926-1-richardw.yang@linux.intel.com>
- <20191006000249.29926-3-richardw.yang@linux.intel.com>
+ <20191006000249.29926-4-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191006000249.29926-3-richardw.yang@linux.intel.com>
+In-Reply-To: <20191006000249.29926-4-richardw.yang@linux.intel.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 08 Oct 2019 19:06:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 08 Oct 2019 19:15:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -64,62 +64,100 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Wei Yang (richardw.yang@linux.intel.com) wrote:
-> There are two places to call function postcopy_ram_incoming_cleanup()
+> After previous cleanup, postcopy thread is running only when
+> PostcopyState is LISTENNING or RUNNING. This means it is not necessary
+> to spare a variable have_listen_thread to represent the state.
 > 
->     postcopy_ram_listen_thread on migration success
->     loadvm_postcopy_handle_listen one setup failure
-> 
-> On success, the vm will never accept another migration. On failure,
-> PostcopyState is transited from LISTENING to END and would be checked in
-> qemu_loadvm_state_main(). If PostcopyState is RUNNING, migration would
-> be paused and retried.
-> 
-> Currently PostcopyState is set to END in function
-> postcopy_ram_incoming_cleanup(). With above analysis, we can take this
-> step out and postpone this till the end of listen thread to indicate the
-> listen thread is done.
-> 
-> This is a preparation patch for later cleanup.
+> Replace the check on have_listen_thread with PostcopyState and remove
+> the variable.
 > 
 > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-
-Yes, I think that's OK - I couldn't see anywhere that's currently
-checking the state in between.
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
 > ---
->  migration/postcopy-ram.c | 2 --
->  migration/savevm.c       | 2 ++
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  migration/migration.h | 1 -
+>  migration/ram.c       | 2 +-
+>  migration/ram.h       | 1 +
+>  migration/savevm.c    | 4 +---
+>  4 files changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index a394c7c3a6..5da6de8c8b 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -577,8 +577,6 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
->          }
->      }
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 4f2fe193dc..a4d639663d 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -63,7 +63,6 @@ struct MigrationIncomingState {
+>      /* Set this when we want the fault thread to quit */
+>      bool           fault_thread_quit;
 >  
-> -    postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
-> -
->      if (mis->postcopy_tmp_page) {
->          munmap(mis->postcopy_tmp_page, mis->largest_page_size);
->          mis->postcopy_tmp_page = NULL;
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index eaa4cf58ef..dcad8897a3 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1837,6 +1837,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> -    bool           have_listen_thread;
+>      QemuThread     listen_thread;
+>      QemuSemaphore  listen_thread_sem;
 >  
->      rcu_unregister_thread();
->      mis->have_listen_thread = false;
-> +    postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
-> +
->      return NULL;
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 769d3f6454..dfc50d57d5 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -4188,7 +4188,7 @@ static bool postcopy_is_advised(void)
+>      return ps >= POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_END;
 >  }
 >  
+> -static bool postcopy_is_running(void)
+> +bool postcopy_is_running(void)
+>  {
+>      PostcopyState ps = postcopy_state_get();
+>      return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
+> diff --git a/migration/ram.h b/migration/ram.h
+> index bd0eee79b6..44fe4753ad 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -59,6 +59,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms);
+>  /* For incoming postcopy discard */
+>  int ram_discard_range(const char *block_name, uint64_t start, size_t length);
+>  int ram_postcopy_incoming_init(MigrationIncomingState *mis);
+> +bool postcopy_is_running(void);
+>  
+>  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
+>  
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index dcad8897a3..2a0e0b94df 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1836,7 +1836,6 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>      qemu_loadvm_state_cleanup();
+>  
+>      rcu_unregister_thread();
+> -    mis->have_listen_thread = false;
+>      postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
+
+That now needs a big comment saying it must be the last thing in the
+thread, because now it's got meaning that it's here.
+
+>  
+>      return NULL;
+> @@ -1880,7 +1879,6 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>          return -1;
+>      }
+>  
+> -    mis->have_listen_thread = true;
+>      /* Start up the listening thread and wait for it to signal ready */
+>      qemu_sem_init(&mis->listen_thread_sem, 0);
+>      qemu_thread_create(&mis->listen_thread, "postcopy/listen",
+> @@ -2518,7 +2516,7 @@ int qemu_loadvm_state(QEMUFile *f)
+>  
+>      trace_qemu_loadvm_state_post_main(ret);
+>  
+> -    if (mis->have_listen_thread) {
+> +    if (postcopy_is_running()) {
+>          /* Listen thread still going, can't clean up yet */
+>          return ret;
+>      }
+
+Can you explain to me why this is afe in the case of a failure in
+loadvm_postcopy_handle_listen between the start where it sets
+the state to LISTENING, and the point where it currently sets
+hasve_listen_thread ?  Wouldn't this cause qemu_loadvm_state
+not to cleanup?
+
+Dave
+
 > -- 
 > 2.17.1
 > 
