@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29099CF87C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 13:35:08 +0200 (CEST)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C47ECF82E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 13:30:23 +0200 (CEST)
+Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHnli-0002PG-MU
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 07:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51300)
+	id 1iHnh8-0007uV-C8
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 07:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iHnhb-0000Nt-KL
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:30:53 -0400
+ (envelope-from <philmd@redhat.com>) id 1iHnfx-0007Jj-Hl
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:29:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iHnhZ-0000FK-9d
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:30:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49914)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iHnhZ-0000DX-43
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:30:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iHnhW-0001Gk-Pc
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 11:30:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 983822E80D4
- for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 11:30:46 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iHnfu-0007pK-OP
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:29:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37808)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHnfu-0007o8-FR
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 07:29:06 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 824A846288
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 11:29:02 +0000 (UTC)
+Received: by mail-wm1-f70.google.com with SMTP id s19so869021wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 04:29:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZQLU46f6QNi939Lm+/VqdtwZQrD4/TAynnh+DrV/JsU=;
+ b=kdrUwqyLLm0FFZYhFris/EkG6CX1KzWhNIla2/Heg3As5yheVEzJXxS/X1SzZC3Uig
+ Z/V8wEQJVuWTIHOCisREFKRPbW7v28CRHlYi2P89q2OkeZMbx5Tm0rCsG+9IAKosw1Ez
+ p9vDZqvUABZd7f4eDbuvQirCqJwdC3xKONQ7OB2vf5ljtlkJqNCutojAOLIV95755Ne4
+ R/QHO91pHLHXNlzL6MTYShp1Nwgswami9RcGzn+Xin6z5FIBJt9oJhOXS3cFo32ZktyU
+ aeTHH4qGt74muxf3eXwngPeKbPTnoaOPtsn8vW2rOToqjXhQNoM3TECHrVzUtEimaOUA
+ LPMA==
+X-Gm-Message-State: APjAAAWoiSCxsczUiytyVAQyfaAdcEKPOLBul2vox9weYkunjPFrmWx1
+ v7jshe2Zwde7smlD6QH5kSjuZoc7YiuuVq5TrzGzxhU8kMc9iGqyMIG8NWdHQiXJlLsPohTPTaU
+ 8l1v/83qSTD+Tg9o=
+X-Received: by 2002:a1c:4d0e:: with SMTP id o14mr3341546wmh.172.1570534141235; 
+ Tue, 08 Oct 2019 04:29:01 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyb5rvHtRpR27ynwXajelUxQEXeMFp5/FzNkqd004p9payIa4ViysO6gYE/+bPTyZqHAusVqQ==
+X-Received: by 2002:a1c:4d0e:: with SMTP id o14mr3341533wmh.172.1570534141032; 
+ Tue, 08 Oct 2019 04:29:01 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id o9sm41820624wrh.46.2019.10.08.04.29.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Oct 2019 04:29:00 -0700 (PDT)
+Subject: Re: Peculiar reply from mail list handler???
+To: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
+References: <CALvKS=EoaNnNQCmdp3rjjbaAYOoow8txsn1KX=Mb37Vk3he5Kw@mail.gmail.com>
+ <5ef2c575-0bae-9f0b-cf2b-437280914cec@redhat.com>
+ <CAFEAcA8bs-DZPsxzE=kJ-gRT-1i6wZ4FvkK+-MaygE0Zg3A4Yw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e01f0c12-cd2f-d2f0-aac3-b8145239c45b@redhat.com>
+Date: Tue, 8 Oct 2019 13:28:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Oct 2019 11:19:25 -0000
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ivmn
-X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
-X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
-Message-Id: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
-Subject: [Bug 1847232] [NEW] qemu TCG in s390x mode issue with calculating HASH
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 100fca4359b71954440ab58b5fdafb6a44c69d98
+In-Reply-To: <CAFEAcA8bs-DZPsxzE=kJ-gRT-1i6wZ4FvkK+-MaygE0Zg3A4Yw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,70 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Ivan Warren <ivan@vmfacility.fr>
-From: Ivan Warren via <qemu-devel@nongnu.org>
 
-Public bug reported:
+On 10/5/19 9:09 PM, Peter Maydell wrote:
+> On Sat, 5 Oct 2019 at 18:13, John Snow <jsnow@redhat.com> wrote:
+>> I'm not clear on the particulars of mail delivery protocols or what
+>> lists.sr.ht is, but we indeed do not like HTML mail sent to this list.
+> 
+> I suspect the lists.sr.ht address is just some subscriber to the
+> QEMU mailing list -- the list server sent your mail to all
+> the subscribers, including that one, which then complained
+> to you. But the QEMU list itself is OK with HTML email
+> (we prefer plain text, but we don't reject HTML).
 
-When using go on s390x on Debian x64 (buster) (host) and debian s390x
-(sid) (guest) I run into the following problem :
+I subscribed to sr.ht some time ago to test the service because they 
+provide a CI, git hosting, mailing list, so this might come from my 
+account. If so, I'm surprise it send email on the subscriber behalf.
 
-The following occurs while trying to build a custom project :
+Per https://man.sr.ht/lists.sr.ht/etiquette.md#plain-text:
 
-go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
-Get
-https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-201=
-50613233007-fe3947df716e.mod:
-local error: tls: bad record MAC
+   Rich text is not desirable for development-oriented email
+   conversations, so you should disable this feature and send
+   your email as "plain text". Every email client is different,
+   you should research the options for your specific client.
+   HTML emails are rejected by all sr.ht services.
 
-Doing a git bisect I find that this problem only occurs on and after
-commit 08ef92d556c584c7faf594ff3af46df456276e1b
-
-Before that commit, all works fine. Past this commit, build always
-fails.
-
-Without any proof, It looks like a hash calculation bug related to using
-z/Arch vector facilities...
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847232
-
-Title:
-  qemu TCG in s390x mode issue with calculating HASH
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using go on s390x on Debian x64 (buster) (host) and debian s390x
-  (sid) (guest) I run into the following problem :
-
-  The following occurs while trying to build a custom project :
-
-  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
-  Get
-  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
-0150613233007-fe3947df716e.mod:
-  local error: tls: bad record MAC
-
-  Doing a git bisect I find that this problem only occurs on and after
-  commit 08ef92d556c584c7faf594ff3af46df456276e1b
-
-  Before that commit, all works fine. Past this commit, build always
-  fails.
-
-  Without any proof, It looks like a hash calculation bug related to
-  using z/Arch vector facilities...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
+Surprisingly there is no option to allow HTML... (plain text is a design 
+feature).
 
