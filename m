@@ -2,46 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A3ECFBC3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:00:08 +0200 (CEST)
-Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0057FCFBBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 15:59:20 +0200 (CEST)
+Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHq1x-0005uf-Ab
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:00:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45743)
+	id 1iHq1G-0004pf-9F
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 09:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iHpzJ-00044M-Pl
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:57:19 -0400
+ (envelope-from <eblake@redhat.com>) id 1iHpyX-0003V6-0f
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:56:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iHpzH-00058B-SQ
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:57:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40054)
+ (envelope-from <eblake@redhat.com>) id 1iHpyV-0004hJ-EO
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:56:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51724)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iHpzH-00057W-Jm
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 09:57:15 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iHpyS-0004em-4k; Tue, 08 Oct 2019 09:56:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EE1AA10CC1FF;
- Tue,  8 Oct 2019 13:57:13 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A7E7600CE;
- Tue,  8 Oct 2019 13:57:09 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/12] hw/virtio: Factorize virtio-mmio headers
-Date: Tue,  8 Oct 2019 15:55:27 +0200
-Message-Id: <20191008135537.197867-2-slp@redhat.com>
-In-Reply-To: <20191008135537.197867-1-slp@redhat.com>
-References: <20191008135537.197867-1-slp@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 5B4F718C4286;
+ Tue,  8 Oct 2019 13:56:23 +0000 (UTC)
+Received: from [10.3.116.162] (ovpn-116-162.phx2.redhat.com [10.3.116.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 005DB5C1D4;
+ Tue,  8 Oct 2019 13:56:22 +0000 (UTC)
+Subject: Re: [PATCH] qemu-nbd: Document benefit of --pid-file
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191007194840.29518-1-eblake@redhat.com>
+ <20191008092448.GD1192@redhat.com>
+ <04440b88-78f6-e177-924d-e16fc3c29b5c@virtuozzo.com>
+ <d4b715de-6d5d-6f43-e845-86ddc01c3eac@redhat.com>
+ <20191008133834.GG1192@redhat.com>
+ <99240aec-6d19-cea6-5b95-6bbf5a9106e8@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <de461851-39a3-0c48-9270-85e0f0859603@redhat.com>
+Date: Tue, 8 Oct 2019 08:56:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <99240aec-6d19-cea6-5b95-6bbf5a9106e8@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Tue, 08 Oct 2019 13:57:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.62]); Tue, 08 Oct 2019 13:56:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -56,172 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>, mst@redhat.com,
- lersek@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Put QOM and main struct definition in a separate header file, so it
-can be accessed from other components.
+On 10/8/19 8:53 AM, Vladimir Sementsov-Ogievskiy wrote:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- include/hw/virtio/virtio-mmio.h | 73 +++++++++++++++++++++++++++++++++
- hw/virtio/virtio-mmio.c         | 48 +---------------------
- 2 files changed, 74 insertions(+), 47 deletions(-)
- create mode 100644 include/hw/virtio/virtio-mmio.h
+> 
+> I've already implemented loop of attempting to connect in my series (patch 4/3).
+> It's a bit more difficult to implement, but it's done. And it's a bit better,
+> as it test exactly what we want to test. Can we proceed with it?
+> 
 
-diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-m=
-mio.h
-new file mode 100644
-index 0000000000..7dbfd03dcf
---- /dev/null
-+++ b/include/hw/virtio/virtio-mmio.h
-@@ -0,0 +1,73 @@
-+/*
-+ * Virtio MMIO bindings
-+ *
-+ * Copyright (c) 2011 Linaro Limited
-+ *
-+ * Author:
-+ *  Peter Maydell <peter.maydell@linaro.org>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License; either version =
-2
-+ * of the License, or (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License alo=
-ng
-+ * with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef HW_VIRTIO_MMIO_H
-+#define HW_VIRTIO_MMIO_H
-+
-+#include "hw/virtio/virtio-bus.h"
-+
-+/* QOM macros */
-+/* virtio-mmio-bus */
-+#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
-+#define VIRTIO_MMIO_BUS(obj) \
-+        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
-+#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
-+        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
-+#define VIRTIO_MMIO_BUS_CLASS(klass) \
-+        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS=
-)
-+
-+/* virtio-mmio */
-+#define TYPE_VIRTIO_MMIO "virtio-mmio"
-+#define VIRTIO_MMIO(obj) \
-+        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
-+
-+#define VIRT_MAGIC 0x74726976 /* 'virt' */
-+#define VIRT_VERSION 2
-+#define VIRT_VERSION_LEGACY 1
-+#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
-+
-+typedef struct VirtIOMMIOQueue {
-+    uint16_t num;
-+    bool enabled;
-+    uint32_t desc[2];
-+    uint32_t avail[2];
-+    uint32_t used[2];
-+} VirtIOMMIOQueue;
-+
-+typedef struct {
-+    /* Generic */
-+    SysBusDevice parent_obj;
-+    MemoryRegion iomem;
-+    qemu_irq irq;
-+    bool legacy;
-+    /* Guest accessible state needing migration and reset */
-+    uint32_t host_features_sel;
-+    uint32_t guest_features_sel;
-+    uint32_t guest_page_shift;
-+    /* virtio-bus */
-+    VirtioBusState bus;
-+    bool format_transport_address;
-+    /* Fields only used for non-legacy (v2) devices */
-+    uint32_t guest_features[2];
-+    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
-+} VirtIOMMIOProxy;
-+
-+#endif
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 3d5ca0f667..94d934c44b 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -29,57 +29,11 @@
- #include "qemu/host-utils.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
--#include "hw/virtio/virtio-bus.h"
-+#include "hw/virtio/virtio-mmio.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "trace.h"
-=20
--/* QOM macros */
--/* virtio-mmio-bus */
--#define TYPE_VIRTIO_MMIO_BUS "virtio-mmio-bus"
--#define VIRTIO_MMIO_BUS(obj) \
--        OBJECT_CHECK(VirtioBusState, (obj), TYPE_VIRTIO_MMIO_BUS)
--#define VIRTIO_MMIO_BUS_GET_CLASS(obj) \
--        OBJECT_GET_CLASS(VirtioBusClass, (obj), TYPE_VIRTIO_MMIO_BUS)
--#define VIRTIO_MMIO_BUS_CLASS(klass) \
--        OBJECT_CLASS_CHECK(VirtioBusClass, (klass), TYPE_VIRTIO_MMIO_BUS=
-)
--
--/* virtio-mmio */
--#define TYPE_VIRTIO_MMIO "virtio-mmio"
--#define VIRTIO_MMIO(obj) \
--        OBJECT_CHECK(VirtIOMMIOProxy, (obj), TYPE_VIRTIO_MMIO)
--
--#define VIRT_MAGIC 0x74726976 /* 'virt' */
--#define VIRT_VERSION 2
--#define VIRT_VERSION_LEGACY 1
--#define VIRT_VENDOR 0x554D4551 /* 'QEMU' */
--
--typedef struct VirtIOMMIOQueue {
--    uint16_t num;
--    bool enabled;
--    uint32_t desc[2];
--    uint32_t avail[2];
--    uint32_t used[2];
--} VirtIOMMIOQueue;
--
--typedef struct {
--    /* Generic */
--    SysBusDevice parent_obj;
--    MemoryRegion iomem;
--    qemu_irq irq;
--    bool legacy;
--    /* Guest accessible state needing migration and reset */
--    uint32_t host_features_sel;
--    uint32_t guest_features_sel;
--    uint32_t guest_page_shift;
--    /* virtio-bus */
--    VirtioBusState bus;
--    bool format_transport_address;
--    /* Fields only used for non-legacy (v2) devices */
--    uint32_t guest_features[2];
--    VirtIOMMIOQueue vqs[VIRTIO_QUEUE_MAX];
--} VirtIOMMIOProxy;
--
- static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
- {
-     return kvm_eventfds_enabled();
---=20
-2.21.0
+For test purposes, yes, that's fine (a test doesn't have to be clean, 
+just work).
 
+>>
+>> We shouldn't need todo any of those tricks IIUC.  The --fork argument is
+>> supposed to only let the parent process exit once the server is running.
+>>
+>> IOW, if you run qemu-nbd --fork, in the foreground, then when execution
+>> continues the sockets should be present & accepting connections. No need
+>> to check for existance of any files or check connecting, etc.
+>>
+>>
+>> Except that AFAICT, --fork isn't actually implemented with this semantics
+>> in qemu-nbd. It looks like we only listen on the sockets after the parent
+>> has already exited :-( Can we fix that to synchronize wrt socket listeners ?
+
+Yes, sounds like something good to have.  I'll take a look at doing that.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
