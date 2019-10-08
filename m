@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E17CFED7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 18:21:50 +0200 (CEST)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C90CFF13
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 18:42:45 +0200 (CEST)
+Received: from localhost ([::1]:58434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHsFA-0003vH-Mb
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 12:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40421)
+	id 1iHsZP-0003Pe-Uo
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 12:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iHsDj-0002xk-L7
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:20:23 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iHsXh-0002P5-Br
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:40:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iHsDh-0000rx-DF
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:20:19 -0400
-Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:48678)
+ (envelope-from <dgilbert@redhat.com>) id 1iHsXe-0007ny-Cy
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:40:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43666)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iHsDg-0000pv-TQ
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:20:17 -0400
-Received: from player688.ha.ovh.net (unknown [10.108.57.150])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 552FD10CE4F
- for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 18:20:14 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id A9BD8AA5257F;
- Tue,  8 Oct 2019 16:19:22 +0000 (UTC)
-Date: Tue, 8 Oct 2019 18:19:21 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 04/31] error: auto propagated local_err
-Message-ID: <20191008181921.288e69e4@bahia.lan>
-In-Reply-To: <87k19fgr7i.fsf@dusky.pond.sub.org>
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-5-vsementsov@virtuozzo.com>
- <87k19fgr7i.fsf@dusky.pond.sub.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iHsXe-0007nH-3f
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:40:54 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A332A2026F;
+ Tue,  8 Oct 2019 16:40:52 +0000 (UTC)
+Received: from work-vm (ovpn-116-59.ams2.redhat.com [10.36.116.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E65145C219;
+ Tue,  8 Oct 2019 16:40:48 +0000 (UTC)
+Date: Tue, 8 Oct 2019 17:40:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>, peterx@redhat.com
+Subject: Re: [PATCH 3/3] migration/postcopy: handle POSTCOPY_INCOMING_RUNNING
+ corner case properly
+Message-ID: <20191008164046.GF3441@work-vm>
+References: <20191001100122.17730-1-richardw.yang@linux.intel.com>
+ <20191001100122.17730-4-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 13203709686463830414
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrheelgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191001100122.17730-4-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 08 Oct 2019 16:40:52 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.37.72
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,152 +59,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pburton@wavecomp.com, peter.maydell@linaro.org,
- codyprime@gmail.com, jasowang@redhat.com, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, kraxel@redhat.com, mreitz@redhat.com,
- qemu-block@nongnu.org, quintela@redhat.com, arikalo@wavecomp.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, joel@jms.id.au, marcandre.lureau@redhat.com,
- david@gibson.dropbear.id.au, farman@linux.ibm.com, ehabkost@redhat.com,
- sw@weilnetz.de, dgilbert@redhat.com, yuval.shaia@oracle.com,
- alex.williamson@redhat.com, integration@gluster.org, clg@kaod.org,
- stefanha@redhat.com, david@redhat.com, jsnow@redhat.com, rth@twiddle.net,
- kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- berrange@redhat.com, andrew@aj.id.au, cohuck@redhat.com, qemu-s390x@nongnu.org,
- sundeep.lkml@gmail.com, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 08 Oct 2019 18:03:13 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> Currently, we set PostcopyState blindly to RUNNING, even we found the
+> previous state is not LISTENING. This will lead to a corner case.
+> 
+> First let's look at the code flow:
+> 
+> qemu_loadvm_state_main()
+>     ret = loadvm_process_command()
+>         loadvm_postcopy_handle_run()
+>             return -1;
+>     if (ret < 0) {
+>         if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING)
+>             ...
+>     }
+> 
+> From above snippet, the corner case is loadvm_postcopy_handle_run()
+> always sets state to RUNNING. And then it checks the previous state. If
+> the previous state is not LISTENING, it will return -1. But at this
+> moment, PostcopyState is already been set to RUNNING.
+> 
+> Then ret is checked in qemu_loadvm_state_main(), when it is -1
+> PostcopyState is checked. Current logic would pause postcopy and retry
+> if PostcopyState is RUNNING. This is not what we expect, because
+> postcopy is not active yet.
+> 
+> This patch makes sure state is set to RUNNING only previous state is
+> LISTENING by introducing an old_state parameter in postcopy_state_set().
+> New state only would be set when current state equals to old_state.
+> 
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 
-> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> 
-> > Here is introduced ERRP_AUTO_PROPAGATE macro, to be used at start of
-> > functions with errp OUT parameter.
-> >
-> > It has three goals:
-> >
-> > 1. Fix issue with error_fatal & error_prepend/error_append_hint: user
-> > can't see this additional information, because exit() happens in
-> > error_setg earlier than information is added. [Reported by Greg Kurz]
-> >
-> > 2. Fix issue with error_abort & error_propagate: when we wrap
-> > error_abort by local_err+error_propagate, resulting coredump will
-> > refer to error_propagate and not to the place where error happened.
-> > (the macro itself doesn't fix the issue, but it allows to [3.] drop all
-> > local_err+error_propagate pattern, which will definitely fix the issue)
-> > [Reported by Kevin Wolf]
-> >
-> > 3. Drop local_err+error_propagate pattern, which is used to workaround
-> > void functions with errp parameter, when caller wants to know resulting
-> > status. (Note: actually these functions could be merely updated to
-> > return int error code).
-> 
-> Starting with stating your goals is an excellent idea.  But I'd love to
-> next read a high-level description of how your patch achieves or enables
-> achieving these goals.
-> 
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > ---
-> [...]
-> > diff --git a/include/qapi/error.h b/include/qapi/error.h
-> > index 9376f59c35..02f967ac1d 100644
-> > --- a/include/qapi/error.h
-> > +++ b/include/qapi/error.h
-> > @@ -322,6 +322,43 @@ void error_set_internal(Error **errp,
-> >                          ErrorClass err_class, const char *fmt, ...)
-> >      GCC_FMT_ATTR(6, 7);
-> >  
-> > +typedef struct ErrorPropagator {
-> > +    Error *local_err;
-> > +    Error **errp;
-> > +} ErrorPropagator;
-> > +
-> > +static inline void error_propagator_cleanup(ErrorPropagator *prop)
-> > +{
-> > +    error_propagate(prop->errp, prop->local_err);
-> > +}
-> > +
-> > +G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup);
-> > +
-> > +/*
-> > + * ERRP_AUTO_PROPAGATE
-> > + *
-> > + * This macro is created to be the first line of a function with Error **errp
-> > + * OUT parameter. It's needed only in cases where we want to use error_prepend,
-> > + * error_append_hint or dereference *errp. It's still safe (but useless) in
-> > + * other cases.
-> > + *
-> > + * If errp is NULL or points to error_fatal, it is rewritten to point to a
-> > + * local Error object, which will be automatically propagated to the original
-> > + * errp on function exit (see error_propagator_cleanup).
-> > + *
-> > + * After invocation of this macro it is always safe to dereference errp
-> > + * (as it's not NULL anymore) and to append hints (by error_append_hint)
-> > + * (as, if it was error_fatal, we swapped it with a local_error to be
-> > + * propagated on cleanup).
-> 
-> Well, appending hints was always safe, it just didn't work with
-> &error_fatal.  Don't worry about that now, I'll probably want to polish
-> this contract comment a bit anyway, but later.
-> 
+OK, it's a shame to use a pointer there, but it works.
+Note, something else; using '-1' as the return value and checking for it
+is something we do a lot; but in this case it's an example of an error
+we could never recover from so it never makes sense to try and recover.
+We should probably look at different types of error.
 
-FWIW I've already posted this:
 
-Author: Greg Kurz <groug@kaod.org>
-Date:   Mon Oct 7 15:45:46 2019 +0200
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-    error: Update error_append_hint()'s documenation
-    
-    error_setg() and error_propagate(), as well as their variants, cause
-    QEMU to terminate when called with &error_fatal or &error_abort. This
-    prevents to add hints since error_append_hint() isn't even called in
-    this case.
-    
-    It means that error_append_hint() should only be used with a local
-    error object, and then propagate this local error to the caller.
-    
-    Document this in <qapi/error.h> .
-    
-    Signed-off-by: Greg Kurz <groug@kaod.org>
+Dave
 
-Message-id: <156871563702.196432.5964411202152101367.stgit@bahia.lan>
-https://patchwork.ozlabs.org/patch/1163278/
-
-> > + *
-> > + * Note: we don't wrap the error_abort case, as we want resulting coredump
-> > + * to point to the place where the error happened, not to error_propagate.
-> > + */
-> > +#define ERRP_AUTO_PROPAGATE() \
-> > +g_auto(ErrorPropagator) __auto_errp_prop = {.errp = errp}; \
+> ---
+>  migration/migration.c    |  2 +-
+>  migration/postcopy-ram.c | 13 +++++++++----
+>  migration/postcopy-ram.h |  3 ++-
+>  migration/savevm.c       | 11 ++++++-----
+>  4 files changed, 18 insertions(+), 11 deletions(-)
 > 
-> Took me a second to realize: the macro works, because the initializer
-> implicitly initializes .local_error = NULL.
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 34d5e66f06..369cf3826e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -447,7 +447,7 @@ static void process_incoming_migration_co(void *opaque)
+>      assert(mis->from_src_file);
+>      mis->migration_incoming_co = qemu_coroutine_self();
+>      mis->largest_page_size = qemu_ram_pagesize_largest();
+> -    postcopy_state_set(POSTCOPY_INCOMING_NONE);
+> +    postcopy_state_set(POSTCOPY_INCOMING_NONE, NULL);
+>      migrate_set_state(&mis->state, MIGRATION_STATUS_NONE,
+>                        MIGRATION_STATUS_ACTIVE);
+>      ret = qemu_loadvm_state(mis->from_src_file);
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index b24c4a10c2..8f741d636d 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -577,7 +577,7 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
+>          }
+>      }
+>  
+> -    postcopy_state_set(POSTCOPY_INCOMING_END);
+> +    postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
+>  
+>      if (mis->postcopy_tmp_page) {
+>          munmap(mis->postcopy_tmp_page, mis->largest_page_size);
+> @@ -626,7 +626,7 @@ int postcopy_ram_prepare_discard(MigrationIncomingState *mis)
+>          return -1;
+>      }
+>  
+> -    postcopy_state_set(POSTCOPY_INCOMING_DISCARD);
+> +    postcopy_state_set(POSTCOPY_INCOMING_DISCARD, NULL);
+>  
+>      return 0;
+>  }
+> @@ -1457,9 +1457,14 @@ PostcopyState  postcopy_state_get(void)
+>  }
+>  
+>  /* Set the state and return the old state */
+> -PostcopyState postcopy_state_set(PostcopyState new_state)
+> +PostcopyState postcopy_state_set(PostcopyState new_state,
+> +                                 const PostcopyState *old_state)
+>  {
+> -    return atomic_xchg(&incoming_postcopy_state, new_state);
+> +    if (!old_state) {
+> +        return atomic_xchg(&incoming_postcopy_state, new_state);
+> +    } else {
+> +        return atomic_cmpxchg(&incoming_postcopy_state, *old_state, new_state);
+> +    }
+>  }
+>  
+>  /* Register a handler for external shared memory postcopy
+> diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+> index d2668cc820..e3dde32155 100644
+> --- a/migration/postcopy-ram.h
+> +++ b/migration/postcopy-ram.h
+> @@ -109,7 +109,8 @@ void *postcopy_get_tmp_page(MigrationIncomingState *mis);
+>  
+>  PostcopyState postcopy_state_get(void);
+>  /* Set the state and return the old state */
+> -PostcopyState postcopy_state_set(PostcopyState new_state);
+> +PostcopyState postcopy_state_set(PostcopyState new_state,
+> +                                 const PostcopyState *old_state);
+>  
+>  void postcopy_fault_thread_notify(MigrationIncomingState *mis);
+>  
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index f3292eb003..45474d9c95 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1599,7 +1599,7 @@ enum LoadVMExitCodes {
+>  static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+>                                           uint16_t len)
+>  {
+> -    PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_ADVISE);
+> +    PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_ADVISE, NULL);
+>      uint64_t remote_pagesize_summary, local_pagesize_summary, remote_tps;
+>      Error *local_err = NULL;
+>  
+> @@ -1628,7 +1628,7 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+>      }
+>  
+>      if (!postcopy_ram_supported_by_host(mis)) {
+> -        postcopy_state_set(POSTCOPY_INCOMING_NONE);
+> +        postcopy_state_set(POSTCOPY_INCOMING_NONE, NULL);
+>          return -1;
+>      }
+>  
+> @@ -1841,7 +1841,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>  /* After this message we must be able to immediately receive postcopy data */
+>  static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+>  {
+> -    PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
+> +    PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING, NULL);
+>      trace_loadvm_postcopy_handle_listen();
+>      Error *local_err = NULL;
+>  
+> @@ -1929,10 +1929,11 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+>  /* After all discards we can start running and asking for pages */
+>  static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
+>  {
+> -    PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_RUNNING);
+> +    PostcopyState old_ps = POSTCOPY_INCOMING_LISTENING;
+> +    PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_RUNNING, &old_ps);
+>  
+>      trace_loadvm_postcopy_handle_run();
+> -    if (ps != POSTCOPY_INCOMING_LISTENING) {
+> +    if (ps != old_ps) {
+>          error_report("CMD_POSTCOPY_RUN in wrong postcopy state (%d)", ps);
+>          return -1;
+>      }
+> -- 
+> 2.17.1
 > 
-> __auto_errp_prop is an identifier reserved for any use.  I think we
-> could use _auto_errp_prop, which is only reserved for use as identifiers
-> with file scope in both the ordinary and tag name spaces.  See ISO/IEC
-> 9899:1999 7.1.3 Reserved identifiers.
-> 
-> > +errp = ((errp == NULL || *errp == error_fatal) ? \
-> > +    &__auto_errp_prop.local_err : errp)
-> > +
-> 
-> Please indent multi-line macros like elsewhere in this file:
-> 
-> #define ERRP_AUTO_PROPAGATE()					\
->     g_auto(ErrorPropagator) __auto_errp_prop = {.errp = errp};	\
->     errp = ((errp == NULL || *errp == error_fatal)		\
->             ? &__auto_errp_prop.local_err : errp)
-> 
-> >  /*
-> >   * Special error destination to abort on error.
-> >   * See error_setg() and error_propagate() for details.
-> 
-> To be honest, the cover letter left me a bit skeptical, but now I think
-> you might be up to something.  Let's see how the patches putting the
-> macro to use come out.
-
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
