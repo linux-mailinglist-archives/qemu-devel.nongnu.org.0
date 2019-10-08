@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE8ACF918
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 14:02:59 +0200 (CEST)
-Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F64CF947
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 14:07:10 +0200 (CEST)
+Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHoCf-00012m-H3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 08:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54762)
+	id 1iHoGj-00044p-7F
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 08:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iHoAw-0000Ir-Vy
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:01:12 -0400
+ (envelope-from <armbru@redhat.com>) id 1iHoFF-0002u7-0V
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:05:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iHoAv-0003oZ-Mm
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:01:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45366)
+ (envelope-from <armbru@redhat.com>) id 1iHoFD-0005MS-Tc
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:05:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37440)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1iHoAo-0003iT-0v; Tue, 08 Oct 2019 08:01:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iHoFD-0005M8-OM
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:05:35 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 27A4B307CDE7;
- Tue,  8 Oct 2019 12:00:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E5D2A10576CB;
+ Tue,  8 Oct 2019 12:05:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACC4219C68;
- Tue,  8 Oct 2019 11:59:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D03F60923;
+ Tue,  8 Oct 2019 12:05:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6A203113864A; Tue,  8 Oct 2019 13:59:51 +0200 (CEST)
+ id 0EB271138648; Tue,  8 Oct 2019 14:05:18 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 00/31] error: auto propagated local_err
+Subject: Re: [PATCH v4 01/31] errp: rename errp to errp_in where it is
+ IN-argument
 References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <87eeznn185.fsf@dusky.pond.sub.org>
- <a449a64d-ca3c-2442-27b3-70b565545a36@virtuozzo.com>
- <20191008113932.18eb4c1d@bahia.lan>
- <7567d46b-f51c-d459-fd54-7841637d0666@virtuozzo.com>
-Date: Tue, 08 Oct 2019 13:59:51 +0200
-In-Reply-To: <7567d46b-f51c-d459-fd54-7841637d0666@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 8 Oct 2019 10:09:42 +0000")
-Message-ID: <871rvnla6g.fsf@dusky.pond.sub.org>
+ <20191001155319.8066-2-vsementsov@virtuozzo.com>
+ <878spvmwns.fsf@dusky.pond.sub.org>
+ <8f936e58-988f-b5af-266d-4230a477ada4@virtuozzo.com>
+Date: Tue, 08 Oct 2019 14:05:18 +0200
+In-Reply-To: <8f936e58-988f-b5af-266d-4230a477ada4@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 8 Oct 2019 09:30:07 +0000")
+Message-ID: <87v9szjvcx.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 08 Oct 2019 12:00:54 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Tue, 08 Oct 2019 12:05:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,97 +63,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>,
- "pburton@wavecomp.com" <pburton@wavecomp.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "codyprime@gmail.com" <codyprime@gmail.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "arikalo@wavecomp.com" <arikalo@wavecomp.com>,
- "mst@redhat.com" <mst@redhat.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
- "joel@jms.id.au" <joel@jms.id.au>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, "sw@weilnetz.de" <sw@weilnetz.de>,
- Greg Kurz <groug@kaod.org>, "yuval.shaia@oracle.com" <yuval.shaia@oracle.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "clg@kaod.org" <clg@kaod.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "david@redhat.com" <david@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "kwolf@redhat.com" <kwolf@redhat.com>,
- "integration@gluster.org" <integration@gluster.org>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "andrew@aj.id.au" <andrew@aj.id.au>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-> 08.10.2019 12:39, Greg Kurz wrote:
->> On Tue, 8 Oct 2019 08:41:08 +0000
->> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> 08.10.2019 12:08, Markus Armbruster wrote:
+>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 >> 
->>> 08.10.2019 10:30, Markus Armbruster wrote:
->>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->>>>
->>>>> Hi all!
->>>>>
->>>>> Here is a proposal of auto propagation for local_err, to not call
->>>>> error_propagate on every exit point, when we deal with local_err.
->>>>>
->>>>> There are also two issues with errp:
->>>>>
->>>>> 1. error_fatal & error_append_hint/error_prepend: user can't see this
->>>>> additional info, because exit() happens in error_setg earlier than info
->>>>> is added. [Reported by Greg Kurz]
->>>>
->>>> How is this series related to Greg's "[PATCH 00/17] Fix usage of
->>>> error_append_hint()"?  Do we need both?
->>>
->>> These series is a substitution for Greg's. Still, there are problems with
->>> automation, which Greg pointed in 21/31, and I don't know what to do next.
->>>
->>> May be, just continue to review patches and fix them by hand. May be try to
->>> improve automation...
->>>
+>>> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
+>>> pointer to NULL-initialized pointer, or pointer to error_abort or
+>>> error_fatal, for callee to report error.
 >> 
->> The feeling I have after working on my series is that the lines that deal
->> with errors are mixed up with the functional code in a variety of ways.
->> That makes it very difficult if not impossible to come with code patterns
->> suitable for a 100% automated solution IMHO.
+>> Yes.
 >> 
->> My questioning is more around the semantics of error_fatal actually. What
->> does passing &error_fatal gives us over passing &local_err and calling
->> error_report_err()+exit(), apart from breaking error_append_hint() and
->> error_prepend() ?
->
-> As I understand, the only benefit is one line instead of four:
-
-Brevity matters when it comes to error handling.
-
-> func(..., &error_fatal);
->
-> instead of
->
-> func(..., &local_err);
-> if (local_err) {
-       error_report_err(local_err);
->      exit(1);
-> }
+>>> But very few functions instead get Error **errp as IN-argument:
+>>> it's assumed to be set, and callee should clean it.
+>> 
+>> What do you mean by "callee should clean"?  Let's see below.
+>> 
+>>> In such cases, rename errp to errp_in.
+>> 
+>> I acknowledge that errp arguments that don't have the usual meaning can
+>> be confusing.
+>> 
+>> Naming can help, comments can help, but perhaps we can tweak the code to
+>> avoid the problem instead.  Let's see:
+>> 
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> Reviewed-by: Eric Blake <eblake@redhat.com>
 [...]
+>> We can avoid the confusing Error **errp in all three cases by peeling
+>> off an indirection.  What do you think?
+>> 
+>
+> I like the idea, thanks! I think, I'll try to make a patch.
+>
+> But you are right, unfortunately there more cases, at least, pointed by
+> Greg
+>
+> error_append_socket_sockfd_hint and
+> error_append_security_model_hint
+>
+> Which don't free error..
+
+Neither do error_append_hint() and error_prepend().
+
+For anything named error_append_FOO_hint() or error_prepend_FOO(),
+confusion seems unlikely.
+
+>                          But if they append hint, they should always be called
+> on wrapped errp, accordingly to the problem about fatal_error, so they may
+> be converted to Error *err too.. Hmm, I should think about the script to find
+> such functions.
+
+I figure I better read more of your series before I comment on this
+thought.
 
