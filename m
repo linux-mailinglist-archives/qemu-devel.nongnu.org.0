@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618CDCEFE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 02:21:49 +0200 (CEST)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F05CEFE5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 02:25:21 +0200 (CEST)
+Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHdG8-0000hN-D5
-	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 20:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37875)
+	id 1iHdJY-00037o-39
+	for lists+qemu-devel@lfdr.de; Mon, 07 Oct 2019 20:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iHdEe-0007Z7-Vb
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 20:20:18 -0400
+ id 1iHdIG-0002ep-II
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 20:24:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iHdEd-0000jS-Lg
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 20:20:16 -0400
-Received: from rs224.mailgun.us ([209.61.151.224]:15646)
+ id 1iHdIF-0002y9-88
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 20:24:00 -0400
+Received: from rs224.mailgun.us ([209.61.151.224]:27100)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71)
  (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iHdEc-0000ak-8N
- for qemu-devel@nongnu.org; Mon, 07 Oct 2019 20:20:15 -0400
+ id 1iHdIE-0002vj-JK
+ for qemu-devel@nongnu.org; Mon, 07 Oct 2019 20:23:59 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
  s=pic; 
- t=1570494015; h=Content-Type: Cc: To: Subject: Message-ID: Date: From:
+ t=1570494239; h=Content-Type: Cc: To: Subject: Message-ID: Date: From:
  In-Reply-To: References: MIME-Version: Sender;
- bh=drH/zB/QxuxLYhjag3TUJ8W6IlSD6+zPujsecelTy4g=;
- b=kxEIBLo44+3cWExSZlb+EBSk9ge3I/PgE6ox7vIQQgS4nHSU+DdDlxuQ0CjPN4iKU94j6Ji2
- EFYQreCE5odlEBRtgNXmG3LZIO5K4ijPYTBBTmsqesTPOIqVSuQga16VRS0tYJpbjMNR+i2I
- Qv/WCKEIBueFBA4w7N+FP9tLVQnFhgWe3amR85tlhVA1dgBUxOAFLEZ0J4qM2yv9HpG05iwb
- WqP71g5yxuAbcyUREhyIrg2zcsblCujFgWiUbYgcvKsF+8F8pNhZB8jm4pJ4n0Rhvp21iGIO
- T8V6t5zud7w6bBCvYdt1VEV9hvCrfFCJswBMJWVpFkAnUgM72/+/Ug==
+ bh=OplKAgqTr65Hkpakpf37PaPcCQdfMS2D6asm2PWvOy4=;
+ b=KXABZBOBTB8TMLbdwJUmxNOCPtDSFoUMQUYwFocG7lK0/+3MGKjpT1gjV+CWn74Gcqk1U7KG
+ N4rTL49rdpLzAT+BBxrZ54sjDjE9TPIplUjri8vHVWCJv6lNK0scBksHvdoQVr8ZB3cRCO5/
+ Hvs5ptch8IFOuc1Y27k6L5hBfby9dYLDp/6nByYywBanFcdAD+BCwHMXFR0hBjIVzbh7nNTi
+ hvvUxt/nIXhhi0OC9tyM/xxCHZqEYIehzYtH8PvS+YW0LYaXsiDUH8/NjGI6kQ+sdROBL6el
+ DDXz0EAlIITAgOkwR2buKkQrIQx1UliLQUkP6PmVtAwBtX1XuzG93g==
 X-Mailgun-Sending-Ip: 209.61.151.224
 X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
 Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
  [209.85.167.44])
- by mxa.mailgun.org with ESMTP id 5d9bd63b.7fc9290a6c30-smtp-out-n03;
- Tue, 08 Oct 2019 00:20:11 -0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id w6so10556672lfl.2;
- Mon, 07 Oct 2019 17:20:10 -0700 (PDT)
-X-Gm-Message-State: APjAAAUhAofdP49XOq537aOpyGukssYvSCTAbuj89AadGu+ynUge2+sI
- i8wTMVRZApVW6ppzV3v2kYjqagV0TyntxQTNTKY=
-X-Google-Smtp-Source: APXvYqyBfTgEh0BR1rr35eQMwULpqoo7uR+NnF1tcafVlI6yVUFS16ok2BQc1xbL8vO1hsiesmig1EB7eHfcgekh8SA=
-X-Received: by 2002:ac2:5e9e:: with SMTP id b30mr18321025lfq.5.1570494009704; 
- Mon, 07 Oct 2019 17:20:09 -0700 (PDT)
+ by mxa.mailgun.org with ESMTP id 5d9bd71a.7fbf7c6e7cb0-smtp-out-n03;
+ Tue, 08 Oct 2019 00:23:54 -0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id w67so10577339lff.4;
+ Mon, 07 Oct 2019 17:23:54 -0700 (PDT)
+X-Gm-Message-State: APjAAAUmVjAbFKkA2fl7bG/oQ5NeAR9qWYTyqmwHax+/AnhVg3jX3aJl
+ ULIkPS+p1Ie2mPZO5tBY3gbcy9Dyv+tGp6f4LwY=
+X-Google-Smtp-Source: APXvYqxgwH0csB4WlZEBh4rxOfaL6INyur+bOXoUKRhgxa9t/gwefu6lc3XYGMJQtEbuL1/xeYYLfV0oZrRnUmXKeC0=
+X-Received: by 2002:a19:2489:: with SMTP id k131mr17852210lfk.52.1570494232310; 
+ Mon, 07 Oct 2019 17:23:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191004151614.81516-1-jonathan@fintelia.io>
- <5393a150-71b6-a729-7530-a50df05353bd@sifive.com>
-In-Reply-To: <5393a150-71b6-a729-7530-a50df05353bd@sifive.com>
+ <CAKmqyKPFuyuC6sGCRGJGo2f_3=2z33MmuXHZov5R0pc7A9O9Jg@mail.gmail.com>
+In-Reply-To: <CAKmqyKPFuyuC6sGCRGJGo2f_3=2z33MmuXHZov5R0pc7A9O9Jg@mail.gmail.com>
 From: Jonathan Behrens <jonathan@fintelia.io>
-Date: Mon, 7 Oct 2019 20:19:05 -0400
-X-Gmail-Original-Message-ID: <CANnJOVG3=O8B0m12dJp7raGAgPPMt8eAvsJ58193A_yeEqPKrw@mail.gmail.com>
-Message-ID: <CANnJOVG3=O8B0m12dJp7raGAgPPMt8eAvsJ58193A_yeEqPKrw@mail.gmail.com>
+Date: Mon, 7 Oct 2019 20:22:47 -0400
+X-Gmail-Original-Message-ID: <CANnJOVGDcGrM5FY12GBurSTWWD++EKdrkUB5o-ZEOPsBm8RhQg@mail.gmail.com>
+Message-ID: <CANnJOVGDcGrM5FY12GBurSTWWD++EKdrkUB5o-ZEOPsBm8RhQg@mail.gmail.com>
 Subject: Re: [PATCH v2] target/riscv: Expose "priv" register for GDB
-To: Jim Wilson <jimw@sifive.com>
+To: Alistair Francis <alistair23@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -83,47 +83,27 @@ Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 7, 2019 at 5:17 PM Jim Wilson <jimw@sifive.com> wrote:
-> On 10/4/19 8:16 AM, Jonathan Behrens wrote:
-> > diff --git a/gdb-xml/riscv-32bit-cpu.xml b/gdb-xml/riscv-32bit-cpu.xml
-> > index 0d07aaec85..d6d76aafd8 100644
-> > --- a/gdb-xml/riscv-32bit-cpu.xml
-> > +++ b/gdb-xml/riscv-32bit-cpu.xml
-> > @@ -44,4 +44,5 @@
-> >     <reg name="t5" bitsize="32" type="int"/>
-> >     <reg name="t6" bitsize="32" type="int"/>
-> >     <reg name="pc" bitsize="32" type="code_ptr"/>
-> > +  <reg name="priv" bitsize="32" type="int"/>
-> >   </feature>
+On Mon, Oct 7, 2019 at 2:36 PM Alistair Francis <alistair23@gmail.com> wrote:
+> On Fri, Oct 4, 2019 at 8:18 AM Jonathan Behrens <jonathan@fintelia.io> wrote:
+> > @@ -296,6 +302,14 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+> >      } else if (n == 32) {
+> >          env->pc = ldtul_p(mem_buf);
+> >          return sizeof(target_ulong);
+> > +    } else if (n == 33) {
+> > +#ifndef CONFIG_USER_ONLY
+> > +        env->priv = ldtul_p(mem_buf) & 0x3;
+> > +        if (env->priv == PRV_H) {
+> > +            env->priv = PRV_S;
+> > +        }
 >
-> Adding this to the cpu register set means that the gdb "info registers"
-> command will now list a value for the mysterious undocumented "priv"
-> register.  That is likely to result in user confusion, and a few gdb bug
-> reports.
+> Why have this? There is no PRV_H so we should never be in that privilege mode.
 >
-> Gdb incidentally already has support for a virtual priv register.  From
-> gdb/riscv-tdep.c:
->
-> static const struct riscv_register_feature riscv_virtual_feature =
-> {
->   "org.gnu.gdb.riscv.virtual",
->   {
->     { RISCV_PRIV_REGNUM, { "priv" }, false }
->   }
-> };
->
-> So the correct way to fix this is to add a
-> gdb-xml/riscv-32bit-virtual.xml file, along with code to handle this new
-> xml file and the registers in it.  Likewise for the 64-bit support.
->
-> The main advantage of doing things this way is that only people that
-> care about the priv register will see it, and this will interoperate
-> with other RISC-V debuggers and targets (if any) that already have
-> virtual priv register support.
->
-> Jim
+> Alistair
 
-Thanks for this suggestion, I've incorporated it into the next version.
+This is hopefully more clear in the next version, but the idea is that
+since GDB can try to set the privilege mode to *any* value this
+function needs to make sure that it isn't set to something unsupported
+like PRV_H.
 
 Jonathan
 
