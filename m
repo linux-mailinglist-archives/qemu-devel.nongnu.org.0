@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C0ECFA3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 14:44:11 +0200 (CEST)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE9ACFA3C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 14:44:25 +0200 (CEST)
+Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHoqX-0007kg-TR
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 08:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60250)
+	id 1iHoqm-00080B-FK
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 08:44:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iHonq-0006Gd-Hj
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:24 -0400
+ (envelope-from <philmd@redhat.com>) id 1iHonz-0006QY-Km
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iHonn-0007pp-Sm
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52940)
+ (envelope-from <philmd@redhat.com>) id 1iHonx-0008DO-Iv
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35152)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1iHonn-0007nZ-J9; Tue, 08 Oct 2019 08:41:19 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHonx-0008Cg-A3
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 08:41:29 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3249E44BD1;
- Tue,  8 Oct 2019 12:41:18 +0000 (UTC)
-Received: from redhat.com (ovpn-112-66.ams2.redhat.com [10.36.112.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B400160BE0;
- Tue,  8 Oct 2019 12:41:16 +0000 (UTC)
-Date: Tue, 8 Oct 2019 13:41:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] Makefile: Remove generated files when doing
- 'distclean' (and 'clean')
-Message-ID: <20191008124113.GE1192@redhat.com>
-References: <20191008082815.8267-1-thuth@redhat.com>
- <CAL1e-=gYkhM99Ee0LxZJ5dCjeEdC08G4_Tm3WCZpCSWvJ=b26Q@mail.gmail.com>
- <4bfea125-eb63-f4a2-bca0-bce462f73d89@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 661F11555C
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 12:41:28 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id m6so937896wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 05:41:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sZGhZOzzGj383dhulzsjDYcyeCN4RRUdMfmCwxPxDR4=;
+ b=sckDOjYMtztyOOhASiQPatI1bwl4KN+JLXFKLnYe25mQMlIWjcYNKjz0IHWGTrfY4n
+ iJL4UPxQ9xBvp1gb2pEdpJ+uAjiJBg7SwpqF48K3amk21fKIceDlfbMWlleKQ0C8pICT
+ S16CYt9qmmH6tANe3noqJ5jzQ/AKZGxm2b2B4YWfkZi/OWjbei1fr/TcbVPo7Xw7rEdI
+ DDsnQA9R52K33l8+ohZzYPeADYLajN55b945JX+9TDlMfQYFjc8Y4HgpamWPKK0g54QA
+ 50a/UPMXlbehd/A0pefNdvZb0KIUHCHobIeOycAO2rLa3sCUlKOcSDN3pYk9fY5Huy2R
+ dNqg==
+X-Gm-Message-State: APjAAAUV4BNgGOTByQQUa4k8snh70lun9d46zUYrDAKJqiwOrryVoYjn
+ qX7TKQCcfCthN/1mRuCOwyghFic9moqpjkhjRSAaKAepuEcrsaAAkO6RThU8ukYb5eX616fXbqf
+ irFDm2EyHuho70Lw=
+X-Received: by 2002:a5d:6943:: with SMTP id r3mr5017279wrw.21.1570538487197;
+ Tue, 08 Oct 2019 05:41:27 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw8KH51n7d0obuSsqLgQvIcHRsB8JGHaVJrXit+wjiYHZw5N3yGc5Zv50tCI9Pq1jqV7ymY0A==
+X-Received: by 2002:a5d:6943:: with SMTP id r3mr5017258wrw.21.1570538487028;
+ Tue, 08 Oct 2019 05:41:27 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id j1sm38610417wrg.24.2019.10.08.05.41.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Oct 2019 05:41:26 -0700 (PDT)
+Subject: Re: [PATCH 0/3] eliminate remaining places that abuse
+ memory_region_allocate_system_memory()
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20191008113318.7012-1-imammedo@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3b7466af-2c05-f47e-f218-30a8b5ed5663@redhat.com>
+Date: Tue, 8 Oct 2019 14:41:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4bfea125-eb63-f4a2-bca0-bce462f73d89@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 08 Oct 2019 12:41:18 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191008113318.7012-1-imammedo@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,167 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: deller@gmx.de, mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org,
+ hpoussin@reactos.org, david@gibson.dropbear.id.au, atar4qemu@gmail.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 08, 2019 at 02:35:20PM +0200, Thomas Huth wrote:
-> On 08/10/2019 14.18, Aleksandar Markovic wrote:
-> >=20
-> >=20
-> > On Tuesday, October 8, 2019, Thomas Huth <thuth@redhat.com
-> > <mailto:thuth@redhat.com>> wrote:
-> >=20
-> >     When running "make distclean" we currently leave a lot of generat=
-ed
-> >     files in the build directory. These should be completely removed.
-> >     Some of the generated files are removed in the "clean" target (wh=
-ich
-> >     is a prerequisite for the "distclean" target), since binary files
-> >     should be removed in this step already.
-> >=20
-> >     Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat=
-.com>>
-> >     ---
-> >     =C2=A0v2:
-> >     =C2=A0- Remove tests/qemu-iotests/common.env in "distclean", not =
-in "clean"
-> >     =C2=A0- Improved patch description
-> >=20
-> >     =C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 6 +++---
-> >     =C2=A0tests/Makefile.include | 12 +++++++++++-
-> >     =C2=A02 files changed, 14 insertions(+), 4 deletions(-)
-> >=20
-> >     diff --git a/Makefile b/Makefile
-> >     index 30f0abfb42..767b1ffb25 100644
-> >     --- a/Makefile
-> >     +++ b/Makefile
-> >     @@ -696,14 +696,14 @@ clean: recurse-clean
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -exec rm =
-{} +
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f $(edk2-decompressed)
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f $(filter-out %.tlb,$(TOOLS)) $(=
-HELPERS-y) TAGS
-> >     cscope.* *.pod *~ */*~
-> >     -=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f fsdev/*.pod scsi/*.pod
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f fsdev/*.pod scsi/*.pod docs/*.p=
-od docs/*/*.pod
-> >     docs/*/.buildinfo
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f qemu-img-cmds.h
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ui/shader/*-vert.h ui/shader/*-=
-frag.h
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 @# May not be present in generated-fi=
-les-y
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f trace/generated-tracers-dtrace.=
-dtrace*
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f trace/generated-tracers-dtrace.=
-h*
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f $(foreach f,$(generated-files-y=
-),$(f) $(f)-timestamp)
-> >     -=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f qapi-gen-timestamp
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f qapi-gen-timestamp vhost-user-i=
-nput
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf qga/qapi-generated
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f config-all-devices.mak
-> >=20
-> >     @@ -724,7 +724,7 @@ distclean: clean
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f tests/tcg/config-*.mak
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f config-all-devices.mak config-a=
-ll-disas.mak config.status
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f $(SUBDIR_DEVICES_MAK)
-> >     -=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f po/*.mo tests/qemu-iotests/comm=
-on.env
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f po/*.mo
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f roms/seabios/config.mak roms/vg=
-abios/config.mak
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f qemu-doc.info <http://qemu-doc.=
-info> qemu-doc.aux
-> >     qemu-doc.cp qemu-doc.cps
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f qemu-doc.fn qemu-doc.fns qemu-d=
-oc.info
-> >     <http://qemu-doc.info> qemu-doc.ky <http://qemu-doc.ky> qemu-doc.=
-kys
-> >     diff --git a/tests/Makefile.include b/tests/Makefile.include
-> >     index 3543451ed3..694f193fb6 100644
-> >     --- a/tests/Makefile.include
-> >     +++ b/tests/Makefile.include
-> >     @@ -1176,11 +1176,21 @@ check: check-block check-qapi-schema
-> >     check-unit check-softfloat check-qtest chec
-> >     =C2=A0check-clean:
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf $(check-unit-y) tests/*.o $(QE=
-MU_IOTESTS_HELPERS-y)
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf $(sort $(foreach target,$(SYSE=
-MU_TARGET_LIST),
-> >     $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
-> >     -=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f tests/test-qapi-gen-timestamp
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf $(TESTS_VENV_DIR) $(TESTS_RESU=
-LTS_DIR)
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f tests/test-qapi-gen-timestamp t=
-ests/qht-bench$(EXESUF) \
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tests/fp/=
-fp-test tests/fp/*.out
-> >     tests/qapi-schema/*.test.*
-> >=20
-> >     =C2=A0clean: check-clean
-> >=20
-> >     +check-distclean:
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f tests/qemu-iotests/common.env t=
-ests/qemu-iotests/check.*
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f tests/test-qapi-types*.c tests/=
-test-qapi-visit*.c \
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tests/tes=
-t-qapi-commands*.c tests/test-qapi-events*.c \
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tests/tes=
-t-qapi-emit-events.[ch]
-> >     tests/test-qapi-introspect.c \
-> >     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tests/inc=
-lude/test-qapi-*.c
-> >     +
-> >     +distclean: check-distclean
-> >     +
-> >=20
-> >=20
-> > Sorry for bad email format, I have some difficultues with mail accoun=
-ts
-> > and =C2=A0mail clients.
-> >=20
-> > Thomas,
-> >=20
-> > If I remember well, QAPI-related c files are generated while doing
-> > 'make'. If that is true, these files should be deleted by 'make clean=
-',
-> > shouldn't they?
->=20
-> I think that's a philosophical question. Should "make clean" delete all
-> files that have been generated by a Makefile (i.e. not by "configure"),
-> or rather mainly the binary files?
->=20
-> If you have a look at our main Makefile in the topmost directory, you
-> can see that we remove lots of files that are obviously generated by
-> "make" in the "distclean" target, so it seems we have no clear rule wha=
-t
-> should be deleted in each step...
+Hi Igor,
 
-Given that we're aiming to convert to meson, how much effort do we really
-want to put into fixing this inconsistency ?
+On 10/8/19 1:33 PM, Igor Mammedov wrote:
+> Series cleans up remaining boards that call memory_region_allocate_system_memory()
+> multiple times, violating interface contract (the function should be called only
+> once).
+> 
+> With that cleaned up, it should be possible to switch from adhoc RAM allocation
+> in memory_region_allocate_system_memory()->allocate_system_memory_nonnuma() to
+> memory-backend based allocation, remaining roadblock for doing it is deprecated
+> -mem-path fallback to RAM allocation, which is scheduled for removal at 4.3
+> merge window. So remaining patches to consolidate system RAM allocation around
+> memory-backends and aliasing -mem-path/mem-prealloc to it are postponed till
+> then.
 
-I'd argue the best way to fix "clean" and "distclean" is to delete them
-entirely. Instead enforce that builddir !=3D srcdir when running configur=
-e,
-so cleaning up simply means deleting the builddir sub-tree entirely.
+How do we protect the codebase for new boards to not make the same mistake?
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+What about some code like this snippet (or nicer, but since this is a 
+developer error, and assert is enough IMO):
+
+-- >8 --
+
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 4dfec5c95b..a487677672 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -484,6 +484,11 @@ static void 
+allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
+                                             const char *name,
+                                             uint64_t ram_size)
+  {
++    static bool nonnuma_system_memory_allocated;
++
++    g_assert(!nonnuma_system_memory_allocated);
++    nonnuma_system_memory_allocated = true;
++
+      if (mem_path) {
+  #ifdef __linux__
+          Error *err = NULL;
+---
+
+$ hppa-softmmu/qemu-system-hppa
+**
+ERROR:/home/phil/source/qemu/hw/core/numa.c:489:allocate_system_memory_nonnuma: 
+assertion failed: (!nonnuma_system_memory_allocated)
+Aborted (core dumped)
 
