@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306F8CF675
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 11:52:48 +0200 (CEST)
-Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4FECF684
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 11:56:41 +0200 (CEST)
+Received: from localhost ([::1]:53158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHmAh-0004ma-8B
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 05:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38954)
+	id 1iHmES-0006QZ-RB
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 05:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39089)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhlb29@foxmail.com>) id 1iHm9H-0003zo-Gc
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:51:21 -0400
+ (envelope-from <lwhsu.freebsd@gmail.com>) id 1iHmB9-0005Gz-3Q
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:53:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhlb29@foxmail.com>) id 1iHm9A-0001zk-BQ
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:51:14 -0400
-Received: from smtpbgsg2.qq.com ([54.254.200.128]:60274)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhlb29@foxmail.com>) id 1iHm97-0001t7-AG
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:51:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1570528234;
- bh=YzbBa4xhn6uGPDdvVzD9hJ+Z8MqA3YQ/7JFRaa0JZVU=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=DEEkaaJERykKn/TC0wTmEKhq0P8e0qE6OiV7+vLVaM2YoRHsDDvysqNUdx1KRbcNj
- pDihq0HEcdSttiA0xuVz34437H3YmtmD+HxsARB/QUonMgUtaUfHxS+apEmEcH/7MF
- VyqE3q3UgvL2R8o6jwxc6eGlyo13HeUR3APh3DB4=
-X-QQ-SSF: 00000000000000F000000000000000G
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 124.200.70.7
-X-QQ-STYLE: 
-X-QQ-mid: webenglish1t1570528233t168097
-From: "=?ISO-8859-1?B?TGlibyBaaG91?=" <zhlb29@foxmail.com>
-To: "=?ISO-8859-1?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: Re: gdbstub and gbd segfaults on different instructions in user
- spaceemulation
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="ISO-8859-1"
-Content-Transfer-Encoding: base64
-Date: Tue, 8 Oct 2019 17:50:33 +0800
-X-Priority: 1
-Message-ID: <tencent_1EC21D026D3BC78502F7A9F0@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Tue, 08 Oct 2019 17:50:34 +0800 (CST)
-Feedback-ID: webenglish:foxmail.com:bgforeign:bgforeign2
-X-QQ-Bgrelay: 1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 54.254.200.128
+ (envelope-from <lwhsu.freebsd@gmail.com>) id 1iHmB7-000376-Ud
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 05:53:15 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:37240)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lwhsu.freebsd@gmail.com>)
+ id 1iHmB7-00036U-Qx; Tue, 08 Oct 2019 05:53:13 -0400
+Received: by mail-yb1-f195.google.com with SMTP id z125so5696991ybc.4;
+ Tue, 08 Oct 2019 02:53:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oKZ5G8k2+4BXF3YFRN0/YHPCbKR/VVCOJqKEeY/vIYw=;
+ b=OelywSjUC8GdnzjtgZq2d2n5VTYmnKbgRqR8WMqDDeOxZO+OZTN7/NNjlrKemYG2fI
+ vdBuDR2UM7g9NDCBDp7rwz5qgQ9U04K9ZclTrYSDKTiiVOBmsp4fvHAvL79ZDLf3OfDo
+ x7YNEJm/Sfhd3Dzi+vPgff0c3s/MKgaPq+tnIBIdKGTme4cZxG/cdJfcWPHNYPkzfWHY
+ BF/DHKHkdJQ/uftRGLUZynw9YxkxTSLXd1/m10qJef5taSpBX+6t+f8j2xM8MaFUspiz
+ gsZFQesSWmmn2TXYk1/gKXwTJ9yAT0rEjyVS0snadhGeM8A2W7MffMi2S7+TIkqJZeAQ
+ ygww==
+X-Gm-Message-State: APjAAAUTwuufubdafISXe6mUsfqv8L248BYxw7nMREripCS/Hy1yGehB
+ l6wfqfJXaffMb90Lcs9UWITEKVXHwtv8SF1MI5o=
+X-Google-Smtp-Source: APXvYqxhkGcCc79iww0xpcFlUgfDGE6d7fLlHjcWr8GQpg1Vr3o5jwh0TCiWhpMzMpEdcMxXRmLUHN3eAo6LGfZZCEc=
+X-Received: by 2002:a25:3604:: with SMTP id d4mr13205240yba.127.1570528392671; 
+ Tue, 08 Oct 2019 02:53:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191008084931.12753-1-thuth@redhat.com>
+ <CAGxU2F61+TjSy_GJ_2673--VLstVyJjNoqqPdZw+ej22xbzk=Q@mail.gmail.com>
+In-Reply-To: <CAGxU2F61+TjSy_GJ_2673--VLstVyJjNoqqPdZw+ej22xbzk=Q@mail.gmail.com>
+From: Li-Wen Hsu <lwhsu@freebsd.org>
+Date: Tue, 8 Oct 2019 17:52:59 +0800
+Message-ID: <CAKBkRUwiNV7qUhcDYak9s65bbb5PzzZWp3x6-pKCn5H0cJFrFg@mail.gmail.com>
+Subject: Re: [PATCH] Test netmap on FreeBSD
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.219.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,131 +62,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-1?B?UGV0ZXIgTWF5ZGVsbA==?= <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Giuseppe Lettieri <giuseppe.lettieri@unipi.it>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Vincenzo Maffione <vmaffione@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SXMgdGhlcmUgYW55IGZvbGxvdy11cCBndXlzPyBIZWxwIHdvdWxkIGJlIGFwcHJlY2lhdGVk
-LgoKCgoKLS0tLS0tLS0tLS0tLS0tLS0tIE9yaWdpbmFsIC0tLS0tLS0tLS0tLS0tLS0tLQpG
-cm9tOiAgIkxpYm8gWmhvdSI7PHpobGIyOUBmb3htYWlsLmNvbT47CkRhdGU6ICBPY3QgNiwg
-MjAxOQpUbzogICJQZXRlciBNYXlkZWxsIjxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+OyAK
-Q2M6ICAicWVtdS1kZXZlbCI8cWVtdS1kZXZlbEBub25nbnUub3JnPjsgClN1YmplY3Q6ICBS
-ZTogIGdkYnN0dWIgYW5kIGdiZCBzZWdmYXVsdHMgb24gZGlmZmVyZW50IGluc3RydWN0aW9u
-cyBpbiB1c2VyIHNwYWNlZW11bGF0aW9uCgoKCkhpIFBldGVyLAoKSSBoYXZlIGZpbmFsbHkg
-Z290IHRoZSBjaGFuY2UgdG8gcmVwbHkuIFRoYW5rcyBmb3IgeW91ciBleHBsYW5hdGlvbiwg
-SSBoYXZlIGxlYXJuZWQgdGhlIGltcG9ydGFudCBjb25jZXB0IG9mIEpJVC4KCkkgaGF2ZSBi
-ZWVuIHBsYXlpbmcgd2l0aCB0aGUgbG9nZ2luZyBvcHRpb25zIGluIC1kLCBidXQgSSBmb3Vu
-ZCBzb21ldGhpbmcgd2VpcmQgdGhhdCBtYWtlcyBpdCB0cmlja3kgZm9yIG1lIHRvIGZpZ3Vy
-ZSBvdXQgdGhlIGNhdXNlIG9mIHRoZSBzZWdmYXVsdC4gQXMgeW91IG1lbnRpb25lZCwgSSBu
-ZWVkIHRvIGtub3cgaWYgdGhlIHNlZ2ZhdWx0IGlzIGNhdXNlZCBieSBndWVzdCBwcm9ncmFt
-IGhhdmluZyBiYWQgbWVtIGFjY2Vzcywgb3IgUUVNVSBpdHNlbGYgY3Jhc2hpbmcuCgpUbyBy
-ZWNhcCwgSSBqdXN0IGNoYW5nZWQgdGhlIFszMToyNl0gb3Bjb2RlIGZpZWxkIG9mIExXIGFu
-ZCBTVyBpbnN0cnVjdGlvbnMgaW4gdHJhbnNsYXRlLmMuIEFuZCBJIHVzZWQgdGhpcyBmb2xs
-b3dpbmcgbGluZSB0byBkaWFnbm9zZToKCiQgLi9xZW11LW1pcHNlbCAtY3B1IG1hb3R1IC1k
-IGluX2FzbSxub2NoYWluIC1EIGRlYnVnLmxvZyAtc2luZ2xlc3RlcCB0ZXN0CgpBbmQgYmVs
-b3cgaXMgbXkgd2VpcmQgaW5fYXNtIGxvZy4gVGhlIGxvZyBsb29rcyB2ZXJ5IHdlaXJkLCB0
-aGUgaW5zdHJ1Y3Rpb25zIGFyZSBqdXN0IG5vdCB0aGUgb25lcyBJIHNhdyBpbiBteSBvYmpk
-dW1wLiBUaGUgZG11bHQuZyBpbnN0cnVjdGlvbiwgYXMgeW91IHBvaW50ZWQgb3V0IGJlZm9y
-ZSwgaXMgYSBMb29uZ3NvbiBpbnN0cnVjdGlvbi4gSSBoYXZlIGFsc28gbm90aWNlZCB0aGF0
-LCB0aGUgaW5fYXNtIHNob3VsZCBoYXZlIGdpdmVuIG1lIGEgbG9uZ2VyIGxvZywgd2l0aCBz
-b21lIG90aGVyIHBhcnRzIGJlc2lkZXMgbWFpbi4gVGhpcyBsb2cgb25seSBoYXMgbWFpbiBp
-biBpdC4KCkRvIHlvdSBoYXZlIGFueSBpZGVhIHdoYXQgZWxzZSBJIGNhbiB0cnk/IFRoaXMg
-c2VnZmF1bHQgaGFzIGJ1Z2dlZCBtZSBmb3IgMiB3ZWVrcywgYnV0IEkgc3RpbGwgYmVsaWV2
-ZSB0aGVyZSBpcyBhIHNvbHV0aW9uLCBldmVuIGlmIHRoZSBsb2dzIGFyZSB0cmlja3kgdG8g
-aW50ZXJwcmV0LiBJIGp1c3QgZG9uJ3Qga25vdyBob3cgY2hhbmdpbmcgNiBiaXRzIG9mIG9w
-Y29kZSBmaWVsZCBjb3VsZCBsZWFkIHRvIHNvIG1hbnkgaXNzdWVzLgoKLS0tLS0tLS0tLS0t
-LS0tLQpJTjogbWFpbgoweDAwNDAwMDkwOiAgYm92YyBzcCxzcCwweDQwMDAxNAoKLS0tLS0t
-LS0tLS0tLS0tLQpJTjogbWFpbgoweDAwNDAwMDk0OiAgZG11bHQuZyB6ZXJvLHNwLHM4Cgot
-LS0tLS0tLS0tLS0tLS0tCklOOiBtYWluCjB4MDA0MDAwOTg6ICBub3AKCi0tLS0tLS0tLS0t
-LS0tLS0KSU46IG1haW4KMHgwMDQwMDA5YzogIG5vcAoKLS0tLS0tLS0tLS0tLS0tLQpJTjog
-bWFpbgoweDAwNDAwMGEwOiAgbW92ZSBzOCxzcAoKLS0tLS0tLS0tLS0tLS0tLQpJTjogbWFp
-bgoweDAwNDAwMGE0OiAgYmVxemFsYyB6ZXJvLHYwLDB4NDAwMGFjCgotLS0tLS0tLS0tLS0t
-LS0tCklOOiBtYWluCjB4MDA0MDAwYTg6ICBhZGR1LnFiIHplcm8sczgsdjAKCi0tLS0tLS0t
-LS0tLS0tLS0KSU46IG1haW4KMHgwMDQwMDBhYzogIG5vcAoKLS0tLS0tLS0tLS0tLS0tLQpJ
-TjogbWFpbgoweDAwNDAwMGIwOiAgbm9wCgotLS0tLS0tLS0tLS0tLS0tCklOOiBtYWluCjB4
-MDA0MDAwYjQ6ICBiZXF6YWxjIHplcm8sdjAsMHg0MDAwYzAKCi0tLS0tLS0tLS0tLS0tLS0K
-SU46IG1haW4KMHgwMDQwMDBiODogIGluc3YgdjAsczgKCi0tLS0tLS0tLS0tLS0tLS0KSU46
-IG1haW4KMHgwMDQwMDBiYzogIG5vcAoKLS0tLS0tLS0tLS0tLS0tLQpJTjogbWFpbgoweDAw
-NDAwMGMwOiAgbm9wCgotLS0tLS0tLS0tLS0tLS0tCklOOiBtYWluCjB4MDA0MDAwYzQ6ICBi
-bHRjIHM4LHYxLDB4NDAwMTA4CgotLS0tLS0tLS0tLS0tLS0tCklOOiBtYWluCjB4MDA0MDAw
-Yzg6ICBub3AKCi0tLS0tLS0tLS0tLS0tLS0KSU46IG1haW4KMHgwMDQwMDBjYzogIGJsdGMg
-czgsdjAsMHg0MDAxMDAKCi0tLS0tLS0tLS0tLS0tLS0KSU46IG1haW4KMHgwMDQwMDBkMDog
-IG5vcAoKLS0tLS0tLS0tLS0tLS0tLQpJTjogbWFpbgoweDAwNDAwMGQ0OiAgbm9wCgotLS0t
-LS0tLS0tLS0tLS0tCklOOiBtYWluCjB4MDA0MDAwZDg6ICBhZGQgdjAsdjEsdjAKCi0tLS0t
-LS0tLS0tLS0tLS0KSU46IG1haW4KMHgwMDQwMDBkYzogIGZvcmsgemVybyxzOCx2MAoKLS0t
-LS0tLS0tLS0tLS0tLQpJTjogbWFpbgoweDAwNDAwMGUwOiAgbm9wCgotLS0tLS0tLS0tLS0t
-LS0tCklOOiBtYWluCjB4MDA0MDAwZTQ6ICBub3AKCi0tLS0tLS0tLS0tLS0tLS0KSU46IG1h
-aW4KMHgwMDQwMDBlODogIG1vdmUgdjAsemVybwoKLS0tLS0tLS0tLS0tLS0tLQpJTjogbWFp
-bgoweDAwNDAwMGVjOiAgbW92ZSBzcCxzOAoKLS0tLS0tLS0tLS0tLS0tLQpJTjogbWFpbgow
-eDAwNDAwMGYwOiAgYmx0YyBzcCxzOCwweDQwMDE2NAoKLS0tLS0tLS0tLS0tLS0tLQpJTjog
-bWFpbgoweDAwNDAwMGY0OiAgYm92YyBzcCxzcCwweDQwMDE3OAoKLS0tLS0tLS0tLS0tLS0t
-LQpJTjogbWFpbgoweDAwNDAwMGY4OiAganIgcmEKCi0tLS0tLS0tLS0tLS0tLS0KSU46IG1h
-aW4KMHgwMDQwMDBmYzogIG5vcAoKLS0tLS0tLS0tLS0tLS0tLS0tIE9yaWdpbmFsIC0tLS0t
-LS0tLS0tLS0tLS0tLQpGcm9tOiAgIlBldGVyIE1heWRlbGwiOzxwZXRlci5tYXlkZWxsQGxp
-bmFyby5vcmc+OwpTZW5kIHRpbWU6IFR1ZXNkYXksIE9jdCAxLCAyMDE5IDA6MjMgQU0KVG86
-ICJMaWJvIFpob3UiPHpobGIyOUBmb3htYWlsLmNvbT47IApDYzogInFlbXUtZGV2ZWwiPHFl
-bXUtZGV2ZWxAbm9uZ251Lm9yZz47IApTdWJqZWN0OiAgUmU6IGdkYnN0dWIgYW5kIGdiZCBz
-ZWdmYXVsdHMgb24gZGlmZmVyZW50IGluc3RydWN0aW9ucyBpbiB1c2VyIHNwYWNlZW11bGF0
-aW9uCgoKCk9uIE1vbiwgMzAgU2VwIDIwMTkgYXQgMTY6NTcsIExpYm8gWmhvdSA8emhsYjI5
-QGZveG1haWwuY29tPiB3cm90ZToKPiBJIGFtIGVuY291bnRlcmluZyBzZWdtZW50YXRpb24g
-ZmF1bHQgd2hpbGUgcG9ydGluZyBteSBjdXN0b20gSVNBIHRvIFFFTVUuIE15IGN1c3RvbSBJ
-U0EgaXMgVkVSWSBWRVJZIHNpbXBsZSwgaXQgb25seSBjaGFuZ2VzIHRoZSBbMzE6MjZdIG9w
-Y29kZSBmaWVsZCBvZiBMVyBhbmQgU1cgaW5zdHJ1Y3Rpb25zLiBUaGUgbGluayBoYXMgbXkg
-dmVyeSBzaW1wbGUgaW1wbGVtZW50YXRpb246IGh0dHBzOi8vbGlzdHMuZ251Lm9yZy9hcmNo
-aXZlL2h0bWwvcWVtdS1kZXZlbC8yMDE5LTA5L21zZzA2OTc2Lmh0bWwKCj4gSSBoYXZlIHRy
-aWVkIDIgd2F5cyBvZiBkZWJ1Z2dpbmcgaXQuCj4gRmlyc3RseSwgSSBjb25uZWN0ZWQgZ2Ri
-LW11bHRpYXJjaCB0byBnZGJzdHViLCBhbmQgSSBzaW5nbGUtc3RlcHBlZCB0aGUgaW5zdHJ1
-Y3Rpb25zIGluIG15IEVMRi4gSW1tZWRpYXRlbHkgYWZ0ZXIgdGhlIExXIGluc3RydWN0aW9u
-LCB0aGUgc2VnZmF1bHQgd2FzIHRocm93bi4gSSBvYnNlcnZlZCB0aGUgbWVtb3J5IGxvY2F0
-aW9uIHVzaW5nICd4JyBjb21tYW5kIGFuZCBmb3VuZCB0aGF0IGF0IGxlYXN0IG15IFNXIGlu
-c3RydWN0aW9uIHdhcyBpbXBsZW1lbnRlZCBjb3JyZWN0bHkuCj4gU2Vjb25kbHksIEkgdXNl
-ZCBnZGIgdG8gZGlyZWN0bHkgZGVidWcgUUVNVS4gSSBzZXQgdGhlIGJyZWFrcG9pbnQgYXQg
-ZnVuY3Rpb24gaW4gdHJhbnNsYXRlLmM6ZGVjb2RlX29wYy4gUHJlc3NpbmcgJ2MnIHNob3Vs
-ZCBoYXZlIHRoZSBzYW1lIGVmZmVjdCBhcyBzaW5nbGUtc3RlcHBpbmcgaW5zdHJ1Y3Rpb24g
-aW4gZ2Ric3R1Yi4gSG93ZXZlciwgdGhlIHNlZ21lbnRhdGlvbiBmYXVsdCB3YXNuJ3QgdGhy
-b3duIGFmdGVyIExXLiBJdCB3YXMgaW5zdGVhZCB0aHJvd24gYWZ0ZXIgdGhlICdub3AnIGFm
-dGVyICdqciByMzEnIGluIHRoZSBvYmpkdW1wLgoKKDEpIElmIHlvdSdyZSBkZWJ1Z2dpbmcg
-dGhlIFFFTVUgSklUIGl0c2VsZiwgdGhlbiB5b3UncmUgcHJvYmFibHkKYmV0dGVyIG9mZiB1
-c2luZyBRRU1VJ3MgbG9nZ2luZyBmYWNpbGl0aWVzICh1bmRlciB0aGUgLWQgb3B0aW9uKQpy
-YXRoZXIgdGhhbiB0aGUgZ2Ric3R1Yi4gVGhlIGdkYnN0dWIgaXMgZ29vZCBpZiB5b3UncmUg
-c3VyZSB0aGF0ClFFTVUgaXMgYmFzaWNhbGx5IGZ1bmN0aW9uYWwgYW5kIHdhbnQgdG8gZGVi
-dWcgeW91ciBndWVzdCwgYnV0CmlmIHlvdSBzdXNwZWN0IGJ1Z3MgaW4gUUVNVSBpdHNlbGYg
-dGhlbiBpdCBjYW4gY29uZnVzZSB5b3UuClRoZSAtZCBkZWJ1ZyBsb2dnaW5nIGlzIGF0IGEg
-bXVjaCBsb3dlciBsZXZlbCwgd2hpY2ggbWFrZXMgaXQKYSBiZXR0ZXIgZ3VpZGUgdG8gd2hh
-dCBRRU1VIGlzIHJlYWxseSBkb2luZywgdGhvdWdoIGl0IGlzIGFsc28KdHJpY2tpZXIgdG8g
-aW50ZXJwcmV0LgoKKDIpIE5vLCBicmVha3BvaW50aW5nIG9uIGRlY29kZV9vcGMgaXMgbm90
-IHRoZSBzYW1lIGFzIHNpbmdsZXN0ZXBwaW5nCmFuIGluc3RydWN0aW9uIGluIGdkYi4gVGhp
-cyBpcyBhIHJlYWxseSBpbXBvcnRhbnQgY29uY2VwdCBpbiBRRU1VCihhbmQgSklUcyBpbiBn
-ZW5lcmFsKSBhbmQgaWYgeW91IGRvbid0IHVuZGVyc3RhbmQgaXQgeW91J3JlIGdvaW5nCnRv
-IGJlIHZlcnkgY29uZnVzZWQuIEEgSklUIGhhcyB0d28gcGhhc2VzOgooYSkgInRyYW5zbGF0
-ZSB0aW1lIiwgd2hlbiB3ZSB0YWtlIGEgYmxvY2sgb2YgZ3Vlc3QgaW5zdHJ1Y3Rpb25zCmFu
-ZCBnZW5lcmF0ZSBob3N0IG1hY2hpbmUgY29kZSBmb3IgdGhlbQooYikgImV4ZWN1dGlvbiB0
-aW1lIiwgd2hlbiB3ZSBleGVjdXRlIG9uZSBvciBtb3JlIG9mIHRoZSBibG9ja3MKb2YgaG9z
-dCBtYWNoaW5lIGNvZGUgdGhhdCB3ZSB3cm90ZSBhdCB0cmFuc2xhdGUgdGltZQpRRU1VIGNh
-bGxzIHRoZSBibG9ja3MgaXQgd29ya3Mgd2l0aCAidHJhbnNsYXRpb24gYmxvY2tzIiwgYW5k
-CnVzdWFsbHkgaXQgd2lsbCBwdXQgbXVsdGlwbGUgZ3Vlc3QgaW5zdHJ1Y3Rpb25zIGludG8g
-ZWFjaCBUQjsKYSBUQiB1c3VhbGx5IHN0b3BzIGFmdGVyIGEgZ3Vlc3QgYnJhbmNoIGluc3Ry
-dWN0aW9ucy4gKFlvdSBjYW4KYXNrIFFFTVUgdG8gcHV0IGp1c3Qgb25lIGd1ZXN0IGluc3Ry
-dWN0aW9uIGludG8gYSBUQiB1c2luZwp0aGUgLXNpbmdsZXN0ZXAgY29tbWFuZCBsaW5lIG9w
-dGlvbiAtLSB0aGlzIGlzIHNvbWV0aW1lcyB1c2VmdWwKd2hlbiBkZWJ1Z2dpbmcuKQoKU28g
-aWYgeW91IHB1dCBhIGJyZWFrcG9pbnQgb24gZGVjb2RlX29wYyB5b3UnbGwgc2VlIGl0IGlz
-IGhpdApmb3IgZXZlcnkgaW5zdHJ1Y3Rpb24gaW4gdGhlIFRCLCB3aGljaCBmb3IgdGhlIFRC
-IHN0YXJ0aW5nIGF0CiIwMDQwMDA5MCA8bWFpbj4iIHdpbGwgYmUgZXZlcnkgaW5zdHJ1Y3Rp
-b24gdXAgdG8gYW5kIGluY2x1ZGluZwp0aGUgJ25vcCcgaW4gdGhlIGRlbGF5IHNsb3Qgb2Yg
-dGhlICdqcicuIE9uY2UgdGhlIHdob2xlIFRCIGlzCnRyYW5zbGF0ZWQsICp0aGVuKiB3ZSB3
-aWxsIGV4ZWN1dGUgaXQuIEl0J3Mgb25seSBhdCBleGVjdXRlIHRpbWUKdGhhdCB3ZSBwZXJm
-b3JtIHRoZSBhY3R1YWwgb3BlcmF0aW9ucyBvbiB0aGUgZ3Vlc3QgQ1BVIHRoYXQKdGhlIGlu
-c3RydWN0aW9ucyByZXF1aXJlLiBJZiB0aGUgc2VnZmF1bHQgaXMgYmVjYXVzZSB3ZSB0aGlu
-awp0aGUgZ3Vlc3QgaGFzIG1hZGUgYSBiYWQgbWVtb3J5IGFjY2Vzcywgd2UnbGwgZ2VuZXJh
-dGUgaXQgaGVyZS4KSWYgdGhlIHNlZ2ZhdWx0IGlzIGFuIGFjdHVhbCBjcmFzaCBpbiBRRU1V
-IGl0c2VsZiwgaXQgd2lsbApoYXBwZW4gaGVyZSBpZiB0aGUgYnVnIGlzIG9uZSB0aGF0IGhh
-cHBlbnMgYXQgZXhlY3V0aW9uIHRpbWUuCgpOb3RlIHRoYXQgdGhlIC1kIGxvZ2dpbmcgd2ls
-bCBkaXN0aW5ndWlzaCBiZXR3ZWVuIHRoaW5ncyB0aGF0CmhhcHBlbiBhdCB0cmFuc2xhdGUg
-dGltZSAod2hpY2ggaXMgd2hlbiB0aGUgaW5fYXNtLCBvcCwgb3V0X2FzbSBldGMKbG9nZ2lu
-ZyBpcyBwcmludGVkKSBhbmQgdGhpbmdzIHRoYXQgaGFwcGVuIGF0IGV4ZWN1dGlvbiB0aW1l
-Cih3aGljaCBpcyB3aGVuIGNwdSwgZXhlYywgaW50LCBldGMgbG9ncyBhcmUgcHJpbnRlZCku
-Cgp0aGFua3MKLS0gUE1N
+On Tue, Oct 8, 2019 at 5:49 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> Hi Thomas,
+>
+> On Tue, Oct 8, 2019 at 10:49 AM Thomas Huth <thuth@redhat.com> wrote:
+> >
+> > FreeBSD offers a package for "netmap", thus let's install it in our
+> > FreeBSD tests to get some compile test coverage for net/netmap.c, too.
+> >
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  .cirrus.yml      | 2 +-
+> >  tests/vm/freebsd | 3 +++
+> >  2 files changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/.cirrus.yml b/.cirrus.yml
+> > index 8326a3a4b1..44fea2c29e 100644
+> > --- a/.cirrus.yml
+> > +++ b/.cirrus.yml
+> > @@ -8,7 +8,7 @@ freebsd_12_task:
+> >      memory: 8G
+> >    install_script: pkg install -y
+> >      bash bison curl cyrus-sasl git glib gmake gnutls gsed
+> > -    nettle perl5 pixman pkgconf png usbredir
+> > +    netmap nettle perl5 pixman pkgconf png usbredir
+>
+> >    script:
+> >      - mkdir build
+> >      - cd build
+> > diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> > index 2a19461a90..45821702bd 100755
+> > --- a/tests/vm/freebsd
+> > +++ b/tests/vm/freebsd
+> > @@ -54,6 +54,9 @@ class FreeBSDVM(basevm.BaseVM):
+> >          # libs: opengl
+> >          "libepoxy",
+> >          "mesa-libs",
+> > +
+> > +        # libs: network
+> > +        "netmap",
+>
+> IIRC netmap is shipped with the FreeBSD kernel, so we shouldn't need to
+> install it.
+>
+> I tried to understand what is the 'netmap' pkg and I found the following
+> in my FreeBSD 12 VM:
+>
+>     # pkg search netmap
+>     netmap-0.1.3_1         Make a graphical representation of the surrounding network
+>
+> I don't think we are installing the right 'netmap' (I know, it is a bit
+> confusing :) )
+>
+> I'll tried "make vm-build-freebsd" without this patch and I noticed
+> "netmap support    yes" in the configure output. So I think we're
+> already compiling the netmap backend in the 'vm-buil-freebsd' target and
+> maybe also in cirrus.
+>
+> Maybe Ed and Li-Wen can confirm (or not).
 
+Yes netmap(4) is a built-in and default feature on FreeBSD. netmap
+package from ports is not related to it.
 
+BTW, I haven't tried qemu's netmap feature on FreeBSD.  Is there
+anything we can test this more?
 
+Best,
+Li-Wen
 
