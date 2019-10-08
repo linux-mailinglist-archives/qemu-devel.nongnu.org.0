@@ -2,52 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169D6CFE99
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 18:12:33 +0200 (CEST)
-Received: from localhost ([::1]:58174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26553CFEE2
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 18:25:14 +0200 (CEST)
+Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHs6B-0008Vc-W1
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 12:12:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37035)
+	id 1iHsIT-0005Ix-6t
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 12:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iHrwD-0006hw-Op
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:02:15 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iHsHQ-0004q8-KZ
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:24:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iHrwB-00079O-Ma
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:02:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:23327)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iHrw7-00073P-MX
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:02:07 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D7AB130ADBBA;
- Tue,  8 Oct 2019 16:02:05 +0000 (UTC)
-Received: from work-vm (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0737419C7F;
- Tue,  8 Oct 2019 16:02:04 +0000 (UTC)
-Date: Tue, 8 Oct 2019 17:02:02 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH 2/3] migration/postcopy: not necessary to do
- postcopy_ram_incoming_cleanup when state is ADVISE
-Message-ID: <20191008160202.GE3441@work-vm>
-References: <20191001100122.17730-1-richardw.yang@linux.intel.com>
- <20191001100122.17730-3-richardw.yang@linux.intel.com>
+ (envelope-from <alistair23@gmail.com>) id 1iHsHP-0003Tp-GD
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 12:24:08 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:36712)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iHsHP-0003S0-5y; Tue, 08 Oct 2019 12:24:07 -0400
+Received: by mail-lj1-x242.google.com with SMTP id v24so18243474ljj.3;
+ Tue, 08 Oct 2019 09:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TS63qtniJlLjmdMayfkLdB0sWsBhuGoPrXEKjKUTmrI=;
+ b=uMgJuXviXGPSJC2Q9InoS9sqv3pmojc/U4ywRHhrFAaa6O16L+TeP518nXZIxXCmB4
+ 3PUNoJEZfjeyy2DgWPwTeeOHZVbNM10+F4waxgY3iak5IVzoOKRBjJbqHT5Hd4eeMjUO
+ 5UQKYdrJ801z2OdIvUEoFXSFXxmfVRlmBeEDbOQYho2Kgbc1xTUIu7+DEHhwM3gDofAV
+ /6HCcN4TJcxrqwlvu8/48Km81skhhB2V207Q46/jBCvE9+pxauPJE3y5L8Gtn4fTmwIf
+ 6n/q9yrj7VTrA6+XoBf1AND91V8kaIcpxCE2S8XTKw+UG1s8bBU9vFGXPVyItlIn853B
+ jRZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TS63qtniJlLjmdMayfkLdB0sWsBhuGoPrXEKjKUTmrI=;
+ b=FwHA49owQUypsWm+GG++gGv7Ya/0syhE2fMsGVJBo0fqZEFg8u7JeL8xMoGlLi7Kko
+ 6mGAob8TmtwKNHFZ2UEIkhubMf0MrWExy/aHkEZWTN4PcFEoBKifXULFymo7AkwzvDv8
+ tjYN9Y5MXI+yK4kyz6j1ssX8FDHHZQZPGlhPexnNpt6LQilUNr3m+m/ZRpd/gC25b+w6
+ qPgCHvWfw7Sid/oR+bS7hHhuPrxhHHzo4RN9FZ0B+7iAain+xnKQGWgPJg57XLq6a9lg
+ GFtqiaJWOmWZhvzQNpEBscgi6URaTjtM85QLO/PK1dqHykQmBNMl1Wj72LCzTCiKmK42
+ H+zw==
+X-Gm-Message-State: APjAAAX5Y1fJx0lb6SsdpgzrSFIUHcoGJFjl66qgDOvpL5EZ3oZ+aqWJ
+ xpsTsV+z+cui7eaeUPFig2uYBvu5GVBbuz2d/x8=
+X-Google-Smtp-Source: APXvYqy+VjFyynPGLhBxONs6ljGZRfzpF0+YH2eyuX2pqtQx3SfitHBNFIUoK9BeIwNSmywhxCdxOE0TIHnIBsC1F9o=
+X-Received: by 2002:a2e:9a04:: with SMTP id o4mr23259170lji.101.1570551845772; 
+ Tue, 08 Oct 2019 09:24:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191001100122.17730-3-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 08 Oct 2019 16:02:05 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191008001318.219367-1-jonathan@fintelia.io>
+ <20191008001318.219367-2-jonathan@fintelia.io>
+In-Reply-To: <20191008001318.219367-2-jonathan@fintelia.io>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Oct 2019 09:18:59 -0700
+Message-ID: <CAKmqyKNXhFdY7JX_+weNFeTZiw-gmKEH8kKEXvJUpwh9D_gFSw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] target/riscv: Tell gdbstub the correct number of
+ CSRs
+To: Jonathan Behrens <jonathan@fintelia.io>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,45 +72,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> postcopy_ram_incoming_cleanup() does cleanup for
-> postcopy_ram_incoming_setup(), while the setup happens only after
-> migration enters LISTEN state.
-> 
-> This means there is nothing to cleanup when migration is still ADVISE
-> state.
-> 
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+On Mon, Oct 7, 2019 at 5:16 PM Jonathan Behrens <jonathan@fintelia.io> wrote:
+>
+> If the number of registers reported to the gdbstub code does not match the
+> number in the associated XML file, then the register numbers used by the stub
+> may get out of sync with a remote GDB instance.
+>
+> Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  migration/migration.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 5f7e4d15e9..34d5e66f06 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -461,7 +461,6 @@ static void process_incoming_migration_co(void *opaque)
->               * but managed to complete within the precopy period, we can use
->               * the normal exit.
->               */
-> -            postcopy_ram_incoming_cleanup(mis);
->          } else if (ret >= 0) {
->              /*
->               * Postcopy was started, cleanup should happen at the end of the
-
-I think that misses the cleanup of mlock that corresponds to the
-munlockall in postcopy_ram_supported_by_host - that's called very early
-on; I think in the advise stage.
-
-Dave
-
-> -- 
-> 2.17.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  target/riscv/gdbstub.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index ded140e8d8..cb5bfd3d50 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -384,7 +384,7 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>      }
+>
+>      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> -                             4096, "riscv-32bit-csr.xml", 0);
+> +                             240, "riscv-32bit-csr.xml", 0);
+>  #elif defined(TARGET_RISCV64)
+>      if (env->misa & RVF) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
+> @@ -392,6 +392,6 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>      }
+>
+>      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> -                             4096, "riscv-64bit-csr.xml", 0);
+> +                             240, "riscv-64bit-csr.xml", 0);
+>  #endif
+>  }
+> --
+> 2.23.0
+>
 
