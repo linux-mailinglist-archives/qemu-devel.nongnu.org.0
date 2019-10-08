@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48431CFCC5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:49:53 +0200 (CEST)
-Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE69CFC9E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Oct 2019 16:42:14 +0200 (CEST)
+Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iHqoC-0003Ce-5Z
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49990)
+	id 1iHqgn-0005q4-Lc
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 10:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iHqRh-0006Kz-NY
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:26:38 -0400
+ (envelope-from <philmd@redhat.com>) id 1iHqa8-0006gB-TO
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:35:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iHqRg-0008Vf-KI
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:26:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42058)
+ (envelope-from <philmd@redhat.com>) id 1iHqa7-0004eC-Nj
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:35:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39716)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iHqRX-0008RO-Vo; Tue, 08 Oct 2019 10:26:28 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iHqa7-0004dZ-HW
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 10:35:19 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2108AC034E71;
- Tue,  8 Oct 2019 14:26:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C3A7580F6D
+ for <qemu-devel@nongnu.org>; Tue,  8 Oct 2019 14:35:18 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-43.brq.redhat.com [10.40.204.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4427919C69;
- Tue,  8 Oct 2019 14:26:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C337710013A1;
+ Tue,  8 Oct 2019 14:35:11 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/8] hw/isa/piix4: Convert reset handler to DeviceReset
-Date: Tue,  8 Oct 2019 16:25:33 +0200
-Message-Id: <20191008142539.7793-3-philmd@redhat.com>
+Subject: [PATCH v2 8/8] hw/misc/vmcoreinfo: Add comment about reset handler
+Date: Tue,  8 Oct 2019 16:34:55 +0200
+Message-Id: <20191008143455.8524-1-philmd@redhat.com>
 In-Reply-To: <20191008142539.7793-1-philmd@redhat.com>
 References: <20191008142539.7793-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 08 Oct 2019 14:26:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Tue, 08 Oct 2019 14:35:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -57,68 +57,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PIIX4/ISA is a PCI device within the PIIX4 chipset, it will be reset
-when the PCI bus it stands on is reset.
+The VM coreinfo device does not sit on a bus, so it won't be
+reset automatically. This is why it calls qemu_register_reset().
 
-Convert its reset handler into a proper Device reset method.
+Add a comment about it, so we don't convert its reset handler
+to a DeviceReset method.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/isa/piix4.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/misc/vmcoreinfo.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 3294056cd5..890d999abf 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -28,7 +28,6 @@
- #include "hw/isa/isa.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
--#include "sysemu/reset.h"
+diff --git a/hw/misc/vmcoreinfo.c b/hw/misc/vmcoreinfo.c
+index 326a3ce8f4..a9d718fc23 100644
+--- a/hw/misc/vmcoreinfo.c
++++ b/hw/misc/vmcoreinfo.c
+@@ -61,6 +61,10 @@ static void vmcoreinfo_realize(DeviceState *dev, Error=
+ **errp)
+                              NULL, fw_cfg_vmci_write, s,
+                              &s->vmcoreinfo, sizeof(s->vmcoreinfo), fals=
+e);
 =20
- PCIDevice *piix4_dev;
-=20
-@@ -40,9 +39,9 @@ typedef struct PIIX4State {
- #define PIIX4_PCI_DEVICE(obj) \
-     OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)
-=20
--static void piix4_reset(void *opaque)
-+static void piix4_isa_reset(DeviceState *dev)
- {
--    PIIX4State *d =3D opaque;
-+    PIIX4State *d =3D PIIX4_PCI_DEVICE(dev);
-     uint8_t *pci_conf =3D d->dev.config;
-=20
-     pci_conf[0x04] =3D 0x07; // master, memory and I/O
-@@ -97,7 +96,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
-     piix4_dev =3D &d->dev;
--    qemu_register_reset(piix4_reset, d);
++    /*
++     * This device requires to register a global reset because it is
++     * not plugged to a bus (which, as its QOM parent, would reset it).
++     */
+     qemu_register_reset(vmcoreinfo_reset, dev);
+     vmcoreinfo_state =3D s;
  }
-=20
- int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn)
-@@ -118,6 +116,7 @@ static void piix4_class_init(ObjectClass *klass, void=
- *data)
-     k->vendor_id =3D PCI_VENDOR_ID_INTEL;
-     k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB_0;
-     k->class_id =3D PCI_CLASS_BRIDGE_ISA;
-+    dc->reset =3D piix4_isa_reset;
-     dc->desc =3D "ISA bridge";
-     dc->vmsd =3D &vmstate_piix4;
-     /*
 --=20
 2.21.0
 
