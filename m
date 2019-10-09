@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F350D1564
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:19:36 +0200 (CEST)
-Received: from localhost ([::1]:52950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFCED150A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:14:31 +0200 (CEST)
+Received: from localhost ([::1]:52872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFcc-0007TM-Vi
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1iIFXi-0001ht-GH
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iI5TC-0003aC-Pn
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:29:11 -0400
+ (envelope-from <armbru@redhat.com>) id 1iI6cK-0002Fk-C5
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:42:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iI5TA-0000cv-Jj
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:29:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39868)
+ (envelope-from <armbru@redhat.com>) id 1iI6cJ-0005Ds-9K
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:42:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:17068)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iI5TA-0000YF-An
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:29:08 -0400
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1iI6cJ-0005DY-3v; Wed, 09 Oct 2019 03:42:39 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 52631C004E8D
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 06:29:06 +0000 (UTC)
-Received: by mail-pf1-f200.google.com with SMTP id b13so1113427pfp.6
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 23:29:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5MC/xpOVeO48b6oFuZVrop2DdqL+1eMShZ/UYESNK3c=;
- b=RuQ6ZN2FsXg+2C+gZBM3F4atZ58/VzzaCr1uwIDW2tjQIVImoLeL9njPFnVZN9QxY7
- MmfdPtFkjh/FMmSLKxsyw3U1U7HU3AXuz4kA+TDczG0pAsY+k+eOf3VcLWHt9OLOkixw
- DOrH9VdxMqJGoZMAymAccnV3lTWkl8DanN1hQBFZcxE6s8jUgU9i5Kzf26tOqhg0h8m8
- 3kkMzFYYPf6JcO8pSHCpln/g5AYQQIDskvLCXlP6sp6l2Pj7AaZTXUFcwcn24o2BUBQM
- voAuTEPxknmUfg9jgK2RaKDPsECemcWgRD6EwbW23USwrd9od2S1wx1rCI5zEWq0J8su
- W4sA==
-X-Gm-Message-State: APjAAAXBqjssDah78ot2S44q7NrsSz6pBwl9fAja5+gxOa08Rp3BUGii
- flY8g5q7c8VpP8xs/N6YhXAMZMYvviyuNEy/CVOJFHq5cpKAthglwejAV9eeaKC8f3Xr63WtBbx
- VTDmpihw8Ioix41o=
-X-Received: by 2002:a62:3441:: with SMTP id b62mr2056526pfa.12.1570602545690; 
- Tue, 08 Oct 2019 23:29:05 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzVjsJgR6qN7WADec/Z0SLYVrBWhXr7sjrmz3ltEy1nB8F9VSzDJEZVxVK9sswQxutbT1Sa3A==
-X-Received: by 2002:a62:3441:: with SMTP id b62mr2056511pfa.12.1570602545403; 
- Tue, 08 Oct 2019 23:29:05 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id c11sm1599271pfj.114.2019.10.08.23.29.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Oct 2019 23:29:04 -0700 (PDT)
-Date: Wed, 9 Oct 2019 14:28:53 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v3] migration: Support gtree migration
-Message-ID: <20191009062852.GB1039@xz-x1>
-References: <20191004112025.28868-1-eric.auger@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id DF3F86908D;
+ Wed,  9 Oct 2019 07:42:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 463A6600CD;
+ Wed,  9 Oct 2019 07:42:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B9EBA1138619; Wed,  9 Oct 2019 09:42:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 07/31] s390: Fix error_append_hint/error_prepend usage
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-8-vsementsov@virtuozzo.com>
+Date: Wed, 09 Oct 2019 09:42:33 +0200
+In-Reply-To: <20191001155319.8066-8-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 1 Oct 2019 18:52:55 +0300")
+Message-ID: <87muea9xg6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191004112025.28868-1-eric.auger@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Wed, 09 Oct 2019 07:42:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -76,112 +60,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- eric.auger.pro@gmail.com
+Cc: Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 04, 2019 at 01:20:25PM +0200, Eric Auger wrote:
-> Introduce support for GTree migration. A custom save/restore
-> is implemented. Each item is made of a key and a data.
-> 
-> If the key is a pointer to an object, 2 VMSDs are passed into
-> the GTree VMStateField.
-> 
-> When putting the items, the tree is traversed in sorted order by
-> g_tree_foreach.
-> 
-> On the get() path, gtrees must be allocated using the proper
-> key compare, key destroy and value destroy. This must be handled
-> beforehand, for example in a pre_load method.
-> 
-> Tests are added to test save/dump of structs containing gtrees
-> including the virtio-iommu domain/mappings scenario.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Mostly looks sane to me (with Juan's comment fixed).  Some more
-trivial comments below.
+> If we want to add some info to errp (by error_prepend() or
+> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+> Otherwise, this info will not be added when errp == &fatal_err
+> (the program will exit prior to the error_append_hint() or
+> error_prepend() call).  Fix such cases.
+>
+> This commit (together with its neighbors) was generated by
+>
+> git grep -l 'error_\(append_hint\|prepend\)(errp' | while read f; do \
+> spatch --sp-file scripts/coccinelle/fix-error-add-info.cocci \
+> --in-place $f; done
 
-> +/*
-> + * For migrating a GTree whose key is a pointer to _key_type and the
-> + * value, a pointer to _val_type
-> + * The target tree must have been properly initialized
-> + * _vmsd: Start address of the 2 element array containing the key vmsd
-> + *        and the data vmsd
-> + * _key_type: type of the key
-> + * _val_type: type of the value
-> + */
-> +#define VMSTATE_GTREE_V(_field, _state, _version, _vmsd,                       \
-> +                        _key_type, _val_type)                                  \
-> +{                                                                              \
-> +    .name         = (stringify(_field)),                                       \
-> +    .version_id   = (_version),                                                \
-> +    .vmsd         = (_vmsd),                                                   \
-> +    .info         = &vmstate_info_gtree,                                       \
-> +    .start        = sizeof(_key_type),                                         \
+Make that:
 
-Nitpick: Are we reusing the "start" field to store the size just to
-avoid defining new field in VMStateField?  If so, not sure whether we
-can start to use unions to both keep VMStateField small while keep the
-code clean.  Like:
+    $ spatch --sp-file scripts/coccinelle/fix-error-add-info.cocci --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff `git grep -l 'error_\(append_hint\|prepend\)(errp' \*.[ch]`
 
-  union {
-    struct {
-      size_t key_size;
-      size_t value_size;
-    };
-    struct {
-      size_t start;
-      size_t size;
-    };
-  }
+Adding --macro-file is essential, as Eric noted.  Without it, we miss
+qcow2_store_persistent_dirty_bitmaps() in PATCH 23 and
+nbd_negotiate_send_rep_verr() in PATCH 29.  There should be a way to
+make spatch warn when it gives up parsing, but I can't find it right
+now.
 
-?
+Avoiding the loop is just for speed and simplicity.
 
-This can of course also be done on top of this patch no matter what.
+--no-show-diff goes well with --in-place.
+
+The even simpler
+
+    $ spatch --sp-file scripts/coccinelle/fix-error-add-info.cocci --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff --use-gitgrep
+
+misses include/block/nbd.h's nbd_read() in PATCH 23 somehow.
+
+I recommend to add the spatch invocation to the coccinelle script's
+commit message, too [PATCH 05].
 
 [...]
-
-> +static gboolean put_gtree_elem(gpointer key, gpointer value, gpointer data)
-> +{
-> +    struct put_gtree_data *capsule = (struct put_gtree_data *)data;
-> +    QEMUFile *f = capsule->f;
-> +    int ret;
-> +
-> +    qemu_put_byte(f, true);
-> +
-> +    /* put the key */
-> +    if (!capsule->key_vmsd) {
-> +        qemu_put_be32(f, GPOINTER_TO_UINT(key)); /* direct key */
-
-This is special code path for direct key case.  Can we simply define
-VMSTATE_GTREE_DIRECT_KEY_V() somehow better so that it just uses the
-VMSTATE_UINT32_V() as the key vmsd?  Then iiuc vmstate_save_state()
-could work well with that too.
-
-Also, should we avoid using UINT in all cases?  But of course if we
-start to use VMSTATE_UINT32_V then we don't have this issue.
-
-Thanks,
-
-> +    } else {
-> +        ret = vmstate_save_state(f, capsule->key_vmsd, key, capsule->vmdesc);
-> +        if (ret) {
-> +            capsule->ret = ret;
-> +            return true;
-> +        }
-> +    }
-> +
-> +    /* put the data */
-> +    ret = vmstate_save_state(f, capsule->val_vmsd, value, capsule->vmdesc);
-> +    if (ret) {
-> +        capsule->ret = ret;
-> +        return true;
-> +    }
-> +    return false;
-> +}
-
--- 
-Peter Xu
 
