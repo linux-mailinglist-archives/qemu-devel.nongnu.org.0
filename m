@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7F0D1361
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 17:59:49 +0200 (CEST)
-Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2865D1399
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:09:17 +0200 (CEST)
+Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIENQ-0007Wf-Eq
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 11:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45794)
+	id 1iIEWa-0007Zd-IH
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iI1t6-0001nN-QJ
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:39:41 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iI1ti-0001lf-Pt
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:40:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iI1Tn-0007mW-Ih
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:13:32 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:41360)
+ (envelope-from <richard.henderson@linaro.org>) id 1iI1B1-0000i5-CJ
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:54:08 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:36351)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iI1Tn-0007mC-Ch; Tue, 08 Oct 2019 22:13:31 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id 206so219037ybc.8;
- Tue, 08 Oct 2019 19:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5Yk7ePV9onB1hM/nMaz5Irva7XOHsONdnJ8bX+tDHUo=;
- b=fbJpvmoKfzmLha+4IUh8EjsoqK1ea0YSFKLlzJnWznaJG5RYc6V8O1QDHK+ecN44QW
- ARtgRuMYWzzMy3w85d8cJ2Y7PHuqoY7T0oLAxm5ZY1/AeRd6J0c2MCh6oDIWX2Q5/5i6
- LMTqEhu8F8Q+AefGlPoSYHHecs3wu5rDYtooXc5ucxe4KpZHOKXKXuyupKuomvw5yuBy
- Q7xY/oHQiGmQV34Ir1nBbVM9f+t+ruoS0e0vZJUzxgBVtbKmpXwn8f9KmlRJU2Pq1fQW
- CFejQ0sE2EzvoXGa7gkVqgDdFV13Qodj2k81mGYqC9/vwtd25iGoTfQb4l265y6YolQ1
- FATg==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iI1B1-0000hQ-6a
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:54:07 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id x64so238420ywg.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 18:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=AI0lxvpzeyqMF1mskEdwNMTJzL8izBhG4L+cQezg9dI=;
+ b=E0LyCXlaVp/9ErF5z41zmZJ3NtgBNT3nd8aH4RpdU2sdu/+cWTELLvPWzvH5c2cliQ
+ AcciRjl2K0MoAipgfHZPmyBtfFuhpo7AMoDJ7e9VUT5hmN3wz6UVvTdbUOgHeKtEN7nY
+ W2rU+rwnxDoySZpDskrC/y+nm7IF0lZQr6T6EXpwpC5z9DOh/6hIeMHn+sYoBuofHXrk
+ 1itBRapx06gWERJWrENxF1BK2HWPs2gtk8vQTQ94+47vHF7TE81TMc9tPdS0+OUl19R2
+ MgeL3pdRIfboxY2kJVCk5v8R4MCSE/W3D/5YosXx/R+E2uhF2ACFJ9yz6Qkho91BKcky
+ 1qXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5Yk7ePV9onB1hM/nMaz5Irva7XOHsONdnJ8bX+tDHUo=;
- b=jxn49iBk3G8bSmfvQQ+j+UivUodKCC2tajtcK8J9ZHWqCQFgFDknPVdEWNcn/f5nJA
- 9WaprLlvnoQG+Xy2yRM1taa/IYdGnDwrwZtiBPfOIkjajuP8ReUjLPfj27fbEPW3mTBW
- OgW9y2acqRGnwMpV9hR2A99S0UqLlQaXdODk5Qm2WbR1AMQkTBYKA6e+REtHMhYRLlT1
- zo96jQgRkt0lQZP4oapJmx7IRWxM8sFRElTgLn+sibBXqyuiSy7Kgfv2rpA6wO8y8Ckc
- W3m9oUl77YGV1xIWxF1Z2/n6qTN4wkOVyLB1zE80emhKrOkk97tLVvUQa0U/MkcSkjyt
- Cv3w==
-X-Gm-Message-State: APjAAAWYX0Tp/dT5FLWvyyf42U4s58fymgkz2qUoEzQouZq4y5G895Gj
- 0yJNdR6rMfMs8GRYmA7zRImBEPGDB43AxXrVMkI=
-X-Google-Smtp-Source: APXvYqz/O7Ad+ta9sdjU2d/WfCJd6toygPp0zYOMExFeMZjd4xoBlQlmxLXibyurc5r5M0FgLtE7P5rKtccHb9A+jto=
-X-Received: by 2002:a25:cd88:: with SMTP id d130mr474752ybf.65.1570587210487; 
- Tue, 08 Oct 2019 19:13:30 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AI0lxvpzeyqMF1mskEdwNMTJzL8izBhG4L+cQezg9dI=;
+ b=iGlz0LM79XIIBq48+7kO4o7KRDh2ps8gBBtDiiwDbicukfyCU70EuQAV7AJyVuvWVE
+ AjH30wCIXfLYKvUp85Qyo43qqQuJUCCAQlxx2Y0zJYkiQh/VhZLDVwUjyjSeD9Esh8M7
+ Im8e0v37PQDtNV+pCxEbgOh/H2CT4z9vT9jAm+rl6easbLhrsO/uuy420sGc5FiQfszQ
+ kzUYSnGK/M/rqIqVSxXl4lQbzt8V4SlQcV9N32iRgildYIbTOGddVB+ZRoPXEcBt0fQM
+ yG2HKlezwRcxCzfL4Xd/JCYYCstCpMNLYiVaDBTkzfl9QYy80phGEDLwaT/b/ZxOTCPA
+ 6IqQ==
+X-Gm-Message-State: APjAAAUhH83pkNRfWdUd0BrtMbUaH4JMIbVYcR6M8XnMisQzkWIhFMzx
+ PaEADDYFkq+TWBUeO1ruQLO0Jjm3jZ4=
+X-Google-Smtp-Source: APXvYqzWTS7vEjiemzPMigYTPTloc+27tPe7W+nF5V+6Sj2irS/l19cO+vK70q7dTRPO5pQuWqf45Q==
+X-Received: by 2002:a0d:d98e:: with SMTP id b136mr1064631ywe.78.1570586046513; 
+ Tue, 08 Oct 2019 18:54:06 -0700 (PDT)
+Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
+ by smtp.gmail.com with ESMTPSA id k6sm202373ywh.60.2019.10.08.18.54.03
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 08 Oct 2019 18:54:05 -0700 (PDT)
+Subject: Re: [PATCH v2 10/21] hw/timer/digic-timer.c: Switch to
+ transaction-based ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20191008171740.9679-1-peter.maydell@linaro.org>
+ <20191008171740.9679-11-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <25488035-58a7-25d5-d021-f25f7e144b01@linaro.org>
+Date: Tue, 8 Oct 2019 21:53:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <cover.1570577500.git.alistair.francis@wdc.com>
- <03cc7cf5c8400dffd6af60f06fe637f117747d9a.1570577500.git.alistair.francis@wdc.com>
-In-Reply-To: <03cc7cf5c8400dffd6af60f06fe637f117747d9a.1570577500.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 9 Oct 2019 10:13:19 +0800
-Message-ID: <CAEUhbmUu+Un91AvHq5G6RCoqccSd4Rg3NwxW9xfk_ykjWqrxzw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] riscv/sifive_u: Add the start-in-flash property
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191008171740.9679-11-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+X-Received-From: 2607:f8b0:4864:20::c42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,30 +85,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 9, 2019 at 7:41 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Add a property that when set to true QEMU will jump from the ROM code to
-> the start of flash memory instead of DRAM which is the default
-> behaviour.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On 10/8/19 1:17 PM, Peter Maydell wrote:
+> Switch the digic-timer.c code away from bottom-half based ptimers to
+> the new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> v3:
->  - Use the start_addr variable instead of editing reset vector
->  - Fix function names
->
->  hw/riscv/sifive_u.c         | 30 +++++++++++++++++++++++++++++-
->  include/hw/riscv/sifive_u.h |  2 ++
->  2 files changed, 31 insertions(+), 1 deletion(-)
->
+>  hw/timer/digic-timer.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
