@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03044D17E4
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:57:37 +0200 (CEST)
-Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C4BD17F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 21:04:10 +0200 (CEST)
+Received: from localhost ([::1]:54497 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIH9T-0004At-DK
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
+	id 1iIHFo-0002xS-B2
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 15:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iIE8T-0002AG-MR
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:44:23 -0400
+ (envelope-from <stefanha@gmail.com>) id 1iICVy-00078Z-4r
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:00:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iIE8R-0001Qv-DC
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:44:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34006)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>)
- id 1iIE8K-0001Kq-U9; Wed, 09 Oct 2019 11:44:13 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D352301D678;
- Wed,  9 Oct 2019 15:44:11 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-122-151.rdu2.redhat.com
- [10.10.122.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05EFD5D713;
- Wed,  9 Oct 2019 15:43:58 +0000 (UTC)
-Date: Wed, 9 Oct 2019 11:43:57 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 16/19] tests/boot_linux_console: Add a test for the
- Raspberry Pi 2
-Message-ID: <20191009154357.GA23685@localhost.localdomain>
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-17-f4bug@amsat.org>
- <20191009154304.GC30349@localhost.localdomain>
+ (envelope-from <stefanha@gmail.com>) id 1iICVt-0000pI-6q
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:00:30 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50619)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iICVt-0000pA-0S
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:00:25 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 5so2764982wmg.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 07:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=f/wDPKB8V/1hmOZKMr8IiE7dhi9zjZUGKPcXluUJdhE=;
+ b=LGhcFV17e5bTwH+BJefz/APcnnAsdWhQMeImouMn1R9vWhIWlSiounj2Be+kkHXyIG
+ QUOaSYOPltOKhbUfFlKkggHwFsZf7m1RInkqjv9VGIn1+D+7UEs4lnA6yqq+4lnqTBpE
+ PDScbh/rgEiF2P5FU+9fla2tYsI+hhrTkqlUlNHHv0wiAnL4Vgpjd1isVcXN2FLsQZow
+ gUdJL5qxRhy8AXtr6QQ6aQdeG9ogrgk8HO1t9apk/BLiYJyy8lHp+L59AltjNE0AjfLh
+ L8iYAf/1+SlcrT3EHVskeEi7cDm7PVf1yrfg2eTIwxYJf9NhKpnWsl+JeE8V8/rJbuUi
+ J/qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=f/wDPKB8V/1hmOZKMr8IiE7dhi9zjZUGKPcXluUJdhE=;
+ b=jNRBfgDrhWuET+Hu4gyogsyrtFLozvwux5uW01x27W8kE760aSFA40eHDkcRnL4sQR
+ BdWc1fBIZ1AM9/36ZxhsH0T2QGLz5I29oxgC1wD/f+0JVTslwOFcRECrF19zy8kSNb9+
+ R6Z5PQxifh7F0uDT9Zc+UN07qBZ2frseQL76seEWs/0d/PLk6IUV+2PLeYjnNdXkJLEB
+ pAY10mFsqi9IHYhsQxyX1GJGbBZYh58iu8uOlKGZmCytgWp41wSSs3KSIFcw1+VUzFUH
+ F77LGKE0iGTmCy1R6XLcJA5cBoNnsWSooHOlomw3QVOolqD5PXiPJRrojnmtFkILWEej
+ /T+Q==
+X-Gm-Message-State: APjAAAXGGKtVPVMuaeXUfDl5aRtzLpA2tcgpUaW8vDzdIT4LCTy70W1y
+ PVMj7JzIRFa+Vq0g9fYHr7I=
+X-Google-Smtp-Source: APXvYqwXfw7MK5r5nAZ0a/DMWWOhcz5dVeOWI5e9/hLg7IIPClH8wiVH+wEl88FdvB0fVGBLMV3SEQ==
+X-Received: by 2002:a1c:9d4a:: with SMTP id g71mr2958142wme.26.1570629623835; 
+ Wed, 09 Oct 2019 07:00:23 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id d4sm2331927wrq.22.2019.10.09.07.00.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2019 07:00:22 -0700 (PDT)
+Date: Wed, 9 Oct 2019 15:00:21 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [Qemu-devel] [RFC] contrib: add vhost-user-sim
+Message-ID: <20191009140021.GQ5747@stefanha-x1.localdomain>
+References: <20190917122644.15736-1-johannes@sipsolutions.net>
+ <20190923092548.GA26219@stefanha-x1.localdomain>
+ <24d18f1c38356b19461e77275b94a1ebf89838f1.camel@sipsolutions.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dUqh8vgUBVXHzm9w"
 Content-Disposition: inline
-In-Reply-To: <20191009154304.GC30349@localhost.localdomain>
+In-Reply-To: <24d18f1c38356b19461e77275b94a1ebf89838f1.camel@sipsolutions.net>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 09 Oct 2019 15:44:11 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,110 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?iso-8859-1?Q?Zolt=E1n?= Baldaszti <bztemail@gmail.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Cheng Xiang <ext-cheng.xiang@here.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 11:43:15AM -0400, Cleber Rosa wrote:
-> On Thu, Sep 26, 2019 at 07:34:24PM +0200, Philippe Mathieu-Daud=E9 wrot=
-e:
-> > Similar to the x86_64/pc test, it boots a Linux kernel on a raspi2
-> > board and verify the serial is working.
-> >=20
-> > The kernel image and DeviceTree blob are built by the Raspbian
-> > project (based on Debian):
-> > https://www.raspbian.org/RaspbianImages
-> > as recommended by the Raspberry Pi project:
-> > https://www.raspberrypi.org/downloads/raspbian/
-> >=20
-> > If ARM is a target being built, "make check-acceptance" will
-> > automatically include this test by the use of the "arch:arm" tags.
-> >=20
-> > Alternatively, this test can be run using:
-> >=20
-> >     $ avocado run -t arch:arm tests/acceptance
-> >     $ avocado run -t machine:raspi2 tests/acceptance
-> >=20
-> > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > ---
-> > v3: removed debug printf (Cleber)
-> >     use serial_kernel_cmdline dict
-> > ---
-> >  tests/acceptance/boot_linux_console.py | 36 ++++++++++++++++++++++++=
-++
-> >  1 file changed, 36 insertions(+)
-> >=20
-> > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptanc=
-e/boot_linux_console.py
-> > index 079590f0c8..7eaf6cb60e 100644
-> > --- a/tests/acceptance/boot_linux_console.py
-> > +++ b/tests/acceptance/boot_linux_console.py
-> > @@ -318,6 +318,42 @@ class BootLinuxConsole(Test):
-> >          self.vm.launch()
-> >          self.wait_for_console_pattern('init started: BusyBox')
-> > =20
-> > +    def do_test_arm_raspi2(self, uart_id):
-> > +        """
-> > +        The kernel can be rebuilt using the kernel source referenced
-> > +        and following the instructions on the on:
-> > +        https://www.raspberrypi.org/documentation/linux/kernel/build=
-ing.md
-> > +        """
-> > +        serial_kernel_cmdline =3D {
-> > +            0: 'earlycon=3Dpl011,0x3f201000 console=3DttyAMA0',
-> > +        }
-> > +        deb_url =3D ('http://archive.raspberrypi.org/debian/'
-> > +                   'pool/main/r/raspberrypi-firmware/'
-> > +                   'raspberrypi-kernel_1.20190215-1_armhf.deb')
-> > +        deb_hash =3D 'cd284220b32128c5084037553db3c482426f3972'
-> > +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash=
-)
-> > +        kernel_path =3D self.extract_from_deb(deb_path, '/boot/kerne=
-l7.img')
-> > +        dtb_path =3D self.extract_from_deb(deb_path, '/boot/bcm2709-=
-rpi-2-b.dtb')
-> > +
-> > +        self.vm.set_machine('raspi2')
-> > +        self.vm.set_console()
-> > +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> > +                               serial_kernel_cmdline[uart_id])
-> > +        self.vm.add_args('-kernel', kernel_path,
-> > +                         '-dtb', dtb_path,
-> > +                         '-append', kernel_command_line)
-> > +        self.vm.launch()
-> > +        console_pattern =3D 'Kernel command line: %s' % kernel_comma=
-nd_line
-> > +        self.wait_for_console_pattern(console_pattern)
-> > +
-> > +    def test_arm_raspi2_uart0(self):
-> > +        """
-> > +        :avocado: tags=3Darch:arm
-> > +        :avocado: tags=3Dmachine:raspi2
-> > +        :avocado: tags=3Ddevice:pl011
-> > +        """
-> > +        self.do_test_arm_raspi2(0)
-> > +
-> >      def test_s390x_s390_ccw_virtio(self):
-> >          """
-> >          :avocado: tags=3Darch:s390x
-> > --=20
-> > 2.20.1
-> >=20
+
+--dUqh8vgUBVXHzm9w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 23, 2019 at 11:33:41AM +0200, Johannes Berg wrote:
+> On Mon, 2019-09-23 at 10:25 +0100, Stefan Hajnoczi wrote:
+> Note, I'm not happy with this code at all, it deadlocks all the time.
+> Unfortunately I haven't really been able to figure out how to make glib
+> do what I wanted.
 >=20
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> The first issue is that sometimes glib actually seems to reports an FD
+> as readable when it's not, so I even put them into non-blocking mode :(
 
-I also meant:
+Strange.  Spurious wakeups are possible in general.  I think when using
+fd monitoring (select(), poll(), etc) the fds should be in non-blocking
+mode.
 
-Tested-by: Cleber Rosa <crosa@redhat.com>
+But if you're seeing this often it makes me wonder if something else is
+unintentionally reading available bytes...
+
+> The second is that I can't seem to understand how to do recursive
+> mainloops.
+>=20
+> To really do this *well*, it should remain a single-threaded
+> application, but would need a hook like
+>=20
+> run_mainloop_until_fd_readable(vdev->call_fd)
+>=20
+> inside the libvhost-user.c code, and that's a bit ugly ... if I even
+> could figure out how to implement that in glib.
+
+Recursive mainloops are tricky since usually event loop code isn't
+written to be re-entrant.  It opens up a whole new dimension that
+existing code usually wasn't designed for.  In this case you are writing
+the code from scratch so maybe you can get it to work, but it makes me
+wonder why the recursive mainloop is necessary.
+
+Stefan
+
+--dUqh8vgUBVXHzm9w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2d5/UACgkQnKSrs4Gr
+c8iPsQf+NIPSPW5o/8mGp+PCVNDDhBLt4UHyyjoFUCwMBA2CajLmm4Qci7s2Zzph
+mLma3glrwar4xWH5FV5Ac7B3kxBQ/ZeiqQzQ4hFHCww7eCd2Wc3LXdRdjDopbBxx
+Ch5kjRqClPn3ArIO6Lv7QkC3NEY3jHgafIDMXZjnIz1vEwsa0Cr5UlUc4NKZ9/5z
+pNxOzTVUORAiVNvFmI3Otnpguo2FYfH31Q4lh5vAe3jyOp4RthF/GOy3ZgZUfYxj
+9jslo50bk5yfFumTOOsFfryuwmd7E9Nc0xli6t2uCfIFWMpjW52HqXvSDuOz/ZtX
+C1DXm2yzvaaZZZ3Sqi9WrtHCwlFvNQ==
+=Ua7F
+-----END PGP SIGNATURE-----
+
+--dUqh8vgUBVXHzm9w--
 
