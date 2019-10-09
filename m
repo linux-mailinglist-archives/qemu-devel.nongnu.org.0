@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1126D1ADC
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:23:07 +0200 (CEST)
-Received: from localhost ([::1]:58632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2025D1AC4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:20:38 +0200 (CEST)
+Received: from localhost ([::1]:58600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJQI-0008Ht-NW
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57378)
+	id 1iIJNt-0005Lc-QG
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iIHw5-0007G9-Mx
+ (envelope-from <crosa@redhat.com>) id 1iIHw5-0007GT-Sj
  for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iIHw4-0003eZ-Ci
+ (envelope-from <crosa@redhat.com>) id 1iIHw4-0003ek-Q4
  for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:47:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59040)
+Received: from mx1.redhat.com ([209.132.183.28]:54680)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <crosa@redhat.com>)
- id 1iIHw1-0003d0-2w; Wed, 09 Oct 2019 15:47:45 -0400
+ id 1iIHw2-0003dW-F5; Wed, 09 Oct 2019 15:47:46 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 43BB518CB904;
- Wed,  9 Oct 2019 19:47:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A22223086E21;
+ Wed,  9 Oct 2019 19:47:45 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-122-151.rdu2.redhat.com
  [10.10.122.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 124311001DC0;
- Wed,  9 Oct 2019 19:47:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E82010013D9;
+ Wed,  9 Oct 2019 19:47:44 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] qemu-iotests: remove bash shebang from library files
-Date: Wed,  9 Oct 2019 15:47:37 -0400
-Message-Id: <20191009194740.8079-2-crosa@redhat.com>
+Subject: [PATCH v2 2/4] qemu-iotests: remove forceful execution success from
+ library files
+Date: Wed,  9 Oct 2019 15:47:38 -0400
+Message-Id: <20191009194740.8079-3-crosa@redhat.com>
 In-Reply-To: <20191009194740.8079-1-crosa@redhat.com>
 References: <20191009194740.8079-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Wed, 09 Oct 2019 19:47:44 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 09 Oct 2019 19:47:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,102 +64,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to not being able to find a reason to have shebangs on files that
-are not executable.
+Should not be necessary on files that are not executed standalone.
 
-While at it, add a mode hint to emacs, which would be clueless or
-plain wrong about these containing shell code.
-
-Suggested-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/qemu-iotests/common.config  | 2 +-
- tests/qemu-iotests/common.filter  | 2 +-
- tests/qemu-iotests/common.nbd     | 3 +--
- tests/qemu-iotests/common.pattern | 2 +-
- tests/qemu-iotests/common.qemu    | 2 +-
- tests/qemu-iotests/common.rc      | 2 +-
- tests/qemu-iotests/common.tls     | 2 +-
- 7 files changed, 7 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/common.config | 3 ---
+ tests/qemu-iotests/common.filter | 3 ---
+ tests/qemu-iotests/common.rc     | 3 ---
+ 3 files changed, 9 deletions(-)
 
 diff --git a/tests/qemu-iotests/common.config b/tests/qemu-iotests/common=
 .config
-index 9bd1a5a6fc..b85a6a6f96 100644
+index b85a6a6f96..47605d61e2 100644
 --- a/tests/qemu-iotests/common.config
 +++ b/tests/qemu-iotests/common.config
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+# -*- emacs mode: sh -*-
- #
- # Copyright (C) 2009 Red Hat, Inc.
- # Copyright (c) 2000-2003,2006 Silicon Graphics, Inc.  All Rights Reserv=
-ed.
+@@ -36,6 +36,3 @@ _optstr_add()
+         echo "$2"
+     fi
+ }
+-
+-# make sure this script returns success
+-true
 diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
 .filter
-index 9f418b4881..a0b52b0ac8 100644
+index a0b52b0ac8..60f675251a 100644
 --- a/tests/qemu-iotests/common.filter
 +++ b/tests/qemu-iotests/common.filter
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+# -*- emacs mode: sh -*-
- #
- # Copyright (C) 2009 Red Hat, Inc.
- # Copyright (c) 2000-2001 Silicon Graphics, Inc.  All Rights Reserved.
-diff --git a/tests/qemu-iotests/common.nbd b/tests/qemu-iotests/common.nb=
-d
-index 24b01b60aa..a98d05d404 100644
---- a/tests/qemu-iotests/common.nbd
-+++ b/tests/qemu-iotests/common.nbd
-@@ -1,5 +1,4 @@
--#!/usr/bin/env bash
--# -*- shell-script-mode -*-
-+# -*- emacs mode: sh -*-
- #
- # Helpers for NBD server related config
- #
-diff --git a/tests/qemu-iotests/common.pattern b/tests/qemu-iotests/commo=
-n.pattern
-index 4f5e5bcea0..4028b32c54 100644
---- a/tests/qemu-iotests/common.pattern
-+++ b/tests/qemu-iotests/common.pattern
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+# -*- emacs mode: sh -*-
- #
- # Copyright (C) 2009 Red Hat, Inc.
- #
-diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.q=
-emu
-index 8d2021a7eb..66569f6bdd 100644
---- a/tests/qemu-iotests/common.qemu
-+++ b/tests/qemu-iotests/common.qemu
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+# -*- emacs mode: sh -*-
- #
- # This allows for launching of multiple QEMU instances, with independent
- # communication possible to each instance.
+@@ -226,6 +226,3 @@ _filter_qmp_empty_return()
+ {
+     grep -v '{"return": {}}'
+ }
+-
+-# make sure this script returns success
+-true
 diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index e45cdfa66b..aa4a7fcc11 100644
+index aa4a7fcc11..3fd4330dbd 100644
 --- a/tests/qemu-iotests/common.rc
 +++ b/tests/qemu-iotests/common.rc
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+# -*- emacs mode: sh -*-
- #
- # Copyright (C) 2009 Red Hat, Inc.
- # Copyright (c) 2000-2006 Silicon Graphics, Inc.  All Rights Reserved.
-diff --git a/tests/qemu-iotests/common.tls b/tests/qemu-iotests/common.tl=
-s
-index 54c331d7a5..759a3d6d71 100644
---- a/tests/qemu-iotests/common.tls
-+++ b/tests/qemu-iotests/common.tls
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+# -*- emacs mode: sh -*-
- #
- # Helpers for TLS related config
- #
+@@ -602,6 +602,3 @@ _require_drivers()
+         fi
+     done
+ }
+-
+-# make sure this script returns success
+-true
 --=20
 2.21.0
 
