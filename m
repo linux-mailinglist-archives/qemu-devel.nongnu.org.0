@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C9ED0540
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 03:30:17 +0200 (CEST)
-Received: from localhost ([::1]:38512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9250D054A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 03:38:42 +0200 (CEST)
+Received: from localhost ([::1]:38558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iI0nw-0001Qa-O6
-	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 21:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41257)
+	id 1iI0w5-0003NF-Gu
+	for lists+qemu-devel@lfdr.de; Tue, 08 Oct 2019 21:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iI0mx-0000id-EA
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:29:16 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iI0ul-0002rs-Ip
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:37:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iI0mw-0000GR-Fd
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:29:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46028)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>)
- id 1iI0ms-0000FB-Gp; Tue, 08 Oct 2019 21:29:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 830CB83F4C;
- Wed,  9 Oct 2019 01:29:07 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-122-151.rdu2.redhat.com
- [10.10.122.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBF6260167;
- Wed,  9 Oct 2019 01:28:59 +0000 (UTC)
-Date: Tue, 8 Oct 2019 21:28:57 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 02/19] hw/arm/bcm2835_peripherals: Improve logging
-Message-ID: <20191009012857.GA22824@localhost.localdomain>
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-3-f4bug@amsat.org>
- <874l0jk3w6.fsf@linaro.org>
+ (envelope-from <richard.henderson@linaro.org>) id 1iI0uk-0005Ir-7o
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:37:19 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:33898)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iI0uk-0005Id-2A
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:37:18 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id m1so210322ybm.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 18:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2M0QElxVB/CyxdHrHz7p+BbYVSSnjE2w4SAIhBUcbv8=;
+ b=XdZbuszpfeGTL8m/FRsqcqg1/ojxuja8/TdUl8oUztciGqycjlzMmCE0brSa5+eUJU
+ XRpQ/KarU+I3LnASVWGLLVB90Dx4Qhn0j54ld08LN87ncCtTGv+bTH+c/yirMlGyYcd6
+ 7uqEtU3YejDOMy0MYfquYh3SVWrIG/Whc+TPJZGYUd673om5HzEAAX+Sh8FyhndQZj1+
+ +k3ZdLztGX23vCT69JTduhxxO4KgoUzKKF1hN+aybD7YyZVzq/rYt8FEMad3pP4LErv+
+ IzoPbj/U/SO++6ExFqjJ+oGhXeStDlMTCINgCh+xfNYdQ9SmZJxhHf+fQ5ZVIjaX2JQ+
+ 3zmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2M0QElxVB/CyxdHrHz7p+BbYVSSnjE2w4SAIhBUcbv8=;
+ b=mb8t6tCENtk5MqRRhtNtc4r2qg2dfWZEHRJUgv6J3NCu3xIUn1NLTOUv90EO0xNP9v
+ CJ03UQVsaPiZ4eszk53Qpb+ss5cwnqC1HBTErHuadih4qMnFk3hkqWO9PGTrRZMsnyzl
+ 7wlmDR+9tIuCTmxSp3CJ8hNdqfABMkZn3UdcAj0afhDcLyCZosUpzWNV6To1ngHvcxdq
+ V3xEmK1qx1AJ5dcWYnCuOhgGLhzQ3JveQ4oG7VfKO4m8sebNxUQ/cs6bIQQYZ/oTDKt5
+ r04IIZRW/OoRHzc68HSIC/M7z7X77J7oXVb5mvQIvAPbFDtL6cGPXbyM9QWcguZ37xZ+
+ Iy/g==
+X-Gm-Message-State: APjAAAV7LyOJsEiwXw2Bsu69QRzK9PrceQtneP1HnscVvjxMnTpbz5DG
+ EW/lEQWVtg2/cLXWxuMjnRC+SQ==
+X-Google-Smtp-Source: APXvYqy78dDh8EifhxNIrXkqOIu2sFt9YcO71AwoqqWF0wd9nePaFu9g61vYxTTK7VKuYmIBw1LTng==
+X-Received: by 2002:a25:824c:: with SMTP id d12mr473415ybn.217.1570585036957; 
+ Tue, 08 Oct 2019 18:37:16 -0700 (PDT)
+Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
+ by smtp.gmail.com with ESMTPSA id h65sm220235ywa.62.2019.10.08.18.37.15
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 08 Oct 2019 18:37:16 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] target/riscv: Remove atomic accesses to MIP CSR
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <34350af3b53fadc50bfe4f1fbc452c7d3a8fe8f7.1570572202.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <8b816d13-0243-562c-7fa9-96f350935895@linaro.org>
+Date: Tue, 8 Oct 2019 21:37:11 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <874l0jk3w6.fsf@linaro.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Wed, 09 Oct 2019 01:29:08 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <34350af3b53fadc50bfe4f1fbc452c7d3a8fe8f7.1570572202.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::b43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,36 +83,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?iso-8859-1?Q?Zolt=E1n?= Baldaszti <bztemail@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-devel@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: alistair23@gmail.com, palmer@sifive.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 08, 2019 at 10:00:57AM +0100, Alex Benn=E9e wrote:
->=20
-> Philippe Mathieu-Daud=E9 <f4bug@amsat.org> writes:
->=20
-> > Various logging improvements as once:
-> > - Use 0x prefix for hex numbers
->=20
-> You can use "%#"PRIxNN"" as an alternative I believe but anyway:
->
+On 10/8/19 6:04 PM, Alistair Francis wrote:
+> Instead of relying on atomics to access the MIP register let's update
+> our helper function to instead just lock the IO mutex thread before
+> writing. This follows the same concept as used in PPC for handling
+> interrupts
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu.c        |  5 ++--
+>  target/riscv/cpu.h        |  9 --------
+>  target/riscv/cpu_helper.c | 48 +++++++++++++++------------------------
+>  target/riscv/csr.c        |  2 +-
+>  4 files changed, 21 insertions(+), 43 deletions(-)
 
-Unless the value given to the formatting string is zero, then the "0x"
-prefix is not applied to the resulting string.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+r~
 
