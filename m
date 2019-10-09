@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA55D1509
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:13:14 +0200 (CEST)
-Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F350D1564
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:19:36 +0200 (CEST)
+Received: from localhost ([::1]:52950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFWT-00008I-9Q
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
+	id 1iIFcc-0007TM-Vi
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iI59K-0001Yi-4j
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:41 -0400
+ (envelope-from <peterx@redhat.com>) id 1iI5TC-0003aC-Pn
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:29:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iI59D-0006XM-0N
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:37 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35991 helo=ozlabs.org)
+ (envelope-from <peterx@redhat.com>) id 1iI5TA-0000cv-Jj
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:29:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39868)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iI59C-0006Ub-IR; Wed, 09 Oct 2019 02:08:30 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46p3gD4qYJz9sQw; Wed,  9 Oct 2019 17:08:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570601304;
- bh=3rarXC+2dGixFEg3CKdOUSqUn8XUU6WBiaqJUrhqbCM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HK+nEZ5/2ZuUxpjo9UJxVt5qYQ8h7wZWW18cmF8Kl7dU4MezVOOOWH/GopYAnCzJh
- 7/bWXX8ze5wAKQZ6XyGjay8iGpusFz+YDfbYJFnK9/JFW/s+P5iPIUNXUyng5jklPR
- BbfoZGpgul3uvAoF8eHpO93vAvtDn6DwIW781eIM=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org,
-	clg@kaod.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v4 06/19] spapr, xics,
- xive: Move irq claim and free from SpaprIrq to
- SpaprInterruptController
-Date: Wed,  9 Oct 2019 17:08:05 +1100
-Message-Id: <20191009060818.29719-7-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iI5TA-0000YF-An
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:29:08 -0400
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 52631C004E8D
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 06:29:06 +0000 (UTC)
+Received: by mail-pf1-f200.google.com with SMTP id b13so1113427pfp.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 23:29:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=5MC/xpOVeO48b6oFuZVrop2DdqL+1eMShZ/UYESNK3c=;
+ b=RuQ6ZN2FsXg+2C+gZBM3F4atZ58/VzzaCr1uwIDW2tjQIVImoLeL9njPFnVZN9QxY7
+ MmfdPtFkjh/FMmSLKxsyw3U1U7HU3AXuz4kA+TDczG0pAsY+k+eOf3VcLWHt9OLOkixw
+ DOrH9VdxMqJGoZMAymAccnV3lTWkl8DanN1hQBFZcxE6s8jUgU9i5Kzf26tOqhg0h8m8
+ 3kkMzFYYPf6JcO8pSHCpln/g5AYQQIDskvLCXlP6sp6l2Pj7AaZTXUFcwcn24o2BUBQM
+ voAuTEPxknmUfg9jgK2RaKDPsECemcWgRD6EwbW23USwrd9od2S1wx1rCI5zEWq0J8su
+ W4sA==
+X-Gm-Message-State: APjAAAXBqjssDah78ot2S44q7NrsSz6pBwl9fAja5+gxOa08Rp3BUGii
+ flY8g5q7c8VpP8xs/N6YhXAMZMYvviyuNEy/CVOJFHq5cpKAthglwejAV9eeaKC8f3Xr63WtBbx
+ VTDmpihw8Ioix41o=
+X-Received: by 2002:a62:3441:: with SMTP id b62mr2056526pfa.12.1570602545690; 
+ Tue, 08 Oct 2019 23:29:05 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzVjsJgR6qN7WADec/Z0SLYVrBWhXr7sjrmz3ltEy1nB8F9VSzDJEZVxVK9sswQxutbT1Sa3A==
+X-Received: by 2002:a62:3441:: with SMTP id b62mr2056511pfa.12.1570602545403; 
+ Tue, 08 Oct 2019 23:29:05 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id c11sm1599271pfj.114.2019.10.08.23.29.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2019 23:29:04 -0700 (PDT)
+Date: Wed, 9 Oct 2019 14:28:53 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3] migration: Support gtree migration
+Message-ID: <20191009062852.GB1039@xz-x1>
+References: <20191004112025.28868-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191004112025.28868-1-eric.auger@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,421 +76,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These methods, like cpu_intc_create, really belong to the interrupt
-controller, but need to be called on all possible intcs.
+On Fri, Oct 04, 2019 at 01:20:25PM +0200, Eric Auger wrote:
+> Introduce support for GTree migration. A custom save/restore
+> is implemented. Each item is made of a key and a data.
+> 
+> If the key is a pointer to an object, 2 VMSDs are passed into
+> the GTree VMStateField.
+> 
+> When putting the items, the tree is traversed in sorted order by
+> g_tree_foreach.
+> 
+> On the get() path, gtrees must be allocated using the proper
+> key compare, key destroy and value destroy. This must be handled
+> beforehand, for example in a pre_load method.
+> 
+> Tests are added to test save/dump of structs containing gtrees
+> including the virtio-iommu domain/mappings scenario.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-Like cpu_intc_create, therefore, make them methods on the intc and
-always call it for all existing intcs.
+Mostly looks sane to me (with Juan's comment fixed).  Some more
+trivial comments below.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/intc/spapr_xive.c        |  71 ++++++++++++-----------
- hw/intc/xics_spapr.c        |  29 ++++++++++
- hw/ppc/spapr_irq.c          | 110 +++++++++++-------------------------
- include/hw/ppc/spapr_irq.h  |   5 +-
- include/hw/ppc/spapr_xive.h |   2 -
- 5 files changed, 102 insertions(+), 115 deletions(-)
+> +/*
+> + * For migrating a GTree whose key is a pointer to _key_type and the
+> + * value, a pointer to _val_type
+> + * The target tree must have been properly initialized
+> + * _vmsd: Start address of the 2 element array containing the key vmsd
+> + *        and the data vmsd
+> + * _key_type: type of the key
+> + * _val_type: type of the value
+> + */
+> +#define VMSTATE_GTREE_V(_field, _state, _version, _vmsd,                       \
+> +                        _key_type, _val_type)                                  \
+> +{                                                                              \
+> +    .name         = (stringify(_field)),                                       \
+> +    .version_id   = (_version),                                                \
+> +    .vmsd         = (_vmsd),                                                   \
+> +    .info         = &vmstate_info_gtree,                                       \
+> +    .start        = sizeof(_key_type),                                         \
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 9338daba3d..ff1a175b44 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -487,6 +487,42 @@ static const VMStateDescription vmstate_spapr_xive =3D=
- {
-     },
- };
-=20
-+static int spapr_xive_claim_irq(SpaprInterruptController *intc, int lisn=
-,
-+                                bool lsi, Error **errp)
-+{
-+    SpaprXive *xive =3D SPAPR_XIVE(intc);
-+    XiveSource *xsrc =3D &xive->source;
-+
-+    assert(lisn < xive->nr_irqs);
-+
-+    if (xive_eas_is_valid(&xive->eat[lisn])) {
-+        error_setg(errp, "IRQ %d is not free", lisn);
-+        return -EBUSY;
-+    }
-+
-+    /*
-+     * Set default values when allocating an IRQ number
-+     */
-+    xive->eat[lisn].w |=3D cpu_to_be64(EAS_VALID | EAS_MASKED);
-+    if (lsi) {
-+        xive_source_irq_set_lsi(xsrc, lisn);
-+    }
-+
-+    if (kvm_irqchip_in_kernel()) {
-+        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
-+    }
-+
-+    return 0;
-+}
-+
-+static void spapr_xive_free_irq(SpaprInterruptController *intc, int lisn=
-)
-+{
-+    SpaprXive *xive =3D SPAPR_XIVE(intc);
-+    assert(lisn < xive->nr_irqs);
-+
-+    xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
-+}
-+
- static Property spapr_xive_properties[] =3D {
-     DEFINE_PROP_UINT32("nr-irqs", SpaprXive, nr_irqs, 0),
-     DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
-@@ -536,6 +572,8 @@ static void spapr_xive_class_init(ObjectClass *klass,=
- void *data)
-     xrc->get_tctx =3D spapr_xive_get_tctx;
-=20
-     sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
-+    sicc->claim_irq =3D spapr_xive_claim_irq;
-+    sicc->free_irq =3D spapr_xive_free_irq;
- }
-=20
- static const TypeInfo spapr_xive_info =3D {
-@@ -557,39 +595,6 @@ static void spapr_xive_register_types(void)
-=20
- type_init(spapr_xive_register_types)
-=20
--int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **er=
-rp)
--{
--    XiveSource *xsrc =3D &xive->source;
--
--    assert(lisn < xive->nr_irqs);
--
--    if (xive_eas_is_valid(&xive->eat[lisn])) {
--        error_setg(errp, "IRQ %d is not free", lisn);
--        return -EBUSY;
--    }
--
--    /*
--     * Set default values when allocating an IRQ number
--     */
--    xive->eat[lisn].w |=3D cpu_to_be64(EAS_VALID | EAS_MASKED);
--    if (lsi) {
--        xive_source_irq_set_lsi(xsrc, lisn);
--    }
--
--    if (kvm_irqchip_in_kernel()) {
--        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
--    }
--
--    return 0;
--}
--
--void spapr_xive_irq_free(SpaprXive *xive, int lisn)
--{
--    assert(lisn < xive->nr_irqs);
--
--    xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
--}
--
- /*
-  * XIVE hcalls
-  *
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 946311b858..224fe1efcd 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -346,6 +346,33 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
-Controller *intc,
-     return 0;
- }
-=20
-+static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
-+                                bool lsi, Error **errp)
-+{
-+    ICSState *ics =3D ICS_SPAPR(intc);
-+
-+    assert(ics);
-+    assert(ics_valid_irq(ics, irq));
-+
-+    if (!ics_irq_free(ics, irq - ics->offset)) {
-+        error_setg(errp, "IRQ %d is not free", irq);
-+        return -EBUSY;
-+    }
-+
-+    ics_set_irq_type(ics, irq - ics->offset, lsi);
-+    return 0;
-+}
-+
-+static void xics_spapr_free_irq(SpaprInterruptController *intc, int irq)
-+{
-+    ICSState *ics =3D ICS_SPAPR(intc);
-+    uint32_t srcno =3D irq - ics->offset;
-+
-+    assert(ics_valid_irq(ics, irq));
-+
-+    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
-+}
-+
- static void ics_spapr_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -355,6 +382,8 @@ static void ics_spapr_class_init(ObjectClass *klass, =
-void *data)
-     device_class_set_parent_realize(dc, ics_spapr_realize,
-                                     &isc->parent_realize);
-     sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
-+    sicc->claim_irq =3D xics_spapr_claim_irq;
-+    sicc->free_irq =3D xics_spapr_free_irq;
- }
-=20
- static const TypeInfo ics_spapr_info =3D {
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 9cb2fc71ca..83882cfad3 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -98,33 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spap=
-r,
-  * XICS IRQ backend.
-  */
-=20
--static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool =
-lsi,
--                                Error **errp)
--{
--    ICSState *ics =3D spapr->ics;
--
--    assert(ics);
--    assert(ics_valid_irq(ics, irq));
--
--    if (!ics_irq_free(ics, irq - ics->offset)) {
--        error_setg(errp, "IRQ %d is not free", irq);
--        return -1;
--    }
--
--    ics_set_irq_type(ics, irq - ics->offset, lsi);
--    return 0;
--}
--
--static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
--{
--    ICSState *ics =3D spapr->ics;
--    uint32_t srcno =3D irq - ics->offset;
--
--    assert(ics_valid_irq(ics, irq));
--
--    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
--}
--
- static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor =
-*mon)
- {
-     CPUState *cs;
-@@ -182,8 +155,6 @@ SpaprIrq spapr_irq_xics =3D {
-     .xics        =3D true,
-     .xive        =3D false,
-=20
--    .claim       =3D spapr_irq_claim_xics,
--    .free        =3D spapr_irq_free_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-     .dt_populate =3D spapr_dt_xics,
-     .post_load   =3D spapr_irq_post_load_xics,
-@@ -196,17 +167,6 @@ SpaprIrq spapr_irq_xics =3D {
-  * XIVE IRQ backend.
-  */
-=20
--static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool =
-lsi,
--                                Error **errp)
--{
--    return spapr_xive_irq_claim(spapr->xive, irq, lsi, errp);
--}
--
--static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
--{
--    spapr_xive_irq_free(spapr->xive, irq);
--}
--
- static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-                                       Monitor *mon)
- {
-@@ -272,8 +232,6 @@ SpaprIrq spapr_irq_xive =3D {
-     .xics        =3D false,
-     .xive        =3D true,
-=20
--    .claim       =3D spapr_irq_claim_xive,
--    .free        =3D spapr_irq_free_xive,
-     .print_info  =3D spapr_irq_print_info_xive,
-     .dt_populate =3D spapr_dt_xive,
-     .post_load   =3D spapr_irq_post_load_xive,
-@@ -301,33 +259,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
- *spapr)
-         &spapr_irq_xive : &spapr_irq_xics;
- }
-=20
--static int spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, bool =
-lsi,
--                                Error **errp)
--{
--    Error *local_err =3D NULL;
--    int ret;
--
--    ret =3D spapr_irq_xics.claim(spapr, irq, lsi, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return ret;
--    }
--
--    ret =3D spapr_irq_xive.claim(spapr, irq, lsi, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return ret;
--    }
--
--    return ret;
--}
--
--static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
--{
--    spapr_irq_xics.free(spapr, irq);
--    spapr_irq_xive.free(spapr, irq);
--}
--
- static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor =
-*mon)
- {
-     spapr_irq_current(spapr)->print_info(spapr, mon);
-@@ -401,8 +332,6 @@ SpaprIrq spapr_irq_dual =3D {
-     .xics        =3D true,
-     .xive        =3D true,
-=20
--    .claim       =3D spapr_irq_claim_dual,
--    .free        =3D spapr_irq_free_dual,
-     .print_info  =3D spapr_irq_print_info_dual,
-     .dt_populate =3D spapr_irq_dt_populate_dual,
-     .post_load   =3D spapr_irq_post_load_dual,
-@@ -572,8 +501,11 @@ void spapr_irq_init(SpaprMachineState *spapr, Error =
-**errp)
-=20
-         /* Enable the CPU IPIs */
-         for (i =3D 0; i < nr_servers; ++i) {
--            if (spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i,
--                                     false, errp) < 0) {
-+            SpaprInterruptControllerClass *sicc
-+                =3D SPAPR_INTC_GET_CLASS(spapr->xive);
-+
-+            if (sicc->claim_irq(SPAPR_INTC(spapr->xive), SPAPR_IRQ_IPI +=
- i,
-+                                false, errp) < 0) {
-                 return;
-             }
-         }
-@@ -587,21 +519,45 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
-=20
- int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
-*errp)
- {
-+    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-+    int i;
-+    int rc;
-+
-     assert(irq >=3D SPAPR_XIRQ_BASE);
-     assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-=20
--    return spapr->irq->claim(spapr, irq, lsi, errp);
-+    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
-+        SpaprInterruptController *intc =3D intcs[i];
-+        if (intc) {
-+            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
-(intc);
-+            rc =3D sicc->claim_irq(intc, irq, lsi, errp);
-+            if (rc < 0) {
-+                return rc;
-+            }
-+        }
-+    }
-+
-+    return 0;
- }
-=20
- void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
- {
--    int i;
-+    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
-+    int i, j;
-=20
-     assert(irq >=3D SPAPR_XIRQ_BASE);
-     assert((irq + num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
-=20
-     for (i =3D irq; i < (irq + num); i++) {
--        spapr->irq->free(spapr, i);
-+        for (j =3D 0; j < ARRAY_SIZE(intcs); j++) {
-+            SpaprInterruptController *intc =3D intcs[j];
-+
-+            if (intc) {
-+                SpaprInterruptControllerClass *sicc
-+                    =3D SPAPR_INTC_GET_CLASS(intc);
-+                sicc->free_irq(intc, i);
-+            }
-+        }
-     }
- }
-=20
-@@ -726,8 +682,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .xics        =3D true,
-     .xive        =3D false,
-=20
--    .claim       =3D spapr_irq_claim_xics,
--    .free        =3D spapr_irq_free_xics,
-     .print_info  =3D spapr_irq_print_info_xics,
-     .dt_populate =3D spapr_dt_xics,
-     .post_load   =3D spapr_irq_post_load_xics,
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 5e641e23c1..adfef0fcbe 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -50,6 +50,9 @@ typedef struct SpaprInterruptControllerClass {
-      */
-     int (*cpu_intc_create)(SpaprInterruptController *intc,
-                             PowerPCCPU *cpu, Error **errp);
-+    int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
-+                     Error **errp);
-+    void (*free_irq)(SpaprInterruptController *intc, int irq);
- } SpaprInterruptControllerClass;
-=20
- int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
-@@ -67,8 +70,6 @@ typedef struct SpaprIrq {
-     bool        xics;
-     bool        xive;
-=20
--    int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **er=
-rp);
--    void (*free)(SpaprMachineState *spapr, int irq);
-     void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
-     void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
-                         void *fdt, uint32_t phandle);
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 0df20a6590..8f875673f5 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -54,8 +54,6 @@ typedef struct SpaprXive {
-  */
- #define SPAPR_XIVE_BLOCK_ID 0x0
-=20
--int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **er=
-rp);
--void spapr_xive_irq_free(SpaprXive *xive, int lisn);
- void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
- int spapr_xive_post_load(SpaprXive *xive, int version_id);
-=20
---=20
-2.21.0
+Nitpick: Are we reusing the "start" field to store the size just to
+avoid defining new field in VMStateField?  If so, not sure whether we
+can start to use unions to both keep VMStateField small while keep the
+code clean.  Like:
 
+  union {
+    struct {
+      size_t key_size;
+      size_t value_size;
+    };
+    struct {
+      size_t start;
+      size_t size;
+    };
+  }
+
+?
+
+This can of course also be done on top of this patch no matter what.
+
+[...]
+
+> +static gboolean put_gtree_elem(gpointer key, gpointer value, gpointer data)
+> +{
+> +    struct put_gtree_data *capsule = (struct put_gtree_data *)data;
+> +    QEMUFile *f = capsule->f;
+> +    int ret;
+> +
+> +    qemu_put_byte(f, true);
+> +
+> +    /* put the key */
+> +    if (!capsule->key_vmsd) {
+> +        qemu_put_be32(f, GPOINTER_TO_UINT(key)); /* direct key */
+
+This is special code path for direct key case.  Can we simply define
+VMSTATE_GTREE_DIRECT_KEY_V() somehow better so that it just uses the
+VMSTATE_UINT32_V() as the key vmsd?  Then iiuc vmstate_save_state()
+could work well with that too.
+
+Also, should we avoid using UINT in all cases?  But of course if we
+start to use VMSTATE_UINT32_V then we don't have this issue.
+
+Thanks,
+
+> +    } else {
+> +        ret = vmstate_save_state(f, capsule->key_vmsd, key, capsule->vmdesc);
+> +        if (ret) {
+> +            capsule->ret = ret;
+> +            return true;
+> +        }
+> +    }
+> +
+> +    /* put the data */
+> +    ret = vmstate_save_state(f, capsule->val_vmsd, value, capsule->vmdesc);
+> +    if (ret) {
+> +        capsule->ret = ret;
+> +        return true;
+> +    }
+> +    return false;
+> +}
+
+-- 
+Peter Xu
 
