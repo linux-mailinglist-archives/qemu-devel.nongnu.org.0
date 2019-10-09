@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9027D1AA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:14:37 +0200 (CEST)
-Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60884D1AAF
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:18:15 +0200 (CEST)
+Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJI4-0007sH-BS
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52316)
+	id 1iIJLZ-0002e2-T2
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iIHTA-0002jJ-1H
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:18:00 -0400
+ (envelope-from <armbru@redhat.com>) id 1iIHTU-0002vv-UI
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:18:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iIHT7-0006gg-Ns
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:17:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45524)
+ (envelope-from <armbru@redhat.com>) id 1iIHTS-0006qh-PD
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:18:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:6320)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHT7-0006fw-BS
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:17:53 -0400
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1iIHTS-0006qJ-Fi; Wed, 09 Oct 2019 15:18:14 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3458B2CE905
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:17:52 +0000 (UTC)
-Received: by mail-qk1-f197.google.com with SMTP id n135so2945608qke.23
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:17:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=5Z1lbJyLmfkG493rnJvBSTwZ4AJSxGiXUH6MwWMjsvA=;
- b=XAJZ9EAF0H+xm5KeO1/lWuADvrjgtbmIibU8CCa+dv5mC+DgeSww1sU1d8qIK6SWrz
- edivB0kG48YF/aH+UENn18GQMeoRMSSbFnqBIOo5OogwSqnqlRIWwIE9FRh/jtrnkJmr
- JMGNYiWRRRQm4U3HYP+9XNmDrbCok7TuSA4TfUfbS2Figy2Dq2DkCSNcbt2YwLCMl8sb
- JDE4wJMCTpiDde8MxlHZ8Hrv0R81NfJ2U8x/vyGzr+jdvoaXadgpH/UJ0yPhqDl0Nxv0
- itUEJqQdZrm3BPzDV9s3a7pNVlIeTMF+rQJIjl1naU5rNtu+sNVZG6L0riPVrjPcFMAV
- vpaA==
-X-Gm-Message-State: APjAAAX0M1oND9c9wj6Ye7GbhLvp5watXDi9Chd2tLBckh4ICw5srSPp
- tryIqCgJIU/rjrLLerMX4wy1hDl50pWsYut/OUUE+e6klC5U5Q6qPdGQgVWdUn2BGi6jYQoO+4j
- jxcn+YDGEb1nJz5k=
-X-Received: by 2002:a0c:8964:: with SMTP id 33mr2135280qvq.241.1570648671491; 
- Wed, 09 Oct 2019 12:17:51 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwKnXBbNftbYnk7HLVkRyFw9ZshhnD/+dxnGLbd7edME+1z8MO4FoqQ4E6+0RMuruHaY2Z3/g==
-X-Received: by 2002:a0c:8964:: with SMTP id 33mr2135250qvq.241.1570648671239; 
- Wed, 09 Oct 2019 12:17:51 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- 139sm1418694qkf.14.2019.10.09.12.17.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 12:17:50 -0700 (PDT)
-Date: Wed, 9 Oct 2019 15:17:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 1/8] hw/acpi/piix4: Convert reset handler to DeviceReset
-Message-ID: <20191009151638-mutt-send-email-mst@kernel.org>
-References: <20191008142539.7793-1-philmd@redhat.com>
- <20191008142539.7793-2-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id A9C723164683;
+ Wed,  9 Oct 2019 19:18:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83ACA6092F;
+ Wed,  9 Oct 2019 19:18:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 05D2A1138619; Wed,  9 Oct 2019 21:18:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Subject: Re: [PATCH] monitor/qmp: resume monitor when clearing its queue
+References: <20191002083003.21556-1-w.bumiller@proxmox.com>
+ <87ftk28g8f.fsf@dusky.pond.sub.org>
+ <20191009101032.kxts5buz7sp3cyo5@olga.proxmox.com>
+Date: Wed, 09 Oct 2019 21:18:04 +0200
+In-Reply-To: <20191009101032.kxts5buz7sp3cyo5@olga.proxmox.com> (Wolfgang
+ Bumiller's message of "Wed, 9 Oct 2019 12:10:32 +0200")
+Message-ID: <8736g1zq1f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20191008142539.7793-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 09 Oct 2019 19:18:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -79,76 +62,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Aleksandar Rikalo <arikalo@wavecomp.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 08, 2019 at 04:25:32PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> The PIIX4/PM is a PCI device within the PIIX4 chipset, it will be reset
-> when the PCI bus it stands on is reset.
->=20
-> Convert its reset handler into a proper Device reset method.
->=20
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> On Wed, Oct 09, 2019 at 10:39:44AM +0200, Markus Armbruster wrote:
+>> Cc: Marc-Andr=C3=A9 for additional monitor and chardev expertise.
+>>=20
+>> Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
+>>=20
+>> > When a monitor's queue is filled up in handle_qmp_command()
+>> > it gets suspended. It's the dispatcher bh's job currently to
+>> > resume the monitor, which it does after processing an event
+>> > from the queue. However, it is possible for a
+>> > CHR_EVENT_CLOSED event to be processed before before the bh
+>> > is scheduled, which will clear the queue without resuming
+>> > the monitor, thereby preventing the dispatcher from reaching
+>> > the resume() call.
+>>=20
+>> Because with the request queue cleared, there's nothing for
+>> monitor_qmp_requests_pop_any_with_lock() to pop, so
+>> monitor_qmp_bh_dispatcher() won't look at this monitor.  It stays
+>> suspended forever.  Correct?
+>>=20
+>> Observable effect for the monitor's user?
+>
+> Yes.
 
-feel free to take through the misc tree.
+I was too terse, let me try again: what exactly breaks for the monitor's
+user?
 
+>      More easily triggered now with oob. We ran into this a longer time
+> ago, but our only reliable trigger was a customized version of
+> -loadstate which loads the state from a separate file instead of the
+> vmstate region of a qcow2. Turns out that doing this on a slow storage
+> (~12s to load the data) caused our status daemon to try to poll the qmp
+> socket during the load-state and give up after a 3s timeout. And since
+> the BH runs in the main loop which is not even entered until after the
+> loadstate has finished, but iothread handling the qmp socket does fill &
+> clear the queue, the qmp socket always ended up unusable afterwards.
+>
+> Aside from that we have users reporting the same symptom (hanging qmp)
+> appearing randomly on busy systems.
+>
+>> > Fix this by resuming the monitor when clearing a queue which
+>> > was filled up.
+>> >
+>> > Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+>> > ---
+>> > @Michael, we ran into this with qemu 4.0, so if the logic in this patch
+>> > is correct it may make sense to include it in the 4.0.1 roundup.
+>> > A backport is at [1] as 4.0 was before the monitor/ dir split.
+>> >
+>> > [1] https://gitlab.com/wbumiller/qemu/commit/9d8bbb5294ed084f282174b0c=
+91e1a614e0a0714
+>> >
+>> >  monitor/qmp.c | 10 ++++++++++
+>> >  1 file changed, 10 insertions(+)
+>> >
+>> > diff --git a/monitor/qmp.c b/monitor/qmp.c
+>> > index 9d9e5d8b27..c1db5bf940 100644
+>> > --- a/monitor/qmp.c
+>> > +++ b/monitor/qmp.c
+>> > @@ -70,9 +70,19 @@ static void qmp_request_free(QMPRequest *req)
+>> >  /* Caller must hold mon->qmp.qmp_queue_lock */
+>> >  static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
+>> >  {
+>> > +    bool need_resume =3D (!qmp_oob_enabled(mon) && mon->qmp_requests-=
+>length > 0)
+>> > +        || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
+>>=20
+>> Can you explain why this condition is correct?
+>
+> Sorry, I meant to add a comment pointing to monitor_qmp_bh_dispatcher(),
+> which does the following *after* popping 1 element off the queue:
+>
+>     need_resume =3D !qmp_oob_enabled(mon) ||
+>         mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX - 1;
+>     qemu_mutex_unlock(&mon->qmp_queue_lock);
+>
+> It's supposed to be the same condition, but _before_ popping off an
+> element (hence no `- 1`), but the queue shouldn't be empty as well
+> otherwise the `monitor_suspend()` in `handle_qmp_command()` hasn't
+> happened, though on second though we could probably just return early in
+> that case.).
 
-> ---
->  hw/acpi/piix4.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 5742c3df87..4e079b39bd 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -27,7 +27,6 @@
->  #include "hw/pci/pci.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/acpi/acpi.h"
-> -#include "sysemu/reset.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/sysemu.h"
->  #include "qapi/error.h"
-> @@ -344,9 +343,9 @@ static const VMStateDescription vmstate_acpi =3D {
->      }
->  };
-> =20
-> -static void piix4_reset(void *opaque)
-> +static void piix4_pm_reset(DeviceState *dev)
->  {
-> -    PIIX4PMState *s =3D opaque;
-> +    PIIX4PMState *s =3D PIIX4_PM(dev);
->      PCIDevice *d =3D PCI_DEVICE(s);
->      uint8_t *pci_conf =3D d->config;
-> =20
-> @@ -542,7 +541,6 @@ static void piix4_pm_realize(PCIDevice *dev, Error =
-**errp)
-> =20
->      s->machine_ready.notify =3D piix4_pm_machine_ready;
->      qemu_add_machine_init_done_notifier(&s->machine_ready);
-> -    qemu_register_reset(piix4_reset, s);
-> =20
->      piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
->                                     pci_get_bus(dev), s);
-> @@ -692,6 +690,7 @@ static void piix4_pm_class_init(ObjectClass *klass,=
- void *data)
->      k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB_3;
->      k->revision =3D 0x03;
->      k->class_id =3D PCI_CLASS_BRIDGE_OTHER;
-> +    dc->reset =3D piix4_pm_reset;
->      dc->desc =3D "PM";
->      dc->vmsd =3D &vmstate_acpi;
->      dc->props =3D piix4_pm_properties;
-> --=20
-> 2.21.0
+I see.
+
+Could we monitor_resume() unconditionally here?
+
+>> >      while (!g_queue_is_empty(mon->qmp_requests)) {
+>> >          qmp_request_free(g_queue_pop_head(mon->qmp_requests));
+>> >      }
+>> > +    if (need_resume) {
+>> > +        /*
+>> > +         * Pairs with the monitor_suspend() in handle_qmp_command() i=
+n case the
+>> > +         * queue gets cleared from a CH_EVENT_CLOSED event before the=
+ dispatch
+>> > +         * bh got scheduled.
+>> > +         */
+>> > +        monitor_resume(&mon->common);
+>> > +    }
+>> >  }
+>> >=20=20
+>> >  static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
+>>=20
+>> Is monitor_qmp_cleanup_req_queue_locked() the correct place?
+>>=20
+>> It's called from
+>>=20
+>> * monitor_qmp_event() case CHR_EVENT_CLOSED via
+>>   monitor_qmp_cleanup_queues(), as part of destroying the monitor's
+>>   session state.
+>>=20
+>>   This is the case you're trying to fix.  Correct?
+>>=20
+>>   I figure monitor_resume() is safe because we haven't really destroyed
+>>   anything, yet, we merely flushed the request queue.  Correct?
+>>=20
+>> * monitor_data_destroy() via monitor_data_destroy_qmp() when destroying
+>>   the monitor.
+>>=20
+>>   Can need_resume be true in this case?  If yes, is monitor_resume()
+>>   still safe?  We're in the middle of destroying the monitor...
+>
+> I thought so when first reading through it, but on second though, we
+> should probably avoid this for sanity's sake.
+> Maybe with a flag, or an extra parameter.
+> Or we could introduce a "bool queue_filled" we set in handle_qmp_command()
+> instead of "calculating" `need_resume` in 2 places and unset it in
+> `monitor_data_destroy()` before clearing the queue?
+
+Could we simply call monitor_resume() in monitor_qmp_event() right after
+monitor_qmp_cleanup_queues()?
 
