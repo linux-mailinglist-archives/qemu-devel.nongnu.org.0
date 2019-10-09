@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F0FD1445
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:40:08 +0200 (CEST)
-Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2053BD144B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:41:24 +0200 (CEST)
+Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIF0Q-0002jW-TM
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40584)
+	id 1iIF1e-0004P6-Ml
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iI6Z0-0001ro-UT
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:39:16 -0400
+ (envelope-from <peterx@redhat.com>) id 1iI3L8-0004SJ-PO
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 00:12:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iI6Yz-00047J-NX
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:39:14 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54733)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iI6Yw-00046e-VM; Wed, 09 Oct 2019 03:39:11 -0400
-Received: by mail-wm1-x341.google.com with SMTP id p7so1243596wmp.4;
- Wed, 09 Oct 2019 00:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8zCFhaOYo4JvZDuTR8LT8ZeRH1glJIoNVNvHzaX7Cqs=;
- b=a4VU4LpmOcvKddw9FNgq6jUIm9m3OHkTQZoJSIfuAgwIZJL33jZPT9qa5rYVcGPHhK
- nWXJDNiKq4b+jqj//mjMZl2HGYM801289uhhZKspOa1NbU1AAyQAnxpB9h4aqGcHcUvO
- pgd0IZ3JTy0nOmt0QGFVOOMDAY8mM3ncYQlC9UCD9gGQcpQjdJxuzNkrk/QEFbq2YpPJ
- Ju3wqHPVmH20nPHgVpUQ8NPZAgmefgIX1AtB9rRpwUyXifjKzErY+Iu2EZeUrGJ9yhLc
- 1zGcOVCM6VbI1EUz26u+YNBZQr6QXDmQja8siopQ6u2ZsmwJz6mLPXzYtX2Te8VoeAyE
- L1gA==
+ (envelope-from <peterx@redhat.com>) id 1iI3L6-00075A-5d
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 00:12:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52974)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iI3L5-00074u-Ti
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 00:12:40 -0400
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 54EB79B28C
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 04:12:38 +0000 (UTC)
+Received: by mail-pg1-f197.google.com with SMTP id r24so741183pgj.17
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 21:12:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8zCFhaOYo4JvZDuTR8LT8ZeRH1glJIoNVNvHzaX7Cqs=;
- b=mCo/T44nsiY9OoJa0TLofm11bBQ0VE6qeU/rPvvI7+3hekQGfPWB2LEtsUuewLM4Ed
- NA2Wv3wZz5a/2VVIJn7FVQbKUPR/SqEUwXd+IbLi19lRV9t/m0cLUc3BVNN3nAT5i6zE
- hUgJn7Xx8G4j0FCoLXnkSULJPs8JvKfWey9pDjioOs+YOOyjhH+73ydUKuZN0F0kTDnW
- voUQb/5N8OadJHe93ncowgpVcemRXt+j1jvEnHysA9oAXNm9gOz8PN24q/Qo3QOlSx1D
- EjRWoZsxIMPIa9vHLrrXnYTXZcnsXFOD8T5qs7n7EJI0k8iTDoDyyu2drAJFbFAO7bc7
- Gifw==
-X-Gm-Message-State: APjAAAXtsinz4zPU6smGRY9CS7wGwFgigiZ1mkKUnpKHpnABpHyNppHH
- CFSZO4VY6XPpwNMrrhMhc5Y=
-X-Google-Smtp-Source: APXvYqxCyh6EsXBbQxydeZWUVX3A0jT3NOAhxJHLS7Fsfw/nct2c84Y2/WnTkW5f3/eyCuWkKp8Xvg==
-X-Received: by 2002:a1c:5946:: with SMTP id n67mr1540645wmb.93.1570606748866; 
- Wed, 09 Oct 2019 00:39:08 -0700 (PDT)
-Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id u6sm1264547wrt.92.2019.10.09.00.39.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Oct 2019 00:39:07 -0700 (PDT)
-Subject: Re: [PATCH 11/19] hw/arm/bcm2835_peripherals: Use the SYS_timer
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <20190926173428.10713-12-f4bug@amsat.org> <87sgo3i7n1.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c4886680-45aa-b039-4baf-b413493f3890@amsat.org>
-Date: Wed, 9 Oct 2019 09:39:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ZPrpLWbOiPgMepprMvnvxPnkY4AxeJFeGRMKug+Qn2I=;
+ b=NuXYv7UKRE+fG2kE8VQe2imWbTTsFe6qv88IpTqLtWOhBO3uU+WeH7ub31q1pxIAC6
+ utbCW/fSbf3yfrmjFNFfnNsTO2PIEcRjvs5v2sKMbdtteclRqefrDSW6ZcpzIen34ssa
+ 6niKxZHmm5IKySYRcxqzrjNoz9BslSpZ87uYXaxZKZbszfXpZqCtb8akLwYckEeaFN7b
+ dGeD8UF2j7gdHcs4HE+tNrP+f2KMGNgwyk8Jm+ZyAnE64atQjFyBKz5NM3bwh1llv3Za
+ zMSN5hg//BIWePhWSu3DghDAfBwjJdzEMS+HJ/pw3CCYcFY39ul5USga6HoioilWhVgl
+ hKyw==
+X-Gm-Message-State: APjAAAXqF3V4mSkFCthhQQxj5J4imFlPlTi2kISUaVQRGtl4/qV2yVGo
+ 7+CurJfwI8jJEgo1jwPMD4TWNuOBaJ1x1Xx0pS7v/6l3WgnuhLn6evrgOJiBMk2UiFYzOcnZ5X/
+ wI7hnJw5YXrE1Yt8=
+X-Received: by 2002:a63:f250:: with SMTP id d16mr2119291pgk.165.1570594357534; 
+ Tue, 08 Oct 2019 21:12:37 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxduM62s2FHP4wGxuC3bf0C6bpFPxwH5UdQeG+D8w5X5QOafwSRHYTvK/szekl63bDeqFp+eQ==
+X-Received: by 2002:a63:f250:: with SMTP id d16mr2119259pgk.165.1570594357115; 
+ Tue, 08 Oct 2019 21:12:37 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id b22sm631800pfo.85.2019.10.08.21.12.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Oct 2019 21:12:36 -0700 (PDT)
+Date: Wed, 9 Oct 2019 12:12:25 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [PATCH 3/3] migration/postcopy: handle POSTCOPY_INCOMING_RUNNING
+ corner case properly
+Message-ID: <20191009041225.GF10750@xz-x1>
+References: <20191001100122.17730-1-richardw.yang@linux.intel.com>
+ <20191001100122.17730-4-richardw.yang@linux.intel.com>
+ <20191008164046.GF3441@work-vm> <20191009010204.GC26203@richard>
 MIME-Version: 1.0
-In-Reply-To: <87sgo3i7n1.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191009010204.GC26203@richard>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,115 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Zolt=c3=a1n_Baldaszti?= <bztemail@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/19 5:22 PM, Alex Bennée wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+On Wed, Oct 09, 2019 at 09:02:04AM +0800, Wei Yang wrote:
+> On Tue, Oct 08, 2019 at 05:40:46PM +0100, Dr. David Alan Gilbert wrote:
+> >* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> >> Currently, we set PostcopyState blindly to RUNNING, even we found the
+> >> previous state is not LISTENING. This will lead to a corner case.
+> >> 
+> >> First let's look at the code flow:
+> >> 
+> >> qemu_loadvm_state_main()
+> >>     ret = loadvm_process_command()
+> >>         loadvm_postcopy_handle_run()
+> >>             return -1;
+> >>     if (ret < 0) {
+> >>         if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING)
+> >>             ...
+> >>     }
+> >> 
+> >> From above snippet, the corner case is loadvm_postcopy_handle_run()
+> >> always sets state to RUNNING. And then it checks the previous state. If
+> >> the previous state is not LISTENING, it will return -1. But at this
+> >> moment, PostcopyState is already been set to RUNNING.
+> >> 
+> >> Then ret is checked in qemu_loadvm_state_main(), when it is -1
+> >> PostcopyState is checked. Current logic would pause postcopy and retry
+> >> if PostcopyState is RUNNING. This is not what we expect, because
+> >> postcopy is not active yet.
+> >> 
+> >> This patch makes sure state is set to RUNNING only previous state is
+> >> LISTENING by introducing an old_state parameter in postcopy_state_set().
+> >> New state only would be set when current state equals to old_state.
+> >> 
+> >> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> >
+> >OK, it's a shame to use a pointer there, but it works.
 > 
->> Connect the recently added SYS_timer.
->> Now U-Boot does not hang anymore polling a free running counter
->> stuck at 0.
->> This timer is also used by the Linux kernel thermal subsystem.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/arm/bcm2835_peripherals.c         | 21 ++++++++++++++++++++-
->>   include/hw/arm/bcm2835_peripherals.h |  3 ++-
->>   2 files changed, 22 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
->> index 70bf927a02..965f4c1f3d 100644
->> --- a/hw/arm/bcm2835_peripherals.c
->> +++ b/hw/arm/bcm2835_peripherals.c
->> @@ -58,6 +58,10 @@ static void bcm2835_peripherals_init(Object *obj)
->>       /* Interrupt Controller */
->>       sysbus_init_child_obj(obj, "ic", &s->ic, sizeof(s->ic), TYPE_BCM2835_IC);
->>
->> +    /* SYS Timer */
->> +    sysbus_init_child_obj(obj, "systimer", &s->systmr, sizeof(s->systmr),
->> +                          TYPE_BCM2835_SYSTIMER);
->> +
->>       /* UART0 */
->>       sysbus_init_child_obj(obj, "uart0", &s->uart0, sizeof(s->uart0),
->>                             TYPE_PL011);
->> @@ -171,6 +175,22 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->>                   sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ic), 0));
->>       sysbus_pass_irq(SYS_BUS_DEVICE(s), SYS_BUS_DEVICE(&s->ic));
->>
->> +    /* Sys Timer */
->> +    if (err) {
->> +        error_propagate(errp, err);
->> +        return;
->> +    }
+> You mean second parameter of postcopy_state_set()?
 > 
-> This looks like an extra check because err is checked above and hasn't
-> been messed with since.
+> I don't have a better idea. Or we introduce a new state
+> POSTCOPY_INCOMING_NOCHECK. Do you feel better with this?
 
-Oops good catch. Looking at older branch I had this property:
+Maybe simply fix loadvm_postcopy_handle_run() to set the state after
+the POSTCOPY_INCOMING_LISTENING check?
 
-     object_property_set_uint(OBJECT(&s->systmr), 1000000, "freq_hz", &err);
+> 
+> >Note, something else; using '-1' as the return value and checking for it
+> >is something we do a lot; but in this case it's an example of an error
+> >we could never recover from so it never makes sense to try and recover.
+> >We should probably look at different types of error.
 
-but then when I removed it I forgot to clean the error check. Thanks!
+It is true that we might hang on some real errors, but IMHO it might
+be no where better to quit QEMU if we're in postcopy...
 
->> +    object_property_set_bool(OBJECT(&s->systmr), true, "realized", &err);
->> +    if (err) {
->> +        error_propagate(errp, err);
->> +        return;
->> +    }
->> +    memory_region_add_subregion(&s->peri_mr, ST_OFFSET,
->> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systmr), 0));
->> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 0,
->> +        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
->> +                               INTERRUPT_ARM_TIMER));
->> +
->>       /* UART0 */
->>       qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
->>       object_property_set_bool(OBJECT(&s->uart0), true, "realized", &err);
->> @@ -352,7 +372,6 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->>       }
->>
->>       create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
->> -    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
->>       create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
->>       create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
->>       create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
->> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
->> index be7ad9b499..5b9fc89453 100644
->> --- a/include/hw/arm/bcm2835_peripherals.h
->> +++ b/include/hw/arm/bcm2835_peripherals.h
->> @@ -24,6 +24,7 @@
->>   #include "hw/sd/sdhci.h"
->>   #include "hw/sd/bcm2835_sdhost.h"
->>   #include "hw/gpio/bcm2835_gpio.h"
->> +#include "hw/timer/bcm2835_systmr.h"
->>   #include "hw/misc/unimp.h"
->>
->>   #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
->> @@ -39,7 +40,7 @@ typedef struct BCM2835PeripheralState {
->>       MemoryRegion ram_alias[4];
->>       qemu_irq irq, fiq;
->>
->> -    UnimplementedDeviceState systmr;
->> +    BCM2835SysTimerState systmr;
->>       UnimplementedDeviceState armtmr;
->>       UnimplementedDeviceState cprman;
->>       UnimplementedDeviceState a2w;
-> 
-> 
-> --
-> Alex Bennée
-> 
+(What I'm thinking in mind here is that sometimes even if postcopy
+ failed we might still have a chance to recover a full VM by dumping
+ both src/dst of the during-postcopy VM instances and manually merge
+ them by black magic, in very extreme cases)
+
+Regards,
+
+-- 
+Peter Xu
 
