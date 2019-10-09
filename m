@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F333CD1A14
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:51:21 +0200 (CEST)
-Received: from localhost ([::1]:57582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7ECBD1A2F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:57:05 +0200 (CEST)
+Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIIvY-0007fW-Qg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46375)
+	id 1iIJ16-0006Q3-7s
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49841)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iIH1h-0003BJ-KX
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:49:35 -0400
+ (envelope-from <philmd@redhat.com>) id 1iIHI0-0006n5-SK
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:06:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iIH1g-0007ad-8s
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:49:33 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44570)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iIH1g-0007a3-2G
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:49:32 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z9so4257816wrl.11
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 11:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=X9WSqh8lzF1/ZGPdlYYplziYGw8NTu0WSOvsFIWuniY=;
- b=EyTCee/Ta3sMkxcw0bZzwOJoIKCF0Il+roHHD0a0hsZWJAGNPNL1jgQfST/fXU1PWh
- KKi14LHTQKf46HjYwWSbZ9Myw28xJeHB4W7xLtGe9VVSK9IdzVZoulJJXkECtLSwENNz
- HSUEvPekI+zFQUP/bbFqByBFrdqiVLwdmd7swdK9ATtnPkLNtmKmFa1k1cfsbIfFwhZd
- 1FcB3rWPmbcBwpshWpUdKNw2eBXMIIbQah7/mvqbeJHGBdeW+OAxZd+VSZzZFbuGvrjZ
- nRpqAcIVP2FvD6LSOPR8bhm6DAZbT4SXFaBZaOYX/Sy3TaNglOQLIMvjJPwO76Wi0ufc
- 04OA==
+ (envelope-from <philmd@redhat.com>) id 1iIHHz-0000so-I2
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:06:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37014)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIHHz-0000sH-6v
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:06:23 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4F98DC010C13
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:06:22 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id n3so1543239wrt.9
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:06:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=X9WSqh8lzF1/ZGPdlYYplziYGw8NTu0WSOvsFIWuniY=;
- b=Zn+47TBBr7RC47mQuczLj07qkcksWDFTf/BX0iEP6w2319jiJd4xK0GFVgYl2jgavt
- jJG3MnT12LHZrJmgaHk/vrvUD2lJouKlkYSXXiWqELAUqCqG4tALhxjMOGUZYu0CZbdA
- lEz1+8Sd2bMDQh+dc7WhDslLy4oclps3JNkHXUukSi68h2573YmWxinf1nXxIcj1yxAD
- EOGfWfrgVTu5Lc7OMAc53RZp3K56L/rkD2wIr5JQQ8UVJtofM2LZcPi6hx+DAEYA+bw1
- ajBPdejb8i6xHrbDCxHDYpKGyIqzjC0U/Vz+xF+v1y8zr9wOtu48+5CdabPNtLCVYwWM
- dyBA==
-X-Gm-Message-State: APjAAAVfZPctQh28MNm9YlIdJskZjKohPgN2gClqKcYcGpUroKpUwjua
- deogY2B3uJnozIAqPWpBwnms9w==
-X-Google-Smtp-Source: APXvYqxDkr+f96MVD1mR24RFYdBX9WBO0YFQ2cTP/y7nvO09u549wxHn6l4nySb+af3QVQZrnro6/Q==
-X-Received: by 2002:adf:fcc5:: with SMTP id f5mr4071842wrs.37.1570646969809;
- Wed, 09 Oct 2019 11:49:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r18sm5083061wme.48.2019.10.09.11.49.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 11:49:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 65CBC1FF87;
- Wed,  9 Oct 2019 19:49:28 +0100 (BST)
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-51-alex.bennee@linaro.org>
- <20190801143141.GL5034@quinoa.localdomain>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
-Subject: Re: [PATCH  v4 50/54] tests/plugin: add instruction execution
- breakdown
-In-reply-to: <20190801143141.GL5034@quinoa.localdomain>
-Date: Wed, 09 Oct 2019 19:49:28 +0100
-Message-ID: <875zkxn493.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aUHQTGoW+DLiD3JmhdC2DfW/K6c2z/OD2h44lO7HZqE=;
+ b=SgYWr+45Ubl50nbnA9veIY8limjh/ZHu8DnMuB/pWfcG75NhOVbt03ENWqRPjRqqCw
+ VfwDGJ3+t76xJpbckZEu4XA1kZ8n1Mz1BrWwwUhTu3GMLXdwQ+C9PIX60o+FL6EJLDo7
+ 6d2CELbhxPoz4C0js6TR9yTsJJ5QNDTbevXsZ5drooITK8akGiU2i9d7tN1g3zjqwrte
+ yBJZUn7QFkBSo7wfP8Fc/Lho/YdtC6Fha6vA6n/CesroKFFYT9zo2ptkgjljCvzoB5dO
+ WaCTNDCNAGLEtXy8cPil3NGJ4PxAeKOtGjmmEm2RebbRLbThGectY4Wx0F9+FRqIwpVz
+ 1xEw==
+X-Gm-Message-State: APjAAAVwpmJ2j2ZULAJ/QE1hcemZ4XDULR9TnK7IkWIEuyseNb2Q0oT1
+ 9K+jsODovanmNv7d5c4zDjssaBLBKsviDEDPHVLs3a3VCCmNM2SmKf4ZH13f7TzYZmPvimo9pfj
+ 6UoY4+JR+11uXA60=
+X-Received: by 2002:adf:db4e:: with SMTP id f14mr4178577wrj.7.1570647981096;
+ Wed, 09 Oct 2019 12:06:21 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxQRqQItG8fr8dDENC5lgJtC/oXCVzlyLUEde+pqfGq80Ciz/PbRQKfIcmZm5gbe3uQIE2hxQ==
+X-Received: by 2002:adf:db4e:: with SMTP id f14mr4178559wrj.7.1570647980885;
+ Wed, 09 Oct 2019 12:06:20 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id b62sm4068908wmc.13.2019.10.09.12.06.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Oct 2019 12:06:20 -0700 (PDT)
+Subject: Re: [PATCH 5/5] travis.yml: Compile on arm64, too
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191009170701.14756-1-thuth@redhat.com>
+ <20191009170701.14756-6-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2238ed71-5811-c98f-03c8-f8804e480f9d@redhat.com>
+Date: Wed, 9 Oct 2019 21:06:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <20191009170701.14756-6-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "bobby.prani@gmail.com" <bobby.prani@gmail.com>,
- "cota@braap.org" <cota@braap.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/9/19 7:07 PM, Thomas Huth wrote:
+> Travis now features an arm64 build host, so let's check compilation
+> there, too.
+> 
+> Unfortunately, there are some quirks:
+> - block/ssh.c does not compile properly in this environment, so we have
+>    to use --disable-libssh until that problem is fixed.
+> - test-util-filemonitor fails, so we can not run the unit tests there
+> - The file system size seems to be very limited, so the iotest tests
+>    can't be used and the hd-geo-test fails (thus we can't compile
+>    x86_64-softmmu here and run "check-qtest" afterwards)
+> - Compiling seems to be quite a bit slower than on the x86 builders,
+>    so we better limit the target list to some few architectures.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   .travis.yml | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/.travis.yml b/.travis.yml
+> index 0c88e8757b..357ca02890 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -342,3 +342,9 @@ matrix:
+>           - CONFIG="--target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+>           - TEST_CMD="make -j3 check-tcg V=1"
+>           - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+> +
+> +    # Non-x86 builds:
+> +    - env:
+> +        - CONFIG="--disable-libssh --target-list=aarch64-softmmu,ppc64-softmmu,s390x-softmmu,x86_64-linux-user"
 
-Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
+Is aarch64 on aarch64 interesting?
 
-> On Jul 31 17:07, Alex Benn=C3=A9e wrote:
->> + * Attempt to measure the amount of vectorisation that has been done
->> + * on some code by counting classes of instruction. This is very much
->> + * ARM specific.
->
-> I suspect some of my plugins will also be architecture-specific. Does it
-> make sense to have a plugin specify to QEMU which architectures or
-> running modes (i.e. softmmu vs. linux user) it supports? Or
-> alternatively to have QEMU expose this information to the plugin so that
-> it can cleanly exit if its needs are not met?
+Do you know if we can use KVM there?
 
-I've exposed an information block with the qemu type in it as a string.
-This allows the plugin to take appropriate action.
-
->
-> -Aaron
-
-
---
-Alex Benn=C3=A9e
+> +        - TEST_CMD="make check-qtest check-softfloat -j3 V=1"
+> +      arch: arm64
+> 
 
