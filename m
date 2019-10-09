@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A68D17D8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:54:25 +0200 (CEST)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E757CD17E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:57:39 +0200 (CEST)
+Received: from localhost ([::1]:54278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIH6N-0000FH-A6
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
+	id 1iIH9W-0004BQ-H8
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iICNV-0006Bf-Gj
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:46 -0400
+ (envelope-from <berrange@redhat.com>) id 1iICPT-0006Nl-I1
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:53:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iICNU-000662-HU
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:45 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39086)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iICNU-00065c-BK
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:44 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w144so1791444oia.6
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 06:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7OvEfYO9EpQ8fnwFtnhlr1IhWEuGDHMdr6XTfc/iLm4=;
- b=iS0uoPqa0iDdcVDDcFthTa0dBcllC/xw8QVuoB40nYxZLnHLJcPgf5fwnAlW9A5pT3
- pGLTi9+GpVIR19wE3k+W9EqDcbEcnqpScruo24bEMM9ye1z6JtwlexkJjCnpU1dr0g6x
- V4KBztKpXYeD73SwuKiqoR6qsQy1ngvcehds54sZvt4M9hppCd69dlRHUb+7XQ/SwO1P
- 2/elzoXowyWmzqQUiYy/sT58OtphDc9PXZXo5ZE2bqEjXe8Gd6vARyD9cPoYezd2Uxgb
- ZSq7jbmSo0eHZCxlKrdpgwBCAOZqdJq9TsgxDfOBLXNzPibu8XYglADdv64FV8TmlaXf
- nalg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7OvEfYO9EpQ8fnwFtnhlr1IhWEuGDHMdr6XTfc/iLm4=;
- b=l/ExLsG8VQ5gyCOsPNnaOV6DmZfKwnWn6jXRtHnOP3la6mY6eUoN0Cv67v9ciSbpJ8
- vYvKdjMGnAdXdqx8Tc1SYOfhK6NUBcqvO9XZuYxf5koS2ir11vvC5VZzxv2/0s3zHeB/
- Zehy1CC/rYaRdzPNHIOuhzDlopTfFtE8WxdeXFIOKtY2CAG4qWjmFUnPRPjITkm3tzku
- tbWHTNosLDd7ifZMnKZHhh5Q0sHNG8cOmbS0/0NxB5yZKlBZXAaT3qpEO4RckDVtfhhc
- Sc12N9R+nj38wMeox6RtvYSb174V0WFy3ZLnhUR+povLb2pWTW4bO3A/6n5ox2fEIHYt
- 18dg==
-X-Gm-Message-State: APjAAAUrhsPJgmqdW8IXaiVzk/nSZylxhnMcFQeOMGl7BpsSctMDe6ZB
- 4rWxax1j8rW0Pgej56bBKoKaf09p+veKTIMsAQDHZw==
-X-Google-Smtp-Source: APXvYqw2thD7HgJ1D7aUU/9v6R+eBR33EALysh6Zi2oURCCoVKqOMEfv6DInCNzXroIxkuUksdCbQUfjmrjFUz4aHn0=
-X-Received: by 2002:aca:2b08:: with SMTP id i8mr2204531oik.146.1570629102479; 
- Wed, 09 Oct 2019 06:51:42 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1iICPS-0007BQ-Hh
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:53:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51150)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iICPS-00078i-CA
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:53:46 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DA5998E58C
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 13:53:44 +0000 (UTC)
+Received: from redhat.com (ovpn-112-67.ams2.redhat.com [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 028215C22C;
+ Wed,  9 Oct 2019 13:53:40 +0000 (UTC)
+Date: Wed, 9 Oct 2019 14:53:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] trace: add --group=all to tracing.txt
+Message-ID: <20191009135338.GH3981@redhat.com>
+References: <20191009135154.10970-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20190926151733.25349-1-philmd@redhat.com>
- <20190926151733.25349-12-philmd@redhat.com>
- <f110c099-7521-95e0-74b9-9c7e53d7d5d8@redhat.com>
-In-Reply-To: <f110c099-7521-95e0-74b9-9c7e53d7d5d8@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Oct 2019 14:51:30 +0100
-Message-ID: <CAFEAcA_urR77o5+mFy3a4wL=BDHVzEvnAeaf2ASXdpa6md16FQ@mail.gmail.com>
-Subject: Re: [PATCH 11/11] hw/misc/vmcoreinfo: Convert reset handler to
- DeviceReset
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191009135154.10970-1-stefanha@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Wed, 09 Oct 2019 13:53:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,35 +58,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Sep 2019 at 17:02, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 9/26/19 5:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Convert the reset handler into a proper Device reset method.
->
-> Marc-Andr=C3=A9 noticed this one is incorrect, because while being QDEV i=
-t is
-> not connected to a QBUS.
->
-> Maybe we can add a Device::unconnected property, and when set, the
-> parent realize() calls 'qemu_register_reset(dev->reset, dev);'?
-> This might look the same, but at least Devices implementations could
-> stop to use this function...
+On Wed, Oct 09, 2019 at 02:51:54PM +0100, Stefan Hajnoczi wrote:
+> tracetool needs to know the group name ("all", "root", or a specific
+> subdirectory).  Also remove the stdin redirection because tracetool.py
+> needs the path to the trace-events file.  Update the documentation.
+>=20
+> Fixes: 2098c56a9bc5901e145fa5d4759f075808811685
+>        ("trace: move setting of group name into Makefiles")
+> Launchpad: https://bugs.launchpad.net/bugs/1844814
+> Reported-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  docs/devel/tracing.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-I'm not in favour of ad-hoc attempts to patch the
-problem with some devices not being reset like this.
-I'd rather we figured out a general solution to the design
-problem (which isn't easy, but on the other hand the
-set of workarounds we currently have isn't too awful
-to deal with).
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-thanks
--- PMM
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
