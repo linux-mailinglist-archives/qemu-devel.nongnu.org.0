@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90846D183B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 21:13:15 +0200 (CEST)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E001FD180B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 21:11:29 +0200 (CEST)
+Received: from localhost ([::1]:54642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIHOc-0004xG-3z
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 15:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60351)
+	id 1iIHMu-0000eh-1m
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 15:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iICqN-0000yU-1J
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:21:35 -0400
+ (envelope-from <lukasstraub2@web.de>) id 1iIDkZ-0007ck-Dr
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:19:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iICqM-0007HZ-4F
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:21:34 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36977)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iICqL-0007HL-SD
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:21:34 -0400
-Received: by mail-wm1-x335.google.com with SMTP id f22so2837970wmc.2
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 07:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ef4PFRZayWm/Zd1hegH93GTG+HjymGK9OAN+/CCzA/M=;
- b=FnVfFGgrjE1gQczGWpsyx/Gj7ifSHDROH6NCaAp7r50nFW2bLK2b5LYZsOkDMyee6t
- 2USny7StCJuanVJTriToJo8RXeNk7zYKGgt6m9/FAcNfl3pX3yrzBzVWKNYgiYQ/9LlD
- 0Hd5Jh+ZB3grZZJU8TP5CA0i0zhJka/3vJIyZVfkue4okMhYwCeESZeHqGDZTMYijJzX
- iN+a2fE0jDOWTlkOqWic0uUOPABkAv2qdT3kFCo4/ZrwFcmrthfvllCTmYWr5UgLe3E+
- n+M18gn9A/S5qtpGmfaLx67BA5op0Rw9UkoQy4ZHHFhxi5M6nUwpoaRgVYh79ybuf3jw
- faUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ef4PFRZayWm/Zd1hegH93GTG+HjymGK9OAN+/CCzA/M=;
- b=tV/wObKrOCx4AjlsfoVT4dODOMBbmuVcfAffKUNDLoXMWzY/ks2zrT5Ctn7l4O6lrH
- lOhXZ6LymHNeNtxYR3LnqgqqW4YGEvlqRQ2CFNpNvCgvkBWFGDXMNQ+fwJWFG4baHRRD
- OziyGjt520zljgFXLQukpWExJ1c6o2qiDdsZebDkiPQ4K55GKjottbc/+O4KaNszriqb
- pzOXnsIc0uCzK+b1Qrv640pEsDHb8TIKkn5j4gxdRcnOH3f+AnJsZ4f4zQuW7QYonTjo
- cy6Jd884NdLVcNVbvx1dAdHFI9MNS5hM71gwcuA0WhiJTum1QlFsdwIGKPFzUDFcf9q8
- IFIw==
-X-Gm-Message-State: APjAAAXqi+Litcj/8JeFwv7VM24ZVtu0o2oqcT3OFGg6GXkHldsauklj
- lAc2q3xSCU9bwfKXUJGCCSc=
-X-Google-Smtp-Source: APXvYqwTRMOaNthsBc9rI+Ms5j48RKJWhMli8Gl+x1gruYjBm+bP6Ojhei75YlXAzffwCDTtH4lxfQ==
-X-Received: by 2002:a7b:cb0b:: with SMTP id u11mr2821835wmj.125.1570630892330; 
- Wed, 09 Oct 2019 07:21:32 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id r65sm3046159wmr.9.2019.10.09.07.21.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 07:21:31 -0700 (PDT)
-Date: Wed, 9 Oct 2019 15:21:30 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Toe Dev <devtoe82@gmail.com>
-Subject: Re: header not included but used in vl.c
-Message-ID: <20191009142130.GR5747@stefanha-x1.localdomain>
-References: <CAN+O=TKeG=K3AdiSEKhzySNKeSWzCwtz7UKq6=re2YYEm5rwAg@mail.gmail.com>
+ (envelope-from <lukasstraub2@web.de>) id 1iIDkY-0000kd-85
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:19:39 -0400
+Received: from mout.web.de ([212.227.15.14]:58565)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
+ id 1iIDkX-0000kF-VN; Wed, 09 Oct 2019 11:19:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1570634363;
+ bh=jfWgR+QqPZ2re2sMpAU6XcfQBs/y4YRLnD/YEV5VVrQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=KY4LxdlRzZOl0LSz9nmL2bvRfuJyzr3h1jcEv49qbTWXqGAilZYggeJC8eDeIQJ2W
+ 3GeeiFtrtIZfxHRcny7OVgB49u2D8Zrng99zWs8iTBZNjqp7adVKNI+IgEVutcun4k
+ TkIiKH9bX8y8anS2q/I9lkSYE1xClk7zO/lPqv9E=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.16]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MgIMg-1iUmmT0FCo-00Njnx; Wed, 09
+ Oct 2019 17:19:23 +0200
+Date: Wed, 9 Oct 2019 17:19:19 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH v6 2/4] tests/test-replication.c: Add test for for
+ secondary node continuing replication
+Message-ID: <20191009171919.6b90d779@luklap>
+In-Reply-To: <9CFF81C0F6B98A43A459C9EDAD400D78062A756A@shsmsx102.ccr.corp.intel.com>
+References: <cover.1570280098.git.lukasstraub2@web.de>
+ <acacb35c86d6abae5c397e2e1953b67485c24d91.1570280098.git.lukasstraub2@web.de>
+ <9CFF81C0F6B98A43A459C9EDAD400D78062A756A@shsmsx102.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8Bx+wEju+vH9ym24"
-Content-Disposition: inline
-In-Reply-To: <CAN+O=TKeG=K3AdiSEKhzySNKeSWzCwtz7UKq6=re2YYEm5rwAg@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::335
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:K06TgRoZmAa58S+zsqoMcF2XZpPpCDKkeBDECFTurqbU+SBzgPR
+ f7qbZaBx0qbHECof9EurEBoRABJyhAArMKYWDnsHoY67lCGPebRDjuxYIN2SqiivCfvcPQ3
+ MvnytCxejxBAbq5pGtF/ezHmgJr1rwKyxEHBzGpr0YS3OnlfmnPcvmPTYqYCKOmnfVdJzKN
+ 3xXCw8nAs2Lxt5yNSaAHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:agOJwShfo0U=:Lp+F6bhfLbNVwlSZqe2LmS
+ 8AxkfkK8UmeN2RCqA3mahRe+TdGbABwNLcQHpq/dREYncyBfup2pD1WS9WINtczOmqrWYi9Gs
+ jwCK9tJ6MrIqF0gWzIGOv18cqwe6pJhN2sNblqoRTY5BQaZrHliXH89rRzW+V6hl+Lkz72ARO
+ o3k6Ooacb0AT2A8b80B3BCKThThQIUpCvJQQ7C+hHrrwoKoUA2u1pK+yj2ei27AqPfBmDWcWC
+ Dti3FsQ1FWS6cNKDtgvc5mZU07FkgfTvgxgk+1Jwspa1qq8wN2Cuyr+Uc+UQqJlIhCjMwlofZ
+ e0jCm5HHF89VW+aYawuYnoKlSJ5lzQPpPvGzXmCZBhn7PtKuO4EDww73T3NK/kk1tEt3+aGqj
+ jM+Kkda/y4nVmVqzgvytT1v/omgPqmoQTYnZPX/uYw6wrQ7F2Y/qdQMlx67ji0OMELbq0ysQM
+ pM41jy8lg7ANO4C05yDi018Cpc7hFiGZ+ILk9KExxv2B7cOd6Nu4M0MlzsNPU1nBuWqtcjz6F
+ 8jlEzGO5dsipoMEe6LeIAk91eTvf2bETQxFTyv1mZ5E8oTSzHyEHquhlTFTOQgCfBx/bttVAJ
+ UDtM933oFE/3ne9GLmwVeszmirbpChdRgyEs7jN/VR44S0ZdwEsHwTFYxgDhsDuXJVp5AP0MF
+ me7d//eMd0Vsf1/NzfjntdshcDx4UcV2j11tF7Ulca79vwQNiUOY+8uRh5gwTAipYiMGBwtoh
+ VehNDZhwAMeZPgM1BmPU8m8R7NZ1OGi6SYmFhBC3E95eS3NyF6FyJ/HipucHrCE+qWLIUGY3S
+ 5t5GgBgon7jM5axc0Q1l9TezsGPu6ixzwtKhAAwDOM/9sPrKWH1oStSEqRtFa0B8fAPUwjubb
+ kg5bHoQA2G/O4U6oWU1E6ZpX8MQ/LhugXRn3xpFeuzTu0FA+E09S5AB4F9jW+Xp6kLb2iWtWu
+ S48Lt8Fo34yraAPbW8VRtJgcES/jKgm58hMtSS3VT+CQK7/EIxubLcFxS9JobAk2CvYRdUSsl
+ VqkqbhxhMh+0trfzFIoJKdcwOGg8KdZFKiwSLPpQUG53ELUYeGUE1mOham5+XNeDMZhI5etB2
+ WzBG2qw6O0vVsAngvUITJTymt8QGYkCnIuxKgo8OiQma8VwmxCPwqus5DDxGq7Aizq5ZRTd2Z
+ gEUxC2RH0YbkPGIMGvOZI18f4TDGIKBcMG/slCVyXrTjfr2WPnetnTNJcFZp7Iy35d0HGs9Dv
+ n8aGpio7sifFxewn6SQeQzEbkSGz+SNAuLu0w0zRyA54FSzyMN4M17q0KFeo=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.15.14
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,40 +81,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 9 Oct 2019 06:03:03 +0000
+"Zhang, Chen" <chen.zhang@intel.com> wrote:
 
---8Bx+wEju+vH9ym24
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > -----Original Message-----
+> > From: Lukas Straub <lukasstraub2@web.de>
+> > Sent: Saturday, October 5, 2019 9:06 PM
+> > To: qemu-devel <qemu-devel@nongnu.org>
+> > Cc: Zhang, Chen <chen.zhang@intel.com>; Jason Wang
+> > <jasowang@redhat.com>; Wen Congyang <wencongyang2@huawei.com>;
+> > Xie Changlong <xiechanglong.d@gmail.com>; Kevin Wolf
+> > <kwolf@redhat.com>; Max Reitz <mreitz@redhat.com>; qemu-block
+> > <qemu-block@nongnu.org>
+> > Subject: [PATCH v6 2/4] tests/test-replication.c: Add test for for sec=
+ondary
+> > node continuing replication
+> >
+> > This simulates the case that happens when we resume COLO after failove=
+r.
+> >
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >  tests/test-replication.c | 52
+> > ++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 52 insertions(+)
+> >
+> > diff --git a/tests/test-replication.c b/tests/test-replication.c index
+> > f085d1993a..8e18ecd998 100644
+> > --- a/tests/test-replication.c
+> > +++ b/tests/test-replication.c
+> > @@ -489,6 +489,56 @@ static void test_secondary_stop(void)
+> >      teardown_secondary();
+> >  }
+> >
+> > +static void test_secondary_continuous_replication(void)
+> > +{
+> > +    BlockBackend *top_blk, *local_blk;
+> > +    Error *local_err =3D NULL;
+> > +
+> > +    top_blk =3D start_secondary();
+> > +    replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
+> > +    g_assert(!local_err);
+> > +
+> > +    /* write 0x22 to s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
+> > +    local_blk =3D blk_by_name(S_LOCAL_DISK_ID);
+> > +    test_blk_write(local_blk, 0x22, IMG_SIZE / 2, IMG_SIZE / 2, false=
+);
+> > +
+> > +    /* replication will backup s_local_disk to s_hidden_disk */
+> > +    test_blk_read(top_blk, 0x11, IMG_SIZE / 2,
+> > +                  IMG_SIZE / 2, 0, IMG_SIZE, false);
+> > +
+> > +    /* write 0x33 to s_active_disk (0, IMG_SIZE / 2) */
+> > +    test_blk_write(top_blk, 0x33, 0, IMG_SIZE / 2, false);
+> > +
+> > +    /* do failover (active commit) */
+> > +    replication_stop_all(true, &local_err);
+> > +    g_assert(!local_err);
+> > +
+> > +    /* it should ignore all requests from now on */
+>
+> Should we need add teardown_secondary() here?
 
-On Tue, Oct 01, 2019 at 03:06:56PM +0300, Toe Dev wrote:
->  does it have a reason why the file vl.c lacks reference
->  #include "qemu/module.h" ?
->  but still uses the defines include their(for example the enum value:
-> MODULE_INIT_OPTS)?
-> I'm using eclipse so I was notified by the IDE immediately.
+I don't think so. It is used to remove the block node after each test and =
+I'm doing that below.
 
-Another header file probably includes it indirectly.
+Regards,
+Lukas Straub
 
-Stefan
+> Thanks
+> Zhang Chen
+>
+> > +
+> > +    /* start after failover */
+> > +    replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
+> > +    g_assert(!local_err);
+> > +
+> > +    /* checkpoint */
+> > +    replication_do_checkpoint_all(&local_err);
+> > +    g_assert(!local_err);
+> > +
+> > +    /* stop */
+> > +    replication_stop_all(true, &local_err);
+> > +    g_assert(!local_err);
+> > +
+> > +    /* read from s_local_disk (0, IMG_SIZE / 2) */
+> > +    test_blk_read(top_blk, 0x33, 0, IMG_SIZE / 2,
+> > +                  0, IMG_SIZE / 2, false);
+> > +
+> > +
+> > +    /* read from s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
+> > +    test_blk_read(top_blk, 0x22, IMG_SIZE / 2,
+> > +                  IMG_SIZE / 2, 0, IMG_SIZE, false);
+> > +
+> > +    teardown_secondary();
+> > +}
+> > +
+> >  static void test_secondary_do_checkpoint(void)
+> >  {
+> >      BlockBackend *top_blk, *local_blk;
+> > @@ -584,6 +634,8 @@ int main(int argc, char **argv)
+> >      g_test_add_func("/replication/secondary/write", test_secondary_wr=
+ite);
+> >      g_test_add_func("/replication/secondary/start", test_secondary_st=
+art);
+> >      g_test_add_func("/replication/secondary/stop",  test_secondary_st=
+op);
+> > +    g_test_add_func("/replication/secondary/continuous_replication",
+> > +                    test_secondary_continuous_replication);
+> >      g_test_add_func("/replication/secondary/do_checkpoint",
+> >                      test_secondary_do_checkpoint);
+> >      g_test_add_func("/replication/secondary/get_error_all",
+> > --
+> > 2.20.1
+>
 
---8Bx+wEju+vH9ym24
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2d7OoACgkQnKSrs4Gr
-c8iuYAf/cvkZOYx4w2o4hXGNs73oBO9qYRbhC40urOLkvflmI4/53u+9QjT8XXZw
-mAh1ANpZoYi3e3B7vt4bIOR16ox1IPPaUWZwXgar50WeWFE51PsTXs539g3JOJyR
-ZGOZq2n2anfMPns+nhCmvOPnvIb4IidXpNZpsqggrGo8p96GaNszjv0/lTq/yWHg
-/M/oowSYeJjDvvontxw57KAT1uFU/A5yK7qLhhTZTng2J/N9UuhQh78dDWoxbu8f
-BhUMMm+4j12OtjCRpeAcfTnvQa4IEBEf9Zi4sI/f2qjROcs9pUxTHWxHjI6KlsTl
-SEaoeyP34j8fEaUrSNn+J9+o1xpD4Q==
-=IAzl
------END PGP SIGNATURE-----
-
---8Bx+wEju+vH9ym24--
 
