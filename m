@@ -2,58 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4479FD1B01
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:35:13 +0200 (CEST)
-Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8FBD1B0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:38:26 +0200 (CEST)
+Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJc0-000470-4s
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46438)
+	id 1iIJf7-0008AT-CG
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@dabbelt.com>) id 1iIJJj-0002Ry-T2
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:16:22 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iIJKL-000348-JM
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:16:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1iIJJi-00031n-ES
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:16:19 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:40970)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iIJJg-0002zv-Gz
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:16:16 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t10so1666583plr.8
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 14:16:13 -0700 (PDT)
+ (envelope-from <pbonzini@redhat.com>) id 1iIJKJ-0003Kr-Jv
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:16:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53874)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iIJKJ-0003KQ-Ce
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:16:55 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4CAE95945B
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 21:16:54 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id i10so1656412wrb.20
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 14:16:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=H8fNamXSWGVsAQ92a4GC/hqc7AkmkMqrSnuj2ieP89M=;
- b=B8HzRIVb7OlvW3SV0QdE+mJmPirZxAIXGS7E7CzEKGKMVztstP0X+kR+yEPKJZ3vkj
- 9pdAQVc5o4NSv9/vur51AmQZqOnFBVnNI9wtQxKksSVdC8kdW2URTHi4cMmbSDT2/qFf
- x0+FkD+c0RuE7LaShZX+avSoaB7oM23HbNhku7MPXoKeJQJImMyHIPjSb1P4k1Nl6CE0
- AMSlzPojQshS7nwlWy7YU8u0Aeh5z6BgJ6AFlOPtkDIMDYwt19tQuEGMUHHxkVNYv0RW
- yxsO55gC9ldRWiZVmYiDgCYfKBJkfa1TnlKCgYkwkIh8XxVqUtPpnTjTtXiZ1S+737+t
- S6nA==
-X-Gm-Message-State: APjAAAUGS+z/ynSYaCbVt4sW+6AbsT+d0wnqprd1ibBpjaBUnayyx1Ep
- cVpNu1FYZg3gOoRHpatjVvqPw4UpndI=
-X-Google-Smtp-Source: APXvYqw+f8eixv2AE2dlkWm8FE1Q5gaynqq37O0wzyb/PfVA0NR0LLyAiNqBmi2V+jNFfIFAajwUsQ==
-X-Received: by 2002:a17:902:9a41:: with SMTP id
- x1mr5090007plv.331.1570655771648; 
- Wed, 09 Oct 2019 14:16:11 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id l62sm4341432pfl.167.2019.10.09.14.16.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 14:16:09 -0700 (PDT)
-Subject: [PATCH] RISC-V: fcvt can set fflags, so set FS accordingly
-Date: Wed,  9 Oct 2019 14:15:41 -0700
-Message-Id: <20191009211541.9937-1-palmer@sifive.com>
-X-Mailer: git-send-email 2.21.0
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wSuLv6GKvlpjZvs6trjTcT1wzyAD6I0yI9QYOc6LYts=;
+ b=UPaOxRIapsWehtZxjzEH2oYU/KWNM9neJZXuB65sW/BFD/bENzkyHEAXxOzJdbHyRK
+ U002hat5OvydIElqcQtXS488V36UcBO+MY5ZA89VMWrRBQbEo8qT7utmj+u43rWEQ4GW
+ UtT5QbfJrGHHcQmWmiJnJMNpVK0C19CDmtDvAc6KdIyns2JW0mYUS/foiNUMNXfOButm
+ 6afH2jCMpNZtN6dKaAg4rO84Tvjs3zfhQhHYv4wlKlabUKBtLtTR9fMoAwAtHZzGO3Zq
+ n/TtEBZHyPh6uEgwHoSaIdjcXXG7bl1uCBhm5NJsq+nhzw5ugieGDB8usCeRUpP5CSsN
+ VtkQ==
+X-Gm-Message-State: APjAAAU/zfjV4zUdArddTzhoJg1p4nIVQMF/5yhx1S3yI0BCcastFlcz
+ 5VdWy43/ebpgiA74TfOkGNdSUID5akzwXkr7WBkrAEel34jFck62wtwFPLgKqFSZiwqFQ0jcIDi
+ 4Iq0a/5xP/voJdow=
+X-Received: by 2002:a7b:cd19:: with SMTP id f25mr4443455wmj.154.1570655812885; 
+ Wed, 09 Oct 2019 14:16:52 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz/KzqtNoat+5xxDNXUF4leZmHYsUe+6wTNWtgMXMsMvLpVOZnxEoNsMXshwPzlO5ow057DjQ==
+X-Received: by 2002:a7b:cd19:: with SMTP id f25mr4443435wmj.154.1570655812620; 
+ Wed, 09 Oct 2019 14:16:52 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:1032:7ea1:7f8f:1e5?
+ ([2001:b07:6468:f312:1032:7ea1:7f8f:1e5])
+ by smtp.gmail.com with ESMTPSA id r2sm6498797wma.1.2019.10.09.14.16.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Oct 2019 14:16:52 -0700 (PDT)
+Subject: Re: [PATCHv2 1/2] util/qemu-error: add guest name helper with -msg
+ options
+To: Mario Smarduch <msmarduch@digitalocean.com>, philmd@redhat.com,
+ mtosatti@redhat.com, armbru@redhat.com
+References: <20191009164459.8209-1-msmarduch@digitalocean.com>
+ <20191009164459.8209-2-msmarduch@digitalocean.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <3f24a34d-de91-c996-ffd8-306d0e0ce6a0@redhat.com>
+Date: Wed, 9 Oct 2019 23:16:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@sifive.com>
-To: qemu-riscv@nongnu.org
+In-Reply-To: <20191009164459.8209-2-msmarduch@digitalocean.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.196
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,86 +84,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A user pinged me to say "my floating point heavy code works in user mode
-but not system mode", which I'm guessing is the result of a lazy FP
-save/restore issue as those still crop up from time to time as long tail
-bugs.  I figured it was worth giving the FP stuff a look to see if
-anything jumps out, and it turns out that there is a bug: converting
-float to integer can set the invalid flag, which is supposed to mark FS
-as dirty, but the emulation routine doesn't do so.
+On 09/10/19 18:44, Mario Smarduch wrote:
+>  };
+> @@ -1263,6 +1267,7 @@ static void realtime_init(void)
+>  static void configure_msg(QemuOpts *opts)
+>  {
+>      enable_timestamp_msg = qemu_opt_get_bool(opts, "timestamp", true);
+> +    enable_guestname_msg = qemu_opt_get_bool(opts, "name", false);
+>  }
 
-This patch unconditionally marks FS as dirty for fcvt instructions that
-convert into X registers (fcvt into F registers already did so).  I
-haven't actually tried to manifest a bug here, but as far as I can tell
-the soft float stuff does set the invalid flag.
+Before, the msg option certainly had a timestamp suboption, but this
+might not be the case now.  So that "true" needs to become "false".
+I'll fix it up when applying.
 
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- target/riscv/insn_trans/trans_rvd.inc.c | 2 ++
- target/riscv/insn_trans/trans_rvf.inc.c | 4 ++++
- 2 files changed, 6 insertions(+)
-
-diff --git a/target/riscv/insn_trans/trans_rvd.inc.c b/target/riscv/insn_trans/trans_rvd.inc.c
-index 393fa0248c..8611e95486 100644
---- a/target/riscv/insn_trans/trans_rvd.inc.c
-+++ b/target/riscv/insn_trans/trans_rvd.inc.c
-@@ -371,6 +371,7 @@ static bool trans_fcvt_l_d(DisasContext *ctx, arg_fcvt_l_d *a)
-     gen_helper_fcvt_l_d(t0, cpu_env, cpu_fpr[a->rs1]);
-     gen_set_gpr(a->rd, t0);
-     tcg_temp_free(t0);
-+    mark_fs_dirty(ctx);
-     return true;
- }
- 
-@@ -384,6 +385,7 @@ static bool trans_fcvt_lu_d(DisasContext *ctx, arg_fcvt_lu_d *a)
-     gen_helper_fcvt_lu_d(t0, cpu_env, cpu_fpr[a->rs1]);
-     gen_set_gpr(a->rd, t0);
-     tcg_temp_free(t0);
-+    mark_fs_dirty(ctx);
-     return true;
- }
- 
-diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
-index 172dbfa919..87a250a3f2 100644
---- a/target/riscv/insn_trans/trans_rvf.inc.c
-+++ b/target/riscv/insn_trans/trans_rvf.inc.c
-@@ -237,6 +237,7 @@ static bool trans_fcvt_w_s(DisasContext *ctx, arg_fcvt_w_s *a)
-     gen_helper_fcvt_w_s(t0, cpu_env, cpu_fpr[a->rs1]);
-     gen_set_gpr(a->rd, t0);
-     tcg_temp_free(t0);
-+    mark_fs_dirty(ctx);
- 
-     return true;
- }
-@@ -251,6 +252,7 @@ static bool trans_fcvt_wu_s(DisasContext *ctx, arg_fcvt_wu_s *a)
-     gen_helper_fcvt_wu_s(t0, cpu_env, cpu_fpr[a->rs1]);
-     gen_set_gpr(a->rd, t0);
-     tcg_temp_free(t0);
-+    mark_fs_dirty(ctx);
- 
-     return true;
- }
-@@ -389,6 +391,7 @@ static bool trans_fcvt_l_s(DisasContext *ctx, arg_fcvt_l_s *a)
-     gen_helper_fcvt_l_s(t0, cpu_env, cpu_fpr[a->rs1]);
-     gen_set_gpr(a->rd, t0);
-     tcg_temp_free(t0);
-+    mark_fs_dirty(ctx);
-     return true;
- }
- 
-@@ -402,6 +405,7 @@ static bool trans_fcvt_lu_s(DisasContext *ctx, arg_fcvt_lu_s *a)
-     gen_helper_fcvt_lu_s(t0, cpu_env, cpu_fpr[a->rs1]);
-     gen_set_gpr(a->rd, t0);
-     tcg_temp_free(t0);
-+    mark_fs_dirty(ctx);
-     return true;
- }
- 
--- 
-2.21.0
-
+Paolo
 
