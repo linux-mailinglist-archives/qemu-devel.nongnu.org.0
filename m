@@ -2,44 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE56D1640
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:29:02 +0200 (CEST)
-Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FA3D1569
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:21:07 +0200 (CEST)
+Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFll-0002tg-Eo
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47623)
+	id 1iIFe5-0000eY-Ef
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:21:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mikhail.abakumov@ispras.ru>) id 1iI7Yh-0008R0-25
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:43:00 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iI7rR-0001r4-Nf
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mikhail.abakumov@ispras.ru>) id 1iI7Yf-0002ph-0L
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:42:58 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:52234)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <mikhail.abakumov@ispras.ru>) id 1iI7Ye-0002oz-LQ
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:42:56 -0400
-Received: from mail.ispras.ru (localhost [127.0.0.1])
- by mail.ispras.ru (Postfix) with ESMTPSA id 06BF954006A;
- Wed,  9 Oct 2019 11:42:53 +0300 (MSK)
+ (envelope-from <dgibson@ozlabs.org>) id 1iI7rQ-0000jf-Kt
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:02:21 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52453 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iI7rQ-0000j7-9A; Wed, 09 Oct 2019 05:02:20 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46p7Wr3Svnz9sP7; Wed,  9 Oct 2019 20:02:16 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570611736;
+ bh=w9U73fyFQTNRy938ES9lJPp54ztiGLkLXXWNEPCMDXQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PkG95pcw9TAknX3hl4q2eCBoKdI31LJS54GOp6aj4vM/yXKFi9CFiy4lDFMru3d/O
+ oailfSLjWz2qzxIiBXQ4KbRNeyCf3eBFjyLycMFgV3I6B6EuPZRRem5RuUvMNNiFyA
+ og6V2DB8E1ttgIshcCCMA1qi9X9EOrDNFH/kxerQ=
+Date: Wed, 9 Oct 2019 20:02:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org, clg@kaod.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v4 00/19] spapr: IRQ subsystem cleanup
+Message-ID: <20191009090200.GF5035@umbus.fritz.box>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date: Wed, 09 Oct 2019 11:42:52 +0300
-From: Mikhail Abakumov <mikhail.abakumov@ispras.ru>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Subject: Re: [PATCH] target/mips: add gdb xml files
-In-Reply-To: <CAL1e-=gBEAiTMBHz_zXzJXPSzkaM9R1NtNaaPFrUg+JA4_nwCg@mail.gmail.com>
-References: <caedac8d3f9f15f3245011b7d6b3f7bf@ispras.ru>
- <87a7ack180.fsf@linaro.org>
- <CAL1e-=gBEAiTMBHz_zXzJXPSzkaM9R1NtNaaPFrUg+JA4_nwCg@mail.gmail.com>
-Message-ID: <b36ea61cf3566e8f154ec1f9e90867d8@ispras.ru>
-X-Sender: mikhail.abakumov@ispras.ru
-User-Agent: Roundcube Webmail/1.1.2
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 83.149.199.45
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lIrNkN/7tmsD/ALM"
+Content-Disposition: inline
+In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,316 +55,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Qemu Devel <qemu-devel@nongnu.org>, amarkovic@wavecomp.com, philmd@redhat.com,
- aurelien@aurel32.net
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-10-08 16:37:
-> On Monday, October 7, 2019, Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> wrote:
->=20
->> Mikhail Abakumov <mikhail.abakumov@ispras.ru> writes:
->>=20
->>> From: Mikhail Abakumov <mikhail.abakumov@ispras>
->>=20
->> Hmm the email got truncated here.
->>=20
->>>=20
->>> This patch add xml files with gdb registers for mips.
->>>=20
->>> Signed-off-by: Mikhail Abakumov <mikhail.abakumov@ispras>
->>> ---
->>> configure | 3 ++
->>> gdb-xml/mips-core.xml | 84
->> +++++++++++++++++++++++++++++++++++++++++
->>> gdb-xml/mips64-core.xml | 84
->>> +++++++++++++++++++++++++++++++++++++++++
->>=20
->> Otherwise for the configure/xml:
->>=20
->> Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>=20
->> I assume the changes will go in via a MIPS tree.
->=20
-> Yes, this should go via mips tree. Thanks for taking a look.
->=20
-> Mikhail, thanks for this effort.
->=20
-> Is there any way to include MSA registers, possibly in a separate
-> file, and in a separate patch? What about a separate file for FPU
-> registers? Can you take a look at corresponding solutions for other
-> architectures?
 
-Thanks for the feedback.
+--lIrNkN/7tmsD/ALM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, I did it initially. But looking at other architectures, redid it.
-Everywhere, one main xml-file is used for registers, described
-in the target/gdbstub. And additional ones are appended through
-'gdb_register_coprocessor'.
-In the current patch, I made a description of the registers described
-only in the target/gdbstub. In the future, I think FPU registers
-can be moved to a separate file, but then need to move them from
-the mips/gdbstub.
+On Wed, Oct 09, 2019 at 05:07:59PM +1100, David Gibson wrote:
+> This is a substantial rework to clean up the handling of IRQs in
+> spapr.  It includes some cleanups to both the XICS and XIVE interrupt
+> controller backends, as well as more to the common spapr irq handling
+> infrastructure.
+>=20
+> The last two patches of this series, dealing with VFIO devices, are
+> RFC only - there some problems that I'm discussing with Alex
+> Williamson.
 
->=20
-> Yours,
-> Aleksandar
->=20
->>> target/mips/cpu.c | 11 ++++++
->>> 4 files changed, 182 insertions(+)
->>> create mode 100644 gdb-xml/mips-core.xml
->>> create mode 100644 gdb-xml/mips64-core.xml
->>>=20
->>> diff --git a/configure b/configure
->>> index 8f8446f52b..5bb2c62194 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -7466,12 +7466,14 @@ case "$target_name" in
->>> mips|mipsel)
->>> mttcg=3D"yes"
->>> TARGET_ARCH=3Dmips
->>> + gdb_xml_files=3D"mips-core.xml"
->>> echo "TARGET_ABI_MIPSO32=3Dy" >> $config_target_mak
->>> ;;
->>> mipsn32|mipsn32el)
->>> mttcg=3D"yes"
->>> TARGET_ARCH=3Dmips64
->>> TARGET_BASE_ARCH=3Dmips
->>> + gdb_xml_files=3D"mips64-core.xml"
->>> echo "TARGET_ABI_MIPSN32=3Dy" >> $config_target_mak
->>> echo "TARGET_ABI32=3Dy" >> $config_target_mak
->>> ;;
->>> @@ -7479,6 +7481,7 @@ case "$target_name" in
->>> mttcg=3D"yes"
->>> TARGET_ARCH=3Dmips64
->>> TARGET_BASE_ARCH=3Dmips
->>> + gdb_xml_files=3D"mips64-core.xml"
->>> echo "TARGET_ABI_MIPSN64=3Dy" >> $config_target_mak
->>> ;;
->>> moxie)
->>> diff --git a/gdb-xml/mips-core.xml b/gdb-xml/mips-core.xml
->>> new file mode 100644
->>> index 0000000000..a46b2993eb
->>> --- /dev/null
->>> +++ b/gdb-xml/mips-core.xml
->>> @@ -0,0 +1,84 @@
->>> +<?xml version=3D"1.0"?>
->>> +<!-- Copyright (C) 2010-2019 Free Software Foundation, Inc.
->>> +
->>> + Copying and distribution of this file, with or without
->>> modification,
->>> + are permitted in any medium without royalty provided the
->> copyright
->>> + notice and this notice are preserved. -->
->>> +
->>> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
->>> +<feature name=3D"org.gnu.gdb.mips">
->>> + <reg name=3D"zero" bitsize=3D"32"/>
->>> + <reg name=3D"at" bitsize=3D"32"/>
->>> + <reg name=3D"v0" bitsize=3D"32"/>
->>> + <reg name=3D"v1" bitsize=3D"32"/>
->>> + <reg name=3D"a0" bitsize=3D"32"/>
->>> + <reg name=3D"a1" bitsize=3D"32"/>
->>> + <reg name=3D"a2" bitsize=3D"32"/>
->>> + <reg name=3D"a3" bitsize=3D"32"/>
->>> + <reg name=3D"t0" bitsize=3D"32"/>
->>> + <reg name=3D"t1" bitsize=3D"32"/>
->>> + <reg name=3D"t2" bitsize=3D"32"/>
->>> + <reg name=3D"t3" bitsize=3D"32"/>
->>> + <reg name=3D"t4" bitsize=3D"32"/>
->>> + <reg name=3D"t5" bitsize=3D"32"/>
->>> + <reg name=3D"t6" bitsize=3D"32"/>
->>> + <reg name=3D"t7" bitsize=3D"32"/>
->>> + <reg name=3D"s0" bitsize=3D"32"/>
->>> + <reg name=3D"s1" bitsize=3D"32"/>
->>> + <reg name=3D"s2" bitsize=3D"32"/>
->>> + <reg name=3D"s3" bitsize=3D"32"/>
->>> + <reg name=3D"s4" bitsize=3D"32"/>
->>> + <reg name=3D"s5" bitsize=3D"32"/>
->>> + <reg name=3D"s6" bitsize=3D"32"/>
->>> + <reg name=3D"s7" bitsize=3D"32"/>
->>> + <reg name=3D"t8" bitsize=3D"32"/>
->>> + <reg name=3D"t9" bitsize=3D"32"/>
->>> + <reg name=3D"k0" bitsize=3D"32"/>
->>> + <reg name=3D"k1" bitsize=3D"32"/>
->>> + <reg name=3D"gp" bitsize=3D"32"/>
->>> + <reg name=3D"sp" bitsize=3D"32"/>
->>> + <reg name=3D"s8" bitsize=3D"32"/>
->>> + <reg name=3D"ra" bitsize=3D"32"/>
->>> + <reg name=3D"sr" bitsize=3D"32"/>
->>> + <reg name=3D"lo" bitsize=3D"32"/>
->>> + <reg name=3D"hi" bitsize=3D"32"/>
->>> + <reg name=3D"bad" bitsize=3D"32"/>
->>> + <reg name=3D"cause" bitsize=3D"32"/>
->>> + <reg name=3D"pc" bitsize=3D"32"/>
->>> +
->>> + <reg name=3D"f0" bitsize=3D"32" regnum=3D"38"/>
->>> + <reg name=3D"f1" bitsize=3D"32"/>
->>> + <reg name=3D"f2" bitsize=3D"32"/>
->>> + <reg name=3D"f3" bitsize=3D"32"/>
->>> + <reg name=3D"f4" bitsize=3D"32"/>
->>> + <reg name=3D"f5" bitsize=3D"32"/>
->>> + <reg name=3D"f6" bitsize=3D"32"/>
->>> + <reg name=3D"f7" bitsize=3D"32"/>
->>> + <reg name=3D"f8" bitsize=3D"32"/>
->>> + <reg name=3D"f9" bitsize=3D"32"/>
->>> + <reg name=3D"f10" bitsize=3D"32"/>
->>> + <reg name=3D"f11" bitsize=3D"32"/>
->>> + <reg name=3D"f12" bitsize=3D"32"/>
->>> + <reg name=3D"f13" bitsize=3D"32"/>
->>> + <reg name=3D"f14" bitsize=3D"32"/>
->>> + <reg name=3D"f15" bitsize=3D"32"/>
->>> + <reg name=3D"f16" bitsize=3D"32"/>
->>> + <reg name=3D"f17" bitsize=3D"32"/>
->>> + <reg name=3D"f18" bitsize=3D"32"/>
->>> + <reg name=3D"f19" bitsize=3D"32"/>
->>> + <reg name=3D"f20" bitsize=3D"32"/>
->>> + <reg name=3D"f21" bitsize=3D"32"/>
->>> + <reg name=3D"f22" bitsize=3D"32"/>
->>> + <reg name=3D"f23" bitsize=3D"32"/>
->>> + <reg name=3D"f24" bitsize=3D"32"/>
->>> + <reg name=3D"f25" bitsize=3D"32"/>
->>> + <reg name=3D"f26" bitsize=3D"32"/>
->>> + <reg name=3D"f27" bitsize=3D"32"/>
->>> + <reg name=3D"f28" bitsize=3D"32"/>
->>> + <reg name=3D"f29" bitsize=3D"32"/>
->>> + <reg name=3D"f30" bitsize=3D"32"/>
->>> + <reg name=3D"f31" bitsize=3D"32"/>
->>> + <reg name=3D"fsr" bitsize=3D"32" group=3D"float"/>
->>> + <reg name=3D"fir" bitsize=3D"32" group=3D"float"/>
->>> + <reg name=3D"fp" bitsize=3D"32" group=3D"float"/>
->>> +</feature>
->>> diff --git a/gdb-xml/mips64-core.xml b/gdb-xml/mips64-core.xml
->>> new file mode 100644
->>> index 0000000000..cc1a15ad56
->>> --- /dev/null
->>> +++ b/gdb-xml/mips64-core.xml
->>> @@ -0,0 +1,84 @@
->>> +<?xml version=3D"1.0"?>
->>> +<!-- Copyright (C) 2010-2019 Free Software Foundation, Inc.
->>> +
->>> + Copying and distribution of this file, with or without
->>> modification,
->>> + are permitted in any medium without royalty provided the
->> copyright
->>> + notice and this notice are preserved. -->
->>> +
->>> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
->>> +<feature name=3D"org.gnu.gdb.mips64">
->>> + <reg name=3D"zero" bitsize=3D"64"/>
->>> + <reg name=3D"at" bitsize=3D"64"/>
->>> + <reg name=3D"v0" bitsize=3D"64"/>
->>> + <reg name=3D"v1" bitsize=3D"64"/>
->>> + <reg name=3D"a0" bitsize=3D"64"/>
->>> + <reg name=3D"a1" bitsize=3D"64"/>
->>> + <reg name=3D"a2" bitsize=3D"64"/>
->>> + <reg name=3D"a3" bitsize=3D"64"/>
->>> + <reg name=3D"t0" bitsize=3D"64"/>
->>> + <reg name=3D"t1" bitsize=3D"64"/>
->>> + <reg name=3D"t2" bitsize=3D"64"/>
->>> + <reg name=3D"t3" bitsize=3D"64"/>
->>> + <reg name=3D"t4" bitsize=3D"64"/>
->>> + <reg name=3D"t5" bitsize=3D"64"/>
->>> + <reg name=3D"t6" bitsize=3D"64"/>
->>> + <reg name=3D"t7" bitsize=3D"64"/>
->>> + <reg name=3D"s0" bitsize=3D"64"/>
->>> + <reg name=3D"s1" bitsize=3D"64"/>
->>> + <reg name=3D"s2" bitsize=3D"64"/>
->>> + <reg name=3D"s3" bitsize=3D"64"/>
->>> + <reg name=3D"s4" bitsize=3D"64"/>
->>> + <reg name=3D"s5" bitsize=3D"64"/>
->>> + <reg name=3D"s6" bitsize=3D"64"/>
->>> + <reg name=3D"s7" bitsize=3D"64"/>
->>> + <reg name=3D"t8" bitsize=3D"64"/>
->>> + <reg name=3D"t9" bitsize=3D"64"/>
->>> + <reg name=3D"k0" bitsize=3D"64"/>
->>> + <reg name=3D"k1" bitsize=3D"64"/>
->>> + <reg name=3D"gp" bitsize=3D"64"/>
->>> + <reg name=3D"sp" bitsize=3D"64"/>
->>> + <reg name=3D"s8" bitsize=3D"64"/>
->>> + <reg name=3D"ra" bitsize=3D"64"/>
->>> + <reg name=3D"sr" bitsize=3D"64"/>
->>> + <reg name=3D"lo" bitsize=3D"64"/>
->>> + <reg name=3D"hi" bitsize=3D"64"/>
->>> + <reg name=3D"bad" bitsize=3D"64"/>
->>> + <reg name=3D"cause" bitsize=3D"64"/>
->>> + <reg name=3D"pc" bitsize=3D"64"/>
->>> +
->>> + <reg name=3D"f0" bitsize=3D"64" regnum=3D"38"/>
->>> + <reg name=3D"f1" bitsize=3D"64"/>
->>> + <reg name=3D"f2" bitsize=3D"64"/>
->>> + <reg name=3D"f3" bitsize=3D"64"/>
->>> + <reg name=3D"f4" bitsize=3D"64"/>
->>> + <reg name=3D"f5" bitsize=3D"64"/>
->>> + <reg name=3D"f6" bitsize=3D"64"/>
->>> + <reg name=3D"f7" bitsize=3D"64"/>
->>> + <reg name=3D"f8" bitsize=3D"64"/>
->>> + <reg name=3D"f9" bitsize=3D"64"/>
->>> + <reg name=3D"f10" bitsize=3D"64"/>
->>> + <reg name=3D"f11" bitsize=3D"64"/>
->>> + <reg name=3D"f12" bitsize=3D"64"/>
->>> + <reg name=3D"f13" bitsize=3D"64"/>
->>> + <reg name=3D"f14" bitsize=3D"64"/>
->>> + <reg name=3D"f15" bitsize=3D"64"/>
->>> + <reg name=3D"f16" bitsize=3D"64"/>
->>> + <reg name=3D"f17" bitsize=3D"64"/>
->>> + <reg name=3D"f18" bitsize=3D"64"/>
->>> + <reg name=3D"f19" bitsize=3D"64"/>
->>> + <reg name=3D"f20" bitsize=3D"64"/>
->>> + <reg name=3D"f21" bitsize=3D"64"/>
->>> + <reg name=3D"f22" bitsize=3D"64"/>
->>> + <reg name=3D"f23" bitsize=3D"64"/>
->>> + <reg name=3D"f24" bitsize=3D"64"/>
->>> + <reg name=3D"f25" bitsize=3D"64"/>
->>> + <reg name=3D"f26" bitsize=3D"64"/>
->>> + <reg name=3D"f27" bitsize=3D"64"/>
->>> + <reg name=3D"f28" bitsize=3D"64"/>
->>> + <reg name=3D"f29" bitsize=3D"64"/>
->>> + <reg name=3D"f30" bitsize=3D"64"/>
->>> + <reg name=3D"f31" bitsize=3D"64"/>
->>> + <reg name=3D"fsr" bitsize=3D"64" group=3D"float"/>
->>> + <reg name=3D"fir" bitsize=3D"64" group=3D"float"/>
->>> + <reg name=3D"fp" bitsize=3D"64" group=3D"float"/>
->>> +</feature>
->>> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
->>> index bbcf7ca463..014f1db59e 100644
->>> --- a/target/mips/cpu.c
->>> +++ b/target/mips/cpu.c
->>> @@ -181,6 +181,11 @@ static ObjectClass
->> *mips_cpu_class_by_name(const
->>> char *cpu_model)
->>> return oc;
->>> }
->>>=20
->>> +static gchar *mips_gdb_arch_name(CPUState *cs)
->>> +{
->>> + return g_strdup("mips");
->>> +}
->>> +
->>> static void mips_cpu_class_init(ObjectClass *c, void *data)
->>> {
->>> MIPSCPUClass *mcc =3D MIPS_CPU_CLASS(c);
->>> @@ -213,6 +218,12 @@ static void mips_cpu_class_init(ObjectClass
->> *c,
->>> void *data)
->>> cc->tlb_fill =3D mips_cpu_tlb_fill;
->>> #endif
->>>=20
->>> + cc->gdb_arch_name =3D mips_gdb_arch_name;
->>> +#ifdef TARGET_MIPS64
->>> + cc->gdb_core_xml_file =3D "mips64-core.xml";
->>> +#else
->>> + cc->gdb_core_xml_file =3D "mips-core.xml";
->>> +#endif
->>> cc->gdb_num_core_regs =3D 73;
->>> cc->gdb_stop_before_watchpoint =3D true;
->>> }
->>=20
->> --
->> Alex Benn=C3=A9e
+Oops, I screwed up my base branch selection for git-publish - patches
+1..3 aren't supposed to be in this series (although 1..2 fit well
+enough thematically).
 
 --=20
-Mikhail Abakumov
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--lIrNkN/7tmsD/ALM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2doggACgkQbDjKyiDZ
+s5KaKA//Yz4p9y0oY2ehz0//qCK2E1cek+kEQY8KM0iCH9BuNGslkgA3VAGjV4Zg
+hCuBqTTFdhttVDPeSU+iofppwpUUXMQMqlSStSpEzG5H+JfJ1HhlAX083jtslOJf
+326q9i2w4C7jHgOMDOTgg/LZsGsi2qy8p9vJi0cUIhfz3QXlfy2c9MWyeHEEtI+8
+GOMg6vmnZJq84HTe8Subgnm38xPZZGaU+QXV78bKPuTd7cqq7MYtRBg/y8hw5ofU
+3qPipMp4FJ0ZAz34pekwse7zgEokhXGdtRPBzU1drr/LrzWCwrTUynDABbz4n+3T
+wDEVZZ9vEnb8l5kJz0Zrf3BBtEqvIt+LZiQtc7I2Tt4kHPEpB1EoI3U3XqJ00hyU
+1ZXGIxyLgbQJdiuUCEaSW4oy2z6dNWZgynKtVJ1PbhQsVxMdPGyt8e+fgasBGVlX
+K2hIQQE1LuKbhQVqy2RRoomueWoMhe/+IwxVnbPm/naOQPA0aGfR7COJfHvSNFSV
+6geXlqzKDWxFJICpSAMUfxi+uq/m2bcveBzjwrfKeH/Sr7rPxs6IzArW2NKBkf4f
+3L6GTDTTIHiUfdap5vLo/v35wzK0L/69zvKxMd2mZAZ4MaiKAGI+cvDsXIKnw2tI
+QoTG9mUrER+qm1zMjrvU5RHgeSs2fXdryQVb+9Uy63zel12/3qk=
+=6Hrb
+-----END PGP SIGNATURE-----
+
+--lIrNkN/7tmsD/ALM--
 
