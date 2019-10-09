@@ -2,92 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D92D16DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:34:24 +0200 (CEST)
-Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1680ED16C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:32:51 +0200 (CEST)
+Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFqx-00087z-2t
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51225)
+	id 1iIFpR-0006rb-KX
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iI89b-0003hG-FX
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:21:09 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iI9uG-0006ZV-Qn
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:13:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iI89Z-0007P6-Bq
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:21:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50270)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iI89Z-0007Om-3U
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:21:05 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x999E7mc137086
- for <qemu-devel@nongnu.org>; Wed, 9 Oct 2019 05:21:04 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vha7c5jpv-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 05:21:03 -0400
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <clg@kaod.org>;
- Wed, 9 Oct 2019 10:21:01 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 9 Oct 2019 10:20:58 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x999KvVr14680142
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Oct 2019 09:20:57 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4FF3611C058;
- Wed,  9 Oct 2019 09:20:57 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F9FE11C052;
- Wed,  9 Oct 2019 09:20:57 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  9 Oct 2019 09:20:57 +0000 (GMT)
-Received: from yukon.kaod.org (sig-9-145-55-18.uk.ibm.com [9.145.55.18])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 5105F220198;
- Wed,  9 Oct 2019 11:20:56 +0200 (CEST)
-Subject: Re: [PATCH v4 10/19] spapr, xics, xive: Move dt_populate from
- SpaprIrq to SpaprInterruptController
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
- <20191009060818.29719-11-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Date: Wed, 9 Oct 2019 11:20:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <imammedo@redhat.com>) id 1iI9uE-00055o-P1
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:13:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39636)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iI9uC-000522-Qr
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:13:21 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 458E818C427B;
+ Wed,  9 Oct 2019 11:13:17 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 801CD60C57;
+ Wed,  9 Oct 2019 11:13:06 +0000 (UTC)
+Date: Wed, 9 Oct 2019 13:13:05 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
+ fw-cfg
+Message-ID: <20191009131305.298d8716@redhat.com>
+In-Reply-To: <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
+References: <20191008105259.5378-1-lersek@redhat.com>
+ <20191008105259.5378-4-lersek@redhat.com>
+ <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191009060818.29719-11-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19100909-0012-0000-0000-00000356657B
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100909-0013-0000-0000-0000219169DB
-Message-Id: <32772e52-7a5e-354e-8887-65946d4db971@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-09_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=8 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910090087
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x999E7mc137086
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Wed, 09 Oct 2019 11:13:17 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,370 +59,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- philmd@redhat.com
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/2019 08:08, David Gibson wrote:
-> This method depends only on the active irq controller.  Now that we've
-> formalized the notion of active controller we can dispatch directly
-> through that, rather than dispatching via SpaprIrq with the dual
-> version having to do a second conditional dispatch.
+On Tue, 8 Oct 2019 20:58:30 +0200
+Laszlo Ersek <lersek@redhat.com> wrote:
+
+> Eduardo, Igor,
 >=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-> ---
->  hw/intc/spapr_xive.c        | 125 ++++++++++++++++++------------------
->  hw/intc/xics_spapr.c        |   5 +-
->  hw/ppc/spapr.c              |   3 +-
->  hw/ppc/spapr_irq.c          |  20 +++---
->  include/hw/ppc/spapr_irq.h  |   6 +-
->  include/hw/ppc/spapr_xive.h |   2 -
->  include/hw/ppc/xics_spapr.h |   2 -
->  7 files changed, 80 insertions(+), 83 deletions(-)
+> On 10/08/19 12:52, Laszlo Ersek wrote:
+> > FW_CFG_MAX_CPUS exposes the (exclusive) maximum APIC ID to guest firmwa=
+re,
+> > due to historical reasons. That value is not useful to edk2, however. F=
+or
+> > supporting VCPU hotplug, edk2 needs:
+> >=20
+> > - the boot CPU count (already exposed in FW_CFG_NB_CPUS),
+> >=20
+> > - and the maximum foreseen CPU count (tracked in
+> >   "MachineState.smp.max_cpus", but not currently exposed).
+> >=20
+> > Add a new fw-cfg file to expose "max_cpus".
+> >=20
+> > While at it, expose the rest of the topology too (die / core / thread
+> > counts), because I expect that the VCPU hotplug feature for OVMF will
+> > ultimately need those too, and the data size is not large. =20
 >=20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 700ec5c9c1..37ffb74ca5 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -578,6 +578,68 @@ static void spapr_xive_print_info(SpaprInterruptCo=
-ntroller *intc, Monitor *mon)
->      spapr_xive_pic_print_info(xive, mon);
->  }
-> =20
-> +static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_=
-servers,
-> +                          void *fdt, uint32_t phandle)
-> +{
-> +    SpaprXive *xive =3D SPAPR_XIVE(intc);
-> +    int node;
-> +    uint64_t timas[2 * 2];
-> +    /* Interrupt number ranges for the IPIs */
-> +    uint32_t lisn_ranges[] =3D {
-> +        cpu_to_be32(0),
-> +        cpu_to_be32(nr_servers),
-> +    };
-> +    /*
-> +     * EQ size - the sizes of pages supported by the system 4K, 64K,
-> +     * 2M, 16M. We only advertise 64K for the moment.
-> +     */
-> +    uint32_t eq_sizes[] =3D {
-> +        cpu_to_be32(16), /* 64K */
-> +    };
-> +    /*
-> +     * The following array is in sync with the reserved priorities
-> +     * defined by the 'spapr_xive_priority_is_reserved' routine.
-> +     */
-> +    uint32_t plat_res_int_priorities[] =3D {
-> +        cpu_to_be32(7),    /* start */
-> +        cpu_to_be32(0xf8), /* count */
-> +    };
-> +
-> +    /* Thread Interrupt Management Area : User (ring 3) and OS (ring 2=
-) */
-> +    timas[0] =3D cpu_to_be64(xive->tm_base +
-> +                           XIVE_TM_USER_PAGE * (1ull << TM_SHIFT));
-> +    timas[1] =3D cpu_to_be64(1ull << TM_SHIFT);
-> +    timas[2] =3D cpu_to_be64(xive->tm_base +
-> +                           XIVE_TM_OS_PAGE * (1ull << TM_SHIFT));
-> +    timas[3] =3D cpu_to_be64(1ull << TM_SHIFT);
-> +
-> +    _FDT(node =3D fdt_add_subnode(fdt, 0, xive->nodename));
-> +
-> +    _FDT(fdt_setprop_string(fdt, node, "device_type", "power-ivpe"));
-> +    _FDT(fdt_setprop(fdt, node, "reg", timas, sizeof(timas)));
-> +
-> +    _FDT(fdt_setprop_string(fdt, node, "compatible", "ibm,power-ivpe")=
+> In fact, it seems like OVMF will have to synthesize the new
+> (hot-plugged) VCPU's *APIC-ID* from the following information sources:
+>=20
+> - the topology information described above (die / core / thread counts), =
+and
+>=20
+> - the "modern" CPU hotplug interface (docs/specs/acpi_cpu_hotplug.txt).
+
+In general duplicating cpu_index+topo =3D> apic id in firmware I
+consider as a really bad idea (even ignoring cpu_index=20
+which I were trying to get rid of in QEMU), it's going to break
+when algorithms diverge and it will be never ending race.
+
+Topology is rather messy business, not only arch specific but also
+cpu specific (ex: on my review TODO list, there is a series for
+fixing broken EPYCs topo). Who knows what other variables would be
+add dependencies for calculating APIC IDs down the road.
+
+I also consider to re-use CPU hotplug interface on ARM, which will
+bring its own set of algorithms.
+
+Let's instead add a command to CPU hotplug interface to return
+APIC ID (which QEMU already calculated) and later MPIDR (ARM)
+for selected CPU, so firmware could get it while enumeration CPUs
+via that interface.
+
+>=20
+> Now, if I understand correctly, the "CPU selector" ([0x0-0x3]) specifies
+> a CPU *index*. Therefore, in the hotplug SMI handler (running on one of
+> the pre-existent CPUs), OVMF will have to translate the new CPU's
+> selector (the new CPU's *index*) to its *APIC-ID*, based on the topology
+> information (numbers of dies / cores / threads).
+>=20
+> (That's because existent SMM infrastructure in edk2 uses the initial
+> APIC-ID as the key for referencing CPUs.)
+>=20
+> Algorithmically, I think this translation is doable in OVMF  -- after
+> all, it is implemented in the x86_apicid_from_cpu_idx() function
+> already, in "include/hw/i386/topology.h". And that function does not
+> need more information either:
+>=20
+> static inline apic_id_t x86_apicid_from_cpu_idx(unsigned nr_dies,
+>                                                 unsigned nr_cores,
+>                                                 unsigned nr_threads,
+>                                                 unsigned cpu_index)
+>=20
+> Therefore, my plan is to implement the same translation logic in OVMF.
+>=20
+> Now, the questions:
+>=20
+> - Am I right to think that the "CPU selector" register in the "modern"
+> ACPI hotplug interface operates in the *same domain* as the "cpu_index"
+> parameter of x86_apicid_from_cpu_idx()?
+>
+> - As we progress through CPU indices, x86_apicid_from_cpu_idx() first
+> fills threads in a core, then cores in a die, then dies in a socket.
+> Will this logic remain the same, forever?
+>=20
+> If any of the two questions above is answered with "no", then OVMF will
+> need an fw_cfg blob that is different from the current proposal.
+>=20
+> Namely, OVMF will need a *full* "cpu_index -> APIC-ID" map, up to (and
+> excluding) "max_cpus".
+>=20
+> The pc_possible_cpu_arch_ids() function in "hw/i386/pc.c" already
+> calculates a similar map:
+>=20
+>         ms->possible_cpus->cpus[i].arch_id =3D
+> x86_cpu_apic_id_from_index(pcms, i);
+>=20
+> So, basically that map is what OVMF would have to receive over fw_cfg,
+> *if* the "cpu_index -> APIC-ID" mapping is not considered guest ABI.
+> Should I write v2 for that?
+>=20
+> Please comment!
+>=20
+> Thanks,
+> Laszlo
+>=20
+>=20
+> > This is
+> > slightly complicated by the fact that the die count is specific to
+> > PCMachineState, but fw_cfg_arch_create() intends to be PC-independent (=
+see
+> > commit 149c50cabcc4).
+> >=20
+> > For now, the feature is temporarily disabled.
+> >=20
+> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > Cc: Eduardo Habkost <ehabkost@redhat.com>
+> > Cc: Igor Mammedov <imammedo@redhat.com>
+> > Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > Cc: Richard Henderson <rth@twiddle.net>
+> > Ref: https://bugzilla.tianocore.org/show_bug.cgi?id=3D1515
+> > Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+> > ---
+> >  hw/i386/fw_cfg.h | 30 +++++++++++++++++++++++++++++-
+> >  hw/i386/fw_cfg.c | 26 ++++++++++++++++++++++++--
+> >  hw/i386/pc.c     |  4 ++--
+> >  3 files changed, 55 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+> > index e0856a376996..d742435b9793 100644
+> > --- a/hw/i386/fw_cfg.h
+> > +++ b/hw/i386/fw_cfg.h
+> > @@ -18,9 +18,37 @@
+> >  #define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
+> >  #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
+> > =20
+> > +/**
+> > + * FWCfgX86Topology: expose the X86 CPU topology to guest firmware ove=
+r fw-cfg.
+> > + *
+> > + * All fields have little-endian encoding.
+> > + *
+> > + * @dies:     Number of dies per package (aka socket). Set it to 1 unl=
+ess the
+> > + *            concrete MachineState subclass defines it differently.
+> > + * @cores:    Corresponds to @CpuTopology.@cores.
+> > + * @threads:  Corresponds to @CpuTopology.@threads.
+> > + * @max_cpus: Corresponds to @CpuTopology.@max_cpus.
+> > + *
+> > + * Firmware can derive the package (aka socket) count with the followi=
+ng
+> > + * formula:
+> > + *
+> > + *   DIV_ROUND_UP(@max_cpus, @dies * @cores * @threads)
+> > + *
+> > + * Firmware can derive APIC ID field widths and offsets per the standa=
+rd
+> > + * calculations in "include/hw/i386/topology.h".
+> > + */
+> > +typedef struct FWCfgX86Topology {
+> > +  uint32_t dies;
+> > +  uint32_t cores;
+> > +  uint32_t threads;
+> > +  uint32_t max_cpus;
+> > +} QEMU_PACKED FWCfgX86Topology;
+> > +
+> >  FWCfgState *fw_cfg_arch_create(MachineState *ms,
+> >                                 uint16_t boot_cpus,
+> > -                               uint16_t apic_id_limit);
+> > +                               uint16_t apic_id_limit,
+> > +                               unsigned smp_dies,
+> > +                               bool expose_topology);
+> >  void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
+> >  void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg=
 );
-> +    _FDT(fdt_setprop(fdt, node, "ibm,xive-eq-sizes", eq_sizes,
-> +                     sizeof(eq_sizes)));
-> +    _FDT(fdt_setprop(fdt, node, "ibm,xive-lisn-ranges", lisn_ranges,
-> +                     sizeof(lisn_ranges)));
-> +
-> +    /* For Linux to link the LSIs to the interrupt controller. */
-> +    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
-> +    _FDT(fdt_setprop_cell(fdt, node, "#interrupt-cells", 2));
-> +
-> +    /* For SLOF */
-> +    _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
-> +    _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
-> +
-> +    /*
-> +     * The "ibm,plat-res-int-priorities" property defines the priority
-> +     * ranges reserved by the hypervisor
-> +     */
-> +    _FDT(fdt_setprop(fdt, 0, "ibm,plat-res-int-priorities",
-> +                     plat_res_int_priorities, sizeof(plat_res_int_prio=
-rities)));
-> +}
-> +
->  static void spapr_xive_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -601,6 +663,7 @@ static void spapr_xive_class_init(ObjectClass *klas=
-s, void *data)
->      sicc->free_irq =3D spapr_xive_free_irq;
->      sicc->set_irq =3D spapr_xive_set_irq;
->      sicc->print_info =3D spapr_xive_print_info;
-> +    sicc->dt =3D spapr_xive_dt;
->  }
-> =20
->  static const TypeInfo spapr_xive_info =3D {
-> @@ -1601,65 +1664,3 @@ void spapr_xive_hcall_init(SpaprMachineState *sp=
-apr)
->      spapr_register_hypercall(H_INT_SYNC, h_int_sync);
->      spapr_register_hypercall(H_INT_RESET, h_int_reset);
->  }
-> -
-> -void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle)
-> -{
-> -    SpaprXive *xive =3D spapr->xive;
-> -    int node;
-> -    uint64_t timas[2 * 2];
-> -    /* Interrupt number ranges for the IPIs */
-> -    uint32_t lisn_ranges[] =3D {
-> -        cpu_to_be32(0),
-> -        cpu_to_be32(nr_servers),
-> -    };
-> -    /*
-> -     * EQ size - the sizes of pages supported by the system 4K, 64K,
-> -     * 2M, 16M. We only advertise 64K for the moment.
-> -     */
-> -    uint32_t eq_sizes[] =3D {
-> -        cpu_to_be32(16), /* 64K */
-> -    };
-> -    /*
-> -     * The following array is in sync with the reserved priorities
-> -     * defined by the 'spapr_xive_priority_is_reserved' routine.
-> -     */
-> -    uint32_t plat_res_int_priorities[] =3D {
-> -        cpu_to_be32(7),    /* start */
-> -        cpu_to_be32(0xf8), /* count */
-> -    };
-> -
-> -    /* Thread Interrupt Management Area : User (ring 3) and OS (ring 2=
-) */
-> -    timas[0] =3D cpu_to_be64(xive->tm_base +
-> -                           XIVE_TM_USER_PAGE * (1ull << TM_SHIFT));
-> -    timas[1] =3D cpu_to_be64(1ull << TM_SHIFT);
-> -    timas[2] =3D cpu_to_be64(xive->tm_base +
-> -                           XIVE_TM_OS_PAGE * (1ull << TM_SHIFT));
-> -    timas[3] =3D cpu_to_be64(1ull << TM_SHIFT);
-> -
-> -    _FDT(node =3D fdt_add_subnode(fdt, 0, xive->nodename));
-> -
-> -    _FDT(fdt_setprop_string(fdt, node, "device_type", "power-ivpe"));
-> -    _FDT(fdt_setprop(fdt, node, "reg", timas, sizeof(timas)));
-> -
-> -    _FDT(fdt_setprop_string(fdt, node, "compatible", "ibm,power-ivpe")=
+> > =20
+> > diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+> > index 39b6bc60520c..33d09875014f 100644
+> > --- a/hw/i386/fw_cfg.c
+> > +++ b/hw/i386/fw_cfg.c
+> > @@ -85,9 +85,26 @@ void fw_cfg_build_smbios(MachineState *ms, FWCfgStat=
+e *fw_cfg)
+> >      }
+> >  }
+> > =20
+> > +static void fw_cfg_expose_topology(FWCfgState *fw_cfg,
+> > +                                   unsigned dies,
+> > +                                   unsigned cores,
+> > +                                   unsigned threads,
+> > +                                   unsigned max_cpus)
+> > +{
+> > +    FWCfgX86Topology *topo =3D g_new(FWCfgX86Topology, 1);
+> > +
+> > +    topo->dies     =3D cpu_to_le32(dies);
+> > +    topo->cores    =3D cpu_to_le32(cores);
+> > +    topo->threads  =3D cpu_to_le32(threads);
+> > +    topo->max_cpus =3D cpu_to_le32(max_cpus);
+> > +    fw_cfg_add_file(fw_cfg, "etc/x86-smp-topology", topo, sizeof *topo=
 );
-> -    _FDT(fdt_setprop(fdt, node, "ibm,xive-eq-sizes", eq_sizes,
-> -                     sizeof(eq_sizes)));
-> -    _FDT(fdt_setprop(fdt, node, "ibm,xive-lisn-ranges", lisn_ranges,
-> -                     sizeof(lisn_ranges)));
-> -
-> -    /* For Linux to link the LSIs to the interrupt controller. */
-> -    _FDT(fdt_setprop(fdt, node, "interrupt-controller", NULL, 0));
-> -    _FDT(fdt_setprop_cell(fdt, node, "#interrupt-cells", 2));
-> -
-> -    /* For SLOF */
-> -    _FDT(fdt_setprop_cell(fdt, node, "linux,phandle", phandle));
-> -    _FDT(fdt_setprop_cell(fdt, node, "phandle", phandle));
-> -
-> -    /*
-> -     * The "ibm,plat-res-int-priorities" property defines the priority
-> -     * ranges reserved by the hypervisor
-> -     */
-> -    _FDT(fdt_setprop(fdt, 0, "ibm,plat-res-int-priorities",
-> -                     plat_res_int_priorities, sizeof(plat_res_int_prio=
-rities)));
-> -}
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 415defe394..4eabafc7e1 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -308,8 +308,8 @@ static void ics_spapr_realize(DeviceState *dev, Err=
-or **errp)
->      spapr_register_hypercall(H_IPOLL, h_ipoll);
->  }
-> =20
-> -void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle)
-> +static void xics_spapr_dt(SpaprInterruptController *intc, uint32_t nr_=
-servers,
-> +                          void *fdt, uint32_t phandle)
->  {
->      uint32_t interrupt_server_ranges_prop[] =3D {
->          0, cpu_to_be32(nr_servers),
-> @@ -408,6 +408,7 @@ static void ics_spapr_class_init(ObjectClass *klass=
-, void *data)
->      sicc->free_irq =3D xics_spapr_free_irq;
->      sicc->set_irq =3D xics_spapr_set_irq;
->      sicc->print_info =3D xics_spapr_print_info;
-> +    sicc->dt =3D xics_spapr_dt;
->  }
-> =20
->  static const TypeInfo ics_spapr_info =3D {
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 6c38de5927..e880db5d38 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1255,8 +1255,7 @@ static void *spapr_build_fdt(SpaprMachineState *s=
-papr)
->      _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
-> =20
->      /* /interrupt controller */
-> -    spapr->irq->dt_populate(spapr, spapr_max_server_number(spapr), fdt=
-,
-> -                          PHANDLE_INTC);
-> +    spapr_irq_dt(spapr, spapr_max_server_number(spapr), fdt, PHANDLE_I=
-NTC);
-> =20
->      ret =3D spapr_populate_memory(spapr, fdt);
->      if (ret < 0) {
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index a29b527232..a8005072e6 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -134,7 +134,6 @@ SpaprIrq spapr_irq_xics =3D {
->      .xics        =3D true,
->      .xive        =3D false,
-> =20
-> -    .dt_populate =3D spapr_dt_xics,
->      .post_load   =3D spapr_irq_post_load_xics,
->      .reset       =3D spapr_irq_reset_xics,
->      .init_kvm    =3D spapr_irq_init_kvm_xics,
-> @@ -184,7 +183,6 @@ SpaprIrq spapr_irq_xive =3D {
->      .xics        =3D false,
->      .xive        =3D true,
-> =20
-> -    .dt_populate =3D spapr_dt_xive,
->      .post_load   =3D spapr_irq_post_load_xive,
->      .reset       =3D spapr_irq_reset_xive,
->      .init_kvm    =3D spapr_irq_init_kvm_xive,
-> @@ -209,13 +207,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineSta=
-te *spapr)
->          &spapr_irq_xive : &spapr_irq_xics;
->  }
-> =20
-> -static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
-> -                                       uint32_t nr_servers, void *fdt,
-> -                                       uint32_t phandle)
-> -{
-> -    spapr_irq_current(spapr)->dt_populate(spapr, nr_servers, fdt, phan=
-dle);
-> -}
-> -
->  static int spapr_irq_post_load_dual(SpaprMachineState *spapr, int vers=
-ion_id)
->  {
->      /*
-> @@ -270,7 +261,6 @@ SpaprIrq spapr_irq_dual =3D {
->      .xics        =3D true,
->      .xive        =3D true,
-> =20
-> -    .dt_populate =3D spapr_irq_dt_populate_dual,
->      .post_load   =3D spapr_irq_post_load_dual,
->      .reset       =3D spapr_irq_reset_dual,
->      .init_kvm    =3D NULL, /* should not be used */
-> @@ -377,6 +367,15 @@ void spapr_irq_print_info(SpaprMachineState *spapr=
-, Monitor *mon)
->      sicc->print_info(spapr->active_intc, mon);
->  }
-> =20
-> +void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
-> +                  void *fdt, uint32_t phandle)
-> +{
-> +    SpaprInterruptControllerClass *sicc
-> +        =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
-> +
-> +    sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
-> +}
-> +
->  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  {
->      MachineState *machine =3D MACHINE(spapr);
-> @@ -686,7 +685,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
->      .xics        =3D true,
->      .xive        =3D false,
-> =20
-> -    .dt_populate =3D spapr_dt_xics,
->      .post_load   =3D spapr_irq_post_load_xics,
->      .reset       =3D spapr_irq_reset_xics,
->      .init_kvm    =3D spapr_irq_init_kvm_xics,
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index bdfeb3b107..0df95e1b5a 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -60,6 +60,8 @@ typedef struct SpaprInterruptControllerClass {
->      /* These methods should only be called on the active intc */
->      void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
->      void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
-> +    void (*dt)(SpaprInterruptController *intc, uint32_t nr_servers,
-> +               void *fdt, uint32_t phandle);
->  } SpaprInterruptControllerClass;
-> =20
->  void spapr_irq_update_active_intc(SpaprMachineState *spapr);
-> @@ -67,6 +69,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *=
-spapr);
->  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
->                                PowerPCCPU *cpu, Error **errp);
->  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
-> +void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
-> +                  void *fdt, uint32_t phandle);
-> =20
->  void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
->  int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool a=
-lign,
-> @@ -79,8 +83,6 @@ typedef struct SpaprIrq {
->      bool        xics;
->      bool        xive;
-> =20
-> -    void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
-> -                        void *fdt, uint32_t phandle);
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
->      void (*reset)(SpaprMachineState *spapr, Error **errp);
->      void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index 8f875673f5..ebe156eb30 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -58,8 +58,6 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monit=
-or *mon);
->  int spapr_xive_post_load(SpaprXive *xive, int version_id);
-> =20
->  void spapr_xive_hcall_init(SpaprMachineState *spapr);
-> -void spapr_dt_xive(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle);
->  void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
->  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
->  void spapr_xive_map_mmio(SpaprXive *xive);
-> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> index 0b35e85c26..8e4fb6adce 100644
-> --- a/include/hw/ppc/xics_spapr.h
-> +++ b/include/hw/ppc/xics_spapr.h
-> @@ -32,8 +32,6 @@
->  #define TYPE_ICS_SPAPR "ics-spapr"
->  #define ICS_SPAPR(obj) OBJECT_CHECK(ICSState, (obj), TYPE_ICS_SPAPR)
-> =20
-> -void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void=
- *fdt,
-> -                   uint32_t phandle);
->  int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
->  void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
->  bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
+> > +}
+> > +
+> >  FWCfgState *fw_cfg_arch_create(MachineState *ms,
+> > -                                      uint16_t boot_cpus,
+> > -                                      uint16_t apic_id_limit)
+> > +                               uint16_t boot_cpus,
+> > +                               uint16_t apic_id_limit,
+> > +                               unsigned smp_dies,
+> > +                               bool expose_topology)
+> >  {
+> >      FWCfgState *fw_cfg;
+> >      uint64_t *numa_fw_cfg;
+> > @@ -143,6 +160,11 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+> >                       (1 + apic_id_limit + nb_numa_nodes) *
+> >                       sizeof(*numa_fw_cfg));
+> > =20
+> > +    if (expose_topology) {
+> > +        fw_cfg_expose_topology(fw_cfg, smp_dies, ms->smp.cores,
+> > +                               ms->smp.threads, ms->smp.max_cpus);
+> > +    }
+> > +
+> >      return fw_cfg;
+> >  }
+> > =20
+> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > index bcda50efcc23..bb72b12edad2 100644
+> > --- a/hw/i386/pc.c
+> > +++ b/hw/i386/pc.c
+> > @@ -1738,8 +1738,8 @@ void pc_memory_init(PCMachineState *pcms,
+> >                                          option_rom_mr,
+> >                                          1);
+> > =20
+> > -    fw_cfg =3D fw_cfg_arch_create(machine,
+> > -                                pcms->boot_cpus, pcms->apic_id_limit);
+> > +    fw_cfg =3D fw_cfg_arch_create(machine, pcms->boot_cpus, pcms->apic=
+_id_limit,
+> > +                                pcms->smp_dies, false);
+> > =20
+> >      rom_set_fw(fw_cfg);
+> > =20
+> >  =20
 >=20
 
 
