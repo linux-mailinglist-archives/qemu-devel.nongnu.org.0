@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C208D1989
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:23:21 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E785AD198C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:27:49 +0200 (CEST)
+Received: from localhost ([::1]:56904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIIUR-00055a-Fi
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33719)
+	id 1iIIYm-0002KH-EU
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:27:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iIFdP-0001K8-Nb
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:20:24 -0400
+ (envelope-from <mtosatti@redhat.com>) id 1iIGtB-0004S1-Gv
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:40:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iIFdO-0003Ua-JG
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:20:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51402)
+ (envelope-from <mtosatti@redhat.com>) id 1iIGtA-0004sn-H0
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:40:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iIFdJ-0003Rp-KQ; Wed, 09 Oct 2019 13:20:17 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <mtosatti@redhat.com>) id 1iIGtA-0004sH-BM
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:40:44 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE659315C00D;
- Wed,  9 Oct 2019 17:20:14 +0000 (UTC)
-Received: from localhost (ovpn-116-110.ams2.redhat.com [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C00815DA8C;
- Wed,  9 Oct 2019 17:20:11 +0000 (UTC)
-Date: Wed, 9 Oct 2019 18:20:10 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-Subject: Re: [RFC PATCH] virtio-blk: advertise F_WCE (F_FLUSH) if
- F_CONFIG_WCE is also advertised
-Message-ID: <20191009172010.GC13568@stefanha-x1.localdomain>
-References: <1568980590-806043-1-git-send-email-wrfsh@yandex-team.ru>
- <20191008132416.GA28104@stefanha-x1.localdomain>
- <f7d2c01d-1676-f02c-e538-f924282eb6a5@yandex-team.ru>
+ by mx1.redhat.com (Postfix) with ESMTPS id DB6052A09AC;
+ Wed,  9 Oct 2019 18:40:41 +0000 (UTC)
+Received: from amt.cnet (ovpn-112-6.gru2.redhat.com [10.97.112.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FFAD61F24;
+ Wed,  9 Oct 2019 18:40:41 +0000 (UTC)
+Received: from amt.cnet (localhost [127.0.0.1])
+ by amt.cnet (Postfix) with ESMTP id 7993310516E;
+ Wed,  9 Oct 2019 15:40:23 -0300 (BRT)
+Received: (from marcelo@localhost)
+ by amt.cnet (8.14.7/8.14.7/Submit) id x99IeIIi027715;
+ Wed, 9 Oct 2019 15:40:18 -0300
+Date: Wed, 9 Oct 2019 15:40:14 -0300
+From: Marcelo Tosatti <mtosatti@redhat.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] mc146818rtc: fix timer interrupt reinjection
+Message-ID: <20191009184011.GA26234@amt.cnet>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/e2eDi0V/xtL+Mc8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f7d2c01d-1676-f02c-e538-f924282eb6a5@yandex-team.ru>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 09 Oct 2019 17:20:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Wed, 09 Oct 2019 18:40:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,81 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, yc-core@yandex-team.ru,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mst@redhat.com
+Cc: Tai Yunfang <yunfangtai@tencent.com>,
+ Xiao Guangrong <guangrong.xiao@gmail.com>,
+ Vadim Rozenfeld <vrozenfe@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/e2eDi0V/xtL+Mc8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
+reinjection when there is no period change by the guest. 
 
-On Wed, Oct 09, 2019 at 03:37:35PM +0300, Evgeny Yakovlev wrote:
-> On 08.10.2019 16:24, Stefan Hajnoczi wrote:
-> > On Fri, Sep 20, 2019 at 02:56:30PM +0300, Evgeny Yakovlev wrote:
-> > The motivation for this change looks correct but this patch may cause
-> > host_features to change across live migration to a newer QEMU version.
-> > If the guest accesses VIRTIO_PCI_HOST_FEATURES before and after live
-> > migration it may see different values, which is unexpected.
-> >=20
-> > The safe way of introducing guest-visible changes like this is to make
-> > the change conditional on the machine type version so that old guests
-> > see old behavior and new guests see new behavior.
-> >=20
-> > Live migration compatibility can be guaranteed by adding a new property
-> > to virtio_blk_properties[]:
-> >=20
-> >    DEFINE_PROP_BOOL("enable-wce-if-config-wce", VirtIOBlock,
-> >                     conf.enable_wce_if_config_wce, true),
-> >=20
-> > Then tweak the patch:
-> >=20
-> >    if (blk_enable_write_cache(s->blk) ||
-> >        (s->conf.enable_wce_if_config_wce &&
-> >         virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
-> >=20
-> > And finally disable enable_wce_if_config_wce for older machine types to
-> > retain compatibility:
-> >=20
-> >    GlobalProperty hw_compat_4_2[] =3D {
-> >        { "virtio-blk-device", "enable-wce-if-config-wce", "off" },
-> >    };
-> >=20
-> > (I have omitted some steps like defining
-> > VirtIOBlkConf.enable_wce_if_config_wce field and hooking up
-> > hw_compat_4_2[], but you can figure that out from the existing code.)
->=20
->=20
-> Why don't we just migrate host_features? That will ensure they are the sa=
-me.
-> And messing up device config on destination is bad anyway.
+In that case, old_period is 0, which ends up zeroing irq_coalesced
+(counter of reinjected interrupts).
 
-Traditionally QEMU has not migrated host state/objects.  Instead it
-relies on the destination QEMU command-line producing exactly the same
-host state as on the source host.
+The consequence is Windows 7 is unable to synchronize time via NTP.
+Easily reproducible by playing a fullscreen video with cirrus and VNC.
 
-A problem with migration host state is that it's impossible to offer
-host features that are unavailable on the destination host (they cannot
-be "migrated").
+Fix by not updating s->irq_coalesced when old_period is 0.
 
-Stefan
+Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
 
---/e2eDi0V/xtL+Mc8
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+index 6cb378751b..aabffa8c67 100644
+--- a/hw/timer/mc146818rtc.c
++++ b/hw/timer/mc146818rtc.c
+@@ -241,7 +241,10 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+ 
+             s->period = period;
+             lost_clock += old_irq_coalesced * old_period;
+-            s->irq_coalesced = lost_clock / s->period;
++            if (old_period) {
++                s->irq_coalesced = lost_clock / s->period;
++            }
++
+             lost_clock %= s->period;
+             if (old_irq_coalesced != s->irq_coalesced ||
+                 old_period != s->period) {
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2eFsoACgkQnKSrs4Gr
-c8jPpwf/eXvpKxHnLXmJOBBG27Zx0upI63OMv5bLd6D7QOB8xxUG5VWAMCWKXMMw
-iYoqgc4JCG+pWwYvmjDXNbh2yMhoYA1hDJ8SPMeINJ/9OAVB0sCWlwds0cE1U19h
-xm4MO7BZO/BmCP2vIDQqaRSENmD8o4vncNrfHWtpadPrnhXDWZPEDhGGPsf+LEBh
-pApOfigZ74x5CcbAftyWt1I+ufWWrVeZsVsseKsp7/I6SZqo5U1CwRQoRQXa16a4
-LeVx6jnBN1FxVcNNNWRerJOxC2REzWtqwMEriXlxAN31D0xPtNv77WeA1/Y9L8bx
-EAnugkRQyY2XpxYk8hxDGpc7YIL8Vw==
-=T3v7
------END PGP SIGNATURE-----
-
---/e2eDi0V/xtL+Mc8--
 
