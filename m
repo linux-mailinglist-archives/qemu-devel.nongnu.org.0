@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E5AD1A6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:02:12 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9027D1AA8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:14:37 +0200 (CEST)
+Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJ63-00028w-4N
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41639)
+	id 1iIJI4-0007sH-BS
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iIIxM-0002v2-Nz
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 16:53:13 -0400
+ (envelope-from <mst@redhat.com>) id 1iIHTA-0002jJ-1H
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:18:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iIIxI-0002rm-CY
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 16:53:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56228)
+ (envelope-from <mst@redhat.com>) id 1iIHT7-0006gg-Ns
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:17:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45524)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iIIxH-0002pq-K8
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 16:53:08 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHT7-0006fw-BS
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:17:53 -0400
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2138D4FCC9;
- Wed,  9 Oct 2019 20:53:03 +0000 (UTC)
-Received: from localhost (ovpn-116-5.gru2.redhat.com [10.97.116.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 607FF5EE1D;
- Wed,  9 Oct 2019 20:52:52 +0000 (UTC)
-Date: Wed, 9 Oct 2019 17:52:51 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce the microvm machine type
-Message-ID: <20191009205251.GA4084@habkost.net>
-References: <20191004093752.16564-1-slp@redhat.com>
- <20191005180721-mutt-send-email-mst@kernel.org>
- <87sgo4oek7.fsf@redhat.com>
- <20191009152109-mutt-send-email-mst@kernel.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id 3458B2CE905
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:17:52 +0000 (UTC)
+Received: by mail-qk1-f197.google.com with SMTP id n135so2945608qke.23
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:17:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=5Z1lbJyLmfkG493rnJvBSTwZ4AJSxGiXUH6MwWMjsvA=;
+ b=XAJZ9EAF0H+xm5KeO1/lWuADvrjgtbmIibU8CCa+dv5mC+DgeSww1sU1d8qIK6SWrz
+ edivB0kG48YF/aH+UENn18GQMeoRMSSbFnqBIOo5OogwSqnqlRIWwIE9FRh/jtrnkJmr
+ JMGNYiWRRRQm4U3HYP+9XNmDrbCok7TuSA4TfUfbS2Figy2Dq2DkCSNcbt2YwLCMl8sb
+ JDE4wJMCTpiDde8MxlHZ8Hrv0R81NfJ2U8x/vyGzr+jdvoaXadgpH/UJ0yPhqDl0Nxv0
+ itUEJqQdZrm3BPzDV9s3a7pNVlIeTMF+rQJIjl1naU5rNtu+sNVZG6L0riPVrjPcFMAV
+ vpaA==
+X-Gm-Message-State: APjAAAX0M1oND9c9wj6Ye7GbhLvp5watXDi9Chd2tLBckh4ICw5srSPp
+ tryIqCgJIU/rjrLLerMX4wy1hDl50pWsYut/OUUE+e6klC5U5Q6qPdGQgVWdUn2BGi6jYQoO+4j
+ jxcn+YDGEb1nJz5k=
+X-Received: by 2002:a0c:8964:: with SMTP id 33mr2135280qvq.241.1570648671491; 
+ Wed, 09 Oct 2019 12:17:51 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwKnXBbNftbYnk7HLVkRyFw9ZshhnD/+dxnGLbd7edME+1z8MO4FoqQ4E6+0RMuruHaY2Z3/g==
+X-Received: by 2002:a0c:8964:: with SMTP id 33mr2135250qvq.241.1570648671239; 
+ Wed, 09 Oct 2019 12:17:51 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ 139sm1418694qkf.14.2019.10.09.12.17.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2019 12:17:50 -0700 (PDT)
+Date: Wed, 9 Oct 2019 15:17:44 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/8] hw/acpi/piix4: Convert reset handler to DeviceReset
+Message-ID: <20191009151638-mutt-send-email-mst@kernel.org>
+References: <20191008142539.7793-1-philmd@redhat.com>
+ <20191008142539.7793-2-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20191009152109-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 09 Oct 2019 20:53:03 +0000 (UTC)
+In-Reply-To: <20191008142539.7793-2-philmd@redhat.com>
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -59,44 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, lersek@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 03:21:46PM -0400, Michael S. Tsirkin wrote:
-> On Mon, Oct 07, 2019 at 03:44:40PM +0200, Sergio Lopez wrote:
-> > 
-> > Michael S. Tsirkin <mst@redhat.com> writes:
-> > 
-> > > On Fri, Oct 04, 2019 at 11:37:42AM +0200, Sergio Lopez wrote:
-> > >> Microvm is a machine type inspired by Firecracker and constructed
-> > >> after the its machine model.
-> > >> 
-> > >> It's a minimalist machine type without PCI nor ACPI support, designed
-> > >> for short-lived guests. Microvm also establishes a baseline for
-> > >> benchmarking and optimizing both QEMU and guest operating systems,
-> > >> since it is optimized for both boot time and footprint.
-> > >
-> > > Pls take a look at patchew warnings and errors.
-> > > Both coding style issues and test failures need to be
-> > > addressed somehow I think.
-> > 
-> > I've fixed the issue with the test suite, but I'm not sure what to do
-> > about the coding style errors. Every one of them (except perhaps one at
-> > xen-hvm.c) comes from code I've moved from pc.c to x86.c. I'd say fixing
-> > those are outside the scope of the corresponding patches, but please
-> > correct me if I'm wrong.
-> 
-> Yea if you refactor code you have to kick it into shape
-> at the same time. Can be a separate patch to ease review.
+On Tue, Oct 08, 2019 at 04:25:32PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> The PIIX4/PM is a PCI device within the PIIX4 chipset, it will be reset
+> when the PCI bus it stands on is reset.
+>=20
+> Convert its reset handler into a proper Device reset method.
+>=20
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-I don't think it is reasonable to require code to be 100%
-CODING_STYLE-compliant before being moved to a new file.  We can
-still encourage cleaning it up, of course, but I don't see the
-benefit of making it a requirement.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
--- 
-Eduardo
+feel free to take through the misc tree.
+
+
+> ---
+>  hw/acpi/piix4.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 5742c3df87..4e079b39bd 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -27,7 +27,6 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/acpi/acpi.h"
+> -#include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/sysemu.h"
+>  #include "qapi/error.h"
+> @@ -344,9 +343,9 @@ static const VMStateDescription vmstate_acpi =3D {
+>      }
+>  };
+> =20
+> -static void piix4_reset(void *opaque)
+> +static void piix4_pm_reset(DeviceState *dev)
+>  {
+> -    PIIX4PMState *s =3D opaque;
+> +    PIIX4PMState *s =3D PIIX4_PM(dev);
+>      PCIDevice *d =3D PCI_DEVICE(s);
+>      uint8_t *pci_conf =3D d->config;
+> =20
+> @@ -542,7 +541,6 @@ static void piix4_pm_realize(PCIDevice *dev, Error =
+**errp)
+> =20
+>      s->machine_ready.notify =3D piix4_pm_machine_ready;
+>      qemu_add_machine_init_done_notifier(&s->machine_ready);
+> -    qemu_register_reset(piix4_reset, s);
+> =20
+>      piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
+>                                     pci_get_bus(dev), s);
+> @@ -692,6 +690,7 @@ static void piix4_pm_class_init(ObjectClass *klass,=
+ void *data)
+>      k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB_3;
+>      k->revision =3D 0x03;
+>      k->class_id =3D PCI_CLASS_BRIDGE_OTHER;
+> +    dc->reset =3D piix4_pm_reset;
+>      dc->desc =3D "PM";
+>      dc->vmsd =3D &vmstate_acpi;
+>      dc->props =3D piix4_pm_properties;
+> --=20
+> 2.21.0
 
