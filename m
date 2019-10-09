@@ -2,56 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC21AD16F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:40:00 +0200 (CEST)
-Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36901D16EB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:37:41 +0200 (CEST)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFwM-0005GW-HB
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49373)
+	id 1iIFu7-000378-NH
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51263)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iI7sa-0001wr-Cu
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:03:33 -0400
+ (envelope-from <bounces@canonical.com>) id 1iI89w-0003kB-Fp
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:21:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iI7sT-00016x-NE
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:03:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50572)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iI7sT-00016E-Hd
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:03:25 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 44F50C002966;
- Wed,  9 Oct 2019 09:03:24 +0000 (UTC)
-Received: from work-vm (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 541D75D9CD;
- Wed,  9 Oct 2019 09:03:23 +0000 (UTC)
-Date: Wed, 9 Oct 2019 10:03:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH 2/3] migration/postcopy: not necessary to do
- postcopy_ram_incoming_cleanup when state is ADVISE
-Message-ID: <20191009090320.GC2893@work-vm>
-References: <20191001100122.17730-1-richardw.yang@linux.intel.com>
- <20191001100122.17730-3-richardw.yang@linux.intel.com>
- <20191008160202.GE3441@work-vm> <20191009005511.GB26203@richard>
+ (envelope-from <bounces@canonical.com>) id 1iI89v-0007co-88
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:21:28 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34970)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iI89v-0007cZ-2h
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:21:27 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iI89t-00039C-V9
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 09:21:25 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E954F2E8037
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 09:21:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191009005511.GB26203@richard>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Wed, 09 Oct 2019 09:03:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Oct 2019 09:09:34 -0000
+From: Thomas Huth <1633508@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=libvirt; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: libvirt
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: havok4u paelzer th-huth
+X-Launchpad-Bug-Reporter: Tim Epkes (havok4u)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20161014143633.7783.6982.malonedeb@gac.canonical.com>
+Message-Id: <157061217753.1571.15023405698924787990.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1633508] Re: libvirt cannot hot insert interfaces to qemu
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2fbce4af20bc00cb08795176e074249168802a0c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,64 +67,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Reply-To: Bug 1633508 <1633508@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> On Tue, Oct 08, 2019 at 05:02:02PM +0100, Dr. David Alan Gilbert wrote:
-> >* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> >> postcopy_ram_incoming_cleanup() does cleanup for
-> >> postcopy_ram_incoming_setup(), while the setup happens only after
-> >> migration enters LISTEN state.
-> >> 
-> >> This means there is nothing to cleanup when migration is still ADVISE
-> >> state.
-> >> 
-> >> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> >> ---
-> >>  migration/migration.c | 1 -
-> >>  1 file changed, 1 deletion(-)
-> >> 
-> >> diff --git a/migration/migration.c b/migration/migration.c
-> >> index 5f7e4d15e9..34d5e66f06 100644
-> >> --- a/migration/migration.c
-> >> +++ b/migration/migration.c
-> >> @@ -461,7 +461,6 @@ static void process_incoming_migration_co(void *opaque)
-> >>               * but managed to complete within the precopy period, we can use
-> >>               * the normal exit.
-> >>               */
-> >> -            postcopy_ram_incoming_cleanup(mis);
-> >>          } else if (ret >= 0) {
-> >>              /*
-> >>               * Postcopy was started, cleanup should happen at the end of the
-> >
-> >I think that misses the cleanup of mlock that corresponds to the
-> >munlockall in postcopy_ram_supported_by_host - that's called very early
-> >on; I think in the advise stage.
-> >
-> 
-> Thanks you are right.
-> 
-> BTW, do we need to check enable_mlock when calling munlockall() in
-> postcopy_ram_supported_by_host() ?
+** Project changed: qemu =3D> libvirt (Ubuntu)
 
-I don't think so; it does an extra munlock in that case when nothing
-should be locked anyway, no harm.
+-- =
 
-Dave
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1633508
 
-> >Dave
-> >
-> >> -- 
-> >> 2.17.1
-> >> 
-> >--
-> >Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> -- 
-> Wei Yang
-> Help you, Help me
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Title:
+  libvirt cannot hot insert interfaces to qemu
+
+Status in libvirt package in Ubuntu:
+  Incomplete
+
+Bug description:
+  When attempting to hot insert an interface using Ubuntu 16.04.1, I get th=
+e following
+  $ virsh attach-interface --domain gluster1 --type direct \
+  >         --source test0 --model virtio \
+  >         --mac 2a:b6:b0:dc:c7:c4 --config --live
+  error: Failed to attach interface
+  error: internal error: unable to execute QEMU command 'getfd': No file de=
+scriptor supplied via SCM_RIGHTS
+
+  test0 exists:
+  $ ip link show test0
+  35: test0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast =
+state DOWN mode DEFAULT group default qlen 1000
+      link/ether aa:8c:65:2e:79:61 brd ff:ff:ff:ff:ff:ff
+
+  Just in case I did it wrong with direct, I did network
+  $ virsh net-list
+   Name                 State      Autostart     Persistent
+  ----------------------------------------------------------
+   default              active     yes           yes
+   mgmtnet0             active     yes           yes
+
+  $ virsh attach-interface --domain gluster1 --type network \
+  >         --source default --model virtio \
+  >         --mac 2a:b6:b0:dc:c7:c4 --config --live
+  error: Failed to attach interface
+  error: internal error: unable to execute QEMU command 'getfd': No file de=
+scriptor supplied via SCM_RIGHTS
+
+  =
+
+  This seems to be an old bug, but is still present.  Other relevant inform=
+ation:
+  $ qemu-system-x86_64 --version
+  QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.5), Copyright (c=
+) 2003-2008 Fabrice Bellard
+  $ virsh -v
+  1.3.1
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu/+source/libvirt/+bug/1633508/+subscriptio=
+ns
 
