@@ -2,50 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC24CD177E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:21:51 +0200 (CEST)
-Received: from localhost ([::1]:53741 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3661CD178A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:24:55 +0200 (CEST)
+Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGas-0007sm-Ih
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57169)
+	id 1iIGdp-0002bc-S0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iICNl-0006D7-J6
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:52:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1iICbr-0007qa-Lc
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:06:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iICNj-0006Ak-Lv
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:52:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34144)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iICNj-0006Aa-Gm
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:59 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AE10930224AC
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 13:51:58 +0000 (UTC)
-Received: from localhost (ovpn-116-110.ams2.redhat.com [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8F2F5D6B2;
- Wed,  9 Oct 2019 13:51:55 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] trace: add --group=all to tracing.txt
-Date: Wed,  9 Oct 2019 14:51:54 +0100
-Message-Id: <20191009135154.10970-1-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iICbq-0001sI-8c
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:06:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36316)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iICbq-0001sD-3L
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:06:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iICbo-0007ve-Cn
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 14:06:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5F0012E80CC
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 14:06:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Wed, 09 Oct 2019 13:51:58 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Oct 2019 13:54:56 -0000
+From: Stefan Hajnoczi <1842787@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jamespharvey20 stefanha
+X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <156765384458.824.9301349840467221970.malonedeb@wampee.canonical.com>
+Message-Id: <157062929646.22931.7484418076212236317.malone@gac.canonical.com>
+Subject: [Bug 1842787] Re: Writes permanently hang with very heavy I/O on
+ virtio-scsi - worse on virtio-blk
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 858dc9547d851220d66e863b8754de7c04358b9c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,43 +67,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1842787 <1842787@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tracetool needs to know the group name ("all", "root", or a specific
-subdirectory).  Also remove the stdin redirection because tracetool.py
-needs the path to the trace-events file.  Update the documentation.
+Thanks for updating us on this issue, which turned out not to be a QEMU
+bug.
 
-Fixes: 2098c56a9bc5901e145fa5d4759f075808811685
-       ("trace: move setting of group name into Makefiles")
-Launchpad: https://bugs.launchpad.net/bugs/1844814
-Reported-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- docs/devel/tracing.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-diff --git a/docs/devel/tracing.txt b/docs/devel/tracing.txt
-index 8231bbf5d1..8c0376fefa 100644
---- a/docs/devel/tracing.txt
-+++ b/docs/devel/tracing.txt
-@@ -317,7 +317,8 @@ probes:
-                          --binary path/to/qemu-binary \
-                          --target-type system \
-                          --target-name x86_64 \
--                         <trace-events-all >qemu.stp
-+                         --group=3Dall \
-+                         trace-events-all >qemu.stp
-=20
- To facilitate simple usage of systemtap where there merely needs to be p=
-rintf
- logging of certain probes, a helper script "qemu-trace-stap" is provided=
-.
---=20
-2.21.0
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1842787
+
+Title:
+  Writes permanently hang with very heavy I/O on virtio-scsi - worse on
+  virtio-blk
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Up to date Arch Linux on host and guest.  linux 5.2.11.  QEMU 4.1.0.
+  Full command line at bottom.
+
+  Host gives QEMU two thin LVM volumes.  The first is the root
+  filesystem, and the second is for heavy I/O, on a Samsung 970 Evo 1TB.
+
+  When maxing out the I/O on the second virtual block device using
+  virtio-blk, I often get a "lockup" in about an hour or two.  From the
+  advise of iggy in IRC, I switched over to virtio-scsi.  It ran
+  perfectly for a few days, but then "locked up" in the same way.
+
+  By "lockup", I mean writes to the second virtual block device
+  permanently hang.  I can read files from it, but even "touch foo"
+  never times out, cannot be "kill -9"'ed, and is stuck in
+  uninterruptible sleep.
+
+  When this happens, writes to the first virtual block device with the
+  root filesystem are fine, so the O/S itself remains responsive.
+
+  The second virtual block device uses BTRFS.  But, I have also tried
+  XFS and reproduced the issue.
+
+  In guest, when this starts, it starts logging "task X blocked for more
+  than Y seconds".  Below is an example of one of these.  At this point,
+  anything that is or does in the future write to this block device gets
+  stuck in uninterruptible sleep.
+
+  -----
+
+  INFO: task kcompactd:232 blocked for more than 860 seconds.
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Not tained 5.2.11-1 #1
+  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this messae.
+  kcompactd0      D    0   232      2 0x80004000
+  Call Trace:
+  =C2=A0? __schedule+0x27f/0x6d0
+  =C2=A0schedule+0x3d/0xc0
+  =C2=A0io_schedule+0x12/0x40
+  =C2=A0__lock_page+0x14a/0x250
+  =C2=A0? add_to_page_cache_lru+0xe0/0xe0
+  =C2=A0migrate_pages+0x803/0xb70
+  =C2=A0? isolate_migratepages_block+0x9f0/0x9f0
+  =C2=A0? __reset_isolation_suitable+0x110/0x110
+  =C2=A0compact_zone+0x6a2/0xd30
+  =C2=A0kcompactd_do_work+0x134/0x260
+  =C2=A0? kvm_clock_read+0x14/0x30
+  =C2=A0? kvm_sched_clock_read+0x5/0x10
+  =C2=A0kcompactd+0xd3/0x220
+  =C2=A0? wait_woken+0x80/0x80
+  =C2=A0kthread+0xfd/0x130
+  =C2=A0? kcompactd_do_work+0x260/0x260
+  =C2=A0? kthread_park+0x80/0x80
+  =C2=A0ret_from_fork+0x35/0x40
+
+  -----
+
+  In guest, there are no other dmesg/journalctl entries other than
+  "task...blocked".
+
+  On host, there are no dmesg/journalctl entries whatsoever.  Everything
+  else in host continues to work fine, including other QEMU VM's on the
+  same underlying SSD (but obviously different lvm volumes.)
+
+  I understand there might not be enough to go on here, and I also
+  understand it's possible this isn't a QEMU bug.  Happy to run given
+  commands or patches to help diagnose what's going on here.
+
+  I'm now running a custom compiled QEMU 4.1.0, with debug symbols, so I
+  can get a meaningful backtrace from the host point of view.
+
+  I've only recently tried this level of I/O, so can't say if this is a
+  new issue.
+
+  When writes are hanging, on host, I can connect to the monitor.
+  Running "info block" shows nothing unusual.
+
+  -----
+
+  /usr/bin/qemu-system-x86_64
+  =C2=A0=C2=A0=C2=A0-name arch,process=3Dqemu:arch
+  =C2=A0=C2=A0=C2=A0-no-user-config
+  =C2=A0=C2=A0=C2=A0-nodefaults
+  =C2=A0=C2=A0=C2=A0-nographic
+  =C2=A0=C2=A0=C2=A0-uuid 0528162b-2371-41d5-b8da-233fe61b6458
+  =C2=A0=C2=A0=C2=A0-pidfile /tmp/0528162b-2371-41d5-b8da-233fe61b6458.pid
+  =C2=A0=C2=A0=C2=A0-machine q35,accel=3Dkvm,vmport=3Doff,dump-guest-core=
+=3Doff
+  =C2=A0=C2=A0=C2=A0-cpu SandyBridge-IBRS
+  =C2=A0=C2=A0=C2=A0-smp cpus=3D24,cores=3D12,threads=3D1,sockets=3D2
+  =C2=A0=C2=A0=C2=A0-m 24G
+  =C2=A0=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/sh=
+are/ovmf/x64/OVMF_CODE.fd
+  =C2=A0=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/var/qe=
+mu/0528162b-2371-41d5-b8da-233fe61b6458.fd
+  =C2=A0=C2=A0=C2=A0-monitor telnet:localhost:8000,server,nowait,nodelay
+  =C2=A0=C2=A0=C2=A0-spice unix,addr=3D/tmp/0528162b-2371-41d5-b8da-233fe61=
+b6458.sock,disable-ticketing
+  =C2=A0=C2=A0=C2=A0-device ioh3420,id=3Dpcie.1,bus=3Dpcie.0,slot=3D0
+  =C2=A0=C2=A0=C2=A0-device virtio-vga,bus=3Dpcie.1,addr=3D0
+  =C2=A0=C2=A0=C2=A0-usbdevice tablet
+  =C2=A0=C2=A0=C2=A0-netdev bridge,id=3Dnetwork0,br=3Dbr0
+  =C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dnetwork0,mac=3D02:37:de=
+:79:19:09,bus=3Dpcie.0,addr=3D3
+  =C2=A0=C2=A0=C2=A0-device virtio-scsi-pci,id=3Dscsi1
+  =C2=A0=C2=A0=C2=A0-drive driver=3Draw,node-name=3Dhd0,file=3D/dev/lvm/arc=
+h_root,if=3Dnone,discard=3Dunmap
+  =C2=A0=C2=A0=C2=A0-device scsi-hd,drive=3Dhd0,bootindex=3D1
+  =C2=A0=C2=A0=C2=A0-drive driver=3Draw,node-name=3Dhd1,file=3D/dev/lvm/arc=
+h_nvme,if=3Dnone,discard=3Dunmap
+  =C2=A0=C2=A0=C2=A0-device scsi-hd,drive=3Dhd1,bootindex=3D2
+
+  -----
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1842787/+subscriptions
 
