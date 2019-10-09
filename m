@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7164D13FB
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:27:43 +0200 (CEST)
-Received: from localhost ([::1]:52249 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40F5D13F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:24:58 +0200 (CEST)
+Received: from localhost ([::1]:52212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIEoP-0006oE-Lb
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60010)
+	id 1iIEll-00046J-7v
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iI59B-0001XN-OZ
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:31 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59H-0001Y2-7E
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iI59A-0006UI-Cm
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:29 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51091 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59E-0006Z9-8N
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:34 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59717 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iI599-0006PS-Jd; Wed, 09 Oct 2019 02:08:28 -0400
+ id 1iI59C-0006Uh-Qj; Wed, 09 Oct 2019 02:08:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46p3gD1g9yz9sPK; Wed,  9 Oct 2019 17:08:24 +1100 (AEDT)
+ id 46p3gD5Xq7z9sPw; Wed,  9 Oct 2019 17:08:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1570601304;
- bh=ocrX3ncUYBFcZTW4CQsb4v8fYUjtodAeqwtBgAzm4yU=;
+ bh=XUPxcRcTe2kkMQz3PgmYd462tBPoK4iFHjEdYV6FO8s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Cw9eeIbrPSyfF2nzCRKQw1YtJUUi+eEic6M8GG9fYWv7oA5CsUGdUnfkhoCeSCTUr
- HQ/aGJYhnN//iXVmT+4Arpl7bK+jewf+dP0Ye+J4cu24ihRga39aVoWEHPI3vQJ9rm
- cSqFWZwiQxmEBZ7jipIl4uHDZ2lyP/aIzUuuXyNE=
+ b=oAYFrAjcRgaoJpkPMk/l2hzdCn/7PKSwStpGpUHvjYfPST1BN1Xd8FLFM+KJKFcJZ
+ qaLR+pkCZHn9oHEPceW78MenqYhxfErHFyq+2ZDDlNOgc9+4/INI52IAYr7qdNgjVY
+ +fIfDPmxwi4nS2zqwP0H5Nfcfw4tdEq/gg0HHGZE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	clg@kaod.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 02/19] xics: Make some device types not user creatable
-Date: Wed,  9 Oct 2019 17:08:01 +1100
-Message-Id: <20191009060818.29719-3-david@gibson.dropbear.id.au>
+Subject: [PATCH v4 07/19] spapr: Formalize notion of active interrupt
+ controller
+Date: Wed,  9 Oct 2019 17:08:06 +1100
+Message-Id: <20191009060818.29719-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
 References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,73 +64,168 @@ Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+spapr now has the mechanism of constructing both XICS and XIVE instances =
+of
+the SpaprInterruptController interface.  However, only one of the interru=
+pt
+controllers will actually be active at any given time, depending on featu=
+re
+negotiation with the guest.  This is handled in the current code via
+spapr_irq_current() which checks the OV5 vector from feature negotiation =
+to
+determine the current backend.
 
-Some device types of the XICS model are exposed to the QEMU command
-line:
+Determining the active controller at the point we need it like this
+can be pretty confusing, because it makes it very non obvious at what
+points the active controller can change.  This can make it difficult
+to reason about the code and where a change of active controller could
+appear in sequence with other events.
 
-$ ppc64-softmmu/qemu-system-ppc64 -device help | grep ic[sp]
-name "icp"
-name "ics"
-name "ics-spapr"
-name "pnv-icp", desc "PowerNV ICP"
+Make this mechanism more explicit by adding an 'active_intc' pointer
+and an explicit spapr_irq_update_active_intc() function to update it
+from the CAS state.  We also add hooks on the intc backend which will
+get called when it is activated or deactivated.
 
-These are internal devices that shouldn't be instantiable by the
-user. By the way, they can't be because their respective realize
-functions expect link properties that can't be set from the command
-line:
+For now we just introduce the switch and hooks, later patches will
+actually start using them.
 
-qemu-system-ppc64: -device icp: required link 'xics' not found:
- Property '.xics' not found
-qemu-system-ppc64: -device ics: required link 'xics' not found:
- Property '.xics' not found
-qemu-system-ppc64: -device ics-spapr: required link 'xics' not found:
- Property '.xics' not found
-qemu-system-ppc64: -device pnv-icp: required link 'xics' not found:
- Property '.xics' not found
-
-Hide them by setting dc->user_creatable to false in the base class
-"icp" and "ics" init functions.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157017826724.337875.14822177178282524024.stgit@bahia.lan>
-Message-Id: <157045578962.865784.8551555523533955113.stgit@bahia.lan>
-[dwg: Folded reason comment into base patch]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/xics.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/ppc/spapr_irq.c         | 51 ++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr.h     |  5 ++--
+ include/hw/ppc/spapr_irq.h |  5 ++++
+ 3 files changed, 59 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index dfe7dbd254..b5ac408f7b 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -369,6 +369,11 @@ static void icp_class_init(ObjectClass *klass, void =
-*data)
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 83882cfad3..249a2688ac 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -586,6 +586,7 @@ qemu_irq spapr_qirq(SpaprMachineState *spapr, int irq=
+)
 =20
-     dc->realize =3D icp_realize;
-     dc->unrealize =3D icp_unrealize;
-+    /*
-+     * Reason: part of XICS interrupt controller, needs to be wired up
-+     * by icp_create().
-+     */
-+    dc->user_creatable =3D false;
+ int spapr_irq_post_load(SpaprMachineState *spapr, int version_id)
+ {
++    spapr_irq_update_active_intc(spapr);
+     return spapr->irq->post_load(spapr, version_id);
  }
 =20
- static const TypeInfo icp_info =3D {
-@@ -689,6 +694,11 @@ static void ics_class_init(ObjectClass *klass, void =
-*data)
-     dc->props =3D ics_properties;
-     dc->reset =3D ics_reset;
-     dc->vmsd =3D &vmstate_ics;
-+    /*
-+     * Reason: part of XICS interrupt controller, needs to be wired up,
-+     * e.g. by spapr_irq_init().
-+     */
-+    dc->user_creatable =3D false;
+@@ -593,6 +594,8 @@ void spapr_irq_reset(SpaprMachineState *spapr, Error =
+**errp)
+ {
+     assert(!spapr->irq_map || bitmap_empty(spapr->irq_map, spapr->irq_ma=
+p_nr));
+=20
++    spapr_irq_update_active_intc(spapr);
++
+     if (spapr->irq->reset) {
+         spapr->irq->reset(spapr, errp);
+     }
+@@ -619,6 +622,54 @@ int spapr_irq_get_phandle(SpaprMachineState *spapr, =
+void *fdt, Error **errp)
+     return phandle;
  }
 =20
- static const TypeInfo ics_info =3D {
++static void set_active_intc(SpaprMachineState *spapr,
++                            SpaprInterruptController *new_intc)
++{
++    SpaprInterruptControllerClass *sicc;
++
++    assert(new_intc);
++
++    if (new_intc =3D=3D spapr->active_intc) {
++        /* Nothing to do */
++        return;
++    }
++
++    if (spapr->active_intc) {
++        sicc =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
++        if (sicc->deactivate) {
++            sicc->deactivate(spapr->active_intc);
++        }
++    }
++
++    sicc =3D SPAPR_INTC_GET_CLASS(new_intc);
++    if (sicc->activate) {
++        sicc->activate(new_intc, &error_fatal);
++    }
++
++    spapr->active_intc =3D new_intc;
++}
++
++void spapr_irq_update_active_intc(SpaprMachineState *spapr)
++{
++    SpaprInterruptController *new_intc;
++
++    if (!spapr->ics) {
++        /*
++         * XXX before we run CAS, ov5_cas is initialized empty, which
++         * indicates XICS, even if we have ic-mode=3Dxive.  TODO: clean
++         * up the CAS path so that we have a clearer way of handling
++         * this.
++         */
++        new_intc =3D SPAPR_INTC(spapr->xive);
++    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
++        new_intc =3D SPAPR_INTC(spapr->xive);
++    } else {
++        new_intc =3D SPAPR_INTC(spapr->ics);
++    }
++
++    set_active_intc(spapr, new_intc);
++}
++
+ /*
+  * XICS legacy routines - to deprecate one day
+  */
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index cbd1a4c9f3..763da757f0 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -143,7 +143,6 @@ struct SpaprMachineState {
+     struct SpaprVioBus *vio_bus;
+     QLIST_HEAD(, SpaprPhbState) phbs;
+     struct SpaprNvram *nvram;
+-    ICSState *ics;
+     SpaprRtcState rtc;
+=20
+     SpaprResizeHpt resize_hpt;
+@@ -195,9 +194,11 @@ struct SpaprMachineState {
+=20
+     int32_t irq_map_nr;
+     unsigned long *irq_map;
+-    SpaprXive  *xive;
+     SpaprIrq *irq;
+     qemu_irq *qirqs;
++    SpaprInterruptController *active_intc;
++    ICSState *ics;
++    SpaprXive *xive;
+=20
+     bool cmd_line_caps[SPAPR_CAP_NUM];
+     SpaprCapabilities def, eff, mig;
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index adfef0fcbe..593059eff5 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -44,6 +44,9 @@ typedef struct SpaprInterruptController SpaprInterruptC=
+ontroller;
+ typedef struct SpaprInterruptControllerClass {
+     InterfaceClass parent;
+=20
++    int (*activate)(SpaprInterruptController *intc, Error **errp);
++    void (*deactivate)(SpaprInterruptController *intc);
++
+     /*
+      * These methods will typically be called on all intcs, active and
+      * inactive
+@@ -55,6 +58,8 @@ typedef struct SpaprInterruptControllerClass {
+     void (*free_irq)(SpaprInterruptController *intc, int irq);
+ } SpaprInterruptControllerClass;
+=20
++void spapr_irq_update_active_intc(SpaprMachineState *spapr);
++
+ int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+                               PowerPCCPU *cpu, Error **errp);
+=20
 --=20
 2.21.0
 
