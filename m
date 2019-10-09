@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E13D1A9E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:09:57 +0200 (CEST)
-Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF15D1A9A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:06:43 +0200 (CEST)
+Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJDX-0002gk-UZ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:09:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
+	id 1iIJAQ-0007RH-BX
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iIHbX-0002PW-6m
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:26:36 -0400
+ (envelope-from <eblake@redhat.com>) id 1iII0A-0003Pv-Ig
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:52:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iIHbV-00033K-EO
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:26:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50694)
+ (envelope-from <eblake@redhat.com>) id 1iII09-0005I9-AF
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:52:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46402)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHbV-000334-4w
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:26:33 -0400
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iII06-0005Hc-MS; Wed, 09 Oct 2019 15:51:58 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0861361D25
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:26:32 +0000 (UTC)
-Received: by mail-qt1-f200.google.com with SMTP id f15so3179276qth.6
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:26:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cRJfSXhNqcvqJqNZ1LKHHBkk71JEqBnTH1rClqGo4gE=;
- b=SxOA77SjXfTPVsjczcfPMB1sCBwlQokhL6QcnlXGh0GwKM4KM2n5hoYPy6RiA5eFq5
- 6Al1aNvbA7q2B8oh31Ocxt7WngnW+IverTwZnFPMQiuoXdrSfUHAD9XhaeZ9LbxjDG4b
- 3WXf1Cbc3rBBQs+dqQgB5cI/SP70Y8RR7lP11R+mXkf8bSz8D73T7JbDyUCyTQ4Z5hwi
- ghOuZHNX1UZFt2KI6rlW684q/7C0qKK9P5RbJZ1JNTZW2wTT5s0m6toJKyKDsXY8Z1ho
- PIXH8wi/uMdPwnk/ocMMA0Xy+5gID2XAZW3YB7bZb0yx8ke9NaPvCNJ2tg+itv9wPfwZ
- DboA==
-X-Gm-Message-State: APjAAAXW9j066hlqoNIMksMNTxiUbOhoDc7XsnnPJJtT4uaQ3NpculiD
- YVtE0RqjueR8qrQnREWSoMx8KtYqgoyibc22BQVu1VLFX0O3adR4SncZeffbpug/P69ihcajZzA
- PB/lcDDH+4J2BzR0=
-X-Received: by 2002:a37:e50f:: with SMTP id e15mr5358075qkg.192.1570649191241; 
- Wed, 09 Oct 2019 12:26:31 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyIjoeDWVsEsgb5QbDgyFuCbkCVcTcfxKW/L7w1ocOglLe39NIEyVVeWzq0+wGBS3zcAT1lfg==
-X-Received: by 2002:a37:e50f:: with SMTP id e15mr5358053qkg.192.1570649190954; 
- Wed, 09 Oct 2019 12:26:30 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
- by smtp.gmail.com with ESMTPSA id
- 63sm1435500qkh.82.2019.10.09.12.26.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 12:26:30 -0700 (PDT)
-Date: Wed, 9 Oct 2019 15:26:24 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH v7 00/12] Introduce the microvm machine type
-Message-ID: <20191009152542-mutt-send-email-mst@kernel.org>
-References: <20191008135537.197867-1-slp@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E29E9C057E32;
+ Wed,  9 Oct 2019 19:51:57 +0000 (UTC)
+Received: from [10.3.116.162] (ovpn-116-162.phx2.redhat.com [10.3.116.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CE7F60606;
+ Wed,  9 Oct 2019 19:51:57 +0000 (UTC)
+Subject: Re: [PATCH v2 1/4] qemu-iotests: remove bash shebang from library
+ files
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20191009194740.8079-1-crosa@redhat.com>
+ <20191009194740.8079-2-crosa@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <287afb96-bfb7-5e6e-ca1c-0e2845f8ef3c@redhat.com>
+Date: Wed, 9 Oct 2019 14:51:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20191008135537.197867-1-slp@redhat.com>
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191009194740.8079-2-crosa@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 09 Oct 2019 19:51:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -78,144 +62,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, lersek@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 08, 2019 at 03:55:26PM +0200, Sergio Lopez wrote:
-> Microvm is a machine type inspired by Firecracker and constructed
-> after the its machine model.
->=20
-> It's a minimalist machine type without PCI nor ACPI support, designed
-> for short-lived guests. Microvm also establishes a baseline for
-> benchmarking and optimizing both QEMU and guest operating systems,
-> since it is optimized for both boot time and footprint.
-
-Looks good overall. I think coding style needs to
-be fixed but that's a patch on top.
-
-series:
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-Paolo I assume you will be merging this?
-
-
+On 10/9/19 2:47 PM, Cleber Rosa wrote:
+> Due to not being able to find a reason to have shebangs on files that
+> are not executable.
+> 
+> While at it, add a mode hint to emacs, which would be clueless or
+> plain wrong about these containing shell code.
+> 
+> Suggested-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->=20
-> Changelog
-> v7:
->  - Fix code style issues on already present code touched by this patch
->    series (Michael S. Tsirkin, Philippe Mathieu-Daud=E9)
->  - Add new files to MAINTAINERS (Michael S. Tsirkin, Philippe
->    Mathieu-Daud=E9)
->  - Allow starting a microvm machine without a kernel image, fixing
->    "qom-test" (Michael S. Tsirkin)
->  - Change "bios-microvm.bin" mode to 0644 (Stefano Garzarella)
->  - Remove unneeded "hw/i386/pc.h" include from x86.c (Stefano
->    Garzarella)
->=20
-> v6:
->  - Some style fixes (Philippe Mathieu-Daud=E9)
->  - Fix a documentation bug stating that LAPIC was in userspace (Paolo
->    Bonzini)
->  - Update Xen HVM code after X86MachineState introduction (Philippe
->    Mathieu-Daud=E9)
->  - Rename header guard from QEMU_VIRTIO_MMIO_H to HW_VIRTIO_MMIO_H
->    (Philippe Mathieu-Daud=E9)
->=20
-> v5:
->  - Drop unneeded "[PATCH v4 2/8] hw/i386: Factorize e820 related
->    functions" (Philippe Mathieu-Daud=E9)
->  - Drop unneeded "[PATCH v4 1/8] hw/i386: Factorize PVH related
->    functions" (Stefano Garzarella)
->  - Split X86MachineState introduction into smaller patches (Philippe
->    Mathieu-Daud=E9)
->  - Change option-roms to x-option-roms and kernel-cmdline to
->    auto-kernel-cmdline (Paolo Bonzini)
->  - Make i8259 PIT and i8254 PIC optional (Paolo Bonzini)
->  - Some fixes to the documentation (Paolo Bonzini)
->  - Switch documentation format from txt to rst (Peter Maydell)
->  - Move NMI interface to X86_MACHINE (Philippe Mathieu-Daud=E9, Paolo
->    Bonzini)
->=20
-> v4:
->  - This is a complete rewrite of the whole patchset, with a focus on
->    reusing as much existing code as possible to ease the maintenance bu=
-rden
->    and making the machine type as compatible as possible by default. As
->    a result, the number of lines dedicated specifically to microvm is
->    383 (code lines measured by "cloc") and, with the default
->    configuration, it's now able to boot both PVH ELF images and
->    bzImages with either SeaBIOS or qboot.
->=20
-> v3:
->   - Add initrd support (thanks Stefano).
->=20
-> v2:
->   - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
->   - Simplify machine definition (thanks Eduardo).
->   - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
->   - Add a patch to factorize PVH-related functions.
->   - Replace use of Linux's Zero Page with PVH (thanks Maran and Paolo).
->=20
-> ---
->=20
-> Sergio Lopez (12):
->   hw/virtio: Factorize virtio-mmio headers
->   hw/i386/pc: rename functions shared with non-PC machines
->   hw/i386/pc: fix code style issues on functions that will be moved out
->   hw/i386/pc: move shared x86 functions to x86.c and export them
->   hw/i386: split PCMachineState deriving X86MachineState from it
->   hw/i386: make x86.c independent from PCMachineState
->   fw_cfg: add "modify" functions for all types
->   hw/intc/apic: reject pic ints if isa_pic =3D=3D NULL
->   roms: add microvm-bios (qboot) as binary and git submodule
->   docs/microvm.rst: document the new microvm machine type
->   hw/i386: Introduce the microvm machine type
->   MAINTAINERS: add microvm related files
->=20
->  docs/microvm.rst                 |  98 ++++
->  default-configs/i386-softmmu.mak |   1 +
->  include/hw/i386/microvm.h        |  83 ++++
->  include/hw/i386/pc.h             |  28 +-
->  include/hw/i386/x86.h            |  96 ++++
->  include/hw/nvram/fw_cfg.h        |  42 ++
->  include/hw/virtio/virtio-mmio.h  |  73 +++
->  hw/acpi/cpu_hotplug.c            |  10 +-
->  hw/i386/acpi-build.c             |  29 +-
->  hw/i386/amd_iommu.c              |   3 +-
->  hw/i386/intel_iommu.c            |   3 +-
->  hw/i386/microvm.c                | 572 ++++++++++++++++++++++
->  hw/i386/pc.c                     | 781 +++---------------------------
->  hw/i386/pc_piix.c                |  46 +-
->  hw/i386/pc_q35.c                 |  38 +-
->  hw/i386/pc_sysfw.c               |  60 +--
->  hw/i386/x86.c                    | 795 +++++++++++++++++++++++++++++++
->  hw/i386/xen/xen-hvm.c            |  28 +-
->  hw/intc/apic.c                   |   2 +-
->  hw/intc/ioapic.c                 |   2 +-
->  hw/nvram/fw_cfg.c                |  29 ++
->  hw/virtio/virtio-mmio.c          |  48 +-
->  .gitmodules                      |   3 +
->  MAINTAINERS                      |  10 +
->  hw/i386/Kconfig                  |   4 +
->  hw/i386/Makefile.objs            |   2 +
->  pc-bios/bios-microvm.bin         | Bin 0 -> 65536 bytes
->  roms/Makefile                    |   6 +
->  roms/qboot                       |   1 +
->  29 files changed, 1982 insertions(+), 911 deletions(-)
->  create mode 100644 docs/microvm.rst
->  create mode 100644 include/hw/i386/microvm.h
->  create mode 100644 include/hw/i386/x86.h
->  create mode 100644 include/hw/virtio/virtio-mmio.h
->  create mode 100644 hw/i386/microvm.c
->  create mode 100644 hw/i386/x86.c
->  create mode 100644 pc-bios/bios-microvm.bin
->  create mode 160000 roms/qboot
->=20
-> --=20
-> 2.21.0
+>   tests/qemu-iotests/common.config  | 2 +-
+>   tests/qemu-iotests/common.filter  | 2 +-
+>   tests/qemu-iotests/common.nbd     | 3 +--
+>   tests/qemu-iotests/common.pattern | 2 +-
+>   tests/qemu-iotests/common.qemu    | 2 +-
+>   tests/qemu-iotests/common.rc      | 2 +-
+>   tests/qemu-iotests/common.tls     | 2 +-
+>   7 files changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tests/qemu-iotests/common.config b/tests/qemu-iotests/common.config
+> index 9bd1a5a6fc..b85a6a6f96 100644
+> --- a/tests/qemu-iotests/common.config
+> +++ b/tests/qemu-iotests/common.config
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env bash
+> +# -*- emacs mode: sh -*-
+
+I thought my version:
+# hey emacs, this file will be sourced by bash -*- mode: sh -*-
+was cuter, but that's not a requirement, and yours works  ;)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
