@@ -2,105 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D13FD14E9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:07:37 +0200 (CEST)
-Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA55D1509
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:13:14 +0200 (CEST)
+Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFR2-0001PG-3Z
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53023)
+	id 1iIFWT-00008I-9Q
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iI8Uf-0005ls-HV
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:42:57 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59K-0001Yi-4j
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iI8Uc-0004rr-Px
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:42:53 -0400
-Received: from mail-eopbgr20098.outbound.protection.outlook.com
- ([40.107.2.98]:64582 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iI8Ub-0004rS-Vk
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:42:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OjwjhHrQhuCLABKkffI8ARIrBOGqpjp0/FK2vcNgfeVM8m3w08XNyjGGFiEwKGrfkWPVZgTZutxyLyxLRVf90KGM+JTp84h0uszOGLvDqzkrMr/2jB41b1RKZ7hBeMFn0wSh9XAMM0HJaIh8ER9vbvVa1Nk9UeizBzEF5qb2Dx7exQgShJUTqPVwY/D1s88og00YEed8iI/QKailQF2742MhQNntmjYHQ+EHvuGuwC/XnhOUmAx3pQ9p00C2FPT45g8IlGGNAM1dlc2GmTr52Ns3Rkj6lNBl8AjIvtqETuxffVT8t2NkBJ/z0D1C2Mk+UMb1nKS1Ex/n6b/PIueZSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r2zHZ0MHegcUmGq5SA+hyast9mVCACNC77LDY+5LRFc=;
- b=C3s1JD0dY3XV6Z7OWxhZJYPTRd54CCltydOWEf0LTNAbyJcM+dxEoO0G9RjAX5tBa/QRDOMRRRoHQXtNyPuEgu+cQH2TUQjrn6sk/xjt/PuMKkRWIFGfEjpYdzHhQpkA1oUabAKlSQaTisjQRlVmz9dyQzXmqEYzO2qC7M/Y/mRiir/qb9u1V0jNKRlg88YL7Nbg+Wz2tv5F/a1Z74tTEt4q0yYLUTzToLoWTJiNAadThf/6P8FjZXf/rB7O05Wqcy8MN1aHzsJiPWTGyRcMbtLax8U6peKkvn/ubwAMBHvrJ8vMPQSaj3koGxIjkmsD5p/zBV8IWMT4LSNil88b7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r2zHZ0MHegcUmGq5SA+hyast9mVCACNC77LDY+5LRFc=;
- b=XNZyG52O6qAGIShLzQkZQapZNftqdjG0P4ax9dk5oStvEUn3D9Du6f0k0vjhSQg0C5iYHb5QOEUFFdi098nJemSdLnVp+6l5T2Z3SGB/XTMlyRFu5lHend8qW/VLNV1L0DlDdNxpqXPDVNsOalWYET5Cbxu34004p9qjhTd6UpM=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5419.eurprd08.prod.outlook.com (52.133.241.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Wed, 9 Oct 2019 09:42:47 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2327.026; Wed, 9 Oct 2019
- 09:42:47 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 01/31] errp: rename errp to errp_in where it is
- IN-argument
-Thread-Topic: [PATCH v4 01/31] errp: rename errp to errp_in where it is
- IN-argument
-Thread-Index: AQHVeHBgGNp8AunJykKebkfVAuWGs6dQfy49gAGbvgA=
-Date: Wed, 9 Oct 2019 09:42:46 +0000
-Message-ID: <c393e6cc-ae34-78bb-2b7a-53ab6ed1dbae@virtuozzo.com>
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-2-vsementsov@virtuozzo.com>
- <878spvmwns.fsf@dusky.pond.sub.org>
-In-Reply-To: <878spvmwns.fsf@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0178.eurprd05.prod.outlook.com
- (2603:10a6:3:f8::26) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191009124244602
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a9d4302f-da95-4202-8aca-08d74c9d0a9e
-x-ms-traffictypediagnostic: DB8PR08MB5419:
-x-microsoft-antispam-prvs: <DB8PR08MB54198B5CD31C8EFC413912B3C1950@DB8PR08MB5419.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 018577E36E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(396003)(39840400004)(376002)(366004)(346002)(199004)(189003)(54906003)(31686004)(186003)(14454004)(6916009)(2906002)(66446008)(478600001)(66066001)(66476007)(66556008)(64756008)(66946007)(5660300002)(386003)(6506007)(71190400001)(102836004)(3846002)(99286004)(76176011)(52116002)(6116002)(71200400001)(316002)(26005)(256004)(8936002)(8676002)(81166006)(81156014)(25786009)(11346002)(31696002)(86362001)(476003)(2616005)(6246003)(446003)(36756003)(7736002)(229853002)(4326008)(486006)(6512007)(6436002)(305945005)(6486002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5419;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ndtIahpnNRuMjPWQ1SN/SH7Fg2NngUbj+6Z89QznSuX9GgNtjbOcbs1zzVSMjyG81X8i9j+v4hTRys/eVbIa0Wf16trVzuryClUKlQvUhC8QtSNMNxov5tfRj6HI2/v7DH70ljOAbXAEMLUDmhdqKqcUby5DDs7Ap4xjq95Cl5Bcrfa+p6VI72DS8l3J+Uk1oB/NN1dmx91MYu0vxZMSoNpkqNZP0sHp2aFZI/Gm4uPit6svhBKL1LEfUyfcRk1qHTOrO8WzI8qf6/NHUw934tWGlI1RKQLzDE7lbMT74JeIwVkdm8TvRdCuqQULOeCv2v9k4B1Br2hoJNvkMIi1c5luuaoRYaITIHO/lLwoZzP1OxP7iodAE9DAbDvcK1/EODznpPP/iPZWekn3vM4aBT6UASrcn3EtGn5XAdsla+s=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E39844838CF35A47905C0DD8B3DA9595@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59D-0006XM-0N
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:37 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35991 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iI59C-0006Ub-IR; Wed, 09 Oct 2019 02:08:30 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46p3gD4qYJz9sQw; Wed,  9 Oct 2019 17:08:24 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570601304;
+ bh=3rarXC+2dGixFEg3CKdOUSqUn8XUU6WBiaqJUrhqbCM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HK+nEZ5/2ZuUxpjo9UJxVt5qYQ8h7wZWW18cmF8Kl7dU4MezVOOOWH/GopYAnCzJh
+ 7/bWXX8ze5wAKQZ6XyGjay8iGpusFz+YDfbYJFnK9/JFW/s+P5iPIUNXUyng5jklPR
+ BbfoZGpgul3uvAoF8eHpO93vAvtDn6DwIW781eIM=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	clg@kaod.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v4 06/19] spapr, xics,
+ xive: Move irq claim and free from SpaprIrq to
+ SpaprInterruptController
+Date: Wed,  9 Oct 2019 17:08:05 +1100
+Message-Id: <20191009060818.29719-7-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9d4302f-da95-4202-8aca-08d74c9d0a9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2019 09:42:47.0335 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: twhREX85WiPH0w9q5CvZhu8FChax3sAuweMyNLUeBHz5u6v19lDau3eqj7cim1WtW+qOIxKRxf0PTK3e0Oo+KWaIz5l9M2B7fAuQZGK0iAw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5419
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.98
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,155 +58,421 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDguMTAuMjAxOSAxMjowOCwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IFZsYWRpbWlyIFNl
-bWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4gd3JpdGVzOg0KPiAN
-Cj4+IEVycm9yICoqZXJycCBpcyBhbG1vc3QgYWx3YXlzIE9VVC1hcmd1bWVudDogaXQncyBhc3N1
-bWVkIHRvIGJlIE5VTEwsIG9yDQo+PiBwb2ludGVyIHRvIE5VTEwtaW5pdGlhbGl6ZWQgcG9pbnRl
-ciwgb3IgcG9pbnRlciB0byBlcnJvcl9hYm9ydCBvcg0KPj4gZXJyb3JfZmF0YWwsIGZvciBjYWxs
-ZWUgdG8gcmVwb3J0IGVycm9yLg0KPiANCj4gWWVzLg0KPiANCj4+IEJ1dCB2ZXJ5IGZldyBmdW5j
-dGlvbnMgaW5zdGVhZCBnZXQgRXJyb3IgKiplcnJwIGFzIElOLWFyZ3VtZW50Og0KPj4gaXQncyBh
-c3N1bWVkIHRvIGJlIHNldCwgYW5kIGNhbGxlZSBzaG91bGQgY2xlYW4gaXQuDQo+IA0KPiBXaGF0
-IGRvIHlvdSBtZWFuIGJ5ICJjYWxsZWUgc2hvdWxkIGNsZWFuIj8gIExldCdzIHNlZSBiZWxvdy4N
-Cj4gDQo+PiBJbiBzdWNoIGNhc2VzLCByZW5hbWUgZXJycCB0byBlcnJwX2luLg0KPiANCj4gSSBh
-Y2tub3dsZWRnZSB0aGF0IGVycnAgYXJndW1lbnRzIHRoYXQgZG9uJ3QgaGF2ZSB0aGUgdXN1YWwg
-bWVhbmluZyBjYW4NCj4gYmUgY29uZnVzaW5nLg0KPiANCj4gTmFtaW5nIGNhbiBoZWxwLCBjb21t
-ZW50cyBjYW4gaGVscCwgYnV0IHBlcmhhcHMgd2UgY2FuIHR3ZWFrIHRoZSBjb2RlIHRvDQo+IGF2
-b2lkIHRoZSBwcm9ibGVtIGluc3RlYWQuICBMZXQncyBzZWU6DQo+IA0KPj4gU2lnbmVkLW9mZi1i
-eTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29t
-Pg0KPj4gUmV2aWV3ZWQtYnk6IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPg0KPj4gLS0t
-DQo+PiAgIGluY2x1ZGUvbW9uaXRvci9obXAuaCB8ICAyICstDQo+PiAgIGluY2x1ZGUvcWFwaS9l
-cnJvci5oICB8ICAyICstDQo+PiAgIHVpL3ZuYy5oICAgICAgICAgICAgICB8ICAyICstDQo+PiAg
-IG1vbml0b3IvaG1wLWNtZHMuYyAgICB8ICA4ICsrKystLS0tDQo+PiAgIHVpL3ZuYy5jICAgICAg
-ICAgICAgICB8IDEwICsrKysrLS0tLS0NCj4+ICAgdXRpbC9lcnJvci5jICAgICAgICAgIHwgIDgg
-KysrKy0tLS0NCj4+ICAgNiBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCAxNiBkZWxl
-dGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9tb25pdG9yL2htcC5oIGIvaW5j
-bHVkZS9tb25pdG9yL2htcC5oDQo+PiBpbmRleCBhMGU5NTExNDQwLi5mOTI5ODE0ZjFhIDEwMDY0
-NA0KPj4gLS0tIGEvaW5jbHVkZS9tb25pdG9yL2htcC5oDQo+PiArKysgYi9pbmNsdWRlL21vbml0
-b3IvaG1wLmgNCj4+IEBAIC0xNiw3ICsxNiw3IEBADQo+PiAgIA0KPj4gICAjaW5jbHVkZSAicWVt
-dS9yZWFkbGluZS5oIg0KPj4gICANCj4+IC12b2lkIGhtcF9oYW5kbGVfZXJyb3IoTW9uaXRvciAq
-bW9uLCBFcnJvciAqKmVycnApOw0KPj4gK3ZvaWQgaG1wX2hhbmRsZV9lcnJvcihNb25pdG9yICpt
-b24sIEVycm9yICoqZXJycF9pbik7DQo+PiAgIA0KPj4gICB2b2lkIGhtcF9pbmZvX25hbWUoTW9u
-aXRvciAqbW9uLCBjb25zdCBRRGljdCAqcWRpY3QpOw0KPj4gICB2b2lkIGhtcF9pbmZvX3ZlcnNp
-b24oTW9uaXRvciAqbW9uLCBjb25zdCBRRGljdCAqcWRpY3QpOw0KPj4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvcWFwaS9lcnJvci5oIGIvaW5jbHVkZS9xYXBpL2Vycm9yLmgNCj4+IGluZGV4IDNmOTUx
-NDFhMDEuLjkzNzZmNTljMzUgMTAwNjQ0DQo+PiAtLS0gYS9pbmNsdWRlL3FhcGkvZXJyb3IuaA0K
-Pj4gKysrIGIvaW5jbHVkZS9xYXBpL2Vycm9yLmgNCj4+IEBAIC0yODMsNyArMjgzLDcgQEAgdm9p
-ZCBlcnJvcl9mcmVlKEVycm9yICplcnIpOw0KPj4gICAvKg0KPj4gICAgKiBDb252ZW5pZW5jZSBm
-dW5jdGlvbiB0byBhc3NlcnQgdGhhdCAqQGVycnAgaXMgc2V0LCB0aGVuIHNpbGVudGx5IGZyZWUg
-aXQuDQo+PiAgICAqLw0KPj4gLXZvaWQgZXJyb3JfZnJlZV9vcl9hYm9ydChFcnJvciAqKmVycnAp
-Ow0KPj4gK3ZvaWQgZXJyb3JfZnJlZV9vcl9hYm9ydChFcnJvciAqKmVycnBfaW4pOw0KPj4gICAN
-Cj4+ICAgLyoNCj4+ICAgICogQ29udmVuaWVuY2UgZnVuY3Rpb24gdG8gd2Fybl9yZXBvcnQoKSBh
-bmQgZnJlZSBAZXJyLg0KPj4gZGlmZiAtLWdpdCBhL3VpL3ZuYy5oIGIvdWkvdm5jLmgNCj4+IGlu
-ZGV4IGZlYTc5YzJmYzkuLjAwZTBiNDhmMmYgMTAwNjQ0DQo+PiAtLS0gYS91aS92bmMuaA0KPj4g
-KysrIGIvdWkvdm5jLmgNCj4+IEBAIC01NDcsNyArNTQ3LDcgQEAgdWludDMyX3QgcmVhZF91MzIo
-dWludDhfdCAqZGF0YSwgc2l6ZV90IG9mZnNldCk7DQo+PiAgIA0KPj4gICAvKiBQcm90b2NvbCBz
-dGFnZSBmdW5jdGlvbnMgKi8NCj4+ICAgdm9pZCB2bmNfY2xpZW50X2Vycm9yKFZuY1N0YXRlICp2
-cyk7DQo+PiAtc2l6ZV90IHZuY19jbGllbnRfaW9fZXJyb3IoVm5jU3RhdGUgKnZzLCBzc2l6ZV90
-IHJldCwgRXJyb3IgKiplcnJwKTsNCj4+ICtzaXplX3Qgdm5jX2NsaWVudF9pb19lcnJvcihWbmNT
-dGF0ZSAqdnMsIHNzaXplX3QgcmV0LCBFcnJvciAqKmVycnBfaW4pOw0KPj4gICANCj4+ICAgdm9p
-ZCBzdGFydF9jbGllbnRfaW5pdChWbmNTdGF0ZSAqdnMpOw0KPj4gICB2b2lkIHN0YXJ0X2F1dGhf
-dm5jKFZuY1N0YXRlICp2cyk7DQo+PiBkaWZmIC0tZ2l0IGEvbW9uaXRvci9obXAtY21kcy5jIGIv
-bW9uaXRvci9obXAtY21kcy5jDQo+PiBpbmRleCBiMjU1MWMxNmQxLi45NDFkNWQwYTQ1IDEwMDY0
-NA0KPj4gLS0tIGEvbW9uaXRvci9obXAtY21kcy5jDQo+PiArKysgYi9tb25pdG9yL2htcC1jbWRz
-LmMNCj4+IEBAIC02MCwxMSArNjAsMTEgQEANCj4+ICAgI2luY2x1ZGUgPHNwaWNlL2VudW1zLmg+
-DQo+PiAgICNlbmRpZg0KPj4gICANCj4+IC12b2lkIGhtcF9oYW5kbGVfZXJyb3IoTW9uaXRvciAq
-bW9uLCBFcnJvciAqKmVycnApDQo+PiArdm9pZCBobXBfaGFuZGxlX2Vycm9yKE1vbml0b3IgKm1v
-biwgRXJyb3IgKiplcnJwX2luKQ0KPj4gICB7DQo+PiAtICAgIGFzc2VydChlcnJwKTsNCj4+IC0g
-ICAgaWYgKCplcnJwKSB7DQo+PiAtICAgICAgICBlcnJvcl9yZXBvcnRmX2VycigqZXJycCwgIkVy
-cm9yOiAiKTsNCj4+ICsgICAgYXNzZXJ0KGVycnBfaW4pOw0KPj4gKyAgICBpZiAoKmVycnBfaW4p
-IHsNCj4+ICsgICAgICAgIGVycm9yX3JlcG9ydGZfZXJyKCplcnJwX2luLCAiRXJyb3I6ICIpOw0K
-Pj4gICAgICAgfQ0KPj4gICB9DQo+IA0KPiBUaGlzIGZ1bmN0aW9ucyBmcmVlcyB0aGUgZXJyb3Iu
-ICBJdCBsZWF2ZXMgbm90aGluZyBmb3IgdGhlIGNhbGxlciB0bw0KPiBjbGVhbiB1cC4NCj4gDQo+
-IEFsbCBjYWxsZXJzIHBhc3MgJkVSUiwgd2hlcmUgRVJSIGlzIGEgbG9jYWwgdmFyaWFibGUuICBQ
-ZXJoYXBzIGEgbW9yZQ0KPiByb2J1c3Qgd2F5IHRvIHNpZ25hbCAiQGVycnAgaXMgbm90IHRoZSB1
-c3VhbCBvdXQtYXJndW1lbnQiIHdvdWxkIGJlDQo+IHBlZWxpbmcgb2ZmIGFuIGluZGlyZWN0aW9u
-OiBwYXNzIEVSUiwgZHJvcCB0aGUgYXNzZXJ0aW9uLg0KPiANCj4+ICAgDQo+PiBkaWZmIC0tZ2l0
-IGEvdWkvdm5jLmMgYi91aS92bmMuYw0KPj4gaW5kZXggODdiODA0NWFmZS4uOWQ2Mzg0ZDliMSAx
-MDA2NDQNCj4+IC0tLSBhL3VpL3ZuYy5jDQo+PiArKysgYi91aS92bmMuYw0KPj4gQEAgLTEzMTIs
-NyArMTMxMiw3IEBAIHZvaWQgdm5jX2Rpc2Nvbm5lY3RfZmluaXNoKFZuY1N0YXRlICp2cykNCj4+
-ICAgICAgIGdfZnJlZSh2cyk7DQo+PiAgIH0NCj4+ICAgDQo+PiAtc2l6ZV90IHZuY19jbGllbnRf
-aW9fZXJyb3IoVm5jU3RhdGUgKnZzLCBzc2l6ZV90IHJldCwgRXJyb3IgKiplcnJwKQ0KPj4gK3Np
-emVfdCB2bmNfY2xpZW50X2lvX2Vycm9yKFZuY1N0YXRlICp2cywgc3NpemVfdCByZXQsIEVycm9y
-ICoqZXJycF9pbikNCj4+ICAgew0KPj4gICAgICAgaWYgKHJldCA8PSAwKSB7DQo+PiAgICAgICAg
-ICAgaWYgKHJldCA9PSAwKSB7DQo+PiBAQCAtMTMyMCwxNCArMTMyMCwxNCBAQCBzaXplX3Qgdm5j
-X2NsaWVudF9pb19lcnJvcihWbmNTdGF0ZSAqdnMsIHNzaXplX3QgcmV0LCBFcnJvciAqKmVycnAp
-DQo+PiAgICAgICAgICAgICAgIHZuY19kaXNjb25uZWN0X3N0YXJ0KHZzKTsNCj4+ICAgICAgICAg
-ICB9IGVsc2UgaWYgKHJldCAhPSBRSU9fQ0hBTk5FTF9FUlJfQkxPQ0spIHsNCj4+ICAgICAgICAg
-ICAgICAgdHJhY2Vfdm5jX2NsaWVudF9pb19lcnJvcih2cywgdnMtPmlvYywNCj4+IC0gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVycnAgPyBlcnJvcl9nZXRfcHJldHR5KCpl
-cnJwKSA6DQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlcnJwX2lu
-ID8gZXJyb3JfZ2V0X3ByZXR0eSgqZXJycF9pbikgOg0KPj4gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICJVbmtub3duIik7DQo+PiAgICAgICAgICAgICAgIHZuY19kaXNj
-b25uZWN0X3N0YXJ0KHZzKTsNCj4+ICAgICAgICAgICB9DQo+PiAgIA0KPj4gLSAgICAgICAgaWYg
-KGVycnApIHsNCj4+IC0gICAgICAgICAgICBlcnJvcl9mcmVlKCplcnJwKTsNCj4+IC0gICAgICAg
-ICAgICAqZXJycCA9IE5VTEw7DQo+PiArICAgICAgICBpZiAoZXJycF9pbikgew0KPj4gKyAgICAg
-ICAgICAgIGVycm9yX2ZyZWUoKmVycnBfaW4pOw0KPj4gKyAgICAgICAgICAgICplcnJwX2luID0g
-TlVMTDsNCj4+ICAgICAgICAgICB9DQo+PiAgICAgICAgICAgcmV0dXJuIDA7DQo+PiAgICAgICB9
-DQo+IA0KPiBUaGlzIGZ1bmN0aW9uIGlzbid0IHRyaXZpYWwsIGFuZCBsYWNrcyBhIGNvbnRyYWN0
-LCBzbyBsZXQncyBmaWd1cmUgb3V0DQo+IHdoYXQgaXQgZG9lcyBhbmQgaG93IGl0J3MgdXNlZC4N
-Cj4gDQo+IEByZXQgY2FuIGJlOg0KPiANCj4gKiBaZXJvDQo+IA0KPiAgICBUcmFjZSBFT0YsIGNh
-bGwgdm5jX2Rpc2Nvbm5lY3Rfc3RhcnQoKSwgZnJlZSB0aGUgZXJyb3IsIHJldHVybiB6ZXJvLg0K
-PiANCj4gICAgQXNpZGU6IGZyZWVpbmcgdGhlIGVycm9yIHdpdGhvdXQgbG9va2luZyBhdCBpdCBm
-ZWVscyBvZGQuICBDYW4gdGhpcw0KPiAgICBoYXBwZW4/DQo+IA0KPiAqIE5lZ2F0aXZlIG90aGVy
-IHRoYW4gUUlPX0NIQU5ORUxfRVJSX0JMT0NLDQo+IA0KPiAgICBUcmFjZSB0aGUgZXJyb3IgaWYg
-YW55LCBlbHNlICJVbmtub3duIiBlcnJvciwgY2FsbA0KPiAgICB2bmNfZGlzY29ubmVjdF9zdGFy
-dCgpLCBmcmVlIHRoZSBlcnJvciBpZiBhbnksIHJldHVybiB6ZXJvLg0KPiANCj4gICAgTm90ZSB0
-aGF0IHdlIGNhbid0IGhhdmUgZXJycCAmJiAhKmVycnAgaGVyZSwgb3IgZWxzZSB0cmFjaW5nIGNy
-YXNoZXMNCj4gICAgaW4gZXJyb3JfZ2V0X3ByZXR0eSgpLg0KPiANCj4gKiBRSU9fQ0hBTk5FTF9F
-UlJfQkxPQ0sNCj4gDQo+ICAgIEZyZWUgdGhlIGVycm9yLCByZXR1cm4gemVybw0KPiANCj4gKiBQ
-b3NpdGl2ZQ0KPiANCj4gICAgRG8gbm90aGluZywgcmV0dXJuIEByZXQNCj4gDQo+IENhbGxlcnMg
-cGFzcyBvbmUgb2YgdGhlIGZvbGxvd2luZzoNCj4gDQo+ICogcmV0ID0gLTEgYW5kIGVycnAgPSBO
-VUxMDQo+IA0KPiAgICBUaGlzIHVzZXMgY2FzZSAiTmVnYXRpdmUgb3RoZXIgdGhhbiBRSU9fQ0hB
-Tk5FTF9FUlJfQkxPQ0siLiAgU2luY2UNCj4gICAgZXJyb3IgaXMgbnVsbCwgaXQgdHJhY2VzIGFu
-ICJVbmtub3duIiBlcnJvci4NCj4gDQo+ICogcmV0IGFuZCAmZXJyLCB3aGVyZSByZXQgPSBGVU4o
-Li4uLCAmZXJyKSwgYW5kIEZVTiBpcw0KPiAgICBxaW9fY2hhbm5lbF9yZWFkKCkgb3IgcWlvX2No
-YW5uZWxfd3JpdGUoKS4NCj4gDQo+ICAgIHFpb19jaGFubmVsX3JlYWQoKSwgX3dyaXRlKCkgYXJl
-IGRvY3VtZW50ZWQgdG8gcmV0dXJuIG5vbi1uZWdhdGl2ZSBvbg0KPiAgICBzdWNjZXNzLCBRSU9f
-Q0hBTk5FTF9FUlJfQkxPQ0sgb24gIndvdWxkIGJsb2NrIiwgYW5kIC0xIG9uIG90aGVyDQo+ICAg
-IGVycm9yLiAgQnkgY29udmVudGlvbiwgdGhleSBzZXQgYW4gZXJyb3IgZXhhY3RseSB3aGVuIHRo
-ZXkgZmFpbCwNCj4gICAgaS5lLiB3aGVuIHRoZXkgcmV0dXJuIGEgbmVnYXRpdmUgdmFsdWUuDQo+
-IA0KPiAgICBXaGVuIHFpb19jaGFubmVsX3JlYWQoKSAvIF93cml0ZSgpIHN1Y2NlZWQsIHdlIHVz
-ZSBjYXNlICJQb3NpdGl2ZSIgb3INCj4gICAgIlplcm8iLiAgV2UgZG9uJ3QgZnJlZSB0aGUgZXJy
-b3IsIHdoaWNoIGlzIGZpbmUsIGFzIG5vbmUgd2FzIHJldHVybmVkLg0KPiAgICBBc2lkZTogSSAq
-Z3Vlc3MqIHRoZSBjaGFubmVsIGlzIG5vbi1ibG9ja2luZywgYW5kICJ6ZXJvIiBjYW4gaGFwcGVu
-DQo+ICAgIG9ubHkgd2hlbiByZWFkIGhpdHMgRU9GLg0KPiANCj4gICAgV2hlbiBxaW9fY2hhbm5l
-bF9yZWFkKCkgLyBfd3JpdGUoKSBmYWlsLCB3ZSB1c2Ugb25lIG9mIHRoZSBlcnJvcg0KPiAgICBj
-YXNlcy4NCj4gDQo+IExvb2tzIGxpa2Ugdm5jX2NsaWVudF9pb19lcnJvcigpIHRha2VzIGFuIGVy
-cm9yIGNvZGUgQHJldCBhbmQgYW4NCj4gb3B0aW9uYWwgZXJyb3Igb2JqZWN0IGluIEBlcnJwIHdp
-dGggYWRkaXRpb25hbCBkZXRhaWxzLiAgSWYgQHJldCBpcw0KPiBub24tbmVnYXRpdmUsIEBlcnJw
-IG11c3QgYmUgbnVsbCBvciBwb2ludCB0byBudWxsLiAgSWYgQHJldCBpcyBuZWdhdGl2ZSwNCj4g
-QGVycnAgbXVzdCBiZSBudWxsIG9yIHBvaW50IHRvIG5vbi1udWxsLg0KPiANCj4gdm5jX2NsaWVu
-dF9pb19lcnJvcigpIGZyZWVzIHRoZSBlcnJvci4gIEl0IGxlYXZlcyBub3RoaW5nIGZvciB0aGUg
-Y2FsbGVyDQo+IHRvIGNsZWFuIHVwLg0KPiANCj4gSSB0aGluayB3ZSBjYW4gYWdhaW4gcGVlbCBv
-ZmYgYW4gaW5kaXJlY3Rpb24uICBUaGUgdHdvIGtpbmRzIG9mIGNhbGxzDQo+IGJlY29tZToNCj4g
-DQo+ICogcmV0ID0gLTEgYW5kIGVyciA9IE5VTEwNCj4gDQo+ICAgIE5vIHRleHR1YWwgY2hhbmdl
-LCBidXQgdGhlIE5VTEwgZ2V0cyBjb252ZXJ0ZWQgdG8gRXJyb3IgKiBpbnN0ZWFkIG9mDQo+ICAg
-IEVycm9yICoqLg0KPiANCj4gKiByZXQgYW5kIGVycg0KPiANCj4gICAgUGFzcyB0aGUgKHBvc3Np
-Ymx5IG51bGwpIGVycm9yIG9iamVjdCBpbnN0ZWFkIG9mIGEgcG9pbnRlciB0byB0aGUNCj4gICAg
-bG9jYWwgdmFyaWFibGUuDQo+IA0KPj4gZGlmZiAtLWdpdCBhL3V0aWwvZXJyb3IuYyBiL3V0aWwv
-ZXJyb3IuYw0KPj4gaW5kZXggZDQ1MzJjZTMxOC4uYjNmZjM4MzJkNiAxMDA2NDQNCj4+IC0tLSBh
-L3V0aWwvZXJyb3IuYw0KPj4gKysrIGIvdXRpbC9lcnJvci5jDQo+PiBAQCAtMjcxLDExICsyNzEs
-MTEgQEAgdm9pZCBlcnJvcl9mcmVlKEVycm9yICplcnIpDQo+PiAgICAgICB9DQo+PiAgIH0NCj4+
-ICAgDQo+PiAtdm9pZCBlcnJvcl9mcmVlX29yX2Fib3J0KEVycm9yICoqZXJycCkNCj4+ICt2b2lk
-IGVycm9yX2ZyZWVfb3JfYWJvcnQoRXJyb3IgKiplcnJwX2luKQ0KPj4gICB7DQo+PiAtICAgIGFz
-c2VydChlcnJwICYmICplcnJwKTsNCj4+IC0gICAgZXJyb3JfZnJlZSgqZXJycCk7DQo+PiAtICAg
-ICplcnJwID0gTlVMTDsNCj4+ICsgICAgYXNzZXJ0KGVycnBfaW4gJiYgKmVycnBfaW4pOw0KPj4g
-KyAgICBlcnJvcl9mcmVlKCplcnJwX2luKTsNCj4+ICsgICAgKmVycnBfaW4gPSBOVUxMOw0KPj4g
-ICB9DQo+PiAgIA0KPj4gICB2b2lkIGVycm9yX3Byb3BhZ2F0ZShFcnJvciAqKmRzdF9lcnJwLCBF
-cnJvciAqbG9jYWxfZXJyKQ0KPiANCj4gVGhpcyBmdW5jdGlvbnMgZnJlZXMgdGhlIGVycm9yLiAg
-SXQgbGVhdmVzIG5vdGhpbmcgZm9yIHRoZSBjYWxsZXIgdG8NCj4gY2xlYW4gdXAuDQo+IA0KPiBB
-bGwgY2FsbGVycyBwYXNzICZFUlIsIHdoZXJlIEVSUiBpcyBhIGxvY2FsIHZhcmlhYmxlLiAgV2Ug
-Y2FuIHBlZWwgb2ZmDQo+IGFuIGluZGlyZWN0aW9uLg0KDQoNCkJ1dCBpZiB3ZSBkcm9wIGluZGly
-ZWN0aW9uLCB3ZSdsbCBoYXZlIHRvIHNldCBsb2NhbCB2YXJpYWJsZSB0byBOVUxMIGJ5DQpoYW5k
-LiBJcyBpdCBnb29kPw0KDQpMb29rIGF0IHRlc3Rfa2V5dmFsX3BhcnNlX2xpc3QoKSBmb3IgZXhh
-bXBsZTogaXQgdXNlcyBsb2NhbCBlcnIgb2JqZWN0DQpzZXZlcmFsIHRpbWVzLCBzbyBpdCBkZXBl
-bmRzIG9uIHRoZSBmYWN0IHRoYXQgZXJyb3JfZnJlZV9vcl9hYm9ydA0Kc2V0cyBwb2ludGVyIHRv
-IE5VTEwuDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+These methods, like cpu_intc_create, really belong to the interrupt
+controller, but need to be called on all possible intcs.
+
+Like cpu_intc_create, therefore, make them methods on the intc and
+always call it for all existing intcs.
+
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/intc/spapr_xive.c        |  71 ++++++++++++-----------
+ hw/intc/xics_spapr.c        |  29 ++++++++++
+ hw/ppc/spapr_irq.c          | 110 +++++++++++-------------------------
+ include/hw/ppc/spapr_irq.h  |   5 +-
+ include/hw/ppc/spapr_xive.h |   2 -
+ 5 files changed, 102 insertions(+), 115 deletions(-)
+
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 9338daba3d..ff1a175b44 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -487,6 +487,42 @@ static const VMStateDescription vmstate_spapr_xive =3D=
+ {
+     },
+ };
+=20
++static int spapr_xive_claim_irq(SpaprInterruptController *intc, int lisn=
+,
++                                bool lsi, Error **errp)
++{
++    SpaprXive *xive =3D SPAPR_XIVE(intc);
++    XiveSource *xsrc =3D &xive->source;
++
++    assert(lisn < xive->nr_irqs);
++
++    if (xive_eas_is_valid(&xive->eat[lisn])) {
++        error_setg(errp, "IRQ %d is not free", lisn);
++        return -EBUSY;
++    }
++
++    /*
++     * Set default values when allocating an IRQ number
++     */
++    xive->eat[lisn].w |=3D cpu_to_be64(EAS_VALID | EAS_MASKED);
++    if (lsi) {
++        xive_source_irq_set_lsi(xsrc, lisn);
++    }
++
++    if (kvm_irqchip_in_kernel()) {
++        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
++    }
++
++    return 0;
++}
++
++static void spapr_xive_free_irq(SpaprInterruptController *intc, int lisn=
+)
++{
++    SpaprXive *xive =3D SPAPR_XIVE(intc);
++    assert(lisn < xive->nr_irqs);
++
++    xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
++}
++
+ static Property spapr_xive_properties[] =3D {
+     DEFINE_PROP_UINT32("nr-irqs", SpaprXive, nr_irqs, 0),
+     DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends, 0),
+@@ -536,6 +572,8 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     xrc->get_tctx =3D spapr_xive_get_tctx;
+=20
+     sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
++    sicc->claim_irq =3D spapr_xive_claim_irq;
++    sicc->free_irq =3D spapr_xive_free_irq;
+ }
+=20
+ static const TypeInfo spapr_xive_info =3D {
+@@ -557,39 +595,6 @@ static void spapr_xive_register_types(void)
+=20
+ type_init(spapr_xive_register_types)
+=20
+-int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **er=
+rp)
+-{
+-    XiveSource *xsrc =3D &xive->source;
+-
+-    assert(lisn < xive->nr_irqs);
+-
+-    if (xive_eas_is_valid(&xive->eat[lisn])) {
+-        error_setg(errp, "IRQ %d is not free", lisn);
+-        return -EBUSY;
+-    }
+-
+-    /*
+-     * Set default values when allocating an IRQ number
+-     */
+-    xive->eat[lisn].w |=3D cpu_to_be64(EAS_VALID | EAS_MASKED);
+-    if (lsi) {
+-        xive_source_irq_set_lsi(xsrc, lisn);
+-    }
+-
+-    if (kvm_irqchip_in_kernel()) {
+-        return kvmppc_xive_source_reset_one(xsrc, lisn, errp);
+-    }
+-
+-    return 0;
+-}
+-
+-void spapr_xive_irq_free(SpaprXive *xive, int lisn)
+-{
+-    assert(lisn < xive->nr_irqs);
+-
+-    xive->eat[lisn].w &=3D cpu_to_be64(~EAS_VALID);
+-}
+-
+ /*
+  * XIVE hcalls
+  *
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 946311b858..224fe1efcd 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -346,6 +346,33 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
+Controller *intc,
+     return 0;
+ }
+=20
++static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
++                                bool lsi, Error **errp)
++{
++    ICSState *ics =3D ICS_SPAPR(intc);
++
++    assert(ics);
++    assert(ics_valid_irq(ics, irq));
++
++    if (!ics_irq_free(ics, irq - ics->offset)) {
++        error_setg(errp, "IRQ %d is not free", irq);
++        return -EBUSY;
++    }
++
++    ics_set_irq_type(ics, irq - ics->offset, lsi);
++    return 0;
++}
++
++static void xics_spapr_free_irq(SpaprInterruptController *intc, int irq)
++{
++    ICSState *ics =3D ICS_SPAPR(intc);
++    uint32_t srcno =3D irq - ics->offset;
++
++    assert(ics_valid_irq(ics, irq));
++
++    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
++}
++
+ static void ics_spapr_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+@@ -355,6 +382,8 @@ static void ics_spapr_class_init(ObjectClass *klass, =
+void *data)
+     device_class_set_parent_realize(dc, ics_spapr_realize,
+                                     &isc->parent_realize);
+     sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
++    sicc->claim_irq =3D xics_spapr_claim_irq;
++    sicc->free_irq =3D xics_spapr_free_irq;
+ }
+=20
+ static const TypeInfo ics_spapr_info =3D {
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 9cb2fc71ca..83882cfad3 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -98,33 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *spap=
+r,
+  * XICS IRQ backend.
+  */
+=20
+-static int spapr_irq_claim_xics(SpaprMachineState *spapr, int irq, bool =
+lsi,
+-                                Error **errp)
+-{
+-    ICSState *ics =3D spapr->ics;
+-
+-    assert(ics);
+-    assert(ics_valid_irq(ics, irq));
+-
+-    if (!ics_irq_free(ics, irq - ics->offset)) {
+-        error_setg(errp, "IRQ %d is not free", irq);
+-        return -1;
+-    }
+-
+-    ics_set_irq_type(ics, irq - ics->offset, lsi);
+-    return 0;
+-}
+-
+-static void spapr_irq_free_xics(SpaprMachineState *spapr, int irq)
+-{
+-    ICSState *ics =3D spapr->ics;
+-    uint32_t srcno =3D irq - ics->offset;
+-
+-    assert(ics_valid_irq(ics, irq));
+-
+-    memset(&ics->irqs[srcno], 0, sizeof(ICSIRQState));
+-}
+-
+ static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monitor =
+*mon)
+ {
+     CPUState *cs;
+@@ -182,8 +155,6 @@ SpaprIrq spapr_irq_xics =3D {
+     .xics        =3D true,
+     .xive        =3D false,
+=20
+-    .claim       =3D spapr_irq_claim_xics,
+-    .free        =3D spapr_irq_free_xics,
+     .print_info  =3D spapr_irq_print_info_xics,
+     .dt_populate =3D spapr_dt_xics,
+     .post_load   =3D spapr_irq_post_load_xics,
+@@ -196,17 +167,6 @@ SpaprIrq spapr_irq_xics =3D {
+  * XIVE IRQ backend.
+  */
+=20
+-static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool =
+lsi,
+-                                Error **errp)
+-{
+-    return spapr_xive_irq_claim(spapr->xive, irq, lsi, errp);
+-}
+-
+-static void spapr_irq_free_xive(SpaprMachineState *spapr, int irq)
+-{
+-    spapr_xive_irq_free(spapr->xive, irq);
+-}
+-
+ static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
+                                       Monitor *mon)
+ {
+@@ -272,8 +232,6 @@ SpaprIrq spapr_irq_xive =3D {
+     .xics        =3D false,
+     .xive        =3D true,
+=20
+-    .claim       =3D spapr_irq_claim_xive,
+-    .free        =3D spapr_irq_free_xive,
+     .print_info  =3D spapr_irq_print_info_xive,
+     .dt_populate =3D spapr_dt_xive,
+     .post_load   =3D spapr_irq_post_load_xive,
+@@ -301,33 +259,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
+ *spapr)
+         &spapr_irq_xive : &spapr_irq_xics;
+ }
+=20
+-static int spapr_irq_claim_dual(SpaprMachineState *spapr, int irq, bool =
+lsi,
+-                                Error **errp)
+-{
+-    Error *local_err =3D NULL;
+-    int ret;
+-
+-    ret =3D spapr_irq_xics.claim(spapr, irq, lsi, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return ret;
+-    }
+-
+-    ret =3D spapr_irq_xive.claim(spapr, irq, lsi, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return ret;
+-    }
+-
+-    return ret;
+-}
+-
+-static void spapr_irq_free_dual(SpaprMachineState *spapr, int irq)
+-{
+-    spapr_irq_xics.free(spapr, irq);
+-    spapr_irq_xive.free(spapr, irq);
+-}
+-
+ static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monitor =
+*mon)
+ {
+     spapr_irq_current(spapr)->print_info(spapr, mon);
+@@ -401,8 +332,6 @@ SpaprIrq spapr_irq_dual =3D {
+     .xics        =3D true,
+     .xive        =3D true,
+=20
+-    .claim       =3D spapr_irq_claim_dual,
+-    .free        =3D spapr_irq_free_dual,
+     .print_info  =3D spapr_irq_print_info_dual,
+     .dt_populate =3D spapr_irq_dt_populate_dual,
+     .post_load   =3D spapr_irq_post_load_dual,
+@@ -572,8 +501,11 @@ void spapr_irq_init(SpaprMachineState *spapr, Error =
+**errp)
+=20
+         /* Enable the CPU IPIs */
+         for (i =3D 0; i < nr_servers; ++i) {
+-            if (spapr_xive_irq_claim(spapr->xive, SPAPR_IRQ_IPI + i,
+-                                     false, errp) < 0) {
++            SpaprInterruptControllerClass *sicc
++                =3D SPAPR_INTC_GET_CLASS(spapr->xive);
++
++            if (sicc->claim_irq(SPAPR_INTC(spapr->xive), SPAPR_IRQ_IPI +=
+ i,
++                                false, errp) < 0) {
+                 return;
+             }
+         }
+@@ -587,21 +519,45 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
+ **errp)
+=20
+ int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
+*errp)
+ {
++    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
++    int i;
++    int rc;
++
+     assert(irq >=3D SPAPR_XIRQ_BASE);
+     assert(irq < (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+=20
+-    return spapr->irq->claim(spapr, irq, lsi, errp);
++    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
++        SpaprInterruptController *intc =3D intcs[i];
++        if (intc) {
++            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
+(intc);
++            rc =3D sicc->claim_irq(intc, irq, lsi, errp);
++            if (rc < 0) {
++                return rc;
++            }
++        }
++    }
++
++    return 0;
+ }
+=20
+ void spapr_irq_free(SpaprMachineState *spapr, int irq, int num)
+ {
+-    int i;
++    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
++    int i, j;
+=20
+     assert(irq >=3D SPAPR_XIRQ_BASE);
+     assert((irq + num) <=3D (spapr->irq->nr_xirqs + SPAPR_XIRQ_BASE));
+=20
+     for (i =3D irq; i < (irq + num); i++) {
+-        spapr->irq->free(spapr, i);
++        for (j =3D 0; j < ARRAY_SIZE(intcs); j++) {
++            SpaprInterruptController *intc =3D intcs[j];
++
++            if (intc) {
++                SpaprInterruptControllerClass *sicc
++                    =3D SPAPR_INTC_GET_CLASS(intc);
++                sicc->free_irq(intc, i);
++            }
++        }
+     }
+ }
+=20
+@@ -726,8 +682,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .xics        =3D true,
+     .xive        =3D false,
+=20
+-    .claim       =3D spapr_irq_claim_xics,
+-    .free        =3D spapr_irq_free_xics,
+     .print_info  =3D spapr_irq_print_info_xics,
+     .dt_populate =3D spapr_dt_xics,
+     .post_load   =3D spapr_irq_post_load_xics,
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index 5e641e23c1..adfef0fcbe 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -50,6 +50,9 @@ typedef struct SpaprInterruptControllerClass {
+      */
+     int (*cpu_intc_create)(SpaprInterruptController *intc,
+                             PowerPCCPU *cpu, Error **errp);
++    int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
++                     Error **errp);
++    void (*free_irq)(SpaprInterruptController *intc, int irq);
+ } SpaprInterruptControllerClass;
+=20
+ int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+@@ -67,8 +70,6 @@ typedef struct SpaprIrq {
+     bool        xics;
+     bool        xive;
+=20
+-    int (*claim)(SpaprMachineState *spapr, int irq, bool lsi, Error **er=
+rp);
+-    void (*free)(SpaprMachineState *spapr, int irq);
+     void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
+     void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
+                         void *fdt, uint32_t phandle);
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index 0df20a6590..8f875673f5 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -54,8 +54,6 @@ typedef struct SpaprXive {
+  */
+ #define SPAPR_XIVE_BLOCK_ID 0x0
+=20
+-int spapr_xive_irq_claim(SpaprXive *xive, int lisn, bool lsi, Error **er=
+rp);
+-void spapr_xive_irq_free(SpaprXive *xive, int lisn);
+ void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+ int spapr_xive_post_load(SpaprXive *xive, int version_id);
+=20
+--=20
+2.21.0
+
 
