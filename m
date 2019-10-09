@@ -2,101 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5307D1716
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:52:27 +0200 (CEST)
-Received: from localhost ([::1]:53326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD959D1739
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:59:29 +0200 (CEST)
+Received: from localhost ([::1]:53410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIG8Q-0001kF-6C
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48000)
+	id 1iIGFE-00010h-Kj
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iI7dH-0000RS-7w
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:47:44 -0400
+ (envelope-from <bounces@canonical.com>) id 1iI7zx-0002hM-S6
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:11:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iI7dE-0004aA-4c
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:47:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59472)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iI7dD-0004Zq-T0; Wed, 09 Oct 2019 04:47:40 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 83035806A53;
- Wed,  9 Oct 2019 08:47:37 +0000 (UTC)
-Received: from thuth.remote.csb (unknown [10.36.118.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C24875D6B0;
- Wed,  9 Oct 2019 08:47:34 +0000 (UTC)
-Subject: Re: [PATCH] target/xtensa: regenerate and re-import test_mmuhifi_c3
- core
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
-References: <20191009025753.957-1-jcmvbkbc@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <d0ab6628-6cab-f522-1f27-343c59369215@redhat.com>
-Date: Wed, 9 Oct 2019 10:47:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <bounces@canonical.com>) id 1iI7zv-0004RK-9U
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:11:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60142)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iI7zv-0004R4-0T
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:11:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iI7zt-0001Vz-LM
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 09:11:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9997B2E80C7
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 09:11:05 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191009025753.957-1-jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Wed, 09 Oct 2019 08:47:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 09 Oct 2019 08:58:50 -0000
+From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: kvm powerpcm qemu
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sathnaga
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
+Message-Id: <157061153044.21976.18153238088035049329.malonedeb@gac.canonical.com>
+Subject: [Bug 1847440] [NEW] ppc64le: KVM guest fails to boot with an error
+ `virtio_scsi: probe of virtio1 failed with error -22` on master
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 172e1dded6883305dd071eeaf1cded24731edb62
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,29 +66,374 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1847440 <1847440@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/2019 04.57, Max Filippov wrote:
-> Overlay part of the test_mmuhifi_c3 core has GPL3 copyright headers in
-> it. Fix that by regenerating test_mmuhifi_c3 core overlay and
-> re-importing it.
-> 
-> Fixes: d848ea776728 ("target/xtensa: add test_mmuhifi_c3 core")
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-> ---
->  target/xtensa/core-test_mmuhifi_c3.c          |    3 +-
->  target/xtensa/core-test_mmuhifi_c3/core-isa.h |  116 +-
->  .../core-test_mmuhifi_c3/gdb-config.inc.c     |  114 +-
->  .../core-test_mmuhifi_c3/xtensa-modules.inc.c | 6384 ++++++++---------
->  4 files changed, 3385 insertions(+), 3232 deletions(-)
+Public bug reported:
 
-FWIW,
-Acked-by: Thomas Huth <thuth@redhat.com>
+PowerPC KVM Guest fails to boot on current qemu master, bad commit:
+e68cd0cb5cf49d334abe17231a1d2c28b846afa2
 
-Thanks for the quick update! I think we should include the patch also in
-future stable releases if necessary, so I've added qemu-stable to CC: now.
+Env:
+HW: IBM Power8
+Host Kernel: 5.4.0-rc2-00038-ge3280b54afed
+Guest Kernel: 4.13.9-300.fc27.ppc64le
+Qemu: https://github.com/qemu/qemu.git (master)
+Libvirt: 5.4.0
 
- Thomas
+Guest boot gets stuck:
+...
+[  OK  ] Mounted Kernel Configuration File System.
+[    7.598740] virtio-pci 0000:00:01.0: enabling device (0000 -> 0003)
+[    7.598828] virtio-pci 0000:00:01.0: virtio_pci: leaving for legacy driv=
+er
+[    7.598957] virtio-pci 0000:00:02.0: enabling device (0000 -> 0003)
+[    7.599017] virtio-pci 0000:00:02.0: virtio_pci: leaving for legacy driv=
+er
+[    7.599123] virtio-pci 0000:00:04.0: enabling device (0000 -> 0003)
+[    7.599182] virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy driv=
+er
+[    7.620620] synth uevent: /devices/vio: failed to send uevent
+[    7.620624] vio vio: uevent: failed to send synthetic uevent
+[  OK  ] Started udev Coldplug all Devices.
+[    7.624559] audit: type=3D1130 audit(1570610300.990:5): pid=3D1 uid=3D0 =
+auid=3D4294967295 ses=3D4294967295 subj=3Dkernel msg=3D'unit=3Dsystemd-udev=
+-trigger comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? add=
+r=3D? terminal=3D? res=3Dsuccess'
+[  OK  ] Reached target System Initialization.
+[  OK  ] Reached target Basic System.
+[  OK  ] Reached target Remote File Systems (Pre).
+[  OK  ] Reached target Remote File Systems.
+[    7.642961] virtio_scsi: probe of virtio1 failed with error -22
+[ ***  ] A start job is running for dev-disk=E2=80=A621b3519a80.device (14s=
+ / no limit)
+...
+
+git bisect, yielded a bad commit
+[e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT on ibm
+,client-architecture-support, reverting this commit boot the guest
+properly.
+
+git bisect start
+# good: [9e06029aea3b2eca1d5261352e695edc1e7d7b8b] Update version for v4.1.=
+0 release
+git bisect good 9e06029aea3b2eca1d5261352e695edc1e7d7b8b
+# bad: [98b2e3c9ab3abfe476a2b02f8f51813edb90e72d] Merge remote-tracking bra=
+nch 'remotes/stefanha/tags/block-pull-request' into staging
+git bisect bad 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d
+# good: [56e6250ede81b4e4b4ddb623874d6c3cdad4a96d] target/arm: Convert T16,=
+ nop hints
+git bisect good 56e6250ede81b4e4b4ddb623874d6c3cdad4a96d
+# good: [5d69cbdfdd5cd6dadc9f0c986899844a0e4de703] tests/tcg: target/s390x:=
+ Test MVC
+git bisect good 5d69cbdfdd5cd6dadc9f0c986899844a0e4de703
+# good: [88112488cf228df8b7588c8aa38e16ecd0dff48e] qapi: Make check_type()'=
+s array case a bit more obvious
+git bisect good 88112488cf228df8b7588c8aa38e16ecd0dff48e
+# good: [972bd57689f1e11311d86b290134ea2ed9c7c11e] ppc/kvm: Skip writing DP=
+DES back when in run time state
+git bisect good 972bd57689f1e11311d86b290134ea2ed9c7c11e
+# bad: [1aba8716c8335e88b8c358002a6e1ac89f7dd258] ppc/pnv: Remove the XICSF=
+abric Interface from the POWER9 machine
+git bisect bad 1aba8716c8335e88b8c358002a6e1ac89f7dd258
+# bad: [00ed3da9b5c2e66e796a172df3e19545462b9c90] xics: Minor fixes for XIC=
+SFabric interface
+git bisect bad 00ed3da9b5c2e66e796a172df3e19545462b9c90
+# good: [33432d7737b53c92791f90ece5dbe3b7bb1c79f5] target/ppc: introduce se=
+t_dfp{64,128}() helper functions
+git bisect good 33432d7737b53c92791f90ece5dbe3b7bb1c79f5
+# good: [f6d4c423a222f02bfa84a49c3d306d7341ec9bab] target/ppc: remove unnec=
+essary if() around calls to set_dfp{64,128}() in DFP macros
+git bisect good f6d4c423a222f02bfa84a49c3d306d7341ec9bab
+# bad: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT on=
+ ibm,client-architecture-support
+git bisect bad e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+# good: [c4ec08ab70bab90685d1443d6da47293e3aa312a] spapr-pci: Stop providin=
+g assigned-addresses
+git bisect good c4ec08ab70bab90685d1443d6da47293e3aa312a
+# first bad commit: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Rende=
+r full FDT on ibm,client-architecture-support
+
+attached vmxml.
+
+qemu commandline:
+/home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 -name guest=3Dvm1,debug-thr=
+eads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/li=
+bvirt/qemu/domain-19-vm1/master-key.aes -machine pseries-4.2,accel=3Dkvm,us=
+b=3Doff,dump-guest-core=3Doff -m 81920 -overcommit mem-lock=3Doff -smp 512,=
+sockets=3D1,cores=3D128,threads=3D4 -uuid fd4a5d54-0216-490e-82d2-1d4e89683=
+b3d -display none -no-user-config -nodefaults -chardev socket,id=3Dcharmoni=
+tor,fd=3D24,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dco=
+ntrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device qemu-xhci,id=
+=3Dusb,bus=3Dpci.0,addr=3D0x3 -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.=
+0,addr=3D0x2 -drive file=3D/home/sath/tests/data/avocado-vt/images/jeos-27-=
+ppc64le_vm1.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 -device s=
+csi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddrive-scsi=
+0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -netdev ta=
+p,fd=3D26,id=3Dhostnet0,vhost=3Don,vhostfd=3D27 -device virtio-net-pci,netd=
+ev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:df:24,bus=3Dpci.0,addr=3D0x1 -cha=
+rdev pty,id=3Dcharserial0 -device spapr-vty,chardev=3Dcharserial0,id=3Dseri=
+al0,reg=3D0x30000000 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,a=
+ddr=3D0x4 -M pseries,ic-mode=3Dxics -msg timestamp=3Don
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: kvm powerpcm qemu
+
+** Attachment added: "KVM Guest XML"
+   https://bugs.launchpad.net/bugs/1847440/+attachment/5295817/+files/vm1.x=
+ml
+
+** Summary changed:
+
+- ppc64le: KVM guest fails to boot with an error `virtio_scsi: probe of vir=
+tio1 failed with error -22` on master(98b2e3c9ab3abfe476a2b02f8f51813edb90e=
+72d)
++ ppc64le: KVM guest fails to boot with an error `virtio_scsi: probe of vir=
+tio1 failed with error -22` on master
+
+** Description changed:
+
+- PowerPC KVM Guest fails to boot on current qemu
+- master(98b2e3c9ab3abfe476a2b02f8f51813edb90e72d),
++ PowerPC KVM Guest fails to boot on current qemu master, bad commit:
++ e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+  =
+
+  Env:
+  HW: IBM Power8
+  Host Kernel: 5.4.0-rc2-00038-ge3280b54afed
+  Guest Kernel: 4.13.9-300.fc27.ppc64le
+  Qemu: https://github.com/qemu/qemu.git (master)
+  Libvirt: 5.4.0
+  =
+
+  Guest boot gets stuck:
+  ...
+  [  OK  ] Mounted Kernel Configuration File System.
+  [    7.598740] virtio-pci 0000:00:01.0: enabling device (0000 -> 0003)
+  [    7.598828] virtio-pci 0000:00:01.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.598957] virtio-pci 0000:00:02.0: enabling device (0000 -> 0003)
+  [    7.599017] virtio-pci 0000:00:02.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.599123] virtio-pci 0000:00:04.0: enabling device (0000 -> 0003)
+  [    7.599182] virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.620620] synth uevent: /devices/vio: failed to send uevent
+  [    7.620624] vio vio: uevent: failed to send synthetic uevent
+  [  OK  ] Started udev Coldplug all Devices.
+  [    7.624559] audit: type=3D1130 audit(1570610300.990:5): pid=3D1 uid=3D=
+0 auid=3D4294967295 ses=3D4294967295 subj=3Dkernel msg=3D'unit=3Dsystemd-ud=
+ev-trigger comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? a=
+ddr=3D? terminal=3D? res=3Dsuccess'
+  [  OK  ] Reached target System Initialization.
+  [  OK  ] Reached target Basic System.
+  [  OK  ] Reached target Remote File Systems (Pre).
+  [  OK  ] Reached target Remote File Systems.
+  [    7.642961] virtio_scsi: probe of virtio1 failed with error -22
+  [ ***  ] A start job is running for dev-disk=E2=80=A621b3519a80.device (1=
+4s / no limit)
+  ...
+- =
+
+  =
+
+  git bisect, yielded a bad commit
+  [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT on ibm
+  ,client-architecture-support, reverting this commit boot the guest
+  properly.
+  =
+
+  git bisect start
+  # good: [9e06029aea3b2eca1d5261352e695edc1e7d7b8b] Update version for v4.=
+1.0 release
+  git bisect good 9e06029aea3b2eca1d5261352e695edc1e7d7b8b
+  # bad: [98b2e3c9ab3abfe476a2b02f8f51813edb90e72d] Merge remote-tracking b=
+ranch 'remotes/stefanha/tags/block-pull-request' into staging
+  git bisect bad 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d
+  # good: [56e6250ede81b4e4b4ddb623874d6c3cdad4a96d] target/arm: Convert T1=
+6, nop hints
+  git bisect good 56e6250ede81b4e4b4ddb623874d6c3cdad4a96d
+  # good: [5d69cbdfdd5cd6dadc9f0c986899844a0e4de703] tests/tcg: target/s390=
+x: Test MVC
+  git bisect good 5d69cbdfdd5cd6dadc9f0c986899844a0e4de703
+  # good: [88112488cf228df8b7588c8aa38e16ecd0dff48e] qapi: Make check_type(=
+)'s array case a bit more obvious
+  git bisect good 88112488cf228df8b7588c8aa38e16ecd0dff48e
+  # good: [972bd57689f1e11311d86b290134ea2ed9c7c11e] ppc/kvm: Skip writing =
+DPDES back when in run time state
+  git bisect good 972bd57689f1e11311d86b290134ea2ed9c7c11e
+  # bad: [1aba8716c8335e88b8c358002a6e1ac89f7dd258] ppc/pnv: Remove the XIC=
+SFabric Interface from the POWER9 machine
+  git bisect bad 1aba8716c8335e88b8c358002a6e1ac89f7dd258
+  # bad: [00ed3da9b5c2e66e796a172df3e19545462b9c90] xics: Minor fixes for X=
+ICSFabric interface
+  git bisect bad 00ed3da9b5c2e66e796a172df3e19545462b9c90
+  # good: [33432d7737b53c92791f90ece5dbe3b7bb1c79f5] target/ppc: introduce =
+set_dfp{64,128}() helper functions
+  git bisect good 33432d7737b53c92791f90ece5dbe3b7bb1c79f5
+  # good: [f6d4c423a222f02bfa84a49c3d306d7341ec9bab] target/ppc: remove unn=
+ecessary if() around calls to set_dfp{64,128}() in DFP macros
+  git bisect good f6d4c423a222f02bfa84a49c3d306d7341ec9bab
+  # bad: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT =
+on ibm,client-architecture-support
+  git bisect bad e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+  # good: [c4ec08ab70bab90685d1443d6da47293e3aa312a] spapr-pci: Stop provid=
+ing assigned-addresses
+  git bisect good c4ec08ab70bab90685d1443d6da47293e3aa312a
+  # first bad commit: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Ren=
+der full FDT on ibm,client-architecture-support
+  =
+
+- =
+
+  attached vmxml.
+  =
+
+  qemu commandline:
+  /home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 -name guest=3Dvm1,debug-t=
+hreads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/=
+libvirt/qemu/domain-19-vm1/master-key.aes -machine pseries-4.2,accel=3Dkvm,=
+usb=3Doff,dump-guest-core=3Doff -m 81920 -overcommit mem-lock=3Doff -smp 51=
+2,sockets=3D1,cores=3D128,threads=3D4 -uuid fd4a5d54-0216-490e-82d2-1d4e896=
+83b3d -display none -no-user-config -nodefaults -chardev socket,id=3Dcharmo=
+nitor,fd=3D24,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3D=
+control -rtc base=3Dutc -no-shutdown -boot strict=3Don -device qemu-xhci,id=
+=3Dusb,bus=3Dpci.0,addr=3D0x3 -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.=
+0,addr=3D0x2 -drive file=3D/home/sath/tests/data/avocado-vt/images/jeos-27-=
+ppc64le_vm1.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 -device s=
+csi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddrive-scsi=
+0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -netdev ta=
+p,fd=3D26,id=3Dhostnet0,vhost=3Don,vhostfd=3D27 -device virtio-net-pci,netd=
+ev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:df:24,bus=3Dpci.0,addr=3D0x1 -cha=
+rdev pty,id=3Dcharserial0 -device spapr-vty,chardev=3Dcharserial0,id=3Dseri=
+al0,reg=3D0x30000000 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,a=
+ddr=3D0x4 -M pseries,ic-mode=3Dxics -msg timestamp=3Don
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847440
+
+Title:
+  ppc64le: KVM guest fails to boot with an error `virtio_scsi: probe of
+  virtio1 failed with error -22` on master
+
+Status in QEMU:
+  New
+
+Bug description:
+  PowerPC KVM Guest fails to boot on current qemu master, bad commit:
+  e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+
+  Env:
+  HW: IBM Power8
+  Host Kernel: 5.4.0-rc2-00038-ge3280b54afed
+  Guest Kernel: 4.13.9-300.fc27.ppc64le
+  Qemu: https://github.com/qemu/qemu.git (master)
+  Libvirt: 5.4.0
+
+  Guest boot gets stuck:
+  ...
+  [  OK  ] Mounted Kernel Configuration File System.
+  [    7.598740] virtio-pci 0000:00:01.0: enabling device (0000 -> 0003)
+  [    7.598828] virtio-pci 0000:00:01.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.598957] virtio-pci 0000:00:02.0: enabling device (0000 -> 0003)
+  [    7.599017] virtio-pci 0000:00:02.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.599123] virtio-pci 0000:00:04.0: enabling device (0000 -> 0003)
+  [    7.599182] virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy dr=
+iver
+  [    7.620620] synth uevent: /devices/vio: failed to send uevent
+  [    7.620624] vio vio: uevent: failed to send synthetic uevent
+  [  OK  ] Started udev Coldplug all Devices.
+  [    7.624559] audit: type=3D1130 audit(1570610300.990:5): pid=3D1 uid=3D=
+0 auid=3D4294967295 ses=3D4294967295 subj=3Dkernel msg=3D'unit=3Dsystemd-ud=
+ev-trigger comm=3D"systemd" exe=3D"/usr/lib/systemd/systemd" hostname=3D? a=
+ddr=3D? terminal=3D? res=3Dsuccess'
+  [  OK  ] Reached target System Initialization.
+  [  OK  ] Reached target Basic System.
+  [  OK  ] Reached target Remote File Systems (Pre).
+  [  OK  ] Reached target Remote File Systems.
+  [    7.642961] virtio_scsi: probe of virtio1 failed with error -22
+  [ ***  ] A start job is running for dev-disk=E2=80=A621b3519a80.device (1=
+4s / no limit)
+  ...
+
+  git bisect, yielded a bad commit
+  [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT on
+  ibm,client-architecture-support, reverting this commit boot the guest
+  properly.
+
+  git bisect start
+  # good: [9e06029aea3b2eca1d5261352e695edc1e7d7b8b] Update version for v4.=
+1.0 release
+  git bisect good 9e06029aea3b2eca1d5261352e695edc1e7d7b8b
+  # bad: [98b2e3c9ab3abfe476a2b02f8f51813edb90e72d] Merge remote-tracking b=
+ranch 'remotes/stefanha/tags/block-pull-request' into staging
+  git bisect bad 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d
+  # good: [56e6250ede81b4e4b4ddb623874d6c3cdad4a96d] target/arm: Convert T1=
+6, nop hints
+  git bisect good 56e6250ede81b4e4b4ddb623874d6c3cdad4a96d
+  # good: [5d69cbdfdd5cd6dadc9f0c986899844a0e4de703] tests/tcg: target/s390=
+x: Test MVC
+  git bisect good 5d69cbdfdd5cd6dadc9f0c986899844a0e4de703
+  # good: [88112488cf228df8b7588c8aa38e16ecd0dff48e] qapi: Make check_type(=
+)'s array case a bit more obvious
+  git bisect good 88112488cf228df8b7588c8aa38e16ecd0dff48e
+  # good: [972bd57689f1e11311d86b290134ea2ed9c7c11e] ppc/kvm: Skip writing =
+DPDES back when in run time state
+  git bisect good 972bd57689f1e11311d86b290134ea2ed9c7c11e
+  # bad: [1aba8716c8335e88b8c358002a6e1ac89f7dd258] ppc/pnv: Remove the XIC=
+SFabric Interface from the POWER9 machine
+  git bisect bad 1aba8716c8335e88b8c358002a6e1ac89f7dd258
+  # bad: [00ed3da9b5c2e66e796a172df3e19545462b9c90] xics: Minor fixes for X=
+ICSFabric interface
+  git bisect bad 00ed3da9b5c2e66e796a172df3e19545462b9c90
+  # good: [33432d7737b53c92791f90ece5dbe3b7bb1c79f5] target/ppc: introduce =
+set_dfp{64,128}() helper functions
+  git bisect good 33432d7737b53c92791f90ece5dbe3b7bb1c79f5
+  # good: [f6d4c423a222f02bfa84a49c3d306d7341ec9bab] target/ppc: remove unn=
+ecessary if() around calls to set_dfp{64,128}() in DFP macros
+  git bisect good f6d4c423a222f02bfa84a49c3d306d7341ec9bab
+  # bad: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Render full FDT =
+on ibm,client-architecture-support
+  git bisect bad e68cd0cb5cf49d334abe17231a1d2c28b846afa2
+  # good: [c4ec08ab70bab90685d1443d6da47293e3aa312a] spapr-pci: Stop provid=
+ing assigned-addresses
+  git bisect good c4ec08ab70bab90685d1443d6da47293e3aa312a
+  # first bad commit: [e68cd0cb5cf49d334abe17231a1d2c28b846afa2] spapr: Ren=
+der full FDT on ibm,client-architecture-support
+
+  attached vmxml.
+
+  qemu commandline:
+  /home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 -name guest=3Dvm1,debug-t=
+hreads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/=
+libvirt/qemu/domain-19-vm1/master-key.aes -machine pseries-4.2,accel=3Dkvm,=
+usb=3Doff,dump-guest-core=3Doff -m 81920 -overcommit mem-lock=3Doff -smp 51=
+2,sockets=3D1,cores=3D128,threads=3D4 -uuid fd4a5d54-0216-490e-82d2-1d4e896=
+83b3d -display none -no-user-config -nodefaults -chardev socket,id=3Dcharmo=
+nitor,fd=3D24,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3D=
+control -rtc base=3Dutc -no-shutdown -boot strict=3Don -device qemu-xhci,id=
+=3Dusb,bus=3Dpci.0,addr=3D0x3 -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.=
+0,addr=3D0x2 -drive file=3D/home/sath/tests/data/avocado-vt/images/jeos-27-=
+ppc64le_vm1.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 -device s=
+csi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Ddrive-scsi=
+0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -netdev ta=
+p,fd=3D26,id=3Dhostnet0,vhost=3Don,vhostfd=3D27 -device virtio-net-pci,netd=
+ev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:e6:df:24,bus=3Dpci.0,addr=3D0x1 -cha=
+rdev pty,id=3Dcharserial0 -device spapr-vty,chardev=3Dcharserial0,id=3Dseri=
+al0,reg=3D0x30000000 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,a=
+ddr=3D0x4 -M pseries,ic-mode=3Dxics -msg timestamp=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847440/+subscriptions
 
