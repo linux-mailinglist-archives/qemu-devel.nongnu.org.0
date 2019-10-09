@@ -2,47 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7BDD17C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:51:38 +0200 (CEST)
-Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4988D17C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:50:42 +0200 (CEST)
+Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIH3g-0004u7-Qy
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46311)
+	id 1iIH2n-0003KH-AR
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iIBvq-0002nN-PE
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:23:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iICAV-0004to-2Y
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:38:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iIBvp-0001LB-MZ
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:23:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45390)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iIBvp-0001L3-HU
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:23:09 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AFD789B299;
- Wed,  9 Oct 2019 13:23:08 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1503B5C1D6;
- Wed,  9 Oct 2019 13:23:06 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC 2/3] acpi: cpuhp: add typical usecases into spec
-Date: Wed,  9 Oct 2019 09:22:51 -0400
-Message-Id: <20191009132252.17860-3-imammedo@redhat.com>
-In-Reply-To: <20191009132252.17860-1-imammedo@redhat.com>
-References: <20191009132252.17860-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 09 Oct 2019 13:23:08 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (envelope-from <peter.maydell@linaro.org>) id 1iICAT-0000W9-H3
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:38:18 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33459)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iICAS-0000Uu-Bw
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:38:16 -0400
+Received: by mail-oi1-x242.google.com with SMTP id a15so1776673oic.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 06:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P08TWrCBDxKZrMV6zgQNMe2wlSOlc9XxZTTE8PdhRGc=;
+ b=TVSHSz/WazGxwIns/A5Ojm8ySjkJR8mt1AHcuqDlGqLTBMXQjRZ3+4WntOwOJ2PDt5
+ zVMCHRcOhffPNMpkL6IOnaylGvnAF/S/Teq37s1LuVXVQ6zzAcOl6ZEWViCjrcIZMMfo
+ bBkS6iIW8gy8zjBCLx97/HxWQSAynPueto1SDzNxvrg097yBpBo1As01qNtJH0gsc9Mh
+ AHLZpjC+7WOaseJulgtYo8UEV4FXJD6qJrTPwLL43lNA2HQ9yhgd2vceLJbNSXIFl7Ac
+ ynHWIlD9o4J8OEeIuVyHNyZw6oDeHNzWKEKZbDld56O582fHSJ520BjQopIDt6gIOuMZ
+ U0Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P08TWrCBDxKZrMV6zgQNMe2wlSOlc9XxZTTE8PdhRGc=;
+ b=b4k81z8L5UL0x1Qj3Hp3XVqi8ArgfI8ng4pWx9CZ+40I2mg1Cwbxa97Bvh8KR1NJim
+ onYtXtY5w8784xLwfTFbzs0r7r+UTR0FtzqOUy5Ck/71F3opC/HRL3E8haEi+MEb+9+X
+ DDoNPh5sJEK8XF3gDuDVO5wGfmn/nXnvKEDt5ObNq2RgDKK2rdV/lonsBoMPYaNdvvk1
+ jq4rR4yts3qIIUFvBRHPSk5wlM3oiE9jsnX4b010PCPqYXH7jYLN4fMD5Xtth4UDTLC1
+ JYPWT7p6lhTFAKimPyzYg/5NNQspO3jCLdP/2d1nNmnjN/MVEJm9nA+/QjmoyT469q8i
+ Rtaw==
+X-Gm-Message-State: APjAAAUKLobjpmhwFztQ1WadjKBRAOUVR9tfyrt6BJ+oukj8ZOdAFRxb
+ 6Imm3IasC/O8LR3opwSpqe133esQCkNZuC5z90jnDg==
+X-Google-Smtp-Source: APXvYqyKJLvs2IR1ah1AY5+FxoKTCG7p9Dx3Qd9L10/R84RBsHg0gT+J08+FF+0CJLy/bWVnvn2T2RDuC6YBRXIxXw8=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr2234816oia.48.1570628294186; 
+ Wed, 09 Oct 2019 06:38:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191005154748.21718-1-f4bug@amsat.org>
+ <20191005154748.21718-2-f4bug@amsat.org>
+ <CAFEAcA8ME5U5=rNLRSvNx7LmanqHhn_KWj6qtgym_=W1M9WDoA@mail.gmail.com>
+ <20191008214907.GA28137@localhost.localdomain>
+In-Reply-To: <20191008214907.GA28137@localhost.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Oct 2019 14:38:02 +0100
+Message-ID: <CAFEAcA9DzeObmtsc2VJmw=1yruANZ6ajY2SG0cAPdehkeRN3wA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] tests/boot_linux_console: Add initrd test for the
+ Exynos4210
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,61 +75,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBCYXNzZQ==?= <contact@fredericb.info>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Evgeny Voevodin <e.voevodin@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Dmitry Solodkiy <d.solodkiy@samsung.com>, Maksim Kozlov <m.kozlov@samsung.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clarify values of "CPU selector' register and add workflows for
-  * finding CPU with pending 'insert/remove' event
-  * enumerating present/non present CPUs
+On Tue, 8 Oct 2019 at 22:49, Cleber Rosa <crosa@redhat.com> wrote:
+> On Mon, Oct 07, 2019 at 05:28:49PM +0100, Peter Maydell wrote:
+> > Do our other acceptance tests download random third-party
+> > (ie "not a well-known distro") binaries for the tests ?
+> > It seems a bit hazardous for reproducability and trustability
+> > reasons...
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- docs/specs/acpi_cpu_hotplug.txt | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+> A quick and dirty grep shows (excluding comments and docs):
+>
+>    boot_linux_console.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>    boot_linux_console.py:        deb_url = ('http://snapshot.debian.org/archive/debian/'
+>    boot_linux_console.py:        deb_url = ('http://snapshot.debian.org/archive/debian/'
+>    boot_linux_console.py:        deb_url = ('http://snapshot.debian.org/archive/debian/'
+>    boot_linux_console.py:        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
+>    boot_linux_console.py:        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>    boot_linux_console.py:        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>    boot_linux_console.py:        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>    boot_linux_console.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>    boot_linux_console.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>    boot_linux_console.py:        uboot_url = ('https://raw.githubusercontent.com/'
+>    boot_linux_console.py:        spi_url = ('https://raw.githubusercontent.com/'
+>    boot_linux_console.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>    boot_linux_console.py:        kernel_url = ('http://archive.debian.org/debian/dists/lenny/main/'
+>    boot_linux_console.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>    linux_initrd.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora/li'
+>    linux_initrd.py:        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>    linux_ssh_mips_malta.py:        'be': {'image_url': ('https://people.debian.org/~aurel32/qemu/mips/'
+>    linux_ssh_mips_malta.py:        'le': {'image_url': ('https://people.debian.org/~aurel32/qemu/mipsel/'
+>    linux_ssh_mips_malta.py:        kernel_url = ('https://people.debian.org/~aurel32/qemu/mips/'
+>    linux_ssh_mips_malta.py:        kernel_url = ('https://people.debian.org/~aurel32/qemu/mipsel/'
+>    linux_ssh_mips_malta.py:        kernel_url = ('https://people.debian.org/~aurel32/qemu/mips/'
+>    linux_ssh_mips_malta.py:        kernel_url = ('https://people.debian.org/~aurel32/qemu/mipsel/'
+>    machine_m68k_nextcube.py:        rom_url = ('http://www.nextcomputers.org/NeXTfiles/Software/ROM_Files/'
+>
+> I find it hard to judge precisely how much of a third-party some of
+> these are.  I remember Philippe mentioning that one of them, I guess
+> the images used on linux_ssh_mips_malta.py, were "as official as it
+> gets" (my words, from my often misleading memory).
+>
+> Reproducibility is definitely an issue, in the sense given that some
+> of these can indeed go away, but as long as they're available the hash
+> recorded in the test should guarantee that we're running the same
+> images.
+>
+> Do you think we should do something different here?
 
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-index ac5903b2b1..43c5a193f0 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -54,6 +54,7 @@ write access:
-     [0x0-0x3] CPU selector: (DWORD access)
-               selects active CPU device. All following accesses to other
-               registers will read/store data from/to selected CPU.
-+              Valid values: [0 .. max_cpus)
-     [0x4] CPU device control fields: (1 byte access)
-         bits:
-             0: reserved, OSPM must clear it before writing to register.
-@@ -93,3 +94,24 @@ Selecting CPU device beyond possible range has no effect on platform:
-      ignored
-    - read accesses to CPU hot-plug registers not documented above return
-      all bits set to 0.
-+
-+Typical usecases:
-+   - Get a cpu with pending event
-+     1. write 0x0 into 'Command field' register
-+     2. read from 'Command data' register, CPU selector value (CPU's UID in ACPI
-+        tables) and event for selected CPU from 'CPU device status fields'
-+        register. If there aren't pending events, CPU selector value doesn't
-+        change and 'insert' and 'remove' bits are not set.
-+   - Enumerate CPUs present/non present CPUs.
-+     1. set iterator to 0x0
-+     2. write 0x0 into 'Command field' register and then iterator
-+        into 'CPU selector' register.
-+     3. read 'enabled' flag for selected CPU from 'CPU device status fields'
-+        register
-+     4. to continue to the next CPU, increment iterator and repeat step 2
-+     5. read 'Command data' register
-+     5.1 if 'Command data' register matches iterator continue to step 3.
-+         (read presence bit for the next CPU)
-+     5.2 if 'Command data' register has not changed, there is not CPU
-+         corresponding to iterator value and the last valid iterator value
-+         equals to 'max_cpus' + 1
--- 
-2.18.1
+I'm not sure, which is why I asked whether this new test
+was in line with what we've done previously. Since these
+are just test cases and we don't redistribute them to
+other people there's less of a traceability/reproducibility
+worry, and if we check hashes on download that cuts off
+a lot of "fail to notice if the image changes for some
+reason" possible problems.
 
+thanks
+-- PMM
 
