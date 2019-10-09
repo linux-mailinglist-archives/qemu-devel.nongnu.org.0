@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28ACDD13EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:23:16 +0200 (CEST)
-Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7164D13FB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:27:43 +0200 (CEST)
+Received: from localhost ([::1]:52249 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIEk6-0001xJ-LC
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57080)
+	id 1iIEoP-0006oE-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:27:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iI4Cw-0002cl-Mt
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 01:08:19 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59B-0001XN-OZ
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iI4Cv-00059i-Fl
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 01:08:18 -0400
-Received: from mga01.intel.com ([192.55.52.88]:31200)
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59A-0006UI-Cm
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:29 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51091 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iI4Cv-00052l-5z
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 01:08:17 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2019 22:08:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,273,1566889200"; d="scan'208";a="394905421"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga006.fm.intel.com with ESMTP; 08 Oct 2019 22:08:13 -0700
-Date: Wed, 9 Oct 2019 13:07:56 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 3/3] migration/postcopy: handle POSTCOPY_INCOMING_RUNNING
- corner case properly
-Message-ID: <20191009050756.GA9616@richard>
-References: <20191001100122.17730-1-richardw.yang@linux.intel.com>
- <20191001100122.17730-4-richardw.yang@linux.intel.com>
- <20191008164046.GF3441@work-vm> <20191009010204.GC26203@richard>
- <20191009041225.GF10750@xz-x1>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iI599-0006PS-Jd; Wed, 09 Oct 2019 02:08:28 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46p3gD1g9yz9sPK; Wed,  9 Oct 2019 17:08:24 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570601304;
+ bh=ocrX3ncUYBFcZTW4CQsb4v8fYUjtodAeqwtBgAzm4yU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Cw9eeIbrPSyfF2nzCRKQw1YtJUUi+eEic6M8GG9fYWv7oA5CsUGdUnfkhoCeSCTUr
+ HQ/aGJYhnN//iXVmT+4Arpl7bK+jewf+dP0Ye+J4cu24ihRga39aVoWEHPI3vQJ9rm
+ cSqFWZwiQxmEBZ7jipIl4uHDZ2lyP/aIzUuuXyNE=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	clg@kaod.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v4 02/19] xics: Make some device types not user creatable
+Date: Wed,  9 Oct 2019 17:08:01 +1100
+Message-Id: <20191009060818.29719-3-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191009041225.GF10750@xz-x1>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.88
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,64 +55,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com,
- Wei Yang <richardw.yang@linux.intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 12:12:25PM +0800, Peter Xu wrote:
->On Wed, Oct 09, 2019 at 09:02:04AM +0800, Wei Yang wrote:
->> On Tue, Oct 08, 2019 at 05:40:46PM +0100, Dr. David Alan Gilbert wrote:
->> >* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> >> Currently, we set PostcopyState blindly to RUNNING, even we found the
->> >> previous state is not LISTENING. This will lead to a corner case.
->> >> 
->> >> First let's look at the code flow:
->> >> 
->> >> qemu_loadvm_state_main()
->> >>     ret = loadvm_process_command()
->> >>         loadvm_postcopy_handle_run()
->> >>             return -1;
->> >>     if (ret < 0) {
->> >>         if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING)
->> >>             ...
->> >>     }
->> >> 
->> >> From above snippet, the corner case is loadvm_postcopy_handle_run()
->> >> always sets state to RUNNING. And then it checks the previous state. If
->> >> the previous state is not LISTENING, it will return -1. But at this
->> >> moment, PostcopyState is already been set to RUNNING.
->> >> 
->> >> Then ret is checked in qemu_loadvm_state_main(), when it is -1
->> >> PostcopyState is checked. Current logic would pause postcopy and retry
->> >> if PostcopyState is RUNNING. This is not what we expect, because
->> >> postcopy is not active yet.
->> >> 
->> >> This patch makes sure state is set to RUNNING only previous state is
->> >> LISTENING by introducing an old_state parameter in postcopy_state_set().
->> >> New state only would be set when current state equals to old_state.
->> >> 
->> >> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->> >
->> >OK, it's a shame to use a pointer there, but it works.
->> 
->> You mean second parameter of postcopy_state_set()?
->> 
->> I don't have a better idea. Or we introduce a new state
->> POSTCOPY_INCOMING_NOCHECK. Do you feel better with this?
->
->Maybe simply fix loadvm_postcopy_handle_run() to set the state after
->the POSTCOPY_INCOMING_LISTENING check?
->
+From: Greg Kurz <groug@kaod.org>
 
-Set state back to ps if ps is not POSTCOPY_INCOMING_LISTENING?
+Some device types of the XICS model are exposed to the QEMU command
+line:
 
-Sounds like another option.
+$ ppc64-softmmu/qemu-system-ppc64 -device help | grep ic[sp]
+name "icp"
+name "ics"
+name "ics-spapr"
+name "pnv-icp", desc "PowerNV ICP"
 
+These are internal devices that shouldn't be instantiable by the
+user. By the way, they can't be because their respective realize
+functions expect link properties that can't be set from the command
+line:
 
--- 
-Wei Yang
-Help you, Help me
+qemu-system-ppc64: -device icp: required link 'xics' not found:
+ Property '.xics' not found
+qemu-system-ppc64: -device ics: required link 'xics' not found:
+ Property '.xics' not found
+qemu-system-ppc64: -device ics-spapr: required link 'xics' not found:
+ Property '.xics' not found
+qemu-system-ppc64: -device pnv-icp: required link 'xics' not found:
+ Property '.xics' not found
+
+Hide them by setting dc->user_creatable to false in the base class
+"icp" and "ics" init functions.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <157017826724.337875.14822177178282524024.stgit@bahia.lan>
+Message-Id: <157045578962.865784.8551555523533955113.stgit@bahia.lan>
+[dwg: Folded reason comment into base patch]
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/intc/xics.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index dfe7dbd254..b5ac408f7b 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -369,6 +369,11 @@ static void icp_class_init(ObjectClass *klass, void =
+*data)
+=20
+     dc->realize =3D icp_realize;
+     dc->unrealize =3D icp_unrealize;
++    /*
++     * Reason: part of XICS interrupt controller, needs to be wired up
++     * by icp_create().
++     */
++    dc->user_creatable =3D false;
+ }
+=20
+ static const TypeInfo icp_info =3D {
+@@ -689,6 +694,11 @@ static void ics_class_init(ObjectClass *klass, void =
+*data)
+     dc->props =3D ics_properties;
+     dc->reset =3D ics_reset;
+     dc->vmsd =3D &vmstate_ics;
++    /*
++     * Reason: part of XICS interrupt controller, needs to be wired up,
++     * e.g. by spapr_irq_init().
++     */
++    dc->user_creatable =3D false;
+ }
+=20
+ static const TypeInfo ics_info =3D {
+--=20
+2.21.0
+
 
