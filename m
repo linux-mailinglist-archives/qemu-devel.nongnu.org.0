@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D75D198B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:27:46 +0200 (CEST)
-Received: from localhost ([::1]:56898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C208D1989
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:23:21 +0200 (CEST)
+Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIIYj-0002D7-4H
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33173)
+	id 1iIIUR-00055a-Fi
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iIFa8-0005he-RG
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:17:02 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iIFdP-0001K8-Nb
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:20:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iIFa6-0001lb-F7
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:17:00 -0400
-Received: from 6.mo178.mail-out.ovh.net ([46.105.53.132]:47062)
+ (envelope-from <stefanha@redhat.com>) id 1iIFdO-0003Ua-JG
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:20:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51402)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIFa5-0001jA-Au
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 13:16:58 -0400
-Received: from player738.ha.ovh.net (unknown [10.109.143.208])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 0BAF17B24E
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:16:54 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player738.ha.ovh.net (Postfix) with ESMTPSA id 67E4AAE53814;
- Wed,  9 Oct 2019 17:16:41 +0000 (UTC)
-Date: Wed, 9 Oct 2019 19:16:39 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v4 19/19] spapr: Work around spurious warnings from vfio
- INTx initialization
-Message-ID: <20191009191639.4055f811@bahia.lan>
-In-Reply-To: <20191009085259.GA5035@umbus.fritz.box>
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
- <20191009060818.29719-20-david@gibson.dropbear.id.au>
- <20191009103738.01bc146a@bahia.lan>
- <20191009085259.GA5035@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1iIFdJ-0003Rp-KQ; Wed, 09 Oct 2019 13:20:17 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DE659315C00D;
+ Wed,  9 Oct 2019 17:20:14 +0000 (UTC)
+Received: from localhost (ovpn-116-110.ams2.redhat.com [10.36.116.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C00815DA8C;
+ Wed,  9 Oct 2019 17:20:11 +0000 (UTC)
+Date: Wed, 9 Oct 2019 18:20:10 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Subject: Re: [RFC PATCH] virtio-blk: advertise F_WCE (F_FLUSH) if
+ F_CONFIG_WCE is also advertised
+Message-ID: <20191009172010.GC13568@stefanha-x1.localdomain>
+References: <1568980590-806043-1-git-send-email-wrfsh@yandex-team.ru>
+ <20191008132416.GA28104@stefanha-x1.localdomain>
+ <f7d2c01d-1676-f02c-e538-f924282eb6a5@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_//SDFP6flH=KkWGUDf0s+7ag";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Ovh-Tracer-Id: 1586955919533316582
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedriedugdekkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/e2eDi0V/xtL+Mc8"
+Content-Disposition: inline
+In-Reply-To: <f7d2c01d-1676-f02c-e538-f924282eb6a5@yandex-team.ru>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 09 Oct 2019 17:20:14 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.53.132
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,136 +61,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Jason Wang <jasowang@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- philmd@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, yc-core@yandex-team.ru,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_//SDFP6flH=KkWGUDf0s+7ag
-Content-Type: text/plain; charset=US-ASCII
+
+--/e2eDi0V/xtL+Mc8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 9 Oct 2019 19:52:59 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> On Wed, Oct 09, 2019 at 10:37:38AM +0200, Greg Kurz wrote:
-> > On Wed,  9 Oct 2019 17:08:18 +1100
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
+On Wed, Oct 09, 2019 at 03:37:35PM +0300, Evgeny Yakovlev wrote:
+> On 08.10.2019 16:24, Stefan Hajnoczi wrote:
+> > On Fri, Sep 20, 2019 at 02:56:30PM +0300, Evgeny Yakovlev wrote:
+> > The motivation for this change looks correct but this patch may cause
+> > host_features to change across live migration to a newer QEMU version.
+> > If the guest accesses VIRTIO_PCI_HOST_FEATURES before and after live
+> > migration it may see different values, which is unexpected.
 > >=20
-> > > Traditional PCI INTx for vfio devices can only perform well if using
-> > > an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
-> > > if an in kernel irqchip is not available.
+> > The safe way of introducing guest-visible changes like this is to make
+> > the change conditional on the machine type version so that old guests
+> > see old behavior and new guests see new behavior.
 > >=20
-> > Can you elaborate on what doesn't "perform well" without an
-> > in-kernel irqchip ?
->=20
-> Not really, no, but Alex Williamson tells me it is soo.
->=20
-> > Is it a matter of performance or is it
-> > actually broken or something else ?
->=20
-> I believe it's a matter of performance, but such a big one that it
-> makes using it without kernel irqchip infeasible in many cases.
->=20
-> > What is the impact on -machine accel=3Dkvm,kernel-irqchip=3Doff which
-> > always spit this warning ?
->=20
-> It should still spit that warning.
->=20
-
-Yeah of course it does, but it is expected that we cannot setup
-the irqfd since we deliberately don't have an in-kernel irqchip,
-isn't it ? Why spit a warning in this case ? Or is it just a not
-very user friendly way of saying "you will have poor performance
-if the VFIO device uses PCI INTx" ?
-
-> > > We usually do have an in-kernel irqchip available for pseries machines
-> > > on POWER hosts.  However, because the platform allows feature
-> > > negotiation of what interrupt controller model to use, we don't
-> > > currently initialize it until machine reset.  vfio_intx_update() is
-> > > called (first) from vfio_realize() before that, so it can issue a
-> > > spurious warning, even if we will have an in kernel irqchip by the
-> > > time we need it.
-> > >=20
-> > > To workaround this, make a call to spapr_irq_update_active_intc() from
-> > > spapr_irq_init() which is called at machine realize time, before the
-> > > vfio realize.  This call will be pretty much obsoleted by the later
-> > > call at reset time, but it serves to suppress the spurious warning
-> > > from VFIO.
-> > >=20
-> > > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > > Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-> > >=20
-> > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > ---
-> > >  hw/ppc/spapr_irq.c | 11 ++++++++++-
-> > >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > > index 7964e4a1b8..3aeb523f3e 100644
-> > > --- a/hw/ppc/spapr_irq.c
-> > > +++ b/hw/ppc/spapr_irq.c
-> > > @@ -274,6 +274,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Er=
-ror **errp)
-> > > =20
-> > >      spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
-> > >                                        smc->nr_xirqs + SPAPR_XIRQ_BAS=
-E);
-> > > +
-> > > +    /*
-> > > +     * Mostly we don't actually need this until reset, except that n=
-ot
-> > > +     * having this set up can cause VFIO devices to issue a
-> > > +     * false-positive warning during realize(), because they don't y=
-et
-> > > +     * have an in-kernel irq chip.
-> > > +     */
-> > > +    spapr_irq_update_active_intc(spapr);
-> > >  }
-> > > =20
-> > >  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Err=
-or **errp)
-> > > @@ -429,7 +437,8 @@ void spapr_irq_update_active_intc(SpaprMachineSta=
-te *spapr)
-> > >           * this.
-> > >           */
-> > >          new_intc =3D SPAPR_INTC(spapr->xive);
-> > > -    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-> > > +    } else if (spapr->ov5_cas
-> > > +               && spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT))=
- {
-> > >          new_intc =3D SPAPR_INTC(spapr->xive);
-> > >      } else {
-> > >          new_intc =3D SPAPR_INTC(spapr->ics);
+> > Live migration compatibility can be guaranteed by adding a new property
+> > to virtio_blk_properties[]:
 > >=20
+> >    DEFINE_PROP_BOOL("enable-wce-if-config-wce", VirtIOBlock,
+> >                     conf.enable_wce_if_config_wce, true),
+> >=20
+> > Then tweak the patch:
+> >=20
+> >    if (blk_enable_write_cache(s->blk) ||
+> >        (s->conf.enable_wce_if_config_wce &&
+> >         virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
+> >=20
+> > And finally disable enable_wce_if_config_wce for older machine types to
+> > retain compatibility:
+> >=20
+> >    GlobalProperty hw_compat_4_2[] =3D {
+> >        { "virtio-blk-device", "enable-wce-if-config-wce", "off" },
+> >    };
+> >=20
+> > (I have omitted some steps like defining
+> > VirtIOBlkConf.enable_wce_if_config_wce field and hooking up
+> > hw_compat_4_2[], but you can figure that out from the existing code.)
 >=20
+>=20
+> Why don't we just migrate host_features? That will ensure they are the sa=
+me.
+> And messing up device config on destination is bad anyway.
 
+Traditionally QEMU has not migrated host state/objects.  Instead it
+relies on the destination QEMU command-line producing exactly the same
+host state as on the source host.
 
---Sig_//SDFP6flH=KkWGUDf0s+7ag
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+A problem with migration host state is that it's impossible to offer
+host features that are unavailable on the destination host (they cannot
+be "migrated").
+
+Stefan
+
+--/e2eDi0V/xtL+Mc8
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2eFfcACgkQcdTV5YIv
-c9ZnJhAAsrS5hhsajvEAxfSWQcnWe+p1Ept5tSY4P/TgT8Rx9YtoT68JjE9nwjzJ
-O4TqMb73DPOjwekTVMSibOAXjeL9JGRbkXYw0W122qDIFS7BVyNz1jTwUIWbR++Z
-NKzdVQzghTQqdX12oR+u6D+oqYAf87wAcN71lycldFSef4/RjBYGirNQXEJ+Na9w
-FnMlH0rjPDsX4PALaqp51fLlV/x1VwKf5ZSaCKzS26ICuwB4oSEPcIDI23Jjy/CB
-qdcyPC7IdjI06FVkUYRE6JOpEz/uqnwS9/J+coqnrGJEsMxMGa/gSDDzH3KKB7Of
-rxVPVm0kvBePXY9QGeqS+2LdXyOyuNhkOEZtrW/2+3dYoOtgQ7BzUirLfRrZXb4r
-XtykeuYgOABAeoLq7xnS2nJ8RNMlZt5jHDSAhMbOKtPSd8g6TOAJxVvwTXEt7Zzu
-9p9Whz+rQpPxj52SD+lvGh2REH6NfGQtv8/P+AUAaVKO0RYQ5olWsR0ygqYwTpFV
-7K7QdkIWSlfnTWPaByZzbG0oYclEZ7rgw996mZ1ZuOiukYRUTAzovF4VfRL41tFu
-T2SOU8W63/DjR0KaiKorxgzoLK94/8TQXTZzcMW7ES90k4ET5dQ0cizbyWkZD6Om
-IV80/WGYbiRWe4q45DfrmyDD5dX9nUy8+3zy/ydXVULVLC5NYR4=
-=kKFx
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2eFsoACgkQnKSrs4Gr
+c8jPpwf/eXvpKxHnLXmJOBBG27Zx0upI63OMv5bLd6D7QOB8xxUG5VWAMCWKXMMw
+iYoqgc4JCG+pWwYvmjDXNbh2yMhoYA1hDJ8SPMeINJ/9OAVB0sCWlwds0cE1U19h
+xm4MO7BZO/BmCP2vIDQqaRSENmD8o4vncNrfHWtpadPrnhXDWZPEDhGGPsf+LEBh
+pApOfigZ74x5CcbAftyWt1I+ufWWrVeZsVsseKsp7/I6SZqo5U1CwRQoRQXa16a4
+LeVx6jnBN1FxVcNNNWRerJOxC2REzWtqwMEriXlxAN31D0xPtNv77WeA1/Y9L8bx
+EAnugkRQyY2XpxYk8hxDGpc7YIL8Vw==
+=T3v7
 -----END PGP SIGNATURE-----
 
---Sig_//SDFP6flH=KkWGUDf0s+7ag--
+--/e2eDi0V/xtL+Mc8--
 
