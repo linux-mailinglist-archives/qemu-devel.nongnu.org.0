@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0600D1AF0
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:29:48 +0200 (CEST)
-Received: from localhost ([::1]:58912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A867BD1AC9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:21:59 +0200 (CEST)
+Received: from localhost ([::1]:58626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJWl-0007Ix-9O
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50001)
+	id 1iIJPC-00076r-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ganeshgr@linux.ibm.com>) id 1iI7zU-0002fR-1K
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:41 -0400
+ (envelope-from <mst@redhat.com>) id 1iIHX4-0005sO-By
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:22:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ganeshgr@linux.ibm.com>) id 1iI7zS-0004Ex-Tb
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21492
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
- id 1iI7zS-0004ER-O7
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:38 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9997x6B120680
- for <qemu-devel@nongnu.org>; Wed, 9 Oct 2019 05:10:35 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vha4cn55v-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 05:10:34 -0400
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
- Wed, 9 Oct 2019 10:10:32 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 9 Oct 2019 10:10:29 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x999ASWi35127404
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Oct 2019 09:10:28 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6ADDFA405B;
- Wed,  9 Oct 2019 09:10:28 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA1BFA4060;
- Wed,  9 Oct 2019 09:10:24 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.199.35.233])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  9 Oct 2019 09:10:24 +0000 (GMT)
-From: Ganesh Goudar <ganeshgr@linux.ibm.com>
-To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
-Subject: [PATCH v15 0/7] target-ppc/spapr: Add FWNMI support in QEMU for
- PowerKVM guests
-Date: Wed,  9 Oct 2019 14:40:03 +0530
-X-Mailer: git-send-email 2.17.2
-X-TM-AS-GCONF: 00
-x-cbid: 19100909-0008-0000-0000-0000032061DD
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100909-0009-0000-0000-00004A3F65B3
-Message-Id: <20191009091010.16467-1-ganeshgr@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-09_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=718 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910090087
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
-X-Mailman-Approved-At: Wed, 09 Oct 2019 16:05:28 -0400
+ (envelope-from <mst@redhat.com>) id 1iIHX1-0000Mq-RA
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:21:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38178)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHX1-0000MW-Ga
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:21:55 -0400
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6902DC004E8D
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:21:54 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id t25so3174695qtq.9
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:21:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=N4uoZzBO5CnLv2KeKzzKQ6kDn9fOIMaU+y41RB4s4N8=;
+ b=sdSFA9xTGHB9ItVtINZI3WXY0LL0DPT4sw3ZLbejw9PI4mQL/xvzyxNwcKC9aAm5DE
+ k6bkn5i1H+BBXpeXKqXi3sojjS/dOL1czed5zsGvg8D+Ymy47vqTq4FSiKr0Pf6fuaTx
+ TCiHNJ+Rv9Nf8iiba2M+6ZoQGRZBaWfe9IA1hrxEEqyZ4KBtr+523e7gwZW9VARdEGUI
+ 5XRfci1nmKq2/CQQdVhZAgiXSZo+J5gAinVxyPCkKYnTG5sBwZYCvZ4tXa1yF4w6TzJI
+ ARgr4OrX3yzA057bWlDrGY/6brBnu/xyfA6rOU5X1vc2z9X2JtkL1WfUdAvRw/el6WuM
+ YAYw==
+X-Gm-Message-State: APjAAAXtlbfqlt6TqL7oIihbwoB8+gA2qli2O1Oxw/67M8sNry5+sTAg
+ jbZHVvtgUeNNiLnK+d5Z4P7ZGuMkJ1YFnTfhktQKtvNoxw6tVZ126+stY5zRC7rLlu/RzluPjNS
+ Ct/qkTAFe56pJqwI=
+X-Received: by 2002:a0c:e7ce:: with SMTP id c14mr5476328qvo.187.1570648913611; 
+ Wed, 09 Oct 2019 12:21:53 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwkvQpCrwdSHtlAWwP5YFhdUvotYDlsA2lLLkGUSSPkg/hH8B/J/GEHhS7mmHYYBlMmWmkokw==
+X-Received: by 2002:a0c:e7ce:: with SMTP id c14mr5476309qvo.187.1570648913277; 
+ Wed, 09 Oct 2019 12:21:53 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ 131sm1402754qkg.1.2019.10.09.12.21.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2019 12:21:52 -0700 (PDT)
+Date: Wed, 9 Oct 2019 15:21:46 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH v6 00/10] Introduce the microvm machine type
+Message-ID: <20191009152109-mutt-send-email-mst@kernel.org>
+References: <20191004093752.16564-1-slp@redhat.com>
+ <20191005180721-mutt-send-email-mst@kernel.org>
+ <87sgo4oek7.fsf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <87sgo4oek7.fsf@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,87 +80,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, arawinda.p@gmail.com,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, groug@kaod.org
+Cc: ehabkost@redhat.com, lersek@redhat.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch set adds support for FWNMI in PowerKVM guests.
+On Mon, Oct 07, 2019 at 03:44:40PM +0200, Sergio Lopez wrote:
+>=20
+> Michael S. Tsirkin <mst@redhat.com> writes:
+>=20
+> > On Fri, Oct 04, 2019 at 11:37:42AM +0200, Sergio Lopez wrote:
+> >> Microvm is a machine type inspired by Firecracker and constructed
+> >> after the its machine model.
+> >>=20
+> >> It's a minimalist machine type without PCI nor ACPI support, designe=
+d
+> >> for short-lived guests. Microvm also establishes a baseline for
+> >> benchmarking and optimizing both QEMU and guest operating systems,
+> >> since it is optimized for both boot time and footprint.
+> >
+> > Pls take a look at patchew warnings and errors.
+> > Both coding style issues and test failures need to be
+> > addressed somehow I think.
+>=20
+> I've fixed the issue with the test suite, but I'm not sure what to do
+> about the coding style errors. Every one of them (except perhaps one at
+> xen-hvm.c) comes from code I've moved from pc.c to x86.c. I'd say fixin=
+g
+> those are outside the scope of the corresponding patches, but please
+> correct me if I'm wrong.
 
-System errors such as SLB multihit and memory errors
-that cannot be corrected by hardware is passed on to
-the kernel for handling by raising machine check
-exception (an NMI). Upon such machine check exceptions,
-if the address in error belongs to guest then KVM
-invokes guests' 0x200 interrupt vector if the guest
-is not FWNMI capable. For FWNMI capable guest
-KVM passes the control to QEMU by exiting the guest.
+Yea if you refactor code you have to kick it into shape
+at the same time. Can be a separate patch to ease review.
 
-This patch series adds functionality to QEMU to pass
-on such machine check exceptions to the FWNMI capable
-guest kernel by building an error log and invoking
-the guest registered machine check handling routine.
+> On the other hand, I haven't touched MAINTAINERS, because I'm not sure
+> about the actual policies that apply while doing so. Should I add the
+> new files to it?
+>=20
+> Thanks,
+> Sergio.
+>=20
+> >> ---
+> >>=20
+> >> Changelog
+> >> v6:
+> >>  - Some style fixes (Philippe Mathieu-Daud=E9)
+> >>  - Fix a documentation bug stating that LAPIC was in userspace (Paol=
+o
+> >>    Bonzini)
+> >>  - Update Xen HVM code after X86MachineState introduction (Philippe
+> >>    Mathieu-Daud=E9)
+> >>  - Rename header guard from QEMU_VIRTIO_MMIO_H to HW_VIRTIO_MMIO_H
+> >>    (Philippe Mathieu-Daud=E9)
+> >>=20
+> >> v5:
+> >>  - Drop unneeded "[PATCH v4 2/8] hw/i386: Factorize e820 related
+> >>    functions" (Philippe Mathieu-Daud=E9)
+> >>  - Drop unneeded "[PATCH v4 1/8] hw/i386: Factorize PVH related
+> >>    functions" (Stefano Garzarella)
+> >>  - Split X86MachineState introduction into smaller patches (Philippe
+> >>    Mathieu-Daud=E9)
+> >>  - Change option-roms to x-option-roms and kernel-cmdline to
+> >>    auto-kernel-cmdline (Paolo Bonzini)
+> >>  - Make i8259 PIT and i8254 PIC optional (Paolo Bonzini)
+> >>  - Some fixes to the documentation (Paolo Bonzini)
+> >>  - Switch documentation format from txt to rst (Peter Maydell)
+> >>  - Move NMI interface to X86_MACHINE (Philippe Mathieu-Daud=E9, Paol=
+o
+> >>    Bonzini)
+> >>=20
+> >> v4:
+> >>  - This is a complete rewrite of the whole patchset, with a focus on
+> >>    reusing as much existing code as possible to ease the maintenance=
+ burden
+> >>    and making the machine type as compatible as possible by default.=
+ As
+> >>    a result, the number of lines dedicated specifically to microvm i=
+s
+> >>    383 (code lines measured by "cloc") and, with the default
+> >>    configuration, it's now able to boot both PVH ELF images and
+> >>    bzImages with either SeaBIOS or qboot.
+> >>=20
+> >> v3:
+> >>   - Add initrd support (thanks Stefano).
+> >>=20
+> >> v2:
+> >>   - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
+> >>   - Simplify machine definition (thanks Eduardo).
+> >>   - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
+> >>   - Add a patch to factorize PVH-related functions.
+> >>   - Replace use of Linux's Zero Page with PVH (thanks Maran and Paol=
+o).
+> >>=20
+> >> ---
+> >> Sergio Lopez (10):
+> >>   hw/virtio: Factorize virtio-mmio headers
+> >>   hw/i386/pc: rename functions shared with non-PC machines
+> >>   hw/i386/pc: move shared x86 functions to x86.c and export them
+> >>   hw/i386: split PCMachineState deriving X86MachineState from it
+> >>   hw/i386: make x86.c independent from PCMachineState
+> >>   fw_cfg: add "modify" functions for all types
+> >>   hw/intc/apic: reject pic ints if isa_pic =3D=3D NULL
+> >>   roms: add microvm-bios (qboot) as binary and git submodule
+> >>   docs/microvm.rst: document the new microvm machine type
+> >>   hw/i386: Introduce the microvm machine type
+> >>=20
+> >>  docs/microvm.rst                 |  98 ++++
+> >>  default-configs/i386-softmmu.mak |   1 +
+> >>  include/hw/i386/microvm.h        |  83 ++++
+> >>  include/hw/i386/pc.h             |  28 +-
+> >>  include/hw/i386/x86.h            |  94 ++++
+> >>  include/hw/nvram/fw_cfg.h        |  42 ++
+> >>  include/hw/virtio/virtio-mmio.h  |  73 +++
+> >>  hw/acpi/cpu_hotplug.c            |  10 +-
+> >>  hw/i386/acpi-build.c             |  29 +-
+> >>  hw/i386/amd_iommu.c              |   3 +-
+> >>  hw/i386/intel_iommu.c            |   3 +-
+> >>  hw/i386/microvm.c                | 574 ++++++++++++++++++++++
+> >>  hw/i386/pc.c                     | 780 +++-------------------------=
+--
+> >>  hw/i386/pc_piix.c                |  46 +-
+> >>  hw/i386/pc_q35.c                 |  38 +-
+> >>  hw/i386/pc_sysfw.c               |  58 +--
+> >>  hw/i386/x86.c                    | 790 ++++++++++++++++++++++++++++=
++++
+> >>  hw/i386/xen/xen-hvm.c            |  23 +-
+> >>  hw/intc/apic.c                   |   2 +-
+> >>  hw/intc/ioapic.c                 |   2 +-
+> >>  hw/nvram/fw_cfg.c                |  29 ++
+> >>  hw/virtio/virtio-mmio.c          |  48 +-
+> >>  .gitmodules                      |   3 +
+> >>  hw/i386/Kconfig                  |   4 +
+> >>  hw/i386/Makefile.objs            |   2 +
+> >>  pc-bios/bios-microvm.bin         | Bin 0 -> 65536 bytes
+> >>  roms/Makefile                    |   6 +
+> >>  roms/qboot                       |   1 +
+> >>  28 files changed, 1963 insertions(+), 907 deletions(-)
+> >>  create mode 100644 docs/microvm.rst
+> >>  create mode 100644 include/hw/i386/microvm.h
+> >>  create mode 100644 include/hw/i386/x86.h
+> >>  create mode 100644 include/hw/virtio/virtio-mmio.h
+> >>  create mode 100644 hw/i386/microvm.c
+> >>  create mode 100644 hw/i386/x86.c
+> >>  create mode 100755 pc-bios/bios-microvm.bin
+> >>  create mode 160000 roms/qboot
+> >>=20
+> >> --=20
+> >> 2.21.0
+>=20
 
-The KVM changes are now part of the upstream kernel
-(commit e20bbd3d). This series contain QEMU changes.
-
-Change Log v15:
-  - Removed cap_ppc_fwnmi
-  - Moved fwnmi registeration to .apply hook
-  - Assume SLOF has allocated enough room for rtas error log
-  - Using ARRAY_SIZE to end the loop
-  - Do not set FWNMI cap in post_load, now its done in .apply hook
-
-Change Log v14:
-  - Feature activation moved to a separate patch
-  - Fixed issues with migration blocker
-
-Change Log v13:
-  - Minor fixes (mostly nits)
-  - Moved FWNMI guest registration check from patch 4 to 3.
-
-Change Log v12:
-  - Rebased to latest ppc-for-4.2 (SHA b1e8156743)
-
-Change Log v11:
-  - Moved FWNMI SPAPR cap defaults to 4.2 class option
-  - Fixed issues with handling fwnmi KVM capability
-
-Change Log v10:
-  - Reshuffled the patch sequence + minor fixes
-
-Change Log v9:
-  - Fixed kvm cap and spapr cap issues
-
-Change Log v8:
-  - Added functionality to check FWNMI capability during
-    VM migration
-
----
-
-Aravinda Prasad (7):
-  Wrapper function to wait on condition for the main loop mutex
-  ppc: spapr: Introduce FWNMI capability
-  target/ppc: Handle NMI guest exit
-  target/ppc: Build rtas error log upon an MCE
-  ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS
-    calls
-  migration: Include migration support for machine check handling
-  ppc: spapr: Activate the FWNMI functionality
-
- cpus.c                   |   5 +
- hw/ppc/spapr.c           |  51 ++++++++
- hw/ppc/spapr_caps.c      |  34 +++++
- hw/ppc/spapr_events.c    | 269 +++++++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_rtas.c      |  85 +++++++++++++
- include/hw/ppc/spapr.h   |  25 +++-
- include/qemu/main-loop.h |   8 ++
- target/ppc/kvm.c         |  24 ++++
- target/ppc/kvm_ppc.h     |   8 ++
- target/ppc/trace-events  |   1 +
- 10 files changed, 508 insertions(+), 2 deletions(-)
-
--- 
-2.17.2
 
 
