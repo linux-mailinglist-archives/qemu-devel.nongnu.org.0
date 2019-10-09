@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3715D1791
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:29:42 +0200 (CEST)
-Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F76D179A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:36:08 +0200 (CEST)
+Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGiS-0007bH-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59953)
+	id 1iIGoh-0006Vf-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <flukshun@gmail.com>) id 1iICmZ-0000Yb-Qb
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:17:41 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iIAUG-0001mh-NU
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:50:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <flukshun@gmail.com>) id 1iICmX-0005Cc-U1
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:17:39 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41303)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <flukshun@gmail.com>)
- id 1iICmX-0005CA-KU; Wed, 09 Oct 2019 10:17:37 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w65so1867268oiw.8;
- Wed, 09 Oct 2019 07:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=bX6N+owBJLlE+ZvXbQpkuPrJh3QN8kTTEqzEG5sCiIg=;
- b=uSti2IEyVqipwpkftiJqbV1pju3CKelx46hDl6ruH9fNQSZ4zcxsnQkrmDorjr0V0E
- XBtLbjO9Ajg+SxyACLeQ8AEzYfUUDdkIWp5iPhPYKkiG2ZJH3+jM3fXihXzaGHuFd7x/
- OYZd5Dz5GIRCOAhYPJmu4e6nGT79msoWXFhkXExAqsGShh51VfGV9jlpI2ywrdmmju1A
- yWecukC502PTWzA9AuEU59OUKjjN/VNw4Ny4tVYidIbxVJIIkFqH9fwQHei6BjWg5a0o
- zXcosnjP0OMSp/+b5QrFJXguMFq+jqVdENfqlu9NZZ3s2TK0uaSfKQHxa1ntvNrhuh6t
- bPOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=bX6N+owBJLlE+ZvXbQpkuPrJh3QN8kTTEqzEG5sCiIg=;
- b=eXwgvqB4b26Rgji8D0wtdNBKpnXZ3hIxHkLvprh/3oxbVYdHAJ0bLD8AMzvP0dLocD
- peRWjAbaQXqFsIVbsIKfIaaDSmgIER47nS/+JzgGvO3In71mmo3orvTUsTYSgyt7HvRA
- cMBOHk2x4VU2/dCCDzUAysIcP9cleRjQD44r9CvwXRUjebKdBcH9xxxy3j5KedWZx4tV
- 6ceXigpMvrbeBH0kyVtLZ1Q7sSJOLnledpw13oGt08116COn2tBpRn9zVRiNq4/BBTfb
- XIOcoD0VEAVI67qIlIXJY8RRATVtieAEkiy0eRslA7UtLNtgmNVTLHVIk+26arnb5IN7
- MWgQ==
-X-Gm-Message-State: APjAAAUUmqo1x268QOTkUeNTLJh1L/TUBErAW5HwKmvI6OV+97ytXvrF
- mlc0ouSM44twgj8gXeldhFk=
-X-Google-Smtp-Source: APXvYqw1JjFLL3R8VZpGk7v/eimtvX1bNXekF7Fe+WIV6xsC24eWSmz12JzfiMvPmE1dwcmIfwFjzg==
-X-Received: by 2002:aca:5c06:: with SMTP id q6mr2529800oib.175.1570630655088; 
- Wed, 09 Oct 2019 07:17:35 -0700 (PDT)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 109sm703819otc.52.2019.10.09.07.17.33
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 09 Oct 2019 07:17:33 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <dgibson@ozlabs.org>) id 1iIAUE-0005qO-VL
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:50:36 -0400
+Received: from ozlabs.org ([203.11.71.1]:59351)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iIAUC-0005pU-MX; Wed, 09 Oct 2019 07:50:34 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46pCFt5fPPz9sDQ; Wed,  9 Oct 2019 22:50:26 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570621826;
+ bh=JXWc6a/C+W21ABulzleeiUgqp48sc/AIJaxqxu3aXKQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XBagI/iIYBCQgDrssy+Aav0cxsi3jghekOXFBz1gHk9ZKXu5y9uiDQ43oVzk6pEsT
+ fqK2RiBFLDVykBw+LqBE361Fn/dhaJYTdS+57QWUTNs7rVKpyQeRfq6/Mr9QRxKRjl
+ heP8kn3IqAXkD7iFFz1mB1OFVacGW/WiFEF2XphY=
+Date: Wed, 9 Oct 2019 22:38:12 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v4 07/19] spapr: Formalize notion of active interrupt
+ controller
+Message-ID: <20191009113812.GG5035@umbus.fritz.box>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ <20191009060818.29719-8-david@gibson.dropbear.id.au>
+ <62e5263d-be23-bd45-51eb-c13853341844@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <78c46a05-76eb-ccec-df4d-103bee7c2760@redhat.com>
-References: <20191001234616.7825-1-mdroth@linux.vnet.ibm.com>
- <78c46a05-76eb-ccec-df4d-103bee7c2760@redhat.com>
-Message-ID: <157063064956.3717.12528742598919174752@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH 00/97] Patch Round-up for stable 4.0.1,
- freeze on 2019-10-10
-Date: Wed, 09 Oct 2019 09:17:29 -0500
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FwyhczKCDPOVeYh6"
+Content-Disposition: inline
+In-Reply-To: <62e5263d-be23-bd45-51eb-c13853341844@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,61 +58,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Philippe Mathieu-Daud=C3=A9 (2019-10-08 08:04:52)
-> Hi Michael,
-> =
 
-> On 10/2/19 1:44 AM, Michael Roth wrote:
-> > Hi everyone,
-> > =
+--FwyhczKCDPOVeYh6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > The following new patches are queued for QEMU stable v4.0.1:
-> > =
+On Wed, Oct 09, 2019 at 11:19:26AM +0200, C=E9dric Le Goater wrote:
+> On 09/10/2019 08:08, David Gibson wrote:
+> > spapr now has the mechanism of constructing both XICS and XIVE instance=
+s of
+> > the SpaprInterruptController interface.  However, only one of the inter=
+rupt
+> > controllers will actually be active at any given time, depending on fea=
+ture
+> > negotiation with the guest.  This is handled in the current code via
+> > spapr_irq_current() which checks the OV5 vector from feature negotiatio=
+n to
+> > determine the current backend.
+> >=20
+> > Determining the active controller at the point we need it like this
+> > can be pretty confusing, because it makes it very non obvious at what
+> > points the active controller can change.  This can make it difficult
+> > to reason about the code and where a change of active controller could
+> > appear in sequence with other events.
+> >=20
+> > Make this mechanism more explicit by adding an 'active_intc' pointer
+> > and an explicit spapr_irq_update_active_intc() function to update it
+> > from the CAS state.  We also add hooks on the intc backend which will
+> > get called when it is activated or deactivated.
+> >=20
+> > For now we just introduce the switch and hooks, later patches will
+> > actually start using them.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> Btw, we will need an extra xive2 pointer for the Power10 interrupt=20
+> controller.
 
-> >    https://github.com/mdroth/qemu/commits/stable-4.0-staging
-> > =
+Yeah, I figured.  I think it should be easier to add more irq backends
+with the new structure.
 
-> > The release is planned for 2019-10-17:
-> > =
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> >    https://wiki.qemu.org/Planning/4.0
-> > =
+--FwyhczKCDPOVeYh6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > Please respond here or CC qemu-stable@nongnu.org on any patches you
-> > think should be included in the release.
-> =
+-----BEGIN PGP SIGNATURE-----
 
-> Since it is a "release", these probably fit:
-> =
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2dxqIACgkQbDjKyiDZ
+s5KJCQ//Si6erEyBps7otNwC0+DRu8z3A5wWvoeJ62qMvfXk4Z3HiGPhsTZ+nb1Q
+n8DcGVRPIRUG5Ovk3Vy4BXkG9jhYRinLRJdYJZd+LhpWG3eIQ4e/rnYTiYHggJSb
+7m2iURQBNGlFMMwf0f8VqQEIH89sdXz4RMoT0zLB3ucKIF+4LyYp8rJLfhGXbDnT
+O88JbtgIWEeEjZhM24RHpDSZ3DhMCiFbv3emLPRN44tVK98NJjOxi6TXkE0+bcIt
+O1LKiaMA8iJPGSipQpevBiUllJjRARsi22Z+VPMJV06meNGRlsczbAiAqmHH3MFH
+nx7/lMgW7lBQDmdeeWgAXjwQcpLSInG6MaTaBLb5dyP6Pdrff18s2rZkG6lGkpru
+7NiwJRu7d9CY+k3jgV42enPxgW9RTMhC7uY91gWGkidjVFUGHFH0f3HwqxAVzUHP
+xUuDG+royzumNupsIgx9O3M2SPSMFmwkKYs1EtQYLBs2xnRK+JoY75M9vLYhAhnr
+xBAgPrLp0rST6VglHsErxjD0eahKnXpO9m88bXxlL+QYSWHDqqI0WNlOtdN5KUMX
+HSpCQqN6ysmM91vUZmUz4l3TnGbUJr4kAYsD4ylwgJAU4spqiK6o+W4Wo9IcfreB
+2eN3YRRgVwvlmQkP6KI5HYKINnOriDz+TBPf0/hxBqT6XmWKErs=
+=/8G8
+-----END PGP SIGNATURE-----
 
-> commit 45c61c6c23918e3b05ed9ecac5b2328ebae5f774
-> Author: Michael Roth <mdroth@linux.vnet.ibm.com>
-> Date:   Thu Sep 12 18:12:01 2019 -0500
-> =
-
->      make-release: pull in edk2 submodules so we can build it from tarbal=
-ls
-> =
-
-> commit f3e330e3c319160ac04954399b5a10afc965098c
-> Author: Michael Roth <mdroth@linux.vnet.ibm.com>
-> Date:   Thu Sep 12 18:12:02 2019 -0500
-> =
-
->      roms/Makefile.edk2: don't pull in submodules when building from tarb=
-all
-> =
-
-> When is the next qemu-stable release scheduled? Do we care about Python2 =
-
-> use for this one?
-
-4.1.1, likely early November during 4.2 hard-freeze. I think Python2 is okay
-since presumably downstreams would've crossed that bridge with 4.1.0, assum=
-ing
-you're thinking of the changes in your recent edk2 pull.
+--FwyhczKCDPOVeYh6--
 
