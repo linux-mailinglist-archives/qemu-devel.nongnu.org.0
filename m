@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769CED1387
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:04:08 +0200 (CEST)
-Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5DDD1395
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:07:41 +0200 (CEST)
+Received: from localhost ([::1]:51962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIERb-0002dT-8t
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:04:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
+	id 1iIEV2-0005rD-0Q
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iI1ta-0001lf-Sa
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:40:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iI1tQ-0001hy-NR
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:40:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iI1F2-0004Kj-ER
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:58:17 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:35401)
+ (envelope-from <richard.henderson@linaro.org>) id 1iI1JF-0000NW-IA
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:02:38 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:33982)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iI1F2-0004HR-5z
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:58:16 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id r134so244061ywg.2
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 18:58:12 -0700 (PDT)
+ id 1iI1JF-0000NN-CG
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:02:37 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id m1so225765ybm.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 19:02:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kLjxtmfzmglbrExGmBtYEiAkfZ47H/12eqRlwI8tbCc=;
- b=aOTlWRPj9JfFxjNmQkAzGOri1pg9kxaaxnV7jotbDhH258Xs0H6rFja7AVOxACnG/h
- 0Apx4KPMF6xPIBmfzzDQpVFaE+WuvA9n62AfyJ8hA4Rp2h26O85AdXiWXBCPzqrJfe/1
- 2XnRHw32GhuJuEpfvtm4RqzzgUGAJo+7m8cz5m0lvib7200ezhUOijGcL36RW7LznZwt
- pDy20wK5CBov+5comGRtPRr3D5lv8wasEg7UAtHdOWtwg8Q5lArs6YNJAono7oh4p5Bn
- yK3n5cLkEoigUvyow7sEGftCRG3wFg1rOJEzj+cYfVH50sWGkT6G8YcGEW2n/kM5Y+11
- Jh+g==
+ bh=QpMRAGzqyaKVSZ/WsucxIHXQWGc+xR6gtPuc7Rlbolg=;
+ b=L3MjuNlgOJOkQVn3AvLDwrMN39qiriqpRbt8s11ROImBWeBQ5CtnUTQ/2n/zvd4dNt
+ MvOZYyMDhq677B1uy8r6Ka2BXGQZzgjW0sEQ76dJ9WMMp9qypsaFKVT/F8zwsLoMGWlm
+ 6Znz7Nu+kD+828cR6ki1LO03stwF3Lbz6vbifoCaxpwmmgIHdH1/AXtY3xUOxn8w5kBg
+ lkRDchbm9BFrQH+XW7MMnMK+LTYklQu1xh9N0i4vLxM0pZdWFfStaw/W2q66X+FqeLay
+ 5FX/UI1qEfRl+qaTJ/Z8LBGEMpRzseakelCvr7m6DsDWFtS7dohUWS/DXDPY1YPhGudJ
+ 4/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kLjxtmfzmglbrExGmBtYEiAkfZ47H/12eqRlwI8tbCc=;
- b=KVeIheAheL15xzuKcqv/3dh1skUV6pxppx4cJWwklIMRdCthiqmeT+QbplpxlgGIs3
- kge0LhIRQye4AaDQCdn9OqnS9fVpKyxrDKBO8rKPlieKNPi+fQekyuI8VGu8fYv5wzaa
- rcVNL+wx71kflSeD23LEE3Suoz5CPCvqwkeWVhTDt6KPQFJkg6S01u+EndsTMhP1Gl5H
- OpxxYpC8fNayqWTjb7E+9fDZ3dW6qJVpXN/3XNtJ8Na1lm4jP8OlM1BfoFWaxq+fZhTL
- 20gsGwk0iao7lVIfGRWAJ7CCQ/9j/5mSnAaV6CAoQgKeAZriq4t8eAfRRk0vIiw9lt7q
- kN9Q==
-X-Gm-Message-State: APjAAAXZ9TDTefMskFVoD12gLLUckZtBgL8V3XblN33RkWnIhBcBU89o
- oZZJd7M9qGwYKHoQYf6dGuwmAg==
-X-Google-Smtp-Source: APXvYqzFI1VvsRtVvUPnva/rb39nYKPgi8Kh/lkfSP8xdp3xGF6mlfeK8rFR6RxveuUptCW0S7XErQ==
-X-Received: by 2002:a81:784e:: with SMTP id t75mr1067252ywc.328.1570586291821; 
- Tue, 08 Oct 2019 18:58:11 -0700 (PDT)
+ bh=QpMRAGzqyaKVSZ/WsucxIHXQWGc+xR6gtPuc7Rlbolg=;
+ b=dFwvvTrm3vAmnZrHmPysiEyIaUQQuhFq8i9xm7OlD53CuYugv/4YurKTH/au4c/VQ+
+ UXb4qmmzqEq4ux870ThtuS273ht9nXs+yqZpd648WPNrvtF3n7H5EHQiN+agG0BhzmSm
+ a3JcE1+AiMsagYJggM3rYJS1uamzMtL9q2Ad5Ubc7eR3CMLD8LlhJRRmeaNDs1YPX/Jb
+ Jfll4mlhru+tx2loreSN/GCEV98gym9iRyBHWvJOwFZNO1n3G+YgefyJF8h4CikVaTd7
+ usaZxWNOch1foHjdlSF8VwC2HMsSSGjEZHbWn82R6xKAUunloa1dS6Aujf6ayFDoMK5/
+ djmQ==
+X-Gm-Message-State: APjAAAUDHnz057NsYrF3COLunMHPneIVyVLuuLZnVQvmGL1YhN8BIY71
+ XUWdFCTBlplTbgFu+ahJZp3GJw==
+X-Google-Smtp-Source: APXvYqxbHIA+rTBgzfZwJk9dzEbz73E9ouPc1Q1Xlk3oZsXHK9NlIJm5AngJNVLOWJRwlszqIiXK3Q==
+X-Received: by 2002:a25:9947:: with SMTP id n7mr479699ybo.263.1570586556693;
+ Tue, 08 Oct 2019 19:02:36 -0700 (PDT)
 Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
- by smtp.gmail.com with ESMTPSA id e82sm254783ywc.43.2019.10.08.18.58.10
+ by smtp.gmail.com with ESMTPSA id b73sm227571ywe.35.2019.10.08.19.02.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 08 Oct 2019 18:58:11 -0700 (PDT)
-Subject: Re: [PATCH v2 11/21] hw/timer/exynos4210_mct.c: Switch GFRC to
- transaction-based ptimer API
-From: Richard Henderson <richard.henderson@linaro.org>
+ Tue, 08 Oct 2019 19:02:36 -0700 (PDT)
+Subject: Re: [PATCH v2 16/21] hw/timer/exynos4210_rtc.c: Switch main ptimer to
+ transaction-based API
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20191008171740.9679-1-peter.maydell@linaro.org>
- <20191008171740.9679-12-peter.maydell@linaro.org>
- <09f5a1b0-8750-eaa4-c6a3-c395ded3167c@linaro.org>
+ <20191008171740.9679-17-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <4fb18f38-eef3-281b-f414-d257e3dfa2b1@linaro.org>
-Date: Tue, 8 Oct 2019 21:58:08 -0400
+Message-ID: <ffd005c7-62b1-b2b1-fcac-a157afff7533@linaro.org>
+Date: Tue, 8 Oct 2019 22:02:05 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <09f5a1b0-8750-eaa4-c6a3-c395ded3167c@linaro.org>
+In-Reply-To: <20191008171740.9679-17-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
+X-Received-From: 2607:f8b0:4864:20::b41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,23 +90,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/19 9:56 PM, Richard Henderson wrote:
-> On 10/8/19 1:17 PM, Peter Maydell wrote:
->> @@ -945,7 +977,7 @@ static void exynos4210_mct_update_freq(Exynos4210MCTState *s)
->>          DPRINTF("freq=%dHz\n", s->freq);
->>  
->>          /* global timer */
->> -        ptimer_set_freq(s->g_timer.ptimer_frc, s->freq);
->> +        tx_ptimer_set_freq(s->g_timer.ptimer_frc, s->freq);
->>  
->>          /* local timer */
->>          ptimer_set_freq(s->l_timer[0].tick_timer.ptimer_tick, s->freq);
+On 10/8/19 1:17 PM, Peter Maydell wrote:
+> Switch the exynos41210_rtc main ptimer over to the transaction-based
+> API, completing the transition for this device.
 > 
-> Failed to update them all, it would appear.
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/timer/exynos4210_rtc.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 
-Ho hum.  Done in a subsequent patch.
-I didn't realize that you weren't converting the entire file at once.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
