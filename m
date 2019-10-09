@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64849D17C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:51:15 +0200 (CEST)
-Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A68D17D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:54:25 +0200 (CEST)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIH3I-00046i-01
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56965)
+	id 1iIH6N-0000FH-A6
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iICLc-0005yV-EF
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:49:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iICNV-0006Bf-Gj
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iICLb-0005CW-E4
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:49:48 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34987)
+ (envelope-from <peter.maydell@linaro.org>) id 1iICNU-000662-HU
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:45 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39086)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iICLb-0005CD-8N
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:49:47 -0400
-Received: by mail-ot1-x341.google.com with SMTP id z6so1780612otb.2
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 06:49:47 -0700 (PDT)
+ id 1iICNU-00065c-BK
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:51:44 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w144so1791444oia.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 06:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3g/D2fe1BvDimcQvKdf4hxfNjstsd/kFe/ZTYgk3oUI=;
- b=Jq+UaPmjbXBn5Ni0j4LCmWxovZeAmudgO2aIXalRNNAkR2OkiHQzCQWBncEDvsI4bK
- bnLxMkbu1vmyCm5KzL4A/L2pyRnEIpmoOA/Y53qJdTvY69WBUCw7OzQzlZitW/Eeec4a
- z66bDgEofGVAmSUaO/UW9YHUmTUxD2mf3mtn8udF61rncuSmG/tCls7+yRxYhIjKikzk
- IxlHj+ROsWNq45BNSqiVM4/74dzngweU9NHPgtCf02vjPtZD5obIrez3tagglwFfZmGw
- Ff0EtKkWvS8e0/2oyPvXLZ8lk6TFcGv3fV/15r3/zSl3GtFu4n/Yao2nfkbni/s7UMxt
- QauQ==
+ :cc:content-transfer-encoding;
+ bh=7OvEfYO9EpQ8fnwFtnhlr1IhWEuGDHMdr6XTfc/iLm4=;
+ b=iS0uoPqa0iDdcVDDcFthTa0dBcllC/xw8QVuoB40nYxZLnHLJcPgf5fwnAlW9A5pT3
+ pGLTi9+GpVIR19wE3k+W9EqDcbEcnqpScruo24bEMM9ye1z6JtwlexkJjCnpU1dr0g6x
+ V4KBztKpXYeD73SwuKiqoR6qsQy1ngvcehds54sZvt4M9hppCd69dlRHUb+7XQ/SwO1P
+ 2/elzoXowyWmzqQUiYy/sT58OtphDc9PXZXo5ZE2bqEjXe8Gd6vARyD9cPoYezd2Uxgb
+ ZSq7jbmSo0eHZCxlKrdpgwBCAOZqdJq9TsgxDfOBLXNzPibu8XYglADdv64FV8TmlaXf
+ nalg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3g/D2fe1BvDimcQvKdf4hxfNjstsd/kFe/ZTYgk3oUI=;
- b=E96op3fJbdWSKTKpA7VpuIWk0iEyVSSdLEIGuu4aSE8ccNBm58zBrnXrTd4Z1Ayjai
- cpAUvsHUKfXrXks7rnN3k2wtGM+3J5Hk38KeiNVexAS6KSaoFZ38qgXXPufBs4RcQ5oT
- xKuMChOaMZ/u9Ob+b8dJpg/QfIHr94adngDkLD9f/POsy1oZbu3r2cmVJY6P2NCksZrM
- FU2BY9QDE8e/h8fh+t1XjR6+RbVMQPGHboMeJyAvJ4sSTUJX3OVcEjxTmuq9B7lgi/mH
- 1s7uH19Noj5WKocqEkhXOzMKmAnSD5olZqR/XVYP8xP9EcD9vXOKcY8KYv1LGI2AZ7/+
- U58Q==
-X-Gm-Message-State: APjAAAVmCUvsp8PChngiVGdSb+rV6k6caydFKRk9edB6+Setf091i6Hu
- 5FNqK9HQmZWemnfBnH8Jwh7PZTRwHzkN82ShQydDlw==
-X-Google-Smtp-Source: APXvYqz/ZpPngJLbMT6o/mhxNZgCDpzFRlVP+ordWV1SS87DcC7CudA4xmzP/GxUGmC1rcpKGREy4wGWwIxTi1loUxY=
-X-Received: by 2002:a9d:30c1:: with SMTP id r1mr2937187otg.91.1570628986270;
- Wed, 09 Oct 2019 06:49:46 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7OvEfYO9EpQ8fnwFtnhlr1IhWEuGDHMdr6XTfc/iLm4=;
+ b=l/ExLsG8VQ5gyCOsPNnaOV6DmZfKwnWn6jXRtHnOP3la6mY6eUoN0Cv67v9ciSbpJ8
+ vYvKdjMGnAdXdqx8Tc1SYOfhK6NUBcqvO9XZuYxf5koS2ir11vvC5VZzxv2/0s3zHeB/
+ Zehy1CC/rYaRdzPNHIOuhzDlopTfFtE8WxdeXFIOKtY2CAG4qWjmFUnPRPjITkm3tzku
+ tbWHTNosLDd7ifZMnKZHhh5Q0sHNG8cOmbS0/0NxB5yZKlBZXAaT3qpEO4RckDVtfhhc
+ Sc12N9R+nj38wMeox6RtvYSb174V0WFy3ZLnhUR+povLb2pWTW4bO3A/6n5ox2fEIHYt
+ 18dg==
+X-Gm-Message-State: APjAAAUrhsPJgmqdW8IXaiVzk/nSZylxhnMcFQeOMGl7BpsSctMDe6ZB
+ 4rWxax1j8rW0Pgej56bBKoKaf09p+veKTIMsAQDHZw==
+X-Google-Smtp-Source: APXvYqw2thD7HgJ1D7aUU/9v6R+eBR33EALysh6Zi2oURCCoVKqOMEfv6DInCNzXroIxkuUksdCbQUfjmrjFUz4aHn0=
+X-Received: by 2002:aca:2b08:: with SMTP id i8mr2204531oik.146.1570629102479; 
+ Wed, 09 Oct 2019 06:51:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008171740.9679-1-peter.maydell@linaro.org>
- <20191008171740.9679-12-peter.maydell@linaro.org>
- <09f5a1b0-8750-eaa4-c6a3-c395ded3167c@linaro.org>
- <4fb18f38-eef3-281b-f414-d257e3dfa2b1@linaro.org>
-In-Reply-To: <4fb18f38-eef3-281b-f414-d257e3dfa2b1@linaro.org>
+References: <20190926151733.25349-1-philmd@redhat.com>
+ <20190926151733.25349-12-philmd@redhat.com>
+ <f110c099-7521-95e0-74b9-9c7e53d7d5d8@redhat.com>
+In-Reply-To: <f110c099-7521-95e0-74b9-9c7e53d7d5d8@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Oct 2019 14:49:35 +0100
-Message-ID: <CAFEAcA9ps-s3WEGjR2sVkVpZ=AAa-qcu+JyUhdVY1SnZqgBiUQ@mail.gmail.com>
-Subject: Re: [PATCH v2 11/21] hw/timer/exynos4210_mct.c: Switch GFRC to
- transaction-based ptimer API
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Wed, 9 Oct 2019 14:51:30 +0100
+Message-ID: <CAFEAcA_urR77o5+mFy3a4wL=BDHVzEvnAeaf2ASXdpa6md16FQ@mail.gmail.com>
+Subject: Re: [PATCH 11/11] hw/misc/vmcoreinfo: Convert reset handler to
+ DeviceReset
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,36 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 9 Oct 2019 at 02:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 26 Sep 2019 at 17:02, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 >
-> On 10/8/19 9:56 PM, Richard Henderson wrote:
-> > On 10/8/19 1:17 PM, Peter Maydell wrote:
-> >> @@ -945,7 +977,7 @@ static void exynos4210_mct_update_freq(Exynos4210MCTState *s)
-> >>          DPRINTF("freq=%dHz\n", s->freq);
-> >>
-> >>          /* global timer */
-> >> -        ptimer_set_freq(s->g_timer.ptimer_frc, s->freq);
-> >> +        tx_ptimer_set_freq(s->g_timer.ptimer_frc, s->freq);
-> >>
-> >>          /* local timer */
-> >>          ptimer_set_freq(s->l_timer[0].tick_timer.ptimer_tick, s->freq);
-> >
-> > Failed to update them all, it would appear.
+> On 9/26/19 5:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Convert the reset handler into a proper Device reset method.
 >
-> Ho hum.  Done in a subsequent patch.
-> I didn't realize that you weren't converting the entire file at once.
+> Marc-Andr=C3=A9 noticed this one is incorrect, because while being QDEV i=
+t is
+> not connected to a QBUS.
+>
+> Maybe we can add a Device::unconnected property, and when set, the
+> parent realize() calls 'qemu_register_reset(dev->reset, dev);'?
+> This might look the same, but at least Devices implementations could
+> stop to use this function...
 
-Yeah, the MCT device is pretty complicated and (per the commit
-message) I felt it was easier to write and debug by switching
-each ptimer one at a time rather than trying to do the whole
-lot at the same time.
+I'm not in favour of ad-hoc attempts to patch the
+problem with some devices not being reset like this.
+I'd rather we figured out a general solution to the design
+problem (which isn't easy, but on the other hand the
+set of workarounds we currently have isn't too awful
+to deal with).
 
 thanks
 -- PMM
