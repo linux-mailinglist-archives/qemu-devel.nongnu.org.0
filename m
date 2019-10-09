@@ -2,45 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C02D14AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:55:29 +0200 (CEST)
-Received: from localhost ([::1]:52608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A15D14BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:00:05 +0200 (CEST)
+Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFFI-0003mQ-9V
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47277)
+	id 1iIFJj-0000RH-EO
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@pond.sub.org>) id 1iI7Vd-00085G-RK
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:39:51 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iI7mY-0001MX-Lz
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:57:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@pond.sub.org>) id 1iI7Vc-000158-Cn
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:39:49 -0400
-Received: from oxygen.pond.sub.org ([2a01:4f8:13b:3ad0:1::3]:40120)
+ (envelope-from <dgibson@ozlabs.org>) id 1iI7mX-00078D-3S
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:57:18 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40845 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@pond.sub.org>)
- id 1iI7Vc-00014h-3Q; Wed, 09 Oct 2019 04:39:48 -0400
-Received: from blackfin.pond.sub.org (p5DCDBB4B.dip0.t-ipconnect.de
- [93.205.187.75])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by oxygen.pond.sub.org (Postfix) with ESMTPSA id 0BF20496C9;
- Wed,  9 Oct 2019 10:39:45 +0200 (CEST)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8F3761138619; Wed,  9 Oct 2019 10:39:44 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Wolfgang Bumiller <w.bumiller@proxmox.com>
-Subject: Re: [PATCH] monitor/qmp: resume monitor when clearing its queue
-References: <20191002083003.21556-1-w.bumiller@proxmox.com>
-Date: Wed, 09 Oct 2019 10:39:44 +0200
-Message-ID: <87ftk28g8f.fsf@dusky.pond.sub.org>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iI7mW-00076x-5k; Wed, 09 Oct 2019 04:57:17 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46p7Pz24stz9sN1; Wed,  9 Oct 2019 19:57:11 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570611431;
+ bh=UEmG5XZLcxxMnbCkagNYfH7opXOYWdTp+28o/N19QQ4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VNPG1BZfEzLap8uOBPjGY4QCrgYRfoMWdOucRe0vDsKME1Lm7UfTsNuYtd1eNDymp
+ KG86sxriUPL991R5DC/bC1ffHzfjfItsgYzdLFdfQoQQ+ICfYwHKWNHo7v+JGzPW20
+ rPvDBK4XPmbIgailsmBVr0C+iye/aQx+GZc2Jgb0=
+Date: Wed, 9 Oct 2019 19:52:59 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 19/19] spapr: Work around spurious warnings from vfio
+ INTx initialization
+Message-ID: <20191009085259.GA5035@umbus.fritz.box>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ <20191009060818.29719-20-david@gibson.dropbear.id.au>
+ <20191009103738.01bc146a@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
+Content-Disposition: inline
+In-Reply-To: <20191009103738.01bc146a@bahia.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a01:4f8:13b:3ad0:1::3
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,94 +58,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Jason Wang <jasowang@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Marc-Andr=C3=A9 for additional monitor and chardev expertise.
 
-Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
+--liOOAslEiF7prFVr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> When a monitor's queue is filled up in handle_qmp_command()
-> it gets suspended. It's the dispatcher bh's job currently to
-> resume the monitor, which it does after processing an event
-> from the queue. However, it is possible for a
-> CHR_EVENT_CLOSED event to be processed before before the bh
-> is scheduled, which will clear the queue without resuming
-> the monitor, thereby preventing the dispatcher from reaching
-> the resume() call.
+On Wed, Oct 09, 2019 at 10:37:38AM +0200, Greg Kurz wrote:
+> On Wed,  9 Oct 2019 17:08:18 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > Traditional PCI INTx for vfio devices can only perform well if using
+> > an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
+> > if an in kernel irqchip is not available.
+>=20
+> Can you elaborate on what doesn't "perform well" without an
+> in-kernel irqchip ?
 
-Because with the request queue cleared, there's nothing for
-monitor_qmp_requests_pop_any_with_lock() to pop, so
-monitor_qmp_bh_dispatcher() won't look at this monitor.  It stays
-suspended forever.  Correct?
+Not really, no, but Alex Williamson tells me it is soo.
 
-Observable effect for the monitor's user?
+> Is it a matter of performance or is it
+> actually broken or something else ?
 
-> Fix this by resuming the monitor when clearing a queue which
-> was filled up.
->
-> Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
-> ---
-> @Michael, we ran into this with qemu 4.0, so if the logic in this patch
-> is correct it may make sense to include it in the 4.0.1 roundup.
-> A backport is at [1] as 4.0 was before the monitor/ dir split.
->
-> [1] https://gitlab.com/wbumiller/qemu/commit/9d8bbb5294ed084f282174b0c91e=
-1a614e0a0714
->
->  monitor/qmp.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> index 9d9e5d8b27..c1db5bf940 100644
-> --- a/monitor/qmp.c
-> +++ b/monitor/qmp.c
-> @@ -70,9 +70,19 @@ static void qmp_request_free(QMPRequest *req)
->  /* Caller must hold mon->qmp.qmp_queue_lock */
->  static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
->  {
-> +    bool need_resume =3D (!qmp_oob_enabled(mon) && mon->qmp_requests->le=
-ngth > 0)
-> +        || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
+I believe it's a matter of performance, but such a big one that it
+makes using it without kernel irqchip infeasible in many cases.
 
-Can you explain why this condition is correct?
+> What is the impact on -machine accel=3Dkvm,kernel-irqchip=3Doff which
+> always spit this warning ?
 
->      while (!g_queue_is_empty(mon->qmp_requests)) {
->          qmp_request_free(g_queue_pop_head(mon->qmp_requests));
->      }
-> +    if (need_resume) {
-> +        /*
-> +         * Pairs with the monitor_suspend() in handle_qmp_command() in c=
-ase the
-> +         * queue gets cleared from a CH_EVENT_CLOSED event before the di=
-spatch
-> +         * bh got scheduled.
-> +         */
-> +        monitor_resume(&mon->common);
-> +    }
->  }
->=20=20
->  static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
+It should still spit that warning.
 
-Is monitor_qmp_cleanup_req_queue_locked() the correct place?
+> > We usually do have an in-kernel irqchip available for pseries machines
+> > on POWER hosts.  However, because the platform allows feature
+> > negotiation of what interrupt controller model to use, we don't
+> > currently initialize it until machine reset.  vfio_intx_update() is
+> > called (first) from vfio_realize() before that, so it can issue a
+> > spurious warning, even if we will have an in kernel irqchip by the
+> > time we need it.
+> >=20
+> > To workaround this, make a call to spapr_irq_update_active_intc() from
+> > spapr_irq_init() which is called at machine realize time, before the
+> > vfio realize.  This call will be pretty much obsoleted by the later
+> > call at reset time, but it serves to suppress the spurious warning
+> > from VFIO.
+> >=20
+> > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/ppc/spapr_irq.c | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> > index 7964e4a1b8..3aeb523f3e 100644
+> > --- a/hw/ppc/spapr_irq.c
+> > +++ b/hw/ppc/spapr_irq.c
+> > @@ -274,6 +274,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Erro=
+r **errp)
+> > =20
+> >      spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
+> >                                        smc->nr_xirqs + SPAPR_XIRQ_BASE);
+> > +
+> > +    /*
+> > +     * Mostly we don't actually need this until reset, except that not
+> > +     * having this set up can cause VFIO devices to issue a
+> > +     * false-positive warning during realize(), because they don't yet
+> > +     * have an in-kernel irq chip.
+> > +     */
+> > +    spapr_irq_update_active_intc(spapr);
+> >  }
+> > =20
+> >  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
+ **errp)
+> > @@ -429,7 +437,8 @@ void spapr_irq_update_active_intc(SpaprMachineState=
+ *spapr)
+> >           * this.
+> >           */
+> >          new_intc =3D SPAPR_INTC(spapr->xive);
+> > -    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
+> > +    } else if (spapr->ov5_cas
+> > +               && spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
+> >          new_intc =3D SPAPR_INTC(spapr->xive);
+> >      } else {
+> >          new_intc =3D SPAPR_INTC(spapr->ics);
+>=20
 
-It's called from
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-* monitor_qmp_event() case CHR_EVENT_CLOSED via
-  monitor_qmp_cleanup_queues(), as part of destroying the monitor's
-  session state.
+--liOOAslEiF7prFVr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  This is the case you're trying to fix.  Correct?
+-----BEGIN PGP SIGNATURE-----
 
-  I figure monitor_resume() is safe because we haven't really destroyed
-  anything, yet, we merely flushed the request queue.  Correct?
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2dn+cACgkQbDjKyiDZ
+s5Kg1BAAz7Ecz0EWFN8b17t6SKAzS9Q+D7m6s0Tp/J1hvm2yZbSB9yNrCoFln+mF
+tjJC2rNsf44h6WV/uIjGZ4zCExYzUoAgZwDPW9f35H8zmm+mR0peIMiN7IVMzNED
+jBHU4Etr0dj4ODhBKoaFKBIyIuY+lG/A+zgGRkNjoszY2TWb6BPyGnzyBSjyOJr3
+95809lbcqxyQxge1kexTH6HOQess6js65RZaGzdpMow/GeAxoUrCaH01OMEr0Sft
+qOF57oOnV3/noyHRvDaxEToDFnMggoB4l5OD8VYmUs3VETkcWCqwHrSMT4UoJ2qf
+6Zlv1xeHaaMpm6WcL1FkWRR6WqfuTE1pJYIxs6dBFMZ+N4CwzBCqQrqQVZEmEfIe
+X5vl//ehI+fQhHQjlVND+3V4tUZqZqN9QFiHdvI1x1fXlfTFQdr6B7tkJD485I8S
+GbagXWWzTpKPgu64pCXiwW0S09Cbg3MJP3SOQpK53JNyx6AwOSpcry+kG7ioWAjK
+jPoENFjF4dqZk6jA+rlDl14uL1JFIJxOcFG/evvJiTw5lxrvoHrz1HEPj8ZrY09Q
+yO5TmfhktJhR5QhSj8sN3V+KzdjIKxLurNaIf2LMBsga3k4XUFpbKovYXxcU6VP9
+gnW09ovCcpD7d4vi51lv4KTs5vERcRxE8bdzP0efNw+ljzMFKeA=
+=jA2Z
+-----END PGP SIGNATURE-----
 
-* monitor_data_destroy() via monitor_data_destroy_qmp() when destroying
-  the monitor.
-
-  Can need_resume be true in this case?  If yes, is monitor_resume()
-  still safe?  We're in the middle of destroying the monitor...
+--liOOAslEiF7prFVr--
 
