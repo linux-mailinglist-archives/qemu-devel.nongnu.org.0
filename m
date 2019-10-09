@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802B6D16E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:37:25 +0200 (CEST)
-Received: from localhost ([::1]:53150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908A2D170A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:46:36 +0200 (CEST)
+Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFtr-0002ih-VL
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36439)
+	id 1iIG2l-0003LB-5d
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38359)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iIARf-0001QH-Tn
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:47:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIAhs-0003DU-P7
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:04:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iIARd-0005Mv-Qv
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:47:55 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:46149)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIAhr-0001IZ-Nd
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:04:40 -0400
+Received: from mail-ua1-x941.google.com ([2607:f8b0:4864:20::941]:39035)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iIARd-0005Mg-Le
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:47:53 -0400
-Received: by mail-io1-xd42.google.com with SMTP id c6so4141559ioo.13
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:47:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iIAhr-0001IQ-HH
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:04:39 -0400
+Received: by mail-ua1-x941.google.com with SMTP id b14so678784uap.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 05:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=U98Wd/tJ2fYitptqldGm5NQNmxvZ7yFkPvSDpC1AsU4=;
- b=YFxSbspJoAEC+pfYVCuu05igzg/Up6DnZ1gw+Zwdj860lEGrmcyeoCvOjgG9gmCvFO
- BcPY28TTGCm2sOJCbbH3npfy71S+JSdWTv0rlYsCrxhhJC8YQKfQzjEtuSQJg1vSugbU
- HEckHIyyfnitTb1LTEPqfJ/d8vndBAkZXHpPaGV+gGrFsqUNK+rSqomCuhn7LBxHaSKr
- SmOa/TnOfNNg6OkCWncdwbQn9KvCPiPqqgfzMXQ1V+YRU8T5yD7JOuc4IEh/cZWYruIl
- DwIHVdJ2vYj7EPiRTGrAysJTQNEuVKM5ZA5vavN4V9NFxglNI0ZwhlsUP2PKPlpYVTBq
- ea6g==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hTUKCIiic+Ut/Wo5FppKOMLXeKxhC4oaQ4z+c7aFIGk=;
+ b=zGgvYl/hYoLiNZfFIrjsY+vKXxU7FyIFBN4uIxlItak+WW3/8xoJBbrjpMxcyPRouG
+ LsQ3W5mcoQ/Qh10vLjGt9CSHHP03WTzFfE/Rlg421ZYU+KLlvGjMYTOh/MbH/Vjf+3L/
+ lFQqrN8vPo8yUWZ+hvQkCD4GMmp9FchlVlM2vO1XaXdb7ccHJCU8Z7W6FwYAi9et9pHR
+ E89t+R3fHoV6fhIpF0l8Lr694cloIOCi35bgi0CCZW4442nt7VUvrjeMeQpI9iPUuhtL
+ uvJxAceDP+hBsxuTVdhven1dZs2OmtYcUD1/cgnLhQfSDi9GXJPkjQ19G9enTzW13QCU
+ 2hOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=U98Wd/tJ2fYitptqldGm5NQNmxvZ7yFkPvSDpC1AsU4=;
- b=lXYL0IXA7DUQeqOM/wdGUJXh1dztom3eJy3qLdMmcsHAKqvThtp1uroWuMTy2OLzQP
- nWx9FqkiW8FNd8t77BhkW5w7jz9fEUteqblCiyVvbcgVZB6tfvTLSqVB1SQiz9fMpXRV
- PDbt/5TB3CWrCha6dWDlj2Eh76lPpQ1iU9OAqOAxjRnvrqC/tkAD10WxYn+oxi1oKSdX
- 2+VDU7pXWaXGKxg2QM1ymH3aR5LWOywtLazPPmpxW20W1z6svQOQje6USZxzPhcJ8TTj
- 2dmN6tfdqjHS9x4jI0hSjUTbVa94Rqp2CjkNM7ujJa2SoDUzaHpPmlpvX95SSOlb5PEm
- du/g==
-X-Gm-Message-State: APjAAAXvvaDYLkUs/dW85tMIQr1e3nYXq/0QhY9+xre+UtmnTxDVsK/t
- M1FZW3/yNzGo2COMFERtHKNIQiiNM//XSREq+bdS/A==
-X-Google-Smtp-Source: APXvYqxfqStlxhaK+9WcX34SdYiwWAog8br9KgjqNE7LgZqV7xwaJVysQJ5cdkuY/yK3mfrmXID3bTbR8gpQmGc9JLk=
-X-Received: by 2002:a92:7702:: with SMTP id s2mr2709489ilc.248.1570621671967; 
- Wed, 09 Oct 2019 04:47:51 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hTUKCIiic+Ut/Wo5FppKOMLXeKxhC4oaQ4z+c7aFIGk=;
+ b=KNjz8WO83sTy95IGorf24b/P1MG1ayJ1KVIR1jnei0LyCUyURMEuwxVv7XeSEuSI++
+ wwAxazOyQ2DMDm29TZW6B3zDKYaC040lOlbaEe53PptuMuii8MwiggrOK0QsrjaPIc5S
+ n2UCtgMjGE+5rRFv791Ht3W/I/xUHmbKXkBPNpvMXgtVbB7b8WORERXj430VIysDoqis
+ vwxGwBWjMKmpMIf4ICbTW351RnmPxZcA7fJ1ZpZEATpt84EBk7wU3DcHn7yzmahLR2al
+ koM26Jfk/ijRV+RkS4MctfbTafu/ObdPh0FRcTtTq16ZiJzIXMg8RWv8lLzWrLJG0zbw
+ VGiA==
+X-Gm-Message-State: APjAAAVsw/b5T0IlMWBzRj2YDZnreaM2kOibQM+4SIxnNjOOmtHAolvB
+ JZobN5HMK0IMfqyaaWYOV27PcA==
+X-Google-Smtp-Source: APXvYqxgVLoQmD0Sj+fD8liMovUK5FdxjKkS5B6ujtQJOsJVJ1aI5kBPXX9GYBS/UAyqjVtw/euYmA==
+X-Received: by 2002:ab0:714c:: with SMTP id k12mr429717uao.16.1570622678439;
+ Wed, 09 Oct 2019 05:04:38 -0700 (PDT)
+Received: from ?IPv6:2607:fb90:12df:9ad9:70ab:b71f:bde2:72aa?
+ ([2607:fb90:12df:9ad9:70ab:b71f:bde2:72aa])
+ by smtp.gmail.com with ESMTPSA id s10sm599981vkl.8.2019.10.09.05.04.34
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 09 Oct 2019 05:04:37 -0700 (PDT)
+Subject: Re: [PATCH v2 21/21] hw/net/lan9118.c: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20191008171740.9679-1-peter.maydell@linaro.org>
+ <20191008171740.9679-22-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <d7f1654b-0f61-4ef8-6f83-bd5c7221a7ec@linaro.org>
+Date: Tue, 8 Oct 2019 22:07:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190910095610.4546-1-beata.michalska@linaro.org>
- <20190910095610.4546-5-beata.michalska@linaro.org> <87ftkmbmci.fsf@linaro.org>
-In-Reply-To: <87ftkmbmci.fsf@linaro.org>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Wed, 9 Oct 2019 12:47:41 +0100
-Message-ID: <CADSWDzuPnWSWFhEe38=V-W=otN5mhOBwkpmaW=TE1cGaxXQ5vQ@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH 4/4] target/arm: Add support for DC CVAP & DC
- CVADP ins
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191008171740.9679-22-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d42
+X-Received-From: 2607:f8b0:4864:20::941
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,270 +86,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- shameerali.kolothum.thodi@huawei.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eric.auger@redhat.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 00:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Beata Michalska <beata.michalska@linaro.org> writes:
->
-> > ARMv8.2 introduced support for Data Cache Clean instructions
-> > to PoP (point-of-persistence) - DC CVAP and PoDP (point-of-deep-persist=
-ence)
-> > - DV CVADP. Both specify conceptual points in a memory system where all=
- writes
-> > that are to reach them are considered persistent.
-> > The support provided considers both to be actually the same so there is=
- no
-> > distinction between the two. If none is available (there is no backing =
-store
-> > for given memory) both will result in Data Cache Clean up to the point =
-of
-> > coherency. Otherwise sync for the specified range shall be performed.
-> >
-> > Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> > ---
-> >  linux-user/elfload.c       | 18 +++++++++++++++++-
->
-> There are conflicts from the recent elfload.c tweaks to fix on your next =
-rebase.
+On 10/8/19 1:17 PM, Peter Maydell wrote:
+> Switch the cmsdk-apb-watchdog code away from bottom-half based
+> ptimers to the new transaction-based ptimer API.  This just requires
+> adding begin/commit calls around the various places that modify the
+> ptimer state, and using the new ptimer_init() function to create the
+> timer.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/net/lan9118.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 
-Will address it in the next version.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> >  target/arm/cpu.h           | 13 ++++++++++++-
-> >  target/arm/cpu64.c         |  1 +
-> >  target/arm/helper.c        | 24 ++++++++++++++++++++++++
-> >  target/arm/helper.h        |  1 +
-> >  target/arm/op_helper.c     | 36 ++++++++++++++++++++++++++++++++++++
-> >  target/arm/translate-a64.c |  5 +++++
-> >  7 files changed, 96 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> > index 3365e192eb..1ec00308d5 100644
-> > --- a/linux-user/elfload.c
-> > +++ b/linux-user/elfload.c
-> > @@ -609,7 +609,12 @@ enum {
-> >      ARM_HWCAP_A64_PACG          =3D 1UL << 31,
-> >  };
-> >
-> > +enum {
-> > +    ARM_HWCAP2_A64_DCPODP   =3D 1 << 0,
-> > +};
-> > +
-> >  #define ELF_HWCAP get_elf_hwcap()
-> > +#define ELF_HWCAP2 get_elf_hwcap2()
-> >
-> >  static uint32_t get_elf_hwcap(void)
-> >  {
-> > @@ -644,12 +649,23 @@ static uint32_t get_elf_hwcap(void)
-> >      GET_FEATURE_ID(aa64_jscvt, ARM_HWCAP_A64_JSCVT);
-> >      GET_FEATURE_ID(aa64_sb, ARM_HWCAP_A64_SB);
-> >      GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
-> > +    GET_FEATURE_ID(aa64_dcpop, ARM_HWCAP_A64_DCPOP);
-> >
-> > -#undef GET_FEATURE_ID
-> >
-> >      return hwcaps;
-> >  }
-> >
-> > +static uint32_t get_elf_hwcap2(void)
-> > +{
-> > +    ARMCPU *cpu =3D ARM_CPU(thread_cpu);
-> > +    uint32_t hwcaps =3D 0;
-> > +
-> > +    GET_FEATURE_ID(aa64_dcpodp, ARM_HWCAP2_A64_DCPODP);
-> > +    return hwcaps;
-> > +}
-> > +
-> > +#undef GET_FEATURE_ID
-> > +
-> >  #endif /* not TARGET_AARCH64 */
-> >  #endif /* TARGET_ARM */
-> >
-> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> > index 297ad5e47a..1713d76590 100644
-> > --- a/target/arm/cpu.h
-> > +++ b/target/arm/cpu.h
-> > @@ -2229,7 +2229,8 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t c=
-pregid)
-> >  #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
-> >  #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
-> >  #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
-> > -#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
-> > +#define ARM_CP_DC_CVAP           (ARM_CP_SPECIAL | 0x0600)
-> > +#define ARM_LAST_SPECIAL         ARM_CP_DC_CVAP
-> >  #define ARM_CP_FPU               0x1000
-> >  #define ARM_CP_SVE               0x2000
-> >  #define ARM_CP_NO_GDB            0x4000
-> > @@ -3572,6 +3573,16 @@ static inline bool isar_feature_aa64_frint(const=
- ARMISARegisters *id)
-> >      return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, FRINTTS) !=3D 0;
-> >  }
-> >
-> > +static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
-> > +{
-> > +    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) !=3D 0;
-> > +}
-> > +
-> > +static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
-> > +{
-> > +    return (FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >> 1) !=3D=
- 0;
-> > +}
-> > +
-> >  static inline bool isar_feature_aa64_fp16(const ARMISARegisters *id)
-> >  {
-> >      /* We always set the AdvSIMD and FP fields identically wrt FP16.  =
-*/
-> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> > index d7f5bf610a..20094f980d 100644
-> > --- a/target/arm/cpu64.c
-> > +++ b/target/arm/cpu64.c
-> > @@ -331,6 +331,7 @@ static void aarch64_max_initfn(Object *obj)
-> >          cpu->isar.id_aa64isar0 =3D t;
-> >
-> >          t =3D cpu->isar.id_aa64isar1;
-> > +        t =3D FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
-> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
-> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
-> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, APA, 1); /* PAuth, architect=
-ed only */
-> > diff --git a/target/arm/helper.c b/target/arm/helper.c
-> > index 507026c915..99ae01b7e7 100644
-> > --- a/target/arm/helper.c
-> > +++ b/target/arm/helper.c
-> > @@ -3843,6 +3843,22 @@ static CPAccessResult aa64_cacheop_access(CPUARM=
-State *env,
-> >      return CP_ACCESS_OK;
-> >  }
-> >
-> > +static CPAccessResult aa64_cacheop_persist_access(CPUARMState *env,
-> > +                                                  const ARMCPRegInfo *=
-ri,
-> > +                                                  bool isread)
-> > +{
-> > +    ARMCPU *cpu =3D env_archcpu(env);
-> > +    /*
-> > +     * Access is UNDEF if lacking implementation for either DC CVAP or=
- DC CVADP
-> > +     * DC CVAP ->  CRm: 0xc
-> > +     * DC CVADP -> CRm: 0xd
-> > +     */
-> > +    return (ri->crm =3D=3D 0xc && !cpu_isar_feature(aa64_dcpop, cpu)) =
-||
-> > +           (ri->crm =3D=3D 0xd && !cpu_isar_feature(aa64_dcpodp, cpu))
-> > +           ? CP_ACCESS_TRAP_UNCATEGORIZED
-> > +           : aa64_cacheop_access(env, ri, isread);
-> > +}
-> > +
-> >  /* See: D4.7.2 TLB maintenance requirements and the TLB maintenance in=
-structions
-> >   * Page D4-1736 (DDI0487A.b)
-> >   */
-> > @@ -4251,6 +4267,14 @@ static const ARMCPRegInfo v8_cp_reginfo[] =3D {
-> >        .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 10, .opc2 =3D 1,
-> >        .access =3D PL0_W, .type =3D ARM_CP_NOP,
-> >        .accessfn =3D aa64_cacheop_access },
-> > +    { .name =3D "DC_CVAP", .state =3D ARM_CP_STATE_AA64,
-> > +      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 12, .opc2 =3D 1,
-> > +      .access =3D PL0_W, .type =3D ARM_CP_DC_CVAP,
-> > +      .accessfn =3D aa64_cacheop_persist_access },
-> > +    { .name =3D "DC_CVADP", .state =3D ARM_CP_STATE_AA64,
-> > +      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 13, .opc2 =3D 1,
-> > +      .access =3D PL0_W, .type =3D ARM_CP_DC_CVAP,
-> > +      .accessfn =3D aa64_cacheop_persist_access },
-> >      { .name =3D "DC_CSW", .state =3D ARM_CP_STATE_AA64,
-> >        .opc0 =3D 1, .opc1 =3D 0, .crn =3D 7, .crm =3D 10, .opc2 =3D 2,
-> >        .access =3D PL1_W, .type =3D ARM_CP_NOP },
-> > diff --git a/target/arm/helper.h b/target/arm/helper.h
-> > index 1fb2cb5a77..a850364944 100644
-> > --- a/target/arm/helper.h
-> > +++ b/target/arm/helper.h
-> > @@ -561,6 +561,7 @@ DEF_HELPER_FLAGS_3(crypto_sm4ekey, TCG_CALL_NO_RWG,=
- void, ptr, ptr, ptr)
-> >  DEF_HELPER_FLAGS_3(crc32, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
-> >  DEF_HELPER_FLAGS_3(crc32c, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
-> >  DEF_HELPER_2(dc_zva, void, env, i64)
-> > +DEF_HELPER_2(dc_cvap, void, env, i64)
-> >
-> >  DEF_HELPER_FLAGS_2(neon_pmull_64_lo, TCG_CALL_NO_RWG_SE, i64, i64, i64=
-)
-> >  DEF_HELPER_FLAGS_2(neon_pmull_64_hi, TCG_CALL_NO_RWG_SE, i64, i64, i64=
-)
-> > diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-> > index 0fd4bd0238..75ebf6afa4 100644
-> > --- a/target/arm/op_helper.c
-> > +++ b/target/arm/op_helper.c
-> > @@ -987,3 +987,39 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vad=
-dr_in)
-> >      memset(g2h(vaddr), 0, blocklen);
-> >  #endif
-> >  }
-> > +
-> > +void HELPER(dc_cvap)(CPUARMState *env, uint64_t vaddr_in)
-> > +{
-> > +#ifndef CONFIG_USER_ONLY
-> > +    ARMCPU *cpu =3D env_archcpu(env);
-> > +    /* CTR_EL0 System register -> DminLine, bits [19:16] */
-> > +    uint64_t dline_size =3D 4 << ((cpu->ctr >> 16) & 0xF);
-> > +    uint64_t vaddr =3D vaddr_in & ~(dline_size - 1);
-> > +    void *haddr;
-> > +    int mem_idx =3D cpu_mmu_index(env, false);
-> > +
-> > +    /* This won't be crossing page boundaries */
-> > +    haddr =3D probe_read(env, vaddr, dline_size, mem_idx, GETPC());
-> > +    if (haddr) {
-> > +
-> > +        ram_addr_t offset;
-> > +        MemoryRegion *mr;
-> > +
-> > +        /*
-> > +         * RCU critical section + ref counting,
-> > +         * so that MR won't disappear behind the scene
-> > +         */
-> > +        rcu_read_lock();
-> > +        mr =3D memory_region_from_host(haddr, &offset);
-> > +        if (mr) {
-> > +            memory_region_ref(mr);
-> > +        }
-> > +        rcu_read_unlock();
-> > +
-> > +        if (mr) {
-> > +            memory_region_do_writeback(mr, offset, dline_size);
-> > +            memory_region_unref(mr);
-> > +        }
-> > +    }
-> > +#endif
-> > +}
-> > diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> > index 2d6cd09634..21ea3631d6 100644
-> > --- a/target/arm/translate-a64.c
-> > +++ b/target/arm/translate-a64.c
-> > @@ -1746,6 +1746,11 @@ static void handle_sys(DisasContext *s, uint32_t=
- insn, bool isread,
-> >          tcg_rt =3D cpu_reg(s, rt);
-> >          gen_helper_dc_zva(cpu_env, tcg_rt);
-> >          return;
-> > +    case ARM_CP_DC_CVAP:
-> > +        /* DC CVAP / DC CVADP */
-> > +        tcg_rt =3D cpu_reg(s, rt);
-> > +        gen_helper_dc_cvap(cpu_env, tcg_rt);
-> > +        return;
-> >      default:
-> >          break;
-> >      }
->
->
-> --
-> Alex Benn=C3=A9e
-
-BR
-Beata
+r~
 
