@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF15D1802
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 21:10:03 +0200 (CEST)
-Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90846D183B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 21:13:15 +0200 (CEST)
+Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIHLV-0001Oo-Qs
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 15:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45489)
+	id 1iIHOc-0004xG-3z
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 15:13:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60351)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iIEN4-0008GJ-82
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:59:27 -0400
+ (envelope-from <stefanha@gmail.com>) id 1iICqN-0000yU-1J
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:21:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iIEN2-0006tG-Du
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:59:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25822)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iIEN2-0006sn-5i
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 11:59:24 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x99Fh2QD137178
- for <qemu-devel@nongnu.org>; Wed, 9 Oct 2019 11:59:22 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vhj8j90yc-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 11:59:22 -0400
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <clg@kaod.org>;
- Wed, 9 Oct 2019 16:59:19 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 9 Oct 2019 16:59:15 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x99FxErV47775834
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Oct 2019 15:59:14 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71F0942042;
- Wed,  9 Oct 2019 15:59:14 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 51F8742041;
- Wed,  9 Oct 2019 15:59:14 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  9 Oct 2019 15:59:14 +0000 (GMT)
-Received: from yukon.kaod.org (sig-9-145-2-100.uk.ibm.com [9.145.2.100])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 77CA5220121;
- Wed,  9 Oct 2019 17:59:13 +0200 (CEST)
-Subject: Re: [PATCH v4 15/19] spapr: Remove SpaprIrq::nr_msis
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
- <20191009060818.29719-16-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Date: Wed, 9 Oct 2019 17:59:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <stefanha@gmail.com>) id 1iICqM-0007HZ-4F
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:21:34 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36977)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iICqL-0007HL-SD
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:21:34 -0400
+Received: by mail-wm1-x335.google.com with SMTP id f22so2837970wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 07:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ef4PFRZayWm/Zd1hegH93GTG+HjymGK9OAN+/CCzA/M=;
+ b=FnVfFGgrjE1gQczGWpsyx/Gj7ifSHDROH6NCaAp7r50nFW2bLK2b5LYZsOkDMyee6t
+ 2USny7StCJuanVJTriToJo8RXeNk7zYKGgt6m9/FAcNfl3pX3yrzBzVWKNYgiYQ/9LlD
+ 0Hd5Jh+ZB3grZZJU8TP5CA0i0zhJka/3vJIyZVfkue4okMhYwCeESZeHqGDZTMYijJzX
+ iN+a2fE0jDOWTlkOqWic0uUOPABkAv2qdT3kFCo4/ZrwFcmrthfvllCTmYWr5UgLe3E+
+ n+M18gn9A/S5qtpGmfaLx67BA5op0Rw9UkoQy4ZHHFhxi5M6nUwpoaRgVYh79ybuf3jw
+ faUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ef4PFRZayWm/Zd1hegH93GTG+HjymGK9OAN+/CCzA/M=;
+ b=tV/wObKrOCx4AjlsfoVT4dODOMBbmuVcfAffKUNDLoXMWzY/ks2zrT5Ctn7l4O6lrH
+ lOhXZ6LymHNeNtxYR3LnqgqqW4YGEvlqRQ2CFNpNvCgvkBWFGDXMNQ+fwJWFG4baHRRD
+ OziyGjt520zljgFXLQukpWExJ1c6o2qiDdsZebDkiPQ4K55GKjottbc/+O4KaNszriqb
+ pzOXnsIc0uCzK+b1Qrv640pEsDHb8TIKkn5j4gxdRcnOH3f+AnJsZ4f4zQuW7QYonTjo
+ cy6Jd884NdLVcNVbvx1dAdHFI9MNS5hM71gwcuA0WhiJTum1QlFsdwIGKPFzUDFcf9q8
+ IFIw==
+X-Gm-Message-State: APjAAAXqi+Litcj/8JeFwv7VM24ZVtu0o2oqcT3OFGg6GXkHldsauklj
+ lAc2q3xSCU9bwfKXUJGCCSc=
+X-Google-Smtp-Source: APXvYqwTRMOaNthsBc9rI+Ms5j48RKJWhMli8Gl+x1gruYjBm+bP6Ojhei75YlXAzffwCDTtH4lxfQ==
+X-Received: by 2002:a7b:cb0b:: with SMTP id u11mr2821835wmj.125.1570630892330; 
+ Wed, 09 Oct 2019 07:21:32 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id r65sm3046159wmr.9.2019.10.09.07.21.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2019 07:21:31 -0700 (PDT)
+Date: Wed, 9 Oct 2019 15:21:30 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Toe Dev <devtoe82@gmail.com>
+Subject: Re: header not included but used in vl.c
+Message-ID: <20191009142130.GR5747@stefanha-x1.localdomain>
+References: <CAN+O=TKeG=K3AdiSEKhzySNKeSWzCwtz7UKq6=re2YYEm5rwAg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191009060818.29719-16-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19100915-0012-0000-0000-000003568B38
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100915-0013-0000-0000-000021919128
-Message-Id: <cbf330ce-2f95-5af1-aff5-8bed120c7317@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-09_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=8 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910090144
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x99Fh2QD137178
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8Bx+wEju+vH9ym24"
+Content-Disposition: inline
+In-Reply-To: <CAN+O=TKeG=K3AdiSEKhzySNKeSWzCwtz7UKq6=re2YYEm5rwAg@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,229 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- philmd@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/2019 08:08, David Gibson wrote:
-> The nr_msis value we use here has to line up with whether we're using
-> legacy or modern irq allocation.  Therefore it's safer to derive it bas=
-ed
-> on legacy_irq_allocation rather than having SpaprIrq contain a canned
-> value.
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
 
+--8Bx+wEju+vH9ym24
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On Tue, Oct 01, 2019 at 03:06:56PM +0300, Toe Dev wrote:
+>  does it have a reason why the file vl.c lacks reference
+>  #include "qemu/module.h" ?
+>  but still uses the defines include their(for example the enum value:
+> MODULE_INIT_OPTS)?
+> I'm using eclipse so I was notified by the IDE immediately.
 
-one minor typo below,
+Another header file probably includes it indirectly.
 
-> ---
->  hw/ppc/spapr.c              |  5 ++---
->  hw/ppc/spapr_irq.c          | 26 +++++++++++++++++---------
->  hw/ppc/spapr_pci.c          |  7 ++++---
->  include/hw/pci-host/spapr.h |  4 ++--
->  include/hw/ppc/spapr_irq.h  |  4 +---
->  5 files changed, 26 insertions(+), 20 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index e880db5d38..153cc54354 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1275,7 +1275,7 @@ static void *spapr_build_fdt(SpaprMachineState *s=
-papr)
->      }
-> =20
->      QLIST_FOREACH(phb, &spapr->phbs, list) {
-> -        ret =3D spapr_dt_phb(phb, PHANDLE_INTC, fdt, spapr->irq->nr_ms=
-is, NULL);
-> +        ret =3D spapr_dt_phb(spapr, phb, PHANDLE_INTC, fdt, NULL);
->          if (ret < 0) {
->              error_report("couldn't setup PCI devices in fdt");
->              exit(1);
-> @@ -3910,8 +3910,7 @@ int spapr_phb_dt_populate(SpaprDrc *drc, SpaprMac=
-hineState *spapr,
->          return -1;
->      }
-> =20
-> -    if (spapr_dt_phb(sphb, intc_phandle, fdt, spapr->irq->nr_msis,
-> -                     fdt_start_offset)) {
-> +    if (spapr_dt_phb(spapr, sphb, intc_phandle, fdt, fdt_start_offset)=
-) {
->          error_setg(errp, "unable to create FDT node for PHB %d", sphb-=
->index);
->          return -1;
->      }
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index f3d18b1dad..076da31501 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -29,9 +29,14 @@ static const TypeInfo spapr_intc_info =3D {
->      .class_size =3D sizeof(SpaprInterruptControllerClass),
->  };
-> =20
-> -void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis)
-> +static void spapr_irq_msi_init(SpaprMachineState *spapr)
->  {
-> -    spapr->irq_map_nr =3D nr_msis;
-> +    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-> +        /* Legacy mode doesn't use this allocater */
+Stefan
 
-allocater -> allocator
+--8Bx+wEju+vH9ym24
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +        return;
-> +    }
-> +
-> +    spapr->irq_map_nr =3D spapr_irq_nr_msis(spapr);
->      spapr->irq_map =3D bitmap_new(spapr->irq_map_nr);
->  }
-> =20
-> @@ -102,7 +107,6 @@ int spapr_irq_init_kvm(int (*fn)(SpaprInterruptCont=
-roller *, Error **),
-> =20
->  SpaprIrq spapr_irq_xics =3D {
->      .nr_xirqs    =3D SPAPR_NR_XIRQS,
-> -    .nr_msis     =3D SPAPR_NR_MSIS,
->      .xics        =3D true,
->      .xive        =3D false,
->  };
-> @@ -113,7 +117,6 @@ SpaprIrq spapr_irq_xics =3D {
-> =20
->  SpaprIrq spapr_irq_xive =3D {
->      .nr_xirqs    =3D SPAPR_NR_XIRQS,
-> -    .nr_msis     =3D SPAPR_NR_MSIS,
->      .xics        =3D false,
->      .xive        =3D true,
->  };
-> @@ -132,7 +135,6 @@ SpaprIrq spapr_irq_xive =3D {
->   */
->  SpaprIrq spapr_irq_dual =3D {
->      .nr_xirqs    =3D SPAPR_NR_XIRQS,
-> -    .nr_msis     =3D SPAPR_NR_MSIS,
->      .xics        =3D true,
->      .xive        =3D true,
->  };
-> @@ -247,6 +249,15 @@ void spapr_irq_dt(SpaprMachineState *spapr, uint32=
-_t nr_servers,
->      sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
->  }
-> =20
-> +uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
-> +{
-> +    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-> +        return spapr->irq->nr_xirqs;
-> +    } else {
-> +        return SPAPR_XIRQ_BASE + spapr->irq->nr_xirqs - SPAPR_IRQ_MSI;
-> +    }
-> +}
-> +
->  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  {
->      MachineState *machine =3D MACHINE(spapr);
-> @@ -267,9 +278,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
->      }
-> =20
->      /* Initialize the MSI IRQ allocator. */
-> -    if (!SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-> -        spapr_irq_msi_init(spapr, spapr->irq->nr_msis);
-> -    }
-> +    spapr_irq_msi_init(spapr);
-> =20
->      if (spapr->irq->xics) {
->          Error *local_err =3D NULL;
-> @@ -551,7 +560,6 @@ int spapr_irq_find(SpaprMachineState *spapr, int nu=
-m, bool align, Error **errp)
-> =20
->  SpaprIrq spapr_irq_xics_legacy =3D {
->      .nr_xirqs    =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
-> -    .nr_msis     =3D SPAPR_IRQ_XICS_LEGACY_NR_XIRQS,
->      .xics        =3D true,
->      .xive        =3D false,
->  };
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 01ff41d4c4..cc0e7829b6 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -2277,8 +2277,8 @@ static void spapr_phb_pci_enumerate(SpaprPhbState=
- *phb)
-> =20
->  }
-> =20
-> -int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
-> -                 uint32_t nr_msis, int *node_offset)
-> +int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
-> +                 uint32_t intc_phandle, void *fdt, int *node_offset)
->  {
->      int bus_off, i, j, ret;
->      uint32_t bus_range[] =3D { cpu_to_be32(0), cpu_to_be32(0xff) };
-> @@ -2343,7 +2343,8 @@ int spapr_dt_phb(SpaprPhbState *phb, uint32_t int=
-c_phandle, void *fdt,
->      _FDT(fdt_setprop(fdt, bus_off, "ranges", &ranges, sizeof_ranges));
->      _FDT(fdt_setprop(fdt, bus_off, "reg", &bus_reg, sizeof(bus_reg)));
->      _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pci-config-space-type", 0=
-x1));
-> -    _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pe-total-#msi", nr_msis))=
-;
-> +    _FDT(fdt_setprop_cell(fdt, bus_off, "ibm,pe-total-#msi",
-> +                          spapr_irq_nr_msis(spapr)));
-> =20
->      /* Dynamic DMA window */
->      if (phb->ddw_enabled) {
-> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-> index 23506f05d9..8877ff51fb 100644
-> --- a/include/hw/pci-host/spapr.h
-> +++ b/include/hw/pci-host/spapr.h
-> @@ -128,8 +128,8 @@ struct SpaprPhbState {
->  #define SPAPR_PCI_NV2ATSD_WIN_SIZE   (NVGPU_MAX_NUM * NVGPU_MAX_LINKS =
-* \
->                                        64 * KiB)
-> =20
-> -int spapr_dt_phb(SpaprPhbState *phb, uint32_t intc_phandle, void *fdt,
-> -                 uint32_t nr_msis, int *node_offset);
-> +int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
-> +                 uint32_t intc_phandle, void *fdt, int *node_offset);
-> =20
->  void spapr_pci_rtas_init(void);
-> =20
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index 08173e714c..befe8e01dc 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -27,7 +27,6 @@
->  #define SPAPR_IRQ_MSI        (SPAPR_XIRQ_BASE + 0x0300)
-> =20
->  #define SPAPR_NR_XIRQS       0x1000
-> -#define SPAPR_NR_MSIS        (SPAPR_XIRQ_BASE + SPAPR_NR_XIRQS - SPAPR=
-_IRQ_MSI)
-> =20
->  typedef struct SpaprMachineState SpaprMachineState;
-> =20
-> @@ -73,14 +72,13 @@ void spapr_irq_print_info(SpaprMachineState *spapr,=
- Monitor *mon);
->  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
->                    void *fdt, uint32_t phandle);
-> =20
-> -void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
-> +uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr);
->  int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool a=
-lign,
->                          Error **errp);
->  void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t nu=
-m);
-> =20
->  typedef struct SpaprIrq {
->      uint32_t    nr_xirqs;
-> -    uint32_t    nr_msis;
->      bool        xics;
->      bool        xive;
->  } SpaprIrq;
->=20
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2d7OoACgkQnKSrs4Gr
+c8iuYAf/cvkZOYx4w2o4hXGNs73oBO9qYRbhC40urOLkvflmI4/53u+9QjT8XXZw
+mAh1ANpZoYi3e3B7vt4bIOR16ox1IPPaUWZwXgar50WeWFE51PsTXs539g3JOJyR
+ZGOZq2n2anfMPns+nhCmvOPnvIb4IidXpNZpsqggrGo8p96GaNszjv0/lTq/yWHg
+/M/oowSYeJjDvvontxw57KAT1uFU/A5yK7qLhhTZTng2J/N9UuhQh78dDWoxbu8f
+BhUMMm+4j12OtjCRpeAcfTnvQa4IEBEf9Zi4sI/f2qjROcs9pUxTHWxHjI6KlsTl
+SEaoeyP34j8fEaUrSNn+J9+o1xpD4Q==
+=IAzl
+-----END PGP SIGNATURE-----
+
+--8Bx+wEju+vH9ym24--
 
