@@ -2,50 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BA5D175F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:13:09 +0200 (CEST)
-Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7569D1774
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:17:21 +0200 (CEST)
+Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGSR-0008UO-Jt
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55837)
+	id 1iIGWW-0004Hu-LZ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:17:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iI924-0000ux-8l
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:17:29 -0400
+ (envelope-from <david@redhat.com>) id 1iI9FV-0002Oh-Sq
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:31:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iI920-0006r7-Iu
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:17:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44204)
+ (envelope-from <david@redhat.com>) id 1iI9FU-0001KC-S6
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:31:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45636)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iI920-0006qv-Ak
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:17:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iI9FU-0001K5-K6; Wed, 09 Oct 2019 06:31:16 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7FD08306081C;
- Wed,  9 Oct 2019 10:17:19 +0000 (UTC)
-Received: from work-vm (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C8565C1D6;
- Wed,  9 Oct 2019 10:17:18 +0000 (UTC)
-Date: Wed, 9 Oct 2019 11:17:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH 3/3] migration/postcopy: replace have_listen_thread check
- with PostcopyState check
-Message-ID: <20191009101716.GH2893@work-vm>
-References: <20191006000249.29926-1-richardw.yang@linux.intel.com>
- <20191006000249.29926-4-richardw.yang@linux.intel.com>
- <20191008191551.GN3441@work-vm> <20191009013733.GF26203@richard>
+ by mx1.redhat.com (Postfix) with ESMTPS id 4EEC8C087353;
+ Wed,  9 Oct 2019 10:31:15 +0000 (UTC)
+Received: from [10.36.116.112] (ovpn-116-112.ams2.redhat.com [10.36.116.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8205060BF4;
+ Wed,  9 Oct 2019 10:31:13 +0000 (UTC)
+Subject: Re: [PATCH v4 0/7] s390x/mmu: DAT translation rewrite
+To: qemu-devel@nongnu.org
+References: <20191004105102.15821-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <9d5a3bd5-dfb2-6af3-d114-3075b6e1b199@redhat.com>
+Date: Wed, 9 Oct 2019 12:31:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191009013733.GF26203@richard>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20191004105102.15821-1-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Wed, 09 Oct 2019 10:17:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 09 Oct 2019 10:31:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -60,128 +104,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> On Tue, Oct 08, 2019 at 08:15:51PM +0100, Dr. David Alan Gilbert wrote:
-> >* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> >> After previous cleanup, postcopy thread is running only when
-> >> PostcopyState is LISTENNING or RUNNING. This means it is not necessary
-> >> to spare a variable have_listen_thread to represent the state.
-> >> 
-> >> Replace the check on have_listen_thread with PostcopyState and remove
-> >> the variable.
-> >> 
-> >> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> >> ---
-> >>  migration/migration.h | 1 -
-> >>  migration/ram.c       | 2 +-
-> >>  migration/ram.h       | 1 +
-> >>  migration/savevm.c    | 4 +---
-> >>  4 files changed, 3 insertions(+), 5 deletions(-)
-> >> 
-> >> diff --git a/migration/migration.h b/migration/migration.h
-> >> index 4f2fe193dc..a4d639663d 100644
-> >> --- a/migration/migration.h
-> >> +++ b/migration/migration.h
-> >> @@ -63,7 +63,6 @@ struct MigrationIncomingState {
-> >>      /* Set this when we want the fault thread to quit */
-> >>      bool           fault_thread_quit;
-> >>  
-> >> -    bool           have_listen_thread;
-> >>      QemuThread     listen_thread;
-> >>      QemuSemaphore  listen_thread_sem;
-> >>  
-> >> diff --git a/migration/ram.c b/migration/ram.c
-> >> index 769d3f6454..dfc50d57d5 100644
-> >> --- a/migration/ram.c
-> >> +++ b/migration/ram.c
-> >> @@ -4188,7 +4188,7 @@ static bool postcopy_is_advised(void)
-> >>      return ps >= POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_END;
-> >>  }
-> >>  
-> >> -static bool postcopy_is_running(void)
-> >> +bool postcopy_is_running(void)
-> >>  {
-> >>      PostcopyState ps = postcopy_state_get();
-> >>      return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
-> >> diff --git a/migration/ram.h b/migration/ram.h
-> >> index bd0eee79b6..44fe4753ad 100644
-> >> --- a/migration/ram.h
-> >> +++ b/migration/ram.h
-> >> @@ -59,6 +59,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms);
-> >>  /* For incoming postcopy discard */
-> >>  int ram_discard_range(const char *block_name, uint64_t start, size_t length);
-> >>  int ram_postcopy_incoming_init(MigrationIncomingState *mis);
-> >> +bool postcopy_is_running(void);
-> >>  
-> >>  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
-> >>  
-> >> diff --git a/migration/savevm.c b/migration/savevm.c
-> >> index dcad8897a3..2a0e0b94df 100644
-> >> --- a/migration/savevm.c
-> >> +++ b/migration/savevm.c
-> >> @@ -1836,7 +1836,6 @@ static void *postcopy_ram_listen_thread(void *opaque)
-> >>      qemu_loadvm_state_cleanup();
-> >>  
-> >>      rcu_unregister_thread();
-> >> -    mis->have_listen_thread = false;
-> >>      postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
-> >
-> >That now needs a big comment saying it must be the last thing in the
-> >thread, because now it's got meaning that it's here.
-> >
-> >>  
-> >>      return NULL;
-> >> @@ -1880,7 +1879,6 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-> >>          return -1;
-> >>      }
-> >>  
-> >> -    mis->have_listen_thread = true;
-> >>      /* Start up the listening thread and wait for it to signal ready */
-> >>      qemu_sem_init(&mis->listen_thread_sem, 0);
-> >>      qemu_thread_create(&mis->listen_thread, "postcopy/listen",
-> >> @@ -2518,7 +2516,7 @@ int qemu_loadvm_state(QEMUFile *f)
-> >>  
-> >>      trace_qemu_loadvm_state_post_main(ret);
-> >>  
-> >> -    if (mis->have_listen_thread) {
-> >> +    if (postcopy_is_running()) {
-> >>          /* Listen thread still going, can't clean up yet */
-> >>          return ret;
-> >>      }
-> >
-> >Can you explain to me why this is afe in the case of a failure in
-> >loadvm_postcopy_handle_listen between the start where it sets
-> >the state to LISTENING, and the point where it currently sets
-> >hasve_listen_thread ?  Wouldn't this cause qemu_loadvm_state
-> >not to cleanup?
-> >
+On 04.10.19 12:50, David Hildenbrand wrote:
+> This is a split-up of:
+>     [PATCH-for-4.2 v1 3/9] s390x/mmu: DAT translation rewrite
+> Rebased on latest upstream changes.
 > 
-> I have to say you are right.  listen_thread may not started when PostcopyState
-> is already set to LISTENING.
+> v3 -> v4:
+> - "s390x/mmu: Inject PGM_ADDRESSING on bogus table addresses"
+> -- s/goguous/bogus/
+> - "s390x/mmu: DAT table definition overhaul"
+> -- Fix SEGMENT_ENTRY_SFAA
+> -- Drop three unnecessary defines
+> - "s390x/mmu: Convert to non-recursive page table walk"
+> -- Reorder "REGION_ENTRY_P" checks
+> -- Drop default cases that cannot be reached
 > 
-> The ugly fix may be set PostcopyState back to original one. Not sure whether
-> you would like this. 
-
-I think the 'have_listen_thread' might be the simplest solution though;
-it's very simple!
-
-Dave
-
-> >Dave
-> >
-> >> -- 
-> >> 2.17.1
-> >> 
-> >--
-> >Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> v2 -> v3:
+> - "s390x/mmu: Inject PGM_ADDRESSING on boguous table addresses"
+> -- Keep using cs->as
+> -- Make read_table_entry() return true/false
+> - "s390x/mmu: DAT table definition overhaul"
+> -- Added a comment where to find details about s390x and used definitions
 > 
-> -- 
-> Wei Yang
-> Help you, Help me
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> v1 -> v2:
+> - Cleanup old code first, before switching to non-recursive handling
+> - Fix EDAT1 translation: I was missing the vaddr offset within the 1MB
+>   page.
+> 
+> David Hildenbrand (7):
+>   s390x/mmu: Drop debug logging from MMU code
+>   s390x/mmu: Move DAT protection handling out of mmu_translate_asce()
+>   s390x/mmu: Inject DAT exceptions from a single place
+>   s390x/mmu: Inject PGM_ADDRESSING on bogus table addresses
+>   s390x/mmu: Use TARGET_PAGE_MASK in mmu_translate_pte()
+>   s390x/mmu: DAT table definition overhaul
+>   s390x/mmu: Convert to non-recursive page table walk
+> 
+>  target/s390x/cpu.h        |  78 +++++---
+>  target/s390x/mem_helper.c |  12 +-
+>  target/s390x/mmu_helper.c | 365 ++++++++++++++++----------------------
+>  3 files changed, 220 insertions(+), 235 deletions(-)
+> 
+
+I'll queue and send this soon.
+
+-- 
+
+Thanks,
+
+David / dhildenb
 
