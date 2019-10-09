@@ -2,67 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2CCD16FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:42:42 +0200 (CEST)
-Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5307D1716
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:52:27 +0200 (CEST)
+Received: from localhost ([::1]:53326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFyy-0007Z7-M2
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37012)
+	id 1iIG8Q-0001kF-6C
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iIAWt-00024v-4o
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:53:20 -0400
+ (envelope-from <thuth@redhat.com>) id 1iI7dH-0000RS-7w
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:47:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iIAWr-0006xh-Ma
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:53:18 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46256)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iIAWr-0006xP-GW
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:53:17 -0400
-Received: by mail-io1-xd41.google.com with SMTP id c6so4173826ioo.13
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=03YwMWE0Ew/a3SON8Z+vIAmBp2VAb4Ga2ZUj8kxeh4Q=;
- b=Q7kF9KM1Z9NHtYGsm9C0EmU7QO47cx65aGyxX8xoPzG4dTcin/ZsCMgSyU4W1oCzQQ
- GwG8gOl8M4fjlsV/5kVBu0z1DOISiTWm5KbKgKkDH7pncxCb7dTrnsybk3az+1You8I6
- v1YG9kDvjwYb7hx6nw+daueTLsb/Yc5SUtIt9BXiOt9j3OHTAwObV1xGxgkbKdvuNwDQ
- zleIy2QcuPYObi1WwOfdEjBowsD/JYFpb96bsmHSI4j/qZOE70XFBfgCakDa4xRF57+s
- tFNn+aV4jhWyJnbifzxRXvUo2BM0RRhc/3SL6+PlV8+DFZ8WW8aB/KbZieoQKfy04g8s
- 5gBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=03YwMWE0Ew/a3SON8Z+vIAmBp2VAb4Ga2ZUj8kxeh4Q=;
- b=fqor+bUrULn06ulq5Pi1bzfvTgJoBg09vGQUtNvg0t/2SbNiqWYc8QmeTTDHmWgR5p
- 7a4h3TZ3ScFuYf5G949KoEiMHRGBoEbzyajtVYyVHvAb0ulhsfvu+Fycxw13g+QP9ZBr
- 8cHD74nXj4O5Q2YjNFwsYg7311/+cPvfVrKQA4an6IeLjm+gRuJQ3b27NxhiiIMXAPgx
- 54hsfIN8zBKXPRcsZQxgvOVfM43bBaGtqn+Qj9/sCpwITE2WdxOIglh4C6M/YbrqGHHs
- H8GMGUUmcHrsXDtJ7VuExnXQNm6nSDlma9RVfnLS2SKnoj8U1n43nrmTiczczNB+YTIA
- g2Rg==
-X-Gm-Message-State: APjAAAUfh9BA828Jci3qPCeSXl0GOz8ZbWyvtGe2Cf+IyDL3EvV0EZRc
- jgfmD8ixAa/ZZLbWB6m1T8Zzn5Lc+KAsE2jLTdX4bg==
-X-Google-Smtp-Source: APXvYqyAA2JtUfu8yHC+jx3J4NJsyaRZN1J05enNfjdIoqrhnCS5ypX7oSq+xWL7ui2MY22UZLah6IrcUk0HKsavFRk=
-X-Received: by 2002:a92:360b:: with SMTP id d11mr2745579ila.143.1570621996706; 
- Wed, 09 Oct 2019 04:53:16 -0700 (PDT)
+ (envelope-from <thuth@redhat.com>) id 1iI7dE-0004aA-4c
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:47:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59472)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iI7dD-0004Zq-T0; Wed, 09 Oct 2019 04:47:40 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 83035806A53;
+ Wed,  9 Oct 2019 08:47:37 +0000 (UTC)
+Received: from thuth.remote.csb (unknown [10.36.118.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C24875D6B0;
+ Wed,  9 Oct 2019 08:47:34 +0000 (UTC)
+Subject: Re: [PATCH] target/xtensa: regenerate and re-import test_mmuhifi_c3
+ core
+To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
+References: <20191009025753.957-1-jcmvbkbc@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <d0ab6628-6cab-f522-1f27-343c59369215@redhat.com>
+Date: Wed, 9 Oct 2019 10:47:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20190910095610.4546-1-beata.michalska@linaro.org>
- <20190910095610.4546-5-beata.michalska@linaro.org>
- <c70f7562-c988-5eab-fa1e-fc8b5897e171@linaro.org>
-In-Reply-To: <c70f7562-c988-5eab-fa1e-fc8b5897e171@linaro.org>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Wed, 9 Oct 2019 12:53:05 +0100
-Message-ID: <CADSWDzs=kSveEbLdAwoCNSRYJS=NxXGSEGWHMXM+xxUJ215taQ@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH 4/4] target/arm: Add support for DC CVAP & DC
- CVADP ins
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
+In-Reply-To: <20191009025753.957-1-jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Wed, 09 Oct 2019 08:47:37 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,137 +105,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- shameerali.kolothum.thodi@huawei.com, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 18:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/10/19 2:56 AM, Beata Michalska wrote:
-> > @@ -2229,7 +2229,8 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
-> >  #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
-> >  #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
-> >  #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
-> > -#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
-> > +#define ARM_CP_DC_CVAP           (ARM_CP_SPECIAL | 0x0600)
-> > +#define ARM_LAST_SPECIAL         ARM_CP_DC_CVAP
->
-> I don't see that this operation needs to be handled via "special".  It's a
-> function call upon write, as for many other system registers.
->
+On 09/10/2019 04.57, Max Filippov wrote:
+> Overlay part of the test_mmuhifi_c3 core has GPL3 copyright headers in
+> it. Fix that by regenerating test_mmuhifi_c3 core overlay and
+> re-importing it.
+> 
+> Fixes: d848ea776728 ("target/xtensa: add test_mmuhifi_c3 core")
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+> ---
+>  target/xtensa/core-test_mmuhifi_c3.c          |    3 +-
+>  target/xtensa/core-test_mmuhifi_c3/core-isa.h |  116 +-
+>  .../core-test_mmuhifi_c3/gdb-config.inc.c     |  114 +-
+>  .../core-test_mmuhifi_c3/xtensa-modules.inc.c | 6384 ++++++++---------
+>  4 files changed, 3385 insertions(+), 3232 deletions(-)
 
-Too inspired by ZVA I guess. Will make the appropriate changes in the
-next version.
+FWIW,
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-> > +static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
-> > +{
-> > +    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) != 0;
-> > +}
-> > +
-> > +static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
-> > +{
-> > +    return (FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >> 1) != 0;
-> > +}
->
-> The correct check is FIELD_EX(...) >= 2.  This is a 4-bit field, as with all of
-> the others.
->
-Noted.
-> > +static CPAccessResult aa64_cacheop_persist_access(CPUARMState *env,
-> > +                                                  const ARMCPRegInfo *ri,
-> > +                                                  bool isread)
-> > +{
-> > +    ARMCPU *cpu = env_archcpu(env);
-> > +    /*
-> > +     * Access is UNDEF if lacking implementation for either DC CVAP or DC CVADP
-> > +     * DC CVAP ->  CRm: 0xc
-> > +     * DC CVADP -> CRm: 0xd
-> > +     */
-> > +    return (ri->crm == 0xc && !cpu_isar_feature(aa64_dcpop, cpu)) ||
-> > +           (ri->crm == 0xd && !cpu_isar_feature(aa64_dcpodp, cpu))
-> > +           ? CP_ACCESS_TRAP_UNCATEGORIZED
-> > +           : aa64_cacheop_access(env, ri, isread);
-> > +}
-> ...
-> > +    { .name = "DC_CVAP", .state = ARM_CP_STATE_AA64,
-> > +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 1,
-> > +      .access = PL0_W, .type = ARM_CP_DC_CVAP,
-> > +      .accessfn = aa64_cacheop_persist_access },
-> > +    { .name = "DC_CVADP", .state = ARM_CP_STATE_AA64,
-> > +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 1,
-> > +      .access = PL0_W, .type = ARM_CP_DC_CVAP,
-> > +      .accessfn = aa64_cacheop_persist_access },
->
-> While this access function works, it's better to simply not register these at
-> all when they're not supported.  Compare the registration of rndr_reginfo.
->
-> As I described above, I think this can use a normal write function.  In which
-> case this would use .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END.
->
-> (I believe that ARM_CP_IO is not required, but I'm not 100% sure.  Certainly
-> there does not seem to be anything in dc_cvap() that affects state which can
-> queried from another virtual cpu, so there does not appear to be any reason to
-> grab the global i/o lock.  The host kernel should be just fine with concurrent
-> msync syscalls, or whatever it is that libpmem uses.)
->
->
-OK, will move that to conditional registration and double check the type.
-Thanks for the suggestion.
+Thanks for the quick update! I think we should include the patch also in
+future stable releases if necessary, so I've added qemu-stable to CC: now.
 
-> > +void HELPER(dc_cvap)(CPUARMState *env, uint64_t vaddr_in)
-> > +{
-> > +#ifndef CONFIG_USER_ONLY
-> > +    ARMCPU *cpu = env_archcpu(env);
-> > +    /* CTR_EL0 System register -> DminLine, bits [19:16] */
-> > +    uint64_t dline_size = 4 << ((cpu->ctr >> 16) & 0xF);
-> > +    uint64_t vaddr = vaddr_in & ~(dline_size - 1);
-> > +    void *haddr;
-> > +    int mem_idx = cpu_mmu_index(env, false);
-> > +
-> > +    /* This won't be crossing page boundaries */
-> > +    haddr = probe_read(env, vaddr, dline_size, mem_idx, GETPC());
-> > +    if (haddr) {
-> > +
-> > +        ram_addr_t offset;
-> > +        MemoryRegion *mr;
-> > +
-> > +        /*
-> > +         * RCU critical section + ref counting,
-> > +         * so that MR won't disappear behind the scene
-> > +         */
-> > +        rcu_read_lock();
-> > +        mr = memory_region_from_host(haddr, &offset);
-> > +        if (mr) {
-> > +            memory_region_ref(mr);
-> > +        }
-> > +        rcu_read_unlock();
-> > +
-> > +        if (mr) {
-> > +            memory_region_do_writeback(mr, offset, dline_size);
-> > +            memory_region_unref(mr);
-> > +        }
-> > +    }
-> > +#endif
->
->
-> We hold the rcu lock whenever a TB is executing.  I don't believe there's any
-> point in increasing the lock count here.  Similarly with memory_region
-> refcounts -- they cannot vanish while we're executing a TB.
->
-> Thus I believe that about half of this function can fold away.
->
->
-So I was chasing the wrong locking herre...
-Indeed if the RCU lock is being already held I can safely drop the locking here.
-
-> r~
-
-Thank you for the review,
-
-BR
-Beata
+ Thomas
 
