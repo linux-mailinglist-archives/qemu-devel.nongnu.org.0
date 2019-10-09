@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C83CD1A9D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:08:57 +0200 (CEST)
-Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2A5D1A59
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:01:41 +0200 (CEST)
+Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJCZ-0001y2-Ps
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:08:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48011)
+	id 1iIJ5V-0001qS-N3
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:01:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50269)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iIH9F-0005GA-4g
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:57:22 -0400
+ (envelope-from <crosa@redhat.com>) id 1iIHJb-0008Fk-4P
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:08:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iIH9D-00047y-SA
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:57:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40018)
+ (envelope-from <crosa@redhat.com>) id 1iIHJZ-0001Xd-Uh
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:08:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43510)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iIH9A-00045n-Iy; Wed, 09 Oct 2019 14:57:16 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>)
+ id 1iIHJR-0001T4-QW; Wed, 09 Oct 2019 15:07:54 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E2B918C4289;
- Wed,  9 Oct 2019 18:57:14 +0000 (UTC)
-Received: from [10.3.116.162] (ovpn-116-162.phx2.redhat.com [10.3.116.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B5C35DA8C;
- Wed,  9 Oct 2019 18:57:13 +0000 (UTC)
-Subject: Re: [PATCH 0/5] block/dirty-bitmap: check number and size constraints
- against queued bitmaps
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190606184159.979-1-jsnow@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ba9b72f0-42b4-f295-78e4-454cc2992346@redhat.com>
-Date: Wed, 9 Oct 2019 13:57:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id A65929B29C;
+ Wed,  9 Oct 2019 19:07:51 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-122-151.rdu2.redhat.com
+ [10.10.122.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05CDD179C9;
+ Wed,  9 Oct 2019 19:07:44 +0000 (UTC)
+Date: Wed, 9 Oct 2019 15:07:43 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/5] tests/boot_linux_console: Add initrd test for the
+ Exynos4210
+Message-ID: <20191009190743.GA6019@localhost.localdomain>
+References: <20191005154748.21718-1-f4bug@amsat.org>
+ <20191005154748.21718-2-f4bug@amsat.org>
+ <CAFEAcA8ME5U5=rNLRSvNx7LmanqHhn_KWj6qtgym_=W1M9WDoA@mail.gmail.com>
+ <20191008214907.GA28137@localhost.localdomain>
+ <CAFEAcA9DzeObmtsc2VJmw=1yruANZ6ajY2SG0cAPdehkeRN3wA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190606184159.979-1-jsnow@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9DzeObmtsc2VJmw=1yruANZ6ajY2SG0cAPdehkeRN3wA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Wed, 09 Oct 2019 18:57:14 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Wed, 09 Oct 2019 19:07:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,35 +63,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, aihua liang <aliang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: =?iso-8859-1?Q?Fr=E9d=E9ric?= Basse <contact@fredericb.info>,
+ Maksim Kozlov <m.kozlov@samsung.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Evgeny Voevodin <e.voevodin@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Dmitry Solodkiy <d.solodkiy@samsung.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/6/19 1:41 PM, John Snow wrote:
-> When adding new persistent dirty bitmaps, we only check constraints
-> against currently stored bitmaps, and ignore the pending number and size
-> of any bitmaps yet to be stored.
+On Wed, Oct 09, 2019 at 02:38:02PM +0100, Peter Maydell wrote:
+> On Tue, 8 Oct 2019 at 22:49, Cleber Rosa <crosa@redhat.com> wrote:
+> >
+> > I find it hard to judge precisely how much of a third-party some of
+> > these are.  I remember Philippe mentioning that one of them, I guess
+> > the images used on linux_ssh_mips_malta.py, were "as official as it
+> > gets" (my words, from my often misleading memory).
+> >
+> > Reproducibility is definitely an issue, in the sense given that some
+> > of these can indeed go away, but as long as they're available the hash
+> > recorded in the test should guarantee that we're running the same
+> > images.
+> >
+> > Do you think we should do something different here?
 > 
-> Rework the "can_store" and "remove" interface to explicit "add" and "remove",
-> and begin keeping track of the queued burden when adding new bitmaps.
+> I'm not sure, which is why I asked whether this new test
+> was in line with what we've done previously. Since these
+> are just test cases and we don't redistribute them to
+> other people there's less of a traceability/reproducibility
+> worry, and if we check hashes on download that cuts off
+> a lot of "fail to notice if the image changes for some
+> reason" possible problems.
 > 
-> Reported-by: aihua liang <aliang@redhat.com>
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1712636
+> thanks
+> -- PMM
 > 
-> John Snow (5):
->    block/qcow2-bitmap: allow bitmap_list_load to return an error code
->    block/dirty-bitmap: Refactor bdrv_can_store_new_bitmap
->    block/dirty-bitmap: rework bdrv_remove_persistent_dirty_bitmap
->    block/qcow2-bitmap: Count queued bitmaps towards nb_bitmaps
->    block/qcow2-bitmap: Count queued bitmaps towards directory_size
 
-Is this series worth reviving as a v2, as it solves a corner-case bug?
+Yep, because I have no clue how to do improve on this (redistributing
+the binaries is definitely not on the improvement side, and neither
+is not testing some machine types), the current approach seems good.
 
+Thanks for checking in and giving feedback!
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+- Cleber.
 
