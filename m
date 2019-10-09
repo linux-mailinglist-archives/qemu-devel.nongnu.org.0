@@ -2,53 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1A3D14F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:08:30 +0200 (CEST)
-Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45CAD14CF
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:04:16 +0200 (CEST)
+Received: from localhost ([::1]:52714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFRs-0002sz-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34896)
+	id 1iIFNn-0005So-1G
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iI5db-0004YD-9J
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:39:56 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iI7AT-0005sI-59
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:17:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iI5dZ-0001IK-GN
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:39:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:26032)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iI5dZ-0001FI-8G
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:39:53 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2019 23:39:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,273,1566889200"; d="scan'208";a="205657378"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.191])
- ([10.239.196.191])
- by orsmga002.jf.intel.com with ESMTP; 08 Oct 2019 23:39:47 -0700
-Subject: Re: [PATCH v12 06/11] numa: Extend CLI to provide memory latency and
- bandwidth information
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20190920074349.2616-1-tao3.xu@intel.com>
- <20190920074349.2616-7-tao3.xu@intel.com>
- <20191002171619.04a11347@redhat.com>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <5bfe9d25-89a1-90a6-75fb-a6aecf4844c0@intel.com>
-Date: Wed, 9 Oct 2019 14:39:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191002171619.04a11347@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iI7AR-0001jZ-TM
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:17:57 -0400
+Received: from mail-eopbgr10107.outbound.protection.outlook.com
+ ([40.107.1.107]:18368 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iI7AL-0001hw-Cz; Wed, 09 Oct 2019 04:17:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lrC0sjYMOJS4amcj57+wVYH8i255pI75rBjSFqBMuJbfmI0+p1UWy+TtW4pbUpU295snl6XkthL8946IrkGvfxfMTvyYU/akI0DJFGCXDDEFxd37myLYxZnmcXxAFtit+L7tAp08ZteyI5jne4z8yPHwYZh01e7bWMFz7iMhmFCEN1vsGLqr4xBBum55eCa5XFvIxFuDX15ioc+NMBpES5s/4vbWyaRFMpz5SEqC3kDdGDuGuolTLoAZqhcCm/9Q9sb0i+qyuPSHlxiVS1iyIQMFoXFYwq712EbM2MsrRX8kGMGjsSkL4lbsQ0WVoSTdBqzNhBSKwPQwqTXz1O6w/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oBWq+UoL7zI4QWco+24CD9k6d72HLnL2e84PUG7PDBY=;
+ b=Oz7QH+y9QX0xV0m4dY9BYLBswVxpDHp1i0yTUw+nXRMl+Ph9YiEMqcAnuN49TXZARLSYbJzi12B1DJRui4saXZjGbiK8vqHAe3aNOsbazEwbZ4TiimfZnHkGNW1SYOL1iaP6flaWawtw6O66zbCt95Eiq+Bwda2HkEic5YxJjKvNuZ6b2pVz3hOtq1I0HXyg0WS+5NiAirT+ICV1lA3BnYTyJ1xbjxTaZFKkJfgpn9ktfGBcdi8fGbUvG8mHdQJlVbLQWbH3dZu8trd9iUeyQU3VUeNfAlpspxRl7QDouAxWpwXWb3mOyBNesbHfurT4OfLousqSWL7qmzZ8bfc01A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oBWq+UoL7zI4QWco+24CD9k6d72HLnL2e84PUG7PDBY=;
+ b=qID52BkGAn1+/yGuaI65loNPU+IVGKzVxgkE0CpN6XTgbNc1zHyLVZrKlnlAubgHgiVQX0McO/vRs0vsoXusE2MnLOQd+YsjA7kv1wKzok+C7bKia0H7FFvKDj7fPh4f9MhSauF3zJ2wkVYoQAHn/yNC2AGUbeHWvqztjPO0cig=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB4059.eurprd08.prod.outlook.com (20.179.10.89) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.16; Wed, 9 Oct 2019 08:17:45 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2327.026; Wed, 9 Oct 2019
+ 08:17:45 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 04/31] error: auto propagated local_err
+Thread-Topic: [PATCH v4 04/31] error: auto propagated local_err
+Thread-Index: AQHVeHBkmvcT9nkNqUiG56jY6f3L6qdR/5BDgAADlwA=
+Date: Wed, 9 Oct 2019 08:17:44 +0000
+Message-ID: <b330f111-4e71-c3a6-4484-22dd25906b55@virtuozzo.com>
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-5-vsementsov@virtuozzo.com>
+ <87r23m8hvb.fsf@dusky.pond.sub.org>
+In-Reply-To: <87r23m8hvb.fsf@dusky.pond.sub.org>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.31
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0342.eurprd05.prod.outlook.com
+ (2603:10a6:7:92::37) To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191009111739975
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 602fcbc2-1453-4783-bc18-08d74c91296d
+x-ms-traffictypediagnostic: DB8PR08MB4059:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <DB8PR08MB4059EC8348CDFE711C320951C1950@DB8PR08MB4059.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 018577E36E
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(366004)(376002)(136003)(396003)(39840400004)(199004)(189003)(6246003)(36756003)(446003)(7736002)(25786009)(486006)(4326008)(229853002)(81156014)(8676002)(8936002)(81166006)(11346002)(31696002)(86362001)(2616005)(476003)(6486002)(6306002)(6512007)(305945005)(6436002)(7416002)(7406005)(478600001)(64756008)(66556008)(66476007)(66446008)(66946007)(14454004)(5660300002)(66066001)(6916009)(2906002)(966005)(186003)(14444005)(256004)(316002)(26005)(99286004)(52116002)(76176011)(3846002)(6116002)(102836004)(386003)(6506007)(71190400001)(54906003)(71200400001)(31686004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4059;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DYPV/Os7Y7Qcj2xdZNXWXe8YHIm8UTkZgvAhrbrdFki3U8tasVI4VdLkVwAo1LZPDcKzAkB811ouveHjJoN/DqDUtuC26OJHroUXp1P2Ul/it4uP1wdQZZ+SybsYDmhd9saUs0Qm1/jgcXAn3xR3S2sKtO3f7EqBmh54xCEAMdsJSEKsz6RmXVYD8uwze8Nfvk+5HtxnbydWOVzNA3V9hoBKmpptTVDAVGvDQ4HhQFX8uRw5NpJp6bTVLo/dTw7rmjsar1Iw76v5gfJDJLhzH9iIRtgkzSPAHf/iuqmIfXE7HLw15rHSSOjA6CtZFQ/m1xX0OiRPlrP57eT4XcCwd/ME6GWTtNK88Js88KO8L3Qji+Lctnv94GNxtl+dXJcalBrQK0o2pC60bhJm8hyzx+HmjI0sdrEI6PTpbihlQACRKrkfzkX5CD8si/CaK8vEY5uJqLzw7fzJqw3h0+3diA==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1F04203EDEC94040874701CC5D5D5B8F@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 602fcbc2-1453-4783-bc18-08d74c91296d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2019 08:17:44.9414 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eYoGkYJf5xZ2e34FvjS0JF4dHE0tfE0IDV2mvO4BZ+WaEuDOeiV+V8Ztq0QKOQ7emHQzvOAOs2XEN0s3s04hofknEypDZMXELAanR2ghHkQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4059
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,64 +110,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "pburton@wavecomp.com" <pburton@wavecomp.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "codyprime@gmail.com" <codyprime@gmail.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>, "Williams,
- Dan J" <dan.j.williams@intel.com>
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "arikalo@wavecomp.com" <arikalo@wavecomp.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+ "joel@jms.id.au" <joel@jms.id.au>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "sw@weilnetz.de" <sw@weilnetz.de>,
+ "groug@kaod.org" <groug@kaod.org>,
+ "yuval.shaia@oracle.com" <yuval.shaia@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "clg@kaod.org" <clg@kaod.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "david@redhat.com" <david@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "integration@gluster.org" <integration@gluster.org>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "andrew@aj.id.au" <andrew@aj.id.au>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ "sundeep.lkml@gmail.com" <sundeep.lkml@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/2019 11:16 PM, Igor Mammedov wrote:
-> On Fri, 20 Sep 2019 15:43:44 +0800
-> Tao Xu <tao3.xu@intel.com> wrote:
-> 
-[...]
->> +struct HMAT_LB_Info {
->> +    /* Indicates it's memory or the specified level memory side cache. */
->> +    uint8_t     hierarchy;
->> +
->> +    /* Present the type of data, access/read/write latency or bandwidth. */
->> +    uint8_t     data_type;
->> +
->> +    /* Array to store the latencies */
-> specify units it's stored in
-> 
->> +    uint64_t    *latency;
->> +
->> +    /* Array to store the bandwidthes */
-> ditto
-> 
->> +    uint64_t    *bandwidth;
-> btw:
-> 
-> what was the reason for picking uint64_t for storing above values?
-> 
-> it seems in this patch you dumb down bandwidth to MB/s above but
-> store latency as is.
-
-Because I want to store the bandwidth or latency value (minimum unit) 
-that user input. In HMAT, the minimum unit of bandwidth is MB/s, but in 
-QAPI, the minimum unit of size is Byte. So I convert size into MB/s and 
-time unit is "ps", need not convert.
-> 
-> and then in 9/11 build_hmat_lb you divide that on 'base' units,
-> where are guaranties that value stored here will fit into 2 bytes
-> used in HMAT to store it in the table?
-> 
-For HMAT spec, for a matrix of bandwidth or latency, there is only one 
-base (in order to save ACPI tables space). We need to extract base for a 
-matrix, but user input bandwidth or latency line by line. So after all 
-data input, we can extract the base (as in 9/11).
-
-There is another benefit. If user input different but similar units, 
-such as "10ns" and "100ps", we can also store them. Only If user input 
-big gap units, such as "1ps" and "1000ms". we can't store them and raise 
-error.
-
-> if this structure should store values in terms on HMAT table it should
-> probably use uint16_t and check that user provided value won't overflow
-> at the time of CLI parsing.
-> 
-
+MDkuMTAuMjAxOSAxMTowNCwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IFZsYWRpbWlyIFNl
+bWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4gd3JpdGVzOg0KPiAN
+Cj4+IEhlcmUgaXMgaW50cm9kdWNlZCBFUlJQX0FVVE9fUFJPUEFHQVRFIG1hY3JvLCB0byBiZSB1
+c2VkIGF0IHN0YXJ0IG9mDQo+PiBmdW5jdGlvbnMgd2l0aCBlcnJwIE9VVCBwYXJhbWV0ZXIuDQo+
+Pg0KPj4gSXQgaGFzIHRocmVlIGdvYWxzOg0KPj4NCj4+IDEuIEZpeCBpc3N1ZSB3aXRoIGVycm9y
+X2ZhdGFsICYgZXJyb3JfcHJlcGVuZC9lcnJvcl9hcHBlbmRfaGludDogdXNlcg0KPj4gY2FuJ3Qg
+c2VlIHRoaXMgYWRkaXRpb25hbCBpbmZvcm1hdGlvbiwgYmVjYXVzZSBleGl0KCkgaGFwcGVucyBp
+bg0KPj4gZXJyb3Jfc2V0ZyBlYXJsaWVyIHRoYW4gaW5mb3JtYXRpb24gaXMgYWRkZWQuIFtSZXBv
+cnRlZCBieSBHcmVnIEt1cnpdDQo+IA0KPiBEb25lIGluIFBBVENIIDA3LTMxLg0KPiANCj4+IDIu
+IEZpeCBpc3N1ZSB3aXRoIGVycm9yX2Fib3J0ICYgZXJyb3JfcHJvcGFnYXRlOiB3aGVuIHdlIHdy
+YXANCj4+IGVycm9yX2Fib3J0IGJ5IGxvY2FsX2VycitlcnJvcl9wcm9wYWdhdGUsIHJlc3VsdGlu
+ZyBjb3JlZHVtcCB3aWxsDQo+PiByZWZlciB0byBlcnJvcl9wcm9wYWdhdGUgYW5kIG5vdCB0byB0
+aGUgcGxhY2Ugd2hlcmUgZXJyb3IgaGFwcGVuZWQuDQo+PiAodGhlIG1hY3JvIGl0c2VsZiBkb2Vz
+bid0IGZpeCB0aGUgaXNzdWUsIGJ1dCBpdCBhbGxvd3MgdG8gWzMuXSBkcm9wIGFsbA0KPj4gbG9j
+YWxfZXJyK2Vycm9yX3Byb3BhZ2F0ZSBwYXR0ZXJuLCB3aGljaCB3aWxsIGRlZmluaXRlbHkgZml4
+IHRoZSBpc3N1ZSkNCj4+IFtSZXBvcnRlZCBieSBLZXZpbiBXb2xmXQ0KPj4NCj4+IDMuIERyb3Ag
+bG9jYWxfZXJyK2Vycm9yX3Byb3BhZ2F0ZSBwYXR0ZXJuLCB3aGljaCBpcyB1c2VkIHRvIHdvcmth
+cm91bmQNCj4+IHZvaWQgZnVuY3Rpb25zIHdpdGggZXJycCBwYXJhbWV0ZXIsIHdoZW4gY2FsbGVy
+IHdhbnRzIHRvIGtub3cgcmVzdWx0aW5nDQo+PiBzdGF0dXMuIChOb3RlOiBhY3R1YWxseSB0aGVz
+ZSBmdW5jdGlvbnMgY291bGQgYmUgbWVyZWx5IHVwZGF0ZWQgdG8NCj4+IHJldHVybiBpbnQgZXJy
+b3IgY29kZSkuDQo+IA0KPiBOb3QgZG9uZS4gIENhbiB5b3UgcHJvdG90eXBlIHRoaXMgcGFydD8g
+IEEgZmV3IG1hbnVhbGx5IGRvbmUgZXhhbXBsZXMNCj4gd291bGQgZ2l2ZSB1cyBhbiBpZGVhIGhv
+dyB0aGUgY29tcGxldGUgc29sdXRpb24gd291bGQgbG9vayBsaWtlLiAgQQ0KPiAoc2VtaS0pYXV0
+b21hdGVkIGNvbXBsZXRlIGNvbnZlcnNpb24gb2YgYSBzdWJzeXN0ZW0gd291bGQgYWRkaXRpb25h
+bGx5DQo+IGdpdmUgdXMgYW4gaWRlYSBob3cgdG8gYWN0dWFsbHkgZG8gdGhlIGNvbnZlcnNpb24u
+DQo+IA0KPiBXZSBjYW4gZGlzY3VzcyBhcHBseWluZyBFUlJQX0FVVE9fUFJPUEFHQVRFKCkgYXMg
+YSBidWcgZml4IGZvciAxLiwgYW5kDQo+IGxlYXZlIDIuIGFuZCAzLiBmb3IgbGF0ZXIuICBGZWVs
+cyBsaWtlIGEgaGFsZi1kb25lIGpvYiB0byBtZS4gIFdlJ3ZlIGdvdA0KPiB0b28gbWFueSBvZiB0
+aG9zZSBpbiB0aGUgdHJlZSBhbHJlYWR5LiAgRHVubm8uDQo+IA0KDQpJZiB1cGRhdGUgZXZlcnl0
+aGluZyBpdCdzIGFib3V0IDkwLTE0MCBwYXRjaGVzLg0KDQpUaGUgd2hvbGUgdGhpbmcgd2FzIGRv
+bmUgaW4gIltSRkMgdjIgMC85XSBlcnJvcjogYXV0byBwcm9wYWdhdGVkIGxvY2FsX2VyciINCjwy
+MDE5MDkyMzE2MTIzMS4yMjAyOC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCmh0dHBzOi8v
+bGlzdHMuZ251Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDE5LTA5L21zZzA1MTU3Lmh0
+bWwNCg0KLSBpdCB3YXMgc28gaHVnZSwgdGhhdCBJIGRlY2lkZWQgdG8gcG9zdHBvbmUgMiBhbmQg
+My4uLg0KDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
