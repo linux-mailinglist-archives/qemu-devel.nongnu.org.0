@@ -2,68 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B919D17A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:39:49 +0200 (CEST)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66391D1798
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:35:26 +0200 (CEST)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGsG-0002Yq-K0
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
+	id 1iIGo0-0005br-NS
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:35:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wrfsh@yandex-team.ru>) id 1iIBDy-0006Z6-Ce
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:37:51 -0400
+ (envelope-from <david@redhat.com>) id 1iIBMp-0007XQ-MX
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:47:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wrfsh@yandex-team.ru>) id 1iIBDx-0004dU-4P
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:37:50 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:34768)
+ (envelope-from <david@redhat.com>) id 1iIBMn-0007Gg-As
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:46:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46410)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wrfsh@yandex-team.ru>)
- id 1iIBDq-0004X1-K4; Wed, 09 Oct 2019 08:37:43 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id E26342E1580;
- Wed,  9 Oct 2019 15:37:37 +0300 (MSK)
-Received: from iva8-b53eb3f76dc7.qloud-c.yandex.net
- (iva8-b53eb3f76dc7.qloud-c.yandex.net [2a02:6b8:c0c:2ca1:0:640:b53e:b3f7])
- by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- XcTfV1KpbP-badiLtx5; Wed, 09 Oct 2019 15:37:37 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1570624657; bh=x+izVrG0MHq7INz905kQuzRRPgcouZesc8IdmfEahrM=;
- h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
- b=LtYA24SB7cGaUwzsnAgkNHOkGnOipHYvOnTpaTi2RmWuFPAI5xMXsc2oktcJ0G0hR
- hhyU6DHqxIVlREVUvmlJ5vCoo8YJHiUxm5i4FSbPqP5QyzqOTqIuSKUOBSSohgHX34
- E3Cy1zAayC6pC/YkOgQGt8m4FsT4YKuRnwAZl5GQ=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
- [2a02:6b8:0:40c:f68c:50ff:fee9:44bd])
- by iva8-b53eb3f76dc7.qloud-c.yandex.net (nwsmtp/Yandex) with ESMTPSA id
- 6wDe77okZS-baHepNOo; Wed, 09 Oct 2019 15:37:36 +0300
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client certificate not present)
-Subject: Re: [RFC PATCH] virtio-blk: advertise F_WCE (F_FLUSH) if F_CONFIG_WCE
- is also advertised
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <1568980590-806043-1-git-send-email-wrfsh@yandex-team.ru>
- <20191008132416.GA28104@stefanha-x1.localdomain>
-From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-Message-ID: <f7d2c01d-1676-f02c-e538-f924282eb6a5@yandex-team.ru>
-Date: Wed, 9 Oct 2019 15:37:35 +0300
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iIBMn-0007Fg-15
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:46:57 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2E40F18C4292;
+ Wed,  9 Oct 2019 12:46:56 +0000 (UTC)
+Received: from [10.36.118.16] (unknown [10.36.118.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E54E60167;
+ Wed,  9 Oct 2019 12:46:55 +0000 (UTC)
+Subject: Re: [PATCH v5 00/18] target/s390: Use tcg unwinding for ilen
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20191001171614.8405-1-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <116b750f-89da-47ec-76b9-98e8517d2c25@redhat.com>
+Date: Wed, 9 Oct 2019 14:46:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191008132416.GA28104@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20191001171614.8405-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Wed, 09 Oct 2019 12:46:56 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 77.88.29.217
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,95 +104,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, qemu-block@nongnu.org,
- stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 01.10.19 19:15, Richard Henderson wrote:
+> Changes since v4:
+>   * Fix a rebase error in patch 2.
+>   * Fix s390_cpu_get_phys_page_debug in patch 9.
+>   * Rebased on David's tree.
+>=20
+> Based-on: https://github.com/davidhildenbrand/qemu/tree/mmu
+>=20
+>=20
+> r~
+>=20
+>=20
+> Richard Henderson (18):
+>   target/s390x: Add ilen to unwind data
+>   target/s390x: Remove ilen parameter from tcg_s390_program_interrupt
+>   target/s390x: Remove ilen parameter from s390_program_interrupt
+>   target/s390x: Use tcg_s390_program_interrupt in TCG helpers
+>   target/s390x: Push trigger_pgm_exception lower in s390_cpu_tlb_fill
+>   target/s390x: Handle tec in s390_cpu_tlb_fill
+>   target/s390x: Return exception from mmu_translate_real
+>   target/s390x: Remove exc argument to mmu_translate_asce
+>   target/s390x: Return exception from mmu_translate
+>   target/s390x: Return exception from translate_pages
+>   target/s390x: Remove fail variable from s390_cpu_tlb_fill
+>   target/s390x: Simplify helper_lra
+>   target/s390x: Rely on unwinding in s390_cpu_tlb_fill
+>   target/s390x: Rely on unwinding in s390_cpu_virt_mem_rw
+>   target/s390x: Remove ILEN_AUTO
+>   target/s390x: Remove ilen argument from trigger_access_exception
+>   target/s390x: Remove ilen argument from trigger_pgm_exception
+>   target/s390x: Remove ILEN_UNWIND
+>=20
+>  target/s390x/cpu.h           |  7 +---
+>  target/s390x/internal.h      |  6 +--
+>  target/s390x/tcg_s390x.h     |  4 +-
+>  hw/s390x/s390-pci-inst.c     | 58 +++++++++++++-------------
+>  target/s390x/cc_helper.c     |  4 +-
+>  target/s390x/crypto_helper.c |  7 ++--
+>  target/s390x/diag.c          | 14 +++----
+>  target/s390x/excp_helper.c   | 60 ++++++++++++--------------
+>  target/s390x/fpu_helper.c    |  6 +--
+>  target/s390x/helper.c        |  3 +-
+>  target/s390x/int_helper.c    | 15 +++----
+>  target/s390x/interrupt.c     |  9 ++--
+>  target/s390x/ioinst.c        | 40 +++++++++---------
+>  target/s390x/mem_helper.c    | 61 +++++++++++++--------------
+>  target/s390x/misc_helper.c   | 27 ++++--------
+>  target/s390x/mmu_helper.c    | 81 +++++++++++++++---------------------
+>  target/s390x/tcg-stub.c      |  4 +-
+>  target/s390x/translate.c     | 20 +++++++--
+>  18 files changed, 202 insertions(+), 224 deletions(-)
+>=20
 
-On 08.10.2019 16:24, Stefan Hajnoczi wrote:
-> On Fri, Sep 20, 2019 at 02:56:30PM +0300, Evgeny Yakovlev wrote:
->> Virtio spec 1.1 (and earlier), 5.2.5.1 Driver Requirements: Device
->> Initialization:
->>
->> "Devices SHOULD always offer VIRTIO_BLK_F_FLUSH, and MUST offer it if
->> they offer VIRTIO_BLK_F_CONFIG_WCE.
->>
->> It looks like currently F_CONFIG_WCE and F_WCE are not connected to each
->> other. qemu will advertise F_CONFIG_WCE if config-wce argument is
->> set for virtio-blk device. While F_WCE is advertised if underlying block
->> backend actually has it's caching enabled.
->> Those two things are not related to each other.
->>
->> Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
->> ---
->>   hw/block/virtio-blk.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
->> index 1885160..b45dc0c 100644
->> --- a/hw/block/virtio-blk.c
->> +++ b/hw/block/virtio-blk.c
->> @@ -990,7 +990,8 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
->>           virtio_add_feature(&features, VIRTIO_BLK_F_SCSI);
->>       }
->>   
->> -    if (blk_enable_write_cache(s->blk)) {
->> +    if (blk_enable_write_cache(s->blk) ||
->> +        virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE)) {
->>           virtio_add_feature(&features, VIRTIO_BLK_F_WCE);
->>       }
->>       if (blk_is_read_only(s->blk)) {
->> -- 
->> 2.7.4
-> Sorry for the very late response.  I have been ill and am still
-> recovering.
+Thanks,
 
+Queued to
 
-Feel better!
+https://github.com/davidhildenbrand/qemu.git s390-tcg-next
 
+--=20
 
->
-> The motivation for this change looks correct but this patch may cause
-> host_features to change across live migration to a newer QEMU version.
-> If the guest accesses VIRTIO_PCI_HOST_FEATURES before and after live
-> migration it may see different values, which is unexpected.
->
-> The safe way of introducing guest-visible changes like this is to make
-> the change conditional on the machine type version so that old guests
-> see old behavior and new guests see new behavior.
->
-> Live migration compatibility can be guaranteed by adding a new property
-> to virtio_blk_properties[]:
->
->    DEFINE_PROP_BOOL("enable-wce-if-config-wce", VirtIOBlock,
->                     conf.enable_wce_if_config_wce, true),
->
-> Then tweak the patch:
->
->    if (blk_enable_write_cache(s->blk) ||
->        (s->conf.enable_wce_if_config_wce &&
->         virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
->
-> And finally disable enable_wce_if_config_wce for older machine types to
-> retain compatibility:
->
->    GlobalProperty hw_compat_4_2[] = {
->        { "virtio-blk-device", "enable-wce-if-config-wce", "off" },
->    };
->
-> (I have omitted some steps like defining
-> VirtIOBlkConf.enable_wce_if_config_wce field and hooking up
-> hw_compat_4_2[], but you can figure that out from the existing code.)
+Thanks,
 
-
-Why don't we just migrate host_features? That will ensure they are the 
-same. And messing up device config on destination is bad anyway.
-
-
->
-> Stefan
-
-
-
+David / dhildenb
 
