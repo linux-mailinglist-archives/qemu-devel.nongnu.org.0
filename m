@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED0ED1AE2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:28:41 +0200 (CEST)
-Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07425D1AFC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:33:26 +0200 (CEST)
+Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJVg-0006QI-AG
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44755)
+	id 1iIJaG-00027A-BG
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:33:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iIJCq-0003UH-GC
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:09:14 -0400
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iI7zi-0002fh-RD
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iIJCo-00082F-VC
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:09:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52656)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iIJCo-00081e-2p
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:09:10 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1EF0E3018761;
- Wed,  9 Oct 2019 21:09:09 +0000 (UTC)
-Received: from localhost (ovpn-116-5.gru2.redhat.com [10.97.116.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78DC55C22F;
- Wed,  9 Oct 2019 21:09:03 +0000 (UTC)
-Date: Wed, 9 Oct 2019 18:09:01 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
- fw-cfg
-Message-ID: <20191009210901.GB4084@habkost.net>
-References: <20191008105259.5378-1-lersek@redhat.com>
- <20191008105259.5378-4-lersek@redhat.com>
- <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 09 Oct 2019 21:09:09 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iI7zh-0004Jt-RG
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:54 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36232)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
+ id 1iI7zh-0004Ja-Jz
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:53 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9998Nv4030496
+ for <qemu-devel@nongnu.org>; Wed, 9 Oct 2019 05:10:51 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vhbamu00j-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 05:10:51 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
+ Wed, 9 Oct 2019 10:10:48 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 9 Oct 2019 10:10:44 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x999AhdA30802114
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 9 Oct 2019 09:10:43 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C3095A4067;
+ Wed,  9 Oct 2019 09:10:43 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA0B3A405F;
+ Wed,  9 Oct 2019 09:10:40 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.199.35.233])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  9 Oct 2019 09:10:40 +0000 (GMT)
+From: Ganesh Goudar <ganeshgr@linux.ibm.com>
+To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
+Subject: [PATCH v15 1/7] Wrapper function to wait on condition for the main
+ loop mutex
+Date: Wed,  9 Oct 2019 14:40:04 +0530
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20191009091010.16467-1-ganeshgr@linux.ibm.com>
+References: <20191009091010.16467-1-ganeshgr@linux.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 19100909-0008-0000-0000-0000032061E3
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19100909-0009-0000-0000-00004A3F65BA
+Message-Id: <20191009091010.16467-2-ganeshgr@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-09_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=903 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910090087
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
+X-Mailman-Approved-At: Wed, 09 Oct 2019 16:05:32 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,50 +90,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: paulus@ozlabs.org, arawinda.p@gmail.com, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 08, 2019 at 08:58:30PM +0200, Laszlo Ersek wrote:
-> Eduardo, Igor,
-> 
-> On 10/08/19 12:52, Laszlo Ersek wrote:
-> > FW_CFG_MAX_CPUS exposes the (exclusive) maximum APIC ID to guest firmware,
-> > due to historical reasons. That value is not useful to edk2, however. For
-> > supporting VCPU hotplug, edk2 needs:
-> > 
-> > - the boot CPU count (already exposed in FW_CFG_NB_CPUS),
-> > 
-> > - and the maximum foreseen CPU count (tracked in
-> >   "MachineState.smp.max_cpus", but not currently exposed).
-> > 
-> > Add a new fw-cfg file to expose "max_cpus".
-> > 
-> > While at it, expose the rest of the topology too (die / core / thread
-> > counts), because I expect that the VCPU hotplug feature for OVMF will
-> > ultimately need those too, and the data size is not large.
-> 
-> In fact, it seems like OVMF will have to synthesize the new
-> (hot-plugged) VCPU's *APIC-ID* from the following information sources:
-> 
-> - the topology information described above (die / core / thread counts), and
-> 
-> - the "modern" CPU hotplug interface (docs/specs/acpi_cpu_hotplug.txt).
-> 
-> Now, if I understand correctly, the "CPU selector" ([0x0-0x3]) specifies
-> a CPU *index*. Therefore, in the hotplug SMI handler (running on one of
-> the pre-existent CPUs), OVMF will have to translate the new CPU's
-> selector (the new CPU's *index*) to its *APIC-ID*, based on the topology
-> information (numbers of dies / cores / threads).
+From: Aravinda Prasad <arawinda.p@gmail.com>
 
-I thought we had already fixed all our guest interfaces to make
-CPU indexes never visible to guests.  If it is still visible
-somewhere, it's a bug we need to fix.
+Introduce a wrapper function to wait on condition for
+the main loop mutex. This function atomically releases
+the main loop mutex and causes the calling thread to
+block on the condition. This wrapper is required because
+qemu_global_mutex is a static variable.
 
+Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ cpus.c                   | 5 +++++
+ include/qemu/main-loop.h | 8 ++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/cpus.c b/cpus.c
+index d2c61ff155..f84b54943d 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1886,6 +1886,11 @@ void qemu_mutex_unlock_iothread(void)
+     qemu_mutex_unlock(&qemu_global_mutex);
+ }
+ 
++void qemu_cond_wait_iothread(QemuCond *cond)
++{
++    qemu_cond_wait(cond, &qemu_global_mutex);
++}
++
+ static bool all_vcpus_paused(void)
+ {
+     CPUState *cpu;
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index f6ba78ea73..a6d20b0719 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -295,6 +295,14 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
+  */
+ void qemu_mutex_unlock_iothread(void);
+ 
++/*
++ * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
++ *
++ * This function atomically releases the main loop mutex and causes
++ * the calling thread to block on the condition.
++ */
++void qemu_cond_wait_iothread(QemuCond *cond);
++
+ /* internal interfaces */
+ 
+ void qemu_fd_register(int fd);
 -- 
-Eduardo
+2.17.2
+
 
