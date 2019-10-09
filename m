@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0231D19A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:37:15 +0200 (CEST)
-Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B75D19A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:39:29 +0200 (CEST)
+Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIIhu-0003SO-86
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43027)
+	id 1iIIk4-000592-4T
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iIGfg-0005vV-89
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:26:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1iIHGj-0005ID-7G
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:05:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iIGfe-0007kG-Rd
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:26:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47500)
+ (envelope-from <philmd@redhat.com>) id 1iIHGg-00008k-Sj
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:05:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36264)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iIGfY-0007fq-KL; Wed, 09 Oct 2019 14:26:40 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIHGg-00007k-K3
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:05:02 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BBA8F10DCC9D;
- Wed,  9 Oct 2019 18:26:39 +0000 (UTC)
-Received: from [10.3.116.162] (ovpn-116-162.phx2.redhat.com [10.3.116.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE9B210016EB;
- Wed,  9 Oct 2019 18:26:36 +0000 (UTC)
-Subject: Re: [PATCH 09/10] nbd/server: use bdrv_dirty_bitmap_next_dirty_area
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20190930151502.7829-1-vsementsov@virtuozzo.com>
- <20190930151502.7829-10-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <59fa171e-f885-620e-4dfd-e690e7906928@redhat.com>
-Date: Wed, 9 Oct 2019 13:26:36 -0500
+ by mx1.redhat.com (Postfix) with ESMTPS id 65B55C057F2E
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:05:01 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id m16so1033213wmg.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:05:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fZevVsxzXhOCPGe8MtXXjC7elpbRGfmSBcvOoW6m+ug=;
+ b=hx6W0GvLP7HKc9QLu+tydZU2aUPEf2+Gc2Ow8XwlJLASm+X/t7U2nxqFwdjn1lxUzS
+ ohzzciuF6kD1CUWW9GjBvRlaUZbfTOAVi/2DoGzoam/wrfioFrMcQ0KJD/ER4z6VburS
+ AvORZXEs6oyFpXMRB+FPpVnO7ZLmuu4NJEvKCkFU05Ly3xEZunRD9PDLC6/iA0RkdmHS
+ qZ+5Oq0w1TuD45Mrb04L52MsXWmULUIOAzwIPLKX0STPcIplEQ/jlgCld4yIFipNhqen
+ XujqOD0h2y84AR6y2LvRIjNFdx73F7DZelCjxyRElGJqNpRh/YULNa8o84dfsS6YzSFp
+ XrJQ==
+X-Gm-Message-State: APjAAAXpI7KW/bAYBsMQOmRWycl3CB7gA9NO9m1UN7EsvzKki3cvHkzl
+ ywGAXT5JSkZqCUyGXdJYwD4FNCs8CC0C20yp2z3+3H1SSDPZh9RkmgMJPMGk7YfEIZhjhyMMG/A
+ 3aPYIDY/Or+tXA5c=
+X-Received: by 2002:a1c:f011:: with SMTP id a17mr3746613wmb.18.1570647900087; 
+ Wed, 09 Oct 2019 12:05:00 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyDSne4qyALPEdVgtZ1SB+s7ovt9Cve7VWHCDI2ndO61XflXGlcOSLXCeCCbtCU2MJnMD7sdA==
+X-Received: by 2002:a1c:f011:: with SMTP id a17mr3746597wmb.18.1570647899841; 
+ Wed, 09 Oct 2019 12:04:59 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id n8sm4061935wma.7.2019.10.09.12.04.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Oct 2019 12:04:59 -0700 (PDT)
+Subject: Re: [PATCH 4/5] travis.yml: Fix the ccache lines
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191009170701.14756-1-thuth@redhat.com>
+ <20191009170701.14756-5-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <910285f7-d470-cf0b-85b2-a2264cf23ea3@redhat.com>
+Date: Wed, 9 Oct 2019 21:04:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20190930151502.7829-10-vsementsov@virtuozzo.com>
+In-Reply-To: <20191009170701.14756-5-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 09 Oct 2019 18:26:39 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -62,98 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-devel@nongnu.org, mreitz@redhat.com,
- den@openvz.org, jsnow@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/19 10:15 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Use bdrv_dirty_bitmap_next_dirty_area for bitmap_to_extents. Since
-> bdrv_dirty_bitmap_next_dirty_area is very accurate in its interface,
-> we'll never exceed requested region with last chunk. So, we don't need
-> dont_fragment, and bitmap_to_extents() interface becomes clean enough
-> to not require any comment.
+On 10/9/19 7:07 PM, Thomas Huth wrote:
+> The "command -v ccache && ccache ..." likely were supposed to test
+> the availability of ccache before running the program. But this
+> shell construct causes Travis to abort if ccache is not available.
 
-Comments are a useful style, even if functions seem trivial.
+Oops.
 
-When req_one is in effect, we have to stop at the requested length. 
-When req_one is not in effect, the NBD spec does not require us to stop 
-until the next change in extent status, but also does not force us to 
-continue past.  So this change is fine from the protocol standpoint.
+Why can't you install ccache if these are Ubuntu systems?
+It is even more wanted if the arm64 machine are slow...
 
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Use an if-statement instead to fix this problem.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   nbd/server.c | 58 ++++++++++++++++------------------------------------
->   1 file changed, 18 insertions(+), 40 deletions(-)
-> 
-> diff --git a/nbd/server.c b/nbd/server.c
-> index cc63d8ad21..edbdb1b6b6 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -2023,57 +2023,35 @@ static int nbd_co_send_block_status(NBDClient *client, uint64_t handle,
->       return nbd_co_send_extents(client, handle, ea, last, context_id, errp);
->   }
->   
-> -/*
-> - * Populate @ea from a dirty bitmap. Unless @dont_fragment, the
-> - * final extent may exceed the original @length.
-> - */
+>   .travis.yml | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index 616e59867a..0c88e8757b 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -91,13 +91,13 @@ git:
+>  =20
+>   before_script:
+>     - if [ "$TRAVIS_OS_NAME" =3D=3D "osx" ] ; then export PATH=3D"/usr/=
+local/opt/ccache/libexec:$PATH" ; fi
+> -  - command -v ccache && ccache --zero-stats
+> +  - if command -v ccache ; then ccache --zero-stats ; fi
+>     - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+>     - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log=
+ && exit 1; }
+>   script:
+>     - make -j3 && travis_retry ${TEST_CMD}
+>   after_script:
+> -  - command -v ccache && ccache --show-stats
+> +  - if command -v ccache ; then ccache --show-stats ; fi
+>  =20
+>  =20
+>   matrix:
+>=20
 
-I would have kept the first sentence, and dropped only the second.
-
->   static void bitmap_to_extents(BdrvDirtyBitmap *bitmap,
->                                 uint64_t offset, uint64_t length,
-> -                              NBDExtentArray *ea, bool dont_fragment)
-> +                              NBDExtentArray *es)
->   {
-> -    uint64_t begin = offset, end = offset;
-> -    uint64_t overall_end = offset + length;
-> -    BdrvDirtyBitmapIter *it;
-> -    bool dirty;
-> +    int64_t start, dirty_start, dirty_count;
-> +    int64_t end = offset + length;
-> +    bool full = false;
->   
->       bdrv_dirty_bitmap_lock(bitmap);
-
-> +    for (start = offset;
-> +         bdrv_dirty_bitmap_next_dirty_area(bitmap, start, end, INT32_MAX,
-> +                                           &dirty_start, &dirty_count);
-> +         start = dirty_start + dirty_count)
-> +    {
-> +        if ((nbd_extent_array_add(es, dirty_start - start, 0) < 0) ||
-> +            (nbd_extent_array_add(es, dirty_count, NBD_STATE_DIRTY) < 0))
-
-As long as bdrv_dirty_bitmap_next_dirty_area works correctly, this 
-should work regardless of whether start is dirty or clean (if dirty, the 
-first call will be a 0-length no-op).
-
-
-> +        {
-> +            full = true;
->               break;
->           }
-> -        begin = end;
-> -        dirty = next_dirty;
->       }
->   
-> -    bdrv_dirty_iter_free(it);
-> +    if (!full) {
-> +        /* last non dirty extent */
-> +        nbd_extent_array_add(es, end - start, 0);
-> +    }
-
-Losing the possibility of reporting beyond the end of the original 
-request (when req_one is not in force) is not fatal (it might make some 
-clients less efficient when walking the entire disk, but qemu as a 
-client isn't currently taking advantage of NBD's permission to return 
-extra length).
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
