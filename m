@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2A5D1A59
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:01:41 +0200 (CEST)
-Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6852ED1A74
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:06:11 +0200 (CEST)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJ5V-0001qS-N3
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50269)
+	id 1iIJ9t-0006ll-SO
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51818)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iIHJb-0008Fk-4P
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:08:04 -0400
+ (envelope-from <mst@redhat.com>) id 1iIHQA-0007kr-DV
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:14:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iIHJZ-0001Xd-Uh
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:08:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43510)
+ (envelope-from <mst@redhat.com>) id 1iIHQ7-0005GC-5x
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:14:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40364)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>)
- id 1iIHJR-0001T4-QW; Wed, 09 Oct 2019 15:07:54 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHQ6-0005FW-SY
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:14:47 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A65929B29C;
- Wed,  9 Oct 2019 19:07:51 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-122-151.rdu2.redhat.com
- [10.10.122.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05CDD179C9;
- Wed,  9 Oct 2019 19:07:44 +0000 (UTC)
-Date: Wed, 9 Oct 2019 15:07:43 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/5] tests/boot_linux_console: Add initrd test for the
- Exynos4210
-Message-ID: <20191009190743.GA6019@localhost.localdomain>
-References: <20191005154748.21718-1-f4bug@amsat.org>
- <20191005154748.21718-2-f4bug@amsat.org>
- <CAFEAcA8ME5U5=rNLRSvNx7LmanqHhn_KWj6qtgym_=W1M9WDoA@mail.gmail.com>
- <20191008214907.GA28137@localhost.localdomain>
- <CAFEAcA9DzeObmtsc2VJmw=1yruANZ6ajY2SG0cAPdehkeRN3wA@mail.gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 293D7C04D932
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:14:45 +0000 (UTC)
+Received: by mail-qk1-f198.google.com with SMTP id g65so2962303qkf.19
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:14:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5HMe4iY7ZpgxFwiPKX2MfjdttrwfGNrf+k4LC3JHN8k=;
+ b=XujvjE/dJjICT2EgRTFENYvA5J59oLpBoyGiZmZLaR9BDW1v3ps2GIXu2bRjcsmRt0
+ qTr0nvznIB9ZEOLxYkKxtM7GjNDHJUJsis70nnX/XwF1Q3atFpxOTjciuYYZyJNRnyT2
+ GmCSmH2RPnOxr81NgtaL9yqIulx+PrT60MD6ZgTRSV4AF4IDxKI2SAoie9F26tmzhIGr
+ v31IOxGCw6PTKzQij8s+bVmgUoH605Qx0zOElhhlHuKxA6772fubm5nQ/ps2wg8G82e6
+ nLJDZ0JWPM1DWblKtKUpXJDqZ2oImYB5/+5Z2JP2HcmFzlnvtokMo3i8xl05SKWhy1oV
+ oLtw==
+X-Gm-Message-State: APjAAAVRAyB+CRu+JA56cgaBTszaNxdVjUEiwm4PTmwz+WcKusFb3aWi
+ YBY2tQmxfHaclTv38wEPe89BRPlNgjKfv1GqrKsKGWgLVVH1BPucQqBR39yJy/b7VlH3s0rGome
+ uQmP0HxONVcYIBNQ=
+X-Received: by 2002:a0c:814d:: with SMTP id 71mr5395803qvc.226.1570648484385; 
+ Wed, 09 Oct 2019 12:14:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw6J1KXq1T8FHsQVGFicsJUvpAHjMi8m2HCC3+UugTE5wot0XCMBaJZjAFYrzOHXG0/St/aeg==
+X-Received: by 2002:a0c:814d:: with SMTP id 71mr5395780qvc.226.1570648484096; 
+ Wed, 09 Oct 2019 12:14:44 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
+ by smtp.gmail.com with ESMTPSA id
+ c201sm1449458qke.128.2019.10.09.12.14.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2019 12:14:43 -0700 (PDT)
+Date: Wed, 9 Oct 2019 15:14:38 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC PATCH] virtio-blk: advertise F_WCE (F_FLUSH) if
+ F_CONFIG_WCE is also advertised
+Message-ID: <20191009151337-mutt-send-email-mst@kernel.org>
+References: <1568980590-806043-1-git-send-email-wrfsh@yandex-team.ru>
+ <20191008132416.GA28104@stefanha-x1.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA9DzeObmtsc2VJmw=1yruANZ6ajY2SG0cAPdehkeRN3wA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 09 Oct 2019 19:07:51 +0000 (UTC)
+In-Reply-To: <20191008132416.GA28104@stefanha-x1.localdomain>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,52 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Fr=E9d=E9ric?= Basse <contact@fredericb.info>,
- Maksim Kozlov <m.kozlov@samsung.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Evgeny Voevodin <e.voevodin@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Dmitry Solodkiy <d.solodkiy@samsung.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: yc-core@yandex-team.ru, qemu-block@nongnu.org, stefanha@redhat.com,
+ Evgeny Yakovlev <wrfsh@yandex-team.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 02:38:02PM +0100, Peter Maydell wrote:
-> On Tue, 8 Oct 2019 at 22:49, Cleber Rosa <crosa@redhat.com> wrote:
-> >
-> > I find it hard to judge precisely how much of a third-party some of
-> > these are.  I remember Philippe mentioning that one of them, I guess
-> > the images used on linux_ssh_mips_malta.py, were "as official as it
-> > gets" (my words, from my often misleading memory).
-> >
-> > Reproducibility is definitely an issue, in the sense given that some
-> > of these can indeed go away, but as long as they're available the hash
-> > recorded in the test should guarantee that we're running the same
-> > images.
-> >
-> > Do you think we should do something different here?
+On Tue, Oct 08, 2019 at 02:24:16PM +0100, Stefan Hajnoczi wrote:
+> On Fri, Sep 20, 2019 at 02:56:30PM +0300, Evgeny Yakovlev wrote:
+> > Virtio spec 1.1 (and earlier), 5.2.5.1 Driver Requirements: Device
+> > Initialization:
+> > 
+> > "Devices SHOULD always offer VIRTIO_BLK_F_FLUSH, and MUST offer it if
+> > they offer VIRTIO_BLK_F_CONFIG_WCE.
+> > 
+> > It looks like currently F_CONFIG_WCE and F_WCE are not connected to each
+> > other. qemu will advertise F_CONFIG_WCE if config-wce argument is
+> > set for virtio-blk device. While F_WCE is advertised if underlying block
+> > backend actually has it's caching enabled.
+> > Those two things are not related to each other.
+> > 
+> > Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+> > ---
+> >  hw/block/virtio-blk.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> > index 1885160..b45dc0c 100644
+> > --- a/hw/block/virtio-blk.c
+> > +++ b/hw/block/virtio-blk.c
+> > @@ -990,7 +990,8 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
+> >          virtio_add_feature(&features, VIRTIO_BLK_F_SCSI);
+> >      }
+> >  
+> > -    if (blk_enable_write_cache(s->blk)) {
+> > +    if (blk_enable_write_cache(s->blk) ||
+> > +        virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE)) {
+> >          virtio_add_feature(&features, VIRTIO_BLK_F_WCE);
+> >      }
+> >      if (blk_is_read_only(s->blk)) {
+> > -- 
+> > 2.7.4
 > 
-> I'm not sure, which is why I asked whether this new test
-> was in line with what we've done previously. Since these
-> are just test cases and we don't redistribute them to
-> other people there's less of a traceability/reproducibility
-> worry, and if we check hashes on download that cuts off
-> a lot of "fail to notice if the image changes for some
-> reason" possible problems.
+> Sorry for the very late response.  I have been ill and am still
+> recovering.
 > 
-> thanks
-> -- PMM
+> The motivation for this change looks correct but this patch may cause
+> host_features to change across live migration to a newer QEMU version.
+> If the guest accesses VIRTIO_PCI_HOST_FEATURES before and after live
+> migration it may see different values, which is unexpected.
 > 
+> The safe way of introducing guest-visible changes like this is to make
+> the change conditional on the machine type version so that old guests
+> see old behavior and new guests see new behavior.
+> 
+> Live migration compatibility can be guaranteed by adding a new property
+> to virtio_blk_properties[]:
+> 
+>   DEFINE_PROP_BOOL("enable-wce-if-config-wce", VirtIOBlock,
+>                    conf.enable_wce_if_config_wce, true),
 
-Yep, because I have no clue how to do improve on this (redistributing
-the binaries is definitely not on the improvement side, and neither
-is not testing some machine types), the current approach seems good.
 
-Thanks for checking in and giving feedback!
+is this a useful thing for users to control?
+If not we don't need to make this property part of
+the stable API - blacklist it by prefixing x- to the name:
+x-enable-wce-if-config-wce
 
-- Cleber.
+> Then tweak the patch:
+> 
+>   if (blk_enable_write_cache(s->blk) ||
+>       (s->conf.enable_wce_if_config_wce &&
+>        virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
+> 
+> And finally disable enable_wce_if_config_wce for older machine types to
+> retain compatibility:
+> 
+>   GlobalProperty hw_compat_4_2[] = {
+>       { "virtio-blk-device", "enable-wce-if-config-wce", "off" },
+>   };
+> 
+> (I have omitted some steps like defining
+> VirtIOBlkConf.enable_wce_if_config_wce field and hooking up
+> hw_compat_4_2[], but you can figure that out from the existing code.)
+> 
+> Stefan
+
+
 
