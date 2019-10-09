@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952EED1B46
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:56:48 +0200 (CEST)
-Received: from localhost ([::1]:60204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B86D1B3B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:52:54 +0200 (CEST)
+Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJwo-0007gD-8K
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54564)
+	id 1iIJt8-0004WU-01
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iIJvW-00073q-Nx
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:55:24 -0400
+ (envelope-from <lersek@redhat.com>) id 1iIJ5R-0003x1-C2
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:01:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iIJvV-00015r-8v
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:55:22 -0400
-Received: from ozlabs.org ([203.11.71.1]:50809)
+ (envelope-from <lersek@redhat.com>) id 1iIJ5P-0005N5-L0
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:01:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37578)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iIJvU-000152-89; Wed, 09 Oct 2019 17:55:21 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46pSgm49fnz9sDB; Thu, 10 Oct 2019 08:55:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570658116;
- bh=c4abjD33CyHjFhtKHBO4xE7NmTH5qOWIjvPYEVvVG5M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KkJ2R/SRWsN3FjOzeoIXfAaM3b+DXSPpgo5tzm20lZ5TicPKfX9+jldVgjwRCBT+r
- 7j+vGhv2WepgXfVgJYgEshsNOgTZmVS7Vazda+A8TPiaHsyD36M8QA4Y15+FP5t74x
- BAng1XSCYWfHM+bFkE7oEj/4Nh1We/G16B14SuEY=
-Date: Wed, 9 Oct 2019 23:02:11 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIJ5P-0005Ma-8J
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:01:31 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 19248316E533;
+ Wed,  9 Oct 2019 21:01:29 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-11.rdu2.redhat.com
+ [10.10.120.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 568AA196B2;
+ Wed,  9 Oct 2019 21:01:22 +0000 (UTC)
+Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
+ fw-cfg
 To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 2/3] ppc: rs6000_mc: drop usage of
- memory_region_allocate_system_memory()
-Message-ID: <20191009120211.GI5035@umbus.fritz.box>
-References: <20191008113318.7012-1-imammedo@redhat.com>
- <20191008113318.7012-3-imammedo@redhat.com>
- <20191009012106.GB14281@umbus.fritz.box>
- <20191009131921.6423f00d@redhat.com>
+References: <20191008105259.5378-1-lersek@redhat.com>
+ <20191008105259.5378-4-lersek@redhat.com>
+ <20191008175931.483af366@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <3305625d-f3cf-47e8-0039-0838fc718d3d@redhat.com>
+Date: Wed, 9 Oct 2019 23:01:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xGGVyNQdqA79rdfn"
-Content-Disposition: inline
-In-Reply-To: <20191009131921.6423f00d@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191008175931.483af366@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 09 Oct 2019 21:01:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,71 +63,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: deller@gmx.de, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, hpoussin@reactos.org, atar4qemu@gmail.com,
- rth@twiddle.net
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/08/19 17:59, Igor Mammedov wrote:
+> On Tue,  8 Oct 2019 12:52:58 +0200
+> Laszlo Ersek <lersek@redhat.com> wrote:
+> 
+>> FW_CFG_MAX_CPUS exposes the (exclusive) maximum APIC ID to guest firmware,
+>> due to historical reasons. That value is not useful to edk2, however. For
+>> supporting VCPU hotplug, edk2 needs:
+>>
+>> - the boot CPU count (already exposed in FW_CFG_NB_CPUS),
+>>
+>> - and the maximum foreseen CPU count (tracked in
+>>   "MachineState.smp.max_cpus", but not currently exposed).
+> one can get it with current QEMU without adding new fgcfg
+> (albeit in a bit awkward way)
+> 
+> max_cpu count can be derived indirectly as result of cpu hotplug
+> enumeration (IO interface at 0x0cd8-0xcf7) by writing/reading
+> to/from selector register (see ACPI_CPU_SELECTOR_OFFSET_WR)
+> until read value stops changing values (i.e. max cpu count
+> is reached). One also can figure out present/non-present
+> cpu status by reading flags register.
 
---xGGVyNQdqA79rdfn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What do you mean by "read value stops changing values"?
 
-On Wed, Oct 09, 2019 at 01:19:21PM +0200, Igor Mammedov wrote:
-> On Wed, 9 Oct 2019 12:21:06 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Tue, Oct 08, 2019 at 07:33:17AM -0400, Igor Mammedov wrote:
-> > > rs6000mc_realize() violates memory_region_allocate_system_memory() co=
-ntract
-> > > by calling it multiple times which could break -mem-path. Replace it =
-with
-> > > plain memory_region_init_ram() instead.
-> > >=20
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com> =20
-> >=20
-> > Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> >=20
-> > Or would you like me to merge this through my tree?
->=20
->=20
-> (since it doesn't belong to a particular tree, I'd need find
-> some to take in in)
->=20
-> Since you volunteered :),
-> please merge this series via your tree.
+I assume I have to write the CPU index (in incrementing fashion) to
+offset 0 in the register block.
 
-Uhhh.. I was offering to take this patch, not the whole series.  I'm
-not real comfortable taking the others, since they don't involve ppc
-code, nor are they prereqs for or motivated by any ppc change.
+- What byte order?
+- What offset / width do I need to read back? What endianness? :)
+- What is the expected value once I run out of the possible CPU range?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+(I tried to figure these out from "docs/specs/acpi_cpu_hotplug.txt", but
+I can't find the answers in it. Apologies.)
 
---xGGVyNQdqA79rdfn
-Content-Type: application/pgp-signature; name="signature.asc"
+Other than that, I'm fine with this method. Hopefully the IO port
+accesses (on every boot) won't slow down the boot much (esp. in SEV
+guests, where they are more costly).
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2dzEEACgkQbDjKyiDZ
-s5Jx8BAAwZndtxT76hI23tsB5Ax9HZe3M5miV+i5/6CZSOEbe4d9llMyKVbyWWmY
-/Tw8BVHjDH2b+2Uixceji6WdzQSfG7piUDkMRs7/Qm747RmXlJV9HwX+z4xlqAiw
-YGdOaQ1BgElsEB7XPjnxKryS/NBYmUOAQTV0BdRIwbTrKqu7Y/CJ4Ac2wMBRl2ND
-FmcBwTFtcGr52uy2Na9aDv0XbMKUop7epppElfwg/XtiOwfjs5TvmdoiVt3sXE5P
-iBLaVViB/OiREIqp+zpprfU85cN9nhKC31Q7kBKNQ8r/8bVHy6NFwoARzwknJEss
-MRT2ibZ+e9mgTItLU0NtVqQWD/Ce4LXMzMugxLg6owSb5oviN9Dj6ifwIhxVoo+9
-hcXRJ+igiM2jn7baLi0xxKLR8ENOmUQMVRZFMjOBGebLDZS9pV7t4XfHLkZSo2sA
-mb1XovBcIiRUwN1KvyjO6iW1GWZHfoINwLfJvFb2wC+VxZUOboNORVoMbiLUCo1z
-QIP5MPrlVD49lTCMz6wIOfsZTdcpqQ60heGRi+pK4hoRvCzrKi2jfTtvDH4pjSyC
-0G0VYXEODjvxpt+W0ryMtlCoUzmucEYfpUwq9t3oeSwEQ6RvKprmimqUkrJiOom3
-NT05hCgHCU02G95NR0aWrVeBEUM5JerPcdu7i1wYJ4mmfSepGw8=
-=UI6p
------END PGP SIGNATURE-----
+>> Add a new fw-cfg file to expose "max_cpus".
+>>
+>> While at it, expose the rest of the topology too (die / core / thread
+>> counts), because I expect that the VCPU hotplug feature for OVMF will
+>> ultimately need those too, and the data size is not large. This is
+>> slightly complicated by the fact that the die count is specific to
+>> PCMachineState, but fw_cfg_arch_create() intends to be PC-independent (see
+>> commit 149c50cabcc4).
+> Could you clarify why topology info is necessary?
 
---xGGVyNQdqA79rdfn--
+(Done in the subsequent message, but I'll answer here too, below.)
+
+
+> Potentially it's possible to extend cpu hotplug ABI to report
+> arch specific apic-id (x86) or mpidr (arm) if firmware really
+> needs to know topology and let guest to decode it according
+> to CPU's spec.
+
+This would be very nice.
+
+For the hotplug use case, the internal structure / topology of the
+APIC-ID actually appears irrelevant. What's needed is that the "host
+CPU", handling the hotplug SMI, can *somehow* deduce the APIC-ID of the
+new CPU. (The edk2 code suggests that, on physical platforms, the RAS
+controller passes the new APIC-ID the the "host CPU".) The edk2
+infrastructure uses APIC-ID's as the unique key for identifying CPUs.
+
+The topology info was supposed to allow OVMF to calculate the APIC-ID
+from scratch, based on the sequential CPU index (retrieved from the ACPI
+hotplug register block).
+
+> So far there were no need for it as all possible cpus are
+> described in ACPI tables passed to guest, but I'm not going
+> to suggest to parse them on firmware side as it's too complicated :)
+
+Thanks, that's appreciated :)
+
+> PS:
+> The reason we started building ACPI tables in QEMU, was never
+> ending story of adding more ABI and supporting it afterwards.
+> So I'd try to avoid doing it if it can be helped.
+
+Sure, I don't insist.
+
+If the hotplug register block can expose the APIC-IDs as "opaque"
+integers, and they match the APIC-IDs read on the actual processors,
+things should work.
+
+Thanks,
+Laszlo
 
