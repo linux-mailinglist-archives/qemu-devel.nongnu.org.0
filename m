@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAB5D1409
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:30:52 +0200 (CEST)
-Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F08D142C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:36:43 +0200 (CEST)
+Received: from localhost ([::1]:52346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIErS-00017A-TY
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:30:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60392)
+	id 1iIEx7-0006gN-Lr
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iI59d-0001cI-3R
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:58 -0400
+ (envelope-from <armbru@redhat.com>) id 1iI6JN-0000Kj-F3
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:23:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iI59b-000707-Uq
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:57 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45821 helo=ozlabs.org)
+ (envelope-from <armbru@redhat.com>) id 1iI6JM-0007G6-90
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:23:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43176)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iI59b-0006aJ-JZ; Wed, 09 Oct 2019 02:08:55 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46p3gG2hDYz9sRW; Wed,  9 Oct 2019 17:08:26 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570601306;
- bh=P19XTnLDc5zaBQFC5rg5tlmv5YglHHtbZRWyyk9OMWw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BD8zsfyJoFG9xUBavxd6Ba6ezZv8GfJta6rGmlRFgMzopoY+RkLw4OXk0LA1jWAwX
- YaDahK1VPYebg0KVw4xEwAmLPWIdJXIeCCeu8q8kjhQuIj84Lwo3OCS2kGR7GLBWyn
- L0/OmuZAosCmkdQpYQiGis2vWcYTLjO8zQId+6TI=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org,
-	clg@kaod.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v4 19/19] spapr: Work around spurious warnings from vfio INTx
- initialization
-Date: Wed,  9 Oct 2019 17:08:18 +1100
-Message-Id: <20191009060818.29719-20-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1iI6JI-0007F2-Aq; Wed, 09 Oct 2019 03:23:00 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4DD3D3090FD2;
+ Wed,  9 Oct 2019 07:22:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B06F41001B11;
+ Wed,  9 Oct 2019 07:22:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 32BF41138619; Wed,  9 Oct 2019 09:22:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 23/31] block: Fix error_append_hint/error_prepend usage
+References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
+ <20191001155319.8066-24-vsementsov@virtuozzo.com>
+Date: Wed, 09 Oct 2019 09:22:55 +0200
+In-Reply-To: <20191001155319.8066-24-vsementsov@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 1 Oct 2019 18:53:11 +0300")
+Message-ID: <87y2xu9ycw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Wed, 09 Oct 2019 07:22:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,75 +60,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Jason Wang <jasowang@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, groug@kaod.org,
- Laurent Vivier <laurent@vivier.eu>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ integration@gluster.org, qemu-block@nongnu.org,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Traditional PCI INTx for vfio devices can only perform well if using
-an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
-if an in kernel irqchip is not available.
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-We usually do have an in-kernel irqchip available for pseries machines
-on POWER hosts.  However, because the platform allows feature
-negotiation of what interrupt controller model to use, we don't
-currently initialize it until machine reset.  vfio_intx_update() is
-called (first) from vfio_realize() before that, so it can issue a
-spurious warning, even if we will have an in kernel irqchip by the
-time we need it.
+> If we want to add some info to errp (by error_prepend() or
+> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+> Otherwise, this info will not be added when errp == &fatal_err
+> (the program will exit prior to the error_append_hint() or
+> error_prepend() call).  Fix such cases.
+>
+> This commit (together with its neighbors) was generated by
+>
+> git grep -l 'error_\(append_hint\|prepend\)(errp' | while read f; do \
+> spatch --sp-file scripts/coccinelle/fix-error-add-info.cocci \
+> --in-place $f; done
+>
+> and then
+>
+> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+>
+> (auto-msg was a file with this commit message)
+>
+> and then by hand, for not maintained changed files:
+>
+> git commit -m "<SUB-SYSTEM>: $(< auto-msg)" <FILES>
+>
+> Still, for backporting it may be more comfortable to use only the first
+> command and then do one huge commit.
+>
+> Reported-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/nbd.h  | 1 +
+>  block.c              | 3 +++
+>  block/backup.c       | 1 +
+>  block/dirty-bitmap.c | 1 +
+>  block/file-posix.c   | 4 ++++
+>  block/gluster.c      | 2 ++
+>  block/qcow.c         | 1 +
+>  block/qcow2-bitmap.c | 1 +
+>  block/qcow2.c        | 3 +++
+>  block/vdi.c          | 1 +
+>  block/vhdx-log.c     | 1 +
+>  block/vmdk.c         | 1 +
+>  block/vpc.c          | 1 +
+>  13 files changed, 21 insertions(+)
+>
+> diff --git a/include/block/nbd.h b/include/block/nbd.h
+> index 316fd705a9..330f40142a 100644
+> --- a/include/block/nbd.h
+> +++ b/include/block/nbd.h
+> @@ -360,6 +360,7 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+>  static inline int nbd_read(QIOChannel *ioc, void *buffer, size_t size,
+>                             const char *desc, Error **errp)
+>  {
+> +    ERRP_AUTO_PROPAGATE();
+>      int ret = qio_channel_read_all(ioc, buffer, size, errp) < 0 ? -EIO : 0;
+>  
+>      if (ret < 0) {
 
-To workaround this, make a call to spapr_irq_update_active_intc() from
-spapr_irq_init() which is called at machine realize time, before the
-vfio realize.  This call will be pretty much obsoleted by the later
-call at reset time, but it serves to suppress the spurious warning
-from VFIO.
-
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_irq.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 7964e4a1b8..3aeb523f3e 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -274,6 +274,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Error =
-**errp)
-=20
-     spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
-                                       smc->nr_xirqs + SPAPR_XIRQ_BASE);
-+
-+    /*
-+     * Mostly we don't actually need this until reset, except that not
-+     * having this set up can cause VFIO devices to issue a
-+     * false-positive warning during realize(), because they don't yet
-+     * have an in-kernel irq chip.
-+     */
-+    spapr_irq_update_active_intc(spapr);
- }
-=20
- int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
-*errp)
-@@ -429,7 +437,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *=
-spapr)
-          * this.
-          */
-         new_intc =3D SPAPR_INTC(spapr->xive);
--    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-+    } else if (spapr->ov5_cas
-+               && spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-         new_intc =3D SPAPR_INTC(spapr->xive);
-     } else {
-         new_intc =3D SPAPR_INTC(spapr->ics);
---=20
-2.21.0
-
+This is an example of commit-per-subsystem.py producing a questionable
+split.  MAINTAINERS files include/block/nbd.h under both "Block layer
+core" and "Network Block Device (NBD)".  The script picks "Block layer
+core" because it comes first.
 
