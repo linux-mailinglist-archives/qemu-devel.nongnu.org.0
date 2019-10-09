@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1680ED16C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:32:51 +0200 (CEST)
-Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802B6D16E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:37:25 +0200 (CEST)
+Received: from localhost ([::1]:53150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFpR-0006rb-KX
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32938)
+	id 1iIFtr-0002ih-VL
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iI9uG-0006ZV-Qn
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:13:26 -0400
+ (envelope-from <beata.michalska@linaro.org>) id 1iIARf-0001QH-Tn
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:47:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iI9uE-00055o-P1
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:13:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39636)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iI9uC-000522-Qr
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:13:21 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 458E818C427B;
- Wed,  9 Oct 2019 11:13:17 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 801CD60C57;
- Wed,  9 Oct 2019 11:13:06 +0000 (UTC)
-Date: Wed, 9 Oct 2019 13:13:05 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
- fw-cfg
-Message-ID: <20191009131305.298d8716@redhat.com>
-In-Reply-To: <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
-References: <20191008105259.5378-1-lersek@redhat.com>
- <20191008105259.5378-4-lersek@redhat.com>
- <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
+ (envelope-from <beata.michalska@linaro.org>) id 1iIARd-0005Mv-Qv
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:47:55 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:46149)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iIARd-0005Mg-Le
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:47:53 -0400
+Received: by mail-io1-xd42.google.com with SMTP id c6so4141559ioo.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=U98Wd/tJ2fYitptqldGm5NQNmxvZ7yFkPvSDpC1AsU4=;
+ b=YFxSbspJoAEC+pfYVCuu05igzg/Up6DnZ1gw+Zwdj860lEGrmcyeoCvOjgG9gmCvFO
+ BcPY28TTGCm2sOJCbbH3npfy71S+JSdWTv0rlYsCrxhhJC8YQKfQzjEtuSQJg1vSugbU
+ HEckHIyyfnitTb1LTEPqfJ/d8vndBAkZXHpPaGV+gGrFsqUNK+rSqomCuhn7LBxHaSKr
+ SmOa/TnOfNNg6OkCWncdwbQn9KvCPiPqqgfzMXQ1V+YRU8T5yD7JOuc4IEh/cZWYruIl
+ DwIHVdJ2vYj7EPiRTGrAysJTQNEuVKM5ZA5vavN4V9NFxglNI0ZwhlsUP2PKPlpYVTBq
+ ea6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=U98Wd/tJ2fYitptqldGm5NQNmxvZ7yFkPvSDpC1AsU4=;
+ b=lXYL0IXA7DUQeqOM/wdGUJXh1dztom3eJy3qLdMmcsHAKqvThtp1uroWuMTy2OLzQP
+ nWx9FqkiW8FNd8t77BhkW5w7jz9fEUteqblCiyVvbcgVZB6tfvTLSqVB1SQiz9fMpXRV
+ PDbt/5TB3CWrCha6dWDlj2Eh76lPpQ1iU9OAqOAxjRnvrqC/tkAD10WxYn+oxi1oKSdX
+ 2+VDU7pXWaXGKxg2QM1ymH3aR5LWOywtLazPPmpxW20W1z6svQOQje6USZxzPhcJ8TTj
+ 2dmN6tfdqjHS9x4jI0hSjUTbVa94Rqp2CjkNM7ujJa2SoDUzaHpPmlpvX95SSOlb5PEm
+ du/g==
+X-Gm-Message-State: APjAAAXvvaDYLkUs/dW85tMIQr1e3nYXq/0QhY9+xre+UtmnTxDVsK/t
+ M1FZW3/yNzGo2COMFERtHKNIQiiNM//XSREq+bdS/A==
+X-Google-Smtp-Source: APXvYqxfqStlxhaK+9WcX34SdYiwWAog8br9KgjqNE7LgZqV7xwaJVysQJ5cdkuY/yK3mfrmXID3bTbR8gpQmGc9JLk=
+X-Received: by 2002:a92:7702:: with SMTP id s2mr2709489ilc.248.1570621671967; 
+ Wed, 09 Oct 2019 04:47:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20190910095610.4546-1-beata.michalska@linaro.org>
+ <20190910095610.4546-5-beata.michalska@linaro.org> <87ftkmbmci.fsf@linaro.org>
+In-Reply-To: <87ftkmbmci.fsf@linaro.org>
+From: Beata Michalska <beata.michalska@linaro.org>
+Date: Wed, 9 Oct 2019 12:47:41 +0100
+Message-ID: <CADSWDzuPnWSWFhEe38=V-W=otN5mhOBwkpmaW=TE1cGaxXQ5vQ@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH 4/4] target/arm: Add support for DC CVAP & DC
+ CVADP ins
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Wed, 09 Oct 2019 11:13:17 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,252 +75,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ shameerali.kolothum.thodi@huawei.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Oct 2019 20:58:30 +0200
-Laszlo Ersek <lersek@redhat.com> wrote:
-
-> Eduardo, Igor,
->=20
-> On 10/08/19 12:52, Laszlo Ersek wrote:
-> > FW_CFG_MAX_CPUS exposes the (exclusive) maximum APIC ID to guest firmwa=
-re,
-> > due to historical reasons. That value is not useful to edk2, however. F=
-or
-> > supporting VCPU hotplug, edk2 needs:
-> >=20
-> > - the boot CPU count (already exposed in FW_CFG_NB_CPUS),
-> >=20
-> > - and the maximum foreseen CPU count (tracked in
-> >   "MachineState.smp.max_cpus", but not currently exposed).
-> >=20
-> > Add a new fw-cfg file to expose "max_cpus".
-> >=20
-> > While at it, expose the rest of the topology too (die / core / thread
-> > counts), because I expect that the VCPU hotplug feature for OVMF will
-> > ultimately need those too, and the data size is not large. =20
->=20
-> In fact, it seems like OVMF will have to synthesize the new
-> (hot-plugged) VCPU's *APIC-ID* from the following information sources:
->=20
-> - the topology information described above (die / core / thread counts), =
-and
->=20
-> - the "modern" CPU hotplug interface (docs/specs/acpi_cpu_hotplug.txt).
-
-In general duplicating cpu_index+topo =3D> apic id in firmware I
-consider as a really bad idea (even ignoring cpu_index=20
-which I were trying to get rid of in QEMU), it's going to break
-when algorithms diverge and it will be never ending race.
-
-Topology is rather messy business, not only arch specific but also
-cpu specific (ex: on my review TODO list, there is a series for
-fixing broken EPYCs topo). Who knows what other variables would be
-add dependencies for calculating APIC IDs down the road.
-
-I also consider to re-use CPU hotplug interface on ARM, which will
-bring its own set of algorithms.
-
-Let's instead add a command to CPU hotplug interface to return
-APIC ID (which QEMU already calculated) and later MPIDR (ARM)
-for selected CPU, so firmware could get it while enumeration CPUs
-via that interface.
-
->=20
-> Now, if I understand correctly, the "CPU selector" ([0x0-0x3]) specifies
-> a CPU *index*. Therefore, in the hotplug SMI handler (running on one of
-> the pre-existent CPUs), OVMF will have to translate the new CPU's
-> selector (the new CPU's *index*) to its *APIC-ID*, based on the topology
-> information (numbers of dies / cores / threads).
->=20
-> (That's because existent SMM infrastructure in edk2 uses the initial
-> APIC-ID as the key for referencing CPUs.)
->=20
-> Algorithmically, I think this translation is doable in OVMF  -- after
-> all, it is implemented in the x86_apicid_from_cpu_idx() function
-> already, in "include/hw/i386/topology.h". And that function does not
-> need more information either:
->=20
-> static inline apic_id_t x86_apicid_from_cpu_idx(unsigned nr_dies,
->                                                 unsigned nr_cores,
->                                                 unsigned nr_threads,
->                                                 unsigned cpu_index)
->=20
-> Therefore, my plan is to implement the same translation logic in OVMF.
->=20
-> Now, the questions:
->=20
-> - Am I right to think that the "CPU selector" register in the "modern"
-> ACPI hotplug interface operates in the *same domain* as the "cpu_index"
-> parameter of x86_apicid_from_cpu_idx()?
+On Tue, 24 Sep 2019 at 00:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> - As we progress through CPU indices, x86_apicid_from_cpu_idx() first
-> fills threads in a core, then cores in a die, then dies in a socket.
-> Will this logic remain the same, forever?
->=20
-> If any of the two questions above is answered with "no", then OVMF will
-> need an fw_cfg blob that is different from the current proposal.
->=20
-> Namely, OVMF will need a *full* "cpu_index -> APIC-ID" map, up to (and
-> excluding) "max_cpus".
->=20
-> The pc_possible_cpu_arch_ids() function in "hw/i386/pc.c" already
-> calculates a similar map:
->=20
->         ms->possible_cpus->cpus[i].arch_id =3D
-> x86_cpu_apic_id_from_index(pcms, i);
->=20
-> So, basically that map is what OVMF would have to receive over fw_cfg,
-> *if* the "cpu_index -> APIC-ID" mapping is not considered guest ABI.
-> Should I write v2 for that?
->=20
-> Please comment!
->=20
-> Thanks,
-> Laszlo
->=20
->=20
-> > This is
-> > slightly complicated by the fact that the die count is specific to
-> > PCMachineState, but fw_cfg_arch_create() intends to be PC-independent (=
-see
-> > commit 149c50cabcc4).
-> >=20
-> > For now, the feature is temporarily disabled.
-> >=20
-> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> > Cc: Eduardo Habkost <ehabkost@redhat.com>
-> > Cc: Igor Mammedov <imammedo@redhat.com>
-> > Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Cc: Richard Henderson <rth@twiddle.net>
-> > Ref: https://bugzilla.tianocore.org/show_bug.cgi?id=3D1515
-> > Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+>
+> Beata Michalska <beata.michalska@linaro.org> writes:
+>
+> > ARMv8.2 introduced support for Data Cache Clean instructions
+> > to PoP (point-of-persistence) - DC CVAP and PoDP (point-of-deep-persist=
+ence)
+> > - DV CVADP. Both specify conceptual points in a memory system where all=
+ writes
+> > that are to reach them are considered persistent.
+> > The support provided considers both to be actually the same so there is=
+ no
+> > distinction between the two. If none is available (there is no backing =
+store
+> > for given memory) both will result in Data Cache Clean up to the point =
+of
+> > coherency. Otherwise sync for the specified range shall be performed.
+> >
+> > Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
 > > ---
-> >  hw/i386/fw_cfg.h | 30 +++++++++++++++++++++++++++++-
-> >  hw/i386/fw_cfg.c | 26 ++++++++++++++++++++++++--
-> >  hw/i386/pc.c     |  4 ++--
-> >  3 files changed, 55 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-> > index e0856a376996..d742435b9793 100644
-> > --- a/hw/i386/fw_cfg.h
-> > +++ b/hw/i386/fw_cfg.h
-> > @@ -18,9 +18,37 @@
-> >  #define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
-> >  #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
-> > =20
-> > +/**
-> > + * FWCfgX86Topology: expose the X86 CPU topology to guest firmware ove=
-r fw-cfg.
-> > + *
-> > + * All fields have little-endian encoding.
-> > + *
-> > + * @dies:     Number of dies per package (aka socket). Set it to 1 unl=
-ess the
-> > + *            concrete MachineState subclass defines it differently.
-> > + * @cores:    Corresponds to @CpuTopology.@cores.
-> > + * @threads:  Corresponds to @CpuTopology.@threads.
-> > + * @max_cpus: Corresponds to @CpuTopology.@max_cpus.
-> > + *
-> > + * Firmware can derive the package (aka socket) count with the followi=
-ng
-> > + * formula:
-> > + *
-> > + *   DIV_ROUND_UP(@max_cpus, @dies * @cores * @threads)
-> > + *
-> > + * Firmware can derive APIC ID field widths and offsets per the standa=
-rd
-> > + * calculations in "include/hw/i386/topology.h".
-> > + */
-> > +typedef struct FWCfgX86Topology {
-> > +  uint32_t dies;
-> > +  uint32_t cores;
-> > +  uint32_t threads;
-> > +  uint32_t max_cpus;
-> > +} QEMU_PACKED FWCfgX86Topology;
+> >  linux-user/elfload.c       | 18 +++++++++++++++++-
+>
+> There are conflicts from the recent elfload.c tweaks to fix on your next =
+rebase.
+
+Will address it in the next version.
+
+> >  target/arm/cpu.h           | 13 ++++++++++++-
+> >  target/arm/cpu64.c         |  1 +
+> >  target/arm/helper.c        | 24 ++++++++++++++++++++++++
+> >  target/arm/helper.h        |  1 +
+> >  target/arm/op_helper.c     | 36 ++++++++++++++++++++++++++++++++++++
+> >  target/arm/translate-a64.c |  5 +++++
+> >  7 files changed, 96 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> > index 3365e192eb..1ec00308d5 100644
+> > --- a/linux-user/elfload.c
+> > +++ b/linux-user/elfload.c
+> > @@ -609,7 +609,12 @@ enum {
+> >      ARM_HWCAP_A64_PACG          =3D 1UL << 31,
+> >  };
+> >
+> > +enum {
+> > +    ARM_HWCAP2_A64_DCPODP   =3D 1 << 0,
+> > +};
 > > +
-> >  FWCfgState *fw_cfg_arch_create(MachineState *ms,
-> >                                 uint16_t boot_cpus,
-> > -                               uint16_t apic_id_limit);
-> > +                               uint16_t apic_id_limit,
-> > +                               unsigned smp_dies,
-> > +                               bool expose_topology);
-> >  void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
-> >  void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg=
-);
-> > =20
-> > diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-> > index 39b6bc60520c..33d09875014f 100644
-> > --- a/hw/i386/fw_cfg.c
-> > +++ b/hw/i386/fw_cfg.c
-> > @@ -85,9 +85,26 @@ void fw_cfg_build_smbios(MachineState *ms, FWCfgStat=
-e *fw_cfg)
-> >      }
+> >  #define ELF_HWCAP get_elf_hwcap()
+> > +#define ELF_HWCAP2 get_elf_hwcap2()
+> >
+> >  static uint32_t get_elf_hwcap(void)
+> >  {
+> > @@ -644,12 +649,23 @@ static uint32_t get_elf_hwcap(void)
+> >      GET_FEATURE_ID(aa64_jscvt, ARM_HWCAP_A64_JSCVT);
+> >      GET_FEATURE_ID(aa64_sb, ARM_HWCAP_A64_SB);
+> >      GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
+> > +    GET_FEATURE_ID(aa64_dcpop, ARM_HWCAP_A64_DCPOP);
+> >
+> > -#undef GET_FEATURE_ID
+> >
+> >      return hwcaps;
 > >  }
-> > =20
-> > +static void fw_cfg_expose_topology(FWCfgState *fw_cfg,
-> > +                                   unsigned dies,
-> > +                                   unsigned cores,
-> > +                                   unsigned threads,
-> > +                                   unsigned max_cpus)
+> >
+> > +static uint32_t get_elf_hwcap2(void)
 > > +{
-> > +    FWCfgX86Topology *topo =3D g_new(FWCfgX86Topology, 1);
+> > +    ARMCPU *cpu =3D ARM_CPU(thread_cpu);
+> > +    uint32_t hwcaps =3D 0;
 > > +
-> > +    topo->dies     =3D cpu_to_le32(dies);
-> > +    topo->cores    =3D cpu_to_le32(cores);
-> > +    topo->threads  =3D cpu_to_le32(threads);
-> > +    topo->max_cpus =3D cpu_to_le32(max_cpus);
-> > +    fw_cfg_add_file(fw_cfg, "etc/x86-smp-topology", topo, sizeof *topo=
-);
+> > +    GET_FEATURE_ID(aa64_dcpodp, ARM_HWCAP2_A64_DCPODP);
+> > +    return hwcaps;
 > > +}
 > > +
-> >  FWCfgState *fw_cfg_arch_create(MachineState *ms,
-> > -                                      uint16_t boot_cpus,
-> > -                                      uint16_t apic_id_limit)
-> > +                               uint16_t boot_cpus,
-> > +                               uint16_t apic_id_limit,
-> > +                               unsigned smp_dies,
-> > +                               bool expose_topology)
-> >  {
-> >      FWCfgState *fw_cfg;
-> >      uint64_t *numa_fw_cfg;
-> > @@ -143,6 +160,11 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
-> >                       (1 + apic_id_limit + nb_numa_nodes) *
-> >                       sizeof(*numa_fw_cfg));
-> > =20
-> > +    if (expose_topology) {
-> > +        fw_cfg_expose_topology(fw_cfg, smp_dies, ms->smp.cores,
-> > +                               ms->smp.threads, ms->smp.max_cpus);
-> > +    }
+> > +#undef GET_FEATURE_ID
 > > +
-> >      return fw_cfg;
+> >  #endif /* not TARGET_AARCH64 */
+> >  #endif /* TARGET_ARM */
+> >
+> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> > index 297ad5e47a..1713d76590 100644
+> > --- a/target/arm/cpu.h
+> > +++ b/target/arm/cpu.h
+> > @@ -2229,7 +2229,8 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t c=
+pregid)
+> >  #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
+> >  #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
+> >  #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
+> > -#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
+> > +#define ARM_CP_DC_CVAP           (ARM_CP_SPECIAL | 0x0600)
+> > +#define ARM_LAST_SPECIAL         ARM_CP_DC_CVAP
+> >  #define ARM_CP_FPU               0x1000
+> >  #define ARM_CP_SVE               0x2000
+> >  #define ARM_CP_NO_GDB            0x4000
+> > @@ -3572,6 +3573,16 @@ static inline bool isar_feature_aa64_frint(const=
+ ARMISARegisters *id)
+> >      return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, FRINTTS) !=3D 0;
 > >  }
-> > =20
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index bcda50efcc23..bb72b12edad2 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -1738,8 +1738,8 @@ void pc_memory_init(PCMachineState *pcms,
-> >                                          option_rom_mr,
-> >                                          1);
-> > =20
-> > -    fw_cfg =3D fw_cfg_arch_create(machine,
-> > -                                pcms->boot_cpus, pcms->apic_id_limit);
-> > +    fw_cfg =3D fw_cfg_arch_create(machine, pcms->boot_cpus, pcms->apic=
-_id_limit,
-> > +                                pcms->smp_dies, false);
-> > =20
-> >      rom_set_fw(fw_cfg);
-> > =20
-> >  =20
->=20
+> >
+> > +static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
+> > +{
+> > +    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) !=3D 0;
+> > +}
+> > +
+> > +static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
+> > +{
+> > +    return (FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >> 1) !=3D=
+ 0;
+> > +}
+> > +
+> >  static inline bool isar_feature_aa64_fp16(const ARMISARegisters *id)
+> >  {
+> >      /* We always set the AdvSIMD and FP fields identically wrt FP16.  =
+*/
+> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> > index d7f5bf610a..20094f980d 100644
+> > --- a/target/arm/cpu64.c
+> > +++ b/target/arm/cpu64.c
+> > @@ -331,6 +331,7 @@ static void aarch64_max_initfn(Object *obj)
+> >          cpu->isar.id_aa64isar0 =3D t;
+> >
+> >          t =3D cpu->isar.id_aa64isar1;
+> > +        t =3D FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
+> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
+> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
+> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, APA, 1); /* PAuth, architect=
+ed only */
+> > diff --git a/target/arm/helper.c b/target/arm/helper.c
+> > index 507026c915..99ae01b7e7 100644
+> > --- a/target/arm/helper.c
+> > +++ b/target/arm/helper.c
+> > @@ -3843,6 +3843,22 @@ static CPAccessResult aa64_cacheop_access(CPUARM=
+State *env,
+> >      return CP_ACCESS_OK;
+> >  }
+> >
+> > +static CPAccessResult aa64_cacheop_persist_access(CPUARMState *env,
+> > +                                                  const ARMCPRegInfo *=
+ri,
+> > +                                                  bool isread)
+> > +{
+> > +    ARMCPU *cpu =3D env_archcpu(env);
+> > +    /*
+> > +     * Access is UNDEF if lacking implementation for either DC CVAP or=
+ DC CVADP
+> > +     * DC CVAP ->  CRm: 0xc
+> > +     * DC CVADP -> CRm: 0xd
+> > +     */
+> > +    return (ri->crm =3D=3D 0xc && !cpu_isar_feature(aa64_dcpop, cpu)) =
+||
+> > +           (ri->crm =3D=3D 0xd && !cpu_isar_feature(aa64_dcpodp, cpu))
+> > +           ? CP_ACCESS_TRAP_UNCATEGORIZED
+> > +           : aa64_cacheop_access(env, ri, isread);
+> > +}
+> > +
+> >  /* See: D4.7.2 TLB maintenance requirements and the TLB maintenance in=
+structions
+> >   * Page D4-1736 (DDI0487A.b)
+> >   */
+> > @@ -4251,6 +4267,14 @@ static const ARMCPRegInfo v8_cp_reginfo[] =3D {
+> >        .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 10, .opc2 =3D 1,
+> >        .access =3D PL0_W, .type =3D ARM_CP_NOP,
+> >        .accessfn =3D aa64_cacheop_access },
+> > +    { .name =3D "DC_CVAP", .state =3D ARM_CP_STATE_AA64,
+> > +      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 12, .opc2 =3D 1,
+> > +      .access =3D PL0_W, .type =3D ARM_CP_DC_CVAP,
+> > +      .accessfn =3D aa64_cacheop_persist_access },
+> > +    { .name =3D "DC_CVADP", .state =3D ARM_CP_STATE_AA64,
+> > +      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 13, .opc2 =3D 1,
+> > +      .access =3D PL0_W, .type =3D ARM_CP_DC_CVAP,
+> > +      .accessfn =3D aa64_cacheop_persist_access },
+> >      { .name =3D "DC_CSW", .state =3D ARM_CP_STATE_AA64,
+> >        .opc0 =3D 1, .opc1 =3D 0, .crn =3D 7, .crm =3D 10, .opc2 =3D 2,
+> >        .access =3D PL1_W, .type =3D ARM_CP_NOP },
+> > diff --git a/target/arm/helper.h b/target/arm/helper.h
+> > index 1fb2cb5a77..a850364944 100644
+> > --- a/target/arm/helper.h
+> > +++ b/target/arm/helper.h
+> > @@ -561,6 +561,7 @@ DEF_HELPER_FLAGS_3(crypto_sm4ekey, TCG_CALL_NO_RWG,=
+ void, ptr, ptr, ptr)
+> >  DEF_HELPER_FLAGS_3(crc32, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
+> >  DEF_HELPER_FLAGS_3(crc32c, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
+> >  DEF_HELPER_2(dc_zva, void, env, i64)
+> > +DEF_HELPER_2(dc_cvap, void, env, i64)
+> >
+> >  DEF_HELPER_FLAGS_2(neon_pmull_64_lo, TCG_CALL_NO_RWG_SE, i64, i64, i64=
+)
+> >  DEF_HELPER_FLAGS_2(neon_pmull_64_hi, TCG_CALL_NO_RWG_SE, i64, i64, i64=
+)
+> > diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+> > index 0fd4bd0238..75ebf6afa4 100644
+> > --- a/target/arm/op_helper.c
+> > +++ b/target/arm/op_helper.c
+> > @@ -987,3 +987,39 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vad=
+dr_in)
+> >      memset(g2h(vaddr), 0, blocklen);
+> >  #endif
+> >  }
+> > +
+> > +void HELPER(dc_cvap)(CPUARMState *env, uint64_t vaddr_in)
+> > +{
+> > +#ifndef CONFIG_USER_ONLY
+> > +    ARMCPU *cpu =3D env_archcpu(env);
+> > +    /* CTR_EL0 System register -> DminLine, bits [19:16] */
+> > +    uint64_t dline_size =3D 4 << ((cpu->ctr >> 16) & 0xF);
+> > +    uint64_t vaddr =3D vaddr_in & ~(dline_size - 1);
+> > +    void *haddr;
+> > +    int mem_idx =3D cpu_mmu_index(env, false);
+> > +
+> > +    /* This won't be crossing page boundaries */
+> > +    haddr =3D probe_read(env, vaddr, dline_size, mem_idx, GETPC());
+> > +    if (haddr) {
+> > +
+> > +        ram_addr_t offset;
+> > +        MemoryRegion *mr;
+> > +
+> > +        /*
+> > +         * RCU critical section + ref counting,
+> > +         * so that MR won't disappear behind the scene
+> > +         */
+> > +        rcu_read_lock();
+> > +        mr =3D memory_region_from_host(haddr, &offset);
+> > +        if (mr) {
+> > +            memory_region_ref(mr);
+> > +        }
+> > +        rcu_read_unlock();
+> > +
+> > +        if (mr) {
+> > +            memory_region_do_writeback(mr, offset, dline_size);
+> > +            memory_region_unref(mr);
+> > +        }
+> > +    }
+> > +#endif
+> > +}
+> > diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> > index 2d6cd09634..21ea3631d6 100644
+> > --- a/target/arm/translate-a64.c
+> > +++ b/target/arm/translate-a64.c
+> > @@ -1746,6 +1746,11 @@ static void handle_sys(DisasContext *s, uint32_t=
+ insn, bool isread,
+> >          tcg_rt =3D cpu_reg(s, rt);
+> >          gen_helper_dc_zva(cpu_env, tcg_rt);
+> >          return;
+> > +    case ARM_CP_DC_CVAP:
+> > +        /* DC CVAP / DC CVADP */
+> > +        tcg_rt =3D cpu_reg(s, rt);
+> > +        gen_helper_dc_cvap(cpu_env, tcg_rt);
+> > +        return;
+> >      default:
+> >          break;
+> >      }
+>
+>
+> --
+> Alex Benn=C3=A9e
 
+BR
+Beata
 
