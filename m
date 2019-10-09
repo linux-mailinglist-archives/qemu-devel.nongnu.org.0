@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E40CD1ADD
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:25:35 +0200 (CEST)
-Received: from localhost ([::1]:58728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED0ED1AE2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:28:41 +0200 (CEST)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJSf-0002bd-Kr
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43558)
+	id 1iIJVg-0006QI-AG
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iIJ7C-0005Dm-RK
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:03:23 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iIJCq-0003UH-GC
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:09:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iIJ7B-0005vV-6P
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:03:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50726)
+ (envelope-from <ehabkost@redhat.com>) id 1iIJCo-00082F-VC
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:09:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52656)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIJ7A-0005uJ-Vi
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:03:21 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iIJCo-00081e-2p
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:09:10 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2051387630;
- Wed,  9 Oct 2019 21:03:20 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-11.rdu2.redhat.com
- [10.10.120.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 787D219C69;
- Wed,  9 Oct 2019 21:03:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1EF0E3018761;
+ Wed,  9 Oct 2019 21:09:09 +0000 (UTC)
+Received: from localhost (ovpn-116-5.gru2.redhat.com [10.97.116.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78DC55C22F;
+ Wed,  9 Oct 2019 21:09:03 +0000 (UTC)
+Date: Wed, 9 Oct 2019 18:09:01 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
 Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
  fw-cfg
-To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20191009210901.GB4084@habkost.net>
 References: <20191008105259.5378-1-lersek@redhat.com>
  <20191008105259.5378-4-lersek@redhat.com>
  <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
- <20191009131305.298d8716@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <f61b1627-c83e-6b1d-f1cb-d9f852af61a7@redhat.com>
-Date: Wed, 9 Oct 2019 23:03:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20191009131305.298d8716@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d47793c-7dfe-a8b6-8704-aca493689577@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 09 Oct 2019 21:03:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Wed, 09 Oct 2019 21:09:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -64,67 +59,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/09/19 13:13, Igor Mammedov wrote:
-> On Tue, 8 Oct 2019 20:58:30 +0200
-> Laszlo Ersek <lersek@redhat.com> wrote:
+On Tue, Oct 08, 2019 at 08:58:30PM +0200, Laszlo Ersek wrote:
+> Eduardo, Igor,
 > 
->> Eduardo, Igor,
->>
->> On 10/08/19 12:52, Laszlo Ersek wrote:
->>> FW_CFG_MAX_CPUS exposes the (exclusive) maximum APIC ID to guest firmware,
->>> due to historical reasons. That value is not useful to edk2, however. For
->>> supporting VCPU hotplug, edk2 needs:
->>>
->>> - the boot CPU count (already exposed in FW_CFG_NB_CPUS),
->>>
->>> - and the maximum foreseen CPU count (tracked in
->>>   "MachineState.smp.max_cpus", but not currently exposed).
->>>
->>> Add a new fw-cfg file to expose "max_cpus".
->>>
->>> While at it, expose the rest of the topology too (die / core / thread
->>> counts), because I expect that the VCPU hotplug feature for OVMF will
->>> ultimately need those too, and the data size is not large.  
->>
->> In fact, it seems like OVMF will have to synthesize the new
->> (hot-plugged) VCPU's *APIC-ID* from the following information sources:
->>
->> - the topology information described above (die / core / thread counts), and
->>
->> - the "modern" CPU hotplug interface (docs/specs/acpi_cpu_hotplug.txt).
+> On 10/08/19 12:52, Laszlo Ersek wrote:
+> > FW_CFG_MAX_CPUS exposes the (exclusive) maximum APIC ID to guest firmware,
+> > due to historical reasons. That value is not useful to edk2, however. For
+> > supporting VCPU hotplug, edk2 needs:
+> > 
+> > - the boot CPU count (already exposed in FW_CFG_NB_CPUS),
+> > 
+> > - and the maximum foreseen CPU count (tracked in
+> >   "MachineState.smp.max_cpus", but not currently exposed).
+> > 
+> > Add a new fw-cfg file to expose "max_cpus".
+> > 
+> > While at it, expose the rest of the topology too (die / core / thread
+> > counts), because I expect that the VCPU hotplug feature for OVMF will
+> > ultimately need those too, and the data size is not large.
 > 
-> In general duplicating cpu_index+topo => apic id in firmware I
-> consider as a really bad idea (even ignoring cpu_index 
-> which I were trying to get rid of in QEMU), it's going to break
-> when algorithms diverge and it will be never ending race.
-
-OK.
-
-> Topology is rather messy business, not only arch specific but also
-> cpu specific (ex: on my review TODO list, there is a series for
-> fixing broken EPYCs topo). Who knows what other variables would be
-> add dependencies for calculating APIC IDs down the road.
+> In fact, it seems like OVMF will have to synthesize the new
+> (hot-plugged) VCPU's *APIC-ID* from the following information sources:
 > 
-> I also consider to re-use CPU hotplug interface on ARM, which will
-> bring its own set of algorithms.
+> - the topology information described above (die / core / thread counts), and
 > 
-> Let's instead add a command to CPU hotplug interface to return
-> APIC ID (which QEMU already calculated) and later MPIDR (ARM)
-> for selected CPU, so firmware could get it while enumeration CPUs
-> via that interface.
+> - the "modern" CPU hotplug interface (docs/specs/acpi_cpu_hotplug.txt).
+> 
+> Now, if I understand correctly, the "CPU selector" ([0x0-0x3]) specifies
+> a CPU *index*. Therefore, in the hotplug SMI handler (running on one of
+> the pre-existent CPUs), OVMF will have to translate the new CPU's
+> selector (the new CPU's *index*) to its *APIC-ID*, based on the topology
+> information (numbers of dies / cores / threads).
 
-Sounds good to me, thanks.
+I thought we had already fixed all our guest interfaces to make
+CPU indexes never visible to guests.  If it is still visible
+somewhere, it's a bug we need to fix.
 
-I'll stay tuned for your patches! :)
-
-Thanks!
-Laszlo
+-- 
+Eduardo
 
