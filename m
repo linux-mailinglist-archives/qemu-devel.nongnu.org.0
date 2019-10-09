@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD13D16C8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:33:15 +0200 (CEST)
-Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC21AD16F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:40:00 +0200 (CEST)
+Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFpp-000749-SO
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48809)
+	id 1iIFwM-0005GW-HB
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iI7mY-0001MY-M9
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:57:20 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iI7sa-0001wr-Cu
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:03:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iI7mX-00078I-3n
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:57:18 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51865 helo=ozlabs.org)
+ (envelope-from <dgilbert@redhat.com>) id 1iI7sT-00016x-NE
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:03:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50572)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iI7mW-000775-0C; Wed, 09 Oct 2019 04:57:17 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46p7Pz3yf3z9sDQ; Wed,  9 Oct 2019 19:57:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570611431;
- bh=vnvbTSiJwe1v/BjPmkc1YAOvESi4dK9BWMA9+dMRxio=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hW8WoNCQuvg/iXuypMS9Z45xb2NTfKrvxzBBDs0u8hAeioyKk+JpilqHj4/w+ijAx
- teoENlZQtWgZde7eNu2yqWnCbG1BMy7pIGZdFTBlvlFF9ORprnk/JZ72vZjXUNPoe1
- YWtJm+oA8lUNrp7DclojMG10jJQBZiCgDRdU2vRE=
-Date: Wed, 9 Oct 2019 19:57:07 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org, clg@kaod.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v4 18/19] spapr: Handle irq backend changes with VFIO PCI
- devices
-Message-ID: <20191009085707.GB5035@umbus.fritz.box>
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
- <20191009060818.29719-19-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iI7sT-00016E-Hd
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:03:25 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 44F50C002966;
+ Wed,  9 Oct 2019 09:03:24 +0000 (UTC)
+Received: from work-vm (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 541D75D9CD;
+ Wed,  9 Oct 2019 09:03:23 +0000 (UTC)
+Date: Wed, 9 Oct 2019 10:03:20 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [PATCH 2/3] migration/postcopy: not necessary to do
+ postcopy_ram_incoming_cleanup when state is ADVISE
+Message-ID: <20191009090320.GC2893@work-vm>
+References: <20191001100122.17730-1-richardw.yang@linux.intel.com>
+ <20191001100122.17730-3-richardw.yang@linux.intel.com>
+ <20191008160202.GE3441@work-vm> <20191009005511.GB26203@richard>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191009060818.29719-19-david@gibson.dropbear.id.au>
+In-Reply-To: <20191009005511.GB26203@richard>
 User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 09 Oct 2019 09:03:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,143 +60,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Jason Wang <jasowang@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, groug@kaod.org,
- Laurent Vivier <laurent@vivier.eu>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- philmd@redhat.com
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> On Tue, Oct 08, 2019 at 05:02:02PM +0100, Dr. David Alan Gilbert wrote:
+> >* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> >> postcopy_ram_incoming_cleanup() does cleanup for
+> >> postcopy_ram_incoming_setup(), while the setup happens only after
+> >> migration enters LISTEN state.
+> >> 
+> >> This means there is nothing to cleanup when migration is still ADVISE
+> >> state.
+> >> 
+> >> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> >> ---
+> >>  migration/migration.c | 1 -
+> >>  1 file changed, 1 deletion(-)
+> >> 
+> >> diff --git a/migration/migration.c b/migration/migration.c
+> >> index 5f7e4d15e9..34d5e66f06 100644
+> >> --- a/migration/migration.c
+> >> +++ b/migration/migration.c
+> >> @@ -461,7 +461,6 @@ static void process_incoming_migration_co(void *opaque)
+> >>               * but managed to complete within the precopy period, we can use
+> >>               * the normal exit.
+> >>               */
+> >> -            postcopy_ram_incoming_cleanup(mis);
+> >>          } else if (ret >= 0) {
+> >>              /*
+> >>               * Postcopy was started, cleanup should happen at the end of the
+> >
+> >I think that misses the cleanup of mlock that corresponds to the
+> >munlockall in postcopy_ram_supported_by_host - that's called very early
+> >on; I think in the advise stage.
+> >
+> 
+> Thanks you are right.
+> 
+> BTW, do we need to check enable_mlock when calling munlockall() in
+> postcopy_ram_supported_by_host() ?
 
---bCsyhTFzCvuiizWE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't think so; it does an extra munlock in that case when nothing
+should be locked anyway, no harm.
 
-On Wed, Oct 09, 2019 at 05:08:17PM +1100, David Gibson wrote:
-> pseries machine type can have one of two different interrupt controllers =
-in
-> use depending on feature negotiation with the guest.  Usually this is
-> invisible to devices, because they route to a common set of qemu_irqs whi=
-ch
-> in turn dispatch to the correct back end.
->=20
-> VFIO passthrough devices, however, wire themselves up directly to the KVM
-> irqchip for performance, which means they are affected by this change in
-> interrupt controller.
->=20
-> Luckily, there's a notifier chain that will tell VFIO devices to update
-> their mappings - we just need to call it whenever the intc backend might
-> change.
->=20
-> In addition, we make sure we set an active intc earlier, because otherwise
-> vfio can issue a false warning, because it doesn't think a KVM irqchip is
-> in use (which is essentially for good INTx performance).
->=20
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Dave
 
-For reference, the reason I described this as RFC only in the cover
-letter, is that this doesn't work as it stands.
-
-With this patch, when we switch intc we call the intx_routing
-notifiers, and vfio_intx_update() in particular.  However that exits
-early without calling vfio_intx_enable_kvm() - the bit we actually
-need - because the test on pci_intx_route_changed() thinks there's
-nothing to do.  The difficulty is that our use case isn't really the
-same as the x86 one this notifier path was designed for: they're
-changing routing of INTx to global interrupts.  For us the routing to
-global interrupts remains the same, but the interrupt controller
-handling those global interrupts has changed.
-
-> ---
->  hw/ppc/spapr_irq.c     | 6 ++++++
->  hw/ppc/spapr_pci.c     | 9 +++++++++
->  include/hw/ppc/spapr.h | 1 +
->  3 files changed, 16 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 473fc8780a..7964e4a1b8 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -409,6 +409,12 @@ static void set_active_intc(SpaprMachineState *spapr,
->      }
-> =20
->      spapr->active_intc =3D new_intc;
-> +
-> +    /*
-> +     * We've changed the interrupt routing at the KVM level, let VFIO
-> +     * devices know they need to readjust.
-> +     */
-> +    spapr_pci_fire_intx_routing_notifiers(spapr);
->  }
-> =20
->  void spapr_irq_update_active_intc(SpaprMachineState *spapr)
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index cc0e7829b6..3bcf6325d4 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -93,6 +93,15 @@ PCIDevice *spapr_pci_find_dev(SpaprMachineState *spapr=
-, uint64_t buid,
->      return pci_find_device(phb->bus, bus_num, devfn);
->  }
-> =20
-> +void spapr_pci_fire_intx_routing_notifiers(SpaprMachineState *spapr)
-> +{
-> +    SpaprPhbState *sphb;
-> +
-> +    QLIST_FOREACH(sphb, &spapr->phbs, list) {
-> +        pci_bus_fire_intx_routing_notifier(PCI_HOST_BRIDGE(sphb)->bus);
-> +    }
-> +}
-> +
->  static uint32_t rtas_pci_cfgaddr(uint32_t arg)
->  {
->      /* This handles the encoding of extended config space addresses */
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index d3b4dd7de3..66b68fdd5e 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -805,6 +805,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
-apr);
->  int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
-> +void spapr_pci_fire_intx_routing_notifiers(SpaprMachineState *spapr);
-> =20
->  /* DRC callbacks. */
->  void spapr_core_release(DeviceState *dev);
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---bCsyhTFzCvuiizWE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2doOMACgkQbDjKyiDZ
-s5KxRxAAkOV3LIupLQPOKnDPjxw8opo77EJBihlfmOWOyD73UZBreQfAVDOUQ84c
-TnneUViarIO0B8ZSGuXuHI4JoVy92Kwl6N64A/hGmsS7TsALDp+LrKo6II/L7F9t
-QmflMwCLz+RvFy/HyUQKdKPBTpni9K0/zBcpBDpGujtQYI2KVuEiskllZ80YBeIV
-DQFYdSr8kMQ9+WgNuNPQdsZ5CHOLS9rhgpA2y97rGBmWIGMRDXkjWi7vpZ0GLhxN
-cJs4rtuFCLTtzKA0q0TqoYEGxvnEWaHxiRiH9WIQ+7/uG8nmDTAACbCg9ufJOVfk
-QejLj83R7wOECFW55TftNtUTpdtOu1PYma1gesUIL/+edy9+5v3McBgezWihBCVv
-u3f3tLS5LxvtyKWCf3Jkp4qcXieoA15NMa5ms/LHW50iwZtA+f4UTQ2fdoQKRF40
-Q9NXtYM/aareUROhqqEqL2IA5U9Tx71vrHU3vwzn+nnW7/DtgK4hEEnaQBujmaVx
-cBGiYyp2k8A6W1NXUYvw6iaDh8fLSQpunnsUjtxMnmWTrm6BomeUz5/Dv9Oqv6tM
-5IDqg2Qc2D+4ER9WmBmc9mVsu8Ofh6QFxbU9PIEMWZcBd9Z9h8wzRffnb5AUNp/y
-/fYkZ3PHRlP9wWWTcD8KDtvXH7bLzP+gP6GpvQ0LwrhpIpAPVNg=
-=3BCe
------END PGP SIGNATURE-----
-
---bCsyhTFzCvuiizWE--
+> >Dave
+> >
+> >> -- 
+> >> 2.17.1
+> >> 
+> >--
+> >Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> -- 
+> Wei Yang
+> Help you, Help me
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
