@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6852ED1A74
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:06:11 +0200 (CEST)
-Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E13D1A9E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:09:57 +0200 (CEST)
+Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJ9t-0006ll-SO
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51818)
+	id 1iIJDX-0002gk-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iIHQA-0007kr-DV
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:14:51 -0400
+ (envelope-from <mst@redhat.com>) id 1iIHbX-0002PW-6m
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:26:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iIHQ7-0005GC-5x
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:14:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40364)
+ (envelope-from <mst@redhat.com>) id 1iIHbV-00033K-EO
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:26:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50694)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHQ6-0005FW-SY
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:14:47 -0400
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIHbV-000334-4w
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:26:33 -0400
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 293D7C04D932
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:14:45 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id g65so2962303qkf.19
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:14:45 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0861361D25
+ for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:26:32 +0000 (UTC)
+Received: by mail-qt1-f200.google.com with SMTP id f15so3179276qth.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 12:26:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5HMe4iY7ZpgxFwiPKX2MfjdttrwfGNrf+k4LC3JHN8k=;
- b=XujvjE/dJjICT2EgRTFENYvA5J59oLpBoyGiZmZLaR9BDW1v3ps2GIXu2bRjcsmRt0
- qTr0nvznIB9ZEOLxYkKxtM7GjNDHJUJsis70nnX/XwF1Q3atFpxOTjciuYYZyJNRnyT2
- GmCSmH2RPnOxr81NgtaL9yqIulx+PrT60MD6ZgTRSV4AF4IDxKI2SAoie9F26tmzhIGr
- v31IOxGCw6PTKzQij8s+bVmgUoH605Qx0zOElhhlHuKxA6772fubm5nQ/ps2wg8G82e6
- nLJDZ0JWPM1DWblKtKUpXJDqZ2oImYB5/+5Z2JP2HcmFzlnvtokMo3i8xl05SKWhy1oV
- oLtw==
-X-Gm-Message-State: APjAAAVRAyB+CRu+JA56cgaBTszaNxdVjUEiwm4PTmwz+WcKusFb3aWi
- YBY2tQmxfHaclTv38wEPe89BRPlNgjKfv1GqrKsKGWgLVVH1BPucQqBR39yJy/b7VlH3s0rGome
- uQmP0HxONVcYIBNQ=
-X-Received: by 2002:a0c:814d:: with SMTP id 71mr5395803qvc.226.1570648484385; 
- Wed, 09 Oct 2019 12:14:44 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqw6J1KXq1T8FHsQVGFicsJUvpAHjMi8m2HCC3+UugTE5wot0XCMBaJZjAFYrzOHXG0/St/aeg==
-X-Received: by 2002:a0c:814d:: with SMTP id 71mr5395780qvc.226.1570648484096; 
- Wed, 09 Oct 2019 12:14:44 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=cRJfSXhNqcvqJqNZ1LKHHBkk71JEqBnTH1rClqGo4gE=;
+ b=SxOA77SjXfTPVsjczcfPMB1sCBwlQokhL6QcnlXGh0GwKM4KM2n5hoYPy6RiA5eFq5
+ 6Al1aNvbA7q2B8oh31Ocxt7WngnW+IverTwZnFPMQiuoXdrSfUHAD9XhaeZ9LbxjDG4b
+ 3WXf1Cbc3rBBQs+dqQgB5cI/SP70Y8RR7lP11R+mXkf8bSz8D73T7JbDyUCyTQ4Z5hwi
+ ghOuZHNX1UZFt2KI6rlW684q/7C0qKK9P5RbJZ1JNTZW2wTT5s0m6toJKyKDsXY8Z1ho
+ PIXH8wi/uMdPwnk/ocMMA0Xy+5gID2XAZW3YB7bZb0yx8ke9NaPvCNJ2tg+itv9wPfwZ
+ DboA==
+X-Gm-Message-State: APjAAAXW9j066hlqoNIMksMNTxiUbOhoDc7XsnnPJJtT4uaQ3NpculiD
+ YVtE0RqjueR8qrQnREWSoMx8KtYqgoyibc22BQVu1VLFX0O3adR4SncZeffbpug/P69ihcajZzA
+ PB/lcDDH+4J2BzR0=
+X-Received: by 2002:a37:e50f:: with SMTP id e15mr5358075qkg.192.1570649191241; 
+ Wed, 09 Oct 2019 12:26:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyIjoeDWVsEsgb5QbDgyFuCbkCVcTcfxKW/L7w1ocOglLe39NIEyVVeWzq0+wGBS3zcAT1lfg==
+X-Received: by 2002:a37:e50f:: with SMTP id e15mr5358053qkg.192.1570649190954; 
+ Wed, 09 Oct 2019 12:26:30 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- c201sm1449458qke.128.2019.10.09.12.14.41
+ 63sm1435500qkh.82.2019.10.09.12.26.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 12:14:43 -0700 (PDT)
-Date: Wed, 9 Oct 2019 15:14:38 -0400
+ Wed, 09 Oct 2019 12:26:30 -0700 (PDT)
+Date: Wed, 9 Oct 2019 15:26:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [RFC PATCH] virtio-blk: advertise F_WCE (F_FLUSH) if
- F_CONFIG_WCE is also advertised
-Message-ID: <20191009151337-mutt-send-email-mst@kernel.org>
-References: <1568980590-806043-1-git-send-email-wrfsh@yandex-team.ru>
- <20191008132416.GA28104@stefanha-x1.localdomain>
+To: Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH v7 00/12] Introduce the microvm machine type
+Message-ID: <20191009152542-mutt-send-email-mst@kernel.org>
+References: <20191008135537.197867-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20191008132416.GA28104@stefanha-x1.localdomain>
+In-Reply-To: <20191008135537.197867-1-slp@redhat.com>
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -78,89 +78,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core@yandex-team.ru, qemu-block@nongnu.org, stefanha@redhat.com,
- Evgeny Yakovlev <wrfsh@yandex-team.ru>, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, lersek@redhat.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 08, 2019 at 02:24:16PM +0100, Stefan Hajnoczi wrote:
-> On Fri, Sep 20, 2019 at 02:56:30PM +0300, Evgeny Yakovlev wrote:
-> > Virtio spec 1.1 (and earlier), 5.2.5.1 Driver Requirements: Device
-> > Initialization:
-> > 
-> > "Devices SHOULD always offer VIRTIO_BLK_F_FLUSH, and MUST offer it if
-> > they offer VIRTIO_BLK_F_CONFIG_WCE.
-> > 
-> > It looks like currently F_CONFIG_WCE and F_WCE are not connected to each
-> > other. qemu will advertise F_CONFIG_WCE if config-wce argument is
-> > set for virtio-blk device. While F_WCE is advertised if underlying block
-> > backend actually has it's caching enabled.
-> > Those two things are not related to each other.
-> > 
-> > Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-> > ---
-> >  hw/block/virtio-blk.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> > index 1885160..b45dc0c 100644
-> > --- a/hw/block/virtio-blk.c
-> > +++ b/hw/block/virtio-blk.c
-> > @@ -990,7 +990,8 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
-> >          virtio_add_feature(&features, VIRTIO_BLK_F_SCSI);
-> >      }
-> >  
-> > -    if (blk_enable_write_cache(s->blk)) {
-> > +    if (blk_enable_write_cache(s->blk) ||
-> > +        virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE)) {
-> >          virtio_add_feature(&features, VIRTIO_BLK_F_WCE);
-> >      }
-> >      if (blk_is_read_only(s->blk)) {
-> > -- 
-> > 2.7.4
-> 
-> Sorry for the very late response.  I have been ill and am still
-> recovering.
-> 
-> The motivation for this change looks correct but this patch may cause
-> host_features to change across live migration to a newer QEMU version.
-> If the guest accesses VIRTIO_PCI_HOST_FEATURES before and after live
-> migration it may see different values, which is unexpected.
-> 
-> The safe way of introducing guest-visible changes like this is to make
-> the change conditional on the machine type version so that old guests
-> see old behavior and new guests see new behavior.
-> 
-> Live migration compatibility can be guaranteed by adding a new property
-> to virtio_blk_properties[]:
-> 
->   DEFINE_PROP_BOOL("enable-wce-if-config-wce", VirtIOBlock,
->                    conf.enable_wce_if_config_wce, true),
+On Tue, Oct 08, 2019 at 03:55:26PM +0200, Sergio Lopez wrote:
+> Microvm is a machine type inspired by Firecracker and constructed
+> after the its machine model.
+>=20
+> It's a minimalist machine type without PCI nor ACPI support, designed
+> for short-lived guests. Microvm also establishes a baseline for
+> benchmarking and optimizing both QEMU and guest operating systems,
+> since it is optimized for both boot time and footprint.
+
+Looks good overall. I think coding style needs to
+be fixed but that's a patch on top.
+
+series:
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+Paolo I assume you will be merging this?
 
 
-is this a useful thing for users to control?
-If not we don't need to make this property part of
-the stable API - blacklist it by prefixing x- to the name:
-x-enable-wce-if-config-wce
-
-> Then tweak the patch:
-> 
->   if (blk_enable_write_cache(s->blk) ||
->       (s->conf.enable_wce_if_config_wce &&
->        virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
-> 
-> And finally disable enable_wce_if_config_wce for older machine types to
-> retain compatibility:
-> 
->   GlobalProperty hw_compat_4_2[] = {
->       { "virtio-blk-device", "enable-wce-if-config-wce", "off" },
->   };
-> 
-> (I have omitted some steps like defining
-> VirtIOBlkConf.enable_wce_if_config_wce field and hooking up
-> hw_compat_4_2[], but you can figure that out from the existing code.)
-> 
-> Stefan
-
-
+> ---
+>=20
+> Changelog
+> v7:
+>  - Fix code style issues on already present code touched by this patch
+>    series (Michael S. Tsirkin, Philippe Mathieu-Daud=E9)
+>  - Add new files to MAINTAINERS (Michael S. Tsirkin, Philippe
+>    Mathieu-Daud=E9)
+>  - Allow starting a microvm machine without a kernel image, fixing
+>    "qom-test" (Michael S. Tsirkin)
+>  - Change "bios-microvm.bin" mode to 0644 (Stefano Garzarella)
+>  - Remove unneeded "hw/i386/pc.h" include from x86.c (Stefano
+>    Garzarella)
+>=20
+> v6:
+>  - Some style fixes (Philippe Mathieu-Daud=E9)
+>  - Fix a documentation bug stating that LAPIC was in userspace (Paolo
+>    Bonzini)
+>  - Update Xen HVM code after X86MachineState introduction (Philippe
+>    Mathieu-Daud=E9)
+>  - Rename header guard from QEMU_VIRTIO_MMIO_H to HW_VIRTIO_MMIO_H
+>    (Philippe Mathieu-Daud=E9)
+>=20
+> v5:
+>  - Drop unneeded "[PATCH v4 2/8] hw/i386: Factorize e820 related
+>    functions" (Philippe Mathieu-Daud=E9)
+>  - Drop unneeded "[PATCH v4 1/8] hw/i386: Factorize PVH related
+>    functions" (Stefano Garzarella)
+>  - Split X86MachineState introduction into smaller patches (Philippe
+>    Mathieu-Daud=E9)
+>  - Change option-roms to x-option-roms and kernel-cmdline to
+>    auto-kernel-cmdline (Paolo Bonzini)
+>  - Make i8259 PIT and i8254 PIC optional (Paolo Bonzini)
+>  - Some fixes to the documentation (Paolo Bonzini)
+>  - Switch documentation format from txt to rst (Peter Maydell)
+>  - Move NMI interface to X86_MACHINE (Philippe Mathieu-Daud=E9, Paolo
+>    Bonzini)
+>=20
+> v4:
+>  - This is a complete rewrite of the whole patchset, with a focus on
+>    reusing as much existing code as possible to ease the maintenance bu=
+rden
+>    and making the machine type as compatible as possible by default. As
+>    a result, the number of lines dedicated specifically to microvm is
+>    383 (code lines measured by "cloc") and, with the default
+>    configuration, it's now able to boot both PVH ELF images and
+>    bzImages with either SeaBIOS or qboot.
+>=20
+> v3:
+>   - Add initrd support (thanks Stefano).
+>=20
+> v2:
+>   - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
+>   - Simplify machine definition (thanks Eduardo).
+>   - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
+>   - Add a patch to factorize PVH-related functions.
+>   - Replace use of Linux's Zero Page with PVH (thanks Maran and Paolo).
+>=20
+> ---
+>=20
+> Sergio Lopez (12):
+>   hw/virtio: Factorize virtio-mmio headers
+>   hw/i386/pc: rename functions shared with non-PC machines
+>   hw/i386/pc: fix code style issues on functions that will be moved out
+>   hw/i386/pc: move shared x86 functions to x86.c and export them
+>   hw/i386: split PCMachineState deriving X86MachineState from it
+>   hw/i386: make x86.c independent from PCMachineState
+>   fw_cfg: add "modify" functions for all types
+>   hw/intc/apic: reject pic ints if isa_pic =3D=3D NULL
+>   roms: add microvm-bios (qboot) as binary and git submodule
+>   docs/microvm.rst: document the new microvm machine type
+>   hw/i386: Introduce the microvm machine type
+>   MAINTAINERS: add microvm related files
+>=20
+>  docs/microvm.rst                 |  98 ++++
+>  default-configs/i386-softmmu.mak |   1 +
+>  include/hw/i386/microvm.h        |  83 ++++
+>  include/hw/i386/pc.h             |  28 +-
+>  include/hw/i386/x86.h            |  96 ++++
+>  include/hw/nvram/fw_cfg.h        |  42 ++
+>  include/hw/virtio/virtio-mmio.h  |  73 +++
+>  hw/acpi/cpu_hotplug.c            |  10 +-
+>  hw/i386/acpi-build.c             |  29 +-
+>  hw/i386/amd_iommu.c              |   3 +-
+>  hw/i386/intel_iommu.c            |   3 +-
+>  hw/i386/microvm.c                | 572 ++++++++++++++++++++++
+>  hw/i386/pc.c                     | 781 +++---------------------------
+>  hw/i386/pc_piix.c                |  46 +-
+>  hw/i386/pc_q35.c                 |  38 +-
+>  hw/i386/pc_sysfw.c               |  60 +--
+>  hw/i386/x86.c                    | 795 +++++++++++++++++++++++++++++++
+>  hw/i386/xen/xen-hvm.c            |  28 +-
+>  hw/intc/apic.c                   |   2 +-
+>  hw/intc/ioapic.c                 |   2 +-
+>  hw/nvram/fw_cfg.c                |  29 ++
+>  hw/virtio/virtio-mmio.c          |  48 +-
+>  .gitmodules                      |   3 +
+>  MAINTAINERS                      |  10 +
+>  hw/i386/Kconfig                  |   4 +
+>  hw/i386/Makefile.objs            |   2 +
+>  pc-bios/bios-microvm.bin         | Bin 0 -> 65536 bytes
+>  roms/Makefile                    |   6 +
+>  roms/qboot                       |   1 +
+>  29 files changed, 1982 insertions(+), 911 deletions(-)
+>  create mode 100644 docs/microvm.rst
+>  create mode 100644 include/hw/i386/microvm.h
+>  create mode 100644 include/hw/i386/x86.h
+>  create mode 100644 include/hw/virtio/virtio-mmio.h
+>  create mode 100644 hw/i386/microvm.c
+>  create mode 100644 hw/i386/x86.c
+>  create mode 100644 pc-bios/bios-microvm.bin
+>  create mode 160000 roms/qboot
+>=20
+> --=20
+> 2.21.0
 
