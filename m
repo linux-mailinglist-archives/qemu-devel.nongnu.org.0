@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C18D1503
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:12:06 +0200 (CEST)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5425D150B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:14:56 +0200 (CEST)
+Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFVL-0006lG-NV
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47527)
+	id 1iIFY7-00021W-Da
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47525)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iI7Xs-0008Lt-BI
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iI7Xs-0008Ls-5D
  for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:42:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iI7Xp-0001zf-T8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iI7Xq-00020k-Gk
  for qemu-devel@nongnu.org; Wed, 09 Oct 2019 04:42:08 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45620)
+Received: from relay.sw.ru ([185.231.240.75]:45618)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iI7Xm-0001qu-TR; Wed, 09 Oct 2019 04:42:03 -0400
+ id 1iI7Xm-0001qt-TQ; Wed, 09 Oct 2019 04:42:03 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iI7Xj-0008Sl-6h; Wed, 09 Oct 2019 11:41:59 +0300
+ id 1iI7Xj-0008Sl-C4; Wed, 09 Oct 2019 11:41:59 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v10 1/3] qemu-coroutine-sleep: introduce qemu_co_sleep_wake
-Date: Wed,  9 Oct 2019 11:41:56 +0300
-Message-Id: <20191009084158.15614-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v10 3/3] iotests: test nbd reconnect
+Date: Wed,  9 Oct 2019 11:41:58 +0300
+Message-Id: <20191009084158.15614-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191009084158.15614-1-vsementsov@virtuozzo.com>
 References: <20191009084158.15614-1-vsementsov@virtuozzo.com>
@@ -52,127 +52,180 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a function to gracefully wake a coroutine sleeping in
-qemu_co_sleep_ns().
+Add test, which starts backup to nbd target and restarts nbd server
+during backup.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/qemu/coroutine.h    | 23 +++++++++++++++--
- util/qemu-coroutine-sleep.c | 51 +++++++++++++++++++++++++++----------
- 2 files changed, 59 insertions(+), 15 deletions(-)
+ tests/qemu-iotests/264        | 95 +++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/264.out    | 13 +++++
+ tests/qemu-iotests/group      |  1 +
+ tests/qemu-iotests/iotests.py | 11 ++++
+ 4 files changed, 120 insertions(+)
+ create mode 100755 tests/qemu-iotests/264
+ create mode 100644 tests/qemu-iotests/264.out
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 9801e7f5a4..8d55663062 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -273,10 +273,29 @@ void qemu_co_rwlock_wrlock(CoRwlock *lock);
-  */
- void qemu_co_rwlock_unlock(CoRwlock *lock);
- 
-+typedef struct QemuCoSleepState QemuCoSleepState;
+diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
+new file mode 100755
+index 0000000000..c8cd97ae2b
+--- /dev/null
++++ b/tests/qemu-iotests/264
+@@ -0,0 +1,95 @@
++#!/usr/bin/env python
++#
++# Test nbd reconnect
++#
++# Copyright (c) 2019 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+/**
-+ * Yield the coroutine for a given duration. During this yield, @sleep_state
-+ * (if not NULL) is set to an opaque pointer, which may be used for
-+ * qemu_co_sleep_wake(). Be careful, the pointer is set back to zero when the
-+ * timer fires. Don't save the obtained value to other variables and don't call
-+ * qemu_co_sleep_wake from another aio context.
-+ */
-+void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
-+                                            QemuCoSleepState **sleep_state);
-+static inline void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
-+{
-+    qemu_co_sleep_ns_wakeable(type, ns, NULL);
-+}
++import time
 +
- /**
-- * Yield the coroutine for a given duration
-+ * Wake a coroutine if it is sleeping in qemu_co_sleep_ns. The timer will be
-+ * deleted. @sleep_state must be the variable whose address was given to
-+ * qemu_co_sleep_ns() and should be checked to be non-NULL before calling
-+ * qemu_co_sleep_wake().
-  */
--void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns);
-+void qemu_co_sleep_wake(QemuCoSleepState *sleep_state);
- 
- /**
-  * Yield until a file descriptor becomes readable
-diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
-index 4bfdd30cbf..ae91b92b6e 100644
---- a/util/qemu-coroutine-sleep.c
-+++ b/util/qemu-coroutine-sleep.c
-@@ -17,31 +17,56 @@
- #include "qemu/timer.h"
- #include "block/aio.h"
- 
--static void co_sleep_cb(void *opaque)
--{
--    Coroutine *co = opaque;
-+static const char *qemu_co_sleep_ns__scheduled = "qemu_co_sleep_ns";
++import iotests
++from iotests import qemu_img_create, qemu_io_silent_check, file_path, \
++        qemu_nbd_popen, log
 +
-+struct QemuCoSleepState {
-+    Coroutine *co;
-+    QEMUTimer *ts;
-+    QemuCoSleepState **user_state_pointer;
-+};
- 
-+void qemu_co_sleep_wake(QemuCoSleepState *sleep_state)
-+{
-     /* Write of schedule protected by barrier write in aio_co_schedule */
--    atomic_set(&co->scheduled, NULL);
--    aio_co_wake(co);
-+    const char *scheduled = atomic_cmpxchg(&sleep_state->co->scheduled,
-+                                           qemu_co_sleep_ns__scheduled, NULL);
++disk_a, disk_b, nbd_sock = file_path('disk_a', 'disk_b', 'nbd-sock')
++nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
++size = 5 * 1024 * 1024
++wait_limit = 3
++wait_step = 0.2
 +
-+    assert(scheduled == qemu_co_sleep_ns__scheduled);
-+    if (sleep_state->user_state_pointer) {
-+        *sleep_state->user_state_pointer = NULL;
-+    }
-+    timer_del(sleep_state->ts);
-+    aio_co_wake(sleep_state->co);
- }
- 
--void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
-+static void co_sleep_cb(void *opaque)
-+{
-+    qemu_co_sleep_wake(opaque);
-+}
++qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
++qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
++srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
 +
-+void coroutine_fn qemu_co_sleep_ns_wakeable(QEMUClockType type, int64_t ns,
-+                                            QemuCoSleepState **sleep_state)
- {
-     AioContext *ctx = qemu_get_current_aio_context();
--    QEMUTimer *ts;
--    Coroutine *co = qemu_coroutine_self();
-+    QemuCoSleepState state = {
-+        .co = qemu_coroutine_self(),
-+        .ts = aio_timer_new(ctx, type, SCALE_NS, co_sleep_cb, &state),
-+        .user_state_pointer = sleep_state,
-+    };
- 
--    const char *scheduled = atomic_cmpxchg(&co->scheduled, NULL, __func__);
-+    const char *scheduled = atomic_cmpxchg(&state.co->scheduled, NULL,
-+                                           qemu_co_sleep_ns__scheduled);
-     if (scheduled) {
-         fprintf(stderr,
-                 "%s: Co-routine was already scheduled in '%s'\n",
-                 __func__, scheduled);
-         abort();
-     }
--    ts = aio_timer_new(ctx, type, SCALE_NS, co_sleep_cb, co);
--    timer_mod(ts, qemu_clock_get_ns(type) + ns);
++# Wait for NBD server availability
++t = 0
++ok = False
++while t < wait_limit:
++    ok = qemu_io_silent_check('-f', 'raw', '-c', 'read 0 512', nbd_uri)
++    if ok:
++        break
++    time.sleep(wait_step)
++    t += wait_step
 +
-+    if (sleep_state) {
-+        *sleep_state = &state;
-+    }
-+    timer_mod(state.ts, qemu_clock_get_ns(type) + ns);
-     qemu_coroutine_yield();
--    timer_del(ts);
--    timer_free(ts);
-+    timer_free(state.ts);
- }
++assert ok
++
++vm = iotests.VM().add_drive(disk_a)
++vm.launch()
++vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
++
++vm.qmp_log('blockdev-add', filters=[iotests.filter_qmp_testfiles],
++           **{'node_name': 'backup0',
++              'driver': 'raw',
++              'file': {'driver': 'nbd',
++                       'server': {'type': 'unix', 'path': nbd_sock},
++                       'reconnect-delay': 10}})
++vm.qmp_log('blockdev-backup', device='drive0', sync='full', target='backup0',
++           speed=(1 * 1024 * 1024))
++
++# Wait for some progress
++t = 0
++while t < wait_limit:
++    jobs = vm.qmp('query-block-jobs')['return']
++    if jobs and jobs[0]['offset'] > 0:
++        break
++    time.sleep(wait_step)
++    t += wait_step
++
++if jobs and jobs[0]['offset'] > 0:
++    log('Backup job is started')
++
++log('Kill NBD server')
++srv.kill()
++srv.wait()
++
++jobs = vm.qmp('query-block-jobs')['return']
++if jobs and jobs[0]['offset'] < jobs[0]['len']:
++    log('Backup job is still in progress')
++
++vm.qmp_log('block-job-set-speed', device='drive0', speed=0)
++
++# Emulate server down time for 1 second
++time.sleep(1)
++
++log('Start NBD server')
++srv = qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b)
++
++e = vm.event_wait('BLOCK_JOB_COMPLETED')
++log('Backup completed: {}'.format(e['data']['offset']))
++
++vm.qmp_log('blockdev-del', node_name='backup0')
++srv.kill()
++vm.shutdown()
+diff --git a/tests/qemu-iotests/264.out b/tests/qemu-iotests/264.out
+new file mode 100644
+index 0000000000..3000944b09
+--- /dev/null
++++ b/tests/qemu-iotests/264.out
+@@ -0,0 +1,13 @@
++{"execute": "blockdev-add", "arguments": {"driver": "raw", "file": {"driver": "nbd", "reconnect-delay": 10, "server": {"path": "TEST_DIR/PID-nbd-sock", "type": "unix"}}, "node-name": "backup0"}}
++{"return": {}}
++{"execute": "blockdev-backup", "arguments": {"device": "drive0", "speed": 1048576, "sync": "full", "target": "backup0"}}
++{"return": {}}
++Backup job is started
++Kill NBD server
++Backup job is still in progress
++{"execute": "block-job-set-speed", "arguments": {"device": "drive0", "speed": 0}}
++{"return": {}}
++Start NBD server
++Backup completed: 5242880
++{"execute": "blockdev-del", "arguments": {"node-name": "backup0"}}
++{"return": {}}
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 5805a79d9e..71ff0fc015 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -275,6 +275,7 @@
+ 258 rw quick
+ 262 rw quick migration
+ 263 rw quick
++264 rw
+ 265 rw auto quick
+ 266 rw quick
+ 267 rw auto quick snapshot
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 9fb5181c3d..60d1e86b6d 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -165,6 +165,13 @@ def qemu_io_silent(*args):
+                          (-exitcode, ' '.join(args)))
+     return exitcode
+ 
++def qemu_io_silent_check(*args):
++    '''Run qemu-io and return the true if subprocess returned 0'''
++    args = qemu_io_args + list(args)
++    exitcode = subprocess.call(args, stdout=open('/dev/null', 'w'),
++                               stderr=subprocess.STDOUT)
++    return exitcode == 0
++
+ def get_virtio_scsi_device():
+     if qemu_default_machine == 's390-ccw-virtio':
+         return 'virtio-scsi-ccw'
+@@ -230,6 +237,10 @@ def qemu_nbd_early_pipe(*args):
+     else:
+         return exitcode, subp.communicate()[0]
+ 
++def qemu_nbd_popen(*args):
++    '''Run qemu-nbd in daemon mode and return the parent's exit code'''
++    return subprocess.Popen(qemu_nbd_args + ['--persistent'] + list(args))
++
+ def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
+     '''Return True if two image files are identical'''
+     return qemu_img('compare', '-f', fmt1,
 -- 
 2.21.0
 
