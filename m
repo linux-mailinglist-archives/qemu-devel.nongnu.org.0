@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914F5D13C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:14:46 +0200 (CEST)
-Received: from localhost ([::1]:52042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6815D1402
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:29:34 +0200 (CEST)
+Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIEbt-0003WR-2G
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
+	id 1iIEqD-0008Mp-FI
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iI1tO-0001hy-9h
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:39:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iI1tm-0001nN-3D
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:40:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iI1Kg-0001rp-BS
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:04:08 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:39122)
+ (envelope-from <richard.henderson@linaro.org>) id 1iI18m-0008Rl-4l
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:51:49 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:36780)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iI1Kg-0001pz-4X
- for qemu-devel@nongnu.org; Tue, 08 Oct 2019 22:04:06 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id v37so216578ybi.6
- for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 19:04:05 -0700 (PDT)
+ id 1iI18l-0008Rc-TA
+ for qemu-devel@nongnu.org; Tue, 08 Oct 2019 21:51:48 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id r2so216352ybg.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Oct 2019 18:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5lsty+u3GGo0ciZD01kvqbZylMlzwcQX3SLZQAqU/0o=;
- b=sjq4qw9ZAEUHeEFBLKIuPjRqLC9DO88kN56zEQ9HD3K49xhCgZpMuTY/KoKeyKpaiD
- jYcZMAxeSACuwlae+YQK/KDcwir2J322xPe1LLdn8qlhd0sj0fWfNEpsUJ+c4q2CHVpX
- PLzPMmCH4xB1otrIbbJS1QDzcrT01YaNHVXQ87qJ2A3zseGQ+mG6RxrnfTKc10COhVnq
- +Y2D2+3EkjHKYwQlJMlDVWmXXPJHHt1xRjVy/5Ge7lzwClTVtGJeeA7zreesty7f4zGL
- e17hMBgjF5s428rgg50xROtCCstJLoK+0wMHv6q9RTyM5xwQhqdYlvgBH3tDFrOP+qt4
- caNw==
+ bh=vx31jXZ/tj4LV0ilcA62gi46ZF9JCRg+IALX3wC4EsY=;
+ b=ntvmX040gC2y8fflXBCDRhu0vZdVLN4yh3Z7WKGzlGvLijdcNzKImDH2zftXSVRG9q
+ BVkNIAc+qqJEZu6yxUcjeLp90AAl7glPrUzcPBlVjEEssEG6uBQwu6S03q9MEU110/+b
+ 4dg/irc18ZJxEiXeBLpC3XXwJFXfb24U8XCW4sJDWfkoIFCEeFPAZ7Oy2qOTdvE3MNDx
+ RPzh7lqQyDAG4gRJbDm0YaZ2/GHTacm5Z7RzrTyFhAvl6rE7szx/FB/v4iw5khZWQwO0
+ n4Qo5+/cEIxPR7P3nWcZf0F41DGReGtVMEaBZ1WLg2HS3qlhHGFwHVg8avHuH7+j/ydN
+ mHRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5lsty+u3GGo0ciZD01kvqbZylMlzwcQX3SLZQAqU/0o=;
- b=OMluDz4RRpv47LVoJDD4Q9rdJ1USUZ5KmU69EIsndeo4G87zmV8Azez/Wdc2kxUkAg
- 5byrh4mCADZJVd9tU5NGw7vrPdpzfpiYabQQ9svilI2M2TqlVuFceGCzq6O0ry+aADNq
- faxWPIRJyOQNhIwD3xktKF6vod5ROuwUpCfBn+uEU/hSh6BoCF1DMAje0QHzaRaoz3+z
- DCXOS8zODXwJ6/PsbGlPbEwH+BzTu6jdf+504xveIi1RZ5h7Sm/sjpoAfQIupfeS+TBJ
- 8gZtte0PcWftPACBFSz5WPXZWKol6FIbRIrecRkkvbIRfQi0NJpGyJ2a0hi6UHm22SOg
- vIsw==
-X-Gm-Message-State: APjAAAX2rENQsRu4VxJGXOU49hycLXogy+cr2SaU2sBYRrw/q61ZU8pm
- M32DvhqWEOBqEYdH5TXOmUBfX13Sc9g=
-X-Google-Smtp-Source: APXvYqzg4U56qhO7iDRpYeEgobfad7tp7kPxOlbD0BKrg3ehqSiF8HMJyARv7bmqrln/EaojwwVf5A==
-X-Received: by 2002:a25:1802:: with SMTP id 2mr445666yby.369.1570586645109;
- Tue, 08 Oct 2019 19:04:05 -0700 (PDT)
+ bh=vx31jXZ/tj4LV0ilcA62gi46ZF9JCRg+IALX3wC4EsY=;
+ b=CbQJx19zpQlGvnoEw3FMi3FWWK/zmqLRVncF3PRv1FVxTysNHRnLYAANmFNyCq64bS
+ e9Zkb+S/1JbQtBNX2g4r1lXVMHvAE8Oq99KyGPc3YMG4Xjyyi2djTXgYQbXiL3XeOiy6
+ iSyzg5RVpeFpeFEi6R0MbEYc03Gjj7rrGY+E8ud/ge64OjLA7CC+rqmZNhDaYXjMyYMI
+ CjfPFI8lRo3PAAJ7Qyqt5XLPpgGVr5LyIl/D2jO+NwoUzATtH0nEu/E0bGTv3B3zC2tN
+ 6JrVNnSbIQUuxyei/LIv7CruXYtjp6gmmrjOZ6bKUd86/1kpUGBxWkJhB72GgYozN/lU
+ JiHw==
+X-Gm-Message-State: APjAAAVBwKq8u/AkeU5OKkCtrJ0+uoJnYk3GRGT3vgHenkseMEZg5pNN
+ zoN9KU6ROBhcDtrKhPDu6dj2hQ==
+X-Google-Smtp-Source: APXvYqwpP1WZqyw9kTdi+QO0zY7cwW65JkUV8YbW5eHpjrxFpISOj6it6v2pRM1/oGhZkGwdBmPrGg==
+X-Received: by 2002:a5b:582:: with SMTP id l2mr512454ybp.72.1570585907100;
+ Tue, 08 Oct 2019 18:51:47 -0700 (PDT)
 Received: from [192.168.1.44] (67.216.144.16.pool.hargray.net. [67.216.144.16])
- by smtp.gmail.com with ESMTPSA id v63sm210325ywd.100.2019.10.08.19.03.58
+ by smtp.gmail.com with ESMTPSA id l40sm213827ywk.79.2019.10.08.18.51.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 08 Oct 2019 19:04:04 -0700 (PDT)
-Subject: Re: [PATCH v2 17/21] hw/timer/imx_epit.c: Switch to transaction-based
- ptimer API
+ Tue, 08 Oct 2019 18:51:46 -0700 (PDT)
+Subject: Re: [PATCH v2 08/21] hw/timer/cmsdk-apb-dualtimer.c: Switch to
+ transaction-based ptimer API
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20191008171740.9679-1-peter.maydell@linaro.org>
- <20191008171740.9679-18-peter.maydell@linaro.org>
+ <20191008171740.9679-9-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <b872442e-f728-44c2-3138-83d970f65e22@linaro.org>
-Date: Tue, 8 Oct 2019 22:03:51 -0400
+Message-ID: <9505434b-99f4-9b9f-d0c4-20fcb0255b02@linaro.org>
+Date: Tue, 8 Oct 2019 21:51:39 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191008171740.9679-18-peter.maydell@linaro.org>
+In-Reply-To: <20191008171740.9679-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -91,15 +91,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/8/19 1:17 PM, Peter Maydell wrote:
-> Switch the imx_epit.c code away from bottom-half based ptimers to
-> the new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
+> Switch the cmsdk-apb-dualtimer code away from bottom-half based
+> ptimers to the new transaction-based ptimer API.  This just requires
+> adding begin/commit calls around the various places that modify the
+> ptimer state, and using the new ptimer_init() function to create the
+> timer.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/timer/imx_epit.c | 32 +++++++++++++++++++++++++++-----
->  1 file changed, 27 insertions(+), 5 deletions(-)
+>  hw/timer/cmsdk-apb-dualtimer.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
