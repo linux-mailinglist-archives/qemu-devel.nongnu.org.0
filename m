@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05EFD1B11
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:40:32 +0200 (CEST)
-Received: from localhost ([::1]:59476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952EED1B46
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:56:48 +0200 (CEST)
+Received: from localhost ([::1]:60204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJh9-0002fj-N5
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45805)
+	id 1iIJwo-0007gD-8K
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iIJGv-0007d3-7z
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:13:26 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iIJvW-00073q-Nx
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:55:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iIJGs-0001uh-6n
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:13:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37902)
+ (envelope-from <dgibson@ozlabs.org>) id 1iIJvV-00015r-8v
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:55:22 -0400
+Received: from ozlabs.org ([203.11.71.1]:50809)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iIJGr-0001u2-TE
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 17:13:22 -0400
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 87069C0718BE
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 21:13:19 +0000 (UTC)
-Received: by mail-wr1-f71.google.com with SMTP id v18so1659666wro.16
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 14:13:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5pOCpkDtqxO8PaQeES7waoMMgRUxoF4gjpAu7uY2V+s=;
- b=jmU9cU6B0CeUnGyyTVrtk3Ou6dT/+DhPt2fMpRgoDvVCxNi/I9LQfCGgo9TLbU9qv+
- nntAWYeNxcef16PtfqGzs0koGnUBezAkEpUDsJ/tCobJi8AEGVS98du1tDxoKIFBPEc6
- nzjCpMBeTmqm8oWE1i+8pjGXh0mIujRuY0uOCUfw9XwEKJFvIK47pDykxQQcXXU5RnT5
- TlaeJxwuu/tHy8FUkAeW8L6MQiT5Wc+tmlsYu2yCVJVVZhU5ygMHu6Nrq3rpGQA8FczW
- 1PTg5iZunuVK4Loi1nf5NSj9LSzuf5fqfs0RyQjqQ/qlTemHkKJjzRpzLwpwibOKPrnU
- qxZw==
-X-Gm-Message-State: APjAAAVCdyKSynzWgQMrWuWTIKFX0kfkNFo1LQQJzi/U5+yMn72ycLPv
- 0JmW07XliCcNKHTrKUEhwG6VjmMv1t/wNGc9aTyGtIa8xf4rkQYrL8FsIideKhbfISLU8+gC/Aj
- ViZvwWEfLC5I9aik=
-X-Received: by 2002:adf:f68f:: with SMTP id v15mr4519650wrp.234.1570655598189; 
- Wed, 09 Oct 2019 14:13:18 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxtmKaAq/QrTH2vE9uahCLIExEjJVlHC+OWfangqo+F0udQc2Q+ldQjzeEa/DfCF+Mdd1S4TA==
-X-Received: by 2002:adf:f68f:: with SMTP id v15mr4519623wrp.234.1570655597863; 
- Wed, 09 Oct 2019 14:13:17 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:1032:7ea1:7f8f:1e5?
- ([2001:b07:6468:f312:1032:7ea1:7f8f:1e5])
- by smtp.gmail.com with ESMTPSA id f18sm2345315wmh.43.2019.10.09.14.13.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Oct 2019 14:13:17 -0700 (PDT)
-Subject: Re: [PATCH] mc146818rtc: fix timer interrupt reinjection
-To: Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <20191009184011.GA26234@amt.cnet>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <8319ce4d-2775-a68d-c08b-f4312d9c30a2@redhat.com>
-Date: Wed, 9 Oct 2019 23:13:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iIJvU-000152-89; Wed, 09 Oct 2019 17:55:21 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46pSgm49fnz9sDB; Thu, 10 Oct 2019 08:55:16 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570658116;
+ bh=c4abjD33CyHjFhtKHBO4xE7NmTH5qOWIjvPYEVvVG5M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KkJ2R/SRWsN3FjOzeoIXfAaM3b+DXSPpgo5tzm20lZ5TicPKfX9+jldVgjwRCBT+r
+ 7j+vGhv2WepgXfVgJYgEshsNOgTZmVS7Vazda+A8TPiaHsyD36M8QA4Y15+FP5t74x
+ BAng1XSCYWfHM+bFkE7oEj/4Nh1We/G16B14SuEY=
+Date: Wed, 9 Oct 2019 23:02:11 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 2/3] ppc: rs6000_mc: drop usage of
+ memory_region_allocate_system_memory()
+Message-ID: <20191009120211.GI5035@umbus.fritz.box>
+References: <20191008113318.7012-1-imammedo@redhat.com>
+ <20191008113318.7012-3-imammedo@redhat.com>
+ <20191009012106.GB14281@umbus.fritz.box>
+ <20191009131921.6423f00d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191009184011.GA26234@amt.cnet>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xGGVyNQdqA79rdfn"
+Content-Disposition: inline
+In-Reply-To: <20191009131921.6423f00d@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,128 +59,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tai Yunfang <yunfangtai@tencent.com>,
- Xiao Guangrong <guangrong.xiao@gmail.com>,
- Vadim Rozenfeld <vrozenfe@redhat.com>
+Cc: deller@gmx.de, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, hpoussin@reactos.org, atar4qemu@gmail.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/19 20:40, Marcelo Tosatti wrote:
->              s->period = period;
->              lost_clock += old_irq_coalesced * old_period;
-> -            s->irq_coalesced = lost_clock / s->period;
-> +            if (old_period) {
-> +                s->irq_coalesced = lost_clock / s->period;
-> +            }
-> +
->              lost_clock %= s->period;
->              if (old_irq_coalesced != s->irq_coalesced ||
->                  old_period != s->period) {
 
-I think none of the code in the "if (s->lost_tick_policy == 
-LOST_TICK_POLICY_SLEW) {" matters if old_period == 0 (and lost_clock 
-will always be 0).  So perhaps we should place all that big "if" under
-the existing "if (old_period)"?
+--xGGVyNQdqA79rdfn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Or even something like:
+On Wed, Oct 09, 2019 at 01:19:21PM +0200, Igor Mammedov wrote:
+> On Wed, 9 Oct 2019 12:21:06 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Tue, Oct 08, 2019 at 07:33:17AM -0400, Igor Mammedov wrote:
+> > > rs6000mc_realize() violates memory_region_allocate_system_memory() co=
+ntract
+> > > by calling it multiple times which could break -mem-path. Replace it =
+with
+> > > plain memory_region_init_ram() instead.
+> > >=20
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com> =20
+> >=20
+> > Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> >=20
+> > Or would you like me to merge this through my tree?
+>=20
+>=20
+> (since it doesn't belong to a particular tree, I'd need find
+> some to take in in)
+>=20
+> Since you volunteered :),
+> please merge this series via your tree.
 
-diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-index 6cb378751b..3337a8da98 100644
---- a/hw/timer/mc146818rtc.c
-+++ b/hw/timer/mc146818rtc.c
-@@ -202,25 +202,33 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-     int64_t cur_clock, next_irq_clock, lost_clock = 0;
- 
-     period = rtc_periodic_clock_ticks(s);
-+    if (old_period && old_period == period) {
-+        return;
-+    }
- 
--    if (period) {
--        /* compute 32 khz clock */
--        cur_clock =
--            muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-+    if (!period) {
-+        s->irq_coalesced = 0;
-+        timer_del(s->periodic_timer);
-+        return;
- 
--        /*
--        * if the periodic timer's update is due to period re-configuration,
--        * we should count the clock since last interrupt.
--        */
--        if (old_period) {
--            int64_t last_periodic_clock, next_periodic_clock;
--
--            next_periodic_clock = muldiv64(s->next_periodic_time,
--                                    RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
--            last_periodic_clock = next_periodic_clock - old_period;
--            lost_clock = cur_clock - last_periodic_clock;
--            assert(lost_clock >= 0);
--        }
-+    }
-+
-+    /* compute 32 khz clock */
-+    cur_clock =
-+        muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-+
-+    /*
-+     * if the periodic timer's update is due to period re-configuration,
-+     * we should count the clock since last interrupt.
-+     */
-+    if (old_period) {
-+        int64_t last_periodic_clock, next_periodic_clock;
-+
-+        next_periodic_clock = muldiv64(s->next_periodic_time,
-+                                       RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
-+        last_periodic_clock = next_periodic_clock - old_period;
-+        lost_clock = cur_clock - last_periodic_clock;
-+        assert(lost_clock >= 0);
- 
-         /*
-          * s->irq_coalesced can change for two reasons:
-@@ -243,13 +251,10 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-             lost_clock += old_irq_coalesced * old_period;
-             s->irq_coalesced = lost_clock / s->period;
-             lost_clock %= s->period;
--            if (old_irq_coalesced != s->irq_coalesced ||
--                old_period != s->period) {
--                DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
--                          "period scaled from %d to %d\n", old_irq_coalesced,
--                          s->irq_coalesced, old_period, s->period);
--                rtc_coalesced_timer_update(s);
--            }
-+            DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
-+                      "period scaled from %d to %d\n", old_irq_coalesced,
-+                      s->irq_coalesced, old_period, s->period);
-+            rtc_coalesced_timer_update(s);
-         } else {
-            /*
-              * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
-@@ -257,16 +262,12 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-              */
-             lost_clock = MIN(lost_clock, period);
-         }
--
-         assert(lost_clock >= 0 && lost_clock <= period);
--
--        next_irq_clock = cur_clock + period - lost_clock;
--        s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
--        timer_mod(s->periodic_timer, s->next_periodic_time);
--    } else {
--        s->irq_coalesced = 0;
--        timer_del(s->periodic_timer);
-     }
-+
-+    next_irq_clock = cur_clock + period - lost_clock;
-+    s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
-+    timer_mod(s->periodic_timer, s->next_periodic_time);
- }
- 
- static void rtc_periodic_timer(void *opaque)
+Uhhh.. I was offering to take this patch, not the whole series.  I'm
+not real comfortable taking the others, since they don't involve ppc
+code, nor are they prereqs for or motivated by any ppc change.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Best read with "diff -b".
+--xGGVyNQdqA79rdfn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Paolo
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2dzEEACgkQbDjKyiDZ
+s5Jx8BAAwZndtxT76hI23tsB5Ax9HZe3M5miV+i5/6CZSOEbe4d9llMyKVbyWWmY
+/Tw8BVHjDH2b+2Uixceji6WdzQSfG7piUDkMRs7/Qm747RmXlJV9HwX+z4xlqAiw
+YGdOaQ1BgElsEB7XPjnxKryS/NBYmUOAQTV0BdRIwbTrKqu7Y/CJ4Ac2wMBRl2ND
+FmcBwTFtcGr52uy2Na9aDv0XbMKUop7epppElfwg/XtiOwfjs5TvmdoiVt3sXE5P
+iBLaVViB/OiREIqp+zpprfU85cN9nhKC31Q7kBKNQ8r/8bVHy6NFwoARzwknJEss
+MRT2ibZ+e9mgTItLU0NtVqQWD/Ce4LXMzMugxLg6owSb5oviN9Dj6ifwIhxVoo+9
+hcXRJ+igiM2jn7baLi0xxKLR8ENOmUQMVRZFMjOBGebLDZS9pV7t4XfHLkZSo2sA
+mb1XovBcIiRUwN1KvyjO6iW1GWZHfoINwLfJvFb2wC+VxZUOboNORVoMbiLUCo1z
+QIP5MPrlVD49lTCMz6wIOfsZTdcpqQ60heGRi+pK4hoRvCzrKi2jfTtvDH4pjSyC
+0G0VYXEODjvxpt+W0ryMtlCoUzmucEYfpUwq9t3oeSwEQ6RvKprmimqUkrJiOom3
+NT05hCgHCU02G95NR0aWrVeBEUM5JerPcdu7i1wYJ4mmfSepGw8=
+=UI6p
+-----END PGP SIGNATURE-----
+
+--xGGVyNQdqA79rdfn--
 
