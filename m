@@ -2,48 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FA3D1569
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:21:07 +0200 (CEST)
-Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49470D1601
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:26:54 +0200 (CEST)
+Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFe5-0000eY-Ef
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:21:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49203)
+	id 1iIFjg-0007zy-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iI7rR-0001r4-Nf
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:02:26 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iI83u-000329-Ui
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:15:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iI7rQ-0000jf-Kt
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:02:21 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52453 helo=ozlabs.org)
+ (envelope-from <pbonzini@redhat.com>) id 1iI83t-0005r1-Ga
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:15:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51694
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iI7rQ-0000j7-9A; Wed, 09 Oct 2019 05:02:20 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 46p7Wr3Svnz9sP7; Wed,  9 Oct 2019 20:02:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1570611736;
- bh=w9U73fyFQTNRy938ES9lJPp54ztiGLkLXXWNEPCMDXQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PkG95pcw9TAknX3hl4q2eCBoKdI31LJS54GOp6aj4vM/yXKFi9CFiy4lDFMru3d/O
- oailfSLjWz2qzxIiBXQ4KbRNeyCf3eBFjyLycMFgV3I6B6EuPZRRem5RuUvMNNiFyA
- og6V2DB8E1ttgIshcCCMA1qi9X9EOrDNFH/kxerQ=
-Date: Wed, 9 Oct 2019 20:02:00 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org, clg@kaod.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v4 00/19] spapr: IRQ subsystem cleanup
-Message-ID: <20191009090200.GF5035@umbus.fritz.box>
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iI83t-0005pP-Cy
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:15:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1570612512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=LnthtDy+kBjD5T6p/osgMCT9YrFI9qED9phS99dKGNY=;
+ b=IYGmZrn+Y7PNDA6rC6gJxONNq4Q78YUAr6K2DMdAaez4UyhscJpUIpt/10uK4VvB3TNDmm
+ VCr60vqHtszEhpg8ho+uIipGKXYBDlBpegFFll3Gcuxpvg4mDZjJSjjSVIO8lpZeWn+hkm
+ dWsudNyl/97TLLDTkBfbTH0OOMXtvtw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-57-5-4RjutvMeWVqebn9BFteA-1; Wed, 09 Oct 2019 05:15:09 -0400
+Received: by mail-wr1-f71.google.com with SMTP id f3so792752wrr.23
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 02:15:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d5tISs1KCHtwOyrKlMfPsxt9ttmffCaWBvnrP40d/kE=;
+ b=DMbE9SuYGrY2QwbSbpnWcVr3G9ldqLmfPt4LObmS/E5iFUwMQXokw+NnWDh432lFhG
+ EHhtAqFlXR+yZyaIagJH2oaJh+zPYgO7WlCiQelH+0m6IjzUmlTKZlshRGPfAAabt+z/
+ jYaS//616Yn75tKhF4LfDj0qmO3WOH+6qU13HBPdtSBF4YheWQDwoDbexBxzSH/lsrig
+ g6Xw48nmrVAxwAukNtlw/byDJ3Nnq9Jj7R7ZKYmJOdOXPyw0lEEArCAFCUB9GyCcRiQz
+ Fym3mDcpqfVqAhmttjbqYWW8nfPee4w7ejvq8WVlH2GJsD3osa6c83VmL/wtlTUl6GgQ
+ gOng==
+X-Gm-Message-State: APjAAAVc7C4j1cSX522UY5snkNcEY6nPKFZoJepuK7jCLhD3QDJQrBqX
+ EcthzNWLo6pyAhRTjo9vBXKbPQrdfZBeW/vBkOyfL9GOmxyLH7umSNnShP3wZNAOh8eeSVsIxFU
+ mnUUAo+UijGiJsP4=
+X-Received: by 2002:adf:fd46:: with SMTP id h6mr1894908wrs.243.1570612507681; 
+ Wed, 09 Oct 2019 02:15:07 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwUVHG6n1HgfZB42/8Taipbw81fl/fH5o9I75fEaObZj1lOGD8vaabkYF29hWK9BWlnfx1CCw==
+X-Received: by 2002:adf:fd46:: with SMTP id h6mr1894891wrs.243.1570612507348; 
+ Wed, 09 Oct 2019 02:15:07 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id 63sm2388645wri.25.2019.10.09.02.15.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Oct 2019 02:15:06 -0700 (PDT)
+Subject: Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible issues
+To: Jan Glauber <jglauber@marvell.com>
+References: <cbe46ad6-ef6c-d155-e79a-672182c725ad@ubuntu.com>
+ <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
+ <1864070a-2f84-1d98-341e-f01ddf74ec4b@ubuntu.com>
+ <20190924202517.GA21422@xps13.dannf> <20191002092253.GA3857@hc>
+ <6dd73749-49b0-0fbc-b9bb-44c3736642b8@redhat.com>
+ <20191007144432.GA29958@xps13.dannf>
+ <065a52a9-5bb0-1259-6c73-41af60e0a05d@redhat.com> <20191009080220.GA2905@hc>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d5367b2a-84ee-1211-a2dc-7d631c94fe3f@redhat.com>
+Date: Wed, 9 Oct 2019 11:15:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lIrNkN/7tmsD/ALM"
-Content-Disposition: inline
-In-Reply-To: <20191009060818.29719-1-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191009080220.GA2905@hc>
+Content-Language: en-US
+X-MC-Unique: 5-4RjutvMeWVqebn9BFteA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,59 +96,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- philmd@redhat.com
+Cc: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>,
+ lizhengui <lizhengui@huawei.com>, dann frazier <dann.frazier@canonical.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Bug 1805256 <1805256@bugs.launchpad.net>,
+ QEMU Developers - ARM <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---lIrNkN/7tmsD/ALM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 09, 2019 at 05:07:59PM +1100, David Gibson wrote:
-> This is a substantial rework to clean up the handling of IRQs in
-> spapr.  It includes some cleanups to both the XICS and XIVE interrupt
-> controller backends, as well as more to the common spapr irq handling
-> infrastructure.
+On 09/10/19 10:02, Jan Glauber wrote:
+> On Mon, Oct 07, 2019 at 04:58:30PM +0200, Paolo Bonzini wrote:
+>> On 07/10/19 16:44, dann frazier wrote:
+>>> On Mon, Oct 07, 2019 at 01:06:20PM +0200, Paolo Bonzini wrote:
+>>>> On 02/10/19 11:23, Jan Glauber wrote:
+>>>>> I've looked into this on ThunderX2. The arm64 code generated for the
+>>>>> atomic_[add|sub] accesses of ctx->notify_me doesn't contain any
+>>>>> memory barriers. It is just plain ldaxr/stlxr.
+>>>>>
+>>>>> From my understanding this is not sufficient for SMP sync.
+>>>>>
+>>>>> If I read this comment correct:
+>>>>>
+>>>>>     void aio_notify(AioContext *ctx)
+>>>>>     {
+>>>>>         /* Write e.g. bh->scheduled before reading ctx->notify_me.  P=
+airs
+>>>>>          * with atomic_or in aio_ctx_prepare or atomic_add in aio_pol=
+l.
+>>>>>          */
+>>>>>         smp_mb();
+>>>>>         if (ctx->notify_me) {
+>>>>>
+>>>>> it points out that the smp_mb() should be paired. But as
+>>>>> I said the used atomics don't generate any barriers at all.
+>>>>
+>>>> Based on the rest of the thread, this patch should also fix the bug:
+>>>>
+>>>> diff --git a/util/async.c b/util/async.c
+>>>> index 47dcbfa..721ea53 100644
+>>>> --- a/util/async.c
+>>>> +++ b/util/async.c
+>>>> @@ -249,7 +249,7 @@ aio_ctx_check(GSource *source)
+>>>>      aio_notify_accept(ctx);
+>>>> =20
+>>>>      for (bh =3D ctx->first_bh; bh; bh =3D bh->next) {
+>>>> -        if (bh->scheduled) {
+>>>> +        if (atomic_mb_read(&bh->scheduled)) {
+>>>>              return true;
+>>>>          }
+>>>>      }
+>>>>
+>>>>
+>>>> And also the memory barrier in aio_notify can actually be replaced
+>>>> with a SEQ_CST load:
+>>>>
+>>>> diff --git a/util/async.c b/util/async.c
+>>>> index 47dcbfa..721ea53 100644
+>>>> --- a/util/async.c
+>>>> +++ b/util/async.c
+>>>> @@ -349,11 +349,11 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx=
+)
+>>>> =20
+>>>>  void aio_notify(AioContext *ctx)
+>>>>  {
+>>>> -    /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
+>>>> -     * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
+>>>> +    /* Using atomic_mb_read ensures that e.g. bh->scheduled is writte=
+n before
+>>>> +     * ctx->notify_me is read.  Pairs with atomic_or in aio_ctx_prepa=
+re or
+>>>> +     * atomic_add in aio_poll.
+>>>>       */
+>>>> -    smp_mb();
+>>>> -    if (ctx->notify_me) {
+>>>> +    if (atomic_mb_read(&ctx->notify_me)) {
+>>>>          event_notifier_set(&ctx->notifier);
+>>>>          atomic_mb_set(&ctx->notified, true);
+>>>>      }
+>>>>
+>>>>
+>>>> Would you be able to test these (one by one possibly)?
+>>>
+>>> Paolo,
+>>>   I tried them both separately and together on a Hi1620 system, each
+>>> time it hung in the first iteration. Here's a backtrace of a run with
+>>> both patches applied:
+>>
+>> Ok, not a great start...  I'll find myself an aarch64 machine and look
+>> at it more closely.  I'd like the patch to be something we can
+>> understand and document, since this is probably the second most-used
+>> memory barrier idiom in QEMU.
+>>
+>> Paolo
 >=20
-> The last two patches of this series, dealing with VFIO devices, are
-> RFC only - there some problems that I'm discussing with Alex
-> Williamson.
+> I'm still not sure what the actual issue is here, but could it be some ba=
+d
+> interaction between the notify_me and the list_lock? The are both 4 byte
+> and side-by-side:
+>=20
+> address notify_me: 0xaaaadb528aa0  sizeof notify_me: 4
+> address list_lock: 0xaaaadb528aa4  sizeof list_lock: 4
+>=20
+> AFAICS the generated code looks OK (all load/store exclusive done
+> with 32 bit size):
+>=20
+>      e6c:       885ffc01        ldaxr   w1, [x0]
+>      e70:       11000821        add     w1, w1, #0x2
+>      e74:       8802fc01        stlxr   w2, w1, [x0]
+>=20
+> ...but if I bump notify_me size to uint64_t the issue goes away.
 
-Oops, I screwed up my base branch selection for git-publish - patches
-1..3 aren't supposed to be in this series (although 1..2 fit well
-enough thematically).
+Ouch. :)  Is this with or without my patch(es)?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Also, what if you just add a dummy uint32_t after notify_me?
 
---lIrNkN/7tmsD/ALM
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
+Paolo
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2doggACgkQbDjKyiDZ
-s5KaKA//Yz4p9y0oY2ehz0//qCK2E1cek+kEQY8KM0iCH9BuNGslkgA3VAGjV4Zg
-hCuBqTTFdhttVDPeSU+iofppwpUUXMQMqlSStSpEzG5H+JfJ1HhlAX083jtslOJf
-326q9i2w4C7jHgOMDOTgg/LZsGsi2qy8p9vJi0cUIhfz3QXlfy2c9MWyeHEEtI+8
-GOMg6vmnZJq84HTe8Subgnm38xPZZGaU+QXV78bKPuTd7cqq7MYtRBg/y8hw5ofU
-3qPipMp4FJ0ZAz34pekwse7zgEokhXGdtRPBzU1drr/LrzWCwrTUynDABbz4n+3T
-wDEVZZ9vEnb8l5kJz0Zrf3BBtEqvIt+LZiQtc7I2Tt4kHPEpB1EoI3U3XqJ00hyU
-1ZXGIxyLgbQJdiuUCEaSW4oy2z6dNWZgynKtVJ1PbhQsVxMdPGyt8e+fgasBGVlX
-K2hIQQE1LuKbhQVqy2RRoomueWoMhe/+IwxVnbPm/naOQPA0aGfR7COJfHvSNFSV
-6geXlqzKDWxFJICpSAMUfxi+uq/m2bcveBzjwrfKeH/Sr7rPxs6IzArW2NKBkf4f
-3L6GTDTTIHiUfdap5vLo/v35wzK0L/69zvKxMd2mZAZ4MaiKAGI+cvDsXIKnw2tI
-QoTG9mUrER+qm1zMjrvU5RHgeSs2fXdryQVb+9Uy63zel12/3qk=
-=6Hrb
------END PGP SIGNATURE-----
+>=20
+> BTW, the image file I convert in the testcase is ~20 GB.
+>=20
+> --Jan
+>=20
+> diff --git a/include/block/aio.h b/include/block/aio.h
+> index a1d6b9e24939..e8a5ea3860bb 100644
+> --- a/include/block/aio.h
+> +++ b/include/block/aio.h
+> @@ -83,7 +83,7 @@ struct AioContext {
+>       * Instead, the aio_poll calls include both the prepare and the
+>       * dispatch phase, hence a simple counter is enough for them.
+>       */
+> -    uint32_t notify_me;
+> +    uint64_t notify_me;
+> =20
+>      /* A lock to protect between QEMUBH and AioHandler adders and delete=
+r,
+>       * and to ensure that no callbacks are removed while we're walking a=
+nd
+>=20
 
---lIrNkN/7tmsD/ALM--
 
