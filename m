@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EA7D170E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:49:15 +0200 (CEST)
-Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2CCD16FD
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:42:42 +0200 (CEST)
+Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIG5K-00066H-C7
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1iIFyy-0007Z7-M2
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iI8Kz-0004nl-KM
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:32:54 -0400
+ (envelope-from <beata.michalska@linaro.org>) id 1iIAWt-00024v-4o
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:53:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iI8Ky-0002sC-Hx
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:32:53 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53247)
+ (envelope-from <beata.michalska@linaro.org>) id 1iIAWr-0006xh-Ma
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:53:18 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46256)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iI8Ky-0002s0-Bb
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:32:52 -0400
-Received: by mail-wm1-x334.google.com with SMTP id r19so1670681wmh.2
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 02:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Y/X7QhKZj+nhiHe0CGkpGzEy53sX749PipgilVay7xA=;
- b=a1f85pHXwUF9s0YOmjJUauwnNYQH02RP2SYKyrxTUeESRdhUpOwoyNPPD6EYbXs8XZ
- 60BG6/63rMP66yq3mPl3ilmarjmMkloqmz/pw0o23G3IoexBUDdeBq0qxWuDPurqJ8gp
- ppXC3QbRKjbbk5cvz1gRMH1K7E6Q72Hp9LCtaYbJhDyAovk3nE0VTfpIRyUeevZLH52z
- gDO7+RjfjBgyBFgEP+7Xfm+B0iumC2GpwmI6s/OKqsWbdLXsfJH1CrCoK+ioLuZgTUwH
- xUFebWcBPM+iSDa+UghVEOmVppIEYLT2lwoneEnPxeu5J2F0HDvP4R89wFkeP75LtRL9
- R0ug==
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iIAWr-0006xP-GW
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:53:17 -0400
+Received: by mail-io1-xd41.google.com with SMTP id c6so4173826ioo.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=03YwMWE0Ew/a3SON8Z+vIAmBp2VAb4Ga2ZUj8kxeh4Q=;
+ b=Q7kF9KM1Z9NHtYGsm9C0EmU7QO47cx65aGyxX8xoPzG4dTcin/ZsCMgSyU4W1oCzQQ
+ GwG8gOl8M4fjlsV/5kVBu0z1DOISiTWm5KbKgKkDH7pncxCb7dTrnsybk3az+1You8I6
+ v1YG9kDvjwYb7hx6nw+daueTLsb/Yc5SUtIt9BXiOt9j3OHTAwObV1xGxgkbKdvuNwDQ
+ zleIy2QcuPYObi1WwOfdEjBowsD/JYFpb96bsmHSI4j/qZOE70XFBfgCakDa4xRF57+s
+ tFNn+aV4jhWyJnbifzxRXvUo2BM0RRhc/3SL6+PlV8+DFZ8WW8aB/KbZieoQKfy04g8s
+ 5gBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Y/X7QhKZj+nhiHe0CGkpGzEy53sX749PipgilVay7xA=;
- b=K33yDgU0mGGmJXYvLf8n6pUIIcje2Zr0BAmFkpaWXYRJzIyK7eToMf41m9s2YAFdqb
- Ym5QSRp4KWcN3wzdpjmYpHlN1CQsRAtiHjjfBpqtj12dARyOzyBrakmpu9dVSxgYk5tp
- reSqwMTpSJQxKq+YkowP24RMk5rGvCWFAOC44QYLYlQA12DKD3ukt9Q4ShtcWSRJNysf
- QLcSXkAFzkPQdCrcnyZr7WE1Pv1DwdxW+lBMqBvnJHzsMhFZWLGITPF3aB7zSP0G3hoo
- 3oqwMJJcLB6h9aW2h3rzOVvByC0NJ9ZJSXZVwK+7lDa2xpjBjdtgil0Ki2TKD5ZFWlP8
- iKFw==
-X-Gm-Message-State: APjAAAVgpLImxDsroIyhJDu4nDOcasLTxdWwBjr+dbIdSC0hmArgynyM
- ds78aweSrAGUlouI/8WUg24=
-X-Google-Smtp-Source: APXvYqzN9MloznbIOox6twjsiPBAphjsK/elbss9npzb5arAL6bnpxsSLEZuhUaXDbk/AZJ8d78NVA==
-X-Received: by 2002:a1c:8148:: with SMTP id c69mr1927111wmd.41.1570613571124; 
- Wed, 09 Oct 2019 02:32:51 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id t203sm1736139wmf.42.2019.10.09.02.32.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 02:32:50 -0700 (PDT)
-Date: Wed, 9 Oct 2019 10:32:49 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: freebsd@tango.lu
-Subject: Re: Easy way to track Qcow2 space consumption
-Message-ID: <20191009093249.GA5747@stefanha-x1.localdomain>
-References: <ab1bd1a234b7b9d18433d539f179f602@tango.lu>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=03YwMWE0Ew/a3SON8Z+vIAmBp2VAb4Ga2ZUj8kxeh4Q=;
+ b=fqor+bUrULn06ulq5Pi1bzfvTgJoBg09vGQUtNvg0t/2SbNiqWYc8QmeTTDHmWgR5p
+ 7a4h3TZ3ScFuYf5G949KoEiMHRGBoEbzyajtVYyVHvAb0ulhsfvu+Fycxw13g+QP9ZBr
+ 8cHD74nXj4O5Q2YjNFwsYg7311/+cPvfVrKQA4an6IeLjm+gRuJQ3b27NxhiiIMXAPgx
+ 54hsfIN8zBKXPRcsZQxgvOVfM43bBaGtqn+Qj9/sCpwITE2WdxOIglh4C6M/YbrqGHHs
+ H8GMGUUmcHrsXDtJ7VuExnXQNm6nSDlma9RVfnLS2SKnoj8U1n43nrmTiczczNB+YTIA
+ g2Rg==
+X-Gm-Message-State: APjAAAUfh9BA828Jci3qPCeSXl0GOz8ZbWyvtGe2Cf+IyDL3EvV0EZRc
+ jgfmD8ixAa/ZZLbWB6m1T8Zzn5Lc+KAsE2jLTdX4bg==
+X-Google-Smtp-Source: APXvYqyAA2JtUfu8yHC+jx3J4NJsyaRZN1J05enNfjdIoqrhnCS5ypX7oSq+xWL7ui2MY22UZLah6IrcUk0HKsavFRk=
+X-Received: by 2002:a92:360b:: with SMTP id d11mr2745579ila.143.1570621996706; 
+ Wed, 09 Oct 2019 04:53:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-In-Reply-To: <ab1bd1a234b7b9d18433d539f179f602@tango.lu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20190910095610.4546-1-beata.michalska@linaro.org>
+ <20190910095610.4546-5-beata.michalska@linaro.org>
+ <c70f7562-c988-5eab-fa1e-fc8b5897e171@linaro.org>
+In-Reply-To: <c70f7562-c988-5eab-fa1e-fc8b5897e171@linaro.org>
+From: Beata Michalska <beata.michalska@linaro.org>
+Date: Wed, 9 Oct 2019 12:53:05 +0100
+Message-ID: <CADSWDzs=kSveEbLdAwoCNSRYJS=NxXGSEGWHMXM+xxUJ215taQ@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH 4/4] target/arm: Add support for DC CVAP & DC
+ CVADP ins
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2607:f8b0:4864:20::d41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,82 +74,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ shameerali.kolothum.thodi@huawei.com, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 24 Sep 2019 at 18:22, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/10/19 2:56 AM, Beata Michalska wrote:
+> > @@ -2229,7 +2229,8 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
+> >  #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
+> >  #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
+> >  #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
+> > -#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
+> > +#define ARM_CP_DC_CVAP           (ARM_CP_SPECIAL | 0x0600)
+> > +#define ARM_LAST_SPECIAL         ARM_CP_DC_CVAP
+>
+> I don't see that this operation needs to be handled via "special".  It's a
+> function call upon write, as for many other system registers.
+>
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Too inspired by ZVA I guess. Will make the appropriate changes in the
+next version.
 
-On Tue, Oct 08, 2019 at 08:01:11PM +0200, freebsd@tango.lu wrote:
-> Hello List,
->=20
-> I'm using a fairly old KVM version
->=20
-> ii  pve-qemu-kvm                          2.2-28
-> amd64        Full virtualization on x86 hardware
->=20
-> don't see much point upgrading either since everything works but I could
-> still use a feature to keep track of the actual space used by the VMs
-> without SSHing into all of them and doing a df -h.
->=20
-> The VM images (especially the DBs with high rw operation will just grow a=
-nd
-> grow with time), for this to free up space the standard process was:
->=20
-> 1, Zero-fill the drive (dd if=3D/dev/zero of=3D/some/file until you run o=
-ut of
-> space)
-> 1B, sdelete -z c: < windows VM
-> 2, Shut down the VM
-> 3, cd to where the images for the VM are kept and run qemu-img convert -O
-> qcow2 original_image.qcow2 deduplicated_image.qcow2
->=20
-> I wonder if there were any improvements done in the KVM for addressing th=
-is
-> space issue. A lot of us using qcow2 because it's easier to backup due to
-> the small size (eg: a basic configured webserver might only uses 3-4 Gb v=
-s a
-> 40GB preallocated empty image full of 0s).
+> > +static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
+> > +{
+> > +    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) != 0;
+> > +}
+> > +
+> > +static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
+> > +{
+> > +    return (FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >> 1) != 0;
+> > +}
+>
+> The correct check is FIELD_EX(...) >= 2.  This is a 4-bit field, as with all of
+> the others.
+>
+Noted.
+> > +static CPAccessResult aa64_cacheop_persist_access(CPUARMState *env,
+> > +                                                  const ARMCPRegInfo *ri,
+> > +                                                  bool isread)
+> > +{
+> > +    ARMCPU *cpu = env_archcpu(env);
+> > +    /*
+> > +     * Access is UNDEF if lacking implementation for either DC CVAP or DC CVADP
+> > +     * DC CVAP ->  CRm: 0xc
+> > +     * DC CVADP -> CRm: 0xd
+> > +     */
+> > +    return (ri->crm == 0xc && !cpu_isar_feature(aa64_dcpop, cpu)) ||
+> > +           (ri->crm == 0xd && !cpu_isar_feature(aa64_dcpodp, cpu))
+> > +           ? CP_ACCESS_TRAP_UNCATEGORIZED
+> > +           : aa64_cacheop_access(env, ri, isread);
+> > +}
+> ...
+> > +    { .name = "DC_CVAP", .state = ARM_CP_STATE_AA64,
+> > +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 1,
+> > +      .access = PL0_W, .type = ARM_CP_DC_CVAP,
+> > +      .accessfn = aa64_cacheop_persist_access },
+> > +    { .name = "DC_CVADP", .state = ARM_CP_STATE_AA64,
+> > +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 1,
+> > +      .access = PL0_W, .type = ARM_CP_DC_CVAP,
+> > +      .accessfn = aa64_cacheop_persist_access },
+>
+> While this access function works, it's better to simply not register these at
+> all when they're not supported.  Compare the registration of rndr_reginfo.
+>
+> As I described above, I think this can use a normal write function.  In which
+> case this would use .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END.
+>
+> (I believe that ARM_CP_IO is not required, but I'm not 100% sure.  Certainly
+> there does not seem to be anything in dc_cvap() that affects state which can
+> queried from another virtual cpu, so there does not appear to be any reason to
+> grab the global i/o lock.  The host kernel should be just fine with concurrent
+> msync syscalls, or whatever it is that libpmem uses.)
+>
+>
+OK, will move that to conditional registration and double check the type.
+Thanks for the suggestion.
 
-Hi,
-I'm CCing the QEMU mailing list and Kevin Wolf, the qcow2 maintainer.
+> > +void HELPER(dc_cvap)(CPUARMState *env, uint64_t vaddr_in)
+> > +{
+> > +#ifndef CONFIG_USER_ONLY
+> > +    ARMCPU *cpu = env_archcpu(env);
+> > +    /* CTR_EL0 System register -> DminLine, bits [19:16] */
+> > +    uint64_t dline_size = 4 << ((cpu->ctr >> 16) & 0xF);
+> > +    uint64_t vaddr = vaddr_in & ~(dline_size - 1);
+> > +    void *haddr;
+> > +    int mem_idx = cpu_mmu_index(env, false);
+> > +
+> > +    /* This won't be crossing page boundaries */
+> > +    haddr = probe_read(env, vaddr, dline_size, mem_idx, GETPC());
+> > +    if (haddr) {
+> > +
+> > +        ram_addr_t offset;
+> > +        MemoryRegion *mr;
+> > +
+> > +        /*
+> > +         * RCU critical section + ref counting,
+> > +         * so that MR won't disappear behind the scene
+> > +         */
+> > +        rcu_read_lock();
+> > +        mr = memory_region_from_host(haddr, &offset);
+> > +        if (mr) {
+> > +            memory_region_ref(mr);
+> > +        }
+> > +        rcu_read_unlock();
+> > +
+> > +        if (mr) {
+> > +            memory_region_do_writeback(mr, offset, dline_size);
+> > +            memory_region_unref(mr);
+> > +        }
+> > +    }
+> > +#endif
+>
+>
+> We hold the rcu lock whenever a TB is executing.  I don't believe there's any
+> point in increasing the lock count here.  Similarly with memory_region
+> refcounts -- they cannot vanish while we're executing a TB.
+>
+> Thus I believe that about half of this function can fold away.
+>
+>
+So I was chasing the wrong locking herre...
+Indeed if the RCU lock is being already held I can safely drop the locking here.
 
-QEMU and qcow2 have support for the discard/trim command that allows the
-guest to report unused regions of the disk.  virtio-scsi and recent
-virtio-blk devices support this feature.
+> r~
 
-Set the -drive discard=3Dunmap QEMU command-line option in order to enable
-discard.
+Thank you for the review,
 
-Run the fstrim(8) Linux command inside the guest.  Other operating
-systems may have equivalent commands.
-
-You should find that the qcow2 file has fewer allocated blocks after
-this operation.  Consider this an efficient replacement for zero filling
-the device.  It is still necessary to shutdown the VM and use qemu-img
-convert unless you want to switch to a fancier online backup process
-using block job commands.
-
-Stefan
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2dqUAACgkQnKSrs4Gr
-c8hN9ggAl/t7FZcEs1kfWHdFrgsfEYH7eDLGdWtg2BqBEqx7IcFo1ObGd5EhEgyF
-YPUeqAeZ1U4jtoAhedvozgg9rLZROfFuisduIZqaJOxvSChGZaweK0WYyb7/xu3m
-5yOhV1tfA6UnzXI7KdZO21TrI5O6zlQ78GrRbG22BskOPCHYIiNlh6l14Iq5NxMh
-dhS+gdIGjxUmXKvHqGWN0tox0I5lKUHp2eE6NlSFCGHkIfucYtXRvvV6Mo17kRd+
-6Dm1Eq58StBt6SrMYKtR0QSHXGYRFt24+YvzLbZxBveFY8VS39pXqR1s+s0zB2/q
-8GFlIaptHRLBxrOI2UwzdFE/31eSXw==
-=XlrS
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
+BR
+Beata
 
