@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B3DD175E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:12:22 +0200 (CEST)
-Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21AED176E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:16:13 +0200 (CEST)
+Received: from localhost ([::1]:53674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGRg-0007ke-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46322)
+	id 1iIGVQ-0003L3-As
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:16:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iIBvs-0002nT-SI
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:23:14 -0400
+ (envelope-from <ard.biesheuvel@linaro.org>) id 1iICBJ-0004xD-4t
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:39:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iIBvr-0001LV-KX
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:23:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48242)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iIBvr-0001LQ-Cu
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:23:11 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A1E6E10C094D;
- Wed,  9 Oct 2019 13:23:10 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02CF35C1D6;
- Wed,  9 Oct 2019 13:23:08 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC 3/3] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-Date: Wed,  9 Oct 2019 09:22:52 -0400
-Message-Id: <20191009132252.17860-4-imammedo@redhat.com>
-In-Reply-To: <20191009132252.17860-1-imammedo@redhat.com>
-References: <20191009132252.17860-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Wed, 09 Oct 2019 13:23:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (envelope-from <ard.biesheuvel@linaro.org>) id 1iICBH-0000rk-Sy
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:39:08 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54634)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <ard.biesheuvel@linaro.org>)
+ id 1iICBH-0000rF-NP
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:39:07 -0400
+Received: by mail-wm1-x342.google.com with SMTP id p7so2653027wmp.4
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 06:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BeMFqSJKsyOwrvCpRyYXUCY/kZFtfdELbatv0b1GTFw=;
+ b=C7pZTAE1FWJybuErEkvCbmLVkPsN+vMBitx/le4Awyw4msWS2BV7r72pbsqFq9fuvi
+ QKJ0+kAxfw53YH9eaaOM8Mh44cXlBkSAUXhRU3iVQB57hgCZUKhwpTSl7e8w/smMzIBC
+ o6Zn/y/luNS+mmu6mELYB5CGDHBDrtl17Pu3kHlfT2YqFx8fRmwrO2nI/i4uVdup6/hw
+ ZYzG3YGQh2UdN4wnbSDOtRbFlmjQBag0SaqQ5qPslSAfduQibHuOjepOKotKFnrdLyuc
+ y3ef8y0YJiDgjhwtbxUZEjttKbbsyIOZoY/cIH2HD/FMh6SuZJzjNqWNq6uO7m3VuQQC
+ Z+zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BeMFqSJKsyOwrvCpRyYXUCY/kZFtfdELbatv0b1GTFw=;
+ b=iJHohF6siihcgoHDagLWYbti7bjPHrbyvtx3cLlRphABkTb08kHELMjBPrGFPh69YF
+ oKnHNO3g8Qm1wxdasqoWBX6OtBsB6E0PMu7tr7lbMdiNZ7Lhgq969ces7o8FFAQckPm/
+ lONIDHDyrhafoywwwV9M1XuI7A4IE91COE4rBrqTD4+TJD9XmiqLAjvV4d/2rlG4x0E5
+ OQ1u5lwDs7n9VauiWwCOdscOuCEGIJD8tktklyy8lXpMV5Ldt+fipRwty7RhJ216Dj7g
+ pzVkF318W67bj+1hg81cSgXB/IwXgjpod7uzw8KLWltaDwjFn0XTnzH/zuklRvtVD7P4
+ JPPg==
+X-Gm-Message-State: APjAAAWx9iC+eHxmda6xylpcV8GPqzx4Xi7xRHf3cdOzbDkGVR/QBS7Z
+ 8tezI16YrV4GoSThxoQ6KSwcWmWESBwxS+8zCylNQA==
+X-Google-Smtp-Source: APXvYqwZyvETUix4gE5vf2RVfHW70IZjQnBTLId7B3mW5ls9JJadPcFxAMrKdmG9esEjAwqjDpPwcKV8XNCLbys83cM=
+X-Received: by 2002:a1c:a651:: with SMTP id p78mr2739509wme.53.1570628346074; 
+ Wed, 09 Oct 2019 06:39:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <21633062-b021-a8e7-0cc8-062f4c29dde5@linux.microsoft.com>
+ <ca5c74db-cf5d-0c3f-eb6f-27d1092420ae@linux.microsoft.com>
+ <65b49cb0-c9fb-d966-8dec-1e39d09ab8c7@redhat.com>
+ <88878b22-803f-41fc-9df2-2c6eb551b98d@linux.microsoft.com>
+ <CAKv+Gu8kwg_tsrH7qne3H11hUPyA6zw-J_jpUmiyJMvXo3-SNQ@mail.gmail.com>
+ <5938a592-1494-ca0c-8a34-7df38dbbea0c@linux.microsoft.com>
+In-Reply-To: <5938a592-1494-ca0c-8a34-7df38dbbea0c@linux.microsoft.com>
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date: Wed, 9 Oct 2019 15:38:54 +0200
+Message-ID: <CAKv+Gu_ADqW_LVUOy-kWK1FsgRXG+5f_gzpM5_QHP5pj8+40ag@mail.gmail.com>
+Subject: Re: Is kexec supported in QEMU for ARM64 (qemu-system-aarch64) with
+ arm-trusted-firmware, optee, and u-boot.
+To: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,118 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extend CPU hotplug interface to return architecture specific
-identifier for current CPU (in case of x86, it's APIC ID).
+On Wed, 2 Oct 2019 at 03:32, Lakshmi Ramasubramanian
+<nramas@linux.microsoft.com> wrote:
+>
+> On 10/1/19 9:30 AM, Ard Biesheuvel wrote:
+>
+> >
+> > kexec is a linux concept, so whether it is supported should not depend
+> > on the secure world firmware or the underlying host.
+>
+> I agree Ard.
+> When I don't use ATF I am able to do kexec in QEMU and successfully boot
+> into the new kernel.
+> Is the following expected?
+>
+> When I execute kexec ("kexec -l <kernel>", followed by "kexec -e") I hit
+> the following assert in ATF (in the file
+> arm-trusted-firmware/plat/qemu/qemu_pm.c)
+>
+> /*******************************************************************************
+>    * Platform handler called when a power domain is about to be turned
+>    * off. The target_state encodes the power state that each level should
+>    * transition to.
+> ******************************************************************************/
+> void qemu_pwr_domain_off(const psci_power_state_t *target_state)
+> {
+>       assert(0);
+> }
+>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-TODO:
-  * cripple it to behave old way on old machine types so that
-    new firmware started on new QEMU won't see a difference
-    when migrated to an old QEMU (i.e. QEMU that doesn't support
-    this command)
----
- docs/specs/acpi_cpu_hotplug.txt | 10 +++++++++-
- hw/acpi/cpu.c                   | 15 +++++++++++++++
- hw/acpi/trace-events            |  1 +
- 3 files changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-index 43c5a193f0..0438678249 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -32,7 +32,9 @@ Register block size:
- 
- read access:
-     offset:
--    [0x0-0x3] reserved
-+    [0x0-0x3] Command data 2: (DWORD access)
-+              upper 32 bit of 'Command data' if returned data value is 64 bit.
-+              in case of error or unsupported command reads is 0x0
-     [0x4] CPU device status fields: (1 byte access)
-         bits:
-            0: Device is enabled and may be used by guest
-@@ -87,6 +89,8 @@ write access:
-               2: stores value into OST status register, triggers
-                  ACPI_DEVICE_OST QMP event from QEMU to external applications
-                  with current values of OST event and status registers.
-+              3: OSPM reads architecture specific value identifying CPU
-+                 (x86: APIC ID)
-             other values: reserved
- 
- Selecting CPU device beyond possible range has no effect on platform:
-@@ -115,3 +119,7 @@ Typical usecases:
-      5.2 if 'Command data' register has not changed, there is not CPU
-          corresponding to iterator value and the last valid iterator value
-          equals to 'max_cpus' + 1
-+   - Get architecture specific id for a CPU
-+     1. pick a CPU to read from using 'CPU selector' register
-+     2. write 0x3 int0 'Command field' register
-+     3. read architecture specific id from 'Command data' register
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index 87f30a31d7..701542d860 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -12,11 +12,13 @@
- #define ACPI_CPU_FLAGS_OFFSET_RW 4
- #define ACPI_CPU_CMD_OFFSET_WR 5
- #define ACPI_CPU_CMD_DATA_OFFSET_RW 8
-+#define ACPI_CPU_CMD_DATA2_OFFSET_RW 0
- 
- enum {
-     CPHP_GET_NEXT_CPU_WITH_EVENT_CMD = 0,
-     CPHP_OST_EVENT_CMD = 1,
-     CPHP_OST_STATUS_CMD = 2,
-+    CPHP_GET_CPU_ID_CMD = 3,
-     CPHP_CMD_MAX
- };
- 
-@@ -74,11 +76,24 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr, unsigned size)
-         case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
-            val = cpu_st->selector;
-            break;
-+        case CPHP_GET_CPU_ID_CMD:
-+           val = cpu_to_le64(cdev->arch_id) & 0xFFFFFFFF;
-+           break;
-         default:
-            break;
-         }
-         trace_cpuhp_acpi_read_cmd_data(cpu_st->selector, val);
-         break;
-+    case ACPI_CPU_CMD_DATA2_OFFSET_RW:
-+        switch (cpu_st->command) {
-+        case CPHP_GET_CPU_ID_CMD:
-+           val = cpu_to_le64(cdev->arch_id) >> 32;
-+           break;
-+        default:
-+           break;
-+        }
-+        trace_cpuhp_acpi_read_cmd_data2(cpu_st->selector, val);
-+        break;
-     default:
-         break;
-     }
-diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-index 96b8273297..afbc77de1c 100644
---- a/hw/acpi/trace-events
-+++ b/hw/acpi/trace-events
-@@ -23,6 +23,7 @@ cpuhp_acpi_read_flags(uint32_t idx, uint8_t flags) "idx[0x%"PRIx32"] flags: 0x%"
- cpuhp_acpi_write_idx(uint32_t idx) "set active cpu idx: 0x%"PRIx32
- cpuhp_acpi_write_cmd(uint32_t idx, uint8_t cmd) "idx[0x%"PRIx32"] cmd: 0x%"PRIx8
- cpuhp_acpi_read_cmd_data(uint32_t idx, uint32_t data) "idx[0x%"PRIx32"] data: 0x%"PRIx32
-+cpuhp_acpi_read_cmd_data2(uint32_t idx, uint32_t data) "idx[0x%"PRIx32"] data: 0x%"PRIx32
- cpuhp_acpi_cpu_has_events(uint32_t idx, bool ins, bool rm) "idx[0x%"PRIx32"] inserting: %d, removing: %d"
- cpuhp_acpi_clear_inserting_evt(uint32_t idx) "idx[0x%"PRIx32"]"
- cpuhp_acpi_clear_remove_evt(uint32_t idx) "idx[0x%"PRIx32"]"
--- 
-2.18.1
-
+Are you running with multiple CPUs?
 
