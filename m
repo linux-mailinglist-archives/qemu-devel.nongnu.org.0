@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9D7D14A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:54:08 +0200 (CEST)
-Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256CBD14B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:57:16 +0200 (CEST)
+Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIFDy-0001l1-R1
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59641)
+	id 1iIFH0-0005WH-Ln
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:57:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1iI54F-0000zD-E5
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:03:24 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59C-0001XQ-El
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1iI54C-0001nl-Gu
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:03:21 -0400
-Received: from mga06.intel.com ([134.134.136.31]:11592)
+ (envelope-from <dgibson@ozlabs.org>) id 1iI59B-0006V4-1h
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 02:08:30 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60537 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1iI54C-0001cU-9G; Wed, 09 Oct 2019 02:03:20 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2019 23:03:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,273,1566889200"; d="scan'208";a="393577637"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by fmsmga005.fm.intel.com with ESMTP; 08 Oct 2019 23:03:09 -0700
-Received: from fmsmsx116.amr.corp.intel.com (10.18.116.20) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 8 Oct 2019 23:03:06 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- fmsmsx116.amr.corp.intel.com (10.18.116.20) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 8 Oct 2019 23:03:06 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.176]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.96]) with mapi id 14.03.0439.000;
- Wed, 9 Oct 2019 14:03:04 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v6 2/4] tests/test-replication.c: Add test for for
- secondary node continuing replication
-Thread-Topic: [PATCH v6 2/4] tests/test-replication.c: Add test for for
- secondary node continuing replication
-Thread-Index: AQHVe32cp1fVncNt7UaERb4FpDqX86dR1wkg
-Date: Wed, 9 Oct 2019 06:03:03 +0000
-Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D78062A756A@shsmsx102.ccr.corp.intel.com>
-References: <cover.1570280098.git.lukasstraub2@web.de>
- <acacb35c86d6abae5c397e2e1953b67485c24d91.1570280098.git.lukasstraub2@web.de>
-In-Reply-To: <acacb35c86d6abae5c397e2e1953b67485c24d91.1570280098.git.lukasstraub2@web.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTlmMjRmZjgtZTIzNy00ZjMxLTk4YmUtODc2MGVmOTI1MjcxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNVRTd2J1cSs5TWo2MVVzMFNSOEl5WDE0YmtyTmtHejBObVcwVFFOVFwvZ0Zjd0RlalBRem5PRWFBZ0grNGc0aTkifQ==
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iI59A-0006P8-Lu; Wed, 09 Oct 2019 02:08:28 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46p3gD03Vqz9sPF; Wed,  9 Oct 2019 17:08:23 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570601304;
+ bh=uQKW8zEtgE5P17ujUQFzUffUIX01ocBt6Nsm2Y3358A=;
+ h=From:To:Cc:Subject:Date:From;
+ b=UL3U981PNwzWcIZOgcIuJ/Jzkzjq3sdttJaYY0kU5hWfVf570fR9yrRA2MzRQowcA
+ D/Kp8GfPEcgSFNPjla9eNaApvbshPdhJs1YDlXGH+A8GE99OTWKEvxzAG8RamAdUDa
+ Xlf5gLGbWoVUwO+zcCb5x70fS2cWkKNcShX+/DH4=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	clg@kaod.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v4 00/19] spapr: IRQ subsystem cleanup
+Date: Wed,  9 Oct 2019 17:07:59 +1100
+Message-Id: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.31
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,114 +54,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a substantial rework to clean up the handling of IRQs in
+spapr.  It includes some cleanups to both the XICS and XIVE interrupt
+controller backends, as well as more to the common spapr irq handling
+infrastructure.
 
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Saturday, October 5, 2019 9:06 PM
-> To: qemu-devel <qemu-devel@nongnu.org>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; Jason Wang
-> <jasowang@redhat.com>; Wen Congyang <wencongyang2@huawei.com>;
-> Xie Changlong <xiechanglong.d@gmail.com>; Kevin Wolf
-> <kwolf@redhat.com>; Max Reitz <mreitz@redhat.com>; qemu-block
-> <qemu-block@nongnu.org>
-> Subject: [PATCH v6 2/4] tests/test-replication.c: Add test for for second=
-ary
-> node continuing replication
->=20
-> This simulates the case that happens when we resume COLO after failover.
->=20
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->  tests/test-replication.c | 52
-> ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
->=20
-> diff --git a/tests/test-replication.c b/tests/test-replication.c index
-> f085d1993a..8e18ecd998 100644
-> --- a/tests/test-replication.c
-> +++ b/tests/test-replication.c
-> @@ -489,6 +489,56 @@ static void test_secondary_stop(void)
->      teardown_secondary();
->  }
->=20
-> +static void test_secondary_continuous_replication(void)
-> +{
-> +    BlockBackend *top_blk, *local_blk;
-> +    Error *local_err =3D NULL;
-> +
-> +    top_blk =3D start_secondary();
-> +    replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* write 0x22 to s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
-> +    local_blk =3D blk_by_name(S_LOCAL_DISK_ID);
-> +    test_blk_write(local_blk, 0x22, IMG_SIZE / 2, IMG_SIZE / 2, false);
-> +
-> +    /* replication will backup s_local_disk to s_hidden_disk */
-> +    test_blk_read(top_blk, 0x11, IMG_SIZE / 2,
-> +                  IMG_SIZE / 2, 0, IMG_SIZE, false);
-> +
-> +    /* write 0x33 to s_active_disk (0, IMG_SIZE / 2) */
-> +    test_blk_write(top_blk, 0x33, 0, IMG_SIZE / 2, false);
-> +
-> +    /* do failover (active commit) */
-> +    replication_stop_all(true, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* it should ignore all requests from now on */
+The last two patches of this series, dealing with VFIO devices, are
+RFC only - there some problems that I'm discussing with Alex
+Williamson.
 
-Should we need add teardown_secondary() here?
+Changes since v3:
+ * Further minor tweaks to error handling
+ * Other minor polishes from feedback
+ * Added some patches to address VFIO irq routing
+ * Removed the first ~20 patches, which are now merged
 
-Thanks
-Zhang Chen
+Changes since v2:
+ * Fixed a bug where the "move handling multiple irq frees" to
+   frontend patch was actually freeing one irq over and over, rather
+   than freeing multiple irqs
+ * Fixed some places I missed still using only-Error * style, and flow
+   on adjustments
+ * New idiom to iterate across all constructed backends for the things
+   that need that (cpu_intc_create, claim & freem), rather than
+   open-coding a call on the xics, then xive versions.
 
-> +
-> +    /* start after failover */
-> +    replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* checkpoint */
-> +    replication_do_checkpoint_all(&local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* stop */
-> +    replication_stop_all(true, &local_err);
-> +    g_assert(!local_err);
-> +
-> +    /* read from s_local_disk (0, IMG_SIZE / 2) */
-> +    test_blk_read(top_blk, 0x33, 0, IMG_SIZE / 2,
-> +                  0, IMG_SIZE / 2, false);
-> +
-> +
-> +    /* read from s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
-> +    test_blk_read(top_blk, 0x22, IMG_SIZE / 2,
-> +                  IMG_SIZE / 2, 0, IMG_SIZE, false);
-> +
-> +    teardown_secondary();
-> +}
-> +
->  static void test_secondary_do_checkpoint(void)
->  {
->      BlockBackend *top_blk, *local_blk;
-> @@ -584,6 +634,8 @@ int main(int argc, char **argv)
->      g_test_add_func("/replication/secondary/write", test_secondary_write=
-);
->      g_test_add_func("/replication/secondary/start", test_secondary_start=
-);
->      g_test_add_func("/replication/secondary/stop",  test_secondary_stop)=
-;
-> +    g_test_add_func("/replication/secondary/continuous_replication",
-> +                    test_secondary_continuous_replication);
->      g_test_add_func("/replication/secondary/do_checkpoint",
->                      test_secondary_do_checkpoint);
->      g_test_add_func("/replication/secondary/get_error_all",
-> --
-> 2.20.1
+Changes since v1:
+ * Lots of extra patches
+ * Many minor adjustments based on feedback
+ * Moved towards return value + Error * style, instead of just Error *
+   style
+
+David Gibson (16):
+  spapr, xics, xive: Introduce SpaprInterruptController QOM interface
+  spapr, xics, xive: Move cpu_intc_create from SpaprIrq to
+    SpaprInterruptController
+  spapr, xics, xive: Move irq claim and free from SpaprIrq to
+    SpaprInterruptController
+  spapr: Formalize notion of active interrupt controller
+  spapr, xics, xive: Move set_irq from SpaprIrq to
+    SpaprInterruptController
+  spapr, xics, xive: Move print_info from SpaprIrq to
+    SpaprInterruptController
+  spapr, xics, xive: Move dt_populate from SpaprIrq to
+    SpaprInterruptController
+  spapr, xics, xive: Match signatures for XICS and XIVE KVM connect
+    routines
+  spapr: Remove SpaprIrq::init_kvm hook
+  spapr, xics, xive: Move SpaprIrq::reset hook logic into
+    activate/deactivate
+  spapr, xics, xive: Move SpaprIrq::post_load hook to backends
+  spapr: Remove SpaprIrq::nr_msis
+  spapr: Move SpaprIrq::nr_xirqs to SpaprMachineClass
+  spapr: Remove last pieces of SpaprIrq
+  spapr: Handle irq backend changes with VFIO PCI devices
+  spapr: Work around spurious warnings from vfio INTx initialization
+
+Greg Kurz (2):
+  xive: Make some device types not user creatable
+  xics: Make some device types not user creatable
+
+Stefan Brankovic (1):
+  target/ppc: Fix for optimized vsl/vsr instructions
+
+ hw/intc/spapr_xive.c                | 295 ++++++++----
+ hw/intc/spapr_xive_kvm.c            |  22 +-
+ hw/intc/xics.c                      |  10 +
+ hw/intc/xics_kvm.c                  |   9 +-
+ hw/intc/xics_spapr.c                | 110 ++++-
+ hw/intc/xive.c                      |  15 +
+ hw/ppc/spapr.c                      |  52 ++-
+ hw/ppc/spapr_caps.c                 |  64 +++
+ hw/ppc/spapr_cpu_core.c             |   3 +-
+ hw/ppc/spapr_hcall.c                |   7 +-
+ hw/ppc/spapr_irq.c                  | 668 +++++++++-------------------
+ hw/ppc/spapr_pci.c                  |  16 +-
+ include/hw/pci-host/spapr.h         |   4 +-
+ include/hw/ppc/spapr.h              |  17 +-
+ include/hw/ppc/spapr_irq.h          |  72 +--
+ include/hw/ppc/spapr_xive.h         |   9 +-
+ include/hw/ppc/xics_spapr.h         |   6 +-
+ target/ppc/translate/vmx-impl.inc.c |  84 ++--
+ 18 files changed, 769 insertions(+), 694 deletions(-)
+
+--=20
+2.21.0
 
 
