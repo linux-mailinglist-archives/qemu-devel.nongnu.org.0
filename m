@@ -2,92 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5798FD1738
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:59:05 +0200 (CEST)
-Received: from localhost ([::1]:53404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9264D1715
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:52:26 +0200 (CEST)
+Received: from localhost ([::1]:53324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGEp-0000Xn-Ne
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1iIG8P-0001i2-4A
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:52:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iI88f-0003VJ-3Q
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:20:10 -0400
+ (envelope-from <w.bumiller@proxmox.com>) id 1iI90a-0000jE-GF
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:15:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iI88d-00074P-Fm
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:20:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63732)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iI88d-00074D-8K
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:20:07 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x999DuD8050721
- for <qemu-devel@nongnu.org>; Wed, 9 Oct 2019 05:20:06 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vhcq909c0-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 05:20:06 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <clg@kaod.org>;
- Wed, 9 Oct 2019 10:20:03 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 9 Oct 2019 10:19:53 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x999JqBB33489090
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Oct 2019 09:19:52 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B2564C04E;
- Wed,  9 Oct 2019 09:19:52 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B0094C046;
- Wed,  9 Oct 2019 09:19:52 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  9 Oct 2019 09:19:52 +0000 (GMT)
-Received: from yukon.kaod.org (sig-9-145-55-18.uk.ibm.com [9.145.55.18])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 68B23220198;
- Wed,  9 Oct 2019 11:19:51 +0200 (CEST)
-Subject: Re: [PATCH v4 09/19] spapr, xics, xive: Move print_info from SpaprIrq
- to SpaprInterruptController
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
- <20191009060818.29719-10-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Date: Wed, 9 Oct 2019 11:19:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <w.bumiller@proxmox.com>) id 1iI90Y-0006Pr-FW
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:15:52 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:57903)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <w.bumiller@proxmox.com>)
+ id 1iI90Y-0006PI-4V; Wed, 09 Oct 2019 06:15:50 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 155B845A82;
+ Wed,  9 Oct 2019 12:10:34 +0200 (CEST)
+Date: Wed, 9 Oct 2019 12:10:32 +0200
+From: Wolfgang Bumiller <w.bumiller@proxmox.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] monitor/qmp: resume monitor when clearing its queue
+Message-ID: <20191009101032.kxts5buz7sp3cyo5@olga.proxmox.com>
+References: <20191002083003.21556-1-w.bumiller@proxmox.com>
+ <87ftk28g8f.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20191009060818.29719-10-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 19100909-4275-0000-0000-000003706438
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100909-4276-0000-0000-0000388367D5
-Message-Id: <a8f3f050-d5e7-8099-b9b2-c84154a7eb8e@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-09_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=8 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910090087
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <87ftk28g8f.fsf@dusky.pond.sub.org>
+User-Agent: NeoMutt/20180716
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x999DuD8050721
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.186.127.180
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,260 +50,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- philmd@redhat.com
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/2019 08:08, David Gibson wrote:
-> This method depends only on the active irq controller.  Now that we've
-> formalized the notion of active controller we can dispatch directly
-> through that, rather than dispatching via SpaprIrq with the dual
-> version having to do a second conditional dispatch.
+On Wed, Oct 09, 2019 at 10:39:44AM +0200, Markus Armbruster wrote:
+> Cc: Marc-Andr=E9 for additional monitor and chardev expertise.
 >=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
+>=20
+> > When a monitor's queue is filled up in handle_qmp_command()
+> > it gets suspended. It's the dispatcher bh's job currently to
+> > resume the monitor, which it does after processing an event
+> > from the queue. However, it is possible for a
+> > CHR_EVENT_CLOSED event to be processed before before the bh
+> > is scheduled, which will clear the queue without resuming
+> > the monitor, thereby preventing the dispatcher from reaching
+> > the resume() call.
+>=20
+> Because with the request queue cleared, there's nothing for
+> monitor_qmp_requests_pop_any_with_lock() to pop, so
+> monitor_qmp_bh_dispatcher() won't look at this monitor.  It stays
+> suspended forever.  Correct?
+>=20
+> Observable effect for the monitor's user?
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Yes. More easily triggered now with oob. We ran into this a longer time
+ago, but our only reliable trigger was a customized version of
+-loadstate which loads the state from a separate file instead of the
+vmstate region of a qcow2. Turns out that doing this on a slow storage
+(~12s to load the data) caused our status daemon to try to poll the qmp
+socket during the load-state and give up after a 3s timeout. And since
+the BH runs in the main loop which is not even entered until after the
+loadstate has finished, but iothread handling the qmp socket does fill &
+clear the queue, the qmp socket always ended up unusable afterwards.
 
-> ---
->  hw/intc/spapr_xive.c       | 15 +++++++++++++
->  hw/intc/xics_spapr.c       | 15 +++++++++++++
->  hw/ppc/spapr.c             |  2 +-
->  hw/ppc/spapr_irq.c         | 44 +++++++-------------------------------
->  include/hw/ppc/spapr_irq.h |  4 ++--
->  5 files changed, 41 insertions(+), 39 deletions(-)
+Aside from that we have users reporting the same symptom (hanging qmp)
+appearing randomly on busy systems.
+
+> > Fix this by resuming the monitor when clearing a queue which
+> > was filled up.
+> >
+> > Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+> > ---
+> > @Michael, we ran into this with qemu 4.0, so if the logic in this pat=
+ch
+> > is correct it may make sense to include it in the 4.0.1 roundup.
+> > A backport is at [1] as 4.0 was before the monitor/ dir split.
+> >
+> > [1] https://gitlab.com/wbumiller/qemu/commit/9d8bbb5294ed084f282174b0=
+c91e1a614e0a0714
+> >
+> >  monitor/qmp.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/monitor/qmp.c b/monitor/qmp.c
+> > index 9d9e5d8b27..c1db5bf940 100644
+> > --- a/monitor/qmp.c
+> > +++ b/monitor/qmp.c
+> > @@ -70,9 +70,19 @@ static void qmp_request_free(QMPRequest *req)
+> >  /* Caller must hold mon->qmp.qmp_queue_lock */
+> >  static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
+> >  {
+> > +    bool need_resume =3D (!qmp_oob_enabled(mon) && mon->qmp_requests=
+->length > 0)
+> > +        || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
 >=20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 52d5e71793..700ec5c9c1 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -564,6 +564,20 @@ static void spapr_xive_set_irq(SpaprInterruptContr=
-oller *intc, int irq, int val)
->      }
->  }
-> =20
-> +static void spapr_xive_print_info(SpaprInterruptController *intc, Moni=
-tor *mon)
-> +{
-> +    SpaprXive *xive =3D SPAPR_XIVE(intc);
-> +    CPUState *cs;
-> +
-> +    CPU_FOREACH(cs) {
-> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +
-> +        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
-> +    }
-> +
-> +    spapr_xive_pic_print_info(xive, mon);
-> +}
-> +
->  static void spapr_xive_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -586,6 +600,7 @@ static void spapr_xive_class_init(ObjectClass *klas=
-s, void *data)
->      sicc->claim_irq =3D spapr_xive_claim_irq;
->      sicc->free_irq =3D spapr_xive_free_irq;
->      sicc->set_irq =3D spapr_xive_set_irq;
-> +    sicc->print_info =3D spapr_xive_print_info;
->  }
-> =20
->  static const TypeInfo spapr_xive_info =3D {
-> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> index 02372697f6..415defe394 100644
-> --- a/hw/intc/xics_spapr.c
-> +++ b/hw/intc/xics_spapr.c
-> @@ -381,6 +381,20 @@ static void xics_spapr_set_irq(SpaprInterruptContr=
-oller *intc, int irq, int val)
->      ics_set_irq(ics, srcno, val);
->  }
-> =20
-> +static void xics_spapr_print_info(SpaprInterruptController *intc, Moni=
-tor *mon)
-> +{
-> +    ICSState *ics =3D ICS_SPAPR(intc);
-> +    CPUState *cs;
-> +
-> +    CPU_FOREACH(cs) {
-> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +
-> +        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
-> +    }
-> +
-> +    ics_pic_print_info(ics, mon);
-> +}
-> +
->  static void ics_spapr_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -393,6 +407,7 @@ static void ics_spapr_class_init(ObjectClass *klass=
-, void *data)
->      sicc->claim_irq =3D xics_spapr_claim_irq;
->      sicc->free_irq =3D xics_spapr_free_irq;
->      sicc->set_irq =3D xics_spapr_set_irq;
-> +    sicc->print_info =3D xics_spapr_print_info;
->  }
-> =20
->  static const TypeInfo ics_spapr_info =3D {
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 514a17ae74..6c38de5927 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4271,7 +4271,7 @@ static void spapr_pic_print_info(InterruptStatsPr=
-ovider *obj,
->  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
-> =20
-> -    spapr->irq->print_info(spapr, mon);
-> +    spapr_irq_print_info(spapr, mon);
->      monitor_printf(mon, "irqchip: %s\n",
->                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated")=
-;
->  }
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index bfccb815ed..a29b527232 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -98,19 +98,6 @@ static void spapr_irq_init_kvm(SpaprMachineState *sp=
-apr,
->   * XICS IRQ backend.
->   */
-> =20
-> -static void spapr_irq_print_info_xics(SpaprMachineState *spapr, Monito=
-r *mon)
-> -{
-> -    CPUState *cs;
-> -
-> -    CPU_FOREACH(cs) {
-> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -
-> -        icp_pic_print_info(spapr_cpu_state(cpu)->icp, mon);
-> -    }
-> -
-> -    ics_pic_print_info(spapr->ics, mon);
-> -}
-> -
->  static int spapr_irq_post_load_xics(SpaprMachineState *spapr, int vers=
-ion_id)
->  {
->      if (!kvm_irqchip_in_kernel()) {
-> @@ -147,7 +134,6 @@ SpaprIrq spapr_irq_xics =3D {
->      .xics        =3D true,
->      .xive        =3D false,
-> =20
-> -    .print_info  =3D spapr_irq_print_info_xics,
->      .dt_populate =3D spapr_dt_xics,
->      .post_load   =3D spapr_irq_post_load_xics,
->      .reset       =3D spapr_irq_reset_xics,
-> @@ -158,20 +144,6 @@ SpaprIrq spapr_irq_xics =3D {
->   * XIVE IRQ backend.
->   */
-> =20
-> -static void spapr_irq_print_info_xive(SpaprMachineState *spapr,
-> -                                      Monitor *mon)
-> -{
-> -    CPUState *cs;
-> -
-> -    CPU_FOREACH(cs) {
-> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -
-> -        xive_tctx_pic_print_info(spapr_cpu_state(cpu)->tctx, mon);
-> -    }
-> -
-> -    spapr_xive_pic_print_info(spapr->xive, mon);
-> -}
-> -
->  static int spapr_irq_post_load_xive(SpaprMachineState *spapr, int vers=
-ion_id)
->  {
->      return spapr_xive_post_load(spapr->xive, version_id);
-> @@ -212,7 +184,6 @@ SpaprIrq spapr_irq_xive =3D {
->      .xics        =3D false,
->      .xive        =3D true,
-> =20
-> -    .print_info  =3D spapr_irq_print_info_xive,
->      .dt_populate =3D spapr_dt_xive,
->      .post_load   =3D spapr_irq_post_load_xive,
->      .reset       =3D spapr_irq_reset_xive,
-> @@ -238,11 +209,6 @@ static SpaprIrq *spapr_irq_current(SpaprMachineSta=
-te *spapr)
->          &spapr_irq_xive : &spapr_irq_xics;
->  }
-> =20
-> -static void spapr_irq_print_info_dual(SpaprMachineState *spapr, Monito=
-r *mon)
-> -{
-> -    spapr_irq_current(spapr)->print_info(spapr, mon);
-> -}
-> -
->  static void spapr_irq_dt_populate_dual(SpaprMachineState *spapr,
->                                         uint32_t nr_servers, void *fdt,
->                                         uint32_t phandle)
-> @@ -304,7 +270,6 @@ SpaprIrq spapr_irq_dual =3D {
->      .xics        =3D true,
->      .xive        =3D true,
-> =20
-> -    .print_info  =3D spapr_irq_print_info_dual,
->      .dt_populate =3D spapr_irq_dt_populate_dual,
->      .post_load   =3D spapr_irq_post_load_dual,
->      .reset       =3D spapr_irq_reset_dual,
-> @@ -404,6 +369,14 @@ static void spapr_set_irq(void *opaque, int irq, i=
-nt level)
->      sicc->set_irq(spapr->active_intc, irq, level);
->  }
-> =20
-> +void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon)
-> +{
-> +    SpaprInterruptControllerClass *sicc
-> +        =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
-> +
-> +    sicc->print_info(spapr->active_intc, mon);
-> +}
-> +
->  void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->  {
->      MachineState *machine =3D MACHINE(spapr);
-> @@ -713,7 +686,6 @@ SpaprIrq spapr_irq_xics_legacy =3D {
->      .xics        =3D true,
->      .xive        =3D false,
-> =20
-> -    .print_info  =3D spapr_irq_print_info_xics,
->      .dt_populate =3D spapr_dt_xics,
->      .post_load   =3D spapr_irq_post_load_xics,
->      .reset       =3D spapr_irq_reset_xics,
-> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> index ece8d2ea48..bdfeb3b107 100644
-> --- a/include/hw/ppc/spapr_irq.h
-> +++ b/include/hw/ppc/spapr_irq.h
-> @@ -59,13 +59,14 @@ typedef struct SpaprInterruptControllerClass {
-> =20
->      /* These methods should only be called on the active intc */
->      void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
-> +    void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
->  } SpaprInterruptControllerClass;
-> =20
->  void spapr_irq_update_active_intc(SpaprMachineState *spapr);
-> =20
->  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
->                                PowerPCCPU *cpu, Error **errp);
-> -
-> +void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
-> =20
->  void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis);
->  int spapr_irq_msi_alloc(SpaprMachineState *spapr, uint32_t num, bool a=
-lign,
-> @@ -78,7 +79,6 @@ typedef struct SpaprIrq {
->      bool        xics;
->      bool        xive;
-> =20
-> -    void (*print_info)(SpaprMachineState *spapr, Monitor *mon);
->      void (*dt_populate)(SpaprMachineState *spapr, uint32_t nr_servers,
->                          void *fdt, uint32_t phandle);
->      int (*post_load)(SpaprMachineState *spapr, int version_id);
+> Can you explain why this condition is correct?
+
+Sorry, I meant to add a comment pointing to monitor_qmp_bh_dispatcher(),
+which does the following *after* popping 1 element off the queue:
+
+    need_resume =3D !qmp_oob_enabled(mon) ||
+        mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX - 1;
+    qemu_mutex_unlock(&mon->qmp_queue_lock);
+
+It's supposed to be the same condition, but _before_ popping off an
+element (hence no `- 1`), but the queue shouldn't be empty as well
+otherwise the `monitor_suspend()` in `handle_qmp_command()` hasn't
+happened, though on second though we could probably just return early in
+that case.).
+
 >=20
+> >      while (!g_queue_is_empty(mon->qmp_requests)) {
+> >          qmp_request_free(g_queue_pop_head(mon->qmp_requests));
+> >      }
+> > +    if (need_resume) {
+> > +        /*
+> > +         * Pairs with the monitor_suspend() in handle_qmp_command() =
+in case the
+> > +         * queue gets cleared from a CH_EVENT_CLOSED event before th=
+e dispatch
+> > +         * bh got scheduled.
+> > +         */
+> > +        monitor_resume(&mon->common);
+> > +    }
+> >  }
+> > =20
+> >  static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
+>=20
+> Is monitor_qmp_cleanup_req_queue_locked() the correct place?
+>=20
+> It's called from
+>=20
+> * monitor_qmp_event() case CHR_EVENT_CLOSED via
+>   monitor_qmp_cleanup_queues(), as part of destroying the monitor's
+>   session state.
+>=20
+>   This is the case you're trying to fix.  Correct?
+>=20
+>   I figure monitor_resume() is safe because we haven't really destroyed
+>   anything, yet, we merely flushed the request queue.  Correct?
+>=20
+> * monitor_data_destroy() via monitor_data_destroy_qmp() when destroying
+>   the monitor.
+>=20
+>   Can need_resume be true in this case?  If yes, is monitor_resume()
+>   still safe?  We're in the middle of destroying the monitor...
+
+I thought so when first reading through it, but on second though, we
+should probably avoid this for sanity's sake.
+Maybe with a flag, or an extra parameter.
+Or we could introduce a "bool queue_filled" we set in handle_qmp_command(=
+)
+instead of "calculating" `need_resume` in 2 places and unset it in
+`monitor_data_destroy()` before clearing the queue?
 
 
