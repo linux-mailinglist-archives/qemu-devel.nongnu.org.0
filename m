@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB319D1A28
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:56:30 +0200 (CEST)
-Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F333CD1A14
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 22:51:21 +0200 (CEST)
+Received: from localhost ([::1]:57582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJ0X-0005iQ-0k
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
+	id 1iIIvY-0007fW-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 16:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iIH39-0005NB-EI
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:51:04 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iIH1h-0003BJ-KX
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:49:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iIH38-00088Y-5f
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:51:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59570)
+ (envelope-from <alex.bennee@linaro.org>) id 1iIH1g-0007ad-8s
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:49:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44570)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iIH37-00086u-WC
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:51:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iIH36-0001qK-Lr
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 18:51:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 96C822E80CD
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 18:51:00 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iIH1g-0007a3-2G
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 14:49:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z9so4257816wrl.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 11:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=X9WSqh8lzF1/ZGPdlYYplziYGw8NTu0WSOvsFIWuniY=;
+ b=EyTCee/Ta3sMkxcw0bZzwOJoIKCF0Il+roHHD0a0hsZWJAGNPNL1jgQfST/fXU1PWh
+ KKi14LHTQKf46HjYwWSbZ9Myw28xJeHB4W7xLtGe9VVSK9IdzVZoulJJXkECtLSwENNz
+ HSUEvPekI+zFQUP/bbFqByBFrdqiVLwdmd7swdK9ATtnPkLNtmKmFa1k1cfsbIfFwhZd
+ 1FcB3rWPmbcBwpshWpUdKNw2eBXMIIbQah7/mvqbeJHGBdeW+OAxZd+VSZzZFbuGvrjZ
+ nRpqAcIVP2FvD6LSOPR8bhm6DAZbT4SXFaBZaOYX/Sy3TaNglOQLIMvjJPwO76Wi0ufc
+ 04OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=X9WSqh8lzF1/ZGPdlYYplziYGw8NTu0WSOvsFIWuniY=;
+ b=Zn+47TBBr7RC47mQuczLj07qkcksWDFTf/BX0iEP6w2319jiJd4xK0GFVgYl2jgavt
+ jJG3MnT12LHZrJmgaHk/vrvUD2lJouKlkYSXXiWqELAUqCqG4tALhxjMOGUZYu0CZbdA
+ lEz1+8Sd2bMDQh+dc7WhDslLy4oclps3JNkHXUukSi68h2573YmWxinf1nXxIcj1yxAD
+ EOGfWfrgVTu5Lc7OMAc53RZp3K56L/rkD2wIr5JQQ8UVJtofM2LZcPi6hx+DAEYA+bw1
+ ajBPdejb8i6xHrbDCxHDYpKGyIqzjC0U/Vz+xF+v1y8zr9wOtu48+5CdabPNtLCVYwWM
+ dyBA==
+X-Gm-Message-State: APjAAAVfZPctQh28MNm9YlIdJskZjKohPgN2gClqKcYcGpUroKpUwjua
+ deogY2B3uJnozIAqPWpBwnms9w==
+X-Google-Smtp-Source: APXvYqxDkr+f96MVD1mR24RFYdBX9WBO0YFQ2cTP/y7nvO09u549wxHn6l4nySb+af3QVQZrnro6/Q==
+X-Received: by 2002:adf:fcc5:: with SMTP id f5mr4071842wrs.37.1570646969809;
+ Wed, 09 Oct 2019 11:49:29 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r18sm5083061wme.48.2019.10.09.11.49.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Oct 2019 11:49:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 65CBC1FF87;
+ Wed,  9 Oct 2019 19:49:28 +0100 (BST)
+References: <20190731160719.11396-1-alex.bennee@linaro.org>
+ <20190731160719.11396-51-alex.bennee@linaro.org>
+ <20190801143141.GL5034@quinoa.localdomain>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH  v4 50/54] tests/plugin: add instruction execution
+ breakdown
+In-reply-to: <20190801143141.GL5034@quinoa.localdomain>
+Date: Wed, 09 Oct 2019 19:49:28 +0100
+Message-ID: <875zkxn493.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Oct 2019 18:41:57 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1838763@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ausername philmd
-X-Launchpad-Bug-Reporter: =?utf-8?b?5ZGo5paH6Z2SIChhdXNlcm5hbWUp?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <156474593196.25727.15962542236379825575.malonedeb@soybean.canonical.com>
-Message-Id: <157064651803.15332.11815728848648441289.malone@soybean.canonical.com>
-Subject: [Bug 1838763] Re: Bugs in SSH module (ssh.c)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 11c8849ecba5e79aaab9cc6319fe95198cd35d47
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,34 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838763 <1838763@bugs.launchpad.net>
+Cc: "bobby.prani@gmail.com" <bobby.prani@gmail.com>,
+ "cota@braap.org" <cota@braap.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As suggested by Richard in [*], filled a libssh report:
 
-https://bugs.launchpad.net/ubuntu/+source/libssh/+bug/1847514
+Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
 
-[*] https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg02506.html
+> On Jul 31 17:07, Alex Benn=C3=A9e wrote:
+>> + * Attempt to measure the amount of vectorisation that has been done
+>> + * on some code by counting classes of instruction. This is very much
+>> + * ARM specific.
+>
+> I suspect some of my plugins will also be architecture-specific. Does it
+> make sense to have a plugin specify to QEMU which architectures or
+> running modes (i.e. softmmu vs. linux user) it supports? Or
+> alternatively to have QEMU expose this information to the plugin so that
+> it can cleanly exit if its needs are not met?
 
--- =
+I've exposed an information block with the qemu type in it as a string.
+This allows the plugin to take appropriate action.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838763
+>
+> -Aaron
 
-Title:
-  Bugs in SSH module (ssh.c)
 
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  I installed gcc-8&libssh* on my Ubuntu 18.04 arm64.When I was
-  compiling any version of qemu like 3.1.0 4.0.0or 4.1.0 with SSH
-  support,the GCC went wrong.It said some vars undeclared
-  like'SSH_KNOWN_HOSTS_OTHER','SSH_KNOWN_HOST_UNKNOWN',etc.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838763/+subscriptions
+--
+Alex Benn=C3=A9e
 
