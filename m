@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1DFD1AA5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:13:48 +0200 (CEST)
-Received: from localhost ([::1]:58276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0600D1AF0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 23:29:48 +0200 (CEST)
+Received: from localhost ([::1]:58912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIJHG-0007BS-K6
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58586)
+	id 1iIJWl-0007Ix-9O
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 17:29:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iII3e-0005lR-0G
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:55:39 -0400
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iI7zU-0002fR-1K
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iII3b-0006Q4-UH
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:55:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46626)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iII3b-0006PN-Hp
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 15:55:35 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iII3a-0008S8-BN
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 19:55:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3BC8E2E80CB
- for <qemu-devel@nongnu.org>; Wed,  9 Oct 2019 19:55:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Oct 2019 19:48:38 -0000
-From: Andrew Randrianasulu <1847525@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-randrianasulu
-X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
-X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
-References: <157065019192.22617.14242881910317034171.malonedeb@gac.canonical.com>
-Message-Id: <157065051847.22468.13644841711647169251.malone@gac.canonical.com>
-Subject: [Bug 1847525] Re: qemu-system-i386 eats a lot of cpu after just few
- hours, with sdl, gl=on
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7aac556b8317139cf0b8138b72ae0dd94f41cc96
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iI7zS-0004Ex-Tb
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21492
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
+ id 1iI7zS-0004ER-O7
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:10:38 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9997x6B120680
+ for <qemu-devel@nongnu.org>; Wed, 9 Oct 2019 05:10:35 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vha4cn55v-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 05:10:34 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
+ Wed, 9 Oct 2019 10:10:32 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 9 Oct 2019 10:10:29 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x999ASWi35127404
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 9 Oct 2019 09:10:28 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6ADDFA405B;
+ Wed,  9 Oct 2019 09:10:28 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA1BFA4060;
+ Wed,  9 Oct 2019 09:10:24 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.199.35.233])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  9 Oct 2019 09:10:24 +0000 (GMT)
+From: Ganesh Goudar <ganeshgr@linux.ibm.com>
+To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
+Subject: [PATCH v15 0/7] target-ppc/spapr: Add FWNMI support in QEMU for
+ PowerKVM guests
+Date: Wed,  9 Oct 2019 14:40:03 +0530
+X-Mailer: git-send-email 2.17.2
+X-TM-AS-GCONF: 00
+x-cbid: 19100909-0008-0000-0000-0000032061DD
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19100909-0009-0000-0000-00004A3F65B3
+Message-Id: <20191009091010.16467-1-ganeshgr@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-09_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=718 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910090087
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
+X-Mailman-Approved-At: Wed, 09 Oct 2019 16:05:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,149 +89,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1847525 <1847525@bugs.launchpad.net>
+Cc: paulus@ozlabs.org, arawinda.p@gmail.com,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Illustration for this bug (link  to screenshot):
+This patch set adds support for FWNMI in PowerKVM guests.
 
-https://www.imgbin.net/z/9W9eVVvbll.png
+System errors such as SLB multihit and memory errors
+that cannot be corrected by hardware is passed on to
+the kernel for handling by raising machine check
+exception (an NMI). Upon such machine check exceptions,
+if the address in error belongs to guest then KVM
+invokes guests' 0x200 interrupt vector if the guest
+is not FWNMI capable. For FWNMI capable guest
+KVM passes the control to QEMU by exiting the guest.
 
-as you hopefully can see, just after less than 6 hrs of guest uptime
-HOST cpu is eaten at 70% by qemu-system-i386 task .. up from just 50%
-two hours ago! By this rate it will not survive even day of uptime....
+This patch series adds functionality to QEMU to pass
+on such machine check exceptions to the FWNMI capable
+guest kernel by building an error log and invoking
+the guest registered machine check handling routine.
 
--- =
+The KVM changes are now part of the upstream kernel
+(commit e20bbd3d). This series contain QEMU changes.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847525
+Change Log v15:
+  - Removed cap_ppc_fwnmi
+  - Moved fwnmi registeration to .apply hook
+  - Assume SLOF has allocated enough room for rtas error log
+  - Using ARRAY_SIZE to end the loop
+  - Do not set FWNMI cap in post_load, now its done in .apply hook
 
-Title:
-  qemu-system-i386 eats a lot of cpu after just few hours,  with
-  sdl,gl=3Don
+Change Log v14:
+  - Feature activation moved to a separate patch
+  - Fixed issues with migration blocker
 
-Status in QEMU:
-  New
+Change Log v13:
+  - Minor fixes (mostly nits)
+  - Moved FWNMI guest registration check from patch 4 to 3.
 
-Bug description:
-  I already send this email to qemu-discuss@nongnu.org , but I can't see
-  it arriving in archives, so here  is copy.
+Change Log v12:
+  - Rebased to latest ppc-for-4.2 (SHA b1e8156743)
 
-  Hello, all!
+Change Log v11:
+  - Moved FWNMI SPAPR cap defaults to 4.2 class option
+  - Fixed issues with handling fwnmi KVM capability
 
-  I use qemu-system-i386/qemu-system_x86_64 for rebuilding Slax-like live c=
-d/dvd.
-  Usually guests (with various self-compiled kernels and X stack with kde3 =
-on top of them)
-  boot up normally, but if I left them to run in GUI mode for few hours - q=
-emu process on host
-  started to eat more and more cpu for itself - more notiecable if I set ho=
-st cpu to lowest possible
-  frequency via trayfreq applet (1400Mhz in my case).
+Change Log v10:
+  - Reshuffled the patch sequence + minor fixes
 
-  Boot line a bit complicated, but I really prefer to have sound and usb in=
-side VM.
-  qemu-system-i386 -cdrom /dev/shm/CDROM-4.4.194_5.iso -m 1.9G -enable-kvm =
--soundhw es1370 -smp 2 -display sdl,gl=3Don -usb -cpu host -rtc clock=3Dvm
+Change Log v9:
+  - Fixed kvm cap and spapr cap issues
 
-  rtc clock=3Dvm was taken from https://bugs.launchpad.net/qemu/+bug/117465=
-4 but apparently not helping.
-  After just 3 hours of uptime (copied line from 'top' on host)
+Change Log v8:
+  - Added functionality to check FWNMI capability during
+    VM migration
 
-  31943 guest     20   0 2412m 791m  38m R   51  6.7  66:36.51 qemu-
-  system-i38
+---
 
-  I use Xorg 1.19.7 on host, with mesa git/nouveau as GL driver. But my car=
-d has not very big amount of VRAM - only 384Mb.
-  May be this limitation is playing some role .. but 'end-user' result was =
-after 1-2 day of guest uptime I run into completely frozen guest =
+Aravinda Prasad (7):
+  Wrapper function to wait on condition for the main loop mutex
+  ppc: spapr: Introduce FWNMI capability
+  target/ppc: Handle NMI guest exit
+  target/ppc: Build rtas error log upon an MCE
+  ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS
+    calls
+  migration: Include migration support for machine check handling
+  ppc: spapr: Activate the FWNMI functionality
 
-  (may be when qemu was hitting 100 one core usage on host some internal ti=
-mer just made guest kernel too upset/froze?
-   I was sleeping or doing other things on host  for all this time, with VM=
- just supposedly running at another virtual desktop - =
+ cpus.c                   |   5 +
+ hw/ppc/spapr.c           |  51 ++++++++
+ hw/ppc/spapr_caps.c      |  34 +++++
+ hw/ppc/spapr_events.c    | 269 +++++++++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_rtas.c      |  85 +++++++++++++
+ include/hw/ppc/spapr.h   |  25 +++-
+ include/qemu/main-loop.h |   8 ++
+ target/ppc/kvm.c         |  24 ++++
+ target/ppc/kvm_ppc.h     |   8 ++
+ target/ppc/trace-events  |   1 +
+ 10 files changed, 508 insertions(+), 2 deletions(-)
 
-  in KDE3 + built-in compositor ....)
+-- 
+2.17.2
 
-  I wonder if more mainstream desktop users (on GNOME, Xfce, etc) and/or us=
-ers of other distros (I use self-re-compiled Slackware)
-  actually can see same problem?
-
-  qemu-system-i386 --version
-  QEMU emulator version 4.1.50 (v4.1.0-1188-gc6f5012ba5-dirty)
-  but I saw same behavior for quite some time .. just never reported it in =
-hope it will go away.
-
-  cat /proc/cpuinfo
-  processor       : 0
-  vendor_id       : AuthenticAMD
-  cpu family      : 21
-  model           : 2
-  model name      : AMD FX(tm)-4300 Quad-Core Processor
-  stepping        : 0
-  microcode       : 0x6000852
-  cpu MHz         : 1399.977
-  cache size      : 2048 KB
-  physical id     : 0
-  siblings        : 4
-  core id         : 0
-  cpu cores       : 2
-  apicid          : 16
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 13
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pd=
-pe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid ap=
-erfmperf pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 popcnt aes xsav=
-e avx f16c lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse =
-3dnowprefetch osvw ibs xop skinit wdt lwp fma4 tce nodeid_msr tbm topoext p=
-erfctr_core perfctr_nb cpb hw_pstate ssbd vmmcall bmi1 arat npt lbrv svm_lo=
-ck nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pft=
-hreshold
-  bugs            : fxsave_leak sysret_ss_attrs null_seg spectre_v1 spectre=
-_v2 spec_store_bypass
-  bogomips        : 7600.06
-  TLB size        : 1536 4K pages
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 48 bits physical, 48 bits virtual
-  power management: ts ttp tm 100mhzsteps hwpstate cpb eff_freq_ro
-
-  [and 3x more of the same, for 3 remaining cores]
-
-  Gcc is Slackware 14.2's gcc 5.5.0, but I saw this with 4.9.2 too.
-  This might be 32-bit host problem. But may be just no-one tried to run qe=
-mu with GUI guest for literaly days?
-
-  Host kernel is
-   uname -a
-  Linux slax 5.1.12-x64 #1 SMP PREEMPT Wed Jun 19 12:31:05 MSK 2019 x86_64 =
-AMD FX(tm)-4300 Quad-Core Processor AuthenticAMD GNU/Linux
-
-  I was trying newish 5.3.2 but my compilation was not as stable as this on=
-e =
-
-  (I tend to change few things, like max cpu count, preemption mode, numa s=
-upport .... =
-
-  for more distribution-like, yet most stable  and performant for me kernel)
-
-  Kernel world is moving fast, so I'll try to recompile new 5.3.x too
-  ....
-
-  =
-
-  I guess I  should provide perf/profiler output, but for  this I need to r=
-ecompile qemu. =
-
-  I'll try to come back with more details soon.
-
-  Thanks for your attention and possible feedback!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847525/+subscriptions
 
