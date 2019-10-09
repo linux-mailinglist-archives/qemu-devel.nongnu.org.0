@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE69D1737
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 19:58:28 +0200 (CEST)
-Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E593FD174B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:04:56 +0200 (CEST)
+Received: from localhost ([::1]:53524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGEE-000094-Py
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 13:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
+	id 1iIGKV-0006O2-Ab
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iI9TN-0003vt-Vd
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:45:38 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iI8Vz-0005sE-MN
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:44:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iI9TL-0006Pe-Pm
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 06:45:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51520)
+ (envelope-from <dgilbert@redhat.com>) id 1iI8Vx-0005ER-1z
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:44:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iI9TL-0006PK-Ju; Wed, 09 Oct 2019 06:45:35 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iI8Vw-0005EL-Px
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 05:44:13 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B77510DCC95;
- Wed,  9 Oct 2019 10:45:34 +0000 (UTC)
-Received: from gondolin (ovpn-117-191.ams2.redhat.com [10.36.117.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A58F60A9F;
- Wed,  9 Oct 2019 10:45:29 +0000 (UTC)
-Date: Wed, 9 Oct 2019 12:45:27 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v4 6/7] s390x/mmu: DAT table definition overhaul
-Message-ID: <20191009124527.490a18f7.cohuck@redhat.com>
-In-Reply-To: <20191004105102.15821-7-david@redhat.com>
-References: <20191004105102.15821-1-david@redhat.com>
- <20191004105102.15821-7-david@redhat.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id D68AFC002966;
+ Wed,  9 Oct 2019 09:44:11 +0000 (UTC)
+Received: from work-vm (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EB1C5D6B0;
+ Wed,  9 Oct 2019 09:44:10 +0000 (UTC)
+Date: Wed, 9 Oct 2019 10:44:07 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH  v9 09/13] Adding info [tb-list|tb] commands to HMP (WIP)
+Message-ID: <20191009094407.GF2893@work-vm>
+References: <20191007152839.30804-1-alex.bennee@linaro.org>
+ <20191007152839.30804-10-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Wed, 09 Oct 2019 10:45:34 +0000 (UTC)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20191007152839.30804-10-alex.bennee@linaro.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 09 Oct 2019 09:44:12 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -58,35 +59,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  4 Oct 2019 12:51:01 +0200
-David Hildenbrand <david@redhat.com> wrote:
+* Alex Benn=E9e (alex.bennee@linaro.org) wrote:
+> From: "Vanderson M. do Rosario" <vandersonmr2@gmail.com>
+>=20
+> These commands allow the exploration of TBs generated by the TCG.
+> Understand which one hotter, with more guest/host instructions... and
+> examine their guest, host and IR code.
+>=20
+> The goal of this command is to allow the dynamic exploration of TCG
+> behavior and code quality. Therefore, for now, a corresponding QMP
+> command is not worthwhile.
+>=20
+> [AJB: WIP - we still can't be safely sure a translation will succeed]
+>=20
 
-> Let's use consitent names for the region/section/page table entries and
+<snip>
 
-Can you still fixup s/consitent/consistent/ before picking up? :)
+> diff --git a/util/log.c b/util/log.c
+> index 86bd691967..fa78e2bca9 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -33,25 +33,55 @@ int qemu_loglevel;
+>  static int log_append =3D 0;
+>  static GArray *debug_regions;
+>  int32_t max_num_hot_tbs_to_dump;
+> +static bool to_monitor;
+> +bool to_string;
+> =20
+> -/* Return the number of characters emitted.  */
+> -int qemu_log(const char *fmt, ...)
+> +GString *string;
+> +
+> +int qemu_vlog(const char *fmt, va_list va)
+>  {
+>      int ret =3D 0;
+> -    if (qemu_logfile) {
+> -        va_list ap;
+> -        va_start(ap, fmt);
+> -        ret =3D vfprintf(qemu_logfile, fmt, ap);
+> -        va_end(ap);
+> -
+> -        /* Don't pass back error results.  */
+> -        if (ret < 0) {
+> -            ret =3D 0;
+> +    if (to_string) {
+> +        if (string) {
+> +            g_string_append_vprintf(string, fmt, va);
+>          }
+> +    } else if (to_monitor) {
+> +        ret =3D qemu_vprintf(fmt, va);
+> +    } else if (qemu_logfile) {
+> +        ret =3D vfprintf(qemu_logfile, fmt, va);
+> +    }
+> +
+> +    /* Don't pass back error results.  */
+> +    if (ret < 0) {
+> +        ret =3D 0;
+>      }
+>      return ret;
+>  }
+> =20
+> +/* Return the number of characters emitted.  */
+> +int qemu_log(const char *fmt, ...)
+> +{
+> +    int ret =3D 0;
+> +    va_list ap;
+> +    va_start(ap, fmt);
+> +
+> +    ret =3D qemu_vlog(fmt, ap);
+> +
+> +    va_end(ap);
+> +    return ret;
+> +}
+> +
+> +void qemu_log_to_monitor(bool enable)
+> +{
+> +    to_monitor =3D enable;
+> +}
+> +
+> +void qemu_log_to_string(bool enable, GString *s)
+> +{
+> +    to_string =3D enable;
+> +    string =3D s;
+> +}
+> +
+>  static bool log_uses_own_buffers;
 
-> for the macros to extract relevant parts from virtual address. Make them
-> match the definitions in the PoP - e.g., how the relevant bits are actually
-> called.
-> 
-> Introduce defines for all bits declared in the PoP. This will come in
-> handy in follow-up patches.
-> 
-> Add a note where additional information about s390x and the used
-> definitions can be found.
-> 
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/cpu.h        | 78 +++++++++++++++++++++++++++++----------
->  target/s390x/mem_helper.c | 12 +++---
->  target/s390x/mmu_helper.c | 37 ++++++++++---------
->  3 files changed, 84 insertions(+), 43 deletions(-)
+These feel like they should be in a separate patch.
+
+Dave
+
+> =20
+>  /* enable or disable low levels log */
+> @@ -300,6 +330,7 @@ int qemu_str_to_log_mask(const char *str)
+>              trace_enable_events((*tmp) + 6);
+>              mask |=3D LOG_TRACE;
+>  #endif
+> +#ifdef CONFIG_TCG
+>          } else if (g_str_has_prefix(*tmp, "tb_stats")) {
+>              mask |=3D CPU_LOG_TB_STATS;
+>              set_default_tbstats_flag(TB_JIT_STATS | TB_EXEC_STATS | TB=
+_JIT_TIME);
+> @@ -329,6 +360,7 @@ int qemu_str_to_log_mask(const char *str)
+>                  }
+>                  set_default_tbstats_flag(flags);
+>              }
+> +#endif
+>          } else {
+>              for (item =3D qemu_log_items; item->mask !=3D 0; item++) {
+>                  if (g_str_equal(*tmp, item->name)) {
+> --=20
+> 2.20.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
