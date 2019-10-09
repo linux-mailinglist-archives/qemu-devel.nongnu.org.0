@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E589D1797
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:34:22 +0200 (CEST)
-Received: from localhost ([::1]:53904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F5BD17B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:46:21 +0200 (CEST)
+Received: from localhost ([::1]:54108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGmz-00040t-5E
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60703)
+	id 1iIGyZ-00080Z-AR
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:46:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iICtA-0001DA-Q8
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:24:29 -0400
+ (envelope-from <stefanha@gmail.com>) id 1iIC9n-0004pk-KG
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:37:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iICt9-0008D1-Kh
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 10:24:28 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55241)
+ (envelope-from <stefanha@gmail.com>) id 1iIC9l-0000BU-Jq
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:37:35 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35835)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1iICt9-0008Bo-EB; Wed, 09 Oct 2019 10:24:27 -0400
-Received: by mail-wm1-x341.google.com with SMTP id p7so2858826wmp.4;
- Wed, 09 Oct 2019 07:24:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iIC9j-00007c-H8
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 09:37:33 -0400
+Received: by mail-wm1-x341.google.com with SMTP id y21so2671752wmi.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 06:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=SZJywyBQvSbAIwxr9G/gKwOuwgCyMY8zjtanOg2rtZw=;
- b=EXQXg8V0gaui5y0Ss9cUoC/d1MLdta5OiUbexPFxGBSBHTLqQIxVpnFGp410FwPf2t
- yJ7w6jnbzmyRaLYw8sAZUcaKlIeFDmMcXdND6BdlTeE89i8VhSiKIK3VSKML9MeOlOqe
- pf1V4r9Txk9a48f6JSyDcjAmGGQQyoZ2YN8TKgOs+SNE9oVb/GDJeiyHNTKNfvowhZTx
- Xu8oSrz+I4qsrynK3zICGL9sEfZlBsU9G9oJ8r3e/X368B36X7SgKQOwynGUVvh8nn5/
- T4a4sjsplHIolaQU/fOiuZ6WYq97RlBcdZHlejGEUwcIObhrcahTFsq69lKaDTBfndAX
- fHLQ==
+ bh=NL7rjsWuhfTgIp/hXoS0/fgYkTCfTOtpObXG4BI9cOg=;
+ b=DwqCniKpu4oLSTaieE9SKRadbwiL5hzCA/MxQ0Y3ASGGmfGOh8xz6XO/xTQwqB/S0m
+ gvfnxMPqG0L4QCl8y2Bx9NbpspOQQfZUSffUhFU/Jo/7PWgt4TwPrYF27WDXy5LNuW30
+ edz6cbHSFze33wsnLhB3lIm903MTkNrUqnCRL8WKk+n/bQku8syc1DXP60BbBuQNCeqc
+ uU+P8Xohht+fVcoyIAALtJzhjklGRxBv9jI6RWYmnf3SoU69YxZqTLQhUgkFR1eTI2WH
+ 72SPKkJ536uPCz8a9POjZRmUcTo+enf3D0AfYqyVZ/bfdpRMewOfpH7TYKuu31u4WDcm
+ ql/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=SZJywyBQvSbAIwxr9G/gKwOuwgCyMY8zjtanOg2rtZw=;
- b=I7y7vbhDSNdpvJf2fsveo6G/BEpnm5S+61ITMVFZt6vkIKWm8nK6lYrzFhtBb/sBZ3
- zDGar6ffEmzjpB+/c8JeL8pWo8Cxt6KDifaGcWCIogwoEizr/y1DywkcBIvoZ5md10EH
- yTZWTXwl3xUj7u1BuKkIBpas9TTKqwxB9BXrl/x79RxrQ1l30BF/nylU1+XuLBqD85QA
- LSy5jq14he6uuKmCXZZui+aGnT7jHKplDeundvluLjxdnLZjbBcUJhkBvZs4jh805Zos
- GQuzEd+sBAJ4Pk4e+xpNrCiAY6u0KxwhxAKeWrsM8KNf3gt+J5VEDWyKNMlPNp04GLTM
- uWBQ==
-X-Gm-Message-State: APjAAAVpSmEI2BD+fGMMcXUNIkUWG0mN2OmIsGL0hX6Z142fO5vV0cF3
- MaxlUdVHacDP7AxEu6EcIn4u9/m6uEo=
-X-Google-Smtp-Source: APXvYqxDZzLHRQ5Ap06KmlCIQ7FBRvFzfHGHYK5/tRiKPitLrM6UCp638/Ehd1zYD6ju/Z/kUnsivw==
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr2785776wmj.91.1570631066483; 
- Wed, 09 Oct 2019 07:24:26 -0700 (PDT)
+ bh=NL7rjsWuhfTgIp/hXoS0/fgYkTCfTOtpObXG4BI9cOg=;
+ b=TDedf6A6IDSs21c2F0TqRIGWrMh0EQsx+bqZwfOpbvXFDk/i9+jQeXEU/2kkMOy5uE
+ cY0TvkPA6colv0cdKGtFLYU17kmyoc5mbIp+c5Obs2Fj8vwBv+uMvm8d6R9F3bgvQJ6F
+ sJI9pqlZHUnp4D8FzuQUVkcjqdqCbaTaNiZsGX/U1UDmFlVinqlQS+fDeJlxVKRCsF6F
+ MpjBx+Qgpw3Ij5SPFaXWFJuOyJP8HtF/dV6fUI4BuM/0RNQO4+k4o6Wtk6oWc5hpelol
+ 0cXQ3JeOp/LZ6VQjkAdfsNwfteCeu/PZQlU4mF4LSkmbwPARJTnqDeRVQRhjNbqZ71gV
+ ji2A==
+X-Gm-Message-State: APjAAAXsLvceyx5ZMnKlOQm1ud0cdQfCpFT3ushmUHMLqvecLHgAsiWr
+ yLWYufA9JbAYs0WkTbsn5Fs=
+X-Google-Smtp-Source: APXvYqx+3XDkw4sqrcKj1zup6/IjoMmYNzG/9oiMqpYg88K7wX3E0SVIdrytYKpaQ+1YyArw0woyZw==
+X-Received: by 2002:a1c:7c0a:: with SMTP id x10mr2754897wmc.48.1570628246740; 
+ Wed, 09 Oct 2019 06:37:26 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id z9sm3000768wrl.35.2019.10.09.07.24.25
+ by smtp.gmail.com with ESMTPSA id u83sm7737200wme.0.2019.10.09.06.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Oct 2019 07:24:25 -0700 (PDT)
-Date: Wed, 9 Oct 2019 15:24:24 +0100
+ Wed, 09 Oct 2019 06:37:25 -0700 (PDT)
+Date: Wed, 9 Oct 2019 14:37:24 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] test-bdrv-drain: fix iothread_join() hang
-Message-ID: <20191009142424.GS5747@stefanha-x1.localdomain>
-References: <20191003100103.331-1-stefanha@redhat.com>
+Subject: Re: [Qemu-devel] [RFC v3 PATCH 07/45] multi-process: define
+ proxy-link object
+Message-ID: <20191009133724.GP5747@stefanha-x1.localdomain>
+References: <cover.1567534653.git.jag.raman@oracle.com>
+ <51220007b0f8a34cc72ff2847f5deb1f85c9c0e4.1567534653.git.jag.raman@oracle.com>
+ <20190912153435.GM23174@stefanha-x1.localdomain>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kVhvBuyIzNBvw9vr"
+ protocol="application/pgp-signature"; boundary="iq/fWD14IMVFWBCD"
 Content-Disposition: inline
-In-Reply-To: <20191003100103.331-1-stefanha@redhat.com>
+In-Reply-To: <20190912153435.GM23174@stefanha-x1.localdomain>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -78,72 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com,
+ Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com, mst@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com,
+ mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kVhvBuyIzNBvw9vr
+--iq/fWD14IMVFWBCD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 03, 2019 at 11:01:03AM +0100, Stefan Hajnoczi wrote:
-> tests/test-bdrv-drain can hang in tests/iothread.c:iothread_run():
+On Thu, Sep 12, 2019 at 05:34:35PM +0200, Stefan Hajnoczi wrote:
+> On Tue, Sep 03, 2019 at 04:37:33PM -0400, Jagannathan Raman wrote:
+> > +    msg->num_fds =3D 0;
+> > +    for (chdr =3D CMSG_FIRSTHDR(&hdr); chdr !=3D NULL;
+> > +         chdr =3D CMSG_NXTHDR(&hdr, chdr)) {
+> > +        if ((chdr->cmsg_level =3D=3D SOL_SOCKET) &&
+> > +            (chdr->cmsg_type =3D=3D SCM_RIGHTS)) {
+> > +            fdsize =3D chdr->cmsg_len - CMSG_LEN(0);
+> > +            msg->num_fds =3D fdsize / sizeof(int);
+> > +            memcpy(msg->fds, CMSG_DATA(chdr), fdsize);
 >=20
->   while (!atomic_read(&iothread->stopping)) {
->       aio_poll(iothread->ctx, true);
->   }
+> Please validate num_fds before memcpy to prevent the buffer overflow.
 >=20
-> The iothread_join() function works as follows:
+> > +            break;
+> > +        }
+> > +    }
+> > +
+> > +    if (msg->size && msg->bytestream) {
+> > +        msg->data2 =3D calloc(1, msg->size);
+> > +        data =3D msg->data2;
+> > +    } else {
+> > +        data =3D (uint8_t *)&msg->data1;
+> > +    }
+> > +
+> > +    if (msg->size) {
+> > +        do {
+> > +            rc =3D read(sock, data, msg->size);
+> > +        } while (rc < 0 && (errno =3D=3D EINTR || errno =3D=3D EAGAIN)=
+);
+> > +    }
 >=20
->   void iothread_join(IOThread *iothread)
->   {
->       iothread->stopping =3D true;
->       aio_notify(iothread->ctx);
->       qemu_thread_join(&iothread->thread);
->=20
-> If iothread_run() checks iothread->stopping before the iothread_join()
-> thread sets stopping to true, then aio_notify() may be optimized away
-> and iothread_run() hangs forever in aio_poll().
->=20
-> The correct way to change iothread->stopping is from a BH that executes
-> within iothread_run().  This ensures that iothread->stopping is checked
-> after we set it to true.
->=20
-> This was already fixed for ./iothread.c (note this is a different source
-> file!) by commit 2362a28ea11c145e1a13ae79342d76dc118a72a6 ("iothread:
-> fix iothread_stop() race condition"), but not for tests/iothread.c.
->=20
-> Fixes: 0c330a734b51c177ab8488932ac3b0c4d63a718a
->        ("aio: introduce aio_co_schedule and aio_co_wake")
-> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tests/iothread.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+> Please validate size to prevent the buffer overflow.
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+I didn't see a reply so I want to highlight that the effort to introduce
+isolation between devices is pointless if the communications link is not
+coded securely.
+
+Multi-process QEMU adds no security if one process can corrupt the
+memory of another process by sending invalid inputs.  Please audit the
+code.
 
 Stefan
 
---kVhvBuyIzNBvw9vr
+--iq/fWD14IMVFWBCD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2d7ZgACgkQnKSrs4Gr
-c8igLgf/ZYKb7dQZm+nG1JUcq/yk3QqLf9RdTMltnt+N3xVHLolZpYZRgjzClNBQ
-n0Nxy0MNBaJypg4mIqBVqBOQOhTbSLbwx6zGhl2c9YBZUb7gu3IhOqBCCsPvWQN3
-b/dGh5W3+tbYlEE8ips9y3n374w84HwhlzxhCK7ndxsxytDHbQnB8v48sMHFNPYg
-YiV1E4uYhIJKCIqqhYDa9mH86a5gtGKQ8/kT2dLwNzJECFMyER/OdGRfjwU0Pgdq
-6bBW33LbcW0VKNcRiMkIZSd/HGnuheRPWrOkjyR6SMaPH4nhZZXOX22Y1rt7u6V6
-fD48JRtmPvmaiVvaCUDgHnnn3L4FAA==
-=PSM1
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2d4pQACgkQnKSrs4Gr
+c8huPwgAgtbR6wtbp0vHh7TcisSHoIbPPMdxKTId4+x4wvNn0/W5IKqXXmdzhsQh
+b51gACJCsH2ozxQquCHsvuSBtOc0guPmZEH3RL0DbjNqEwPWH+2SIHD6DJvj3knR
++PQ5MHJRQrMEdms6RIhZtAq0tCqpRkLysGz87OklA9K2chf6HOAAMLW7ALNeYcQ6
+EHwu2PI7ax4pJ7Tz/mh67D3WLbwdb+TpohbLzIl2qsPq+1/W787f055R85I313tP
+4YAo6q0nAzg0d909JQrhIqZjS9j/Hye0Kja0+Avd/vOTg5Fs/eWzTsOzRftLYC8P
+Sh8ESqHcAEmmmQgYUTo9XVfxa6MN/Q==
+=ni8F
 -----END PGP SIGNATURE-----
 
---kVhvBuyIzNBvw9vr--
+--iq/fWD14IMVFWBCD--
 
