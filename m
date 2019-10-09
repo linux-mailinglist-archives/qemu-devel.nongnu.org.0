@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF233D1779
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:20:43 +0200 (CEST)
-Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176C1D1788
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:24:01 +0200 (CEST)
+Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGZm-0006IF-Fv
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35954)
+	id 1iIGcx-0001Ym-RS
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:23:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iIAOu-00017o-Vp
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:45:05 -0400
+ (envelope-from <beata.michalska@linaro.org>) id 1iIAPm-0001HA-Jp
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:46:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iIAOt-0003jn-Qa
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:45:04 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:44514)
+ (envelope-from <beata.michalska@linaro.org>) id 1iIAPk-0004BR-GB
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:45:58 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:41116)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iIAOt-0003jZ-La
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:45:03 -0400
-Received: by mail-io1-xd42.google.com with SMTP id w12so4154187iol.11
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:45:03 -0700 (PDT)
+ id 1iIAPj-000440-Kd
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:45:56 -0400
+Received: by mail-io1-xd44.google.com with SMTP id n26so4200112ioj.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:45:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y/AJrR7wo+KKwMOBsUQrs2hpnFS2xTQIIY8tGxegkGM=;
- b=wrczNESPfibfY1uG0dedQZgs89JD7RlvJ9VD6TU71J8DOSNUWHu1Vla8ueOQ1V3cGW
- P3k13el+Od5jeDtoy+M95zpZwOqtETYe8lQnBtWOoon4/oFQoHPdP7R+LR+TA5bSjbQ6
- iJ5tlYh8yNYqiO/Vry6vdI4oA8EflpoCuyxWXHF2AxNCaCPKFWPfeTAfCYSJRIjsuCoK
- z6hcUQ4OQxPiLevtL0lArMQS+4ZwNwJSzxsOOMBUfKJaDHUudl2vkJ6LWn1PbFX/33LP
- YlWZ6qbQmkZ00kocRa6qJJNPoMFDLaUYJFpDTtrUMQSkJtL0j3+O3Rxxa3CEEMog1qCe
- kq4g==
+ :cc; bh=RV4BW2Rul1SJvLbGnsvPDgNULkZjIYo7yp+xwh6MfbQ=;
+ b=KC8R8vOTKBcfyuI9fRqTnAaEg2TBr9H6W5ltiHVJ8dQyMiWynYetcUr/feR9G7dAAf
+ YN1vqmHMRZrHauFjHjhJr+W9B4PsC5tCp+l65DHSOkuoDc4KUOMc6I82ZYQicIFlJynx
+ u7r1x1jgs+KzhFQg59WzgBHE82GCKWcChAyUK/SZtOQEyYAzrOC8I++tVA0AVcGeVxEa
+ HwXBTyI9fqoIkgorPCu7Tsl3sPamxW7bMhFoHmiIJeu0kLiuiokLwCxmKGZTSDQyWZW/
+ 0ms3UxjjSQC0QjiCGM0UDWzoU8aUJ+MEfTQ9RDP+dXmO/xTpvHJ9cx1rknmkX0ndL4JT
+ GjHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Y/AJrR7wo+KKwMOBsUQrs2hpnFS2xTQIIY8tGxegkGM=;
- b=fx5tYVPAN+DTTXpMVKDqzXYStnbZoQUH6pKuxQQFpCRqi+jZW5CwyvxuW/6Ya5eHYP
- 2x47JK+9QaJ66E1VvRp2YNV9LvpioAsnopWWxV4o4xQ3X+kxsX27B+lOJPXEcE9feDoE
- rzBTDGFEDwzELSnatGuDCdxcxrS8xojJkxQ6UwFPkQJJOnd/FjdK1k/2Ebi+cgYeU7+D
- lxDa4zplraNlGyYaO7MHKZV6uSuhmvCb7vITknHGoAuWCobmgvyXaLdBu6E9Zm1qnrUG
- oE8iLN30lfSbWWNTsJcfyO7zTV+vWGqD/cQvYGk7/0uyRrUzd0cWwytpH/iNXqux/yMS
- dn7A==
-X-Gm-Message-State: APjAAAXRrmLPpWYOJYeD1HHPELXCqQow7yWRJWz4ILYo0OIWkGiltNw7
- q6mG+FMWlkaVrKQoMLy0tel0dICcQ8xz39qasU2Xjvhq
-X-Google-Smtp-Source: APXvYqwOzPnRCjyq5qYHXQhKWrUbKx+DUyoSfsC++gCGomHJWdBHYHdprXQwukDxw97kt6uUMGl3l6xp3lZvGiz6Chs=
-X-Received: by 2002:a6b:2c02:: with SMTP id s2mr2697869ios.307.1570621502744; 
- Wed, 09 Oct 2019 04:45:02 -0700 (PDT)
+ bh=RV4BW2Rul1SJvLbGnsvPDgNULkZjIYo7yp+xwh6MfbQ=;
+ b=l0vchOF3yNdF3vyAjitkWYprW81fA3JAWZ3+k16leBjQTkQf9IQrh89/gOKQ7cadvp
+ HZXZYziAfiSk/MZh+pVSjOlECfpJF2aXGv0oFfWdRtEGqLmYLOQR7nEwiGgRPwyD697A
+ FireirM0Tnt62Mor+ke6/N5uw251CMBg//tMJb/tYy9sD6+9o1WgrgahenKY0D8GXZUx
+ caEGgsiOtjk+lxE7Ci0mZ5+sSuC4WyBPNs3Tzn5NL4avbu99SwFSsCnucA+Nypqb3hhv
+ oGuhCm2s5CMtbmc/lJy0dNfobk3JIUHqk0yD2RS7+52kn2DSuvyZSk5LfDpoIJTlmzwd
+ pvvA==
+X-Gm-Message-State: APjAAAVwVbe/kv0bbco0LgX2DOeAU78x+90RkbYHnCF1tN+tq5O94Jt2
+ YgcVdibJYUQ7/AdlN1scmKXYdmaWJSl9twtR6hSQNQ==
+X-Google-Smtp-Source: APXvYqzgeJlcbu7KFQ+jnN3mUS0sT1GujuFJYv+FVB7IepQXtX6vg6B+G08i3sE2Nvy/pU1UTh1+FpdM1zwDOOzp498=
+X-Received: by 2002:a92:2406:: with SMTP id k6mr2949553ilk.260.1570621553097; 
+ Wed, 09 Oct 2019 04:45:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190910095610.4546-1-beata.michalska@linaro.org>
  <20190910095610.4546-3-beata.michalska@linaro.org>
- <d8ca7a99-ca3d-00b8-f34c-82375ecb7c4d@linaro.org>
-In-Reply-To: <d8ca7a99-ca3d-00b8-f34c-82375ecb7c4d@linaro.org>
+ <e5e66d9c-16ee-a700-7608-69ec19c32b47@linaro.org>
+In-Reply-To: <e5e66d9c-16ee-a700-7608-69ec19c32b47@linaro.org>
 From: Beata Michalska <beata.michalska@linaro.org>
-Date: Wed, 9 Oct 2019 12:44:51 +0100
-Message-ID: <CADSWDzvHEnn3=hYxuH4+14OwgnUV9Vd_2dDxFHATRqAOsUuTLA@mail.gmail.com>
+Date: Wed, 9 Oct 2019 12:45:42 +0100
+Message-ID: <CADSWDzsf8=0q0bUH1iLdQ+rNgu3TU2Ee3QddhDZN5nBhH7yDSA@mail.gmail.com>
 Subject: Re: [Qemu-devel] [PATCH 2/4] Memory: Enable writeback for given
  memory region
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d42
+X-Received-From: 2607:f8b0:4864:20::d44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,55 +81,24 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 17:28, Richard Henderson
+On Tue, 24 Sep 2019 at 17:30, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > On 9/10/19 2:56 AM, Beata Michalska wrote:
-> > +int main(void) {
-> > +#if defined(_POSIX_MAPPED_FILES) && _POSIX_MAPPED_FILES > 0 \
-> > +&& defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
-> > +return msync(NULL,0, MS_SYNC);
-> > +#else
-> > +#error Not supported
-> > +#endif
-> > +}
+> > +void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length);
+> > +
+> > +/* Clear whole block of mem */
+> > +#define qemu_ram_block_writeback(rb)    \
+> > +    qemu_ram_writeback(rb, 0, rb->used_length)
+> > +
 >
-> Is there any particular reason to check _POSIX_MAPPED_FILES &
-> _POSIX_SYNCHRONIZED_IO?  IIRC, you can use those to "safely" use MS_SYNC.  But
-> this is a configure test, and an error is in fact our defined failure case, so
-> "safely" doesn't seem particularly relevant.
+> Inline function, with its typechecking, is preferred.
 >
-> Alternately, do we even support any systems (besides perhaps windows) that do
-> not provide POSIX-2001 support, and so include msync + MS_SYNC?  My first guess
-> is that we don't.
 >
-
-Both flags are there to verify support for msync itself.
-The check there is for posix systems , where if both set to value
-greater than '0'
-the msync call is available.
-AFAIK Windows is the only posix non-compliant system being supported . Though
-I might be wrong (?)
-I might just drop the check here and use CONFIG_POSIX to handle the
-msync call instead.
-
-> > +        msync((void *)((uintptr_t)addr & qemu_host_page_mask),
-> > +               HOST_PAGE_ALIGN(length), MS_SYNC);
->
-> This isn't quite right.  If you move addr down to a lower address via this page
-> mask, you must also increase length by the same amount, and only afterward
-> increase length to the host page size.
->
-> Consider addr == 0xffffff, length = 2.  This covers two pages, so you'd expect
-> the final parameters to be, for 4k page size, 0xfff000, 0x2000.
->
-Thanks for catching this - guess I was too focused on the cache line
-size, which would not cross page boundaries. Will fix that in the next version.
-
-> r~
-
-Thank you.
+Noted.
+To be fixed in the next version.
 
 BR
 Beata
+> r~
 
