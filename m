@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A69D1796
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:32:54 +0200 (CEST)
-Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B919D17A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 20:39:49 +0200 (CEST)
+Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIGlY-0002Gk-3t
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
+	id 1iIGsG-0002Yq-K0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 14:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iIATT-0001d0-PQ
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:49:49 -0400
+ (envelope-from <wrfsh@yandex-team.ru>) id 1iIBDy-0006Z6-Ce
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:37:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iIATS-0005cn-05
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:49:47 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:34859)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iIATR-0005cf-PF
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 07:49:45 -0400
-Received: by mail-io1-xd43.google.com with SMTP id q10so4315675iop.2
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 04:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0akdC6ifbO5r1Bkx4nu2fQVSUkpoM1OWF+hL9JHRCno=;
- b=NcqAT3b3iP1jdtZ9i/4LodHKnk4sh7ZpfMC1gkVkwhaGXM2GGkfgqUA28OKEVDfKgD
- 75HELxx//kCiRF3cO7/U6PnBrsuGAWec+d/VrC+0arBf2o/C/S3sjDeJyEgIGsosP6bl
- AyODG8lEc2faqWeqI8YvNF9huuy60JqHdVcgUt8rWvyHYRTNC2XMM1gFqBkmhQ3V9FQY
- lct92oGa3Flr1zgHExWl6OyO3leRSwikPwnVkTp2/uWjPNuR7iY5i0dGdjShvsNoXboV
- F4DLKEOE6hhmoJMuUB/Pe8Sbv7mVHyGSMpsIXBnfVcoOrs49p1fUMTZbI1f6GiUqUBVL
- ITug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0akdC6ifbO5r1Bkx4nu2fQVSUkpoM1OWF+hL9JHRCno=;
- b=OnB4EIpExxHrDsYqCLCnBsWED2jLHgIoI+r8LM8Rc7kAGFXUuQMkmGq8T2wQXlXSob
- fnIoShuCSx1Slbqa8NPsaecLdsvBnV6D4MI3EG8vhNflC7VINhuGJuzSJxWSEE2KKvv7
- pgKHY/N3y456C8rxzP3wGpkeGMcHFQcBhtOCmy47+xXpJmlCO0WM8lnUDE27lxhfyWCC
- zf4DCNapw9z9v4jqWs2Mm6RYRpzbO76xZUzWz8NXAsXTm/WDYIOTbxOVUIiDeWlkIepb
- UnC1f3gQ0lhn3ry14nH67mSBuNK94LWHzQzX5tpIxB7aqzu59nvYQUKTG/Xa5+LdlWAW
- BcRQ==
-X-Gm-Message-State: APjAAAXVe0dQHrQ1vysn9yXloats4A8v2USSvkaahey6QVx6rbyJxfYO
- QFJtPTghLh5Wgvn29Ypy+bagV3YDwus6a0h/SKE0nA==
-X-Google-Smtp-Source: APXvYqzP9aywJCnt7B0+IRSczfqaZmfqXn4lkRdCajJLpNmgY6YMKnjeOwR9DkcBBej3qEe/UExOiLeto67f3dswalE=
-X-Received: by 2002:a5e:c811:: with SMTP id y17mr2783513iol.248.1570621785133; 
- Wed, 09 Oct 2019 04:49:45 -0700 (PDT)
+ (envelope-from <wrfsh@yandex-team.ru>) id 1iIBDx-0004dU-4P
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 08:37:50 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:34768)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wrfsh@yandex-team.ru>)
+ id 1iIBDq-0004X1-K4; Wed, 09 Oct 2019 08:37:43 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id E26342E1580;
+ Wed,  9 Oct 2019 15:37:37 +0300 (MSK)
+Received: from iva8-b53eb3f76dc7.qloud-c.yandex.net
+ (iva8-b53eb3f76dc7.qloud-c.yandex.net [2a02:6b8:c0c:2ca1:0:640:b53e:b3f7])
+ by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
+ XcTfV1KpbP-badiLtx5; Wed, 09 Oct 2019 15:37:37 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1570624657; bh=x+izVrG0MHq7INz905kQuzRRPgcouZesc8IdmfEahrM=;
+ h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+ b=LtYA24SB7cGaUwzsnAgkNHOkGnOipHYvOnTpaTi2RmWuFPAI5xMXsc2oktcJ0G0hR
+ hhyU6DHqxIVlREVUvmlJ5vCoo8YJHiUxm5i4FSbPqP5QyzqOTqIuSKUOBSSohgHX34
+ E3Cy1zAayC6pC/YkOgQGt8m4FsT4YKuRnwAZl5GQ=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
+ [2a02:6b8:0:40c:f68c:50ff:fee9:44bd])
+ by iva8-b53eb3f76dc7.qloud-c.yandex.net (nwsmtp/Yandex) with ESMTPSA id
+ 6wDe77okZS-baHepNOo; Wed, 09 Oct 2019 15:37:36 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client certificate not present)
+Subject: Re: [RFC PATCH] virtio-blk: advertise F_WCE (F_FLUSH) if F_CONFIG_WCE
+ is also advertised
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <1568980590-806043-1-git-send-email-wrfsh@yandex-team.ru>
+ <20191008132416.GA28104@stefanha-x1.localdomain>
+From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Message-ID: <f7d2c01d-1676-f02c-e538-f924282eb6a5@yandex-team.ru>
+Date: Wed, 9 Oct 2019 15:37:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190910095610.4546-1-beata.michalska@linaro.org>
- <20190910095610.4546-5-beata.michalska@linaro.org> <87blvabijl.fsf@linaro.org>
-In-Reply-To: <87blvabijl.fsf@linaro.org>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Wed, 9 Oct 2019 12:49:34 +0100
-Message-ID: <CADSWDzvD69hEJU2H2aZ44f1wNY_yDk1KLA45Wz8ZwRcKpFQYcw@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH 4/4] target/arm: Add support for DC CVAP & DC
- CVADP ins
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
+In-Reply-To: <20191008132416.GA28104@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 77.88.29.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,283 +72,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, quintela@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- shameerali.kolothum.thodi@huawei.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, eric.auger@redhat.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, qemu-block@nongnu.org,
+ stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Sep 2019 at 02:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Beata Michalska <beata.michalska@linaro.org> writes:
->
-> > ARMv8.2 introduced support for Data Cache Clean instructions
-> > to PoP (point-of-persistence) - DC CVAP and PoDP (point-of-deep-persist=
-ence)
-> > - DV CVADP. Both specify conceptual points in a memory system where all=
- writes
-> > that are to reach them are considered persistent.
-> > The support provided considers both to be actually the same so there is=
- no
-> > distinction between the two. If none is available (there is no backing =
-store
-> > for given memory) both will result in Data Cache Clean up to the point =
-of
-> > coherency. Otherwise sync for the specified range shall be performed.
-> >
-> > Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> > ---
-> >  linux-user/elfload.c       | 18 +++++++++++++++++-
-> >  target/arm/cpu.h           | 13 ++++++++++++-
-> >  target/arm/cpu64.c         |  1 +
-> >  target/arm/helper.c        | 24 ++++++++++++++++++++++++
-> >  target/arm/helper.h        |  1 +
-> >  target/arm/op_helper.c     | 36 ++++++++++++++++++++++++++++++++++++
-> >  target/arm/translate-a64.c |  5 +++++
-> >  7 files changed, 96 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> > index 3365e192eb..1ec00308d5 100644
-> > --- a/linux-user/elfload.c
-> > +++ b/linux-user/elfload.c
-> > @@ -609,7 +609,12 @@ enum {
-> >      ARM_HWCAP_A64_PACG          =3D 1UL << 31,
-> >  };
-> >
-> > +enum {
-> > +    ARM_HWCAP2_A64_DCPODP   =3D 1 << 0,
-> > +};
-> > +
-> >  #define ELF_HWCAP get_elf_hwcap()
-> > +#define ELF_HWCAP2 get_elf_hwcap2()
-> >
-> >  static uint32_t get_elf_hwcap(void)
-> >  {
-> > @@ -644,12 +649,23 @@ static uint32_t get_elf_hwcap(void)
-> >      GET_FEATURE_ID(aa64_jscvt, ARM_HWCAP_A64_JSCVT);
-> >      GET_FEATURE_ID(aa64_sb, ARM_HWCAP_A64_SB);
-> >      GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
-> > +    GET_FEATURE_ID(aa64_dcpop, ARM_HWCAP_A64_DCPOP);
-> >
-> > -#undef GET_FEATURE_ID
-> >
-> >      return hwcaps;
-> >  }
-> >
-> > +static uint32_t get_elf_hwcap2(void)
-> > +{
-> > +    ARMCPU *cpu =3D ARM_CPU(thread_cpu);
-> > +    uint32_t hwcaps =3D 0;
-> > +
-> > +    GET_FEATURE_ID(aa64_dcpodp, ARM_HWCAP2_A64_DCPODP);
-> > +    return hwcaps;
-> > +}
-> > +
-> > +#undef GET_FEATURE_ID
-> > +
-> >  #endif /* not TARGET_AARCH64 */
-> >  #endif /* TARGET_ARM */
-> >
-> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> > index 297ad5e47a..1713d76590 100644
-> > --- a/target/arm/cpu.h
-> > +++ b/target/arm/cpu.h
-> > @@ -2229,7 +2229,8 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t c=
-pregid)
-> >  #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
-> >  #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
-> >  #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
-> > -#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
-> > +#define ARM_CP_DC_CVAP           (ARM_CP_SPECIAL | 0x0600)
-> > +#define ARM_LAST_SPECIAL         ARM_CP_DC_CVAP
-> >  #define ARM_CP_FPU               0x1000
-> >  #define ARM_CP_SVE               0x2000
-> >  #define ARM_CP_NO_GDB            0x4000
-> > @@ -3572,6 +3573,16 @@ static inline bool isar_feature_aa64_frint(const=
- ARMISARegisters *id)
-> >      return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, FRINTTS) !=3D 0;
-> >  }
-> >
-> > +static inline bool isar_feature_aa64_dcpop(const ARMISARegisters *id)
-> > +{
-> > +    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) !=3D 0;
-> > +}
-> > +
-> > +static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
-> > +{
-> > +    return (FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >> 1) !=3D=
- 0;
-> > +}
-> > +
-> >  static inline bool isar_feature_aa64_fp16(const ARMISARegisters *id)
-> >  {
-> >      /* We always set the AdvSIMD and FP fields identically wrt FP16.  =
-*/
-> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> > index d7f5bf610a..20094f980d 100644
-> > --- a/target/arm/cpu64.c
-> > +++ b/target/arm/cpu64.c
-> > @@ -331,6 +331,7 @@ static void aarch64_max_initfn(Object *obj)
-> >          cpu->isar.id_aa64isar0 =3D t;
-> >
-> >          t =3D cpu->isar.id_aa64isar1;
-> > +        t =3D FIELD_DP64(t, ID_AA64ISAR1, DPB, 2);
-> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 1);
-> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
-> >          t =3D FIELD_DP64(t, ID_AA64ISAR1, APA, 1); /* PAuth, architect=
-ed only */
-> > diff --git a/target/arm/helper.c b/target/arm/helper.c
-> > index 507026c915..99ae01b7e7 100644
-> > --- a/target/arm/helper.c
-> > +++ b/target/arm/helper.c
-> > @@ -3843,6 +3843,22 @@ static CPAccessResult aa64_cacheop_access(CPUARM=
-State *env,
-> >      return CP_ACCESS_OK;
-> >  }
-> >
-> > +static CPAccessResult aa64_cacheop_persist_access(CPUARMState *env,
-> > +                                                  const ARMCPRegInfo *=
-ri,
-> > +                                                  bool isread)
-> > +{
-> > +    ARMCPU *cpu =3D env_archcpu(env);
-> > +    /*
-> > +     * Access is UNDEF if lacking implementation for either DC CVAP or=
- DC CVADP
-> > +     * DC CVAP ->  CRm: 0xc
-> > +     * DC CVADP -> CRm: 0xd
-> > +     */
-> > +    return (ri->crm =3D=3D 0xc && !cpu_isar_feature(aa64_dcpop, cpu)) =
-||
-> > +           (ri->crm =3D=3D 0xd && !cpu_isar_feature(aa64_dcpodp, cpu))
-> > +           ? CP_ACCESS_TRAP_UNCATEGORIZED
-> > +           : aa64_cacheop_access(env, ri, isread);
-> > +}
-> > +
-> >  /* See: D4.7.2 TLB maintenance requirements and the TLB maintenance in=
-structions
-> >   * Page D4-1736 (DDI0487A.b)
-> >   */
-> > @@ -4251,6 +4267,14 @@ static const ARMCPRegInfo v8_cp_reginfo[] =3D {
-> >        .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 10, .opc2 =3D 1,
-> >        .access =3D PL0_W, .type =3D ARM_CP_NOP,
-> >        .accessfn =3D aa64_cacheop_access },
-> > +    { .name =3D "DC_CVAP", .state =3D ARM_CP_STATE_AA64,
-> > +      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 12, .opc2 =3D 1,
-> > +      .access =3D PL0_W, .type =3D ARM_CP_DC_CVAP,
-> > +      .accessfn =3D aa64_cacheop_persist_access },
-> > +    { .name =3D "DC_CVADP", .state =3D ARM_CP_STATE_AA64,
-> > +      .opc0 =3D 1, .opc1 =3D 3, .crn =3D 7, .crm =3D 13, .opc2 =3D 1,
-> > +      .access =3D PL0_W, .type =3D ARM_CP_DC_CVAP,
-> > +      .accessfn =3D aa64_cacheop_persist_access },
-> >      { .name =3D "DC_CSW", .state =3D ARM_CP_STATE_AA64,
-> >        .opc0 =3D 1, .opc1 =3D 0, .crn =3D 7, .crm =3D 10, .opc2 =3D 2,
-> >        .access =3D PL1_W, .type =3D ARM_CP_NOP },
-> > diff --git a/target/arm/helper.h b/target/arm/helper.h
-> > index 1fb2cb5a77..a850364944 100644
-> > --- a/target/arm/helper.h
-> > +++ b/target/arm/helper.h
-> > @@ -561,6 +561,7 @@ DEF_HELPER_FLAGS_3(crypto_sm4ekey, TCG_CALL_NO_RWG,=
- void, ptr, ptr, ptr)
-> >  DEF_HELPER_FLAGS_3(crc32, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
-> >  DEF_HELPER_FLAGS_3(crc32c, TCG_CALL_NO_RWG_SE, i32, i32, i32, i32)
-> >  DEF_HELPER_2(dc_zva, void, env, i64)
-> > +DEF_HELPER_2(dc_cvap, void, env, i64)
-> >
-> >  DEF_HELPER_FLAGS_2(neon_pmull_64_lo, TCG_CALL_NO_RWG_SE, i64, i64, i64=
-)
-> >  DEF_HELPER_FLAGS_2(neon_pmull_64_hi, TCG_CALL_NO_RWG_SE, i64, i64, i64=
-)
-> > diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-> > index 0fd4bd0238..75ebf6afa4 100644
-> > --- a/target/arm/op_helper.c
-> > +++ b/target/arm/op_helper.c
-> > @@ -987,3 +987,39 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vad=
-dr_in)
-> >      memset(g2h(vaddr), 0, blocklen);
-> >  #endif
-> >  }
-> > +
-> > +void HELPER(dc_cvap)(CPUARMState *env, uint64_t vaddr_in)
-> > +{
-> > +#ifndef CONFIG_USER_ONLY
->
-> Are we essentially saying the operation is a NOP for user-mode
-> emulation? Is it just because we don't really expose HW to linux-user?
->
-> If so move the #ifndef outside the HELPER definition and...
->
 
-I do not think there is a way to specify persistent mem for user mode.
-Or am I mistaken ?
-I will move the switch to the HELPER def.
+On 08.10.2019 16:24, Stefan Hajnoczi wrote:
+> On Fri, Sep 20, 2019 at 02:56:30PM +0300, Evgeny Yakovlev wrote:
+>> Virtio spec 1.1 (and earlier), 5.2.5.1 Driver Requirements: Device
+>> Initialization:
+>>
+>> "Devices SHOULD always offer VIRTIO_BLK_F_FLUSH, and MUST offer it if
+>> they offer VIRTIO_BLK_F_CONFIG_WCE.
+>>
+>> It looks like currently F_CONFIG_WCE and F_WCE are not connected to each
+>> other. qemu will advertise F_CONFIG_WCE if config-wce argument is
+>> set for virtio-blk device. While F_WCE is advertised if underlying block
+>> backend actually has it's caching enabled.
+>> Those two things are not related to each other.
+>>
+>> Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+>> ---
+>>   hw/block/virtio-blk.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+>> index 1885160..b45dc0c 100644
+>> --- a/hw/block/virtio-blk.c
+>> +++ b/hw/block/virtio-blk.c
+>> @@ -990,7 +990,8 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
+>>           virtio_add_feature(&features, VIRTIO_BLK_F_SCSI);
+>>       }
+>>   
+>> -    if (blk_enable_write_cache(s->blk)) {
+>> +    if (blk_enable_write_cache(s->blk) ||
+>> +        virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE)) {
+>>           virtio_add_feature(&features, VIRTIO_BLK_F_WCE);
+>>       }
+>>       if (blk_is_read_only(s->blk)) {
+>> -- 
+>> 2.7.4
+> Sorry for the very late response.  I have been ill and am still
+> recovering.
 
-> > +    ARMCPU *cpu =3D env_archcpu(env);
-> > +    /* CTR_EL0 System register -> DminLine, bits [19:16] */
-> > +    uint64_t dline_size =3D 4 << ((cpu->ctr >> 16) & 0xF);
-> > +    uint64_t vaddr =3D vaddr_in & ~(dline_size - 1);
-> > +    void *haddr;
-> > +    int mem_idx =3D cpu_mmu_index(env, false);
-> > +
-> > +    /* This won't be crossing page boundaries */
-> > +    haddr =3D probe_read(env, vaddr, dline_size, mem_idx, GETPC());
-> > +    if (haddr) {
-> > +
-> > +        ram_addr_t offset;
-> > +        MemoryRegion *mr;
-> > +
-> > +        /*
-> > +         * RCU critical section + ref counting,
-> > +         * so that MR won't disappear behind the scene
-> > +         */
-> > +        rcu_read_lock();
-> > +        mr =3D memory_region_from_host(haddr, &offset);
-> > +        if (mr) {
-> > +            memory_region_ref(mr);
-> > +        }
-> > +        rcu_read_unlock();
-> > +
-> > +        if (mr) {
-> > +            memory_region_do_writeback(mr, offset, dline_size);
-> > +            memory_region_unref(mr);
-> > +        }
-> > +    }
-> > +#endif
-> > +}
-> > diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> > index 2d6cd09634..21ea3631d6 100644
-> > --- a/target/arm/translate-a64.c
-> > +++ b/target/arm/translate-a64.c
-> > @@ -1746,6 +1746,11 @@ static void handle_sys(DisasContext *s, uint32_t=
- insn, bool isread,
-> >          tcg_rt =3D cpu_reg(s, rt);
-> >          gen_helper_dc_zva(cpu_env, tcg_rt);
-> >          return;
-> > +    case ARM_CP_DC_CVAP:
-> > +        /* DC CVAP / DC CVADP */
->
-> .. #ifndef CONFIG_USER_ONLY this code so we don't add the overhead of a
-> helper call in linux-user mode.
 
-Noted.
->
-> > +        tcg_rt =3D cpu_reg(s, rt);
-> > +        gen_helper_dc_cvap(cpu_env, tcg_rt);
-> > +        return;
-> >      default:
-> >          break;
-> >      }
->
->
-> --
-> Alex Benn=C3=A9e
+Feel better!
 
-Thank you,
 
-BR
-Beata
+>
+> The motivation for this change looks correct but this patch may cause
+> host_features to change across live migration to a newer QEMU version.
+> If the guest accesses VIRTIO_PCI_HOST_FEATURES before and after live
+> migration it may see different values, which is unexpected.
+>
+> The safe way of introducing guest-visible changes like this is to make
+> the change conditional on the machine type version so that old guests
+> see old behavior and new guests see new behavior.
+>
+> Live migration compatibility can be guaranteed by adding a new property
+> to virtio_blk_properties[]:
+>
+>    DEFINE_PROP_BOOL("enable-wce-if-config-wce", VirtIOBlock,
+>                     conf.enable_wce_if_config_wce, true),
+>
+> Then tweak the patch:
+>
+>    if (blk_enable_write_cache(s->blk) ||
+>        (s->conf.enable_wce_if_config_wce &&
+>         virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
+>
+> And finally disable enable_wce_if_config_wce for older machine types to
+> retain compatibility:
+>
+>    GlobalProperty hw_compat_4_2[] = {
+>        { "virtio-blk-device", "enable-wce-if-config-wce", "off" },
+>    };
+>
+> (I have omitted some steps like defining
+> VirtIOBlkConf.enable_wce_if_config_wce field and hooking up
+> hw_compat_4_2[], but you can figure that out from the existing code.)
+
+
+Why don't we just migrate host_features? That will ensure they are the 
+same. And messing up device config on destination is bad anyway.
+
+
+>
+> Stefan
+
+
+
 
