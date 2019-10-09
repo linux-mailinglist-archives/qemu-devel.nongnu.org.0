@@ -2,53 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F08D142C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:36:43 +0200 (CEST)
-Received: from localhost ([::1]:52346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F0FD1445
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Oct 2019 18:40:08 +0200 (CEST)
+Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIEx7-0006gN-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
+	id 1iIF0Q-0002jW-TM
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 12:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iI6JN-0000Kj-F3
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:23:06 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iI6Z0-0001ro-UT
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:39:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iI6JM-0007G6-90
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:23:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43176)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1iI6JI-0007F2-Aq; Wed, 09 Oct 2019 03:23:00 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4DD3D3090FD2;
- Wed,  9 Oct 2019 07:22:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B06F41001B11;
- Wed,  9 Oct 2019 07:22:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 32BF41138619; Wed,  9 Oct 2019 09:22:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 23/31] block: Fix error_append_hint/error_prepend usage
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-24-vsementsov@virtuozzo.com>
-Date: Wed, 09 Oct 2019 09:22:55 +0200
-In-Reply-To: <20191001155319.8066-24-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 1 Oct 2019 18:53:11 +0300")
-Message-ID: <87y2xu9ycw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iI6Yz-00047J-NX
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 03:39:14 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54733)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iI6Yw-00046e-VM; Wed, 09 Oct 2019 03:39:11 -0400
+Received: by mail-wm1-x341.google.com with SMTP id p7so1243596wmp.4;
+ Wed, 09 Oct 2019 00:39:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8zCFhaOYo4JvZDuTR8LT8ZeRH1glJIoNVNvHzaX7Cqs=;
+ b=a4VU4LpmOcvKddw9FNgq6jUIm9m3OHkTQZoJSIfuAgwIZJL33jZPT9qa5rYVcGPHhK
+ nWXJDNiKq4b+jqj//mjMZl2HGYM801289uhhZKspOa1NbU1AAyQAnxpB9h4aqGcHcUvO
+ pgd0IZ3JTy0nOmt0QGFVOOMDAY8mM3ncYQlC9UCD9gGQcpQjdJxuzNkrk/QEFbq2YpPJ
+ Ju3wqHPVmH20nPHgVpUQ8NPZAgmefgIX1AtB9rRpwUyXifjKzErY+Iu2EZeUrGJ9yhLc
+ 1zGcOVCM6VbI1EUz26u+YNBZQr6QXDmQja8siopQ6u2ZsmwJz6mLPXzYtX2Te8VoeAyE
+ L1gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8zCFhaOYo4JvZDuTR8LT8ZeRH1glJIoNVNvHzaX7Cqs=;
+ b=mCo/T44nsiY9OoJa0TLofm11bBQ0VE6qeU/rPvvI7+3hekQGfPWB2LEtsUuewLM4Ed
+ NA2Wv3wZz5a/2VVIJn7FVQbKUPR/SqEUwXd+IbLi19lRV9t/m0cLUc3BVNN3nAT5i6zE
+ hUgJn7Xx8G4j0FCoLXnkSULJPs8JvKfWey9pDjioOs+YOOyjhH+73ydUKuZN0F0kTDnW
+ voUQb/5N8OadJHe93ncowgpVcemRXt+j1jvEnHysA9oAXNm9gOz8PN24q/Qo3QOlSx1D
+ EjRWoZsxIMPIa9vHLrrXnYTXZcnsXFOD8T5qs7n7EJI0k8iTDoDyyu2drAJFbFAO7bc7
+ Gifw==
+X-Gm-Message-State: APjAAAXtsinz4zPU6smGRY9CS7wGwFgigiZ1mkKUnpKHpnABpHyNppHH
+ CFSZO4VY6XPpwNMrrhMhc5Y=
+X-Google-Smtp-Source: APXvYqxCyh6EsXBbQxydeZWUVX3A0jT3NOAhxJHLS7Fsfw/nct2c84Y2/WnTkW5f3/eyCuWkKp8Xvg==
+X-Received: by 2002:a1c:5946:: with SMTP id n67mr1540645wmb.93.1570606748866; 
+ Wed, 09 Oct 2019 00:39:08 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id u6sm1264547wrt.92.2019.10.09.00.39.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Oct 2019 00:39:07 -0700 (PDT)
+Subject: Re: [PATCH 11/19] hw/arm/bcm2835_peripherals: Use the SYS_timer
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-12-f4bug@amsat.org> <87sgo3i7n1.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c4886680-45aa-b039-4baf-b413493f3890@amsat.org>
+Date: Wed, 9 Oct 2019 09:39:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Wed, 09 Oct 2019 07:22:59 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <87sgo3i7n1.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,74 +85,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- integration@gluster.org, qemu-block@nongnu.org,
- Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Zolt=c3=a1n_Baldaszti?= <bztemail@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-arm@nongnu.org, Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On 10/8/19 5:22 PM, Alex Bennée wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+>> Connect the recently added SYS_timer.
+>> Now U-Boot does not hang anymore polling a free running counter
+>> stuck at 0.
+>> This timer is also used by the Linux kernel thermal subsystem.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/arm/bcm2835_peripherals.c         | 21 ++++++++++++++++++++-
+>>   include/hw/arm/bcm2835_peripherals.h |  3 ++-
+>>   2 files changed, 22 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+>> index 70bf927a02..965f4c1f3d 100644
+>> --- a/hw/arm/bcm2835_peripherals.c
+>> +++ b/hw/arm/bcm2835_peripherals.c
+>> @@ -58,6 +58,10 @@ static void bcm2835_peripherals_init(Object *obj)
+>>       /* Interrupt Controller */
+>>       sysbus_init_child_obj(obj, "ic", &s->ic, sizeof(s->ic), TYPE_BCM2835_IC);
+>>
+>> +    /* SYS Timer */
+>> +    sysbus_init_child_obj(obj, "systimer", &s->systmr, sizeof(s->systmr),
+>> +                          TYPE_BCM2835_SYSTIMER);
+>> +
+>>       /* UART0 */
+>>       sysbus_init_child_obj(obj, "uart0", &s->uart0, sizeof(s->uart0),
+>>                             TYPE_PL011);
+>> @@ -171,6 +175,22 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+>>                   sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ic), 0));
+>>       sysbus_pass_irq(SYS_BUS_DEVICE(s), SYS_BUS_DEVICE(&s->ic));
+>>
+>> +    /* Sys Timer */
+>> +    if (err) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+> 
+> This looks like an extra check because err is checked above and hasn't
+> been messed with since.
 
-> If we want to add some info to errp (by error_prepend() or
-> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-> Otherwise, this info will not be added when errp == &fatal_err
-> (the program will exit prior to the error_append_hint() or
-> error_prepend() call).  Fix such cases.
->
-> This commit (together with its neighbors) was generated by
->
-> git grep -l 'error_\(append_hint\|prepend\)(errp' | while read f; do \
-> spatch --sp-file scripts/coccinelle/fix-error-add-info.cocci \
-> --in-place $f; done
->
-> and then
->
-> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
->
-> (auto-msg was a file with this commit message)
->
-> and then by hand, for not maintained changed files:
->
-> git commit -m "<SUB-SYSTEM>: $(< auto-msg)" <FILES>
->
-> Still, for backporting it may be more comfortable to use only the first
-> command and then do one huge commit.
->
-> Reported-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/nbd.h  | 1 +
->  block.c              | 3 +++
->  block/backup.c       | 1 +
->  block/dirty-bitmap.c | 1 +
->  block/file-posix.c   | 4 ++++
->  block/gluster.c      | 2 ++
->  block/qcow.c         | 1 +
->  block/qcow2-bitmap.c | 1 +
->  block/qcow2.c        | 3 +++
->  block/vdi.c          | 1 +
->  block/vhdx-log.c     | 1 +
->  block/vmdk.c         | 1 +
->  block/vpc.c          | 1 +
->  13 files changed, 21 insertions(+)
->
-> diff --git a/include/block/nbd.h b/include/block/nbd.h
-> index 316fd705a9..330f40142a 100644
-> --- a/include/block/nbd.h
-> +++ b/include/block/nbd.h
-> @@ -360,6 +360,7 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
->  static inline int nbd_read(QIOChannel *ioc, void *buffer, size_t size,
->                             const char *desc, Error **errp)
->  {
-> +    ERRP_AUTO_PROPAGATE();
->      int ret = qio_channel_read_all(ioc, buffer, size, errp) < 0 ? -EIO : 0;
->  
->      if (ret < 0) {
+Oops good catch. Looking at older branch I had this property:
 
-This is an example of commit-per-subsystem.py producing a questionable
-split.  MAINTAINERS files include/block/nbd.h under both "Block layer
-core" and "Network Block Device (NBD)".  The script picks "Block layer
-core" because it comes first.
+     object_property_set_uint(OBJECT(&s->systmr), 1000000, "freq_hz", &err);
+
+but then when I removed it I forgot to clean the error check. Thanks!
+
+>> +    object_property_set_bool(OBJECT(&s->systmr), true, "realized", &err);
+>> +    if (err) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+>> +    memory_region_add_subregion(&s->peri_mr, ST_OFFSET,
+>> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systmr), 0));
+>> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 0,
+>> +        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
+>> +                               INTERRUPT_ARM_TIMER));
+>> +
+>>       /* UART0 */
+>>       qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
+>>       object_property_set_bool(OBJECT(&s->uart0), true, "realized", &err);
+>> @@ -352,7 +372,6 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+>>       }
+>>
+>>       create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+>> -    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
+>>       create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+>>       create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+>>       create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+>> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+>> index be7ad9b499..5b9fc89453 100644
+>> --- a/include/hw/arm/bcm2835_peripherals.h
+>> +++ b/include/hw/arm/bcm2835_peripherals.h
+>> @@ -24,6 +24,7 @@
+>>   #include "hw/sd/sdhci.h"
+>>   #include "hw/sd/bcm2835_sdhost.h"
+>>   #include "hw/gpio/bcm2835_gpio.h"
+>> +#include "hw/timer/bcm2835_systmr.h"
+>>   #include "hw/misc/unimp.h"
+>>
+>>   #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
+>> @@ -39,7 +40,7 @@ typedef struct BCM2835PeripheralState {
+>>       MemoryRegion ram_alias[4];
+>>       qemu_irq irq, fiq;
+>>
+>> -    UnimplementedDeviceState systmr;
+>> +    BCM2835SysTimerState systmr;
+>>       UnimplementedDeviceState armtmr;
+>>       UnimplementedDeviceState cprman;
+>>       UnimplementedDeviceState a2w;
+> 
+> 
+> --
+> Alex Bennée
+> 
 
