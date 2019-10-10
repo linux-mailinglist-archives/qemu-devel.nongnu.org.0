@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1ECFD2A00
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:50:17 +0200 (CEST)
-Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9BBD2A1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:57:03 +0200 (CEST)
+Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXtY-0003i3-NB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56593)
+	id 1iIY06-0003fg-Jt
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57753)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iIXRn-0000Io-BH
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:36 -0400
+ (envelope-from <mtosatti@redhat.com>) id 1iIXaW-0002n7-7S
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:30:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iIXRm-0005gO-53
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:35 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39699)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iIXRl-0005fn-Ve
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:34 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r3so7641766wrj.6
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=d629WtGJt6HDAvXZ7DoHJ09hXukU8B9JEhQ8A4kBLxQ=;
- b=S7pjYuEyKZZDtP9BYk6L7cIu24ELAG6oMPpfY4nrCYqT33m4CtXn6n20hhlCRPxW2F
- rN1zR4oCd1glkrjjSr173CeSiMQYeaxio/uaHPtN+/YgEY6CQzVw5SfuYTjlfc+zp4vw
- kO5jCgMLic8WaCWxcEi1uPOlzS5/OXuMjgrSF9zTEBrqJApWcBTHUQ12NgP7kok8DHQy
- hZscNyUt6Z/9nmvJkqNV+q9daOl0CQfCLXGW+F8AVMn2oY4LoDCcKsz237/y5kJiTQ9O
- 6AU5vxWup/8CbjMLCYk6almWImP0yAiOFku4IA2TPfxxhuaaPXMCScyQ6FvEVMs20bSE
- eOUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d629WtGJt6HDAvXZ7DoHJ09hXukU8B9JEhQ8A4kBLxQ=;
- b=rxhnVfdE+s5aoDXVS1UuGC+oML47xhz9L+Vtjo2zsgof/JxxiPyFAoLMvv9HhQoaPc
- 9lQISQEz3vjb1UCpGLB8taU1ZhRgrBhyFUvwkmbvYGxAw0x44gd6nmHlQYLHBX4A+U/G
- ZgmkC8g2MvoLeGzqItntfCDUBmoenibzjJgyr+Y0BiL8phbhhpjzFvJSA+DVmtO3DDQp
- ZCKL0M8OoGhgGgvXs6T4/km9qBZo1PdHucqS9ZQ97d4h619w/2ONvtu3XObuZYauS5vO
- qAD5mqsCSX0rjGk3Wf7OM2BETfr7N2wPkXPsVNJ6dmAuQu/Ie8PHgD8WYNQmoIOqWA0A
- TZxA==
-X-Gm-Message-State: APjAAAVCfrvekXRBTO+ZaosQ6jLN9mx2rC04qp4YhMP0EH9SZ7Ao60mB
- 1Y5pDk0YxQQkd/Rwg81n7Tte8VzTbn8=
-X-Google-Smtp-Source: APXvYqw4jZKIs+7S+2skSbFw5gVoc0lYzqG60cxtTXoBmAYAy5GzGeIgQ1+e9/IwWgiPJwOEIH/gSQ==
-X-Received: by 2002:a5d:4c85:: with SMTP id z5mr8350071wrs.384.1570710092682; 
- Thu, 10 Oct 2019 05:21:32 -0700 (PDT)
-Received: from x1w.redhat.com (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id o4sm12413169wre.91.2019.10.10.05.21.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Oct 2019 05:21:32 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] tests/boot_console: Send <carriage return> on serial lines
-Date: Thu, 10 Oct 2019 14:21:27 +0200
-Message-Id: <20191010122128.29000-2-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191010122128.29000-1-f4bug@amsat.org>
-References: <20191010122128.29000-1-f4bug@amsat.org>
+ (envelope-from <mtosatti@redhat.com>) id 1iIXaU-00013V-TS
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:30:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49962)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mtosatti@redhat.com>) id 1iIXaU-00013K-Kd
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:30:34 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C43E330224AA;
+ Thu, 10 Oct 2019 12:30:33 +0000 (UTC)
+Received: from amt.cnet (ovpn-112-4.gru2.redhat.com [10.97.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EF5519C4F;
+ Thu, 10 Oct 2019 12:30:31 +0000 (UTC)
+Received: from amt.cnet (localhost [127.0.0.1])
+ by amt.cnet (Postfix) with ESMTP id CFB5E105177;
+ Thu, 10 Oct 2019 09:28:10 -0300 (BRT)
+Received: (from marcelo@localhost)
+ by amt.cnet (8.14.7/8.14.7/Submit) id x9ACS7oD019214;
+ Thu, 10 Oct 2019 09:28:07 -0300
+Date: Thu, 10 Oct 2019 09:28:07 -0300
+From: Marcelo Tosatti <mtosatti@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] mc146818rtc: fix timer interrupt reinjection
+Message-ID: <20191010122806.GA19189@amt.cnet>
+References: <20191009184011.GA26234@amt.cnet>
+ <8319ce4d-2775-a68d-c08b-f4312d9c30a2@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8319ce4d-2775-a68d-c08b-f4312d9c30a2@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 10 Oct 2019 12:30:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,35 +64,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>, Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Tai Yunfang <yunfangtai@tencent.com>,
+ Xiao Guangrong <guangrong.xiao@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Vadim Rozenfeld <vrozenfe@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some firmwares don't parse the <Newline> control character and
-expect a <carriage return>.
+On Wed, Oct 09, 2019 at 11:13:16PM +0200, Paolo Bonzini wrote:
+> On 09/10/19 20:40, Marcelo Tosatti wrote:
+> >              s->period = period;
+> >              lost_clock += old_irq_coalesced * old_period;
+> > -            s->irq_coalesced = lost_clock / s->period;
+> > +            if (old_period) {
+> > +                s->irq_coalesced = lost_clock / s->period;
+> > +            }
+> > +
+> >              lost_clock %= s->period;
+> >              if (old_irq_coalesced != s->irq_coalesced ||
+> >                  old_period != s->period) {
+> 
+> I think none of the code in the "if (s->lost_tick_policy == 
+> LOST_TICK_POLICY_SLEW) {" matters if old_period == 0 (and lost_clock 
+> will always be 0).  So perhaps we should place all that big "if" under
+> the existing "if (old_period)"?
+> 
+> Or even something like:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/acceptance/boot_linux_console.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This skips reprogramming the timer if the period is equal.
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 8a9a314ab4..f05452824e 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -51,7 +51,7 @@ class BootLinuxConsole(Test):
-                 self.fail(fail)
- 
-     def exec_command_and_wait_for_pattern(self, command, success_message):
--        command += '\n'
-+        command += '\r\n'
-         self.vm.console_socket.sendall(command.encode())
-         self.wait_for_console_pattern(success_message)
- 
--- 
-2.21.0
+Sending v2 based on your suggestions and patch below.
 
+> 
+> diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
+> index 6cb378751b..3337a8da98 100644
+> --- a/hw/timer/mc146818rtc.c
+> +++ b/hw/timer/mc146818rtc.c
+> @@ -202,25 +202,33 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+>      int64_t cur_clock, next_irq_clock, lost_clock = 0;
+>  
+>      period = rtc_periodic_clock_ticks(s);
+> +    if (old_period && old_period == period) {
+> +        return;
+> +    }
+>  
+> -    if (period) {
+> -        /* compute 32 khz clock */
+> -        cur_clock =
+> -            muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+> +    if (!period) {
+> +        s->irq_coalesced = 0;
+> +        timer_del(s->periodic_timer);
+> +        return;
+>  
+> -        /*
+> -        * if the periodic timer's update is due to period re-configuration,
+> -        * we should count the clock since last interrupt.
+> -        */
+> -        if (old_period) {
+> -            int64_t last_periodic_clock, next_periodic_clock;
+> -
+> -            next_periodic_clock = muldiv64(s->next_periodic_time,
+> -                                    RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+> -            last_periodic_clock = next_periodic_clock - old_period;
+> -            lost_clock = cur_clock - last_periodic_clock;
+> -            assert(lost_clock >= 0);
+> -        }
+> +    }
+> +
+> +    /* compute 32 khz clock */
+> +    cur_clock =
+> +        muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+> +
+> +    /*
+> +     * if the periodic timer's update is due to period re-configuration,
+> +     * we should count the clock since last interrupt.
+> +     */
+> +    if (old_period) {
+> +        int64_t last_periodic_clock, next_periodic_clock;
+> +
+> +        next_periodic_clock = muldiv64(s->next_periodic_time,
+> +                                       RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+> +        last_periodic_clock = next_periodic_clock - old_period;
+> +        lost_clock = cur_clock - last_periodic_clock;
+> +        assert(lost_clock >= 0);
+>  
+>          /*
+>           * s->irq_coalesced can change for two reasons:
+> @@ -243,13 +251,10 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+>              lost_clock += old_irq_coalesced * old_period;
+>              s->irq_coalesced = lost_clock / s->period;
+>              lost_clock %= s->period;
+> -            if (old_irq_coalesced != s->irq_coalesced ||
+> -                old_period != s->period) {
+> -                DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
+> -                          "period scaled from %d to %d\n", old_irq_coalesced,
+> -                          s->irq_coalesced, old_period, s->period);
+> -                rtc_coalesced_timer_update(s);
+> -            }
+> +            DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
+> +                      "period scaled from %d to %d\n", old_irq_coalesced,
+> +                      s->irq_coalesced, old_period, s->period);
+> +            rtc_coalesced_timer_update(s);
+>          } else {
+>             /*
+>               * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
+> @@ -257,16 +262,12 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+>               */
+>              lost_clock = MIN(lost_clock, period);
+>          }
+> -
+>          assert(lost_clock >= 0 && lost_clock <= period);
+> -
+> -        next_irq_clock = cur_clock + period - lost_clock;
+> -        s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
+> -        timer_mod(s->periodic_timer, s->next_periodic_time);
+> -    } else {
+> -        s->irq_coalesced = 0;
+> -        timer_del(s->periodic_timer);
+>      }
+> +
+> +    next_irq_clock = cur_clock + period - lost_clock;
+> +    s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
+> +    timer_mod(s->periodic_timer, s->next_periodic_time);
+>  }
+>  
+>  static void rtc_periodic_timer(void *opaque)
+> 
+> 
+> Best read with "diff -b".
+> 
+> Paolo
 
