@@ -2,85 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A952FD2B86
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:39:17 +0200 (CEST)
-Received: from localhost ([::1]:39686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F933D2B82
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:38:57 +0200 (CEST)
+Received: from localhost ([::1]:39674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYey-0001VY-PY
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41065)
+	id 1iIYee-0000oi-48
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iIYL8-0002O6-KG
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:48 -0400
+ (envelope-from <lersek@redhat.com>) id 1iIYcm-0008BE-Hy
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:37:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iIYL6-000357-36
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:45 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45888)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIYL5-00034b-Ue
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:44 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9ADHpmA123958
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:18:38 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vha0cn8bm-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:18:37 -0400
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 10 Oct 2019 14:18:18 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 10 Oct 2019 14:18:15 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9ADIFan49938446
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Oct 2019 13:18:15 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1BF042042;
- Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D607342041;
- Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
-Received: from bahia.tls.ibm.com (bahia.tls.ibm.com [9.101.4.41])
- by smtp.tls.ibm.com (Postfix) with ESMTP id AECF6220303;
- Thu, 10 Oct 2019 15:18:14 +0200 (CEST)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 8/8] MAINTAINERS: Downgrade status of virtio-9p to "Odd
- Fixes"
-Date: Thu, 10 Oct 2019 15:18:09 +0200
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191010131809.1284004-1-groug@kaod.org>
-References: <20191010131809.1284004-1-groug@kaod.org>
+ (envelope-from <lersek@redhat.com>) id 1iIYck-0003mi-2n
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:36:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60064)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIYci-0003lS-Am
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:36:58 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 417C73082A8B;
+ Thu, 10 Oct 2019 13:36:53 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-48.rdu2.redhat.com
+ [10.10.120.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D13110018FF;
+ Thu, 10 Oct 2019 13:36:44 +0000 (UTC)
+Subject: Re: [RFC 1/3] acpi: cpuhp: fix 'Command data' description is spec
+From: Laszlo Ersek <lersek@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20191009132252.17860-1-imammedo@redhat.com>
+ <20191009132252.17860-2-imammedo@redhat.com>
+ <fbbc58a6-7117-c76a-58ae-5e9a78890a8f@redhat.com>
+Message-ID: <cd0713b5-fd64-d3e1-7f83-3a0725b819a3@redhat.com>
+Date: Thu, 10 Oct 2019 15:36:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19101013-0028-0000-0000-000003A8DD5B
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19101013-0029-0000-0000-0000246AE617
-Message-Id: <20191010131809.1284004-9-groug@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-10_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=703 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910100125
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+In-Reply-To: <fbbc58a6-7117-c76a-58ae-5e9a78890a8f@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Thu, 10 Oct 2019 13:36:53 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,33 +62,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Latest submissions for 9pfs made me realize that I no longer have time
-and motivation to actively support it. I'll stay around for odd fixes
-though.
+On 10/10/19 15:31, Laszlo Ersek wrote:
+> 2nd round:
+> 
+> On 10/09/19 15:22, Igor Mammedov wrote:
+>> QEMU returns 0, in case of erro or invalid value in 'Command field',
+>> make spec match reality, i.e.
+> 
+> AHA! so this is exactly where you meant to list the particular cases
+> when "command data" reads as 0:
+> - CPU >= max_cpus selected,
+> - CPU with pending events asked for, but none found
+> 
+>> Also fix returned value description  in case 'Command field' == 0x0,
+>> it's in not PXM but CPU selector value with pending event
+>>
+>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>> ---
+>>  docs/specs/acpi_cpu_hotplug.txt | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
+>> index ee219c8358..ac5903b2b1 100644
+>> --- a/docs/specs/acpi_cpu_hotplug.txt
+>> +++ b/docs/specs/acpi_cpu_hotplug.txt
+>> @@ -44,9 +44,10 @@ read access:
+>>             3-7: reserved and should be ignored by OSPM
+>>      [0x5-0x7] reserved
+>>      [0x8] Command data: (DWORD access)
+>> -          in case of error or unsupported command reads is 0xFFFFFFFF
+>> +          in case of error or unsupported command reads is 0x0
+>>            current 'Command field' value:
+>> -              0: returns PXM value corresponding to device
+>> +              0: returns CPU selector value corresponding to a CPU with
+>> +                 pending event.
+>>  
+>>  write access:
+>>      offset:
+>>
+> 
+> How about:
+> 
+>     [0x8] Command data: (DWORD access, little endian)
+>           If the "CPU selector" value last stored by the guest refers to
+>           an impossible CPU, then 0.
+>           Otherwise, if the "Command field" value last stored by the
+>           guest differs from 0, then 0.
+>           Otherwise, if there is at least one CPU with a pending event,
+>           then that CPU has been selected; the command data register
+>           returns that selector.
+>           Otherwise, 0.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmmm not exactly. Let me try again.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3ca814850e0c..fe4dc51b081f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1517,7 +1517,7 @@ F: tests/virtio-balloon-test.c
- 
- virtio-9p
- M: Greg Kurz <groug@kaod.org>
--S: Supported
-+S: Odd Fixes
- F: hw/9pfs/
- X: hw/9pfs/xen-9p*
- F: fsdev/
--- 
-2.21.0
+    [0x8] Command data: (DWORD access, little endian)
+          If the "CPU selector" value last stored by the guest refers to
+          an impossible CPU, then 0.
+          Otherwise, if the "Command field" value last stored by the
+          guest differs from 0, then 0.
+          Otherwise, the currently selected CPU.
 
+Thanks,
+Laszlo
 
