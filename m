@@ -2,45 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C809D285E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:50:43 +0200 (CEST)
-Received: from localhost ([::1]:36700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3889D286D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:53:27 +0200 (CEST)
+Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIWxt-0004Ux-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
+	id 1iIX0Y-0000KF-B3
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iIWkb-0006oj-DS
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:36:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1iIWpz-00059o-Mw
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:42:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iIWka-0006ef-7A
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:36:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38908)
+ (envelope-from <philmd@redhat.com>) id 1iIWpy-0007vj-II
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:42:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50706)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iIWka-0006eG-1S; Thu, 10 Oct 2019 07:36:56 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIWpy-0007vM-9p
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:42:30 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3A728316D798;
- Thu, 10 Oct 2019 11:36:55 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B66185C1B5;
- Thu, 10 Oct 2019 11:36:53 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 30/31] target/s390x: Remove ILEN_UNWIND
-Date: Thu, 10 Oct 2019 13:33:55 +0200
-Message-Id: <20191010113356.5017-31-david@redhat.com>
-In-Reply-To: <20191010113356.5017-1-david@redhat.com>
-References: <20191010113356.5017-1-david@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 68FDD69084
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 11:42:29 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id o8so2510279wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 04:42:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5dO50rGa5s7OXTG5VGdHfyey22rtFDO/NsLBek7cOw4=;
+ b=QVGS+WZKfkfIk/SjEsTgHKkj4Ql8HQKx97z1n2pFEazmnBJ7j0G6QAfFslI/+IxoK2
+ dm7Uj6tr9t/de0r0jBXC+5PcM4Gc26nkmk7/U/0PNk9wu2VwTcJlduSqEUcRe4vfOsnv
+ +Do/wNa88QfiZ1KFAJii9l2UgkeqXpeJU3nyy1IQnIkwt4qipoEo4PhkuOJEyQKl8vQy
+ l4TUFrT6A9hSl7OU1QE/eVvmfjgCXiAeOrJBERX8npXNJ9iQxKOP3wDNUvKSdWA23ede
+ LOtL9lGn3pQXQ7mwoCrg6J+merA/N2v5oPlBLzKg+v0aYacP5xRD8amr5dSvtsVynD5k
+ zUnA==
+X-Gm-Message-State: APjAAAVhge7VgBYPhHpPujp59wIzITy98AGNLw7ehr5ZdQ2EntrMWJMw
+ 5t+3jiPTg4wROkkIi9CcSDegLfjFed5WDsrmB3I/AX7FIdBpwOjQmxT3DDqwel3KLPzaOdUNQW9
+ e7vxalzlaaEhkzQk=
+X-Received: by 2002:a7b:ce07:: with SMTP id m7mr7468873wmc.117.1570707748132; 
+ Thu, 10 Oct 2019 04:42:28 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwSfNv41CgNc7hLGs1AZBJ8KJLdk5gufq5w8Z1yUh27hgSkLoT5PjPhQZKyzOWI9CAJxPkKDQ==
+X-Received: by 2002:a7b:ce07:: with SMTP id m7mr7468855wmc.117.1570707747956; 
+ Thu, 10 Oct 2019 04:42:27 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id r10sm6831401wml.46.2019.10.10.04.42.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Oct 2019 04:42:27 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] IDE: deprecate ide-drive
+To: Peter Krempa <pkrempa@redhat.com>
+References: <20191009224303.10232-1-jsnow@redhat.com>
+ <20191009224303.10232-2-jsnow@redhat.com>
+ <518ae20b-049d-19ee-1e86-c48466ba0655@redhat.com>
+ <20191010112650.GR6129@angien.pipo.sk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <10bb29c8-2375-25cd-af67-edddca1be5d7@redhat.com>
+Date: Thu, 10 Oct 2019 13:42:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 10 Oct 2019 11:36:55 +0000 (UTC)
+In-Reply-To: <20191010112650.GR6129@angien.pipo.sk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -56,41 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On 10/10/19 1:26 PM, Peter Krempa wrote:
+> On Thu, Oct 10, 2019 at 13:22:37 +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> On 10/10/19 12:43 AM, John Snow wrote:
+>>> It's an old compatibility shim that just delegates to ide-cd or ide-h=
+d.
+>>> I'd like to refactor these some day, and getting rid of the super-obj=
+ect
+>>> will make that easier.
+>>>
+>>> Either way, we don't need this.
+>>>
+>>> Libvirt-checked-by: Peter Krempa <pkrempa@redhat.com>
+>>
+>> Peter made a comment regarding Laszlo's Regression-tested-by tag:
+>>
+>>    [...] nobody else is using
+>>    this convention (there are exactly 0 instances of
+>>    "Regression-tested-by" in the project git log as far as
+>>    I can see), and so in practice people reading the commits
+>>    won't really know what you meant by it. Everybody else
+>>    on the project uses "Tested-by" to mean either of the
+>>    two cases you describe above, without distinction...
+>>
+>> It probably applies to 'Libvirt-checked-by' too.
+>=20
+> I certainly didn't test it. So feel free to drop that line altogether.
 
-This setting is no longer used.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191001171614.8405-19-richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/cpu.h | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index e7a9a58e0f..17460ed7b3 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -804,8 +804,6 @@ int cpu_s390x_signal_handler(int host_signum, void *p=
-info, void *puc);
- void s390_crw_mchk(void);
- void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
-                        uint32_t io_int_parm, uint32_t io_int_word);
--/* instruction length set by unwind info */
--#define ILEN_UNWIND                 0
- #define RA_IGNORED                  0
- void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t=
- ra);
- /* service interrupts are floating therefore we must not pass an cpustat=
-e */
---=20
-2.21.0
-
+But you reviewed it, can we use your 'Reviewed-by' instead?
 
