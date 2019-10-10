@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9990DD2BF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 16:01:07 +0200 (CEST)
-Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55A3D2C08
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 16:03:58 +0200 (CEST)
+Received: from localhost ([::1]:39960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIZ06-0000w2-LC
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 10:01:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47119)
+	id 1iIZ2r-0003IK-Mj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 10:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iIYyv-0000Mx-6p
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:59:55 -0400
+ (envelope-from <mst@redhat.com>) id 1iIZ0r-0002Ek-FF
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 10:01:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iIYyu-0005CZ-0l
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:59:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46540)
+ (envelope-from <mst@redhat.com>) id 1iIZ0q-00066V-9g
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 10:01:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32792)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIYyt-0005CB-Nt
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:59:51 -0400
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iIZ0o-00065s-Nc
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 10:01:52 -0400
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D8B9146671
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 13:59:50 +0000 (UTC)
-Received: by mail-qt1-f198.google.com with SMTP id m19so5834483qtm.13
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 06:59:50 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D6A9364120
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 14:01:49 +0000 (UTC)
+Received: by mail-qt1-f197.google.com with SMTP id f15so5842515qth.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 07:01:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=PmSBLJc/RPTgDhjFpdk7JsB5kksLvl51aABljQ1ogYo=;
- b=TDON6AbV6JcAx5YnlK1LbyaDbcLi0wrjodqRYIQrDqQvefD9AQlQgqWkDsySoWHDDc
- rTet16nWIH+qlNJMP4FPzbbWE8IpQ4hYowwnrzjrd6ClGwWQozjC7jIiyt+KGo1fjOGz
- 0b0LY0uxemv/jbg1akWr+3Hn8XJwdS7dmQMuSav6DLvHsRyqBudEmcmWhrYmM+9+bMS5
- Y1DXBVahYzMxNwKLBIYs0YHh7Y7/Iz4Gif9DrQS79HBUMkMWKL5Q7AGPxUZnq+aPUsSz
- crM5Ga170ek7NUQyOUkX5w2gg6GO/y64k7XfRYWBbTMeK3GH3nYDscxk0TXZ+HM2OJ0U
- brnQ==
-X-Gm-Message-State: APjAAAWV5X5zdvVmmRH7VF17jNzODyaMM8J9gquk9NAvu+fIdYkpgpNJ
- Mv3VHdsdEUIFICxssW0kCYdgI4qY2FwuJT5veln4cNNeJKfyV2pjZgbV8yB3NGW9ar8wBylsRqi
- Z1WdJjBsUv7KO8Q8=
-X-Received: by 2002:a37:a6d0:: with SMTP id
- p199mr10047744qke.204.1570715990068; 
- Thu, 10 Oct 2019 06:59:50 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzsrpZea1l72o4c6NH0Aph6yMfr0QermgvQmllc08bU5kZ5qk2rtJLMz7Jjfr5FPdAk2H1/5w==
-X-Received: by 2002:a37:a6d0:: with SMTP id
- p199mr10047722qke.204.1570715989729; 
- Thu, 10 Oct 2019 06:59:49 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=qVAAqrz8NImQua1Z+MPnnhld52fQmUNm5/UzIy85cAw=;
+ b=ULlLcyH7b0FjoVDMM7I0Atdi5zP/zZJz9iQU1PrED2UByKVIQM1Pc40AqNemAfv6qx
+ o6wO461sce6hQ1p86KQ5GydFB+JJGVmVOkq9nLlS/HCgSM24B8tic+l6dEvJR/W9K5zB
+ 9b6SN8Seg3HYNu6nCP/EntElIrQGntXp4B+uzp5APWHublvuO92DW/J9I6wmqmmgmtIH
+ B0uHebaeKXkLlwo5DdaGByE9fWtzLgbEchWdWtmkD8l95R/GCdbUn2V6cekkwGRZSCGg
+ ZGLcdNt/rWTRXq3K5v+oclAfTkdCKnuaXZUwqJqraxoioDybI1MSFtduvT0T97EVTIBR
+ fSlQ==
+X-Gm-Message-State: APjAAAXBt4Vaebpcfi+mS8oxCdJY79v5uhAautHaA0WwRLTedEMhfGaH
+ icQzF1XdKDg0mFKIuK09ulL3V+bRkckbHP7bYEWbydDABuMirt0JM1AelcDqn74maYv7K34L2PV
+ rnbu7mFeprbPSsv0=
+X-Received: by 2002:ad4:4cd2:: with SMTP id i18mr10049271qvz.179.1570716109095; 
+ Thu, 10 Oct 2019 07:01:49 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzYqCELGRxeh3CQ+BFJgenfbvye6L7ylSnPky4UXagpA1ByKmXrLmgDow8lDw+zIeO6sIjvOA==
+X-Received: by 2002:ad4:4cd2:: with SMTP id i18mr10049239qvz.179.1570716108835; 
+ Thu, 10 Oct 2019 07:01:48 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-10-77.red.bezeqint.net. [79.176.10.77])
  by smtp.gmail.com with ESMTPSA id
- n125sm2723452qkn.129.2019.10.10.06.59.45
+ z6sm2312398qkf.125.2019.10.10.07.01.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Oct 2019 06:59:48 -0700 (PDT)
-Date: Thu, 10 Oct 2019 09:59:42 -0400
+ Thu, 10 Oct 2019 07:01:48 -0700 (PDT)
+Date: Thu, 10 Oct 2019 10:01:42 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [RFC 0/3] acpi: cphp: add CPHP_GET_CPU_ID_CMD command to cpu
- hotplug MMIO interface
-Message-ID: <20191010095459-mutt-send-email-mst@kernel.org>
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191010055356-mutt-send-email-mst@kernel.org>
- <20191010153815.4f7a3fc9@redhat.com>
+To: Heyi Guo <guoheyi@huawei.com>
+Subject: Re: [RFC PATCH 12/12] virt/acpi: add SDEI table if SDEI is enabled
+Message-ID: <20191010100107-mutt-send-email-mst@kernel.org>
+References: <1569338511-3572-1-git-send-email-guoheyi@huawei.com>
+ <1569338511-3572-13-git-send-email-guoheyi@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191010153815.4f7a3fc9@redhat.com>
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1569338511-3572-13-git-send-email-guoheyi@huawei.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -83,104 +77,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <marc.zyngier@arm.com>,
+ qemu-devel@nongnu.org, Dave Martin <Dave.Martin@arm.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ James Morse <james.morse@arm.com>, Igor Mammedov <imammedo@redhat.com>,
+ wanghaibin.wang@huawei.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 10, 2019 at 03:39:12PM +0200, Igor Mammedov wrote:
-> On Thu, 10 Oct 2019 05:56:55 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->=20
-> > On Wed, Oct 09, 2019 at 09:22:49AM -0400, Igor Mammedov wrote:
-> > > As an alternative to passing to firmware topology info via new fwcf=
-g files
-> > > so it could recreate APIC IDs based on it and order CPUs are enumer=
-ated,
-> > >=20
-> > > extend CPU hotplug interface to return APIC ID as response to the n=
-ew command
-> > > CPHP_GET_CPU_ID_CMD. =20
-> >=20
-> > One big piece missing here is motivation:
-> I thought the only willing reader was Laszlo (who is aware of context)
-> so I skipped on details and confused others :/
->=20
-> > Who's going to use this interface?
-> In current state it's for firmware, since ACPI tables can cheat
-> by having APIC IDs statically built in.
->=20
-> If we were creating CPU objects in ACPI dynamically
-> we would be using this command as well.
+On Tue, Sep 24, 2019 at 11:21:51PM +0800, Heyi Guo wrote:
+> Add SDEI table if SDEI is enabled, so that guest OS can get aware and
+> utilize the interfaces.
+> 
+> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Cc: Marc Zyngier <marc.zyngier@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  hw/arm/virt-acpi-build.c    | 16 ++++++++++++++++
+>  include/hw/acpi/acpi-defs.h |  5 +++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 6cdf156..1088214 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -32,6 +32,7 @@
+>  #include "trace.h"
+>  #include "hw/core/cpu.h"
+>  #include "target/arm/cpu.h"
+> +#include "target/arm/sdei.h"
+>  #include "hw/acpi/acpi-defs.h"
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/nvram/fw_cfg.h"
+> @@ -475,6 +476,16 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>  }
+>  
+>  static void
+> +build_sdei(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+> +{
+> +    int sdei_start = table_data->len;
+> +
+> +    (void)acpi_data_push(table_data, sizeof(AcpiSdei));
+> +    build_header(linker, table_data, (void *)(table_data->data + sdei_start),
+> +                 "SDEI", table_data->len - sdei_start, 1, NULL, NULL);
+> +}
+> +
 
-I'm not sure how it's even possible to create devices dynamically. Well
-I guess it's possible with LoadTable. Is this what you had in
-mind?
+Please quote the relevant spec, earliest version that includes
+this table, and chapter in that spec.
 
-
-> It would save
-> us quite a bit space in ACPI blob but it would be a pain
-> to debug and diagnose problems in ACPI tables, so I'd rather
-> stay with static CPU descriptions in ACPI tables for the sake
-> of maintenance.
-> > So far CPU hotplug was used by the ACPI, so we didn't
-> > really commit to a fixed interface too strongly.
-> >=20
-> > Is this a replacement to Laszlo's fw cfg interface?
-> > If yes is the idea that OVMF going to depend on CPU hotplug directly =
-then?
-> > It does not depend on it now, does it?
-> It doesn't, but then it doesn't support cpu hotplug,
-> OVMF(SMM) needs to cooperate with QEMU "and" ACPI tables to perform
-> the task and using the same interface/code path between all involved
-> parties makes the task easier with the least amount of duplicated
-> interfaces and more robust.
->=20
-> Re-implementing alternative interface for firmware (fwcfg or what not)
-> would work as well, but it's only question of time when ACPI and
-> this new interface disagree on how world works and process falls
-> apart.
-
-Then we should consider switching acpi to use fw cfg.
-Or build another interface that can scale.
-
-> > If answers to all of the above is yes, then I don't really like it: i=
-t
-> > is better to keep all paravirt stuff in one place, namely in fw cfg.
-> Lets discuss, what cpu hotplug fwcfg interface could look like in=20
->  [PATCH 3/4] hw/i386: add facility to expose CPU topology over  fw-cfg
-> mail thread and clarify (dis)likes with concrete reasons.
->=20
-> So far I managed to convince myself that we ought to reuse
-> and extend current CPU hotplug interface with firmware features,
-> to endup with consolidated cpu hotplug process without
-> introducing duplicate ABIs, but I could be wrong so
-> lets see if fwcfg will be the better approach.
->=20
-> =20
-> > > CC: Laszlo Ersek <lersek@redhat.com>
-> > > CC: Eduardo Habkost <ehabkost@redhat.com>
-> > > CC: "Michael S. Tsirkin" <mst@redhat.com>
-> > > CC: Gerd Hoffmann <kraxel@redhat.com>
-> > > CC: Paolo Bonzini <pbonzini@redhat.com>
-> > > CC: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > > CC: Richard Henderson <rth@twiddle.net>
-> > > =20
-> > > Igor Mammedov (3):
-> > >   acpi: cpuhp: fix 'Command data' description is spec
-> > >   acpi: cpuhp: add typical usecases into spec
-> > >   acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-> > >=20
-> > >  docs/specs/acpi_cpu_hotplug.txt | 37 +++++++++++++++++++++++++++++=
-+---
-> > >  hw/acpi/cpu.c                   | 15 +++++++++++++
-> > >  hw/acpi/trace-events            |  1 +
-> > >  3 files changed, 50 insertions(+), 3 deletions(-)
-> > >=20
-> > > --=20
-> > > 2.18.1 =20
-> >=20
+> +static void
+>  build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>  {
+>      AcpiSerialPortConsoleRedirection *spcr;
+> @@ -796,6 +807,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_spcr(tables_blob, tables->linker, vms);
+>  
+> +    if (sdei_enabled) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_sdei(tables_blob, tables->linker, vms);
+> +    }
+> +
+>      if (ms->numa_state->num_nodes > 0) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_srat(tables_blob, tables->linker, vms);
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index 57a3f58..0a2265d 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -634,4 +634,9 @@ struct AcpiIortRC {
+>  } QEMU_PACKED;
+>  typedef struct AcpiIortRC AcpiIortRC;
+>  
+> +struct AcpiSdei {
+> +    ACPI_TABLE_HEADER_DEF     /* ACPI common table header */
+> +} QEMU_PACKED;
+> +typedef struct AcpiSdei AcpiSdei;
+> +
+>  #endif
+> -- 
+> 1.8.3.1
 
