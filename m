@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904F3D29BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:43:36 +0200 (CEST)
-Received: from localhost ([::1]:37510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8DAD29FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:49:32 +0200 (CEST)
+Received: from localhost ([::1]:37798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXn5-0001Ov-7J
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:43:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
+	id 1iIXsp-0002Ru-6x
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iIXdO-0006Ch-Qg
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:33:35 -0400
+ (envelope-from <peterx@redhat.com>) id 1iIXfj-00012H-Ab
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:36:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iIXdN-0001W0-20
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:33:34 -0400
-Resent-Date: Thu, 10 Oct 2019 08:33:34 -0400
-Resent-Message-Id: <E1iIXdN-0001W0-20@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21464)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iIXdM-0001Vo-Qf; Thu, 10 Oct 2019 08:33:33 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1570710804; cv=none; d=zoho.com; s=zohoarc; 
- b=Jth9Umw1SaLPqUntiyM+N5WzSAL9xSd8ii470AvWO8eu7utbSzrlWP6HAI9yRPWiMxGfzwIxzfNvajQmOBeG9wlVz73F83byyFPObXNFYFID09HxgCUEFFoTXKl2nMlQ35W7wWVYK5Z7cTNWCF8S8l/BH4OjNZ4+bN5xGsidu20=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1570710804;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=XbQ58X9xW7Uqdxkcc9Yo/qnDb32nRp5oqvYjDj3Ry/s=; 
- b=FKz7g2YC3Rbj1JZEEllHhSYn74MIdo/hG3tWR6xzbA7IWpsQn/WdjWsKFqR2xScEEk8KEu0TPyJjw+E9MRIyKRAgehFG0W+HIoIq0/f0gIzaEuG4Pwd8s+TSzdbQnkkbQJWucIIIzWV0BoOTRb9eE/30fSslndpdpxazHa0/caQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1570710802228450.0882761261963;
- Thu, 10 Oct 2019 05:33:22 -0700 (PDT)
-In-Reply-To: <20191010113356.5017-1-david@redhat.com>
-Subject: Re: [PULL 00/31] s390x/tcg update
-Message-ID: <157071080075.7138.17215740269377233027@37313f22b938>
+ (envelope-from <peterx@redhat.com>) id 1iIXfh-0002Mp-Vz
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:35:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42848)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iIXfh-0002LK-NQ
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:35:57 -0400
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DA6149B29D
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 12:35:56 +0000 (UTC)
+Received: by mail-pf1-f197.google.com with SMTP id f2so4611208pfk.13
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:35:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=WuGSboqXoL5Tq+QFCSc+M/OQGjhc/D2wSkJ1wpJc8es=;
+ b=D/Vmx3qsSLFifrTp2Kb6FXpJeq0CG8sVgVqKOc3gdIjhrINECMH3qMGgO+50yxK+Af
+ xUdPQl/65oYIyGvtu1NhgQ0Y2u0ryjDivSHqOw8apeYq7rZgT4GbY5AXUYx0ybkmLeia
+ WHpcMY1I50r/J0qdSSDqNtBxIfoxmcC8yLNugrXS6rm4Cnl8kM/nMrqqg8/1n04WquZD
+ rz73ftD3aH0wKqicsmqMdxWuHcTBUnv+o0kAoYfQsDZdsJ1HJTYONplLwInaWsxZAUJL
+ x2R5etcHbI7zqGBL6YfIGHUizXcASXHT8zBj36CswviT185AzodQTUaakN1Lh9APgXy4
+ MMLw==
+X-Gm-Message-State: APjAAAWISXYI+5Cnm7czP4Edi6Fx+vwaV6b/UhYPbruO/X8bxfEYwHaZ
+ KlmYookSUV074VvPagPQpAMkxEXAR9ecvU48fRxs1Db72TFH3Cf7vs1irQvjFR5pl1VTpLEdV76
+ IN5eKxXbHBJlqDyg=
+X-Received: by 2002:a62:5bc1:: with SMTP id p184mr9931147pfb.180.1570710956327; 
+ Thu, 10 Oct 2019 05:35:56 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxU21Bd4HrdmKzbaK2lLQ5jz3MyzQvFbbAMaSDhQMo1RqhTW6tGGxPFPO/W5YdwSPY0ZkqsVA==
+X-Received: by 2002:a62:5bc1:: with SMTP id p184mr9931126pfb.180.1570710956037; 
+ Thu, 10 Oct 2019 05:35:56 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id v8sm17149358pje.6.2019.10.10.05.35.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Oct 2019 05:35:55 -0700 (PDT)
+Date: Thu, 10 Oct 2019 20:35:44 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v3] migration: Support gtree migration
+Message-ID: <20191010123544.GH18958@xz-x1>
+References: <20191004112025.28868-1-eric.auger@redhat.com>
+ <20191009062852.GB1039@xz-x1>
+ <27d37e80-31d8-006a-b2a8-c61c5129c7c4@redhat.com>
+ <20191010113541.GG18958@xz-x1>
+ <c6f0142b-f325-a12c-433d-b77387c0a8a9@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: david@redhat.com
-Date: Thu, 10 Oct 2019 05:33:22 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c6f0142b-f325-a12c-433d-b77387c0a8a9@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,46 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, thuth@redhat.com, david@redhat.com,
- cohuck@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAxMDExMzM1Ni41MDE3
-LTEtZGF2aWRAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
-ci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1pbWFn
-ZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVkb3Jh
-IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgc3R1YnMv
-cGNfbWFkdF9jcHVfZW50cnkubwogIENDICAgICAgc3R1YnMvdm1nZW5pZC5vCiAgQ0MgICAgICBz
-dHVicy94ZW4tY29tbW9uLm8KbWFrZTogKioqIFtNYWtlZmlsZTo5OTQ6IGRvY3MvaW50ZXJvcC9p
-bmRleC5odG1sXSBFcnJvciAyCm1ha2U6ICoqKiBEZWxldGluZyBmaWxlICdkb2NzL2ludGVyb3Av
-aW5kZXguaHRtbCcKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJh
-Y2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nl
-c3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21t
-YW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11
-Lmluc3RhbmNlLnV1aWQ9YWMzNGVjYWQzZTUzNGRmOGIwZWFjYmIyMTUyNTYzZTgnLCAnLXUnLCAn
-MTAwMScsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICct
-ZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywg
-J1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICct
-ZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5j
-YWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90
-bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXdrMW90ZHViL3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMTAt
-MDguMzEuMDcuMTA0MTM6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIv
-dG1wL3FlbXUvcnVuJywgJ3Rlc3QtbWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0
-dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YWMzNGVj
-YWQzZTUzNGRmOGIwZWFjYmIyMTUyNTYzZTgKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJv
-ciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10
-bXAtd2sxb3RkdWIvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFd
-IEVycm9yIDIKCnJlYWwgICAgMm0xMi40OThzCnVzZXIgICAgMG02LjY2NHMKCgpUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMDEwMTEzMzU2
-LjUwMTctMS1kYXZpZEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Thu, Oct 10, 2019 at 02:11:46PM +0200, Auger Eric wrote:
+> >>> Also, should we avoid using UINT in all cases?  But of course if we
+> >>> start to use VMSTATE_UINT32_V then we don't have this issue.
+> >> Depending on the clarification of above point, maybe I can rename
+> >> VMSTATE_GTREE_DIRECT_KEY_V into VMSTATE_GTREE_DIRECT_UINT_KEY_V
+> >>
+> >> direct keys seem to be more common for hash tables actually.
+> >> https://developer.gnome.org/glib/stable/glib-Hash-Tables.html#g-hash-table-new-full
+> >>
+> >> There are stand conversion macros to/from int, uint, size
+> >> https://developer.gnome.org/glib/stable/glib-Type-Conversion-Macros.html
+> > 
+> > Yeh it's fine to use direct keys.  Though my question was more about
+> > "unsigned int" - here when we put, we cast a pointer into unsigned
+> > int, which can be 2/4 bytes, IIUC.  I'm thinking whether at least we
+> > should use direct cast (e.g., (uint32_t)ptr) to replace
+> > GPOINTER_TO_UINT() to make sure it's 4 bytes.  Futher, maybe we should
+> > start with uint64_t here in the migration stream, otherwise we should
+> > probably drop the high 32 bits if we migrate a gtree whose key is 64
+> > bits long (and since we're working with migration we won't be able to
+> > change that in the future for compatibility reasons...).
+> > 
+> > Summary:
+> > 
+> > Maybe we can replace:
+> > 
+> >     qemu_put_be32(f, GPOINTER_TO_UINT(key)); /* direct key */
+> > 
+> > To:
+> > 
+> >     qemu_put_be64(f, (uint64_t)key); /* direct key */
+> > 
+> > And apply similar thing to get() side?
+> 
+> This was my first idea as well but I got stuck with a mingw compilation
+> issues if I remember correctly, trying to cast pointers to a wrong sized
+> uint. This got removed by using the GPOINTER_TO_UINT conversion functions.
 
+#define GPOINTER_TO_UINT(p) ((guint) (gulong) (p))
+
+Could "(uint64_t)(uintptr_t)pointer" do the work?
+
+Thanks,
+
+-- 
+Peter Xu
 
