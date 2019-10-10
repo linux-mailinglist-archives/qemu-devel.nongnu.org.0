@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC541D27E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:23:14 +0200 (CEST)
-Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DD8D27E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:24:21 +0200 (CEST)
+Received: from localhost ([::1]:36166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIWXJ-0004bc-UL
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:23:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
+	id 1iIWYP-0005Xh-1p
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48867)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iIWWG-0004Cr-IZ
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:22:09 -0400
+ (envelope-from <philmd@redhat.com>) id 1iIWWo-0004hA-Cl
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:22:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iIWWF-0001EP-6q
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:22:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47014)
+ (envelope-from <philmd@redhat.com>) id 1iIWWn-0001Ue-7j
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:22:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37888)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iIWWF-0001E0-16
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:22:07 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIWWn-0001Tr-1E
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:22:41 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 03CD98763B
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 11:22:06 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id v18so2597838wro.16
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 04:22:05 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 16FE43C93D
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 11:22:40 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id p6so1478340wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 04:22:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CZRifIUMbB0CRV9D/v6QxjMqHNm+4ZQRP80fyHtI1IM=;
- b=E3UtYkiogjgiOU7BqKef9iKvCl+Ad7QILz3qI1WOHjh7DfAJXHDBINLaYJ0gfLUK/5
- TmK0kI/pSYhrEBwuddZtfjGu3zVyIyDfqHW4Ck5nWZuZqFVuglGYFE3BxtOBgRKFZSy3
- 1dhdotu9BLLkv1eV8ITJZmYufzE2OlBkrcT/V4HJj9TyIjSZRND5+3HpO3WYsz3/Dr93
- +nieLQNuxVHonGK5hC7pFwFsu6tliaMTOVcugSEgXITFB/i7Oziz5DZx8gdw6NGFRpLU
- jdHWfFPeYNUqzQWXmmG/kRYQq6K6eXaygJWfmrPyW39IQdL0+sPPMaaVALNB0NsCdldL
- kv7w==
-X-Gm-Message-State: APjAAAWjq3joGng4sF72e4/KFXCutkIIh99pJeYZ2SlfBo+eEbjbXvmY
- 2Rt9VaMQSeX1FphmUrZ4MY7FB5LJSOCwgIUOLWZo9/Cs73Aw2qfXy3TDTdTTy/8k3Fvyfn/nM+8
- BdnPXvGVlJgoZTGM=
-X-Received: by 2002:a5d:670b:: with SMTP id o11mr5824191wru.31.1570706524693; 
- Thu, 10 Oct 2019 04:22:04 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwqEU0QaBXMWcD6pE2ZtHJ+rZ6rmQvpHWFOvbU4R9JcqhqorX0fQoMmR+moH0HJPkReYl2uTA==
-X-Received: by 2002:a5d:670b:: with SMTP id o11mr5824173wru.31.1570706524470; 
- Thu, 10 Oct 2019 04:22:04 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ddc7:c53c:581a:7f3e?
- ([2001:b07:6468:f312:ddc7:c53c:581a:7f3e])
- by smtp.gmail.com with ESMTPSA id f83sm7056641wmf.43.2019.10.10.04.22.03
+ bh=n3ouSwwc2Y0r2hD+bOqLEn0oCaK1IxEhQXsxSp5wFJw=;
+ b=B9XaOGkZSOesA2Rzp+69NZdXfXNRe732QjyYahNWKab3/3o1Jd0cDXZf7mcBtC7wuO
+ 1j3iFj7eoxgVQo87/pF4Xw2nWrdVcluAI713kBwPbrJ81xHesRyNSbpoGeUk49mOvanG
+ 48ZTMtDmdIhLW5h+gA0rZ0N7cqaISE9bI+ygCeRUdoTrBJfVjh+sTyAcSd9Nd3xEjCt0
+ GYOVkJL62sLedVqy8LRpUl3ZEzQPuzOVptT4evKxkCzd6U4PG6XJk5YplsuBBPUSoRIp
+ /D01wH4hoqdd52X/cWAS0ViV8F3oIa862VNQe/gkyTrYm4Fy5QOxgsWrQloPfruf6C4Z
+ Js2w==
+X-Gm-Message-State: APjAAAX67KV4iqSECxoFFhkNKUwEgyA6rBIAAxWeqtgYAlr8e2vaVGX/
+ k/rgWzxyFqZj6tWrqfV5/H6zghpe8YguTwvVcfk6RHmJ9jzhQuF78IIK8wkSjvB8y558bBPWj0w
+ RagzHJKN0nDVNzzY=
+X-Received: by 2002:a1c:a647:: with SMTP id p68mr7269428wme.139.1570706558867; 
+ Thu, 10 Oct 2019 04:22:38 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwtGuGbzuWEA9FKFYSbQtYYX8yVK0yk3lCUk3TVbvkAVpylwhjuBeb94ngLUxCfKa1MgwXKyA==
+X-Received: by 2002:a1c:a647:: with SMTP id p68mr7269408wme.139.1570706558694; 
+ Thu, 10 Oct 2019 04:22:38 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id b62sm7698651wmc.13.2019.10.10.04.22.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Oct 2019 04:22:03 -0700 (PDT)
-Subject: Re: [PATCH] error: Fix -msg timestamp default
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20191010081508.8978-1-armbru@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <167c9b31-7592-de9f-a1a3-e79d8e66fc5c@redhat.com>
-Date: Thu, 10 Oct 2019 13:22:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thu, 10 Oct 2019 04:22:38 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] IDE: deprecate ide-drive
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20191009224303.10232-1-jsnow@redhat.com>
+ <20191009224303.10232-2-jsnow@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <518ae20b-049d-19ee-1e86-c48466ba0655@redhat.com>
+Date: Thu, 10 Oct 2019 13:22:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191010081508.8978-1-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191009224303.10232-2-jsnow@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -81,17 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: msmarduch@digitalocean.com
+Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
+ Peter Krempa <pkrempa@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'll queue this patch.
+On 10/10/19 12:43 AM, John Snow wrote:
+> It's an old compatibility shim that just delegates to ide-cd or ide-hd.
+> I'd like to refactor these some day, and getting rid of the super-object
+> will make that easier.
+> 
+> Either way, we don't need this.
+> 
+> Libvirt-checked-by: Peter Krempa <pkrempa@redhat.com>
 
-On 10/10/19 10:15, Markus Armbruster wrote:
-> -bool enable_timestamp_msg;
+Peter made a comment regarding Laszlo's Regression-tested-by tag:
 
-Would you like me to also rename his enable_guestname_msg variable to
-error_with_guest_name?
+   [...] nobody else is using
+   this convention (there are exactly 0 instances of
+   "Regression-tested-by" in the project git log as far as
+   I can see), and so in practice people reading the commits
+   won't really know what you meant by it. Everybody else
+   on the project uses "Tested-by" to mean either of the
+   two cases you describe above, without distinction...
 
-Paolo
+It probably applies to 'Libvirt-checked-by' too.
+
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg632705.html
+
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
 
