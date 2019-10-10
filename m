@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E80D2971
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:25:41 +0200 (CEST)
-Received: from localhost ([::1]:37166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F84DD2969
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:23:44 +0200 (CEST)
+Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXVk-0003zC-Go
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:25:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51998)
+	id 1iIXTr-0001ke-57
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrF-0006pW-I6
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:50 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWrH-0006sk-EG
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWrE-0008IC-CZ
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:20545)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrG-0008J4-Bx
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37998)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrB-0008GR-UA; Thu, 10 Oct 2019 07:43:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iIWrD-0008HR-Vn; Thu, 10 Oct 2019 07:43:48 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2A85A20E9;
- Thu, 10 Oct 2019 11:43:45 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3599918C4262;
+ Thu, 10 Oct 2019 11:43:47 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4D9C5DA2C;
- Thu, 10 Oct 2019 11:43:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB89460A9F;
+ Thu, 10 Oct 2019 11:43:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 19/36] block: add empty account cookie type
-Date: Thu, 10 Oct 2019 13:42:43 +0200
-Message-Id: <20191010114300.7746-20-mreitz@redhat.com>
+Subject: [PULL 20/36] ide: account UNMAP (TRIM) operations
+Date: Thu, 10 Oct 2019 13:42:44 +0200
+Message-Id: <20191010114300.7746-21-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Thu, 10 Oct 2019 11:43:45 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.62]); Thu, 10 Oct 2019 11:43:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,69 +62,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 
-Each block_acct_done/failed call is designed to correspond to a
-previous block_acct_start call, which initializes the stats cookie.
-However sometimes it is not the case, e.g. some error paths might
-report the same cookie twice because it is hard to accurately track if
-the cookie was reported yet or not.
-
-This patch cleans the cookie after report.
-(Note: block_acct_failed/done without a previous block_acct_start at
-all should be avoided. Uninitialized cookie might hold a garbage value
-and there is still "< BLOCK_MAX_IOTYPE" assertion for that)
-
-It will be particularly useful in ide code where it's hard to
-keep track whether the request done its accounting or not: in the
-following patch of the series, trim requests will do the accounting
-separately.
-
 Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190923121737.83281-4-anton.nefedov@virtuozzo.com
+Message-id: 20190923121737.83281-5-anton.nefedov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/accounting.h | 1 +
- block/accounting.c         | 6 ++++++
- 2 files changed, 7 insertions(+)
+ hw/ide/core.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/block/accounting.h b/include/block/accounting.h
-index ba8b04d572..878b4c3581 100644
---- a/include/block/accounting.h
-+++ b/include/block/accounting.h
-@@ -33,6 +33,7 @@ typedef struct BlockAcctTimedStats BlockAcctTimedStats;
- typedef struct BlockAcctStats BlockAcctStats;
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index e6e54c6c9a..754ff4dc34 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -442,6 +442,14 @@ static void ide_issue_trim_cb(void *opaque, int ret)
+     TrimAIOCB *iocb =3D opaque;
+     IDEState *s =3D iocb->s;
 =20
- enum BlockAcctType {
-+    BLOCK_ACCT_NONE =3D 0,
-     BLOCK_ACCT_READ,
-     BLOCK_ACCT_WRITE,
-     BLOCK_ACCT_FLUSH,
-diff --git a/block/accounting.c b/block/accounting.c
-index 70a3d9a426..8d41c8a83a 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -195,6 +195,10 @@ static void block_account_one_io(BlockAcctStats *sta=
-ts, BlockAcctCookie *cookie,
-=20
-     assert(cookie->type < BLOCK_MAX_IOTYPE);
-=20
-+    if (cookie->type =3D=3D BLOCK_ACCT_NONE) {
-+        return;
++    if (iocb->i >=3D 0) {
++        if (ret >=3D 0) {
++            block_acct_done(blk_get_stats(s->blk), &s->acct);
++        } else {
++            block_acct_failed(blk_get_stats(s->blk), &s->acct);
++        }
 +    }
 +
-     qemu_mutex_lock(&stats->lock);
+     if (ret >=3D 0) {
+         while (iocb->j < iocb->qiov->niov) {
+             int j =3D iocb->j;
+@@ -459,10 +467,14 @@ static void ide_issue_trim_cb(void *opaque, int ret=
+)
+                 }
 =20
-     if (failed) {
-@@ -217,6 +221,8 @@ static void block_account_one_io(BlockAcctStats *stat=
-s, BlockAcctCookie *cookie,
-     }
+                 if (!ide_sect_range_ok(s, sector, count)) {
++                    block_acct_invalid(blk_get_stats(s->blk), BLOCK_ACCT=
+_UNMAP);
+                     iocb->ret =3D -EINVAL;
+                     goto done;
+                 }
 =20
-     qemu_mutex_unlock(&stats->lock);
++                block_acct_start(blk_get_stats(s->blk), &s->acct,
++                                 count << BDRV_SECTOR_BITS, BLOCK_ACCT_U=
+NMAP);
 +
-+    cookie->type =3D BLOCK_ACCT_NONE;
- }
-=20
- void block_acct_done(BlockAcctStats *stats, BlockAcctCookie *cookie)
+                 /* Got an entry! Submit and exit.  */
+                 iocb->aiocb =3D blk_aio_pdiscard(s->blk,
+                                                sector << BDRV_SECTOR_BIT=
+S,
 --=20
 2.21.0
 
