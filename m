@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD178D285A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:48:05 +0200 (CEST)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EF8D2857
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:46:04 +0200 (CEST)
+Received: from localhost ([::1]:36644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIWvM-0001p5-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50149)
+	id 1iIWtO-0007f7-Mk
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:46:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iIWiH-0003X2-EP
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:34:34 -0400
+ (envelope-from <david@redhat.com>) id 1iIWiT-0003rn-NY
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:34:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iIWiG-0005oP-C0
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:34:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57888)
+ (envelope-from <david@redhat.com>) id 1iIWiS-0005sn-Jj
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:34:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51950)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iIWiG-0005nx-6n; Thu, 10 Oct 2019 07:34:32 -0400
+ id 1iIWiS-0005sX-EH; Thu, 10 Oct 2019 07:34:44 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 70F5E307D88C;
- Thu, 10 Oct 2019 11:34:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A8087883C2;
+ Thu, 10 Oct 2019 11:34:43 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F09BD5C1B5;
- Thu, 10 Oct 2019 11:34:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B95C35C1B5;
+ Thu, 10 Oct 2019 11:34:31 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 11/31] s390x/cpumodel: Prepare for changes of QEMU model
-Date: Thu, 10 Oct 2019 13:33:36 +0200
-Message-Id: <20191010113356.5017-12-david@redhat.com>
+Subject: [PULL 12/31] s390x/cpumodel: Add new TCG features to QEMU cpu model
+Date: Thu, 10 Oct 2019 13:33:37 +0200
+Message-Id: <20191010113356.5017-13-david@redhat.com>
 In-Reply-To: <20191010113356.5017-1-david@redhat.com>
 References: <20191010113356.5017-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 10 Oct 2019 11:34:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Thu, 10 Oct 2019 11:34:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,60 +62,67 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setup the 4.1 compatibility model so we can add new features to the
-LATEST model.
+We now implement a bunch of new facilities we can properly indicate.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+ESOP-1/ESOP-2 handling is discussed in the PoP Chafter 3-15
+("Suppression on Protection"). The "Basic suppression-on-protection (SOP)
+facility" is a core part of z/Architecture without a facility
+indication. ESOP-2 is indicated by ESOP-1 + Side-effect facility
+("ESOP-2"). Besides ESOP-2, the side-effect facility is only relevant for
+the guarded-storage facility (we don't implement).
+
+S390_ESOP:
+- We indicate DAT exeptions by setting bit 61 of the TEID (TEC) to 1 and
+  bit 60 to zero. We don't trigger ALCP exceptions yet. Also, we set
+  bit 0-51 and bit 62/63 to the right values.
+S390_ACCESS_EXCEPTION_FS_INDICATION:
+- The TEID (TEC) properly indicates in bit 52/53 on any access if it was
+  a fetch or a store
+S390_SIDE_EFFECT_ACCESS_ESOP2:
+- We have no side-effect accesses (esp., we don't implement the
+  guarded-storage faciliy), we correctly set bit 64 of the TEID (TEC) to
+  0 (no side-effect).
+- ESOP2: We properly set bit 56, 60, 61 in the TEID (TEC) to indicate the
+  type of protection. We don't trigger KCP/ALCP exceptions yet.
+S390_INSTRUCTION_EXEC_PROT:
+- The MMU properly detects and indicates the exception on instruction fet=
+ches
+- Protected TLB entries will never get PAGE_EXEC set.
+
+There is no need to fake the abscence of any of the facilities - without
+the facilities, some bits of the TEID (TEC) are simply unpredictable.
+
+As IEP was added with z14 and we currently implement a z13, add it to
+the MAX model instead.
+
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c  | 2 ++
- target/s390x/gen-features.c | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ target/s390x/gen-features.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 18ad279a00..d3edeef0ad 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -650,7 +650,9 @@ DEFINE_CCW_MACHINE(4_2, "4.2", true);
-=20
- static void ccw_machine_4_1_instance_options(MachineState *machine)
- {
-+    static const S390FeatInit qemu_cpu_feat =3D { S390_FEAT_LIST_QEMU_V4=
-_1 };
-     ccw_machine_4_2_instance_options(machine);
-+    s390_set_qemu_cpu_model(0x2964, 13, 2, qemu_cpu_feat);
- }
-=20
- static void ccw_machine_4_1_class_options(MachineClass *mc)
 diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 49a650ac52..7e82f2f004 100644
+index 7e82f2f004..6278845b12 100644
 --- a/target/s390x/gen-features.c
 +++ b/target/s390x/gen-features.c
-@@ -698,11 +698,14 @@ static uint16_t qemu_V4_0[] =3D {
-     S390_FEAT_ZPCI,
+@@ -704,12 +704,17 @@ static uint16_t qemu_V4_1[] =3D {
  };
 =20
--static uint16_t qemu_LATEST[] =3D {
-+static uint16_t qemu_V4_1[] =3D {
-     S390_FEAT_STFLE_53,
-     S390_FEAT_VECTOR,
+ static uint16_t qemu_LATEST[] =3D {
++    S390_FEAT_ACCESS_EXCEPTION_FS_INDICATION,
++    S390_FEAT_SIDE_EFFECT_ACCESS_ESOP2,
++    S390_FEAT_ESOP,
  };
 =20
-+static uint16_t qemu_LATEST[] =3D {
-+};
-+
  /* add all new definitions before this point */
  static uint16_t qemu_MAX[] =3D {
      /* generates a dependency warning, leave it out for now */
-@@ -824,6 +827,7 @@ static FeatGroupDefSpec QemuFeatDef[] =3D {
-     QEMU_FEAT_INITIALIZER(V2_11),
-     QEMU_FEAT_INITIALIZER(V3_1),
-     QEMU_FEAT_INITIALIZER(V4_0),
-+    QEMU_FEAT_INITIALIZER(V4_1),
-     QEMU_FEAT_INITIALIZER(LATEST),
-     QEMU_FEAT_INITIALIZER(MAX),
+     S390_FEAT_MSA_EXT_5,
++    /* features introduced after the z13 */
++    S390_FEAT_INSTRUCTION_EXEC_PROT,
  };
+=20
+ /****** END FEATURE DEFS ******/
 --=20
 2.21.0
 
