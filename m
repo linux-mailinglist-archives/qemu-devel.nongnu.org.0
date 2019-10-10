@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CC3D2B63
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:33:05 +0200 (CEST)
-Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CDCFD2B77
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:36:00 +0200 (CEST)
+Received: from localhost ([::1]:39612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYYy-00022c-K3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41045)
+	id 1iIYbn-0005kv-5S
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iIYKu-0002ED-FT
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:35 -0400
+ (envelope-from <groug@kaod.org>) id 1iIYMd-0003oD-1p
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:20:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iIYKq-0002xj-L3
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31688
+ (envelope-from <groug@kaod.org>) id 1iIYMW-0003lm-Oi
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:20:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28784
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIYKq-0002wl-Cs
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:28 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIYMW-0003lX-Hh
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:20:12 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9AD7QmA131674
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:18:24 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vj2pmx0wm-1
+ x9ADK5id002293
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:20:12 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vj587ge32-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:18:22 -0400
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:20:08 -0400
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 10 Oct 2019 14:18:18 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Thu, 10 Oct 2019 14:18:17 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 10 Oct 2019 14:18:15 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9ADIEUm40960074
+ Thu, 10 Oct 2019 14:18:16 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x9ADIFSu31326514
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 10 Oct 2019 13:18:15 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D5B7AA4054;
- Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AC673A405B;
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E3D7A4059;
+ Thu, 10 Oct 2019 13:18:15 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5EB0A4051;
  Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
 Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
  Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
 Received: from bahia.tls.ibm.com (bahia.tls.ibm.com [9.101.4.41])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 734A422006B;
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 9AC39220221;
  Thu, 10 Oct 2019 15:18:14 +0200 (CEST)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 5/8] 9p: Added virtfs option 'multidevs=remap|forbid|warn'
-Date: Thu, 10 Oct 2019 15:18:06 +0200
+Subject: [PULL v2 7/8] 9p: Use variable length suffixes for inode remapping
+Date: Thu, 10 Oct 2019 15:18:08 +0200
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191010131809.1284004-1-groug@kaod.org>
 References: <20191010131809.1284004-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19101013-4275-0000-0000-00000370E0E5
+x-cbid: 19101013-0008-0000-0000-00000320DF19
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19101013-4276-0000-0000-00003883E89A
-Message-Id: <20191010131809.1284004-6-groug@kaod.org>
+x-cbparentid: 19101013-0009-0000-0000-00004A3FE845
+Message-Id: <20191010131809.1284004-8-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-10-10_04:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=4 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=974 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910100124
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910100125
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,504 +93,522 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Antonios Motakis <antonios.motakis@huawei.com>
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Antonios Motakis <antonios.motakis@huawei.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-'warn' (default): Only log an error message (once) on host if more than one
-device is shared by same export, except of that just ignore this config
-error though. This is the default behaviour for not breaking existing
-installations implying that they really know what they are doing.
+Use variable length suffixes for inode remapping instead of the fixed
+16 bit size prefixes before. With this change the inode numbers on guest
+will typically be much smaller (e.g. around >2^1 .. >2^7 instead of >2^48
+with the previous fixed size inode remapping.
 
-'forbid': Like 'warn', but except of just logging an error this
-also denies access of guest to additional devices.
+Additionally this solution is more efficient, since inode numbers in
+practice can take almost their entire 64 bit range on guest as well, so
+there is less likely a need for generating and tracking additional suffixes,
+which might also be beneficial for nested virtualization where each level of
+virtualization would shift up the inode bits and increase the chance of
+expensive remapping actions.
 
-'remap': Allows to share more than one device per export by remapping
-inodes from host to guest appropriately. To support multiple devices on the
-9p share, and avoid qid path collisions we take the device id as input to
-generate a unique QID path. The lowest 48 bits of the path will be set
-equal to the file inode, and the top bits will be uniquely assigned based
-on the top 16 bits of the inode and the device id.
+The "Exponential Golomb" algorithm is used as basis for generating the
+variable length suffixes. The algorithm has a parameter k which controls the
+distribution of bits on increasing indeces (minimum bits at low index vs.
+maximum bits at high index). With k=0 the generated suffixes look like:
 
-Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-[CS: - Rebased to https://github.com/gkurz/qemu/commits/9p-next
-       (SHA1 7fc4c49e91).
-     - Added virtfs option 'multidevs', original patch simply did the inode
-       remapping without being asked.
-     - Updated hash calls to new xxhash API.
-     - Updated docs for new option 'multidevs'.
-     - Fixed v9fs_do_readdir() not having remapped inodes.
-     - Log error message when running out of prefixes in
-       qid_path_prefixmap().
-     - Fixed definition of QPATH_INO_MASK.
-     - Wrapped qpp_table initialization to dedicated qpp_table_init()
-       function.
-     - Dropped unnecessary parantheses in qpp_lookup_func().
-     - Dropped unnecessary g_malloc0() result checks. ]
+Index Dec/Bin -> Generated Suffix Bin
+1 [1] -> [1] (1 bits)
+2 [10] -> [010] (3 bits)
+3 [11] -> [110] (3 bits)
+4 [100] -> [00100] (5 bits)
+5 [101] -> [10100] (5 bits)
+6 [110] -> [01100] (5 bits)
+7 [111] -> [11100] (5 bits)
+8 [1000] -> [0001000] (7 bits)
+9 [1001] -> [1001000] (7 bits)
+10 [1010] -> [0101000] (7 bits)
+11 [1011] -> [1101000] (7 bits)
+12 [1100] -> [0011000] (7 bits)
+...
+65533 [1111111111111101] ->  [1011111111111111000000000000000] (31 bits)
+65534 [1111111111111110] ->  [0111111111111111000000000000000] (31 bits)
+65535 [1111111111111111] ->  [1111111111111111000000000000000] (31 bits)
+Hence minBits=1 maxBits=31
+
+And with k=5 they would look like:
+
+Index Dec/Bin -> Generated Suffix Bin
+1 [1] -> [000001] (6 bits)
+2 [10] -> [100001] (6 bits)
+3 [11] -> [010001] (6 bits)
+4 [100] -> [110001] (6 bits)
+5 [101] -> [001001] (6 bits)
+6 [110] -> [101001] (6 bits)
+7 [111] -> [011001] (6 bits)
+8 [1000] -> [111001] (6 bits)
+9 [1001] -> [000101] (6 bits)
+10 [1010] -> [100101] (6 bits)
+11 [1011] -> [010101] (6 bits)
+12 [1100] -> [110101] (6 bits)
+...
+65533 [1111111111111101] -> [0011100000000000100000000000] (28 bits)
+65534 [1111111111111110] -> [1011100000000000100000000000] (28 bits)
+65535 [1111111111111111] -> [0111100000000000100000000000] (28 bits)
+Hence minBits=6 maxBits=28
+
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-[groug: - Moved "multidevs" parsing to the local backend.
-        - Added hint to invalid multidevs option error.
-	- Turn "remap" into "x-remap". ]
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- fsdev/file-op-9p.h      |   5 ++
- fsdev/qemu-fsdev-opts.c |   7 +-
- fsdev/qemu-fsdev.c      |   1 +
- hw/9pfs/9p-local.c      |  21 +++++
- hw/9pfs/9p.c            | 188 +++++++++++++++++++++++++++++++++++-----
- hw/9pfs/9p.h            |  12 +++
- qemu-options.hx         |  26 +++++-
- vl.c                    |   7 +-
- 8 files changed, 242 insertions(+), 25 deletions(-)
+ hw/9pfs/9p.c | 268 +++++++++++++++++++++++++++++++++++++++++++++------
+ hw/9pfs/9p.h |  44 ++++++++-
+ 2 files changed, 279 insertions(+), 33 deletions(-)
 
-diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-index c757c8099f54..f2f7772c86d5 100644
---- a/fsdev/file-op-9p.h
-+++ b/fsdev/file-op-9p.h
-@@ -59,6 +59,11 @@ typedef struct ExtendedOps {
- #define V9FS_RDONLY                 0x00000040
- #define V9FS_PROXY_SOCK_FD          0x00000080
- #define V9FS_PROXY_SOCK_NAME        0x00000100
-+/*
-+ * multidevs option (either one of the two applies exclusively)
-+ */
-+#define V9FS_REMAP_INODES           0x00000200
-+#define V9FS_FORBID_MULTIDEVS       0x00000400
- 
- #define V9FS_SEC_MASK               0x0000003C
- 
-diff --git a/fsdev/qemu-fsdev-opts.c b/fsdev/qemu-fsdev-opts.c
-index 7c31ffffafb5..07a18c6e48d3 100644
---- a/fsdev/qemu-fsdev-opts.c
-+++ b/fsdev/qemu-fsdev-opts.c
-@@ -31,7 +31,9 @@ static QemuOptsList qemu_fsdev_opts = {
-         }, {
-             .name = "readonly",
-             .type = QEMU_OPT_BOOL,
--
-+        }, {
-+            .name = "multidevs",
-+            .type = QEMU_OPT_STRING,
-         }, {
-             .name = "socket",
-             .type = QEMU_OPT_STRING,
-@@ -75,6 +77,9 @@ static QemuOptsList qemu_virtfs_opts = {
-         }, {
-             .name = "readonly",
-             .type = QEMU_OPT_BOOL,
-+        }, {
-+            .name = "multidevs",
-+            .type = QEMU_OPT_STRING,
-         }, {
-             .name = "socket",
-             .type = QEMU_OPT_STRING,
-diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
-index 077a8c4e2bca..a9e069c0c78d 100644
---- a/fsdev/qemu-fsdev.c
-+++ b/fsdev/qemu-fsdev.c
-@@ -58,6 +58,7 @@ static FsDriverTable FsDrivers[] = {
-             "writeout",
-             "fmode",
-             "dmode",
-+            "multidevs",
-             "throttling.bps-total",
-             "throttling.bps-read",
-             "throttling.bps-write",
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 5c7f4cd9c7b0..4708c0bd896f 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1483,6 +1483,7 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
- {
-     const char *sec_model = qemu_opt_get(opts, "security_model");
-     const char *path = qemu_opt_get(opts, "path");
-+    const char *multidevs = qemu_opt_get(opts, "multidevs");
-     Error *local_err = NULL;
- 
-     if (!sec_model) {
-@@ -1506,6 +1507,26 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
-         return -1;
-     }
- 
-+    if (multidevs) {
-+        if (!strcmp(multidevs, "remap")) {
-+            fse->export_flags &= ~V9FS_FORBID_MULTIDEVS;
-+            fse->export_flags |= V9FS_REMAP_INODES;
-+        } else if (!strcmp(multidevs, "forbid")) {
-+            fse->export_flags &= ~V9FS_REMAP_INODES;
-+            fse->export_flags |= V9FS_FORBID_MULTIDEVS;
-+        } else if (!strcmp(multidevs, "warn")) {
-+            fse->export_flags &= ~V9FS_FORBID_MULTIDEVS;
-+            fse->export_flags &= ~V9FS_REMAP_INODES;
-+        } else {
-+            error_setg(&local_err, "invalid multidevs property '%s'",
-+                       multidevs);
-+            error_append_hint(&local_err, "Valid options are: multidevs="
-+                              "[remap|forbid|warn]\n");
-+            error_propagate(errp, local_err);
-+            return -1;
-+        }
-+    }
-+
-     if (!path) {
-         error_setg(errp, "path property not set");
-         return -1;
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 5a895ae0bbfe..8eb89c5c7d3f 100644
+index d9be2d45d3e4..37abcdb71ec0 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -26,6 +26,7 @@
- #include "trace.h"
+@@ -27,6 +27,7 @@
  #include "migration/blocker.h"
  #include "sysemu/qtest.h"
-+#include "qemu/xxhash.h"
+ #include "qemu/xxhash.h"
++#include <math.h>
  
  int open_fd_hw;
  int total_open_fd;
-@@ -572,23 +573,117 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+@@ -573,6 +574,116 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
                                  P9_STAT_MODE_NAMED_PIPE |   \
                                  P9_STAT_MODE_SOCKET)
  
--/* This is the algorithm from ufs in spfs */
-+/* creative abuse of tb_hash_func7, which is based on xxhash */
-+static uint32_t qpp_hash(QppEntry e)
++/* Mirrors all bits of a byte. So e.g. binary 10100000 would become 00000101. */
++static inline uint8_t mirror8bit(uint8_t byte)
 +{
-+    return qemu_xxhash7(e.ino_prefix, e.dev, 0, 0, 0);
++    return (byte * 0x0202020202ULL & 0x010884422010ULL) % 1023;
 +}
 +
-+static bool qpp_lookup_func(const void *obj, const void *userp)
++/* Same as mirror8bit() just for a 64 bit data type instead for a byte. */
++static inline uint64_t mirror64bit(uint64_t value)
 +{
-+    const QppEntry *e1 = obj, *e2 = userp;
-+    return e1->dev == e2->dev && e1->ino_prefix == e2->ino_prefix;
++    return ((uint64_t)mirror8bit(value         & 0xff) << 56) |
++           ((uint64_t)mirror8bit((value >> 8)  & 0xff) << 48) |
++           ((uint64_t)mirror8bit((value >> 16) & 0xff) << 40) |
++           ((uint64_t)mirror8bit((value >> 24) & 0xff) << 32) |
++           ((uint64_t)mirror8bit((value >> 32) & 0xff) << 24) |
++           ((uint64_t)mirror8bit((value >> 40) & 0xff) << 16) |
++           ((uint64_t)mirror8bit((value >> 48) & 0xff) << 8)  |
++           ((uint64_t)mirror8bit((value >> 56) & 0xff));
 +}
 +
-+static void qpp_table_remove(void *p, uint32_t h, void *up)
++/**
++ * @brief Parameter k for the Exponential Golomb algorihm to be used.
++ *
++ * The smaller this value, the smaller the minimum bit count for the Exp.
++ * Golomb generated affixes will be (at lowest index) however for the
++ * price of having higher maximum bit count of generated affixes (at highest
++ * index). Likewise increasing this parameter yields in smaller maximum bit
++ * count for the price of having higher minimum bit count.
++ *
++ * In practice that means: a good value for k depends on the expected amount
++ * of devices to be exposed by one export. For a small amount of devices k
++ * should be small, for a large amount of devices k might be increased
++ * instead. The default of k=0 should be fine for most users though.
++ *
++ * @b IMPORTANT: In case this ever becomes a runtime parameter; the value of
++ * k should not change as long as guest is still running! Because that would
++ * cause completely different inode numbers to be generated on guest.
++ */
++#define EXP_GOLOMB_K    0
++
++/**
++ * @brief Exponential Golomb algorithm for arbitrary k (including k=0).
++ *
++ * The Exponential Golomb algorithm generates @b prefixes (@b not suffixes!)
++ * with growing length and with the mathematical property of being
++ * "prefix-free". The latter means the generated prefixes can be prepended
++ * in front of arbitrary numbers and the resulting concatenated numbers are
++ * guaranteed to be always unique.
++ *
++ * This is a minor adjustment to the original Exp. Golomb algorithm in the
++ * sense that lowest allowed index (@param n) starts with 1, not with zero.
++ *
++ * @param n - natural number (or index) of the prefix to be generated
++ *            (1, 2, 3, ...)
++ * @param k - parameter k of Exp. Golomb algorithm to be used
++ *            (see comment on EXP_GOLOMB_K macro for details about k)
++ */
++static VariLenAffix expGolombEncode(uint64_t n, int k)
 +{
-+    g_free(p);
++    const uint64_t value = n + (1 << k) - 1;
++    const int bits = (int) log2(value) + 1;
++    return (VariLenAffix) {
++        .type = AffixType_Prefix,
++        .value = value,
++        .bits = bits + MAX((bits - 1 - k), 0)
++    };
 +}
 +
-+static void qpp_table_destroy(struct qht *ht)
++/**
++ * @brief Converts a suffix into a prefix, or a prefix into a suffix.
++ *
++ * Simply mirror all bits of the affix value, for the purpose to preserve
++ * respectively the mathematical "prefix-free" or "suffix-free" property
++ * after the conversion.
++ *
++ * If a passed prefix is suitable to create unique numbers, then the
++ * returned suffix is suitable to create unique numbers as well (and vice
++ * versa).
++ */
++static VariLenAffix invertAffix(const VariLenAffix *affix)
 +{
-+    if (!ht || !ht->map) {
-+        return;
-+    }
-+    qht_iter(ht, qpp_table_remove, NULL);
-+    qht_destroy(ht);
++    return (VariLenAffix) {
++        .type =
++            (affix->type == AffixType_Suffix) ?
++                AffixType_Prefix : AffixType_Suffix,
++        .value =
++            mirror64bit(affix->value) >>
++            ((sizeof(affix->value) * 8) - affix->bits),
++        .bits = affix->bits
++    };
 +}
 +
-+static void qpp_table_init(struct qht *ht)
++/**
++ * @brief Generates suffix numbers with "suffix-free" property.
++ *
++ * This is just a wrapper function on top of the Exp. Golomb algorithm.
++ *
++ * Since the Exp. Golomb algorithm generates prefixes, but we need suffixes,
++ * this function converts the Exp. Golomb prefixes into appropriate suffixes
++ * which are still suitable for generating unique numbers.
++ *
++ * @param n - natural number (or index) of the suffix to be generated
++ *            (1, 2, 3, ...)
++ */
++static VariLenAffix affixForIndex(uint64_t index)
 +{
-+    qht_init(ht, qpp_lookup_func, 1, QHT_MODE_AUTO_RESIZE);
++    VariLenAffix prefix;
++    prefix = expGolombEncode(index, EXP_GOLOMB_K);
++    return invertAffix(&prefix); /* convert prefix to suffix */
++}
++
+ /* creative abuse of tb_hash_func7, which is based on xxhash */
+ static uint32_t qpp_hash(QppEntry e)
+ {
+@@ -584,13 +695,19 @@ static uint32_t qpf_hash(QpfEntry e)
+     return qemu_xxhash7(e.ino, e.dev, 0, 0, 0);
+ }
+ 
+-static bool qpp_lookup_func(const void *obj, const void *userp)
++static bool qpd_cmp_func(const void *obj, const void *userp)
++{
++    const QpdEntry *e1 = obj, *e2 = userp;
++    return e1->dev == e2->dev;
++}
++
++static bool qpp_cmp_func(const void *obj, const void *userp)
+ {
+     const QppEntry *e1 = obj, *e2 = userp;
+     return e1->dev == e2->dev && e1->ino_prefix == e2->ino_prefix;
+ }
+ 
+-static bool qpf_lookup_func(const void *obj, const void *userp)
++static bool qpf_cmp_func(const void *obj, const void *userp)
+ {
+     const QpfEntry *e1 = obj, *e2 = userp;
+     return e1->dev == e2->dev && e1->ino == e2->ino;
+@@ -610,16 +727,70 @@ static void qp_table_destroy(struct qht *ht)
+     qht_destroy(ht);
+ }
+ 
++static void qpd_table_init(struct qht *ht)
++{
++    qht_init(ht, qpd_cmp_func, 1, QHT_MODE_AUTO_RESIZE);
++}
++
+ static void qpp_table_init(struct qht *ht)
+ {
+-    qht_init(ht, qpp_lookup_func, 1, QHT_MODE_AUTO_RESIZE);
++    qht_init(ht, qpp_cmp_func, 1, QHT_MODE_AUTO_RESIZE);
+ }
+ 
+ static void qpf_table_init(struct qht *ht)
+ {
+-    qht_init(ht, qpf_lookup_func, 1 << 16, QHT_MODE_AUTO_RESIZE);
++    qht_init(ht, qpf_cmp_func, 1 << 16, QHT_MODE_AUTO_RESIZE);
 +}
 +
 +/*
-+ * stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
-+ * to a unique QID path (64 bits). To avoid having to map and keep track
-+ * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
-+ * the device id to the 16 highest bits of the QID path. The 48 lowest bits
-+ * of the QID path equal to the lowest bits of the inode number.
++ * Returns how many (high end) bits of inode numbers of the passed fs
++ * device shall be used (in combination with the device number) to
++ * generate hash values for qpp_table entries.
 + *
-+ * This takes advantage of the fact that inode number are usually not
-+ * random but allocated sequentially, so we have fewer items to keep
-+ * track of.
++ * This function is required if variable length suffixes are used for inode
++ * number mapping on guest level. Since a device may end up having multiple
++ * entries in qpp_table, each entry most probably with a different suffix
++ * length, we thus need this function in conjunction with qpd_table to
++ * "agree" about a fix amount of bits (per device) to be always used for
++ * generating hash values for the purpose of accessing qpp_table in order
++ * get consistent behaviour when accessing qpp_table.
 + */
-+static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
-+                              uint64_t *path)
++static int qid_inode_prefix_hash_bits(V9fsPDU *pdu, dev_t dev)
 +{
-+    QppEntry lookup = {
-+        .dev = stbuf->st_dev,
-+        .ino_prefix = (uint16_t) (stbuf->st_ino >> 48)
++    QpdEntry lookup = {
++        .dev = dev
 +    }, *val;
-+    uint32_t hash = qpp_hash(lookup);
++    uint32_t hash = dev;
++    VariLenAffix affix;
 +
-+    val = qht_lookup(&pdu->s->qpp_table, &lookup, hash);
-+
++    val = qht_lookup(&pdu->s->qpd_table, &lookup, hash);
 +    if (!val) {
-+        if (pdu->s->qp_prefix_next == 0) {
-+            /* we ran out of prefixes */
-+            error_report_once(
-+                "9p: No more prefixes available for remapping inodes from "
-+                "host to guest."
-+            );
-+            return -ENFILE;
-+        }
-+
-+        val = g_malloc0(sizeof(QppEntry));
++        val = g_malloc0(sizeof(QpdEntry));
 +        *val = lookup;
-+
-+        /* new unique inode prefix and device combo */
-+        val->qp_prefix = pdu->s->qp_prefix_next++;
-+        qht_insert(&pdu->s->qpp_table, val, hash, NULL);
++        affix = affixForIndex(pdu->s->qp_affix_next);
++        val->prefix_bits = affix.bits;
++        qht_insert(&pdu->s->qpd_table, val, hash, NULL);
++        pdu->s->qp_ndevices++;
 +    }
-+
-+    *path = ((uint64_t)val->qp_prefix << 48) | (stbuf->st_ino & QPATH_INO_MASK);
-+    return 0;
-+}
-+
- static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
- {
-+    int err;
-     size_t size;
++    return val->prefix_bits;
+ }
  
--    if (pdu->s->dev_id != stbuf->st_dev) {
--        warn_report_once(
--            "9p: Multiple devices detected in same VirtFS export, "
--            "which might lead to file ID collisions and severe "
--            "misbehaviours on guest! You should use a separate "
--            "export for each device shared from host."
--        );
-+    if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
-+        /* map inode+device to qid path (fast path) */
-+        err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
-+        if (err) {
-+            return err;
-+        }
-+    } else {
-+        if (pdu->s->dev_id != stbuf->st_dev) {
-+            if (pdu->s->ctx.export_flags & V9FS_FORBID_MULTIDEVS) {
-+                error_report_once(
-+                    "9p: Multiple devices detected in same VirtFS export. "
-+                    "Access of guest to additional devices is (partly) "
-+                    "denied due to virtfs option 'multidevs=forbid' being "
-+                    "effective."
-+                );
-+                return -ENODEV;
-+            } else {
-+                warn_report_once(
-+                    "9p: Multiple devices detected in same VirtFS export, "
-+                    "which might lead to file ID collisions and severe "
-+                    "misbehaviours on guest! You should either use a "
-+                    "separate export for each device shared from host or "
-+                    "use virtfs option 'multidevs=remap'!"
-+                );
-+            }
-+        }
-+        memset(&qidp->path, 0, sizeof(qidp->path));
-+        size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
-+        memcpy(&qidp->path, &stbuf->st_ino, size);
++/**
++ * @brief Slow / full mapping host inode nr -> guest inode nr.
++ *
++ * This function performs a slower and much more costly remapping of an
++ * original file inode number on host to an appropriate different inode
++ * number on guest. For every (dev, inode) combination on host a new
++ * sequential number is generated, cached and exposed as inode number on
++ * guest.
++ *
++ * This is just a "last resort" fallback solution if the much faster/cheaper
++ * qid_path_suffixmap() failed. In practice this slow / full mapping is not
++ * expected ever to be used at all though.
++ *
++ * @see qid_path_suffixmap() for details
++ *
++ */
+ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
+                             uint64_t *path)
+ {
+@@ -628,11 +799,7 @@ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
+         .ino = stbuf->st_ino
+     }, *val;
+     uint32_t hash = qpf_hash(lookup);
+-
+-    /* most users won't need the fullmap, so init the table lazily */
+-    if (!pdu->s->qpf_table.map) {
+-        qpf_table_init(&pdu->s->qpf_table);
+-    }
++    VariLenAffix affix;
+ 
+     val = qht_lookup(&pdu->s->qpf_table, &lookup, hash);
+ 
+@@ -650,8 +817,11 @@ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
+         *val = lookup;
+ 
+         /* new unique inode and device combo */
+-        val->path = pdu->s->qp_fullpath_next++;
+-        pdu->s->qp_fullpath_next &= QPATH_INO_MASK;
++        affix = affixForIndex(
++            1ULL << (sizeof(pdu->s->qp_affix_next) * 8)
++        );
++        val->path = (pdu->s->qp_fullpath_next++ << affix.bits) | affix.value;
++        pdu->s->qp_fullpath_next &= ((1ULL << (64 - affix.bits)) - 1);
+         qht_insert(&pdu->s->qpf_table, val, hash, NULL);
      }
  
--    memset(&qidp->path, 0, sizeof(qidp->path));
--    size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
--    memcpy(&qidp->path, &stbuf->st_ino, size);
-     qidp->version = stbuf->st_mtime ^ (stbuf->st_size << 8);
-     qidp->type = 0;
-     if (S_ISDIR(stbuf->st_mode)) {
-@@ -618,6 +713,30 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+@@ -659,31 +829,60 @@ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
      return 0;
  }
  
-+static int coroutine_fn dirent_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
-+                                      struct dirent *dent, V9fsQID *qidp)
-+{
-+    struct stat stbuf;
-+    V9fsPath path;
-+    int err;
-+
-+    v9fs_path_init(&path);
-+
-+    err = v9fs_co_name_to_path(pdu, &fidp->path, dent->d_name, &path);
-+    if (err < 0) {
-+        goto out;
-+    }
-+    err = v9fs_co_lstat(pdu, &path, &stbuf);
-+    if (err < 0) {
-+        goto out;
-+    }
-+    err = stat_to_qid(pdu, &stbuf, qidp);
-+
-+out:
-+    v9fs_path_free(&path);
-+    return err;
-+}
-+
- V9fsPDU *pdu_alloc(V9fsState *s)
+-/*
+- * stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
+- * to a unique QID path (64 bits). To avoid having to map and keep track
+- * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
+- * the device id to the 16 highest bits of the QID path. The 48 lowest bits
+- * of the QID path equal to the lowest bits of the inode number.
++/**
++ * @brief Quick mapping host inode nr -> guest inode nr.
+  *
+- * This takes advantage of the fact that inode number are usually not
+- * random but allocated sequentially, so we have fewer items to keep
+- * track of.
++ * This function performs quick remapping of an original file inode number
++ * on host to an appropriate different inode number on guest. This remapping
++ * of inodes is required to avoid inode nr collisions on guest which would
++ * happen if the 9p export contains more than 1 exported file system (or
++ * more than 1 file system data set), because unlike on host level where the
++ * files would have different device nrs, all files exported by 9p would
++ * share the same device nr on guest (the device nr of the virtual 9p device
++ * that is).
++ *
++ * Inode remapping is performed by chopping off high end bits of the original
++ * inode number from host, shifting the result upwards and then assigning a
++ * generated suffix number for the low end bits, where the same suffix number
++ * will be shared by all inodes with the same device id AND the same high end
++ * bits that have been chopped off. That approach utilizes the fact that inode
++ * numbers very likely share the same high end bits (i.e. due to their common
++ * sequential generation by file systems) and hence we only have to generate
++ * and track a very limited amount of suffixes in practice due to that.
++ *
++ * We generate variable size suffixes for that purpose. The 1st generated
++ * suffix will only have 1 bit and hence we only need to chop off 1 bit from
++ * the original inode number. The subsequent suffixes being generated will
++ * grow in (bit) size subsequently, i.e. the 2nd and 3rd suffix being
++ * generated will have 3 bits and hence we have to chop off 3 bits from their
++ * original inodes, and so on. That approach of using variable length suffixes
++ * (i.e. over fixed size ones) utilizes the fact that in practice only a very
++ * limited amount of devices are shared by the same export (e.g. typically
++ * less than 2 dozen devices per 9p export), so in practice we need to chop
++ * off less bits than with fixed size prefixes and yet are flexible to add
++ * new devices at runtime below host's export directory at any time without
++ * having to reboot guest nor requiring to reconfigure guest for that. And due
++ * to the very limited amount of original high end bits that we chop off that
++ * way, the total amount of suffixes we need to generate is less than by using
++ * fixed size prefixes and hence it also improves performance of the inode
++ * remapping algorithm, and finally has the nice side effect that the inode
++ * numbers on guest will be much smaller & human friendly. ;-)
+  */
+-static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
++static int qid_path_suffixmap(V9fsPDU *pdu, const struct stat *stbuf,
+                               uint64_t *path)
  {
-     V9fsPDU *pdu = NULL;
-@@ -1966,16 +2085,39 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-             v9fs_string_free(&name);
-             return count;
-         }
--        /*
--         * Fill up just the path field of qid because the client uses
--         * only that. To fill the entire qid structure we will have
--         * to stat each dirent found, which is expensive
--         */
--        size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
--        memcpy(&qid.path, &dent->d_ino, size);
--        /* Fill the other fields with dummy values */
--        qid.type = 0;
--        qid.version = 0;
-+
-+        if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
-+            /*
-+             * dirent_to_qid() implies expensive stat call for each entry,
-+             * we must do that here though since inode remapping requires
-+             * the device id, which in turn might be different for
-+             * different entries; we cannot make any assumption to avoid
-+             * that here.
-+             */
-+            err = dirent_to_qid(pdu, fidp, dent, &qid);
-+            if (err < 0) {
-+                v9fs_readdir_unlock(&fidp->fs.dir);
-+                v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-+                v9fs_string_free(&name);
-+                return err;
-+            }
-+        } else {
-+            /*
-+             * Fill up just the path field of qid because the client uses
-+             * only that. To fill the entire qid structure we will have
-+             * to stat each dirent found, which is expensive. For the
-+             * latter reason we don't call dirent_to_qid() here. Only drawback
-+             * is that no multi-device export detection of stat_to_qid()
-+             * would be done and provided as error to the user here. But
-+             * user would get that error anyway when accessing those
-+             * files/dirs through other ways.
-+             */
-+            size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
-+            memcpy(&qid.path, &dent->d_ino, size);
-+            /* Fill the other fields with dummy values */
-+            qid.type = 0;
-+            qid.version = 0;
-+        }
++    const int ino_hash_bits = qid_inode_prefix_hash_bits(pdu, stbuf->st_dev);
+     QppEntry lookup = {
+         .dev = stbuf->st_dev,
+-        .ino_prefix = (uint16_t) (stbuf->st_ino >> 48)
++        .ino_prefix = (uint16_t) (stbuf->st_ino >> (64 - ino_hash_bits))
+     }, *val;
+     uint32_t hash = qpp_hash(lookup);
  
-         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
-         len = pdu_marshal(pdu, 11 + count, "Qqbs",
-@@ -3676,6 +3818,9 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+     val = qht_lookup(&pdu->s->qpp_table, &lookup, hash);
+ 
+     if (!val) {
+-        if (pdu->s->qp_prefix_next == 0) {
+-            /* we ran out of prefixes */
++        if (pdu->s->qp_affix_next == 0) {
++            /* we ran out of affixes */
+             warn_report_once(
+                 "9p: Potential degraded performance of inode remapping"
+             );
+@@ -693,12 +892,13 @@ static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
+         val = g_malloc0(sizeof(QppEntry));
+         *val = lookup;
+ 
+-        /* new unique inode prefix and device combo */
+-        val->qp_prefix = pdu->s->qp_prefix_next++;
++        /* new unique inode affix and device combo */
++        val->qp_affix_index = pdu->s->qp_affix_next++;
++        val->qp_affix = affixForIndex(val->qp_affix_index);
+         qht_insert(&pdu->s->qpp_table, val, hash, NULL);
+     }
+-
+-    *path = ((uint64_t)val->qp_prefix << 48) | (stbuf->st_ino & QPATH_INO_MASK);
++    /* assuming generated affix to be suffix type, not prefix */
++    *path = (stbuf->st_ino << val->qp_affix.bits) | val->qp_affix.value;
+     return 0;
+ }
+ 
+@@ -709,7 +909,7 @@ static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+ 
+     if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
+         /* map inode+device to qid path (fast path) */
+-        err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
++        err = qid_path_suffixmap(pdu, stbuf, &qidp->path);
+         if (err == -ENFILE) {
+             /* fast path didn't work, fall back to full map */
+             err = qid_path_fullmap(pdu, stbuf, &qidp->path);
+@@ -3876,8 +4076,15 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
  
      s->dev_id = stat.st_dev;
  
-+    qpp_table_init(&s->qpp_table);
-+    s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
-+
-     s->ctx.fst = &fse->fst;
-     fsdev_throttle_init(s->ctx.fst);
++    /* init inode remapping : */
++    /* hash table for variable length inode suffixes */
++    qpd_table_init(&s->qpd_table);
++    /* hash table for slow/full inode remapping (most users won't need it) */
++    qpf_table_init(&s->qpf_table);
++    /* hash table for quick inode remapping */
+     qpp_table_init(&s->qpp_table);
+-    s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
++    s->qp_ndevices = 0;
++    s->qp_affix_next = 1; /* reserve 0 to detect overflow */
+     s->qp_fullpath_next = 1;
  
-@@ -3697,6 +3842,7 @@ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
+     s->ctx.fst = &fse->fst;
+@@ -3901,6 +4108,7 @@ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
          fsdev_throttle_cleanup(s->ctx.fst);
      }
      g_free(s->tag);
-+    qpp_table_destroy(&s->qpp_table);
++    qp_table_destroy(&s->qpd_table);
+     qp_table_destroy(&s->qpp_table);
+     qp_table_destroy(&s->qpf_table);
      g_free(s->ctx.fs_root);
- }
- 
 diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 5e316178d579..7262fe80aa02 100644
+index 35a362c0d797..3904f8290131 100644
 --- a/hw/9pfs/9p.h
 +++ b/hw/9pfs/9p.h
-@@ -8,6 +8,7 @@
- #include "fsdev/9p-iov-marshal.h"
- #include "qemu/thread.h"
- #include "qemu/coroutine.h"
-+#include "qemu/qht.h"
- 
- enum {
-     P9_TLERROR = 6,
-@@ -235,6 +236,15 @@ struct V9fsFidState
+@@ -236,13 +236,49 @@ struct V9fsFidState
      V9fsFidState *rclm_lst;
  };
  
-+#define QPATH_INO_MASK        ((1ULL << 48) - 1)
+-#define QPATH_INO_MASK        ((1ULL << 48) - 1)
++typedef enum AffixType_t {
++    AffixType_Prefix,
++    AffixType_Suffix, /* A.k.a. postfix. */
++} AffixType_t;
 +
-+/* QID path prefix entry, see stat_to_qid */
++/**
++ * @brief Unique affix of variable length.
++ *
++ * An affix is (currently) either a suffix or a prefix, which is either
++ * going to be prepended (prefix) or appended (suffix) with some other
++ * number for the goal to generate unique numbers. Accordingly the
++ * suffixes (or prefixes) we generate @b must all have the mathematical
++ * property of being suffix-free (or prefix-free in case of prefixes)
++ * so that no matter what number we concatenate the affix with, that we
++ * always reliably get unique numbers as result after concatenation.
++ */
++typedef struct VariLenAffix {
++    AffixType_t type; /* Whether this affix is a suffix or a prefix. */
++    uint64_t value; /* Actual numerical value of this affix. */
++    /*
++     * Lenght of the affix, that is how many (of the lowest) bits of @c value
++     * must be used for appending/prepending this affix to its final resulting,
++     * unique number.
++     */
++    int bits;
++} VariLenAffix;
++
++/* See qid_inode_prefix_hash_bits(). */
 +typedef struct {
-+    dev_t dev;
-+    uint16_t ino_prefix;
-+    uint16_t qp_prefix;
-+} QppEntry;
-+
- struct V9fsState
- {
-     QLIST_HEAD(, V9fsPDU) free_list;
-@@ -257,6 +267,8 @@ struct V9fsState
++    dev_t dev; /* FS device on host. */
++    /*
++     * How many (high) bits of the original inode number shall be used for
++     * hashing.
++     */
++    int prefix_bits;
++} QpdEntry;
+ 
+ /* QID path prefix entry, see stat_to_qid */
+ typedef struct {
+     dev_t dev;
+     uint16_t ino_prefix;
+-    uint16_t qp_prefix;
++    uint32_t qp_affix_index;
++    VariLenAffix qp_affix;
+ } QppEntry;
+ 
+ /* QID path full entry, as above */
+@@ -274,9 +310,11 @@ struct V9fsState
      V9fsConf fsconf;
      V9fsQID root_qid;
      dev_t dev_id;
-+    struct qht qpp_table;
-+    uint16_t qp_prefix_next;
++    struct qht qpd_table;
+     struct qht qpp_table;
+     struct qht qpf_table;
+-    uint16_t qp_prefix_next;
++    uint64_t qp_ndevices; /* Amount of entries in qpd_table. */
++    uint16_t qp_affix_next;
+     uint64_t qp_fullpath_next;
  };
  
- /* 9p2000.L open flags */
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 2a04ca6ac509..793d70ff9388 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1339,7 +1339,7 @@ ETEXI
- 
- DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
-     "-virtfs local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-file|passthrough|none\n"
--    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n"
-+    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode][,multidevs=remap|forbid|warn]\n"
-     "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly]\n"
-     "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly]\n"
-     "-virtfs synth,mount_tag=tag[,id=id][,readonly]\n",
-@@ -1347,7 +1347,7 @@ DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
- 
- STEXI
- 
--@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}]
-+@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}][,multidevs=@var{multidevs}]
- @itemx -virtfs proxy,socket=@var{socket},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
- @itemx -virtfs proxy,sock_fd=@var{sock_fd},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
- @itemx -virtfs synth,mount_tag=@var{mount_tag}
-@@ -1403,6 +1403,28 @@ Specifies the default mode for newly created directories on the host. Works
- only with security models "mapped-xattr" and "mapped-file".
- @item mount_tag=@var{mount_tag}
- Specifies the tag name to be used by the guest to mount this export point.
-+@item multidevs=@var{multidevs}
-+Specifies how to deal with multiple devices being shared with a 9p export.
-+Supported behaviours are either "remap", "forbid" or "warn". The latter is
-+the default behaviour on which virtfs 9p expects only one device to be
-+shared with the same export, and if more than one device is shared and
-+accessed via the same 9p export then only a warning message is logged
-+(once) by qemu on host side. In order to avoid file ID collisions on guest
-+you should either create a separate virtfs export for each device to be
-+shared with guests (recommended way) or you might use "remap" instead which
-+allows you to share multiple devices with only one export instead, which is
-+achieved by remapping the original inode numbers from host to guest in a
-+way that would prevent such collisions. Remapping inodes in such use cases
-+is required because the original device IDs from host are never passed and
-+exposed on guest. Instead all files of an export shared with virtfs always
-+share the same device id on guest. So two files with identical inode
-+numbers but from actually different devices on host would otherwise cause a
-+file ID collision and hence potential misbehaviours on guest. "forbid" on
-+the other hand assumes like "warn" that only one device is shared by the
-+same export, however it will not only log a warning message but also
-+deny access to additional devices on guest. Note though that "forbid" does
-+currently not block all possible file access operations (e.g. readdir()
-+would still return entries from other devices).
- @end table
- ETEXI
- 
-diff --git a/vl.c b/vl.c
-index 002bf4919e1e..0a295e5d77d6 100644
---- a/vl.c
-+++ b/vl.c
-@@ -3335,7 +3335,8 @@ int main(int argc, char **argv, char **envp)
-             case QEMU_OPTION_virtfs: {
-                 QemuOpts *fsdev;
-                 QemuOpts *device;
--                const char *writeout, *sock_fd, *socket, *path, *security_model;
-+                const char *writeout, *sock_fd, *socket, *path, *security_model,
-+                           *multidevs;
- 
-                 olist = qemu_find_opts("virtfs");
-                 if (!olist) {
-@@ -3395,6 +3396,10 @@ int main(int argc, char **argv, char **envp)
-                 qemu_opt_set_bool(fsdev, "readonly",
-                                   qemu_opt_get_bool(opts, "readonly", 0),
-                                   &error_abort);
-+                multidevs = qemu_opt_get(opts, "multidevs");
-+                if (multidevs) {
-+                    qemu_opt_set(fsdev, "multidevs", multidevs, &error_abort);
-+                }
-                 device = qemu_opts_create(qemu_find_opts("device"), NULL, 0,
-                                           &error_abort);
-                 qemu_opt_set(device, "driver", "virtio-9p-pci", &error_abort);
 -- 
 2.21.0
 
