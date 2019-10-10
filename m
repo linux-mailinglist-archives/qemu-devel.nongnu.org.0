@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6036D28A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:03:35 +0200 (CEST)
-Received: from localhost ([::1]:36868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9345DD28B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:07:06 +0200 (CEST)
+Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXAM-0002PH-8k
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50671)
+	id 1iIXDl-0005ri-7j
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iIWkE-0006AW-5p
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:36:35 -0400
+ (envelope-from <david@redhat.com>) id 1iIWkW-0006fU-0P
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:36:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iIWkD-0006YT-0v
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:36:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33724)
+ (envelope-from <david@redhat.com>) id 1iIWkU-0006cS-QH
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:36:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40905)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iIWkC-0006Y6-R9; Thu, 10 Oct 2019 07:36:32 -0400
+ id 1iIWkU-0006cC-Kt; Thu, 10 Oct 2019 07:36:50 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 03D9B88FFF7;
- Thu, 10 Oct 2019 11:36:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D934989AC7;
+ Thu, 10 Oct 2019 11:36:49 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B0E65C1B5;
- Thu, 10 Oct 2019 11:36:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 616BB5C1B5;
+ Thu, 10 Oct 2019 11:36:48 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 24/31] target/s390x: Simplify helper_lra
-Date: Thu, 10 Oct 2019 13:33:49 +0200
-Message-Id: <20191010113356.5017-25-david@redhat.com>
+Subject: [PULL 27/31] target/s390x: Remove ILEN_AUTO
+Date: Thu, 10 Oct 2019 13:33:52 +0200
+Message-Id: <20191010113356.5017-28-david@redhat.com>
 In-Reply-To: <20191010113356.5017-1-david@redhat.com>
 References: <20191010113356.5017-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Thu, 10 Oct 2019 11:36:32 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Thu, 10 Oct 2019 11:36:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -64,65 +64,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We currently call trigger_pgm_exception to set cs->exception_index
-and env->int_pgm_code and then read the values back and then
-reset cs->exception_index so that the exception is not delivered.
-
-Instead, use the exception type that we already have directly
-without ever triggering an exception that must be suppressed.
+This setting is no longer used.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191001171614.8405-13-richard.henderson@linaro.org>
+Message-Id: <20191001171614.8405-16-richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mem_helper.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ target/s390x/cpu.h         | 2 --
+ target/s390x/excp_helper.c | 3 ---
+ 2 files changed, 5 deletions(-)
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index e15aa296dd..4254548935 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -2361,34 +2361,23 @@ void HELPER(sturg)(CPUS390XState *env, uint64_t a=
-ddr, uint64_t v1)
- /* load real address */
- uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
- {
--    CPUState *cs =3D env_cpu(env);
--    uint32_t cc =3D 0;
-     uint64_t asc =3D env->psw.mask & PSW_MASK_ASC;
-     uint64_t ret, tec;
--    int old_exc, flags, exc;
-+    int flags, exc, cc;
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 18e7091763..e7a9a58e0f 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -806,8 +806,6 @@ void s390_io_interrupt(uint16_t subchannel_id, uint16=
+_t subchannel_nr,
+                        uint32_t io_int_parm, uint32_t io_int_word);
+ /* instruction length set by unwind info */
+ #define ILEN_UNWIND                 0
+-/* automatically detect the instruction length */
+-#define ILEN_AUTO                   0xff
+ #define RA_IGNORED                  0
+ void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t=
+ ra);
+ /* service interrupts are floating therefore we must not pass an cpustat=
+e */
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 8ce992e639..c252e9a7d8 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -196,9 +196,6 @@ static void do_program_interrupt(CPUS390XState *env)
+     LowCore *lowcore;
+     int ilen =3D env->int_pgm_ilen;
 =20
-     /* XXX incomplete - has more corner cases */
-     if (!(env->psw.mask & PSW_MASK_64) && (addr >> 32)) {
-         tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
-     }
-=20
--    old_exc =3D cs->exception_index;
-     exc =3D mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
-     if (exc) {
--        /*
--         * We don't care about ILEN or TEC, as we're not going to
--         * deliver the exception -- thus resetting exception_index below=
-.
--         * TODO: clean this up.
--         */
--        trigger_pgm_exception(env, exc, ILEN_UNWIND);
-         cc =3D 3;
+-    if (ilen =3D=3D ILEN_AUTO) {
+-        ilen =3D get_ilen(cpu_ldub_code(env, env->psw.addr));
 -    }
--    if (cs->exception_index =3D=3D EXCP_PGM) {
--        ret =3D env->int_pgm_code | 0x80000000;
-+        ret =3D exc | 0x80000000;
-     } else {
-+        cc =3D 0;
-         ret |=3D addr & ~TARGET_PAGE_MASK;
-     }
--    cs->exception_index =3D old_exc;
+     assert(ilen =3D=3D 2 || ilen =3D=3D 4 || ilen =3D=3D 6);
 =20
-     env->cc_op =3D cc;
-     return ret;
+     switch (env->int_pgm_code) {
 --=20
 2.21.0
 
