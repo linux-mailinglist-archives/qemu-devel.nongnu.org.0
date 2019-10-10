@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F10D2980
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:30:54 +0200 (CEST)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8678D298C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:34:00 +0200 (CEST)
+Received: from localhost ([::1]:37340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXan-0001h8-BI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
+	id 1iIXdn-0005ZN-8P
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iIXIg-0005g2-UP
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:12:11 -0400
+ id 1iIXLh-0000Ny-2A
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:15:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iIXIf-00024I-LY
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:12:10 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:40965)
+ id 1iIXLf-0003zh-AF
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:15:16 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42932)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iIXIf-00023c-7t
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:12:09 -0400
-Received: by mail-ed1-x544.google.com with SMTP id f20so5226334edv.8
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:12:07 -0700 (PDT)
+ id 1iIXLf-0003zO-4u
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:15:15 -0400
+Received: by mail-ot1-x341.google.com with SMTP id c10so4633339otd.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cloud.ionos.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=IVm4Q3iaNsBP4sWFGtxcWCWhC1arj/DaRHtS1VBZgIg=;
- b=ItUXECQpj7BqUH/75DzW3be1rMSla2HjLzXhSMAvWth12T/91JRFjxwBBJjOVCYe5U
- YBNW/83GreZqdh50eJxKy/BzHa5A3QLJpg5/CLOQCfpoLflslWLb1iP3rs1A6x/oQW0y
- qo64y7LO1Kq9ZHnLlMG9Ykgg7kTjKt01MQeTv+zoJahdxuY34tDexqonFfgvMcuJkka2
- Q+McXAf0P/hoq4/+I7CrPFhNS+LIQraDRFmXM4Td3anGB0ZaMDcxkWK43WuMYmL1j5T8
- DeiH639v5SRRBiyXPI7/jrQLekxFEqeY+gqsQP9bwBUJiWpeepqzeltVDeaGYj1A3WrU
- cYTw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7oq3SsFxxyQqN8ykacVa0m46Z5w/+lN7c1KagfhHmOA=;
+ b=Lt50kDuT14asHJkKS0oXuYAcviwFiofBCxugAJalTSvxH9KjAktWPeyoBBLlYQvl83
+ tmXpk8UwdE6k8lKeOhowLK3fO60cPPMwIoyZPkEvyR53VHZjlv3hU3CRNHv7g/eWkB0+
+ ewwiYDf13QVecSJoUoUA4y8YdY6Aiii0QYZt3adR1xnivXtkh2U2BFvpsJ55R4bZ/vO1
+ HWWkjdxOiPmr2IH6ABFZTY2CxutQ4xBp1HJkwQsfXG2rVHrGn1tKBQlmc/lCNwAJ8qzR
+ 44wv1MkLam7ET859WmRayr+mthkGlAV/vuQPzR3lpvskUMuza1m2PpdJu2IR55jHW+U3
+ Qw/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=IVm4Q3iaNsBP4sWFGtxcWCWhC1arj/DaRHtS1VBZgIg=;
- b=KYXT8gwUs88pHRa9fxqwgY3Quu5aBSrvjwRBqwreCnhF8xCgwG3xOCzpboQojIuSeD
- xOZZnxEAAgFUzws8l4j6nc99XpaSy3K7xnl3cOVG+YdNfUvh5Tim7GiAo+rNFh0UN72G
- KYsWLhRtLc2tSWdoU1l4EMiSvrLgzLhxWT3won0thX+1YsAnRQTfVeyp4BeRbB4lJquF
- qRWpu7Xo1xeMn0dSO6pZafdlwgrFDEgWH0vChVXL4SzwamzJjAysQLdFDnBufc0RvNlP
- TPgaB5pCJeKUNX1/t1stnZKvhLDn2hSHcA6crf2T3QYP54STLh+6Y3aNbnTWoXqRwik0
- 8jyg==
-X-Gm-Message-State: APjAAAWHLAh+q2Su8+9vuLp74jvNe183TQYFC7IceAooS8Q3habwyS1m
- DbTKz2L1bgvZJKBwUeucXCBGjeUGBSQ=
-X-Google-Smtp-Source: APXvYqzOeXwdHF2qHeusSTeo+QnQINSWI9C+VrDtLZ1acQfQUkS+NrCQldvtDbukXORp6ViDKqoPvw==
-X-Received: by 2002:a17:906:2cd2:: with SMTP id
- r18mr7749361ejr.282.1570709526115; 
- Thu, 10 Oct 2019 05:12:06 -0700 (PDT)
-Received: from msennikovskii2.pb.local
- ([2001:1438:4010:2558:31c1:ae55:82cf:3681])
- by smtp.googlemail.com with ESMTPSA id c22sm949157edc.9.2019.10.10.05.12.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 10 Oct 2019 05:12:05 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7oq3SsFxxyQqN8ykacVa0m46Z5w/+lN7c1KagfhHmOA=;
+ b=FtJrqY9coEw/k35xbx2uvfBAAXux+r2LW1opvl42ZZznurKY+dx8a3grH52R0xWCDv
+ DrQLVzo2XCp0gJhk3DONzcpb7T3Crv14C9/k1jVhmmuxkaJDLxjnDhEwGrwr7pMO6VfU
+ iA3qEhzzSg5K+8+l9N1DYib0PQV9DobQgbcTNuQqKY6vwYkMRKA1nkWmo8pdkWNgYiFR
+ kyWXcpF+ZyWRc1TdSe0DDNsC5/ZFdzUK+szCYNjA6LyBplCaMGgEBI2E+qyVqggVhWbr
+ HwC4GPOrA/kJfoPQRdiHDZS2M8gcALn8IeKnpJc1JuEuWvruDVXJKBvaxMfpTsqlQoDj
+ Zceg==
+X-Gm-Message-State: APjAAAUhyhslOPOiI2oDWwyekhCyT9mLsohfJjaAiQvAaT9zwlzsRjJD
+ T6dRWMqQ+rQH9xvfplsINIpfz2Z/ByzFjZdlUP5xYw==
+X-Google-Smtp-Source: APXvYqy6v1/vDy3ArYIs7Re6BOHByQ64EPXbA9ZLEcYwQE6xT2nNTU8pG03cnGYmgqnreKCuEorP5x9zL/JbqtYKUQI=
+X-Received: by 2002:a9d:7a99:: with SMTP id l25mr7618976otn.316.1570709713518; 
+ Thu, 10 Oct 2019 05:15:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <1569932308-30478-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+ <1569932308-30478-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+ <20191002095538.GA2709@work-vm>
+ <778087fb-6d91-3f63-18cb-78cab6a68f77@redhat.com>
+In-Reply-To: <778087fb-6d91-3f63-18cb-78cab6a68f77@redhat.com>
 From: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
-To: qemu-devel@nongnu.org, jasowang@redhat.com, stefanha@redhat.com,
- mst@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH v3] virtio-net: prevent offloads reset on migration
-Date: Thu, 10 Oct 2019 14:11:14 +0200
-Message-Id: <1570709475-32073-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
-X-Mailer: git-send-email 2.7.4
+Date: Thu, 10 Oct 2019 14:15:02 +0200
+Message-ID: <CALHVEJZfNLLMSx9EVXx28L3aDh4RgfoUqjYqVqr5jcJS4fNYxQ@mail.gmail.com>
+Subject: Re: [PATCH] virtio-net: prevent offloads reset on migration
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,25 +79,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Hi Jason,
 
-This is the third version of the patch, implementing the approach
-based on checking the VM runstate proposed by Jason Wang.
+Thank you for your reply.
+I've submitted the third version of the patch which does the runstate
+check as you propose.
 
-Regards,
+Thanks,
 Mikhail
 
-Mikhail Sennikovsky (1):
-  virtio-net: prevent offloads reset on migration
-
- hw/net/virtio-net.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
--- 
-2.7.4
-
+Am Do., 10. Okt. 2019 um 07:33 Uhr schrieb Jason Wang <jasowang@redhat.com>=
+:
+>
+>
+> On 2019/10/2 =E4=B8=8B=E5=8D=885:55, Dr. David Alan Gilbert wrote:
+> > Copying in Stefan, Jason and Michael who know the virtio details
+> >
+> > Dave
+> >
+> > * Mikhail Sennikovsky (mikhail.sennikovskii@cloud.ionos.com) wrote:
+> >> Currently offloads disabled by guest via the VIRTIO_NET_CTRL_GUEST_OFF=
+LOADS_SET
+> >> command are not preserved on VM migration.
+> >> Instead all offloads reported by guest features (via VIRTIO_PCI_GUEST_=
+FEATURES)
+> >> get enabled.
+> >> What happens is: first the VirtIONet::curr_guest_offloads gets restore=
+d and offloads
+> >> are getting set correctly:
+> >>
+> >>   #0  qemu_set_offload (nc=3D0x555556a11400, csum=3D1, tso4=3D0, tso6=
+=3D0, ecn=3D0, ufo=3D0) at net/net.c:474
+> >>   #1  virtio_net_apply_guest_offloads (n=3D0x555557701ca0) at hw/net/v=
+irtio-net.c:720
+> >>   #2  virtio_net_post_load_device (opaque=3D0x555557701ca0, version_id=
+=3D11) at hw/net/virtio-net.c:2334
+> >>   #3  vmstate_load_state (f=3D0x5555569dc010, vmsd=3D0x555556577c80 <v=
+mstate_virtio_net_device>, opaque=3D0x555557701ca0, version_id=3D11)
+> >>       at migration/vmstate.c:168
+> >>   #4  virtio_load (vdev=3D0x555557701ca0, f=3D0x5555569dc010, version_=
+id=3D11) at hw/virtio/virtio.c:2197
+> >>   #5  virtio_device_get (f=3D0x5555569dc010, opaque=3D0x555557701ca0, =
+size=3D0, field=3D0x55555668cd00 <__compound_literal.5>) at hw/virtio/virti=
+o.c:2036
+> >>   #6  vmstate_load_state (f=3D0x5555569dc010, vmsd=3D0x555556577ce0 <v=
+mstate_virtio_net>, opaque=3D0x555557701ca0, version_id=3D11) at migration/=
+vmstate.c:143
+> >>   #7  vmstate_load (f=3D0x5555569dc010, se=3D0x5555578189e0) at migrat=
+ion/savevm.c:829
+> >>   #8  qemu_loadvm_section_start_full (f=3D0x5555569dc010, mis=3D0x5555=
+569eee20) at migration/savevm.c:2211
+> >>   #9  qemu_loadvm_state_main (f=3D0x5555569dc010, mis=3D0x5555569eee20=
+) at migration/savevm.c:2395
+> >>   #10 qemu_loadvm_state (f=3D0x5555569dc010) at migration/savevm.c:246=
+7
+> >>   #11 process_incoming_migration_co (opaque=3D0x0) at migration/migrat=
+ion.c:449
+> >>
+> >> However later on the features are getting restored, and offloads get r=
+eset to
+> >> everything supported by features:
+> >>
+> >>   #0  qemu_set_offload (nc=3D0x555556a11400, csum=3D1, tso4=3D1, tso6=
+=3D1, ecn=3D0, ufo=3D0) at net/net.c:474
+> >>   #1  virtio_net_apply_guest_offloads (n=3D0x555557701ca0) at hw/net/v=
+irtio-net.c:720
+> >>   #2  virtio_net_set_features (vdev=3D0x555557701ca0, features=3D51044=
+41767) at hw/net/virtio-net.c:773
+> >>   #3  virtio_set_features_nocheck (vdev=3D0x555557701ca0, val=3D510444=
+1767) at hw/virtio/virtio.c:2052
+> >>   #4  virtio_load (vdev=3D0x555557701ca0, f=3D0x5555569dc010, version_=
+id=3D11) at hw/virtio/virtio.c:2220
+> >>   #5  virtio_device_get (f=3D0x5555569dc010, opaque=3D0x555557701ca0, =
+size=3D0, field=3D0x55555668cd00 <__compound_literal.5>) at hw/virtio/virti=
+o.c:2036
+> >>   #6  vmstate_load_state (f=3D0x5555569dc010, vmsd=3D0x555556577ce0 <v=
+mstate_virtio_net>, opaque=3D0x555557701ca0, version_id=3D11) at migration/=
+vmstate.c:143
+> >>   #7  vmstate_load (f=3D0x5555569dc010, se=3D0x5555578189e0) at migrat=
+ion/savevm.c:829
+> >>   #8  qemu_loadvm_section_start_full (f=3D0x5555569dc010, mis=3D0x5555=
+569eee20) at migration/savevm.c:2211
+> >>   #9  qemu_loadvm_state_main (f=3D0x5555569dc010, mis=3D0x5555569eee20=
+) at migration/savevm.c:2395
+> >>   #10 qemu_loadvm_state (f=3D0x5555569dc010) at migration/savevm.c:246=
+7
+> >>   #11 process_incoming_migration_co (opaque=3D0x0) at migration/migrat=
+ion.c:449
+> >>
+> >> This patch fixes this by adding an extra argument to the set_features =
+callback,
+> >> specifying whether the offloads are to be reset, and setting it to fal=
+se
+> >> for the migration case.
+> >>
+> >> Signed-off-by: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.c=
+om>
+> >> ---
+> >>   hw/display/virtio-gpu-base.c |  3 ++-
+> >>   hw/net/virtio-net.c          |  5 +++--
+> >>   hw/virtio/virtio.c           | 10 +++++-----
+> >>   include/hw/virtio/virtio.h   |  2 +-
+> >>   4 files changed, 11 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base=
+.c
+> >> index 55e0799..04d8a23 100644
+> >> --- a/hw/display/virtio-gpu-base.c
+> >> +++ b/hw/display/virtio-gpu-base.c
+> >> @@ -193,7 +193,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, u=
+int64_t features,
+> >>   }
+> >>
+> >>   static void
+> >> -virtio_gpu_base_set_features(VirtIODevice *vdev, uint64_t features)
+> >> +virtio_gpu_base_set_features(VirtIODevice *vdev, uint64_t features,
+> >> +                               bool reset_offloads)
+>
+>
+> It's not good for e.g gpu to know anything about net.
+>
+> How about checking runstate and do not call apply_guest_offload() in
+> virtio_net_set_features() when in the state of migration?
+>
+> Thanks
+>
+>
+> >>   {
+> >>       static const uint32_t virgl =3D (1 << VIRTIO_GPU_F_VIRGL);
+> >>       VirtIOGPUBase *g =3D VIRTIO_GPU_BASE(vdev);
+> >> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> >> index b9e1cd7..5d108e5 100644
+> >> --- a/hw/net/virtio-net.c
+> >> +++ b/hw/net/virtio-net.c
+> >> @@ -743,7 +743,8 @@ static inline uint64_t virtio_net_supported_guest_=
+offloads(VirtIONet *n)
+> >>       return virtio_net_guest_offloads_by_features(vdev->guest_feature=
+s);
+> >>   }
+> >>
+> >> -static void virtio_net_set_features(VirtIODevice *vdev, uint64_t feat=
+ures)
+> >> +static void virtio_net_set_features(VirtIODevice *vdev, uint64_t feat=
+ures,
+> >> +                                        bool reset_offloads)
+> >>   {
+> >>       VirtIONet *n =3D VIRTIO_NET(vdev);
+> >>       int i;
+> >> @@ -767,7 +768,7 @@ static void virtio_net_set_features(VirtIODevice *=
+vdev, uint64_t features)
+> >>       n->rsc6_enabled =3D virtio_has_feature(features, VIRTIO_NET_F_RS=
+C_EXT) &&
+> >>           virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO6);
+> >>
+> >> -    if (n->has_vnet_hdr) {
+> >> +    if (reset_offloads && n->has_vnet_hdr) {
+> >>           n->curr_guest_offloads =3D
+> >>               virtio_net_guest_offloads_by_features(features);
+> >>           virtio_net_apply_guest_offloads(n);
+> >> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> >> index a94ea18..b89f7b0 100644
+> >> --- a/hw/virtio/virtio.c
+> >> +++ b/hw/virtio/virtio.c
+> >> @@ -2042,14 +2042,14 @@ const VMStateInfo  virtio_vmstate_info =3D {
+> >>       .put =3D virtio_device_put,
+> >>   };
+> >>
+> >> -static int virtio_set_features_nocheck(VirtIODevice *vdev, uint64_t v=
+al)
+> >> +static int virtio_set_features_nocheck(VirtIODevice *vdev, uint64_t v=
+al, bool reset_offloads)
+> >>   {
+> >>       VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> >>       bool bad =3D (val & ~(vdev->host_features)) !=3D 0;
+> >>
+> >>       val &=3D vdev->host_features;
+> >>       if (k->set_features) {
+> >> -        k->set_features(vdev, val);
+> >> +        k->set_features(vdev, val, reset_offloads);
+> >>       }
+> >>       vdev->guest_features =3D val;
+> >>       return bad ? -1 : 0;
+> >> @@ -2065,7 +2065,7 @@ int virtio_set_features(VirtIODevice *vdev, uint=
+64_t val)
+> >>       if (vdev->status & VIRTIO_CONFIG_S_FEATURES_OK) {
+> >>           return -EINVAL;
+> >>       }
+> >> -    ret =3D virtio_set_features_nocheck(vdev, val);
+> >> +    ret =3D virtio_set_features_nocheck(vdev, val, true);
+> >>       if (!ret) {
+> >>           if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) =
+{
+> >>               /* VIRTIO_RING_F_EVENT_IDX changes the size of the cache=
+s.  */
+> >> @@ -2217,14 +2217,14 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *=
+f, int version_id)
+> >>            * host_features.
+> >>            */
+> >>           uint64_t features64 =3D vdev->guest_features;
+> >> -        if (virtio_set_features_nocheck(vdev, features64) < 0) {
+> >> +        if (virtio_set_features_nocheck(vdev, features64, false) < 0)=
+ {
+> >>               error_report("Features 0x%" PRIx64 " unsupported. "
+> >>                            "Allowed features: 0x%" PRIx64,
+> >>                            features64, vdev->host_features);
+> >>               return -1;
+> >>           }
+> >>       } else {
+> >> -        if (virtio_set_features_nocheck(vdev, features) < 0) {
+> >> +        if (virtio_set_features_nocheck(vdev, features, false) < 0) {
+> >>               error_report("Features 0x%x unsupported. "
+> >>                            "Allowed features: 0x%" PRIx64,
+> >>                            features, vdev->host_features);
+> >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> >> index b189788..fd8cac5 100644
+> >> --- a/include/hw/virtio/virtio.h
+> >> +++ b/include/hw/virtio/virtio.h
+> >> @@ -128,7 +128,7 @@ typedef struct VirtioDeviceClass {
+> >>                                uint64_t requested_features,
+> >>                                Error **errp);
+> >>       uint64_t (*bad_features)(VirtIODevice *vdev);
+> >> -    void (*set_features)(VirtIODevice *vdev, uint64_t val);
+> >> +    void (*set_features)(VirtIODevice *vdev, uint64_t val, bool reset=
+_offloads);
+> >>       int (*validate_features)(VirtIODevice *vdev);
+> >>       void (*get_config)(VirtIODevice *vdev, uint8_t *config);
+> >>       void (*set_config)(VirtIODevice *vdev, const uint8_t *config);
+> >> --
+> >> 2.7.4
+> >>
+> >>
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
