@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368A3D26F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 12:10:53 +0200 (CEST)
-Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE6FD26F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 12:11:09 +0200 (CEST)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIVPH-0005EG-RS
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 06:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41073)
+	id 1iIVPY-0005Oy-ES
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 06:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIVNb-0003tn-Iq
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 06:09:08 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIVNc-0003uU-8r
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 06:09:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIVNa-00069m-IK
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 06:09:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47598)
+ (envelope-from <mreitz@redhat.com>) id 1iIVNb-00069x-5K
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 06:09:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40224)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIVNX-000679-Nj; Thu, 10 Oct 2019 06:09:03 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iIVNY-00067q-Rg; Thu, 10 Oct 2019 06:09:04 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6D0802DA980;
- Thu, 10 Oct 2019 10:09:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1C787308FBA6;
+ Thu, 10 Oct 2019 10:09:04 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E8EE5D6B2;
- Thu, 10 Oct 2019 10:09:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FC4D5C223;
+ Thu, 10 Oct 2019 10:09:03 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/2] qcow2: Limit total allocation range to INT_MAX
-Date: Thu, 10 Oct 2019 12:08:56 +0200
-Message-Id: <20191010100858.1261-1-mreitz@redhat.com>
+Subject: [PATCH 1/2] qcow2: Limit total allocation range to INT_MAX
+Date: Thu, 10 Oct 2019 12:08:57 +0200
+Message-Id: <20191010100858.1261-2-mreitz@redhat.com>
+In-Reply-To: <20191010100858.1261-1-mreitz@redhat.com>
+References: <20191010100858.1261-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Thu, 10 Oct 2019 10:09:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Thu, 10 Oct 2019 10:09:04 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,27 +60,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When the COW areas are included, the size of an allocation can exceed
+INT_MAX.  This is kind of limited by handle_alloc() in that it already
+caps avail_bytes at INT_MAX, but the number of clusters still reflects
+the original length.
 
-While looking for why handle_alloc_space() seems to cause issues on
-ppc64le+XFS (performance degradation and data corruption), I spotted
-this other issue.  It isn=E2=80=99t as bad, but still needs fixing.
+This can have all sorts of effects, ranging from the storage layer write
+call failing to image corruption.  (If there were no image corruption,
+then I suppose there would be data loss because the .cow_end area is
+forced to be empty, even though there might be something we need to
+COW.)
 
-See patch 1 for what is fixed and patch 2 for what breaks otherwise.
+Fix all of it by limiting nb_clusters so the equivalent number of bytes
+will not exceed INT_MAX.
 
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2-cluster.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Max Reitz (2):
-  qcow2: Limit total allocation range to INT_MAX
-  iotests: Test large write request to qcow2 file
-
- block/qcow2-cluster.c      |  5 ++-
- tests/qemu-iotests/268     | 83 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/268.out |  9 +++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 97 insertions(+), 1 deletion(-)
- create mode 100755 tests/qemu-iotests/268
- create mode 100644 tests/qemu-iotests/268.out
-
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 8d5fa1539c..8982b7b762 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1330,6 +1330,9 @@ static int handle_alloc(BlockDriverState *bs, uint6=
+4_t guest_offset,
+     nb_clusters =3D MIN(nb_clusters, s->l2_slice_size - l2_index);
+     assert(nb_clusters <=3D INT_MAX);
+=20
++    /* Limit total allocation byte count to INT_MAX */
++    nb_clusters =3D MIN(nb_clusters, INT_MAX >> s->cluster_bits);
++
+     /* Find L2 entry for the first involved cluster */
+     ret =3D get_cluster_table(bs, guest_offset, &l2_slice, &l2_index);
+     if (ret < 0) {
+@@ -1412,7 +1415,7 @@ static int handle_alloc(BlockDriverState *bs, uint6=
+4_t guest_offset,
+      * request actually writes to (excluding COW at the end)
+      */
+     uint64_t requested_bytes =3D *bytes + offset_into_cluster(s, guest_o=
+ffset);
+-    int avail_bytes =3D MIN(INT_MAX, nb_clusters << s->cluster_bits);
++    int avail_bytes =3D nb_clusters << s->cluster_bits;
+     int nb_bytes =3D MIN(requested_bytes, avail_bytes);
+     QCowL2Meta *old_m =3D *m;
+=20
 --=20
 2.21.0
 
