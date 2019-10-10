@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D771BD2B1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:20:21 +0200 (CEST)
-Received: from localhost ([::1]:39360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7504BD2B3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:26:00 +0200 (CEST)
+Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYMe-0002V5-V4
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40377)
+	id 1iIYS7-0002vx-40
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iIYIW-0007g8-A4
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:16:05 -0400
+ (envelope-from <groug@kaod.org>) id 1iIYJV-0001BM-4a
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iIYIU-0001vj-Qh
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:16:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:12705)
+ (envelope-from <groug@kaod.org>) id 1iIYJT-0002Nk-Mw
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:04 -0400
+Received: from 6.mo6.mail-out.ovh.net ([87.98.177.69]:47666)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIYIU-0001vW-HT
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:16:02 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C5A60898106;
- Thu, 10 Oct 2019 13:16:01 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-48.rdu2.redhat.com
- [10.10.120.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCF485D6A5;
- Thu, 10 Oct 2019 13:15:52 +0000 (UTC)
-Subject: Re: [RFC 2/3] acpi: cpuhp: add typical usecases into spec
-From: Laszlo Ersek <lersek@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191009132252.17860-3-imammedo@redhat.com>
- <e97f3e1c-651f-ca81-d38d-c184e3db7697@redhat.com>
-Message-ID: <82e2a266-84bd-8e09-f86b-3b82281d4fdf@redhat.com>
-Date: Thu, 10 Oct 2019 15:15:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIYJT-0002Mz-Fv
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:03 -0400
+Received: from player772.ha.ovh.net (unknown [10.109.159.140])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 09A5E1E50AE
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 15:17:00 +0200 (CEST)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id 5DBF9ACB3692;
+ Thu, 10 Oct 2019 13:16:59 +0000 (UTC)
+Date: Thu, 10 Oct 2019 15:16:56 +0200
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PULL 0/4] 9p patches 2019-10-08
+Message-ID: <20191010151656.5aec944b@bahia.lan>
+In-Reply-To: <20191008151925.1021706-1-groug@kaod.org>
+References: <20191008151925.1021706-1-groug@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <e97f3e1c-651f-ca81-d38d-c184e3db7697@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 10 Oct 2019 13:16:01 +0000 (UTC)
+X-Ovh-Tracer-Id: 3408099020807444800
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrieefgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 87.98.177.69
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,186 +56,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/19 15:04, Laszlo Ersek wrote:
-> On 10/09/19 15:22, Igor Mammedov wrote:
->> Clarify values of "CPU selector' register and add workflows for
-> 
-> mismatched quotes (double vs. single)
-> 
->>   * finding CPU with pending 'insert/remove' event
->>   * enumerating present/non present CPUs
->>
->> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->> ---
->>  docs/specs/acpi_cpu_hotplug.txt | 22 ++++++++++++++++++++++
->>  1 file changed, 22 insertions(+)
->>
->> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
->> index ac5903b2b1..43c5a193f0 100644
->> --- a/docs/specs/acpi_cpu_hotplug.txt
->> +++ b/docs/specs/acpi_cpu_hotplug.txt
->> @@ -54,6 +54,7 @@ write access:
->>      [0x0-0x3] CPU selector: (DWORD access)
-> 
-> Please clarify the endianness.
-> 
->>                selects active CPU device. All following accesses to other
->>                registers will read/store data from/to selected CPU.
->> +              Valid values: [0 .. max_cpus)
-> 
-> Nice; appreciate the bracket on the left side vs. the paren on the right
-> side!
-> 
->>      [0x4] CPU device control fields: (1 byte access)
->>          bits:
->>              0: reserved, OSPM must clear it before writing to register.
->> @@ -93,3 +94,24 @@ Selecting CPU device beyond possible range has no effect on platform:
->>       ignored
->>     - read accesses to CPU hot-plug registers not documented above return
->>       all bits set to 0.
->> +
->> +Typical usecases:
->> +   - Get a cpu with pending event
->> +     1. write 0x0 into 'Command field' register
->> +     2. read from 'Command data' register, CPU selector value (CPU's UID in ACPI
->> +        tables)
-> 
-> OK.
-> 
-> I suggest putting this as: "read the CPU selector value (the CPU's UID
-> in the ACPI tables) from the 'Command data' register"
-> 
->> and event for selected CPU from 'CPU device status fields'
-> 
-> OK.
-> 
->> +        register. If there aren't pending events, CPU selector value doesn't
-> 
-> OK.
-> 
-> I suggest s/aren't/are no/
-> 
->> +        change
-> 
-> So this feels important: *change* is relative to a previous value. In
-> order to determine change, I have to
-> 
-> - either read the "command data" register before writing 0x0 to
-> "command", and then compare the old value against the new value
-> 
-> - or even set "command data" to a bogus value myself (against which I
-> can compare the new value, after writing the command register).
-> 
-> So, what is the previous selector value that the change is relative to?
-> 
->> and 'insert' and 'remove' bits are not set.
-> 
-> Ah, so is the order of steps actually this:
-> 
-> 1. write 0x0 to command
-> 
-> 2. read device status field
-> 
-> 3. if bit#1 or bit#2 is set (insert or remove event), read CPU selector
-> affected by those event(s) from the command data field
-> 
-> 4. otherwise, no pending event
-> 
-> ?
-> 
->> +   - Enumerate CPUs present/non present CPUs.
->> +     1. set iterator to 0x0
-> 
-> OK
-> 
->> +     2. write 0x0 into 'Command field' register
-> 
-> ... this may update the device status field, and the command data field
-> (to a selector with pending events)
-> 
->> and then iterator
->> +        into 'CPU selector' register.
-> 
-> ... so in case command 0x0 selected a CPU with pending events, we ignore
-> that, and select our iterator anyway. OK.
-> 
->> +     3. read 'enabled' flag for selected CPU from 'CPU device status fields'
->> +        register
-> 
-> OK
-> 
->> +     4. to continue to the next CPU, increment iterator
-> 
-> OK
-> 
->> and repeat step 2
-> 
-> not sure why writing 0x0 to "command" again is useful, but I'll see it
-> below; OK
-> 
->> +     5. read 'Command data' register
-> 
-> oookay... so if writing 0x0 to command selected a CPU with pending
-> events, we get the selector of *that* CPU (regardless of what iterator
-> we have presently)
-> 
-> Otherwise we get an indeterminate value.
-> 
->> +     5.1 if 'Command data' register matches iterator continue to step 3.
-> 
-> uhhh... what? :) At this point, the command data register can be in two
-> states:
-> 
-> - if the last 0x0 command selected a CPU with events pending, then that
-> selector is available in the command data register.
-> 
-> I don't understand why comparing that against the iterator is helpful.
-> 
-> - If there was no CPU with pending events, we're comparing an
-> indeterminate value against the iterator. Why?
-> 
-> I think the "command data" field must change under some circumstances
-> that are currently not documented. (I.e. it seems like "command data"
-> does not *only* change when command 0x0 can find a CPU with pending events.)
+Peter,
 
-After looking at cpu_hotplug_rd(), I think I know what's going on.
+As said on IRC, please ignore this PR, I'm about to post a v2.
+Sorry for the noise.
 
-Every time command 0 is written, and there is no CPU with pending
-events, the command data register will read as 0!
+Cheers,
 
-This seems like a core piece of information, and it's not documented in
-the text file anywhere. It only says (with patch#1 applied),
+--
+Greg
 
-  in case of error or unsupported command reads is 0x0
+On Tue,  8 Oct 2019 17:19:21 +0200
+Greg Kurz <groug@kaod.org> wrote:
 
-Command 0 is *not* unsupported. Therefore, this documentation is only
-self-consistent if:
-
-- selecting a non-existent (>=max_cpus) CPU via the selector register is
-an *error*
-
-- asking for a CPU with pending events (with command 0x0), and finding
-none, is also an *error*.
-
-Let me re-read the patch set with this information in mind.
-
-Thanks
-Laszlo
-
-
->> +         (read presence bit for the next CPU)
->> +     5.2 if 'Command data' register has not changed, there is not CPU
->> +         corresponding to iterator value and the last valid iterator value
->> +         equals to 'max_cpus' + 1
->>
+> The following changes since commit 0f0b43868a566068fc137632fd51bd3cbb23f350:
 > 
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.2-20191004' into staging (2019-10-07 13:49:02 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/gkurz/qemu.git tags/9p-next-2019-10-08
+> 
+> for you to fetch changes up to bc6c3cbf43dcc55e34e05bfcbd302bf1a4b92af7:
+> 
+>   9p: Treat multiple devices on one export as an error (2019-10-08 11:50:11 +0200)
+> 
+> ----------------------------------------------------------------
+> The most notable change is to detect cross-device setups and warn the
+> user that this may result in inode number collisions and chaos in the
+> guest. The rest is cosmetic cleanup.
+> 
+> ----------------------------------------------------------------
+> Antonios Motakis (2):
+>       9p: unsigned type for type, version, path
+>       9p: Treat multiple devices on one export as an error
+> 
+> Greg Kurz (2):
+>       9p: Simplify error path of v9fs_device_realize_common()
+>       fsdev: Add return value to fsdev_throttle_parse_opts()
+> 
+>  fsdev/9p-marshal.h          |  6 +--
+>  fsdev/qemu-fsdev-throttle.c |  4 +-
+>  fsdev/qemu-fsdev-throttle.h |  2 +-
+>  hw/9pfs/9p-local.c          |  7 +++-
+>  hw/9pfs/9p-proxy.c          |  4 ++
+>  hw/9pfs/9p.c                | 92 ++++++++++++++++++++++++++++++++-------------
+>  hw/9pfs/9p.h                |  1 +
+>  hw/9pfs/trace-events        | 14 +++----
+>  8 files changed, 88 insertions(+), 42 deletions(-)
 
 
