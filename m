@@ -2,50 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA173D2B7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:36:09 +0200 (CEST)
-Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F3DD2B6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:34:05 +0200 (CEST)
+Received: from localhost ([::1]:39582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYbw-0006Gu-RR
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40733)
+	id 1iIYZv-0003BG-GD
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iIYKD-0001P5-7H
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:50 -0400
+ (envelope-from <groug@kaod.org>) id 1iIYLf-0002qr-I0
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:19:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iIYJx-0002a2-Ht
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46812)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iIYJn-0002Sn-0b; Thu, 10 Oct 2019 09:17:23 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 43A5C307D989;
- Thu, 10 Oct 2019 13:17:21 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F756600F8;
- Thu, 10 Oct 2019 13:17:01 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 6/8] hw/isa/vt82c686: Convert reset handler to DeviceReset
-Date: Thu, 10 Oct 2019 15:15:25 +0200
-Message-Id: <20191010131527.32513-7-philmd@redhat.com>
-In-Reply-To: <20191010131527.32513-1-philmd@redhat.com>
-References: <20191010131527.32513-1-philmd@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1iIYLe-0003Kj-7G
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:19:19 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52194)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIYLc-0003Jf-K4
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:19:17 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9ADJ0KB111278
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:19:15 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vj2pmwrjn-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:19:06 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Thu, 10 Oct 2019 14:18:16 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 10 Oct 2019 14:18:15 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9ADIEgC52559964
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Oct 2019 13:18:14 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7971B5206C;
+ Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
+Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 6F7EB52050;
+ Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
+Received: from bahia.tls.ibm.com (bahia.tls.ibm.com [9.101.4.41])
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 3EBF9220221;
+ Thu, 10 Oct 2019 15:18:14 +0200 (CEST)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 2/8] 9p: Simplify error path of v9fs_device_realize_common()
+Date: Thu, 10 Oct 2019 15:18:03 +0200
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191010131809.1284004-1-groug@kaod.org>
+References: <20191010131809.1284004-1-groug@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 10 Oct 2019 13:17:21 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19101013-0016-0000-0000-000002B6DEBF
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101013-0017-0000-0000-00003317EB86
+Message-Id: <20191010131809.1284004-3-groug@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-10_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=508 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910100125
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,77 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VIA VT82C686 Southbridge is a PCI device, it will be reset
-when the PCI bus it stands on is reset.
+Make v9fs_device_unrealize_common() idempotent and use it for rollback,
+in order to reduce code duplication.
 
-Convert its reset handler into a proper Device reset method.
-
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/isa/vt82c686.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ hw/9pfs/9p-local.c |  4 ++++
+ hw/9pfs/9p-proxy.c |  4 ++++
+ hw/9pfs/9p.c       | 16 ++++++----------
+ 3 files changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 50bd28fa82..616f67f347 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -23,7 +23,6 @@
- #include "hw/isa/apm.h"
- #include "hw/acpi/acpi.h"
- #include "hw/i2c/pm_smbus.h"
--#include "sysemu/reset.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "exec/address-spaces.h"
-@@ -116,11 +115,10 @@ static const MemoryRegionOps superio_ops =3D {
-     },
- };
-=20
--static void vt82c686b_reset(void * opaque)
-+static void vt82c686b_isa_reset(DeviceState *dev)
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 08e673a79c22..6f7309f4e691 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1465,6 +1465,10 @@ static void local_cleanup(FsContext *ctx)
  {
--    PCIDevice *d =3D opaque;
--    uint8_t *pci_conf =3D d->config;
--    VT82C686BState *vt82c =3D VT82C686B_DEVICE(d);
-+    VT82C686BState *vt82c =3D VT82C686B_DEVICE(dev);
-+    uint8_t *pci_conf =3D vt82c->dev.config;
-=20
-     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
-     pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_ME=
-MORY |
-@@ -476,8 +474,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **e=
-rrp)
-      * But we do not emulate a floppy, so just set it here. */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
-                                 &vt82c->superio);
--
--    qemu_register_reset(vt82c686b_reset, d);
+     LocalData *data = ctx->private;
+ 
++    if (!data) {
++        return;
++    }
++
+     close(data->mountfd);
+     g_free(data);
  }
-=20
- ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
-@@ -501,6 +497,7 @@ static void via_class_init(ObjectClass *klass, void *=
-data)
-     k->device_id =3D PCI_DEVICE_ID_VIA_ISA_BRIDGE;
-     k->class_id =3D PCI_CLASS_BRIDGE_ISA;
-     k->revision =3D 0x40;
-+    dc->reset =3D vt82c686b_isa_reset;
-     dc->desc =3D "ISA bridge";
-     dc->vmsd =3D &vmstate_via;
-     /*
---=20
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 57a8c1c80886..97ab9c58a573 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1185,6 +1185,10 @@ static void proxy_cleanup(FsContext *ctx)
+ {
+     V9fsProxy *proxy = ctx->private;
+ 
++    if (!proxy) {
++        return;
++    }
++
+     g_free(proxy->out_iovec.iov_base);
+     g_free(proxy->in_iovec.iov_base);
+     if (ctx->export_flags & V9FS_PROXY_SOCK_NAME) {
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index cf317bdd2b92..ba1ab920f1eb 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -3637,27 +3637,23 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+     s->ctx.fst = &fse->fst;
+     fsdev_throttle_init(s->ctx.fst);
+ 
+-    v9fs_path_free(&path);
+-
+     rc = 0;
+ out:
+     if (rc) {
+-        if (s->ops && s->ops->cleanup && s->ctx.private) {
+-            s->ops->cleanup(&s->ctx);
+-        }
+-        g_free(s->tag);
+-        g_free(s->ctx.fs_root);
+-        v9fs_path_free(&path);
++        v9fs_device_unrealize_common(s, NULL);
+     }
++    v9fs_path_free(&path);
+     return rc;
+ }
+ 
+ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
+ {
+-    if (s->ops->cleanup) {
++    if (s->ops && s->ops->cleanup) {
+         s->ops->cleanup(&s->ctx);
+     }
+-    fsdev_throttle_cleanup(s->ctx.fst);
++    if (s->ctx.fst) {
++        fsdev_throttle_cleanup(s->ctx.fst);
++    }
+     g_free(s->tag);
+     g_free(s->ctx.fs_root);
+ }
+-- 
 2.21.0
 
 
