@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420F6D2992
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:34:49 +0200 (CEST)
-Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1D2D298B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:33:30 +0200 (CEST)
+Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXeZ-0006ff-T9
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:34:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52174)
+	id 1iIXdJ-0004te-B8
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:33:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrV-0007DH-Jw
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:08 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWra-0007E8-Ci
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWrT-0008NF-Jx
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37254)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrW-0008OF-D3
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59582)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrQ-0008Lz-Lg; Thu, 10 Oct 2019 07:44:00 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iIWrS-0008Mi-Ol; Thu, 10 Oct 2019 07:44:03 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E5B9D883C3D;
- Thu, 10 Oct 2019 11:43:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 04B44308FE8F;
+ Thu, 10 Oct 2019 11:44:02 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B67260BE1;
- Thu, 10 Oct 2019 11:43:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AF3510098FB;
+ Thu, 10 Oct 2019 11:44:01 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 26/36] iotests: Fix 125 for growth_mode = metadata
-Date: Thu, 10 Oct 2019 13:42:50 +0200
-Message-Id: <20191010114300.7746-27-mreitz@redhat.com>
+Subject: [PULL 27/36] iotests: Disable 125 on broken XFS versions
+Date: Thu, 10 Oct 2019 13:42:51 +0200
+Message-Id: <20191010114300.7746-28-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Thu, 10 Oct 2019 11:43:59 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 10 Oct 2019 11:44:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,41 +60,75 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we use growth_mode =3D metadata, it is very much possible that the fil=
-e
-uses more disk space after we have written something to the added area.
-We did indeed want to test for this case, but unfortunately we evidently
-just copied the code from the "Test creation preallocation" section and
-forgot to replace "$create_mode" by "$growth_mode".
+And by that I mean all XFS versions, as far as I can tell.  All details
+are in the comment below.
 
-We never noticed because we only read the first number from qemu-img
-info's "disk size" output -- and that is effectively useless, because
-qemu-img prints a human-readable value (which generally includes a
-decimal point).  That will be fixed in the patch after the next one.
+We never noticed this problem because we only read the first number from
+qemu-img info's "disk size" output -- and that is effectively useless,
+because qemu-img prints a human-readable value (which generally includes
+a decimal point).  That will be fixed in the next patch.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190925183231.11196-2-mreitz@redhat.com
+Message-id: 20190925183231.11196-3-mreitz@redhat.com
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/125 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/125 | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/tests/qemu-iotests/125 b/tests/qemu-iotests/125
-index dc4b8f5fb9..df328a63a6 100755
+index df328a63a6..0ef51f1e21 100755
 --- a/tests/qemu-iotests/125
 +++ b/tests/qemu-iotests/125
-@@ -111,7 +111,7 @@ for GROWTH_SIZE in 16 48 80; do
-                 if [ $file_length_2 -gt $file_length_1 ]; then
-                     echo "ERROR (grow): Image length has grown from $fil=
-e_length_1 to $file_length_2"
-                 fi
--                if [ $create_mode !=3D metadata ]; then
-+                if [ $growth_mode !=3D metadata ]; then
-                     # The host size should not have grown either
-                     if [ $host_size_2 -gt $host_size_1 ]; then
-                         echo "ERROR (grow): Host size has grown from $ho=
-st_size_1 to $host_size_2"
+@@ -49,6 +49,46 @@ if [ -z "$TEST_IMG_FILE" ]; then
+     TEST_IMG_FILE=3D$TEST_IMG
+ fi
+=20
++# Test whether we are running on a broken XFS version.  There is this
++# bug:
++
++# $ rm -f foo
++# $ touch foo
++# $ block_size=3D4096 # Your FS's block size
++# $ fallocate -o $((block_size / 2)) -l $block_size foo
++# $ LANG=3DC xfs_bmap foo | grep hole
++#         1: [8..15]: hole
++#
++# The problem is that the XFS driver rounds down the offset and
++# rounds up the length to the block size, but independently.  As
++# such, it only allocates the first block in the example above,
++# even though it should allocate the first two blocks (because our
++# request is to fallocate something that touches both the first
++# two blocks).
++#
++# This means that when you then write to the beginning of the
++# second block, the disk usage of the first two blocks grows.
++#
++# That is precisely what fallocate() promises, though: That when you
++# write to an area that you have fallocated, no new blocks will have
++# to be allocated.
++
++touch "$TEST_IMG_FILE"
++# Assuming there is no FS with a block size greater than 64k
++fallocate -o 65535 -l 2 "$TEST_IMG_FILE"
++len0=3D$(get_image_size_on_host)
++
++# Write to something that in theory we have just fallocated
++# (Thus, the on-disk size should not increase)
++poke_file "$TEST_IMG_FILE" 65536 42
++len1=3D$(get_image_size_on_host)
++
++if [ $len1 -gt $len0 ]; then
++    _notrun "the test filesystem's fallocate() is broken"
++fi
++
++rm -f "$TEST_IMG_FILE"
++
+ # Generally, we create some image with or without existing preallocation=
+ and
+ # then resize it. Then we write some data into the image and verify that=
+ its
+ # size does not change if we have used preallocation.
 --=20
 2.21.0
 
