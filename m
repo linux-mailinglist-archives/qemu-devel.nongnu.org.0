@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A3AD2BAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:49:21 +0200 (CEST)
-Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF9AD2BA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:45:37 +0200 (CEST)
+Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYoj-0001tE-2r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44432)
+	id 1iIYl6-0006P0-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iIYjG-0005L4-FG
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:43:43 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iIYk5-0005iR-O3
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:44:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iIYjF-0006bI-3a
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:43:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50918)
+ (envelope-from <kwolf@redhat.com>) id 1iIYk4-0007Bk-Ko
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:44:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46208)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIYjE-0006aa-Qx
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:43:41 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iIYk2-000759-8j; Thu, 10 Oct 2019 09:44:30 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B18293CA03
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 13:43:39 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id g67so1797960wmg.4
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 06:43:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q2fRCbwTFySOnCK3JiOVij95RQS5p6saSe3jyZO1Srw=;
- b=cFKw2dsBjmQ9BGQeZZ4HoDkw5Kn/ZJhlJ0+by4mWqjOidoZ4rDOwF96JiDZYipoNbW
- t47v78GV3VcJv8T3N/FiR9btYpx5groSDOhwhW4axZc8HDiRO+eIXwi5eFiA9EAuPaNY
- bHsqm7EVPCC1WSno2iKjyYpukt09FEOoSWxwKD3dKCeK63gIdbh2m34b02IN3F7okSwD
- IbKEvaPatLvQ6g1waZ1/SGPoNOakvTJGkvg57BsTf0Y+W5xQsjQMddkrMoLuSvPR9xU8
- VkYqTUYP5oKDX0qKsFd7QXICXYEeTi0gsZISVqr8ClVvUjC91pevivpGW9GxEAE3NRqk
- bKfA==
-X-Gm-Message-State: APjAAAXlMiRIZWAVRg0/HGm3owwnO6Y6MMkSV81axWWD9KZUkg2ff273
- 5oqKUoimFGBzamdx8gq/bhqcxFIdSQkuyjQyzZTTveby/KoBLBu7ymrt7mCP8IJhkyGL6fLtERc
- s5eANEBKfBYzAzWY=
-X-Received: by 2002:a5d:4302:: with SMTP id h2mr9061145wrq.35.1570715018463;
- Thu, 10 Oct 2019 06:43:38 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyphqiezS7CZW6yRExGo180HhTTpCFevCRLPdLi2ZJPPkNkEcZR2YJj+f93dTSnIj8ARzaUaA==
-X-Received: by 2002:a5d:4302:: with SMTP id h2mr9061100wrq.35.1570715018125;
- Thu, 10 Oct 2019 06:43:38 -0700 (PDT)
-Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id s10sm9456944wmf.48.2019.10.10.06.43.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Oct 2019 06:43:37 -0700 (PDT)
-Subject: Re: [PATCH 1/5] tests/boot_linux_console: Add initrd test for the
- Exynos4210
-To: Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20191005154748.21718-1-f4bug@amsat.org>
- <20191005154748.21718-2-f4bug@amsat.org>
- <CAFEAcA8ME5U5=rNLRSvNx7LmanqHhn_KWj6qtgym_=W1M9WDoA@mail.gmail.com>
- <20191008214907.GA28137@localhost.localdomain>
- <CAFEAcA9DzeObmtsc2VJmw=1yruANZ6ajY2SG0cAPdehkeRN3wA@mail.gmail.com>
- <20191009190743.GA6019@localhost.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d2011e56-8c5f-9f57-04eb-16581866fd48@redhat.com>
-Date: Thu, 10 Oct 2019 15:43:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 6C36A3086E23;
+ Thu, 10 Oct 2019 13:44:29 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-47.ams2.redhat.com
+ [10.36.116.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C7B5100EBA5;
+ Thu, 10 Oct 2019 13:44:25 +0000 (UTC)
+Date: Thu, 10 Oct 2019 15:44:23 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v2 02/11] qcrypto-luks: extend the create options for
+ upcoming encryption key management
+Message-ID: <20191010134423.GC7616@localhost.localdomain>
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+ <20190912223028.18496-3-mlevitsk@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191009190743.GA6019@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190912223028.18496-3-mlevitsk@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 10 Oct 2019 13:44:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -86,99 +60,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Evgeny Voevodin <e.voevodin@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Sven Schnelle <svens@stackframe.org>,
- Helge Deller <deller@gmx.de>, Markus Armbruster <armbru@redhat.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Maksim Kozlov <m.kozlov@samsung.com>, Guenter Roeck <linux@roeck-us.net>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- qemu-arm <qemu-arm@nongnu.org>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Fr=c3=a9d=c3=a9ric_Basse?= <contact@fredericb.info>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Dmitry Solodkiy <d.solodkiy@samsung.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/9/19 9:07 PM, Cleber Rosa wrote:
-> On Wed, Oct 09, 2019 at 02:38:02PM +0100, Peter Maydell wrote:
->> On Tue, 8 Oct 2019 at 22:49, Cleber Rosa <crosa@redhat.com> wrote:
->>> On Mon, Oct 07, 2019 at 05:28:49PM +0100, Peter Maydell wrote:
- >>>
- >>>> Do our other acceptance tests download random third-party
- >>>> (ie "not a well-known distro") binaries for the tests ?
- >>>> It seems a bit hazardous for reproducability and trustability
- >>>> reasons...
-[...]
->>> I find it hard to judge precisely how much of a third-party some of
->>> these are.  I remember Philippe mentioning that one of them, I guess
->>> the images used on linux_ssh_mips_malta.py, were "as official as it
->>> gets" (my words, from my often misleading memory).
->>>
->>> Reproducibility is definitely an issue, in the sense given that some
->>> of these can indeed go away, but as long as they're available the hash
->>> recorded in the test should guarantee that we're running the same
->>> images.
-
-So this thread is a follow up on:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg546430.html
-
-For Open Source software I can understand we want to be able to rebuild 
-them, and should provide a link about how to rebuild.
-
-I don't want to rebuild images myself, I want to focus on testing QEMU. 
-I tried once to build a MIPSsim kernel and it was a total nightmare:
-https://lists.nongnu.org/archive/html/qemu-devel/2018-04/msg04071.html
-(Thomas Huth eventually succeeded using buildroot).
-
->>> Do you think we should do something different here?
->>
->> I'm not sure, which is why I asked whether this new test
->> was in line with what we've done previously. Since these
->> are just test cases and we don't redistribute them to
->> other people there's less of a traceability/reproducibility
->> worry, and if we check hashes on download that cuts off
->> a lot of "fail to notice if the image changes for some
->> reason" possible problems.
+Am 13.09.2019 um 00:30 hat Maxim Levitsky geschrieben:
+> Now you can specify which slot to put the encryption key to
+> Plus add 'active' option which will let  user erase the key secret
+> instead of adding it.
+> Check that active=true it when creating.
 > 
-> Yep, because I have no clue how to do improve on this (redistributing
-> the binaries is definitely not on the improvement side, and neither
-> is not testing some machine types), the current approach seems good.
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 
-QEMU machines are not restricted to running Linux or other Open Source 
-software. It seems important to be able to test for regressions with 
-closed-source code too, because it usually has been well tested on real 
-hardware.
+> diff --git a/qapi/crypto.json b/qapi/crypto.json
+> index b2a4cff683..9b83a70634 100644
+> --- a/qapi/crypto.json
+> +++ b/qapi/crypto.json
+> @@ -190,6 +190,20 @@
+>  #                  Currently defaults to 'sha256'
+>  # @hash-alg: the master key hash algorithm
+>  #            Currently defaults to 'sha256'
+> +#
+> +# @active: Should the new secret be added (true) or erased (false)
+> +#          (amend only, since 4.2)
+> +#
+> +# @slot: The slot in which to put/erase the secret
+> +#        if not given, will select first free slot for secret addtion
+> +#        and erase all matching keyslots for erase. except last one
+> +#        (optional, since 4.2)
+> +#
+> +# @unlock-secret: The secret to use to unlock the image
+> +#        If not given, will use the secret that was used
+> +#        when opening the image.
+> +#        (optional, for amend only, since 4.2)
+> +#
+>  # @iter-time: number of milliseconds to spend in
+>  #             PBKDF passphrase processing. Currently defaults
+>  #             to 2000. (since 2.8)
 
-I just posted a firmware test:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg651012.html
+This approach doesn't look right to me. BlockdevCreateOptions should
+describe the state of the image after the operation. You're describing
+an update instead (and in a way that doesn't allow you to change
+everything that you may want to change, so that you need to call the
+operation multiple times).
 
-I could find it stored compressed and uuencoded on the Wayback Machine.
-Since I don't want to abuse from this amazing service, and other script 
-to decode/uncompress it, I stored it on a new repository with its SHA-1
-(the default hash used by Avocado):
-https://github.com/philmd/qemu-testing-blob/tree/master/hppa/hp9000/712
+I imagined the syntax of a blockdev-amend QMP command similar to
+x-blockdev-reopen: Describe the full set of options that you want to
+have in effect after the operation; if you don't want to change some
+option, you just specify it again with its old value.
 
-Is this acceptable? Incorrect?
+Specifically for luks, this probably means that you have a @slots, which
+is a list that contains at least the secret for each slot, or JSON null
+for a slot that should be left empty.
 
-Regarding Avocado tests, maybe we can simply add a "untrusted" or 
-"closedsource" tag, so people willing to test untrusted binaries could 
-still run the tests using 'avocado --tag untrusted_software', and we 
-could skip these tests by default.
+With the same approach, you don't have to make 'size' optional in later
+patches, you can just require that the current size is re-specified. And
+later, blockdev-amend could actually allow changing the size of images
+if you provide a different value.
 
-I am very interested because I already experimented with:
-
-- AIX on PReP/40p
-- some RTOS on Canon PowerShot A1100
-- VxWorks on MIPS and SPARC
-- closed-source bootloader for Raspi3/4
-
-Regards,
-
-Phil.
+Kevin
 
