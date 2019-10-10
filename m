@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9BBD2A1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:57:03 +0200 (CEST)
-Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B28D2A05
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:51:52 +0200 (CEST)
+Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIY06-0003fg-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57753)
+	id 1iIXv5-0006j9-63
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mtosatti@redhat.com>) id 1iIXaW-0002n7-7S
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:30:41 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1iIXfm-00017q-PM
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:36:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mtosatti@redhat.com>) id 1iIXaU-00013V-TS
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:30:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49962)
+ (envelope-from <pbonzini@redhat.com>) id 1iIXfl-0002Oi-KV
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:36:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:28694)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mtosatti@redhat.com>) id 1iIXaU-00013K-Kd
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:30:34 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iIXfl-0002OT-CF
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:36:01 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C43E330224AA;
- Thu, 10 Oct 2019 12:30:33 +0000 (UTC)
-Received: from amt.cnet (ovpn-112-4.gru2.redhat.com [10.97.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7EF5519C4F;
- Thu, 10 Oct 2019 12:30:31 +0000 (UTC)
-Received: from amt.cnet (localhost [127.0.0.1])
- by amt.cnet (Postfix) with ESMTP id CFB5E105177;
- Thu, 10 Oct 2019 09:28:10 -0300 (BRT)
-Received: (from marcelo@localhost)
- by amt.cnet (8.14.7/8.14.7/Submit) id x9ACS7oD019214;
- Thu, 10 Oct 2019 09:28:07 -0300
-Date: Thu, 10 Oct 2019 09:28:07 -0300
-From: Marcelo Tosatti <mtosatti@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] mc146818rtc: fix timer interrupt reinjection
-Message-ID: <20191010122806.GA19189@amt.cnet>
-References: <20191009184011.GA26234@amt.cnet>
- <8319ce4d-2775-a68d-c08b-f4312d9c30a2@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E4E9612A4
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 12:36:00 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id o10so2682741wrm.22
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:36:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=asHo5mBKpjRpk1FQDS5Jp/Sf3xrGfza1k2thjaSjJAw=;
+ b=NrnKNskKWizeIYcS+cV2CLRF/VipBtDgwRnvHFwp43g0mcmTM+CIddT8o7apd7dQO2
+ Fe4Goia4+8vbxB+dqp6fCFbD3/PsKWt1p+uMJuuhjlog69pDP9fCxtlM9IkbG9loLsSx
+ Edi1YHnS75A++hzaObZX8vG/WotkF7U9iuRLWziszjaXQCAPVviD+/sE8B1TLE7Z6Sb9
+ MbigW+ylP9GlPGA7r9XuLC3fHT9NDQ8OdlynRLYQ2OqsZ34o21I98b6dseYEoHsf6nVf
+ daF5vPoq+kaTtZxhyWNsE18Z6ud7PalACf4Ja7acl+WXMT9R7BXEQMYoks6QUOfqEW9E
+ 9HCA==
+X-Gm-Message-State: APjAAAVK5HmRCcpaAOSufZH4ahcG5MRXFeCaEb4UcNUaZIaJ2hkru7DX
+ 7jT76JsMQkg8zYFWcfITvewv2UfM99gnKt29bHxVV2KEJdxuvtIFF+S9rCHk1Listrq/Wl5BBiV
+ dFkACne8wPmmkGwU=
+X-Received: by 2002:adf:fcd2:: with SMTP id f18mr2089806wrs.388.1570710959065; 
+ Thu, 10 Oct 2019 05:35:59 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx1Hg8/kFjo3a2c+x/O5jxcRhZjf5GkzZbtJVVE6dKp5zLcZcllX3U8vcq+yMOYXKv2pyAj/A==
+X-Received: by 2002:adf:fcd2:: with SMTP id f18mr2089787wrs.388.1570710958766; 
+ Thu, 10 Oct 2019 05:35:58 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ddc7:c53c:581a:7f3e?
+ ([2001:b07:6468:f312:ddc7:c53c:581a:7f3e])
+ by smtp.gmail.com with ESMTPSA id r13sm8685116wrn.0.2019.10.10.05.35.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Oct 2019 05:35:58 -0700 (PDT)
+Subject: Re: [PATCH v2] mc146818rtc: fix timer interrupt reinjection
+To: Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <20191010123008.GA19158@amt.cnet>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <3d2338c1-a7b6-9281-4db5-16278165c751@redhat.com>
+Date: Thu, 10 Oct 2019 14:35:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8319ce4d-2775-a68d-c08b-f4312d9c30a2@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 10 Oct 2019 12:30:33 +0000 (UTC)
+In-Reply-To: <20191010123008.GA19158@amt.cnet>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -64,48 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tai Yunfang <yunfangtai@tencent.com>,
- Xiao Guangrong <guangrong.xiao@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+Cc: Xiao Guangrong <guangrong.xiao@gmail.com>,
  Vadim Rozenfeld <vrozenfe@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 11:13:16PM +0200, Paolo Bonzini wrote:
-> On 09/10/19 20:40, Marcelo Tosatti wrote:
-> >              s->period = period;
-> >              lost_clock += old_irq_coalesced * old_period;
-> > -            s->irq_coalesced = lost_clock / s->period;
-> > +            if (old_period) {
-> > +                s->irq_coalesced = lost_clock / s->period;
-> > +            }
-> > +
-> >              lost_clock %= s->period;
-> >              if (old_irq_coalesced != s->irq_coalesced ||
-> >                  old_period != s->period) {
+On 10/10/19 14:30, Marcelo Tosatti wrote:
 > 
-> I think none of the code in the "if (s->lost_tick_policy == 
-> LOST_TICK_POLICY_SLEW) {" matters if old_period == 0 (and lost_clock 
-> will always be 0).  So perhaps we should place all that big "if" under
-> the existing "if (old_period)"?
+> commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
+> reinjection when there is no period change by the guest.
 > 
-> Or even something like:
-
-This skips reprogramming the timer if the period is equal.
-
-Sending v2 based on your suggestions and patch below.
-
+> In that case, old_period is 0, which ends up zeroing irq_coalesced
+> (counter of reinjected interrupts).
+> 
+> The consequence is Windows 7 is unable to synchronize time via NTP.
+> Easily reproducible by playing a fullscreen video with cirrus and VNC.
+> 
+> Fix by not updating s->irq_coalesced when old_period is 0.
+> 
+> V2: reorganize code (Paolo Bonzini)
+> 
+> Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
 > 
 > diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-> index 6cb378751b..3337a8da98 100644
+> index 6cb378751b..0e7cf97042 100644
 > --- a/hw/timer/mc146818rtc.c
 > +++ b/hw/timer/mc146818rtc.c
-> @@ -202,25 +202,33 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
->      int64_t cur_clock, next_irq_clock, lost_clock = 0;
+> @@ -203,24 +203,28 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
 >  
 >      period = rtc_periodic_clock_ticks(s);
-> +    if (old_period && old_period == period) {
-> +        return;
-> +    }
 >  
 > -    if (period) {
 > -        /* compute 32 khz clock */
@@ -115,6 +119,7 @@ Sending v2 based on your suggestions and patch below.
 > +        s->irq_coalesced = 0;
 > +        timer_del(s->periodic_timer);
 > +        return;
+> +    }
 >  
 > -        /*
 > -        * if the periodic timer's update is due to period re-configuration,
@@ -129,8 +134,6 @@ Sending v2 based on your suggestions and patch below.
 > -            lost_clock = cur_clock - last_periodic_clock;
 > -            assert(lost_clock >= 0);
 > -        }
-> +    }
-> +
 > +    /* compute 32 khz clock */
 > +    cur_clock =
 > +        muldiv64(current_time, RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
@@ -143,46 +146,36 @@ Sending v2 based on your suggestions and patch below.
 > +        int64_t last_periodic_clock, next_periodic_clock;
 > +
 > +        next_periodic_clock = muldiv64(s->next_periodic_time,
-> +                                       RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
+> +                                RTC_CLOCK_RATE, NANOSECONDS_PER_SECOND);
 > +        last_periodic_clock = next_periodic_clock - old_period;
 > +        lost_clock = cur_clock - last_periodic_clock;
 > +        assert(lost_clock >= 0);
 >  
 >          /*
 >           * s->irq_coalesced can change for two reasons:
-> @@ -243,13 +251,10 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
->              lost_clock += old_irq_coalesced * old_period;
->              s->irq_coalesced = lost_clock / s->period;
->              lost_clock %= s->period;
-> -            if (old_irq_coalesced != s->irq_coalesced ||
-> -                old_period != s->period) {
-> -                DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
-> -                          "period scaled from %d to %d\n", old_irq_coalesced,
-> -                          s->irq_coalesced, old_period, s->period);
-> -                rtc_coalesced_timer_update(s);
-> -            }
-> +            DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
-> +                      "period scaled from %d to %d\n", old_irq_coalesced,
-> +                      s->irq_coalesced, old_period, s->period);
-> +            rtc_coalesced_timer_update(s);
+> @@ -251,22 +255,19 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+>                  rtc_coalesced_timer_update(s);
+>              }
 >          } else {
->             /*
+> -           /*
+> +            /*
 >               * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
-> @@ -257,16 +262,12 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+>               * is not used, we should make the time progress anyway.
 >               */
 >              lost_clock = MIN(lost_clock, period);
 >          }
-> -
->          assert(lost_clock >= 0 && lost_clock <= period);
-> -
+> +    }
+>  
+> -        assert(lost_clock >= 0 && lost_clock <= period);
+> +    assert(lost_clock >= 0 && lost_clock <= period);
+>  
 > -        next_irq_clock = cur_clock + period - lost_clock;
 > -        s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
 > -        timer_mod(s->periodic_timer, s->next_periodic_time);
 > -    } else {
 > -        s->irq_coalesced = 0;
 > -        timer_del(s->periodic_timer);
->      }
-> +
+> -    }
 > +    next_irq_clock = cur_clock + period - lost_clock;
 > +    s->next_periodic_time = periodic_clock_to_ns(next_irq_clock) + 1;
 > +    timer_mod(s->periodic_timer, s->next_periodic_time);
@@ -190,8 +183,8 @@ Sending v2 based on your suggestions and patch below.
 >  
 >  static void rtc_periodic_timer(void *opaque)
 > 
-> 
-> Best read with "diff -b".
-> 
-> Paolo
+
+Queued, thanks.
+
+Paolo
 
