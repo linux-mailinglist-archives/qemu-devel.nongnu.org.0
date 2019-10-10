@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBFED2DF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 17:40:49 +0200 (CEST)
-Received: from localhost ([::1]:41260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7DAD2E0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 17:45:43 +0200 (CEST)
+Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIaYZ-0004i7-NT
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 11:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32797)
+	id 1iIadJ-000095-OU
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 11:45:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIaKP-0006o6-1N
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:26:09 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIaKS-0006tB-3Y
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:26:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIaKO-0004jb-1K
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:26:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35112)
+ (envelope-from <mreitz@redhat.com>) id 1iIaKQ-0004lK-UY
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:26:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:13594)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIaKL-0004iR-A0; Thu, 10 Oct 2019 11:26:05 -0400
+ id 1iIaKO-0004jY-Gv; Thu, 10 Oct 2019 11:26:08 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8AF103164683;
- Thu, 10 Oct 2019 15:26:04 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B763389F38E;
+ Thu, 10 Oct 2019 15:26:07 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 069C2194B6;
- Thu, 10 Oct 2019 15:26:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33D7C194B6;
+ Thu, 10 Oct 2019 15:26:07 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 21/23] iotests/240: Create socket in $SOCK_DIR
-Date: Thu, 10 Oct 2019 17:24:55 +0200
-Message-Id: <20191010152457.17713-22-mreitz@redhat.com>
+Subject: [PATCH 22/23] iotests/267: Create socket in $SOCK_DIR
+Date: Thu, 10 Oct 2019 17:24:56 +0200
+Message-Id: <20191010152457.17713-23-mreitz@redhat.com>
 In-Reply-To: <20191010152457.17713-1-mreitz@redhat.com>
 References: <20191010152457.17713-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 10 Oct 2019 15:26:04 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Thu, 10 Oct 2019 15:26:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,36 +62,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/240 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/267     | 4 ++--
+ tests/qemu-iotests/267.out | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
-index f73bc07d80..8b4337b58d 100755
---- a/tests/qemu-iotests/240
-+++ b/tests/qemu-iotests/240
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+index d37a67c012..170e173c0a 100755
+--- a/tests/qemu-iotests/267
++++ b/tests/qemu-iotests/267
 @@ -29,7 +29,7 @@ status=3D1	# failure is the default!
-=20
  _cleanup()
  {
+     _cleanup_test_img
 -    rm -f "$TEST_DIR/nbd"
 +    rm -f "$SOCK_DIR/nbd"
  }
  trap "_cleanup; exit \$status" 0 1 2 3 15
 =20
-@@ -135,7 +135,7 @@ echo
- run_qemu <<EOF
- { "execute": "qmp_capabilities" }
- { "execute": "blockdev-add", "arguments": {"driver": "null-co", "read-ze=
-roes": true, "node-name": "hd0", "read-only": true}}
--{ "execute": "nbd-server-start", "arguments": {"addr":{"type":"unix","da=
-ta":{"path":"$TEST_DIR/nbd"}}}}
-+{ "execute": "nbd-server-start", "arguments": {"addr":{"type":"unix","da=
-ta":{"path":"$SOCK_DIR/nbd"}}}}
- { "execute": "nbd-server-add", "arguments": {"device":"hd0"}}
- { "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "=
-iothread0"}}
- { "execute": "device_add", "arguments": {"id": "scsi0", "driver": "${vir=
-tio_scsi}", "iothread": "iothread0"}}
+@@ -143,7 +143,7 @@ echo
+=20
+ IMGOPTS=3D"backing_file=3D$TEST_IMG.base" _make_test_img $size
+ cat <<EOF |
+-nbd_server_start unix:$TEST_DIR/nbd
++nbd_server_start unix:$SOCK_DIR/nbd
+ nbd_server_add -w backing-fmt
+ savevm snap0
+ info snapshots
+diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
+index 9d812e3c72..8dddb4baa4 100644
+--- a/tests/qemu-iotests/267.out
++++ b/tests/qemu-iotests/267.out
+@@ -161,7 +161,7 @@ Internal snapshots on backing file:
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
+le=3DTEST_DIR/t.IMGFMT.base
+ Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT.base,node-=
+name=3Dbacking-file -blockdev driver=3DIMGFMT,file=3Dbacking-file,node-na=
+me=3Dbacking-fmt -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,nod=
+e-name=3Dfile -blockdev driver=3DIMGFMT,file=3Dfile,backing=3Dbacking-fmt=
+,node-name=3Dfmt
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) nbd_server_start unix:TEST_DIR/nbd
++(qemu) nbd_server_start unix:SOCK_DIR/nbd
+ (qemu) nbd_server_add -w backing-fmt
+ (qemu) savevm snap0
+ (qemu) info snapshots
 --=20
 2.21.0
 
