@@ -2,50 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C1FD2E45
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:03:27 +0200 (CEST)
-Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFC4D2E58
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:08:28 +0200 (CEST)
+Received: from localhost ([::1]:41732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIauU-00066f-QW
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38892)
+	id 1iIazL-0002Bl-0L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iIapW-0004q1-R5
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:58:22 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iIaqe-0005o1-Lm
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:59:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iIapU-0002cl-Ty
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:58:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:25452)
+ (envelope-from <stefanha@redhat.com>) id 1iIaqd-0003IW-B5
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:59:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60392)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iIapU-0002cB-JY
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:58:16 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iIaqd-0003I2-3B
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:59:27 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CD4FA801661;
- Thu, 10 Oct 2019 15:58:15 +0000 (UTC)
-Received: from Igors-MacBook-Pro (unknown [10.36.112.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CFA65E7B2;
- Thu, 10 Oct 2019 15:57:58 +0000 (UTC)
-Date: Thu, 10 Oct 2019 17:57:54 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [RFC 0/3] acpi: cphp: add CPHP_GET_CPU_ID_CMD command to cpu
- hotplug MMIO interface
-Message-ID: <20191010175754.7c62cf8f@Igors-MacBook-Pro>
-In-Reply-To: <20191010095459-mutt-send-email-mst@kernel.org>
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191010055356-mutt-send-email-mst@kernel.org>
- <20191010153815.4f7a3fc9@redhat.com>
- <20191010095459-mutt-send-email-mst@kernel.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E0603090FE0
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 15:59:26 +0000 (UTC)
+Received: from localhost (ovpn-117-170.ams2.redhat.com [10.36.117.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03CCE5F7D5;
+ Thu, 10 Oct 2019 15:59:20 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 5/7] libqos: expose common virtqueue setup/cleanup functions
+Date: Thu, 10 Oct 2019 16:58:51 +0100
+Message-Id: <20191010155853.4325-6-stefanha@redhat.com>
+In-Reply-To: <20191010155853.4325-1-stefanha@redhat.com>
+References: <20191010155853.4325-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Thu, 10 Oct 2019 15:59:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 10 Oct 2019 15:58:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -60,136 +55,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Oct 2019 09:59:42 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+The VIRTIO 1.0 code will need to perform additional steps but it will
+reuse the common virtqueue setup/cleanup code.  Make these functions
+public.
 
-> On Thu, Oct 10, 2019 at 03:39:12PM +0200, Igor Mammedov wrote:
-> > On Thu, 10 Oct 2019 05:56:55 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >=20
-> > > On Wed, Oct 09, 2019 at 09:22:49AM -0400, Igor Mammedov wrote:
-> > > > As an alternative to passing to firmware topology info via new fwcf=
-g files
-> > > > so it could recreate APIC IDs based on it and order CPUs are enumer=
-ated,
-> > > >=20
-> > > > extend CPU hotplug interface to return APIC ID as response to the n=
-ew command
-> > > > CPHP_GET_CPU_ID_CMD. =20
-> > >=20
-> > > One big piece missing here is motivation:
-> > I thought the only willing reader was Laszlo (who is aware of context)
-> > so I skipped on details and confused others :/
-> >=20
-> > > Who's going to use this interface?
-> > In current state it's for firmware, since ACPI tables can cheat
-> > by having APIC IDs statically built in.
-> >=20
-> > If we were creating CPU objects in ACPI dynamically
-> > we would be using this command as well.
->=20
-> I'm not sure how it's even possible to create devices dynamically. Well
-> I guess it's possible with LoadTable. Is this what you had in
-> mind?
+Make sure to invoke callbacks via QVirtioBus instead of directly calling
+the virtio-pci Legacy versions of these functions.
 
-Yep. I even played this shiny toy and I can say it's very tempting one.
-On the  other side, even problem of legacy OSes not working with it aside,
-it's hard to debug and reproduce compared to static tables.
-So from maintaining pov I dislike it enough to be against it.
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ tests/libqos/virtio-pci.h |  8 ++++++++
+ tests/libqos/virtio-pci.c | 19 ++++++++++---------
+ 2 files changed, 18 insertions(+), 9 deletions(-)
 
-
-> > It would save
-> > us quite a bit space in ACPI blob but it would be a pain
-> > to debug and diagnose problems in ACPI tables, so I'd rather
-> > stay with static CPU descriptions in ACPI tables for the sake
-> > of maintenance.
-> > > So far CPU hotplug was used by the ACPI, so we didn't
-> > > really commit to a fixed interface too strongly.
-> > >=20
-> > > Is this a replacement to Laszlo's fw cfg interface?
-> > > If yes is the idea that OVMF going to depend on CPU hotplug directly =
-then?
-> > > It does not depend on it now, does it?
-> > It doesn't, but then it doesn't support cpu hotplug,
-> > OVMF(SMM) needs to cooperate with QEMU "and" ACPI tables to perform
-> > the task and using the same interface/code path between all involved
-> > parties makes the task easier with the least amount of duplicated
-> > interfaces and more robust.
-> >=20
-> > Re-implementing alternative interface for firmware (fwcfg or what not)
-> > would work as well, but it's only question of time when ACPI and
-> > this new interface disagree on how world works and process falls
-> > apart.
->=20
-> Then we should consider switching acpi to use fw cfg.
-> Or build another interface that can scale.
-
-Could be an option, it would be a pain to write a driver in AML for fwcfg a=
-ccess though
-(I've looked at possibility to access fwcfg from AML about a year ago and g=
-ave up.
-I'm definitely not volunteering for the second attempt and can't even give =
-an estimate
-it it's viable approach).
-
-But what scaling issue you are talking about, exactly?
-With current CPU hotplug interface we can handle upto UNIT32_MAX cpus, and =
-extend
-interface without need to increase IO window we are using now.
-
-Granted IO access it not fastest compared to fwcfg in DMA mode, but we alre=
-ady
-doing stop machine when switching to SMM which is orders of magnitude slowe=
-r.
-Consensus was to compromise on speed of CPU hotplug versus more complex and=
- more
-problematic unicast SMM mode in OVMF (can't find a particular email but we =
-have discussed
-it with Laszlo already, when I considered ways to optimize hotplug speed)
-
-> > > If answers to all of the above is yes, then I don't really like it: it
-> > > is better to keep all paravirt stuff in one place, namely in fw cfg.
-> > Lets discuss, what cpu hotplug fwcfg interface could look like in=20
-> >  [PATCH 3/4] hw/i386: add facility to expose CPU topology over  fw-cfg
-> > mail thread and clarify (dis)likes with concrete reasons.
-> >=20
-> > So far I managed to convince myself that we ought to reuse
-> > and extend current CPU hotplug interface with firmware features,
-> > to endup with consolidated cpu hotplug process without
-> > introducing duplicate ABIs, but I could be wrong so
-> > lets see if fwcfg will be the better approach.
-> >=20
-> > =20
-> > > > CC: Laszlo Ersek <lersek@redhat.com>
-> > > > CC: Eduardo Habkost <ehabkost@redhat.com>
-> > > > CC: "Michael S. Tsirkin" <mst@redhat.com>
-> > > > CC: Gerd Hoffmann <kraxel@redhat.com>
-> > > > CC: Paolo Bonzini <pbonzini@redhat.com>
-> > > > CC: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > > > CC: Richard Henderson <rth@twiddle.net>
-> > > > =20
-> > > > Igor Mammedov (3):
-> > > >   acpi: cpuhp: fix 'Command data' description is spec
-> > > >   acpi: cpuhp: add typical usecases into spec
-> > > >   acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-> > > >=20
-> > > >  docs/specs/acpi_cpu_hotplug.txt | 37 +++++++++++++++++++++++++++++=
-+---
-> > > >  hw/acpi/cpu.c                   | 15 +++++++++++++
-> > > >  hw/acpi/trace-events            |  1 +
-> > > >  3 files changed, 50 insertions(+), 3 deletions(-)
-> > > >=20
-> > > > --=20
-> > > > 2.18.1 =20
-> > >=20
->=20
+diff --git a/tests/libqos/virtio-pci.h b/tests/libqos/virtio-pci.h
+index 443e53affc..b620c30451 100644
+--- a/tests/libqos/virtio-pci.h
++++ b/tests/libqos/virtio-pci.h
+@@ -63,4 +63,12 @@ void qvirtio_pci_set_msix_configuration_vector(QVirtio=
+PCIDevice *d,
+                                         QGuestAllocator *alloc, uint16_t=
+ entry);
+ void qvirtqueue_pci_msix_setup(QVirtioPCIDevice *d, QVirtQueuePCI *vqpci=
+,
+                                         QGuestAllocator *alloc, uint16_t=
+ entry);
++
++/* Used by Legacy and Modern virtio-pci code */
++QVirtQueue *qvirtio_pci_virtqueue_setup_common(QVirtioDevice *d,
++                                               QGuestAllocator *alloc,
++                                               uint16_t index);
++void qvirtio_pci_virtqueue_cleanup_common(QVirtQueue *vq,
++                                          QGuestAllocator *alloc);
++
+ #endif
+diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
+index a3362c1b54..9625a262bd 100644
+--- a/tests/libqos/virtio-pci.c
++++ b/tests/libqos/virtio-pci.c
+@@ -198,8 +198,9 @@ static void qvirtio_pci_set_queue_address(QVirtioDevi=
+ce *d, QVirtQueue *vq)
+     qpci_io_writel(dev->pdev, dev->bar, VIRTIO_PCI_QUEUE_PFN, pfn);
+ }
+=20
+-static QVirtQueue *qvirtio_pci_virtqueue_setup(QVirtioDevice *d,
+-                                        QGuestAllocator *alloc, uint16_t=
+ index)
++QVirtQueue *qvirtio_pci_virtqueue_setup_common(QVirtioDevice *d,
++                                               QGuestAllocator *alloc,
++                                               uint16_t index)
+ {
+     uint32_t feat;
+     uint64_t addr;
+@@ -207,11 +208,11 @@ static QVirtQueue *qvirtio_pci_virtqueue_setup(QVir=
+tioDevice *d,
+     QVirtioPCIDevice *qvpcidev =3D container_of(d, QVirtioPCIDevice, vde=
+v);
+=20
+     vqpci =3D g_malloc0(sizeof(*vqpci));
+-    feat =3D qvirtio_pci_get_guest_features(d);
++    feat =3D d->bus->get_guest_features(d);
+=20
+-    qvirtio_pci_queue_select(d, index);
++    d->bus->queue_select(d, index);
+     vqpci->vq.index =3D index;
+-    vqpci->vq.size =3D qvirtio_pci_get_queue_size(d);
++    vqpci->vq.size =3D d->bus->get_queue_size(d);
+     vqpci->vq.free_head =3D 0;
+     vqpci->vq.num_free =3D vqpci->vq.size;
+     vqpci->vq.align =3D VIRTIO_PCI_VRING_ALIGN;
+@@ -231,12 +232,12 @@ static QVirtQueue *qvirtio_pci_virtqueue_setup(QVir=
+tioDevice *d,
+     addr =3D guest_alloc(alloc, qvring_size(vqpci->vq.size,
+                                           VIRTIO_PCI_VRING_ALIGN));
+     qvring_init(qvpcidev->pdev->bus->qts, alloc, &vqpci->vq, addr);
+-    qvirtio_pci_set_queue_address(d, &vqpci->vq);
++    d->bus->set_queue_address(d, &vqpci->vq);
+=20
+     return &vqpci->vq;
+ }
+=20
+-static void qvirtio_pci_virtqueue_cleanup(QVirtQueue *vq,
++void qvirtio_pci_virtqueue_cleanup_common(QVirtQueue *vq,
+                                           QGuestAllocator *alloc)
+ {
+     QVirtQueuePCI *vqpci =3D container_of(vq, QVirtQueuePCI, vq);
+@@ -266,8 +267,8 @@ static const QVirtioBus qvirtio_pci_legacy =3D {
+     .queue_select =3D qvirtio_pci_queue_select,
+     .get_queue_size =3D qvirtio_pci_get_queue_size,
+     .set_queue_address =3D qvirtio_pci_set_queue_address,
+-    .virtqueue_setup =3D qvirtio_pci_virtqueue_setup,
+-    .virtqueue_cleanup =3D qvirtio_pci_virtqueue_cleanup,
++    .virtqueue_setup =3D qvirtio_pci_virtqueue_setup_common,
++    .virtqueue_cleanup =3D qvirtio_pci_virtqueue_cleanup_common,
+     .virtqueue_kick =3D qvirtio_pci_virtqueue_kick,
+ };
+=20
+--=20
+2.21.0
 
 
