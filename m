@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A7DD1DA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 02:47:44 +0200 (CEST)
-Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0429FD1DAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 02:51:12 +0200 (CEST)
+Received: from localhost ([::1]:32928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIMcJ-0003Mo-Va
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 20:47:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47027)
+	id 1iIMff-0004oR-2W
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 20:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIMaL-0002RQ-SS
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 20:45:43 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIMed-0004F4-7q
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 20:50:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIMaK-0003ob-U7
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 20:45:41 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:37492)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIMec-0005Hr-6i
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 20:50:07 -0400
+Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:45292)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIMaK-0003oQ-Pp
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 20:45:40 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id m7so1530699ywe.4
- for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 17:45:40 -0700 (PDT)
+ id 1iIMec-0005HU-2a
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 20:50:06 -0400
+Received: by mail-yw1-xc44.google.com with SMTP id x65so1518043ywf.12
+ for <qemu-devel@nongnu.org>; Wed, 09 Oct 2019 17:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=il4vGgq+RyucRseA0Lwk5HiCmrP4D1q9Jv4fY3atrRY=;
- b=m+R+zKx+iNFpWvfmxrdDGKyBc0xhr/CZ42Cd9eAic6n7IArw6YkjShUkwOf/fWUc3I
- BWNflj/ustUXERqvICYmuDgvF7VdH55J/jYnIHwxunvKaj5Mw7L+/mfBBmv02SBao3Nk
- Nih8htuK/oTAEXZHhTxWKgdzPLpPNPleg2Hlaxv9LFE8h35qVHAHLEjq0GHRuQ/vcEH2
- gSiWH1UBE6uA8O6PR48OGVS47ixsjDblBtprhrwQRKXbzkB+Jmtj9EQQ2eTHWfHeVNW6
- M5iSreEMJOfZLedCEtru19NOvgyojMS7mnyII3FBvyd5FsmYl0VMYrAdWIcDvA5SEYZz
- swxA==
+ bh=TyY81SRlFFLzBC8zGurA01QzhPfmOfze6LH6hXxOGHI=;
+ b=MfuaHf1YPszzjHTmkJZkVn5DhaN3+67xPHWEiIHvMrY55Hi+Xq1g/0Kdrbf3N3ZH/j
+ 0HtTgjqB5EzZMfVeefycG0VKg0eP3k+JXa9xyTGoLUNuQ5Bd84/uXXR0IOA1qAmFn7GR
+ 12pDGtQ2muwhVmqA/6Loozfuv3acKBHYYgPRmfqgHKLr8GQtZVpaZEW3YY3TQzluBQ1T
+ brI7ggslO3AeLY6bftFFpPdqLPtvtAhuBt2T+zUXBzU1v522JK78pVDxPrMthpU33mxM
+ IdEk7TElWa2stX+w5KCeaizhqURV/uLITWlB6npmEBMX7WJg7cMx4gCRT7xF3l2fpBY6
+ jxkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=il4vGgq+RyucRseA0Lwk5HiCmrP4D1q9Jv4fY3atrRY=;
- b=uG8iU/G1CUOrScevL8wMPOLduv6PAYcY3WE/iONXy/XyuG8VSXtZ+GgtnqpMW7E9oj
- R0blkTIxGsdq2vRcJs+1lv3PIRosmK7dEEMkjsJE7VVJd2JgxtXdwsHqFxzrESqMZt02
- FVsc9Kg1svm0ca+2yXE2c1gWqfxoMQeTJVt3hOsUl9f4VGTCMJEmzbyJA5yYhZqSC2e5
- V8MLEtF0vi9cIY05l/9Evc3YnaJ4LZLHUw203rUHmsB7GWt6K6q4lFWFOvREsaBIxRzs
- jasbavCyBLo7QnyTJ8iDuqJAxztCo34cT9cc2ZlHtcKhJQbWwQdkT3y+zrSTwJCJksQc
- 8Urw==
-X-Gm-Message-State: APjAAAWyF9siLQHxTTTP2y02VG9mmLXtni/Llg12n8p3I0AqP9Ua/zTt
- VDZGqXgc3L/i87b4aK//6l53uQ==
-X-Google-Smtp-Source: APXvYqyDl8gwZKgClkKlusXxq67MKM0SoQtXBMF98wkJujaSwSPL1d7/K8xAfuJiXpkxFvZAj3Fosg==
-X-Received: by 2002:a81:2b09:: with SMTP id r9mr4764566ywr.346.1570668340115; 
- Wed, 09 Oct 2019 17:45:40 -0700 (PDT)
+ bh=TyY81SRlFFLzBC8zGurA01QzhPfmOfze6LH6hXxOGHI=;
+ b=dNZb+hNKBqk7PhmzqoK2MqvkQhbpBL9i0SmILUEu2HVovathyQOiqGOeEfLkWUR4mI
+ 58/+K2A5HWCtCTTd1K45ZoqENSETqp3aP47g/VXMJ+mBE3oCRE94cUlisrzM4PFjVJ/2
+ KBxEV2qfa1YCMlkPPFbRZPyAUEbGjeOfWmMSEzGi1TBcxc1sqQL1xGlE4B4ge77Ggt7o
+ ClBWzOopyaIJ2oJZv6amIoM6M8Qq45wthDAH+dN4Q/nxJS8wDXZjcYPPva8hF7673iMg
+ xXifxPxeT/K6A57CntQWarBm7q9NyirC24TrebDBbRqhNMhGt2TWJy3wkcPf+qqDukxp
+ BFuA==
+X-Gm-Message-State: APjAAAX7TM6AbBgH6tNVlYGLrydGfhjUPTZEWM8fY6CGEHcPeT/H8kkr
+ 6/qf7Dq6K9nk81EP53z66UDXZQ==
+X-Google-Smtp-Source: APXvYqy3r2PPrGvOYctnr8s8Fyjaoi8A/cbNlLcVisciHCan0gRY04ei+NiN838m//4Cb/GugGrmZg==
+X-Received: by 2002:a81:1058:: with SMTP id 85mr4794026ywq.110.1570668605317; 
+ Wed, 09 Oct 2019 17:50:05 -0700 (PDT)
 Received: from [192.168.1.44] (67.216.151.25.pool.hargray.net. [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id q124sm1066661ywq.8.2019.10.09.17.45.38
+ by smtp.gmail.com with ESMTPSA id 12sm1070482ywu.59.2019.10.09.17.50.04
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 09 Oct 2019 17:45:39 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/5] target/arm/kvm64: kvm64 cpus have timer registers
+ Wed, 09 Oct 2019 17:50:04 -0700 (PDT)
+Subject: Re: [RFC PATCH 3/5] target/arm/kvm: Implement cpu feature kvm-adjvtime
 To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
 References: <20191007170622.1814-1-drjones@redhat.com>
- <20191007170622.1814-2-drjones@redhat.com>
+ <20191007170622.1814-4-drjones@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <e9b7710e-72a5-8bba-cf78-b7d692657fd7@linaro.org>
-Date: Wed, 9 Oct 2019 20:45:37 -0400
+Message-ID: <892976b9-0e43-940d-1d36-046749d652c9@linaro.org>
+Date: Wed, 9 Oct 2019 20:50:02 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191007170622.1814-2-drjones@redhat.com>
+In-Reply-To: <20191007170622.1814-4-drjones@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
+X-Received-From: 2607:f8b0:4864:20::c44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,21 +89,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/7/19 1:06 PM, Andrew Jones wrote:
-> Add the missing GENERIC_TIMER feature to kvm64 cpus.
-> 
-> We don't currently use these registers when KVM is enabled, but it's
-> probably best we add the feature flag for consistency and potential
-> future use. There's also precedent, as we add the PMU feature flag to
-> KVM enabled guests, even though we don't use those registers either.
-> 
-> This change was originally posted as a hunk of a different, never
-> merged patch from Bijan Mottahedeh.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> ---
->  target/arm/kvm64.c | 1 +
->  1 file changed, 1 insertion(+)
+> +static void kvm_arm_vm_state_change(void *opaque, int running, RunState state)
+> +{
+> +    CPUState *cs = opaque;
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +
+> +    if (running) {
+> +        if (cpu->kvm_adjvtime) {
+> +            kvm_arm_set_virtual_time(cs);
+> +        }
+> +    }
+> +}
 
+Worth putting this in kvm.c too, so you don't have to duplicate it?  You can
+always split it apart later if you ever do need a different hook for 32 vs 64.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
