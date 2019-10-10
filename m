@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF48D2912
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:14:54 +0200 (CEST)
-Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BFCD2962
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:20:13 +0200 (CEST)
+Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXLJ-00078H-8k
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52121)
+	id 1iIXQS-00055R-En
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrP-00077e-TN
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:00 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWru-0007Sz-RP
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWrO-0008LY-Nc
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40416)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrs-00006k-PS
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrM-0008Kd-88; Thu, 10 Oct 2019 07:43:56 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iIWro-0008UM-LV; Thu, 10 Oct 2019 07:44:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7930A18CB8E5;
- Thu, 10 Oct 2019 11:43:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2909B87638;
+ Thu, 10 Oct 2019 11:44:22 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DBEC5D6A5;
- Thu, 10 Oct 2019 11:43:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C26FE5C553;
+ Thu, 10 Oct 2019 11:44:21 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 24/36] file-posix: account discard operations
-Date: Thu, 10 Oct 2019 13:42:48 +0200
-Message-Id: <20191010114300.7746-25-mreitz@redhat.com>
+Subject: [PULL 36/36] iotests/162: Fix for newer Linux 5.3+
+Date: Thu, 10 Oct 2019 13:43:00 +0200
+Message-Id: <20191010114300.7746-37-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 10 Oct 2019 11:43:55 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Thu, 10 Oct 2019 11:44:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,92 +60,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anton Nefedov <anton.nefedov@virtuozzo.com>
+Linux 5.3 has made 0.0.0.0/8 a working IPv4 subnet.  As such, "42" is
+now a valid host, and the connection to it will (hopefully) time out
+over a long period rather than quickly return with EINVAL.
 
-This will help to identify how many of the user-issued discard operations
-(accounted on a device level) have actually suceeded down on the host fil=
-e
-(even though the numbers will not be exactly the same if non-raw format
-driver is used (e.g. qcow2 sending metadata discards)).
+So let us use a negative integer for testing that NBD will not crash
+when it receives integer hosts.  This way, the connection will again
+fail quickly and reliably.
 
-Note that these numbers will not include discards triggered by
-write-zeroes + MAY_UNMAP calls.
-
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190923121737.83281-9-anton.nefedov@virtuozzo.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20191002174052.5773-1-mreitz@redhat.com
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/162     | 2 +-
+ tests/qemu-iotests/162.out | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index f12c06de2d..f3934c4e10 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -161,6 +161,11 @@ typedef struct BDRVRawState {
-     bool needs_alignment;
-     bool drop_cache;
-     bool check_cache_dropped;
-+    struct {
-+        uint64_t discard_nb_ok;
-+        uint64_t discard_nb_failed;
-+        uint64_t discard_bytes_ok;
-+    } stats;
+diff --git a/tests/qemu-iotests/162 b/tests/qemu-iotests/162
+index 2d719afbed..c0053ed975 100755
+--- a/tests/qemu-iotests/162
++++ b/tests/qemu-iotests/162
+@@ -46,7 +46,7 @@ echo '=3D=3D=3D NBD =3D=3D=3D'
+ # NBD expects all of its arguments to be strings
 =20
-     PRManager *pr_mgr;
- } BDRVRawState;
-@@ -2660,11 +2665,22 @@ static void coroutine_fn raw_co_invalidate_cache(=
-BlockDriverState *bs,
- #endif /* !__linux__ */
- }
+ # So this should not crash
+-$QEMU_IMG info 'json:{"driver": "nbd", "host": 42}'
++$QEMU_IMG info 'json:{"driver": "nbd", "host": -1}'
 =20
-+static void raw_account_discard(BDRVRawState *s, uint64_t nbytes, int re=
-t)
-+{
-+    if (ret) {
-+        s->stats.discard_nb_failed++;
-+    } else {
-+        s->stats.discard_nb_ok++;
-+        s->stats.discard_bytes_ok +=3D nbytes;
-+    }
-+}
-+
- static coroutine_fn int
- raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool bl=
-kdev)
- {
-     BDRVRawState *s =3D bs->opaque;
-     RawPosixAIOData acb;
-+    int ret;
+ # And this should not treat @port as if it had not been specified
+ # (We need to set up a server here, because the error message for "Conne=
+ction
+diff --git a/tests/qemu-iotests/162.out b/tests/qemu-iotests/162.out
+index 3c5be2c569..5a00d36d17 100644
+--- a/tests/qemu-iotests/162.out
++++ b/tests/qemu-iotests/162.out
+@@ -1,7 +1,7 @@
+ QA output created by 162
 =20
-     acb =3D (RawPosixAIOData) {
-         .bs             =3D bs,
-@@ -2678,7 +2694,9 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offse=
-t, int bytes, bool blkdev)
-         acb.aio_type |=3D QEMU_AIO_BLKDEV;
-     }
+ =3D=3D=3D NBD =3D=3D=3D
+-qemu-img: Could not open 'json:{"driver": "nbd", "host": 42}': Failed to=
+ connect socket: Invalid argument
++qemu-img: Could not open 'json:{"driver": "nbd", "host": -1}': address r=
+esolution failed for -1:10809: Name or service not known
+ image: nbd://localhost:PORT
+ image: nbd+unix://?socket=3D42
 =20
--    return raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
-+    ret =3D raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
-+    raw_account_discard(s, bytes, ret);
-+    return ret;
- }
-=20
- static coroutine_fn int
-@@ -3301,10 +3319,12 @@ static int fd_open(BlockDriverState *bs)
- static coroutine_fn int
- hdev_co_pdiscard(BlockDriverState *bs, int64_t offset, int bytes)
- {
-+    BDRVRawState *s =3D bs->opaque;
-     int ret;
-=20
-     ret =3D fd_open(bs);
-     if (ret < 0) {
-+        raw_account_discard(s, bytes, ret);
-         return ret;
-     }
-     return raw_do_pdiscard(bs, offset, bytes, true);
 --=20
 2.21.0
 
