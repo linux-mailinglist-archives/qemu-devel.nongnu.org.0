@@ -2,55 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253C5D2B4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:29:08 +0200 (CEST)
-Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB13D2B43
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:26:45 +0200 (CEST)
+Received: from localhost ([::1]:39482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYV8-0006oY-S2
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40840)
+	id 1iIYSq-0004E4-6f
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iIYKR-0001j6-3R
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:04 -0400
+ (envelope-from <groug@kaod.org>) id 1iIYKq-00028C-GW
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iIYKP-0002jS-Kq
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:03 -0400
-Resent-Date: Thu, 10 Oct 2019 09:18:03 -0400
-Resent-Message-Id: <E1iIYKP-0002jS-Kq@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21426)
+ (envelope-from <groug@kaod.org>) id 1iIYKo-0002wM-EU
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49520)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iIYKP-0002gj-C1
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1570713471; cv=none; d=zoho.com; s=zohoarc; 
- b=LaVaFhhkwdYOXSOox7ap4OTnntxVYGYm20ZYRNhQWcQ7iy1y1vx94+c/i3AwLMQorxe32S6Nh9cuEi0Ftcok4QAl0KCrRntGrMgq1sn6DItwZbfdnhau7CynKiz3LKQPm6ZfNL4yek3rEJtjacgM/yT4AbDbJnhUxVrfSxpXiz4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1570713471;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=g0WLVrpjr28wYIDj0dy/VdaNm7YZl8R4X3gNfVKUioI=; 
- b=m6WXT9KvMM/mhcTLFWJsszhn2EkNYvpTm0JzMhM7Cy+fB6ejhGZBwfTNwk+X1FHIkS3gbdTojlvowxF/B6yqDIR8I5VhnNhYc4rFnQY6R8Kr0SJpxyV8qhIDNLivk5VBGCWCYBdgBlA5wqdA/Ns4sHgzYCKqfB4HSDApOWy1fMw=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1570713470373499.9981036643038;
- Thu, 10 Oct 2019 06:17:50 -0700 (PDT)
-In-Reply-To: <1570709475-32073-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
-Subject: Re: [PATCH v3] virtio-net: prevent offloads reset on migration
-Message-ID: <157071346912.7138.18171128967446470529@37313f22b938>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIYKn-0002u6-7C
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:18:26 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9ADHZwE074002
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:18:22 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vj26kpq8t-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:18:21 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Thu, 10 Oct 2019 14:18:18 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 10 Oct 2019 14:18:15 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9ADIEwt41156742
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Oct 2019 13:18:14 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6C55F4C058;
+ Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57C234C059;
+ Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
+Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Oct 2019 13:18:14 +0000 (GMT)
+Received: from bahia.tls.ibm.com (bahia.tls.ibm.com [9.101.4.41])
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 1B81D22006B;
+ Thu, 10 Oct 2019 15:18:14 +0200 (CEST)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/8] 9p patches 2019-10-10
+Date: Thu, 10 Oct 2019 15:18:01 +0200
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mikhail.sennikovskii@cloud.ionos.com
-Date: Thu, 10 Oct 2019 06:17:50 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19101013-0008-0000-0000-00000320DF18
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101013-0009-0000-0000-00004A3FE843
+Message-Id: <20191010131809.1284004-1-groug@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-10_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910100125
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,94 +89,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org, mikhail.sennikovskii@cloud.ionos.com,
- stefanha@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTcwNzA5NDc1LTMyMDczLTIt
-Z2l0LXNlbmQtZW1haWwtbWlraGFpbC5zZW5uaWtvdnNraWlAY2xvdWQuaW9ub3MuY29tLwoKCgpI
-aSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0
-LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93
-LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVj
-ZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhw
-b3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRp
-bWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0BmZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICB4ODZfNjQtc29mdG1tdS9ody9pMzg2L2FjcGktYnVp
-bGQubwogIENDICAgICAgeDg2XzY0LXNvZnRtbXUvbW9uaXRvci9taXNjLm8KL3RtcC9xZW11LXRl
-c3Qvc3JjL2h3L25ldC92aXJ0aW8tbmV0LmM6IEluIGZ1bmN0aW9uICd2aXJ0aW9fbmV0X3NldF9m
-ZWF0dXJlcyc6Ci90bXAvcWVtdS10ZXN0L3NyYy9ody9uZXQvdmlydGlvLW5ldC5jOjc4MDoyOTog
-ZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdydW5zdGF0ZV9jaGVjayc7
-IGRpZCB5b3UgbWVhbiAndHlwZV9jaGVjayc/IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRl
-Y2xhcmF0aW9uXQogICAgIGlmIChuLT5oYXNfdm5ldF9oZHIgJiYgIXJ1bnN0YXRlX2NoZWNrKFJV
-Tl9TVEFURV9JTk1JR1JBVEUpKSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+
-fn5+fn5+fn4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0eXBlX2NoZWNrCi90bXAvcWVt
-dS10ZXN0L3NyYy9ody9uZXQvdmlydGlvLW5ldC5jOjc4MDoyOTogZXJyb3I6IG5lc3RlZCBleHRl
-cm4gZGVjbGFyYXRpb24gb2YgJ3J1bnN0YXRlX2NoZWNrJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJu
-c10KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L25ldC92aXJ0aW8tbmV0LmM6NzgwOjQ0OiBlcnJvcjog
-J1JVTl9TVEFURV9JTk1JR1JBVEUnIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0
-aW9uKTsgZGlkIHlvdSBtZWFuICdSWF9TVEFURV9fTUFYJz8KICAgICBpZiAobi0+aGFzX3ZuZXRf
-aGRyICYmICFydW5zdGF0ZV9jaGVjayhSVU5fU1RBVEVfSU5NSUdSQVRFKSkgewogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn4KICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBSWF9TVEFURV9fTUFYCi90
-bXAvcWVtdS10ZXN0L3NyYy9ody9uZXQvdmlydGlvLW5ldC5jOjc4MDo0NDogbm90ZTogZWFjaCB1
-bmRlY2xhcmVkIGlkZW50aWZpZXIgaXMgcmVwb3J0ZWQgb25seSBvbmNlIGZvciBlYWNoIGZ1bmN0
-aW9uIGl0IGFwcGVhcnMgaW4KY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJv
-cnMKICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS9ody9pbnB1dC9weGEyeHhfa2V5cGFkLm8KbWFr
-ZVsxXTogKioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBody9uZXQvdmlydGlv
-LW5ldC5vXSBFcnJvciAxCm1ha2VbMV06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMu
-Li4uCiAgQ0MgICAgICB4ODZfNjQtc29mdG1tdS9xYXBpL3FhcGktaW50cm9zcGVjdC5vCiAgQ0Mg
-ICAgICBhYXJjaDY0LXNvZnRtbXUvaHcvaW5wdXQvdHNjMjEweC5vCi0tLQogIENDICAgICAgYWFy
-Y2g2NC1zb2Z0bW11L2h3L2FybS9mc2wtaW14NnVsLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1t
-dS9ody9hcm0vbWNpbXg2dWwtZXZrLm8KL3RtcC9xZW11LXRlc3Qvc3JjL2h3L25ldC92aXJ0aW8t
-bmV0LmM6IEluIGZ1bmN0aW9uICd2aXJ0aW9fbmV0X3NldF9mZWF0dXJlcyc6Ci90bXAvcWVtdS10
-ZXN0L3NyYy9ody9uZXQvdmlydGlvLW5ldC5jOjc4MDoyOTogZXJyb3I6IGltcGxpY2l0IGRlY2xh
-cmF0aW9uIG9mIGZ1bmN0aW9uICdydW5zdGF0ZV9jaGVjayc7IGRpZCB5b3UgbWVhbiAndHlwZV9j
-aGVjayc/IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgIGlmIChu
-LT5oYXNfdm5ldF9oZHIgJiYgIXJ1bnN0YXRlX2NoZWNrKFJVTl9TVEFURV9JTk1JR1JBVEUpKSB7
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn4KICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB0eXBlX2NoZWNrCi90bXAvcWVtdS10ZXN0L3NyYy9ody9uZXQvdmly
-dGlvLW5ldC5jOjc4MDoyOTogZXJyb3I6IG5lc3RlZCBleHRlcm4gZGVjbGFyYXRpb24gb2YgJ3J1
-bnN0YXRlX2NoZWNrJyBbLVdlcnJvcj1uZXN0ZWQtZXh0ZXJuc10KL3RtcC9xZW11LXRlc3Qvc3Jj
-L2h3L25ldC92aXJ0aW8tbmV0LmM6NzgwOjQ0OiBlcnJvcjogJ1JVTl9TVEFURV9JTk1JR1JBVEUn
-IHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFuICdS
-WF9TVEFURV9fTUFYJz8KICAgICBpZiAobi0+aGFzX3ZuZXRfaGRyICYmICFydW5zdGF0ZV9jaGVj
-ayhSVU5fU1RBVEVfSU5NSUdSQVRFKSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn4KICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBSWF9TVEFURV9fTUFYCi90bXAvcWVtdS10ZXN0L3NyYy9ody9u
-ZXQvdmlydGlvLW5ldC5jOjc4MDo0NDogbm90ZTogZWFjaCB1bmRlY2xhcmVkIGlkZW50aWZpZXIg
-aXMgcmVwb3J0ZWQgb25seSBvbmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4KY2Mx
-OiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKbWFrZVsxXTogKioqIFsvdG1w
-L3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBody9uZXQvdmlydGlvLW5ldC5vXSBFcnJvciAx
-Cm1ha2VbMV06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgQ0MgICAgICBh
-YXJjaDY0LXNvZnRtbXUvaHcvYXJtL25yZjUxX3NvYy5vCm1ha2U6ICoqKiBbTWFrZWZpbGU6NDgy
-OiB4ODZfNjQtc29mdG1tdS9hbGxdIEVycm9yIDIKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmlu
-aXNoZWQgam9icy4uLi4KbWFrZTogKioqIFtNYWtlZmlsZTo0ODI6IGFhcmNoNjQtc29mdG1tdS9h
-bGxdIEVycm9yIDIKVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4v
-dGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxpbmUgNjYyLCBpbiA8bW9kdWxlPgogICAgc3lzLmV4
-aXQobWFpbigpKQotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQp
-CnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAn
-ZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MTNmMzFh
-MjNjZGFhNDNmYWIxMjY0MjgxMDI5NTQwNTMnLCAnLXUnLCAnMTAwMScsICctLXNlY3VyaXR5LW9w
-dCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD0nLCAn
-LWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAn
-LWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FDSEVfRElSPS92YXIv
-dG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2Fj
-aGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LThpNGk2azhqL3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMTAtMDkuMTUuMzYuMjI1ODI6L3Zhci90
-bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3Qt
-bWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVy
-PWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MTNmMzFhMjNjZGFhNDNmYWIxMjY0MjgxMDI5
-NTQwNTMKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcg
-ZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtOGk0aTZrOGovc3JjJwptYWtl
-OiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgMm0x
-My44MTNzCnVzZXIgICAgMG04LjQ4N3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1NzA3MDk0NzUtMzIwNzMtMi1naXQtc2VuZC1lbWFpbC1t
-aWtoYWlsLnNlbm5pa292c2tpaUBjbG91ZC5pb25vcy5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dA
-ZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
-eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
-Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
+
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/gkurz/qemu.git tags/9p-next-2019-10-10
+
+for you to fetch changes up to e410bbc52a7a246858af54ce1842fadf26f39ff7:
+
+  MAINTAINERS: Downgrade status of virtio-9p to "Odd Fixes" (2019-10-10 12:36:28 +0200)
+
+----------------------------------------------------------------
+The most notable change is that we now detect cross-device setups in the
+host since it may cause inode number collision and mayhem in the guest.
+A new fsdev property is added for the user to choose the appropriate
+policy to handle that: either remap all inode numbers or fail I/Os to
+another host device or just print out a warning (default behaviour).
+
+This is also my last PR as _active_ maintainer of 9pfs.
+
+----------------------------------------------------------------
+Antonios Motakis (4):
+      9p: unsigned type for type, version, path
+      9p: Treat multiple devices on one export as an error
+      9p: Added virtfs option 'multidevs=remap|forbid|warn'
+      9p: stat_to_qid: implement slow path
+
+Christian Schoenebeck (1):
+      9p: Use variable length suffixes for inode remapping
+
+Greg Kurz (3):
+      9p: Simplify error path of v9fs_device_realize_common()
+      fsdev: Add return value to fsdev_throttle_parse_opts()
+      MAINTAINERS: Downgrade status of virtio-9p to "Odd Fixes"
+
+ MAINTAINERS                 |   2 +-
+ fsdev/9p-marshal.h          |   6 +-
+ fsdev/file-op-9p.h          |   5 +
+ fsdev/qemu-fsdev-opts.c     |   7 +-
+ fsdev/qemu-fsdev-throttle.c |   4 +-
+ fsdev/qemu-fsdev-throttle.h |   2 +-
+ fsdev/qemu-fsdev.c          |   1 +
+ hw/9pfs/9p-local.c          |  28 ++-
+ hw/9pfs/9p-proxy.c          |   4 +
+ hw/9pfs/9p.c                | 534 ++++++++++++++++++++++++++++++++++++++++----
+ hw/9pfs/9p.h                |  60 +++++
+ hw/9pfs/trace-events        |  14 +-
+ qemu-options.hx             |  26 ++-
+ vl.c                        |   7 +-
+ 14 files changed, 639 insertions(+), 61 deletions(-)
+-- 
+2.21.0
 
 
