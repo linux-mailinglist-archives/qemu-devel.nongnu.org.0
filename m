@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C92CD2B91
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:41:32 +0200 (CEST)
-Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156FCD2BA7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:47:11 +0200 (CEST)
+Received: from localhost ([::1]:39768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYh9-0003ys-Kt
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
+	id 1iIYmc-0007gR-41
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iIYWE-0000yZ-M5
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:30:21 -0400
+ (envelope-from <lersek@redhat.com>) id 1iIYXR-00023K-LP
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:31:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iIYW8-0000r5-8l
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:30:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43092)
+ (envelope-from <lersek@redhat.com>) id 1iIYXQ-0001Xr-EN
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:31:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47018)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iIYW6-0000pF-AQ
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:30:07 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIYXQ-0001Xe-6c
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:31:28 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D346211A03;
- Thu, 10 Oct 2019 13:30:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68BB45C686;
- Thu, 10 Oct 2019 13:29:49 +0000 (UTC)
-Date: Thu, 10 Oct 2019 14:29:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 5/5] travis.yml: Compile on arm64, too
-Message-ID: <20191010132947.GJ28562@redhat.com>
-References: <20191009170701.14756-1-thuth@redhat.com>
- <20191009170701.14756-6-thuth@redhat.com>
- <20191010105808.GH28562@redhat.com>
- <11a2be24-f177-8c55-b0fc-3945d023b877@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 6ED5F7BDDA;
+ Thu, 10 Oct 2019 13:31:27 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-48.rdu2.redhat.com
+ [10.10.120.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A29F75DA2C;
+ Thu, 10 Oct 2019 13:31:25 +0000 (UTC)
+Subject: Re: [RFC 1/3] acpi: cpuhp: fix 'Command data' description is spec
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20191009132252.17860-1-imammedo@redhat.com>
+ <20191009132252.17860-2-imammedo@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <fbbc58a6-7117-c76a-58ae-5e9a78890a8f@redhat.com>
+Date: Thu, 10 Oct 2019 15:31:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <20191009132252.17860-2-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <11a2be24-f177-8c55-b0fc-3945d023b877@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 10 Oct 2019 13:30:03 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.26]); Thu, 10 Oct 2019 13:31:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,136 +61,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 10, 2019 at 01:57:11PM +0200, Thomas Huth wrote:
-> On 10/10/2019 12.58, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Oct 09, 2019 at 07:07:01PM +0200, Thomas Huth wrote:
-> >> Travis now features an arm64 build host, so let's check compilation
-> >> there, too.
-> >>
-> >> Unfortunately, there are some quirks:
-> >> - block/ssh.c does not compile properly in this environment, so we h=
-ave
-> >>   to use --disable-libssh until that problem is fixed.
-> >> - test-util-filemonitor fails, so we can not run the unit tests ther=
-e
-> >=20
-> > Do you have any more info on this failure ?
-> >=20
-> > Running tests with FILEMONITOR_DEBUG=3D1 env variable set will make
-> > it print more info
->=20
-> Here you go:
->=20
-> https://travis-ci.com/huth/qemu/jobs/244168910#L5775
->=20
-> Quoting:
->=20
-> "
-> Add watch /tmp/test-util-filemonitor-PH0B9Z (null)
-> Watch ID 100000000
-> Add watch /tmp/test-util-filemonitor-PH0B9Z one.txt
-> Watch ID 100000001
-> Add watch /tmp/test-util-filemonitor-PH0B9Z two.txt
-> Watch ID 100000002
-> Create /tmp/test-util-filemonitor-PH0B9Z/one.txt
-> Event id=3D100000000 event=3D0 file=3Done.txt
-> Queue event id 100000000 event 0 file one.txt
-> Queue event id 100000001 event 0 file one.txt
-> Event id=3D100000001 event=3D0 file=3Done.txt
-> Create /tmp/test-util-filemonitor-PH0B9Z/two.txt
-> Queue event id 100000000 event 0 file two.txt
-> Queue event id 100000002 event 0 file two.txt
-> Event id=3D100000000 event=3D0 file=3Dtwo.txt
-> Event id=3D100000002 event=3D0 file=3Dtwo.txt
-> Create /tmp/test-util-filemonitor-PH0B9Z/three.txt
-> Queue event id 100000000 event 0 file three.txt
-> Event id=3D100000000 event=3D0 file=3Dthree.txt
-> Unlink /tmp/test-util-filemonitor-PH0B9Z/three.txt
-> Queue event id 100000000 event 2 file three.txt
-> Event id=3D100000000 event=3D2 file=3Dthree.txt
-> Rename /tmp/test-util-filemonitor-PH0B9Z/one.txt ->
-> /tmp/test-util-filemonitor-PH0B9Z/two.txt
-> Queue event id 100000000 event 2 file one.txt
-> Queue event id 100000001 event 2 file one.txt
-> Queue event id 100000000 event 0 file two.txt
-> Queue event id 100000002 event 0 file two.txt
-> Event id=3D100000000 event=3D2 file=3Done.txt
-> Event id=3D100000001 event=3D2 file=3Done.txt
-> Event id=3D100000000 event=3D0 file=3Dtwo.txt
-> Event id=3D100000002 event=3D0 file=3Dtwo.txt
-> Append /tmp/test-util-filemonitor-PH0B9Z/two.txt
-> Queue event id 100000000 event 1 file two.txt
-> Queue event id 100000002 event 1 file two.txt
-> Event id=3D100000000 event=3D1 file=3Dtwo.txt
-> Event id=3D100000002 event=3D1 file=3Dtwo.txt
-> Touch /tmp/test-util-filemonitor-PH0B9Z/two.txt
-> Event id=3D100000000 event=3D3 file=3Dtwo.txt
-> Queue event id 100000000 event 3 file two.txt
-> Queue event id 100000002 event 3 file two.txt
-> Event id=3D100000002 event=3D3 file=3Dtwo.txt
-> Del watch /tmp/test-util-filemonitor-PH0B9Z 100000001
-> Add watch /tmp/test-util-filemonitor-PH0B9Z one.txt
-> Watch ID 100000003
-> Create /tmp/test-util-filemonitor-PH0B9Z/one.txt
-> Queue event id 100000000 event 0 file one.txt
-> Event id=3D100000000 event=3D0 file=3Done.txt
-> Queue event id 100000003 event 0 file one.txt
-> Event id=3D100000003 event=3D0 file=3Done.txt
-> Del watch /tmp/test-util-filemonitor-PH0B9Z 100000003
-> Unlink /tmp/test-util-filemonitor-PH0B9Z/one.txt
-> Queue event id 100000000 event 2 file one.txt
-> Event id=3D100000000 event=3D2 file=3Done.txt
-> Mkdir /tmp/test-util-filemonitor-PH0B9Z/fish
-> Queue event id 100000000 event 0 file fish
-> Event id=3D100000000 event=3D0 file=3Dfish
-> Add watch /tmp/test-util-filemonitor-PH0B9Z fish/
-> Watch ID 200000000
-> Add watch /tmp/test-util-filemonitor-PH0B9Z fish/one.txt
-> Watch ID 200000001
-> Create /tmp/test-util-filemonitor-PH0B9Z/fish/one.txt
-> Queue event id 200000000 event 0 file one.txt
-> Queue event id 200000001 event 0 file one.txt
-> Event id=3D200000000 event=3D0 file=3Done.txt
-> Event id=3D200000001 event=3D0 file=3Done.txt
-> Del watch /tmp/test-util-filemonitor-PH0B9Z 200000001
-> Rename /tmp/test-util-filemonitor-PH0B9Z/fish/one.txt ->
-> /tmp/test-util-filemonitor-PH0B9Z/two.txt
-> Queue event id 200000000 event 2 file one.txt
-> Event id=3D200000000 event=3D2 file=3Done.txt
-> Queue event id 100000000 event 0 file two.txt
-> Event id=3D100000000 event=3D0 file=3Dtwo.txt
-> Event id=3D100000002 event=3D0 file=3Dtwo.txt
-> Queue event id 100000002 event 0 file two.txt
-> Rmdir /tmp/test-util-filemonitor-PH0B9Z/fish
-> Queue event id 100000000 event 2 file fish
-> Event id=3D200000000 event=3D4 file=3D
-> Missing event watch id 200000000 event 4 file
-> **
+2nd round:
 
-This is really strange behaviour.  I've done some further test builds
-on travis with various extra debug info & AFAICT, inotify is not
-working correctly on the host - it is never emitting one of the events
-that it should. Could be some wierd bug related to the filesystem
-overlay setup used for the container env in travis I guess.
+On 10/09/19 15:22, Igor Mammedov wrote:
+> QEMU returns 0, in case of erro or invalid value in 'Command field',
+> make spec match reality, i.e.
 
-I'm not sure what todo here. I can't see an obvious trait that I can
-use to identify a broken setup, in order to auto-skip the test. Might
-just need to build without the inotify support somehow.
+AHA! so this is exactly where you meant to list the particular cases
+when "command data" reads as 0:
+- CPU >= max_cpus selected,
+- CPU with pending events asked for, but none found
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> Also fix returned value description  in case 'Command field' == 0x0,
+> it's in not PXM but CPU selector value with pending event
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  docs/specs/acpi_cpu_hotplug.txt | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
+> index ee219c8358..ac5903b2b1 100644
+> --- a/docs/specs/acpi_cpu_hotplug.txt
+> +++ b/docs/specs/acpi_cpu_hotplug.txt
+> @@ -44,9 +44,10 @@ read access:
+>             3-7: reserved and should be ignored by OSPM
+>      [0x5-0x7] reserved
+>      [0x8] Command data: (DWORD access)
+> -          in case of error or unsupported command reads is 0xFFFFFFFF
+> +          in case of error or unsupported command reads is 0x0
+>            current 'Command field' value:
+> -              0: returns PXM value corresponding to device
+> +              0: returns CPU selector value corresponding to a CPU with
+> +                 pending event.
+>  
+>  write access:
+>      offset:
+> 
+
+How about:
+
+    [0x8] Command data: (DWORD access, little endian)
+          If the "CPU selector" value last stored by the guest refers to
+          an impossible CPU, then 0.
+          Otherwise, if the "Command field" value last stored by the
+          guest differs from 0, then 0.
+          Otherwise, if there is at least one CPU with a pending event,
+          then that CPU has been selected; the command data register
+          returns that selector.
+          Otherwise, 0.
+
+Thanks
+Laszlo
 
