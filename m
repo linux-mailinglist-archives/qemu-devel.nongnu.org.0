@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6CAD2B64
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:33:22 +0200 (CEST)
-Received: from localhost ([::1]:39574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA173D2B7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:36:09 +0200 (CEST)
+Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYZE-0002OC-Ii
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:33:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40675)
+	id 1iIYbw-0006Gu-RR
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iIYJp-0001JP-0g
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1iIYKD-0001P5-7H
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iIYJn-0002Tq-Uk
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52190)
+ (envelope-from <philmd@redhat.com>) id 1iIYJx-0002a2-Ht
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:17:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46812)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iIYJS-0002ND-ID; Thu, 10 Oct 2019 09:17:02 -0400
+ id 1iIYJn-0002Sn-0b; Thu, 10 Oct 2019 09:17:23 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9E4238D5D84;
- Thu, 10 Oct 2019 13:17:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 43A5C307D989;
+ Thu, 10 Oct 2019 13:17:21 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 87F6B600C4;
- Thu, 10 Oct 2019 13:16:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F756600F8;
+ Thu, 10 Oct 2019 13:17:01 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 5/8] hw/ide/via82c: Convert reset handler to DeviceReset
-Date: Thu, 10 Oct 2019 15:15:24 +0200
-Message-Id: <20191010131527.32513-6-philmd@redhat.com>
+Subject: [PATCH v3 6/8] hw/isa/vt82c686: Convert reset handler to DeviceReset
+Date: Thu, 10 Oct 2019 15:15:25 +0200
+Message-Id: <20191010131527.32513-7-philmd@redhat.com>
 In-Reply-To: <20191010131527.32513-1-philmd@redhat.com>
 References: <20191010131527.32513-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Thu, 10 Oct 2019 13:17:01 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Thu, 10 Oct 2019 13:17:21 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -69,7 +69,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VIA82C686B IDE controller is a PCI device, it will be reset
+The VIA VT82C686 Southbridge is a PCI device, it will be reset
 when the PCI bus it stands on is reset.
 
 Convert its reset handler into a proper Device reset method.
@@ -77,57 +77,56 @@ Convert its reset handler into a proper Device reset method.
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ide/via.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/isa/vt82c686.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 7087dc676e..053622bd82 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -29,7 +29,6 @@
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "sysemu/dma.h"
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 50bd28fa82..616f67f347 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -23,7 +23,6 @@
+ #include "hw/isa/apm.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/i2c/pm_smbus.h"
 -#include "sysemu/reset.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "exec/address-spaces.h"
+@@ -116,11 +115,10 @@ static const MemoryRegionOps superio_ops =3D {
+     },
+ };
 =20
- #include "hw/ide/pci.h"
- #include "trace.h"
-@@ -120,10 +119,10 @@ static void via_ide_set_irq(void *opaque, int n, in=
-t level)
-     }
+-static void vt82c686b_reset(void * opaque)
++static void vt82c686b_isa_reset(DeviceState *dev)
+ {
+-    PCIDevice *d =3D opaque;
+-    uint8_t *pci_conf =3D d->config;
+-    VT82C686BState *vt82c =3D VT82C686B_DEVICE(d);
++    VT82C686BState *vt82c =3D VT82C686B_DEVICE(dev);
++    uint8_t *pci_conf =3D vt82c->dev.config;
+=20
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+     pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_ME=
+MORY |
+@@ -476,8 +474,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **e=
+rrp)
+      * But we do not emulate a floppy, so just set it here. */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+                                 &vt82c->superio);
+-
+-    qemu_register_reset(vt82c686b_reset, d);
  }
 =20
--static void via_ide_reset(void *opaque)
-+static void via_ide_reset(DeviceState *dev)
- {
--    PCIIDEState *d =3D opaque;
--    PCIDevice *pd =3D PCI_DEVICE(d);
-+    PCIIDEState *d =3D PCI_IDE(dev);
-+    PCIDevice *pd =3D PCI_DEVICE(dev);
-     uint8_t *pci_conf =3D pd->config;
-     int i;
-=20
-@@ -172,8 +171,6 @@ static void via_ide_realize(PCIDevice *dev, Error **e=
-rrp)
-     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
-     dev->wmask[PCI_INTERRUPT_LINE] =3D 0xf;
-=20
--    qemu_register_reset(via_ide_reset, d);
--
-     memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_o=
-ps,
-                           &d->bus[0], "via-ide0-data", 8);
-     pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[0])=
-;
-@@ -229,6 +226,7 @@ static void via_ide_class_init(ObjectClass *klass, vo=
-id *data)
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-     PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
-=20
-+    dc->reset =3D via_ide_reset;
-     k->realize =3D via_ide_realize;
-     k->exit =3D via_ide_exitfn;
-     k->vendor_id =3D PCI_VENDOR_ID_VIA;
+ ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
+@@ -501,6 +497,7 @@ static void via_class_init(ObjectClass *klass, void *=
+data)
+     k->device_id =3D PCI_DEVICE_ID_VIA_ISA_BRIDGE;
+     k->class_id =3D PCI_CLASS_BRIDGE_ISA;
+     k->revision =3D 0x40;
++    dc->reset =3D vt82c686b_isa_reset;
+     dc->desc =3D "ISA bridge";
+     dc->vmsd =3D &vmstate_via;
+     /*
 --=20
 2.21.0
 
