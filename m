@@ -2,73 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755FED29EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:47:33 +0200 (CEST)
-Received: from localhost ([::1]:37612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E07FD29E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:46:52 +0200 (CEST)
+Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXqu-0008Pu-1P
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:47:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56582)
+	id 1iIXqE-00071u-Uz
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iIXRm-0000HV-Px
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:35 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iIXSF-00018Y-RG
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:22:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iIXRl-0005g6-Kw
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:34 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52501)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iIXRl-0005fJ-DC
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:33 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id r19so6714296wmh.2
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FLB6qStTaqTyx6FlLrnb5V4WtUte/BoT07QLcwG8btA=;
- b=DSmwd/oKiuVjqnIaV3eIL+wV788Gdl7W0mWhfy//CGpD7N845C1tukPpVINYWq9dbi
- uaq8I6We7+oyFsFSga78Etq4I8NUGsUCRvc+H14EpgqKb57NGRfB4Xda3W4SesjoSCcS
- Zbf2lPStQJP3i18IBNaJOAXArLMPYUi+b5OozGK6V7E3YPONfKP+NXVXVwGQOosEW901
- Jy90F+0APxnSuOWad5nQnsBXi4EnyVXXELOeC7AzkUw7a35dbXenEfp9daPzqkCon8Hd
- L8u9x0QoOxAOMuw9Z0uh14sAnPSWoi+i0+0Vumc0bwDFqUtneJlUvmaAhkpno5eGIbjK
- L42A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=FLB6qStTaqTyx6FlLrnb5V4WtUte/BoT07QLcwG8btA=;
- b=adkinTj6hRXr7Yl7o0+szkQ+9Mw8zYcbLoOOKo0rrVh3Y3ZgglTsmAif6NUBmvB/Y4
- XOW9UDwwzlhnKqXW04p5ySGUlBAALHFZ0Hbw/5HVIVO8esiHFHayRLTKapmQPnIPMMwb
- e1eA7rtGVvp84zFuYy0t6V8JWNH6xqnGMSXszMGx2zHyRusK3KiWfrV7SEhaIx7QcAJk
- KHA1i9Wc59Zi87ts1ktJsL3jOmcW5dBrkEMjgIbjlu5kDL5fXRjOe6iqYyDUjP68qSvt
- D5ipURSXXVjBW21S4XcLHZvpu7PZWm4CXK9hSR93PhxnOyqWfNzNAAaorHhOsGgHL5g/
- b4CA==
-X-Gm-Message-State: APjAAAWArTPKVjSHEix9XMu3+IsF1UyA4vHyDCXbPg43Xt77HfTQrsHq
- bvlXgsfmhufd1h+DVS+cDbvpgHzp0r0=
-X-Google-Smtp-Source: APXvYqzOEMTpxhR7pG2tSyksLDaWlY+lMoNhHEoGQjf+Vnh/h12uxqyzhEI5eYFHDdIAydJ9egevGA==
-X-Received: by 2002:a1c:f714:: with SMTP id v20mr7684893wmh.55.1570710091432; 
- Thu, 10 Oct 2019 05:21:31 -0700 (PDT)
-Received: from x1w.redhat.com (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id o4sm12413169wre.91.2019.10.10.05.21.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Oct 2019 05:21:30 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (envelope-from <stefanha@redhat.com>) id 1iIXSE-0005pk-58
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:22:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44192)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iIXSD-0005pP-Vx
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:22:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E77A810DCCA2
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 12:22:00 +0000 (UTC)
+Received: from localhost (ovpn-117-170.ams2.redhat.com [10.36.117.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5168A5DA2C;
+ Thu, 10 Oct 2019 12:21:55 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] tests/acceptance: Add tests for the PA-RISC machine
-Date: Thu, 10 Oct 2019 14:21:26 +0200
-Message-Id: <20191010122128.29000-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
+Subject: [PATCH] trace: avoid "is" with a literal Python 3.8 warnings
+Date: Thu, 10 Oct 2019 13:21:54 +0100
+Message-Id: <20191010122154.10553-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Thu, 10 Oct 2019 12:22:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,29 +54,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>, Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests boot a HP-UX firmware CD-ROM which allow serial
-console interaction. This exercise the PCI LSI53C895A SCSI
-controller.
+The following statement produces a SyntaxWarning with Python 3.8:
 
-I'm not adding it to the Travis-CI list because I'm not sure
-how to split/rename the current job, see:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg644753.html
+  if len(format) is 0:
+  scripts/tracetool/__init__.py:459: SyntaxWarning: "is" with a literal. =
+Did you mean "=3D=3D"?
 
-Philippe Mathieu-Daudé (2):
-  tests/boot_console: Send <carriage return> on serial lines
-  tests/boot_console: Test booting HP-UX firmware upgrade
+Use the conventional len(x) =3D=3D 0 syntax instead.
 
- tests/acceptance/boot_linux_console.py | 27 +++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ scripts/tracetool/__init__.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--- 
+diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.p=
+y
+index 04279fa62e..44c118bc2a 100644
+--- a/scripts/tracetool/__init__.py
++++ b/scripts/tracetool/__init__.py
+@@ -456,12 +456,12 @@ def generate(events, group, format, backends,
+     import tracetool
+=20
+     format =3D str(format)
+-    if len(format) is 0:
++    if len(format) =3D=3D 0:
+         raise TracetoolError("format not set")
+     if not tracetool.format.exists(format):
+         raise TracetoolError("unknown format: %s" % format)
+=20
+-    if len(backends) is 0:
++    if len(backends) =3D=3D 0:
+         raise TracetoolError("no backends specified")
+     for backend in backends:
+         if not tracetool.backend.exists(backend):
+--=20
 2.21.0
 
 
