@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89664D1DF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 03:22:35 +0200 (CEST)
-Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D473D1E31
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 04:07:26 +0200 (CEST)
+Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iINA2-0006bc-KO
-	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 21:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49755)
+	id 1iINrR-0006Ek-3Z
+	for lists+qemu-devel@lfdr.de; Wed, 09 Oct 2019 22:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iIN9F-0006AF-1v
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 21:21:46 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iINpH-0004u9-Sp
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 22:05:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iIN9D-0007r6-SV
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 21:21:45 -0400
-Received: from mga01.intel.com ([192.55.52.88]:56984)
+ (envelope-from <dgibson@ozlabs.org>) id 1iINpG-0003p4-4J
+ for qemu-devel@nongnu.org; Wed, 09 Oct 2019 22:05:11 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45733 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iIN9D-0007qs-K5
- for qemu-devel@nongnu.org; Wed, 09 Oct 2019 21:21:43 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Oct 2019 18:21:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,278,1566889200"; d="scan'208";a="197089351"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga003.jf.intel.com with ESMTP; 09 Oct 2019 18:21:40 -0700
-Date: Thu, 10 Oct 2019 09:21:23 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 3/3] migration/postcopy: replace have_listen_thread check
- with PostcopyState check
-Message-ID: <20191010012123.GA2167@richard>
-References: <20191006000249.29926-1-richardw.yang@linux.intel.com>
- <20191006000249.29926-4-richardw.yang@linux.intel.com>
- <20191008191551.GN3441@work-vm> <20191009013733.GF26203@richard>
- <20191009101716.GH2893@work-vm>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iINpF-0003nZ-AV; Wed, 09 Oct 2019 22:05:10 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46pZCw2190z9sPL; Thu, 10 Oct 2019 13:05:00 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1570673100;
+ bh=Jn+DbSPEtGDmHfeBWFVREADrVNH+3GtF8XVD4qBJRKw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S5jNceTem20/H/iWaS+FMSSUtffv8AslA7LDdW9vIAcI8f2kTgfqNAsQglHYo6mS7
+ jpL01k94c8X9vMso5TLXlFGF2RCfVyusZJGcYV+Hxp1sP15mJp1zqXkLLWysMi6b7e
+ rW7Wt7Zao5JPW1RdmslHFXLR3sEoGip6Jy3cW8hg=
+Date: Thu, 10 Oct 2019 12:56:43 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v4 15/19] spapr: Remove SpaprIrq::nr_msis
+Message-ID: <20191010015643.GA28552@umbus.fritz.box>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ <20191009060818.29719-16-david@gibson.dropbear.id.au>
+ <cbf330ce-2f95-5af1-aff5-8bed120c7317@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
 Content-Disposition: inline
-In-Reply-To: <20191009101716.GH2893@work-vm>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.88
+In-Reply-To: <cbf330ce-2f95-5af1-aff5-8bed120c7317@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,138 +57,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
- quintela@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 11:17:16AM +0100, Dr. David Alan Gilbert wrote:
->* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> On Tue, Oct 08, 2019 at 08:15:51PM +0100, Dr. David Alan Gilbert wrote:
->> >* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> >> After previous cleanup, postcopy thread is running only when
->> >> PostcopyState is LISTENNING or RUNNING. This means it is not necessary
->> >> to spare a variable have_listen_thread to represent the state.
->> >> 
->> >> Replace the check on have_listen_thread with PostcopyState and remove
->> >> the variable.
->> >> 
->> >> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->> >> ---
->> >>  migration/migration.h | 1 -
->> >>  migration/ram.c       | 2 +-
->> >>  migration/ram.h       | 1 +
->> >>  migration/savevm.c    | 4 +---
->> >>  4 files changed, 3 insertions(+), 5 deletions(-)
->> >> 
->> >> diff --git a/migration/migration.h b/migration/migration.h
->> >> index 4f2fe193dc..a4d639663d 100644
->> >> --- a/migration/migration.h
->> >> +++ b/migration/migration.h
->> >> @@ -63,7 +63,6 @@ struct MigrationIncomingState {
->> >>      /* Set this when we want the fault thread to quit */
->> >>      bool           fault_thread_quit;
->> >>  
->> >> -    bool           have_listen_thread;
->> >>      QemuThread     listen_thread;
->> >>      QemuSemaphore  listen_thread_sem;
->> >>  
->> >> diff --git a/migration/ram.c b/migration/ram.c
->> >> index 769d3f6454..dfc50d57d5 100644
->> >> --- a/migration/ram.c
->> >> +++ b/migration/ram.c
->> >> @@ -4188,7 +4188,7 @@ static bool postcopy_is_advised(void)
->> >>      return ps >= POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_END;
->> >>  }
->> >>  
->> >> -static bool postcopy_is_running(void)
->> >> +bool postcopy_is_running(void)
->> >>  {
->> >>      PostcopyState ps = postcopy_state_get();
->> >>      return ps >= POSTCOPY_INCOMING_LISTENING && ps < POSTCOPY_INCOMING_END;
->> >> diff --git a/migration/ram.h b/migration/ram.h
->> >> index bd0eee79b6..44fe4753ad 100644
->> >> --- a/migration/ram.h
->> >> +++ b/migration/ram.h
->> >> @@ -59,6 +59,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms);
->> >>  /* For incoming postcopy discard */
->> >>  int ram_discard_range(const char *block_name, uint64_t start, size_t length);
->> >>  int ram_postcopy_incoming_init(MigrationIncomingState *mis);
->> >> +bool postcopy_is_running(void);
->> >>  
->> >>  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
->> >>  
->> >> diff --git a/migration/savevm.c b/migration/savevm.c
->> >> index dcad8897a3..2a0e0b94df 100644
->> >> --- a/migration/savevm.c
->> >> +++ b/migration/savevm.c
->> >> @@ -1836,7 +1836,6 @@ static void *postcopy_ram_listen_thread(void *opaque)
->> >>      qemu_loadvm_state_cleanup();
->> >>  
->> >>      rcu_unregister_thread();
->> >> -    mis->have_listen_thread = false;
->> >>      postcopy_state_set(POSTCOPY_INCOMING_END, NULL);
->> >
->> >That now needs a big comment saying it must be the last thing in the
->> >thread, because now it's got meaning that it's here.
->> >
->> >>  
->> >>      return NULL;
->> >> @@ -1880,7 +1879,6 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->> >>          return -1;
->> >>      }
->> >>  
->> >> -    mis->have_listen_thread = true;
->> >>      /* Start up the listening thread and wait for it to signal ready */
->> >>      qemu_sem_init(&mis->listen_thread_sem, 0);
->> >>      qemu_thread_create(&mis->listen_thread, "postcopy/listen",
->> >> @@ -2518,7 +2516,7 @@ int qemu_loadvm_state(QEMUFile *f)
->> >>  
->> >>      trace_qemu_loadvm_state_post_main(ret);
->> >>  
->> >> -    if (mis->have_listen_thread) {
->> >> +    if (postcopy_is_running()) {
->> >>          /* Listen thread still going, can't clean up yet */
->> >>          return ret;
->> >>      }
->> >
->> >Can you explain to me why this is afe in the case of a failure in
->> >loadvm_postcopy_handle_listen between the start where it sets
->> >the state to LISTENING, and the point where it currently sets
->> >hasve_listen_thread ?  Wouldn't this cause qemu_loadvm_state
->> >not to cleanup?
->> >
->> 
->> I have to say you are right.  listen_thread may not started when PostcopyState
->> is already set to LISTENING.
->> 
->> The ugly fix may be set PostcopyState back to original one. Not sure whether
->> you would like this. 
->
->I think the 'have_listen_thread' might be the simplest solution though;
->it's very simple!
->
 
-Yep, you are right.
+--yrj/dFKFPuw6o+aM
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->Dave
->
->> >Dave
->> >
->> >> -- 
->> >> 2.17.1
->> >> 
->> >--
->> >Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->> 
->> -- 
->> Wei Yang
->> Help you, Help me
->--
->Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+On Wed, Oct 09, 2019 at 05:59:13PM +0200, C=E9dric Le Goater wrote:
+> On 09/10/2019 08:08, David Gibson wrote:
+> > The nr_msis value we use here has to line up with whether we're using
+> > legacy or modern irq allocation.  Therefore it's safer to derive it bas=
+ed
+> > on legacy_irq_allocation rather than having SpaprIrq contain a canned
+> > value.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+>=20
+> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+>=20
+> one minor typo below,
+>=20
+> > ---
+> >  hw/ppc/spapr.c              |  5 ++---
+> >  hw/ppc/spapr_irq.c          | 26 +++++++++++++++++---------
+> >  hw/ppc/spapr_pci.c          |  7 ++++---
+> >  include/hw/pci-host/spapr.h |  4 ++--
+> >  include/hw/ppc/spapr_irq.h  |  4 +---
+> >  5 files changed, 26 insertions(+), 20 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index e880db5d38..153cc54354 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -1275,7 +1275,7 @@ static void *spapr_build_fdt(SpaprMachineState *s=
+papr)
+> >      }
+> > =20
+> >      QLIST_FOREACH(phb, &spapr->phbs, list) {
+> > -        ret =3D spapr_dt_phb(phb, PHANDLE_INTC, fdt, spapr->irq->nr_ms=
+is, NULL);
+> > +        ret =3D spapr_dt_phb(spapr, phb, PHANDLE_INTC, fdt, NULL);
+> >          if (ret < 0) {
+> >              error_report("couldn't setup PCI devices in fdt");
+> >              exit(1);
+> > @@ -3910,8 +3910,7 @@ int spapr_phb_dt_populate(SpaprDrc *drc, SpaprMac=
+hineState *spapr,
+> >          return -1;
+> >      }
+> > =20
+> > -    if (spapr_dt_phb(sphb, intc_phandle, fdt, spapr->irq->nr_msis,
+> > -                     fdt_start_offset)) {
+> > +    if (spapr_dt_phb(spapr, sphb, intc_phandle, fdt, fdt_start_offset)=
+) {
+> >          error_setg(errp, "unable to create FDT node for PHB %d", sphb-=
+>index);
+> >          return -1;
+> >      }
+> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> > index f3d18b1dad..076da31501 100644
+> > --- a/hw/ppc/spapr_irq.c
+> > +++ b/hw/ppc/spapr_irq.c
+> > @@ -29,9 +29,14 @@ static const TypeInfo spapr_intc_info =3D {
+> >      .class_size =3D sizeof(SpaprInterruptControllerClass),
+> >  };
+> > =20
+> > -void spapr_irq_msi_init(SpaprMachineState *spapr, uint32_t nr_msis)
+> > +static void spapr_irq_msi_init(SpaprMachineState *spapr)
+> >  {
+> > -    spapr->irq_map_nr =3D nr_msis;
+> > +    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
+> > +        /* Legacy mode doesn't use this allocater */
+>=20
+> allocater -> allocator
 
--- 
-Wei Yang
-Help you, Help me
+Huh.  I had surprising difficulty trying to confirm what the correct
+spelling really is here.  Actual dictionaries seem to thing that
+neither "allocater" nor "allocator" are words.  Still "allocator"
+seems to be by far the more common variant, so I've changed it.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--yrj/dFKFPuw6o+aM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2ej9kACgkQbDjKyiDZ
+s5J4mg//eeu2ys1MDeq7VHnUARbwC1w9yvvjelsWAu9aD2SclZjuywTJ8qnw2q/I
+j3NekkKJViFzcWbgeIJcufM1jniDsbLrU9TXO9NiD+KRkjNG7/2xy0VpLHbUlj89
+PoQXF7i8sIFYc0STSmZBy3j/oiLDY58z/StIVWBA4rTxlX8/jcHWX/vfBzJC0pGY
+jNFdqHTrWkwmvcCQa4sn8eZIwK3BI+4BFb8GZpeBgdUJdgzA0YQsibXhCCWx/Z2w
+iEwN52ijd+BiubgEysIFYtX7JpTcmRlfvft0a15tRdRM+z1eeD3XrHc9Ovwvz720
+iEhyWBv3Qv2MWAeMy5MjTMivenin96cEkuDs+katteWcuOnlMKemqYblingDcmad
+5mTDNwymgi95WENu8SAqVi6eKvUm4rTCUz2ekvy8CKQe/8QEbKVl6sQ75cLzIofW
+HQq/Ifwa/o/IdJgMqOybmx6v6BHjO7G2H881PhUsDXGTGuClNj8fYFQRnJLKcCPu
+kO3dGCOQT3q9Am7WUbm+naroqc1+X7n8hf5k63jip964OwI1sWHeRaHnECTx90uo
+uDnAfi7+pGWk4SYfhW9xhqhhBI0NNeVy5NKRcnFgi7Wrt8LkyRxmiLYpOK7Qynvr
+gujtRHHmAR9YMe9PkRNMDt23AgQBC+SWBcNfWYBWbDAXR1hlo+g=
+=wnT+
+-----END PGP SIGNATURE-----
+
+--yrj/dFKFPuw6o+aM--
 
