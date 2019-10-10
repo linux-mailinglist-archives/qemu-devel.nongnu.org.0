@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF9AD2BA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:45:37 +0200 (CEST)
-Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A9BD2BC9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 15:53:04 +0200 (CEST)
+Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIYl6-0006P0-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44733)
+	id 1iIYsJ-0004Zo-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 09:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iIYk5-0005iR-O3
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:44:34 -0400
+ (envelope-from <armbru@redhat.com>) id 1iIYrX-0004BB-NW
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:52:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iIYk4-0007Bk-Ko
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:44:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46208)
+ (envelope-from <armbru@redhat.com>) id 1iIYrW-0002tj-5j
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:52:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39326)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iIYk2-000759-8j; Thu, 10 Oct 2019 09:44:30 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iIYrW-0002tP-01
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 09:52:14 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6C36A3086E23;
- Thu, 10 Oct 2019 13:44:29 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C7B5100EBA5;
- Thu, 10 Oct 2019 13:44:25 +0000 (UTC)
-Date: Thu, 10 Oct 2019 15:44:23 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v2 02/11] qcrypto-luks: extend the create options for
- upcoming encryption key management
-Message-ID: <20191010134423.GC7616@localhost.localdomain>
-References: <20190912223028.18496-1-mlevitsk@redhat.com>
- <20190912223028.18496-3-mlevitsk@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E52FE18C8934
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 13:52:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B2BCD60BE1;
+ Thu, 10 Oct 2019 13:52:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E77471138619; Thu, 10 Oct 2019 15:52:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PATCH v3 3/3] qapi: Allow introspecting fix for savevm's
+ cooperation with blockdev
+References: <cover.1570705279.git.pkrempa@redhat.com>
+ <be94d24847d38cb5a1172ed22d0f86e7c0ec8562.1570705279.git.pkrempa@redhat.com>
+Date: Thu, 10 Oct 2019 15:52:08 +0200
+In-Reply-To: <be94d24847d38cb5a1172ed22d0f86e7c0ec8562.1570705279.git.pkrempa@redhat.com>
+ (Peter Krempa's message of "Thu, 10 Oct 2019 13:05:24 +0200")
+Message-ID: <87r23koghj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190912223028.18496-3-mlevitsk@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 10 Oct 2019 13:44:29 +0000 (UTC)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Thu, 10 Oct 2019 13:52:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -60,66 +61,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.09.2019 um 00:30 hat Maxim Levitsky geschrieben:
-> Now you can specify which slot to put the encryption key to
-> Plus add 'active' option which will let  user erase the key secret
-> instead of adding it.
-> Check that active=true it when creating.
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Peter Krempa <pkrempa@redhat.com> writes:
 
-> diff --git a/qapi/crypto.json b/qapi/crypto.json
-> index b2a4cff683..9b83a70634 100644
-> --- a/qapi/crypto.json
-> +++ b/qapi/crypto.json
-> @@ -190,6 +190,20 @@
->  #                  Currently defaults to 'sha256'
->  # @hash-alg: the master key hash algorithm
->  #            Currently defaults to 'sha256'
-> +#
-> +# @active: Should the new secret be added (true) or erased (false)
-> +#          (amend only, since 4.2)
-> +#
-> +# @slot: The slot in which to put/erase the secret
-> +#        if not given, will select first free slot for secret addtion
-> +#        and erase all matching keyslots for erase. except last one
-> +#        (optional, since 4.2)
-> +#
-> +# @unlock-secret: The secret to use to unlock the image
-> +#        If not given, will use the secret that was used
-> +#        when opening the image.
-> +#        (optional, for amend only, since 4.2)
-> +#
->  # @iter-time: number of milliseconds to spend in
->  #             PBKDF passphrase processing. Currently defaults
->  #             to 2000. (since 2.8)
+> 'savevm' was buggy as it considered all monitor-owned block device nodes
+> for snapshot. With introduction of -blockdev the common usage made all
+> nodes including protocol and backing file nodes monitor-owned and thus
+> considered for snapshot.
+>
+> This is a problem since the 'file' protocol nodes can't have internal
+> snapshots and it does not make sense to take snapshot of nodes
+> representing backing files.
+>
+> This was fixed by commit 05f4aced658a02b02 clients need to be able to
+> detect whether this fix is present.
 
-This approach doesn't look right to me. BlockdevCreateOptions should
-describe the state of the image after the operation. You're describing
-an update instead (and in a way that doesn't allow you to change
-everything that you may want to change, so that you need to call the
-operation multiple times).
+05f4aced658a02b02.  Clients
 
-I imagined the syntax of a blockdev-amend QMP command similar to
-x-blockdev-reopen: Describe the full set of options that you want to
-have in effect after the operation; if you don't want to change some
-option, you just specify it again with its old value.
+>
+> Since savevm does not have an QMP alternative, add the feature for the
+> 'human-monitor-command' backdoor which is used to call this command in
+> modern use.
+>
+> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 
-Specifically for luks, this probably means that you have a @slots, which
-is a list that contains at least the secret for each slot, or JSON null
-for a slot that should be left empty.
-
-With the same approach, you don't have to make 'size' optional in later
-patches, you can just require that the current size is re-specified. And
-later, blockdev-amend could actually allow changing the size of images
-if you provide a different value.
-
-Kevin
+Preferrably with the commit message tweak:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
