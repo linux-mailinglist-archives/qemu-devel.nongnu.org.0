@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09ABD2EA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:32:27 +0200 (CEST)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBE6D2EA5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:34:31 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIbMY-00044x-PL
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41047)
+	id 1iIbOY-0005vc-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iIb2u-00072Z-Nr
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:12:09 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iIb4M-0000oB-56
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:13:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iIb2t-0007ki-O9
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:12:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36634)
+ (envelope-from <stefanha@redhat.com>) id 1iIb4K-0008HW-NJ
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:13:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54832)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIb2t-0007k7-I9
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:12:07 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iIb4K-0008HO-HG
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:13:36 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 98A15883CA
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 16:12:06 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id r187so3298120wme.0
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:12:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x8jnxinEmKHzxvP+P3SVYOXAlo4nnlgwoEQhsYsxDB8=;
- b=plkmLHTtJz9dG78u1iiH8+jBdYlpXEWEKX0agUnNIgqQP/BHPBqpuhkMWKXHzRBul8
- uBSinSE7hsisju4bGyGGXJETzV29InW7f2gXVfo4Di/9koOoDBiC7nMgVHqxJXAR/Mnb
- ndfZ0UxWSZbLS18Lznka/a3+PobeMtL2mNyRJqC3osjWnJqWIzXdobhT00uVXF+qdeGQ
- slYcEFcFWvzo15cIxbFDPoZQ8pBNVIBhEVN7Xtr7G8gwIFUIREEuzjWRn52EW3maPzHO
- J0nW3qaebMcB/A1UNDYXJZ7qbiyfWaw+aQWIwnXWeooNyMSO6AMs2+rSx/lAIdxLIewI
- I0tg==
-X-Gm-Message-State: APjAAAW31XmtooI9ehaWmoj0KDLCOGDgHd5z/wUSdoh42+4VJYnl8c4E
- C05UVbGYR1WHjmDPCdu7ytB4gXNWt6tm7pmTLvzajl4jrYfb9blecqrxDOFtbwo8JKWbh6T+0fD
- 6UL2ac+exaVelIhA=
-X-Received: by 2002:a1c:39d7:: with SMTP id g206mr8506165wma.7.1570723925424; 
- Thu, 10 Oct 2019 09:12:05 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzIylRooxxKIDwd/5A8N0JCxQ3Wt1rcUw7S8/iyLDLFaq2HDewxrQdK8h7nCg3rsghkHzjN6A==
-X-Received: by 2002:a1c:39d7:: with SMTP id g206mr8506146wma.7.1570723925258; 
- Thu, 10 Oct 2019 09:12:05 -0700 (PDT)
-Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id b7sm7833791wrx.56.2019.10.10.09.12.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Oct 2019 09:12:04 -0700 (PDT)
-Subject: Re: [PATCH v25 00/22] Add RX archtecture support
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- richard.henderson@linaro.org
-References: <20190927062302.110144-1-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <557c1c82-433a-c85d-c38d-d330f0ce499b@redhat.com>
-Date: Thu, 10 Oct 2019 18:12:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 76883306729E
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 16:13:35 +0000 (UTC)
+Received: from localhost (ovpn-117-170.ams2.redhat.com [10.36.117.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3587E5D713;
+ Thu, 10 Oct 2019 16:13:34 +0000 (UTC)
+Date: Thu, 10 Oct 2019 17:13:33 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] trace: avoid "is" with a literal Python 3.8 warnings
+Message-ID: <20191010161333.GA5697@stefanha-x1.localdomain>
+References: <20191010122154.10553-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190927062302.110144-1-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
+In-Reply-To: <20191010122154.10553-1-stefanha@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Thu, 10 Oct 2019 16:13:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -81,20 +58,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, imammedo@redhat.com
+Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/19 8:22 AM, Yoshinori Sato wrote:
-> Hello.
-> This patch series is added Renesas RX target emulation.
 
-This series looks ready to get merged.
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Note to the maintainer merging it, various Signed-off-by are misplaced 
-and the Message-Id tags should be removed.
+On Thu, Oct 10, 2019 at 01:21:54PM +0100, Stefan Hajnoczi wrote:
+> The following statement produces a SyntaxWarning with Python 3.8:
+>=20
+>   if len(format) is 0:
+>   scripts/tracetool/__init__.py:459: SyntaxWarning: "is" with a literal. =
+Did you mean "=3D=3D"?
+>=20
+> Use the conventional len(x) =3D=3D 0 syntax instead.
+>=20
+> Reported-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  scripts/tracetool/__init__.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
+Thanks, applied to my tracing tree:
+https://github.com/stefanha/qemu/commits/tracing
 
-Phil.
+Stefan
+
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2fWKwACgkQnKSrs4Gr
+c8gj/ggAmimtbPwfsslaftWFGyeo7Wr2mrHxh8ECBqhTDiPAvrTEg701T2b/pc65
+Ta8zYFX5mM5yqT4RVvbxtze5bIbCsgi+OnmKOBvnJ7EEz1CAygYxYELmUNC8tyvH
+4P/7T1enBldJvnqBTTmfMlCs/OR/cl0OeBRhHb+Yt5xim9x1CvP/34V3odIeDiVI
+ORZpiY+8zlJiPSTxkYC76fWv/sWRyvp0ceICXuT5V9UpA7ozpFGDVOpmUtt39Qac
+kLlR80lUtqecqo4w2MLk+5zTBN6oU0gmI7nUCngTw+cidNUz39V8QF38WEj8yI2r
+vXcq3njiETXZ2ZZgykrK8+9k29QIig==
+=Lq/Q
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
 
