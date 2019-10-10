@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFE7D2858
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:46:29 +0200 (CEST)
-Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A8DD285C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:49:51 +0200 (CEST)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIWtm-0008JG-0W
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50353)
+	id 1iIWx4-0003Pd-FA
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iIWil-0004La-Qs
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:07 -0400
+ (envelope-from <david@redhat.com>) id 1iIWiz-0004RW-He
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iIWii-0005zy-36
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56980)
+ (envelope-from <david@redhat.com>) id 1iIWix-000669-Ha
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42824)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iIWih-0005zX-R3; Thu, 10 Oct 2019 07:35:00 -0400
+ id 1iIWiq-00061S-Sl; Thu, 10 Oct 2019 07:35:11 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1C62F3086218;
- Thu, 10 Oct 2019 11:34:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 528E23CA00;
+ Thu, 10 Oct 2019 11:35:03 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 589795C3FD;
- Thu, 10 Oct 2019 11:34:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 647DA5C231;
+ Thu, 10 Oct 2019 11:34:59 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 16/31] target/s390x: Use tcg_s390_program_interrupt in TCG
- helpers
-Date: Thu, 10 Oct 2019 13:33:41 +0200
-Message-Id: <20191010113356.5017-17-david@redhat.com>
+Subject: [PULL 17/31] target/s390x: Push trigger_pgm_exception lower in
+ s390_cpu_tlb_fill
+Date: Thu, 10 Oct 2019 13:33:42 +0200
+Message-Id: <20191010113356.5017-18-david@redhat.com>
 In-Reply-To: <20191010113356.5017-1-david@redhat.com>
 References: <20191010113356.5017-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 10 Oct 2019 11:34:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Thu, 10 Oct 2019 11:35:03 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,497 +65,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Replace all uses of s390_program_interrupt within files
-that are marked CONFIG_TCG.  These are necessarily tcg-only.
+Delay triggering an exception until the end, after we have
+determined ultimate success or failure, and also taken into
+account whether this is a non-faulting probe.
 
-This lets each of these users benefit from the QEMU_NORETURN
-attribute on tcg_s390_program_interrupt.
-
-Acked-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191001171614.8405-5-richard.henderson@linaro.org>
+Message-Id: <20191001171614.8405-6-richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cc_helper.c     |  4 ++--
- target/s390x/crypto_helper.c |  7 +++----
- target/s390x/excp_helper.c   |  2 +-
- target/s390x/fpu_helper.c    |  6 +++---
- target/s390x/int_helper.c    | 15 +++++++-------
- target/s390x/mem_helper.c    | 40 ++++++++++++++++++------------------
- target/s390x/misc_helper.c   | 18 ++++++++--------
- 7 files changed, 46 insertions(+), 46 deletions(-)
+ target/s390x/excp_helper.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cc_helper.c b/target/s390x/cc_helper.c
-index 3cb00bcb09..44731e4a85 100644
---- a/target/s390x/cc_helper.c
-+++ b/target/s390x/cc_helper.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "internal.h"
-+#include "tcg_s390x.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
- #include "qemu/host-utils.h"
-@@ -588,8 +589,7 @@ void HELPER(sacf)(CPUS390XState *env, uint64_t a1)
-         break;
-     default:
-         HELPER_LOG("unknown sacf mode: %" PRIx64 "\n", a1);
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
--        break;
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
- }
- #endif
-diff --git a/target/s390x/crypto_helper.c b/target/s390x/crypto_helper.c
-index 1f83987e9d..ff3fbc3950 100644
---- a/target/s390x/crypto_helper.c
-+++ b/target/s390x/crypto_helper.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
- #include "internal.h"
-+#include "tcg_s390x.h"
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
-@@ -34,16 +35,14 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1,=
- uint32_t r2, uint32_t r3,
-     case S390_FEAT_TYPE_PCKMO:
-     case S390_FEAT_TYPE_PCC:
-         if (mod) {
--            s390_program_interrupt(env, PGM_SPECIFICATION, ra);
--            return 0;
-+            tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         }
-         break;
-     }
-=20
-     s390_get_feat_block(type, subfunc);
-     if (!test_be_bit(fc, subfunc)) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
--        return 0;
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     switch (fc) {
 diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 089623a248..dbff772d34 100644
+index dbff772d34..552098be5f 100644
 --- a/target/s390x/excp_helper.c
 +++ b/target/s390x/excp_helper.c
-@@ -614,7 +614,7 @@ void s390x_cpu_do_unaligned_access(CPUState *cs, vadd=
-r addr,
-     S390CPU *cpu =3D S390_CPU(cs);
+@@ -127,7 +127,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
      CPUS390XState *env =3D &cpu->env;
+     target_ulong vaddr, raddr;
+     uint64_t asc;
+-    int prot, fail;
++    int prot, fail, excp;
 =20
--    s390_program_interrupt(env, PGM_SPECIFICATION, retaddr);
-+    tcg_s390_program_interrupt(env, PGM_SPECIFICATION, retaddr);
- }
-=20
- #endif /* CONFIG_USER_ONLY */
-diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
-index 7228eb96e2..8bb9f54fd0 100644
---- a/target/s390x/fpu_helper.c
-+++ b/target/s390x/fpu_helper.c
-@@ -825,7 +825,7 @@ void HELPER(sfpc)(CPUS390XState *env, uint64_t fpc)
- {
-     if (fpc_to_rnd[fpc & 0x7] =3D=3D -1 || fpc & 0x03030088u ||
-         (!s390_has_feat(S390_FEAT_FLOATING_POINT_EXT) && fpc & 0x4)) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
-=20
-     /* Install everything in the main FPC.  */
-@@ -843,7 +843,7 @@ void HELPER(sfas)(CPUS390XState *env, uint64_t fpc)
-=20
-     if (fpc_to_rnd[fpc & 0x7] =3D=3D -1 || fpc & 0x03030088u ||
-         (!s390_has_feat(S390_FEAT_FLOATING_POINT_EXT) && fpc & 0x4)) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
-=20
-     /*
-@@ -880,7 +880,7 @@ void HELPER(sfas)(CPUS390XState *env, uint64_t fpc)
- void HELPER(srnm)(CPUS390XState *env, uint64_t rnd)
- {
-     if (rnd > 0x7 || fpc_to_rnd[rnd & 0x7] =3D=3D -1) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
-=20
-     env->fpc =3D deposit32(env->fpc, 0, 3, rnd);
-diff --git a/target/s390x/int_helper.c b/target/s390x/int_helper.c
-index 1d29a1fc1f..658507dd6d 100644
---- a/target/s390x/int_helper.c
-+++ b/target/s390x/int_helper.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "internal.h"
-+#include "tcg_s390x.h"
- #include "exec/exec-all.h"
- #include "qemu/host-utils.h"
- #include "exec/helper-proto.h"
-@@ -39,7 +40,7 @@ int64_t HELPER(divs32)(CPUS390XState *env, int64_t a, i=
-nt64_t b64)
-     int64_t q;
-=20
-     if (b =3D=3D 0) {
--        s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
-=20
-     ret =3D q =3D a / b;
-@@ -47,7 +48,7 @@ int64_t HELPER(divs32)(CPUS390XState *env, int64_t a, i=
-nt64_t b64)
-=20
-     /* Catch non-representable quotient.  */
-     if (ret !=3D q) {
--        s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
-=20
-     return ret;
-@@ -60,7 +61,7 @@ uint64_t HELPER(divu32)(CPUS390XState *env, uint64_t a,=
- uint64_t b64)
-     uint64_t q;
-=20
-     if (b =3D=3D 0) {
--        s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
-=20
-     ret =3D q =3D a / b;
-@@ -68,7 +69,7 @@ uint64_t HELPER(divu32)(CPUS390XState *env, uint64_t a,=
- uint64_t b64)
-=20
-     /* Catch non-representable quotient.  */
-     if (ret !=3D q) {
--        s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
-=20
-     return ret;
-@@ -79,7 +80,7 @@ int64_t HELPER(divs64)(CPUS390XState *env, int64_t a, i=
-nt64_t b)
- {
-     /* Catch divide by zero, and non-representable quotient (MIN / -1). =
- */
-     if (b =3D=3D 0 || (b =3D=3D -1 && a =3D=3D (1ll << 63))) {
--        s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
-     env->retxl =3D a % b;
-     return a / b;
-@@ -92,7 +93,7 @@ uint64_t HELPER(divu64)(CPUS390XState *env, uint64_t ah=
-, uint64_t al,
-     uint64_t ret;
-     /* Signal divide by zero.  */
-     if (b =3D=3D 0) {
--        s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
-     if (ah =3D=3D 0) {
-         /* 64 -> 64/64 case */
-@@ -106,7 +107,7 @@ uint64_t HELPER(divu64)(CPUS390XState *env, uint64_t =
-ah, uint64_t al,
-         env->retxl =3D a % b;
-         ret =3D q;
-         if (ret !=3D q) {
--            s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+            tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     qemu_log_mask(CPU_LOG_MMU, "%s: addr 0x%" VADDR_PRIx " rw %d mmu_idx=
+ %d\n",
+                   __func__, address, access_type, mmu_idx);
+@@ -141,12 +141,14 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address,=
+ int size,
+             vaddr &=3D 0x7fffffff;
          }
- #else
-         /* 32-bit hosts would need special wrapper functionality - just =
-abort if
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 77d2eb96d4..7d2a652823 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "internal.h"
-+#include "tcg_s390x.h"
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
-@@ -71,7 +72,7 @@ static inline void check_alignment(CPUS390XState *env, =
-uint64_t v,
-                                    int wordsize, uintptr_t ra)
- {
-     if (v % wordsize) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         fail =3D mmu_translate(env, vaddr, access_type, asc, &raddr, &pr=
+ot, true);
++        excp =3D 0; /* exception already raised */
+     } else if (mmu_idx =3D=3D MMU_REAL_IDX) {
+         /* 31-Bit mode */
+         if (!(env->psw.mask & PSW_MASK_64)) {
+             vaddr &=3D 0x7fffffff;
+         }
+         fail =3D mmu_translate_real(env, vaddr, access_type, &raddr, &pr=
+ot);
++        excp =3D 0; /* exception already raised */
+     } else {
+         g_assert_not_reached();
      }
- }
-=20
-@@ -730,7 +731,7 @@ void HELPER(srst)(CPUS390XState *env, uint32_t r1, ui=
-nt32_t r2)
-=20
-     /* Bits 32-55 must contain all 0.  */
-     if (env->regs[0] & 0xffffff00u) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+@@ -159,7 +161,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
+         qemu_log_mask(CPU_LOG_MMU,
+                       "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
+                       __func__, (uint64_t)raddr, (uint64_t)ram_size);
+-        trigger_pgm_exception(env, PGM_ADDRESSING, ILEN_AUTO);
++        excp =3D PGM_ADDRESSING;
+         fail =3D 1;
      }
 =20
-     str =3D get_address(env, r2);
-@@ -767,7 +768,7 @@ void HELPER(srstu)(CPUS390XState *env, uint32_t r1, u=
-int32_t r2)
-=20
-     /* Bits 32-47 of R0 must be zero.  */
-     if (env->regs[0] & 0xffff0000u) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+@@ -175,6 +177,9 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
+         return false;
      }
 =20
-     str =3D get_address(env, r2);
-@@ -846,7 +847,7 @@ uint32_t HELPER(mvpg)(CPUS390XState *env, uint64_t r0=
-, uint64_t r1, uint64_t r2)
-     S390Access srca, desta;
-=20
-     if ((f && s) || extract64(r0, 12, 4)) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
-=20
-     r1 =3D wrap_address(env, r1 & TARGET_PAGE_MASK);
-@@ -879,7 +880,7 @@ uint32_t HELPER(mvst)(CPUS390XState *env, uint32_t r1=
-, uint32_t r2)
-     int i;
-=20
-     if (env->regs[0] & 0xffffff00ull) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
++    if (excp) {
++        trigger_pgm_exception(env, excp, ILEN_AUTO);
++    }
+     cpu_restore_state(cs, retaddr, true);
 =20
      /*
-@@ -911,7 +912,7 @@ void HELPER(lam)(CPUS390XState *env, uint32_t r1, uin=
-t64_t a2, uint32_t r3)
-     int i;
-=20
-     if (a2 & 0x3) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     for (i =3D r1;; i =3D (i + 1) % 16) {
-@@ -931,7 +932,7 @@ void HELPER(stam)(CPUS390XState *env, uint32_t r1, ui=
-nt64_t a2, uint32_t r3)
-     int i;
-=20
-     if (a2 & 0x3) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     for (i =3D r1;; i =3D (i + 1) % 16) {
-@@ -1887,8 +1888,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_=
-t r3, uint64_t a1,
-     return cc;
-=20
-  spec_exception:
--    s390_program_interrupt(env, PGM_SPECIFICATION, ra);
--    g_assert_not_reached();
-+    tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
- }
-=20
- uint32_t HELPER(csst)(CPUS390XState *env, uint32_t r3, uint64_t a1, uint=
-64_t a2)
-@@ -1911,7 +1911,7 @@ void HELPER(lctlg)(CPUS390XState *env, uint32_t r1,=
- uint64_t a2, uint32_t r3)
-     uint32_t i;
-=20
-     if (src & 0x7) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     for (i =3D r1;; i =3D (i + 1) % 16) {
-@@ -1944,7 +1944,7 @@ void HELPER(lctl)(CPUS390XState *env, uint32_t r1, =
-uint64_t a2, uint32_t r3)
-     uint32_t i;
-=20
-     if (src & 0x3) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     for (i =3D r1;; i =3D (i + 1) % 16) {
-@@ -1975,7 +1975,7 @@ void HELPER(stctg)(CPUS390XState *env, uint32_t r1,=
- uint64_t a2, uint32_t r3)
-     uint32_t i;
-=20
-     if (dest & 0x7) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     for (i =3D r1;; i =3D (i + 1) % 16) {
-@@ -1995,7 +1995,7 @@ void HELPER(stctl)(CPUS390XState *env, uint32_t r1,=
- uint64_t a2, uint32_t r3)
-     uint32_t i;
-=20
-     if (dest & 0x3) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     for (i =3D r1;; i =3D (i + 1) % 16) {
-@@ -2225,7 +2225,7 @@ void HELPER(idte)(CPUS390XState *env, uint64_t r1, =
-uint64_t r2, uint32_t m4)
-     uint16_t entries, i, index =3D 0;
-=20
-     if (r2 & 0xff000) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     if (!(r2 & 0x800)) {
-@@ -2369,7 +2369,7 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t a=
-ddr)
-=20
-     /* XXX incomplete - has more corner cases */
-     if (!(env->psw.mask & PSW_MASK_64) && (addr >> 32)) {
--        s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
-     }
-=20
-     old_exc =3D cs->exception_index;
-@@ -2538,7 +2538,7 @@ uint32_t HELPER(mvcos)(CPUS390XState *env, uint64_t=
- dest, uint64_t src,
-                __func__, dest, src, len);
-=20
-     if (!(env->psw.mask & PSW_MASK_DAT)) {
--        s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
-     }
-=20
-     /* OAC (operand access control) for the first operand -> dest */
-@@ -2569,14 +2569,14 @@ uint32_t HELPER(mvcos)(CPUS390XState *env, uint64=
-_t dest, uint64_t src,
-     }
-=20
-     if (dest_a && dest_as =3D=3D AS_HOME && (env->psw.mask & PSW_MASK_PS=
-TATE)) {
--        s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
-     }
-     if (!(env->cregs[0] & CR0_SECONDARY) &&
-         (dest_as =3D=3D AS_SECONDARY || src_as =3D=3D AS_SECONDARY)) {
--        s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, ra);
-     }
-     if (!psw_key_valid(env, dest_key) || !psw_key_valid(env, src_key)) {
--        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-+        tcg_s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-     }
-=20
-     len =3D wrap_length32(env, len);
-@@ -2590,7 +2590,7 @@ uint32_t HELPER(mvcos)(CPUS390XState *env, uint64_t=
- dest, uint64_t src,
-         (env->psw.mask & PSW_MASK_PSTATE)) {
-         qemu_log_mask(LOG_UNIMP, "%s: AR-mode and PSTATE support missing=
-\n",
-                       __func__);
--        s390_program_interrupt(env, PGM_ADDRESSING, ra);
-+        tcg_s390_program_interrupt(env, PGM_ADDRESSING, ra);
-     }
-=20
-     /* FIXME: Access using correct keys and AR-mode */
-diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-index 9fbb37cfb9..bfb457fb63 100644
---- a/target/s390x/misc_helper.c
-+++ b/target/s390x/misc_helper.c
-@@ -106,7 +106,7 @@ uint32_t HELPER(servc)(CPUS390XState *env, uint64_t r=
-1, uint64_t r2)
-     int r =3D sclp_service_call(env, r1, r2);
-     qemu_mutex_unlock_iothread();
-     if (r < 0) {
--        s390_program_interrupt(env, -r, GETPC());
-+        tcg_s390_program_interrupt(env, -r, GETPC());
-     }
-     return r;
- }
-@@ -143,7 +143,7 @@ void HELPER(diag)(CPUS390XState *env, uint32_t r1, ui=
-nt32_t r3, uint32_t num)
-     }
-=20
-     if (r) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
- }
-=20
-@@ -222,7 +222,7 @@ void HELPER(sckpf)(CPUS390XState *env, uint64_t r0)
-     uint32_t val =3D r0;
-=20
-     if (val & 0xffff0000) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
-     }
-     env->todpr =3D val;
- }
-@@ -266,7 +266,7 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0=
-, uint64_t r0, uint64_t r1)
-     }
-=20
-     if ((r0 & STSI_R0_RESERVED_MASK) || (r1 & STSI_R1_RESERVED_MASK)) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     if ((r0 & STSI_R0_FC_MASK) =3D=3D STSI_R0_FC_CURRENT) {
-@@ -276,7 +276,7 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0=
-, uint64_t r0, uint64_t r1)
-     }
-=20
-     if (a0 & ~TARGET_PAGE_MASK) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     /* count the cpus and split them into configured and reserved ones *=
-/
-@@ -509,7 +509,7 @@ uint32_t HELPER(tpi)(CPUS390XState *env, uint64_t add=
-r)
-     LowCore *lowcore;
-=20
-     if (addr & 0x3) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     qemu_mutex_lock_iothread();
-@@ -574,7 +574,7 @@ void HELPER(chsc)(CPUS390XState *env, uint64_t inst)
- void HELPER(per_check_exception)(CPUS390XState *env)
- {
-     if (env->per_perc_atmid) {
--        s390_program_interrupt(env, PGM_PER, GETPC());
-+        tcg_s390_program_interrupt(env, PGM_PER, GETPC());
-     }
- }
-=20
-@@ -664,7 +664,7 @@ uint32_t HELPER(stfle)(CPUS390XState *env, uint64_t a=
-ddr)
-     int i;
-=20
-     if (addr & 0x7) {
--        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-     }
-=20
-     prepare_stfl();
-@@ -737,7 +737,7 @@ void HELPER(sic)(CPUS390XState *env, uint64_t r1, uin=
-t64_t r3)
-     qemu_mutex_unlock_iothread();
-     /* css_do_sic() may actually return a PGM_xxx value to inject */
-     if (r) {
--        s390_program_interrupt(env, -r, GETPC());
-+        tcg_s390_program_interrupt(env, -r, GETPC());
-     }
- }
-=20
 --=20
 2.21.0
 
