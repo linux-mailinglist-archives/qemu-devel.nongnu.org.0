@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F5DD29E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:46:54 +0200 (CEST)
-Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B7AD29FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:49:38 +0200 (CEST)
+Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXqH-00070h-5x
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
+	id 1iIXsv-0002eR-Hr
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrh-0007Kv-G7
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:19 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWro-0007QL-MF
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWrg-0008Rt-9o
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38208)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrl-0008U0-Jv
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37304)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrc-0008Pc-8U; Thu, 10 Oct 2019 07:44:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iIWre-0008Qb-Dt; Thu, 10 Oct 2019 07:44:14 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 919993090FDB;
- Thu, 10 Oct 2019 11:44:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F328D883C44;
+ Thu, 10 Oct 2019 11:44:12 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 356CB60BE1;
- Thu, 10 Oct 2019 11:44:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 46C335C231;
+ Thu, 10 Oct 2019 11:44:12 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 31/36] block/block-copy: split block_copy_set_callbacks function
-Date: Thu, 10 Oct 2019 13:42:55 +0200
-Message-Id: <20191010114300.7746-32-mreitz@redhat.com>
+Subject: [PULL 32/36] block: introduce backup-top filter driver
+Date: Thu, 10 Oct 2019 13:42:56 +0200
+Message-Id: <20191010114300.7746-33-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 10 Oct 2019 11:44:10 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Thu, 10 Oct 2019 11:44:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,129 +62,390 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Split block_copy_set_callbacks out of block_copy_state_new. It's needed
-for further commit: block-copy will use BdrvChildren of backup-top
-filter, so it will be created from backup-top filter creation function.
-But callbacks will still belong to backup job and will be set in
-separate.
+Backup-top filter caches write operations and does copy-before-write
+operations.
+
+The driver will be used in backup instead of write-notifiers.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191001131409.14202-4-vsementsov@virtuozzo.com
+Message-id: 20191001131409.14202-5-vsementsov@virtuozzo.com
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block-copy.h | 13 +++++++++----
- block/backup.c             |  6 ++++--
- block/block-copy.c         | 24 +++++++++++++++---------
- 3 files changed, 28 insertions(+), 15 deletions(-)
+ block/Makefile.objs |   1 +
+ block/backup-top.h  |  41 +++++++
+ block/backup-top.c  | 281 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 323 insertions(+)
+ create mode 100644 block/backup-top.h
+ create mode 100644 block/backup-top.c
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 962f91056a..340d856246 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -66,12 +66,17 @@ typedef struct BlockCopyState {
-     void *progress_opaque;
- } BlockCopyState;
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index f06f1fa1ac..e394fe0b6c 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -42,6 +42,7 @@ block-obj-y +=3D block-copy.o
+ block-obj-y +=3D crypto.o
 =20
--BlockCopyState *block_copy_state_new(
--        BlockDriverState *source, BlockDriverState *target,
--        int64_t cluster_size, BdrvRequestFlags write_flags,
-+BlockCopyState *block_copy_state_new(BlockDriverState *source,
-+                                     BlockDriverState *target,
-+                                     int64_t cluster_size,
-+                                     BdrvRequestFlags write_flags,
-+                                     Error **errp);
+ block-obj-y +=3D aio_task.o
++block-obj-y +=3D backup-top.o
+=20
+ common-obj-y +=3D stream.o
+=20
+diff --git a/block/backup-top.h b/block/backup-top.h
+new file mode 100644
+index 0000000000..e5cabfa197
+--- /dev/null
++++ b/block/backup-top.h
+@@ -0,0 +1,41 @@
++/*
++ * backup-top filter driver
++ *
++ * The driver performs Copy-Before-Write (CBW) operation: it is injected=
+ above
++ * some node, and before each write it copies _old_ data to the target n=
+ode.
++ *
++ * Copyright (c) 2018-2019 Virtuozzo International GmbH.
++ *
++ * Author:
++ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+void block_copy_set_callbacks(
-+        BlockCopyState *s,
-         ProgressBytesCallbackFunc progress_bytes_callback,
-         ProgressResetCallbackFunc progress_reset_callback,
--        void *progress_opaque, Error **errp);
-+        void *progress_opaque);
-=20
- void block_copy_state_free(BlockCopyState *s);
-=20
-diff --git a/block/backup.c b/block/backup.c
-index b5b7939356..1057ed0a4e 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -478,8 +478,7 @@ BlockJob *backup_job_create(const char *job_id, Block=
-DriverState *bs,
-     job->bitmap_mode =3D bitmap_mode;
-=20
-     job->bcs =3D block_copy_state_new(bs, target, cluster_size, write_fl=
-ags,
--                                    backup_progress_bytes_callback,
--                                    backup_progress_reset_callback, job,=
- errp);
-+                                    errp);
-     if (!job->bcs) {
-         goto error;
-     }
-@@ -487,6 +486,9 @@ BlockJob *backup_job_create(const char *job_id, Block=
-DriverState *bs,
-     job->cluster_size =3D cluster_size;
-     job->len =3D len;
-=20
-+    block_copy_set_callbacks(job->bcs, backup_progress_bytes_callback,
-+                             backup_progress_reset_callback, job);
++#ifndef BACKUP_TOP_H
++#define BACKUP_TOP_H
 +
-     /* Required permissions are already taken by block-copy-state target=
- */
-     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
-                        &error_abort);
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 61e5ea5f46..fcb112da14 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -66,12 +66,10 @@ void block_copy_state_free(BlockCopyState *s)
-     g_free(s);
- }
-=20
--BlockCopyState *block_copy_state_new(
--        BlockDriverState *source, BlockDriverState *target,
--        int64_t cluster_size, BdrvRequestFlags write_flags,
--        ProgressBytesCallbackFunc progress_bytes_callback,
--        ProgressResetCallbackFunc progress_reset_callback,
--        void *progress_opaque, Error **errp)
-+BlockCopyState *block_copy_state_new(BlockDriverState *source,
-+                                     BlockDriverState *target,
-+                                     int64_t cluster_size,
-+                                     BdrvRequestFlags write_flags, Error=
- **errp)
- {
-     BlockCopyState *s;
-     int ret;
-@@ -95,9 +93,6 @@ BlockCopyState *block_copy_state_new(
-         .cluster_size =3D cluster_size,
-         .len =3D bdrv_dirty_bitmap_size(copy_bitmap),
-         .write_flags =3D write_flags,
--        .progress_bytes_callback =3D progress_bytes_callback,
--        .progress_reset_callback =3D progress_reset_callback,
--        .progress_opaque =3D progress_opaque,
-     };
-=20
-     s->copy_range_size =3D QEMU_ALIGN_DOWN(MIN(blk_get_max_transfer(s->s=
-ource),
-@@ -144,6 +139,17 @@ fail:
-     return NULL;
- }
-=20
-+void block_copy_set_callbacks(
-+        BlockCopyState *s,
-+        ProgressBytesCallbackFunc progress_bytes_callback,
-+        ProgressResetCallbackFunc progress_reset_callback,
-+        void *progress_opaque)
++#include "block/block_int.h"
++#include "block/block-copy.h"
++
++BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
++                                         BlockDriverState *target,
++                                         const char *filter_node_name,
++                                         uint64_t cluster_size,
++                                         BdrvRequestFlags write_flags,
++                                         BlockCopyState **bcs,
++                                         Error **errp);
++void bdrv_backup_top_drop(BlockDriverState *bs);
++
++#endif /* BACKUP_TOP_H */
+diff --git a/block/backup-top.c b/block/backup-top.c
+new file mode 100644
+index 0000000000..75a315744d
+--- /dev/null
++++ b/block/backup-top.c
+@@ -0,0 +1,281 @@
++/*
++ * backup-top filter driver
++ *
++ * The driver performs Copy-Before-Write (CBW) operation: it is injected=
+ above
++ * some node, and before each write it copies _old_ data to the target n=
+ode.
++ *
++ * Copyright (c) 2018-2019 Virtuozzo International GmbH.
++ *
++ * Author:
++ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++
++#include "sysemu/block-backend.h"
++#include "qemu/cutils.h"
++#include "qapi/error.h"
++#include "block/block_int.h"
++#include "block/qdict.h"
++#include "block/block-copy.h"
++
++#include "block/backup-top.h"
++
++typedef struct BDRVBackupTopState {
++    BlockCopyState *bcs;
++    BdrvChild *target;
++    bool active;
++} BDRVBackupTopState;
++
++static coroutine_fn int backup_top_co_preadv(
++        BlockDriverState *bs, uint64_t offset, uint64_t bytes,
++        QEMUIOVector *qiov, int flags)
 +{
-+    s->progress_bytes_callback =3D progress_bytes_callback;
-+    s->progress_reset_callback =3D progress_reset_callback;
-+    s->progress_opaque =3D progress_opaque;
++    return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
 +}
 +
- /*
-  * Copy range to target with a bounce buffer and return the bytes copied=
-. If
-  * error occurred, return a negative error number
++static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t of=
+fset,
++                                       uint64_t bytes)
++{
++    /*
++     * Here we'd like to use block_copy(), but block-copy need to be mov=
+ed to
++     * use BdrvChildren to correctly use it in backup-top filter. It's a=
+ TODO.
++     */
++
++    abort();
++}
++
++static int coroutine_fn backup_top_co_pdiscard(BlockDriverState *bs,
++                                               int64_t offset, int bytes=
+)
++{
++    int ret =3D backup_top_cbw(bs, offset, bytes);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return bdrv_co_pdiscard(bs->backing, offset, bytes);
++}
++
++static int coroutine_fn backup_top_co_pwrite_zeroes(BlockDriverState *bs=
+,
++        int64_t offset, int bytes, BdrvRequestFlags flags)
++{
++    int ret =3D backup_top_cbw(bs, offset, bytes);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return bdrv_co_pwrite_zeroes(bs->backing, offset, bytes, flags);
++}
++
++static coroutine_fn int backup_top_co_pwritev(BlockDriverState *bs,
++                                              uint64_t offset,
++                                              uint64_t bytes,
++                                              QEMUIOVector *qiov, int fl=
+ags)
++{
++    if (!(flags & BDRV_REQ_WRITE_UNCHANGED)) {
++        int ret =3D backup_top_cbw(bs, offset, bytes);
++        if (ret < 0) {
++            return ret;
++        }
++    }
++
++    return bdrv_co_pwritev(bs->backing, offset, bytes, qiov, flags);
++}
++
++static int coroutine_fn backup_top_co_flush(BlockDriverState *bs)
++{
++    if (!bs->backing) {
++        return 0;
++    }
++
++    return bdrv_co_flush(bs->backing->bs);
++}
++
++static void backup_top_refresh_filename(BlockDriverState *bs)
++{
++    if (bs->backing =3D=3D NULL) {
++        /*
++         * we can be here after failed bdrv_attach_child in
++         * bdrv_set_backing_hd
++         */
++        return;
++    }
++    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
++            bs->backing->bs->filename);
++}
++
++static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
++                                  const BdrvChildRole *role,
++                                  BlockReopenQueue *reopen_queue,
++                                  uint64_t perm, uint64_t shared,
++                                  uint64_t *nperm, uint64_t *nshared)
++{
++    BDRVBackupTopState *s =3D bs->opaque;
++
++    if (!s->active) {
++        /*
++         * The filter node may be in process of bdrv_append(), which fir=
+stly do
++         * bdrv_set_backing_hd() and then bdrv_replace_node(). This mean=
+s that
++         * we can't unshare BLK_PERM_WRITE during bdrv_append() operatio=
+n. So,
++         * let's require nothing during bdrv_append() and refresh permis=
+sions
++         * after it (see bdrv_backup_top_append()).
++         */
++        *nperm =3D 0;
++        *nshared =3D BLK_PERM_ALL;
++        return;
++    }
++
++    if (role =3D=3D &child_file) {
++        /*
++         * Target child
++         *
++         * Share write to target (child_file), to not interfere
++         * with guest writes to its disk which may be in target backing =
+chain.
++         */
++        *nshared =3D BLK_PERM_ALL;
++        *nperm =3D BLK_PERM_WRITE;
++    } else {
++        /* Source child */
++        bdrv_filter_default_perms(bs, c, role, reopen_queue, perm, share=
+d,
++                                  nperm, nshared);
++
++        if (perm & BLK_PERM_WRITE) {
++            *nperm =3D *nperm | BLK_PERM_CONSISTENT_READ;
++        }
++        *nshared &=3D ~BLK_PERM_WRITE;
++    }
++}
++
++BlockDriver bdrv_backup_top_filter =3D {
++    .format_name =3D "backup-top",
++    .instance_size =3D sizeof(BDRVBackupTopState),
++
++    .bdrv_co_preadv             =3D backup_top_co_preadv,
++    .bdrv_co_pwritev            =3D backup_top_co_pwritev,
++    .bdrv_co_pwrite_zeroes      =3D backup_top_co_pwrite_zeroes,
++    .bdrv_co_pdiscard           =3D backup_top_co_pdiscard,
++    .bdrv_co_flush              =3D backup_top_co_flush,
++
++    .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,
++
++    .bdrv_refresh_filename      =3D backup_top_refresh_filename,
++
++    .bdrv_child_perm            =3D backup_top_child_perm,
++
++    .is_filter =3D true,
++};
++
++BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
++                                         BlockDriverState *target,
++                                         const char *filter_node_name,
++                                         uint64_t cluster_size,
++                                         BdrvRequestFlags write_flags,
++                                         BlockCopyState **bcs,
++                                         Error **errp)
++{
++    Error *local_err =3D NULL;
++    BDRVBackupTopState *state;
++    BlockDriverState *top =3D bdrv_new_open_driver(&bdrv_backup_top_filt=
+er,
++                                                 filter_node_name,
++                                                 BDRV_O_RDWR, errp);
++
++    if (!top) {
++        return NULL;
++    }
++
++    top->total_sectors =3D source->total_sectors;
++    top->opaque =3D state =3D g_new0(BDRVBackupTopState, 1);
++
++    bdrv_ref(target);
++    state->target =3D bdrv_attach_child(top, target, "target", &child_fi=
+le, errp);
++    if (!state->target) {
++        bdrv_unref(target);
++        bdrv_unref(top);
++        return NULL;
++    }
++
++    bdrv_drained_begin(source);
++
++    bdrv_ref(top);
++    bdrv_append(top, source, &local_err);
++    if (local_err) {
++        error_prepend(&local_err, "Cannot append backup-top filter: ");
++        goto append_failed;
++    }
++
++    /*
++     * bdrv_append() finished successfully, now we can require permissio=
+ns
++     * we want.
++     */
++    state->active =3D true;
++    bdrv_child_refresh_perms(top, top->backing, &local_err);
++    if (local_err) {
++        error_prepend(&local_err,
++                      "Cannot set permissions for backup-top filter: ");
++        goto failed_after_append;
++    }
++
++    /*
++     * TODO: Create block-copy-state here (which will utilize @cluster_s=
+ize and
++     * @write_flags parameters which are unused now). For this, block-co=
+py
++     * should be refactored to use BdrvChildren.
++     */
++    state->bcs =3D NULL;
++    if (!state->bcs) {
++        error_setg(&local_err, "Cannot create block-copy-state");
++        goto failed_after_append;
++    }
++    *bcs =3D state->bcs;
++
++    bdrv_drained_end(source);
++
++    return top;
++
++failed_after_append:
++    state->active =3D false;
++    bdrv_backup_top_drop(top);
++
++append_failed:
++    bdrv_drained_end(source);
++    bdrv_unref_child(top, state->target);
++    bdrv_unref(top);
++    error_propagate(errp, local_err);
++
++    return NULL;
++}
++
++void bdrv_backup_top_drop(BlockDriverState *bs)
++{
++    BDRVBackupTopState *s =3D bs->opaque;
++    AioContext *aio_context =3D bdrv_get_aio_context(bs);
++
++    block_copy_state_free(s->bcs);
++
++    aio_context_acquire(aio_context);
++
++    bdrv_drained_begin(bs);
++
++    s->active =3D false;
++    bdrv_child_refresh_perms(bs, bs->backing, &error_abort);
++    bdrv_replace_node(bs, backing_bs(bs), &error_abort);
++    bdrv_set_backing_hd(bs, NULL, &error_abort);
++
++    bdrv_drained_end(bs);
++
++    bdrv_unref(bs);
++
++    aio_context_release(aio_context);
++}
 --=20
 2.21.0
 
