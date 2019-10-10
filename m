@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD76CD2E7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:22:58 +0200 (CEST)
-Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5162D2E7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:21:19 +0200 (CEST)
+Received: from localhost ([::1]:41970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIbDN-0001qL-HU
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40688)
+	id 1iIbBm-0008Al-6X
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iIb0M-0004MU-FJ
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:09:31 -0400
+ (envelope-from <lersek@redhat.com>) id 1iIb6D-000330-5W
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:15:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iIb0L-00078w-Cw
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:09:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60424)
+ (envelope-from <lersek@redhat.com>) id 1iIb6C-0000XY-33
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:15:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58064)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIb0L-00078X-50
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:09:29 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIb6B-0000Wt-Sp
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:15:32 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E7C2EC049E17
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 16:09:27 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id w2so2987332wrn.4
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 09:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M3FS2Kc8SnrTVjy1x8xFYQKVHVTCY+I6LMcd4/4EQ6k=;
- b=jfBCnQEzx2aZLhqsO0dp7rOLc7/oHUK45gEMx6HjBGUp1GpkSV4skRhox+Wlw3/TsB
- 6we4rw3a25I3WzPgq2vr9NxuvoQZ6x+FELdTkONuU+JaKF58twYqod5ui4UQNiD9LZCs
- ZncuaDP6Rq5YyDKGoqrEPeOrX0fN/fNyGmxmqF3rsZGwo+w1IM0VeVu+e8f5I+8vULHA
- acMMXuR5IZYsNvzDzFoARBKF0ujERHmL5L+cJ/FmorMIqa+SufL6HAo8Brvv71yW0EvI
- HxIdm4Mde8Kgq+IEuqSBCPrUa1SmLrW9SYdPLSONJitxf0yF+ImL7S7coz7lW0wFQmMP
- eZyw==
-X-Gm-Message-State: APjAAAU3Obah7RDRHL011eDdWey7QPrzRJr+ubuXWX1A/EWOOeGvt/50
- QyGRUmrFufFFXopFcYrwPiGT5gv1wvapMSmoVloNk9tDAB2BvRb58uCvytEmfWgNe6GCHKgrxDT
- Y8/bgHYTHvz17YfU=
-X-Received: by 2002:a5d:56c4:: with SMTP id m4mr8859593wrw.195.1570723766742; 
- Thu, 10 Oct 2019 09:09:26 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxmYEo090LWvIyLcJj2QdbqLwWPCb1IZNxKU2bNpj1D9ygBHI83YFFVs6VLEjfeJvcBY1FG1A==
-X-Received: by 2002:a5d:56c4:: with SMTP id m4mr8859575wrw.195.1570723766549; 
- Thu, 10 Oct 2019 09:09:26 -0700 (PDT)
-Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id f8sm6728772wmb.37.2019.10.10.09.09.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Oct 2019 09:09:25 -0700 (PDT)
-Subject: Re: [PATCH v25 22/22] qapi/machine.json: Add RX cpu.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190927062302.110144-1-ysato@users.sourceforge.jp>
- <20190927062302.110144-23-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <68a06c51-c01f-7ea0-52fb-2f4a743d4452@redhat.com>
-Date: Thu, 10 Oct 2019 18:09:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 260201056F83;
+ Thu, 10 Oct 2019 16:15:31 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-48.rdu2.redhat.com
+ [10.10.120.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A4126092F;
+ Thu, 10 Oct 2019 16:15:22 +0000 (UTC)
+Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
+ fw-cfg
+To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20191008105259.5378-1-lersek@redhat.com>
+ <20191008105259.5378-4-lersek@redhat.com>
+ <20191008175931.483af366@redhat.com>
+ <20191010055733-mutt-send-email-mst@kernel.org>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <55d7aaf3-4f21-c120-a867-6988bcca678e@redhat.com>
+Date: Thu, 10 Oct 2019 18:15:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20190927062302.110144-23-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191010055733-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Thu, 10 Oct 2019 16:15:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -81,39 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, imammedo@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The subject should be "Add RX architecture" but anyway this patch has to 
-be squashed in patch #20 "Add rx-softmmu"
+On 10/10/19 12:01, Michael S. Tsirkin wrote:
+> On Tue, Oct 08, 2019 at 05:59:31PM +0200, Igor Mammedov wrote:
 
-On 9/27/19 8:23 AM, Yoshinori Sato wrote:
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->   qapi/machine.json | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>> So far there were no need for it as all possible cpus are
+>> described in ACPI tables passed to guest, but I'm not going
+>> to suggest to parse them on firmware side as it's too complicated :)
 > 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index ca26779f1a..4409c113c2 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -21,6 +21,7 @@
->   #        is true even for "qemu-system-x86_64".
->   #
->   # ppcemb: dropped in 3.1
-> +# rx: added in 4.2
->   #
->   # Since: 3.0
->   ##
-> @@ -28,7 +29,7 @@
->     'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
->                'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
->                'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-> -             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-> +             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
->                'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
->                'x86_64', 'xtensa', 'xtensaeb' ] }
->   
-> 
+> We can always add a QEMU specific data table by the way.
+> Format would be up to us and would be easy to parse.
+> I don't see a big advantage as compared to fw cfg though.
+
+I'd like to comment just on this part.
+
+*If* we decide to expose the information through some kind of data table
+(as opposed to the modern CPU hotplug register block), then the
+representation *must* be a dedicated fw_cfg blob. It cannot be an ACPI
+table.
+
+The reason is that *selecting* the fw_cfg blob that contains the ACPI
+linker/loader script is a very specific action (it re-generates the ACPI
+payload, with dependencies on assigned PCI resources). Therefore, it is
+done in a super-particular spot in the firmware.
+
+On the other hand, the "possible CPUs count" is needed much earlier than
+that. I need to fetch that info way before PCI resource assignment
+appears on the radar.
+
+So please let us stick with "ACPI is only for the guest OS to read" rule
+-- it's not only a parsing convenience for the firmware, but a real
+necessity.
+
+Thanks
+Laszlo
 
