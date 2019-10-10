@@ -2,99 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A4CD213F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 08:56:38 +0200 (CEST)
-Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A21D214B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 09:04:15 +0200 (CEST)
+Received: from localhost ([::1]:34502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iISNJ-0001jx-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 02:56:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47680)
+	id 1iISUf-0004qq-M2
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 03:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iISMM-0001IM-Nq
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 02:55:39 -0400
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iISQp-0002cW-LK
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 03:00:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iISMK-0006H6-0S
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 02:55:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49766)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iISMJ-0006Gm-Om
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 02:55:35 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6244110CC1EC;
- Thu, 10 Oct 2019 06:55:34 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E48455C1B5;
- Thu, 10 Oct 2019 06:55:28 +0000 (UTC)
-Subject: Re: [PATCH 5/5] travis.yml: Compile on arm64, too
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20191009170701.14756-1-thuth@redhat.com>
- <20191009170701.14756-6-thuth@redhat.com>
- <2238ed71-5811-c98f-03c8-f8804e480f9d@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <ce024ffd-1b7f-39e0-b754-dc98a2a7513c@redhat.com>
-Date: Thu, 10 Oct 2019 08:55:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <2238ed71-5811-c98f-03c8-f8804e480f9d@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Thu, 10 Oct 2019 06:55:34 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1iISQn-00084q-J2
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 03:00:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19514)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
+ id 1iISQl-00084U-NX
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 03:00:13 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9A6vWSQ100172
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 03:00:08 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vhy6bh50h-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 03:00:08 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
+ Thu, 10 Oct 2019 08:00:06 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 10 Oct 2019 08:00:03 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9A7020d33751128
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Oct 2019 07:00:02 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 89DCC11C04C;
+ Thu, 10 Oct 2019 07:00:02 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 02D4C11C04A;
+ Thu, 10 Oct 2019 07:00:01 +0000 (GMT)
+Received: from localhost.in.ibm.com (unknown [9.124.35.97])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Oct 2019 07:00:00 +0000 (GMT)
+From: Ganesh Goudar <ganeshgr@linux.ibm.com>
+To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
+Subject: [PATCH v16 0/7] target-ppc/spapr: Add FWNMI support in QEMU for
+ PowerKVM guests
+Date: Thu, 10 Oct 2019 12:29:43 +0530
+X-Mailer: git-send-email 2.17.2
+X-TM-AS-GCONF: 00
+x-cbid: 19101007-0020-0000-0000-00000377C047
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101007-0021-0000-0000-000021CDCAB1
+Message-Id: <20191010065950.23169-1-ganeshgr@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-10_03:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=708 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910100064
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,61 +87,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>
+Cc: paulus@ozlabs.org, arawinda.p@gmail.com,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/2019 21.06, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 10/9/19 7:07 PM, Thomas Huth wrote:
->> Travis now features an arm64 build host, so let's check compilation
->> there, too.
->>
->> Unfortunately, there are some quirks:
->> - block/ssh.c does not compile properly in this environment, so we hav=
-e
->> =C2=A0=C2=A0 to use --disable-libssh until that problem is fixed.
->> - test-util-filemonitor fails, so we can not run the unit tests there
->> - The file system size seems to be very limited, so the iotest tests
->> =C2=A0=C2=A0 can't be used and the hd-geo-test fails (thus we can't co=
-mpile
->> =C2=A0=C2=A0 x86_64-softmmu here and run "check-qtest" afterwards)
->> - Compiling seems to be quite a bit slower than on the x86 builders,
->> =C2=A0=C2=A0 so we better limit the target list to some few architectu=
-res.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->> =C2=A0 .travis.yml | 6 ++++++
->> =C2=A0 1 file changed, 6 insertions(+)
->>
->> diff --git a/.travis.yml b/.travis.yml
->> index 0c88e8757b..357ca02890 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -342,3 +342,9 @@ matrix:
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
->> CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64-softmmu,a=
-lpha-softmmu"
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - TEST_CMD=3D"m=
-ake -j3 check-tcg V=3D1"
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D=
-"${TRAVIS_BRANCH}-linux-gcc-default"
->> +
->> +=C2=A0=C2=A0=C2=A0 # Non-x86 builds:
->> +=C2=A0=C2=A0=C2=A0 - env:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--disable-libs=
-sh
->> --target-list=3Daarch64-softmmu,ppc64-softmmu,s390x-softmmu,x86_64-lin=
-ux-user"
->>
->=20
-> Is aarch64 on aarch64 interesting?
->=20
-> Do you know if we can use KVM there?
+This patch set adds support for FWNMI in PowerKVM guests.
 
-I don't think that KVM is usable there, but at least this should give us
-some compile coverage for target/arm/kvm.c which we don't get otherwise.
+System errors such as SLB multihit and memory errors
+that cannot be corrected by hardware is passed on to
+the kernel for handling by raising machine check
+exception (an NMI). Upon such machine check exceptions,
+if the address in error belongs to guest then KVM
+invokes guests' 0x200 interrupt vector if the guest
+is not FWNMI capable. For FWNMI capable guest
+KVM passes the control to QEMU by exiting the guest.
 
- Thomas
+This patch series adds functionality to QEMU to pass
+on such machine check exceptions to the FWNMI capable
+guest kernel by building an error log and invoking
+the guest registered machine check handling routine.
+
+The KVM changes are now part of the upstream kernel
+(commit e20bbd3d). This series contain QEMU changes.
+
+Change Log v16:
+  - Fixed coding style problems
+
+Change Log v15:
+  - Removed cap_ppc_fwnmi
+  - Moved fwnmi registeration to .apply hook
+  - Assume SLOF has allocated enough room for rtas error log
+  - Using ARRAY_SIZE to end the loop
+  - Do not set FWNMI cap in post_load, now its done in .apply hook
+
+Change Log v14:
+  - Feature activation moved to a separate patch
+  - Fixed issues with migration blocker
+
+Change Log v13:
+  - Minor fixes (mostly nits)
+  - Moved FWNMI guest registration check from patch 4 to 3.
+
+Change Log v12:
+  - Rebased to latest ppc-for-4.2 (SHA b1e8156743)
+
+Change Log v11:
+  - Moved FWNMI SPAPR cap defaults to 4.2 class option
+  - Fixed issues with handling fwnmi KVM capability
+
+Change Log v10:
+  - Reshuffled the patch sequence + minor fixes
+
+Change Log v9:
+  - Fixed kvm cap and spapr cap issues
+
+Change Log v8:
+  - Added functionality to check FWNMI capability during
+    VM migration
+
+---
+
+Aravinda Prasad (7):
+  Wrapper function to wait on condition for the main loop mutex
+  ppc: spapr: Introduce FWNMI capability
+  target/ppc: Handle NMI guest exit
+  target/ppc: Build rtas error log upon an MCE
+  ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS
+    calls
+  migration: Include migration support for machine check handling
+  ppc: spapr: Activate the FWNMI functionality
+
+ cpus.c                   |   5 +
+ hw/ppc/spapr.c           |  51 ++++++++
+ hw/ppc/spapr_caps.c      |  34 +++++
+ hw/ppc/spapr_events.c    | 269 +++++++++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_rtas.c      |  85 +++++++++++++
+ include/hw/ppc/spapr.h   |  25 +++-
+ include/qemu/main-loop.h |   8 ++
+ target/ppc/kvm.c         |  24 ++++
+ target/ppc/kvm_ppc.h     |   8 ++
+ target/ppc/trace-events  |   1 +
+ 10 files changed, 508 insertions(+), 2 deletions(-)
+
+-- 
+2.17.2
+
 
