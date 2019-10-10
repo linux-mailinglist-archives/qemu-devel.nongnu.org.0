@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BFDD29B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:41:07 +0200 (CEST)
-Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AACD29C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:44:05 +0200 (CEST)
+Received: from localhost ([::1]:37514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXkf-0005n6-Rf
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52260)
+	id 1iIXnY-0002WV-5q
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrg-0007JD-F0
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:17 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWrh-0007Ku-HW
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWre-0008R8-GR
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51248)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrg-0008Ro-6M
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:44:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45786)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrX-0008OM-4W; Thu, 10 Oct 2019 07:44:10 -0400
+ id 1iIWra-0008Os-9v; Thu, 10 Oct 2019 07:44:12 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 65A4969089;
- Thu, 10 Oct 2019 11:44:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 813A010CBC4B;
+ Thu, 10 Oct 2019 11:44:08 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D17875C223;
- Thu, 10 Oct 2019 11:44:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 244455C28C;
+ Thu, 10 Oct 2019 11:44:07 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 29/36] block/backup: move in-flight requests handling from
- backup to block-copy
-Date: Thu, 10 Oct 2019 13:42:53 +0200
-Message-Id: <20191010114300.7746-30-mreitz@redhat.com>
+Subject: [PULL 30/36] block/backup: move write_flags calculation inside
+ backup_job_create
+Date: Thu, 10 Oct 2019 13:42:54 +0200
+Message-Id: <20191010114300.7746-31-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 10 Oct 2019 11:44:06 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Thu, 10 Oct 2019 11:44:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,236 +63,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Move synchronization mechanism to block-copy, to be able to use one
-block-copy instance from backup job and backup-top filter in parallel.
+This is logic-less refactoring, which simplifies further patch, as
+we'll need write_flags for backup-top filter creation and backup-top
+should be created before block job creation.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191001131409.14202-2-vsementsov@virtuozzo.com
+Message-id: 20191001131409.14202-3-vsementsov@virtuozzo.com
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block-copy.h |  8 ++++++
- block/backup.c             | 52 --------------------------------------
- block/block-copy.c         | 43 +++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+), 52 deletions(-)
+ block/backup.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 54f90d0c9a..962f91056a 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -17,6 +17,13 @@
-=20
- #include "block/block.h"
-=20
-+typedef struct BlockCopyInFlightReq {
-+    int64_t start_byte;
-+    int64_t end_byte;
-+    QLIST_ENTRY(BlockCopyInFlightReq) list;
-+    CoQueue wait_queue; /* coroutines blocked on this request */
-+} BlockCopyInFlightReq;
-+
- typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
- typedef void (*ProgressResetCallbackFunc)(void *opaque);
- typedef struct BlockCopyState {
-@@ -27,6 +34,7 @@ typedef struct BlockCopyState {
-     bool use_copy_range;
-     int64_t copy_range_size;
-     uint64_t len;
-+    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
-=20
-     BdrvRequestFlags write_flags;
-=20
 diff --git a/block/backup.c b/block/backup.c
-index 4613b8c88d..d918836f1d 100644
+index d918836f1d..b5b7939356 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -29,13 +29,6 @@
-=20
- #define BACKUP_CLUSTER_SIZE_DEFAULT (1 << 16)
-=20
--typedef struct CowRequest {
--    int64_t start_byte;
--    int64_t end_byte;
--    QLIST_ENTRY(CowRequest) list;
--    CoQueue wait_queue; /* coroutines blocked on this request */
--} CowRequest;
--
- typedef struct BackupBlockJob {
-     BlockJob common;
-     BlockDriverState *source_bs;
-@@ -51,50 +44,12 @@ typedef struct BackupBlockJob {
-     uint64_t bytes_read;
-     int64_t cluster_size;
-     NotifierWithReturn before_write;
--    QLIST_HEAD(, CowRequest) inflight_reqs;
-=20
-     BlockCopyState *bcs;
- } BackupBlockJob;
-=20
- static const BlockJobDriver backup_job_driver;
-=20
--/* See if in-flight requests overlap and wait for them to complete */
--static void coroutine_fn wait_for_overlapping_requests(BackupBlockJob *j=
-ob,
--                                                       int64_t start,
--                                                       int64_t end)
--{
--    CowRequest *req;
--    bool retry;
--
--    do {
--        retry =3D false;
--        QLIST_FOREACH(req, &job->inflight_reqs, list) {
--            if (end > req->start_byte && start < req->end_byte) {
--                qemu_co_queue_wait(&req->wait_queue, NULL);
--                retry =3D true;
--                break;
--            }
--        }
--    } while (retry);
--}
--
--/* Keep track of an in-flight request */
--static void cow_request_begin(CowRequest *req, BackupBlockJob *job,
--                              int64_t start, int64_t end)
--{
--    req->start_byte =3D start;
--    req->end_byte =3D end;
--    qemu_co_queue_init(&req->wait_queue);
--    QLIST_INSERT_HEAD(&job->inflight_reqs, req, list);
--}
--
--/* Forget about a completed request */
--static void cow_request_end(CowRequest *req)
--{
--    QLIST_REMOVE(req, list);
--    qemu_co_queue_restart_all(&req->wait_queue);
--}
--
- static void backup_progress_bytes_callback(int64_t bytes, void *opaque)
- {
-     BackupBlockJob *s =3D opaque;
-@@ -116,7 +71,6 @@ static int coroutine_fn backup_do_cow(BackupBlockJob *=
-job,
-                                       bool *error_is_read,
-                                       bool is_write_notifier)
- {
--    CowRequest cow_request;
-     int ret =3D 0;
-     int64_t start, end; /* bytes */
-=20
-@@ -127,14 +81,9 @@ static int coroutine_fn backup_do_cow(BackupBlockJob =
-*job,
-=20
-     trace_backup_do_cow_enter(job, start, offset, bytes);
-=20
--    wait_for_overlapping_requests(job, start, end);
--    cow_request_begin(&cow_request, job, start, end);
--
-     ret =3D block_copy(job->bcs, start, end - start, error_is_read,
-                      is_write_notifier);
-=20
--    cow_request_end(&cow_request);
--
-     trace_backup_do_cow_return(job, offset, bytes, ret);
-=20
-     qemu_co_rwlock_unlock(&job->flush_rwlock);
-@@ -316,7 +265,6 @@ static int coroutine_fn backup_run(Job *job, Error **=
-errp)
-     BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.job);
-     int ret =3D 0;
-=20
--    QLIST_INIT(&s->inflight_reqs);
-     qemu_co_rwlock_init(&s->flush_rwlock);
-=20
-     backup_init_copy_bitmap(s);
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 3fc9152853..61e5ea5f46 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -19,6 +19,41 @@
- #include "block/block-copy.h"
- #include "sysemu/block-backend.h"
-=20
-+static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s=
-,
-+                                                       int64_t start,
-+                                                       int64_t end)
-+{
-+    BlockCopyInFlightReq *req;
-+    bool waited;
-+
-+    do {
-+        waited =3D false;
-+        QLIST_FOREACH(req, &s->inflight_reqs, list) {
-+            if (end > req->start_byte && start < req->end_byte) {
-+                qemu_co_queue_wait(&req->wait_queue, NULL);
-+                waited =3D true;
-+                break;
-+            }
-+        }
-+    } while (waited);
-+}
-+
-+static void block_copy_inflight_req_begin(BlockCopyState *s,
-+                                          BlockCopyInFlightReq *req,
-+                                          int64_t start, int64_t end)
-+{
-+    req->start_byte =3D start;
-+    req->end_byte =3D end;
-+    qemu_co_queue_init(&req->wait_queue);
-+    QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
-+}
-+
-+static void coroutine_fn block_copy_inflight_req_end(BlockCopyInFlightRe=
-q *req)
-+{
-+    QLIST_REMOVE(req, list);
-+    qemu_co_queue_restart_all(&req->wait_queue);
-+}
-+
- void block_copy_state_free(BlockCopyState *s)
- {
-     if (!s) {
-@@ -79,6 +114,8 @@ BlockCopyState *block_copy_state_new(
-     s->use_copy_range =3D
-         !(write_flags & BDRV_REQ_WRITE_COMPRESSED) && s->copy_range_size=
- > 0;
-=20
-+    QLIST_INIT(&s->inflight_reqs);
-+
-     /*
-      * We just allow aio context change on our block backends. block_cop=
-y() user
-      * (now it's only backup) is responsible for source and target being=
- in same
-@@ -266,6 +303,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
-     int64_t end =3D bytes + start; /* bytes */
-     void *bounce_buffer =3D NULL;
-     int64_t status_bytes;
-+    BlockCopyInFlightReq req;
-=20
-     /*
-      * block_copy() user is responsible for keeping source and target in=
- same
-@@ -276,6 +314,9 @@ int coroutine_fn block_copy(BlockCopyState *s,
-     assert(QEMU_IS_ALIGNED(start, s->cluster_size));
-     assert(QEMU_IS_ALIGNED(end, s->cluster_size));
-=20
-+    block_copy_wait_inflight_reqs(s, start, bytes);
-+    block_copy_inflight_req_begin(s, &req, start, end);
-+
-     while (start < end) {
-         int64_t dirty_end;
-=20
-@@ -329,5 +370,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
-         qemu_vfree(bounce_buffer);
+@@ -446,20 +446,6 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+         goto error;
      }
 =20
-+    block_copy_inflight_req_end(&req);
+-    /* job->len is fixed, so we can't allow resize */
+-    job =3D block_job_create(job_id, &backup_job_driver, txn, bs, 0, BLK=
+_PERM_ALL,
+-                           speed, creation_flags, cb, opaque, errp);
+-    if (!job) {
+-        goto error;
+-    }
+-
+-    job->source_bs =3D bs;
+-    job->on_source_error =3D on_source_error;
+-    job->on_target_error =3D on_target_error;
+-    job->sync_mode =3D sync_mode;
+-    job->sync_bitmap =3D sync_bitmap;
+-    job->bitmap_mode =3D bitmap_mode;
+-
+     /*
+      * If source is in backing chain of target assume that target is goi=
+ng to be
+      * used for "image fleecing", i.e. it should represent a kind of sna=
+pshot of
+@@ -477,6 +463,20 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
+kDriverState *bs,
+     write_flags =3D (bdrv_chain_contains(target, bs) ? BDRV_REQ_SERIALIS=
+ING : 0) |
+                   (compress ? BDRV_REQ_WRITE_COMPRESSED : 0),
+=20
++    /* job->len is fixed, so we can't allow resize */
++    job =3D block_job_create(job_id, &backup_job_driver, txn, bs, 0, BLK=
+_PERM_ALL,
++                           speed, creation_flags, cb, opaque, errp);
++    if (!job) {
++        goto error;
++    }
 +
-     return ret;
- }
++    job->source_bs =3D bs;
++    job->on_source_error =3D on_source_error;
++    job->on_target_error =3D on_target_error;
++    job->sync_mode =3D sync_mode;
++    job->sync_bitmap =3D sync_bitmap;
++    job->bitmap_mode =3D bitmap_mode;
++
+     job->bcs =3D block_copy_state_new(bs, target, cluster_size, write_fl=
+ags,
+                                     backup_progress_bytes_callback,
+                                     backup_progress_reset_callback, job,=
+ errp);
+@@ -485,11 +485,11 @@ BlockJob *backup_job_create(const char *job_id, Blo=
+ckDriverState *bs,
+     }
+=20
+     job->cluster_size =3D cluster_size;
++    job->len =3D len;
+=20
+     /* Required permissions are already taken by block-copy-state target=
+ */
+     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
+                        &error_abort);
+-    job->len =3D len;
+=20
+     return &job->common;
+=20
 --=20
 2.21.0
 
