@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8678D298C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:34:00 +0200 (CEST)
-Received: from localhost ([::1]:37340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1B3D2996
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:36:44 +0200 (CEST)
+Received: from localhost ([::1]:37377 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXdn-0005ZN-8P
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55897)
+	id 1iIXgR-0000uF-8q
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iIXLh-0000Ny-2A
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:15:18 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iIXRp-0000Lx-3V
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iIXLf-0003zh-AF
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:15:16 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42932)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iIXRn-0005hE-J8
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:36 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34378)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
- id 1iIXLf-0003zO-4u
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:15:15 -0400
-Received: by mail-ot1-x341.google.com with SMTP id c10so4633339otd.9
- for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloud.ionos.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7oq3SsFxxyQqN8ykacVa0m46Z5w/+lN7c1KagfhHmOA=;
- b=Lt50kDuT14asHJkKS0oXuYAcviwFiofBCxugAJalTSvxH9KjAktWPeyoBBLlYQvl83
- tmXpk8UwdE6k8lKeOhowLK3fO60cPPMwIoyZPkEvyR53VHZjlv3hU3CRNHv7g/eWkB0+
- ewwiYDf13QVecSJoUoUA4y8YdY6Aiii0QYZt3adR1xnivXtkh2U2BFvpsJ55R4bZ/vO1
- HWWkjdxOiPmr2IH6ABFZTY2CxutQ4xBp1HJkwQsfXG2rVHrGn1tKBQlmc/lCNwAJ8qzR
- 44wv1MkLam7ET859WmRayr+mthkGlAV/vuQPzR3lpvskUMuza1m2PpdJu2IR55jHW+U3
- Qw/A==
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iIXRn-0005gk-Cv
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 08:21:35 -0400
+Received: by mail-wr1-x441.google.com with SMTP id j11so7651837wrp.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 05:21:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DPra1Z32r4f5QHXR9RCwjUNzYWTa9oyUkwq8uwkxPu8=;
+ b=hS0vqQGh1dKUrriTg1MLHF94GKIfG8ZntcVdGDjHh7cYyR4XJLUYmewIU1o+QYhWvJ
+ 27mPIUXl59A5aFNTKl1iice6jStwBsRohPrmKVsIt2FtA/SgyySYsQg6qg5udmfRKKpr
+ CzWPCKSFjac625RTIQ5sl3+oeiCbAdFMFyiGTAFZwwikttBSG1aBCBrydL1rLTKVAx1W
+ qlspMNXrpz253oyjXMMWrJUhjU2MO6fIvcO79HbwdzlCirFsyzC9vALDepfksgkDnpBq
+ DbHC+6xPS1jQqGDeXN5FAwqGyPg0ZefsuTHmkcYjZF9S6d7NzK0rEvnmAQ7Enbxqr8XX
+ BGIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7oq3SsFxxyQqN8ykacVa0m46Z5w/+lN7c1KagfhHmOA=;
- b=FtJrqY9coEw/k35xbx2uvfBAAXux+r2LW1opvl42ZZznurKY+dx8a3grH52R0xWCDv
- DrQLVzo2XCp0gJhk3DONzcpb7T3Crv14C9/k1jVhmmuxkaJDLxjnDhEwGrwr7pMO6VfU
- iA3qEhzzSg5K+8+l9N1DYib0PQV9DobQgbcTNuQqKY6vwYkMRKA1nkWmo8pdkWNgYiFR
- kyWXcpF+ZyWRc1TdSe0DDNsC5/ZFdzUK+szCYNjA6LyBplCaMGgEBI2E+qyVqggVhWbr
- HwC4GPOrA/kJfoPQRdiHDZS2M8gcALn8IeKnpJc1JuEuWvruDVXJKBvaxMfpTsqlQoDj
- Zceg==
-X-Gm-Message-State: APjAAAUhyhslOPOiI2oDWwyekhCyT9mLsohfJjaAiQvAaT9zwlzsRjJD
- T6dRWMqQ+rQH9xvfplsINIpfz2Z/ByzFjZdlUP5xYw==
-X-Google-Smtp-Source: APXvYqy6v1/vDy3ArYIs7Re6BOHByQ64EPXbA9ZLEcYwQE6xT2nNTU8pG03cnGYmgqnreKCuEorP5x9zL/JbqtYKUQI=
-X-Received: by 2002:a9d:7a99:: with SMTP id l25mr7618976otn.316.1570709713518; 
- Thu, 10 Oct 2019 05:15:13 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=DPra1Z32r4f5QHXR9RCwjUNzYWTa9oyUkwq8uwkxPu8=;
+ b=JezFM4ItoNEeQBU1BWuoO/7ZEUAJTRZVxVPz/JACMTildJMptj+lkytM3mhVyYaQEr
+ hxvObn6oOHfJ/9rfvtsqR4vMym41RVRxUijln+EMIWF0BCnmQWoCsadIuUg6JZX2EaFq
+ eFqhBF1iPV8xt9vxKsrLoI5qKYfSqTdPy2d8Dw/d8fX4mJ7yMDT/bRTFvh1kimQGRV3C
+ tDvWlS8DcA+7XhHOkzME+lsSCaQUp0w4b7upEtgY/YjUM5M6ffRpbOgeMtOVCMa5JIJK
+ A8G+2SQ5E3hevW/T0ONToD+bBbTdBFJ9+CHxniRuFyC5ShJDHA8CTlp+EAvX/wWt2VlR
+ JT6g==
+X-Gm-Message-State: APjAAAWv7gyLeAKjL2uHGXzC/I0JicikqZX7sxp7ZfVCU/zjarxMv+El
+ AJoYpDzxjolNc4p9aimfGR65Wf6tEds=
+X-Google-Smtp-Source: APXvYqyx2aezjzBDTcE9qXoM+xUEjVFYZRYvJ9WgKnZD1etSMo3rrHW2880haO+uFVtYW5q1AzPWmQ==
+X-Received: by 2002:adf:fd04:: with SMTP id e4mr8582328wrr.371.1570710093936; 
+ Thu, 10 Oct 2019 05:21:33 -0700 (PDT)
+Received: from x1w.redhat.com (46.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.46])
+ by smtp.gmail.com with ESMTPSA id o4sm12413169wre.91.2019.10.10.05.21.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Oct 2019 05:21:33 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/2] tests/boot_console: Test booting HP-UX firmware upgrade
+Date: Thu, 10 Oct 2019 14:21:28 +0200
+Message-Id: <20191010122128.29000-3-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191010122128.29000-1-f4bug@amsat.org>
+References: <20191010122128.29000-1-f4bug@amsat.org>
 MIME-Version: 1.0
-References: <1569932308-30478-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
- <1569932308-30478-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
- <20191002095538.GA2709@work-vm>
- <778087fb-6d91-3f63-18cb-78cab6a68f77@redhat.com>
-In-Reply-To: <778087fb-6d91-3f63-18cb-78cab6a68f77@redhat.com>
-From: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
-Date: Thu, 10 Oct 2019 14:15:02 +0200
-Message-ID: <CALHVEJZfNLLMSx9EVXx28L3aDh4RgfoUqjYqVqr5jcJS4fNYxQ@mail.gmail.com>
-Subject: Re: [PATCH] virtio-net: prevent offloads reset on migration
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,241 +82,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- stefanha@redhat.com, mst@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>, Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
+Add a test which boots a HP-UX firmware upgrade CD-ROM.
+It exercise the PCI LSI53C895A SCSI controller.
 
-Thank you for your reply.
-I've submitted the third version of the patch which does the runstate
-check as you propose.
+The ISO image comes from:
+https://web.archive.org/web/20101204061612/http://ftp.parisc-linux.org/kernels/712/PF_C7120023
 
-Thanks,
-Mikhail
+This test is very quick, less than 3s:
 
-Am Do., 10. Okt. 2019 um 07:33 Uhr schrieb Jason Wang <jasowang@redhat.com>=
-:
->
->
-> On 2019/10/2 =E4=B8=8B=E5=8D=885:55, Dr. David Alan Gilbert wrote:
-> > Copying in Stefan, Jason and Michael who know the virtio details
-> >
-> > Dave
-> >
-> > * Mikhail Sennikovsky (mikhail.sennikovskii@cloud.ionos.com) wrote:
-> >> Currently offloads disabled by guest via the VIRTIO_NET_CTRL_GUEST_OFF=
-LOADS_SET
-> >> command are not preserved on VM migration.
-> >> Instead all offloads reported by guest features (via VIRTIO_PCI_GUEST_=
-FEATURES)
-> >> get enabled.
-> >> What happens is: first the VirtIONet::curr_guest_offloads gets restore=
-d and offloads
-> >> are getting set correctly:
-> >>
-> >>   #0  qemu_set_offload (nc=3D0x555556a11400, csum=3D1, tso4=3D0, tso6=
-=3D0, ecn=3D0, ufo=3D0) at net/net.c:474
-> >>   #1  virtio_net_apply_guest_offloads (n=3D0x555557701ca0) at hw/net/v=
-irtio-net.c:720
-> >>   #2  virtio_net_post_load_device (opaque=3D0x555557701ca0, version_id=
-=3D11) at hw/net/virtio-net.c:2334
-> >>   #3  vmstate_load_state (f=3D0x5555569dc010, vmsd=3D0x555556577c80 <v=
-mstate_virtio_net_device>, opaque=3D0x555557701ca0, version_id=3D11)
-> >>       at migration/vmstate.c:168
-> >>   #4  virtio_load (vdev=3D0x555557701ca0, f=3D0x5555569dc010, version_=
-id=3D11) at hw/virtio/virtio.c:2197
-> >>   #5  virtio_device_get (f=3D0x5555569dc010, opaque=3D0x555557701ca0, =
-size=3D0, field=3D0x55555668cd00 <__compound_literal.5>) at hw/virtio/virti=
-o.c:2036
-> >>   #6  vmstate_load_state (f=3D0x5555569dc010, vmsd=3D0x555556577ce0 <v=
-mstate_virtio_net>, opaque=3D0x555557701ca0, version_id=3D11) at migration/=
-vmstate.c:143
-> >>   #7  vmstate_load (f=3D0x5555569dc010, se=3D0x5555578189e0) at migrat=
-ion/savevm.c:829
-> >>   #8  qemu_loadvm_section_start_full (f=3D0x5555569dc010, mis=3D0x5555=
-569eee20) at migration/savevm.c:2211
-> >>   #9  qemu_loadvm_state_main (f=3D0x5555569dc010, mis=3D0x5555569eee20=
-) at migration/savevm.c:2395
-> >>   #10 qemu_loadvm_state (f=3D0x5555569dc010) at migration/savevm.c:246=
-7
-> >>   #11 process_incoming_migration_co (opaque=3D0x0) at migration/migrat=
-ion.c:449
-> >>
-> >> However later on the features are getting restored, and offloads get r=
-eset to
-> >> everything supported by features:
-> >>
-> >>   #0  qemu_set_offload (nc=3D0x555556a11400, csum=3D1, tso4=3D1, tso6=
-=3D1, ecn=3D0, ufo=3D0) at net/net.c:474
-> >>   #1  virtio_net_apply_guest_offloads (n=3D0x555557701ca0) at hw/net/v=
-irtio-net.c:720
-> >>   #2  virtio_net_set_features (vdev=3D0x555557701ca0, features=3D51044=
-41767) at hw/net/virtio-net.c:773
-> >>   #3  virtio_set_features_nocheck (vdev=3D0x555557701ca0, val=3D510444=
-1767) at hw/virtio/virtio.c:2052
-> >>   #4  virtio_load (vdev=3D0x555557701ca0, f=3D0x5555569dc010, version_=
-id=3D11) at hw/virtio/virtio.c:2220
-> >>   #5  virtio_device_get (f=3D0x5555569dc010, opaque=3D0x555557701ca0, =
-size=3D0, field=3D0x55555668cd00 <__compound_literal.5>) at hw/virtio/virti=
-o.c:2036
-> >>   #6  vmstate_load_state (f=3D0x5555569dc010, vmsd=3D0x555556577ce0 <v=
-mstate_virtio_net>, opaque=3D0x555557701ca0, version_id=3D11) at migration/=
-vmstate.c:143
-> >>   #7  vmstate_load (f=3D0x5555569dc010, se=3D0x5555578189e0) at migrat=
-ion/savevm.c:829
-> >>   #8  qemu_loadvm_section_start_full (f=3D0x5555569dc010, mis=3D0x5555=
-569eee20) at migration/savevm.c:2211
-> >>   #9  qemu_loadvm_state_main (f=3D0x5555569dc010, mis=3D0x5555569eee20=
-) at migration/savevm.c:2395
-> >>   #10 qemu_loadvm_state (f=3D0x5555569dc010) at migration/savevm.c:246=
-7
-> >>   #11 process_incoming_migration_co (opaque=3D0x0) at migration/migrat=
-ion.c:449
-> >>
-> >> This patch fixes this by adding an extra argument to the set_features =
-callback,
-> >> specifying whether the offloads are to be reset, and setting it to fal=
-se
-> >> for the migration case.
-> >>
-> >> Signed-off-by: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.c=
-om>
-> >> ---
-> >>   hw/display/virtio-gpu-base.c |  3 ++-
-> >>   hw/net/virtio-net.c          |  5 +++--
-> >>   hw/virtio/virtio.c           | 10 +++++-----
-> >>   include/hw/virtio/virtio.h   |  2 +-
-> >>   4 files changed, 11 insertions(+), 9 deletions(-)
-> >>
-> >> diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base=
-.c
-> >> index 55e0799..04d8a23 100644
-> >> --- a/hw/display/virtio-gpu-base.c
-> >> +++ b/hw/display/virtio-gpu-base.c
-> >> @@ -193,7 +193,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, u=
-int64_t features,
-> >>   }
-> >>
-> >>   static void
-> >> -virtio_gpu_base_set_features(VirtIODevice *vdev, uint64_t features)
-> >> +virtio_gpu_base_set_features(VirtIODevice *vdev, uint64_t features,
-> >> +                               bool reset_offloads)
->
->
-> It's not good for e.g gpu to know anything about net.
->
-> How about checking runstate and do not call apply_guest_offload() in
-> virtio_net_set_features() when in the state of migration?
->
-> Thanks
->
->
-> >>   {
-> >>       static const uint32_t virgl =3D (1 << VIRTIO_GPU_F_VIRGL);
-> >>       VirtIOGPUBase *g =3D VIRTIO_GPU_BASE(vdev);
-> >> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> >> index b9e1cd7..5d108e5 100644
-> >> --- a/hw/net/virtio-net.c
-> >> +++ b/hw/net/virtio-net.c
-> >> @@ -743,7 +743,8 @@ static inline uint64_t virtio_net_supported_guest_=
-offloads(VirtIONet *n)
-> >>       return virtio_net_guest_offloads_by_features(vdev->guest_feature=
-s);
-> >>   }
-> >>
-> >> -static void virtio_net_set_features(VirtIODevice *vdev, uint64_t feat=
-ures)
-> >> +static void virtio_net_set_features(VirtIODevice *vdev, uint64_t feat=
-ures,
-> >> +                                        bool reset_offloads)
-> >>   {
-> >>       VirtIONet *n =3D VIRTIO_NET(vdev);
-> >>       int i;
-> >> @@ -767,7 +768,7 @@ static void virtio_net_set_features(VirtIODevice *=
-vdev, uint64_t features)
-> >>       n->rsc6_enabled =3D virtio_has_feature(features, VIRTIO_NET_F_RS=
-C_EXT) &&
-> >>           virtio_has_feature(features, VIRTIO_NET_F_GUEST_TSO6);
-> >>
-> >> -    if (n->has_vnet_hdr) {
-> >> +    if (reset_offloads && n->has_vnet_hdr) {
-> >>           n->curr_guest_offloads =3D
-> >>               virtio_net_guest_offloads_by_features(features);
-> >>           virtio_net_apply_guest_offloads(n);
-> >> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> >> index a94ea18..b89f7b0 100644
-> >> --- a/hw/virtio/virtio.c
-> >> +++ b/hw/virtio/virtio.c
-> >> @@ -2042,14 +2042,14 @@ const VMStateInfo  virtio_vmstate_info =3D {
-> >>       .put =3D virtio_device_put,
-> >>   };
-> >>
-> >> -static int virtio_set_features_nocheck(VirtIODevice *vdev, uint64_t v=
-al)
-> >> +static int virtio_set_features_nocheck(VirtIODevice *vdev, uint64_t v=
-al, bool reset_offloads)
-> >>   {
-> >>       VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
-> >>       bool bad =3D (val & ~(vdev->host_features)) !=3D 0;
-> >>
-> >>       val &=3D vdev->host_features;
-> >>       if (k->set_features) {
-> >> -        k->set_features(vdev, val);
-> >> +        k->set_features(vdev, val, reset_offloads);
-> >>       }
-> >>       vdev->guest_features =3D val;
-> >>       return bad ? -1 : 0;
-> >> @@ -2065,7 +2065,7 @@ int virtio_set_features(VirtIODevice *vdev, uint=
-64_t val)
-> >>       if (vdev->status & VIRTIO_CONFIG_S_FEATURES_OK) {
-> >>           return -EINVAL;
-> >>       }
-> >> -    ret =3D virtio_set_features_nocheck(vdev, val);
-> >> +    ret =3D virtio_set_features_nocheck(vdev, val, true);
-> >>       if (!ret) {
-> >>           if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) =
-{
-> >>               /* VIRTIO_RING_F_EVENT_IDX changes the size of the cache=
-s.  */
-> >> @@ -2217,14 +2217,14 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *=
-f, int version_id)
-> >>            * host_features.
-> >>            */
-> >>           uint64_t features64 =3D vdev->guest_features;
-> >> -        if (virtio_set_features_nocheck(vdev, features64) < 0) {
-> >> +        if (virtio_set_features_nocheck(vdev, features64, false) < 0)=
- {
-> >>               error_report("Features 0x%" PRIx64 " unsupported. "
-> >>                            "Allowed features: 0x%" PRIx64,
-> >>                            features64, vdev->host_features);
-> >>               return -1;
-> >>           }
-> >>       } else {
-> >> -        if (virtio_set_features_nocheck(vdev, features) < 0) {
-> >> +        if (virtio_set_features_nocheck(vdev, features, false) < 0) {
-> >>               error_report("Features 0x%x unsupported. "
-> >>                            "Allowed features: 0x%" PRIx64,
-> >>                            features, vdev->host_features);
-> >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> >> index b189788..fd8cac5 100644
-> >> --- a/include/hw/virtio/virtio.h
-> >> +++ b/include/hw/virtio/virtio.h
-> >> @@ -128,7 +128,7 @@ typedef struct VirtioDeviceClass {
-> >>                                uint64_t requested_features,
-> >>                                Error **errp);
-> >>       uint64_t (*bad_features)(VirtIODevice *vdev);
-> >> -    void (*set_features)(VirtIODevice *vdev, uint64_t val);
-> >> +    void (*set_features)(VirtIODevice *vdev, uint64_t val, bool reset=
-_offloads);
-> >>       int (*validate_features)(VirtIODevice *vdev);
-> >>       void (*get_config)(VirtIODevice *vdev, uint8_t *config);
-> >>       void (*set_config)(VirtIODevice *vdev, const uint8_t *config);
-> >> --
-> >> 2.7.4
-> >>
-> >>
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  $ avocado --show=app,console run -t arch:hppa tests/acceptance/boot_linux_console.py
+  console: Firmware Version 6.1
+  console: Duplex Console IO Dependent Code (IODC) revision 1
+  console: Memory Test/Initialization Completed
+  console: ------------------------------------------------------------------------------
+  console: (c) Copyright 2017-2018 Helge Deller <deller@gmx.de> and SeaBIOS developers.
+  console: ------------------------------------------------------------------------------
+  console: Processor   Speed            State           Coprocessor State  Cache Size
+  console: ---------  --------   ---------------------  -----------------  ----------
+  console: 0      250 MHz    Active                 Functional            0 KB
+  console: Available memory:     512 MB
+  console: Good memory required: 16 MB
+  console: Primary boot path:    FWSCSI.0.0
+  console: Alternate boot path:  FWSCSI.2.0
+  console: Console path:         SERIAL_1.9600.8.none
+  console: Keyboard path:        PS2
+  console: Available boot devices:
+  console: 1. DVD/CD [lsi 00:00.0 2:0 Drive QEMU QEMU CD-ROM 2.5+]
+  console: Booting from DVD/CD [lsi 00:00.0 2:0 Drive QEMU QEMU CD-ROM 2.5+]
+  console: Booting...
+  console: Boot IO Dependent Code (IODC) revision 153
+  console: HARD Booted.
+  console: ISL Revision A.00.25 November 18, 1992
+  console: ISL booting  ODE UPDATE ; stable off ; RUN
+  console: Loading...
+  console: ***************************************************************************
+  console: ******                                                               ******
+  console: ******             Offline Diagnostic Environment                    ******
+  console: ******                                                               ******
+  console: ******      (C) Copyright Hewlett-Packard Co 1993                    ******
+  console: ******                    All Rights Reserved                        ******
+  console: ******                                                               ******
+  console: ******  HP shall not be liable for any damages resulting from the    ******
+  console: ******  use of this program.                                         ******
+  console: ******                                                               ******
+  console: ******                TC  Version A.00.15                            ******
+  console: ******                SysLib Version A.00.44                         ******
+  console: ******                                                               ******
+  console: ***************************************************************************
+  console: Type HELP for command information.
+  console: ISL_CMD> UPDATE ; stable off ; RUN
+  console: ***************************************************************************
+  console: ******                                                               ******
+  console: ******                           PDC UPDATER                         ******
+  console: ******                                                               ******
+  console: ******    Copyright (C) 1993, 1994, 1995 by Hewlett-Packard Company  ******
+  console: ******                         Version A.00.19                       ******
+  console: ******                                                               ******
+  console: ***************************************************************************
+  console: Type HELP for command information.
+  console: Stable Storage will NOT be updated
+  console: STARTING EXECUTION OF UPDATE
+  console: Unrecognized MODEL TYPE = 502
+  console: ERROR 0001
+  console: UPDATE PAUSED> exit
+  console: UPDATE>
+  console: UPDATE> ls
+  console: Modules on this boot media are:
+  console: filename    type    size     created   description
+  console: -----------------------------------------------------------------------------
+  console: DAGGER      DATA    118      96/02/15  ?
+  console: IMAGE1A     DATA    512      96/02/15  ?
+  console: IMAGE1B     DATA    388      96/02/15  ?
+  console: UPDATE> exit
+  console: THIS UTILITY WILL NOW RESET THE SYSTEM.....
+  PASS (2.39 s)
+  JOB TIME   : 2.54 s
+
+Suggested-by: Sven Schnelle <svens@stackframe.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+I know this is not a 'Linux' test, but all our console functions
+reside in this file and I don't want to duplicate again.
+Maybe we could rename this file as 'boot_console_tests.py' or
+extract the console related functions.
+---
+ tests/acceptance/boot_linux_console.py | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index f05452824e..8bfcd0625a 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -378,3 +378,28 @@ class BootLinuxConsole(Test):
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.wait_for_console_pattern(console_pattern)
++
++    def test_hppa_fwupdate(self):
++        """
++        :avocado: tags=arch:hppa
++        :avocado: tags=device:lsi53c895a
++        """
++        cdrom_url = ('https://github.com/philmd/qemu-testing-blob/raw/ec1b741/'
++                     'hppa/hp9000/712/C7120023.frm')
++        cdrom_hash = '17944dee46f768791953009bcda551be5ab9fac9'
++        cdrom_path = self.fetch_asset(cdrom_url, asset_hash=cdrom_hash)
++
++        self.vm.set_console()
++        self.vm.add_args('-cdrom', cdrom_path,
++                         '-boot', 'd',
++                         '-no-reboot')
++        self.vm.launch()
++        self.wait_for_console_pattern('Unrecognized MODEL TYPE = 502')
++
++        self.exec_command_and_wait_for_pattern('exit',
++                                               'UPDATE>')
++        self.exec_command_and_wait_for_pattern('ls',
++                                               'IMAGE1B')
++        self.exec_command_and_wait_for_pattern('exit',
++                                               'THIS UTILITY WILL NOW '
++                                               'RESET THE SYSTEM.....')
+-- 
+2.21.0
+
 
