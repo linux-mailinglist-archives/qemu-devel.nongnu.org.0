@@ -2,48 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17136D2E70
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:18:13 +0200 (CEST)
-Received: from localhost ([::1]:41944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B52D2E87
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 18:24:34 +0200 (CEST)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIb8l-0004Zp-Em
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:18:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41538)
+	id 1iIbEv-0003QG-68
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 12:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iIb64-0002oi-5m
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:15:25 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iIaqE-0005EH-EL
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:59:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iIb63-0000RS-8W
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 12:15:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24469)
+ (envelope-from <stefanha@redhat.com>) id 1iIaqD-0002yz-Eh
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:59:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52986)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iIb61-0000Qy-1c; Thu, 10 Oct 2019 12:15:21 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iIaqD-0002xx-9A
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:59:01 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2AB6085365;
- Thu, 10 Oct 2019 16:15:20 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-47.ams2.redhat.com
- [10.36.116.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C55EC600F8;
- Thu, 10 Oct 2019 16:15:18 +0000 (UTC)
-Date: Thu, 10 Oct 2019 18:15:17 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH V4] block/vhdx: add check for truncated image files
-Message-ID: <20191010161517.GG7616@localhost.localdomain>
-References: <20190910152622.5432-1-pl@kamp.de>
+ by mx1.redhat.com (Postfix) with ESMTPS id 89C8318CB8E0
+ for <qemu-devel@nongnu.org>; Thu, 10 Oct 2019 15:59:00 +0000 (UTC)
+Received: from localhost (ovpn-117-170.ams2.redhat.com [10.36.117.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 018505D6C8;
+ Thu, 10 Oct 2019 15:58:54 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] libqos: add VIRTIO PCI 1.0 support
+Date: Thu, 10 Oct 2019 16:58:46 +0100
+Message-Id: <20191010155853.4325-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190910152622.5432-1-pl@kamp.de>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 10 Oct 2019 16:15:20 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Thu, 10 Oct 2019 15:59:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -58,19 +53,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: codyprime@gmail.com, mreitz@redhat.com, jhf@kamp.de, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.09.2019 um 17:26 hat Peter Lieven geschrieben:
-> qemu is currently not able to detect truncated vhdx image files.
-> Add a basic check if all allocated blocks are reachable at open and
-> report all errors during bdrv_co_check.
-> 
-> Signed-off-by: Peter Lieven <pl@kamp.de>
+New VIRTIO devices are Non-Transitional.  This means they only expose the
+VIRTIO 1.0 PCI register interface.
 
-Thanks, applied to the block branch.
+The libqos virtio-pci.c code only supports Legacy and Transitional device=
+s (in
+Legacy mode).  This patch series add VIRTIO PCI 1.0 support so that tests=
+ can
+run against Non-Transitional devices too.
 
-Kevin
+Note that this does not actually add VIRTIO 1.0 support to our tests.  Th=
+at
+would require extending feature negotiation (VIRTIO_F_VERSION_1).  I will=
+ look
+at this as a separate step but the most pressing issue is getting libqos =
+to
+work with Non-Transitional virtio-pci devices.
+
+Stefan Hajnoczi (7):
+  libqos: extract Legacy virtio-pci.c code
+  libqos: add iteration support to qpci_find_capability()
+  libqos: pass full QVirtQueue to set_queue_address()
+  libqos: add MSI-X callbacks to QVirtioPCIDevice
+  libqos: expose common virtqueue setup/cleanup functions
+  libqos: make the virtio-pci BAR index configurable
+  libqos: add VIRTIO PCI 1.0 support
+
+ tests/Makefile.include           |   1 +
+ tests/libqos/pci.h               |   2 +-
+ tests/libqos/virtio-pci-modern.h |  17 ++
+ tests/libqos/virtio-pci.h        |  34 ++-
+ tests/libqos/virtio.h            |   2 +-
+ tests/libqos/pci.c               |  18 +-
+ tests/libqos/virtio-mmio.c       |   6 +-
+ tests/libqos/virtio-pci-modern.c | 405 +++++++++++++++++++++++++++++++
+ tests/libqos/virtio-pci.c        |  91 ++++---
+ 9 files changed, 529 insertions(+), 47 deletions(-)
+ create mode 100644 tests/libqos/virtio-pci-modern.h
+ create mode 100644 tests/libqos/virtio-pci-modern.c
+
+--=20
+2.21.0
+
 
