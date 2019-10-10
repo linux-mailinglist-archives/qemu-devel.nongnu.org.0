@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F84DD2969
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:23:44 +0200 (CEST)
-Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EB5D2972
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:26:40 +0200 (CEST)
+Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXTr-0001ke-57
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52031)
+	id 1iIXWh-0005HI-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrH-0006sk-EG
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:52 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWrJ-0006wX-Gd
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWrG-0008J4-Bx
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37998)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrI-0008Jc-9N
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55984)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrD-0008HR-Vn; Thu, 10 Oct 2019 07:43:48 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iIWrF-0008IZ-Ux; Thu, 10 Oct 2019 07:43:50 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3599918C4262;
- Thu, 10 Oct 2019 11:43:47 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 386D087638;
+ Thu, 10 Oct 2019 11:43:49 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB89460A9F;
- Thu, 10 Oct 2019 11:43:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2A77600C4;
+ Thu, 10 Oct 2019 11:43:48 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 20/36] ide: account UNMAP (TRIM) operations
-Date: Thu, 10 Oct 2019 13:42:44 +0200
-Message-Id: <20191010114300.7746-21-mreitz@redhat.com>
+Subject: [PULL 21/36] scsi: store unmap offset and nb_sectors in request struct
+Date: Thu, 10 Oct 2019 13:42:45 +0200
+Message-Id: <20191010114300.7746-22-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Thu, 10 Oct 2019 11:43:47 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Thu, 10 Oct 2019 11:43:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,52 +62,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 
+it allows to report it in the error handler
+
 Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190923121737.83281-5-anton.nefedov@virtuozzo.com
+Message-id: 20190923121737.83281-6-anton.nefedov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/ide/core.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/scsi/scsi-disk.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index e6e54c6c9a..754ff4dc34 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -442,6 +442,14 @@ static void ide_issue_trim_cb(void *opaque, int ret)
-     TrimAIOCB *iocb =3D opaque;
-     IDEState *s =3D iocb->s;
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 915641a0f1..b3dd21800d 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -1608,8 +1608,6 @@ static void scsi_unmap_complete_noio(UnmapCBData *d=
+ata, int ret)
+ {
+     SCSIDiskReq *r =3D data->r;
+     SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
+-    uint64_t sector_num;
+-    uint32_t nb_sectors;
 =20
-+    if (iocb->i >=3D 0) {
-+        if (ret >=3D 0) {
-+            block_acct_done(blk_get_stats(s->blk), &s->acct);
-+        } else {
-+            block_acct_failed(blk_get_stats(s->blk), &s->acct);
-+        }
-+    }
-+
-     if (ret >=3D 0) {
-         while (iocb->j < iocb->qiov->niov) {
-             int j =3D iocb->j;
-@@ -459,10 +467,14 @@ static void ide_issue_trim_cb(void *opaque, int ret=
-)
-                 }
+     assert(r->req.aiocb =3D=3D NULL);
+     if (scsi_disk_req_check_error(r, ret, false)) {
+@@ -1617,16 +1615,18 @@ static void scsi_unmap_complete_noio(UnmapCBData =
+*data, int ret)
+     }
 =20
-                 if (!ide_sect_range_ok(s, sector, count)) {
-+                    block_acct_invalid(blk_get_stats(s->blk), BLOCK_ACCT=
-_UNMAP);
-                     iocb->ret =3D -EINVAL;
-                     goto done;
-                 }
+     if (data->count > 0) {
+-        sector_num =3D ldq_be_p(&data->inbuf[0]);
+-        nb_sectors =3D ldl_be_p(&data->inbuf[8]) & 0xffffffffULL;
+-        if (!check_lba_range(s, sector_num, nb_sectors)) {
++        r->sector =3D ldq_be_p(&data->inbuf[0])
++            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
++        r->sector_count =3D (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
++            * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
++        if (!check_lba_range(s, r->sector, r->sector_count)) {
+             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
+             goto done;
+         }
 =20
-+                block_acct_start(blk_get_stats(s->blk), &s->acct,
-+                                 count << BDRV_SECTOR_BITS, BLOCK_ACCT_U=
-NMAP);
-+
-                 /* Got an entry! Submit and exit.  */
-                 iocb->aiocb =3D blk_aio_pdiscard(s->blk,
-                                                sector << BDRV_SECTOR_BIT=
-S,
+         r->req.aiocb =3D blk_aio_pdiscard(s->qdev.conf.blk,
+-                                        sector_num * s->qdev.blocksize,
+-                                        nb_sectors * s->qdev.blocksize,
++                                        r->sector * BDRV_SECTOR_SIZE,
++                                        r->sector_count * BDRV_SECTOR_SI=
+ZE,
+                                         scsi_unmap_complete, data);
+         data->count--;
+         data->inbuf +=3D 16;
 --=20
 2.21.0
 
