@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684D2D2974
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:27:00 +0200 (CEST)
-Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D92DD297D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:29:43 +0200 (CEST)
+Received: from localhost ([::1]:37278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXX1-0005lK-Ey
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52080)
+	id 1iIXZd-0000dj-W4
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWrL-000709-Lg
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIWrN-00073n-OA
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWrK-0008KL-Gr
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55990)
+ (envelope-from <mreitz@redhat.com>) id 1iIWrM-0008Kw-K2
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55802)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWrI-0008JV-5d; Thu, 10 Oct 2019 07:43:52 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iIWrK-0008K2-76; Thu, 10 Oct 2019 07:43:54 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 67F4E87638;
- Thu, 10 Oct 2019 11:43:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 724171017C03;
+ Thu, 10 Oct 2019 11:43:53 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E4C460BE1;
- Thu, 10 Oct 2019 11:43:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16B7A5C231;
+ Thu, 10 Oct 2019 11:43:52 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 22/36] scsi: move unmap error checking to the complete callback
-Date: Thu, 10 Oct 2019 13:42:46 +0200
-Message-Id: <20191010114300.7746-23-mreitz@redhat.com>
+Subject: [PULL 23/36] scsi: account unmap operations
+Date: Thu, 10 Oct 2019 13:42:47 +0200
+Message-Id: <20191010114300.7746-24-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 10 Oct 2019 11:43:51 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Thu, 10 Oct 2019 11:43:53 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,51 +62,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 
-This will help to account the operation in the following commit.
-
-The difference is that we don't call scsi_disk_req_check_error() before
-the 1st discard iteration anymore. That function also checks if
-the request is cancelled, however it shouldn't get canceled until it
-yields in blk_aio() functions anyway.
-Same approach is already used for emulate_write_same.
-
 Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-id: 20190923121737.83281-7-anton.nefedov@virtuozzo.com
+Message-id: 20190923121737.83281-8-anton.nefedov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/scsi/scsi-disk.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ hw/scsi/scsi-disk.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index b3dd21800d..a002fdabe8 100644
+index a002fdabe8..68b1675fd9 100644
 --- a/hw/scsi/scsi-disk.c
 +++ b/hw/scsi/scsi-disk.c
-@@ -1610,9 +1610,6 @@ static void scsi_unmap_complete_noio(UnmapCBData *d=
-ata, int ret)
-     SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
+@@ -1617,10 +1617,16 @@ static void scsi_unmap_complete_noio(UnmapCBData =
+*data, int ret)
+         r->sector_count =3D (ldl_be_p(&data->inbuf[8]) & 0xffffffffULL)
+             * (s->qdev.blocksize / BDRV_SECTOR_SIZE);
+         if (!check_lba_range(s, r->sector, r->sector_count)) {
++            block_acct_invalid(blk_get_stats(s->qdev.conf.blk),
++                               BLOCK_ACCT_UNMAP);
+             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
+             goto done;
+         }
 =20
-     assert(r->req.aiocb =3D=3D NULL);
--    if (scsi_disk_req_check_error(r, ret, false)) {
--        goto done;
--    }
-=20
-     if (data->count > 0) {
-         r->sector =3D ldq_be_p(&data->inbuf[0])
-@@ -1650,7 +1647,12 @@ static void scsi_unmap_complete(void *opaque, int =
-ret)
++        block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
++                         r->sector_count * BDRV_SECTOR_SIZE,
++                         BLOCK_ACCT_UNMAP);
++
+         r->req.aiocb =3D blk_aio_pdiscard(s->qdev.conf.blk,
+                                         r->sector * BDRV_SECTOR_SIZE,
+                                         r->sector_count * BDRV_SECTOR_SI=
+ZE,
+@@ -1647,10 +1653,11 @@ static void scsi_unmap_complete(void *opaque, int=
+ ret)
      r->req.aiocb =3D NULL;
 =20
      aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
--    scsi_unmap_complete_noio(data, ret);
-+    if (scsi_disk_req_check_error(r, ret, false)) {
-+        scsi_req_unref(&r->req);
-+        g_free(data);
-+    } else {
-+        scsi_unmap_complete_noio(data, ret);
-+    }
+-    if (scsi_disk_req_check_error(r, ret, false)) {
++    if (scsi_disk_req_check_error(r, ret, true)) {
+         scsi_req_unref(&r->req);
+         g_free(data);
+     } else {
++        block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
+         scsi_unmap_complete_noio(data, ret);
+     }
      aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
+@@ -1682,6 +1689,7 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *r,=
+ uint8_t *inbuf)
+     }
+=20
+     if (blk_is_read_only(s->qdev.conf.blk)) {
++        block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_U=
+NMAP);
+         scsi_check_condition(r, SENSE_CODE(WRITE_PROTECTED));
+         return;
+     }
+@@ -1697,10 +1705,12 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *=
+r, uint8_t *inbuf)
+     return;
+=20
+ invalid_param_len:
++    block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP=
+);
+     scsi_check_condition(r, SENSE_CODE(INVALID_PARAM_LEN));
+     return;
+=20
+ invalid_field:
++    block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP=
+);
+     scsi_check_condition(r, SENSE_CODE(INVALID_FIELD));
  }
 =20
 --=20
