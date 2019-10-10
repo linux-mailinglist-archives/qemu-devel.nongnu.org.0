@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782D7D286A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:52:11 +0200 (CEST)
-Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29D9D2870
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 13:55:13 +0200 (CEST)
+Received: from localhost ([::1]:36766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIWzK-0006wu-3F
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
+	id 1iIX2G-00020Q-L1
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 07:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iIWj7-0004Uu-8R
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:27 -0400
+ (envelope-from <david@redhat.com>) id 1iIWjH-0004bE-Ue
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iIWj4-00069c-I8
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58092)
+ (envelope-from <david@redhat.com>) id 1iIWjG-0006IE-Sq
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:35:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46086)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1iIWj3-00067s-Dg; Thu, 10 Oct 2019 07:35:21 -0400
+ id 1iIWjG-0006Hj-NL; Thu, 10 Oct 2019 07:35:34 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A7F2B307D96D;
- Thu, 10 Oct 2019 11:35:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 989132D6A10;
+ Thu, 10 Oct 2019 11:35:32 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E46CB5C553;
- Thu, 10 Oct 2019 11:35:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF79F5C548;
+ Thu, 10 Oct 2019 11:35:19 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 19/31] target/s390x: Return exception from mmu_translate_real
-Date: Thu, 10 Oct 2019 13:33:44 +0200
-Message-Id: <20191010113356.5017-20-david@redhat.com>
+Subject: [PULL 20/31] target/s390x: Remove exc argument to mmu_translate_asce
+Date: Thu, 10 Oct 2019 13:33:45 +0200
+Message-Id: <20191010113356.5017-21-david@redhat.com>
 In-Reply-To: <20191010113356.5017-1-david@redhat.com>
 References: <20191010113356.5017-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 10 Oct 2019 11:35:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 10 Oct 2019 11:35:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -64,92 +64,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Do not raise the exception directly within mmu_translate_real,
-but pass it back so that caller may do so.
+Now that mmu_translate_asce returns the exception instead of
+raising it, the argument is unused.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191001171614.8405-8-richard.henderson@linaro.org>
+Message-Id: <20191001171614.8405-9-richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/excp_helper.c |  4 ++--
- target/s390x/internal.h    |  2 +-
- target/s390x/mmu_helper.c  | 14 ++++++--------
- 3 files changed, 9 insertions(+), 11 deletions(-)
+ target/s390x/mmu_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index ab2ed47fef..906b87c071 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -147,8 +147,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, i=
-nt size,
-         if (!(env->psw.mask & PSW_MASK_64)) {
-             vaddr &=3D 0x7fffffff;
-         }
--        fail =3D mmu_translate_real(env, vaddr, access_type, &raddr, &pr=
-ot);
--        excp =3D 0; /* exception already raised */
-+        excp =3D mmu_translate_real(env, vaddr, access_type, &raddr, &pr=
-ot, &tec);
-+        fail =3D excp;
-     } else {
-         g_assert_not_reached();
-     }
-diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-index c243fa725b..c4388aaf23 100644
---- a/target/s390x/internal.h
-+++ b/target/s390x/internal.h
-@@ -362,7 +362,7 @@ void probe_write_access(CPUS390XState *env, uint64_t =
-addr, uint64_t len,
- int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64=
-_t asc,
-                   target_ulong *raddr, int *flags, bool exc);
- int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
--                       target_ulong *addr, int *flags);
-+                       target_ulong *addr, int *flags, uint64_t *tec);
-=20
-=20
- /* misc_helper.c */
 diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 4a794dadcf..e8281d4413 100644
+index e8281d4413..e57d762f45 100644
 --- a/target/s390x/mmu_helper.c
 +++ b/target/s390x/mmu_helper.c
-@@ -554,14 +554,11 @@ void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uin=
-tptr_t ra)
-  * @param rw     0 =3D read, 1 =3D write, 2 =3D code fetch
-  * @param addr   the translated address is stored to this pointer
-  * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this point=
-er
-- * @return       0 if the translation was successful, < 0 if a fault occ=
-urred
-+ * @return       0 =3D success, !=3D 0, the exception to raise
-  */
- int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
--                       target_ulong *addr, int *flags)
-+                       target_ulong *addr, int *flags, uint64_t *tec)
- {
--    /* Code accesses have an undefined ilc, let's use 2 bytes. */
--    uint64_t tec =3D (raddr & TARGET_PAGE_MASK) |
--                   (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ);
-     const bool lowprot_enabled =3D env->cregs[0] & CR0_LOWPROT;
+@@ -116,7 +116,7 @@ static inline bool read_table_entry(CPUS390XState *en=
+v, hwaddr gaddr,
 =20
-     *flags =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-@@ -570,9 +567,10 @@ int mmu_translate_real(CPUS390XState *env, target_ul=
-ong raddr, int rw,
-         *flags |=3D PAGE_WRITE_INV;
-         if (is_low_address(raddr) && rw =3D=3D MMU_DATA_STORE) {
-             /* LAP sets bit 56 */
--            tec |=3D 0x80;
--            trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, tec=
-);
--            return -EACCES;
-+            *tec =3D (raddr & TARGET_PAGE_MASK)
-+                 | (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ)
-+                 | 0x80;
-+            return PGM_PROTECTION;
-         }
+ static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
+                               uint64_t asc, uint64_t asce, target_ulong =
+*raddr,
+-                              int *flags, int rw, bool exc)
++                              int *flags, int rw)
+ {
+     const bool edat1 =3D (env->cregs[0] & CR0_EDAT) &&
+                        s390_has_feat(S390_FEAT_EDAT);
+@@ -423,7 +423,7 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
      }
 =20
+     /* perform the DAT translation */
+-    r =3D mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw, ex=
+c);
++    r =3D mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
+     if (unlikely(r)) {
+         if (exc) {
+             trigger_access_exception(env, r, ilen, tec);
 --=20
 2.21.0
 
