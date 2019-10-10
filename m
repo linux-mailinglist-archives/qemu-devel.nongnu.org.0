@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D560D2DC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 17:31:27 +0200 (CEST)
-Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA20CD2DC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 17:31:58 +0200 (CEST)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIaPV-00037T-Ju
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 11:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60449)
+	id 1iIaQ0-0003JA-It
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 11:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIaJR-0005kw-4J
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:25:10 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIaJW-0005nz-Re
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:25:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIaJQ-0004Gu-0V
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:25:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55516)
+ (envelope-from <mreitz@redhat.com>) id 1iIaJV-0004LV-RH
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:25:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39350)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIaJM-0004Fu-9d; Thu, 10 Oct 2019 11:25:04 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iIaJS-0004HU-8m; Thu, 10 Oct 2019 11:25:10 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 72035801661;
- Thu, 10 Oct 2019 15:25:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7FB8710C092D;
+ Thu, 10 Oct 2019 15:25:09 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6286196B2;
- Thu, 10 Oct 2019 15:25:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EED661001B11;
+ Thu, 10 Oct 2019 15:25:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 01/23] iotests: Introduce $SOCK_DIR
-Date: Thu, 10 Oct 2019 17:24:35 +0200
-Message-Id: <20191010152457.17713-2-mreitz@redhat.com>
+Subject: [PATCH 03/23] iotests.py: Add @base_dir to FilePaths etc.
+Date: Thu, 10 Oct 2019 17:24:37 +0200
+Message-Id: <20191010152457.17713-4-mreitz@redhat.com>
 In-Reply-To: <20191010152457.17713-1-mreitz@redhat.com>
 References: <20191010152457.17713-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 10 Oct 2019 15:25:03 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.66]); Thu, 10 Oct 2019 15:25:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,71 +60,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unix sockets generally have a maximum path length.  Depending on your
-$TEST_DIR, it may be exceeded and then all tests that create and use
-Unix sockets there may fail.
-
-Circumvent this by adding a new scratch directory specifically for
-Unix socket files.  It defaults to a temporary directory (mktemp -d)
-that is completely removed after the iotests are done.
-
-(By default, mktemp -d creates a /tmp/tmp.XXXXXXXXXX directory, which
-should be short enough for our use cases.)
+Specifying this optional parameter allows creating temporary files in
+other directories than the test_dir; for example in sock_dir.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/check | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ tests/qemu-iotests/iotests.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 588c453a94..a257215448 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -97,6 +97,7 @@ IMGFMT        -- $FULL_IMGFMT_DETAILS
- IMGPROTO      -- $IMGPROTO
- PLATFORM      -- $FULL_HOST_DETAILS
- TEST_DIR      -- $TEST_DIR
-+SOCK_DIR      -- $SOCK_DIR
- SOCKET_SCM_HELPER -- $SOCKET_SCM_HELPER
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index 49cd205a97..5373149ae1 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -375,10 +375,10 @@ class FilePaths(object):
+             qemu_img('create', img_path, '1G')
+         # migration_sock_path is automatically deleted
+     """
+-    def __init__(self, names):
++    def __init__(self, names, base_dir=3Dtest_dir):
+         self.paths =3D []
+         for name in names:
+-            self.paths.append(os.path.join(test_dir, file_pattern(name))=
+)
++            self.paths.append(os.path.join(base_dir, file_pattern(name))=
+)
 =20
- EOF
-@@ -121,6 +122,16 @@ if [ ! -e "$TEST_DIR" ]; then
-         mkdir "$TEST_DIR"
- fi
+     def __enter__(self):
+         return self.paths
+@@ -395,8 +395,8 @@ class FilePath(FilePaths):
+     """
+     FilePath is a specialization of FilePaths that takes a single filena=
+me.
+     """
+-    def __init__(self, name):
+-        super(FilePath, self).__init__([name])
++    def __init__(self, name, base_dir=3Dtest_dir):
++        super(FilePath, self).__init__([name], base_dir)
 =20
-+tmp_sock_dir=3Dfalse
-+if [ -z "$SOCK_DIR" ]; then
-+    SOCK_DIR=3D$(mktemp -d)
-+    tmp_sock_dir=3Dtrue
-+fi
-+
-+if [ ! -d "$SOCK_DIR" ]; then
-+    mkdir "$SOCK_DIR"
-+fi
-+
- diff=3D"diff -u"
- verbose=3Dfalse
- debug=3Dfalse
-@@ -534,6 +545,7 @@ if [ -z "$SAMPLE_IMG_DIR" ]; then
- fi
+     def __enter__(self):
+         return self.paths[0]
+@@ -409,7 +409,7 @@ def file_path_remover():
+             pass
 =20
- export TEST_DIR
-+export SOCK_DIR
- export SAMPLE_IMG_DIR
 =20
- if [ -s $tmp.list ]
-@@ -716,6 +728,11 @@ END        { if (NR > 0) {
-     rm -f "${TEST_DIR}"/*.out "${TEST_DIR}"/*.err "${TEST_DIR}"/*.time
-     rm -f "${TEST_DIR}"/check.pid "${TEST_DIR}"/check.sts
-     rm -f $tmp.*
-+
-+    if $tmp_sock_dir
-+    then
-+        rm -rf "$SOCK_DIR"
-+    fi
- }
+-def file_path(*names):
++def file_path(*names, base_dir=3Dtest_dir):
+     ''' Another way to get auto-generated filename that cleans itself up=
+.
 =20
- trap "_wrapup; exit \$status" 0 1 2 3 15
+     Use is as simple as:
+@@ -425,7 +425,7 @@ def file_path(*names):
+     paths =3D []
+     for name in names:
+         filename =3D file_pattern(name)
+-        path =3D os.path.join(test_dir, filename)
++        path =3D os.path.join(base_dir, filename)
+         file_path_remover.paths.append(path)
+         paths.append(path)
+=20
 --=20
 2.21.0
 
