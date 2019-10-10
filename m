@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CB9D2DDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 17:36:39 +0200 (CEST)
-Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32004D2DEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 17:39:49 +0200 (CEST)
+Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIaUX-0008V6-EF
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 11:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
+	id 1iIaXa-0003s8-H2
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 11:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIaJj-0005vr-N2
+ (envelope-from <mreitz@redhat.com>) id 1iIaJj-0005vo-Ci
  for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:25:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIaJi-0004Qw-Hh
+ (envelope-from <mreitz@redhat.com>) id 1iIaJg-0004Q7-Cm
  for qemu-devel@nongnu.org; Thu, 10 Oct 2019 11:25:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35858)
+Received: from mx1.redhat.com ([209.132.183.28]:40040)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIaJZ-0004O3-CF; Thu, 10 Oct 2019 11:25:17 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iIaJc-0004P0-9V; Thu, 10 Oct 2019 11:25:20 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 96F6F8D5D81;
- Thu, 10 Oct 2019 15:25:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 81BEB315C03D;
+ Thu, 10 Oct 2019 15:25:19 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C5EA60BE1;
- Thu, 10 Oct 2019 15:25:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9447194B6;
+ Thu, 10 Oct 2019 15:25:18 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 05/23] iotests: Let common.nbd create socket in $SOCK_DIR
-Date: Thu, 10 Oct 2019 17:24:39 +0200
-Message-Id: <20191010152457.17713-6-mreitz@redhat.com>
+Subject: [PATCH 06/23] iotests/083: Create socket in $SOCK_DIR
+Date: Thu, 10 Oct 2019 17:24:40 +0200
+Message-Id: <20191010152457.17713-7-mreitz@redhat.com>
 In-Reply-To: <20191010152457.17713-1-mreitz@redhat.com>
 References: <20191010152457.17713-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Thu, 10 Oct 2019 15:25:16 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Thu, 10 Oct 2019 15:25:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,42 +60,140 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In addition, drop the nbd_unix_socket assignment in 241 because it does
-not really do anything.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/241        | 2 --
- tests/qemu-iotests/common.nbd | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ tests/qemu-iotests/083     |  6 +++---
+ tests/qemu-iotests/083.out | 34 +++++++++++++++++-----------------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/tests/qemu-iotests/241 b/tests/qemu-iotests/241
-index 58b64ebf41..8dae8d39e4 100755
---- a/tests/qemu-iotests/241
-+++ b/tests/qemu-iotests/241
-@@ -23,8 +23,6 @@ echo "QA output created by $seq"
+diff --git a/tests/qemu-iotests/083 b/tests/qemu-iotests/083
+index b270550d3e..10fdfc8ebb 100755
+--- a/tests/qemu-iotests/083
++++ b/tests/qemu-iotests/083
+@@ -28,7 +28,7 @@ status=3D1	# failure is the default!
 =20
- status=3D1 # failure is the default!
-=20
--nbd_unix_socket=3D$TEST_DIR/test_qemu_nbd_socket
--
  _cleanup()
  {
-     _cleanup_test_img
-diff --git a/tests/qemu-iotests/common.nbd b/tests/qemu-iotests/common.nb=
-d
-index 24b01b60aa..a8cae8fe2c 100644
---- a/tests/qemu-iotests/common.nbd
-+++ b/tests/qemu-iotests/common.nbd
-@@ -19,7 +19,7 @@
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
- #
+-	rm -f nbd.sock
++	rm -f "$SOCK_DIR/nbd.sock"
+ 	rm -f nbd-fault-injector.out
+ 	rm -f nbd-fault-injector.conf
+ }
+@@ -80,10 +80,10 @@ EOF
+ 	if [ "$proto" =3D "tcp" ]; then
+ 		nbd_addr=3D"127.0.0.1:0"
+ 	else
+-		nbd_addr=3D"$TEST_DIR/nbd.sock"
++		nbd_addr=3D"$SOCK_DIR/nbd.sock"
+ 	fi
 =20
--nbd_unix_socket=3D"${TEST_DIR}/qemu-nbd.sock"
-+nbd_unix_socket=3D"${SOCK_DIR}/qemu-nbd.sock"
- nbd_tcp_addr=3D"127.0.0.1"
- nbd_pid_file=3D"${TEST_DIR}/qemu-nbd.pid"
- nbd_stderr_fifo=3D"${TEST_DIR}/qemu-nbd.fifo"
+-	rm -f "$TEST_DIR/nbd.sock"
++	rm -f "$SOCK_DIR/nbd.sock"
+=20
+         echo > "$TEST_DIR/nbd-fault-injector.out"
+ 	$PYTHON nbd-fault-injector.py $extra_args "$nbd_addr" "$TEST_DIR/nbd-fa=
+ult-injector.conf" >"$TEST_DIR/nbd-fault-injector.out" 2>&1 &
+diff --git a/tests/qemu-iotests/083.out b/tests/qemu-iotests/083.out
+index eee6dd1379..2090ee693c 100644
+--- a/tests/qemu-iotests/083.out
++++ b/tests/qemu-iotests/083.out
+@@ -110,43 +110,43 @@ read failed: Input/output error
+=20
+ =3D=3D=3D Check disconnect before neg1 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect after neg1 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 8 neg1 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 16 neg1 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect before export =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect after export =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 4 export =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 12 export =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 16 export =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect before neg2 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect after neg2 =3D=3D=3D
+=20
+@@ -154,11 +154,11 @@ read failed: Input/output error
+=20
+ =3D=3D=3D Check disconnect 8 neg2 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 10 neg2 =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///foo?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect before request =3D=3D=3D
+=20
+@@ -195,23 +195,23 @@ read 512/512 bytes at offset 0
+=20
+ =3D=3D=3D Check disconnect before neg-classic =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 8 neg-classic =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 16 neg-classic =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 24 neg-classic =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect 28 neg-classic =3D=3D=3D
+=20
+-qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
++qemu-io: can't open device nbd+unix:///?socket=3DSOCK_DIR/nbd.sock
+=20
+ =3D=3D=3D Check disconnect after neg-classic =3D=3D=3D
+=20
 --=20
 2.21.0
 
