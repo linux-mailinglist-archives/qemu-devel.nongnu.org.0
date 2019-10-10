@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E95D290D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:12:27 +0200 (CEST)
-Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D30D2909
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Oct 2019 14:11:07 +0200 (CEST)
+Received: from localhost ([::1]:36958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIXIw-0004oy-IB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51587)
+	id 1iIXHe-000333-CT
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 08:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIWqh-0006DN-0A
+ (envelope-from <mreitz@redhat.com>) id 1iIWqh-0006E7-EV
  for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIWqf-000841-96
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38996)
+ (envelope-from <mreitz@redhat.com>) id 1iIWqf-00084J-Pn
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 07:43:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33050)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIWqb-00081r-O7; Thu, 10 Oct 2019 07:43:10 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1iIWqc-00082N-As; Thu, 10 Oct 2019 07:43:10 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 49BE883F3D;
- Thu, 10 Oct 2019 11:43:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8AE22307D88C;
+ Thu, 10 Oct 2019 11:43:09 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA18710013A1;
- Thu, 10 Oct 2019 11:43:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01D9E5D6A5;
+ Thu, 10 Oct 2019 11:43:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/36] block: introduce aio task pool
-Date: Thu, 10 Oct 2019 13:42:26 +0200
-Message-Id: <20191010114300.7746-3-mreitz@redhat.com>
+Subject: [PULL 03/36] block/qcow2: refactor qcow2_co_preadv_part
+Date: Thu, 10 Oct 2019 13:42:27 +0200
+Message-Id: <20191010114300.7746-4-mreitz@redhat.com>
 In-Reply-To: <20191010114300.7746-1-mreitz@redhat.com>
 References: <20191010114300.7746-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 10 Oct 2019 11:43:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 10 Oct 2019 11:43:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -62,250 +62,292 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Common interface for aio task loops. To be used for improving
-performance of synchronous io loops in qcow2, block-stream,
-copy-on-read, and may be other places.
+Further patch will run partial requests of iterations of
+qcow2_co_preadv in parallel for performance reasons. To prepare for
+this, separate part which may be parallelized into separate function
+(qcow2_co_preadv_task).
+
+While being here, also separate encrypted clusters reading to own
+function, like it is done for compressed reading.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190916175324.18478-3-vsementsov@virtuozzo.com
+Message-id: 20190916175324.18478-4-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/Makefile.objs      |   2 +
- include/block/aio_task.h |  54 +++++++++++++++++
- block/aio_task.c         | 124 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 180 insertions(+)
- create mode 100644 include/block/aio_task.h
- create mode 100644 block/aio_task.c
+ block/qcow2.c | 209 +++++++++++++++++++++++++++-----------------------
+ 1 file changed, 113 insertions(+), 96 deletions(-)
 
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index 35f3bca4d9..c2eb8c8769 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -40,6 +40,8 @@ block-obj-y +=3D throttle.o copy-on-read.o
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 4d16393e61..6feb169f7c 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1972,17 +1972,117 @@ out:
+     return ret;
+ }
 =20
- block-obj-y +=3D crypto.o
-=20
-+block-obj-y +=3D aio_task.o
-+
- common-obj-y +=3D stream.o
-=20
- nfs.o-libs         :=3D $(LIBNFS_LIBS)
-diff --git a/include/block/aio_task.h b/include/block/aio_task.h
-new file mode 100644
-index 0000000000..50bc1e1817
---- /dev/null
-+++ b/include/block/aio_task.h
-@@ -0,0 +1,54 @@
-+/*
-+ * Aio tasks loops
-+ *
-+ * Copyright (c) 2019 Virtuozzo International GmbH.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-+ * of this software and associated documentation files (the "Software"),=
- to deal
-+ * in the Software without restriction, including without limitation the=
- rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be includ=
-ed in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef BLOCK_AIO_TASK_H
-+#define BLOCK_AIO_TASK_H
-+
-+#include "qemu/coroutine.h"
-+
-+typedef struct AioTaskPool AioTaskPool;
-+typedef struct AioTask AioTask;
-+typedef int coroutine_fn (*AioTaskFunc)(AioTask *task);
-+struct AioTask {
-+    AioTaskPool *pool;
-+    AioTaskFunc func;
++static coroutine_fn int
++qcow2_co_preadv_encrypted(BlockDriverState *bs,
++                           uint64_t file_cluster_offset,
++                           uint64_t offset,
++                           uint64_t bytes,
++                           QEMUIOVector *qiov,
++                           uint64_t qiov_offset)
++{
 +    int ret;
-+};
++    BDRVQcow2State *s =3D bs->opaque;
++    uint8_t *buf;
 +
-+AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks);
-+void aio_task_pool_free(AioTaskPool *);
++    assert(bs->encrypted && s->crypto);
++    assert(bytes <=3D QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
 +
-+/* error code of failed task or 0 if all is OK */
-+int aio_task_pool_status(AioTaskPool *pool);
++    /*
++     * For encrypted images, read everything into a temporary
++     * contiguous buffer on which the AES functions can work.
++     * Also, decryption in a separate buffer is better as it
++     * prevents the guest from learning information about the
++     * encrypted nature of the virtual disk.
++     */
 +
-+bool aio_task_pool_empty(AioTaskPool *pool);
-+
-+/* User provides filled @task, however task->pool will be set automatica=
-lly */
-+void coroutine_fn aio_task_pool_start_task(AioTaskPool *pool, AioTask *t=
-ask);
-+
-+void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool);
-+void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool);
-+void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool);
-+
-+#endif /* BLOCK_AIO_TASK_H */
-diff --git a/block/aio_task.c b/block/aio_task.c
-new file mode 100644
-index 0000000000..88989fa248
---- /dev/null
-+++ b/block/aio_task.c
-@@ -0,0 +1,124 @@
-+/*
-+ * Aio tasks loops
-+ *
-+ * Copyright (c) 2019 Virtuozzo International GmbH.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-+ * of this software and associated documentation files (the "Software"),=
- to deal
-+ * in the Software without restriction, including without limitation the=
- rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be includ=
-ed in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "block/aio.h"
-+#include "block/aio_task.h"
-+
-+struct AioTaskPool {
-+    Coroutine *main_co;
-+    int status;
-+    int max_busy_tasks;
-+    int busy_tasks;
-+    bool waiting;
-+};
-+
-+static void coroutine_fn aio_task_co(void *opaque)
-+{
-+    AioTask *task =3D opaque;
-+    AioTaskPool *pool =3D task->pool;
-+
-+    assert(pool->busy_tasks < pool->max_busy_tasks);
-+    pool->busy_tasks++;
-+
-+    task->ret =3D task->func(task);
-+
-+    pool->busy_tasks--;
-+
-+    if (task->ret < 0 && pool->status =3D=3D 0) {
-+        pool->status =3D task->ret;
++    buf =3D qemu_try_blockalign(s->data_file->bs, bytes);
++    if (buf =3D=3D NULL) {
++        return -ENOMEM;
 +    }
 +
-+    g_free(task);
-+
-+    if (pool->waiting) {
-+        pool->waiting =3D false;
-+        aio_co_wake(pool->main_co);
-+    }
-+}
-+
-+void coroutine_fn aio_task_pool_wait_one(AioTaskPool *pool)
-+{
-+    assert(pool->busy_tasks > 0);
-+    assert(qemu_coroutine_self() =3D=3D pool->main_co);
-+
-+    pool->waiting =3D true;
-+    qemu_coroutine_yield();
-+
-+    assert(!pool->waiting);
-+    assert(pool->busy_tasks < pool->max_busy_tasks);
-+}
-+
-+void coroutine_fn aio_task_pool_wait_slot(AioTaskPool *pool)
-+{
-+    if (pool->busy_tasks < pool->max_busy_tasks) {
-+        return;
++    BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
++    ret =3D bdrv_co_pread(s->data_file,
++                        file_cluster_offset + offset_into_cluster(s, off=
+set),
++                        bytes, buf, 0);
++    if (ret < 0) {
++        goto fail;
 +    }
 +
-+    aio_task_pool_wait_one(pool);
-+}
-+
-+void coroutine_fn aio_task_pool_wait_all(AioTaskPool *pool)
-+{
-+    while (pool->busy_tasks > 0) {
-+        aio_task_pool_wait_one(pool);
++    assert(QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE));
++    assert(QEMU_IS_ALIGNED(bytes, BDRV_SECTOR_SIZE));
++    if (qcow2_co_decrypt(bs,
++                         file_cluster_offset + offset_into_cluster(s, of=
+fset),
++                         offset, buf, bytes) < 0)
++    {
++        ret =3D -EIO;
++        goto fail;
 +    }
++    qemu_iovec_from_buf(qiov, qiov_offset, buf, bytes);
++
++fail:
++    qemu_vfree(buf);
++
++    return ret;
 +}
 +
-+void coroutine_fn aio_task_pool_start_task(AioTaskPool *pool, AioTask *t=
-ask)
++static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
++                                             QCow2ClusterType cluster_ty=
+pe,
++                                             uint64_t file_cluster_offse=
+t,
++                                             uint64_t offset, uint64_t b=
+ytes,
++                                             QEMUIOVector *qiov,
++                                             size_t qiov_offset)
 +{
-+    aio_task_pool_wait_slot(pool);
++    BDRVQcow2State *s =3D bs->opaque;
++    int offset_in_cluster =3D offset_into_cluster(s, offset);
 +
-+    task->pool =3D pool;
-+    qemu_coroutine_enter(qemu_coroutine_create(aio_task_co, task));
-+}
++    switch (cluster_type) {
++    case QCOW2_CLUSTER_ZERO_PLAIN:
++    case QCOW2_CLUSTER_ZERO_ALLOC:
++        /* Both zero types are handled in qcow2_co_preadv_part */
++        g_assert_not_reached();
 +
-+AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
-+{
-+    AioTaskPool *pool =3D g_new0(AioTaskPool, 1);
++    case QCOW2_CLUSTER_UNALLOCATED:
++        assert(bs->backing); /* otherwise handled in qcow2_co_preadv_par=
+t */
 +
-+    pool->main_co =3D qemu_coroutine_self();
-+    pool->max_busy_tasks =3D max_busy_tasks;
++        BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
++        return bdrv_co_preadv_part(bs->backing, offset, bytes,
++                                   qiov, qiov_offset, 0);
 +
-+    return pool;
-+}
++    case QCOW2_CLUSTER_COMPRESSED:
++        return qcow2_co_preadv_compressed(bs, file_cluster_offset,
++                                          offset, bytes, qiov, qiov_offs=
+et);
 +
-+void aio_task_pool_free(AioTaskPool *pool)
-+{
-+    g_free(pool);
-+}
++    case QCOW2_CLUSTER_NORMAL:
++        if ((file_cluster_offset & 511) !=3D 0) {
++            return -EIO;
++        }
 +
-+int aio_task_pool_status(AioTaskPool *pool)
-+{
-+    if (!pool) {
-+        return 0; /* Sugar for lazy allocation of aio pool */
++        if (bs->encrypted) {
++            return qcow2_co_preadv_encrypted(bs, file_cluster_offset,
++                                             offset, bytes, qiov, qiov_o=
+ffset);
++        }
++
++        BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
++        return bdrv_co_preadv_part(s->data_file,
++                                   file_cluster_offset + offset_in_clust=
+er,
++                                   bytes, qiov, qiov_offset, 0);
++
++    default:
++        g_assert_not_reached();
 +    }
 +
-+    return pool->status;
++    g_assert_not_reached();
 +}
 +
-+bool aio_task_pool_empty(AioTaskPool *pool)
-+{
-+    return pool->busy_tasks =3D=3D 0;
-+}
+ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+                                              uint64_t offset, uint64_t b=
+ytes,
+                                              QEMUIOVector *qiov,
+                                              size_t qiov_offset, int fla=
+gs)
+ {
+     BDRVQcow2State *s =3D bs->opaque;
+-    int offset_in_cluster;
+     int ret;
+     unsigned int cur_bytes; /* number of bytes in current iteration */
+     uint64_t cluster_offset =3D 0;
+-    uint8_t *cluster_data =3D NULL;
+=20
+     while (bytes !=3D 0) {
+=20
+@@ -1997,112 +2097,29 @@ static coroutine_fn int qcow2_co_preadv_part(Blo=
+ckDriverState *bs,
+         ret =3D qcow2_get_cluster_offset(bs, offset, &cur_bytes, &cluste=
+r_offset);
+         qemu_co_mutex_unlock(&s->lock);
+         if (ret < 0) {
+-            goto fail;
++            return ret;
+         }
+=20
+-        offset_in_cluster =3D offset_into_cluster(s, offset);
+-
+-        switch (ret) {
+-        case QCOW2_CLUSTER_UNALLOCATED:
+-
+-            if (bs->backing) {
+-                BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
+-                ret =3D bdrv_co_preadv_part(bs->backing, offset, cur_byt=
+es,
+-                                          qiov, qiov_offset, 0);
+-                if (ret < 0) {
+-                    goto fail;
+-                }
+-            } else {
+-                /* Note: in this case, no need to wait */
+-                qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
+-            }
+-            break;
+-
+-        case QCOW2_CLUSTER_ZERO_PLAIN:
+-        case QCOW2_CLUSTER_ZERO_ALLOC:
++        if (ret =3D=3D QCOW2_CLUSTER_ZERO_PLAIN ||
++            ret =3D=3D QCOW2_CLUSTER_ZERO_ALLOC ||
++            (ret =3D=3D QCOW2_CLUSTER_UNALLOCATED && !bs->backing))
++        {
+             qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
+-            break;
+-
+-        case QCOW2_CLUSTER_COMPRESSED:
+-            ret =3D qcow2_co_preadv_compressed(bs, cluster_offset,
+-                                             offset, cur_bytes,
+-                                             qiov, qiov_offset);
++        } else {
++            ret =3D qcow2_co_preadv_task(bs, ret,
++                                       cluster_offset, offset, cur_bytes=
+,
++                                       qiov, qiov_offset);
+             if (ret < 0) {
+-                goto fail;
+-            }
+-
+-            break;
+-
+-        case QCOW2_CLUSTER_NORMAL:
+-            if ((cluster_offset & 511) !=3D 0) {
+-                ret =3D -EIO;
+-                goto fail;
+-            }
+-
+-            if (bs->encrypted) {
+-                assert(s->crypto);
+-
+-                /*
+-                 * For encrypted images, read everything into a temporar=
+y
+-                 * contiguous buffer on which the AES functions can work=
+.
+-                 */
+-                if (!cluster_data) {
+-                    cluster_data =3D
+-                        qemu_try_blockalign(s->data_file->bs,
+-                                            QCOW_MAX_CRYPT_CLUSTERS
+-                                            * s->cluster_size);
+-                    if (cluster_data =3D=3D NULL) {
+-                        ret =3D -ENOMEM;
+-                        goto fail;
+-                    }
+-                }
+-
+-                assert(cur_bytes <=3D QCOW_MAX_CRYPT_CLUSTERS * s->clust=
+er_size);
+-
+-                BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-                ret =3D bdrv_co_pread(s->data_file,
+-                                    cluster_offset + offset_in_cluster,
+-                                    cur_bytes, cluster_data, 0);
+-                if (ret < 0) {
+-                    goto fail;
+-                }
+-
+-                assert(QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE));
+-                assert(QEMU_IS_ALIGNED(cur_bytes, BDRV_SECTOR_SIZE));
+-                if (qcow2_co_decrypt(bs, cluster_offset + offset_in_clus=
+ter,
+-                                     offset,
+-                                     cluster_data, cur_bytes) < 0) {
+-                    ret =3D -EIO;
+-                    goto fail;
+-                }
+-                qemu_iovec_from_buf(qiov, qiov_offset, cluster_data, cur=
+_bytes);
+-            } else {
+-                BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-                ret =3D bdrv_co_preadv_part(s->data_file,
+-                                          cluster_offset + offset_in_clu=
+ster,
+-                                          cur_bytes, qiov, qiov_offset, =
+0);
+-                if (ret < 0) {
+-                    goto fail;
+-                }
++                return ret;
+             }
+-            break;
+-
+-        default:
+-            g_assert_not_reached();
+-            ret =3D -EIO;
+-            goto fail;
+         }
+=20
+         bytes -=3D cur_bytes;
+         offset +=3D cur_bytes;
+         qiov_offset +=3D cur_bytes;
+     }
+-    ret =3D 0;
+-
+-fail:
+-    qemu_vfree(cluster_data);
+=20
+-    return ret;
++    return 0;
+ }
+=20
+ /* Check if it's possible to merge a write request with the writing of
 --=20
 2.21.0
 
