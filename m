@@ -2,79 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E3CD3A6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:54:31 +0200 (CEST)
-Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B581D3A5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:52:25 +0200 (CEST)
+Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIpks-000443-JF
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36789)
+	id 1iIpip-0000vX-VF
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIpft-0006wK-6v
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:49:22 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iIpgL-0007W5-PA
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:49:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIpfs-00065j-0e
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:49:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:22439)
+ (envelope-from <tao3.xu@intel.com>) id 1iIpgK-0006Vd-7j
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:49:49 -0400
+Received: from mga09.intel.com ([134.134.136.24]:61216)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIpfp-00062r-AW; Fri, 11 Oct 2019 03:49:17 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 81A7C18CB8E0;
- Fri, 11 Oct 2019 07:49:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-40.ams2.redhat.com
- [10.36.116.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF1835D9DC;
- Fri, 11 Oct 2019 07:49:14 +0000 (UTC)
-Subject: Re: Problems with c8bb23cbdbe3 on ppc64le
-To: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Qemu-block <qemu-block@nongnu.org>
-References: <2e7d321c-89f4-f3fd-8331-6bc276880de2@redhat.com>
- <5ba5d289-4450-135c-f058-a7e498725058@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <cd53cd86-e93c-297a-c08e-3fc1ae2618ac@redhat.com>
-Date: Fri, 11 Oct 2019 09:49:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iIpgK-0006Us-04
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:49:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2019 00:49:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,283,1566889200"; d="scan'208";a="193458532"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.168])
+ ([10.239.196.168])
+ by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2019 00:49:44 -0700
+Subject: Re: [PATCH RESEND v6 1/2] x86/cpu: Add support for
+ UMONITOR/UMWAIT/TPAUSE
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <20191011074103.30393-1-tao3.xu@intel.com>
+ <20191011074103.30393-2-tao3.xu@intel.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <1731d87f-f07a-916f-90a7-346b593d821e@intel.com>
+Date: Fri, 11 Oct 2019 15:49:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <5ba5d289-4450-135c-f058-a7e498725058@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SsADHb2C5JxHd56Kv6KZFI5komTiO6KuA"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Fri, 11 Oct 2019 07:49:16 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <20191011074103.30393-2-tao3.xu@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,93 +59,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Liu,
+ Jingqi" <jingqi.liu@intel.com>, "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SsADHb2C5JxHd56Kv6KZFI5komTiO6KuA
-Content-Type: multipart/mixed; boundary="hxaVx7MgZUtnqJ1Ca31TBJTencdfFQ1ov"
+On 10/11/2019 3:41 PM, Xu, Tao3 wrote:
+[...]
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 11b9c854b5..a465c893b5 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -401,6 +401,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>           if (host_tsx_blacklisted()) {
+>               ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+>           }
+> +    } else if (function == 7 && index == 0 && reg == R_ECX) {
+> +        if (enable_cpu_pm) {
+> +            ret |= CPUID_7_0_ECX_WAITPKG;
+> +        } else {
+> +            ret &= ~CPUID_7_0_ECX_WAITPKG;
+> +        }
 
---hxaVx7MgZUtnqJ1Ca31TBJTencdfFQ1ov
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Hi Paolo,
 
-On 10.10.19 18:15, Anton Nefedov wrote:
-> On 10/10/2019 6:17 PM, Max Reitz wrote:
->> Hi everyone,
->>
->> (CCs just based on tags in the commit in question)
->>
->> I have two bug reports which claim problems of qcow2 on XFS on ppc64le=
+I am sorry because I realize in KVM side, I keep cpuid mask WAITPKG as 0:
 
->> machines since qemu 4.1.0.  One of those is about bad performance
->> (sorry, is isn=E2=80=99t public :-/), the other about data corruption
->> (https://bugzilla.redhat.com/show_bug.cgi?id=3D1751934).
->>
->> It looks like in both cases reverting c8bb23cbdbe3 solves the problem
->> (which optimized COW of unallocated areas).
->>
->> I think I=E2=80=99ve looked at every angle but can=E2=80=98t find what=
- could be wrong
->> with it.  Do any of you have any idea? :-/
->>
->=20
-> hi,
->=20
-> oh, that patch strikes again..
->=20
-> I don't quite follow, was this bug confirmed to happen on x86? Comment =
-8
-> (https://bugzilla.redhat.com/show_bug.cgi?id=3D1751934#c8) mentioned th=
-at
-> (or was that mixed up with the old xfsctl bug?)
+F(CLDEMOTE) | F(MOVDIRI) | F(MOVDIR64B) | 0 /*WAITPKG*/;
 
-I think that was mixed up with the xfsctl bug, yes.
+Therefore in QEMU side, we need to add CPUID_7_0_ECX_WAITPKG when 
+enable_cpu_pm is on. Otherwise, QEMU can't get this CPUID.
 
-> Regardless of the platform, does it reproduce? That's comforting
-> already; worst case we can trace each and every request then (unless it=
+Could you review this part again? Thank you very much!
 
-> will stop to reproduce this way).
-
-I haven=E2=80=99t been able to reproduce it yet (wrestling with the test =
-system
-and getting ppc64 machines provisioned), but as far as I know it
-reproduces reliably on ppc64, but only there.
-
-> Also, perhaps it's worth to try to replace fallocate with write(0)?
-> Either in qcow2 (in the patch, bdrv_co_pwrite_zeroes -> bdrv_co_pwritev=
-)
-> or in the file driver. It might hint whether it's misbehaving fallocate=
-
-> (in qemu or in kernel) or something else.
-
-Good idea, that should at least tell us something about the corruption.
-
-Max
-
-
---hxaVx7MgZUtnqJ1Ca31TBJTencdfFQ1ov--
-
---SsADHb2C5JxHd56Kv6KZFI5komTiO6KuA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2gM/cACgkQ9AfbAGHV
-z0DYYQgAg6+lu0lI4EpHsdYyOjmwi2cZJ5klnu8QNcSxdMqigxgtM8Wt/udzm6qV
-Qgy+e1h0k6SiUTii/7OZ0hzUPRtmM/ZkYPD8dMHzacBkCx5AVdgf567n7W8D+BRt
-XHJFxP+obnRM+gePM7w2RvCqorVxarxTrYnVoCfrsrHqSGhVzrNONMTrVw0oe07y
-sPX8I7+PcZUx0k6tWeDebIqZXdB1p6/hHWFxnZxiOKy5RvCmSeY/N4TNq/1yRq5m
-idcCjEa3jHDUyhlIGHMLw2uNNS5N7K6AH/ql8zzr8pbhOWjJ+sbI08WtYoCWhZg5
-qsRHTay4hP510NLVMe8PJL/8xai7eA==
-=R9Rn
------END PGP SIGNATURE-----
-
---SsADHb2C5JxHd56Kv6KZFI5komTiO6KuA--
+Tao
 
