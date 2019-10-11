@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B80D4672
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:18:03 +0200 (CEST)
-Received: from localhost ([::1]:54512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AD2D4658
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:14:58 +0200 (CEST)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyYD-0008U3-Ih
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36284)
+	id 1iIyVF-0005B1-Hz
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQt-0006Ao-DX
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQu-0006CO-Ge
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQr-0004NW-9M
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:23 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47972)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQt-0004PA-1L
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:24 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48024)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQq-0004Av-Tg
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:21 -0400
+ id 1iIxQs-0004Bj-QL
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:22 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQf-0003XG-Gj; Fri, 11 Oct 2019 19:06:09 +0300
+ id 1iIxQg-0003XG-Au; Fri, 11 Oct 2019 19:06:10 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 038/126] X86 Machines: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:24 +0300
-Message-Id: <20191011160552.22907-39-vsementsov@virtuozzo.com>
+Subject: [RFC v5 041/126] IPack: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:27 +0300
+Message-Id: <20191011160552.22907-42-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,10 +49,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+ Alberto Garcia <berto@igalia.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -100,385 +98,29 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/acpi/ich9.c             | 30 +++++++++-------------
- hw/char/debugcon.c         |  7 +++---
- hw/char/serial-pci-multi.c |  7 +++---
- hw/char/serial-pci.c       |  7 +++---
- hw/core/machine.c          | 21 +++++++---------
- hw/core/numa.c             | 51 +++++++++++++++++---------------------
- hw/intc/apic_common.c      |  7 +++---
- hw/pci-host/piix.c         |  7 +++---
- 8 files changed, 59 insertions(+), 78 deletions(-)
+ hw/ipack/ipack.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 2034dd749e..686b7cdf3a 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -369,17 +369,15 @@ static void ich9_pm_get_disable_s3(Object *obj, Visitor *v, const char *name,
- static void ich9_pm_set_disable_s3(Object *obj, Visitor *v, const char *name,
-                                    void *opaque, Error **errp)
+diff --git a/hw/ipack/ipack.c b/hw/ipack/ipack.c
+index 30e16696c0..a9bc7bd269 100644
+--- a/hw/ipack/ipack.c
++++ b/hw/ipack/ipack.c
+@@ -62,13 +62,12 @@ static void ipack_device_realize(DeviceState *dev, Error **errp)
+ 
+ static void ipack_device_unrealize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     ICH9LPCPMRegs *pm = opaque;
--    Error *local_err = NULL;
-     uint8_t value;
- 
--    visit_type_uint8(v, name, &value, &local_err);
--    if (local_err) {
--        goto out;
-+    visit_type_uint8(v, name, &value, errp);
-+    if (*errp) {
-+        return;
-     }
-     pm->disable_s3 = value;
--out:
--    error_propagate(errp, local_err);
- }
- 
- static void ich9_pm_get_disable_s4(Object *obj, Visitor *v, const char *name,
-@@ -394,17 +392,15 @@ static void ich9_pm_get_disable_s4(Object *obj, Visitor *v, const char *name,
- static void ich9_pm_set_disable_s4(Object *obj, Visitor *v, const char *name,
-                                    void *opaque, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     ICH9LPCPMRegs *pm = opaque;
--    Error *local_err = NULL;
-     uint8_t value;
- 
--    visit_type_uint8(v, name, &value, &local_err);
--    if (local_err) {
--        goto out;
-+    visit_type_uint8(v, name, &value, errp);
-+    if (*errp) {
-+        return;
-     }
-     pm->disable_s4 = value;
--out:
--    error_propagate(errp, local_err);
- }
- 
- static void ich9_pm_get_s4_val(Object *obj, Visitor *v, const char *name,
-@@ -419,17 +415,15 @@ static void ich9_pm_get_s4_val(Object *obj, Visitor *v, const char *name,
- static void ich9_pm_set_s4_val(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     ICH9LPCPMRegs *pm = opaque;
--    Error *local_err = NULL;
-     uint8_t value;
- 
--    visit_type_uint8(v, name, &value, &local_err);
--    if (local_err) {
--        goto out;
-+    visit_type_uint8(v, name, &value, errp);
-+    if (*errp) {
-+        return;
-     }
-     pm->s4_val = value;
--out:
--    error_propagate(errp, local_err);
- }
- 
- static bool ich9_pm_get_enable_tco(Object *obj, Error **errp)
-diff --git a/hw/char/debugcon.c b/hw/char/debugcon.c
-index 5c592e091b..0a6d0870bb 100644
---- a/hw/char/debugcon.c
-+++ b/hw/char/debugcon.c
-@@ -97,14 +97,13 @@ static void debugcon_realize_core(DebugconState *s, Error **errp)
- 
- static void debugcon_isa_realizefn(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     ISADevice *d = ISA_DEVICE(dev);
-     ISADebugconState *isa = ISA_DEBUGCON_DEVICE(dev);
-     DebugconState *s = &isa->state;
+     IPackDevice *idev = IPACK_DEVICE(dev);
+     IPackDeviceClass *k = IPACK_DEVICE_GET_CLASS(dev);
 -    Error *err = NULL;
  
--    debugcon_realize_core(s, &err);
--    if (err != NULL) {
+     if (k->unrealize) {
+-        k->unrealize(dev, &err);
 -        error_propagate(errp, err);
-+    debugcon_realize_core(s, errp);
-+    if (*errp) {
-         return;
-     }
-     memory_region_init_io(&s->io, OBJECT(dev), &debugcon_ops, s,
-diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
-index 5f13b5663b..fa7e348870 100644
---- a/hw/char/serial-pci-multi.c
-+++ b/hw/char/serial-pci-multi.c
-@@ -79,10 +79,10 @@ static void multi_serial_irq_mux(void *opaque, int n, int level)
- 
- static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
-     PCIMultiSerialState *pci = DO_UPCAST(PCIMultiSerialState, dev, dev);
-     SerialState *s;
--    Error *err = NULL;
-     int i, nr_ports = 0;
- 
-     switch (pc->device_id) {
-@@ -106,9 +106,8 @@ static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
-     for (i = 0; i < nr_ports; i++) {
-         s = pci->state + i;
-         s->baudbase = 115200;
--        serial_realize_core(s, &err);
--        if (err != NULL) {
--            error_propagate(errp, err);
-+        serial_realize_core(s, errp);
-+        if (*errp) {
-             multi_serial_pci_exit(dev);
-             return;
-         }
-diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
-index cb9b76e22b..7d31f7066c 100644
---- a/hw/char/serial-pci.c
-+++ b/hw/char/serial-pci.c
-@@ -43,14 +43,13 @@ typedef struct PCISerialState {
- 
- static void serial_pci_realize(PCIDevice *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
-     SerialState *s = &pci->state;
--    Error *err = NULL;
- 
-     s->baudbase = 115200;
--    serial_realize_core(s, &err);
--    if (err != NULL) {
--        error_propagate(errp, err);
-+    serial_realize_core(s, errp);
-+    if (*errp) {
++        k->unrealize(dev, errp);
          return;
      }
  
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3bf8..89ba1845dc 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -192,13 +192,12 @@ static void machine_set_kernel_irqchip(Object *obj, Visitor *v,
-                                        const char *name, void *opaque,
-                                        Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     MachineState *ms = MACHINE(obj);
-     OnOffSplit mode;
- 
--    visit_type_OnOffSplit(v, name, &mode, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    visit_type_OnOffSplit(v, name, &mode, errp);
-+    if (*errp) {
-         return;
-     } else {
-         switch (mode) {
-@@ -240,13 +239,12 @@ static void machine_set_kvm_shadow_mem(Object *obj, Visitor *v,
-                                        const char *name, void *opaque,
-                                        Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     MachineState *ms = MACHINE(obj);
--    Error *error = NULL;
-     int64_t value;
- 
--    visit_type_int(v, name, &value, &error);
--    if (error) {
--        error_propagate(errp, error);
-+    visit_type_int(v, name, &value, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -342,13 +340,12 @@ static void machine_set_phandle_start(Object *obj, Visitor *v,
-                                       const char *name, void *opaque,
-                                       Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     MachineState *ms = MACHINE(obj);
--    Error *error = NULL;
-     int64_t value;
- 
--    visit_type_int(v, name, &value, &error);
--    if (error) {
--        error_propagate(errp, error);
-+    visit_type_int(v, name, &value, errp);
-+    if (*errp) {
-         return;
-     }
- 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 4dfec5c95b..fa3b392e5c 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -59,7 +59,7 @@ static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
- static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-                             Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     uint16_t nodenr;
-     uint16List *cpus = NULL;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-@@ -99,9 +99,8 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-         props = mc->cpu_index_to_instance_props(ms, cpus->value);
-         props.node_id = nodenr;
-         props.has_node_id = true;
--        machine_set_cpu_numa_node(ms, &props, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        machine_set_cpu_numa_node(ms, &props, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -177,60 +176,57 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
- 
- void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
- 
-     if (!mc->numa_mem_supported) {
-         error_setg(errp, "NUMA is not supported by this machine-type");
--        goto end;
-+        return;
-     }
- 
-     switch (object->type) {
-     case NUMA_OPTIONS_TYPE_NODE:
--        parse_numa_node(ms, &object->u.node, &err);
--        if (err) {
--            goto end;
-+        parse_numa_node(ms, &object->u.node, errp);
-+        if (*errp) {
-+            return;
-         }
-         break;
-     case NUMA_OPTIONS_TYPE_DIST:
--        parse_numa_distance(ms, &object->u.dist, &err);
--        if (err) {
--            goto end;
-+        parse_numa_distance(ms, &object->u.dist, errp);
-+        if (*errp) {
-+            return;
-         }
-         break;
-     case NUMA_OPTIONS_TYPE_CPU:
-         if (!object->u.cpu.has_node_id) {
--            error_setg(&err, "Missing mandatory node-id property");
--            goto end;
-+            error_setg(errp, "Missing mandatory node-id property");
-+            return;
-         }
-         if (!ms->numa_state->nodes[object->u.cpu.node_id].present) {
--            error_setg(&err, "Invalid node-id=%" PRId64 ", NUMA node must be "
--                "defined with -numa node,nodeid=ID before it's used with "
--                "-numa cpu,node-id=ID", object->u.cpu.node_id);
--            goto end;
-+            error_setg(errp, "Invalid node-id=%" PRId64 ", NUMA node must be "
-+                       "defined with -numa node,nodeid=ID before it's used with "
-+                       "-numa cpu,node-id=ID", object->u.cpu.node_id);
-+            return;
-         }
- 
-         machine_set_cpu_numa_node(ms, qapi_NumaCpuOptions_base(&object->u.cpu),
--                                  &err);
-+                                  errp);
-         break;
-     default:
-         abort();
-     }
--
--end:
--    error_propagate(errp, err);
- }
- 
- static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     NumaOptions *object = NULL;
-     MachineState *ms = MACHINE(opaque);
--    Error *err = NULL;
-     Visitor *v = opts_visitor_new(opts);
- 
--    visit_type_NumaOptions(v, NULL, &object, &err);
-+    visit_type_NumaOptions(v, NULL, &object, errp);
-     visit_free(v);
--    if (err) {
-+    if (*errp) {
-         goto end;
-     }
- 
-@@ -240,12 +236,11 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
-         qemu_strtosz_MiB(mem_str, NULL, &object->u.node.mem);
-     }
- 
--    set_numa_options(ms, object, &err);
-+    set_numa_options(ms, object, errp);
- 
- end:
-     qapi_free_NumaOptions(object);
--    if (err) {
--        error_propagate(errp, err);
-+    if (*errp) {
-         return -1;
-     }
- 
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index aafd8e0e33..81ed4b4ea8 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -464,9 +464,9 @@ static void apic_common_get_id(Object *obj, Visitor *v, const char *name,
- static void apic_common_set_id(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     APICCommonState *s = APIC_COMMON(obj);
-     DeviceState *dev = DEVICE(obj);
--    Error *local_err = NULL;
-     uint32_t value;
- 
-     if (dev->realized) {
-@@ -474,9 +474,8 @@ static void apic_common_set_id(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    visit_type_uint32(v, name, &value, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    visit_type_uint32(v, name, &value, errp);
-+    if (*errp) {
-         return;
-     }
- 
-diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
-index 135c645535..24b32aa33b 100644
---- a/hw/pci-host/piix.c
-+++ b/hw/pci-host/piix.c
-@@ -855,18 +855,17 @@ out:
- 
- static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     uint32_t val = 0;
-     int i, num;
-     int pos, len;
--    Error *local_err = NULL;
- 
-     num = ARRAY_SIZE(igd_host_bridge_infos);
-     for (i = 0; i < num; i++) {
-         pos = igd_host_bridge_infos[i].offset;
-         len = igd_host_bridge_infos[i].len;
--        host_pci_config_read(pos, len, &val, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        host_pci_config_read(pos, len, &val, errp);
-+        if (*errp) {
-             return;
-         }
-         pci_default_write_config(pci_dev, pos, val, len);
 -- 
 2.21.0
 
