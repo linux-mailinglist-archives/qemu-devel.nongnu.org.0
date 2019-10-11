@@ -2,58 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3965CD3A67
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:54:26 +0200 (CEST)
-Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BF7D3A5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:52:44 +0200 (CEST)
+Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIpkn-0003tz-AS
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36292)
+	id 1iIpj8-0001NJ-Rm
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iIpd8-0004fr-3d
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:46:31 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iIpd6-0001Wr-4m
+ (envelope-from <pkrempa@redhat.com>) id 1iIpd6-0004fo-5n
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:46:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36354)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <pkrempa@redhat.com>) id 1iIpd1-0001Pi-GF
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:46:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35530)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIpd0-00019j-Pm
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:46:24 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1iIpcv-00017K-JB
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:46:19 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C8DA3308620B;
- Fri, 11 Oct 2019 07:46:16 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-177.rdu2.redhat.com
- [10.10.120.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5A5560BF4;
- Fri, 11 Oct 2019 07:46:10 +0000 (UTC)
-Subject: Re: [PATCH 3/4] hw/i386: add facility to expose CPU topology over
- fw-cfg
-From: Laszlo Ersek <lersek@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20191008105259.5378-1-lersek@redhat.com>
- <20191008105259.5378-4-lersek@redhat.com>
- <20191008175931.483af366@redhat.com>
- <20191010055733-mutt-send-email-mst@kernel.org>
- <20191010144812.20fd8b5d@redhat.com>
- <0032ef80-4e75-5802-8a7a-098e9ff57cfa@redhat.com>
- <20191010140724-mutt-send-email-mst@kernel.org>
- <2d8022a1-e2f0-bd7c-76f2-f7e47327adea@redhat.com>
-Message-ID: <96d2ed57-e465-fc72-155d-457aa1fd04d8@redhat.com>
-Date: Fri, 11 Oct 2019 09:46:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ by mx1.redhat.com (Postfix) with ESMTPS id 597114E83C
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 07:46:15 +0000 (UTC)
+Received: from andariel.pipo.sk (ovpn-204-231.brq.redhat.com [10.40.204.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B55E45B8;
+ Fri, 11 Oct 2019 07:46:14 +0000 (UTC)
+Date: Fri, 11 Oct 2019 09:46:11 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 2/3] tests: qapi: Test 'features' of commands
+Message-ID: <20191011074611.GA1979@andariel.pipo.sk>
+References: <cover.1570705279.git.pkrempa@redhat.com>
+ <7a97c6dbe0747f604a4da81ff055fbf3ac97afb3.1570705279.git.pkrempa@redhat.com>
+ <87pnj4ogf9.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <2d8022a1-e2f0-bd7c-76f2-f7e47327adea@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
+In-Reply-To: <87pnj4ogf9.fsf@dusky.pond.sub.org>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 11 Oct 2019 07:46:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 11 Oct 2019 07:46:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -68,56 +62,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 08:50, Laszlo Ersek wrote:
-> On 10/10/19 20:08, Michael S. Tsirkin wrote:
->> On Thu, Oct 10, 2019 at 06:23:00PM +0200, Laszlo Ersek wrote:
->>> On 10/10/19 14:48, Igor Mammedov wrote:
->>>
->>>> it doesn't really matter if it's ACPI blob or fw_cfg,
->>>> what firmware needs is a table of possible CPUs with APIC IDs.
->>>
->>> To repeat my previous point:
->>>
->>> Not necessarily taking sides between "data table" and "register block",
->>> but *if* we opt for "data table", then it *must* be fw_cfg.
->>>
->>>> But if we go this route (i.e. not reuse CPU hotplug interface),
->>>> the table alone is not enough, one would need to build a protocol
->>>> between ACPI and firmware to communicate what CPUs to (un)hotplug.
->>>
->>> That's for sure, yes -- for finding out what CPU has been hotplugged,
->>> the hotplug SMI handler in the firmware has to look at the register
->>> block no matter what.
->>
->> I thought all that's done by ACPI, with ACPI returning an event
->> to the OSPM reporting what happened.
-> 
-> That works if only the OS needs to care -- the OS can rely on ACPI.
-> 
-> But with SMM in the picture, the firmware has to care too (the new CPU's
-> SMBASE has to be relocated, and the SMM data structures need to account
-> for the new CPU). The firmware cannot rely on any AML generated by QEMU.
 
-To clarify, I mean that the firmware cannot call AML methods, plus the
-firmware can take a limited amount of parameters when the AML raises the
-hotplug SMI. Basically everything has to be passed in chipset registers,
-and due to SEV, those registers had better all be IO ports.
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->>
->>> The "data table" vs "register block" question only arises *afterwards*,
->>> for translating the CPU selector (fetched from the register block) to
->>> the APIC-ID domain. (The generic edk2 infrastructure requires APIC-IDs).
->>>
->>> Thanks
->>> Laszlo
-> 
+On Thu, Oct 10, 2019 at 15:53:30 +0200, Markus Armbruster wrote:
+> Peter Krempa <pkrempa@redhat.com> writes:
+>=20
+> > Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+> > ---
+> >  tests/qapi-schema/qapi-schema-test.json | 26 ++++++++++++++++++++++
+> >  tests/qapi-schema/qapi-schema-test.out  | 29 +++++++++++++++++++++++++
+> >  tests/qapi-schema/test-qapi.py          |  4 ++++
+> >  tests/test-qmp-cmds.c                   | 28 ++++++++++++++++++++++++
+> >  4 files changed, 87 insertions(+)
+>=20
+> More thorough than I asked for.  I'm not complaining :)
+>=20
+> >
+> > diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schem=
+a/qapi-schema-test.json
+> > index 75c42eb0e3..220859d4c9 100644
+> > --- a/tests/qapi-schema/qapi-schema-test.json
+> > +++ b/tests/qapi-schema/qapi-schema-test.json
+> > @@ -290,3 +290,29 @@
+> >              'cfs1': 'CondFeatureStruct1',
+> >              'cfs2': 'CondFeatureStruct2',
+> >              'cfs3': 'CondFeatureStruct3' } }
+> > +
+> > +# test 'features' for command
+> > +
+> > +{ 'command': 'test-command-features1',
+> > +  'features': [] }
+> > +
+> > +{ 'command': 'test-command-features2',
+> > +  'features': [ 'feature1' ] }
+> > +
+> > +{ 'command': 'test-command-features3',
+> > +  'features': [ 'feature1', 'feature2' ] }
+> > +
+> > +{ 'command': 'test-command-features4',
+> > +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1=
+)'} ] }
+> > +
+> > +{ 'command': 'test-command-features5',
+> > +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1=
+)'},
+> > +                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2=
+)'} ] }
+> > +
+> > +{ 'command': 'test-command-features6',
+> > +  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1=
+)'},
+> > +                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2=
+)'} ] }
+>=20
+> Do you need both test-command-features5 and 6?  They look the same to me.=
+=2E.
 
+No. It can be dropped. Looks like I mistakenly appropriated
+'CondFeatureStruct2' test twice :/
+
+> > +{ 'command': 'test-command-features7',
+> > +  'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)=
+',
+> > +                                              'defined(TEST_IF_COND_2)=
+'] } ] }
+> > diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema=
+/qapi-schema-test.out
+> > index 98031da96f..a38e348d54 100644
+> > --- a/tests/qapi-schema/qapi-schema-test.out
+> > +++ b/tests/qapi-schema/qapi-schema-test.out
+> > @@ -412,3 +412,32 @@ object q_obj_test-features-arg
+> >      member cfs3: CondFeatureStruct3 optional=3DFalse
+> >  command test-features q_obj_test-features-arg -> None
+> >     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +command test-command-features1 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +command test-command-features2 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +   feature feature1
+> > +command test-command-features3 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +   feature feature1
+> > +   feature feature2
+> > +command test-command-features4 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +   feature feature1
+> > +        if ['defined(TEST_IF_FEATURE_1)']
+> > +command test-command-features5 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +   feature feature1
+> > +        if ['defined(TEST_IF_FEATURE_1)']
+> > +   feature feature2
+> > +        if ['defined(TEST_IF_FEATURE_2)']
+> > +command test-command-features6 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +   feature feature1
+> > +        if ['defined(TEST_IF_FEATURE_1)']
+> > +   feature feature2
+> > +        if ['defined(TEST_IF_FEATURE_2)']
+> > +command test-command-features7 None -> None
+> > +   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+> > +   feature feature1
+> > +        if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
+> > diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qa=
+pi.py
+> > index e13c2e8671..62e65b6a7d 100755
+> > --- a/tests/qapi-schema/test-qapi.py
+> > +++ b/tests/qapi-schema/test-qapi.py
+> > @@ -80,6 +80,10 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
+> >          print('   gen=3D%s success_response=3D%s boxed=3D%s oob=3D%s p=
+reconfig=3D%s'
+> >                % (gen, success_response, boxed, allow_oob, allow_precon=
+fig))
+> >          self._print_if(ifcond)
+> > +        if features:
+> > +            for f in features:
+> > +                print('   feature %s' % f.name)
+> > +                self._print_if(f.ifcond, 8)
+>=20
+> Copied from visit_object_type().  Let's factor it into a @staticmethod
+> _print_features().
+
+I'm not sure if that's intentional but the 'struct' and 'command'
+feature printers differ in indentation level by one space. I went for
+aligning it with the 'gen' line above. I thought it's for visual
+separation with other possible lines.
+
+> >      def visit_event(self, name, info, ifcond, arg_type, boxed):
+> >          print('event %s %s' % (name, arg_type and arg_type.name))
+> > diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+> > index 36fdf5b115..19f6e06ba7 100644
+> > --- a/tests/test-qmp-cmds.c
+> > +++ b/tests/test-qmp-cmds.c
+> > @@ -51,6 +51,34 @@ void qmp_test_features(FeatureStruct0 *fs0, FeatureS=
+truct1 *fs1,
+> >  {
+> >  }
+> >
+> > +void qmp_test_command_features1(Error **errp)
+> > +{
+> > +}
+> > +
+> > +void qmp_test_command_features2(Error **errp)
+> > +{
+> > +}
+> > +
+> > +void qmp_test_command_features3(Error **errp)
+> > +{
+> > +}
+> > +
+> > +void qmp_test_command_features4(Error **errp)
+> > +{
+> > +}
+> > +
+> > +void qmp_test_command_features5(Error **errp)
+> > +{
+> > +}
+> > +
+> > +void qmp_test_command_features6(Error **errp)
+> > +{
+> > +}
+> > +
+> > +void qmp_test_command_features7(Error **errp)
+> > +{
+> > +}
+> > +
+> >  UserDefTwo *qmp_user_def_cmd2(UserDefOne *ud1a,
+> >                                bool has_udb1, UserDefOne *ud1b,
+> >                                Error **errp)
+>=20
+> Any particular reason why we shouldn't squash this into PATCH 1?
+
+Not really. I tend to prefer tests added separately and it was also done
+so in case of features for 'structs' so I went with that approach. Said
+that I'm perfectly fine with squashing them.
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEUn7DGLvflazX+2GwHGwCByjY1GoFAl2gM0AACgkQHGwCByjY
+1GqJmg/9FmcPJlbzUOdWjIaVuuvCiXpKCPxZOO4U90ZkDJY0vN3mvny0EAnEtSUn
+Av87lPAybBaVwx9cLUdIAmngnbdXNiEnDNE7iOzP9gRwjVDhgSedGE7XqQjDOnSt
+/N8JgDV85cw9O4L3RG9XIPU3orrGB6KOFbJGl6+M02r8Ub1KtQMvPuv0E+KOgpye
+uB2va0Ymy5hRldodbjO+6plS6ytnlQsD+7ZYJKV8YCRqxKo/U0FCImdEM9zbqzjD
+yUZPU+tirEZSTiQ9bmPeTCk32vloQmDYJDIiqWrd9dSc0uFPYzeJkpw9bqKVWIsB
+95MYXDKz0vtjRZnPNWCk9OFcXZeR5BCkTf5iEecCaT+iAA/Dv1pRRo1JUv99kSpF
+8ixAn1JGBKnNlgWRgFbSlY2w2difJvTC4fgXCosIXjXTh8pwiAPIdpwsaIA5da5J
+rl8KtC44eXaaJrzQPCnI+roEq8riuFqNV9ERX5G/OIF3OmMq6/aNjISqG5cEs9//
+W11ZZJddoo33eiZDX66H5zQE+ttGizXskQI5W/1iadg4yQte/5f3ckeeRM75B4H/
+HpirgqTCXB26i7l1Y3dQB1h9KvSwujmx631pNlHDXLHkiocCKk7K0p+HAZEyKoGO
+m0CDQ2fmOkF6DTUS8ahbO7RzwyaX36ZfcNqGYSLP0eSgsdvNRRE=
+=pIRm
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
 
