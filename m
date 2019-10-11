@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936B8D4558
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:25:57 +0200 (CEST)
-Received: from localhost ([::1]:53772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A14D4551
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:24:27 +0200 (CEST)
+Received: from localhost ([::1]:53750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxjo-0003Os-9R
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:25:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
+	id 1iIxiM-0001SX-19
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQW-0005ZB-Fj
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:01 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQZ-0005dL-95
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQV-00041W-Bd
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:00 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47796)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQY-000451-7B
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:03 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47826)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQV-00040O-3D
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:05:59 -0400
+ id 1iIxQX-00043W-Tj
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:02 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQT-0003XG-Lr; Fri, 11 Oct 2019 19:05:57 +0300
+ id 1iIxQU-0003XG-Th; Fri, 11 Oct 2019 19:05:59 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 005/126] vnc: drop Error pointer indirection in
- vnc_client_io_error
-Date: Fri, 11 Oct 2019 19:03:51 +0300
-Message-Id: <20191011160552.22907-6-vsementsov@virtuozzo.com>
+Subject: [RFC v5 009/126] 9pfs: well form error hint helpers
+Date: Fri, 11 Oct 2019 19:03:55 +0300
+Message-Id: <20191011160552.22907-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,90 +48,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need Error **, as all callers pass local Error object, which
-isn't used after the call, or NULL. Use Error * instead.
+Make error_append_security_model_hint and
+error_append_socket_sockfd_hint hint append helpers well formed:
+rename errp to errp_in, as it is IN-parameter here (which is unusual
+for errp).
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- ui/vnc.h |  2 +-
- ui/vnc.c | 20 +++++++-------------
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ hw/9pfs/9p-local.c | 4 ++--
+ hw/9pfs/9p-proxy.c | 5 +++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/ui/vnc.h b/ui/vnc.h
-index fea79c2fc9..4e2637ce6c 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
- 
- /* Protocol stage functions */
- void vnc_client_error(VncState *vs);
--size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
-+size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err);
- 
- void start_client_init(VncState *vs);
- void start_auth_vnc(VncState *vs);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 87b8045afe..4100d6e404 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
-     g_free(vs);
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 08e673a79c..35635e7e7e 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1469,9 +1469,9 @@ static void local_cleanup(FsContext *ctx)
+     g_free(data);
  }
  
--size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-+size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err)
+-static void error_append_security_model_hint(Error **errp)
++static void error_append_security_model_hint(Error **errp_in)
  {
-     if (ret <= 0) {
-         if (ret == 0) {
-@@ -1320,15 +1320,11 @@ size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-             vnc_disconnect_start(vs);
-         } else if (ret != QIO_CHANNEL_ERR_BLOCK) {
-             trace_vnc_client_io_error(vs, vs->ioc,
--                                      errp ? error_get_pretty(*errp) :
--                                      "Unknown");
-+                                      err ? error_get_pretty(err) : "Unknown");
-             vnc_disconnect_start(vs);
-         }
- 
--        if (errp) {
--            error_free(*errp);
--            *errp = NULL;
--        }
-+        error_free(err);
-         return 0;
-     }
-     return ret;
-@@ -1361,10 +1357,9 @@ size_t vnc_client_write_buf(VncState *vs, const uint8_t *data, size_t datalen)
- {
-     Error *err = NULL;
-     ssize_t ret;
--    ret = qio_channel_write(
--        vs->ioc, (const char *)data, datalen, &err);
-+    ret = qio_channel_write(vs->ioc, (const char *)data, datalen, &err);
-     VNC_DEBUG("Wrote wire %p %zd -> %ld\n", data, datalen, ret);
--    return vnc_client_io_error(vs, ret, &err);
-+    return vnc_client_io_error(vs, ret, err);
+-    error_append_hint(errp, "Valid options are: security_model="
++    error_append_hint(errp_in, "Valid options are: security_model="
+                       "[passthrough|mapped-xattr|mapped-file|none]\n");
  }
  
- 
-@@ -1488,10 +1483,9 @@ size_t vnc_client_read_buf(VncState *vs, uint8_t *data, size_t datalen)
- {
-     ssize_t ret;
-     Error *err = NULL;
--    ret = qio_channel_read(
--        vs->ioc, (char *)data, datalen, &err);
-+    ret = qio_channel_read(vs->ioc, (char *)data, datalen, &err);
-     VNC_DEBUG("Read wire %p %zd -> %ld\n", data, datalen, ret);
--    return vnc_client_io_error(vs, ret, &err);
-+    return vnc_client_io_error(vs, ret, err);
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 57a8c1c808..0cea8b19fa 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1114,9 +1114,10 @@ static int connect_namedsocket(const char *path, Error **errp)
+     return sockfd;
  }
  
- 
+-static void error_append_socket_sockfd_hint(Error **errp)
++static void error_append_socket_sockfd_hint(Error **errp_in)
+ {
+-    error_append_hint(errp, "Either specify socket=/some/path where /some/path"
++    error_append_hint(errp_in,
++                      "Either specify socket=/some/path where /some/path"
+                       " points to a listening AF_UNIX socket or sock_fd=fd"
+                       " where fd is a file descriptor to a connected AF_UNIX"
+                       " socket\n");
 -- 
 2.21.0
 
