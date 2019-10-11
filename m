@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E13D4A07
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:43:59 +0200 (CEST)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847B4D4A15
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:48:32 +0200 (CEST)
+Received: from localhost ([::1]:57338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ2ha-0001lQ-0s
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
+	id 1iJ2lz-0005aP-1x
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iJ2Ro-0003no-H7
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:27:41 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iJ2Rq-0003r1-BW
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:27:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iJ2Rn-0001T3-88
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:27:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46388)
+ (envelope-from <jsnow@redhat.com>) id 1iJ2Rp-0001Tf-3I
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:27:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60932)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iJ2Rk-0001RK-2u; Fri, 11 Oct 2019 17:27:36 -0400
+ id 1iJ2Rl-0001SM-VC; Fri, 11 Oct 2019 17:27:38 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4C40418C428E;
- Fri, 11 Oct 2019 21:27:35 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C3EFE3086228;
+ Fri, 11 Oct 2019 21:27:36 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-173.bos.redhat.com [10.18.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E71631EC;
- Fri, 11 Oct 2019 21:27:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C62925263;
+ Fri, 11 Oct 2019 21:27:35 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 18/19] MAINTAINERS: Add Vladimir as a reviewer for bitmaps
-Date: Fri, 11 Oct 2019 17:25:49 -0400
-Message-Id: <20191011212550.27269-19-jsnow@redhat.com>
+Subject: [PULL 19/19] dirty-bitmaps: remove deprecated autoload parameter
+Date: Fri, 11 Oct 2019 17:25:50 -0400
+Message-Id: <20191011212550.27269-20-jsnow@redhat.com>
 In-Reply-To: <20191011212550.27269-1-jsnow@redhat.com>
 References: <20191011212550.27269-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.62]); Fri, 11 Oct 2019 21:27:35 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 11 Oct 2019 21:27:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,42 +65,124 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I already try to make sure all bitmaps patches have been reviewed by both
-Red Hat and Virtuozzo anyway, so this formalizes the arrangement.
-
-Fam meanwhile is no longer as active, so I am removing him as a co-mainta=
-iner
-simply to reflect the current practice.
+This parameter has been deprecated since 2.12.0 and is eligible for
+removal. Remove this parameter as it is actually completely ignored;
+let's not give false hope.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191005194448.16629-2-jsnow@redhat.com
+Message-id: 20191002232411.29968-1-jsnow@redhat.com
 ---
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ qemu-deprecated.texi | 20 +++++++++++++++-----
+ qapi/block-core.json |  6 +-----
+ blockdev.c           |  6 ------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3ca814850e0..a08c92a4162 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1816,8 +1816,8 @@ F: qapi/transaction.json
- T: git https://repo.or.cz/qemu/armbru.git block-next
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 01245e0b1c4..7239e0959da 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -149,11 +149,6 @@ QEMU 4.1 has three options, please migrate to one of=
+ these three:
 =20
- Dirty Bitmaps
--M: Fam Zheng <fam@euphon.net>
- M: John Snow <jsnow@redhat.com>
-+R: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
- L: qemu-block@nongnu.org
- S: Supported
- F: util/hbitmap.c
-@@ -1826,7 +1826,6 @@ F: include/qemu/hbitmap.h
- F: include/block/dirty-bitmap.h
- F: tests/test-hbitmap.c
- F: docs/interop/bitmaps.rst
--T: git https://github.com/famz/qemu.git bitmaps
- T: git https://github.com/jnsnow/qemu.git bitmaps
+ @section QEMU Machine Protocol (QMP) commands
 =20
- Character device backends
+-@subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+-
+-"autoload" parameter is now ignored. All bitmaps are automatically loade=
+d
+-from qcow2 images.
+-
+ @subsection query-block result field dirty-bitmaps[i].status (since 4.0)
+=20
+ The ``status'' field of the ``BlockDirtyInfo'' structure, returned by
+@@ -356,3 +351,18 @@ existing CPU models.  Management software that needs=
+ runnability
+ guarantees must resolve the CPU model aliases using te
+ ``alias-of'' field returned by the ``query-cpu-definitions'' QMP
+ command.
++
++
++@node Recently removed features
++@appendix Recently removed features
++
++What follows is a record of recently removed, formerly deprecated
++features that serves as a record for users who have encountered
++trouble after a recent upgrade.
++
++@section QEMU Machine Protocol (QMP) commands
++
++@subsection block-dirty-bitmap-add "autoload" parameter (since 4.2.0)
++
++The "autoload" parameter has been ignored since 2.12.0. All bitmaps
++are automatically loaded from qcow2 images.
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e6edd641f18..e4975ece4ab 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1987,10 +1987,6 @@
+ #              Qcow2 disks support persistent bitmaps. Default is false =
+for
+ #              block-dirty-bitmap-add. (Since: 2.10)
+ #
+-# @autoload: ignored and deprecated since 2.12.
+-#            Currently, all dirty tracking bitmaps are loaded from Qcow2=
+ on
+-#            open.
+-#
+ # @disabled: the bitmap is created in the disabled state, which means th=
+at
+ #            it will not track drive changes. The bitmap may be enabled =
+with
+ #            block-dirty-bitmap-enable. Default is false. (Since: 4.0)
+@@ -1999,7 +1995,7 @@
+ ##
+ { 'struct': 'BlockDirtyBitmapAdd',
+   'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
+-            '*persistent': 'bool', '*autoload': 'bool', '*disabled': 'bo=
+ol' } }
++            '*persistent': 'bool', '*disabled': 'bool' } }
+=20
+ ##
+ # @BlockDirtyBitmapMergeSource:
+diff --git a/blockdev.c b/blockdev.c
+index 9b6eca66430..873aba3c27f 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1966,7 +1966,6 @@ static void block_dirty_bitmap_add_prepare(BlkActio=
+nState *common,
+     qmp_block_dirty_bitmap_add(action->node, action->name,
+                                action->has_granularity, action->granular=
+ity,
+                                action->has_persistent, action->persisten=
+t,
+-                               action->has_autoload, action->autoload,
+                                action->has_disabled, action->disabled,
+                                &local_err);
+=20
+@@ -2858,7 +2857,6 @@ out:
+ void qmp_block_dirty_bitmap_add(const char *node, const char *name,
+                                 bool has_granularity, uint32_t granulari=
+ty,
+                                 bool has_persistent, bool persistent,
+-                                bool has_autoload, bool autoload,
+                                 bool has_disabled, bool disabled,
+                                 Error **errp)
+ {
+@@ -2890,10 +2888,6 @@ void qmp_block_dirty_bitmap_add(const char *node, =
+const char *name,
+         persistent =3D false;
+     }
+=20
+-    if (has_autoload) {
+-        warn_report("Autoload option is deprecated and its value is igno=
+red");
+-    }
+-
+     if (!has_disabled) {
+         disabled =3D false;
+     }
 --=20
 2.21.0
 
