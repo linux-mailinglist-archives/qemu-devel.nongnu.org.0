@@ -2,56 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E8ED47AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:35:21 +0200 (CEST)
-Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153AED47CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:43:42 +0200 (CEST)
+Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzl1-0008Db-TA
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
+	id 1iIzt7-0002cS-3D
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iIzhx-0006OP-13
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:32:09 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmx-00006C-JN
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:29:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iIzhv-0003Gi-Hk
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:32:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35304)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmw-0003NV-Ba
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:29:11 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50034)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzhv-0003G3-BT
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:32:07 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5B5AA3067288;
- Fri, 11 Oct 2019 18:32:06 +0000 (UTC)
-Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB00210013D9;
- Fri, 11 Oct 2019 18:32:03 +0000 (UTC)
-Subject: Re: [RFC v5 004/126] hmp: drop Error pointer indirection in
- hmp_handle_error
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxmw-0003NI-4K
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:29:10 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxR3-0003XG-HJ; Fri, 11 Oct 2019 19:06:33 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC v5 105/126] Bootdevice: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:31 +0300
+Message-Id: <20191011160552.22907-106-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-5-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f8334660-9e5a-3dcb-6818-746d94ea1add@redhat.com>
-Date: Fri, 11 Oct 2019 13:32:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011160552.22907-5-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 11 Oct 2019 18:32:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,46 +48,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, armbru@redhat.com,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We don't need Error **, as all callers pass local Error object, which
-> isn't used after the call. Use Error * instead.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/monitor/hmp.h      |   2 +-
->   dump/dump-hmp-cmds.c       |   4 +-
->   hw/core/machine-hmp-cmds.c |   6 +-
->   monitor/hmp-cmds.c         | 155 ++++++++++++++++++-------------------
->   qdev-monitor.c             |   4 +-
->   qom/qom-hmp-cmds.c         |   4 +-
->   6 files changed, 87 insertions(+), 88 deletions(-)
-> 
+If we want to add some info to errp (by error_prepend() or
+error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+Otherwise, this info will not be added when errp == &fatal_err
+(the program will exit prior to the error_append_hint() or
+error_prepend() call).  Fix such cases.
 
-> +++ b/dump/dump-hmp-cmds.c
-> @@ -32,7 +32,7 @@ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
->   
->       if (zlib + lzo + snappy + win_dmp > 1) {
->           error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
-> -        hmp_handle_error(mon, &err);
-> +        hmp_handle_error(mon, err);
->           return;
->       }
+If we want to check error after errp-function call, we need to
+introduce local_err and than propagate it to errp. Instead, use
+ERRP_AUTO_PROPAGATE macro, benefits are:
+1. No need of explicit error_propagate call
+2. No need of explicit local_err variable: use errp directly
+3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+   &error_fatel, this means that we don't break error_abort
+   (we'll abort on error_set, not on error_propagate)
 
-Probably not for this series, but would a patch to various HMP files to 
-have a g_auto() sort of reporting on an error the moment it goes out of 
-scope (rather than having to manually call hmp_handle_error() 
-everywhere) make sense?
+This commit (together with its neighbors) was generated by
 
+for f in $(git grep -l errp \*.[ch]); do \
+    spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
+done;
+
+then fix a bit of compilation problems: coccinelle for some reason
+leaves several
+f() {
+    ...
+    goto out;
+    ...
+    out:
+}
+patterns, with "out:" at function end.
+
+then
+./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+
+(auto-msg was a file with this commit message)
+
+Still, for backporting it may be more comfortable to use only the first
+command and then do one huge commit.
+
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reported-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ bootdevice.c | 31 +++++++++++++------------------
+ 1 file changed, 13 insertions(+), 18 deletions(-)
+
+diff --git a/bootdevice.c b/bootdevice.c
+index 1d225202f9..ca69cbeb05 100644
+--- a/bootdevice.c
++++ b/bootdevice.c
+@@ -53,7 +53,7 @@ void qemu_register_boot_set(QEMUBootSetHandler *func, void *opaque)
+ 
+ void qemu_boot_set(const char *boot_order, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+ 
+     if (!boot_set_handler) {
+         error_setg(errp, "no function defined to set boot device list for"
+@@ -61,9 +61,8 @@ void qemu_boot_set(const char *boot_order, Error **errp)
+         return;
+     }
+ 
+-    validate_bootdevices(boot_order, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    validate_bootdevices(boot_order, errp);
++    if (*errp) {
+         return;
+     }
+ 
+@@ -286,26 +285,23 @@ static void device_get_bootindex(Object *obj, Visitor *v, const char *name,
+ static void device_set_bootindex(Object *obj, Visitor *v, const char *name,
+                                  void *opaque, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BootIndexProperty *prop = opaque;
+     int32_t boot_index;
+-    Error *local_err = NULL;
+ 
+-    visit_type_int32(v, name, &boot_index, &local_err);
+-    if (local_err) {
+-        goto out;
++    visit_type_int32(v, name, &boot_index, errp);
++    if (*errp) {
++        return;
+     }
+     /* check whether bootindex is present in fw_boot_order list  */
+-    check_boot_index(boot_index, &local_err);
+-    if (local_err) {
+-        goto out;
++    check_boot_index(boot_index, errp);
++    if (*errp) {
++        return;
+     }
+     /* change bootindex to a new one */
+     *prop->bootindex = boot_index;
+ 
+     add_boot_device_path(*prop->bootindex, prop->dev, prop->suffix);
+-
+-out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static void property_release_bootindex(Object *obj, const char *name,
+@@ -322,7 +318,7 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
+                                    const char *name, const char *suffix,
+                                    DeviceState *dev, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     BootIndexProperty *prop = g_malloc0(sizeof(*prop));
+ 
+     prop->bootindex = bootindex;
+@@ -333,10 +329,9 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
+                         device_get_bootindex,
+                         device_set_bootindex,
+                         property_release_bootindex,
+-                        prop, &local_err);
++                        prop, errp);
+ 
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         g_free(prop);
+         return;
+     }
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.0
+
 
