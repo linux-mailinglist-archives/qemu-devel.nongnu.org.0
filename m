@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C695D45A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:43:25 +0200 (CEST)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8A3D45B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:47:17 +0200 (CEST)
+Received: from localhost ([::1]:54118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIy0h-0007Cl-V6
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36743)
+	id 1iIy4R-0002KW-UR
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0006Wq-4B
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:39 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0006YZ-2D
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR3-0004gK-1s
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48328)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR4-0004jG-Mt
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:36 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48376)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR2-0004O1-NO
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:32 -0400
+ id 1iIxR4-0004QH-Et
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQr-0003XG-9u; Fri, 11 Oct 2019 19:06:21 +0300
+ id 1iIxQs-0003XG-Vh; Fri, 11 Oct 2019 19:06:23 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 074/126] Graphics: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:00 +0300
-Message-Id: <20191011160552.22907-75-vsementsov@virtuozzo.com>
+Subject: [RFC v5 079/126] cryptodev: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:05 +0300
+Message-Id: <20191011160552.22907-80-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Gerd Hoffmann <kraxel@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,129 +97,78 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- ui/input-barrier.c |  7 +++----
- ui/input.c         | 14 ++++++--------
- ui/vnc.c           | 19 ++++++++-----------
- 3 files changed, 17 insertions(+), 23 deletions(-)
+ backends/cryptodev-vhost-user.c | 10 ++++------
+ backends/cryptodev.c            | 14 ++++++--------
+ 2 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/ui/input-barrier.c b/ui/input-barrier.c
-index a2c961f285..cce1cf35c3 100644
---- a/ui/input-barrier.c
-+++ b/ui/input-barrier.c
-@@ -492,8 +492,8 @@ static gboolean input_barrier_event(QIOChannel *ioc G_GNUC_UNUSED,
- 
- static void input_barrier_complete(UserCreatable *uc, Error **errp)
+diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
+index b344283940..8bab46fd77 100644
+--- a/backends/cryptodev-vhost-user.c
++++ b/backends/cryptodev-vhost-user.c
+@@ -177,17 +177,16 @@ static void cryptodev_vhost_user_event(void *opaque, int event)
+ static void cryptodev_vhost_user_init(
+              CryptoDevBackend *backend, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     InputBarrier *ib = INPUT_BARRIER(uc);
+     int queues = backend->conf.peers.queues;
+     size_t i;
 -    Error *local_err = NULL;
+     Chardev *chr;
+     CryptoDevBackendClient *cc;
+     CryptoDevBackendVhostUser *s =
+                       CRYPTODEV_BACKEND_VHOST_USER(backend);
  
-     if (!ib->name) {
-         error_setg(errp, QERR_MISSING_PARAMETER, "name");
-@@ -509,9 +509,8 @@ static void input_barrier_complete(UserCreatable *uc, Error **errp)
-     ib->sioc = qio_channel_socket_new();
-     qio_channel_set_name(QIO_CHANNEL(ib->sioc), "barrier-client");
- 
--    qio_channel_socket_connect_sync(ib->sioc, &ib->saddr, &local_err);
+-    chr = cryptodev_vhost_claim_chardev(s, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    qio_channel_socket_connect_sync(ib->sioc, &ib->saddr, errp);
++    chr = cryptodev_vhost_claim_chardev(s, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/ui/input.c b/ui/input.c
-index 4791b089c7..bea1745a33 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -87,12 +87,11 @@ void qemu_input_handler_bind(QemuInputHandlerState *s,
-                              const char *device_id, int head,
-                              Error **errp)
+@@ -204,8 +203,7 @@ static void cryptodev_vhost_user_init(
+         backend->conf.peers.ccs[i] = cc;
+ 
+         if (i == 0) {
+-            if (!qemu_chr_fe_init(&s->chr, chr, &local_err)) {
+-                error_propagate(errp, local_err);
++            if (!qemu_chr_fe_init(&s->chr, chr, errp)) {
+                 return;
+             }
+         }
+diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+index 5a9735684e..6fd039567d 100644
+--- a/backends/cryptodev.c
++++ b/backends/cryptodev.c
+@@ -153,22 +153,20 @@ static void
+ cryptodev_backend_set_queues(Object *obj, Visitor *v, const char *name,
+                              void *opaque, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     QemuConsole *con;
--    Error *err = NULL;
- 
--    con = qemu_console_lookup_by_device_name(device_id, head, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    con = qemu_console_lookup_by_device_name(device_id, head, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -128,18 +127,17 @@ void qmp_input_send_event(bool has_device, const char *device,
-                           bool has_head, int64_t head,
-                           InputEventList *events, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     InputEventList *e;
-     QemuConsole *con;
--    Error *err = NULL;
- 
-     con = NULL;
-     if (has_device) {
-         if (!has_head) {
-             head = 0;
-         }
--        con = qemu_console_lookup_by_device_name(device, head, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        con = qemu_console_lookup_by_device_name(device, head, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 4100d6e404..0354d30168 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3795,6 +3795,7 @@ static int vnc_display_listen(VncDisplay *vd,
- 
- void vnc_display_open(const char *id, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VncDisplay *vd = vnc_display_find(id);
-     QemuOpts *opts = qemu_opts_find(&qemu_vnc_opts, id);
-     SocketAddress **saddr = NULL, **wsaddr = NULL;
-@@ -4008,11 +4009,9 @@ void vnc_display_open(const char *id, Error **errp)
-     device_id = qemu_opt_get(opts, "display");
-     if (device_id) {
-         int head = qemu_opt_get_number(opts, "head", 0);
--        Error *err = NULL;
- 
--        con = qemu_console_lookup_by_device_name(device_id, head, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        con = qemu_console_lookup_by_device_name(device_id, head, errp);
-+        if (*errp) {
-             goto fail;
-         }
-     } else {
-@@ -4106,18 +4105,16 @@ QemuOpts *vnc_parse(const char *str, Error **errp)
- 
- int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp)
- {
+     CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
 -    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     char *id = (char *)qemu_opts_id(opts);
+     uint32_t value;
  
-     assert(id);
--    vnc_display_init(id, &local_err);
+-    visit_type_uint32(v, name, &value, &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
-+    vnc_display_init(id, errp);
+-        goto out;
++    visit_type_uint32(v, name, &value, errp);
 +    if (*errp) {
-         return -1;
++        return;
      }
--    vnc_display_open(id, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    vnc_display_open(id, errp);
-+    if (*errp) {
-         return -1;
+     if (!value) {
+-        error_setg(&local_err, "Property '%s.%s' doesn't take value '%"
++        error_setg(errp, "Property '%s.%s' doesn't take value '%"
+                    PRIu32 "'", object_get_typename(obj), name, value);
+-        goto out;
++        return;
      }
-     return 0;
+     backend->conf.peers.queues = value;
+-out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static void
 -- 
 2.21.0
 
