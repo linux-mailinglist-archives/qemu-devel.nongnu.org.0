@@ -2,40 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD54ED46F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:51:45 +0200 (CEST)
-Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC1BD46F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:54:45 +0200 (CEST)
+Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIz4q-00006A-GM
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
+	id 1iIz7j-00042H-St
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmd-0007vk-1b
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:52 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIxoz-0002At-2D
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:31:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxma-0003Cy-Ty
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50016)
+ (envelope-from <eblake@redhat.com>) id 1iIxox-0004Pt-UM
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:31:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34974)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxmZ-0003Ca-TE; Fri, 11 Oct 2019 12:28:48 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR4-0003XG-1s; Fri, 11 Oct 2019 19:06:34 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v5 106/126] Quorum: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:32 +0300
-Message-Id: <20191011160552.22907-107-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iIxou-0004Jh-OD; Fri, 11 Oct 2019 12:31:12 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8FA991DA3;
+ Fri, 11 Oct 2019 16:31:11 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3647D1001B36;
+ Fri, 11 Oct 2019 16:31:11 +0000 (UTC)
+Subject: Re: [PATCH v3 13/16] qcow2: Repair snapshot table with too many
+ entries
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20191011152814.14791-1-mreitz@redhat.com>
+ <20191011152814.14791-14-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <567b9148-c1fa-ea1e-250a-5b7851b8edd4@redhat.com>
+Date: Fri, 11 Oct 2019 11:31:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+In-Reply-To: <20191011152814.14791-14-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Fri, 11 Oct 2019 16:31:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,153 +62,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we want to add some info to errp (by error_prepend() or
-error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-Otherwise, this info will not be added when errp == &fatal_err
-(the program will exit prior to the error_append_hint() or
-error_prepend() call).  Fix such cases.
+On 10/11/19 10:28 AM, Max Reitz wrote:
+> The user cannot choose which snapshots are removed.  This is fine
+> because we have chosen the maximum snapshot table size to be so large
+> (65536 entries) that it cannot be reasonably reached.  If the snapshot
+> table exceeds this size, the image has probably been corrupted in some
+> way; in this case, it is most important to just make the image usable
+> such that the user can copy off at least the active layer.
+> (Also note that the snapshots will be removed only with "-r all", so a
+> plain "check" or "check -r leaks" will not delete any data.)
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-If we want to check error after errp-function call, we need to
-introduce local_err and than propagate it to errp. Instead, use
-ERRP_AUTO_PROPAGATE macro, benefits are:
-1. No need of explicit error_propagate call
-2. No need of explicit local_err variable: use errp directly
-3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
-   &error_fatel, this means that we don't break error_abort
-   (we'll abort on error_set, not on error_propagate)
+The updated commit messages are good.
 
-This commit (together with its neighbors) was generated by
-
-for f in $(git grep -l errp \*.[ch]); do \
-    spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
-    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
-done;
-
-then fix a bit of compilation problems: coccinelle for some reason
-leaves several
-f() {
-    ...
-    goto out;
-    ...
-    out:
-}
-patterns, with "out:" at function end.
-
-then
-./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
-
-(auto-msg was a file with this commit message)
-
-Still, for backporting it may be more comfortable to use only the first
-command and then do one huge commit.
-
-Reported-by: Kevin Wolf <kwolf@redhat.com>
-Reported-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/quorum.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
-
-diff --git a/block/quorum.c b/block/quorum.c
-index df68adcfaa..5c531e1ec5 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -861,8 +861,8 @@ static QemuOptsList quorum_runtime_opts = {
- static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-                        Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BDRVQuorumState *s = bs->opaque;
--    Error *local_err = NULL;
-     QemuOpts *opts = NULL;
-     const char *pattern_str;
-     bool *opened;
-@@ -874,27 +874,27 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-     /* count how many different children are present */
-     s->num_children = qdict_array_entries(options, "children.");
-     if (s->num_children < 0) {
--        error_setg(&local_err, "Option children is not a valid array");
-+        error_setg(errp, "Option children is not a valid array");
-         ret = -EINVAL;
-         goto exit;
-     }
-     if (s->num_children < 1) {
--        error_setg(&local_err,
-+        error_setg(errp,
-                    "Number of provided children must be 1 or more");
-         ret = -EINVAL;
-         goto exit;
-     }
- 
-     opts = qemu_opts_create(&quorum_runtime_opts, NULL, 0, &error_abort);
--    qemu_opts_absorb_qdict(opts, options, &local_err);
--    if (local_err) {
-+    qemu_opts_absorb_qdict(opts, options, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto exit;
-     }
- 
-     s->threshold = qemu_opt_get_number(opts, QUORUM_OPT_VOTE_THRESHOLD, 0);
-     /* and validate it against s->num_children */
--    ret = quorum_valid_threshold(s->threshold, s->num_children, &local_err);
-+    ret = quorum_valid_threshold(s->threshold, s->num_children, errp);
-     if (ret < 0) {
-         goto exit;
-     }
-@@ -907,7 +907,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-                               -EINVAL, NULL);
-     }
-     if (ret < 0) {
--        error_setg(&local_err, "Please set read-pattern as fifo or quorum");
-+        error_setg(errp, "Please set read-pattern as fifo or quorum");
-         goto exit;
-     }
-     s->read_pattern = ret;
-@@ -915,7 +915,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-     if (s->read_pattern == QUORUM_READ_PATTERN_QUORUM) {
-         s->is_blkverify = qemu_opt_get_bool(opts, QUORUM_OPT_BLKVERIFY, false);
-         if (s->is_blkverify && (s->num_children != 2 || s->threshold != 2)) {
--            error_setg(&local_err, "blkverify=on can only be set if there are "
-+            error_setg(errp, "blkverify=on can only be set if there are "
-                        "exactly two files and vote-threshold is 2");
-             ret = -EINVAL;
-             goto exit;
-@@ -924,7 +924,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-         s->rewrite_corrupted = qemu_opt_get_bool(opts, QUORUM_OPT_REWRITE,
-                                                  false);
-         if (s->rewrite_corrupted && s->is_blkverify) {
--            error_setg(&local_err,
-+            error_setg(errp,
-                        "rewrite-corrupted=on cannot be used with blkverify=on");
-             ret = -EINVAL;
-             goto exit;
-@@ -941,8 +941,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-         assert(ret < 32);
- 
-         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
--                                         &child_format, false, &local_err);
--        if (local_err) {
-+                                         &child_format, false, errp);
-+        if (*errp) {
-             ret = -EINVAL;
-             goto close_exit;
-         }
-@@ -969,7 +969,6 @@ close_exit:
- exit:
-     qemu_opts_del(opts);
-     /* propagate error */
--    error_propagate(errp, local_err);
-     return ret;
- }
- 
 -- 
-2.21.0
-
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
