@@ -2,47 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C948D4A1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:52:15 +0200 (CEST)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F2DD4A1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:53:29 +0200 (CEST)
+Received: from localhost ([::1]:57432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ2pa-0002yx-Gv
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:52:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55417)
+	id 1iJ2qm-0005Dg-PC
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iJ2Rk-0003jN-Is
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:27:37 -0400
+ (envelope-from <eblake@redhat.com>) id 1iJ2Sq-00055F-Ux
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:28:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iJ2Rj-0001R9-50
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:27:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36770)
+ (envelope-from <eblake@redhat.com>) id 1iJ2Sp-0001gv-SC
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:28:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33104)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iJ2Rf-0001Oj-5A; Fri, 11 Oct 2019 17:27:31 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iJ2Sp-0001gg-LS
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:28:43 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 07CE52D0FC7;
- Fri, 11 Oct 2019 21:27:30 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-173.bos.redhat.com [10.18.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A566525263;
- Fri, 11 Oct 2019 21:27:28 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 16/19] block/qcow2-bitmap: fix and improve
- qcow2_reopen_bitmaps_rw
-Date: Fri, 11 Oct 2019 17:25:47 -0400
-Message-Id: <20191011212550.27269-17-jsnow@redhat.com>
-In-Reply-To: <20191011212550.27269-1-jsnow@redhat.com>
-References: <20191011212550.27269-1-jsnow@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E4FBD30A5404;
+ Fri, 11 Oct 2019 21:28:42 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E9B310018F8;
+ Fri, 11 Oct 2019 21:28:42 +0000 (UTC)
+To: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Subject: ideas towards requiring VPATH build
+Organization: Red Hat, Inc.
+Message-ID: <aa953b8f-daa2-e6dc-da4b-b7cb598c2c0e@redhat.com>
+Date: Fri, 11 Oct 2019 16:28:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 11 Oct 2019 21:27:30 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.42]); Fri, 11 Oct 2019 21:28:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -57,167 +61,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
- John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+I know we've talked about enforcing a VPATH build, but haven't yet 
+flipped the switch.  This week, I've played with using a VPATH build (cd 
+qemu; mkdir -p build; cd ./build; ../configure ...; make ...), but find 
+my old habits of expecting an in-tree build to just work (cd qemu; make 
+...) hard to overcome.  So this is what I've come up with: if you place 
+the following file in-tree, then any 'make ...' command you type in-tree 
+without using -C will have the same effect as if you had typed the same 
+command in the build directory, but without having to manually remember 
+to switch to the build directory.
 
-- Correct check for write access to file child, and in correct place
-  (only if we want to write).
-- Support reopen rw -> rw (which will be used in following commit),
-  for example, !bdrv_dirty_bitmap_readonly() is not a corruption if
-  bitmap is marked IN_USE in the image.
-- Consider unexpected bitmap as a corruption and check other
-  combinations of in-image and in-RAM bitmaps.
+Perhaps this can be a starting point for a patch to actually include 
+this file in qemu.git as part of the larger effort to force VPATH 
+builds, while still having the convenience of in-tree make working for 
+those who were used to it.  (I places an echo and sleep in my file to 
+remind myself when I forgot to use the build directory, but that is not 
+mandatory if we want GNUmakefile stored in qemu.git).
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190927122355.7344-9-vsementsov@virtuozzo.com
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- block/qcow2-bitmap.c | 77 +++++++++++++++++++++++++++++++++-----------
- 1 file changed, 58 insertions(+), 19 deletions(-)
+Presumably, any full switch to force a VPATH build would also include 
+creating the build directory as needed (my hack assumes that it already 
+exists).
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index f7dfb40256e..98294a76965 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1108,18 +1108,14 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs,=
- Error **errp)
-     Qcow2BitmapList *bm_list;
-     Qcow2Bitmap *bm;
-     GSList *ro_dirty_bitmaps =3D NULL;
--    int ret =3D 0;
-+    int ret =3D -EINVAL;
-+    bool need_header_update =3D false;
-=20
-     if (s->nb_bitmaps =3D=3D 0) {
-         /* No bitmaps - nothing to do */
-         return 0;
-     }
-=20
--    if (!can_write(bs)) {
--        error_setg(errp, "Can't write to the image on reopening bitmaps =
-rw");
--        return -EINVAL;
--    }
--
-     bm_list =3D bitmap_list_load(bs, s->bitmap_directory_offset,
-                                s->bitmap_directory_size, errp);
-     if (bm_list =3D=3D NULL) {
-@@ -1128,32 +1124,75 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs,=
- Error **errp)
-=20
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
-         BdrvDirtyBitmap *bitmap =3D bdrv_find_dirty_bitmap(bs, bm->name)=
-;
--        if (bitmap =3D=3D NULL) {
--            continue;
--        }
-=20
--        if (!bdrv_dirty_bitmap_readonly(bitmap)) {
--            error_setg(errp, "Bitmap %s was loaded prior to rw-reopen, b=
-ut was "
--                       "not marked as readonly. This is a bug, something=
- went "
--                       "wrong. All of the bitmaps may be corrupted", bm-=
->name);
--            ret =3D -EINVAL;
-+        if (!bitmap) {
-+            error_setg(errp, "Unexpected bitmap '%s' in image '%s'",
-+                       bm->name, bs->filename);
-             goto out;
-         }
-=20
--        bm->flags |=3D BME_FLAG_IN_USE;
--        ro_dirty_bitmaps =3D g_slist_append(ro_dirty_bitmaps, bitmap);
-+        if (!(bm->flags & BME_FLAG_IN_USE)) {
-+            if (!bdrv_dirty_bitmap_readonly(bitmap)) {
-+                error_setg(errp, "Corruption: bitmap '%s' is not marked =
-IN_USE "
-+                           "in the image '%s' and not marked readonly in=
- RAM",
-+                           bm->name, bs->filename);
-+                goto out;
-+            }
-+            if (bdrv_dirty_bitmap_inconsistent(bitmap)) {
-+                error_setg(errp, "Corruption: bitmap '%s' is inconsisten=
-t but "
-+                           "is not marked IN_USE in the image '%s'", bm-=
->name,
-+                           bs->filename);
-+                goto out;
-+            }
-+
-+            bm->flags |=3D BME_FLAG_IN_USE;
-+            need_header_update =3D true;
-+        } else {
-+            /*
-+             * What if flags already has BME_FLAG_IN_USE ?
-+             *
-+             * 1. if we are reopening RW -> RW it's OK, of course.
-+             * 2. if we are reopening RO -> RW:
-+             *   2.1 if @bitmap is inconsistent, it's OK. It means that =
-it was
-+             *       inconsistent (IN_USE) when we loaded it
-+             *   2.2 if @bitmap is not inconsistent. This seems to be im=
-possible
-+             *       and implies third party interaction. Let's error-ou=
-t for
-+             *       safety.
-+             */
-+            if (bdrv_dirty_bitmap_readonly(bitmap) &&
-+                !bdrv_dirty_bitmap_inconsistent(bitmap))
-+            {
-+                error_setg(errp, "Corruption: bitmap '%s' is marked IN_U=
-SE "
-+                           "in the image '%s' but it is readonly and "
-+                           "consistent in RAM",
-+                           bm->name, bs->filename);
-+                goto out;
-+            }
-+        }
-+
-+        if (bdrv_dirty_bitmap_readonly(bitmap)) {
-+            ro_dirty_bitmaps =3D g_slist_append(ro_dirty_bitmaps, bitmap=
-);
-+        }
-     }
-=20
--    if (ro_dirty_bitmaps !=3D NULL) {
-+    if (need_header_update) {
-+        if (!can_write(bs->file->bs) || !(bs->file->perm & BLK_PERM_WRIT=
-E)) {
-+            error_setg(errp, "Failed to reopen bitmaps rw: no write acce=
-ss "
-+                       "the protocol file");
-+            goto out;
-+        }
-+
-         /* in_use flags must be updated */
-         ret =3D update_ext_header_and_dir_in_place(bs, bm_list);
-         if (ret < 0) {
--            error_setg_errno(errp, -ret, "Can't update bitmap directory"=
-);
-+            error_setg_errno(errp, -ret, "Cannot update bitmap directory=
-");
-             goto out;
-         }
--        g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-     }
-=20
-+    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-+    ret =3D 0;
-+
- out:
-     g_slist_free(ro_dirty_bitmaps);
-     bitmap_list_free(bm_list);
---=20
-2.21.0
+$ cat GNUmakefile
+# Hack for redirecting while reminding myself to use distinct builddir
+%: force
+	@echo 'changing directory to build...'
+	@sleep 2
+	@$(MAKE) -C build -f Makefile $(MAKECMDGOALS)
+force: ;
+GNUmakefile: ;
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
