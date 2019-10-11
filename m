@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153AED47CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:43:42 +0200 (CEST)
-Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBB9D47C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:41:25 +0200 (CEST)
+Received: from localhost ([::1]:55698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzt7-0002cS-3D
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41752)
+	id 1iIzqu-000804-9O
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmx-00006C-JN
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:29:12 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxm9-0007UQ-6I
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmw-0003NV-Ba
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:29:11 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50034)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxm7-0002oW-PK
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:21 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49960)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxmw-0003NI-4K
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:29:10 -0400
+ id 1iIxm7-0002mQ-Hq; Fri, 11 Oct 2019 12:28:19 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR3-0003XG-HJ; Fri, 11 Oct 2019 19:06:33 +0300
+ id 1iIxR5-0003XG-Rp; Fri, 11 Oct 2019 19:06:36 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 105/126] Bootdevice: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:31 +0300
-Message-Id: <20191011160552.22907-106-vsementsov@virtuozzo.com>
+Subject: [RFC v5 109/126] parallels: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:35 +0300
+Message-Id: <20191011160552.22907-110-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +47,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, armbru@redhat.com, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,90 +98,111 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- bootdevice.c | 31 +++++++++++++------------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
+ block/parallels.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/bootdevice.c b/bootdevice.c
-index 1d225202f9..ca69cbeb05 100644
---- a/bootdevice.c
-+++ b/bootdevice.c
-@@ -53,7 +53,7 @@ void qemu_register_boot_set(QEMUBootSetHandler *func, void *opaque)
- 
- void qemu_boot_set(const char *boot_order, Error **errp)
+diff --git a/block/parallels.c b/block/parallels.c
+index 7cd2714b69..c8ba23bbd5 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -613,8 +613,8 @@ static int coroutine_fn parallels_co_create_opts(const char *filename,
+                                                  QemuOpts *opts,
+                                                  Error **errp)
  {
--    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
- 
-     if (!boot_set_handler) {
-         error_setg(errp, "no function defined to set boot device list for"
-@@ -61,9 +61,8 @@ void qemu_boot_set(const char *boot_order, Error **errp)
-         return;
+     BlockdevCreateOptions *create_options = NULL;
+-    Error *local_err = NULL;
+     BlockDriverState *bs = NULL;
+     QDict *qdict;
+     Visitor *v;
+@@ -635,9 +635,8 @@ static int coroutine_fn parallels_co_create_opts(const char *filename,
      }
  
--    validate_bootdevices(boot_order, &local_err);
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, &local_err);
++    ret = bdrv_create_file(filename, opts, errp);
+     if (ret < 0) {
+-        error_propagate(errp, local_err);
+         goto done;
+     }
+ 
+@@ -658,11 +657,10 @@ static int coroutine_fn parallels_co_create_opts(const char *filename,
+         goto done;
+     }
+ 
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
+ 
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    validate_bootdevices(boot_order, errp);
 +    if (*errp) {
-         return;
+         ret = -EINVAL;
+         goto done;
      }
- 
-@@ -286,26 +285,23 @@ static void device_get_bootindex(Object *obj, Visitor *v, const char *name,
- static void device_set_bootindex(Object *obj, Visitor *v, const char *name,
-                                  void *opaque, Error **errp)
+@@ -721,11 +719,11 @@ static int parallels_update_header(BlockDriverState *bs)
+ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+                           Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     BootIndexProperty *prop = opaque;
-     int32_t boot_index;
+     BDRVParallelsState *s = bs->opaque;
+     ParallelsHeader ph;
+     int ret, size, i;
+     QemuOpts *opts = NULL;
 -    Error *local_err = NULL;
+     char *buf;
  
--    visit_type_int32(v, name, &boot_index, &local_err);
--    if (local_err) {
--        goto out;
-+    visit_type_int32(v, name, &boot_index, errp);
-+    if (*errp) {
-+        return;
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
+@@ -813,13 +811,13 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+         }
      }
-     /* check whether bootindex is present in fw_boot_order list  */
--    check_boot_index(boot_index, &local_err);
--    if (local_err) {
--        goto out;
-+    check_boot_index(boot_index, errp);
-+    if (*errp) {
-+        return;
-     }
-     /* change bootindex to a new one */
-     *prop->bootindex = boot_index;
  
-     add_boot_device_path(*prop->bootindex, prop->dev, prop->suffix);
--
--out:
+-    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, &local_err);
+-    if (local_err != NULL) {
++    opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, errp);
++    if (*errp) {
+         goto fail_options;
+     }
+ 
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err != NULL) {
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         goto fail_options;
+     }
+ 
+@@ -829,9 +827,9 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+     buf = qemu_opt_get_del(opts, PARALLELS_OPT_PREALLOC_MODE);
+     s->prealloc_mode = qapi_enum_parse(&prealloc_mode_lookup, buf,
+                                        PRL_PREALLOC_MODE_FALLOCATE,
+-                                       &local_err);
++                                       errp);
+     g_free(buf);
+-    if (local_err != NULL) {
++    if (*errp) {
+         goto fail_options;
+     }
+ 
+@@ -855,9 +853,8 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+     error_setg(&s->migration_blocker, "The Parallels format used by node '%s' "
+                "does not support live migration",
+                bdrv_get_device_or_node_name(bs));
+-    ret = migrate_add_blocker(s->migration_blocker, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    ret = migrate_add_blocker(s->migration_blocker, errp);
++    if (*errp) {
+         error_free(s->migration_blocker);
+         goto fail;
+     }
+@@ -872,7 +869,6 @@ fail:
+     return ret;
+ 
+ fail_options:
 -    error_propagate(errp, local_err);
+     ret = -EINVAL;
+     goto fail;
  }
- 
- static void property_release_bootindex(Object *obj, const char *name,
-@@ -322,7 +318,7 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
-                                    const char *name, const char *suffix,
-                                    DeviceState *dev, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     BootIndexProperty *prop = g_malloc0(sizeof(*prop));
- 
-     prop->bootindex = bootindex;
-@@ -333,10 +329,9 @@ void device_add_bootindex_property(Object *obj, int32_t *bootindex,
-                         device_get_bootindex,
-                         device_set_bootindex,
-                         property_release_bootindex,
--                        prop, &local_err);
-+                        prop, errp);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         g_free(prop);
-         return;
-     }
 -- 
 2.21.0
 
