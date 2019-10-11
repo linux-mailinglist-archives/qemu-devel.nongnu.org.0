@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22040D41CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:50:56 +0200 (CEST)
-Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82A7D41D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:53:20 +0200 (CEST)
+Received: from localhost ([::1]:50584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIvJn-0004x8-19
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38590)
+	id 1iIvM7-0007vD-HD
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:53:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvHZ-0003KI-AU
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:48:38 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIvHt-0003d6-OL
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:48:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvHY-00036v-4R
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:48:37 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:44044)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIvHs-0003Nj-FC
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:48:57 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:34902)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIvHY-00036l-1A
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:48:36 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id m13so3479895ywa.11
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:48:35 -0700 (PDT)
+ id 1iIvHs-0003N4-Bb
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:48:56 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id r134so3500984ywg.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=kRVYi/cd4sJBmkOfsvOkC48A2821IfvOweyDTIJZmas=;
- b=Yu/oJVtWKrqV6rqzPN9bt3luBufZ2oDC3OERGl0GNEiR0Ec/IrLQ/RY8dEN4N7Txsr
- JN7wwXOKpZucUAlDQxFNxdTevpFefm/oE3lkc2HLb/8rQkgrIbgBVaEKfbiF1Ma28UoU
- 9/aqem6igw2tSOnup1QKzToC/hxXzIXNIXXyG0jFh0d1sTKNkziMRqokOFmkEYRw7rkk
- ySgqA4aCmp1UYa3iC2a9j499kcfAU20V/8uLhAfp2NHkanHPZuXI1V74hVT7T9be5sc/
- nHZuxco4xVpsrXtL1UQV6gEP5snEQMcngc/mSbi3gxklON07IBhzkRFAZrXV9iE7iC05
- sJTA==
+ bh=u6kz9NuK9Wp4TrtRthl3Manwia2sE3vhzut21VwbSSg=;
+ b=WI5AX+15EMrGSqPRoSd9m1GVeMzKoIv+IbLNVd57Ti9Qhf7ii5bNn1Gr0f2BXh7JQl
+ O3bciESry5V3pSdA4VExdKm+skOnrLcIUbyyicYjy/CDTGlZtPHtOi/VP+dtZXHFZDzo
+ yp4+kzdHIPz7Nolj9N0l6DBQN+64oBISD+WYi4dFjrWzIwRz1JnLNt0Ad+92ivX/RJJl
+ SVLqEL7c+XtZaeVDmUbwhtokaEdbB7oif71SrC862ricsdPbGh+PSLG4poKXOsFxafdN
+ SbbpiO5sm1HCZiihBQNvVg8NZ1j00O3JJ5YLNotKJZaRBFhCRFrUH+aJ5tooe+s5nIQi
+ dNYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=kRVYi/cd4sJBmkOfsvOkC48A2821IfvOweyDTIJZmas=;
- b=KJyKcOHp/+S4BWyQt5KTj6n46GXBennljJIDPJhdqvVeMMEAF3LnaE2Ro654Zo8UoY
- 50zfl4wkyhP0JtlWVP/fTWIhNQfZ3mu4AfsEI5F81uCWxxu8oB+U6TUOrvcnqp4PZEwS
- ERBPxn4ySIoZOMLyIPjD1bb5WyETvUitb8DBl9RSnVNgfDfQFzdOWet1YBBGUJqiS3lz
- B2pXdP0ouiuEnTDygB8G/Od4FEI+kLBvC795SNM6Kjdq3zXLDNS3iv0tXgy9TJQSJ4vL
- anexdT3V8YSvxL3vFJa50wluRMG1ugmU9WzHa4NA4Icf/wP12OBtDID71GLSnqccLTZp
- 5mrA==
-X-Gm-Message-State: APjAAAW+O+33+NYVvpT/iVDOTKM3aD6WWVl1d8Zs2Tc3RSVg8HhWH1My
- 8G3c66AT/Gr32fOr0AxYBYG/ugpvi10=
-X-Google-Smtp-Source: APXvYqwZj7AiLkyG7n3C1GzNCajb6H9EX6mfde1YMAaI9sB/z0K8of4u8RcL+qq7SSKgBdF9h33l6Q==
-X-Received: by 2002:a81:2b09:: with SMTP id r9mr2411212ywr.346.1570801715120; 
- Fri, 11 Oct 2019 06:48:35 -0700 (PDT)
+ bh=u6kz9NuK9Wp4TrtRthl3Manwia2sE3vhzut21VwbSSg=;
+ b=Llh2xJOj/N1dtfR2GTsXGXZ3HoVI66vhAilkH0omzGuuphEqTf7p7myoPcU/GgUmn+
+ qxYDQeWppS9Tn14UvFmF7l+M0U9dEUVWOuD+iEt/Aljua8E3hL/lpzArjo/2YP45w/En
+ AlBxgDLganAn6XqAI3hXTUomUV4Ee4afUv9cY3lqEp1zLAkq4bnHh5IxvJeKPtr2KfS2
+ lhgTdt/1GiFg8UkDuNjFnDLPmqBA1RwlazUeTyoi3V0WzZlexwPDAdP6Nsg1mXT9xwmH
+ pbQ1R6qC2dTQsIjjoG3QVYKbyemZYVrAMWbH+UE+SSbGMjpdLARpocCtl+KaerokEba8
+ qpJg==
+X-Gm-Message-State: APjAAAU+ira1unB6rrcPZ87Tuo5jLe1yEQ83qlNDEHUMwAVo7BlcEvEU
+ BEJUBSNNgTGF0LUV6rvxfDVkgA80CqU=
+X-Google-Smtp-Source: APXvYqxgi1QYTsnYYFYLKTE5F+bWDmWVVf+Ysti4uTmrE0Sz5iyQbcoeu6x2pQgl1KlEiiIqDRURnA==
+X-Received: by 2002:a81:688a:: with SMTP id d132mr2314569ywc.452.1570801735166; 
+ Fri, 11 Oct 2019 06:48:55 -0700 (PDT)
 Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
  [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.48.17
+ by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.48.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 06:48:34 -0700 (PDT)
+ Fri, 11 Oct 2019 06:48:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/22] target/arm: Add regime_has_2_ranges
-Date: Fri, 11 Oct 2019 09:47:24 -0400
-Message-Id: <20191011134744.2477-3-richard.henderson@linaro.org>
+Subject: [PATCH v5 03/22] target/arm: Add MTE system registers
+Date: Fri, 11 Oct 2019 09:47:25 -0400
+Message-Id: <20191011134744.2477-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191011134744.2477-1-richard.henderson@linaro.org>
 References: <20191011134744.2477-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
+X-Received-From: 2607:f8b0:4864:20::c43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,116 +79,162 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A translation with 2 ranges has both positive and negative addresses.
-This is true for the EL1&0 and the as-yet unimplemented EL2&0 regimes.
+This is TFSRE0_EL1, TFSR_EL1, TFSR_EL2, TFSR_EL3,
+RGSR_EL1, GCR_EL1, GMID_EL1, and PSTATE.TCO.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h     | 14 ++++++++++++++
- target/arm/helper.c        | 22 +++++-----------------
- target/arm/translate-a64.c |  3 +--
- 3 files changed, 20 insertions(+), 19 deletions(-)
+v3: Add GMID; add access_mte.
+v4: Define only TCO at mte_insn_reg.
+---
+ target/arm/cpu.h           |  3 ++
+ target/arm/internals.h     |  6 ++++
+ target/arm/helper.c        | 73 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-a64.c | 11 ++++++
+ 4 files changed, 93 insertions(+)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 408d749b7a..d99bb5e956 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -486,6 +486,9 @@ typedef struct CPUARMState {
+         uint64_t pmccfiltr_el0; /* Performance Monitor Filter Register */
+         uint64_t vpidr_el2; /* Virtualization Processor ID Register */
+         uint64_t vmpidr_el2; /* Virtualization Multiprocessor ID Register */
++        uint64_t tfsr_el[4]; /* tfsrel0_el1 is index 0.  */
++        uint64_t gcr_el1;
++        uint64_t rgsr_el1;
+     } cp15;
+ 
+     struct {
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index dcc5d6cca3..9486680b87 100644
+index 9486680b87..bfa243be06 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -804,6 +804,20 @@ static inline void arm_call_el_change_hook(ARMCPU *cpu)
-     }
- }
+@@ -1079,4 +1079,10 @@ void arm_log_exception(int idx);
  
-+/* Return true if this address translation regime has two ranges.  */
-+static inline bool regime_has_2_ranges(ARMMMUIdx mmu_idx)
-+{
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_S12NSE0:
-+    case ARMMMUIdx_S12NSE1:
-+    case ARMMMUIdx_S1NSE0:
-+    case ARMMMUIdx_S1NSE1:
-+        return true;
-+    default:
-+        return false;
-+    }
-+}
+ #endif /* !CONFIG_USER_ONLY */
+ 
++/*
++ * The log2 of the words in the tag block, for GMID_EL1.BS.
++ * The is the maximum, 256 bytes, which manipulates 64-bits of tags.
++ */
++#define GMID_EL1_BS  6
 +
- /* Return true if this address translation regime is secure */
- static inline bool regime_is_secure(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
+ #endif
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b690eda136..f9dee51ede 100644
+index f9dee51ede..f435a8d8bd 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8774,15 +8774,8 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
+@@ -5921,6 +5921,73 @@ static const ARMCPRegInfo rndr_reginfo[] = {
+       .access = PL0_R, .readfn = rndr_readfn },
+     REGINFO_SENTINEL
+ };
++
++static CPAccessResult access_mte(CPUARMState *env, const ARMCPRegInfo *ri,
++                                 bool isread)
++{
++    int el = arm_current_el(env);
++
++    if (el < 2 &&
++        arm_feature(env, ARM_FEATURE_EL2) &&
++        !(arm_hcr_el2_eff(env) & HCR_ATA)) {
++        return CP_ACCESS_TRAP_EL2;
++    }
++    if (el < 3 &&
++        arm_feature(env, ARM_FEATURE_EL3) &&
++        !(env->cp15.scr_el3 & SCR_ATA)) {
++        return CP_ACCESS_TRAP_EL3;
++    }
++    return CP_ACCESS_OK;
++}
++
++static uint64_t tco_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    return env->pstate & PSTATE_TCO;
++}
++
++static void tco_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t val)
++{
++    env->pstate = (env->pstate & ~PSTATE_TCO) | (val & PSTATE_TCO);
++}
++
++static const ARMCPRegInfo mte_reginfo[] = {
++    { .name = "TFSRE0_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 6, .crm = 6, .opc2 = 1,
++      .access = PL1_RW, .accessfn = access_mte,
++      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[0]) },
++    { .name = "TFSR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 6, .crm = 5, .opc2 = 0,
++      .access = PL1_RW, .accessfn = access_mte,
++      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[1]) },
++    { .name = "TFSR_EL2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 4, .crn = 6, .crm = 5, .opc2 = 0,
++      .access = PL2_RW, .accessfn = access_mte,
++      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[2]) },
++    { .name = "TFSR_EL3", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 6, .crn = 6, .crm = 6, .opc2 = 0,
++      .access = PL3_RW,
++      .fieldoffset = offsetof(CPUARMState, cp15.tfsr_el[3]) },
++    { .name = "RGSR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 1, .crm = 0, .opc2 = 5,
++      .access = PL1_RW, .accessfn = access_mte,
++      .fieldoffset = offsetof(CPUARMState, cp15.rgsr_el1) },
++    { .name = "GCR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 1, .crm = 0, .opc2 = 6,
++      .access = PL1_RW, .accessfn = access_mte,
++      .fieldoffset = offsetof(CPUARMState, cp15.gcr_el1) },
++    { .name = "GMID_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 4,
++      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = GMID_EL1_BS },
++    REGINFO_SENTINEL
++};
++
++static const ARMCPRegInfo mte_tco_reginfo[] = {
++    { .name = "TCO", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 7,
++      .type = ARM_CP_NO_RAW,
++      .access = PL0_RW, .readfn = tco_read, .writefn = tco_write },
++    REGINFO_SENTINEL
++};
+ #endif
+ 
+ static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -6881,6 +6948,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     if (cpu_isar_feature(aa64_rndr, cpu)) {
+         define_arm_cp_regs(cpu, rndr_reginfo);
      }
++    if (cpu_isar_feature(aa64_mte_insn_reg, cpu)) {
++        define_arm_cp_regs(cpu, mte_tco_reginfo);
++    }
++    if (cpu_isar_feature(aa64_mte, cpu)) {
++        define_arm_cp_regs(cpu, mte_reginfo);
++    }
+ #endif
  
-     if (is_aa64) {
--        switch (regime_el(env, mmu_idx)) {
--        case 1:
--            if (!is_user) {
--                xn = pxn || (user_rw & PAGE_WRITE);
--            }
--            break;
--        case 2:
--        case 3:
--            break;
-+        if (regime_has_2_ranges(mmu_idx) && !is_user) {
-+            xn = pxn || (user_rw & PAGE_WRITE);
-         }
-     } else if (arm_feature(env, ARM_FEATURE_V7)) {
-         switch (regime_el(env, mmu_idx)) {
-@@ -9316,7 +9309,6 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-                                         ARMMMUIdx mmu_idx)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
--    uint32_t el = regime_el(env, mmu_idx);
-     bool tbi, tbid, epd, hpd, tcma, using16k, using64k;
-     int select, tsz;
- 
-@@ -9326,7 +9318,7 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-      */
-     select = extract64(va, 55, 1);
- 
--    if (el > 1) {
-+    if (!regime_has_2_ranges(mmu_idx)) {
-         tsz = extract32(tcr, 0, 6);
-         using64k = extract32(tcr, 14, 1);
-         using16k = extract32(tcr, 15, 1);
-@@ -9486,10 +9478,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
-         param = aa64_va_parameters(env, address, mmu_idx,
-                                    access_type != MMU_INST_FETCH);
-         level = 0;
--        /* If we are in 64-bit EL2 or EL3 then there is no TTBR1, so mark it
--         * invalid.
--         */
--        ttbr1_valid = (el < 2);
-+        ttbr1_valid = regime_has_2_ranges(mmu_idx);
-         addrsize = 64 - 8 * param.tbi;
-         inputsize = 64 - param.tsz;
-     } else {
-@@ -11095,8 +11084,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-             ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
-             int tbii;
- 
--            /* FIXME: ARMv8.1-VHE S2 translation regime.  */
--            if (regime_el(env, stage1) < 2) {
-+            if (regime_has_2_ranges(mmu_idx)) {
-                 ARMVAParameters p1 = aa64_va_parameters_both(env, -1, stage1);
-                 tbid = (p1.tbi << 1) | p0.tbi;
-                 tbii = tbid & ~((p1.tbid << 1) | p0.tbid);
+     /*
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 51f3af9cd9..c85db69db4 100644
+index c85db69db4..62bdf50796 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -175,8 +175,7 @@ static void gen_top_byte_ignore(DisasContext *s, TCGv_i64 dst,
-     if (tbi == 0) {
-         /* Load unmodified address */
-         tcg_gen_mov_i64(dst, src);
--    } else if (s->current_el >= 2) {
--        /* FIXME: ARMv8.1-VHE S2 translation regime.  */
-+    } else if (!regime_has_2_ranges(s->mmu_idx)) {
-         /* Force tag byte to all zero */
-         tcg_gen_extract_i64(dst, src, 0, 56);
-     } else {
+@@ -1611,6 +1611,17 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         s->base.is_jmp = DISAS_UPDATE;
+         break;
+ 
++    case 0x1c: /* TCO */
++        if (!dc_isar_feature(aa64_mte_insn_reg, s)) {
++            goto do_unallocated;
++        }
++        if (crm & 1) {
++            set_pstate_bits(PSTATE_TCO);
++        } else {
++            clear_pstate_bits(PSTATE_TCO);
++        }
++        break;
++
+     default:
+     do_unallocated:
+         unallocated_encoding(s);
 -- 
 2.17.1
 
