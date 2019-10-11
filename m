@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F5DD4501
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:08:37 +0200 (CEST)
-Received: from localhost ([::1]:53316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80496D44FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:06:53 +0200 (CEST)
+Received: from localhost ([::1]:53008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxT2-00083G-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33675)
+	id 1iIxRL-0005Lc-MF
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxGo-0002LU-81
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIxGq-0002Rp-Mf
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxGn-0007eO-4s
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:58 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:39998)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIxGp-0007gc-FR
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:00 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:46738)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIxGn-0007e3-1R
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:57 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id s7so3254895ybq.7
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:55:57 -0700 (PDT)
+ id 1iIxGp-0007gL-Br
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:59 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id h202so3235760ybg.13
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=nFJqxK8OKOrQev/1CQPrr0VKM/9+1cXcigS/dy+zmf4=;
- b=vls3T+ax6QRQgGywOLqQFOiAiTSTvgQafBGaYNxZtVrM/3E7oeVhIBRlMQZZGuqHE7
- eyYrnew1A3OkIWvu0J8mxfckeIwXrl918zUEsg0AJu/0SgTSBXL3UxhA+CfmVTm/FJhN
- bmCM+fx1E/RuODQVfOcwN3OSyehSek5kTgC5VY+yz1vkvTivJSAJObPfhiMZ53knNzmZ
- 54y121qSTjSHL3YoFb64MaFOV33BCRKL9u9WB3ld68MXu/FhgbB3aevfVVsvO07eRDDg
- q8P5c0sJvO7mx9q20WkQ9KQUSj2AYDgLUGxtVjOKAPAhWoU/3nC89/VhRYI90Y9P+fRL
- insQ==
+ bh=iqTlbqaEumCeViAxHmy3brKEyzF/IL5OcylNHq80qOA=;
+ b=LlaPsAfSZ9ajH0n/1v6zbHEnrz97OeHhwUUtJCeQvP+1xHOkAd54BXlZbLPsSV+yx1
+ /4LxMyYD4sdNS/WBhp9O5MF4v6kKMCPTXuPeGojNocanhka7xK2/mJ8pI0vLbNXW24+/
+ rhW50d+qU/ZqSheeixunH7PNW5rOB0VFa18L4MHo8ySH/w+9rf52cQ+FM1i8pLSQRrEs
+ TnnO+QjWfwAQu7/p4KLZqV7Lx0NFq3X1bSeAmGVTRLO9o4IxYPfO9ucRzfJvOF2wgVPP
+ 4nmPDDdluOdjw9qINF8rQVt9jrVCPztH27iROZYVKpwUIlvDKo+evX0qjO3t4NjYheDk
+ yFvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=nFJqxK8OKOrQev/1CQPrr0VKM/9+1cXcigS/dy+zmf4=;
- b=k6GHrKek8K0KRdUG/Vkvq4W/RRPQIJbCAJ5M4xYLqvBI7tXj6bedwWNknqZwOfBYd+
- D1ll+5/1BlE8ZRDObPVYSRrQdNt2UOKoJa0qwdrL0C096snRVxlhG0kefH+XzQuMCl7r
- Hv4dXiXxGimyMd7AZelrKuMStIPk8FMj+PcMWJMn5mvZcL52iIW95gczWtjFJYnYo3g5
- Z2gyhHc+MMoKvHu6y3DV3IzJMLhpy1HejnL+s7ijV2uEVAEGRDQ2U0CK+SHosWTllMGU
- Fu4GtJIFtLhpMO9y+U1mjKEUeqsn8Kux+Ab/X6Igj5wYd1pd0xql1wR7HTRxujATOv+z
- SjJg==
-X-Gm-Message-State: APjAAAUzuV+UH+myBthuyGAhxzxzIsx7r6RjwnkuvpEQckahheO5F67D
- CNq1gf4hWJob8odggjqB61GZy3WzQJs=
-X-Google-Smtp-Source: APXvYqx9PQe1obtcaKCiO8stP/SdAr/rm60qXZi4Dk3j9MzWIyImUZnEu1U31KuMMfUza6myQEQAng==
-X-Received: by 2002:a25:388f:: with SMTP id
- f137mr10148377yba.223.1570809356070; 
- Fri, 11 Oct 2019 08:55:56 -0700 (PDT)
+ bh=iqTlbqaEumCeViAxHmy3brKEyzF/IL5OcylNHq80qOA=;
+ b=pQ3aTMBYsv7fNGzjSQHZWo5gkL/Q3kd891KmN6VwjWp3o8HnEyGnrRwKrfomKngi6s
+ 9oG3Ii7duRgHbRWvxGKyg6tVJldVPTb8RDDNFh0uKO1lZpvdwAeyNweCl3JmWu+yEDDX
+ m6frnTqofHoB5fhviC0oGWGRF5NkmmipcQKqz6gqZNY3waQF+R2tKc4PFCgmmmRnKIvx
+ CJNC56N6oaM3qkpvMiXoRCZrCjc3YLw7Rqf2G72u8Xy+yD5bn9zE/Pk4lN74zBhzp4/f
+ oOpNirEfhgmRLZ7Mzlis6FiYv/zFC3R6Yj45epqjCQYnBriqjbrHbgBDZk5G0CRlj7fG
+ CY7w==
+X-Gm-Message-State: APjAAAUEB+bZxcTx65NMoUZNL7Fs/xaebJaP31H2JnRH23IRYiWvBren
+ Duh+M6tsqCowltv1vjogSut1cXYOOn8=
+X-Google-Smtp-Source: APXvYqzkgzbQsosCljGQX5pZq8qop0g4nkjJ5XqAgss7IkZlRKxJBOQFr7OHf3pAeph9meStsCExIw==
+X-Received: by 2002:a25:4b04:: with SMTP id y4mr10225057yba.480.1570809358429; 
+ Fri, 11 Oct 2019 08:55:58 -0700 (PDT)
 Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
  [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id d17sm2473139ywb.95.2019.10.11.08.55.55
+ by smtp.gmail.com with ESMTPSA id d17sm2473139ywb.95.2019.10.11.08.55.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 08:55:55 -0700 (PDT)
+ Fri, 11 Oct 2019 08:55:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 07/20] target/arm: Split out rebuild_hflags_a32
-Date: Fri, 11 Oct 2019 11:55:33 -0400
-Message-Id: <20191011155546.14342-8-richard.henderson@linaro.org>
+Subject: [PATCH v6 09/20] target/arm: Hoist XSCALE_CPAR, VECLEN,
+ VECSTRIDE in cpu_get_tb_cpu_state
+Date: Fri, 11 Oct 2019 11:55:35 -0400
+Message-Id: <20191011155546.14342-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191011155546.14342-1-richard.henderson@linaro.org>
 References: <20191011155546.14342-1-richard.henderson@linaro.org>
@@ -80,39 +80,55 @@ Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently a trivial wrapper for rebuild_hflags_common_32.
+We do not need to compute any of these values for M-profile.
+Further, XSCALE_CPAR overlaps VECSTRIDE so obviously the two
+sets must be mutually exclusive.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 296a4b2232..d1cd54cc93 100644
+index ddd21edfcf..e2a62cf19a 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11106,6 +11106,12 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
-     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
- }
- 
-+static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
-+                                   ARMMMUIdx mmu_idx)
-+{
-+    return rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
-+}
-+
- static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-                                    ARMMMUIdx mmu_idx)
- {
-@@ -11218,7 +11224,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                 flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
+@@ -11235,21 +11235,28 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
              }
          } else {
--            flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
-+            flags = rebuild_hflags_a32(env, fp_el, mmu_idx);
+             flags = rebuild_hflags_a32(env, fp_el, mmu_idx);
++
++            /*
++             * Note that XSCALE_CPAR shares bits with VECSTRIDE.
++             * Note that VECLEN+VECSTRIDE are RES0 for M-profile.
++             */
++            if (arm_feature(env, ARM_FEATURE_XSCALE)) {
++                flags = FIELD_DP32(flags, TBFLAG_A32,
++                                   XSCALE_CPAR, env->cp15.c15_cpar);
++            } else {
++                flags = FIELD_DP32(flags, TBFLAG_A32, VECLEN,
++                                   env->vfp.vec_len);
++                flags = FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE,
++                                   env->vfp.vec_stride);
++            }
          }
  
          flags = FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
+-        flags = FIELD_DP32(flags, TBFLAG_A32, VECLEN, env->vfp.vec_len);
+-        flags = FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE, env->vfp.vec_stride);
+         flags = FIELD_DP32(flags, TBFLAG_A32, CONDEXEC, env->condexec_bits);
+         if (env->vfp.xregs[ARM_VFP_FPEXC] & (1 << 30)
+             || arm_el_is_aa64(env, 1) || arm_feature(env, ARM_FEATURE_M)) {
+             flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
+         }
+-        /* Note that XSCALE_CPAR shares bits with VECSTRIDE */
+-        if (arm_feature(env, ARM_FEATURE_XSCALE)) {
+-            flags = FIELD_DP32(flags, TBFLAG_A32,
+-                               XSCALE_CPAR, env->cp15.c15_cpar);
+-        }
+     }
+ 
+     /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
 -- 
 2.17.1
 
