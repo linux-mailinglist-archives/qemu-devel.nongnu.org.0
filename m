@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5FBD3815
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 05:55:12 +0200 (CEST)
-Received: from localhost ([::1]:45654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624CED3817
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 05:56:08 +0200 (CEST)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIm1H-0005lM-IB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 23:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55080)
+	id 1iIm2B-0006mE-Gz
+	for lists+qemu-devel@lfdr.de; Thu, 10 Oct 2019 23:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iIm0L-0005LC-13
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 23:54:13 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iIm16-00062t-53
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 23:55:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iIm0K-0003uC-3Y
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 23:54:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48426)
+ (envelope-from <ehabkost@redhat.com>) id 1iIm15-0004CQ-77
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 23:55:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iIm0J-0003u5-UR
- for qemu-devel@nongnu.org; Thu, 10 Oct 2019 23:54:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iIm15-0004Bq-1W
+ for qemu-devel@nongnu.org; Thu, 10 Oct 2019 23:54:59 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 050ED8372F0;
- Fri, 11 Oct 2019 03:54:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2C16010CC1ED;
+ Fri, 11 Oct 2019 03:54:58 +0000 (UTC)
 Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18D4360BE1;
- Fri, 11 Oct 2019 03:54:07 +0000 (UTC)
-Date: Fri, 11 Oct 2019 00:54:06 -0300
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 443E35D9DC;
+ Fri, 11 Oct 2019 03:54:55 +0000 (UTC)
+Date: Fri, 11 Oct 2019 00:54:53 -0300
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: "Moger, Babu" <Babu.Moger@amd.com>
-Subject: Re: [Qemu-devel] [RFC 2 PATCH 03/16] hw/i386: Introduce
- X86CPUTopoInfo to contain topology info
-Message-ID: <20191011035406.GF29387@habkost.net>
+Subject: Re: [Qemu-devel] [RFC 2 PATCH 09/16] hw/i386: Introduce
+ initialize_topo_info function
+Message-ID: <20191011035453.GG29387@habkost.net>
 References: <156779689013.21957.1631551572950676212.stgit@localhost.localdomain>
- <156779711572.21957.10722611828264773686.stgit@localhost.localdomain>
+ <156779715852.21957.5495116804345322435.stgit@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <156779711572.21957.10722611828264773686.stgit@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <156779715852.21957.5495116804345322435.stgit@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Fri, 11 Oct 2019 03:54:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.65]); Fri, 11 Oct 2019 03:54:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -66,28 +66,16 @@ Cc: "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 06, 2019 at 07:11:57PM +0000, Moger, Babu wrote:
-> This is an effort to re-arrange few data structure for better
-> readability. Add X86CPUTopoInfo which will have all the topology
-> informations required to build the cpu topology. There is no
-> functional changes.
+On Fri, Sep 06, 2019 at 07:12:40PM +0000, Moger, Babu wrote:
+> Introduce initialize_topo_info to initialize X86CPUTopoInfo
+> data structure to build the topology. No functional change.
 > 
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
-[...]
-> +typedef struct X86CPUTopoInfo {
-> +    unsigned numa_nodes;
-> +    unsigned nr_sockets;
-> +    unsigned nr_dies;
-> +    unsigned nr_cores;
-> +    unsigned nr_threads;
-> +} X86CPUTopoInfo;
 
-With more complex topologies, the meaning of each of those fields
-may be ambiguous.  e.g.: is nr_cores cores per die, cores per
-ccx, or cores per socket?  Maybe we should use this opportunity
-to use more explicit names like threads_per_core, cores_per_die,
-dies_per_socket.
+
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+
+Maybe this could be squashed into patch 03/16.
 
 -- 
 Eduardo
