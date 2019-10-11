@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F76FD4803
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:54:49 +0200 (CEST)
-Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601B0D4810
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 21:00:34 +0200 (CEST)
+Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ03s-0005V0-7W
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53152)
+	id 1iJ09Q-0000gK-RF
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 15:00:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dann.frazier@canonical.com>) id 1iIz8f-0006el-LK
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:55:43 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iIzln-0002II-Rz
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:36:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dann.frazier@canonical.com>) id 1iIz8e-00069V-9h
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:55:41 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:35073)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dann.frazier@canonical.com>)
- id 1iIz8e-00067g-41
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:55:40 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <dann.frazier@canonical.com>) id 1iIz8b-0007uo-Ui
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:55:38 +0000
-Received: by mail-io1-f70.google.com with SMTP id r20so15689610ioh.7
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 10:55:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=TJabvGBzYoH+K4DTwkXfzex0GExkMyVSB8XXZLit9qI=;
- b=AtMRAdW8HnhyvcPm3ZJzBtqIhbJH0N6c386tlQ5JqH8FSwcBewMSMchZnDSnxVHI1k
- LmWwcOd49B6xygtsRIMEhl4on3TDkHDFo0t949HripxlsSOSkHU5JrMyK4/fhV9ACXCc
- Uv+5kOp9qGy5HFo8R7Bl2iSGzlrUCYsRvefTwYOwMl8O7SZ9/fxAX18IpB66XbX3BlpO
- UjtpJSP9/RQMB240tFMIfL0Px0R+4XBxAmjAi+BIatcN5fS+1aV/b4gHwyrpcyTKLy0X
- 5k51y0QecrnRXhU4jqwg121/qsBUmsWVs59uHwkbtITN1q3sDjkcrV3I9841c3CWneg2
- TpVw==
-X-Gm-Message-State: APjAAAU47nS36uc94Iu5ziJyOBgerUKVHH7M8ceKLVuceAvihMUOCJJq
- sZOdX6A8CsQzGEUcrqxZic1nu/Vi6PgWCddHaHEjm04zOcAmL8zOjg4srPU4lIP/nw7ZO/G0zr0
- BglfC7ZmsbfVexMyN2dZzjILqBOKr84wO
-X-Received: by 2002:a5d:8991:: with SMTP id m17mr7780100iol.104.1570816536857; 
- Fri, 11 Oct 2019 10:55:36 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzrZ5NZjnnq4tF4R6PQev4BU0bFGzfLPJOith1vTdJsoQ3pyTj08BA+rbRfPaAGd4j0xD+ZTQ==
-X-Received: by 2002:a5d:8991:: with SMTP id m17mr7780076iol.104.1570816536534; 
- Fri, 11 Oct 2019 10:55:36 -0700 (PDT)
-Received: from xps13.canonical.com (c-71-56-235-36.hsd1.co.comcast.net.
- [71.56.235.36])
- by smtp.gmail.com with ESMTPSA id f12sm6162295iob.58.2019.10.11.10.55.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 10:55:35 -0700 (PDT)
-Date: Fri, 11 Oct 2019 11:55:36 -0600
-From: dann frazier <dann.frazier@canonical.com>
-To: Jan Glauber <jglauber@marvell.com>
-Subject: Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible issues
-Message-ID: <20191011175536.GB25464@xps13.dannf>
-References: <20190924202517.GA21422@xps13.dannf> <20191002092253.GA3857@hc>
- <6dd73749-49b0-0fbc-b9bb-44c3736642b8@redhat.com>
- <20191007144432.GA29958@xps13.dannf>
- <065a52a9-5bb0-1259-6c73-41af60e0a05d@redhat.com>
- <20191009080220.GA2905@hc>
- <d5367b2a-84ee-1211-a2dc-7d631c94fe3f@redhat.com>
- <20191011060518.GA6920@hc>
- <966c119d-aa76-2149-108f-867aebd772f7@redhat.com>
- <20191011082954.GA10493@hc>
+ (envelope-from <dgilbert@redhat.com>) id 1iIzlm-0005XZ-76
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:36:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57130)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iIzlm-0005X0-1M
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:36:06 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AE5021017C06;
+ Fri, 11 Oct 2019 18:36:04 +0000 (UTC)
+Received: from work-vm (ovpn-117-210.ams2.redhat.com [10.36.117.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88D56600C4;
+ Fri, 11 Oct 2019 18:36:00 +0000 (UTC)
+Date: Fri, 11 Oct 2019 19:35:58 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [RFC v5 004/126] hmp: drop Error pointer indirection in
+ hmp_handle_error
+Message-ID: <20191011183558.GY3354@work-vm>
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-5-vsementsov@virtuozzo.com>
+ <f8334660-9e5a-3dcb-6818-746d94ea1add@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191011082954.GA10493@hc>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 91.189.89.112
+In-Reply-To: <f8334660-9e5a-3dcb-6818-746d94ea1add@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Fri, 11 Oct 2019 18:36:04 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,81 +60,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>,
- lizhengui <lizhengui@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Bug 1805256 <1805256@bugs.launchpad.net>,
- QEMU Developers - ARM <qemu-arm@nongnu.org>,
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, armbru@redhat.com,
+ qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 11, 2019 at 08:30:02AM +0000, Jan Glauber wrote:
-> On Fri, Oct 11, 2019 at 10:18:18AM +0200, Paolo Bonzini wrote:
-> > On 11/10/19 08:05, Jan Glauber wrote:
-> > > On Wed, Oct 09, 2019 at 11:15:04AM +0200, Paolo Bonzini wrote:
-> > >>> ...but if I bump notify_me size to uint64_t the issue goes away.
-> > >>
-> > >> Ouch. :)  Is this with or without my patch(es)?
+* Eric Blake (eblake@redhat.com) wrote:
+> On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
+> > We don't need Error **, as all callers pass local Error object, which
+> > isn't used after the call. Use Error * instead.
 > > 
-> > You didn't answer this question.
-> 
-> Oh, sorry... I did but the mail probably didn't make it out.
-> I have both of your changes applied (as I think they make sense).
-> 
-> > >> Also, what if you just add a dummy uint32_t after notify_me?
-> > > 
-> > > With the dummy the testcase also runs fine for 500 iterations.
+> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > ---
+> >   include/monitor/hmp.h      |   2 +-
+> >   dump/dump-hmp-cmds.c       |   4 +-
+> >   hw/core/machine-hmp-cmds.c |   6 +-
+> >   monitor/hmp-cmds.c         | 155 ++++++++++++++++++-------------------
+> >   qdev-monitor.c             |   4 +-
+> >   qom/qom-hmp-cmds.c         |   4 +-
+> >   6 files changed, 87 insertions(+), 88 deletions(-)
 > > 
-> > You might be lucky and causing list_lock to be in another cache line.
-> > What if you add __attribute__((aligned(16)) to notify_me (and keep the
-> > dummy)?
 > 
-> Good point. I'll try to force both into the same cacheline.
+> > +++ b/dump/dump-hmp-cmds.c
+> > @@ -32,7 +32,7 @@ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
+> >       if (zlib + lzo + snappy + win_dmp > 1) {
+> >           error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
+> > -        hmp_handle_error(mon, &err);
+> > +        hmp_handle_error(mon, err);
+> >           return;
+> >       }
+> 
+> Probably not for this series, but would a patch to various HMP files to have
+> a g_auto() sort of reporting on an error the moment it goes out of scope
+> (rather than having to manually call hmp_handle_error() everywhere) make
+> sense?
 
-On the Hi1620, this still hangs in the first iteration:
+Maybe; although lets be a bit careful just how much we hide behind
+g_auto.
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 6b0d52f732..00e56a5412 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -82,7 +82,7 @@ struct AioContext {
-      * Instead, the aio_poll calls include both the prepare and the
-      * dispatch phase, hence a simple counter is enough for them.
-      */
--    uint32_t notify_me;
-+    __attribute__((aligned(16))) uint64_t notify_me;
- 
-     /* A lock to protect between QEMUBH and AioHandler adders and deleter,
-      * and to ensure that no callbacks are removed while we're walking and
-diff --git a/util/async.c b/util/async.c
-index ca83e32c7f..024c4c567d 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -242,7 +242,7 @@ aio_ctx_check(GSource *source)
-     aio_notify_accept(ctx);
- 
-     for (bh = ctx->first_bh; bh; bh = bh->next) {
--        if (bh->scheduled) {
-+        if (atomic_mb_read(&bh->scheduled)) {
-             return true;
-         }
-     }
-@@ -342,12 +342,12 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
- 
- void aio_notify(AioContext *ctx)
- {
--    /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
--     * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
-+    /* Using atomic_mb_read ensures that e.g. bh->scheduled is written before
-+     * ctx->notify_me is read.  Pairs with atomic_or in aio_ctx_prepare or
-+     * atomic_add in aio_poll.
-      */
--    smp_mb();
--    if (ctx->notify_me) {
--        event_notifier_set(&ctx->notifier);
-+    if (atomic_mb_read(&ctx->notify_me)) {
-+	event_notifier_set(&ctx->notifier);
-         atomic_mb_set(&ctx->notified, true);
-     }
- }
+Dave
+
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
