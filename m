@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77B2D46F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:53:44 +0200 (CEST)
-Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A20D4707
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:57:18 +0200 (CEST)
+Received: from localhost ([::1]:55002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIz6l-00032r-6I
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36922)
+	id 1iIzAD-0006xl-A8
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRA-0006fT-Pa
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:44 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRK-0006uy-4E
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0004nB-RN
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48174)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRI-0004vu-Lw
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:49 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48494)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR7-0004Ii-Jm; Fri, 11 Oct 2019 12:06:37 -0400
+ id 1iIxRI-0004X7-Et; Fri, 11 Oct 2019 12:06:48 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQm-0003XG-4Q; Fri, 11 Oct 2019 19:06:16 +0300
+ id 1iIxQw-0003XG-UF; Fri, 11 Oct 2019 19:06:27 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 060/126] megasas: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:46 +0300
-Message-Id: <20191011160552.22907-61-vsementsov@virtuozzo.com>
+Subject: [RFC v5 092/126] Record/replay: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:18 +0300
+Message-Id: <20191011160552.22907-93-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,10 +47,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Hannes Reinecke <hare@suse.com>, vsementsov@virtuozzo.com,
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
  qemu-block@nongnu.org, armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,49 +98,30 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/scsi/megasas.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ block/blkreplay.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index de9bd20887..007cfcff88 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -2311,11 +2311,11 @@ static const struct SCSIBusInfo megasas_scsi_info = {
- 
- static void megasas_scsi_realize(PCIDevice *dev, Error **errp)
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index 2b7931b940..4b548e382f 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -23,15 +23,14 @@ typedef struct Request {
+ static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
+                           Error **errp)
  {
+-    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     MegasasState *s = MEGASAS(dev);
-     MegasasBaseClass *b = MEGASAS_DEVICE_GET_CLASS(s);
-     uint8_t *pci_conf;
-     int i, bar_type;
--    Error *err = NULL;
      int ret;
  
-     pci_conf = dev->config;
-@@ -2326,20 +2326,19 @@ static void megasas_scsi_realize(PCIDevice *dev, Error **errp)
-     pci_conf[PCI_INTERRUPT_PIN] = 0x01;
- 
-     if (s->msi != ON_OFF_AUTO_OFF) {
--        ret = msi_init(dev, 0x50, 1, true, false, &err);
-+        ret = msi_init(dev, 0x50, 1, true, false, errp);
-         /* Any error other than -ENOTSUP(board's MSI support is broken)
-          * is a programming error */
-         assert(!ret || ret == -ENOTSUP);
-         if (ret && s->msi == ON_OFF_AUTO_ON) {
-             /* Can't satisfy user's explicit msi=on request, fail */
--            error_append_hint(&err, "You have to use msi=auto (default) or "
--                    "msi=off with this machine type.\n");
--            error_propagate(errp, err);
-+            error_append_hint(errp, "You have to use msi=auto (default) or "
-+                              "msi=off with this machine type.\n");
-             return;
-         } else if (ret) {
-             /* With msi=auto, we fall back to MSI off silently */
-             s->msi = ON_OFF_AUTO_OFF;
--            error_free(err);
-+            error_free_errp(errp);
-         }
+     /* Open the image file */
+     bs->file = bdrv_open_child(NULL, options, "image",
+-                               bs, &child_file, false, &local_err);
+-    if (local_err) {
++                               bs, &child_file, false, errp);
++    if (*errp) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
      }
  
 -- 
