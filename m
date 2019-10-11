@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775E0D3BA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 10:52:11 +0200 (CEST)
-Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941C4D3BA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 10:52:17 +0200 (CEST)
+Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIqef-0004ad-L2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 04:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46475)
+	id 1iIqem-0004mY-6e
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 04:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iIqd6-0003Mm-Hx
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:33 -0400
+ (envelope-from <armbru@redhat.com>) id 1iIqd6-0003Mo-Ho
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iIqd4-0005hr-E8
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46652)
+ (envelope-from <armbru@redhat.com>) id 1iIqd4-0005i4-H0
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53688)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iIqd4-0005hZ-8q
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iIqd4-0005hc-8p
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:30 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DFF7081129
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:50:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 12BAB8980E4
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:50:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADF073DB4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ADCB660872;
  Fri, 11 Oct 2019 08:50:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 198E11138619; Fri, 11 Oct 2019 10:50:27 +0200 (CEST)
+ id 1C4F911384A8; Fri, 11 Oct 2019 10:50:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/4] qapi: Add detection for the 'savevm' fix for blockdev
-Date: Fri, 11 Oct 2019 10:50:23 +0200
-Message-Id: <20191011085027.28606-1-armbru@redhat.com>
+Subject: [PATCH v4 1/4] tests/qapi-schema: Tidy up test output indentation
+Date: Fri, 11 Oct 2019 10:50:24 +0200
+Message-Id: <20191011085027.28606-2-armbru@redhat.com>
+In-Reply-To: <20191011085027.28606-1-armbru@redhat.com>
+References: <20191011085027.28606-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 11 Oct 2019 08:50:28 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Fri, 11 Oct 2019 08:50:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,52 +61,287 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 'features' field in the schema for commands and add a feature flag
-to advertise that the fix for savevm [1] is present.
+Command and event details are indented three spaces, everything else
+four.  Messed up in commit 156402e5042.  Use four spaces consistently.
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg03487.html
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ tests/qapi-schema/doc-good.out         |  4 +-
+ tests/qapi-schema/event-case.out       |  2 +-
+ tests/qapi-schema/indented-expr.out    |  4 +-
+ tests/qapi-schema/qapi-schema-test.out | 52 +++++++++++++-------------
+ tests/qapi-schema/test-qapi.py         |  4 +-
+ 5 files changed, 33 insertions(+), 33 deletions(-)
 
-Based-on: <20191001191514.11208-1-armbru@redhat.com>
-
-v4:
- - PATCH 1: New
- - PATCH 2: Factor out check_features()
- - PATCH 3: Factor out _print_features(), drop duplicated test
- - PATCH 4: Shorten savevm-blockdev-monitor-nodes to just
-            savevm-monitor-nodes; tweak commit message and
-	    documentation
-
-v3:
- - added tests
- - mentioned commit fixing savevm in the patch adding the new feature
- - mentioned actual problem in the patch adding the new feature
- - rebased on top of the last batch of Markus' cleanups
-
-Markus Armbruster (1):
-  tests/qapi-schema: Tidy up test output indentation
-
-Peter Krempa (3):
-  qapi: Add feature flags to commands in qapi
-  tests: qapi: Test 'features' of commands
-  qapi: Allow introspecting fix for savevm's cooperation with blockdev
-
- docs/devel/qapi-code-gen.txt            |  7 ++-
- qapi/introspect.json                    |  6 +-
- qapi/misc.json                          | 10 +++-
- tests/test-qmp-cmds.c                   | 24 ++++++++
- scripts/qapi/commands.py                |  3 +-
- scripts/qapi/doc.py                     |  3 +-
- scripts/qapi/expr.py                    | 35 +++++++-----
- scripts/qapi/introspect.py              |  7 ++-
- scripts/qapi/schema.py                  | 22 ++++++--
- tests/qapi-schema/doc-good.out          |  4 +-
- tests/qapi-schema/event-case.out        |  2 +-
- tests/qapi-schema/indented-expr.out     |  4 +-
- tests/qapi-schema/qapi-schema-test.json | 22 ++++++++
- tests/qapi-schema/qapi-schema-test.out  | 75 ++++++++++++++++---------
- tests/qapi-schema/test-qapi.py          | 19 ++++---
- 15 files changed, 178 insertions(+), 65 deletions(-)
-
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
+out
+index d3bca343eb..6562e1f412 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -46,9 +46,9 @@ object q_obj_cmd-arg
+     member arg2: str optional=3DTrue
+     member arg3: bool optional=3DFalse
+ command cmd q_obj_cmd-arg -> Object
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ command cmd-boxed Object -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
+g=3DFalse
+ doc freeform
+     body=3D
+ =3D Section
+diff --git a/tests/qapi-schema/event-case.out b/tests/qapi-schema/event-c=
+ase.out
+index ec8a1406e4..42ae519656 100644
+--- a/tests/qapi-schema/event-case.out
++++ b/tests/qapi-schema/event-case.out
+@@ -11,4 +11,4 @@ enum QType
+     member qbool
+ module event-case.json
+ event oops None
+-   boxed=3DFalse
++    boxed=3DFalse
+diff --git a/tests/qapi-schema/indented-expr.out b/tests/qapi-schema/inde=
+nted-expr.out
+index bffdf6756d..04356775cd 100644
+--- a/tests/qapi-schema/indented-expr.out
++++ b/tests/qapi-schema/indented-expr.out
+@@ -11,6 +11,6 @@ enum QType
+     member qbool
+ module indented-expr.json
+ command eins None -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ command zwei None -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
+api-schema-test.out
+index 98031da96f..aca43186a9 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -33,7 +33,7 @@ object Union
+     case value3: q_empty
+     case value4: q_empty
+ command user_def_cmd0 Empty2 -> Empty2
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ enum QEnumTwo
+     prefix QENUM_TWO
+     member value1
+@@ -205,35 +205,35 @@ object SecondArrayRef
+     member s: StatusList optional=3DFalse
+ module qapi-schema-test.json
+ command user_def_cmd None -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ object q_obj_user_def_cmd1-arg
+     member ud1a: UserDefOne optional=3DFalse
+ command user_def_cmd1 q_obj_user_def_cmd1-arg -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ object q_obj_user_def_cmd2-arg
+     member ud1a: UserDefOne optional=3DFalse
+     member ud1b: UserDefOne optional=3DTrue
+ command user_def_cmd2 q_obj_user_def_cmd2-arg -> UserDefTwo
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ command cmd-success-response None -> None
+-   gen=3DTrue success_response=3DFalse boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
++    gen=3DTrue success_response=3DFalse boxed=3DFalse oob=3DFalse precon=
+fig=3DFalse
+ object q_obj_guest-get-time-arg
+     member a: int optional=3DFalse
+     member b: int optional=3DTrue
+ command guest-get-time q_obj_guest-get-time-arg -> int
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ object q_obj_guest-sync-arg
+     member arg: any optional=3DFalse
+ command guest-sync q_obj_guest-sync-arg -> any
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ command boxed-struct UserDefZero -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
+g=3DFalse
+ command boxed-union UserDefListUnion -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
+g=3DFalse
+ command boxed-empty Empty1 -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfig=
+=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DTrue oob=3DFalse preconfi=
+g=3DFalse
+ command test-flags-command None -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DTrue preconfig=
+=3DTrue
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DTrue preconfi=
+g=3DTrue
+ object UserDefOptions
+     member i64: intList optional=3DTrue
+     member u64: uint64List optional=3DTrue
+@@ -245,28 +245,28 @@ object EventStructOne
+     member string: str optional=3DFalse
+     member enum2: EnumOne optional=3DTrue
+ event EVENT_A None
+-   boxed=3DFalse
++    boxed=3DFalse
+ event EVENT_B None
+-   boxed=3DFalse
++    boxed=3DFalse
+ object q_obj_EVENT_C-arg
+     member a: int optional=3DTrue
+     member b: UserDefOne optional=3DTrue
+     member c: str optional=3DFalse
+ event EVENT_C q_obj_EVENT_C-arg
+-   boxed=3DFalse
++    boxed=3DFalse
+ object q_obj_EVENT_D-arg
+     member a: EventStructOne optional=3DFalse
+     member b: str optional=3DFalse
+     member c: str optional=3DTrue
+     member enum3: EnumOne optional=3DTrue
+ event EVENT_D q_obj_EVENT_D-arg
+-   boxed=3DFalse
++    boxed=3DFalse
+ event EVENT_E UserDefZero
+-   boxed=3DTrue
++    boxed=3DTrue
+ event EVENT_F UserDefFlatUnion
+-   boxed=3DTrue
++    boxed=3DTrue
+ event EVENT_G Empty1
+-   boxed=3DTrue
++    boxed=3DTrue
+ enum __org.qemu_x-Enum
+     member __org.qemu_x-value
+ object __org.qemu_x-Base
+@@ -297,7 +297,7 @@ alternate __org.qemu_x-Alt
+     tag type
+     case __org.qemu_x-branch: __org.qemu_x-Base
+ event __ORG.QEMU_X-EVENT __org.qemu_x-Struct
+-   boxed=3DFalse
++    boxed=3DFalse
+ array __org.qemu_x-EnumList __org.qemu_x-Enum
+ array __org.qemu_x-StructList __org.qemu_x-Struct
+ object q_obj___org.qemu_x-command-arg
+@@ -306,7 +306,7 @@ object q_obj___org.qemu_x-command-arg
+     member c: __org.qemu_x-Union2 optional=3DFalse
+     member d: __org.qemu_x-Alt optional=3DFalse
+ command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qem=
+u_x-Union1
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ object TestIfStruct
+     member foo: int optional=3DFalse
+     member bar: int optional=3DFalse
+@@ -335,7 +335,7 @@ object q_obj_TestIfUnionCmd-arg
+     member union_cmd_arg: TestIfUnion optional=3DFalse
+     if ['defined(TEST_IF_UNION)']
+ command TestIfUnionCmd q_obj_TestIfUnionCmd-arg -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+     if ['defined(TEST_IF_UNION)']
+ alternate TestIfAlternate
+     tag type
+@@ -347,7 +347,7 @@ object q_obj_TestIfAlternateCmd-arg
+     member alt_cmd_arg: TestIfAlternate optional=3DFalse
+     if ['defined(TEST_IF_ALT)']
+ command TestIfAlternateCmd q_obj_TestIfAlternateCmd-arg -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+     if ['defined(TEST_IF_ALT)']
+ object q_obj_TestIfCmd-arg
+     member foo: TestIfStruct optional=3DFalse
+@@ -355,10 +355,10 @@ object q_obj_TestIfCmd-arg
+         if ['defined(TEST_IF_CMD_BAR)']
+     if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
+ command TestIfCmd q_obj_TestIfCmd-arg -> UserDefThree
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+     if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
+ command TestCmdReturnDefThree None -> UserDefThree
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+ array TestIfEnumList TestIfEnum
+     if ['defined(TEST_IF_ENUM)']
+ object q_obj_TestIfEvent-arg
+@@ -367,7 +367,7 @@ object q_obj_TestIfEvent-arg
+         if ['defined(TEST_IF_EVT_BAR)']
+     if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
+ event TestIfEvent q_obj_TestIfEvent-arg
+-   boxed=3DFalse
++    boxed=3DFalse
+     if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
+ object FeatureStruct0
+     member foo: int optional=3DFalse
+@@ -411,4 +411,4 @@ object q_obj_test-features-arg
+     member cfs2: CondFeatureStruct2 optional=3DFalse
+     member cfs3: CondFeatureStruct3 optional=3DFalse
+ command test-features q_obj_test-features-arg -> None
+-   gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
+g=3DFalse
++    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
+.py
+index 664254618a..29d9435bf7 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -76,13 +76,13 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
+         print('command %s %s -> %s'
+               % (name, arg_type and arg_type.name,
+                  ret_type and ret_type.name))
+-        print('   gen=3D%s success_response=3D%s boxed=3D%s oob=3D%s pre=
+config=3D%s'
++        print('    gen=3D%s success_response=3D%s boxed=3D%s oob=3D%s pr=
+econfig=3D%s'
+               % (gen, success_response, boxed, allow_oob, allow_preconfi=
+g))
+         self._print_if(ifcond)
+=20
+     def visit_event(self, name, info, ifcond, arg_type, boxed):
+         print('event %s %s' % (name, arg_type and arg_type.name))
+-        print('   boxed=3D%s' % boxed)
++        print('    boxed=3D%s' % boxed)
+         self._print_if(ifcond)
+=20
+     @staticmethod
 --=20
 2.21.0
 
