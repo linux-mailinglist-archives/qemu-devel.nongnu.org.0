@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32667D3936
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 08:11:58 +0200 (CEST)
-Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CF2D3943
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 08:17:47 +0200 (CEST)
+Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIo9d-0003IU-6j
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 02:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50805)
+	id 1iIoFG-0006gS-5L
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 02:17:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1iIo8G-0002am-Ua
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:10:34 -0400
+ (envelope-from <groug@kaod.org>) id 1iIoBU-0005C0-1e
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:13:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1iIo8F-0003w2-Gy
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:10:32 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:56642)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1iIo8F-0003uj-5o
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:10:31 -0400
-Received: from PASHAISP (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 3F39E54006A;
- Fri, 11 Oct 2019 09:10:27 +0300 (MSK)
-From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
-To: "'Kevin Wolf'" <kwolf@redhat.com>
-References: <20190918094436.GG5207@localhost.localdomain>
- <001501d56e06$bbd7aa30$3386fe90$@ru>
- <20190919085302.GA10163@localhost.localdomain>
- <001901d56ec9$620ae260$2620a720$@ru>
- <20190919112702.GC10163@localhost.localdomain>
- <001a01d56ee3$4354a530$c9fdef90$@ru>
- <20190919130005.GF10163@localhost.localdomain>
- <002401d56f84$83900e40$8ab02ac0$@ru>
- <20190920100150.GD5458@localhost.localdomain>
- <001601d57380$002b3f20$0081bd60$@ru>
- <20191010152830.GF7616@localhost.localdomain>
-In-Reply-To: <20191010152830.GF7616@localhost.localdomain>
-Subject: RE: [for-4.2 PATCH 3/6] replay: update docs for record/replay with
- block devices
-Date: Fri, 11 Oct 2019 09:10:24 +0300
-Message-ID: <002401d57ffa$927ffab0$b77ff010$@ru>
+ (envelope-from <groug@kaod.org>) id 1iIoBS-0005Hc-5W
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:13:51 -0400
+Received: from 7.mo3.mail-out.ovh.net ([46.105.57.200]:39888)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIoBR-0005GH-RX
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:13:50 -0400
+Received: from player158.ha.ovh.net (unknown [10.109.159.136])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 1753A22AF89
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:13:46 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player158.ha.ovh.net (Postfix) with ESMTPSA id 4BA4AABC9DEC;
+ Fri, 11 Oct 2019 06:13:36 +0000 (UTC)
+Date: Fri, 11 Oct 2019 08:13:33 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v4 17/19] spapr: Remove last pieces of SpaprIrq
+Message-ID: <20191011081333.7e483b95@bahia.lan>
+In-Reply-To: <20191011050758.GD4080@umbus.fritz.box>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ <20191009060818.29719-18-david@gibson.dropbear.id.au>
+ <20191009190215.7e05c017@bahia.lan>
+ <20191010020209.GC28552@umbus.fritz.box>
+ <20191010082958.12e17561@bahia.lan>
+ <20191010223304.0cf7ccd3@bahia.lan>
+ <20191011050758.GD4080@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdV/f2Y6+SShHM08RyCUBXimHJwn0wAeknuw
-Content-Language: ru
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 83.149.199.45
+Content-Type: multipart/signed; boundary="Sig_/ghqjTh.5k_SClLD=UllshU9";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 2133017377574787558
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrieeggddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.57.200
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,144 +62,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, quintela@redhat.com,
- ciro.santilli@gmail.com, jasowang@redhat.com, crosthwaite.peter@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
- maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
- boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
- mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
- rth@twiddle.net
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Kevin Wolf [mailto:kwolf@redhat.com]
-> Am 25.09.2019 um 11:02 hat Pavel Dovgalyuk geschrieben:
-> > > From: Kevin Wolf [mailto:kwolf@redhat.com]
-> > > Am 20.09.2019 um 09:25 hat Pavel Dovgalyuk geschrieben:
-> > > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
-> > > > > Am 19.09.2019 um 14:10 hat Pavel Dovgalyuk geschrieben:
-> > > > > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
-> > > > > > > diff --git a/block/block-backend.c b/block/block-backend.c
-> > > > > > > index 1c605d5444..c57d3d9fdf 100644
-> > > > > > > --- a/block/block-backend.c
-> > > > > > > +++ b/block/block-backend.c
-> > > > > > > @@ -17,6 +17,7 @@
-> > > > > > >  #include "block/throttle-groups.h"
-> > > > > > >  #include "hw/qdev-core.h"
-> > > > > > >  #include "sysemu/blockdev.h"
-> > > > > > > +#include "sysemu/replay.h"
-> > > > > > >  #include "sysemu/runstate.h"
-> > > > > > >  #include "qapi/error.h"
-> > > > > > >  #include "qapi/qapi-events-block.h"
-> > > > > > > @@ -808,6 +809,12 @@ void blk_remove_bs(BlockBackend *blk)
-> > > > > > >  int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
-> > > > > > >  {
-> > > > > > >      ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
-> > > > > > > +
-> > > > > > > +    if (replay_mode != REPLAY_MODE_NONE && bs->drv != &bdrv_blkreplay) {
-> > > > > > > +        error_setg(errp, "Root node must be blkreplay");
-> > > > > > > +        return -ENOTSUP;
-> > > > > > > +    }
-> > > > > >
-> > > > > > I guess this is opposite direction - bs->drv is bdrv_file.
-> > > > > > And we should check its parent.
-> > > > >
-> > > > > If bs->drv is bdrv_file, you want this to fail because only
-> > > > > bdrv_blkreplay should be able to be attached to devices.
-> > > >
-> > > > There was a regular rr invocation (as described in docs).
-> > > > And bs->drv always was a pointer to bdrv_file: for original image,
-> > > > and for temporary snapshot.
-> > >
-> > > Hm, what was the actual command line you used? I can see that you have a
-> > > separate -drive for the qcow2 file, so I can see how you get an unused
-> > > BlockBackend for the qcow2 node, but I don't see how it would be a file
-> > > node.
-> > >
-> > > Anyway, this leaves us two options: Either change the recommended
-> > > command line to use -blockdev for the qcow2 file so that no BlockBackend
-> > > is created for it (I think this might be preferable), or restrict the
-> > > error to when the BlockBackend is used.
-> >
-> > I started playing with -blockdev: added new blockdev for blkreplay and
-> > constructed the following command line:
-> >
-> > -blockdev driver=file,filename=disk.img,node-name=hd0
-> > -blockdev driver=blkreplay,file=hd0,node-name=hd0-rr
-> > -device virtio-blk-device,drive=hd0-rr
-> >
-> > However, I get an error: "Could not open 'disk.img': Permission denied"
-> > Everything works when I use this file in '-drive' parameter.
-> > What am I doing wrong?
-> 
-> The reason why I didn't reply immediately is because I don't see
-> anything wrong in the options you used.
-> 
-> Just to confirm, do you still get the same error when you use only the
-> first -blockdev option and no other options at all?
+--Sig_/ghqjTh.5k_SClLD=UllshU9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Ok, I tried again and got different error, which was caused by incorrect
-QAPI schema for blkreplay.
-Now it seems ok, but I still can't boot.
+On Fri, 11 Oct 2019 16:07:58 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-> I've now tried out the options you gave, and it does fail for me, but
-> with a different error:
-> 
->     qemu-system-x86_64: -blockdev driver=blkreplay,file=hd0,node-name=hd0-rr: Invalid
-> parameter 'blkreplay'
-> 
-> This one is because the QAPI schema doesn't know blkreplay and should
-> easily be fixed by adding a blkreplay field to BlockdevOptions.
+> On Thu, Oct 10, 2019 at 10:33:04PM +0200, Greg Kurz wrote:
+> > On Thu, 10 Oct 2019 08:29:58 +0200
+> > Greg Kurz <groug@kaod.org> wrote:
+> >=20
+> > > On Thu, 10 Oct 2019 13:02:09 +1100
+> > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > >=20
+> > > > On Wed, Oct 09, 2019 at 07:02:15PM +0200, Greg Kurz wrote:
+> > > > > On Wed,  9 Oct 2019 17:08:16 +1100
+> > > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > > >=20
+> > > > > > The only thing remaining in this structure are the flags to all=
+ow either
+> > > > > > XICS or XIVE to be present.  These actually make more sense as =
+spapr
+> > > > > > capabilities - that way they can take advantage of the existing
+> > > > > > infrastructure to sanity check capability states across migrati=
+on and so
+> > > > > > forth.
+> > > > > >=20
+> > > > >=20
+> > > > > The user can now choose the interrupt controller mode either thro=
+ugh
+> > > > > ic-mode or through cap-xics/cap-xive. I guess it doesn't break an=
+ything
+> > > > > to expose another API to do the same thing but it raises some que=
+stions.
+> > > > >=20
+> > > > > We should at least document somewhere that ic-mode is an alias to=
+ these
+> > > > > caps, and maybe state which is the preferred method (I personally=
+ vote
+> > > > > for the caps).
+> > > > >=20
+> > > > > Also, we must keep ic-mode for the moment to stay compatible with=
+ the
+> > > > > existing pseries-4.0 and pseries-4.1 machine types, but will we
+> > > > > keep ic-mode forever ? If no, maybe start by not allowing it for
+> > > > > pseries-4.2 ?
+> > > >=20
+> > > > I'm actually inclined to keep it for now, maybe even leave it as the
+> > > > suggested way to configure this.  The caps are nice from an internal
+> > > > organization point of view, but ic-mode is arguably a more user
+> > > > friendly way of configuring it.  The conversion of one to the other=
+ is
+> > > > straightforward, isolated ans small, so I'm not especially bothered=
+ by
+> > > > keeping it around.
+> > > >=20
+> > >=20
+> > > Fair enough.
+> > >=20
+> > > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > >=20
+> >=20
+> > But unfortunately this still requires care :-\
+> >=20
+> > qemu-system-ppc64: cap-xive higher level (1) in incoming stream than on=
+ destination (0)
+> > qemu-system-ppc64: error while loading state for instance 0x0 of device=
+ 'spapr'
+> > qemu-system-ppc64: load of migration failed: Invalid argument
+> >=20
+> > or
+> >=20
+> > qemu-system-ppc64: cap-xics higher level (1) in incoming stream than on=
+ destination (0)
+> > qemu-system-ppc64: error while loading state for instance 0x0 of device=
+ 'spapr'
+> > qemu-system-ppc64: load of migration failed: Invalid argument
+> >=20
+> > when migrating from QEMU 4.1 with ic-mode=3Dxics and ic-mode=3Dxive res=
+pectively.
+> >=20
+> > This happens because the existing pseries-4.1 machine type doesn't send=
+ the
+> > new caps and the logic in spapr_caps_post_migration() wrongly assumes t=
+hat
+> > the source has both caps set:
+> >=20
+> >     srccaps =3D default_caps_with_cpu(spapr, MACHINE(spapr)->cpu_type);
+> >     for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
+> >         /* If not default value then assume came in with the migration =
+*/
+> >         if (spapr->mig.caps[i] !=3D spapr->def.caps[i]) {
+> >=20
+> > spapr->mig.caps[SPAPR_CAP_XICS] =3D 0
+> > spapr->mig.caps[SPAPR_CAP_XIVE] =3D 0
+> >=20
+> >             srccaps.caps[i] =3D spapr->mig.caps[i];
+> >=20
+> > srcaps.caps[SPAPR_CAP_XICS] =3D 1
+> > srcaps.caps[SPAPR_CAP_XIVE] =3D 1
+> >=20
+> >         }
+> >     }
+> >=20
+> > and breaks
+> >=20
+> >     for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
+> >         SpaprCapabilityInfo *info =3D &capability_table[i];
+> >=20
+> >         if (srccaps.caps[i] > dstcaps.caps[i]) {
+> >=20
+> > srcaps.caps[SPAPR_CAP_XICS] =3D 0 when ic-mode=3Dxive
+> > srcaps.caps[SPAPR_CAP_XIVE] =3D 0 when ic-mode=3Dxics
+> >=20
+> >             error_report("cap-%s higher level (%d) in incoming stream t=
+han on destination (%d)",
+> >                          info->name, srccaps.caps[i], dstcaps.caps[i]);
+> >             ok =3D false;
+> >         }
+>=20
+> Ah.. right.  I thought there would be problems with backwards
+> migration, but I didn't think of this problem even with forward
+> migration.
+>=20
+> > Maybe we shouldn't check capabilities that we know the source
+> > isn't supposed to send, eg. by having a smc->max_cap ?
+>=20
+> Uh.. I'm not really sure what exactly you're suggesting here.
+>=20
 
-Right, I added the following schema:
+I'm suggesting to have a per-machine version smc->max_cap that
+contains the highest supported cap index, to be used instead of
+SPAPR_CAP_NUM in this functions, ie.
 
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2832,8 +2832,8 @@
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDriver',
--  'data': [ 'blkdebug', 'blklogwrites', 'blkverify', 'bochs', 'cloop',
--            'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
-+  'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
-+            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
-             'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
-             'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qcow',
-             'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-@@ -3446,6 +3446,18 @@
-   'data': { 'test': 'BlockdevRef',
-             'raw': 'BlockdevRef' } }
- 
-+##
-+# @BlockdevOptionsBlkreplay:
-+#
-+# Driver specific block device options for blkreplay.
-+#
-+# @image:     disk image which should be controlled with blkreplay
-+#
-+# Since: 4.2
-+##
-+{ 'struct': 'BlockdevOptionsBlkreplay',
-+  'data': { 'image': 'BlockdevRef' } }
-+
- ##
- # @QuorumReadPattern:
- #
-@@ -3973,6 +3985,7 @@
-       'blkdebug':   'BlockdevOptionsBlkdebug',
-       'blklogwrites':'BlockdevOptionsBlklogwrites',
-       'blkverify':  'BlockdevOptionsBlkverify',
-+      'blkreplay':  'BlockdevOptionsBlkreplay',
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-       'copy-on-read':'BlockdevOptionsGenericFormat',
+for (i =3D 0; i <=3D smc->max_cap; i++) {
+    ...
+}
 
-> As soft freeze is coming closer, I'm considering taking this series as
-> it is (it's wrong in parts, but the old state is probably even more
-> wrong) and letting you fix up these checks on top. What do you think?
+where we would have
 
-That sounds reasonable.
+smc->max_cap =3D SPAPR_CAP_CCF_ASSIST for pseries-4.1
 
-Pavel Dovgalyuk
+and
 
+smc->max_cap =3D SPAPR_CAP_XIVE for psereis-4.2
+
+> I think what we need here is a custom migrate_needed function, like we
+> already have for cap_hpt_maxpagesize, to exclude it from the migration
+> stream for machine versions before 4.2.
+>=20
+
+No, VMState needed() hooks are for outgoing migration only.
+
+bool vmstate_save_needed(const VMStateDescription *vmsd, void *opaque)
+{
+    if (vmsd->needed && !vmsd->needed(opaque)) {
+        /* optional section not needed */
+        return false;
+    }
+    return true;
+}
+
+--Sig_/ghqjTh.5k_SClLD=UllshU9
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2gHY0ACgkQcdTV5YIv
+c9ZoVxAAlXJRk6ZLeugfdaYf03TOIbF2+ApR9N4MwUXzOpAVp4oBwA79gZ7azknf
+wZI0thMinS38HkPZA/wRhCUvUaOwPhVNvdWKpFYU6ypyE47RMDI0QsYH2HPg8in9
+JAlzlGJlk49biXXK1K2/XTLCqYUSb282KhTvDoZV7ZXpLBlUD68FzoJgfRpd/px2
+xzCUaG4euW5o51OVwCJyXecoNazl291bz9IhYQYjn5sTUtZqHG/uhKGbTXOSdqG+
+dm6Vtdq3ZyMb6jiVeBzChKpZ3Lu1CXgqaVnatwy0bHM4v6oIm5zKp3ZXNcgco06o
+bYnQvXvpAnvv44wje4jbs5SbuCeYmayG8/RSfevd1IUeJyUpIoyJTTHqVrpYUOD9
+1Xr715qrPlkX/js/pcxAlWu5/SSpkoYs5rpQbcpQcnWi3LLlIvRm0zOvPasRBF4m
+ST0c3/PJ0K2hRgULQScxGF4F+DxD5sU0Z5Jzc5sOwGQkEvNQECJdpeewiitrMiSS
+at1NmWVHwdl1syspGRwOFNnGt4sU17rtq3A/+wzvYuJNnw+UYSDuh4BD2VGJlEVs
+IBlN8ov/pvVwYRla+YVa8dedGg2pGn8QmJtiJvKHKNimRmftq444F2B8llXMiUvq
+kIHqmU6SF+lNi0w4FIlV7VYulavE2n7W1jaco4nJcxpZmj81thg=
+=QDFp
+-----END PGP SIGNATURE-----
+
+--Sig_/ghqjTh.5k_SClLD=UllshU9--
 
