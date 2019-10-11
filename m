@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E999D47D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:46:17 +0200 (CEST)
-Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC96D47E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:48:55 +0200 (CEST)
+Received: from localhost ([::1]:55808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzvb-0005Wm-Gj
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:46:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44194)
+	id 1iIzyA-000835-5X
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:48:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iIy43-0003PE-IY
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:46:56 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIy63-0005EZ-Ve
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:48:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iIy41-0004nq-Fz
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:46:50 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37705)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iIy41-0004mB-5s
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:46:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p14so12673616wro.4
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 09:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=iRS0jKn4XTp9gE31Tt+k9J2FK+52AEpP7QjprmAQynI=;
- b=ZD8faNoqIq//C3Kg9KoxgmPHTlciplcAm5orG3vDcw5dsTfe6OGym7x4aEs8j6yJnZ
- XIK+hkiXzwJQbivZZgBaJtkIgqbtpeq0JxoybFmrlow64zgLd/0Q2I99TIcoNqNVAn6B
- IkOxzzrxldLYx/SQJUzKakZXtgbf4qYnyinT/TyGB3zkcWPMR+4+QJft057Uj40rP8g7
- vnNOFBS9ZvYL91dqaoQolk+/7J0DTXvFpSbodDqzzvQMrZOmgOhz2xrpnoGwk+6mMZKv
- XFyQj/1+HXWn1w7vsKsKzAtlhCUFSzY7zCNKfwgjfc2g016FyYwMwXScuBYvXz4t5lOR
- yahA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=iRS0jKn4XTp9gE31Tt+k9J2FK+52AEpP7QjprmAQynI=;
- b=rnPbR5cw/fnrG0+rQtvWKjB4MuHbx9uWviD6Qkr+falvbFRof9FMVdcfzLRm1S1Ge3
- DgS47Is1m5lpO8bAfrMJjFWBiM8IxXYrlW42NGzzJ2B3bSJVDKfToUJ+RGa2pgdYWs6u
- /i7QfocI+jyozpUnlY2kW+8CXairRraCGz35vZTDKznravouaLer6HLYZoRVY+KZceZE
- dlt/gFDj7ePaF0PnjFAVUpbAbAxedHiK70D2SRqXCSF3AkqCy4wHiCBNWavXdph7iuYI
- IVQjzirCL1tXd3960qZckU/Gdz9sMfjE53iUUzjzAYiQqR8wllIHwvGShqLymz/odbPJ
- BCyA==
-X-Gm-Message-State: APjAAAUlB+DbZnUoasWc0lRItTFKTL7oqlGa1xjYR4/XlnWAYL4dkcDt
- CarjibIpz7ekZoIQsZUvXT3lsA==
-X-Google-Smtp-Source: APXvYqxoluUnausSdD/Fxwgr7N5fmVM7GcrBd+ZHompyBE8ZY/92qsdZUdzwtBmGbQ0jv2eIaL6wTg==
-X-Received: by 2002:a5d:4691:: with SMTP id u17mr13845020wrq.41.1570812407379; 
- Fri, 11 Oct 2019 09:46:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s9sm11394525wme.36.2019.10.11.09.46.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 09:46:46 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D03C1FF87;
- Fri, 11 Oct 2019 17:46:45 +0100 (BST)
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-44-alex.bennee@linaro.org>
- <1f317f65-289d-659b-735b-d527908140f8@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [Qemu-devel] [PATCH v4 43/54] plugin: add API symbols to
- qemu-plugins.symbols
-In-reply-to: <1f317f65-289d-659b-735b-d527908140f8@linaro.org>
-Date: Fri, 11 Oct 2019 17:46:45 +0100
-Message-ID: <87wodbkz62.fsf@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1iIy63-0005zM-09
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:48:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44840)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iIy60-0005yH-M9; Fri, 11 Oct 2019 12:48:52 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E1658309BF13;
+ Fri, 11 Oct 2019 16:48:51 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F3903D8F;
+ Fri, 11 Oct 2019 16:48:51 +0000 (UTC)
+Subject: Re: [RFC v5 007/126] nbd: well form nbd_iter_channel_error errp
+ handler
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-8-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <e2ec2b21-a87b-262c-91d2-210f8a38278c@redhat.com>
+Date: Fri, 11 Oct 2019 11:48:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+In-Reply-To: <20191011160552.22907-8-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Fri, 11 Oct 2019 16:48:51 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,109 +63,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bobby.prani@gmail.com, cota@braap.org, qemu-devel@nongnu.org,
- aaron@os.amperecomputing.com
+Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Make nbd_iter_channel_error errp handler well formed:
+> rename errp to errp_in, as it is IN-parameter here (which is unusual
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Actually, rename local_err to errp_in.
 
-> On 7/31/19 9:07 AM, Alex Benn=C3=A9e wrote:
->> +#########################################
->> +# See if --dynamic-list is supported by the linker
->> +
->> +cat > $TMPTXT <<EOF
->> +{
->> +  foo;
->> +};
->> +EOF
->> +
->> +cat > $TMPC <<EOF
->> +#include <stdio.h>
->> +void foo(void);
->> +
->> +void foo(void)
->> +{
->> +  printf("foo\n");
->> +}
->> +
->> +int main(void)
->> +{
->> +  foo();
->> +  return 0;
->> +}
->> +EOF
->> +
->> +ld_dynamic_list=3D"no"
->> +if compile_prog "" "-Wl,--dynamic-list=3D$TMPTXT" ; then
->> +  ld_dynamic_list=3D"yes"
->> +fi
->> +
->> +#########################################
->> +# See if -exported_symbols_list is supported by the linker
->> +
->> +cat > $TMPTXT <<EOF
->> +  _foo
->> +EOF
->> +
->> +ld_exported_symbols_list=3D"no"
->> +if compile_prog "" "-Wl,-exported_symbols_list,$TMPTXT" ; then
->> +  ld_exported_symbols_list=3D"yes"
->> +fi
->> +
->> +if  test "$plugins" =3D "yes" &&
->> +    test "$ld_dynamic_list" =3D "no" &&
->> +    test "$ld_exported_symbols_list" =3D "no" ; then
->> +  error_exit \
->> +      "Plugin support requires specifying a set of symbols that " \
->> +      "are exported to plugins. Unfortunately your linker doesn't " \
->> +      "support the flag (--dynamic-list or -exported_symbols_list) used=
- " \
->> +      "for this purpose."
->> +fi
->> +
->>  ########################################
->>  # See if 16-byte vector operations are supported.
->>  # Even without a vector unit the compiler may expand these.
->> @@ -7318,6 +7371,22 @@ fi
->>  if test "$plugins" =3D "yes" ; then
->>      echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
->>      LIBS=3D"-ldl $LIBS"
->> +    # Copy the export object list to the build dir
->> +    if test "$ld_dynamic_list" =3D "yes" ; then
->> +	echo "CONFIG_HAS_LD_DYNAMIC_LIST=3Dyes" >> $config_host_mak
->> +	ld_symbols=3Dqemu-plugins-ld.symbols
->> +	cp "$source_path/plugins/qemu-plugins.symbols" $ld_symbols
->> +    elif test "$ld_exported_symbols_list" =3D "yes" ; then
->> +	echo "CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST=3Dyes" >> $config_host_mak
->> +	ld64_symbols=3Dqemu-plugins-ld64.symbols
->> +	echo "# Automatically generated by configure - do not modify" > $ld64_=
-symbols
->> +	grep 'qemu_' "$source_path/plugins/qemu-plugins.symbols" | sed 's/;//g=
-' | \
->> +	    sed -E 's/^[[:space:]]*(.*)/_\1/' >> $ld64_symbols
->> +    else
->> +	error_exit \
->> +	    "If \$plugins=3Dyes, either \$ld_dynamic_list or " \
->> +	    "\$ld_exported_symbols_list should have been set to 'yes'."
->> +    fi
->>  fi
->>
->
-> How much of this should be skipped if --enable-static?
-> Or perhaps just dependent on --enable-plugins and let
-> that switch detect the conflict?
+> for errp).
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/nbd.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
 
-I've gated the ld_dynamic_list checks on if test "$static" =3D "no" so it
-errors out quickly if you try and build with --static --enable-plugins.
+With commit message fixed,
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
->
->
-> r~
+>   static void nbd_iter_channel_error(NBDReplyChunkIter *iter,
+> -                                   int ret, Error **local_err)
+> +                                   int ret, Error **errp_in)
 
-
---
-Alex Benn=C3=A9e
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
