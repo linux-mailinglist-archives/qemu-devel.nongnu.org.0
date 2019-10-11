@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44904D46BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:37:00 +0200 (CEST)
-Received: from localhost ([::1]:54758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFE2D46C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:39:32 +0200 (CEST)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyqY-0000Eg-Tv
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36491)
+	id 1iIyt1-0003te-Dj
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQz-0006Ka-3K
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:30 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0006MB-1d
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQx-0004XG-JO
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:28 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48156)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQy-0004ax-LF
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:29 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48190)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQx-0004IY-9e
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:27 -0400
+ id 1iIxQy-0004JN-DC
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:28 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQl-0003XG-RQ; Fri, 11 Oct 2019 19:06:15 +0300
+ id 1iIxQm-0003XG-Ri; Fri, 11 Oct 2019 19:06:17 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 059/126] virtio-rng: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:45 +0300
-Message-Id: <20191011160552.22907-60-vsementsov@virtuozzo.com>
+Subject: [RFC v5 062/126] eepro100: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:48 +0300
+Message-Id: <20191011160552.22907-63-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,10 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- vsementsov@virtuozzo.com, Amit Shah <amit@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,64 +98,34 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- backends/rng.c         | 7 +++----
- hw/virtio/virtio-rng.c | 7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+ hw/net/eepro100.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/backends/rng.c b/backends/rng.c
-index 391888b8b3..aa3b85f418 100644
---- a/backends/rng.c
-+++ b/backends/rng.c
-@@ -53,9 +53,9 @@ static void rng_backend_complete(UserCreatable *uc, Error **errp)
+diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+index cc2dd8b1c9..f40ae698fe 100644
+--- a/hw/net/eepro100.c
++++ b/hw/net/eepro100.c
+@@ -1829,17 +1829,16 @@ static NetClientInfo net_eepro100_info = {
  
- static void rng_backend_prop_set_opened(Object *obj, bool value, Error **errp)
+ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     RngBackend *s = RNG_BACKEND(obj);
-     RngBackendClass *k = RNG_BACKEND_GET_CLASS(s);
+     EEPRO100State *s = DO_UPCAST(EEPRO100State, dev, pci_dev);
+     E100PCIDeviceInfo *info = eepro100_get_class(s);
 -    Error *local_err = NULL;
  
-     if (value == s->opened) {
+     TRACE(OTHER, logout("\n"));
+ 
+     s->device = info->device;
+ 
+-    e100_pci_reset(s, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    e100_pci_reset(s, errp);
++    if (*errp) {
          return;
-@@ -67,9 +67,8 @@ static void rng_backend_prop_set_opened(Object *obj, bool value, Error **errp)
      }
  
-     if (k->opened) {
--        k->opened(s, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        k->opened(s, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-diff --git a/hw/virtio/virtio-rng.c b/hw/virtio/virtio-rng.c
-index e93bed020f..6db2c49677 100644
---- a/hw/virtio/virtio-rng.c
-+++ b/hw/virtio/virtio-rng.c
-@@ -174,9 +174,9 @@ static void virtio_rng_set_status(VirtIODevice *vdev, uint8_t status)
- 
- static void virtio_rng_device_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIORNG *vrng = VIRTIO_RNG(dev);
--    Error *local_err = NULL;
- 
-     if (vrng->conf.period_ms <= 0) {
-         error_setg(errp, "'period' parameter expects a positive integer");
-@@ -195,9 +195,8 @@ static void virtio_rng_device_realize(DeviceState *dev, Error **errp)
-         Object *default_backend = object_new(TYPE_RNG_BUILTIN);
- 
-         user_creatable_complete(USER_CREATABLE(default_backend),
--                                &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                errp);
-+        if (*errp) {
-             object_unref(default_backend);
-             return;
-         }
 -- 
 2.21.0
 
