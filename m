@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCB0D4695
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:26:54 +0200 (CEST)
-Received: from localhost ([::1]:54628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A550ED4682
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:21:33 +0200 (CEST)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIygm-0003lh-Uo
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36839)
+	id 1iIybc-0004qk-Et
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36872)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0006bQ-Lx
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR9-0006d0-GA
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0004kS-GP
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48084)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0004lM-AM
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:39 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48124)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR5-0004Fv-8B; Fri, 11 Oct 2019 12:06:35 -0400
+ id 1iIxR6-0004Gz-1a; Fri, 11 Oct 2019 12:06:36 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQj-0003XG-KL; Fri, 11 Oct 2019 19:06:13 +0300
+ id 1iIxQk-0003XG-HA; Fri, 11 Oct 2019 19:06:14 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 052/126] vhost: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:38 +0300
-Message-Id: <20191011160552.22907-53-vsementsov@virtuozzo.com>
+Subject: [RFC v5 055/126] virtio-blk: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:41 +0300
+Message-Id: <20191011160552.22907-56-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,11 +47,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ armbru@redhat.com, Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,118 +98,50 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/block/vhost-user-blk.c |  6 +++---
- hw/scsi/vhost-scsi.c      | 12 +++++-------
- hw/scsi/vhost-user-scsi.c |  7 +++----
- hw/virtio/vhost-vsock.c   |  1 +
- 4 files changed, 12 insertions(+), 14 deletions(-)
+ hw/block/dataplane/virtio-blk.c | 1 +
+ hw/block/virtio-blk.c           | 7 +++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 63da9bb619..9dfe173c19 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -388,9 +388,9 @@ static void vhost_user_blk_event(void *opaque, int event)
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index 119906a5fe..f8a1e70886 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -85,6 +85,7 @@ bool virtio_blk_data_plane_create(VirtIODevice *vdev, VirtIOBlkConf *conf,
+                                   VirtIOBlockDataPlane **dataplane,
+                                   Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIOBlockDataPlane *s;
+     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index ed2ddebd2b..788d346727 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1113,10 +1113,10 @@ static const BlockDevOps virtio_block_ops = {
  
- static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
+ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
+     VirtIOBlock *s = VIRTIO_BLK(dev);
+     VirtIOBlkConf *conf = &s->conf;
 -    Error *err = NULL;
-     int i, ret;
+     unsigned i;
  
-     if (!s->chardev.chr) {
-@@ -429,8 +429,8 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-                              NULL, (void *)dev, NULL, true);
- 
- reconnect:
--    if (qemu_chr_fe_wait_connected(&s->chardev, &err) < 0) {
--        error_report_err(err);
-+    if (qemu_chr_fe_wait_connected(&s->chardev, errp) < 0) {
-+        error_report_errp(errp);
-         goto virtio_err;
+     if (!conf->conf.blk) {
+@@ -1188,9 +1188,8 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < conf->num_queues; i++) {
+         virtio_add_queue(vdev, conf->queue_size, virtio_blk_handle_output);
      }
- 
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index c693fc748a..2dca1f7fe2 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -165,9 +165,9 @@ static const VMStateDescription vmstate_virtio_vhost_scsi = {
- 
- static void vhost_scsi_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(dev);
--    Error *err = NULL;
-     int vhostfd = -1;
-     int ret;
- 
-@@ -195,9 +195,8 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-                                vhost_dummy_handle_output,
-                                vhost_dummy_handle_output,
-                                vhost_dummy_handle_output,
--                               &err);
+-    virtio_blk_data_plane_create(vdev, conf, &s->dataplane, &err);
 -    if (err != NULL) {
 -        error_propagate(errp, err);
-+                               errp);
++    virtio_blk_data_plane_create(vdev, conf, &s->dataplane, errp);
 +    if (*errp) {
-         goto close_fd;
-     }
- 
-@@ -207,9 +206,8 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-                 "When external environment supports it (Orchestrator migrates "
-                 "target SCSI device state or use shared storage over network), "
-                 "set 'migratable' property to true to enable migration.");
--        migrate_add_blocker(vsc->migration_blocker, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        migrate_add_blocker(vsc->migration_blocker, errp);
-+        if (*errp) {
-             error_free(vsc->migration_blocker);
-             goto free_virtio;
-         }
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 6a6c15dd32..ef4b25104f 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -68,11 +68,11 @@ static void vhost_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- 
- static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     VHostUserSCSI *s = VHOST_USER_SCSI(dev);
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
-     struct vhost_virtqueue *vqs = NULL;
--    Error *err = NULL;
-     int ret;
- 
-     if (!vs->conf.chardev.chr) {
-@@ -82,9 +82,8 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
- 
-     virtio_scsi_common_realize(dev, vhost_dummy_handle_output,
-                                vhost_dummy_handle_output,
--                               vhost_dummy_handle_output, &err);
--    if (err != NULL) {
--        error_propagate(errp, err);
-+                               vhost_dummy_handle_output, errp);
-+    if (*errp) {
+         virtio_cleanup(vdev);
          return;
      }
- 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index f5744363a8..61ade0fa65 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -300,6 +300,7 @@ static const VMStateDescription vmstate_virtio_vhost_vsock = {
- 
- static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostVSock *vsock = VHOST_VSOCK(dev);
-     int vhostfd;
 -- 
 2.21.0
 
