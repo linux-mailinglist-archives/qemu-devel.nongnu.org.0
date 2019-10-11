@@ -2,53 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4F7D4259
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:09:30 +0200 (CEST)
-Received: from localhost ([::1]:50992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB45D4215
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:05:14 +0200 (CEST)
+Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIvbl-0003cv-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40291)
+	id 1iIvXd-0006Fn-5b
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iIvPb-00061m-Hb
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:56:56 -0400
+ (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iIvRF-0008Ei-8t
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:58:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iIvPZ-0007tX-Tu
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:56:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:20672)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iIvPZ-0007sf-L1
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:56:53 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 078A710CC205;
- Fri, 11 Oct 2019 13:56:51 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77D0D60C18;
- Fri, 11 Oct 2019 13:56:49 +0000 (UTC)
-Date: Fri, 11 Oct 2019 15:56:47 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v12 06/11] numa: Extend CLI to provide memory latency
- and bandwidth information
-Message-ID: <20191011155647.5b3fdf27@redhat.com>
-In-Reply-To: <5bfe9d25-89a1-90a6-75fb-a6aecf4844c0@intel.com>
-References: <20190920074349.2616-1-tao3.xu@intel.com>
- <20190920074349.2616-7-tao3.xu@intel.com>
- <20191002171619.04a11347@redhat.com>
- <5bfe9d25-89a1-90a6-75fb-a6aecf4844c0@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.65]); Fri, 11 Oct 2019 13:56:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iIvRD-0000XU-VZ
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:58:36 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:36124)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iIvRD-0000X7-MG
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:58:35 -0400
+Received: by mail-ed1-x542.google.com with SMTP id h2so8777158edn.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloud.ionos.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=pn/7UX82hnkyCmlRyxAFvkcLsirvCKVjBf2U+cH5riY=;
+ b=HHH0aoB9fZ4oIf004cr1sVdGFpcUN4W9o7Qr98qduFW+7rNulcbj3yos2RginL6nGD
+ VGLNYvfiAYzxQr15Rk6XxFmNvmkPLLXY9dyTnh1IandyNLztlF86i704GD7Rsmq1wHtH
+ cFgq7rVeLtkQ3SK94Jp4LXj7+mS33PxUHyrkgrec/MVHTVTVKvNTJLn9iEmiR8EVb2Lg
+ uUNiOsdY0K/nWZDZSEjoj0smNK1Xlan5lruC7psMU8gg8N83rrfd99emZOMPgFOAdMOV
+ nzvHeOzK/Hbcme2ZdSkepLWYEgOxCRf5KlYO4ApXZ3R30e/vcavAiu+nIY32UjYA8Ftd
+ vaaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=pn/7UX82hnkyCmlRyxAFvkcLsirvCKVjBf2U+cH5riY=;
+ b=hCUTUg2cleUHHRVY3FljdIxhOw9qXVXI1DlAjYjb0+cqKaZzBBAsvEe/8WERoTWJYJ
+ tAb+o3AH0do57Sm3oeYwMgfXLQLZaRxT0fNu1ICFeesfPSd6DIxHmoq/rAbh1R9oQe0a
+ PqQIunxXYezH8Qfjs900BhTG3gNRWHCruXb9y4jlT9yCQpftsDO0UttmUoY3EWteQ6kw
+ 5qf8qWNast4Ycluc/+cg3CnZJf36e3MQEdN9mnj/RliJ68gVEh3F+AHEQSkAAHqXLiAf
+ XT9VeO85hb2/N7aqTtJIYwPKKzilHgLf8CplqAluXEf79wb6XDitukX9nQkDJsugyrdc
+ xvVg==
+X-Gm-Message-State: APjAAAUghEaZhFVQGYRyarR3SuZ44RkWGeh+/Sm/mRRUijjx/AxtGCb/
+ LRRoH0Hj3/IzsoKUY+UfMtx9xg==
+X-Google-Smtp-Source: APXvYqzAKc3TFtE/+d23x/KqY0f0ZAEYcf9bLjwHoRODgLkDesGD5phMs5HZnecgoHgn37LKO48WSA==
+X-Received: by 2002:a17:906:4d85:: with SMTP id
+ s5mr14316718eju.192.1570802314444; 
+ Fri, 11 Oct 2019 06:58:34 -0700 (PDT)
+Received: from msennikovskii2.pb.local
+ ([2001:1438:4010:2558:9cc:2ca5:45db:2acf])
+ by smtp.googlemail.com with ESMTPSA id 36sm1547982edz.92.2019.10.11.06.58.33
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Fri, 11 Oct 2019 06:58:33 -0700 (PDT)
+From: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com, dgilbert@redhat.com, Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v4 1/2] virtio: new post_load hook
+Date: Fri, 11 Oct 2019 15:58:03 +0200
+Message-Id: <1570802284-3064-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,78 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>, "Williams, Dan
- J" <dan.j.williams@intel.com>
+Cc: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 9 Oct 2019 14:39:46 +0800
-Tao Xu <tao3.xu@intel.com> wrote:
+From: "Michael S. Tsirkin" <mst@redhat.com>
 
-> On 10/2/2019 11:16 PM, Igor Mammedov wrote:
-> > On Fri, 20 Sep 2019 15:43:44 +0800
-> > Tao Xu <tao3.xu@intel.com> wrote:
-> >   
-> [...]
-> >> +struct HMAT_LB_Info {
-> >> +    /* Indicates it's memory or the specified level memory side cache. */
-> >> +    uint8_t     hierarchy;
-> >> +
-> >> +    /* Present the type of data, access/read/write latency or bandwidth. */
-> >> +    uint8_t     data_type;
-> >> +
-> >> +    /* Array to store the latencies */  
-> > specify units it's stored in
-> >   
-> >> +    uint64_t    *latency;
-> >> +
-> >> +    /* Array to store the bandwidthes */  
-> > ditto
-> >   
-> >> +    uint64_t    *bandwidth;  
-> > btw:
-> > 
-> > what was the reason for picking uint64_t for storing above values?
-> > 
-> > it seems in this patch you dumb down bandwidth to MB/s above but
-> > store latency as is.  
-> 
-> Because I want to store the bandwidth or latency value (minimum unit) 
-> that user input. In HMAT, the minimum unit of bandwidth is MB/s, but in 
-> QAPI, the minimum unit of size is Byte. So I convert size into MB/s and 
-> time unit is "ps", need not convert.
-Just be consistent and store (user input) raw values for both fields
-(i.e. B/s PS/s) and post-process them later to uint16_t.
+Post load hook in virtio vmsd is called early while device is processed,
+and when VirtIODevice core isn't fully initialized.  Most device
+specific code isn't ready to deal with a device in such state, and
+behaves weirdly.
 
-> > and then in 9/11 build_hmat_lb you divide that on 'base' units,
-> > where are guaranties that value stored here will fit into 2 bytes
-> > used in HMAT to store it in the table?
-> >   
-> For HMAT spec, for a matrix of bandwidth or latency, there is only one 
-> base (in order to save ACPI tables space). We need to extract base for a 
-> matrix, but user input bandwidth or latency line by line. So after all 
-> data input, we can extract the base (as in 9/11).
-> 
-> There is another benefit. If user input different but similar units, 
-> such as "10ns" and "100ps", we can also store them. Only If user input 
-> big gap units, such as "1ps" and "1000ms". we can't store them and raise 
-> error.
-No disagreement here,
+Add a new post_load hook in a device class instead.  Devices should use
+this unless they specifically want to verify the migration stream as
+it's processed, e.g. for bounds checking.
 
-but I suggest to move verification and base calculation from 09/11
-into a separate patch (right after this one) and doing it at
-numa_complete_configuration() time.
-To store calculated base you can add a common_base field to
-sub-table structure (HMAT_LB_Info) and use it when building ACPI
-table without extra calculations.
+Suggested-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/virtio/virtio.c         | 7 +++++++
+ include/hw/virtio/virtio.h | 6 ++++++
+ 2 files changed, 13 insertions(+)
 
-> > if this structure should store values in terms on HMAT table it should
-> > probably use uint16_t and check that user provided value won't overflow
-> > at the time of CLI parsing.
-> >   
-> 
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index a94ea18..7c3822c 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2287,6 +2287,13 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
+     }
+     rcu_read_unlock();
+ 
++    if (vdc->post_load) {
++        ret = vdc->post_load(vdev);
++        if (ret) {
++            return ret;
++        }
++    }
++
+     return 0;
+ }
+ 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b189788..f9f6237 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -158,6 +158,12 @@ typedef struct VirtioDeviceClass {
+      */
+     void (*save)(VirtIODevice *vdev, QEMUFile *f);
+     int (*load)(VirtIODevice *vdev, QEMUFile *f, int version_id);
++    /* Post load hook in vmsd is called early while device is processed, and
++     * when VirtIODevice isn't fully initialized.  Devices should use this instead,
++     * unless they specifically want to verify the migration stream as it's
++     * processed, e.g. for bounds checking.
++     */
++    int (*post_load)(VirtIODevice *vdev);
+     const VMStateDescription *vmsd;
+ } VirtioDeviceClass;
+ 
+-- 
+2.7.4
 
 
