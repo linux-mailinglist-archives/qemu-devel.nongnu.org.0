@@ -2,41 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DB1D479B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:29:24 +0200 (CEST)
-Received: from localhost ([::1]:55462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B7DD478B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:27:55 +0200 (CEST)
+Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzfF-0002Y6-Cc
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
+	id 1iIzdq-00018h-6J
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhD-0000wW-V8
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:17 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIy9l-0001xF-L4
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:52:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhB-0008Lt-Lb
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:15 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49690)
+ (envelope-from <eblake@redhat.com>) id 1iIy9k-0007rr-Kt
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:52:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34498)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxhB-0008LB-8W
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:13 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR9-0003XG-I5; Fri, 11 Oct 2019 19:06:39 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v5 123/126] memory_mapping.c: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:49 +0300
-Message-Id: <20191011160552.22907-124-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iIy9i-0007pu-0Q; Fri, 11 Oct 2019 12:52:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 29A3C8980E9;
+ Fri, 11 Oct 2019 16:52:41 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A964F452F;
+ Fri, 11 Oct 2019 16:52:40 +0000 (UTC)
+Subject: Re: [RFC v5 011/126] block/snapshot: rename Error ** parameter to
+ more common errp
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-12-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <1c6d78c5-cd21-f324-d615-849d41f7e30a@redhat.com>
+Date: Fri, 11 Oct 2019 11:52:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+In-Reply-To: <20191011160552.22907-12-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Fri, 11 Oct 2019 16:52:41 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,84 +63,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we want to add some info to errp (by error_prepend() or
-error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-Otherwise, this info will not be added when errp == &fatal_err
-(the program will exit prior to the error_append_hint() or
-error_prepend() call).  Fix such cases.
+On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/snapshot.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-If we want to check error after errp-function call, we need to
-introduce local_err and than propagate it to errp. Instead, use
-ERRP_AUTO_PROPAGATE macro, benefits are:
-1. No need of explicit error_propagate call
-2. No need of explicit local_err variable: use errp directly
-3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
-   &error_fatel, this means that we don't break error_abort
-   (we'll abort on error_set, not on error_propagate)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-This commit (together with its neighbors) was generated by
+> diff --git a/block/snapshot.c b/block/snapshot.c
+> index 8081616ae9..bd9fb01817 100644
+> --- a/block/snapshot.c
+> +++ b/block/snapshot.c
+> @@ -426,7 +426,7 @@ fail:
+>   }
+>   
+>   int bdrv_all_delete_snapshot(const char *name, BlockDriverState **first_bad_bs,
+> -                             Error **err)
+> +                             Error **errp)
+>   {
+>       int ret = 0;
+>       BlockDriverState *bs;
+> @@ -441,7 +441,7 @@ int bdrv_all_delete_snapshot(const char *name, BlockDriverState **first_bad_bs,
+>               bdrv_snapshot_find(bs, snapshot, name) >= 0)
+>           {
+>               ret = bdrv_snapshot_delete(bs, snapshot->id_str,
+> -                                       snapshot->name, err);
+> +                                       snapshot->name, errp);
+>           }
+>           aio_context_release(ctx);
+>           if (ret < 0) {
+> 
 
-for f in $(git grep -l errp \*.[ch]); do \
-    spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
-    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
-done;
-
-then fix a bit of compilation problems: coccinelle for some reason
-leaves several
-f() {
-    ...
-    goto out;
-    ...
-    out:
-}
-patterns, with "out:" at function end.
-
-then
-./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
-
-(auto-msg was a file with this commit message)
-
-Still, for backporting it may be more comfortable to use only the first
-command and then do one huge commit.
-
-Reported-by: Kevin Wolf <kwolf@redhat.com>
-Reported-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- memory_mapping.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/memory_mapping.c b/memory_mapping.c
-index 18d0b8067c..d95df2484b 100644
---- a/memory_mapping.c
-+++ b/memory_mapping.c
-@@ -288,6 +288,7 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
-                                    const GuestPhysBlockList *guest_phys_blocks,
-                                    Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     CPUState *cpu, *first_paging_enabled_cpu;
-     GuestPhysBlock *block;
-     ram_addr_t offset, length;
-@@ -296,10 +297,8 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
-     if (first_paging_enabled_cpu) {
-         for (cpu = first_paging_enabled_cpu; cpu != NULL;
-              cpu = CPU_NEXT(cpu)) {
--            Error *err = NULL;
--            cpu_get_memory_mapping(cpu, list, &err);
--            if (err) {
--                error_propagate(errp, err);
-+            cpu_get_memory_mapping(cpu, list, errp);
-+            if (*errp) {
-                 return;
-             }
-         }
 -- 
-2.21.0
-
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
