@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C653AD45BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:50:43 +0200 (CEST)
-Received: from localhost ([::1]:54158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1EED45F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:57:48 +0200 (CEST)
+Received: from localhost ([::1]:54232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIy7m-0006DB-BG
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
+	id 1iIyEd-00072g-F0
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR9-0006dN-Kc
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRA-0006eQ-A9
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0004m2-PZ
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:39 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48422)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0004lr-NN
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48436)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR6-0004TB-GT
+ id 1iIxR6-0004Tt-Dr
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:36 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQu-0003XG-IJ; Fri, 11 Oct 2019 19:06:24 +0300
+ id 1iIxQu-0003XG-VF; Fri, 11 Oct 2019 19:06:25 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 084/126] SLIRP: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:10 +0300
-Message-Id: <20191011160552.22907-85-vsementsov@virtuozzo.com>
+Subject: [RFC v5 085/126] Tracing: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:11 +0300
+Message-Id: <20191011160552.22907-86-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,10 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Jan Kiszka <jan.kiszka@siemens.com>, Jason Wang <jasowang@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,41 +97,54 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- net/slirp.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ trace/qmp.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/net/slirp.c b/net/slirp.c
-index c4334ee876..cbde9ba2a9 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -941,6 +941,7 @@ static ssize_t guestfwd_write(const void *buf, size_t len, void *chr)
- 
- static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp)
+diff --git a/trace/qmp.c b/trace/qmp.c
+index 38246e1aa6..05335f2da4 100644
+--- a/trace/qmp.c
++++ b/trace/qmp.c
+@@ -70,7 +70,7 @@ TraceEventInfoList *qmp_trace_event_get_state(const char *name,
+                                               bool has_vcpu, int64_t vcpu,
+                                               Error **errp)
  {
+-    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     /* TODO: IPv6 */
-     struct in_addr server = { .s_addr = 0 };
-     struct GuestFwd *fwd;
-@@ -979,7 +980,6 @@ static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp)
-             return -1;
-         }
-     } else {
--        Error *err = NULL;
-         /*
-          * FIXME: sure we want to support implicit
-          * muxed monitors here?
-@@ -993,9 +993,8 @@ static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp)
-         }
+     TraceEventInfoList *events = NULL;
+     TraceEventIter iter;
+     TraceEvent *ev;
+@@ -78,9 +78,8 @@ TraceEventInfoList *qmp_trace_event_get_state(const char *name,
+     CPUState *cpu;
  
-         fwd = g_new(struct GuestFwd, 1);
--        qemu_chr_fe_init(&fwd->hd, chr, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        qemu_chr_fe_init(&fwd->hd, chr, errp);
-+        if (*errp) {
-             object_unparent(OBJECT(chr));
-             g_free(fwd);
-             return -1;
+     /* Check provided vcpu */
+-    cpu = get_cpu(has_vcpu, vcpu, &err);
+-    if (err) {
+-        error_propagate(errp, err);
++    cpu = get_cpu(has_vcpu, vcpu, errp);
++    if (*errp) {
+         return NULL;
+     }
+ 
+@@ -135,16 +134,15 @@ void qmp_trace_event_set_state(const char *name, bool enable,
+                                bool has_vcpu, int64_t vcpu,
+                                Error **errp)
+ {
+-    Error *err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     TraceEventIter iter;
+     TraceEvent *ev;
+     bool is_pattern = trace_event_is_pattern(name);
+     CPUState *cpu;
+ 
+     /* Check provided vcpu */
+-    cpu = get_cpu(has_vcpu, vcpu, &err);
+-    if (err) {
+-        error_propagate(errp, err);
++    cpu = get_cpu(has_vcpu, vcpu, errp);
++    if (*errp) {
+         return;
+     }
+ 
 -- 
 2.21.0
 
