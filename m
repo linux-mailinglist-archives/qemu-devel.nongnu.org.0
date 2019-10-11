@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130DBD47BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:37:36 +0200 (CEST)
-Received: from localhost ([::1]:55626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E8ED47AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:35:21 +0200 (CEST)
+Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIznC-0003FN-Nm
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:37:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56123)
+	id 1iIzl1-0008Db-TA
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iIzSU-0004mA-Nx
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:16:11 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIzhx-0006OP-13
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:32:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iIzSQ-0001j2-O6
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:16:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55686)
+ (envelope-from <eblake@redhat.com>) id 1iIzhv-0003Gi-Hk
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:32:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35304)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iIzSH-0001ag-9L; Fri, 11 Oct 2019 14:15:57 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzhv-0003G3-BT
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:32:07 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8E21C7BDA5;
- Fri, 11 Oct 2019 18:15:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5B5AA3067288;
+ Fri, 11 Oct 2019 18:32:06 +0000 (UTC)
 Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 42A2C60BF4;
- Fri, 11 Oct 2019 18:15:16 +0000 (UTC)
-Subject: Re: [RFC v5 025/126] scripts: add coccinelle script to use auto
- propagated errp
-From: Eric Blake <eblake@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB00210013D9;
+ Fri, 11 Oct 2019 18:32:03 +0000 (UTC)
+Subject: Re: [RFC v5 004/126] hmp: drop Error pointer indirection in
+ hmp_handle_error
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-26-vsementsov@virtuozzo.com>
- <5dd4d642-7ea6-42a2-66fc-6d6710b77b8d@redhat.com>
+ <20191011160552.22907-5-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <f846f0dc-854f-90f7-5f25-eb4f2b461520@redhat.com>
-Date: Fri, 11 Oct 2019 13:15:15 -0500
+Message-ID: <f8334660-9e5a-3dcb-6818-746d94ea1add@redhat.com>
+Date: Fri, 11 Oct 2019 13:32:02 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <5dd4d642-7ea6-42a2-66fc-6d6710b77b8d@redhat.com>
+In-Reply-To: <20191011160552.22907-5-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 11 Oct 2019 18:15:55 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.48]); Fri, 11 Oct 2019 18:32:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -64,99 +63,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Jan Kiszka <jan.kiszka@siemens.com>, Alberto Garcia <berto@igalia.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-block@nongnu.org,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Halil Pasic <pasic@linux.ibm.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Laszlo Ersek <lersek@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Chris Wulff <crwulff@gmail.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Igor Mammedov <imammedo@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Maydell <peter.maydell@linaro.org>, sheepdog@lists.wpkg.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Palmer Dabbelt <palmer@sifive.com>, Thomas Huth <thuth@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- Hannes Reinecke <hare@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Liu Yuan <namei.unix@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eric Farman <farman@linux.ibm.com>,
- Amit Shah <amit@kernel.org>, Stefan Weil <sw@weilnetz.de>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stafford Horne <shorne@gmail.com>, qemu-riscv@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <pburton@wavecomp.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Paul Durrant <paul@xen.org>,
- Anthony Green <green@moxielogic.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Ari Sundholm <ari@tuxera.com>,
- Juan Quintela <quintela@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Jason Dillaman <dillaman@redhat.com>, Antony Pavlov <antonynpavlov@gmail.com>,
- xen-devel@lists.xenproject.org, integration@gluster.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, Max Reitz <mreitz@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Vincenzo Maffione <v.maffione@gmail.com>, Marek Vasut <marex@denx.de>,
- armbru@redhat.com,
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, armbru@redhat.com,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
- David Gibson <david@gibson.dropbear.id.au>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Wen Congyang <wencongyang2@huawei.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 12:12 PM, Eric Blake wrote:
-> On 10/11/19 11:04 AM, Vladimir Sementsov-Ogievskiy wrote:
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>
+On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
+> We don't need Error **, as all callers pass local Error object, which
+> isn't used after the call. Use Error * instead.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   include/monitor/hmp.h      |   2 +-
+>   dump/dump-hmp-cmds.c       |   4 +-
+>   hw/core/machine-hmp-cmds.c |   6 +-
+>   monitor/hmp-cmds.c         | 155 ++++++++++++++++++-------------------
+>   qdev-monitor.c             |   4 +-
+>   qom/qom-hmp-cmds.c         |   4 +-
+>   6 files changed, 87 insertions(+), 88 deletions(-)
+> 
 
->> +@@
->> +identifier rule1.fn;
->> +identifier rule1.local_err;
->> +@@
->> +
->> + fn(...)
->> + {
->> +=C2=A0=C2=A0=C2=A0=C2=A0 <...
->> +(
->> +-=C2=A0=C2=A0=C2=A0 error_free(local_err);
->> +-=C2=A0=C2=A0=C2=A0 local_err =3D NULL;
->> ++=C2=A0=C2=A0=C2=A0 error_free_errp(errp);
->=20
-> This does not make sense - error_free_errp() is not defined prior to=20
-> this series or anywhere in patches 1-24, if I'm reading it correctly.
+> +++ b/dump/dump-hmp-cmds.c
+> @@ -32,7 +32,7 @@ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
+>   
+>       if (zlib + lzo + snappy + win_dmp > 1) {
+>           error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
+> -        hmp_handle_error(mon, &err);
+> +        hmp_handle_error(mon, err);
+>           return;
+>       }
 
-Apologies - I sent my reply to this message before 21/126 showed up in=20
-my inbox, and didn't realize that I had skipped over sequencing.  This=20
-part is fine after all, but it points to the perils of reviewing a=20
-thread as it comes in piecemeal, vs. reviewing an actual branch with all=20
-patches instantly available.
+Probably not for this series, but would a patch to various HMP files to 
+have a g_auto() sort of reporting on an error the moment it goes out of 
+scope (rather than having to manually call hmp_handle_error() 
+everywhere) make sense?
 
---=20
+-- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
