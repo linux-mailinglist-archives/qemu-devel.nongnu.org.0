@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FB3D4689
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:23:32 +0200 (CEST)
-Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54D2D4678
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:20:19 +0200 (CEST)
+Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIydW-0007TC-Rq
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:23:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40655)
+	id 1iIyaQ-0002re-AQ
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40441)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhU-0001If-JD
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:33 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxgl-0000Ju-9O
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhT-0008RP-Fe
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:32 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49726)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxgj-00083D-UE
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:47 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49644)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxhT-0008R0-8c
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:31 -0400
+ id 1iIxgj-00082L-My
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:45 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR8-0003XG-Fc; Fri, 11 Oct 2019 19:06:38 +0300
+ id 1iIxR9-0003XG-75; Fri, 11 Oct 2019 19:06:39 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 118/126] PVRDMA: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:44 +0300
-Message-Id: <20191011160552.22907-119-vsementsov@virtuozzo.com>
+Subject: [RFC v5 121/126] hw/sd/ssi-sd.c: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:47 +0300
+Message-Id: <20191011160552.22907-122-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,7 +49,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- Yuval Shaia <yuval.shaia@oracle.com>, Greg Kurz <groug@kaod.org>
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,21 +97,45 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/rdma/vmw/pvrdma_main.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/sd/ssi-sd.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 3e36e13013..fd1a6ef099 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -592,6 +592,7 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index 91db069212..f42204d649 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -241,10 +241,10 @@ static const VMStateDescription vmstate_ssi_sd = {
  
- static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+ static void ssi_sd_realize(SSISlave *d, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int rc = 0;
-     PVRDMADev *dev = PVRDMA_DEV(pdev);
-     Object *memdev_root;
+     ssi_sd_state *s = FROM_SSI_SLAVE(ssi_sd_state, d);
+     DeviceState *carddev;
+     DriveInfo *dinfo;
+-    Error *err = NULL;
+ 
+     qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
+                         DEVICE(d), "sd-bus");
+@@ -254,12 +254,14 @@ static void ssi_sd_realize(SSISlave *d, Error **errp)
+     dinfo = drive_get_next(IF_SD);
+     carddev = qdev_create(BUS(&s->sdbus), TYPE_SD_CARD);
+     if (dinfo) {
+-        qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo), &err);
++        qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo),
++                            errp);
+     }
+-    object_property_set_bool(OBJECT(carddev), true, "spi", &err);
+-    object_property_set_bool(OBJECT(carddev), true, "realized", &err);
+-    if (err) {
+-        error_setg(errp, "failed to init SD card: %s", error_get_pretty(err));
++    object_property_set_bool(OBJECT(carddev), true, "spi", errp);
++    object_property_set_bool(OBJECT(carddev), true, "realized", errp);
++    if (*errp) {
++        error_setg(errp, "failed to init SD card: %s",
++                   error_get_pretty(*errp));
+         return;
+     }
+ }
 -- 
 2.21.0
 
