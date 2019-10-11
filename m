@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A23D461C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:02:28 +0200 (CEST)
-Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E0BD4621
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:03:36 +0200 (CEST)
+Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyJ8-0004lq-Kg
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37027)
+	id 1iIyKE-0006JG-Lb
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRD-0006k5-CG
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:47 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRC-0006io-Js
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oN-JC
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:43 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48470)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oh-Mz
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR8-0004WM-8x
+ id 1iIxR8-0004WR-Aj
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQv-0003XG-KW; Fri, 11 Oct 2019 19:06:25 +0300
+ id 1iIxQw-0003XG-2C; Fri, 11 Oct 2019 19:06:26 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 087/126] Migration: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:13 +0300
-Message-Id: <20191011160552.22907-88-vsementsov@virtuozzo.com>
+Subject: [RFC v5 088/126] Cryptography: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:14 +0300
+Message-Id: <20191011160552.22907-89-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,8 +49,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Juan Quintela <quintela@redhat.com>, armbru@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,292 +98,242 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/migration.c | 39 ++++++++++++++++++---------------------
- migration/ram.c       | 13 ++++++-------
- migration/rdma.c      | 13 ++++++-------
- migration/savevm.c    |  2 ++
- migration/socket.c    | 18 ++++++++----------
- 5 files changed, 40 insertions(+), 45 deletions(-)
+ crypto/block-luks.c | 56 +++++++++++++++++++--------------------------
+ crypto/secret.c     | 17 ++++++--------
+ crypto/tlssession.c |  7 +++---
+ 3 files changed, 33 insertions(+), 47 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 5f7e4d15e9..36a0b9e783 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -583,6 +583,7 @@ void migration_fd_process_incoming(QEMUFile *f)
- 
- void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 4861db810c..45c21c2fcc 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -442,8 +442,8 @@ qcrypto_block_luks_store_header(QCryptoBlock *block,
+                                 void *opaque,
+                                 Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     MigrationIncomingState *mis = migration_incoming_get_current();
-     bool start_migration;
+     const QCryptoBlockLUKS *luks = block->opaque;
+-    Error *local_err = NULL;
+     size_t i;
+     g_autofree QCryptoBlockLUKSHeader *hdr_copy = NULL;
  
-@@ -603,12 +604,10 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-          */
-         start_migration = !migrate_use_multifd();
-     } else {
--        Error *local_err = NULL;
-         /* Multiple connections */
-         assert(migrate_use_multifd());
--        start_migration = multifd_recv_new_channel(ioc, &local_err);
+@@ -469,10 +469,9 @@ qcrypto_block_luks_store_header(QCryptoBlock *block,
+ 
+     /* Write out the partition header and key slot headers */
+     writefunc(block, 0, (const uint8_t *)hdr_copy, sizeof(*hdr_copy),
+-              opaque, &local_err);
++              opaque, errp);
+ 
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         return -1;
+     }
+     return 0;
+@@ -603,9 +602,9 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+ static int
+ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     g_autofree char *cipher_mode = g_strdup(luks->header.cipher_mode);
+     char *ivgen_name, *ivhash_name;
+-    Error *local_err = NULL;
+ 
+     /*
+      * The cipher_mode header contains a string that we have
+@@ -632,17 +631,15 @@ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
+         ivhash_name++;
+ 
+         luks->ivgen_hash_alg = qcrypto_block_luks_hash_name_lookup(ivhash_name,
+-                                                                   &local_err);
 -        if (local_err) {
 -            error_propagate(errp, local_err);
-+        start_migration = multifd_recv_new_channel(ioc, errp);
++                                                                   errp);
 +        if (*errp) {
-             return;
+             return -1;
          }
      }
-@@ -971,6 +970,7 @@ static bool migrate_caps_check(bool *cap_list,
-                                MigrationCapabilityStatusList *params,
+ 
+     luks->cipher_mode = qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
+-                                                              &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                                              errp);
++    if (*errp) {
+         return -1;
+     }
+ 
+@@ -650,24 +647,21 @@ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
+             qcrypto_block_luks_cipher_name_lookup(luks->header.cipher_name,
+                                                   luks->cipher_mode,
+                                                   luks->header.master_key_len,
+-                                                  &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                                  errp);
++    if (*errp) {
+         return -1;
+     }
+ 
+     luks->hash_alg =
+             qcrypto_block_luks_hash_name_lookup(luks->header.hash_spec,
+-                                                &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                                errp);
++    if (*errp) {
+         return -1;
+     }
+ 
+     luks->ivgen_alg = qcrypto_block_luks_ivgen_name_lookup(ivgen_name,
+-                                                           &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                                           errp);
++    if (*errp) {
+         return -1;
+     }
+ 
+@@ -679,9 +673,8 @@ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
+         luks->ivgen_cipher_alg =
+                 qcrypto_block_luks_essiv_cipher(luks->cipher_alg,
+                                                 luks->ivgen_hash_alg,
+-                                                &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++                                                errp);
++        if (*errp) {
+             return -1;
+         }
+     } else {
+@@ -1186,9 +1179,9 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+                           void *opaque,
+                           Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     QCryptoBlockLUKS *luks;
+     QCryptoBlockCreateOptionsLUKS luks_opts;
+-    Error *local_err = NULL;
+     g_autofree uint8_t *masterkey = NULL;
+     size_t header_sectors;
+     size_t split_key_sectors;
+@@ -1298,9 +1291,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+         luks->ivgen_cipher_alg =
+                 qcrypto_block_luks_essiv_cipher(luks_opts.cipher_alg,
+                                                 luks_opts.ivgen_hash_alg,
+-                                                &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++                                                errp);
++        if (*errp) {
+             goto error;
+         }
+     } else {
+@@ -1364,9 +1356,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+                                        luks->header.master_key_salt,
+                                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
+                                        QCRYPTO_BLOCK_LUKS_DIGEST_LEN,
+-                                       &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                       errp);
++    if (*errp) {
+         goto error;
+     }
+ 
+@@ -1439,9 +1430,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
+         block->sector_size;
+ 
+     /* Reserve header space to match payload offset */
+-    initfunc(block, block->payload_offset, opaque, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    initfunc(block, block->payload_offset, opaque, errp);
++    if (*errp) {
+         goto error;
+     }
+ 
+diff --git a/crypto/secret.c b/crypto/secret.c
+index 1cf0ad0ce8..962d2c1d44 100644
+--- a/crypto/secret.c
++++ b/crypto/secret.c
+@@ -178,27 +178,25 @@ qcrypto_secret_prop_set_loaded(Object *obj,
+                                bool value,
                                 Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     MigrationCapabilityStatusList *cap;
-     bool old_postcopy_cap;
-     MigrationIncomingState *mis = migration_incoming_get_current();
-@@ -1764,7 +1764,7 @@ void migrate_del_blocker(Error *reason)
+     QCryptoSecret *secret = QCRYPTO_SECRET(obj);
  
- void qmp_migrate_incoming(const char *uri, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     static bool once = true;
+     if (value) {
+-        Error *local_err = NULL;
+         uint8_t *input = NULL;
+         size_t inputlen = 0;
+         uint8_t *output = NULL;
+         size_t outputlen = 0;
  
-     if (!deferred_incoming) {
-@@ -1775,10 +1775,9 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
-         error_setg(errp, "The incoming migration has already been started");
-     }
- 
--    qemu_start_incoming_migration(uri, &local_err);
-+    qemu_start_incoming_migration(uri, errp);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -1856,7 +1855,7 @@ bool migration_is_blocked(Error **errp)
- static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
-                             bool resume, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
-     if (resume) {
-         if (s->state != MIGRATION_STATUS_POSTCOPY_PAUSED) {
-@@ -1909,9 +1908,8 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
-                        "current migration capabilities");
-             return false;
-         }
--        migrate_set_block_enabled(true, &local_err);
+-        qcrypto_secret_load_data(secret, &input, &inputlen, &local_err);
 -        if (local_err) {
 -            error_propagate(errp, local_err);
-+        migrate_set_block_enabled(true, errp);
++        qcrypto_secret_load_data(secret, &input, &inputlen, errp);
 +        if (*errp) {
-             return false;
+             return;
          }
-         s->must_remove_block_options = true;
-@@ -1935,7 +1933,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-                  bool has_inc, bool inc, bool has_detach, bool detach,
-                  bool has_resume, bool resume, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     MigrationState *s = migrate_get_current();
-     const char *p;
  
-@@ -1946,17 +1944,17 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-     }
- 
-     if (strstart(uri, "tcp:", &p)) {
--        tcp_start_outgoing_migration(s, p, &local_err);
-+        tcp_start_outgoing_migration(s, p, errp);
- #ifdef CONFIG_RDMA
-     } else if (strstart(uri, "rdma:", &p)) {
--        rdma_start_outgoing_migration(s, p, &local_err);
-+        rdma_start_outgoing_migration(s, p, errp);
- #endif
-     } else if (strstart(uri, "exec:", &p)) {
--        exec_start_outgoing_migration(s, p, &local_err);
-+        exec_start_outgoing_migration(s, p, errp);
-     } else if (strstart(uri, "unix:", &p)) {
--        unix_start_outgoing_migration(s, p, &local_err);
-+        unix_start_outgoing_migration(s, p, errp);
-     } else if (strstart(uri, "fd:", &p)) {
--        fd_start_outgoing_migration(s, p, &local_err);
-+        fd_start_outgoing_migration(s, p, errp);
-     } else {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "uri",
-                    "a valid migration protocol");
-@@ -1966,9 +1964,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-         return;
-     }
- 
--    if (local_err) {
--        migrate_fd_error(s, local_err);
--        error_propagate(errp, local_err);
-+    if (*errp) {
-+        migrate_fd_error(s, *errp);
-         return;
-     }
- }
-diff --git a/migration/ram.c b/migration/ram.c
-index 22423f08cd..0100c11dd7 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1474,14 +1474,14 @@ bool multifd_recv_all_channels_created(void)
-  */
- bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     MultiFDRecvParams *p;
--    Error *local_err = NULL;
-     int id;
- 
--    id = multifd_recv_initial_packet(ioc, &local_err);
-+    id = multifd_recv_initial_packet(ioc, errp);
-     if (id < 0) {
--        multifd_recv_terminate_threads(local_err);
--        error_propagate_prepend(errp, local_err,
-+        multifd_recv_terminate_threads(*errp);
-+        error_prepend(errp,
-                                 "failed to receive packet"
-                                 " via multifd channel %d: ",
-                                 atomic_read(&multifd_recv_state->count));
-@@ -1491,10 +1491,9 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
- 
-     p = &multifd_recv_state->params[id];
-     if (p->c != NULL) {
--        error_setg(&local_err, "multifd: received id '%d' already setup'",
-+        error_setg(errp, "multifd: received id '%d' already setup'",
-                    id);
--        multifd_recv_terminate_threads(local_err);
--        error_propagate(errp, local_err);
-+        multifd_recv_terminate_threads(*errp);
-         return false;
-     }
-     p->c = ioc;
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 4c74e88a37..db985fee73 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2396,8 +2396,9 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
- 
- static int qemu_rdma_source_init(RDMAContext *rdma, bool pin_all, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     int ret, idx;
--    Error *local_err = NULL, **temp = &local_err;
-+    Error **temp = errp;
- 
-     /*
-      * Will be validated against destination's actual capabilities
-@@ -2450,7 +2451,6 @@ static int qemu_rdma_source_init(RDMAContext *rdma, bool pin_all, Error **errp)
-     return 0;
- 
- err_rdma_source_init:
--    error_propagate(errp, local_err);
-     qemu_rdma_cleanup(rdma);
-     return -1;
- }
-@@ -4044,18 +4044,18 @@ static void rdma_accept_incoming_migration(void *opaque)
- 
- void rdma_start_incoming_migration(const char *host_port, Error **errp)
+         if (secret->keyid) {
+             qcrypto_secret_decrypt(secret, input, inputlen,
+-                                   &output, &outputlen, &local_err);
++                                   &output, &outputlen, errp);
+             g_free(input);
+-            if (local_err) {
+-                error_propagate(errp, local_err);
++            if (*errp) {
+                 return;
+             }
+             input = output;
+@@ -206,10 +204,9 @@ qcrypto_secret_prop_set_loaded(Object *obj,
+         } else {
+             if (secret->format != QCRYPTO_SECRET_FORMAT_RAW) {
+                 qcrypto_secret_decode(input, inputlen,
+-                                      &output, &outputlen, &local_err);
++                                      &output, &outputlen, errp);
+                 g_free(input);
+-                if (local_err) {
+-                    error_propagate(errp, local_err);
++                if (*errp) {
+                     return;
+                 }
+                 input = output;
+diff --git a/crypto/tlssession.c b/crypto/tlssession.c
+index 33203e8ca7..abb3912304 100644
+--- a/crypto/tlssession.c
++++ b/crypto/tlssession.c
+@@ -256,13 +256,13 @@ static int
+ qcrypto_tls_session_check_certificate(QCryptoTLSSession *session,
+                                       Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
      int ret;
-     RDMAContext *rdma, *rdma_return_path = NULL;
--    Error *local_err = NULL;
- 
-     trace_rdma_start_incoming_migration();
--    rdma = qemu_rdma_data_init(host_port, &local_err);
-+    rdma = qemu_rdma_data_init(host_port, errp);
- 
-     if (rdma == NULL) {
-         goto err;
-     }
- 
--    ret = qemu_rdma_dest_init(rdma, &local_err);
-+    ret = qemu_rdma_dest_init(rdma, errp);
- 
-     if (ret) {
-         goto err;
-@@ -4074,7 +4074,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
- 
-     /* initialize the RDMAContext for return path */
-     if (migrate_postcopy()) {
--        rdma_return_path = qemu_rdma_data_init(host_port, &local_err);
-+        rdma_return_path = qemu_rdma_data_init(host_port, errp);
- 
-         if (rdma_return_path == NULL) {
-             goto err;
-@@ -4087,7 +4087,6 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
-                         NULL, (void *)(intptr_t)rdma);
-     return;
- err:
--    error_propagate(errp, local_err);
-     g_free(rdma);
-     g_free(rdma_return_path);
- }
-diff --git a/migration/savevm.c b/migration/savevm.c
-index bb9462a54d..f9293fe192 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2586,6 +2586,7 @@ int qemu_load_device_state(QEMUFile *f)
- 
- int save_snapshot(const char *name, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BlockDriverState *bs, *bs1;
-     QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-     int ret = -1;
-@@ -2790,6 +2791,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
- 
- int load_snapshot(const char *name, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BlockDriverState *bs, *bs_vm_state;
-     QEMUSnapshotInfo sn;
-     QEMUFile *f;
-diff --git a/migration/socket.c b/migration/socket.c
-index 97c9efde59..bc07ef92a1 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -139,12 +139,11 @@ void tcp_start_outgoing_migration(MigrationState *s,
-                                   const char *host_port,
-                                   Error **errp)
- {
+     unsigned int status;
+     const gnutls_datum_t *certs;
+     unsigned int nCerts, i;
+     time_t now;
+     gnutls_x509_crt_t cert = NULL;
 -    Error *err = NULL;
--    SocketAddress *saddr = tcp_build_address(host_port, &err);
--    if (!err) {
--        socket_start_outgoing_migration(s, saddr, &err);
-+    ERRP_AUTO_PROPAGATE();
-+    SocketAddress *saddr = tcp_build_address(host_port, errp);
-+    if (!*errp) {
-+        socket_start_outgoing_migration(s, saddr, errp);
-     }
--    error_propagate(errp, err);
- }
  
- void unix_start_outgoing_migration(MigrationState *s,
-@@ -209,13 +208,12 @@ static void socket_start_incoming_migration(SocketAddress *saddr,
+     now = time(NULL);
+     if (now == ((time_t)-1)) {
+@@ -354,9 +354,8 @@ qcrypto_tls_session_check_certificate(QCryptoTLSSession *session,
+                 bool allow;
  
- void tcp_start_incoming_migration(const char *host_port, Error **errp)
- {
--    Error *err = NULL;
--    SocketAddress *saddr = tcp_build_address(host_port, &err);
--    if (!err) {
--        socket_start_incoming_migration(saddr, &err);
-+    ERRP_AUTO_PROPAGATE();
-+    SocketAddress *saddr = tcp_build_address(host_port, errp);
-+    if (!*errp) {
-+        socket_start_incoming_migration(saddr, errp);
-     }
-     qapi_free_SocketAddress(saddr);
--    error_propagate(errp, err);
- }
- 
- void unix_start_incoming_migration(const char *path, Error **errp)
+                 allow = qauthz_is_allowed_by_id(session->authzid,
+-                                                session->peername, &err);
+-                if (err) {
+-                    error_propagate(errp, err);
++                                                session->peername, errp);
++                if (*errp) {
+                     goto error;
+                 }
+                 if (!allow) {
 -- 
 2.21.0
 
