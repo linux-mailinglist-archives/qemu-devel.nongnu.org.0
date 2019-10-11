@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3933FD4598
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:39:36 +0200 (CEST)
-Received: from localhost ([::1]:54030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941E5D4587
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:37:39 +0200 (CEST)
+Received: from localhost ([::1]:53990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxx1-00026I-6v
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
+	id 1iIxv8-0007n5-2b
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQr-00068B-Sq
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:23 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR2-0006RG-Na
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQq-0004NB-Jt
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:21 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47956)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0004dZ-TX
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:32 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47964)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQq-0004Ai-Ch
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:20 -0400
+ id 1iIxR0-0004Ar-JU; Fri, 11 Oct 2019 12:06:30 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQf-0003XG-1k; Fri, 11 Oct 2019 19:06:09 +0300
+ id 1iIxQf-0003XG-79; Fri, 11 Oct 2019 19:06:09 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 036/126] SPARC Machines: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:22 +0300
-Message-Id: <20191011160552.22907-37-vsementsov@virtuozzo.com>
+Subject: [RFC v5 037/126] S390 Machines: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:23 +0300
+Message-Id: <20191011160552.22907-38-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,9 +47,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ vsementsov@virtuozzo.com, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,90 +101,196 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/sparc/sun4m.c   | 21 +++++++++------------
- hw/sparc64/sun4u.c |  7 +++----
- 2 files changed, 12 insertions(+), 16 deletions(-)
+ hw/s390x/ipl.c          | 24 +++++++++++-------------
+ hw/s390x/s390-pci-bus.c | 37 ++++++++++++++++---------------------
+ 2 files changed, 27 insertions(+), 34 deletions(-)
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 6c5a17a020..3490992cdf 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -601,14 +601,13 @@ typedef struct IDRegState {
+diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+index ca544d64c5..46b0a413cf 100644
+--- a/hw/s390x/ipl.c
++++ b/hw/s390x/ipl.c
+@@ -110,12 +110,12 @@ static uint64_t bios_translate_addr(void *opaque, uint64_t srcaddr)
  
- static void idreg_realize(DeviceState *ds, Error **errp)
+ static void s390_ipl_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     IDRegState *s = MACIO_ID_REGISTER(ds);
-     SysBusDevice *dev = SYS_BUS_DEVICE(ds);
+     S390IPLState *ipl = S390_IPL(dev);
+     uint32_t *ipl_psw;
+     uint64_t pentry;
+     char *magic;
+     int kernel_size;
+-    Error *err = NULL;
+ 
+     int bios_size;
+     char *bios_filename;
+@@ -133,8 +133,8 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+ 
+         bios_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+         if (bios_filename == NULL) {
+-            error_setg(&err, "could not find stage1 bootloader");
+-            goto error;
++            error_setg(errp, "could not find stage1 bootloader");
++            return;
+         }
+ 
+         bios_size = load_elf(bios_filename, NULL,
+@@ -153,8 +153,8 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+         g_free(bios_filename);
+ 
+         if (bios_size == -1) {
+-            error_setg(&err, "could not load bootloader '%s'", bios_name);
+-            goto error;
++            error_setg(errp, "could not load bootloader '%s'", bios_name);
++            return;
+         }
+ 
+         /* default boot target is the bios */
+@@ -168,8 +168,8 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+         if (kernel_size < 0) {
+             kernel_size = load_image_targphys(ipl->kernel, 0, ram_size);
+             if (kernel_size < 0) {
+-                error_setg(&err, "could not load kernel '%s'", ipl->kernel);
+-                goto error;
++                error_setg(errp, "could not load kernel '%s'", ipl->kernel);
++                return;
+             }
+             /* if this is Linux use KERN_IMAGE_START */
+             magic = rom_ptr(LINUX_MAGIC_ADDR, 6);
+@@ -181,8 +181,8 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+                 if (ipl_psw) {
+                     pentry = be32_to_cpu(*ipl_psw) & 0x7fffffffUL;
+                 } else {
+-                    error_setg(&err, "Could not get IPL PSW");
+-                    goto error;
++                    error_setg(errp, "Could not get IPL PSW");
++                    return;
+                 }
+             }
+         }
+@@ -215,8 +215,8 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+             initrd_size = load_image_targphys(ipl->initrd, initrd_offset,
+                                               ram_size - initrd_offset);
+             if (initrd_size == -1) {
+-                error_setg(&err, "could not load initrd '%s'", ipl->initrd);
+-                goto error;
++                error_setg(errp, "could not load initrd '%s'", ipl->initrd);
++                return;
+             }
+ 
+             /*
+@@ -238,8 +238,6 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
+     ipl->compat_start_addr = ipl->start_addr;
+     ipl->compat_bios_start_addr = ipl->bios_start_addr;
+     qemu_register_reset(qdev_reset_all_fn, dev);
+-error:
+-    error_propagate(errp, err);
+ }
+ 
+ static Property s390_ipl_properties[] = {
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index 2d2f4a7c41..273e32d4ae 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -737,11 +737,11 @@ static void s390_pci_iommu_free(S390pciState *s, PCIBus *bus, int32_t devfn)
+ 
+ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     PCIBus *b;
+     BusState *bus;
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     S390pciState *s = S390_PCI_HOST_BRIDGE(dev);
 -    Error *local_err = NULL;
  
-     memory_region_init_ram_nomigrate(&s->mem, OBJECT(ds), "sun4m.idreg",
--                                     sizeof(idreg_data), &local_err);
+     DPRINTF("host_init\n");
+ 
+@@ -751,17 +751,15 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+     pci_setup_iommu(b, s390_pci_dma_iommu, s);
+ 
+     bus = BUS(b);
+-    qbus_set_hotplug_handler(bus, OBJECT(dev), &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+                                     sizeof(idreg_data), errp);
++    qbus_set_hotplug_handler(bus, OBJECT(dev), errp);
++    if (*errp) {
+         return;
+     }
+     phb->bus = b;
+ 
+     s->bus = S390_PCI_BUS(qbus_create(TYPE_S390_PCI_BUS, dev, NULL));
+-    qbus_set_hotplug_handler(BUS(s->bus), OBJECT(dev), &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qbus_set_hotplug_handler(BUS(s->bus), OBJECT(dev), errp);
 +    if (*errp) {
          return;
      }
  
-@@ -655,14 +654,13 @@ static void afx_init(hwaddr addr)
+@@ -773,8 +771,7 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+     QTAILQ_INIT(&s->zpci_devs);
  
- static void afx_realize(DeviceState *ds, Error **errp)
+     css_register_io_adapters(CSS_IO_ADAPTER_PCI, true, false,
+-                             S390_ADAPTER_SUPPRESSIBLE, &local_err);
+-    error_propagate(errp, local_err);
++                             S390_ADAPTER_SUPPRESSIBLE, errp);
+ }
+ 
+ static int s390_pci_msix_init(S390PCIBusDevice *pbdev)
+@@ -821,7 +818,7 @@ static void s390_pci_msix_free(S390PCIBusDevice *pbdev)
+ static S390PCIBusDevice *s390_pci_device_new(S390pciState *s,
+                                              const char *target, Error **errp)
  {
-+    ERRP_AUTO_PROPAGATE();
-     AFXState *s = TCX_AFX(ds);
-     SysBusDevice *dev = SYS_BUS_DEVICE(ds);
 -    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     DeviceState *dev;
  
-     memory_region_init_ram_nomigrate(&s->mem, OBJECT(ds), "sun4m.afx", 4,
--                                     &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                     errp);
-+    if (*errp) {
-         return;
+     dev = qdev_try_create(BUS(s->bus), TYPE_S390_PCI_DEVICE);
+@@ -830,17 +827,17 @@ static S390PCIBusDevice *s390_pci_device_new(S390pciState *s,
+         return NULL;
      }
  
-@@ -737,14 +735,13 @@ static void prom_init(hwaddr addr, const char *bios_name)
+-    object_property_set_str(OBJECT(dev), target, "target", &local_err);
+-    if (local_err) {
++    object_property_set_str(OBJECT(dev), target, "target", errp);
++    if (*errp) {
+         object_unparent(OBJECT(dev));
+-        error_propagate_prepend(errp, local_err,
++        error_prepend(errp,
+                                 "zPCI device could not be created: ");
+         return NULL;
+     }
+-    object_property_set_bool(OBJECT(dev), true, "realized", &local_err);
+-    if (local_err) {
++    object_property_set_bool(OBJECT(dev), true, "realized", errp);
++    if (*errp) {
+         object_unparent(OBJECT(dev));
+-        error_propagate_prepend(errp, local_err,
++        error_prepend(errp,
+                                 "zPCI device could not be created: ");
+         return NULL;
+     }
+@@ -1187,6 +1184,7 @@ static uint32_t s390_pci_generate_fid(S390pciState *s, Error **errp)
  
- static void prom_realize(DeviceState *ds, Error **errp)
+ static void s390_pci_device_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     PROMState *s = OPENPROM(ds);
-     SysBusDevice *dev = SYS_BUS_DEVICE(ds);
--    Error *local_err = NULL;
+     S390PCIBusDevice *zpci = S390_PCI_DEVICE(dev);
+     S390pciState *s = s390_get_phb();
  
-     memory_region_init_ram_nomigrate(&s->prom, OBJECT(ds), "sun4m.prom",
--                                     PROM_SIZE_MAX, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                     PROM_SIZE_MAX, errp);
-+    if (*errp) {
-         return;
+@@ -1213,11 +1211,8 @@ static void s390_pci_device_realize(DeviceState *dev, Error **errp)
      }
  
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 1ded2a4c9a..dbd6ee6111 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -455,14 +455,13 @@ static void prom_init(hwaddr addr, const char *bios_name)
- 
- static void prom_realize(DeviceState *ds, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PROMState *s = OPENPROM(ds);
-     SysBusDevice *dev = SYS_BUS_DEVICE(ds);
--    Error *local_err = NULL;
- 
-     memory_region_init_ram_nomigrate(&s->prom, OBJECT(ds), "sun4u.prom",
--                                     PROM_SIZE_MAX, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                     PROM_SIZE_MAX, errp);
-+    if (*errp) {
-         return;
-     }
- 
+     if (!zpci->fid_defined) {
+-        Error *local_error = NULL;
+-
+-        zpci->fid = s390_pci_generate_fid(s, &local_error);
+-        if (local_error) {
+-            error_propagate(errp, local_error);
++        zpci->fid = s390_pci_generate_fid(s, errp);
++        if (*errp) {
+             return;
+         }
+     } else if (s390_pci_find_dev_by_fid(s, zpci->fid)) {
 -- 
 2.21.0
 
