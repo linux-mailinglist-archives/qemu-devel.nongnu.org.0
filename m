@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032B3D469E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:29:35 +0200 (CEST)
-Received: from localhost ([::1]:54664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053F3D4696
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:27:21 +0200 (CEST)
+Received: from localhost ([::1]:54630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyjN-0007Vo-VH
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
+	id 1iIyhD-0004Yl-G7
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRD-0006jF-2U
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxgT-0008MG-Gf
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004om-NW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48468)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxgQ-0007wr-AY
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:29 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49616)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR8-0004WH-B7
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
+ id 1iIxgQ-0007wY-3B; Fri, 11 Oct 2019 12:22:26 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQw-0003XG-9B; Fri, 11 Oct 2019 19:06:26 +0300
+ id 1iIxR2-0003XG-LB; Fri, 11 Oct 2019 19:06:32 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 089/126] I/O Channels: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:15 +0300
-Message-Id: <20191011160552.22907-90-vsementsov@virtuozzo.com>
+Subject: [RFC v5 103/126] GLUSTER: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:29 +0300
+Message-Id: <20191011160552.22907-104-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,8 +48,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ Greg Kurz <groug@kaod.org>, integration@gluster.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,81 +97,238 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- io/dns-resolver.c | 7 +++----
- io/net-listener.c | 7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+ block/gluster.c | 69 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 34 insertions(+), 35 deletions(-)
 
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index 6ebe2a5650..a45c5ca0c8 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -52,13 +52,13 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
-                                              SocketAddress ***addrs,
-                                              Error **errp)
+diff --git a/block/gluster.c b/block/gluster.c
+index 64028b2cba..683101612e 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -419,6 +419,7 @@ out:
+ static struct glfs *qemu_gluster_glfs_init(BlockdevOptionsGluster *gconf,
+                                            Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     struct addrinfo ai, *res, *e;
-     InetSocketAddress *iaddr = &addr->u.inet;
-     char port[33];
-     char uaddr[INET6_ADDRSTRLEN + 1];
-     char uport[33];
-     int rc;
--    Error *err = NULL;
-     size_t i;
+     struct glfs *glfs;
+     int ret;
+     int old_errno;
+@@ -512,38 +513,38 @@ out:
+ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+                                   QDict *options, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     QemuOpts *opts;
+     SocketAddress *gsconf = NULL;
+     SocketAddressList *curr = NULL;
+     QDict *backing_options = NULL;
+-    Error *local_err = NULL;
+     char *str = NULL;
+     const char *ptr;
+     int i, type, num_servers;
  
-     *naddrs = 0;
-@@ -69,11 +69,10 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
-     if (iaddr->has_numeric && iaddr->numeric) {
-         ai.ai_flags |= AI_NUMERICHOST | AI_NUMERICSERV;
-     }
--    ai.ai_family = inet_ai_family_from_address(iaddr, &err);
-+    ai.ai_family = inet_ai_family_from_address(iaddr, errp);
-     ai.ai_socktype = SOCK_STREAM;
- 
--    if (err) {
--        error_propagate(errp, err);
+     /* create opts info from runtime_json_opts list */
+     opts = qemu_opts_create(&runtime_json_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
++    qemu_opts_absorb_qdict(opts, options, errp);
 +    if (*errp) {
-         return -1;
+         goto out;
      }
  
-diff --git a/io/net-listener.c b/io/net-listener.c
-index 5d8a226872..ba000e7ede 100644
---- a/io/net-listener.c
-+++ b/io/net-listener.c
-@@ -65,11 +65,11 @@ int qio_net_listener_open_sync(QIONetListener *listener,
-                                int num,
-                                Error **errp)
+     num_servers = qdict_array_entries(options, GLUSTER_OPT_SERVER_PATTERN);
+     if (num_servers < 1) {
+-        error_setg(&local_err, QERR_MISSING_PARAMETER, "server");
++        error_setg(errp, QERR_MISSING_PARAMETER, "server");
+         goto out;
+     }
+ 
+     ptr = qemu_opt_get(opts, GLUSTER_OPT_VOLUME);
+     if (!ptr) {
+-        error_setg(&local_err, QERR_MISSING_PARAMETER, GLUSTER_OPT_VOLUME);
++        error_setg(errp, QERR_MISSING_PARAMETER, GLUSTER_OPT_VOLUME);
+         goto out;
+     }
+     gconf->volume = g_strdup(ptr);
+ 
+     ptr = qemu_opt_get(opts, GLUSTER_OPT_PATH);
+     if (!ptr) {
+-        error_setg(&local_err, QERR_MISSING_PARAMETER, GLUSTER_OPT_PATH);
++        error_setg(errp, QERR_MISSING_PARAMETER, GLUSTER_OPT_PATH);
+         goto out;
+     }
+     gconf->path = g_strdup(ptr);
+@@ -555,15 +556,15 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+ 
+         /* create opts info from runtime_type_opts list */
+         opts = qemu_opts_create(&runtime_type_opts, NULL, 0, &error_abort);
+-        qemu_opts_absorb_qdict(opts, backing_options, &local_err);
+-        if (local_err) {
++        qemu_opts_absorb_qdict(opts, backing_options, errp);
++        if (*errp) {
+             goto out;
+         }
+ 
+         ptr = qemu_opt_get(opts, GLUSTER_OPT_TYPE);
+         if (!ptr) {
+-            error_setg(&local_err, QERR_MISSING_PARAMETER, GLUSTER_OPT_TYPE);
+-            error_append_hint(&local_err, GERR_INDEX_HINT, i);
++            error_setg(errp, QERR_MISSING_PARAMETER, GLUSTER_OPT_TYPE);
++            error_append_hint(errp, GERR_INDEX_HINT, i);
+             goto out;
+ 
+         }
+@@ -574,10 +575,10 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+         type = qapi_enum_parse(&SocketAddressType_lookup, ptr, -1, NULL);
+         if (type != SOCKET_ADDRESS_TYPE_INET
+             && type != SOCKET_ADDRESS_TYPE_UNIX) {
+-            error_setg(&local_err,
++            error_setg(errp,
+                        "Parameter '%s' may be 'inet' or 'unix'",
+                        GLUSTER_OPT_TYPE);
+-            error_append_hint(&local_err, GERR_INDEX_HINT, i);
++            error_append_hint(errp, GERR_INDEX_HINT, i);
+             goto out;
+         }
+         gsconf->type = type;
+@@ -586,24 +587,24 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+         if (gsconf->type == SOCKET_ADDRESS_TYPE_INET) {
+             /* create opts info from runtime_inet_opts list */
+             opts = qemu_opts_create(&runtime_inet_opts, NULL, 0, &error_abort);
+-            qemu_opts_absorb_qdict(opts, backing_options, &local_err);
+-            if (local_err) {
++            qemu_opts_absorb_qdict(opts, backing_options, errp);
++            if (*errp) {
+                 goto out;
+             }
+ 
+             ptr = qemu_opt_get(opts, GLUSTER_OPT_HOST);
+             if (!ptr) {
+-                error_setg(&local_err, QERR_MISSING_PARAMETER,
++                error_setg(errp, QERR_MISSING_PARAMETER,
+                            GLUSTER_OPT_HOST);
+-                error_append_hint(&local_err, GERR_INDEX_HINT, i);
++                error_append_hint(errp, GERR_INDEX_HINT, i);
+                 goto out;
+             }
+             gsconf->u.inet.host = g_strdup(ptr);
+             ptr = qemu_opt_get(opts, GLUSTER_OPT_PORT);
+             if (!ptr) {
+-                error_setg(&local_err, QERR_MISSING_PARAMETER,
++                error_setg(errp, QERR_MISSING_PARAMETER,
+                            GLUSTER_OPT_PORT);
+-                error_append_hint(&local_err, GERR_INDEX_HINT, i);
++                error_append_hint(errp, GERR_INDEX_HINT, i);
+                 goto out;
+             }
+             gsconf->u.inet.port = g_strdup(ptr);
+@@ -624,19 +625,19 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+                 gsconf->u.inet.has_ipv6 = true;
+             }
+             if (gsconf->u.inet.has_to) {
+-                error_setg(&local_err, "Parameter 'to' not supported");
++                error_setg(errp, "Parameter 'to' not supported");
+                 goto out;
+             }
+             if (gsconf->u.inet.has_ipv4 || gsconf->u.inet.has_ipv6) {
+-                error_setg(&local_err, "Parameters 'ipv4/ipv6' not supported");
++                error_setg(errp, "Parameters 'ipv4/ipv6' not supported");
+                 goto out;
+             }
+             qemu_opts_del(opts);
+         } else {
+             /* create opts info from runtime_unix_opts list */
+             opts = qemu_opts_create(&runtime_unix_opts, NULL, 0, &error_abort);
+-            qemu_opts_absorb_qdict(opts, backing_options, &local_err);
+-            if (local_err) {
++            qemu_opts_absorb_qdict(opts, backing_options, errp);
++            if (*errp) {
+                 goto out;
+             }
+ 
+@@ -644,15 +645,15 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+             if (!ptr) {
+                 ptr = qemu_opt_get(opts, GLUSTER_OPT_SOCKET);
+             } else if (qemu_opt_get(opts, GLUSTER_OPT_SOCKET)) {
+-                error_setg(&local_err,
++                error_setg(errp,
+                            "Conflicting parameters 'path' and 'socket'");
+-                error_append_hint(&local_err, GERR_INDEX_HINT, i);
++                error_append_hint(errp, GERR_INDEX_HINT, i);
+                 goto out;
+             }
+             if (!ptr) {
+-                error_setg(&local_err, QERR_MISSING_PARAMETER,
++                error_setg(errp, QERR_MISSING_PARAMETER,
+                            GLUSTER_OPT_PATH);
+-                error_append_hint(&local_err, GERR_INDEX_HINT, i);
++                error_append_hint(errp, GERR_INDEX_HINT, i);
+                 goto out;
+             }
+             gsconf->u.q_unix.path = g_strdup(ptr);
+@@ -679,7 +680,6 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
+     return 0;
+ 
+ out:
+-    error_propagate(errp, local_err);
+     qapi_free_SocketAddress(gsconf);
+     qemu_opts_del(opts);
+     g_free(str);
+@@ -694,6 +694,7 @@ static int qemu_gluster_parse(BlockdevOptionsGluster *gconf,
+                               const char *filename,
+                               QDict *options, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     QIODNSResolver *resolver = qio_dns_resolver_get_instance();
-     SocketAddress **resaddrs;
-     size_t nresaddrs;
-     size_t i;
--    Error *err = NULL;
-     bool success = false;
+     int ret;
+     if (filename) {
+         ret = qemu_gluster_parse_uri(gconf, filename);
+@@ -810,18 +811,17 @@ static bool qemu_gluster_test_seek(struct glfs_fd *fd)
+ static int qemu_gluster_open(BlockDriverState *bs,  QDict *options,
+                              int bdrv_flags, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVGlusterState *s = bs->opaque;
+     int open_flags = 0;
+     int ret = 0;
+     BlockdevOptionsGluster *gconf = NULL;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     const char *filename, *logfile;
  
-     if (qio_dns_resolver_lookup_sync(resolver,
-@@ -84,7 +84,7 @@ int qio_net_listener_open_sync(QIONetListener *listener,
-         QIOChannelSocket *sioc = qio_channel_socket_new();
- 
-         if (qio_channel_socket_listen_sync(sioc, resaddrs[i], num,
--                                           err ? NULL : &err) == 0) {
-+                                           *errp ? NULL : errp) == 0) {
-             success = true;
- 
-             qio_net_listener_add(listener, sioc);
-@@ -96,10 +96,9 @@ int qio_net_listener_open_sync(QIONetListener *listener,
-     g_free(resaddrs);
- 
-     if (success) {
--        error_free(err);
-+        error_free_errp(errp);
-         return 0;
-     } else {
--        error_propagate(errp, err);
-         return -1;
+     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto out;
      }
- }
+@@ -1134,11 +1134,11 @@ static int coroutine_fn qemu_gluster_co_create_opts(const char *filename,
+                                                     QemuOpts *opts,
+                                                     Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BlockdevCreateOptions *options;
+     BlockdevCreateOptionsGluster *gopts;
+     BlockdevOptionsGluster *gconf;
+     char *tmp = NULL;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     options = g_new0(BlockdevCreateOptions, 1);
+@@ -1153,10 +1153,9 @@ static int coroutine_fn qemu_gluster_co_create_opts(const char *filename,
+ 
+     tmp = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
+     gopts->preallocation = qapi_enum_parse(&PreallocMode_lookup, tmp,
+-                                           PREALLOC_MODE_OFF, &local_err);
++                                           PREALLOC_MODE_OFF, errp);
+     g_free(tmp);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
 -- 
 2.21.0
 
