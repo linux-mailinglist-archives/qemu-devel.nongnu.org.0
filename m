@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5146D46D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:44:04 +0200 (CEST)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D6FD46E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:48:04 +0200 (CEST)
+Received: from localhost ([::1]:54886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyxP-0000bO-Ee
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41457)
+	id 1iIz1H-0004Yu-1R
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:48:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41585)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxli-0007Aa-7y
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:55 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmD-0007bS-BX
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlg-0002cH-Jl
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:54 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49820)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmC-0002qs-3r
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:25 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49974)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxlg-0002c0-Cp; Fri, 11 Oct 2019 12:27:52 -0400
+ id 1iIxmB-0002qI-Sr
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:24 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR6-0003XG-5E; Fri, 11 Oct 2019 19:06:36 +0300
+ id 1iIxR9-0003XG-MP; Fri, 11 Oct 2019 19:06:39 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 110/126] qed: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:36 +0300
-Message-Id: <20191011160552.22907-111-vsementsov@virtuozzo.com>
+Subject: [RFC v5 124/126] target/tilegx/cpu.c: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:50 +0300
+Message-Id: <20191011160552.22907-125-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,74 +97,30 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qed.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ target/tilegx/cpu.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/block/qed.c b/block/qed.c
-index 0d8fd507aa..689522519d 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -721,11 +721,11 @@ static int coroutine_fn bdrv_qed_co_create_opts(const char *filename,
-                                                 QemuOpts *opts,
-                                                 Error **errp)
+diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
+index 2b2a7ccc31..79bfe27856 100644
+--- a/target/tilegx/cpu.c
++++ b/target/tilegx/cpu.c
+@@ -81,13 +81,12 @@ static void tilegx_cpu_reset(CPUState *s)
+ 
+ static void tilegx_cpu_realizefn(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     BlockdevCreateOptions *create_options = NULL;
-     QDict *qdict;
-     Visitor *v;
-     BlockDriverState *bs = NULL;
+     CPUState *cs = CPU(dev);
+     TileGXCPUClass *tcc = TILEGX_CPU_GET_CLASS(dev);
 -    Error *local_err = NULL;
-     int ret;
  
-     static const QDictRenames opt_renames[] = {
-@@ -745,9 +745,8 @@ static int coroutine_fn bdrv_qed_co_create_opts(const char *filename,
-     }
- 
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, &local_err);
-+    ret = bdrv_create_file(filename, opts, errp);
-     if (ret < 0) {
+-    cpu_exec_realizefn(cs, &local_err);
+-    if (local_err != NULL) {
 -        error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-@@ -768,11 +767,10 @@ static int coroutine_fn bdrv_qed_co_create_opts(const char *filename,
-         goto fail;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
++    cpu_exec_realizefn(cs, errp);
 +    if (*errp) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -1587,18 +1585,18 @@ static int bdrv_qed_change_backing_file(BlockDriverState *bs,
- static void coroutine_fn bdrv_qed_co_invalidate_cache(BlockDriverState *bs,
-                                                       Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BDRVQEDState *s = bs->opaque;
--    Error *local_err = NULL;
-     int ret;
- 
-     bdrv_qed_close(bs);
- 
-     bdrv_qed_init_state(bs);
-     qemu_co_mutex_lock(&s->table_lock);
--    ret = bdrv_qed_do_open(bs, NULL, bs->open_flags, &local_err);
-+    ret = bdrv_qed_do_open(bs, NULL, bs->open_flags, errp);
-     qemu_co_mutex_unlock(&s->table_lock);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "Could not reopen qed layer: ");
          return;
-     } else if (ret < 0) {
+     }
+ 
 -- 
 2.21.0
 
