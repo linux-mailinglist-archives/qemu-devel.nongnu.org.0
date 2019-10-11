@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2645D46B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:35:06 +0200 (CEST)
-Received: from localhost ([::1]:54724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A801D46C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:38:20 +0200 (CEST)
+Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyoj-000613-5S
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41515)
+	id 1iIyrr-0001qa-4E
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlx-0007NR-R5
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:11 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlD-0006k6-9W
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlw-0002e7-Lt
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:09 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49928)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlA-0002Ks-B2
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:23 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49782)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxlv-0002du-TT; Fri, 11 Oct 2019 12:28:08 -0400
+ id 1iIxl9-0002J8-Fr; Fri, 11 Oct 2019 12:27:19 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR1-0003XG-Ta; Fri, 11 Oct 2019 19:06:32 +0300
+ id 1iIxR2-0003XG-DE; Fri, 11 Oct 2019 19:06:32 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 101/126] SSH: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:27 +0300
-Message-Id: <20191011160552.22907-102-vsementsov@virtuozzo.com>
+Subject: [RFC v5 102/126] CURL: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:28 +0300
+Message-Id: <20191011160552.22907-103-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, "Richard W.M. Jones" <rjones@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,46 +97,35 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/ssh.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ block/curl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index 84d01e892b..98df18ecb7 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -614,17 +614,16 @@ static bool ssh_process_legacy_options(QDict *output_opts,
- 
- static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
+diff --git a/block/curl.c b/block/curl.c
+index f86299378e..bd687ec9f0 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -642,10 +642,10 @@ static QemuOptsList runtime_opts = {
+ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     BlockdevOptionsSsh *result = NULL;
-     QemuOpts *opts = NULL;
+     BDRVCURLState *s = bs->opaque;
+     CURLState *state = NULL;
+     QemuOpts *opts;
 -    Error *local_err = NULL;
-     const QDictEntry *e;
-     Visitor *v;
+     const char *file;
+     const char *cookie;
+     const char *cookie_secret;
+@@ -671,9 +671,8 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
  
-     /* Translate legacy options */
-     opts = qemu_opts_create(&ssh_runtime_opts, NULL, 0, &error_abort);
+     qemu_mutex_init(&s->mutex);
+     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
 -    qemu_opts_absorb_qdict(opts, options, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
 +    qemu_opts_absorb_qdict(opts, options, errp);
 +    if (*errp) {
-         goto fail;
-     }
- 
-@@ -638,11 +637,10 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
-         goto fail;
-     }
- 
--    visit_type_BlockdevOptionsSsh(v, NULL, &result, &local_err);
-+    visit_type_BlockdevOptionsSsh(v, NULL, &result, errp);
-     visit_free(v);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         goto fail;
+         goto out_noclean;
      }
  
 -- 
