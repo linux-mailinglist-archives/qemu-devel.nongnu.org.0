@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8998D45A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:42:37 +0200 (CEST)
-Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607C9D45AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:46:02 +0200 (CEST)
+Received: from localhost ([::1]:54102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxzw-0005sp-FH
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36297)
+	id 1iIy3E-0001Aw-TO
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQt-0006Be-Se
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:25 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQv-0006E6-9Y
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQs-0004Og-HW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:23 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48010)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQu-0004RF-0g
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:25 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48044)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQs-0004Ba-9z
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:22 -0400
+ id 1iIxQt-0004DL-Pu
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:23 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQg-0003XG-TA; Fri, 11 Oct 2019 19:06:11 +0300
+ id 1iIxQi-0003XG-C1; Fri, 11 Oct 2019 19:06:12 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 044/126] Network devices: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:30 +0300
-Message-Id: <20191011160552.22907-45-vsementsov@virtuozzo.com>
+Subject: [RFC v5 049/126] USB (serial adapter): introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:35 +0300
+Message-Id: <20191011160552.22907-50-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Jason Wang <jasowang@redhat.com>,
- vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,75 +98,35 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/net/dp8393x.c    |  7 +++----
- hw/net/ne2000-isa.c | 17 +++++++----------
- 2 files changed, 10 insertions(+), 14 deletions(-)
+ hw/usb/dev-serial.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index a5678e11fa..4def282da5 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -874,10 +874,10 @@ static void dp8393x_instance_init(Object *obj)
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index 45cc74128a..72959b4005 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -484,8 +484,8 @@ static void usb_serial_event(void *opaque, int event)
  
- static void dp8393x_realize(DeviceState *dev, Error **errp)
+ static void usb_serial_realize(USBDevice *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     dp8393xState *s = DP8393X(dev);
-     int i, checksum;
-     uint8_t *prom;
+     USBSerialState *s = USB_SERIAL_DEV(dev);
 -    Error *local_err = NULL;
  
-     address_space_init(&s->as, s->dma_mr, "dp8393x");
-     memory_region_init_io(&s->mmio, OBJECT(dev), &dp8393x_ops, s,
-@@ -891,9 +891,8 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
-     s->regs[SONIC_SR] = 0x0004; /* only revision recognized by Linux */
+     usb_desc_create_serial(dev);
+     usb_desc_init(dev);
+@@ -496,9 +496,8 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
+         return;
+     }
  
-     memory_region_init_ram(&s->prom, OBJECT(dev),
--                           "dp8393x-prom", SONIC_PROM_SIZE, &local_err);
+-    usb_check_attach(dev, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+                           "dp8393x-prom", SONIC_PROM_SIZE, errp);
++    usb_check_attach(dev, errp);
 +    if (*errp) {
          return;
      }
-     memory_region_set_readonly(&s->prom, true);
-diff --git a/hw/net/ne2000-isa.c b/hw/net/ne2000-isa.c
-index 6fcf3d5cd9..73c88a907e 100644
---- a/hw/net/ne2000-isa.c
-+++ b/hw/net/ne2000-isa.c
-@@ -108,25 +108,22 @@ static void isa_ne2000_set_bootindex(Object *obj, Visitor *v,
-                                      const char *name, void *opaque,
-                                      Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     ISANE2000State *isa = ISA_NE2000(obj);
-     NE2000State *s = &isa->ne2000;
-     int32_t boot_index;
--    Error *local_err = NULL;
  
--    visit_type_int32(v, name, &boot_index, &local_err);
--    if (local_err) {
--        goto out;
-+    visit_type_int32(v, name, &boot_index, errp);
-+    if (*errp) {
-+        return;
-     }
-     /* check whether bootindex is present in fw_boot_order list  */
--    check_boot_index(boot_index, &local_err);
--    if (local_err) {
--        goto out;
-+    check_boot_index(boot_index, errp);
-+    if (*errp) {
-+        return;
-     }
-     /* change bootindex to a new one */
-     s->c.bootindex = boot_index;
--
--out:
--    error_propagate(errp, local_err);
- }
- 
- static void isa_ne2000_instance_init(Object *obj)
 -- 
 2.21.0
 
