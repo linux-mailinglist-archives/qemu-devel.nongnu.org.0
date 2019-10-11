@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3B7D3BF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 11:11:12 +0200 (CEST)
-Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91026D3C07
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 11:13:38 +0200 (CEST)
+Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIqx5-0002py-0h
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 05:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49514)
+	id 1iIqzR-0005LI-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 05:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIqtM-0005wq-8V
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIqtM-0005x7-Cw
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIqtL-0004BM-7g
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIqtL-0004B1-1C
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:20 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60322)
+Received: from relay.sw.ru ([185.231.240.75]:60302)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIqtH-00047A-MT; Fri, 11 Oct 2019 05:07:15 -0400
+ id 1iIqtH-000479-ML; Fri, 11 Oct 2019 05:07:15 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIqtE-0000XM-Ke; Fri, 11 Oct 2019 12:07:12 +0300
+ id 1iIqtE-0000XM-Qx; Fri, 11 Oct 2019 12:07:12 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 3/5] block/block-backend: add blk_co_pwritev_part
-Date: Fri, 11 Oct 2019 12:07:09 +0300
-Message-Id: <20191011090711.19940-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 4/5] block/mirror: support unaligned write in active mirror
+Date: Fri, 11 Oct 2019 12:07:10 +0300
+Message-Id: <20191011090711.19940-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011090711.19940-1-vsementsov@virtuozzo.com>
 References: <20191011090711.19940-1-vsementsov@virtuozzo.com>
@@ -52,70 +52,144 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add blk write function with qiov_offset parameter. It's needed for the
-following commit.
+Prior 9adc1cb49af8d do_sync_target_write had a bug: it reset aligned-up
+region in the dirty bitmap, which means that we may not copy some bytes
+and assume them copied, which actually leads to producing corrupted
+target.
 
+So 9adc1cb49af8d forced dirty bitmap granularity to be
+request_alignment for mirror-top filter, so we are not working with
+unaligned requests. However forcing large alignment obviously decreases
+performance of unaligned requests.
+
+This commit provides another solution for the problem: if unaligned
+padding is already dirty, we can safely ignore it, as
+1. It's dirty, it will be copied by mirror_iteration anyway
+2. It's dirty, so skipping it now we don't increase dirtiness of the
+   bitmap and therefore don't damage "synchronicity" of the
+   write-blocking mirror.
+
+If unaligned padding is not dirty, we just write it, no reason to touch
+dirty bitmap if we succeed (on failure we'll set the whole region
+ofcourse, but we loss "synchronicity" on failure anyway).
+
+Note: we need to disable dirty_bitmap, otherwise we will not be able to
+see in do_sync_target_write bitmap state before current operation. We
+may of course check dirty bitmap before the operation in
+bdrv_mirror_top_do_write and remember it, but we don't need active
+dirty bitmap for write-blocking mirror anyway.
+
+New code-path is unused until the following commit reverts
+9adc1cb49af8d.
+
+Suggested-by: Denis V. Lunev <den@openvz.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/sysemu/block-backend.h |  4 ++++
- block/block-backend.c          | 17 +++++++++++++----
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ block/mirror.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 68 insertions(+), 3 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 368d53af77..73f2cef7fe 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -121,6 +121,10 @@ void blk_set_dev_ops(BlockBackend *blk, const BlockDevOps *ops, void *opaque);
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-                                unsigned int bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
-+int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
-+                                     unsigned int bytes,
-+                                     QEMUIOVector *qiov, size_t qiov_offset,
-+                                     BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
-                                unsigned int bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 1c605d5444..b3d00478af 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1176,9 +1176,10 @@ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-     return ret;
- }
- 
--int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
--                                unsigned int bytes, QEMUIOVector *qiov,
--                                BdrvRequestFlags flags)
-+int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
-+                                     unsigned int bytes,
-+                                     QEMUIOVector *qiov, size_t qiov_offset,
-+                                     BdrvRequestFlags flags)
+diff --git a/block/mirror.c b/block/mirror.c
+index 1ae57a5131..1ed1d79ff8 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1182,14 +1182,67 @@ do_sync_target_write(MirrorBlockJob *job, MirrorMethod method,
+                      QEMUIOVector *qiov, int flags)
  {
      int ret;
-     BlockDriverState *bs;
-@@ -1205,11 +1206,19 @@ int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
-         flags |= BDRV_REQ_FUA;
-     }
++    size_t qiov_offset = 0;
++    int64_t bitmap_offset, bitmap_end;
  
--    ret = bdrv_co_pwritev(blk->root, offset, bytes, qiov, flags);
-+    ret = bdrv_co_pwritev_part(blk->root, offset, bytes, qiov, qiov_offset,
-+                               flags);
-     bdrv_dec_in_flight(bs);
-     return ret;
- }
- 
-+int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
-+                                unsigned int bytes, QEMUIOVector *qiov,
-+                                BdrvRequestFlags flags)
-+{
-+    return blk_co_pwritev_part(blk, offset, bytes, qiov, 0, flags);
-+}
+-    bdrv_reset_dirty_bitmap(job->dirty_bitmap, offset, bytes);
++    if (!QEMU_IS_ALIGNED(offset, job->granularity) &&
++        bdrv_dirty_bitmap_get(job->dirty_bitmap, offset))
++    {
++            /*
++             * Dirty unaligned padding: ignore it.
++             *
++             * Reasoning:
++             * 1. If we copy it, we can't reset corresponding bit in
++             *    dirty_bitmap as there may be some "dirty" bytes still not
++             *    copied.
++             * 2. It's already dirty, so skipping it we don't diverge mirror
++             *    progress.
++             *
++             * Note, that because of this, guest write may have no contribution
++             * into mirror converge, but that's not bad, as we have background
++             * process of mirroring. If under some bad circumstances (high guest
++             * IO load) background process starve, we will not converge anyway,
++             * even if each write will contribute, as guest is not guaranteed to
++             * rewrite the whole disk.
++             */
++            qiov_offset = QEMU_ALIGN_UP(offset, job->granularity) - offset;
++            if (bytes <= qiov_offset) {
++                /* nothing to do after shrink */
++                return;
++            }
++            offset += qiov_offset;
++            bytes -= qiov_offset;
++    }
 +
- typedef struct BlkRwCo {
-     BlockBackend *blk;
-     int64_t offset;
++    if (!QEMU_IS_ALIGNED(offset + bytes, job->granularity) &&
++        bdrv_dirty_bitmap_get(job->dirty_bitmap, offset + bytes - 1))
++    {
++        uint64_t tail = (offset + bytes) % job->granularity;
++
++        if (bytes <= tail) {
++            /* nothing to do after shrink */
++            return;
++        }
++        bytes -= tail;
++    }
++
++    /*
++     * Tails are either clean or shrunk, so for bitmap resetting
++     * we safely align the range down.
++     */
++    bitmap_offset = QEMU_ALIGN_UP(offset, job->granularity);
++    bitmap_end = QEMU_ALIGN_DOWN(offset + bytes, job->granularity);
++    if (bitmap_offset < bitmap_end) {
++        bdrv_reset_dirty_bitmap(job->dirty_bitmap, bitmap_offset,
++                                bitmap_end - bitmap_offset);
++    }
+ 
+     job_progress_increase_remaining(&job->common.job, bytes);
+ 
+     switch (method) {
+     case MIRROR_METHOD_COPY:
+-        ret = blk_co_pwritev(job->target, offset, bytes, qiov, flags);
++        ret = blk_co_pwritev_part(job->target, offset, bytes,
++                                  qiov, qiov_offset, flags);
+         break;
+ 
+     case MIRROR_METHOD_ZERO:
+@@ -1211,7 +1264,16 @@ do_sync_target_write(MirrorBlockJob *job, MirrorMethod method,
+     } else {
+         BlockErrorAction action;
+ 
+-        bdrv_set_dirty_bitmap(job->dirty_bitmap, offset, bytes);
++        /*
++         * We failed, so we should mark dirty the whole area, aligned up.
++         * Note that we don't care about shrunk tails if any: they were dirty
++         * at function start, and they must be still dirty, as we've locked
++         * the region for in-flight op.
++         */
++        bitmap_offset = QEMU_ALIGN_DOWN(offset, job->granularity);
++        bitmap_end = QEMU_ALIGN_UP(offset + bytes, job->granularity);
++        bdrv_set_dirty_bitmap(job->dirty_bitmap, bitmap_offset,
++                              bitmap_end - bitmap_offset);
+         job->actively_synced = false;
+ 
+         action = mirror_error_action(job, false, -ret);
+@@ -1618,6 +1680,9 @@ static BlockJob *mirror_start_job(
+     if (!s->dirty_bitmap) {
+         goto fail;
+     }
++    if (s->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING) {
++        bdrv_disable_dirty_bitmap(s->dirty_bitmap);
++    }
+ 
+     ret = block_job_add_bdrv(&s->common, "source", bs, 0,
+                              BLK_PERM_WRITE_UNCHANGED | BLK_PERM_WRITE |
 -- 
 2.21.0
 
