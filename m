@@ -2,74 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5C3D3F54
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 14:19:48 +0200 (CEST)
-Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A60D3F5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 14:20:20 +0200 (CEST)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iItta-0001Jg-TC
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 08:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51924)
+	id 1iItu7-0002G5-3t
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 08:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52068)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.weiyang@gmail.com>) id 1iItrL-0008S7-OQ
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 08:17:28 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIts8-0000rc-7P
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 08:18:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.weiyang@gmail.com>) id 1iItrK-0000q4-QR
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 08:17:27 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39288)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.weiyang@gmail.com>)
- id 1iItrK-0000pY-KO
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 08:17:26 -0400
-Received: by mail-ed1-x542.google.com with SMTP id a15so8485229edt.6
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 05:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=+JrqV+7SPyE/hOGTlL7Q+X4naHO9BbdyZsH8axXlwHU=;
- b=kcjuaOOgySN0WTz23sxqgVrdxERMgXNEzn7oiKinRhWVUcHzhi519NSavFVU0ejgvC
- txaq5EEjE+ZRa0MCiJtojJ2hn95+BIW8S/NAHbqWEINU03m/eZr7GIQXqHWvajN+CL1i
- KZvQnTC/9EyZ2D3utrajroJM0nsUg/14mOQithE6mPwlZYcw7gsntzIcL5fMHXwxgfdS
- wbsF7aw0auadyd+2w9Qle/4Go67ThtjPTD0pZBmKLyQU2pwTnhaJQ629TkWt5FSOe2kM
- W5dAq/XoswlyfJPOXhCPQeITkJaw8Xe7uClzbnY+I267cR3XEwREfziVqffqwiV9BFYz
- 7uZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=+JrqV+7SPyE/hOGTlL7Q+X4naHO9BbdyZsH8axXlwHU=;
- b=tlMKIc/y9ji54JFCWn54/m9Lu86/GOrlKsUexmDpta8Cdkj9gJUjg+6GYcihdHiTU2
- 6P7Fv/o4Lfg/ff2SG2Gt9+QBhZPNoixh1/dg6bik9k84NZu0dFzWRin8mF4+D0PlwLBs
- NZjRurSFfN/wUZfh4U3nw3670dPiCyWQgd5hbFWbZViNQNIZTErrFJlroP3CqdaTq+X0
- MNVQSej/DcIcQXXU7283QHHZCsySagf2VKGE79tANdxjMk+tocJfl7MsSgYS547Lod1T
- Msg03jcv17zSzNUfYuH5R46lxlCSkwfAUkvzf6okSb1/EMmFFT/oFKEhQUiZ1bFqlEox
- F4qA==
-X-Gm-Message-State: APjAAAVGUyBs+lynqs63zE6zd3S+WmD62BzOgE1IAgWkVI2W6hiebxqp
- /ffNpjbAbzDLdDzPejWsFgcLDC8m
-X-Google-Smtp-Source: APXvYqy40HubFXi1hrQRfgVn/z1smjarYv7GFnxJ1bA4V1m9qNnR8FdNPqHqNBZ+Xw4e0E6Mi2qpHg==
-X-Received: by 2002:a50:f704:: with SMTP id g4mr12917643edn.255.1570796245213; 
- Fri, 11 Oct 2019 05:17:25 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
- by smtp.gmail.com with ESMTPSA id u9sm174149edo.42.2019.10.11.05.17.24
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 11 Oct 2019 05:17:24 -0700 (PDT)
-Date: Fri, 11 Oct 2019 12:17:24 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 3/4] migration/multifd: initialize packet->magic/version
- once at setup stage
-Message-ID: <20191011121724.fsogllmlvyqlqnfc@master>
-References: <20191011085050.17622-1-richardw.yang@linux.intel.com>
- <20191011085050.17622-4-richardw.yang@linux.intel.com>
- <87d0f3wpkv.fsf@trasno.org>
+ (envelope-from <mreitz@redhat.com>) id 1iIts7-0001DL-2a
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 08:18:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51746)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iIts4-0001BZ-F2; Fri, 11 Oct 2019 08:18:12 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BD0EE81DF7;
+ Fri, 11 Oct 2019 12:18:10 +0000 (UTC)
+Received: from localhost (ovpn-116-40.ams2.redhat.com [10.36.116.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 35A5110016EB;
+ Fri, 11 Oct 2019 12:18:10 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] iotests/028: Fix for long $TEST_DIRs
+Date: Fri, 11 Oct 2019 14:18:08 +0200
+Message-Id: <20191011121808.3243-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87d0f3wpkv.fsf@trasno.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 11 Oct 2019 12:18:10 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +53,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
- dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 11, 2019 at 12:20:48PM +0200, Juan Quintela wrote:
->Wei Yang <richardw.yang@linux.intel.com> wrote:
->> MultiFDPacket_t's magic and version field never changes during
->> migration, so move these two fields in setup stage.
->>
->> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->
->Reviewed-by: Juan Quintela <quintela@redhat.com>
->
->It don't really matter, and is faster your way O:-)
+For long test image paths, the order of the "Formatting" line and the
+"(qemu)" prompt after a drive_backup HMP command may be reversed.  In
+fact, the interaction between the prompt and the line may lead to the
+"Formatting" to being greppable at all after "read"-ing it (if the
+prompt injects an IFS character into the "Formatting" string).
 
-You are right.
+So just wait until we get a prompt.  At that point, the block job must
+have been started, so "info block-jobs" will only return "No active
+jobs" once it is done.
 
-And I am wondering one more thing. Why we need to carry magic/version for each
-packet? Would it be better to just carry and check magic/version for the
-initial packet only?
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+v2:
+- Fix another kind of race...
+---
+ tests/qemu-iotests/028     | 11 ++++++++---
+ tests/qemu-iotests/028.out |  1 -
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
--- 
-Wei Yang
-Help you, Help me
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 71301ec6e5..bba1ee59ae 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -119,9 +119,14 @@ fi
+ # Silence output since it contains the disk image path and QEMU's readli=
+ne
+ # character echoing makes it very hard to filter the output. Plus, there
+ # is no telling how many times the command will repeat before succeeding=
+.
+-_send_qemu_cmd $h "drive_backup disk ${TEST_IMG}.copy" "(qemu)" >/dev/nu=
+ll
+-_send_qemu_cmd $h "" "Formatting" | _filter_img_create
+-qemu_cmd_repeat=3D20 _send_qemu_cmd $h "info block-jobs" "No active jobs=
+" >/dev/null
++# (Note that creating the image results in a "Formatting..." message ove=
+r
++# stdout, which is the same channel the monitor uses.  We cannot reliabl=
+y
++# wait for it because the monitor output may interact with it in such a
++# way that _timed_wait_for cannot read it.  However, once the block job =
+is
++# done, we know that the "Formatting..." message must have appeared
++# already, so the output is still deterministic.)
++silent=3Dy _send_qemu_cmd $h "drive_backup disk ${TEST_IMG}.copy" "(qemu=
+)"
++silent=3Dy qemu_cmd_repeat=3D20 _send_qemu_cmd $h "info block-jobs" "No =
+active jobs"
+ _send_qemu_cmd $h "info block-jobs" "No active jobs"
+ _send_qemu_cmd $h 'quit' ""
+=20
+diff --git a/tests/qemu-iotests/028.out b/tests/qemu-iotests/028.out
+index 7d54aeb003..37aed84436 100644
+--- a/tests/qemu-iotests/028.out
++++ b/tests/qemu-iotests/028.out
+@@ -468,7 +468,6 @@ No errors were found on the image.
+=20
+ block-backup
+=20
+-Formatting 'TEST_DIR/t.IMGFMT.copy', fmt=3DIMGFMT size=3D4294968832 back=
+ing_file=3DTEST_DIR/t.IMGFMT.base backing_fmt=3DIMGFMT
+ (qemu) info block-jobs
+ No active jobs
+ =3D=3D=3D IO: pattern 195
+--=20
+2.21.0
+
 
