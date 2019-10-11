@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E0BD4621
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:03:36 +0200 (CEST)
-Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 186DED4600
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:00:44 +0200 (CEST)
+Received: from localhost ([::1]:54260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyKE-0006JG-Lb
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36995)
+	id 1iIyHS-0002fx-LS
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRC-0006io-Js
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRB-0006hQ-SG
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oh-Mz
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48486)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oC-In
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:41 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48480)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR8-0004WR-Aj
+ id 1iIxR8-0004WK-8f
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQw-0003XG-2C; Fri, 11 Oct 2019 19:06:26 +0300
+ id 1iIxQw-0003XG-MD; Fri, 11 Oct 2019 19:06:26 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 088/126] Cryptography: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:14 +0300
-Message-Id: <20191011160552.22907-89-vsementsov@virtuozzo.com>
+Subject: [RFC v5 091/126] colo: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:17 +0300
+Message-Id: <20191011160552.22907-92-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,8 +49,9 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,242 +99,103 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- crypto/block-luks.c | 56 +++++++++++++++++++--------------------------
- crypto/secret.c     | 17 ++++++--------
- crypto/tlssession.c |  7 +++---
- 3 files changed, 33 insertions(+), 47 deletions(-)
+ migration/colo.c | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
-diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index 4861db810c..45c21c2fcc 100644
---- a/crypto/block-luks.c
-+++ b/crypto/block-luks.c
-@@ -442,8 +442,8 @@ qcrypto_block_luks_store_header(QCryptoBlock *block,
-                                 void *opaque,
-                                 Error **errp)
+diff --git a/migration/colo.c b/migration/colo.c
+index 2c88aa57a2..375aa6d8ce 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -243,19 +243,19 @@ void qmp_xen_set_replication(bool enable, bool primary,
+ 
+ ReplicationStatus *qmp_query_xen_replication_status(Error **errp)
  {
+-    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     const QCryptoBlockLUKS *luks = block->opaque;
--    Error *local_err = NULL;
-     size_t i;
-     g_autofree QCryptoBlockLUKSHeader *hdr_copy = NULL;
+     ReplicationStatus *s = g_new0(ReplicationStatus, 1);
  
-@@ -469,10 +469,9 @@ qcrypto_block_luks_store_header(QCryptoBlock *block,
- 
-     /* Write out the partition header and key slot headers */
-     writefunc(block, 0, (const uint8_t *)hdr_copy, sizeof(*hdr_copy),
--              opaque, &local_err);
-+              opaque, errp);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
+-    replication_get_error_all(&err);
+-    if (err) {
++    replication_get_error_all(errp);
 +    if (*errp) {
-         return -1;
-     }
-     return 0;
-@@ -603,9 +602,9 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
- static int
- qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     g_autofree char *cipher_mode = g_strdup(luks->header.cipher_mode);
-     char *ivgen_name, *ivhash_name;
--    Error *local_err = NULL;
- 
-     /*
-      * The cipher_mode header contains a string that we have
-@@ -632,17 +631,15 @@ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
-         ivhash_name++;
- 
-         luks->ivgen_hash_alg = qcrypto_block_luks_hash_name_lookup(ivhash_name,
--                                                                   &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                                                   errp);
-+        if (*errp) {
-             return -1;
-         }
-     }
- 
-     luks->cipher_mode = qcrypto_block_luks_cipher_mode_lookup(cipher_mode,
--                                                              &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                                              errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-@@ -650,24 +647,21 @@ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
-             qcrypto_block_luks_cipher_name_lookup(luks->header.cipher_name,
-                                                   luks->cipher_mode,
-                                                   luks->header.master_key_len,
--                                                  &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                                  errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-     luks->hash_alg =
-             qcrypto_block_luks_hash_name_lookup(luks->header.hash_spec,
--                                                &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                                errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-     luks->ivgen_alg = qcrypto_block_luks_ivgen_name_lookup(ivgen_name,
--                                                           &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                                           errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-@@ -679,9 +673,8 @@ qcrypto_block_luks_parse_header(QCryptoBlockLUKS *luks, Error **errp)
-         luks->ivgen_cipher_alg =
-                 qcrypto_block_luks_essiv_cipher(luks->cipher_alg,
-                                                 luks->ivgen_hash_alg,
--                                                &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                                errp);
-+        if (*errp) {
-             return -1;
-         }
+         s->error = true;
+         s->has_desc = true;
+-        s->desc = g_strdup(error_get_pretty(err));
++        s->desc = g_strdup(error_get_pretty(*errp));
      } else {
-@@ -1186,9 +1179,9 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-                           void *opaque,
-                           Error **errp)
+         s->error = false;
+     }
+ 
+-    error_free(err);
++    error_free_errp(errp);
+     return s;
+ }
+ 
+@@ -314,12 +314,11 @@ static void colo_send_message(QEMUFile *f, COLOMessage msg,
+ static void colo_send_message_value(QEMUFile *f, COLOMessage msg,
+                                     uint64_t value, Error **errp)
  {
-+    ERRP_AUTO_PROPAGATE();
-     QCryptoBlockLUKS *luks;
-     QCryptoBlockCreateOptionsLUKS luks_opts;
 -    Error *local_err = NULL;
-     g_autofree uint8_t *masterkey = NULL;
-     size_t header_sectors;
-     size_t split_key_sectors;
-@@ -1298,9 +1291,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-         luks->ivgen_cipher_alg =
-                 qcrypto_block_luks_essiv_cipher(luks_opts.cipher_alg,
-                                                 luks_opts.ivgen_hash_alg,
--                                                &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                                errp);
-+        if (*errp) {
-             goto error;
-         }
-     } else {
-@@ -1364,9 +1356,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-                                        luks->header.master_key_salt,
-                                        QCRYPTO_BLOCK_LUKS_SALT_LEN,
-                                        QCRYPTO_BLOCK_LUKS_DIGEST_LEN,
--                                       &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                       errp);
-+    if (*errp) {
-         goto error;
-     }
- 
-@@ -1439,9 +1430,8 @@ qcrypto_block_luks_create(QCryptoBlock *block,
-         block->sector_size;
- 
-     /* Reserve header space to match payload offset */
--    initfunc(block, block->payload_offset, opaque, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    initfunc(block, block->payload_offset, opaque, errp);
-+    if (*errp) {
-         goto error;
-     }
- 
-diff --git a/crypto/secret.c b/crypto/secret.c
-index 1cf0ad0ce8..962d2c1d44 100644
---- a/crypto/secret.c
-+++ b/crypto/secret.c
-@@ -178,27 +178,25 @@ qcrypto_secret_prop_set_loaded(Object *obj,
-                                bool value,
-                                Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     QCryptoSecret *secret = QCRYPTO_SECRET(obj);
- 
-     if (value) {
--        Error *local_err = NULL;
-         uint8_t *input = NULL;
-         size_t inputlen = 0;
-         uint8_t *output = NULL;
-         size_t outputlen = 0;
- 
--        qcrypto_secret_load_data(secret, &input, &inputlen, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        qcrypto_secret_load_data(secret, &input, &inputlen, errp);
-+        if (*errp) {
-             return;
-         }
- 
-         if (secret->keyid) {
-             qcrypto_secret_decrypt(secret, input, inputlen,
--                                   &output, &outputlen, &local_err);
-+                                   &output, &outputlen, errp);
-             g_free(input);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            if (*errp) {
-                 return;
-             }
-             input = output;
-@@ -206,10 +204,9 @@ qcrypto_secret_prop_set_loaded(Object *obj,
-         } else {
-             if (secret->format != QCRYPTO_SECRET_FORMAT_RAW) {
-                 qcrypto_secret_decode(input, inputlen,
--                                      &output, &outputlen, &local_err);
-+                                      &output, &outputlen, errp);
-                 g_free(input);
--                if (local_err) {
--                    error_propagate(errp, local_err);
-+                if (*errp) {
-                     return;
-                 }
-                 input = output;
-diff --git a/crypto/tlssession.c b/crypto/tlssession.c
-index 33203e8ca7..abb3912304 100644
---- a/crypto/tlssession.c
-+++ b/crypto/tlssession.c
-@@ -256,13 +256,13 @@ static int
- qcrypto_tls_session_check_certificate(QCryptoTLSSession *session,
-                                       Error **errp)
- {
 +    ERRP_AUTO_PROPAGATE();
      int ret;
-     unsigned int status;
-     const gnutls_datum_t *certs;
-     unsigned int nCerts, i;
-     time_t now;
-     gnutls_x509_crt_t cert = NULL;
--    Error *err = NULL;
  
-     now = time(NULL);
-     if (now == ((time_t)-1)) {
-@@ -354,9 +354,8 @@ qcrypto_tls_session_check_certificate(QCryptoTLSSession *session,
-                 bool allow;
+-    colo_send_message(f, msg, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    colo_send_message(f, msg, errp);
++    if (*errp) {
+         return;
+     }
+     qemu_put_be64(f, value);
+@@ -354,12 +353,11 @@ static COLOMessage colo_receive_message(QEMUFile *f, Error **errp)
+ static void colo_receive_check_message(QEMUFile *f, COLOMessage expect_msg,
+                                        Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     COLOMessage msg;
+-    Error *local_err = NULL;
  
-                 allow = qauthz_is_allowed_by_id(session->authzid,
--                                                session->peername, &err);
--                if (err) {
--                    error_propagate(errp, err);
-+                                                session->peername, errp);
-+                if (*errp) {
-                     goto error;
-                 }
-                 if (!allow) {
+-    msg = colo_receive_message(f, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    msg = colo_receive_message(f, errp);
++    if (*errp) {
+         return;
+     }
+     if (msg != expect_msg) {
+@@ -371,13 +369,12 @@ static void colo_receive_check_message(QEMUFile *f, COLOMessage expect_msg,
+ static uint64_t colo_receive_message_value(QEMUFile *f, uint32_t expect_msg,
+                                            Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     uint64_t value;
+     int ret;
+ 
+-    colo_receive_check_message(f, expect_msg, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    colo_receive_check_message(f, expect_msg, errp);
++    if (*errp) {
+         return 0;
+     }
+ 
+@@ -667,12 +664,11 @@ void migrate_start_colo_process(MigrationState *s)
+ static void colo_wait_handle_message(QEMUFile *f, int *checkpoint_request,
+                                      Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     COLOMessage msg;
+-    Error *local_err = NULL;
+ 
+-    msg = colo_receive_message(f, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    msg = colo_receive_message(f, errp);
++    if (*errp) {
+         return;
+     }
+ 
 -- 
 2.21.0
 
