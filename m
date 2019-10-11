@@ -2,104 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D77D4693
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:26:16 +0200 (CEST)
-Received: from localhost ([::1]:54624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6C5D46A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:32:23 +0200 (CEST)
+Received: from localhost ([::1]:54696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIygB-0002qe-PR
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40740)
+	id 1iIym6-0002Te-CN
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1iIxhv-0001sm-2t
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:24:00 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRD-0006jZ-3z
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1iIxht-0000Kz-Q6
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:58 -0400
-Received: from mail-eopbgr790081.outbound.protection.outlook.com
- ([40.107.79.81]:6866 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iIxht-0000KR-EM
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oVAIAS/cKrVu6X/m4Y0nLFkZ/GY6Eutgyt4iO6j1SQgBSIgv/utGZBDP/jkjI1TWXe0JWpfmNrYMF2RdldVYiZQS5frmhfL0X21t/SXkhgMoENCMH+ZUfJ4/KNTurY5wPwivy9CjUxtEFdcnfZm1BxZLVmy0Ai6FD+uYXvEM9t3zmO9C5Zd6thUqTtrLTPnFkVTLbXmedSyQqwDOEcH139wjuazt5q7lPnB4tw5+pWYmCXLyUKiijBXzDscKXi7ku2EnKMCkZniAdaFMDFaHQoAsOf4kzKZa3wH6lIAcQXemjVgshFDMCeygRymHQ2lM4S7ItbmZjsFb8JrfW5TUIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+JCbj4H30s7Rlk7EcXPci+OXSzt2nSo3XGD0yTB8/t8=;
- b=NDFPRGdrJrj6vVPu/+Vr5BRf8OG2m7HdpKqT/Tm+sePg3cmld7zwJ5K3tQZM4K69dwVto8q8GDia+TgL6niwiCnRpROPJ1djAzdFuHxGwrsRQulYjJP1OdjmDTG94HYK1/epY4F2+9CuNClnrvElwZJUl7lhMkNtXKYSMPVVkOwfFhuBSDD/6Rje2DEHeVGy2wwb0V3ZlG7GsShcoIcdTLL/2oCWiGd4+zHVjh9eLsc1y9i638/P12Q8JrXh8+96sZyRlv9mcc6lWMWo3YeO0J+sb3EEU26sWrL4s/9owFb7BsdQpf5XGn5Qex3qwMhwmwmjnzezGhqOBrNEuWKL3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+JCbj4H30s7Rlk7EcXPci+OXSzt2nSo3XGD0yTB8/t8=;
- b=UVIpmDX01KRRt2j2CUl+gCyo9rTxnusBJ3ncv544iGmirp6O/ekleTUtvw7nXwY8UAI7u8bGJkYrynDWFuO8B1BT52lb8JRtIg/biuTPTzQDJDpuGhPwUAOajWJE6mGrl8E3Hsf5AWekLCm/d8uDbERdWAvVePyZEAMPtk5TfLM=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1465.namprd12.prod.outlook.com (10.172.35.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.19; Fri, 11 Oct 2019 16:23:55 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::9089:8467:a76c:6f9d]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::9089:8467:a76c:6f9d%6]) with mapi id 15.20.2347.016; Fri, 11 Oct 2019
- 16:23:55 +0000
-From: "Moger, Babu" <Babu.Moger@amd.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [Qemu-devel] [RFC 2 PATCH 13/16] machine: Add new epyc property
- in PCMachineState
-Thread-Topic: [Qemu-devel] [RFC 2 PATCH 13/16] machine: Add new epyc property
- in PCMachineState
-Thread-Index: AQHVZOceIuce90DAyEeExN49RF5ewqdVBqUAgADQFgA=
-Date: Fri, 11 Oct 2019 16:23:55 +0000
-Message-ID: <83cbb7a7-8acf-4889-0708-5e91d7283e7a@amd.com>
-References: <156779689013.21957.1631551572950676212.stgit@localhost.localdomain>
- <156779718791.21957.9675425538561156773.stgit@localhost.localdomain>
- <20191011035906.GH29387@habkost.net>
-In-Reply-To: <20191011035906.GH29387@habkost.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN6PR0102CA0029.prod.exchangelabs.com (2603:10b6:805:1::42)
- To DM5PR12MB2471.namprd12.prod.outlook.com
- (2603:10b6:4:b5::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 872bcbbf-b6e4-4719-0347-08d74e676936
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: DM5PR12MB1465:
-x-microsoft-antispam-prvs: <DM5PR12MB146528E2612CB79381343E2C95970@DM5PR12MB1465.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0187F3EA14
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(396003)(346002)(39860400002)(136003)(376002)(189003)(199004)(6436002)(81156014)(81166006)(5660300002)(186003)(8676002)(71190400001)(71200400001)(478600001)(8936002)(6486002)(14454004)(36756003)(6512007)(6246003)(66476007)(66946007)(229853002)(66556008)(66446008)(64756008)(31696002)(386003)(6506007)(53546011)(256004)(31686004)(66066001)(4326008)(316002)(86362001)(26005)(305945005)(7736002)(2616005)(476003)(446003)(486006)(54906003)(11346002)(6916009)(25786009)(2906002)(99286004)(102836004)(6116002)(52116002)(76176011)(3846002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1465;
- H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +qQPb3BZlB/dF6Y4LOtTHgrG3hzt6s6AVqKaoqavtU4/rTNV6K6e8CQ6AIsi9/y73ni+0i2GMorYlNP+l7NvfgT5BY5jT7L2sNfDE9kWpRwJgd7ZHHl+lvrss1b6gr705ZNwFVxS+MarGqOp6p/8Tdj+5CQrF9CTCR4MAcH9/ncPDdq679TRvG3ev0fq74QLj4jD6+n0oyGXixajcYH0wZip3u7wjdzD/6kqZTsXzMj2vsdsXq/2OB5pRLIzvnpTlLMShIp4JeTn8g3hqaIAnCNVtxScK73Z5JHq78AAlaEYDsbh0GLyTlPM/T4Ex3HkezGphXnTq1fZSThmzbM4aV9l0krQNUrE4Angdo5wLDgk0aVuQSa2UuBA0MoI5ZBraDDQsAMhxAcuaFu7fghVG5Q38hiGc7133XfeCxGSnWc=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9585F329E96DF74D95183BD436C05F61@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004ox-VP
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47926)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxR8-000499-NT; Fri, 11 Oct 2019 12:06:38 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxQd-0003XG-6W; Fri, 11 Oct 2019 19:06:07 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC v5 030/126] kvm: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:16 +0300
+Message-Id: <20191011160552.22907-31-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 872bcbbf-b6e4-4719-0347-08d74e676936
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2019 16:23:55.2148 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: k+tuu4K5z9H4JgBuobreIzExMbG65pauG00w3zFwy6qKiPLAKRM/OqwNSuK+RSSj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1465
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.79.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,36 +47,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDEwLzEwLzE5IDEwOjU5IFBNLCBFZHVhcmRvIEhhYmtvc3Qgd3JvdGU6DQo+IE9uIEZy
-aSwgU2VwIDA2LCAyMDE5IGF0IDA3OjEzOjA5UE0gKzAwMDAsIE1vZ2VyLCBCYWJ1IHdyb3RlOg0K
-Pj4gQWRkcyBuZXcgZXB5YyBwcm9wZXJ0eSBpbiBQQ01hY2hpbmVTdGF0ZSBhbmQgYWxzbyBpbiBN
-YWNoaW5lU3RhdGUuDQo+PiBUaGlzIHByb3BlcnR5IHdpbGwgYmUgdXNlZCB0byBpbml0aWFsaXpl
-IHRoZSBtb2RlIHNwZWNpZmljIGhhbmRsZXJzDQo+PiB0byBnZW5lcmF0ZSBhcGljIGlkcy4NCj4+
-DQo+PiBTaWduZWQtb2ZmLWJ5OiBCYWJ1IE1vZ2VyIDxiYWJ1Lm1vZ2VyQGFtZC5jb20+DQo+PiAt
-LS0NCj4gWy4uLl0NCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2h3L2JvYXJkcy5oIGIvaW5jbHVk
-ZS9ody9ib2FyZHMuaA0KPj4gaW5kZXggMTJlYjUwMzJhNS4uMDAwMWQ0MmU1MCAxMDA2NDQNCj4+
-IC0tLSBhL2luY2x1ZGUvaHcvYm9hcmRzLmgNCj4+ICsrKyBiL2luY2x1ZGUvaHcvYm9hcmRzLmgN
-Cj4+IEBAIC0yOTksNiArMjk5LDggQEAgc3RydWN0IE1hY2hpbmVTdGF0ZSB7DQo+PiAgICAgIEFj
-Y2VsU3RhdGUgKmFjY2VsZXJhdG9yOw0KPj4gICAgICBDUFVBcmNoSWRMaXN0ICpwb3NzaWJsZV9j
-cHVzOw0KPj4gICAgICBDcHVUb3BvbG9neSBzbXA7DQo+PiArICAgIGJvb2wgZXB5YzsNCj4+ICsN
-Cj4gDQo+IFRoaXMgd29uJ3Qgc2NhbGUgYXQgYWxsIHdoZW4gd2Ugc3RhcnQgYWRkaW5nIG5ldyBD
-UFUgbW9kZWxzIHdpdGgNCj4gZGlmZmVyZW50IHRvcG9sb2d5IGNvbnN0cmFpbnRzLg0KDQpZZXMs
-IEkga25ldy4gVGhpcyBjb3VsZCBjYXVzZSBzY2FsaW5nIGlzc3Vlcy4gTGV0IG1lIHNlZSBpZiB3
-ZSBjb3VsZCBkbw0KYW55dGhpbmcgZGlmZmVyZW50IHRvIGF2b2lkIHRoaXMuDQoNCj4gDQo+IEkg
-c3RpbGwgaGF2ZSBob3BlIHdlIGNhbiBhdm9pZCBoYXZpbmcgc2VwYXJhdGUgc2V0IG9mIHRvcG9s
-b2d5IElEDQo+IGZ1bmN0aW9ucyAoc2VlIG15IHJlcGx5IHRvICJody8zODY6IEFkZCBuZXcgZXB5
-YyBtb2RlIHRvcG9sb2d5DQoNClllcy4gVGhhdCB3YXMgKG5vdCB0byBoYXZlIHNlcGFyYXRlIHRv
-cG9sb2d5IGZ1bmN0aW9ucykgbXkgaG9wZSB0b28uIExldA0KbWUgdGhpbmsgdGhydSB0aGlzIGJp
-dCBtb3JlLg0KDQo+IGRlY29kaW5nIGZ1bmN0aW9ucyIpLiAgQnV0IGlmIHdlIHJlYWxseSBoYXZl
-IHRvIGNyZWF0ZSBzZXBhcmF0ZQ0KPiBmdW5jdGlvbnMsIHdlIGNhbiBtYWtlIHRoZW0gcGFydCBv
-ZiB0aGUgQ1BVIG1vZGVsIHRhYmxlLCBub3QgYQ0KPiBib29sZWFuIG1hY2hpbmUgcHJvcGVydHku
-DQo+IA0K
+If we want to add some info to errp (by error_prepend() or
+error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+Otherwise, this info will not be added when errp == &fatal_err
+(the program will exit prior to the error_append_hint() or
+error_prepend() call).  Fix such cases.
+
+If we want to check error after errp-function call, we need to
+introduce local_err and than propagate it to errp. Instead, use
+ERRP_AUTO_PROPAGATE macro, benefits are:
+1. No need of explicit error_propagate call
+2. No need of explicit local_err variable: use errp directly
+3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+   &error_fatel, this means that we don't break error_abort
+   (we'll abort on error_set, not on error_propagate)
+
+This commit (together with its neighbors) was generated by
+
+for f in $(git grep -l errp \*.[ch]); do \
+    spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
+done;
+
+then fix a bit of compilation problems: coccinelle for some reason
+leaves several
+f() {
+    ...
+    goto out;
+    ...
+    out:
+}
+patterns, with "out:" at function end.
+
+then
+./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+
+(auto-msg was a file with this commit message)
+
+Still, for backporting it may be more comfortable to use only the first
+command and then do one huge commit.
+
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reported-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ target/ppc/kvm.c          | 8 ++++----
+ target/s390x/cpu_models.c | 2 ++
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index af6e667bf8..d58a3f5bf5 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -237,6 +237,7 @@ static int kvm_booke206_tlb_init(PowerPCCPU *cpu)
+ #if defined(TARGET_PPC64)
+ static void kvm_get_smmu_info(struct kvm_ppc_smmu_info *info, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int ret;
+ 
+     assert(kvm_state != NULL);
+@@ -325,18 +326,17 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void)
+ 
+ void kvm_check_mmu(PowerPCCPU *cpu, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     struct kvm_ppc_smmu_info smmu_info;
+     int iq, ik, jq, jk;
+-    Error *local_err = NULL;
+ 
+     /* For now, we only have anything to check on hash64 MMUs */
+     if (!cpu->hash64_opts || !kvm_enabled()) {
+         return;
+     }
+ 
+-    kvm_get_smmu_info(&smmu_info, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    kvm_get_smmu_info(&smmu_info, errp);
++    if (*errp) {
+         return;
+     }
+ 
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 009afc38b9..32f2e5e822 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -840,6 +840,7 @@ static void error_prepend_missing_feat(const char *name, void *opaque)
+ static void check_compatibility(const S390CPUModel *max_model,
+                                 const S390CPUModel *model, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     S390FeatBitmap missing;
+ 
+     if (model->def->gen > max_model->def->gen) {
+@@ -922,6 +923,7 @@ static inline void apply_cpu_model(const S390CPUModel *model, Error **errp)
+ 
+ void s390_realize_cpu_model(CPUState *cs, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     S390CPUClass *xcc = S390_CPU_GET_CLASS(cs);
+     S390CPU *cpu = S390_CPU(cs);
+     const S390CPUModel *max_model;
+-- 
+2.21.0
+
 
