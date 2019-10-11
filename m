@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B0FD4A1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:53:10 +0200 (CEST)
-Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4F7D4A29
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 00:02:01 +0200 (CEST)
+Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ2qT-0004V5-Ss
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58011)
+	id 1iJ2z1-0000T9-RB
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 18:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iJ2m6-0007BO-Dg
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:48:39 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iJ2xc-0008CH-Sd
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 18:00:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iJ2m5-0007ed-93
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:48:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53654)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iJ2m2-0007bh-Dj; Fri, 11 Oct 2019 17:48:34 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 80E3C368DA;
- Fri, 11 Oct 2019 21:48:31 +0000 (UTC)
-Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC18D10016EB;
- Fri, 11 Oct 2019 21:48:23 +0000 (UTC)
-Subject: Re: [PULL 01/19] util/hbitmap: strict hbitmap_reset
-To: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191011212550.27269-1-jsnow@redhat.com>
- <20191011212550.27269-2-jsnow@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <15c20480-0240-bdd2-2cc2-60c388022e86@redhat.com>
-Date: Fri, 11 Oct 2019 16:48:22 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <alistair23@gmail.com>) id 1iJ2xa-0003dz-Vs
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 18:00:32 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33593)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iJ2xa-0003dn-JR; Fri, 11 Oct 2019 18:00:30 -0400
+Received: by mail-lj1-x242.google.com with SMTP id a22so11258066ljd.0;
+ Fri, 11 Oct 2019 15:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GeRrffJPAcWK8bPnIORtmSTEkZUm+mHxmMxBGxmazI0=;
+ b=Beqntp9jjnons/HJwM649D3OFOpaWusibTaZU9bvAjj8ZXKU4vuXBv/krL1ejkwenv
+ tsQlU2+saDea23uUeJ1LOfPhv8/vJIgOl2g5K6edNw8+SAY7MR6FG+zeKPYJRIn+mQ9F
+ drAUauk+Nrzrx/bMIjVhZj73n2rb+EYLl/8P00uJSHFa4ynnEQbwcPe7ZUeurYFNvaCO
+ 5+q34hU+UkYVD/kkux8bTJ+FbA1TdpGGU+uFiw78rDLRtWS6iS453YW7U08zUAStHd0w
+ F9jPS6dm2LkrwZIHq4r1hi/wdolarTX3QOwK3A4oo9QU0S2WVoTxOUkZSPRIHqnX2AuT
+ v5Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GeRrffJPAcWK8bPnIORtmSTEkZUm+mHxmMxBGxmazI0=;
+ b=ufT1GxNQzIW5AoXar6beATLJR69IzaPKxwOU6Ulc1/gJetBh1JkSvu07N8Nyw2N5s5
+ D0sEstmorteWgbgnndyf6aUdqq68ZynT481M5ietFRo5uOGc1AYMln3FPTZRSoz7Ke/6
+ /QXYLySp/lnM/5f3qdlBtkhSvFfSeAaFBT9qhxFDc5icUGa91lHrDaER+5hL5MfVx0k4
+ I2hoRKA9dvstwSRZ6XBXy7hi5Joh6Zfjx/CLufB7Eus3yLy7ddZmdoUJcfPQmcCJThZD
+ Ug5pRYgSC9a831Ph6MHoT25QLyEG+2ykR7n1mgsZw9IYSFWD9ptRIsZ4SgPQbTjav7B3
+ DrBQ==
+X-Gm-Message-State: APjAAAXHErNgj7d3Ck4s6BupvpTM6CU7+GUO67ms9nUtBR2pj7ncGYTz
+ rG3YrMQVkxjOHPt+eNNBoL2n1yGAXMgdIWuIny0=
+X-Google-Smtp-Source: APXvYqze5UN6eHNlof3IQenGoSt4Oo+pERiPa7NoSCb2r3MxkLymlVnDsjfqcg0QMtOJuXoU0vOYTXie4IcmPA+LARo=
+X-Received: by 2002:a2e:894b:: with SMTP id b11mr10269620ljk.152.1570831228442; 
+ Fri, 11 Oct 2019 15:00:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191011212550.27269-2-jsnow@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 11 Oct 2019 21:48:31 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-6-f4bug@amsat.org>
+ <CAKmqyKP+ABP9J=1UJEA+HEO4+UBuyjOoyzZVEJEDiM7N63bMag@mail.gmail.com>
+ <d2ab9145-cf4e-008c-8351-51f271fa37f8@amsat.org>
+In-Reply-To: <d2ab9145-cf4e-008c-8351-51f271fa37f8@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 11 Oct 2019 14:55:25 -0700
+Message-ID: <CAKmqyKOifObHz9vsrnk5=FaaQPZcQYF2AN946P2eY13VxZQ9Ew@mail.gmail.com>
+Subject: Re: [PATCH 05/19] hw/arm/bcm2835: Add various unimplemented
+ peripherals
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,62 +76,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 4:25 PM, John Snow wrote:
-> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> hbitmap_reset has an unobvious property: it rounds requested region up.
-> It may provoke bugs, like in recently fixed write-blocking mode of
-> mirror: user calls reset on unaligned region, not keeping in mind that
-> there are possible unrelated dirty bytes, covered by rounded-up region
-> and information of this unrelated "dirtiness" will be lost.
-> 
-> Make hbitmap_reset strict: assert that arguments are aligned, allowing
-> only one exception when @start + @count == hb->orig_size. It's needed
-> to comfort users of hbitmap_next_dirty_area, which cares about
-> hb->orig_size.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> Message-Id: <20190806152611.280389-1-vsementsov@virtuozzo.com>
-> [Maintainer edit: Max's suggestions from on-list. --js]
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   include/qemu/hbitmap.h | 5 +++++
->   tests/test-hbitmap.c   | 2 +-
->   util/hbitmap.c         | 4 ++++
->   3 files changed, 10 insertions(+), 1 deletion(-)
-> 
+On Tue, Oct 8, 2019 at 2:43 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> Hi Alistair,
+>
+> On 9/27/19 11:42 PM, Alistair Francis wrote:
+> >   On Thu, Sep 26, 2019 at 10:44 AM Philippe Mathieu-Daud=C3=A9
+> > <f4bug@amsat.org> wrote:
+> >>
+> >> Base addresses and sizes taken from the "BCM2835 ARM Peripherals"
+> >> datasheet from February 06 2012:
+> >> https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripheral=
+s.pdf
+> >>
+> >> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >> ---
+> >>   hw/arm/bcm2835_peripherals.c         | 31 ++++++++++++++++++++++++++=
+++
+> >>   include/hw/arm/bcm2835_peripherals.h | 15 ++++++++++++++
+> >>   include/hw/arm/raspi_platform.h      |  8 +++++++
+> >>   3 files changed, 54 insertions(+)
+> >>
+> >> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals=
+.c
+> >> index 1bd2ff41d5..fdcf616c56 100644
+> >> --- a/hw/arm/bcm2835_peripherals.c
+> >> +++ b/hw/arm/bcm2835_peripherals.c
+> >> @@ -22,6 +22,20 @@
+> >>   /* Capabilities for SD controller: no DMA, high-speed, default clock=
+s etc. */
+> >>   #define BCM2835_SDHC_CAPAREG 0x52134b4
+> >>
+> >> +static void create_unimp(BCM2835PeripheralState *ps,
+> >> +                         UnimplementedDeviceState *uds,
+> >> +                         const char *name, hwaddr ofs, hwaddr size)
+> >> +{
+> >> +    sysbus_init_child_obj(OBJECT(ps), name, uds,
+> >> +                          sizeof(UnimplementedDeviceState),
+> >> +                          TYPE_UNIMPLEMENTED_DEVICE);
+> >> +    qdev_prop_set_string(DEVICE(uds), "name", name);
+> >> +    qdev_prop_set_uint64(DEVICE(uds), "size", size);
+> >> +    object_property_set_bool(OBJECT(uds), true, "realized", &error_fa=
+tal);
+> >> +    memory_region_add_subregion_overlap(&ps->peri_mr, ofs,
+> >> +                    sysbus_mmio_get_region(SYS_BUS_DEVICE(uds), 0), -=
+1000);
+> >
+> > Why not just use create_unimplemented_device() and not bother saving
+> > the UnimplementedDeviceState members in the struct?
+>
+> create_unimplemented_device() calls
+>   -> sysbus_mmio_map_overlap()
+>      -> sysbus_mmio_map_common()
+>        -> memory_region_del_subregion(get_system_memory())
+>
+> So it maps the device at *absolute* offset in the system memory.
+>
+> create_unimp() maps the device at offset *relative* to peri_mr.
+>
+> Patch 8 of this series maps the PERI (container) block at peri_base
+> (fixed at BCM2836_PERI_BASE=3D0x3F000000 for the 2836/2837), then patch 1=
+2
+> adds the 2838 which has PERI mapped at 0xfe000000. So we have the same
+> "container" block mapped at different addresses.
+> Not the PERI block itself doesn't know its base address, all offsets are
+> relative.
+>
+> So using create_unimp() allow to use the same block in two different SoCs=
+.
 
-> +++ b/util/hbitmap.c
-> @@ -476,6 +476,10 @@ void hbitmap_reset(HBitmap *hb, uint64_t start, uint64_t count)
->       /* Compute range in the last layer.  */
->       uint64_t first;
->       uint64_t last = start + count - 1;
-> +    uint64_t gran = 1ULL << hb->granularity;
-> +
-> +    assert(!(start & (gran - 1)));
-> +    assert(!(count & (gran - 1)) || (start + count == hb->orig_size));
+Ah, makes sense.
 
-I know I'm replying a bit late (since this is now a pull request), but 
-would it be worth using the dedicated macro:
+Maybe that is worth adding in the commit message, unless it's just
+obvious and I am missing something.
 
-assert(QEMU_IS_ALIGNED(start, gran));
-assert(QEMU_IS_ALIGNED(count, gran) || start + count == hb->orig_size);
+Either way:
 
-instead of open-coding it?  (I would also drop the extra () around the 
-right half of ||). If we want it, that would now be a followup patch.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Alistair
+
+>
+> 8:  https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00678.html
+> 12: https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00684.html
+>
+> >> +}
+> >> +
+> >>   static void bcm2835_peripherals_init(Object *obj)
+> >>   {
+> >>       BCM2835PeripheralState *s =3D BCM2835_PERIPHERALS(obj);
+> >> @@ -323,6 +337,23 @@ static void bcm2835_peripherals_realize(DeviceSta=
+te *dev, Error **errp)
+> >>           error_propagate(errp, err);
+> >>           return;
+> >>       }
+> >> +
+> >> +    create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFF=
+SET, 0x40);
+> >> +    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
+> >> +    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x10=
+00);
+> >> +    create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+> >> +    create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+> >> +    create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
+> >> +    create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
+> >> +    create_unimp(s, &s->bscsl, "bcm2835-spis", BSC_SL_OFFSET, 0x100);
+> >> +    create_unimp(s, &s->i2c[0], "bcm2835-i2c0", BSC0_OFFSET, 0x20);
+> >> +    create_unimp(s, &s->i2c[1], "bcm2835-i2c1", BSC1_OFFSET, 0x20);
+> >> +    create_unimp(s, &s->i2c[2], "bcm2835-i2c2", BSC2_OFFSET, 0x20);
+> >> +    create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
+> >> +    create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
+> >> +    create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
+> >> +    create_unimp(s, &s->dwc2, "dwc-usb2", USB_OTG_OFFSET, 0x1000);
+> >> +    create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x10=
+0);
+> >>   }
+> >>
+> >>   static void bcm2835_peripherals_class_init(ObjectClass *oc, void *da=
+ta)
+> >> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm=
+2835_peripherals.h
+> >> index 6b17f6a382..62a4c7b559 100644
+> >> --- a/include/hw/arm/bcm2835_peripherals.h
+> >> +++ b/include/hw/arm/bcm2835_peripherals.h
+> >> @@ -23,6 +23,7 @@
+> >>   #include "hw/sd/sdhci.h"
+> >>   #include "hw/sd/bcm2835_sdhost.h"
+> >>   #include "hw/gpio/bcm2835_gpio.h"
+> >> +#include "hw/misc/unimp.h"
+> >>
+> >>   #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
+> >>   #define BCM2835_PERIPHERALS(obj) \
+> >> @@ -37,6 +38,10 @@ typedef struct BCM2835PeripheralState {
+> >>       MemoryRegion ram_alias[4];
+> >>       qemu_irq irq, fiq;
+> >>
+> >> +    UnimplementedDeviceState systmr;
+> >> +    UnimplementedDeviceState armtmr;
+> >> +    UnimplementedDeviceState cprman;
+> >> +    UnimplementedDeviceState a2w;
+> >>       PL011State uart0;
+> >>       BCM2835AuxState aux;
+> >>       BCM2835FBState fb;
+> >> @@ -48,6 +53,16 @@ typedef struct BCM2835PeripheralState {
+> >>       SDHCIState sdhci;
+> >>       BCM2835SDHostState sdhost;
+> >>       BCM2835GpioState gpio;
+> >> +    UnimplementedDeviceState i2s;
+> >> +    UnimplementedDeviceState spi[1];
+> >> +    UnimplementedDeviceState i2c[3];
+> >> +    UnimplementedDeviceState otp;
+> >> +    UnimplementedDeviceState dbus;
+> >> +    UnimplementedDeviceState ave0;
+> >> +    UnimplementedDeviceState bscsl;
+> >> +    UnimplementedDeviceState smi;
+> >> +    UnimplementedDeviceState dwc2;
+> >> +    UnimplementedDeviceState sdramc;
+> >>   } BCM2835PeripheralState;
+> >>
+> >>   #endif /* BCM2835_PERIPHERALS_H */
+> >> diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_pl=
+atform.h
+> >> index 66969fac5d..cdcbca943f 100644
+> >> --- a/include/hw/arm/raspi_platform.h
+> >> +++ b/include/hw/arm/raspi_platform.h
+> >> @@ -38,6 +38,8 @@
+> >>                                                         * Doorbells & =
+Mailboxes */
+> >>   #define CPRMAN_OFFSET           0x100000 /* Power Management, Watchd=
+og */
+> >>   #define CM_OFFSET               0x101000 /* Clock Management */
+> >> +#define A2W_OFFSET              0x102000 /* Reset controller */
+> >> +#define AVS_OFFSET              0x103000 /* Audio Video Standard */
+> >>   #define RNG_OFFSET              0x104000
+> >>   #define GPIO_OFFSET             0x200000
+> >>   #define UART0_OFFSET            0x201000
+> >> @@ -45,11 +47,17 @@
+> >>   #define I2S_OFFSET              0x203000
+> >>   #define SPI0_OFFSET             0x204000
+> >>   #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
+> >> +#define OTP_OFFSET              0x20f000
+> >> +#define BSC_SL_OFFSET           0x214000 /* SPI slave */
+> >>   #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
+> >>   #define EMMC1_OFFSET            0x300000
+> >>   #define SMI_OFFSET              0x600000
+> >>   #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
+> >> +#define BSC2_OFFSET             0x805000 /* BSC2 I2C/TWI */
+> >> +#define DBUS_OFFSET             0x900000
+> >> +#define AVE0_OFFSET             0x910000
+> >>   #define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller *=
+/
+> >> +#define SDRAMC_OFFSET           0xe00000
+> >>   #define DMA15_OFFSET            0xE05000 /* DMA controller, channel =
+15 */
+> >>
+> >>   /* GPU interrupts */
+> >> --
+> >> 2.20.1
+> >>
+> >>
 
