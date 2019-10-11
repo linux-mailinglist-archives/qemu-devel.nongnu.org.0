@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE69D45DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:54:48 +0200 (CEST)
-Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96327D45C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:52:25 +0200 (CEST)
+Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyBi-0003GG-HM
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36727)
+	id 1iIy9Q-00008L-9I
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0006Vt-Fc
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:41 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQw-0006Gg-N9
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0004dS-R8
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47960)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQu-0004SR-Of
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48058)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR0-0004Ao-D7; Fri, 11 Oct 2019 12:06:30 -0400
+ id 1iIxQu-0004Fb-Fi
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:24 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQd-0003XG-Ez; Fri, 11 Oct 2019 19:06:07 +0300
+ id 1iIxQh-0003XG-MQ; Fri, 11 Oct 2019 19:06:11 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 031/126] xen: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:17 +0300
-Message-Id: <20191011160552.22907-32-vsementsov@virtuozzo.com>
+Subject: [RFC v5 046/126] SCSI: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:32 +0300
+Message-Id: <20191011160552.22907-47-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,12 +48,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -100,851 +99,215 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/block/dataplane/xen-block.c |  17 ++---
- hw/block/xen-block.c           | 119 ++++++++++++++-------------------
- hw/xen/xen-backend.c           |   7 +-
- hw/xen/xen-bus.c               |  92 ++++++++++++-------------
- hw/xen/xen-host-pci-device.c   |  27 ++++----
- hw/xen/xen_pt.c                |  25 +++----
- hw/xen/xen_pt_config_init.c    |  20 +++---
- 7 files changed, 139 insertions(+), 168 deletions(-)
+ hw/scsi/esp-pci.c      |  7 +++----
+ hw/scsi/mptsas.c       | 13 ++++++-------
+ hw/scsi/scsi-bus.c     | 24 ++++++++++--------------
+ hw/scsi/scsi-disk.c    |  8 ++++----
+ hw/scsi/scsi-generic.c |  1 +
+ hw/scsi/virtio-scsi.c  |  7 +++----
+ 6 files changed, 27 insertions(+), 33 deletions(-)
 
-diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
-index 3b9caeb2fa..c38e3c3d85 100644
---- a/hw/block/dataplane/xen-block.c
-+++ b/hw/block/dataplane/xen-block.c
-@@ -727,8 +727,8 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
-                                unsigned int protocol,
-                                Error **errp)
+diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+index d5a1f9e017..eab48e3b38 100644
+--- a/hw/scsi/esp-pci.c
++++ b/hw/scsi/esp-pci.c
+@@ -468,16 +468,15 @@ static void dc390_write_config(PCIDevice *dev,
+ 
+ static void dc390_scsi_realize(PCIDevice *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     XenDevice *xendev = dataplane->xendev;
--    Error *local_err = NULL;
-     unsigned int ring_size;
-     unsigned int i;
- 
-@@ -764,9 +764,8 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
-     }
- 
-     xen_device_set_max_grant_refs(xendev, dataplane->nr_ring_ref,
--                                  &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                  errp);
-+    if (*errp) {
-         goto stop;
-     }
- 
-@@ -774,9 +773,8 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
-                                               dataplane->ring_ref,
-                                               dataplane->nr_ring_ref,
-                                               PROT_READ | PROT_WRITE,
--                                              &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                              errp);
-+    if (*errp) {
-         goto stop;
-     }
- 
-@@ -809,9 +807,8 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
-     dataplane->event_channel =
-         xen_device_bind_event_channel(xendev, dataplane->ctx, event_channel,
-                                       xen_block_dataplane_event, dataplane,
--                                      &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                      errp);
-+    if (*errp) {
-         goto stop;
-     }
- 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 879fc310a4..8f4165edd9 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -194,6 +194,7 @@ static const BlockDevOps xen_block_dev_ops = {
- 
- static void xen_block_realize(XenDevice *xendev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBlockDevice *blockdev = XEN_BLOCK_DEVICE(xendev);
-     XenBlockDeviceClass *blockdev_class =
-         XEN_BLOCK_DEVICE_GET_CLASS(xendev);
-@@ -201,7 +202,6 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
-     XenBlockVdev *vdev = &blockdev->props.vdev;
-     BlockConf *conf = &blockdev->props.conf;
-     BlockBackend *blk = conf->blk;
--    Error *local_err = NULL;
- 
-     if (vdev->type == XEN_BLOCK_VDEV_TYPE_INVALID) {
-         error_setg(errp, "vdev property not set");
-@@ -211,9 +211,8 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
-     trace_xen_block_realize(type, vdev->disk, vdev->partition);
- 
-     if (blockdev_class->realize) {
--        blockdev_class->realize(blockdev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        blockdev_class->realize(blockdev, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -283,8 +282,8 @@ static void xen_block_frontend_changed(XenDevice *xendev,
-                                        enum xenbus_state frontend_state,
-                                        Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     enum xenbus_state backend_state = xen_device_backend_get_state(xendev);
--    Error *local_err = NULL;
- 
-     switch (frontend_state) {
-     case XenbusStateInitialised:
-@@ -293,15 +292,13 @@ static void xen_block_frontend_changed(XenDevice *xendev,
-             break;
-         }
- 
--        xen_block_disconnect(xendev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        xen_block_disconnect(xendev, errp);
-+        if (*errp) {
-             break;
-         }
- 
--        xen_block_connect(xendev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        xen_block_connect(xendev, errp);
-+        if (*errp) {
-             break;
-         }
- 
-@@ -314,9 +311,8 @@ static void xen_block_frontend_changed(XenDevice *xendev,
- 
-     case XenbusStateClosed:
-     case XenbusStateUnknown:
--        xen_block_disconnect(xendev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        xen_block_disconnect(xendev, errp);
-+        if (*errp) {
-             break;
-         }
- 
-@@ -403,10 +399,10 @@ static int vbd_name_to_disk(const char *name, const char **endp,
- static void xen_block_set_vdev(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     DeviceState *dev = DEVICE(obj);
-     Property *prop = opaque;
-     XenBlockVdev *vdev = qdev_get_prop_ptr(dev, prop);
--    Error *local_err = NULL;
-     char *str, *p;
-     const char *end;
- 
-@@ -415,9 +411,8 @@ static void xen_block_set_vdev(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    visit_type_str(v, name, &str, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    visit_type_str(v, name, &str, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -671,9 +666,9 @@ static void xen_block_blockdev_del(const char *node_name, Error **errp)
- static char *xen_block_blockdev_add(const char *id, QDict *qdict,
-                                     Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     const char *driver = qdict_get_try_str(qdict, "driver");
-     BlockdevOptions *options = NULL;
--    Error *local_err = NULL;
-     char *node_name;
-     Visitor *v;
- 
-@@ -688,18 +683,16 @@ static char *xen_block_blockdev_add(const char *id, QDict *qdict,
-     trace_xen_block_blockdev_add(node_name);
- 
-     v = qobject_input_visitor_new(QOBJECT(qdict));
--    visit_type_BlockdevOptions(v, NULL, &options, &local_err);
-+    visit_type_BlockdevOptions(v, NULL, &options, errp);
-     visit_free(v);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         goto fail;
-     }
- 
--    qmp_blockdev_add(options, &local_err);
-+    qmp_blockdev_add(options, errp);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         goto fail;
-     }
- 
-@@ -718,14 +711,12 @@ fail:
- 
- static void xen_block_drive_destroy(XenBlockDrive *drive, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     char *node_name = drive->node_name;
- 
-     if (node_name) {
--        Error *local_err = NULL;
--
--        xen_block_blockdev_del(node_name, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        xen_block_blockdev_del(node_name, errp);
-+        if (*errp) {
-             return;
-         }
-         g_free(node_name);
-@@ -739,6 +730,7 @@ static XenBlockDrive *xen_block_drive_create(const char *id,
-                                              const char *device_type,
-                                              QDict *opts, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     const char *params = qdict_get_try_str(opts, "params");
-     const char *mode = qdict_get_try_str(opts, "mode");
-     const char *direct_io_safe = qdict_get_try_str(opts, "direct-io-safe");
-@@ -746,7 +738,6 @@ static XenBlockDrive *xen_block_drive_create(const char *id,
-     char *driver = NULL;
-     char *filename = NULL;
-     XenBlockDrive *drive = NULL;
--    Error *local_err = NULL;
-     QDict *file_layer;
-     QDict *driver_layer;
- 
-@@ -825,13 +816,12 @@ static XenBlockDrive *xen_block_drive_create(const char *id,
- 
-     g_assert(!drive->node_name);
-     drive->node_name = xen_block_blockdev_add(drive->id, driver_layer,
--                                              &local_err);
-+                                              errp);
- 
-     qobject_unref(driver_layer);
- 
- done:
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         xen_block_drive_destroy(drive, NULL);
-         return NULL;
-     }
-@@ -856,15 +846,13 @@ static void xen_block_iothread_destroy(XenBlockIOThread *iothread,
- static XenBlockIOThread *xen_block_iothread_create(const char *id,
-                                                    Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBlockIOThread *iothread = g_new(XenBlockIOThread, 1);
--    Error *local_err = NULL;
- 
-     iothread->id = g_strdup(id);
- 
--    qmp_object_add(TYPE_IOTHREAD, id, false, NULL, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--
-+    qmp_object_add(TYPE_IOTHREAD, id, false, NULL, errp);
-+    if (*errp) {
-         g_free(iothread->id);
-         g_free(iothread);
-         return NULL;
-@@ -876,6 +864,7 @@ static XenBlockIOThread *xen_block_iothread_create(const char *id,
- static void xen_block_device_create(XenBackendInstance *backend,
-                                     QDict *opts, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBus *xenbus = xen_backend_get_bus(backend);
-     const char *name = xen_backend_get_name(backend);
-     unsigned long number;
-@@ -883,7 +872,6 @@ static void xen_block_device_create(XenBackendInstance *backend,
-     XenBlockDrive *drive = NULL;
-     XenBlockIOThread *iothread = NULL;
-     XenDevice *xendev = NULL;
--    Error *local_err = NULL;
-     const char *type;
-     XenBlockDevice *blockdev;
- 
-@@ -915,15 +903,15 @@ static void xen_block_device_create(XenBackendInstance *backend,
-         goto fail;
-     }
- 
--    drive = xen_block_drive_create(vdev, device_type, opts, &local_err);
-+    drive = xen_block_drive_create(vdev, device_type, opts, errp);
-     if (!drive) {
--        error_propagate_prepend(errp, local_err, "failed to create drive: ");
-+        error_prepend(errp, "failed to create drive: ");
-         goto fail;
-     }
- 
--    iothread = xen_block_iothread_create(vdev, &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+    iothread = xen_block_iothread_create(vdev, errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to create iothread: ");
-         goto fail;
-     }
-@@ -931,24 +919,24 @@ static void xen_block_device_create(XenBackendInstance *backend,
-     xendev = XEN_DEVICE(qdev_create(BUS(xenbus), type));
-     blockdev = XEN_BLOCK_DEVICE(xendev);
- 
--    object_property_set_str(OBJECT(xendev), vdev, "vdev", &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err, "failed to set 'vdev': ");
-+    object_property_set_str(OBJECT(xendev), vdev, "vdev", errp);
-+    if (*errp) {
-+        error_prepend(errp, "failed to set 'vdev': ");
-         goto fail;
-     }
- 
-     object_property_set_str(OBJECT(xendev),
-                             xen_block_drive_get_node_name(drive), "drive",
--                            &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err, "failed to set 'drive': ");
-+                            errp);
-+    if (*errp) {
-+        error_prepend(errp, "failed to set 'drive': ");
-         goto fail;
-     }
- 
-     object_property_set_str(OBJECT(xendev), iothread->id, "iothread",
--                            &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+                            errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to set 'iothread': ");
-         goto fail;
-     }
-@@ -956,9 +944,9 @@ static void xen_block_device_create(XenBackendInstance *backend,
-     blockdev->iothread = iothread;
-     blockdev->drive = drive;
- 
--    object_property_set_bool(OBJECT(xendev), true, "realized", &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+    object_property_set_bool(OBJECT(xendev), true, "realized", errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "realization of device %s failed: ",
-                                 type);
-         goto fail;
-@@ -984,6 +972,7 @@ fail:
- static void xen_block_device_destroy(XenBackendInstance *backend,
-                                      Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenDevice *xendev = xen_backend_get_device(backend);
-     XenBlockDevice *blockdev = XEN_BLOCK_DEVICE(xendev);
-     XenBlockVdev *vdev = &blockdev->props.vdev;
-@@ -995,22 +984,18 @@ static void xen_block_device_destroy(XenBackendInstance *backend,
-     object_unparent(OBJECT(xendev));
- 
-     if (iothread) {
--        Error *local_err = NULL;
--
--        xen_block_iothread_destroy(iothread, &local_err);
--        if (local_err) {
--            error_propagate_prepend(errp, local_err,
-+        xen_block_iothread_destroy(iothread, errp);
-+        if (*errp) {
-+            error_prepend(errp,
-                                 "failed to destroy iothread: ");
-             return;
-         }
-     }
- 
-     if (drive) {
--        Error *local_err = NULL;
--
--        xen_block_drive_destroy(drive, &local_err);
--        if (local_err) {
--            error_propagate_prepend(errp, local_err,
-+        xen_block_drive_destroy(drive, errp);
-+        if (*errp) {
-+            error_prepend(errp,
-                                 "failed to destroy drive: ");
-         }
-     }
-diff --git a/hw/xen/xen-backend.c b/hw/xen/xen-backend.c
-index da065f81b7..1cc0694053 100644
---- a/hw/xen/xen-backend.c
-+++ b/hw/xen/xen-backend.c
-@@ -98,9 +98,9 @@ static void xen_backend_list_remove(XenBackendInstance *backend)
- void xen_backend_device_create(XenBus *xenbus, const char *type,
-                                const char *name, QDict *opts, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     const XenBackendImpl *impl = xen_backend_table_lookup(type);
-     XenBackendInstance *backend;
--    Error *local_error = NULL;
- 
-     if (!impl) {
-         return;
-@@ -110,9 +110,8 @@ void xen_backend_device_create(XenBus *xenbus, const char *type,
-     backend->xenbus = xenbus;
-     backend->name = g_strdup(name);
- 
--    impl->create(backend, opts, &local_error);
--    if (local_error) {
--        error_propagate(errp, local_error);
-+    impl->create(backend, opts, errp);
-+    if (*errp) {
-         g_free(backend->name);
-         g_free(backend);
-         return;
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index c2ad22a42d..ceecf0dacb 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -53,9 +53,9 @@ static char *xen_device_get_frontend_path(XenDevice *xendev)
- 
- static void xen_device_unplug(XenDevice *xendev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBus *xenbus = XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
-     const char *type = object_get_typename(OBJECT(xendev));
--    Error *local_err = NULL;
-     xs_transaction_t tid;
- 
-     trace_xen_device_unplug(type, xendev->name);
-@@ -69,14 +69,14 @@ again:
-     }
- 
-     xs_node_printf(xenbus->xsh, tid, xendev->backend_path, "online",
--                   &local_err, "%u", 0);
--    if (local_err) {
-+                   errp, "%u", 0);
-+    if (*errp) {
-         goto abort;
-     }
- 
-     xs_node_printf(xenbus->xsh, tid, xendev->backend_path, "state",
--                   &local_err, "%u", XenbusStateClosing);
--    if (local_err) {
-+                   errp, "%u", XenbusStateClosing);
-+    if (*errp) {
-         goto abort;
-     }
- 
-@@ -96,7 +96,6 @@ abort:
-      * from ending the transaction.
-      */
-     xs_transaction_end(xenbus->xsh, tid, true);
--    error_propagate(errp, local_err);
- }
- 
- static void xen_bus_print_dev(Monitor *mon, DeviceState *dev, int indent)
-@@ -205,15 +204,13 @@ static XenWatch *watch_list_add(XenWatchList *watch_list, const char *node,
-                                 const char *key, XenWatchHandler handler,
-                                 void *opaque, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenWatch *watch = new_watch(node, key, handler, opaque);
--    Error *local_err = NULL;
- 
-     notifier_list_add(&watch_list->notifiers, &watch->notifier);
- 
--    xs_node_watch(watch_list->xsh, node, key, watch->token, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--
-+    xs_node_watch(watch_list->xsh, node, key, watch->token, errp);
-+    if (*errp) {
-         notifier_remove(&watch->notifier);
-         free_watch(watch);
- 
-@@ -255,11 +252,11 @@ static void xen_bus_backend_create(XenBus *xenbus, const char *type,
-                                    const char *name, char *path,
-                                    Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     xs_transaction_t tid;
-     char **key;
-     QDict *opts;
-     unsigned int i, n;
--    Error *local_err = NULL;
- 
-     trace_xen_bus_backend_create(type, path);
- 
-@@ -314,11 +311,11 @@ again:
-         return;
-     }
- 
--    xen_backend_device_create(xenbus, type, name, opts, &local_err);
-+    xen_backend_device_create(xenbus, type, name, opts, errp);
-     qobject_unref(opts);
- 
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to create '%s' device '%s': ",
-                                 type, name);
-     }
-@@ -451,9 +448,9 @@ static void xen_bus_unrealize(BusState *bus, Error **errp)
- 
- static void xen_bus_realize(BusState *bus, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBus *xenbus = XEN_BUS(bus);
-     unsigned int domid;
--    Error *local_err = NULL;
- 
-     trace_xen_bus_realize();
- 
-@@ -476,10 +473,10 @@ static void xen_bus_realize(BusState *bus, Error **errp)
- 
-     xenbus->backend_watch =
-         xen_bus_add_watch(xenbus, "", /* domain root node */
--                          "backend", xen_bus_backend_changed, &local_err);
--    if (local_err) {
-+                          "backend", xen_bus_backend_changed, errp);
-+    if (*errp) {
-         /* This need not be treated as a hard error so don't propagate */
--        error_reportf_err(local_err,
-+        error_reportf_err(*errp,
-                           "failed to set up enumeration watch: ");
-     }
- 
-@@ -692,9 +689,9 @@ static void xen_device_remove_watch(XenDevice *xendev, XenWatch *watch,
- 
- static void xen_device_backend_create(XenDevice *xendev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBus *xenbus = XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
-     struct xs_permissions perms[2];
--    Error *local_err = NULL;
- 
-     xendev->backend_path = xen_device_get_backend_path(xendev);
- 
-@@ -706,9 +703,9 @@ static void xen_device_backend_create(XenDevice *xendev, Error **errp)
-     g_assert(xenbus->xsh);
- 
-     xs_node_create(xenbus->xsh, XBT_NULL, xendev->backend_path, perms,
--                   ARRAY_SIZE(perms), &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+                   ARRAY_SIZE(perms), errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to create backend: ");
-         return;
-     }
-@@ -716,9 +713,9 @@ static void xen_device_backend_create(XenDevice *xendev, Error **errp)
-     xendev->backend_state_watch =
-         xen_device_add_watch(xendev, xendev->backend_path,
-                              "state", xen_device_backend_changed,
--                             &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+                             errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to watch backend state: ");
-         return;
-     }
-@@ -726,9 +723,9 @@ static void xen_device_backend_create(XenDevice *xendev, Error **errp)
-     xendev->backend_online_watch =
-         xen_device_add_watch(xendev, xendev->backend_path,
-                              "online", xen_device_backend_changed,
--                             &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+                             errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to watch backend online: ");
-         return;
-     }
-@@ -866,9 +863,9 @@ static bool xen_device_frontend_exists(XenDevice *xendev)
- 
- static void xen_device_frontend_create(XenDevice *xendev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenBus *xenbus = XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
-     struct xs_permissions perms[2];
--    Error *local_err = NULL;
- 
-     xendev->frontend_path = xen_device_get_frontend_path(xendev);
- 
-@@ -885,9 +882,9 @@ static void xen_device_frontend_create(XenDevice *xendev, Error **errp)
-         g_assert(xenbus->xsh);
- 
-         xs_node_create(xenbus->xsh, XBT_NULL, xendev->frontend_path, perms,
--                       ARRAY_SIZE(perms), &local_err);
--        if (local_err) {
--            error_propagate_prepend(errp, local_err,
-+                       ARRAY_SIZE(perms), errp);
-+        if (*errp) {
-+            error_prepend(errp,
-                                     "failed to create frontend: ");
-             return;
-         }
-@@ -895,9 +892,9 @@ static void xen_device_frontend_create(XenDevice *xendev, Error **errp)
- 
-     xendev->frontend_state_watch =
-         xen_device_add_watch(xendev, xendev->frontend_path, "state",
--                             xen_device_frontend_changed, &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+                             xen_device_frontend_changed, errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to watch frontend state: ");
-     }
- }
-@@ -1228,11 +1225,11 @@ static void xen_device_exit(Notifier *n, void *data)
- 
- static void xen_device_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenDevice *xendev = XEN_DEVICE(dev);
-     XenDeviceClass *xendev_class = XEN_DEVICE_GET_CLASS(xendev);
-     XenBus *xenbus = XEN_BUS(qdev_get_parent_bus(DEVICE(xendev)));
-     const char *type = object_get_typename(OBJECT(xendev));
--    Error *local_err = NULL;
- 
-     if (xendev->frontend_id == DOMID_INVALID) {
-         xendev->frontend_id = xen_domid;
-@@ -1248,9 +1245,9 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-         goto unrealize;
-     }
- 
--    xendev->name = xendev_class->get_name(xendev, &local_err);
--    if (local_err) {
--        error_propagate_prepend(errp, local_err,
-+    xendev->name = xendev_class->get_name(xendev, errp);
-+    if (*errp) {
-+        error_prepend(errp,
-                                 "failed to get device name: ");
-         goto unrealize;
-     }
-@@ -1274,22 +1271,19 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-     xendev->feature_grant_copy =
-         (xengnttab_grant_copy(xendev->xgth, 0, NULL) == 0);
- 
--    xen_device_backend_create(xendev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    xen_device_backend_create(xendev, errp);
-+    if (*errp) {
-         goto unrealize;
-     }
- 
--    xen_device_frontend_create(xendev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    xen_device_frontend_create(xendev, errp);
-+    if (*errp) {
-         goto unrealize;
-     }
- 
-     if (xendev_class->realize) {
--        xendev_class->realize(xendev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        xendev_class->realize(xendev, errp);
-+        if (*errp) {
-             goto unrealize;
-         }
-     }
-diff --git a/hw/xen/xen-host-pci-device.c b/hw/xen/xen-host-pci-device.c
-index 1b44dcafaf..02379c341c 100644
---- a/hw/xen/xen-host-pci-device.c
-+++ b/hw/xen/xen-host-pci-device.c
-@@ -333,8 +333,8 @@ void xen_host_pci_device_get(XenHostPCIDevice *d, uint16_t domain,
-                              uint8_t bus, uint8_t dev, uint8_t func,
-                              Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     unsigned int v;
+     DC390State *pci = DC390(dev);
 -    Error *err = NULL;
+     uint8_t *contents;
+     uint16_t chksum = 0;
+     int i;
  
-     d->config_fd = -1;
-     d->domain = domain;
-@@ -342,36 +342,36 @@ void xen_host_pci_device_get(XenHostPCIDevice *d, uint16_t domain,
-     d->dev = dev;
-     d->func = func;
- 
--    xen_host_pci_config_open(d, &err);
+     /* init base class */
+-    esp_pci_scsi_realize(dev, &err);
 -    if (err) {
-+    xen_host_pci_config_open(d, errp);
-+    if (*errp) {
-         goto error;
-     }
- 
--    xen_host_pci_get_resource(d, &err);
--    if (err) {
-+    xen_host_pci_get_resource(d, errp);
-+    if (*errp) {
-         goto error;
-     }
- 
--    xen_host_pci_get_hex_value(d, "vendor", &v, &err);
--    if (err) {
-+    xen_host_pci_get_hex_value(d, "vendor", &v, errp);
-+    if (*errp) {
-         goto error;
-     }
-     d->vendor_id = v;
- 
--    xen_host_pci_get_hex_value(d, "device", &v, &err);
--    if (err) {
-+    xen_host_pci_get_hex_value(d, "device", &v, errp);
-+    if (*errp) {
-         goto error;
-     }
-     d->device_id = v;
- 
--    xen_host_pci_get_dec_value(d, "irq", &v, &err);
--    if (err) {
-+    xen_host_pci_get_dec_value(d, "irq", &v, errp);
-+    if (*errp) {
-         goto error;
-     }
-     d->irq = v;
- 
--    xen_host_pci_get_hex_value(d, "class", &v, &err);
--    if (err) {
-+    xen_host_pci_get_hex_value(d, "class", &v, errp);
-+    if (*errp) {
-         goto error;
-     }
-     d->class_code = v;
-@@ -381,7 +381,6 @@ void xen_host_pci_device_get(XenHostPCIDevice *d, uint16_t domain,
-     return;
- 
- error:
--    error_propagate(errp, err);
- 
-     if (d->config_fd >= 0) {
-         close(d->config_fd);
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 8fbaf2eae9..4bf9353bcb 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -765,12 +765,12 @@ static void xen_pt_destroy(PCIDevice *d) {
- 
- static void xen_pt_realize(PCIDevice *d, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XenPCIPassthroughState *s = XEN_PT_DEVICE(d);
-     int i, rc = 0;
-     uint8_t machine_irq = 0, scratch;
-     uint16_t cmd = 0;
-     int pirq = XEN_PT_UNASSIGNED_PIRQ;
--    Error *err = NULL;
- 
-     /* register real device */
-     XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
-@@ -781,10 +781,9 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-     xen_host_pci_device_get(&s->real_device,
-                             s->hostaddr.domain, s->hostaddr.bus,
-                             s->hostaddr.slot, s->hostaddr.function,
--                            &err);
--    if (err) {
--        error_append_hint(&err, "Failed to \"open\" the real pci device");
 -        error_propagate(errp, err);
-+                            errp);
++    esp_pci_scsi_realize(dev, errp);
 +    if (*errp) {
-+        error_append_hint(errp, "Failed to \"open\" the real pci device");
          return;
      }
  
-@@ -811,11 +810,10 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-             return;
-         }
+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+index b8a4b37cf3..a14cfb3b74 100644
+--- a/hw/scsi/mptsas.c
++++ b/hw/scsi/mptsas.c
+@@ -1272,28 +1272,27 @@ static const struct SCSIBusInfo mptsas_scsi_info = {
  
--        xen_pt_setup_vga(s, &s->real_device, &err);
--        if (err) {
--            error_append_hint(&err, "Setup VGA BIOS of passthrough"
--                    " GFX failed");
+ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     MPTSASState *s = MPT_SAS(dev);
+-    Error *err = NULL;
+     int ret;
+ 
+     dev->config[PCI_LATENCY_TIMER] = 0;
+     dev->config[PCI_INTERRUPT_PIN] = 0x01;
+ 
+     if (s->msi != ON_OFF_AUTO_OFF) {
+-        ret = msi_init(dev, 0, 1, true, false, &err);
++        ret = msi_init(dev, 0, 1, true, false, errp);
+         /* Any error other than -ENOTSUP(board's MSI support is broken)
+          * is a programming error */
+         assert(!ret || ret == -ENOTSUP);
+         if (ret && s->msi == ON_OFF_AUTO_ON) {
+             /* Can't satisfy user's explicit msi=on request, fail */
+-            error_append_hint(&err, "You have to use msi=auto (default) or "
+-                    "msi=off with this machine type.\n");
 -            error_propagate(errp, err);
-+        xen_pt_setup_vga(s, &s->real_device, errp);
-+        if (*errp) {
-+            error_append_hint(errp, "Setup VGA BIOS of passthrough"
-+                              " GFX failed");
-             xen_host_pci_device_put(&s->real_device);
++            error_append_hint(errp, "You have to use msi=auto (default) or "
++                              "msi=off with this machine type.\n");
              return;
          }
-@@ -828,10 +826,9 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-     xen_pt_register_regions(s, &cmd);
+-        assert(!err || s->msi == ON_OFF_AUTO_AUTO);
++        assert(!*errp || s->msi == ON_OFF_AUTO_AUTO);
+         /* With msi=auto, we fall back to MSI off silently */
+-        error_free(err);
++        error_free_errp(errp);
  
-     /* reinitialize each config register to be emulated */
--    xen_pt_config_init(s, &err);
--    if (err) {
--        error_append_hint(&err, "PCI Config space initialisation failed");
--        error_propagate(errp, err);
-+    xen_pt_config_init(s, errp);
-+    if (*errp) {
-+        error_append_hint(errp, "PCI Config space initialisation failed");
-         rc = -1;
-         goto err_out;
-     }
-diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
-index 31ec5add1d..af3fbd1bfb 100644
---- a/hw/xen/xen_pt_config_init.c
-+++ b/hw/xen/xen_pt_config_init.c
-@@ -2008,8 +2008,8 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
+         /* Only used for migration.  */
+         s->msi_in_use = (ret == 0);
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index bccb7cc4c6..b8ec65fd25 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -154,10 +154,10 @@ static void scsi_dma_restart_cb(void *opaque, int running, RunState state)
  
- void xen_pt_config_init(XenPCIPassthroughState *s, Error **errp)
+ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int i, rc;
+     SCSIDevice *dev = SCSI_DEVICE(qdev);
+     SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
+     SCSIDevice *d;
+-    Error *local_err = NULL;
+ 
+     if (dev->channel > bus->info->max_channel) {
+         error_setg(errp, "bad scsi channel id: %d", dev->channel);
+@@ -205,9 +205,8 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+     }
+ 
+     QTAILQ_INIT(&dev->requests);
+-    scsi_device_realize(dev, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    scsi_device_realize(dev, errp);
++    if (*errp) {
+         return;
+     }
+     dev->vmsentry = qdev_add_vm_change_state_handler(DEVICE(dev),
+@@ -234,10 +233,10 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+                                       BlockdevOnError werror,
+                                       const char *serial, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     const char *driver;
+     char *name;
+     DeviceState *dev;
 -    Error *err = NULL;
  
-     QLIST_INIT(&s->reg_grps);
+     driver = blk_is_sg(blk) ? "scsi-generic" : "scsi-disk";
+     dev = qdev_create(&bus->qbus, driver);
+@@ -256,15 +255,13 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+     if (serial && object_property_find(OBJECT(dev), "serial", NULL)) {
+         qdev_prop_set_string(dev, "serial", serial);
+     }
+-    qdev_prop_set_drive(dev, "drive", blk, &err);
+-    if (err) {
+-        error_propagate(errp, err);
++    qdev_prop_set_drive(dev, "drive", blk, errp);
++    if (*errp) {
+         object_unparent(OBJECT(dev));
+         return NULL;
+     }
+-    object_property_set_bool(OBJECT(dev), share_rw, "share-rw", &err);
+-    if (err != NULL) {
+-        error_propagate(errp, err);
++    object_property_set_bool(OBJECT(dev), share_rw, "share-rw", errp);
++    if (*errp) {
+         object_unparent(OBJECT(dev));
+         return NULL;
+     }
+@@ -272,9 +269,8 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+     qdev_prop_set_enum(dev, "rerror", rerror);
+     qdev_prop_set_enum(dev, "werror", werror);
  
-@@ -2052,10 +2052,9 @@ void xen_pt_config_init(XenPCIPassthroughState *s, Error **errp)
-                                                   reg_grp_offset,
-                                                   &reg_grp_entry->size);
-             if (rc < 0) {
--                error_setg(&err, "Failed to initialize %d/%zu, type = 0x%x,"
-+                error_setg(errp, "Failed to initialize %d/%zu, type = 0x%x,"
-                            " rc: %d", i, ARRAY_SIZE(xen_pt_emu_reg_grps),
-                            xen_pt_emu_reg_grps[i].grp_type, rc);
--                error_propagate(errp, err);
-                 xen_pt_config_delete(s);
-                 return;
-             }
-@@ -2068,13 +2067,14 @@ void xen_pt_config_init(XenPCIPassthroughState *s, Error **errp)
+-    object_property_set_bool(OBJECT(dev), true, "realized", &err);
+-    if (err != NULL) {
+-        error_propagate(errp, err);
++    object_property_set_bool(OBJECT(dev), true, "realized", errp);
++    if (*errp) {
+         object_unparent(OBJECT(dev));
+         return NULL;
+     }
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 915641a0f1..2f3064d8da 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2455,13 +2455,12 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
  
-                 /* initialize capability register */
-                 for (j = 0; regs->size != 0; j++, regs++) {
--                    xen_pt_config_reg_init(s, reg_grp_entry, regs, &err);
--                    if (err) {
--                        error_append_hint(&err, "Failed to init register %d"
--                                " offsets 0x%x in grp_type = 0x%x (%d/%zu)", j,
--                                regs->offset, xen_pt_emu_reg_grps[i].grp_type,
--                                i, ARRAY_SIZE(xen_pt_emu_reg_grps));
--                        error_propagate(errp, err);
-+                    xen_pt_config_reg_init(s, reg_grp_entry, regs, errp);
-+                    if (*errp) {
-+                        error_append_hint(errp, "Failed to init register %d"
-+                                          " offsets 0x%x in grp_type = 0x%x (%d/%zu)",
-+                                          j,
-+                                          regs->offset,
-+                                          xen_pt_emu_reg_grps[i].grp_type,
-+                                          i, ARRAY_SIZE(xen_pt_emu_reg_grps));
-                         xen_pt_config_delete(s);
-                         return;
-                     }
+ static void scsi_disk_realize(SCSIDevice *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     DriveInfo *dinfo;
+-    Error *local_err = NULL;
+ 
+     if (!dev->conf.blk) {
+-        scsi_realize(dev, &local_err);
+-        assert(local_err);
+-        error_propagate(errp, local_err);
++        scsi_realize(dev, errp);
++        assert(*errp);
+         return;
+     }
+ 
+@@ -2597,6 +2596,7 @@ static int get_device_type(SCSIDiskState *s)
+ 
+ static void scsi_block_realize(SCSIDevice *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
+     AioContext *ctx;
+     int sg_version;
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index e7798ebcd0..4c7543801f 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -653,6 +653,7 @@ static void scsi_generic_reset(DeviceState *dev)
+ 
+ static void scsi_generic_realize(SCSIDevice *s, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int rc;
+     int sg_version;
+     struct sg_scsi_id scsiid;
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index ee52aa7d17..86c71f93fd 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -905,17 +905,16 @@ void virtio_scsi_common_realize(DeviceState *dev,
+ 
+ static void virtio_scsi_device_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOSCSI *s = VIRTIO_SCSI(dev);
+-    Error *err = NULL;
+ 
+     virtio_scsi_common_realize(dev,
+                                virtio_scsi_handle_ctrl,
+                                virtio_scsi_handle_event,
+                                virtio_scsi_handle_cmd,
+-                               &err);
+-    if (err != NULL) {
+-        error_propagate(errp, err);
++                               errp);
++    if (*errp) {
+         return;
+     }
+ 
 -- 
 2.21.0
 
