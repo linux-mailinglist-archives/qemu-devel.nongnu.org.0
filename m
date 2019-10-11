@@ -2,49 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F186D3E7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 13:32:10 +0200 (CEST)
-Received: from localhost ([::1]:48746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE44D3E7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 13:31:40 +0200 (CEST)
+Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIt9V-0002He-7p
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 07:32:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
+	id 1iIt8v-0001ry-Vy
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 07:31:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iIt4l-0006Xd-Oz
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 07:27:16 -0400
+ (envelope-from <nsoffer@redhat.com>) id 1iIt5H-0007IM-T3
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 07:27:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iIt4k-00066c-QT
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 07:27:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59698)
+ (envelope-from <nsoffer@redhat.com>) id 1iIt5F-0006Va-R6
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 07:27:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41538)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iIt4i-00064m-MA; Fri, 11 Oct 2019 07:27:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1iIt5E-0006SV-Vf
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 07:27:45 -0400
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E262D83F3D;
- Fri, 11 Oct 2019 11:27:11 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.36.118.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C57260BF7;
- Fri, 11 Oct 2019 11:27:05 +0000 (UTC)
-Date: Fri, 11 Oct 2019 13:27:04 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v2 4/4] qemu-iotests: 044: remove inaccurate docstring
- class description
-Message-ID: <20191011112704.GG5158@localhost.localdomain>
-References: <20191009194740.8079-1-crosa@redhat.com>
- <20191009194740.8079-5-crosa@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E3052C059B80
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 11:27:42 +0000 (UTC)
+Received: by mail-ot1-f72.google.com with SMTP id i8so4624740otc.19
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 04:27:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=i+pru+W/cL9NaXsEZaHTyJYge4kHKehavYL9OBP5BVA=;
+ b=DEkimVJL4H8PhxgmvOm4zpXS335sdh9TEvLJwUKQw7dJksIQfrhvg/k87rAOYy4jjF
+ yRCGH35ENjaCCqEZl1OYqMGnUwLqa4msAGoJkyccLdE5QZtMSJvVwz5RexfsuezUUry5
+ FosDojt8leM11E5Hn6nePXGUpIvUo2RSCXqF3W6WuYpi9JZ18uw1h5Y5sPP50xlvoLwG
+ D3vD9RWIYR9hN5v+KTD4UBsiDlPtP/GMWq8yC9gEnNuutt7iRFgOI7HqaS90XExLvQYq
+ C8X+5CzHbmAd6+BKdjw5nhXPjqpMIoypy/rWMkLaY2s1bhCHXsi3/FzOjc8+3fpvOBfM
+ R0Cg==
+X-Gm-Message-State: APjAAAWylfoV6lUGKU/gIyi7ScVfYYnliShLYiESDJG0oCkEr8G/nFq/
+ kEVrHEHn0hzurmVTTBnEb72YTgcS/VenKyax4Bm+RaJU3fa7LYBIhkcXu1jjeOlGf2op5RhxDAt
+ Q/vj0XOezIraNKCpwR8jd19uc1hxB0Uw=
+X-Received: by 2002:a9d:3675:: with SMTP id w108mr9413199otb.81.1570793262428; 
+ Fri, 11 Oct 2019 04:27:42 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxQHTZIBTgumgY8dP4Xk1kkQ7jfHWGFgVnTzXyEsIUjt4/Juz4yMgYh/VGf3x3tC+fcJEWd9sbdJo4bko2Y4wY=
+X-Received: by 2002:a9d:3675:: with SMTP id w108mr9413178otb.81.1570793262147; 
+ Fri, 11 Oct 2019 04:27:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191009194740.8079-5-crosa@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 11 Oct 2019 11:27:11 +0000 (UTC)
+References: <20191009194740.8079-1-crosa@redhat.com>
+ <20191009194740.8079-2-crosa@redhat.com>
+ <20191011093610.GD5158@localhost.localdomain>
+In-Reply-To: <20191011093610.GD5158@localhost.localdomain>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Fri, 11 Oct 2019 14:27:25 +0300
+Message-ID: <CAMRbyyu=NdwhKFwb=JzMyHfbnP4XzzpaHTCd7ucT7tLEk9HdFA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] qemu-iotests: remove bash shebang from library
+ files
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000006809840594a0cedd"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -59,17 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- John Snow <jsnow@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+Cc: qemu-block <qemu-block@nongnu.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Cleber Rosa <crosa@redhat.com>,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.10.2019 um 21:47 hat Cleber Rosa geschrieben:
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+--0000000000006809840594a0cedd
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+On Fri, Oct 11, 2019, 12:36 Kevin Wolf <kwolf@redhat.com> wrote:
+
+> Am 09.10.2019 um 21:47 hat Cleber Rosa geschrieben:
+> > Due to not being able to find a reason to have shebangs on files that
+> > are not executable.
+> >
+> > While at it, add a mode hint to emacs, which would be clueless or
+> > plain wrong about these containing shell code.
+>
+> vim still doesn't like the change.
+>
+> Of course, we could also add another line for vim and for every other
+> editor in use, but actually, I think I'd prefer just dropping this
+> patch. It even makes each file a few bytes larger instead of saving
+> something. Shebang lines are a shorter and more portable format
+> indicator than the alternatives.
+>
+> So I think in the end we have found a good reason to keep them. :-)
+>
+
+What about .sh suffix? Should be most portable way.
+
+>
+
+--0000000000006809840594a0cedd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, Oct 11, 2019, 12:36 Kevin Wolf &lt;<a href=3D"=
+mailto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">Am 09.10.2019 um 21:47 hat Cleber Rosa geschrieben:<b=
+r>
+&gt; Due to not being able to find a reason to have shebangs on files that<=
+br>
+&gt; are not executable.<br>
+&gt; <br>
+&gt; While at it, add a mode hint to emacs, which would be clueless or<br>
+&gt; plain wrong about these containing shell code.<br>
+<br>
+vim still doesn&#39;t like the change.<br>
+<br>
+Of course, we could also add another line for vim and for every other<br>
+editor in use, but actually, I think I&#39;d prefer just dropping this<br>
+patch. It even makes each file a few bytes larger instead of saving<br>
+something. Shebang lines are a shorter and more portable format<br>
+indicator than the alternatives.<br>
+<br>
+So I think in the end we have found a good reason to keep them. :-)<br></bl=
+ockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">What abo=
+ut .sh suffix? Should be most portable way.</div><div dir=3D"auto"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote></div></div>=
+</div>
+
+--0000000000006809840594a0cedd--
 
