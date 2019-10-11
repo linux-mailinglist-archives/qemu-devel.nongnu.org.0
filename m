@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6C5D46A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:32:23 +0200 (CEST)
-Received: from localhost ([::1]:54696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA3DD46A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:31:40 +0200 (CEST)
+Received: from localhost ([::1]:54692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIym6-0002Te-CN
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37015)
+	id 1iIylP-0001PG-1c
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRD-0006jZ-3z
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQx-0006IF-K1
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004ox-VP
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47926)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQv-0004UE-N8
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:27 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR8-000499-NT; Fri, 11 Oct 2019 12:06:38 -0400
+ id 1iIxQv-0004GB-Eb
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:25 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQd-0003XG-6W; Fri, 11 Oct 2019 19:06:07 +0300
+ id 1iIxQj-0003XG-VY; Fri, 11 Oct 2019 19:06:14 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 030/126] kvm: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:16 +0300
-Message-Id: <20191011160552.22907-31-vsementsov@virtuozzo.com>
+Subject: [RFC v5 053/126] virtio: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:39 +0300
+Message-Id: <20191011160552.22907-54-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,12 +49,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -101,64 +98,234 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- target/ppc/kvm.c          | 8 ++++----
- target/s390x/cpu_models.c | 2 ++
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ hw/virtio/virtio-balloon.c | 35 ++++++++++++++++-------------------
+ hw/virtio/virtio-bus.c     | 17 +++++++----------
+ hw/virtio/virtio-pci.c     |  2 ++
+ hw/virtio/virtio-rng-pci.c |  7 +++----
+ hw/virtio/virtio.c         | 19 ++++++++-----------
+ 5 files changed, 36 insertions(+), 44 deletions(-)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index af6e667bf8..d58a3f5bf5 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -237,6 +237,7 @@ static int kvm_booke206_tlb_init(PowerPCCPU *cpu)
- #if defined(TARGET_PPC64)
- static void kvm_get_smmu_info(struct kvm_ppc_smmu_info *info, Error **errp)
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 40b04f5180..eaee19df71 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -229,40 +229,38 @@ static void balloon_stats_poll_cb(void *opaque)
+ static void balloon_stats_get_all(Object *obj, Visitor *v, const char *name,
+                                   void *opaque, Error **errp)
  {
+-    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     int ret;
+     VirtIOBalloon *s = opaque;
+     int i;
  
-     assert(kvm_state != NULL);
-@@ -325,18 +326,17 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void)
- 
- void kvm_check_mmu(PowerPCCPU *cpu, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     struct kvm_ppc_smmu_info smmu_info;
-     int iq, ik, jq, jk;
--    Error *local_err = NULL;
- 
-     /* For now, we only have anything to check on hash64 MMUs */
-     if (!cpu->hash64_opts || !kvm_enabled()) {
-         return;
+-    visit_start_struct(v, name, NULL, 0, &err);
+-    if (err) {
+-        goto out;
++    visit_start_struct(v, name, NULL, 0, errp);
++    if (*errp) {
++        return;
+     }
+-    visit_type_int(v, "last-update", &s->stats_last_update, &err);
+-    if (err) {
++    visit_type_int(v, "last-update", &s->stats_last_update, errp);
++    if (*errp) {
+         goto out_end;
      }
  
--    kvm_get_smmu_info(&smmu_info, &local_err);
+-    visit_start_struct(v, "stats", NULL, 0, &err);
+-    if (err) {
++    visit_start_struct(v, "stats", NULL, 0, errp);
++    if (*errp) {
+         goto out_end;
+     }
+     for (i = 0; i < VIRTIO_BALLOON_S_NR; i++) {
+-        visit_type_uint64(v, balloon_stat_names[i], &s->stats[i], &err);
+-        if (err) {
++        visit_type_uint64(v, balloon_stat_names[i], &s->stats[i], errp);
++        if (*errp) {
+             goto out_nested;
+         }
+     }
+-    visit_check_struct(v, &err);
++    visit_check_struct(v, errp);
+ out_nested:
+     visit_end_struct(v, NULL);
+ 
+-    if (!err) {
+-        visit_check_struct(v, &err);
++    if (!*errp) {
++        visit_check_struct(v, errp);
+     }
+ out_end:
+     visit_end_struct(v, NULL);
+-out:
+-    error_propagate(errp, err);
+ }
+ 
+ static void balloon_stats_get_poll_interval(Object *obj, Visitor *v,
+@@ -277,13 +275,12 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
+                                             const char *name, void *opaque,
+                                             Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIOBalloon *s = opaque;
+-    Error *local_err = NULL;
+     int64_t value;
+ 
+-    visit_type_int(v, name, &value, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    kvm_get_smmu_info(&smmu_info, errp);
++    visit_type_int(v, name, &value, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 009afc38b9..32f2e5e822 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -840,6 +840,7 @@ static void error_prepend_missing_feat(const char *name, void *opaque)
- static void check_compatibility(const S390CPUModel *max_model,
-                                 const S390CPUModel *model, Error **errp)
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index b2c804292e..d823fe682d 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -42,20 +42,19 @@ do { printf("virtio_bus: " fmt , ## __VA_ARGS__); } while (0)
+ /* A VirtIODevice is being plugged */
+ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     S390FeatBitmap missing;
+     DeviceState *qdev = DEVICE(vdev);
+     BusState *qbus = BUS(qdev_get_parent_bus(qdev));
+     VirtioBusState *bus = VIRTIO_BUS(qbus);
+     VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
+     bool has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+-    Error *local_err = NULL;
  
-     if (model->def->gen > max_model->def->gen) {
-@@ -922,6 +923,7 @@ static inline void apply_cpu_model(const S390CPUModel *model, Error **errp)
+     DPRINTF("%s: plug device.\n", qbus->name);
  
- void s390_realize_cpu_model(CPUState *cs, Error **errp)
+     if (klass->pre_plugged != NULL) {
+-        klass->pre_plugged(qbus->parent, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        klass->pre_plugged(qbus->parent, errp);
++        if (*errp) {
+             return;
+         }
+     }
+@@ -63,17 +62,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+     /* Get the features of the plugged device. */
+     assert(vdc->get_features != NULL);
+     vdev->host_features = vdc->get_features(vdev, vdev->host_features,
+-                                            &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                            errp);
++    if (*errp) {
+         return;
+     }
+ 
+     if (klass->device_plugged != NULL) {
+-        klass->device_plugged(qbus->parent, &local_err);
++        klass->device_plugged(qbus->parent, errp);
+     }
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         return;
+     }
+ 
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index c6b47a9c73..a36e5f6990 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1525,6 +1525,7 @@ static void virtio_pci_pre_plugged(DeviceState *d, Error **errp)
+ /* This is called by virtio-bus just after the device is plugged. */
+ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     S390CPUClass *xcc = S390_CPU_GET_CLASS(cs);
-     S390CPU *cpu = S390_CPU(cs);
-     const S390CPUModel *max_model;
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+     VirtioBusState *bus = &proxy->bus;
+     bool legacy = virtio_pci_legacy(proxy);
+@@ -1684,6 +1685,7 @@ static void virtio_pci_device_unplugged(DeviceState *d)
+ 
+ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
+     VirtioPCIClass *k = VIRTIO_PCI_GET_CLASS(pci_dev);
+     bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
+diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
+index 8aaf54b781..993bb9aae4 100644
+--- a/hw/virtio/virtio-rng-pci.c
++++ b/hw/virtio/virtio-rng-pci.c
+@@ -32,14 +32,13 @@ struct VirtIORngPCI {
+ 
+ static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIORngPCI *vrng = VIRTIO_RNG_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&vrng->vdev);
+-    Error *err = NULL;
+ 
+     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
+-    object_property_set_bool(OBJECT(vdev), true, "realized", &err);
+-    if (err) {
+-        error_propagate(errp, err);
++    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    if (*errp) {
+         return;
+     }
+ 
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 527df03bfd..3a318232e6 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2606,24 +2606,22 @@ static void virtio_memory_listener_commit(MemoryListener *listener)
+ 
+ static void virtio_device_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(dev);
+-    Error *err = NULL;
+ 
+     /* Devices should either use vmsd or the load/save methods */
+     assert(!vdc->vmsd || !vdc->load);
+ 
+     if (vdc->realize != NULL) {
+-        vdc->realize(dev, &err);
+-        if (err != NULL) {
+-            error_propagate(errp, err);
++        vdc->realize(dev, errp);
++        if (*errp) {
+             return;
+         }
+     }
+ 
+-    virtio_bus_device_plugged(vdev, &err);
+-    if (err != NULL) {
+-        error_propagate(errp, err);
++    virtio_bus_device_plugged(vdev, errp);
++    if (*errp) {
+         vdc->unrealize(dev, NULL);
+         return;
+     }
+@@ -2634,16 +2632,15 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
+ 
+ static void virtio_device_unrealize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(dev);
+-    Error *err = NULL;
+ 
+     virtio_bus_device_unplugged(vdev);
+ 
+     if (vdc->unrealize != NULL) {
+-        vdc->unrealize(dev, &err);
+-        if (err != NULL) {
+-            error_propagate(errp, err);
++        vdc->unrealize(dev, errp);
++        if (*errp) {
+             return;
+         }
+     }
 -- 
 2.21.0
 
