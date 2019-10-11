@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D0BD461D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:02:29 +0200 (CEST)
-Received: from localhost ([::1]:54290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD2BD462E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:05:51 +0200 (CEST)
+Received: from localhost ([::1]:54334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyJA-0004nL-2i
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1iIyMP-0001OS-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:05:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQz-0006Li-Lm
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:30 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRE-0006lz-Df
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQy-0004a4-8E
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:29 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48178)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRB-0004qU-7A
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:44 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQx-0004J0-UM
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:28 -0400
+ id 1iIxRA-0004Mj-U9; Fri, 11 Oct 2019 12:06:41 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQm-0003XG-EM; Fri, 11 Oct 2019 19:06:16 +0300
+ id 1iIxQp-0003XG-Hj; Fri, 11 Oct 2019 19:06:19 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 061/126] NVDIMM: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:47 +0300
-Message-Id: <20191011160552.22907-62-vsementsov@virtuozzo.com>
+Subject: [RFC v5 068/126] scsi: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:54 +0300
+Message-Id: <20191011160552.22907-69-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,10 +47,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, qemu-block@nongnu.org, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,68 +97,42 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/mem/nvdimm.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ scsi/pr-manager-helper.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index 375f9a588a..e84d860688 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -44,29 +44,27 @@ static void nvdimm_get_label_size(Object *obj, Visitor *v, const char *name,
- static void nvdimm_set_label_size(Object *obj, Visitor *v, const char *name,
-                                   void *opaque, Error **errp)
+diff --git a/scsi/pr-manager-helper.c b/scsi/pr-manager-helper.c
+index ca27c93283..f41eaa8524 100644
+--- a/scsi/pr-manager-helper.c
++++ b/scsi/pr-manager-helper.c
+@@ -101,13 +101,13 @@ static int pr_manager_helper_write(PRManagerHelper *pr_mgr,
+ static int pr_manager_helper_initialize(PRManagerHelper *pr_mgr,
+                                         Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     NVDIMMDevice *nvdimm = NVDIMM(obj);
+     char *path = g_strdup(pr_mgr->path);
+     SocketAddress saddr = {
+         .type = SOCKET_ADDRESS_TYPE_UNIX,
+         .u.q_unix.path = path
+     };
+     QIOChannelSocket *sioc = qio_channel_socket_new();
 -    Error *local_err = NULL;
-     uint64_t value;
  
-     if (nvdimm->nvdimm_mr) {
--        error_setg(&local_err, "cannot change property value");
--        goto out;
-+        error_setg(errp, "cannot change property value");
-+        return;
-     }
- 
--    visit_type_size(v, name, &value, &local_err);
+     uint32_t flags;
+     int r;
+@@ -116,11 +116,10 @@ static int pr_manager_helper_initialize(PRManagerHelper *pr_mgr,
+     qio_channel_set_name(QIO_CHANNEL(sioc), "pr-manager-helper");
+     qio_channel_socket_connect_sync(sioc,
+                                     &saddr,
+-                                    &local_err);
++                                    errp);
+     g_free(path);
 -    if (local_err) {
--        goto out;
-+    visit_type_size(v, name, &value, errp);
 +    if (*errp) {
-+        return;
-     }
-     if (value < MIN_NAMESPACE_LABEL_SIZE) {
--        error_setg(&local_err, "Property '%s.%s' (0x%" PRIx64 ") is required"
-+        error_setg(errp, "Property '%s.%s' (0x%" PRIx64 ") is required"
-                    " at least 0x%lx", object_get_typename(obj),
-                    name, value, MIN_NAMESPACE_LABEL_SIZE);
--        goto out;
-+        return;
+         object_unref(OBJECT(sioc));
+-        error_propagate(errp, local_err);
+         return -ENOTCONN;
      }
  
-     nvdimm->label_size = value;
--out:
--    error_propagate(errp, local_err);
- }
- 
- static void nvdimm_init(Object *obj)
-@@ -126,13 +124,12 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
- static MemoryRegion *nvdimm_md_get_memory_region(MemoryDeviceState *md,
-                                                  Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     NVDIMMDevice *nvdimm = NVDIMM(md);
--    Error *local_err = NULL;
- 
-     if (!nvdimm->nvdimm_mr) {
--        nvdimm_prepare_memory_region(nvdimm, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        nvdimm_prepare_memory_region(nvdimm, errp);
-+        if (*errp) {
-             return NULL;
-         }
-     }
 -- 
 2.21.0
 
