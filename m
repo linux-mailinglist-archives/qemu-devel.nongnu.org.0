@@ -2,45 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832E4D3BE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 11:07:33 +0200 (CEST)
-Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BE4D3BEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 11:09:46 +0200 (CEST)
+Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIqtY-0005Z8-4F
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 05:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47739)
+	id 1iIqvg-0008Tk-L7
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 05:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iIqjM-0003Zs-Gt
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:57:02 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIql6-0006H3-Dz
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:58:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iIqjJ-0007zj-Tm
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:57:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35668)
+ (envelope-from <mreitz@redhat.com>) id 1iIql5-0000G6-5D
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:58:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36062)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iIqjJ-0007zB-Kl
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:56:57 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iIql1-0000En-61; Fri, 11 Oct 2019 04:58:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D875430860C3
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:56:56 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6E0B5D9C3;
- Fri, 11 Oct 2019 08:56:51 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] libqos: add VIRTIO PCI 1.0 support
-Date: Fri, 11 Oct 2019 09:56:11 +0100
-Message-Id: <20191011085611.4194-8-stefanha@redhat.com>
-In-Reply-To: <20191011085611.4194-1-stefanha@redhat.com>
-References: <20191011085611.4194-1-stefanha@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2E5268980E5;
+ Fri, 11 Oct 2019 08:58:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-116-40.ams2.redhat.com
+ [10.36.116.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5379B194BE;
+ Fri, 11 Oct 2019 08:58:34 +0000 (UTC)
+Subject: Re: [PATCH 3/4] block/mirror: support unaligned write in active mirror
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20190912151338.21225-1-vsementsov@virtuozzo.com>
+ <20190912151338.21225-4-vsementsov@virtuozzo.com>
+ <6fd6a449-0443-ecfa-0eec-23e3b515b303@redhat.com>
+ <eb11dfe2-fe3b-54bf-a23f-b9d208690680@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <0cc82b6a-9a1c-4f5b-f133-153ab739c0a3@redhat.com>
+Date: Fri, 11 Oct 2019 10:58:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 11 Oct 2019 08:56:56 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <eb11dfe2-fe3b-54bf-a23f-b9d208690680@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="YaHqEzS97buV5lPXaSahXGd6U6uXQGQvI"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Fri, 11 Oct 2019 08:58:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -55,570 +88,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the VIRTIO 1.0 virtio-pci interface.  The main change here is
-that the register layout is no longer a fixed layout in BAR 0.  Instead
-we have to iterate of PCI Capabilities to find descriptions of where
-various registers are located.  The vring registers are also more
-fine-grained, allowing for more flexible vring layouts, but we don't
-take advantage of that.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--YaHqEzS97buV5lPXaSahXGd6U6uXQGQvI
+Content-Type: multipart/mixed; boundary="12rfKbyLsCc8cN1fW2ys5Ez7dm7cxrMfe"
 
-Note that test cases do not negotiate VIRTIO_F_VERSION_1 yet and are
-therefore not running in VIRTIO 1.0 mode.
+--12rfKbyLsCc8cN1fW2ys5Ez7dm7cxrMfe
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- tests/Makefile.include           |   1 +
- tests/libqos/virtio-pci-modern.h |  17 ++
- tests/libqos/virtio-pci.h        |  10 +
- tests/libqos/virtio-pci-modern.c | 412 +++++++++++++++++++++++++++++++
- tests/libqos/virtio-pci.c        |   6 +-
- 5 files changed, 445 insertions(+), 1 deletion(-)
- create mode 100644 tests/libqos/virtio-pci-modern.h
- create mode 100644 tests/libqos/virtio-pci-modern.c
+On 11.10.19 10:33, Vladimir Sementsov-Ogievskiy wrote:
+> 04.10.2019 19:31, Max Reitz wrote:
+>> On 12.09.19 17:13, Vladimir Sementsov-Ogievskiy wrote:
+>>> Prior 9adc1cb49af8d do_sync_target_write had a bug: it reset aligned-=
+up
+>>> region in the dirty bitmap, which means that we may not copy some byt=
+es
+>>> and assume them copied, which actually leads to producing corrupted
+>>> target.
+>>>
+>>> So 9adc1cb49af8d forced dirty bitmap granularity to be
+>>> request_alignment for mirror-top filter, so we are not working with
+>>> unaligned requests. However forcing large alignment obviously decreas=
+es
+>>> performance of unaligned requests.
+>>>
+>>> This commit provides another solution for the problem: if unaligned
+>>> padding is already dirty, we can safely ignore it, as
+>>> 1. It's dirty, it will be copied by mirror_iteration anyway
+>>> 2. It's dirty, so skipping it now we don't increase dirtiness of the
+>>>     bitmap and therefore don't damage "synchronicity" of the
+>>>     write-blocking mirror.
+>>>
+>>> If unaligned padding is not dirty, we just write it, no reason to tou=
+ch
+>>> dirty bitmap if we succeed (on failure we'll set the whole region
+>>> ofcourse, but we loss "synchronicity" on failure anyway).
+>>>
+>>> Note: we need to disable dirty_bitmap, otherwise we will not be able =
+to
+>>> see in do_sync_target_write bitmap state before current operation. We=
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451ed3..3f633c8313 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -715,6 +715,7 @@ qos-test-obj-y +=3D tests/libqos/virtio-blk.o
- qos-test-obj-y +=3D tests/libqos/virtio-mmio.o
- qos-test-obj-y +=3D tests/libqos/virtio-net.o
- qos-test-obj-y +=3D tests/libqos/virtio-pci.o
-+qos-test-obj-y +=3D tests/libqos/virtio-pci-modern.o
- qos-test-obj-y +=3D tests/libqos/virtio-rng.o
- qos-test-obj-y +=3D tests/libqos/virtio-scsi.o
- qos-test-obj-y +=3D tests/libqos/virtio-serial.o
-diff --git a/tests/libqos/virtio-pci-modern.h b/tests/libqos/virtio-pci-m=
-odern.h
-new file mode 100644
-index 0000000000..6bf2b207c3
---- /dev/null
-+++ b/tests/libqos/virtio-pci-modern.h
-@@ -0,0 +1,17 @@
-+/*
-+ * libqos virtio PCI VIRTIO 1.0 definitions
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef LIBQOS_VIRTIO_PCI_MODERN_H
-+#define LIBQOS_VIRTIO_PCI_MODERN_H
-+
-+#include "virtio-pci.h"
-+
-+bool qvirtio_pci_init_virtio_1(QVirtioPCIDevice *dev);
-+
-+#endif /* LIBQOS_VIRTIO_PCI_MODERN_H */
-diff --git a/tests/libqos/virtio-pci.h b/tests/libqos/virtio-pci.h
-index f2d53aa377..29d4e9bf79 100644
---- a/tests/libqos/virtio-pci.h
-+++ b/tests/libqos/virtio-pci.h
-@@ -27,6 +27,13 @@ typedef struct QVirtioPCIDevice {
-     uint32_t config_msix_data;
-=20
-     uint8_t bar_idx;
-+
-+    /* VIRTIO 1.0 */
-+    uint32_t common_cfg_offset;
-+    uint32_t notify_cfg_offset;
-+    uint32_t notify_off_multiplier;
-+    uint32_t isr_cfg_offset;
-+    uint32_t device_cfg_offset;
- } QVirtioPCIDevice;
-=20
- struct QVirtioPCIMSIXOps {
-@@ -43,6 +50,9 @@ typedef struct QVirtQueuePCI {
-     uint16_t msix_entry;
-     uint64_t msix_addr;
-     uint32_t msix_data;
-+
-+    /* VIRTIO 1.0 */
-+    uint64_t notify_offset;
- } QVirtQueuePCI;
-=20
- void virtio_pci_init(QVirtioPCIDevice *dev, QPCIBus *bus, QPCIAddress * =
-addr);
-diff --git a/tests/libqos/virtio-pci-modern.c b/tests/libqos/virtio-pci-m=
-odern.c
-new file mode 100644
-index 0000000000..f23c876290
---- /dev/null
-+++ b/tests/libqos/virtio-pci-modern.c
-@@ -0,0 +1,412 @@
-+/*
-+ * libqos VIRTIO 1.0 PCI driver
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "standard-headers/linux/pci_regs.h"
-+#include "standard-headers/linux/virtio_pci.h"
-+#include "virtio-pci-modern.h"
-+
-+static uint8_t config_readb(QVirtioDevice *d, uint64_t addr)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    return qpci_io_readb(dev->pdev, dev->bar, dev->device_cfg_offset + a=
-ddr);
-+}
-+
-+static uint16_t config_readw(QVirtioDevice *d, uint64_t addr)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    return qpci_io_readw(dev->pdev, dev->bar, dev->device_cfg_offset + a=
-ddr);
-+}
-+
-+static uint32_t config_readl(QVirtioDevice *d, uint64_t addr)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    return qpci_io_readl(dev->pdev, dev->bar, dev->device_cfg_offset + a=
-ddr);
-+}
-+
-+static uint64_t config_readq(QVirtioDevice *d, uint64_t addr)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    return qpci_io_readq(dev->pdev, dev->bar, dev->device_cfg_offset + a=
-ddr);
-+}
-+
-+static uint32_t get_features(QVirtioDevice *d)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg,
-+                            device_feature_select),
-+                   0);
-+    return qpci_io_readl(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                         offsetof(struct virtio_pci_common_cfg,
-+                                  device_feature));
-+}
-+
-+static void set_features(QVirtioDevice *d, uint32_t features)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg,
-+                            guest_feature_select),
-+                   0);
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg,
-+                            guest_feature),
-+                   features);
-+}
-+
-+static uint32_t get_guest_features(QVirtioDevice *d)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg,
-+                            guest_feature_select),
-+                   0);
-+    return qpci_io_readl(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                         offsetof(struct virtio_pci_common_cfg,
-+                                  guest_feature));
-+}
-+
-+static uint8_t get_status(QVirtioDevice *d)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    return qpci_io_readb(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                         offsetof(struct virtio_pci_common_cfg,
-+                                  device_status));
-+}
-+
-+static void set_status(QVirtioDevice *d, uint8_t status)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    return qpci_io_writeb(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                          offsetof(struct virtio_pci_common_cfg,
-+                                   device_status),
-+                          status);
-+}
-+
-+static bool get_msix_status(QVirtioPCIDevice *dev, uint32_t msix_entry,
-+                            uint32_t msix_addr, uint32_t msix_data)
-+{
-+    uint32_t data;
-+
-+    g_assert_cmpint(msix_entry, !=3D, -1);
-+    if (qpci_msix_masked(dev->pdev, msix_entry)) {
-+        /* No ISR checking should be done if masked, but read anyway */
-+        return qpci_msix_pending(dev->pdev, msix_entry);
-+    }
-+
-+    data =3D qtest_readl(dev->pdev->bus->qts, msix_addr);
-+    if (data =3D=3D msix_data) {
-+        qtest_writel(dev->pdev->bus->qts, msix_addr, 0);
-+        return true;
-+    } else {
-+        return false;
-+    }
-+}
-+
-+static bool get_queue_isr_status(QVirtioDevice *d, QVirtQueue *vq)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    if (dev->pdev->msix_enabled) {
-+        QVirtQueuePCI *vqpci =3D container_of(vq, QVirtQueuePCI, vq);
-+
-+        return get_msix_status(dev, vqpci->msix_entry, vqpci->msix_addr,
-+                               vqpci->msix_data);
-+    }
-+
-+    return qpci_io_readb(dev->pdev, dev->bar, dev->isr_cfg_offset) & 1;
-+}
-+
-+static bool get_config_isr_status(QVirtioDevice *d)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    if (dev->pdev->msix_enabled) {
-+        return get_msix_status(dev, dev->config_msix_entry,
-+                               dev->config_msix_addr, dev->config_msix_d=
-ata);
-+    }
-+
-+    return qpci_io_readb(dev->pdev, dev->bar, dev->isr_cfg_offset) & 2;
-+}
-+
-+static void wait_config_isr_status(QVirtioDevice *d, gint64 timeout_us)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    gint64 start_time =3D g_get_monotonic_time();
-+
-+    do {
-+        g_assert(g_get_monotonic_time() - start_time <=3D timeout_us);
-+        qtest_clock_step(dev->pdev->bus->qts, 100);
-+    } while (!get_config_isr_status(d));
-+}
-+
-+static void queue_select(QVirtioDevice *d, uint16_t index)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    qpci_io_writew(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_select),
-+                   index);
-+}
-+
-+static uint16_t get_queue_size(QVirtioDevice *d)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    return qpci_io_readw(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                         offsetof(struct virtio_pci_common_cfg, queue_si=
-ze));
-+}
-+
-+static void set_queue_address(QVirtioDevice *d, QVirtQueue *vq)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_desc_lo)=
-,
-+                   vq->desc);
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_desc_hi)=
-,
-+                   vq->desc >> 32);
-+
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_avail_lo=
-),
-+                   vq->avail);
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_avail_hi=
-),
-+                   vq->avail >> 32);
-+
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_used_lo)=
-,
-+                   vq->used);
-+    qpci_io_writel(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_used_hi)=
-,
-+                   vq->used >> 32);
-+}
-+
-+static QVirtQueue *virtqueue_setup(QVirtioDevice *d, QGuestAllocator *al=
-loc,
-+                                   uint16_t index)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    QVirtQueue *vq;
-+    QVirtQueuePCI *vqpci;
-+    uint16_t notify_off;
-+
-+    vq =3D qvirtio_pci_virtqueue_setup_common(d, alloc, index);
-+    vqpci =3D container_of(vq, QVirtQueuePCI, vq);
-+
-+    notify_off =3D qpci_io_readw(dev->pdev, dev->bar, dev->common_cfg_of=
-fset +
-+                               offsetof(struct virtio_pci_common_cfg,
-+                                        queue_notify_off));
-+
-+    vqpci->notify_offset =3D dev->notify_cfg_offset +
-+                           notify_off * dev->notify_off_multiplier;
-+
-+    qpci_io_writew(dev->pdev, dev->bar, dev->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_enable),=
- 1);
-+
-+    return vq;
-+}
-+
-+static void virtqueue_kick(QVirtioDevice *d, QVirtQueue *vq)
-+{
-+    QVirtioPCIDevice *dev =3D container_of(d, QVirtioPCIDevice, vdev);
-+    QVirtQueuePCI *vqpci =3D container_of(vq, QVirtQueuePCI, vq);
-+
-+    qpci_io_writew(dev->pdev, dev->bar, vqpci->notify_offset, vq->index)=
-;
-+}
-+
-+static const QVirtioBus qvirtio_pci_virtio_1 =3D {
-+    .config_readb =3D config_readb,
-+    .config_readw =3D config_readw,
-+    .config_readl =3D config_readl,
-+    .config_readq =3D config_readq,
-+    .get_features =3D get_features,
-+    .set_features =3D set_features,
-+    .get_guest_features =3D get_guest_features,
-+    .get_status =3D get_status,
-+    .set_status =3D set_status,
-+    .get_queue_isr_status =3D get_queue_isr_status,
-+    .wait_config_isr_status =3D wait_config_isr_status,
-+    .queue_select =3D queue_select,
-+    .get_queue_size =3D get_queue_size,
-+    .set_queue_address =3D set_queue_address,
-+    .virtqueue_setup =3D virtqueue_setup,
-+    .virtqueue_cleanup =3D qvirtio_pci_virtqueue_cleanup_common,
-+    .virtqueue_kick =3D virtqueue_kick,
-+};
-+
-+static void set_config_vector(QVirtioPCIDevice *d, uint16_t entry)
-+{
-+    uint16_t vector;
-+
-+    qpci_io_writew(d->pdev, d->bar, d->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, msix_config), =
-entry);
-+    vector =3D qpci_io_readw(d->pdev, d->bar, d->common_cfg_offset +
-+                           offsetof(struct virtio_pci_common_cfg,
-+                                    msix_config));
-+    g_assert_cmphex(vector, !=3D, VIRTIO_MSI_NO_VECTOR);
-+}
-+
-+static void set_queue_vector(QVirtioPCIDevice *d, uint16_t vq_idx,
-+                             uint16_t entry)
-+{
-+    uint16_t vector;
-+
-+    queue_select(&d->vdev, vq_idx);
-+    qpci_io_writew(d->pdev, d->bar, d->common_cfg_offset +
-+                   offsetof(struct virtio_pci_common_cfg, queue_msix_vec=
-tor),
-+                   entry);
-+    vector =3D qpci_io_readw(d->pdev, d->bar, d->common_cfg_offset +
-+                           offsetof(struct virtio_pci_common_cfg,
-+                                    queue_msix_vector));
-+    g_assert_cmphex(vector, !=3D, VIRTIO_MSI_NO_VECTOR);
-+}
-+
-+static const QVirtioPCIMSIXOps qvirtio_pci_msix_ops_virtio_1 =3D {
-+    .set_config_vector =3D set_config_vector,
-+    .set_queue_vector =3D set_queue_vector,
-+};
-+
-+static bool probe_device_type(QVirtioPCIDevice *dev)
-+{
-+    uint16_t vendor_id;
-+    uint16_t device_id;
-+
-+    /* "Drivers MUST match devices with the PCI Vendor ID 0x1AF4" */
-+    vendor_id =3D qpci_config_readw(dev->pdev, PCI_VENDOR_ID);
-+    if (vendor_id !=3D 0x1af4) {
-+        return false;
-+    }
-+
-+    /*
-+     * "Any PCI device with ... PCI Device ID 0x1000 through 0x107F incl=
-usive
-+     * is a virtio device"
-+     */
-+    device_id =3D qpci_config_readw(dev->pdev, PCI_DEVICE_ID);
-+    if (device_id < 0x1000 || device_id > 0x107f) {
-+        return false;
-+    }
-+
-+    /*
-+     * "Devices MAY utilize a Transitional PCI Device ID range, 0x1000 t=
-o
-+     * 0x103F depending on the device type"
-+     */
-+    if (device_id < 0x1040) {
-+        /*
-+         * "Transitional devices MUST have the PCI Subsystem Device ID m=
-atching
-+         * the Virtio Device ID"
-+         */
-+        dev->vdev.device_type =3D qpci_config_readw(dev->pdev, PCI_SUBSY=
-STEM_ID);
-+    } else {
-+        /*
-+         * "The PCI Device ID is calculated by adding 0x1040 to the Virt=
-io
-+         * Device ID"
-+         */
-+        dev->vdev.device_type =3D device_id - 0x1040;
-+    }
-+
-+    return true;
-+}
-+
-+/* Find the first VIRTIO 1.0 PCI structure for a given type */
-+static bool find_structure(QVirtioPCIDevice *dev, uint8_t cfg_type,
-+                           uint8_t *bar, uint32_t *offset, uint32_t *len=
-gth,
-+                           uint8_t *cfg_addr)
-+{
-+    uint8_t addr =3D 0;
-+
-+    while ((addr =3D qpci_find_capability(dev->pdev, PCI_CAP_ID_VNDR,
-+                                        addr)) !=3D 0) {
-+        uint8_t type;
-+
-+        type =3D qpci_config_readb(dev->pdev,
-+                addr + offsetof(struct virtio_pci_cap, cfg_type));
-+        if (type !=3D cfg_type) {
-+            continue;
-+        }
-+
-+        *bar =3D qpci_config_readb(dev->pdev,
-+                addr + offsetof(struct virtio_pci_cap, bar));
-+        *offset =3D qpci_config_readl(dev->pdev,
-+                addr + offsetof(struct virtio_pci_cap, offset));
-+        *length =3D qpci_config_readl(dev->pdev,
-+                addr + offsetof(struct virtio_pci_cap, length));
-+        if (cfg_addr) {
-+            *cfg_addr =3D addr;
-+        }
-+
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+static bool probe_device_layout(QVirtioPCIDevice *dev)
-+{
-+    uint8_t bar;
-+    uint8_t cfg_addr;
-+    uint32_t length;
-+
-+    /*
-+     * Due to the qpci_iomap() API we only support devices that put all
-+     * structures in the same PCI BAR.  Luckily this is true with QEMU.
-+     */
-+
-+    if (!find_structure(dev, VIRTIO_PCI_CAP_COMMON_CFG, &dev->bar_idx,
-+                        &dev->common_cfg_offset, &length, NULL)) {
-+        return false;
-+    }
-+
-+    if (!find_structure(dev, VIRTIO_PCI_CAP_NOTIFY_CFG, &bar,
-+                        &dev->notify_cfg_offset, &length, &cfg_addr)) {
-+        return false;
-+    }
-+    g_assert_cmphex(bar, =3D=3D, dev->bar_idx);
-+
-+    dev->notify_off_multiplier =3D qpci_config_readl(dev->pdev,
-+            cfg_addr + offsetof(struct virtio_pci_notify_cap,
-+                                notify_off_multiplier));
-+
-+    if (!find_structure(dev, VIRTIO_PCI_CAP_ISR_CFG, &bar,
-+                        &dev->isr_cfg_offset, &length, NULL)) {
-+        return false;
-+    }
-+    g_assert_cmphex(bar, =3D=3D, dev->bar_idx);
-+
-+    if (!find_structure(dev, VIRTIO_PCI_CAP_DEVICE_CFG, &bar,
-+                        &dev->device_cfg_offset, &length, NULL)) {
-+        return false;
-+    }
-+    g_assert_cmphex(bar, =3D=3D, dev->bar_idx);
-+
-+    return true;
-+}
-+
-+/* Probe a VIRTIO 1.0 device */
-+bool qvirtio_pci_init_virtio_1(QVirtioPCIDevice *dev)
-+{
-+    if (!probe_device_type(dev)) {
-+        return false;
-+    }
-+
-+    if (!probe_device_layout(dev)) {
-+        return false;
-+    }
-+
-+    dev->vdev.bus =3D &qvirtio_pci_virtio_1;
-+    dev->msix_ops =3D &qvirtio_pci_msix_ops_virtio_1;
-+    dev->vdev.big_endian =3D false;
-+    return true;
-+}
-diff --git a/tests/libqos/virtio-pci.c b/tests/libqos/virtio-pci.c
-index efd8caee18..5bdf403351 100644
---- a/tests/libqos/virtio-pci.c
-+++ b/tests/libqos/virtio-pci.c
-@@ -22,6 +22,8 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_regs.h"
-=20
-+#include "virtio-pci-modern.h"
-+
- /* virtio-pci is a superclass of all virtio-xxx-pci devices;
-  * the relation between virtio-pci and virtio-xxx-pci is implicit,
-  * and therefore virtio-pci does not produce virtio and is not
-@@ -400,7 +402,9 @@ static void qvirtio_pci_init_from_pcidev(QVirtioPCIDe=
-vice *dev, QPCIDevice *pci_
-     dev->pdev =3D pci_dev;
-     dev->config_msix_entry =3D -1;
-=20
--    qvirtio_pci_init_legacy(dev);
-+    if (!qvirtio_pci_init_virtio_1(dev)) {
-+        qvirtio_pci_init_legacy(dev);
-+    }
-=20
-     /* each virtio-xxx-pci device should override at least this function=
- */
-     dev->obj.get_driver =3D NULL;
---=20
-2.21.0
+>>> may of course check dirty bitmap before the operation in
+>>> bdrv_mirror_top_do_write and remember it, but we don't need active
+>>> dirty bitmap for write-blocking mirror anyway.
+>>>
+>>> New code-path is unused until the following commit reverts
+>>> 9adc1cb49af8d.
+>>>
+>>> Suggested-by: Denis V. Lunev <den@openvz.org>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com=
+>
+>>> ---
+>>>   block/mirror.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>>>   1 file changed, 38 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/block/mirror.c b/block/mirror.c
+>>> index d176bf5920..d192f6a96b 100644
+>>> --- a/block/mirror.c
+>>> +++ b/block/mirror.c
+>>> @@ -1204,6 +1204,39 @@ do_sync_target_write(MirrorBlockJob *job, Mirr=
+orMethod method,
+>>>                        QEMUIOVector *qiov, int flags)
+>>>   {
+>>>       int ret;
+>>> +    size_t qiov_offset =3D 0;
+>>> +
+>>> +    if (!QEMU_IS_ALIGNED(offset, job->granularity) &&
+>>> +        bdrv_dirty_bitmap_get(job->dirty_bitmap, offset)) {
+>>> +            /*
+>>> +             * Dirty unaligned padding
+>>> +             * 1. It's already dirty, no damage to "actively_synced"=
+ if we just
+>>> +             *    skip unaligned part.
+>>> +             * 2. If we copy it, we can't reset corresponding bit in=
 
+>>> +             *    dirty_bitmap as there may be some "dirty" bytes st=
+ill not
+>>> +             *    copied.
+>>> +             * So, just ignore it.
+>>> +             */
+>>> +            qiov_offset =3D QEMU_ALIGN_UP(offset, job->granularity) =
+- offset;
+>>> +            if (bytes <=3D qiov_offset) {
+>>> +                /* nothing to do after shrink */
+>>> +                return;
+>>> +            }
+>>> +            offset +=3D qiov_offset;
+>>> +            bytes -=3D qiov_offset;
+>>> +    }
+>>> +
+>>> +    if (!QEMU_IS_ALIGNED(offset + bytes, job->granularity) &&
+>>> +        bdrv_dirty_bitmap_get(job->dirty_bitmap, offset + bytes - 1)=
+)
+>>> +    {
+>>> +        uint64_t tail =3D (offset + bytes) % job->granularity;
+>>> +
+>>> +        if (bytes <=3D tail) {
+>>> +            /* nothing to do after shrink */
+>>> +            return;
+>>> +        }
+>>> +        bytes -=3D tail;
+>>> +    }
+>>>  =20
+>>>       bdrv_reset_dirty_bitmap(job->dirty_bitmap, offset, bytes);
+>>>  =20
+>>
+>> The bdrv_set_dirty_bitmap() in the error case below needs to use the
+>> original offset/bytes, I suppose.
+>=20
+> No, because we shrink tail only if it is already dirty. And we've locke=
+d the
+> region for in-flight operation, so nobody can clear the bitmap in a mea=
+ntime.
+
+True.  But wouldn=E2=80=99t it be simpler to understand to just use the o=
+riginal
+offsets?
+
+> But still, here is something to do:
+>=20
+> for not-shrinked tails, if any, we should:
+> 1. align down for reset
+> 2. align up for set on failure
+
+Well, the align up is done automatically, and I think that=E2=80=99s pret=
+ty
+self-explanatory.
+
+Max
+
+>>
+>> Apart from that, looks good to me.
+>>
+>> Max
+>>
+>=20
+>=20
+
+
+
+--12rfKbyLsCc8cN1fW2ys5Ez7dm7cxrMfe--
+
+--YaHqEzS97buV5lPXaSahXGd6U6uXQGQvI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2gRDkACgkQ9AfbAGHV
+z0ChXgf/Urz/EwQcEoiSdNmxDztVv3EY3oqVZzUFyJO/cxEUh9l7PxC+27GZ3tix
+qKdqKGoQV2KwniHBgcSDHdjHywPorch4t0YobopTwBrByF9pSQhgHhjUYqFmx7Z1
+v2aZnPA1e1FKVj8OT/nlm0mcL8pBQ7KCTZBkEQvFudYrTxcp2bXyfVrkgw+mDdx2
+eBWiuScwa1Dq6wdVsB/KXr0sXMxz+EK/2jR3u0wcBsGw3roo93ag8Jcpn9fzOgA1
+byS+0r0OJoUi6ISHa1nfe9UTSfva3WwvlBF4/KJDDGajmOiXOEzMn/JNO4Xk9s+x
+KYQeadhS1XOJSz5/tp25RtFpnrJVGA==
+=QQ34
+-----END PGP SIGNATURE-----
+
+--YaHqEzS97buV5lPXaSahXGd6U6uXQGQvI--
 
