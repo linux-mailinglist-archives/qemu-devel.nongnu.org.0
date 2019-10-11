@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A20D4707
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:57:18 +0200 (CEST)
-Received: from localhost ([::1]:55002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD54ED46F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:51:45 +0200 (CEST)
+Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzAD-0006xl-A8
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37222)
+	id 1iIz4q-00006A-GM
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRK-0006uy-4E
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:51 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmd-0007vk-1b
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRI-0004vu-Lw
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:49 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48494)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxma-0003Cy-Ty
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50016)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxRI-0004X7-Et; Fri, 11 Oct 2019 12:06:48 -0400
+ id 1iIxmZ-0003Ca-TE; Fri, 11 Oct 2019 12:28:48 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQw-0003XG-UF; Fri, 11 Oct 2019 19:06:27 +0300
+ id 1iIxR4-0003XG-1s; Fri, 11 Oct 2019 19:06:34 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 092/126] Record/replay: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:18 +0300
-Message-Id: <20191011160552.22907-93-vsementsov@virtuozzo.com>
+Subject: [RFC v5 106/126] Quorum: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:32 +0300
+Message-Id: <20191011160552.22907-107-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org, armbru@redhat.com,
+ Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,31 +97,101 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/blkreplay.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ block/quorum.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index 2b7931b940..4b548e382f 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -23,15 +23,14 @@ typedef struct Request {
- static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
-                           Error **errp)
+diff --git a/block/quorum.c b/block/quorum.c
+index df68adcfaa..5c531e1ec5 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -861,8 +861,8 @@ static QemuOptsList quorum_runtime_opts = {
+ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+                        Error **errp)
  {
--    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     int ret;
+     BDRVQuorumState *s = bs->opaque;
+-    Error *local_err = NULL;
+     QemuOpts *opts = NULL;
+     const char *pattern_str;
+     bool *opened;
+@@ -874,27 +874,27 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+     /* count how many different children are present */
+     s->num_children = qdict_array_entries(options, "children.");
+     if (s->num_children < 0) {
+-        error_setg(&local_err, "Option children is not a valid array");
++        error_setg(errp, "Option children is not a valid array");
+         ret = -EINVAL;
+         goto exit;
+     }
+     if (s->num_children < 1) {
+-        error_setg(&local_err,
++        error_setg(errp,
+                    "Number of provided children must be 1 or more");
+         ret = -EINVAL;
+         goto exit;
+     }
  
-     /* Open the image file */
-     bs->file = bdrv_open_child(NULL, options, "image",
--                               bs, &child_file, false, &local_err);
+     opts = qemu_opts_create(&quorum_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
 -    if (local_err) {
-+                               bs, &child_file, false, errp);
++    qemu_opts_absorb_qdict(opts, options, errp);
 +    if (*errp) {
          ret = -EINVAL;
--        error_propagate(errp, local_err);
-         goto fail;
+         goto exit;
      }
+ 
+     s->threshold = qemu_opt_get_number(opts, QUORUM_OPT_VOTE_THRESHOLD, 0);
+     /* and validate it against s->num_children */
+-    ret = quorum_valid_threshold(s->threshold, s->num_children, &local_err);
++    ret = quorum_valid_threshold(s->threshold, s->num_children, errp);
+     if (ret < 0) {
+         goto exit;
+     }
+@@ -907,7 +907,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+                               -EINVAL, NULL);
+     }
+     if (ret < 0) {
+-        error_setg(&local_err, "Please set read-pattern as fifo or quorum");
++        error_setg(errp, "Please set read-pattern as fifo or quorum");
+         goto exit;
+     }
+     s->read_pattern = ret;
+@@ -915,7 +915,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+     if (s->read_pattern == QUORUM_READ_PATTERN_QUORUM) {
+         s->is_blkverify = qemu_opt_get_bool(opts, QUORUM_OPT_BLKVERIFY, false);
+         if (s->is_blkverify && (s->num_children != 2 || s->threshold != 2)) {
+-            error_setg(&local_err, "blkverify=on can only be set if there are "
++            error_setg(errp, "blkverify=on can only be set if there are "
+                        "exactly two files and vote-threshold is 2");
+             ret = -EINVAL;
+             goto exit;
+@@ -924,7 +924,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+         s->rewrite_corrupted = qemu_opt_get_bool(opts, QUORUM_OPT_REWRITE,
+                                                  false);
+         if (s->rewrite_corrupted && s->is_blkverify) {
+-            error_setg(&local_err,
++            error_setg(errp,
+                        "rewrite-corrupted=on cannot be used with blkverify=on");
+             ret = -EINVAL;
+             goto exit;
+@@ -941,8 +941,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+         assert(ret < 32);
+ 
+         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
+-                                         &child_format, false, &local_err);
+-        if (local_err) {
++                                         &child_format, false, errp);
++        if (*errp) {
+             ret = -EINVAL;
+             goto close_exit;
+         }
+@@ -969,7 +969,6 @@ close_exit:
+ exit:
+     qemu_opts_del(opts);
+     /* propagate error */
+-    error_propagate(errp, local_err);
+     return ret;
+ }
  
 -- 
 2.21.0
