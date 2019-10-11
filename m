@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F890D46E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:48:06 +0200 (CEST)
-Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C49D46CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:41:16 +0200 (CEST)
+Received: from localhost ([::1]:54794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIz1I-0004aw-SW
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
+	id 1iIyuh-0005TP-Aq
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRN-00070y-6A
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:54 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlO-0006n8-Ld
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRL-0004y8-Es
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:53 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48578)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlM-0002Vz-MU
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:34 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49794)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxRL-0004cu-6b; Fri, 11 Oct 2019 12:06:51 -0400
+ id 1iIxlK-0002Sc-Sh; Fri, 11 Oct 2019 12:27:32 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQz-0003XG-AJ; Fri, 11 Oct 2019 19:06:29 +0300
+ id 1iIxR1-0003XG-5G; Fri, 11 Oct 2019 19:06:31 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 098/126] iSCSI: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:24 +0300
-Message-Id: <20191011160552.22907-99-vsementsov@virtuozzo.com>
+Subject: [RFC v5 100/126] NFS: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:26 +0300
+Message-Id: <20191011160552.22907-101-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,8 +49,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
  qemu-block@nongnu.org, Peter Lieven <pl@kamp.de>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+ Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,125 +97,38 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/iscsi.c | 36 +++++++++++++++---------------------
- 1 file changed, 15 insertions(+), 21 deletions(-)
+ block/nfs.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 506bf5f875..bd825fe40e 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -1779,6 +1779,7 @@ static void iscsi_save_designator(IscsiLun *lun,
- static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
-                       Error **errp)
+diff --git a/block/nfs.c b/block/nfs.c
+index f39acfdb28..ec0dbe3385 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -561,21 +561,20 @@ out:
+ static BlockdevOptionsNfs *nfs_options_qdict_to_qapi(QDict *options,
+                                                      Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     IscsiLun *iscsilun = bs->opaque;
-     struct iscsi_context *iscsi = NULL;
-     struct scsi_task *task = NULL;
-@@ -1786,7 +1787,6 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
-     struct scsi_inquiry_supported_pages *inq_vpd;
-     char *initiator_name = NULL;
-     QemuOpts *opts;
+     BlockdevOptionsNfs *opts = NULL;
+     Visitor *v;
+     const QDictEntry *e;
 -    Error *local_err = NULL;
-     const char *transport_name, *portal, *target;
- #if LIBISCSI_API_VERSION >= (20160603)
-     enum iscsi_transport_type transport;
-@@ -1794,9 +1794,8 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
-     int i, ret = 0, timeout = 0, lun;
  
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
--    qemu_opts_absorb_qdict(opts, options, &local_err);
+     v = qobject_input_visitor_new_flat_confused(options, errp);
+     if (!v) {
+         return NULL;
+     }
+ 
+-    visit_type_BlockdevOptionsNfs(v, NULL, &opts, &local_err);
++    visit_type_BlockdevOptionsNfs(v, NULL, &opts, errp);
+     visit_free(v);
+ 
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    qemu_opts_absorb_qdict(opts, options, errp);
 +    if (*errp) {
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -1850,9 +1849,8 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
+         return NULL;
      }
  
-     /* check if we got CHAP username/password via the options */
--    apply_chap(iscsi, opts, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    apply_chap(iscsi, opts, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -1864,9 +1862,8 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
-     }
- 
-     /* check if we got HEADER_DIGEST via the options */
--    apply_header_digest(iscsi, opts, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    apply_header_digest(iscsi, opts, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -1918,9 +1915,8 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
-         flags &= ~BDRV_O_RDWR;
-     }
- 
--    iscsi_readcapacity_sync(iscsilun, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    iscsi_readcapacity_sync(iscsilun, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -2124,8 +2120,8 @@ static void iscsi_reopen_commit(BDRVReopenState *reopen_state)
- static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t offset,
-                                           PreallocMode prealloc, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     IscsiLun *iscsilun = bs->opaque;
--    Error *local_err = NULL;
- 
-     if (prealloc != PREALLOC_MODE_OFF) {
-         error_setg(errp, "Unsupported preallocation mode '%s'",
-@@ -2138,9 +2134,8 @@ static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t offset,
-         return -ENOTSUP;
-     }
- 
--    iscsi_readcapacity_sync(iscsilun, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    iscsi_readcapacity_sync(iscsilun, errp);
-+    if (*errp) {
-         return -EIO;
-     }
- 
-@@ -2159,12 +2154,12 @@ static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t offset,
- static int coroutine_fn iscsi_co_create_opts(const char *filename, QemuOpts *opts,
-                                              Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     int ret = 0;
-     int64_t total_size = 0;
-     BlockDriverState *bs;
-     IscsiLun *iscsilun = NULL;
-     QDict *bs_options;
--    Error *local_err = NULL;
- 
-     bs = bdrv_new();
- 
-@@ -2175,9 +2170,8 @@ static int coroutine_fn iscsi_co_create_opts(const char *filename, QemuOpts *opt
-     iscsilun = bs->opaque;
- 
-     bs_options = qdict_new();
--    iscsi_parse_filename(filename, bs_options, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    iscsi_parse_filename(filename, bs_options, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-     } else {
-         ret = iscsi_open(bs, bs_options, 0, NULL);
 -- 
 2.21.0
 
