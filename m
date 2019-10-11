@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9820D40F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:19:36 +0200 (CEST)
-Received: from localhost ([::1]:50048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBBAD410B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:24:54 +0200 (CEST)
+Received: from localhost ([::1]:50098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIupT-0000zb-OA
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34651)
+	id 1iIuub-0004Ey-8P
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iIuoU-0000XD-Pq
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:18:35 -0400
+ (envelope-from <xiaoyao.li@intel.com>) id 1iIutQ-0003EY-HG
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:23:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iIuoS-0005nx-FZ
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:18:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36948)
+ (envelope-from <xiaoyao.li@intel.com>) id 1iIutL-0008SD-Bn
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:23:37 -0400
+Received: from mga11.intel.com ([192.55.52.93]:18516)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iIuoS-0005nH-9j
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:18:32 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AE5F718C8914;
- Fri, 11 Oct 2019 13:18:30 +0000 (UTC)
-Received: from work-vm (ovpn-117-210.ams2.redhat.com [10.36.117.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D317E5D772;
- Fri, 11 Oct 2019 13:18:29 +0000 (UTC)
-Date: Fri, 11 Oct 2019 14:18:27 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH] migration: use migration_is_active to represent active
- state
-Message-ID: <20191011131827.GA18007@work-vm>
-References: <20190717005341.14140-1-richardw.yang@linux.intel.com>
- <20191008122116.GC3441@work-vm>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191008122116.GC3441@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Fri, 11 Oct 2019 13:18:30 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+ (Exim 4.71) (envelope-from <xiaoyao.li@intel.com>)
+ id 1iIutJ-0008Ln-57
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:23:33 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2019 06:23:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,284,1566889200"; d="scan'208";a="193534282"
+Received: from lxy-dell.sh.intel.com ([10.239.159.46])
+ by fmsmga008.fm.intel.com with ESMTP; 11 Oct 2019 06:23:28 -0700
+Message-ID: <28fc2886186f10954ac773100bdd4ca3c483d362.camel@intel.com>
+Subject: Re: [PATCH] target/i386: Remove MPX support on Snowridge CPU model
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Date: Fri, 11 Oct 2019 21:16:28 +0800
+In-Reply-To: <20191011125723.GP4084@habkost.net>
+References: <20191011071844.108924-1-xiaoyao.li@intel.com>
+ <20191011125723.GP4084@habkost.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-5.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,81 +56,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Wei Yang (richardw.yang@linux.intel.com) wrote:
-> > Wrap the check into a function to make it easy to read.
+On Fri, 2019-10-11 at 09:57 -0300, Eduardo Habkost wrote:
+> On Fri, Oct 11, 2019 at 03:18:44PM +0800, Xiaoyao Li wrote:
+> > MPX support is being phased out by Intel. Following other CPU models
+> > like Skylake, Icelake and Cascadelake, do not enable it by default.
 > > 
-> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Queued
-
-> 
+> > Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 > > ---
-> >  include/migration/misc.h |  1 +
-> >  migration/migration.c    | 12 ++++++++----
-> >  2 files changed, 9 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/include/migration/misc.h b/include/migration/misc.h
-> > index 5cdbabd094..42d6abc920 100644
-> > --- a/include/migration/misc.h
-> > +++ b/include/migration/misc.h
-> > @@ -61,6 +61,7 @@ void migration_object_init(void);
-> >  void migration_shutdown(void);
-> >  void qemu_start_incoming_migration(const char *uri, Error **errp);
-> >  bool migration_is_idle(void);
-> > +bool migration_is_active(MigrationState *);
-> >  void add_migration_state_change_notifier(Notifier *notify);
-> >  void remove_migration_state_change_notifier(Notifier *notify);
-> >  bool migration_in_setup(MigrationState *);
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 43fd8297ef..4c066fc85c 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -1529,8 +1529,7 @@ static void migrate_fd_cleanup(MigrationState *s)
-> >          qemu_fclose(tmp);
-> >      }
-> >  
-> > -    assert((s->state != MIGRATION_STATUS_ACTIVE) &&
-> > -           (s->state != MIGRATION_STATUS_POSTCOPY_ACTIVE));
-> > +    assert(!migration_is_active(s));
-> >  
-> >      if (s->state == MIGRATION_STATUS_CANCELLING) {
-> >          migrate_set_state(&s->state, MIGRATION_STATUS_CANCELLING,
-> > @@ -1690,6 +1689,12 @@ bool migration_is_idle(void)
-> >      return false;
-> >  }
-> >  
-> > +bool migration_is_active(MigrationState *s)
-> > +{
-> > +    return (s->state == MIGRATION_STATUS_ACTIVE ||
-> > +            s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE);
-> > +}
-> > +
-> >  void migrate_init(MigrationState *s)
-> >  {
-> >      /*
-> > @@ -3226,8 +3231,7 @@ static void *migration_thread(void *opaque)
-> >  
-> >      trace_migration_thread_setup_complete();
-> >  
-> > -    while (s->state == MIGRATION_STATUS_ACTIVE ||
-> > -           s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE) {
-> > +    while (migration_is_active(s)) {
-> >          int64_t current_time;
-> >  
-> >          if (urgent || !qemu_file_rate_limit(s->to_dst_file)) {
-> > -- 
-> > 2.17.1
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > I'm not sure is there anyone already use Snowridge CPU model and whether to
+> > add it in pc_compat_4_1, since Snowridge has not been released yet.
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> We have a CPU model versioning mechanism now, please implement this using the
+> new system.  e.g.:
+> 
+>         .versions = (X86CPUVersionDefinition[]) {
+>             { .version = 1 },
+>             {
+>                 .version = 2,
+>                 .props = (PropValue[]) {
+>                     { "mpx", "off" },
+>                     { /* end of list */ }
+>                 }
+>             },
+>             { /* end of list */ }
+>         }
+> 
+> Then machine-type compat properties won't be needed anymore.
+
+Since Snowridge CPU hasn't been released yet and I guess there might be no real
+user use this CPU model. So do we really need to add v2? Can we just remove the
+mpx feature in the original version?
+
+> > 
+> > ---
+> >  hw/i386/pc.c      | 4 +++-
+> >  target/i386/cpu.c | 1 -
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> > index bcda50efcc23..97eb7ac32588 100644
+> > --- a/hw/i386/pc.c
+> > +++ b/hw/i386/pc.c
+> > @@ -105,7 +105,9 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+> >  /* Physical Address of PVH entry point read from kernel ELF NOTE */
+> >  static size_t pvh_start_addr;
+> >  
+> > -GlobalProperty pc_compat_4_1[] = {};
+> > +GlobalProperty pc_compat_4_1[] = {
+> > +    { "Snowridge" "-" TYPE_X86_CPU, "mpx", "on" },
+> > +};
+> >  const size_t pc_compat_4_1_len = G_N_ELEMENTS(pc_compat_4_1);
+> >  
+> >  GlobalProperty pc_compat_4_0[] = {};
+> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > index 44f1bbdcac76..885bea76205d 100644
+> > --- a/target/i386/cpu.c
+> > +++ b/target/i386/cpu.c
+> > @@ -2762,7 +2762,6 @@ static X86CPUDefinition builtin_x86_defs[] = {
+> >              CPUID_7_0_EBX_FSGSBASE |
+> >              CPUID_7_0_EBX_SMEP |
+> >              CPUID_7_0_EBX_ERMS |
+> > -            CPUID_7_0_EBX_MPX |  /* missing bits 13, 15 */
+> >              CPUID_7_0_EBX_RDSEED |
+> >              CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
+> >              CPUID_7_0_EBX_CLWB |
+> > -- 
+> > 2.19.1
+> > 
+> 
+> 
+
 
