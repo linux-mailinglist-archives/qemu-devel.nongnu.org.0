@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BD4D47D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:46:54 +0200 (CEST)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A458D47E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:49:02 +0200 (CEST)
+Received: from localhost ([::1]:55810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzwD-00062e-JN
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
+	id 1iIzyH-000899-3Q
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iIzuO-0004rU-HT
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:45:01 -0400
+ (envelope-from <mindentropy@gmail.com>) id 1iIzwm-00072s-Oc
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:47:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iIzuL-0002pq-KZ
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:44:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40070)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzuL-0002p5-Bk
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:44:57 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 01F9EA3CD64;
- Fri, 11 Oct 2019 18:44:56 +0000 (UTC)
-Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F03110018FF;
- Fri, 11 Oct 2019 18:44:55 +0000 (UTC)
-Subject: Re: [RFC v5 027/126] misc: introduce ERRP_AUTO_PROPAGATE
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-28-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <632cfeaf-52cd-829a-2f49-b7302f558a3a@redhat.com>
-Date: Fri, 11 Oct 2019 13:44:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <mindentropy@gmail.com>) id 1iIzwk-0004eI-N8
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:47:28 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:39655)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mindentropy@gmail.com>)
+ id 1iIzwk-0004ax-IY
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:47:26 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id n7so15274286qtb.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 11:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=cB32g707z84hqWl4LgeRCHqbQQYwq6Ta2LTjE7ckE9o=;
+ b=Nfwz5eelVPAnE5+ByEngA08m7jn6xb+qce0KoSoBzQENarhFX8rUrKka4zGepcttRp
+ Z2GlHt0AHrQ0yHCQT/v4LKdw7JhpP3RewPsVV+rKHgPCMs4imFhgrSumRDaSOnfAFgMk
+ RKnjvDC46ujA6XbXeMkFxDjt8ECMev3lUGY3s8UTUthKpV3A8O2AvceDNxCBjfT6jiTv
+ Aftd5bIVamTA25ylhUtsXf7IM2PBCtwhudPep8gEFf+XGa1By4LoSRCkyoIU70pN+SDe
+ Zdow5EF8VuvB7AVGS8H3EZt7OlB39afNvMviQJSJ/EVYt3eUMsDTXUBc5khheMleSX3Z
+ Py+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=cB32g707z84hqWl4LgeRCHqbQQYwq6Ta2LTjE7ckE9o=;
+ b=dszBkFlEeRm0cWzwdnNDiMmjgk9QYYYZLMKEL8uQIWjA7rgawxqOGUApn5u42CwqJX
+ yQ0g4+wOqupW44Sbamj0guD4l0Gc0mSyLRw33QsJasVi9IcNdj2RRwMkPS/vuUtG0XJm
+ WE7eo0T/1HWVwPVYHjWmh9pQRD0rmP5h+ZbmUZJosFEykhxiHm4r8s0quUJY4EcUfgYw
+ 385gzwBQITJPh+VEhL8eZHDiRWE9QBAvy+DraRZ55G2ZqT+aVw+I0Sk7ASDBm4JuoYdI
+ 0VvBhJOgM58EfnCwIO3ycgD+dzdo4xbig4LLZMcVezV78iU3G/im9pwDPGgsLk6ZGfNu
+ 4aLw==
+X-Gm-Message-State: APjAAAVTGjvb5TCG2DKdyQxmpHw2iiRkrjCupuZEzI4ofF6ldtgQQVih
+ x1nQfPUQZTOxYanuO4lzSi8G/5jsx9y/N8MFTHdqPg==
+X-Google-Smtp-Source: APXvYqyUNBAv0gbaMdlTpdqOByYykQxSk5X/ShDl7V+nbHnPkDJz7ej2hO4wY2B93dTuOY5VNI9wbBMqxVvqFcwy1Nw=
+X-Received: by 2002:ad4:4583:: with SMTP id x3mr17939372qvu.162.1570819641851; 
+ Fri, 11 Oct 2019 11:47:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191011160552.22907-28-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Fri, 11 Oct 2019 18:44:56 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+From: Gautam Bhat <mindentropy@gmail.com>
+Date: Sat, 12 Oct 2019 00:17:10 +0530
+Message-ID: <CAM2a4uzF-mtTEYwQE3+MvvDiQrfC_KQMwX4vqCg_dY9ytjZrjA@mail.gmail.com>
+Subject: ACPI table modifications
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000c245850594a6f2a2"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::82d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,103 +68,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 11:04 AM, Vladimir Sementsov-Ogievskiy wrote:
-> If we want to add some info to errp (by error_prepend() or
-> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-> Otherwise, this info will not be added when errp == &fatal_err
-> (the program will exit prior to the error_append_hint() or
-> error_prepend() call).  Fix such cases.
-> 
-> If we want to check error after errp-function call, we need to
-> introduce local_err and than propagate it to errp. Instead, use
-> ERRP_AUTO_PROPAGATE macro, benefits are:
-> 1. No need of explicit error_propagate call
-> 2. No need of explicit local_err variable: use errp directly
-> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
->     &error_fatel, this means that we don't break error_abort
->     (we'll abort on error_set, not on error_propagate)
-> 
-> This commit (together with its neighbors) was generated by
-> 
-> for f in $(git grep -l errp \*.[ch]); do \
->      spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
->      --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
-> done;
-> 
-> then fix a bit of compilation problems: coccinelle for some reason
-> leaves several
-> f() {
->      ...
->      goto out;
->      ...
->      out:
-> }
-> patterns, with "out:" at function end.
+--000000000000c245850594a6f2a2
+Content-Type: text/plain; charset="UTF-8"
 
-Was that still happening even after your tweaks to the .cocci script? 
-But manual touch-up after cocci is not unheard of, so it is not a 
-showstopper to the series.  Still, it might be nicer if this disclaimer 
-only appears on the patches within the series where it actually matters, 
-rather than on every message in the series even when no tweaks were 
-needed (as this patch is an example where the touchup was not needed).
+Hi,
 
-> 
-> then
-> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
-> 
+I want to add some I2C based temperature sensors to the -M Q35 machine. I
+want to update the ACPI tables to add this device information. How can I go
+about  doing this?
 
-If we don't check the python script into git, then changing this to a 
-URL to one of the threads where you posted the script in an earlier 
-version of the patch is also acceptable.
+Thanks,
+Gautam.
 
-> (auto-msg was a file with this commit message)
-> 
-> Still, for backporting it may be more comfortable to use only the first
-> command and then do one huge commit.
-> 
-> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> Reported-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   hw/misc/ivshmem.c | 37 ++++++++++++++++---------------------
->   hw/misc/tmp105.c  |  7 +++----
->   hw/misc/tmp421.c  |  7 +++----
->   3 files changed, 22 insertions(+), 29 deletions(-)
-> 
+--000000000000c245850594a6f2a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> @@ -864,6 +858,7 @@ static void ivshmem_write_config(PCIDevice *pdev, uint32_t address,
->   
->   static void ivshmem_common_realize(PCIDevice *dev, Error **errp)
->   {
-> +    ERRP_AUTO_PROPAGATE();
->       IVShmemState *s = IVSHMEM_COMMON(dev);
->       Error *err = NULL;
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif">Hi,</div><div class=3D"gmail_default" style=3D"font-family:verd=
+ana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-family=
+:verdana,sans-serif">I want to add some I2C based temperature sensors to th=
+e -M Q35 machine. I want to update the ACPI tables to add this device infor=
+mation. How can I go about=C2=A0 doing this?</div><div class=3D"gmail_defau=
+lt" style=3D"font-family:verdana,sans-serif"><br></div><div class=3D"gmail_=
+default" style=3D"font-family:verdana,sans-serif">Thanks,</div><div class=
+=3D"gmail_default" style=3D"font-family:verdana,sans-serif">Gautam.<br></di=
+v></div>
 
-Umm, so why did Coccinelle not remove this line, or retouch lower down at:
-
-     if (!ivshmem_is_master(s)) {
-         error_setg(&s->migration_blocker,
-                    "Migration is disabled when using feature 'peer 
-mode' in devi
-ce 'ivshmem'");
-         migrate_add_blocker(s->migration_blocker, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             error_free(s->migration_blocker);
-             return;
-         }
-     }
-
-
-But the conversions that Coccinelle made look correct.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+--000000000000c245850594a6f2a2--
 
