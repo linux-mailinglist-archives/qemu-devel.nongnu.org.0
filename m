@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22238D468C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:24:13 +0200 (CEST)
-Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032B3D469E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:29:35 +0200 (CEST)
+Received: from localhost ([::1]:54664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyeB-000096-Jo
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36836)
+	id 1iIyjN-0007Vo-VH
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0006aw-GF
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRD-0006jF-2U
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0004ja-0h
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48386)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004om-NW
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48468)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR4-0004Qo-MV
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
+ id 1iIxR8-0004WH-B7
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQt-0003XG-Av; Fri, 11 Oct 2019 19:06:23 +0300
+ id 1iIxQw-0003XG-9B; Fri, 11 Oct 2019 19:06:26 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 080/126] QAPI: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:06 +0300
-Message-Id: <20191011160552.22907-81-vsementsov@virtuozzo.com>
+Subject: [RFC v5 089/126] I/O Channels: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:15 +0300
+Message-Id: <20191011160552.22907-90-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,217 +98,81 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/qapi-visit-core.c      | 56 ++++++++++++++++---------------------
- qapi/qmp-dispatch.c         |  7 ++---
- qapi/string-input-visitor.c |  7 ++---
- 3 files changed, 30 insertions(+), 40 deletions(-)
+ io/dns-resolver.c | 7 +++----
+ io/net-listener.c | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 5365561b07..f8c5be9130 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -39,18 +39,17 @@ void visit_free(Visitor *v)
- void visit_start_struct(Visitor *v, const char *name, void **obj,
-                         size_t size, Error **errp)
+diff --git a/io/dns-resolver.c b/io/dns-resolver.c
+index 6ebe2a5650..a45c5ca0c8 100644
+--- a/io/dns-resolver.c
++++ b/io/dns-resolver.c
+@@ -52,13 +52,13 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
+                                              SocketAddress ***addrs,
+                                              Error **errp)
  {
--    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
- 
-     trace_visit_start_struct(v, name, obj, size);
-     if (obj) {
-         assert(size);
-         assert(!(v->type & VISITOR_OUTPUT) || *obj);
-     }
--    v->start_struct(v, name, obj, size, &err);
-+    v->start_struct(v, name, obj, size, errp);
-     if (obj && (v->type & VISITOR_INPUT)) {
--        assert(!err != !*obj);
-+        assert(!*errp != !*obj);
-     }
--    error_propagate(errp, err);
- }
- 
- void visit_check_struct(Visitor *v, Error **errp)
-@@ -70,15 +69,14 @@ void visit_end_struct(Visitor *v, void **obj)
- void visit_start_list(Visitor *v, const char *name, GenericList **list,
-                       size_t size, Error **errp)
- {
+     struct addrinfo ai, *res, *e;
+     InetSocketAddress *iaddr = &addr->u.inet;
+     char port[33];
+     char uaddr[INET6_ADDRSTRLEN + 1];
+     char uport[33];
+     int rc;
 -    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
+     size_t i;
  
-     assert(!list || size >= sizeof(GenericList));
-     trace_visit_start_list(v, name, list, size);
--    v->start_list(v, name, list, size, &err);
-+    v->start_list(v, name, list, size, errp);
-     if (list && (v->type & VISITOR_INPUT)) {
--        assert(!(err && *list));
-+        assert(!(*errp && *list));
+     *naddrs = 0;
+@@ -69,11 +69,10 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
+     if (iaddr->has_numeric && iaddr->numeric) {
+         ai.ai_flags |= AI_NUMERICHOST | AI_NUMERICSERV;
      }
--    error_propagate(errp, err);
- }
+-    ai.ai_family = inet_ai_family_from_address(iaddr, &err);
++    ai.ai_family = inet_ai_family_from_address(iaddr, errp);
+     ai.ai_socktype = SOCK_STREAM;
  
- GenericList *visit_next_list(Visitor *v, GenericList *tail, size_t size)
-@@ -106,18 +104,17 @@ void visit_start_alternate(Visitor *v, const char *name,
-                            GenericAlternate **obj, size_t size,
-                            Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
-     assert(obj && size >= sizeof(GenericAlternate));
-     assert(!(v->type & VISITOR_OUTPUT) || *obj);
-     trace_visit_start_alternate(v, name, obj, size);
-     if (v->start_alternate) {
--        v->start_alternate(v, name, obj, size, &err);
-+        v->start_alternate(v, name, obj, size, errp);
-     }
-     if (v->type & VISITOR_INPUT) {
--        assert(v->start_alternate && !err != !*obj);
-+        assert(v->start_alternate && !*errp != !*obj);
-     }
--    error_propagate(errp, err);
- }
- 
- void visit_end_alternate(Visitor *v, void **obj)
-@@ -152,12 +149,11 @@ void visit_type_int(Visitor *v, const char *name, int64_t *obj, Error **errp)
- static void visit_type_uintN(Visitor *v, uint64_t *obj, const char *name,
-                              uint64_t max, const char *type, Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     uint64_t value = *obj;
- 
--    v->type_uint64(v, name, &value, &err);
 -    if (err) {
 -        error_propagate(errp, err);
-+    v->type_uint64(v, name, &value, errp);
 +    if (*errp) {
-     } else if (value > max) {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                    name ? name : "null", type);
-@@ -211,12 +207,11 @@ static void visit_type_intN(Visitor *v, int64_t *obj, const char *name,
-                             int64_t min, int64_t max, const char *type,
-                             Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     int64_t value = *obj;
+         return -1;
+     }
  
--    v->type_int64(v, name, &value, &err);
--    if (err) {
+diff --git a/io/net-listener.c b/io/net-listener.c
+index 5d8a226872..ba000e7ede 100644
+--- a/io/net-listener.c
++++ b/io/net-listener.c
+@@ -65,11 +65,11 @@ int qio_net_listener_open_sync(QIONetListener *listener,
+                                int num,
+                                Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     QIODNSResolver *resolver = qio_dns_resolver_get_instance();
+     SocketAddress **resaddrs;
+     size_t nresaddrs;
+     size_t i;
+-    Error *err = NULL;
+     bool success = false;
+ 
+     if (qio_dns_resolver_lookup_sync(resolver,
+@@ -84,7 +84,7 @@ int qio_net_listener_open_sync(QIONetListener *listener,
+         QIOChannelSocket *sioc = qio_channel_socket_new();
+ 
+         if (qio_channel_socket_listen_sync(sioc, resaddrs[i], num,
+-                                           err ? NULL : &err) == 0) {
++                                           *errp ? NULL : errp) == 0) {
+             success = true;
+ 
+             qio_net_listener_add(listener, sioc);
+@@ -96,10 +96,9 @@ int qio_net_listener_open_sync(QIONetListener *listener,
+     g_free(resaddrs);
+ 
+     if (success) {
+-        error_free(err);
++        error_free_errp(errp);
+         return 0;
+     } else {
 -        error_propagate(errp, err);
-+    v->type_int64(v, name, &value, errp);
-+    if (*errp) {
-     } else if (value < min || value > max) {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                    name ? name : "null", type);
-@@ -286,7 +281,7 @@ void visit_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
- 
- void visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
-     assert(obj);
-     /* TODO: Fix callers to not pass NULL when they mean "", so that we
-@@ -294,11 +289,10 @@ void visit_type_str(Visitor *v, const char *name, char **obj, Error **errp)
-     assert(!(v->type & VISITOR_OUTPUT) || *obj);
-      */
-     trace_visit_type_str(v, name, obj);
--    v->type_str(v, name, obj, &err);
-+    v->type_str(v, name, obj, errp);
-     if (v->type & VISITOR_INPUT) {
--        assert(!err != !*obj);
-+        assert(!*errp != !*obj);
+         return -1;
      }
--    error_propagate(errp, err);
  }
- 
- void visit_type_number(Visitor *v, const char *name, double *obj,
-@@ -311,16 +305,15 @@ void visit_type_number(Visitor *v, const char *name, double *obj,
- 
- void visit_type_any(Visitor *v, const char *name, QObject **obj, Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
-     assert(obj);
-     assert(v->type != VISITOR_OUTPUT || *obj);
-     trace_visit_type_any(v, name, obj);
--    v->type_any(v, name, obj, &err);
-+    v->type_any(v, name, obj, errp);
-     if (v->type == VISITOR_INPUT) {
--        assert(!err != !*obj);
-+        assert(!*errp != !*obj);
-     }
--    error_propagate(errp, err);
- }
- 
- void visit_type_null(Visitor *v, const char *name, QNull **obj,
-@@ -352,13 +345,12 @@ static void output_type_enum(Visitor *v, const char *name, int *obj,
- static void input_type_enum(Visitor *v, const char *name, int *obj,
-                             const QEnumLookup *lookup, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     int64_t value;
-     char *enum_str;
- 
--    visit_type_str(v, name, &enum_str, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    visit_type_str(v, name, &enum_str, errp);
-+    if (*errp) {
-         return;
-     }
- 
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index bc264b3c9b..205e183871 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -78,7 +78,7 @@ static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_oob,
- static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
-                                 bool allow_oob, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     bool oob;
-     const char *command;
-     QDict *args, *dict;
-@@ -129,9 +129,8 @@ static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
-         qobject_ref(args);
-     }
- 
--    cmd->fn(args, &ret, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    cmd->fn(args, &ret, errp);
-+    if (*errp) {
-     } else if (cmd->options & QCO_NO_SUCCESS_RESP) {
-         g_assert(!ret);
-     } else if (!ret) {
-diff --git a/qapi/string-input-visitor.c b/qapi/string-input-visitor.c
-index 9be418b6d6..ef9b9b961a 100644
---- a/qapi/string-input-visitor.c
-+++ b/qapi/string-input-visitor.c
-@@ -313,14 +313,13 @@ static void parse_type_uint64(Visitor *v, const char *name, uint64_t *obj,
- static void parse_type_size(Visitor *v, const char *name, uint64_t *obj,
-                             Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     StringInputVisitor *siv = to_siv(v);
--    Error *err = NULL;
-     uint64_t val;
- 
-     assert(siv->lm == LM_NONE);
--    parse_option_size(name, siv->string, &val, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    parse_option_size(name, siv->string, &val, errp);
-+    if (*errp) {
-         return;
-     }
- 
 -- 
 2.21.0
 
