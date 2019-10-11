@@ -2,69 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44447D49C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:17:21 +0200 (CEST)
-Received: from localhost ([::1]:57026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024B7D49DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:29:16 +0200 (CEST)
+Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ2Hn-0007IW-Q5
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53831)
+	id 1iJ2TK-0004P3-R1
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54985)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iJ2Fj-0006gi-04
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:15:13 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iJ2QI-00027F-8O
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:26:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iJ2Fh-00064t-8j
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:15:10 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41332)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iJ2Fh-00064T-0G
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:15:09 -0400
-Received: by mail-ot1-x344.google.com with SMTP id g13so9145461otp.8
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 14:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=7LdmbTs9qV6aqwRqrfduURKFO2GjoNPW5Qiouy36Vp4=;
- b=HWuSik5eR9rscyiFxQ8XKXVTi8haVNuhZiL2Sp9WjDNVbuGrIrjsgJOO2TZrUVhkdR
- 0XHNPcoLyLR7O3n2sb24PfF1vifIpXMwJ/yNP7SW93f84f0YKq2MxuyfV5UYx4swsZG+
- U26gAwGAr7pbTbYN/Wm7OWEqA1OAM/HhTar+JUbEtfJgkTy+VcXbloGAwCeNpaPj7zV6
- 74zYrYZVj/w5I0RGlcfTVlIUEYv2tcVgWVl2JDD/SsiQQTQRYei+q8Nii7Xk/r1clTaK
- uO0mjpsHr+lmVA7q0unokQfA8p27BjehIBMLLjP+i5Xp0u+dWy8WK8NmWJRdxys0cUAH
- vc5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=7LdmbTs9qV6aqwRqrfduURKFO2GjoNPW5Qiouy36Vp4=;
- b=ACg6FJW8zeU4+b9WSD+r9FcAA1ayu10Jjq5jhpwlvpqTLQ0FXSB9NE+vNLktW0Ipqq
- bKnzP4wzx6Rj35HEJgwthcP9xcsodEudvNuuTfRJEzxKGx7n7jiMWa4E0s0zwvGsmA/j
- Z0a4O14Q1Y7DY41X18UI0eiU80227wL1v9JQTG9Z/wVB9fW3ES5fsopa+a7P3d6LOgZe
- hZdFTe2QIuMinBK88B4gUQlNEFG7yPZD7IQHM44kO+1MuoWih4pvRduah6HaVvPvQ7Ns
- tAVlHzyKc0tYTAOXNlp9uQIL5bb6L3TJI5qJzSBbbhNuWdV2fsNhHQDRfaEGYnIs4MGu
- TSgg==
-X-Gm-Message-State: APjAAAU6FC1AyB5I8wuHf8NusQXS++uFoV7hO3M0XJNmR82b4OeEzDJI
- JokTtMqZJ/qsK3aDt0ImtbNkPN6qghfijF2SFvE=
-X-Google-Smtp-Source: APXvYqyQABWKSi6iMiHUg/hQItY/lKVT5qTM+UgNAExG3sSANaiEpo1LsIsIYzTuXrXTFw4cdphCe0hbrcf6c4eVaHE=
-X-Received: by 2002:a9d:4f0f:: with SMTP id d15mr13979027otl.64.1570828508093; 
- Fri, 11 Oct 2019 14:15:08 -0700 (PDT)
+ (envelope-from <jsnow@redhat.com>) id 1iJ2QH-0000z5-0Z
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:26:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34242)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iJ2QD-0000xv-2d; Fri, 11 Oct 2019 17:26:01 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 313C7A3CD67;
+ Fri, 11 Oct 2019 21:26:00 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-173.bos.redhat.com [10.18.17.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66AA545A3;
+ Fri, 11 Oct 2019 21:25:51 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/19] Bitmaps patches
+Date: Fri, 11 Oct 2019 17:25:31 -0400
+Message-Id: <20191011212550.27269-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 11 Oct 2019 14:15:07
- -0700 (PDT)
-In-Reply-To: <87y2xrl0ta.fsf@linaro.org>
-References: <20190902140134.74081-1-mrolnik@gmail.com>
- <949009b8-58ec-4a9e-cfd7-7d4611fad380@redhat.com>
- <CAL1e-=h1PV6djRgWXikjnU79Ca7Pjfw9=0u9__Nz00FJ4R49Hg@mail.gmail.com>
- <87y2xrl0ta.fsf@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 11 Oct 2019 23:15:07 +0200
-Message-ID: <CAL1e-=i-dqSy7dXhs_OAtfWEcSnKccQ6QvDOGPj42oruCAxV=Q@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH v30 0/8] QEMU AVR 8 bit cores
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000003a653a0594a90382"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 11 Oct 2019 21:26:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,240 +54,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>, Michael Rolnik <mrolnik@gmail.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003a653a0594a90382
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e7=
+2d:
 
-On Friday, October 11, 2019, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request'=
+ into staging (2019-10-08 16:08:35 +0100)
 
->
-> Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
->
-> > On Friday, October 11, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com>
-> > wrote:
-> >
-> >> Hi Michael,
-> >>
-> >> On 9/2/19 4:01 PM, Michael Rolnik wrote:
-> >>
-> >>> This series of patches adds 8bit AVR cores to QEMU.
-> >>> All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not full=
-y
-> >>> tested yet.
-> >>> However I was able to execute simple code with functions. e.g fibonac=
-ci
-> >>> calculation.
-> >>> This series of patches include a non real, sample board.
-> >>> No fuses support yet. PC is set to 0 at reset.
-> >>>
-> >>> the patches include the following
-> >>> 1. just a basic 8bit AVR CPU, without instruction decoding or
-> translation
-> >>> 2. CPU features which allow define the following 8bit AVR cores
-> >>>       avr1
-> >>>       avr2 avr25
-> >>>       avr3 avr31 avr35
-> >>>       avr4
-> >>>       avr5 avr51
-> >>>       avr6
-> >>>       xmega2 xmega4 xmega5 xmega6 xmega7
-> >>> 3. a definition of sample machine with SRAM, FLASH and CPU which allo=
-ws
-> >>> to execute simple code
-> >>> 4. encoding for all AVR instructions
-> >>> 5. interrupt handling
-> >>> 6. helpers for IN, OUT, SLEEP, WBR & unsupported instructions
-> >>> 7. a decoder which given an opcode decides what istruction it is
-> >>> 8. translation of AVR instruction into TCG
-> >>> 9. all features together
-> >>>
-> >>> [..]
-> >>
-> >>> Michael Rolnik (7):
-> >>>    target/avr: Add outward facing interfaces and core CPU logic
-> >>>    target/avr: Add instruction helpers
-> >>>    target/avr: Add instruction decoding
-> >>>    target/avr: Add instruction translation
-> >>>    target/avr: Add example board configuration
-> >>>    target/avr: Register AVR support with the rest of QEMU, the build
-> >>>      system, and the MAINTAINERS file
-> >>>    target/avr: Add tests
-> >>>
-> >>> Sarah Harris (1):
-> >>>    target/avr: Add limited support for USART and 16 bit timer
-> peripherals
-> >>>
-> >>
-> >> Overall architecture patches look good, but I'd like some more time to
-> >> review the hardware patches. Unfortunately I won't have time until
-> November.
-> >> There was a chat on IRC about your series,
-> >>
-> > I don't see the reason why do you initiate IRC communication on this
-> topic,
-> > if we have the mailing list for discussing such important issues as
-> > introducing a new target (that should be definitely visible to all
-> > participants).
->
-> IRC is often a good way of quickly discussing something when someone is
-> about (often as a tangent from another discussion). I don't think there
-> is anything wrong with that as long as it's followed up on the mailing
-> list.
->
->
-OK, at least the series got some attention, be it on IRC or on the list. I
-still find it odd that suddenly, after months and months of this series
-practically sitting on the list, any suggestion couldn't first be discussed
-here, so that we collectively find the best outcome. But, yes, I probably
-produced much ado about nothing. I hope that this would soon result in
-helping Michael complete the integration. Micheal, whatever I said
-regarding patch 4, is only a suggestion - if others are fine with it, I am
-fine too. Best luck to all involved! :)
+are available in the Git repository at:
 
-Aleksandar
+  https://github.com/jnsnow/qemu.git tags/bitmaps-pull-request
 
+for you to fetch changes up to b97d9a1014b61dd0980e7f4a0c9ca1e3b0aaa761:
 
+  dirty-bitmaps: remove deprecated autoload parameter (2019-10-09 17:02:4=
+5 -0400)
 
-> >
-> >> I suggested Richard we could merge patches 1-4 and 7. They are almost
-> >> sufficient to run the qemu-avr-tests gdbstub tests (but not the FreeRT=
-OS
-> >> ones).
->
-> Which is was ;-)
->
-> --
-> Alex Benn=C3=A9e
->
->
+----------------------------------------------------------------
+Pull request
 
---0000000000003a653a0594a90382
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+----------------------------------------------------------------
 
-<br><br>On Friday, October 11, 2019, Alex Benn=C3=A9e &lt;<a href=3D"mailto=
-:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><br>
-Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com">alek=
-sandar.m.mail@gmail.com</a>&gt; writes:<br>
-<br>
-&gt; On Friday, October 11, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a href=
-=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; Hi Michael,<br>
-&gt;&gt;<br>
-&gt;&gt; On 9/2/19 4:01 PM, Michael Rolnik wrote:<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; This series of patches adds 8bit AVR cores to QEMU.<br>
-&gt;&gt;&gt; All instruction, except BREAK/DES/SPM/SPMX, are implemented. N=
-ot fully<br>
-&gt;&gt;&gt; tested yet.<br>
-&gt;&gt;&gt; However I was able to execute simple code with functions. e.g =
-fibonacci<br>
-&gt;&gt;&gt; calculation.<br>
-&gt;&gt;&gt; This series of patches include a non real, sample board.<br>
-&gt;&gt;&gt; No fuses support yet. PC is set to 0 at reset.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; the patches include the following<br>
-&gt;&gt;&gt; 1. just a basic 8bit AVR CPU, without instruction decoding or =
-translation<br>
-&gt;&gt;&gt; 2. CPU features which allow define the following 8bit AVR core=
-s<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0avr1<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0avr2 avr25<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0avr3 avr31 avr35<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0avr4<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0avr5 avr51<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0avr6<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0xmega2 xmega4 xmega5 xmega6 xmega7<b=
-r>
-&gt;&gt;&gt; 3. a definition of sample machine with SRAM, FLASH and CPU whi=
-ch allows<br>
-&gt;&gt;&gt; to execute simple code<br>
-&gt;&gt;&gt; 4. encoding for all AVR instructions<br>
-&gt;&gt;&gt; 5. interrupt handling<br>
-&gt;&gt;&gt; 6. helpers for IN, OUT, SLEEP, WBR &amp; unsupported instructi=
-ons<br>
-&gt;&gt;&gt; 7. a decoder which given an opcode decides what istruction it =
-is<br>
-&gt;&gt;&gt; 8. translation of AVR instruction into TCG<br>
-&gt;&gt;&gt; 9. all features together<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; [..]<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; Michael Rolnik (7):<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add outward facing interfaces and cor=
-e CPU logic<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add instruction helpers<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add instruction decoding<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add instruction translation<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add example board configuration<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Register AVR support with the rest of=
- QEMU, the build<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 system, and the MAINTAINERS file<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add tests<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Sarah Harris (1):<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 target/avr: Add limited support for USART and 16 =
-bit timer peripherals<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Overall architecture patches look good, but I&#39;d like some more=
- time to<br>
-&gt;&gt; review the hardware patches. Unfortunately I won&#39;t have time u=
-ntil November.<br>
-&gt;&gt; There was a chat on IRC about your series,<br>
-&gt;&gt;<br>
-&gt; I don&#39;t see the reason why do you initiate IRC communication on th=
-is topic,<br>
-&gt; if we have the mailing list for discussing such important issues as<br=
->
-&gt; introducing a new target (that should be definitely visible to all<br>
-&gt; participants).<br>
-<br>
-IRC is often a good way of quickly discussing something when someone is<br>
-about (often as a tangent from another discussion). I don&#39;t think there=
-<br>
-is anything wrong with that as long as it&#39;s followed up on the mailing<=
-br>
-list.<br>
-<br></blockquote><div><br></div><div>OK, at least the series got some atten=
-tion, be it on IRC or on the list. I still find it odd that suddenly, after=
- months and months of this series practically sitting on the list, any sugg=
-estion couldn&#39;t first be discussed here, so that we collectively find t=
-he best outcome. But, yes, I probably produced much ado about nothing. I ho=
-pe that this would soon result in helping Michael complete the integration.=
- Micheal, whatever I said regarding patch 4, is only a suggestion - if othe=
-rs are fine with it, I am fine too. Best luck to all involved! :)</div><div=
-><br></div><div>Aleksandar</div><div><br></div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">
-&gt;<br>
-&gt;&gt; I suggested Richard we could merge patches 1-4 and 7. They are alm=
-ost<br>
-&gt;&gt; sufficient to run the qemu-avr-tests gdbstub tests (but not the Fr=
-eeRTOS<br>
-&gt;&gt; ones).<br>
-<br>
-Which is was ;-)<br>
-<br>
---<br>
-Alex Benn=C3=A9e<br>
-<br>
-</blockquote>
+John Snow (2):
+  MAINTAINERS: Add Vladimir as a reviewer for bitmaps
+  dirty-bitmaps: remove deprecated autoload parameter
 
---0000000000003a653a0594a90382--
+Vladimir Sementsov-Ogievskiy (17):
+  util/hbitmap: strict hbitmap_reset
+  block: move bdrv_can_store_new_dirty_bitmap to block/dirty-bitmap.c
+  block/dirty-bitmap: return int from
+    bdrv_remove_persistent_dirty_bitmap
+  block/qcow2: proper locking on bitmap add/remove paths
+  block/dirty-bitmap: drop meta
+  block/dirty-bitmap: add bs link
+  block/dirty-bitmap: drop BdrvDirtyBitmap.mutex
+  block/dirty-bitmap: refactor bdrv_dirty_bitmap_next
+  block: switch reopen queue from QSIMPLEQ to QTAILQ
+  block: reverse order for reopen commits
+  iotests: add test-case to 165 to test reopening qcow2 bitmaps to RW
+  block/qcow2-bitmap: get rid of bdrv_has_changed_persistent_bitmaps
+  block/qcow2-bitmap: drop qcow2_reopen_bitmaps_rw_hint()
+  block/qcow2-bitmap: do not remove bitmaps on reopen-ro
+  iotests: add test 260 to check bitmap life after snapshot + commit
+  block/qcow2-bitmap: fix and improve qcow2_reopen_bitmaps_rw
+  qcow2-bitmap: move bitmap reopen-rw code to qcow2_reopen_commit
+
+ qemu-deprecated.texi           |  20 ++-
+ qapi/block-core.json           |   6 +-
+ block/qcow2.h                  |  19 +--
+ include/block/block.h          |   2 +-
+ include/block/block_int.h      |  20 +--
+ include/block/dirty-bitmap.h   |  34 ++--
+ include/qemu/hbitmap.h         |   5 +
+ block.c                        |  79 +++------
+ block/backup.c                 |  14 +-
+ block/dirty-bitmap.c           | 290 +++++++++++++++++++--------------
+ block/mirror.c                 |   4 +-
+ block/qcow2-bitmap.c           | 212 +++++++++++++++---------
+ block/qcow2.c                  |  22 ++-
+ blockdev.c                     |  40 ++---
+ migration/block-dirty-bitmap.c |  11 +-
+ migration/block.c              |   4 +-
+ tests/test-hbitmap.c           |   2 +-
+ util/hbitmap.c                 |   4 +
+ MAINTAINERS                    |   3 +-
+ tests/qemu-iotests/165         |  57 ++++++-
+ tests/qemu-iotests/165.out     |   4 +-
+ tests/qemu-iotests/260         |  89 ++++++++++
+ tests/qemu-iotests/260.out     |  52 ++++++
+ tests/qemu-iotests/group       |   1 +
+ 24 files changed, 624 insertions(+), 370 deletions(-)
+ create mode 100755 tests/qemu-iotests/260
+ create mode 100644 tests/qemu-iotests/260.out
+
+--=20
+2.21.0
+
 
