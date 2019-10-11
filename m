@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58545D4588
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:37:46 +0200 (CEST)
-Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7959D457B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:34:40 +0200 (CEST)
+Received: from localhost ([::1]:53926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxvF-0007wv-1M
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36628)
+	id 1iIxsF-0003ze-2v
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR2-0006Qy-JX
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR3-0006Rv-3p
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR1-0004e2-D3
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR1-0004eO-Ms
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:32 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47980)
+Received: from relay.sw.ru ([185.231.240.75]:47990)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR1-0004B5-5J; Fri, 11 Oct 2019 12:06:31 -0400
+ id 1iIxR1-0004B7-Dm; Fri, 11 Oct 2019 12:06:31 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQf-0003XG-RV; Fri, 11 Oct 2019 19:06:09 +0300
+ id 1iIxQg-0003XG-37; Fri, 11 Oct 2019 19:06:10 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 039/126] IDE: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:25 +0300
-Message-Id: <20191011160552.22907-40-vsementsov@virtuozzo.com>
+Subject: [RFC v5 040/126] Floppy: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:26 +0300
+Message-Id: <20191011160552.22907-41-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- John Snow <jsnow@redhat.com>
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ Greg Kurz <groug@kaod.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,48 +97,72 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/ide/qdev.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ hw/block/fdc.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 6fba6b62b8..9e5ed9914f 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -233,18 +233,18 @@ static void ide_dev_get_bootindex(Object *obj, Visitor *v, const char *name,
- static void ide_dev_set_bootindex(Object *obj, Visitor *v, const char *name,
-                                   void *opaque, Error **errp)
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index ac5d31e8c1..7590b63c19 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -2522,11 +2522,11 @@ static void fdctrl_result_timer(void *opaque)
+ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
+                                   Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     IDEDevice *d = IDE_DEVICE(obj);
-     int32_t boot_index;
+     unsigned int i;
+     FDrive *drive;
+     DeviceState *dev;
+     BlockBackend *blk;
 -    Error *local_err = NULL;
  
--    visit_type_int32(v, name, &boot_index, &local_err);
--    if (local_err) {
--        goto out;
-+    visit_type_int32(v, name, &boot_index, errp);
-+    if (*errp) {
-+        return;
-     }
-     /* check whether bootindex is present in fw_boot_order list  */
--    check_boot_index(boot_index, &local_err);
--    if (local_err) {
--        goto out;
-+    check_boot_index(boot_index, errp);
-+    if (*errp) {
-+        return;
-     }
-     /* change bootindex to a new one */
-     d->conf.bootindex = boot_index;
-@@ -253,8 +253,6 @@ static void ide_dev_set_bootindex(Object *obj, Visitor *v, const char *name,
-         add_boot_device_path(d->conf.bootindex, &d->qdev,
-                              d->unit ? "/disk@1" : "/disk@0");
-     }
--out:
--    error_propagate(errp, local_err);
- }
+     for (i = 0; i < MAX_FD; i++) {
+         drive = &fdctrl->drives[i];
+@@ -2548,17 +2548,15 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, DeviceState *fdc_dev,
+         blk_ref(blk);
+         blk_detach_dev(blk, fdc_dev);
+         fdctrl->qdev_for_drives[i].blk = NULL;
+-        qdev_prop_set_drive(dev, "drive", blk, &local_err);
++        qdev_prop_set_drive(dev, "drive", blk, errp);
+         blk_unref(blk);
  
- static void ide_dev_instance_init(Object *obj)
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        if (*errp) {
+             return;
+         }
+ 
+-        object_property_set_bool(OBJECT(dev), true, "realized", &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        object_property_set_bool(OBJECT(dev), true, "realized", errp);
++        if (*errp) {
+             return;
+         }
+     }
+@@ -2685,10 +2683,10 @@ static const MemoryRegionPortio fdc_portio_list[] = {
+ 
+ static void isabus_fdc_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     ISADevice *isadev = ISA_DEVICE(dev);
+     FDCtrlISABus *isa = ISA_FDC(dev);
+     FDCtrl *fdctrl = &isa->state;
+-    Error *err = NULL;
+ 
+     isa_register_portio_list(isadev, &fdctrl->portio_list,
+                              isa->iobase, fdc_portio_list, fdctrl,
+@@ -2705,9 +2703,8 @@ static void isabus_fdc_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     qdev_set_legacy_instance_id(dev, isa->iobase, 2);
+-    fdctrl_realize_common(dev, fdctrl, &err);
+-    if (err != NULL) {
+-        error_propagate(errp, err);
++    fdctrl_realize_common(dev, fdctrl, errp);
++    if (*errp) {
+         return;
+     }
+ }
 -- 
 2.21.0
 
