@@ -2,102 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B35D449D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 17:42:05 +0200 (CEST)
-Received: from localhost ([::1]:52356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45723D44A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 17:44:14 +0200 (CEST)
+Received: from localhost ([::1]:52402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIx3M-0008Uw-BA
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 11:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
+	id 1iIx5R-0003EH-8s
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 11:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIwul-0006JD-Nf
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:33:13 -0400
+ (envelope-from <philmd@redhat.com>) id 1iIx37-0001GL-DB
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:41:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIwuk-00082D-D9
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:33:11 -0400
-Received: from mail-eopbgr50125.outbound.protection.outlook.com
- ([40.107.5.125]:42318 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIwug-00081C-LF; Fri, 11 Oct 2019 11:33:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bJj1d+X9FDWQbDEVFv1P7tYoZEnD2tI4rvU4sFyEy8XFxWaL1fsQCZd+C8LjzbgN92J2t3sVn3bytWz7lmOVJOc4qaO2X+eQGw25sOLhBwOc8eyQGJEUH2kITxoD0e1DQa21/KJ4q060D82ILXrj+WyQS0tskwTWk/gp97w/hdKm4CSMd3PM/M5pcaf5gVyyzBwp4lnzBlOecDNuq6kdd1b6eVYH18beba7hNkJZInpRkapFyZtyn4YvTEqOzqydsEaSEAOHuVVw0tQ4Dpq2MmXo42zi5vhAlxrzffksugwNh+earnzZI31tljyarxawhMZMB6QmJHL9+xXnoyYUCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NQM5je+rc6BplBnPZvBeuua9j9Eh5EE8pwJLW85UYGc=;
- b=AKcurKiij98CJ+qLcZ8Frui2/I0fT7mQbIsdFaRFV36eR6JAXJdvfm0FcSQMkqTN+1ihVXO8N7FtuwSTyv4qvosHPFuz5FO+BMYyYdtGWPeM5pdfuDdiXaEFpg9uC/0PEzTpVPApwTk2mvaHDdPEwKWlLTTVwLLjVD+NzZOfOyBZL5sm/gbef+sd4Awq82nyF835JAi2mm9+aJQ2yEVm6bHLAqUw0KAD8vc7heujkwVD1CvMgIO9w2hyV/kCLXLBv2OIo8q0r0F3juJHyK39do0y99MCly4s3gkxj6fNmHJUMA8ar0MT8nSyg/7pgQwSVzuvQmnzcGxRCpCOu0L9FQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NQM5je+rc6BplBnPZvBeuua9j9Eh5EE8pwJLW85UYGc=;
- b=ITJTfD3f5MZCd+4+AxgGvEqalz1qVZAmDZaUwA7WpSCU0UNFQuJl9TuAB20HhNVsLKwoz5jNHxJ7FbUMH+2dZG59FdIOGuSb3yNCaMeKgAu9cGpvwiQfOcb8GwpMYYr1We/CcnrWmZamF00Xe85aGAGKNODQ/6JHGl7uiZ58xhM=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB5082.eurprd08.prod.outlook.com (10.255.19.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.17; Fri, 11 Oct 2019 15:33:03 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2347.021; Fri, 11 Oct 2019
- 15:33:03 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 07/31] s390: Fix error_append_hint/error_prepend usage
-Thread-Topic: [PATCH v4 07/31] s390: Fix error_append_hint/error_prepend usage
-Thread-Index: AQHVeHBiSfEtrNXHwkCkx8xBheQbt6dR+WJtgAOoEAA=
-Date: Fri, 11 Oct 2019 15:33:03 +0000
-Message-ID: <d43cd773-6383-8edb-c203-06f0ae031d2a@virtuozzo.com>
-References: <20191001155319.8066-1-vsementsov@virtuozzo.com>
- <20191001155319.8066-8-vsementsov@virtuozzo.com>
- <87muea9xg6.fsf@dusky.pond.sub.org>
-In-Reply-To: <87muea9xg6.fsf@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR06CA0150.eurprd06.prod.outlook.com
- (2603:10a6:7:16::37) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191011183300326
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: db38687c-b842-4bf0-844e-08d74e604dfe
-x-ms-traffictypediagnostic: DB8PR08MB5082:
-x-microsoft-antispam-prvs: <DB8PR08MB5082A7467294E88EDAD29394C1970@DB8PR08MB5082.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0187F3EA14
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(366004)(396003)(39840400004)(376002)(136003)(189003)(199004)(6436002)(386003)(186003)(26005)(31686004)(305945005)(99286004)(6506007)(229853002)(7736002)(66946007)(102836004)(66066001)(66446008)(66476007)(66556008)(64756008)(52116002)(71200400001)(14454004)(76176011)(31696002)(6486002)(71190400001)(36756003)(8676002)(256004)(6246003)(81156014)(2906002)(54906003)(8936002)(81166006)(316002)(6916009)(4326008)(3846002)(86362001)(7416002)(478600001)(476003)(486006)(446003)(11346002)(2616005)(6116002)(25786009)(5660300002)(6512007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5082;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JdlScW3rhMrcF0/IaCcrEGaSWEidqr8yPSlAP27riYypyvkIQPZmD/CRbOMJr8MNtiVKQNWCvOEZHVJ1G5K+7MJ7xFEK1VeRgkZ6sNeZDBZo1UXGyvLS22uhpyjEhAENBHg078C5aF+U/YTiyO26DD6kOWOQchltU3R/R7KZrfgPSK2qSk2KKpohlVtE1WxHRY9GbdkPdrp5jbhOGlQKj58g/+g0f5a8ySpIce8sOEHDaPwEFgc9TLKHveNHMc2GBgaFfrT72ZChQpoyiY7NfXDISax2CkvudpB1N0jCRJeBYe8dtcLBg+h9jZJPliHGRdmtZzZ5C/lNOvsHrF0MgNMDq552dYkSNVICYicHzrjltNTe2uOdJBeH1TCUv3ZEb3X0/cIU53qXgWwcABfzsp6MDtLBEuQ4e8XJU5ngQbs=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FBA9F6C04E28A14FB482C7B2CD58D714@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1iIx35-0002He-G1
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:41:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44960)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iIx35-0002HS-AS
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:41:47 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 670D580F81
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 15:41:45 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id f4so809701wrj.12
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:41:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wzSjw+TwvNf0w3q7MUm61I3wM+qGMhSw568Qmtgqj/A=;
+ b=FfuFybaJH6GYbaIcqiEbUU9XduJULf2PDhC825b1Ukja6PaVIfDtXM0LRqlj0jW7wF
+ Pj+hCnuAZuEGgkW3F7ZKSfhJ46zHXaqaR7cIiT6oyucsHlngMbrrqjy79xxEQitarCC5
+ 3/A/m2Th2PM5etBHsNMbjqYSpu+NjKyrcl5JrKYtWRa8yJtwutZwDQyCBQ5/YoIH7qpN
+ BbM3y+HFj/YcV6DyU6OSKEuujVLWqfmgwXfR49FPxr8iMGmYnohm4PLA2zb7eXC+ad4y
+ nAJb9XzJHOF2MKRje+7776FpMJwj57S2KXwAxkzzgbQnUN/Re3JM+vwLN7XcOE6xxyet
+ nw2A==
+X-Gm-Message-State: APjAAAXVGVjTQvGvw5sGzre7MMSZUDDkbaDGEdTArjaA8FZNgc1zn0qr
+ pBsN/TfBm/qtRImnpxKOTlcUkRsCcAJ24QTflC1m6uJrH13YE5KWEeFQMdhmNUGqOI7jmL2GEEZ
+ G+Is5UeadCP/yhXo=
+X-Received: by 2002:adf:fa92:: with SMTP id h18mr13726089wrr.220.1570808504156; 
+ Fri, 11 Oct 2019 08:41:44 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqz9rilgiv4xVs+U5DHxWYKH5TRjDVM5HgmKhHm1yvgjGnU5yp9R/O9pt2A+AuiCp8nTkLgxJg==
+X-Received: by 2002:adf:fa92:: with SMTP id h18mr13726079wrr.220.1570808504008; 
+ Fri, 11 Oct 2019 08:41:44 -0700 (PDT)
+Received: from [192.168.50.31] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id a13sm20595572wrf.73.2019.10.11.08.41.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Oct 2019 08:41:43 -0700 (PDT)
+Subject: Re: [PATCH v30 0/8] QEMU AVR 8 bit cores
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+References: <20190902140134.74081-1-mrolnik@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1aeb25ea-9b95-b637-b191-93a115c8acca@redhat.com>
+Date: Fri, 11 Oct 2019 17:41:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db38687c-b842-4bf0-844e-08d74e604dfe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2019 15:33:03.1399 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nv65KB8VlQ9G/S0hToj99bBK0WLLae2DxiOrUi/jzDewWjVuIxHenxroZhhwvkJ8kN/8nxZYWLQktrH+61/qjO+lX4dW97qjBSkb+uqcKJU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5082
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.125
+In-Reply-To: <20190902140134.74081-1-mrolnik@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,46 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: dovgaluk@ispras.ru, thuth@redhat.com, richard.henderson@linaro.org,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDkuMTAuMjAxOSAxMDo0MiwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IFZsYWRpbWlyIFNl
-bWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4gd3JpdGVzOg0KPiAN
-Cj4+IElmIHdlIHdhbnQgdG8gYWRkIHNvbWUgaW5mbyB0byBlcnJwIChieSBlcnJvcl9wcmVwZW5k
-KCkgb3INCj4+IGVycm9yX2FwcGVuZF9oaW50KCkpLCB3ZSBtdXN0IHVzZSB0aGUgRVJSUF9BVVRP
-X1BST1BBR0FURSBtYWNyby4NCj4+IE90aGVyd2lzZSwgdGhpcyBpbmZvIHdpbGwgbm90IGJlIGFk
-ZGVkIHdoZW4gZXJycCA9PSAmZmF0YWxfZXJyDQo+PiAodGhlIHByb2dyYW0gd2lsbCBleGl0IHBy
-aW9yIHRvIHRoZSBlcnJvcl9hcHBlbmRfaGludCgpIG9yDQo+PiBlcnJvcl9wcmVwZW5kKCkgY2Fs
-bCkuICBGaXggc3VjaCBjYXNlcy4NCj4+DQo+PiBUaGlzIGNvbW1pdCAodG9nZXRoZXIgd2l0aCBp
-dHMgbmVpZ2hib3JzKSB3YXMgZ2VuZXJhdGVkIGJ5DQo+Pg0KPj4gZ2l0IGdyZXAgLWwgJ2Vycm9y
-X1woYXBwZW5kX2hpbnRcfHByZXBlbmRcKShlcnJwJyB8IHdoaWxlIHJlYWQgZjsgZG8gXA0KPj4g
-c3BhdGNoIC0tc3AtZmlsZSBzY3JpcHRzL2NvY2NpbmVsbGUvZml4LWVycm9yLWFkZC1pbmZvLmNv
-Y2NpIFwNCj4+IC0taW4tcGxhY2UgJGY7IGRvbmUNCj4gDQo+IE1ha2UgdGhhdDoNCj4gDQo+ICAg
-ICAgJCBzcGF0Y2ggLS1zcC1maWxlIHNjcmlwdHMvY29jY2luZWxsZS9maXgtZXJyb3ItYWRkLWlu
-Zm8uY29jY2kgLS1tYWNyby1maWxlIHNjcmlwdHMvY29jY2ktbWFjcm8tZmlsZS5oIC0taW4tcGxh
-Y2UgLS1uby1zaG93LWRpZmYgYGdpdCBncmVwIC1sICdlcnJvcl9cKGFwcGVuZF9oaW50XHxwcmVw
-ZW5kXCkoZXJycCcgXCouW2NoXWANCj4gDQo+IEFkZGluZyAtLW1hY3JvLWZpbGUgaXMgZXNzZW50
-aWFsLCBhcyBFcmljIG5vdGVkLiAgV2l0aG91dCBpdCwgd2UgbWlzcw0KPiBxY293Ml9zdG9yZV9w
-ZXJzaXN0ZW50X2RpcnR5X2JpdG1hcHMoKSBpbiBQQVRDSCAyMyBhbmQNCj4gbmJkX25lZ290aWF0
-ZV9zZW5kX3JlcF92ZXJyKCkgaW4gUEFUQ0ggMjkuICBUaGVyZSBzaG91bGQgYmUgYSB3YXkgdG8N
-Cj4gbWFrZSBzcGF0Y2ggd2FybiB3aGVuIGl0IGdpdmVzIHVwIHBhcnNpbmcsIGJ1dCBJIGNhbid0
-IGZpbmQgaXQgcmlnaHQNCj4gbm93Lg0KPiANCj4gQXZvaWRpbmcgdGhlIGxvb3AgaXMganVzdCBm
-b3Igc3BlZWQgYW5kIHNpbXBsaWNpdHkuDQoNClNlZW1zIHdpdGhvdXQgbG9vcCBpdCBoYW5ncyBv
-ciBhdCBsZWFzdCB3b3JrcyBzbG93ZXIuIEFuZCBsb29wIHByb3ZpZGVzIGEga2luZCBvZiBwcm9n
-cmVzcywgc28gSSdsbCBrZWVwIHRoZSBsb29wLg0KDQo+IA0KPiAtLW5vLXNob3ctZGlmZiBnb2Vz
-IHdlbGwgd2l0aCAtLWluLXBsYWNlLg0KPiANCj4gVGhlIGV2ZW4gc2ltcGxlcg0KPiANCj4gICAg
-ICAkIHNwYXRjaCAtLXNwLWZpbGUgc2NyaXB0cy9jb2NjaW5lbGxlL2ZpeC1lcnJvci1hZGQtaW5m
-by5jb2NjaSAtLW1hY3JvLWZpbGUgc2NyaXB0cy9jb2NjaS1tYWNyby1maWxlLmggLS1pbi1wbGFj
-ZSAtLW5vLXNob3ctZGlmZiAtLXVzZS1naXRncmVwDQo+IA0KPiBtaXNzZXMgaW5jbHVkZS9ibG9j
-ay9uYmQuaCdzIG5iZF9yZWFkKCkgaW4gUEFUQ0ggMjMgc29tZWhvdy4NCj4gDQo+IEkgcmVjb21t
-ZW5kIHRvIGFkZCB0aGUgc3BhdGNoIGludm9jYXRpb24gdG8gdGhlIGNvY2NpbmVsbGUgc2NyaXB0
-J3MNCj4gY29tbWl0IG1lc3NhZ2UsIHRvbyBbUEFUQ0ggMDVdLg0KPiANCj4gWy4uLl0NCj4gDQoN
-Cg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+On 9/2/19 4:01 PM, Michael Rolnik wrote:
+> Michael Rolnik (7):
+>    target/avr: Add outward facing interfaces and core CPU logic
+>    target/avr: Add instruction helpers
+>    target/avr: Add instruction decoding
+>    target/avr: Add instruction translation
+[...]>   target/avr/Makefile.objs         |   33 +
+>   target/avr/cpu-param.h           |   37 +
+>   target/avr/cpu-qom.h             |   54 +
+>   target/avr/cpu.c                 |  576 ++++++
+>   target/avr/cpu.h                 |  254 +++
+>   target/avr/gdbstub.c             |   85 +
+>   target/avr/helper.c              |  354 ++++
+>   target/avr/helper.h              |   29 +
+>   target/avr/insn.decode           |  175 ++
+>   target/avr/machine.c             |  121 ++
+>   target/avr/translate.c           | 2888 ++++++++++++++++++++++++++++++
+
+Hmmm I'm wondering, since the 32-bit arch is different, shouldn't we add 
+this under target/avr8/ ?
 
