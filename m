@@ -2,105 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B3D3B40
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 10:35:01 +0200 (CEST)
-Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFBBD3B46
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 10:36:14 +0200 (CEST)
+Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIqO4-0003t3-6N
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 04:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44227)
+	id 1iIqPF-0005ur-Ft
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 04:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIqMM-000387-Mw
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:33:16 -0400
+ (envelope-from <groug@kaod.org>) id 1iIqMh-0003NP-QH
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIqML-0007bo-7M
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:33:14 -0400
-Received: from mail-db5eur03on070c.outbound.protection.outlook.com
- ([2a01:111:f400:fe0a::70c]:35707
- helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIqMK-0007Zr-FW; Fri, 11 Oct 2019 04:33:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zg8bS/Rr2lqUKFqh989BQR4Jmp42byo8jhLD6GInvr4za+jDAGnbPVmYt2TIs1q9ZqSdkX/UpQBGUkrvkGMGkc/rgUi8UHfi2sOMNVUHEVlQy8kC3nFfCTfWsrTa8ChGlG6r3z0g3CQR756W+8jC/fH1qBCKozL0nG2LNjzsTDltXXew+lBy0wRBKGbqjrSG+biZW+RDY1irBB26aP3YzRBSlIoT7Z0XA03g+7nN736HHtxRUxxA5MLYQzg07TogoN+Og9ScdmXm6XIi++9uC6Rqq3HWzIO/J4ZNTxwEaw6bvM70Dk6g8urd3fbtxCgTrfxEe3nRX1zpNHYtgVN+4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=InWFVk6Rpn9jI/rspUnCREB73yoMNwB69Ft3K+WoRio=;
- b=LSiSdS8zuOsUWNk9KG+nJxybHG78y/gSTP3YPPhTBPCVbeyNQW7h6tDsIjEX48PIWCiWlPcNBo31sP/oLJZSzwy2Jp7mrUMqsdYKJMVB1AA0L8MqYLR0HY6TVml99Mj9qjFsc1VNiwiVpSLlzpxPGRvRRKYYoA9G9GyCuzeYidDe1OMMrVhJFCgcfAgR1XVTPhtHYR43M78tsYJotKg55PGq25X3T3R0ZDEmt43uPZTWSCGPWNfW8xWuZ9aEERblNIzqFEMVEeo9xCP6dLzwBGYF22yKD8dtWNphX8YZKxqeIjuNVg9MEjNh/P91OcwCpAupp3OPkBvXH9MSoUhHTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=InWFVk6Rpn9jI/rspUnCREB73yoMNwB69Ft3K+WoRio=;
- b=EvOdg/TmfnmzkpjcoCk4gmwRKYgNk9g9+n44AOKJNtbM2wqMUiMpJNY9GOsce5dxlEV7hYIgrz9s21qq/q0/pCwAZ6bSH1HngWmz6yYn9Uw+ptE164LTfVk/HIJFWVmAXLJSyVUG775YDlmbLH62uG0aJN9q5vRFnNweDnTMJr4=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB3932.eurprd08.prod.outlook.com (20.179.8.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.21; Fri, 11 Oct 2019 08:33:09 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2347.021; Fri, 11 Oct 2019
- 08:33:08 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH 3/4] block/mirror: support unaligned write in active mirror
-Thread-Topic: [PATCH 3/4] block/mirror: support unaligned write in active
- mirror
-Thread-Index: AQHVaXyqGWMlukZLJkOXoRVirVbRLqdKz3mAgAp6joA=
-Date: Fri, 11 Oct 2019 08:33:08 +0000
-Message-ID: <eb11dfe2-fe3b-54bf-a23f-b9d208690680@virtuozzo.com>
-References: <20190912151338.21225-1-vsementsov@virtuozzo.com>
- <20190912151338.21225-4-vsementsov@virtuozzo.com>
- <6fd6a449-0443-ecfa-0eec-23e3b515b303@redhat.com>
-In-Reply-To: <6fd6a449-0443-ecfa-0eec-23e3b515b303@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0237.eurprd05.prod.outlook.com
- (2603:10a6:3:fb::13) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191011113305410
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 54920725-4808-41ef-a1a1-08d74e25a522
-x-ms-traffictypediagnostic: DB8PR08MB3932:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB3932AB6BD0FAB6780E2F4AADC1970@DB8PR08MB3932.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:489;
-x-forefront-prvs: 0187F3EA14
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(396003)(39830400003)(136003)(366004)(346002)(189003)(199004)(256004)(14444005)(5660300002)(8676002)(81156014)(81166006)(8936002)(66066001)(52116002)(11346002)(2906002)(102836004)(486006)(446003)(476003)(26005)(36756003)(71190400001)(71200400001)(2501003)(478600001)(53546011)(2616005)(6506007)(386003)(14454004)(76176011)(186003)(4326008)(99286004)(66946007)(66556008)(6512007)(54906003)(3846002)(31696002)(6116002)(66476007)(66446008)(64756008)(31686004)(110136005)(229853002)(6486002)(305945005)(7736002)(6436002)(86362001)(6246003)(25786009)(107886003)(316002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB3932;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mUTLyHmJ6TRRHJfkFYXPdp7qDHCmunj4MRt3lska04GhlPxPY6ZOhQ50tYheRapJXdSCY+0ITGIO0T3YRA2ule++Tem8nzp3K3PNXJziq6+ABzErEut/y9+eO1Z16LN0o9VVbuMSx2uCTNCPSQPEETe5YHOtcTe4N/O/slpIQDoNR/hgvPhfVe3AG7Y2OGZ6zFvaXa0ja6agURbOjKWgYDbQUQEhQeWMDWgwBqtiF64S/rTUnrO8DhFEXROLpsfhgFZPj3KJFgDVX5as1D2JegLClj9o7/YL7AgkHV2BX76fdC2w7QdCyZFG1ZGldjHlq2I/CDVEn2dGJW+G4Do0QaI8rO1dWz/o5dIBSjpUxAYIFPXaOjreNCL6yg78IYCV1sjKBUxopLHsml12WojCUcqFA6CxECFQmmTIHvjPoDE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A9BD73D4DC80E84DA4E3920042CC3C58@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <groug@kaod.org>) id 1iIqMf-0007oA-HU
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:33:35 -0400
+Received: from 6.mo3.mail-out.ovh.net ([188.165.43.173]:36265)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iIqMf-0007md-9U
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:33:33 -0400
+Received: from player692.ha.ovh.net (unknown [10.108.42.174])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id EA70522AFB3
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 10:33:30 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id 206BEAB91CCC;
+ Fri, 11 Oct 2019 08:33:18 +0000 (UTC)
+Date: Fri, 11 Oct 2019 10:33:15 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v4 17/19] spapr: Remove last pieces of SpaprIrq
+Message-ID: <20191011103315.3b790ea1@bahia.lan>
+In-Reply-To: <20191011081333.7e483b95@bahia.lan>
+References: <20191009060818.29719-1-david@gibson.dropbear.id.au>
+ <20191009060818.29719-18-david@gibson.dropbear.id.au>
+ <20191009190215.7e05c017@bahia.lan>
+ <20191010020209.GC28552@umbus.fritz.box>
+ <20191010082958.12e17561@bahia.lan>
+ <20191010223304.0cf7ccd3@bahia.lan>
+ <20191011050758.GD4080@umbus.fritz.box>
+ <20191011081333.7e483b95@bahia.lan>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54920725-4808-41ef-a1a1-08d74e25a522
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2019 08:33:08.9152 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e1DZYj109GgsCxY8oqeKrgMIlGvgC7Qq/fIMXR20QZlIthu2b6sDeY5Dy2eJU1eiz3fJM0e/IFCeynCXt8dAjai9ES9VDZLMVX5hzgT1kOg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3932
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe0a::70c
+Content-Type: multipart/signed; boundary="Sig_/B8sYyNEkGG=dqFCrX6v58hr";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 4492903582431287782
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrieehgddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 188.165.43.173
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,83 +63,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Denis Lunev <den@virtuozzo.com>
+Cc: Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDQuMTAuMjAxOSAxOTozMSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxMi4wOS4xOSAxNzoxMywg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IFByaW9yIDlhZGMxY2I0OWFm
-OGQgZG9fc3luY190YXJnZXRfd3JpdGUgaGFkIGEgYnVnOiBpdCByZXNldCBhbGlnbmVkLXVwDQo+
-PiByZWdpb24gaW4gdGhlIGRpcnR5IGJpdG1hcCwgd2hpY2ggbWVhbnMgdGhhdCB3ZSBtYXkgbm90
-IGNvcHkgc29tZSBieXRlcw0KPj4gYW5kIGFzc3VtZSB0aGVtIGNvcGllZCwgd2hpY2ggYWN0dWFs
-bHkgbGVhZHMgdG8gcHJvZHVjaW5nIGNvcnJ1cHRlZA0KPj4gdGFyZ2V0Lg0KPj4NCj4+IFNvIDlh
-ZGMxY2I0OWFmOGQgZm9yY2VkIGRpcnR5IGJpdG1hcCBncmFudWxhcml0eSB0byBiZQ0KPj4gcmVx
-dWVzdF9hbGlnbm1lbnQgZm9yIG1pcnJvci10b3AgZmlsdGVyLCBzbyB3ZSBhcmUgbm90IHdvcmtp
-bmcgd2l0aA0KPj4gdW5hbGlnbmVkIHJlcXVlc3RzLiBIb3dldmVyIGZvcmNpbmcgbGFyZ2UgYWxp
-Z25tZW50IG9idmlvdXNseSBkZWNyZWFzZXMNCj4+IHBlcmZvcm1hbmNlIG9mIHVuYWxpZ25lZCBy
-ZXF1ZXN0cy4NCj4+DQo+PiBUaGlzIGNvbW1pdCBwcm92aWRlcyBhbm90aGVyIHNvbHV0aW9uIGZv
-ciB0aGUgcHJvYmxlbTogaWYgdW5hbGlnbmVkDQo+PiBwYWRkaW5nIGlzIGFscmVhZHkgZGlydHks
-IHdlIGNhbiBzYWZlbHkgaWdub3JlIGl0LCBhcw0KPj4gMS4gSXQncyBkaXJ0eSwgaXQgd2lsbCBi
-ZSBjb3BpZWQgYnkgbWlycm9yX2l0ZXJhdGlvbiBhbnl3YXkNCj4+IDIuIEl0J3MgZGlydHksIHNv
-IHNraXBwaW5nIGl0IG5vdyB3ZSBkb24ndCBpbmNyZWFzZSBkaXJ0aW5lc3Mgb2YgdGhlDQo+PiAg
-ICAgYml0bWFwIGFuZCB0aGVyZWZvcmUgZG9uJ3QgZGFtYWdlICJzeW5jaHJvbmljaXR5IiBvZiB0
-aGUNCj4+ICAgICB3cml0ZS1ibG9ja2luZyBtaXJyb3IuDQo+Pg0KPj4gSWYgdW5hbGlnbmVkIHBh
-ZGRpbmcgaXMgbm90IGRpcnR5LCB3ZSBqdXN0IHdyaXRlIGl0LCBubyByZWFzb24gdG8gdG91Y2gN
-Cj4+IGRpcnR5IGJpdG1hcCBpZiB3ZSBzdWNjZWVkIChvbiBmYWlsdXJlIHdlJ2xsIHNldCB0aGUg
-d2hvbGUgcmVnaW9uDQo+PiBvZmNvdXJzZSwgYnV0IHdlIGxvc3MgInN5bmNocm9uaWNpdHkiIG9u
-IGZhaWx1cmUgYW55d2F5KS4NCj4+DQo+PiBOb3RlOiB3ZSBuZWVkIHRvIGRpc2FibGUgZGlydHlf
-Yml0bWFwLCBvdGhlcndpc2Ugd2Ugd2lsbCBub3QgYmUgYWJsZSB0bw0KPj4gc2VlIGluIGRvX3N5
-bmNfdGFyZ2V0X3dyaXRlIGJpdG1hcCBzdGF0ZSBiZWZvcmUgY3VycmVudCBvcGVyYXRpb24uIFdl
-DQo+PiBtYXkgb2YgY291cnNlIGNoZWNrIGRpcnR5IGJpdG1hcCBiZWZvcmUgdGhlIG9wZXJhdGlv
-biBpbg0KPj4gYmRydl9taXJyb3JfdG9wX2RvX3dyaXRlIGFuZCByZW1lbWJlciBpdCwgYnV0IHdl
-IGRvbid0IG5lZWQgYWN0aXZlDQo+PiBkaXJ0eSBiaXRtYXAgZm9yIHdyaXRlLWJsb2NraW5nIG1p
-cnJvciBhbnl3YXkuDQo+Pg0KPj4gTmV3IGNvZGUtcGF0aCBpcyB1bnVzZWQgdW50aWwgdGhlIGZv
-bGxvd2luZyBjb21taXQgcmV2ZXJ0cw0KPj4gOWFkYzFjYjQ5YWY4ZC4NCj4+DQo+PiBTdWdnZXN0
-ZWQtYnk6IERlbmlzIFYuIEx1bmV2IDxkZW5Ab3BlbnZ6Lm9yZz4NCj4+IFNpZ25lZC1vZmYtYnk6
-IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4N
-Cj4+IC0tLQ0KPj4gICBibG9jay9taXJyb3IuYyB8IDM5ICsrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9ibG9jay9taXJyb3IuYyBiL2Jsb2Nr
-L21pcnJvci5jDQo+PiBpbmRleCBkMTc2YmY1OTIwLi5kMTkyZjZhOTZiIDEwMDY0NA0KPj4gLS0t
-IGEvYmxvY2svbWlycm9yLmMNCj4+ICsrKyBiL2Jsb2NrL21pcnJvci5jDQo+PiBAQCAtMTIwNCw2
-ICsxMjA0LDM5IEBAIGRvX3N5bmNfdGFyZ2V0X3dyaXRlKE1pcnJvckJsb2NrSm9iICpqb2IsIE1p
-cnJvck1ldGhvZCBtZXRob2QsDQo+PiAgICAgICAgICAgICAgICAgICAgICAgIFFFTVVJT1ZlY3Rv
-ciAqcWlvdiwgaW50IGZsYWdzKQ0KPj4gICB7DQo+PiAgICAgICBpbnQgcmV0Ow0KPj4gKyAgICBz
-aXplX3QgcWlvdl9vZmZzZXQgPSAwOw0KPj4gKw0KPj4gKyAgICBpZiAoIVFFTVVfSVNfQUxJR05F
-RChvZmZzZXQsIGpvYi0+Z3JhbnVsYXJpdHkpICYmDQo+PiArICAgICAgICBiZHJ2X2RpcnR5X2Jp
-dG1hcF9nZXQoam9iLT5kaXJ0eV9iaXRtYXAsIG9mZnNldCkpIHsNCj4+ICsgICAgICAgICAgICAv
-Kg0KPj4gKyAgICAgICAgICAgICAqIERpcnR5IHVuYWxpZ25lZCBwYWRkaW5nDQo+PiArICAgICAg
-ICAgICAgICogMS4gSXQncyBhbHJlYWR5IGRpcnR5LCBubyBkYW1hZ2UgdG8gImFjdGl2ZWx5X3N5
-bmNlZCIgaWYgd2UganVzdA0KPj4gKyAgICAgICAgICAgICAqICAgIHNraXAgdW5hbGlnbmVkIHBh
-cnQuDQo+PiArICAgICAgICAgICAgICogMi4gSWYgd2UgY29weSBpdCwgd2UgY2FuJ3QgcmVzZXQg
-Y29ycmVzcG9uZGluZyBiaXQgaW4NCj4+ICsgICAgICAgICAgICAgKiAgICBkaXJ0eV9iaXRtYXAg
-YXMgdGhlcmUgbWF5IGJlIHNvbWUgImRpcnR5IiBieXRlcyBzdGlsbCBub3QNCj4+ICsgICAgICAg
-ICAgICAgKiAgICBjb3BpZWQuDQo+PiArICAgICAgICAgICAgICogU28sIGp1c3QgaWdub3JlIGl0
-Lg0KPj4gKyAgICAgICAgICAgICAqLw0KPj4gKyAgICAgICAgICAgIHFpb3Zfb2Zmc2V0ID0gUUVN
-VV9BTElHTl9VUChvZmZzZXQsIGpvYi0+Z3JhbnVsYXJpdHkpIC0gb2Zmc2V0Ow0KPj4gKyAgICAg
-ICAgICAgIGlmIChieXRlcyA8PSBxaW92X29mZnNldCkgew0KPj4gKyAgICAgICAgICAgICAgICAv
-KiBub3RoaW5nIHRvIGRvIGFmdGVyIHNocmluayAqLw0KPj4gKyAgICAgICAgICAgICAgICByZXR1
-cm47DQo+PiArICAgICAgICAgICAgfQ0KPj4gKyAgICAgICAgICAgIG9mZnNldCArPSBxaW92X29m
-ZnNldDsNCj4+ICsgICAgICAgICAgICBieXRlcyAtPSBxaW92X29mZnNldDsNCj4+ICsgICAgfQ0K
-Pj4gKw0KPj4gKyAgICBpZiAoIVFFTVVfSVNfQUxJR05FRChvZmZzZXQgKyBieXRlcywgam9iLT5n
-cmFudWxhcml0eSkgJiYNCj4+ICsgICAgICAgIGJkcnZfZGlydHlfYml0bWFwX2dldChqb2ItPmRp
-cnR5X2JpdG1hcCwgb2Zmc2V0ICsgYnl0ZXMgLSAxKSkNCj4+ICsgICAgew0KPj4gKyAgICAgICAg
-dWludDY0X3QgdGFpbCA9IChvZmZzZXQgKyBieXRlcykgJSBqb2ItPmdyYW51bGFyaXR5Ow0KPj4g
-Kw0KPj4gKyAgICAgICAgaWYgKGJ5dGVzIDw9IHRhaWwpIHsNCj4+ICsgICAgICAgICAgICAvKiBu
-b3RoaW5nIHRvIGRvIGFmdGVyIHNocmluayAqLw0KPj4gKyAgICAgICAgICAgIHJldHVybjsNCj4+
-ICsgICAgICAgIH0NCj4+ICsgICAgICAgIGJ5dGVzIC09IHRhaWw7DQo+PiArICAgIH0NCj4+ICAg
-DQo+PiAgICAgICBiZHJ2X3Jlc2V0X2RpcnR5X2JpdG1hcChqb2ItPmRpcnR5X2JpdG1hcCwgb2Zm
-c2V0LCBieXRlcyk7DQo+PiAgIA0KPiANCj4gVGhlIGJkcnZfc2V0X2RpcnR5X2JpdG1hcCgpIGlu
-IHRoZSBlcnJvciBjYXNlIGJlbG93IG5lZWRzIHRvIHVzZSB0aGUNCj4gb3JpZ2luYWwgb2Zmc2V0
-L2J5dGVzLCBJIHN1cHBvc2UuDQoNCk5vLCBiZWNhdXNlIHdlIHNocmluayB0YWlsIG9ubHkgaWYg
-aXQgaXMgYWxyZWFkeSBkaXJ0eS4gQW5kIHdlJ3ZlIGxvY2tlZCB0aGUNCnJlZ2lvbiBmb3IgaW4t
-ZmxpZ2h0IG9wZXJhdGlvbiwgc28gbm9ib2R5IGNhbiBjbGVhciB0aGUgYml0bWFwIGluIGEgbWVh
-bnRpbWUuDQoNCkJ1dCBzdGlsbCwgaGVyZSBpcyBzb21ldGhpbmcgdG8gZG86DQoNCmZvciBub3Qt
-c2hyaW5rZWQgdGFpbHMsIGlmIGFueSwgd2Ugc2hvdWxkOg0KMS4gYWxpZ24gZG93biBmb3IgcmVz
-ZXQNCjIuIGFsaWduIHVwIGZvciBzZXQgb24gZmFpbHVyZQ0KDQoNCj4gDQo+IEFwYXJ0IGZyb20g
-dGhhdCwgbG9va3MgZ29vZCB0byBtZS4NCj4gDQo+IE1heA0KPiANCg0KDQotLSANCkJlc3QgcmVn
-YXJkcywNClZsYWRpbWlyDQo=
+--Sig_/B8sYyNEkGG=dqFCrX6v58hr
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 11 Oct 2019 08:13:33 +0200
+Greg Kurz <groug@kaod.org> wrote:
+
+> On Fri, 11 Oct 2019 16:07:58 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Thu, Oct 10, 2019 at 10:33:04PM +0200, Greg Kurz wrote:
+> > > On Thu, 10 Oct 2019 08:29:58 +0200
+> > > Greg Kurz <groug@kaod.org> wrote:
+> > >=20
+> > > > On Thu, 10 Oct 2019 13:02:09 +1100
+> > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > >=20
+> > > > > On Wed, Oct 09, 2019 at 07:02:15PM +0200, Greg Kurz wrote:
+> > > > > > On Wed,  9 Oct 2019 17:08:16 +1100
+> > > > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > > > >=20
+> > > > > > > The only thing remaining in this structure are the flags to a=
+llow either
+> > > > > > > XICS or XIVE to be present.  These actually make more sense a=
+s spapr
+> > > > > > > capabilities - that way they can take advantage of the existi=
+ng
+> > > > > > > infrastructure to sanity check capability states across migra=
+tion and so
+> > > > > > > forth.
+> > > > > > >=20
+> > > > > >=20
+> > > > > > The user can now choose the interrupt controller mode either th=
+rough
+> > > > > > ic-mode or through cap-xics/cap-xive. I guess it doesn't break =
+anything
+> > > > > > to expose another API to do the same thing but it raises some q=
+uestions.
+> > > > > >=20
+> > > > > > We should at least document somewhere that ic-mode is an alias =
+to these
+> > > > > > caps, and maybe state which is the preferred method (I personal=
+ly vote
+> > > > > > for the caps).
+> > > > > >=20
+> > > > > > Also, we must keep ic-mode for the moment to stay compatible wi=
+th the
+> > > > > > existing pseries-4.0 and pseries-4.1 machine types, but will we
+> > > > > > keep ic-mode forever ? If no, maybe start by not allowing it for
+> > > > > > pseries-4.2 ?
+> > > > >=20
+> > > > > I'm actually inclined to keep it for now, maybe even leave it as =
+the
+> > > > > suggested way to configure this.  The caps are nice from an inter=
+nal
+> > > > > organization point of view, but ic-mode is arguably a more user
+> > > > > friendly way of configuring it.  The conversion of one to the oth=
+er is
+> > > > > straightforward, isolated ans small, so I'm not especially bother=
+ed by
+> > > > > keeping it around.
+> > > > >=20
+> > > >=20
+> > > > Fair enough.
+> > > >=20
+> > > > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > > >=20
+> > >=20
+> > > But unfortunately this still requires care :-\
+> > >=20
+> > > qemu-system-ppc64: cap-xive higher level (1) in incoming stream than =
+on destination (0)
+> > > qemu-system-ppc64: error while loading state for instance 0x0 of devi=
+ce 'spapr'
+> > > qemu-system-ppc64: load of migration failed: Invalid argument
+> > >=20
+> > > or
+> > >=20
+> > > qemu-system-ppc64: cap-xics higher level (1) in incoming stream than =
+on destination (0)
+> > > qemu-system-ppc64: error while loading state for instance 0x0 of devi=
+ce 'spapr'
+> > > qemu-system-ppc64: load of migration failed: Invalid argument
+> > >=20
+> > > when migrating from QEMU 4.1 with ic-mode=3Dxics and ic-mode=3Dxive r=
+espectively.
+> > >=20
+> > > This happens because the existing pseries-4.1 machine type doesn't se=
+nd the
+> > > new caps and the logic in spapr_caps_post_migration() wrongly assumes=
+ that
+> > > the source has both caps set:
+> > >=20
+> > >     srccaps =3D default_caps_with_cpu(spapr, MACHINE(spapr)->cpu_type=
+);
+> > >     for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
+> > >         /* If not default value then assume came in with the migratio=
+n */
+> > >         if (spapr->mig.caps[i] !=3D spapr->def.caps[i]) {
+> > >=20
+> > > spapr->mig.caps[SPAPR_CAP_XICS] =3D 0
+> > > spapr->mig.caps[SPAPR_CAP_XIVE] =3D 0
+> > >=20
+> > >             srccaps.caps[i] =3D spapr->mig.caps[i];
+> > >=20
+> > > srcaps.caps[SPAPR_CAP_XICS] =3D 1
+> > > srcaps.caps[SPAPR_CAP_XIVE] =3D 1
+> > >=20
+> > >         }
+> > >     }
+> > >=20
+> > > and breaks
+> > >=20
+> > >     for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
+> > >         SpaprCapabilityInfo *info =3D &capability_table[i];
+> > >=20
+> > >         if (srccaps.caps[i] > dstcaps.caps[i]) {
+> > >=20
+> > > srcaps.caps[SPAPR_CAP_XICS] =3D 0 when ic-mode=3Dxive
+> > > srcaps.caps[SPAPR_CAP_XIVE] =3D 0 when ic-mode=3Dxics
+> > >=20
+> > >             error_report("cap-%s higher level (%d) in incoming stream=
+ than on destination (%d)",
+> > >                          info->name, srccaps.caps[i], dstcaps.caps[i]=
+);
+> > >             ok =3D false;
+> > >         }
+> >=20
+> > Ah.. right.  I thought there would be problems with backwards
+> > migration, but I didn't think of this problem even with forward
+> > migration.
+> >=20
+> > > Maybe we shouldn't check capabilities that we know the source
+> > > isn't supposed to send, eg. by having a smc->max_cap ?
+> >=20
+> > Uh.. I'm not really sure what exactly you're suggesting here.
+> >=20
+>=20
+> I'm suggesting to have a per-machine version smc->max_cap that
+> contains the highest supported cap index, to be used instead of
+> SPAPR_CAP_NUM in this functions, ie.
+>=20
+> for (i =3D 0; i <=3D smc->max_cap; i++) {
+>     ...
+> }
+>=20
+> where we would have
+>=20
+> smc->max_cap =3D SPAPR_CAP_CCF_ASSIST for pseries-4.1
+>=20
+> and
+>=20
+> smc->max_cap =3D SPAPR_CAP_XIVE for psereis-4.2
+>=20
+> > I think what we need here is a custom migrate_needed function, like we
+> > already have for cap_hpt_maxpagesize, to exclude it from the migration
+> > stream for machine versions before 4.2.
+> >=20
+>=20
+> No, VMState needed() hooks are for outgoing migration only.
+>=20
+
+Well we actually do need a needed() function to fix backward
+migration, but it doesn't solve anything with forward migration.
+
+I'm thinking about something like this to address both:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 66b68fdd5ef5..1342058c1aae 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -83,7 +83,12 @@ typedef enum {
+ #define SPAPR_CAP_XICS                  0x0a
+ /* XIVE interrupt controller */
+ #define SPAPR_CAP_XIVE                  0x0b
+-/* Num Caps */
++/*
++ * Num Caps.
++ *
++ * CAUTION: when new caps are being added, older machine types should
++ * set smc->mig_cap_num to the previous value of SPAPR_CAP_NUM.
++ */
+ #define SPAPR_CAP_NUM                   (SPAPR_CAP_XIVE + 1)
+=20
+ /*
+@@ -135,6 +140,7 @@ struct SpaprMachineClass {
+                           hwaddr *nv2atsd, Error **errp);
+     SpaprResizeHpt resize_hpt_default;
+     SpaprCapabilities default_caps;
++    int mig_cap_num; /* don't migrate newer capabilities */
+ };
+=20
+ /**
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index bf9fdb169303..fa81cedfbcc5 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4453,6 +4453,7 @@ static void spapr_machine_class_init(ObjectClass *oc,=
+ void *data)
+     smc->dr_phb_enabled =3D true;
+     smc->linux_pci_probe =3D true;
+     smc->nr_xirqs =3D SPAPR_NR_XIRQS;
++    smc->mig_cap_num =3D SPAPR_CAP_NUM;
+ }
+=20
+ static const TypeInfo spapr_machine_info =3D {
+@@ -4520,6 +4521,7 @@ static void spapr_machine_4_1_class_options(MachineCl=
+ass *mc)
+=20
+     spapr_machine_4_2_class_options(mc);
+     smc->linux_pci_probe =3D false;
++    smc->mig_cap_num =3D SPAPR_CAP_CCF_ASSIST + 1;
+     compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_len);
+     compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+ }
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index e06fd386f6ac..ba079f46e084 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -532,6 +532,13 @@ static void cap_xive_apply(SpaprMachineState *spapr, u=
+int8_t val, Error **errp)
+     }
+ }
+=20
++static bool cap_xics_xive_migrate_needed(void *opaque)
++{
++    int mig_cap_num =3D SPAPR_MACHINE_GET_CLASS(opaque)->mig_cap_num;
++
++    return mig_cap_num > SPAPR_CAP_XIVE && mig_cap_num > SPAPR_CAP_XICS;
++}
++
+ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+     [SPAPR_CAP_HTM] =3D {
+         .name =3D "htm",
+@@ -639,6 +646,7 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D=
+ {
+         .set =3D spapr_cap_set_bool,
+         .type =3D "bool",
+         .apply =3D cap_xics_apply,
++        .migrate_needed =3D cap_xics_xive_migrate_needed,
+     },
+     [SPAPR_CAP_XIVE] =3D {
+         .name =3D "xive",
+@@ -648,6 +656,7 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D=
+ {
+         .set =3D spapr_cap_set_bool,
+         .type =3D "bool",
+         .apply =3D cap_xive_apply,
++        .migrate_needed =3D cap_xics_xive_migrate_needed,
+     },
+ };
+=20
+@@ -729,20 +738,21 @@ int spapr_caps_pre_save(void *opaque)
+  * caps on the destination */
+ int spapr_caps_post_migration(SpaprMachineState *spapr)
+ {
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+     int i;
+     bool ok =3D true;
+     SpaprCapabilities dstcaps =3D spapr->eff;
+     SpaprCapabilities srccaps;
+=20
+     srccaps =3D default_caps_with_cpu(spapr, MACHINE(spapr)->cpu_type);
+-    for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
++    for (i =3D 0; i < smc->mig_cap_num; i++) {
+         /* If not default value then assume came in with the migration */
+         if (spapr->mig.caps[i] !=3D spapr->def.caps[i]) {
+             srccaps.caps[i] =3D spapr->mig.caps[i];
+         }
+     }
+=20
+-    for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
++    for (i =3D 0; i < smc->mig_cap_num; i++) {
+         SpaprCapabilityInfo *info =3D &capability_table[i];
+=20
+         if (srccaps.caps[i] > dstcaps.caps[i]) {
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+> bool vmstate_save_needed(const VMStateDescription *vmsd, void *opaque)
+> {
+>     if (vmsd->needed && !vmsd->needed(opaque)) {
+>         /* optional section not needed */
+>         return false;
+>     }
+>     return true;
+> }
+
+
+--Sig_/B8sYyNEkGG=dqFCrX6v58hr
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2gPksACgkQcdTV5YIv
+c9Zw3xAAw/SgqMs8lHEW7ZYg3DHFh+7C18yWcYkfVLiLhf0IdtqVb2IKiOmruGm9
+VNa81vLqRlDFAMgTeKCp3L51+f/Pa2uB43whrhDSGjSzTV3uu1ewtrAN06byuYdH
+J04o1BQJI1KvL0Bo6dEJKThMPEOuKNXPmA39NjzYyL1OPnNaenBhxHpY3ESCUENR
+7f7ImutYgdt/0sYCDugkbBR8Zc3F3d89fPB3TJi+LxTHGOVjF16yC1Oz15lylfb1
+JxkL6Dz5ZmQs4FUKIF1+eo8xTygT5EpfYIgIXKEx1Ee1tmlPlOJZ3c1RUKkeh6g5
+ag30jtKzAw2AI+34qi/tygpWzNPsut7raSDMkHcxLj1EIzFOj/kKWKxPwjifTL3V
+7dATQP2OxkeZEJ0KfkPROmVuEvKkhwMNTSSXk8QLXLWCoM4fFJWlJvEHm17oRKbU
+LZYuufjGpLwyAQmM6AJsEqM4zNQ8UsJNszQlIbIu1OWubjSNLwvnHLK5Gc6s1x1a
+jZX7odBXtswynrqwOyiuuuAvYvRELSdywcDoL4V8NahK8nvk1WicA2m6iPK1HcPM
+snntHzZLEwkG7eBt/oWGVYBWgO8l5C8JpHuOVeGvG8dXyMnhFEypF479yXqbHTtZ
+fZKmQQIVqlZRC/TUn0srh+8lUriDeiJ59Y2JVF3PqZJrFAIyuNg=
+=Bscc
+-----END PGP SIGNATURE-----
+
+--Sig_/B8sYyNEkGG=dqFCrX6v58hr--
 
