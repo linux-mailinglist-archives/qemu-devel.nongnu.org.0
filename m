@@ -2,58 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E2BD4684
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:21:44 +0200 (CEST)
-Received: from localhost ([::1]:54566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57106D468D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:24:49 +0200 (CEST)
+Received: from localhost ([::1]:54608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIybn-0004zm-DX
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:21:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38779)
+	id 1iIyel-0000m7-VD
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iIxXg-0007T1-OW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:13:27 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIxf0-0005qj-QJ
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:20:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iIxXe-0001Ez-Dg
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:13:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33472)
+ (envelope-from <eblake@redhat.com>) id 1iIxez-0007Fg-KD
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:20:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54514)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIxXe-0001EO-7c
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:13:22 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iIxev-0007AD-Kv; Fri, 11 Oct 2019 12:20:53 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 961C54628B;
- Fri, 11 Oct 2019 16:13:20 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-177.rdu2.redhat.com
- [10.10.120.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BABDD600C4;
- Fri, 11 Oct 2019 16:13:11 +0000 (UTC)
-Subject: Re: [RFC 0/3] acpi: cphp: add CPHP_GET_CPU_ID_CMD command to cpu
- hotplug MMIO interface
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191010055356-mutt-send-email-mst@kernel.org>
- <20191010153815.4f7a3fc9@redhat.com>
- <20191010095459-mutt-send-email-mst@kernel.org>
- <20191010175754.7c62cf8f@Igors-MacBook-Pro>
- <20191010192039.GE4084@habkost.net>
- <e17adca7-f5f4-3a28-a4a2-6b921c1c2e2f@redhat.com>
- <20191011085852-mutt-send-email-mst@kernel.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <e47c373b-959c-deb8-5585-a04e119c86d8@redhat.com>
-Date: Fri, 11 Oct 2019 18:13:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ by mx1.redhat.com (Postfix) with ESMTPS id 8CA0C82A4C9;
+ Fri, 11 Oct 2019 16:20:51 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33DFD600CC;
+ Fri, 11 Oct 2019 16:20:51 +0000 (UTC)
+Subject: Re: [PATCH v3 04/16] qcow2: Keep unknown extra snapshot data
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20191011152814.14791-1-mreitz@redhat.com>
+ <20191011152814.14791-5-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <8ecf3ce6-51e4-63ee-8fdc-945ca3e1f397@redhat.com>
+Date: Fri, 11 Oct 2019 11:20:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011085852-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191011152814.14791-5-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 11 Oct 2019 16:13:20 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Fri, 11 Oct 2019 16:20:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -68,39 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 15:00, Michael S. Tsirkin wrote:
-> On Fri, Oct 11, 2019 at 10:01:42AM +0200, Laszlo Ersek wrote:
-
-[...]
-
->> ... I must admit: I didn't expect this, but now I've grown to *prefer*
->> the CPU hotplug register block!
+On 10/11/19 10:28 AM, Max Reitz wrote:
+> The qcow2 specification says to ignore unknown extra data fields in
+> snapshot table entries.  Currently, we discard it whenever we update the
+> image, which is a bit different from "ignore".
 > 
-> OK, send an ack then.
+> This patch makes the qcow2 driver keep all unknown extra data fields
+> when updating an image's snapshot table.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
 
-This RFC isn't mature enough for an ACK, but I like the direction, and
-I've given ample feedback. I'm looking forward to v1.
+>   /* Bitmap header extension constraints */
+>   #define QCOW2_MAX_BITMAPS 65535
+>   #define QCOW2_MAX_BITMAP_DIRECTORY_SIZE (1024 * QCOW2_MAX_BITMAPS)
+> @@ -181,6 +184,8 @@ typedef struct QCowSnapshot {
+>       uint32_t date_sec;
+>       uint32_t date_nsec;
+>       uint64_t vm_clock_nsec;
+> +    uint32_t extra_data_size;
+> +    void *unknown_extra_data; /* Extra data past QCowSnapshotExtraData */
 
-When Igor posts v1, I plan to first write firmware code for deriving
-"max_cpus" through the register block. For that, I only need the docs to
-reflect reality *closely* (I've posted my own suggestions for the docs);
-plus "max_cpus" is something I can put to use immediately.
+Would it be worth a comment change:
 
-Regarding the CPHP_GET_CPU_ID_CMD feature, I'll have to test that from
-within the SMI handler. Thus, until my "final" ACK, it's going to take a
-while. I'm OK if the QEMU patch set remains pending on the list meanwhile.
+uint32_t extra_data_size; /* Size of all extra data, including 
+QCowSnapshotExtraData */
+void *unknown_extra_data; /* Data beyond QCowSnapshotExtraData, if any */
 
-Igor -- can you please answer my questions in this thread? (Part of my
-feedback has been questions.)
+Either way, R-b stands.
 
-Thanks!
-Laszlo
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
