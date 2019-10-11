@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41613D46B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:35:14 +0200 (CEST)
-Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE0CD46BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:38:15 +0200 (CEST)
+Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyoq-00067r-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37083)
+	id 1iIyrm-0001lL-0Y
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRF-0006n9-Am
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:47 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRL-0006yE-Lm
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRA-0004pg-30
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:44 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48218)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRK-0004x5-0P
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:51 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48542)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR9-0004L4-MN; Fri, 11 Oct 2019 12:06:40 -0400
+ id 1iIxRJ-0004bD-Oh; Fri, 11 Oct 2019 12:06:49 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQn-0003XG-ST; Fri, 11 Oct 2019 19:06:18 +0300
+ id 1iIxQy-0003XG-8Z; Fri, 11 Oct 2019 19:06:28 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 065/126] XIVE: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:51 +0300
-Message-Id: <20191011160552.22907-66-vsementsov@virtuozzo.com>
+Subject: [RFC v5 096/126] VHDX: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:22 +0300
+Message-Id: <20191011160552.22907-97-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,10 +47,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, Jeff Cody <codyprime@gmail.com>, armbru@redhat.com,
+ Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,329 +97,100 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/intc/spapr_xive.c     | 12 ++++-----
- hw/intc/spapr_xive_kvm.c | 55 ++++++++++++++++++----------------------
- hw/intc/xive.c           | 27 ++++++++------------
- 3 files changed, 40 insertions(+), 54 deletions(-)
+ block/vhdx-log.c |  1 +
+ block/vhdx.c     | 22 +++++++++-------------
+ 2 files changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 04879abf2e..b25c9ef9ea 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -273,10 +273,10 @@ static void spapr_xive_instance_init(Object *obj)
- 
- static void spapr_xive_realize(DeviceState *dev, Error **errp)
+diff --git a/block/vhdx-log.c b/block/vhdx-log.c
+index fdd3a7adc3..176e03327b 100644
+--- a/block/vhdx-log.c
++++ b/block/vhdx-log.c
+@@ -748,6 +748,7 @@ exit:
+ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
+                    Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SpaprXive *xive = SPAPR_XIVE(dev);
-     XiveSource *xsrc = &xive->source;
-     XiveENDSource *end_xsrc = &xive->end_source;
+     int ret = 0;
+     VHDXHeader *hdr;
+     VHDXLogSequence logs = { 0 };
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 6a09d0a55c..e3ca23214c 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -898,11 +898,11 @@ static void vhdx_close(BlockDriverState *bs)
+ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVVHDXState *s = bs->opaque;
+     int ret = 0;
+     uint32_t i;
+     uint64_t signature;
 -    Error *local_err = NULL;
  
-     if (!xive->nr_irqs) {
-         error_setg(errp, "Number of interrupt needs to be greater 0");
-@@ -295,9 +295,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
-                             &error_fatal);
-     object_property_add_const_link(OBJECT(xsrc), "xive", OBJECT(xive),
-                                    &error_fatal);
--    object_property_set_bool(OBJECT(xsrc), true, "realized", &local_err);
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
+                                false, errp);
+@@ -931,9 +931,8 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
+      * header update */
+     vhdx_guid_generate(&s->session_guid);
+ 
+-    vhdx_parse_header(bs, s, &local_err);
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
++    vhdx_parse_header(bs, s, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
+@@ -1007,9 +1006,8 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
+     error_setg(&s->migration_blocker, "The vhdx format used by node '%s' "
+                "does not support live migration",
+                bdrv_get_device_or_node_name(bs));
+-    ret = migrate_add_blocker(s->migration_blocker, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    object_property_set_bool(OBJECT(xsrc), true, "realized", errp);
++    ret = migrate_add_blocker(s->migration_blocker, errp);
 +    if (*errp) {
-         return;
+         error_free(s->migration_blocker);
+         goto fail;
      }
-     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xsrc->esb_mmio);
-@@ -309,9 +308,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
-                             &error_fatal);
-     object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
-                                    &error_fatal);
--    object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_err);
--    if (local_err) {
+@@ -1966,11 +1964,11 @@ static int coroutine_fn vhdx_co_create_opts(const char *filename,
+                                             QemuOpts *opts,
+                                             Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BlockdevCreateOptions *create_options = NULL;
+     QDict *qdict;
+     Visitor *v;
+     BlockDriverState *bs = NULL;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     static const QDictRenames opt_renames[] = {
+@@ -1989,9 +1987,8 @@ static int coroutine_fn vhdx_co_create_opts(const char *filename,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, &local_err);
++    ret = bdrv_create_file(filename, opts, errp);
+     if (ret < 0) {
 -        error_propagate(errp, local_err);
-+    object_property_set_bool(OBJECT(end_xsrc), true, "realized", errp);
-+    if (*errp) {
-         return;
-     }
-     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 51b334b676..02243537e6 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -186,6 +186,7 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp)
- void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS *eas,
-                                    Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     uint32_t end_idx;
-     uint32_t end_blk;
-     uint8_t priority;
-@@ -193,7 +194,6 @@ void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS *eas,
-     bool masked;
-     uint32_t eisn;
-     uint64_t kvm_src;
--    Error *local_err = NULL;
- 
-     assert(xive_eas_is_valid(eas));
- 
-@@ -214,9 +214,8 @@ void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveEAS *eas,
-         KVM_XIVE_SOURCE_EISN_MASK;
- 
-     kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_SOURCE_CONFIG, lisn,
--                      &kvm_src, true, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                      &kvm_src, true, errp);
-+    if (*errp) {
-         return;
-     }
- }
-@@ -255,19 +254,17 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
- 
- static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
-     int i;
- 
-     for (i = 0; i < xsrc->nr_irqs; i++) {
--        Error *local_err = NULL;
--
-         if (!xive_eas_is_valid(&xive->eat[i])) {
-             continue;
-         }
- 
--        kvmppc_xive_source_reset_one(xsrc, i, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        kvmppc_xive_source_reset_one(xsrc, i, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -389,11 +386,11 @@ void kvmppc_xive_get_queue_config(SpaprXive *xive, uint8_t end_blk,
-                                   uint32_t end_idx, XiveEND *end,
-                                   Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     struct kvm_ppc_xive_eq kvm_eq = { 0 };
-     uint64_t kvm_eq_idx;
-     uint8_t priority;
-     uint32_t server;
--    Error *local_err = NULL;
- 
-     assert(xive_end_is_valid(end));
- 
-@@ -406,9 +403,8 @@ void kvmppc_xive_get_queue_config(SpaprXive *xive, uint8_t end_blk,
-         KVM_XIVE_EQ_SERVER_MASK;
- 
-     kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_EQ_CONFIG, kvm_eq_idx,
--                      &kvm_eq, false, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                      &kvm_eq, false, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -425,11 +421,11 @@ void kvmppc_xive_set_queue_config(SpaprXive *xive, uint8_t end_blk,
-                                   uint32_t end_idx, XiveEND *end,
-                                   Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     struct kvm_ppc_xive_eq kvm_eq = { 0 };
-     uint64_t kvm_eq_idx;
-     uint8_t priority;
-     uint32_t server;
--    Error *local_err = NULL;
- 
-     /*
-      * Build the KVM state from the local END structure.
-@@ -468,9 +464,8 @@ void kvmppc_xive_set_queue_config(SpaprXive *xive, uint8_t end_blk,
-         KVM_XIVE_EQ_SERVER_MASK;
- 
-     kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_EQ_CONFIG, kvm_eq_idx,
--                      &kvm_eq, true, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                      &kvm_eq, true, errp);
-+    if (*errp) {
-         return;
-     }
- }
-@@ -483,7 +478,7 @@ void kvmppc_xive_reset(SpaprXive *xive, Error **errp)
- 
- static void kvmppc_xive_get_queues(SpaprXive *xive, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     int i;
- 
-     for (i = 0; i < xive->nr_ends; i++) {
-@@ -492,9 +487,8 @@ static void kvmppc_xive_get_queues(SpaprXive *xive, Error **errp)
-         }
- 
-         kvmppc_xive_get_queue_config(xive, SPAPR_XIVE_BLOCK_ID, i,
--                                     &xive->endt[i], &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                     &xive->endt[i], errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -742,8 +736,8 @@ static void *kvmppc_xive_mmap(SpaprXive *xive, int pgoff, size_t len,
-  */
- void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XiveSource *xsrc = &xive->source;
--    Error *local_err = NULL;
-     size_t esb_len = (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-     size_t tima_len = 4ull << TM_SHIFT;
-     CPUState *cs;
-@@ -772,8 +766,8 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
-      * 1. Source ESB pages - KVM mapping
-      */
-     xsrc->esb_mmap = kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, esb_len,
--                                      &local_err);
--    if (local_err) {
-+                                      errp);
-+    if (*errp) {
          goto fail;
      }
  
-@@ -790,8 +784,8 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
-      * 3. TIMA pages - KVM mapping
-      */
-     xive->tm_mmap = kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, tima_len,
--                                     &local_err);
--    if (local_err) {
-+                                     errp);
-+    if (*errp) {
-         goto fail;
-     }
-     memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
-@@ -806,15 +800,15 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu = POWERPC_CPU(cs);
- 
--        kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
--        if (local_err) {
-+        kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, errp);
-+        if (*errp) {
-             goto fail;
-         }
-     }
- 
-     /* Update the KVM sources */
--    kvmppc_xive_source_reset(xsrc, &local_err);
--    if (local_err) {
-+    kvmppc_xive_source_reset(xsrc, errp);
-+    if (*errp) {
+@@ -2012,11 +2009,10 @@ static int coroutine_fn vhdx_co_create_opts(const char *filename,
          goto fail;
      }
  
-@@ -824,7 +818,6 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **errp)
-     return;
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
++    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+     visit_free(v);
  
- fail:
--    error_propagate(errp, local_err);
-     kvmppc_xive_disconnect(xive, NULL);
- }
- 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 29df06df11..368f94df71 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -570,15 +570,14 @@ static void xive_tctx_reset(void *dev)
- 
- static void xive_tctx_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XiveTCTX *tctx = XIVE_TCTX(dev);
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
-     Object *obj;
--    Error *local_err = NULL;
- 
--    obj = object_property_get_link(OBJECT(dev), "cpu", &local_err);
-+    obj = object_property_get_link(OBJECT(dev), "cpu", errp);
-     if (!obj) {
--        error_propagate(errp, local_err);
-         error_prepend(errp, "required link 'cpu' not found: ");
-         return;
-     }
-@@ -601,9 +600,8 @@ static void xive_tctx_realize(DeviceState *dev, Error **errp)
- 
-     /* Connect the presenter to the VCPU (required for CPU hotplug) */
-     if (kvm_irqchip_in_kernel()) {
--        kvmppc_xive_cpu_connect(tctx, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        kvmppc_xive_cpu_connect(tctx, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-@@ -681,15 +679,15 @@ static const TypeInfo xive_tctx_info = {
- 
- Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     Object *obj;
- 
-     obj = object_new(TYPE_XIVE_TCTX);
-     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
-     object_unref(obj);
-     object_property_add_const_link(obj, "cpu", cpu, &error_abort);
--    object_property_set_bool(obj, true, "realized", &local_err);
 -    if (local_err) {
-+    object_property_set_bool(obj, true, "realized", errp);
+-        error_propagate(errp, local_err);
 +    if (*errp) {
-         goto error;
-     }
- 
-@@ -697,7 +695,6 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
- 
- error:
-     object_unparent(obj);
--    error_propagate(errp, local_err);
-     return NULL;
- }
- 
-@@ -1050,13 +1047,12 @@ static void xive_source_reset(void *dev)
- 
- static void xive_source_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XiveSource *xsrc = XIVE_SOURCE(dev);
-     Object *obj;
--    Error *local_err = NULL;
- 
--    obj = object_property_get_link(OBJECT(dev), "xive", &local_err);
-+    obj = object_property_get_link(OBJECT(dev), "xive", errp);
-     if (!obj) {
--        error_propagate(errp, local_err);
-         error_prepend(errp, "required link 'xive' not found: ");
-         return;
-     }
-@@ -1806,13 +1802,12 @@ static const MemoryRegionOps xive_end_source_ops = {
- 
- static void xive_end_source_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     XiveENDSource *xsrc = XIVE_END_SOURCE(dev);
-     Object *obj;
--    Error *local_err = NULL;
- 
--    obj = object_property_get_link(OBJECT(dev), "xive", &local_err);
-+    obj = object_property_get_link(OBJECT(dev), "xive", errp);
-     if (!obj) {
--        error_propagate(errp, local_err);
-         error_prepend(errp, "required link 'xive' not found: ");
-         return;
+         ret = -EINVAL;
+         goto fail;
      }
 -- 
 2.21.0
