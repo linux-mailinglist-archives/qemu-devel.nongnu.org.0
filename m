@@ -2,89 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2489D476D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:20:13 +0200 (CEST)
-Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE4CD4742
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:15:14 +0200 (CEST)
+Received: from localhost ([::1]:55233 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzWO-0007Ie-DY
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45787)
+	id 1iIzRZ-0002Si-9A
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:15:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1iIyHA-0003eK-TW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:00:26 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIzOl-0000YB-SK
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:12:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1iIyH8-00036T-Lo
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:00:24 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29822)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1iIyH8-00034I-Cs
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:00:22 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9BGrSM0076468; Fri, 11 Oct 2019 13:00:19 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vjwdprwbv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2019 13:00:18 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x9BGukiv083866;
- Fri, 11 Oct 2019 13:00:18 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vjwdprwa6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2019 13:00:18 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x9BGuF0k032448;
- Fri, 11 Oct 2019 17:00:16 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 2vejt82d7f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Oct 2019 17:00:16 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9BH0Fj347972670
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Oct 2019 17:00:15 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 96DF9124054;
- Fri, 11 Oct 2019 17:00:15 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 88C68124053;
- Fri, 11 Oct 2019 17:00:15 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 11 Oct 2019 17:00:15 +0000 (GMT)
-Subject: Re: [RFC v5 017/126] hw/tpm: rename Error ** parameter to more common
+ (envelope-from <eblake@redhat.com>) id 1iIzOj-0007JV-Lv
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:12:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56248)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzOj-0007Ix-9c
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:12:17 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EFDBD81F31;
+ Fri, 11 Oct 2019 18:12:15 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 480D119C58;
+ Fri, 11 Oct 2019 18:12:13 +0000 (UTC)
+Subject: Re: [RFC v5 016/126] hw/sd: rename Error ** parameter to more common
  errp
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-18-vsementsov@virtuozzo.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <d590bbd5-196c-4a60-17c6-26cff54e3be1@linux.ibm.com>
-Date: Fri, 11 Oct 2019 13:00:15 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <20191011160552.22907-17-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <2aa9a2f8-e4ae-e8cc-0237-f0e0210c57b8@redhat.com>
+Date: Fri, 11 Oct 2019 13:12:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011160552.22907-18-vsementsov@virtuozzo.com>
+In-Reply-To: <20191011160552.22907-17-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Language: en-MW
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-11_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910110149
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 11 Oct 2019 18:12:16 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,58 +63,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 12:04 PM, Vladimir Sementsov-Ogievskiy wrote:
+On 10/11/19 11:04 AM, Vladimir Sementsov-Ogievskiy wrote:
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-
-
-
 > ---
->   hw/tpm/tpm_emulator.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
-> index 22f9113432..10d587ed40 100644
-> --- a/hw/tpm/tpm_emulator.c
-> +++ b/hw/tpm/tpm_emulator.c
-> @@ -155,7 +155,7 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
->                                        const uint8_t *in, uint32_t in_len,
->                                        uint8_t *out, uint32_t out_len,
->                                        bool *selftest_done,
-> -                                     Error **err)
-> +                                     Error **errp)
+>   hw/sd/sdhci.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> index e08ec3e398..e56031b5e4 100644
+> --- a/hw/sd/sdhci.c
+> +++ b/hw/sd/sdhci.c
+> @@ -1459,7 +1459,7 @@ static void sdhci_sysbus_finalize(Object *obj)
+>       sdhci_uninitfn(s);
+>   }
+>   
+> -static void sdhci_sysbus_realize(DeviceState *dev, Error ** errp)
+> +static void sdhci_sysbus_realize(DeviceState *dev, Error **errp)
+
+This is not a rename, but reformatting.
+
+With a better commit message,
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 >   {
->       ssize_t ret;
->       bool is_selftest = false;
-> @@ -165,20 +165,20 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
->           is_selftest = tpm_util_is_selftest(in, in_len);
->       }
->   
-> -    ret = qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, err);
-> +    ret = qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, errp);
->       if (ret != 0) {
->           return -1;
->       }
->   
->       ret = qio_channel_read_all(tpm_emu->data_ioc, (char *)out,
-> -              sizeof(struct tpm_resp_hdr), err);
-> +              sizeof(struct tpm_resp_hdr), errp);
->       if (ret != 0) {
->           return -1;
->       }
->   
->       ret = qio_channel_read_all(tpm_emu->data_ioc,
->                 (char *)out + sizeof(struct tpm_resp_hdr),
-> -              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), err);
-> +              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), errp);
->       if (ret != 0) {
->           return -1;
->       }
+>       SDHCIState *s = SYSBUS_SDHCI(dev);
+>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> 
 
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
