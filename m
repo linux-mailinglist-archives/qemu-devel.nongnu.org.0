@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60F3D46B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:35:23 +0200 (CEST)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEE7D46D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:45:55 +0200 (CEST)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyoz-0006Rz-Tw
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
+	id 1iIyzB-0002RI-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:45:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhP-0001Bo-Gw
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:29 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0006ZG-IF
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhO-0008Pg-4G
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:27 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49718)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0004jm-2X
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:37 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxhM-0008Oh-Md
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:26 -0400
+ id 1iIxR4-0004Fd-O5; Fri, 11 Oct 2019 12:06:34 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxRA-0003XG-22; Fri, 11 Oct 2019 19:06:40 +0300
+ id 1iIxQi-0003XG-W4; Fri, 11 Oct 2019 19:06:13 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 126/126] util/qemu-config.c: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:52 +0300
-Message-Id: <20191011160552.22907-127-vsementsov@virtuozzo.com>
+Subject: [RFC v5 051/126] vfio-ccw: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:37 +0300
+Message-Id: <20191011160552.22907-52-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +47,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Farman <farman@linux.ibm.com>,
+ vsementsov@virtuozzo.com, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,83 +100,72 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- util/qemu-config.c | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+ hw/s390x/s390-ccw.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 772f5a219e..13e2f797ba 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -478,10 +478,10 @@ int qemu_read_config_file(const char *filename)
- static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
-                                        Error **errp)
+diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
+index 0c5a5b60bd..415fa04091 100644
+--- a/hw/s390x/s390-ccw.c
++++ b/hw/s390x/s390-ccw.c
+@@ -55,6 +55,7 @@ static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
+                                   char *sysfsdev,
+                                   Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     QemuOpts *subopts;
-     QDict *subqdict;
-     QList *list = NULL;
--    Error *local_err = NULL;
-     size_t orig_size, enum_size;
-     char *prefix;
+     unsigned int cssid, ssid, devid;
+     char dev_path[PATH_MAX] = {0}, *tmp;
  
-@@ -493,15 +493,13 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
-         goto out;
-     }
+@@ -86,19 +87,19 @@ static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
  
--    subopts = qemu_opts_create(opts, NULL, 0, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    subopts = qemu_opts_create(opts, NULL, 0, errp);
-+    if (*errp) {
-         goto out;
-     }
- 
--    qemu_opts_absorb_qdict(subopts, subqdict, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    qemu_opts_absorb_qdict(subopts, subqdict, errp);
-+    if (*errp) {
-         goto out;
-     }
- 
-@@ -538,16 +536,14 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
-             }
- 
-             opt_name = g_strdup_printf("%s.%u", opts->name, i++);
--            subopts = qemu_opts_create(opts, opt_name, 1, &local_err);
-+            subopts = qemu_opts_create(opts, opt_name, 1, errp);
-             g_free(opt_name);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            if (*errp) {
-                 goto out;
-             }
- 
--            qemu_opts_absorb_qdict(subopts, section, &local_err);
--            if (local_err) {
--                error_propagate(errp, local_err);
-+            qemu_opts_absorb_qdict(subopts, section, errp);
-+            if (*errp) {
-                 qemu_opts_del(subopts);
-                 goto out;
-             }
-@@ -569,13 +565,12 @@ out:
- void qemu_config_parse_qdict(QDict *options, QemuOptsList **lists,
-                              Error **errp)
+ static void s390_ccw_realize(S390CCWDevice *cdev, char *sysfsdev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int i;
--    Error *local_err = NULL;
+     CcwDevice *ccw_dev = CCW_DEVICE(cdev);
+     CCWDeviceClass *ck = CCW_DEVICE_GET_CLASS(ccw_dev);
+     DeviceState *parent = DEVICE(ccw_dev);
+     SubchDev *sch;
+     int ret;
+-    Error *err = NULL;
  
-     for (i = 0; lists[i]; i++) {
--        config_parse_qdict_section(options, lists[i], &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        config_parse_qdict_section(options, lists[i], errp);
-+        if (*errp) {
-             return;
-         }
+-    s390_ccw_get_dev_info(cdev, sysfsdev, &err);
+-    if (err) {
+-        goto out_err_propagate;
++    s390_ccw_get_dev_info(cdev, sysfsdev, errp);
++    if (*errp) {
++        return;
      }
+ 
+-    sch = css_create_sch(ccw_dev->devno, &err);
++    sch = css_create_sch(ccw_dev->devno, errp);
+     if (!sch) {
+         goto out_mdevid_free;
+     }
+@@ -108,13 +109,13 @@ static void s390_ccw_realize(S390CCWDevice *cdev, char *sysfsdev, Error **errp)
+     ccw_dev->sch = sch;
+     ret = css_sch_build_schib(sch, &cdev->hostid);
+     if (ret) {
+-        error_setg_errno(&err, -ret, "%s: Failed to build initial schib",
++        error_setg_errno(errp, -ret, "%s: Failed to build initial schib",
+                          __func__);
+         goto out_err;
+     }
+ 
+-    ck->realize(ccw_dev, &err);
+-    if (err) {
++    ck->realize(ccw_dev, errp);
++    if (*errp) {
+         goto out_err;
+     }
+ 
+@@ -128,8 +129,6 @@ out_err:
+     g_free(sch);
+ out_mdevid_free:
+     g_free(cdev->mdevid);
+-out_err_propagate:
+-    error_propagate(errp, err);
+ }
+ 
+ static void s390_ccw_unrealize(S390CCWDevice *cdev, Error **errp)
 -- 
 2.21.0
 
