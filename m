@@ -2,73 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C186D3A03
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:28:05 +0200 (CEST)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CC1D3A18
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:35:39 +0200 (CEST)
+Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIpLI-0006vA-7A
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33409)
+	id 1iIpSb-0003Kk-Vu
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iIpJo-0006S5-Mn
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:26:33 -0400
+ (envelope-from <xiaoyao.li@intel.com>) id 1iIpQq-0002KR-Is
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:33:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iIpJn-0004da-9Y
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:26:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58178)
+ (envelope-from <xiaoyao.li@intel.com>) id 1iIpQo-00085N-Le
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:33:47 -0400
+Received: from mga04.intel.com ([192.55.52.120]:5470)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iIpJn-0004dN-1K
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:26:31 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EED4289AC4
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 07:26:29 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id p6so2247012wmc.3
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 00:26:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=An+Xw9UfvUhIk/kOagdDxjmvY77oHZp8b3iPBc8TVRo=;
- b=H/938Cykup6+pY691BQ789dh2YD4pnGhxjwpFrH56unsi/aYt6OFkgN4V+oizWIllh
- XwixFIrl3ts2MJIF8mYOpEuoHblgRxGDt60Qfn8Gr9J6dpWu6JyqNmF027hwda+ob2aM
- qUkN6aDz2yLdmDHEsSnQBsq1z+EGYDh0dVPITMI6FBWGwgm4yfL2lBnp8yi9NBOS4OsE
- kBWW4jxVPoFlInh9SZn/HH8JDBXN2d3T/vfT0GhcnpRXfiKVpK97e8ReZV6JkFnatc8l
- nsViB6F685lbLL/hAB56sZ0e5f+DtwWd1yFArrXukjliCJJyD5aPWzsmiBQ6Cr6+Wn7Y
- 23kg==
-X-Gm-Message-State: APjAAAU+b3EajiqofseYc4yOjvw2ifpxWQc8/jY7yjOcHkMuyvmGrHgE
- HD6UI4xgwkOwgSmdi8A+/1Qphqv13MujQyGiK64NU7nBsFu0ZXmCUZ7zed0qfYjCmXvtUXeo9LO
- U0ogU+jFwAsHg6xA=
-X-Received: by 2002:adf:f0c3:: with SMTP id x3mr1496941wro.389.1570778788746; 
- Fri, 11 Oct 2019 00:26:28 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqz2ekderyPFHmZUOuAA69ES4tbwxnemkhZ6UKgm+rnJbsdPuOSA4zTSbJZjNpZNYqG90Tyd7w==
-X-Received: by 2002:adf:f0c3:: with SMTP id x3mr1496920wro.389.1570778788533; 
- Fri, 11 Oct 2019 00:26:28 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id 90sm10932121wrr.1.2019.10.11.00.26.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 00:26:27 -0700 (PDT)
-References: <20191010143125.67246-1-slp@redhat.com>
- <20191010143125.67246-5-slp@redhat.com>
- <f147fefc-1bec-2ac1-b5d6-35bcfdddf2fc@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v8 04/15] hw/i386/pc: replace use of strtol with
- qemu_strtol in x86_load_linux()
-In-reply-to: <f147fefc-1bec-2ac1-b5d6-35bcfdddf2fc@redhat.com>
-Date: Fri, 11 Oct 2019 09:26:25 +0200
-Message-ID: <871rvj4uam.fsf@redhat.com>
+ (Exim 4.71) (envelope-from <xiaoyao.li@intel.com>)
+ id 1iIpQo-00080g-EC
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:33:46 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2019 00:33:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,283,1566889200"; d="scan'208";a="184683958"
+Received: from lxy-clx-4s.sh.intel.com ([10.239.43.57])
+ by orsmga007.jf.intel.com with ESMTP; 11 Oct 2019 00:33:38 -0700
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH] target/i386: Remove MPX support on Snowridge CPU model
+Date: Fri, 11 Oct 2019 15:18:44 +0800
+Message-Id: <20191011071844.108924-1-xiaoyao.li@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,96 +55,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, lersek@redhat.com, rth@twiddle.net
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MPX support is being phased out by Intel. Following other CPU models
+like Skylake, Icelake and Cascadelake, do not enable it by default.
 
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+---
+I'm not sure is there anyone already use Snowridge CPU model and whether to
+add it in pc_compat_4_1, since Snowridge has not been released yet.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+---
+ hw/i386/pc.c      | 4 +++-
+ target/i386/cpu.c | 1 -
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-> Hi Sergio,
->
-> On 10/10/19 4:31 PM, Sergio Lopez wrote:
->> Follow checkpatch.pl recommendation and replace the use of strtol with
->> qemu_strtol in x86_load_linux().
->>
->> Signed-off-by: Sergio Lopez <slp@redhat.com>
->> ---
->>   hw/i386/pc.c | 11 +++++++++--
->>   1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index 77e86bfc3d..e6bcc3ff42 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -68,6 +68,7 @@
->>   #include "qemu/config-file.h"
->>   #include "qemu/error-report.h"
->>   #include "qemu/option.h"
->> +#include "qemu/cutils.h"
->>   #include "hw/acpi/acpi.h"
->>   #include "hw/acpi/cpu_hotplug.h"
->>   #include "hw/boards.h"
->> @@ -1201,7 +1202,8 @@ static void x86_load_linux(PCMachineState *pcms,
->>       /* handle vga=3D parameter */
->>       vmode =3D strstr(kernel_cmdline, "vga=3D");
->>       if (vmode) {
->> -        unsigned int video_mode;
->> +        long video_mode;
->
-> Why do you change 'video_mode' to a signed type?
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index bcda50efcc23..97eb7ac32588 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -105,7 +105,9 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
+ 
+-GlobalProperty pc_compat_4_1[] = {};
++GlobalProperty pc_compat_4_1[] = {
++    { "Snowridge" "-" TYPE_X86_CPU, "mpx", "on" },
++};
+ const size_t pc_compat_4_1_len = G_N_ELEMENTS(pc_compat_4_1);
+ 
+ GlobalProperty pc_compat_4_0[] = {};
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 44f1bbdcac76..885bea76205d 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -2762,7 +2762,6 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_7_0_EBX_FSGSBASE |
+             CPUID_7_0_EBX_SMEP |
+             CPUID_7_0_EBX_ERMS |
+-            CPUID_7_0_EBX_MPX |  /* missing bits 13, 15 */
+             CPUID_7_0_EBX_RDSEED |
+             CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
+             CPUID_7_0_EBX_CLWB |
+-- 
+2.19.1
 
-qemu_strtol fourth argument is a pointer to long int. According to
-"linux/Documentation/admin-guide/svga.rst", valid video modes are in the
-in the range of 0x0 to 0xffff (matching the stw_p below), so this change
-shouldn't be a problem.
-
->> +        int ret;
->>           /* skip "vga=3D" */
->>           vmode +=3D 4;
->>           if (!strncmp(vmode, "normal", 6)) {
->> @@ -1211,7 +1213,12 @@ static void x86_load_linux(PCMachineState *pcms,
->>           } else if (!strncmp(vmode, "ask", 3)) {
->>               video_mode =3D 0xfffd;
->>           } else {
->> -            video_mode =3D strtol(vmode, NULL, 0);
->> +            ret =3D qemu_strtol(vmode, NULL, 0, &video_mode);
->> +            if (ret !=3D 0) {
->> +                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s\=
-n",
->> +                        strerror(-ret));
->> +                exit(1);
->> +            }
->>           }
->>           stw_p(header + 0x1fa, video_mode);
->>       }
->>
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2gLqEACgkQ9GknjS8M
-AjUc7Q/8CnWTRMR6gzrhCRxWAfEMSOp4MoDoYhYGvgl70r1qydi6dGcXJKV5zncV
-0kG/0DDofIqYjfrWiEe1nwIWr/cCpqeB7vIrL+RbSYZLeycDLfY79AoDSuynLd73
-ff8apDmIR/ev+m0WEQsL1iFvFzzxcQZ+Z2e5t2cp8VRU9NXJUlI2+k/hBr15Nes1
-xPw+15k6t70qCrwFMzdjCHiCDKgfwhCd51s+DgTDMXYSlG1yYcgvD7tEn8WyqFLc
-JoLDXEjnYm+947TKsNjQfF+IPBBNHR/vPgFVELABNL79f/QZb2ydQ8rTZtwzr1cr
-FK3T/rjIz4fL+zGDUGqCb3SIqGzkuVQdktC7lsDX15gAlqBLS957wTIRRwG1Eyz1
-a0KukdQU8UypgyeymEzaUpljHgT3uyN7nFqBf1KyRZ+TvW9MlCtAC/h9F9QouitE
-456MlskiTakgwWq/03hBgNa9zA7EuWpmRAgCiaC9i3hsuRrbedfG6GVWqLhSN68o
-MxrlsUCc/J2vRm1UTTzieKS2wt1QPk8Phda1dv4zr7h3QNk9LkOH+Jj2Aua9L5R8
-FkbGJ/ajw8R9xeh/Gj4AAkczzXSYuIBXO/aNg5otwbW2hCg2lm7B0gB04d9IXbc3
-7X/NUgHL5tGaJFtGUqs7JDHW+QsGN3A4YqfblpV7EvkBhkXqHNw=
-=wyHc
------END PGP SIGNATURE-----
---=-=-=--
 
