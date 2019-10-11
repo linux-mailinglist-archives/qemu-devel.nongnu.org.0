@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE0CD46BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:38:15 +0200 (CEST)
-Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2645D46B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:35:06 +0200 (CEST)
+Received: from localhost ([::1]:54724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyrm-0001lL-0Y
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37273)
+	id 1iIyoj-000613-5S
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRL-0006yE-Lm
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlx-0007NR-R5
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRK-0004x5-0P
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:51 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48542)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlw-0002e7-Lt
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:09 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49928)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxRJ-0004bD-Oh; Fri, 11 Oct 2019 12:06:49 -0400
+ id 1iIxlv-0002du-TT; Fri, 11 Oct 2019 12:28:08 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQy-0003XG-8Z; Fri, 11 Oct 2019 19:06:28 +0300
+ id 1iIxR1-0003XG-Ta; Fri, 11 Oct 2019 19:06:32 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 096/126] VHDX: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:22 +0300
-Message-Id: <20191011160552.22907-97-vsementsov@virtuozzo.com>
+Subject: [RFC v5 101/126] SSH: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:27 +0300
+Message-Id: <20191011160552.22907-102-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, Jeff Cody <codyprime@gmail.com>, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
+ qemu-block@nongnu.org, "Richard W.M. Jones" <rjones@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,101 +97,48 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/vhdx-log.c |  1 +
- block/vhdx.c     | 22 +++++++++-------------
- 2 files changed, 10 insertions(+), 13 deletions(-)
+ block/ssh.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/block/vhdx-log.c b/block/vhdx-log.c
-index fdd3a7adc3..176e03327b 100644
---- a/block/vhdx-log.c
-+++ b/block/vhdx-log.c
-@@ -748,6 +748,7 @@ exit:
- int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
-                    Error **errp)
+diff --git a/block/ssh.c b/block/ssh.c
+index 84d01e892b..98df18ecb7 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -614,17 +614,16 @@ static bool ssh_process_legacy_options(QDict *output_opts,
+ 
+ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int ret = 0;
-     VHDXHeader *hdr;
-     VHDXLogSequence logs = { 0 };
-diff --git a/block/vhdx.c b/block/vhdx.c
-index 6a09d0a55c..e3ca23214c 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -898,11 +898,11 @@ static void vhdx_close(BlockDriverState *bs)
- static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
-                      Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BDRVVHDXState *s = bs->opaque;
-     int ret = 0;
-     uint32_t i;
-     uint64_t signature;
+     BlockdevOptionsSsh *result = NULL;
+     QemuOpts *opts = NULL;
 -    Error *local_err = NULL;
+     const QDictEntry *e;
+     Visitor *v;
  
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
-                                false, errp);
-@@ -931,9 +931,8 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
-      * header update */
-     vhdx_guid_generate(&s->session_guid);
- 
--    vhdx_parse_header(bs, s, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    vhdx_parse_header(bs, s, errp);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto fail;
-     }
-@@ -1007,9 +1006,8 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The vhdx format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
+     /* Translate legacy options */
+     opts = qemu_opts_create(&ssh_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
++    qemu_opts_absorb_qdict(opts, options, errp);
 +    if (*errp) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-@@ -1966,11 +1964,11 @@ static int coroutine_fn vhdx_co_create_opts(const char *filename,
-                                             QemuOpts *opts,
-                                             Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BlockdevCreateOptions *create_options = NULL;
-     QDict *qdict;
-     Visitor *v;
-     BlockDriverState *bs = NULL;
--    Error *local_err = NULL;
-     int ret;
- 
-     static const QDictRenames opt_renames[] = {
-@@ -1989,9 +1987,8 @@ static int coroutine_fn vhdx_co_create_opts(const char *filename,
-     }
- 
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, &local_err);
-+    ret = bdrv_create_file(filename, opts, errp);
-     if (ret < 0) {
--        error_propagate(errp, local_err);
          goto fail;
      }
  
-@@ -2012,11 +2009,10 @@ static int coroutine_fn vhdx_co_create_opts(const char *filename,
+@@ -638,11 +637,10 @@ static BlockdevOptionsSsh *ssh_parse_options(QDict *options, Error **errp)
          goto fail;
      }
  
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+-    visit_type_BlockdevOptionsSsh(v, NULL, &result, &local_err);
++    visit_type_BlockdevOptionsSsh(v, NULL, &result, errp);
      visit_free(v);
  
 -    if (local_err) {
 -        error_propagate(errp, local_err);
 +    if (*errp) {
-         ret = -EINVAL;
          goto fail;
      }
+ 
 -- 
 2.21.0
 
