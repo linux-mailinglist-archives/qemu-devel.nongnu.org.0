@@ -2,48 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F20D4700
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:56:20 +0200 (CEST)
-Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B3BD4713
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:59:31 +0200 (CEST)
+Received: from localhost ([::1]:55026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIz9G-0005iM-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47239)
+	id 1iIzCM-00017S-GO
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iIySG-0002lS-4U
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:11:53 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIyTs-0004jm-Q3
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:13:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iIySD-0007it-UE
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:11:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47142)
+ (envelope-from <eblake@redhat.com>) id 1iIyTr-0008Hq-EO
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:13:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55802)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iIySD-0007ij-LA
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:11:49 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iIyTl-0008D5-Qi; Fri, 11 Oct 2019 13:13:26 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A4AB45946B;
- Fri, 11 Oct 2019 17:11:48 +0000 (UTC)
-Received: from work-vm (ovpn-117-210.ams2.redhat.com [10.36.117.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A83004536;
- Fri, 11 Oct 2019 17:11:35 +0000 (UTC)
-Date: Fri, 11 Oct 2019 18:11:33 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH v3 07/10] migration: add new migration state wait-unplug
-Message-ID: <20191011171133.GU3354@work-vm>
-References: <20191011112015.11785-1-jfreimann@redhat.com>
- <20191011112015.11785-8-jfreimann@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id ABE5711A23;
+ Fri, 11 Oct 2019 17:13:24 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F02B560923;
+ Fri, 11 Oct 2019 17:12:49 +0000 (UTC)
+Subject: Re: [RFC v5 025/126] scripts: add coccinelle script to use auto
+ propagated errp
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-26-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5dd4d642-7ea6-42a2-66fc-6d6710b77b8d@redhat.com>
+Date: Fri, 11 Oct 2019 12:12:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191011112015.11785-8-jfreimann@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20191011160552.22907-26-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 11 Oct 2019 17:11:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Fri, 11 Oct 2019 17:13:25 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -58,251 +63,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, aadam@redhat.com,
- qemu-devel@nongnu.org, alex.williamson@redhat.com, laine@redhat.com,
- ailan@redhat.com, parav@mellanox.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Alberto Garcia <berto@igalia.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-block@nongnu.org,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Halil Pasic <pasic@linux.ibm.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Anthony Green <green@moxielogic.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Chris Wulff <crwulff@gmail.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Igor Mammedov <imammedo@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Peter Maydell <peter.maydell@linaro.org>, sheepdog@lists.wpkg.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Palmer Dabbelt <palmer@sifive.com>, Thomas Huth <thuth@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
+ Hannes Reinecke <hare@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Liu Yuan <namei.unix@gmail.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eric Farman <farman@linux.ibm.com>,
+ Amit Shah <amit@kernel.org>, Stefan Weil <sw@weilnetz.de>,
+ Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stafford Horne <shorne@gmail.com>, qemu-riscv@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <pburton@wavecomp.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Ari Sundholm <ari@tuxera.com>,
+ Juan Quintela <quintela@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Joel Stanley <joel@jms.id.au>,
+ Jason Dillaman <dillaman@redhat.com>, Antony Pavlov <antonynpavlov@gmail.com>,
+ xen-devel@lists.xenproject.org, integration@gluster.org,
+ Laszlo Ersek <lersek@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, Max Reitz <mreitz@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Vincenzo Maffione <v.maffione@gmail.com>, Marek Vasut <marex@denx.de>,
+ armbru@redhat.com,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jens Freimann (jfreimann@redhat.com) wrote:
-> This patch adds a new migration state called wait-unplug.  It is entered
-> after the SETUP state and will transition into ACTIVE once all devices
-> were succesfully unplugged from the guest.
-> 
-> So if a guest doesn't respond or takes long to honor the unplug request
-> the user will see the migration state 'wait-unplug'.
-> 
-> In the migration thread we query failover devices if they're are still
-> pending the guest unplug. When all are unplugged the migration
-> continues. We give it a defined number of iterations including small
-> waiting periods before we proceed.
-> 
-> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+On 10/11/19 11:04 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/migration/vmstate.h |  2 ++
->  migration/migration.c       | 34 ++++++++++++++++++++++++++++++++++
->  migration/migration.h       |  3 +++
->  migration/savevm.c          | 36 ++++++++++++++++++++++++++++++++++++
->  migration/savevm.h          |  1 +
->  qapi/migration.json         |  5 ++++-
->  6 files changed, 80 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index 1fbfd099dd..39ef125225 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -186,6 +186,8 @@ struct VMStateDescription {
->      int (*pre_save)(void *opaque);
->      int (*post_save)(void *opaque);
->      bool (*needed)(void *opaque);
-> +    bool (*dev_unplug_pending)(void *opaque);
-> +
->      const VMStateField *fields;
->      const VMStateDescription **subsections;
->  };
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 5f7e4d15e9..a17d9fb990 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -52,9 +52,14 @@
->  #include "hw/qdev-properties.h"
->  #include "monitor/monitor.h"
->  #include "net/announce.h"
-> +#include "qemu/queue.h"
->  
->  #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
->  
-> +/* Time in milliseconds to wait for guest OS to unplug PCI device */
-> +#define FAILOVER_GUEST_UNPLUG_WAIT 10000
-> +#define FAILOVER_UNPLUG_RETRIES 5
-> +
->  /* Amount of time to allocate to each "chunk" of bandwidth-throttled
->   * data. */
->  #define BUFFER_DELAY     100
-> @@ -954,6 +959,9 @@ static void fill_source_migration_info(MigrationInfo *info)
->      case MIGRATION_STATUS_CANCELLED:
->          info->has_status = true;
->          break;
-> +    case MIGRATION_STATUS_WAIT_UNPLUG:
-> +        info->has_status = true;
-> +        break;
->      }
->      info->status = s->state;
->  }
-> @@ -1695,6 +1703,7 @@ bool migration_is_idle(void)
->      case MIGRATION_STATUS_COLO:
->      case MIGRATION_STATUS_PRE_SWITCHOVER:
->      case MIGRATION_STATUS_DEVICE:
-> +    case MIGRATION_STATUS_WAIT_UNPLUG:
->          return false;
->      case MIGRATION_STATUS__MAX:
->          g_assert_not_reached();
-> @@ -3224,6 +3233,8 @@ static void *migration_thread(void *opaque)
->      int64_t setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
->      MigThrError thr_error;
->      bool urgent = false;
-> +    bool all_unplugged = true;
-> +    int i = 0;
->  
->      rcu_register_thread();
->  
-> @@ -3260,6 +3271,27 @@ static void *migration_thread(void *opaque)
->  
->      qemu_savevm_state_setup(s->to_dst_file);
->  
-> +    migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-> +                      MIGRATION_STATUS_WAIT_UNPLUG);
 
-I think I'd prefer if you only went into this state if you had any
-devices that were going to need unplugging.
-
-> +    while (i < FAILOVER_UNPLUG_RETRIES &&
-> +           s->state == MIGRATION_STATUS_WAIT_UNPLUG) {
-> +        i++;
-> +        qemu_sem_timedwait(&s->wait_unplug_sem, FAILOVER_GUEST_UNPLUG_WAIT);
-> +        all_unplugged = qemu_savevm_state_guest_unplug_pending();
-> +        if (all_unplugged) {
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (all_unplugged) {
-> +        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-> +                MIGRATION_STATUS_ACTIVE);
-> +    } else {
-> +        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-> +                          MIGRATION_STATUS_CANCELLING);
-> +    }
-
-I think you can get rid of both the timeout and the count and just make
-sure that migrate_cancel works at this point.
-This pushes the problem up a layer, which I think is fine.
-
->      s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
->      migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
->                        MIGRATION_STATUS_ACTIVE);
-> @@ -3508,6 +3540,7 @@ static void migration_instance_finalize(Object *obj)
->      qemu_mutex_destroy(&ms->qemu_file_lock);
->      g_free(params->tls_hostname);
->      g_free(params->tls_creds);
-> +    qemu_sem_destroy(&ms->wait_unplug_sem);
->      qemu_sem_destroy(&ms->rate_limit_sem);
->      qemu_sem_destroy(&ms->pause_sem);
->      qemu_sem_destroy(&ms->postcopy_pause_sem);
-> @@ -3553,6 +3586,7 @@ static void migration_instance_init(Object *obj)
->      qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
->      qemu_sem_init(&ms->rp_state.rp_sem, 0);
->      qemu_sem_init(&ms->rate_limit_sem, 0);
-> +    qemu_sem_init(&ms->wait_unplug_sem, 0);
->      qemu_mutex_init(&ms->qemu_file_lock);
->  }
->  
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 4f2fe193dc..79b3dda146 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -206,6 +206,9 @@ struct MigrationState
->      /* Flag set once the migration thread called bdrv_inactivate_all */
->      bool block_inactive;
->  
-> +    /* Migration is waiting for guest to unplug device */
-> +    QemuSemaphore wait_unplug_sem;
-> +
->      /* Migration is paused due to pause-before-switchover */
->      QemuSemaphore pause_sem;
->  
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index bb9462a54d..26e5bde687 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -942,6 +942,20 @@ static void qemu_savevm_command_send(QEMUFile *f,
->      qemu_fflush(f);
->  }
->  
-> +static int qemu_savevm_nr_failover_devices(void)
-> +{
-> +    SaveStateEntry *se;
-> +    int n = 0;
-> +
-> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> +        if (se->vmsd && se->vmsd->dev_unplug_pending) {
-> +            n++;
-> +        }
-> +    }
-> +
-> +    return n;
-> +}
-> +
->  void qemu_savevm_send_colo_enable(QEMUFile *f)
->  {
->      trace_savevm_send_colo_enable();
-> @@ -1113,6 +1127,28 @@ void qemu_savevm_state_header(QEMUFile *f)
->      }
->  }
->  
-> +bool qemu_savevm_state_guest_unplug_pending(void)
-> +{
-> +    int nr_failover_devs;
-> +    SaveStateEntry *se;
-> +    bool ret = false;
-> +    int n = 0;
-> +
-> +    nr_failover_devs = qemu_savevm_nr_failover_devices();
-> +
-> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> +        if (!se->vmsd || !se->vmsd->dev_unplug_pending) {
-> +            continue;
-> +        }
-> +        ret = se->vmsd->dev_unplug_pending(se->opaque);
-> +        if (!ret) {
-> +            n++;
-> +        }
-> +    }
-> +
-> +    return n == nr_failover_devs;
-> +}
-> +
->  void qemu_savevm_state_setup(QEMUFile *f)
->  {
->      SaveStateEntry *se;
-> diff --git a/migration/savevm.h b/migration/savevm.h
-> index 51a4b9caa8..ba64a7e271 100644
-> --- a/migration/savevm.h
-> +++ b/migration/savevm.h
-> @@ -31,6 +31,7 @@
->  
->  bool qemu_savevm_state_blocked(Error **errp);
->  void qemu_savevm_state_setup(QEMUFile *f);
-> +bool qemu_savevm_state_guest_unplug_pending(void);
->  int qemu_savevm_state_resume_prepare(MigrationState *s);
->  void qemu_savevm_state_header(QEMUFile *f);
->  int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy);
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 52e69e2868..5a06cd489f 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -133,6 +133,9 @@
->  # @device: During device serialisation when pause-before-switchover is enabled
->  #        (since 2.11)
->  #
-> +# @wait-unplug: wait for device unplug request by guest OS to be completed.
-> +#               (since 4.2)
-> +#
->  # Since: 2.3
->  #
->  ##
-> @@ -140,7 +143,7 @@
->    'data': [ 'none', 'setup', 'cancelling', 'cancelled',
->              'active', 'postcopy-active', 'postcopy-paused',
->              'postcopy-recover', 'completed', 'failed', 'colo',
-> -            'pre-switchover', 'device' ] }
-> +            'pre-switchover', 'device', 'wait-unplug' ] }
->  
->  ##
->  # @MigrationInfo:
-> -- 
-> 2.21.0
+>   scripts/coccinelle/auto-propagated-errp.cocci | 118 ++++++++++++++++++
+>   1 file changed, 118 insertions(+)
+>   create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/coccinelle/auto-propagated-errp.cocci
+> new file mode 100644
+> index 0000000000..d9731620aa
+> --- /dev/null
+> +++ b/scripts/coccinelle/auto-propagated-errp.cocci
+
+> +@rule1@
+> +// Drop local_err
+> +identifier fn, local_err;
+> +symbol errp;
+> +@@
+> +
+> + fn(..., Error **errp, ...)
+> + {
+> +     <...
+> +-    Error *local_err = NULL;
+> +     ...>
+> + }
+> +
+
+So our goal is to automate removal of all local_err (including when it 
+is spelled err)...
+
+> +@@
+> +// Handle pattern with goto, otherwise we'll finish up
+> +// with labels at function end which will not compile.
+> +identifier rule1.fn;
+> +identifier rule1.local_err;
+> +identifier OUT;
+> +@@
+> +
+> + fn(...)
+> + {
+> +     <...
+> +-    goto OUT;
+> ++    return;
+> +     ...>
+> +- OUT:
+> +-    error_propagate(errp, local_err);
+> + }
+> +
+
+this dangling label cleanup makes sense
+
+> +@@
+> +identifier rule1.fn;
+> +identifier rule1.local_err;
+> +@@
+> +
+> + fn(...)
+> + {
+> +     <...
+> +(
+> +-    error_free(local_err);
+> +-    local_err = NULL;
+> ++    error_free_errp(errp);
+
+This does not make sense - error_free_errp() is not defined prior to 
+this series or anywhere in patches 1-24, if I'm reading it correctly.
+
+> +|
+> +-    error_free(local_err);
+> ++    error_free_errp(errp);
+
+and again
+
+> +|
+> +-    error_report_err(local_err);
+> ++    error_report_errp(errp);
+> +|
+> +-    warn_report_err(local_err);
+> ++    warn_report_errp(errp);
+> +|
+> +-    error_propagate_prepend(errp, local_err,
+> ++    error_prepend(errp,
+> +                              ...);
+> +|
+> +-    error_propagate(errp, local_err);
+> +)
+> +     ...>
+> + }
+> +
+
+It looks like once this script is run, error_propagate_prepend() will 
+have no clients.  Is there a non-generated cleanup patch that removes it 
+(and once it is removed, it can also be removed from the .cocci script 
+as no further clients will reappear later)?
+
+
+> +@@
+> +identifier rule1.fn;
+> +identifier rule1.local_err;
+> +@@
+> +
+> + fn(...)
+> + {
+> +     <...
+> +(
+> +-    &local_err
+> ++    errp
+> +|
+> +-    local_err
+> ++    *errp
+> +)
+> +     ...>
+> + }
+> +
+> +@@
+> +symbol errp;
+> +@@
+> +
+> +- *errp != NULL
+> ++ *errp
+> 
+
+Seems to make sense.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
