@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E05D464A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:11:51 +0200 (CEST)
-Received: from localhost ([::1]:54404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56956D464C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:12:30 +0200 (CEST)
+Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIySE-0001T3-03
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36298)
+	id 1iIySr-0002PP-0l
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQt-0006Bi-U3
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:25 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0006VA-29
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQs-0004OE-0k
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:23 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47998)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR3-0004gS-3d
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48018)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQr-0004BU-PR
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:21 -0400
+ id 1iIxR2-0004Bf-P3; Fri, 11 Oct 2019 12:06:33 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQg-0003XG-IZ; Fri, 11 Oct 2019 19:06:10 +0300
+ id 1iIxQh-0003XG-59; Fri, 11 Oct 2019 19:06:11 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 042/126] PCI: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:28 +0300
-Message-Id: <20191011160552.22907-43-vsementsov@virtuozzo.com>
+Subject: [RFC v5 045/126] pflash: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:31 +0300
+Message-Id: <20191011160552.22907-46-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,8 +48,9 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,276 +98,63 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/pci-bridge/gen_pcie_root_port.c  |  7 +++----
- hw/pci-bridge/pci_bridge_dev.c      | 13 ++++++-------
- hw/pci-bridge/pci_expander_bridge.c |  7 +++----
- hw/pci-bridge/pcie_pci_bridge.c     |  8 +++-----
- hw/pci-bridge/pcie_root_port.c      |  1 +
- hw/pci/pci.c                        | 19 ++++++++-----------
- hw/pci/pcie.c                       |  7 +++----
- hw/pci/shpc.c                       | 14 ++++++--------
- 8 files changed, 33 insertions(+), 43 deletions(-)
+ hw/block/pflash_cfi01.c | 7 +++----
+ hw/block/pflash_cfi02.c | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_pcie_root_port.c
-index 9eaefebca8..578f9de11a 100644
---- a/hw/pci-bridge/gen_pcie_root_port.c
-+++ b/hw/pci-bridge/gen_pcie_root_port.c
-@@ -73,14 +73,13 @@ static bool gen_rp_test_migrate_msix(void *opaque, int version_id)
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 566c0acb77..37571b6efb 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -700,12 +700,12 @@ static const MemoryRegionOps pflash_cfi01_ops = {
  
- static void gen_rp_realize(DeviceState *dev, Error **errp)
+ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     PCIDevice *d = PCI_DEVICE(dev);
-     GenPCIERootPort *grp = GEN_PCIE_ROOT_PORT(d);
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(d);
+     PFlashCFI01 *pfl = PFLASH_CFI01(dev);
+     uint64_t total_len;
+     int ret;
+     uint64_t blocks_per_device, sector_len_per_device, device_len;
+     int num_devices;
 -    Error *local_err = NULL;
  
--    rpc->parent_realize(dev, &local_err);
+     if (pfl->sector_len == 0) {
+         error_setg(errp, "attribute \"sector-length\" not specified or zero.");
+@@ -739,9 +739,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+         &pfl->mem, OBJECT(dev),
+         &pflash_cfi01_ops,
+         pfl,
+-        pfl->name, total_len, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    rpc->parent_realize(dev, errp);
++        pfl->name, total_len, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
-index cc80cb4898..e75bd1c656 100644
---- a/hw/pci-bridge/pci_bridge_dev.c
-+++ b/hw/pci-bridge/pci_bridge_dev.c
-@@ -56,10 +56,10 @@ typedef struct PCIBridgeDev PCIBridgeDev;
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index 4baca701b7..9dcdc13289 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -719,9 +719,9 @@ static const MemoryRegionOps pflash_cfi02_ops = {
  
- static void pci_bridge_dev_realize(PCIDevice *dev, Error **errp)
+ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     PCIBridge *br = PCI_BRIDGE(dev);
-     PCIBridgeDev *bridge_dev = PCI_BRIDGE_DEV(dev);
-     int err;
+     PFlashCFI02 *pfl = PFLASH_CFI02(dev);
+     int ret;
 -    Error *local_err = NULL;
  
-     pci_bridge_initfn(dev, TYPE_PCI_BUS);
+     if (pfl->uniform_sector_len == 0 && pfl->sector_len[0] == 0) {
+         error_setg(errp, "attribute \"sector-length\" not specified or zero.");
+@@ -787,9 +787,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
  
-@@ -84,20 +84,19 @@ static void pci_bridge_dev_realize(PCIDevice *dev, Error **errp)
-     if (bridge_dev->msi != ON_OFF_AUTO_OFF) {
-         /* it means SHPC exists, because MSI is needed by SHPC */
- 
--        err = msi_init(dev, 0, 1, true, true, &local_err);
-+        err = msi_init(dev, 0, 1, true, true, errp);
-         /* Any error other than -ENOTSUP(board's MSI support is broken)
-          * is a programming error */
-         assert(!err || err == -ENOTSUP);
-         if (err && bridge_dev->msi == ON_OFF_AUTO_ON) {
-             /* Can't satisfy user's explicit msi=on request, fail */
--            error_append_hint(&local_err, "You have to use msi=auto (default) "
--                    "or msi=off with this machine type.\n");
--            error_propagate(errp, local_err);
-+            error_append_hint(errp, "You have to use msi=auto (default) "
-+                              "or msi=off with this machine type.\n");
-             goto msi_error;
-         }
--        assert(!local_err || bridge_dev->msi == ON_OFF_AUTO_AUTO);
-+        assert(!*errp || bridge_dev->msi == ON_OFF_AUTO_AUTO);
-         /* With msi=auto, we fall back to MSI off silently */
--        error_free(local_err);
-+        error_free_errp(errp);
-     }
- 
-     err = pci_bridge_qemu_reserve_cap_init(dev, 0,
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index 0592818447..f0a758342f 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -209,11 +209,11 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
- 
- static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PXBDev *pxb = convert_to_pxb(dev);
-     DeviceState *ds, *bds = NULL;
-     PCIBus *bus;
-     const char *dev_name = NULL;
--    Error *local_err = NULL;
-     MachineState *ms = MACHINE(qdev_get_machine());
- 
-     if (ms->numa_state == NULL) {
-@@ -249,9 +249,8 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
- 
-     PCI_HOST_BRIDGE(ds)->bus = bus;
- 
--    pxb_register_bus(dev, bus, &local_err);
+     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+                                   &pflash_cfi02_ops, pfl, pfl->name,
+-                                  pfl->chip_len, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    pxb_register_bus(dev, bus, errp);
-+    if (*errp) {
-         goto err_register_bus;
-     }
- 
-diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
-index 7679bef6c1..4444791835 100644
---- a/hw/pci-bridge/pcie_pci_bridge.c
-+++ b/hw/pci-bridge/pcie_pci_bridge.c
-@@ -33,6 +33,7 @@ typedef struct PCIEPCIBridge {
- 
- static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PCIBridge *br = PCI_BRIDGE(d);
-     PCIEPCIBridge *pcie_br = PCIE_PCI_BRIDGE_DEV(d);
-     int rc, pos;
-@@ -66,17 +67,14 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
-     if (rc < 0) {
-         goto aer_error;
-     }
--
--    Error *local_err = NULL;
-     if (pcie_br->msi != ON_OFF_AUTO_OFF) {
--        rc = msi_init(d, 0, 1, true, true, &local_err);
-+        rc = msi_init(d, 0, 1, true, true, errp);
-         if (rc < 0) {
-             assert(rc == -ENOTSUP);
-             if (pcie_br->msi != ON_OFF_AUTO_ON) {
--                error_free(local_err);
-+                error_free_errp(errp);
-             } else {
-                 /* failed to satisfy user's explicit request for MSI */
--                error_propagate(errp, local_err);
-                 goto msi_error;
-             }
-         }
-diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-index 012c2cb12c..a1b4989534 100644
---- a/hw/pci-bridge/pcie_root_port.c
-+++ b/hw/pci-bridge/pcie_root_port.c
-@@ -60,6 +60,7 @@ static void rp_reset(DeviceState *qdev)
- 
- static void rp_realize(PCIDevice *d, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PCIEPort *p = PCIE_PORT(d);
-     PCIESlot *s = PCIE_SLOT(d);
-     PCIDeviceClass *dc = PCI_DEVICE_GET_CLASS(d);
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index aa05c2b9b2..875ffe86ab 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -995,10 +995,10 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-                                          const char *name, int devfn,
-                                          Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(pci_dev);
-     PCIConfigReadFunc *config_read = pc->config_read;
-     PCIConfigWriteFunc *config_write = pc->config_write;
--    Error *local_err = NULL;
-     DeviceState *dev = DEVICE(pci_dev);
-     PCIBus *bus = pci_get_bus(pci_dev);
- 
-@@ -1084,9 +1084,8 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
-     if (pc->is_bridge) {
-         pci_init_mask_bridge(pci_dev);
-     }
--    pci_init_multifunction(bus, pci_dev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    pci_init_multifunction(bus, pci_dev, errp);
-+    if (*errp) {
-         do_pci_unregister_device(pci_dev);
-         return NULL;
-     }
-@@ -2072,10 +2071,10 @@ PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
- 
- static void pci_qdev_realize(DeviceState *qdev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PCIDevice *pci_dev = (PCIDevice *)qdev;
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(pci_dev);
-     ObjectClass *klass = OBJECT_CLASS(pc);
--    Error *local_err = NULL;
-     bool is_default_rom;
- 
-     /* initialize cap_present for pci_is_express() and pci_config_size(),
-@@ -2093,9 +2092,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-         return;
- 
-     if (pc->realize) {
--        pc->realize(pci_dev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        pc->realize(pci_dev, errp);
-+        if (*errp) {
-             do_pci_unregister_device(pci_dev);
-             return;
-         }
-@@ -2108,9 +2106,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-         is_default_rom = true;
-     }
- 
--    pci_add_option_rom(pci_dev, is_default_rom, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    pci_add_option_rom(pci_dev, is_default_rom, errp);
-+    if (*errp) {
-         pci_qdev_unrealize(DEVICE(pci_dev), NULL);
-         return;
-     }
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index a6beb567bd..513fbefc32 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -463,13 +463,12 @@ static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
- void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     PCIDevice *pci_dev = PCI_DEVICE(dev);
-     PCIBus *bus = pci_get_bus(pci_dev);
- 
--    pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
-+    if (*errp) {
-         return;
-     }
- 
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index 7f0aa28e44..44dbe914aa 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -504,14 +504,13 @@ static void shpc_device_plug_common(PCIDevice *affected_dev, int *slot,
- void shpc_device_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                             Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
-     SHPCDevice *shpc = pci_hotplug_dev->shpc;
-     int slot;
- 
--    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -553,16 +552,15 @@ void shpc_device_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
- void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                    DeviceState *dev, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     PCIDevice *pci_hotplug_dev = PCI_DEVICE(hotplug_dev);
-     SHPCDevice *shpc = pci_hotplug_dev->shpc;
-     uint8_t state;
-     uint8_t led;
-     int slot;
- 
--    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    shpc_device_plug_common(PCI_DEVICE(dev), &slot, shpc, errp);
++                                  pfl->chip_len, errp);
 +    if (*errp) {
          return;
      }
