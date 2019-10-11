@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30878D4668
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:15:56 +0200 (CEST)
-Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F1D4676
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:18:46 +0200 (CEST)
+Received: from localhost ([::1]:54528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyWA-0005ur-9W
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1iIyYv-00012B-30
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0006WB-Lw
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0006ZK-Ez
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR3-0004hu-OL
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48350)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR4-0004ie-Bi
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:37 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48362)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR3-0004Ok-Ev
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:33 -0400
+ id 1iIxR4-0004Pf-3f
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQr-0003XG-QI; Fri, 11 Oct 2019 19:06:21 +0300
+ id 1iIxQs-0003XG-GX; Fri, 11 Oct 2019 19:06:22 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 076/126] Human Monitor (HMP): introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:02 +0300
-Message-Id: <20191011160552.22907-77-vsementsov@virtuozzo.com>
+Subject: [RFC v5 078/126] hostmem: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:04 +0300
+Message-Id: <20191011160552.22907-79-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Eduardo Habkost <ehabkost@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,38 +98,213 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- monitor/misc.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ backends/hostmem-file.c  | 21 ++++++++------------
+ backends/hostmem-memfd.c | 18 ++++++++----------
+ backends/hostmem.c       | 41 ++++++++++++++++++----------------------
+ 3 files changed, 34 insertions(+), 46 deletions(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index aef16f6cfb..4c658884f4 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1775,20 +1775,19 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
- 
- int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+index be64020746..4d03b9f33a 100644
+--- a/backends/hostmem-file.c
++++ b/backends/hostmem-file.c
+@@ -116,25 +116,22 @@ static void file_memory_backend_set_align(Object *o, Visitor *v,
+                                           const char *name, void *opaque,
+                                           Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int fd;
+     HostMemoryBackend *backend = MEMORY_BACKEND(o);
+     HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
 -    Error *local_err = NULL;
+     uint64_t val;
  
-     if (!qemu_isdigit(fdname[0]) && mon) {
--        fd = monitor_get_fd(mon, fdname, &local_err);
-+        fd = monitor_get_fd(mon, fdname, errp);
-     } else {
-         fd = qemu_parse_fd(fdname);
-         if (fd == -1) {
--            error_setg(&local_err, "Invalid file descriptor number '%s'",
-+            error_setg(errp, "Invalid file descriptor number '%s'",
-                        fdname);
+     if (host_memory_backend_mr_inited(backend)) {
+-        error_setg(&local_err, "cannot change property '%s' of %s",
++        error_setg(errp, "cannot change property '%s' of %s",
+                    name, object_get_typename(o));
+-        goto out;
++        return;
+     }
+ 
+-    visit_type_size(v, name, &val, &local_err);
+-    if (local_err) {
+-        goto out;
++    visit_type_size(v, name, &val, errp);
++    if (*errp) {
++        return;
+     }
+     fb->align = val;
+-
+- out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static bool file_memory_backend_get_pmem(Object *o, Error **errp)
+@@ -144,6 +141,7 @@ static bool file_memory_backend_get_pmem(Object *o, Error **errp)
+ 
+ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     HostMemoryBackend *backend = MEMORY_BACKEND(o);
+     HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
+ 
+@@ -156,13 +154,10 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
+ 
+ #ifndef CONFIG_LIBPMEM
+     if (value) {
+-        Error *local_err = NULL;
+-
+-        error_setg(&local_err,
++        error_setg(errp,
+                    "Lack of libpmem support while setting the 'pmem=on'"
+                    " of %s. We can't ensure data persistence.",
+                    object_get_typename(o));
+-        error_propagate(errp, local_err);
+         return;
+     }
+ #endif
+diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+index 26070b425e..1f0677e5b4 100644
+--- a/backends/hostmem-memfd.c
++++ b/backends/hostmem-memfd.c
+@@ -77,27 +77,25 @@ static void
+ memfd_backend_set_hugetlbsize(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(obj);
+-    Error *local_err = NULL;
+     uint64_t value;
+ 
+     if (host_memory_backend_mr_inited(MEMORY_BACKEND(obj))) {
+-        error_setg(&local_err, "cannot change property value");
+-        goto out;
++        error_setg(errp, "cannot change property value");
++        return;
+     }
+ 
+-    visit_type_size(v, name, &value, &local_err);
+-    if (local_err) {
+-        goto out;
++    visit_type_size(v, name, &value, errp);
++    if (*errp) {
++        return;
+     }
+     if (!value) {
+-        error_setg(&local_err, "Property '%s.%s' doesn't take value '%"
++        error_setg(errp, "Property '%s.%s' doesn't take value '%"
+                    PRIu64 "'", object_get_typename(obj), name, value);
+-        goto out;
++        return;
+     }
+     m->hugetlbsize = value;
+-out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static void
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index 6d333dc23c..7a3dd9d69b 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -53,29 +53,27 @@ static void
+ host_memory_backend_set_size(Object *obj, Visitor *v, const char *name,
+                              void *opaque, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
+-    Error *local_err = NULL;
+     uint64_t value;
+ 
+     if (host_memory_backend_mr_inited(backend)) {
+-        error_setg(&local_err, "cannot change property %s of %s ",
++        error_setg(errp, "cannot change property %s of %s ",
+                    name, object_get_typename(obj));
+-        goto out;
++        return;
+     }
+ 
+-    visit_type_size(v, name, &value, &local_err);
+-    if (local_err) {
+-        goto out;
++    visit_type_size(v, name, &value, errp);
++    if (*errp) {
++        return;
+     }
+     if (!value) {
+-        error_setg(&local_err,
++        error_setg(errp,
+                    "property '%s' of %s doesn't take value '%" PRIu64 "'",
+                    name, object_get_typename(obj), value);
+-        goto out;
++        return;
+     }
+     backend->size = value;
+-out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static void
+@@ -221,7 +219,7 @@ static bool host_memory_backend_get_prealloc(Object *obj, Error **errp)
+ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+                                              Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
+     MachineState *ms = MACHINE(qdev_get_machine());
+ 
+@@ -243,9 +241,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+         void *ptr = memory_region_get_ram_ptr(&backend->mr);
+         uint64_t sz = memory_region_size(&backend->mr);
+ 
+-        os_mem_prealloc(fd, ptr, sz, ms->smp.cpus, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        os_mem_prealloc(fd, ptr, sz, ms->smp.cpus, errp);
++        if (*errp) {
+             return;
+         }
+         backend->prealloc = true;
+@@ -311,17 +308,17 @@ size_t host_memory_backend_pagesize(HostMemoryBackend *memdev)
+ static void
+ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     HostMemoryBackend *backend = MEMORY_BACKEND(uc);
+     HostMemoryBackendClass *bc = MEMORY_BACKEND_GET_CLASS(uc);
+     MachineState *ms = MACHINE(qdev_get_machine());
+-    Error *local_err = NULL;
+     void *ptr;
+     uint64_t sz;
+ 
+     if (bc->alloc) {
+-        bc->alloc(backend, &local_err);
+-        if (local_err) {
+-            goto out;
++        bc->alloc(backend, errp);
++        if (*errp) {
++            return;
+         }
+ 
+         ptr = memory_region_get_ram_ptr(&backend->mr);
+@@ -378,14 +375,12 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+          */
+         if (backend->prealloc) {
+             os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
+-                            ms->smp.cpus, &local_err);
+-            if (local_err) {
+-                goto out;
++                            ms->smp.cpus, errp);
++            if (*errp) {
++                return;
+             }
          }
      }
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         assert(fd == -1);
-     } else {
-         assert(fd != -1);
+-out:
+-    error_propagate(errp, local_err);
+ }
+ 
+ static bool
 -- 
 2.21.0
 
