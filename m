@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8D3D4261
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:10:28 +0200 (CEST)
-Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F892D4277
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:13:35 +0200 (CEST)
+Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIvch-00058w-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:10:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39377)
+	id 1iIvfh-0000YR-LN
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:13:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvJP-0006BZ-SI
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:33 -0400
+ (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iIvRG-0008Gr-Ef
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:58:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvJO-0004F1-J8
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:31 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:46088)
+ (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iIvRF-0000Xv-0l
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:58:38 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39270)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIvJO-0004Dn-FI
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:30 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id h202so3098746ybg.13
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <mikhail.sennikovskii@cloud.ionos.com>)
+ id 1iIvRE-0000Xb-Om
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:58:36 -0400
+Received: by mail-ed1-x542.google.com with SMTP id a15so8767190edt.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloud.ionos.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=gTZdg6dNMnBI75tFG4b9WmQnPaXz16dMYJhebtyMXpQ=;
- b=wBIDAX+asObKfjuVDEL2xU9FHSH3yeVhyyRRVY5ytktNnKxy9YeVaI37JIbBPV8u2E
- v9RWXNv3Dxi9rKk4iAa7iSCpf7B+5R/r4/xJbcoINYl+rIPvQuUba7pq3P7P7uE6OsyC
- SbBwwQsMv6rj9pVqt3m1GkFrZ50cABXZ8G2zu7dK+O13ppOrQ/09abTB+uF6oKzJ8tLL
- ZlFIGQf2642s0+02HSA8OdvH23HoddRgaeTdrtf1GG6DHB5U4MxTntoUiwsXVXXGBXMc
- IfUhkN5eFcdn4TPt6eTsmyMoDQkxGLQm7al3eLhRNZYLIJmqL/75HzXBCb/tz1atclgn
- WrJA==
+ bh=nNPD57i+zdP3HSzedsX84NREYpBQ/HXdziN+13fyCCQ=;
+ b=brjyj0pQCvV4N1+yy5EwxCMUOSFqyqdMeQnXYvYdMnTiEQsca4UC2rGkVK2n8VGTCn
+ /PLYWLHyVI5yrrPpcgHHjWm1suxNwoZn0r897Ta2OKFRmPLHngH7TkuVNdzAcq+2MskF
+ uzGsJ8I2pcmlI4uksh/y14TcGUgITiDZEczZDswWiTmnM3txR4L+B+ICT7lGxJwxLwn5
+ WsHfy4oYq5g44N6WASeoUJGW+2FNqm9BrHUytnf6oovl3kuuFh/0XSNsx24ptpOvHtkg
+ FXE7xwAFP3Km70R4cuu1DfnwZGjlxWRwgVMt1tHMrJR3HTpOLENNPHFJLmn/HKGmtdk1
+ +Bhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=gTZdg6dNMnBI75tFG4b9WmQnPaXz16dMYJhebtyMXpQ=;
- b=gTiN0gmITkS1/eUbrt1wlavMMXIaEY09ADq4WQUgWSIb7QX70jpdt6J00Un/QI5sr8
- KqQoTcauix1ZRrlXlCL8w5m+69RN492bBjO1uWsm0q+DOPLzjYXCzSgjZqm25KdE8WYT
- ofzVA0ASR4RW92YZjeb3G5xTE1XFS8Om+9nUQX021tbWz/xpEgbqGjlkuRCdJrdWyKEO
- 6ALH/Rl1RCSR6+gtRuACqGNKot2PLWzM6UtXFb7wbgVd9mgofi0gmEJ1VoyRKrEDllrO
- /eH4xpiTpO3TeUIy/33vL9osoJS1yNtP8BTn4OxoVA+wxNeq9mblYbbJnECuW+P9bkJD
- fvhw==
-X-Gm-Message-State: APjAAAVduXfl0ky7HZc7RwbKlD97vlTHBboC75MOTBpAjOW4yl2oIBgh
- EXUnR+m1A1+QShSEP50Qinz04r3b4mM=
-X-Google-Smtp-Source: APXvYqxvVovCzb8ouoi3UF9fqsLW3poCqVrKtAZSjsgChmqZk9pUgwDyOeszuR9B2JX7Q4c8CQBbCQ==
-X-Received: by 2002:a5b:349:: with SMTP id q9mr10120579ybp.39.1570801829449;
- Fri, 11 Oct 2019 06:50:29 -0700 (PDT)
-Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
- [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.50.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 06:50:28 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 21/22] target/arm: Add mmu indexes for tag memory
-Date: Fri, 11 Oct 2019 09:47:43 -0400
-Message-Id: <20191011134744.2477-22-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191011134744.2477-1-richard.henderson@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ bh=nNPD57i+zdP3HSzedsX84NREYpBQ/HXdziN+13fyCCQ=;
+ b=nIcgHz8wxLfr4ZolGGS9CJYe2nCZeq24+nr/Mn02oqxY2m0A4CCaObAASYRJqPs+vy
+ vUeOtIqDvHs3CPZQSxKyvRBFntCnPYLVrvA6scypLtMKuFuhzqeWtIKuruxDUOntqCCR
+ 0w9wS/9KGFd0cmJ1sGrPscBsPZSiebENB6s/GtJ/qnT/AXXlwuSZMH+WyXbvszcjZaes
+ fRC6cig+fOnY5eZHdT9bOQFOaIT4Di6w7P/o2ajApzrisvEvCILdDz1DLhe1vl0m/z37
+ Lw0CIf5yHBDgd8lIGMtPqz/8N7MeZJ5UOuhdTuR9+Wok8eR2nVUwfEN/CS2s/SEqgV8L
+ d65Q==
+X-Gm-Message-State: APjAAAXmc3PzdwKKinbKyC0AB5ZNN0d/6DbfpubD5aPRRrA4BWwNBMKh
+ YqxM6nat3scjCVTTit0KYEqntQ==
+X-Google-Smtp-Source: APXvYqwpj+rnC0j9t1hvN8td1G/OYp4PoDR0Sw0ZDRUAOhw9Ox3IxA0sAeKwMIdXMHoSx35eKR0Pnw==
+X-Received: by 2002:a17:906:3385:: with SMTP id
+ v5mr13914224eja.154.1570802315775; 
+ Fri, 11 Oct 2019 06:58:35 -0700 (PDT)
+Received: from msennikovskii2.pb.local
+ ([2001:1438:4010:2558:9cc:2ca5:45db:2acf])
+ by smtp.googlemail.com with ESMTPSA id 36sm1547982edz.92.2019.10.11.06.58.34
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Fri, 11 Oct 2019 06:58:34 -0700 (PDT)
+From: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com, dgilbert@redhat.com, Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v4 2/2] virtio-net: prevent offloads reset on migration
+Date: Fri, 11 Oct 2019 15:58:04 +0200
+Message-Id: <1570802284-3064-2-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1570802284-3064-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
+References: <1570802284-3064-1-git-send-email-mikhail.sennikovskii@cloud.ionos.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+X-Received-From: 2a00:1450:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,152 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The process by which one goes from an address space plus physical
-address to a host pointer is complex.  It is easiest to reuse the
-mechanism already present within cputlb, and letting that cache
-the results.
+Currently offloads disabled by guest via the VIRTIO_NET_CTRL_GUEST_OFFLOADS_SET
+command are not preserved on VM migration.
+Instead all offloads reported by guest features (via VIRTIO_PCI_GUEST_FEATURES)
+get enabled.
+What happens is: first the VirtIONet::curr_guest_offloads gets restored and offloads
+are getting set correctly:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+ #0  qemu_set_offload (nc=0x555556a11400, csum=1, tso4=0, tso6=0, ecn=0, ufo=0) at net/net.c:474
+ #1  virtio_net_apply_guest_offloads (n=0x555557701ca0) at hw/net/virtio-net.c:720
+ #2  virtio_net_post_load_device (opaque=0x555557701ca0, version_id=11) at hw/net/virtio-net.c:2334
+ #3  vmstate_load_state (f=0x5555569dc010, vmsd=0x555556577c80 <vmstate_virtio_net_device>, opaque=0x555557701ca0, version_id=11)
+     at migration/vmstate.c:168
+ #4  virtio_load (vdev=0x555557701ca0, f=0x5555569dc010, version_id=11) at hw/virtio/virtio.c:2197
+ #5  virtio_device_get (f=0x5555569dc010, opaque=0x555557701ca0, size=0, field=0x55555668cd00 <__compound_literal.5>) at hw/virtio/virtio.c:2036
+ #6  vmstate_load_state (f=0x5555569dc010, vmsd=0x555556577ce0 <vmstate_virtio_net>, opaque=0x555557701ca0, version_id=11) at migration/vmstate.c:143
+ #7  vmstate_load (f=0x5555569dc010, se=0x5555578189e0) at migration/savevm.c:829
+ #8  qemu_loadvm_section_start_full (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2211
+ #9  qemu_loadvm_state_main (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2395
+ #10 qemu_loadvm_state (f=0x5555569dc010) at migration/savevm.c:2467
+ #11 process_incoming_migration_co (opaque=0x0) at migration/migration.c:449
+
+However later on the features are getting restored, and offloads get reset to
+everything supported by features:
+
+ #0  qemu_set_offload (nc=0x555556a11400, csum=1, tso4=1, tso6=1, ecn=0, ufo=0) at net/net.c:474
+ #1  virtio_net_apply_guest_offloads (n=0x555557701ca0) at hw/net/virtio-net.c:720
+ #2  virtio_net_set_features (vdev=0x555557701ca0, features=5104441767) at hw/net/virtio-net.c:773
+ #3  virtio_set_features_nocheck (vdev=0x555557701ca0, val=5104441767) at hw/virtio/virtio.c:2052
+ #4  virtio_load (vdev=0x555557701ca0, f=0x5555569dc010, version_id=11) at hw/virtio/virtio.c:2220
+ #5  virtio_device_get (f=0x5555569dc010, opaque=0x555557701ca0, size=0, field=0x55555668cd00 <__compound_literal.5>) at hw/virtio/virtio.c:2036
+ #6  vmstate_load_state (f=0x5555569dc010, vmsd=0x555556577ce0 <vmstate_virtio_net>, opaque=0x555557701ca0, version_id=11) at migration/vmstate.c:143
+ #7  vmstate_load (f=0x5555569dc010, se=0x5555578189e0) at migration/savevm.c:829
+ #8  qemu_loadvm_section_start_full (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2211
+ #9  qemu_loadvm_state_main (f=0x5555569dc010, mis=0x5555569eee20) at migration/savevm.c:2395
+ #10 qemu_loadvm_state (f=0x5555569dc010) at migration/savevm.c:2467
+ #11 process_incoming_migration_co (opaque=0x0) at migration/migration.c:449
+
+Fix this by preserving the state in saved_guest_offloads field and
+pushing out offload initialization to the new post load hook.
+
+Signed-off-by: Mikhail Sennikovsky <mikhail.sennikovskii@cloud.ionos.com>
 ---
- target/arm/cpu-param.h |  2 +-
- target/arm/cpu.h       | 12 +++++++++---
- target/arm/internals.h |  2 ++
- target/arm/helper.c    | 25 +++++++++++++++++++++++--
- 4 files changed, 35 insertions(+), 6 deletions(-)
+ hw/net/virtio-net.c            | 27 ++++++++++++++++++++++++---
+ include/hw/virtio/virtio-net.h |  2 ++
+ 2 files changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index 6e6948e960..18ac562346 100644
---- a/target/arm/cpu-param.h
-+++ b/target/arm/cpu-param.h
-@@ -29,6 +29,6 @@
- # define TARGET_PAGE_BITS_MIN  10
- #endif
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index b9e1cd7..6adb0fe 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2330,9 +2330,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+         n->curr_guest_offloads = virtio_net_supported_guest_offloads(n);
+     }
  
--#define NB_MMU_MODES 8
-+#define NB_MMU_MODES 9
+-    if (peer_has_vnet_hdr(n)) {
+-        virtio_net_apply_guest_offloads(n);
+-    }
++    /*
++     * curr_guest_offloads will be later overwritten by the
++     * virtio_set_features_nocheck call done from the virtio_load.
++     * Here we make sure it is preserved and restored accordingly
++     * in the virtio_net_post_load_virtio callback.
++     */
++    n->saved_guest_offloads = n->curr_guest_offloads;
  
- #endif
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index faca43ea78..c3609ef9d5 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2854,8 +2854,8 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
- #define ARM_MMU_IDX_M_NEGPRI 0x2
- #define ARM_MMU_IDX_M_S 0x4
+     virtio_net_set_queues(n);
  
--#define ARM_MMU_IDX_TYPE_MASK (~0x7)
--#define ARM_MMU_IDX_COREIDX_MASK 0x7
-+#define ARM_MMU_IDX_TYPE_MASK (~0xf)
-+#define ARM_MMU_IDX_COREIDX_MASK 0xf
- 
- typedef enum ARMMMUIdx {
-     ARMMMUIdx_S12NSE0 = 0 | ARM_MMU_IDX_A,
-@@ -2865,6 +2865,9 @@ typedef enum ARMMMUIdx {
-     ARMMMUIdx_S1SE0 = 4 | ARM_MMU_IDX_A,
-     ARMMMUIdx_S1SE1 = 5 | ARM_MMU_IDX_A,
-     ARMMMUIdx_S2NS = 6 | ARM_MMU_IDX_A,
-+    ARMMMUIdx_TagNS = 7 | ARM_MMU_IDX_A,
-+    ARMMMUIdx_TagS = 8 | ARM_MMU_IDX_A,
-+
-     ARMMMUIdx_MUser = 0 | ARM_MMU_IDX_M,
-     ARMMMUIdx_MPriv = 1 | ARM_MMU_IDX_M,
-     ARMMMUIdx_MUserNegPri = 2 | ARM_MMU_IDX_M,
-@@ -2891,6 +2894,8 @@ typedef enum ARMMMUIdxBit {
-     ARMMMUIdxBit_S1SE0 = 1 << 4,
-     ARMMMUIdxBit_S1SE1 = 1 << 5,
-     ARMMMUIdxBit_S2NS = 1 << 6,
-+    ARMMMUIdxBit_TagNS = 1 << 7,
-+    ARMMMUIdxBit_TagS = 1 << 8,
-     ARMMMUIdxBit_MUser = 1 << 0,
-     ARMMMUIdxBit_MPriv = 1 << 1,
-     ARMMMUIdxBit_MUserNegPri = 1 << 2,
-@@ -3254,7 +3259,8 @@ enum {
- /* Return the address space index to use for a memory access */
- static inline int arm_asidx_from_attrs(CPUState *cs, MemTxAttrs attrs)
- {
--    return attrs.secure ? ARMASIdx_S : ARMASIdx_NS;
-+    return ((attrs.target_tlb_bit2 ? ARMASIdx_TagNS : ARMASIdx_NS)
-+            + attrs.secure);
+@@ -2367,6 +2371,22 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+     return 0;
  }
  
- /* Return the AddressSpace to use for a memory access
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index a434743b15..dfa395eb35 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -828,6 +828,7 @@ static inline bool regime_is_secure(CPUARMState *env, ARMMMUIdx mmu_idx)
-     case ARMMMUIdx_S1NSE1:
-     case ARMMMUIdx_S1E2:
-     case ARMMMUIdx_S2NS:
-+    case ARMMMUIdx_TagNS:
-     case ARMMMUIdx_MPrivNegPri:
-     case ARMMMUIdx_MUserNegPri:
-     case ARMMMUIdx_MPriv:
-@@ -836,6 +837,7 @@ static inline bool regime_is_secure(CPUARMState *env, ARMMMUIdx mmu_idx)
-     case ARMMMUIdx_S1E3:
-     case ARMMMUIdx_S1SE0:
-     case ARMMMUIdx_S1SE1:
-+    case ARMMMUIdx_TagS:
-     case ARMMMUIdx_MSPrivNegPri:
-     case ARMMMUIdx_MSUserNegPri:
-     case ARMMMUIdx_MSPriv:
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 17981d7c48..3147469899 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8658,9 +8658,18 @@ static inline bool regime_translation_disabled(CPUARMState *env,
-         }
-     }
++static int virtio_net_post_load_virtio(VirtIODevice *vdev)
++{
++    VirtIONet *n = VIRTIO_NET(vdev);
++    /*
++     * The actual needed state is now in saved_guest_offloads,
++     * see virtio_net_post_load_device for detail.
++     * Restore it back and apply the desired offloads.
++     */
++    n->curr_guest_offloads = n->saved_guest_offloads;
++    if (peer_has_vnet_hdr(n)) {
++        virtio_net_apply_guest_offloads(n);
++    }
++
++    return 0;
++}
++
+ /* tx_waiting field of a VirtIONetQueue */
+ static const VMStateDescription vmstate_virtio_net_queue_tx_waiting = {
+     .name = "virtio-net-queue-tx_waiting",
+@@ -2909,6 +2929,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+     vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
+     vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
+     vdc->legacy_features |= (0x1 << VIRTIO_NET_F_GSO);
++    vdc->post_load = virtio_net_post_load_virtio;
+     vdc->vmsd = &vmstate_virtio_net_device;
+ }
  
--    if (mmu_idx == ARMMMUIdx_S2NS) {
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_S2NS:
-         /* HCR.DC means HCR.VM behaves as 1 */
-         return (env->cp15.hcr_el2 & (HCR_DC | HCR_VM)) == 0;
-+
-+    case ARMMMUIdx_TagS:
-+    case ARMMMUIdx_TagNS:
-+        /* These indexes are qemu internal, and are physically mapped.  */
-+        return true;
-+
-+    default:
-+        break;
-     }
- 
-     if (env->cp15.hcr_el2 & HCR_TGE) {
-@@ -10662,7 +10671,9 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-                    target_ulong *page_size,
-                    ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
- {
--    if (mmu_idx == ARMMMUIdx_S12NSE0 || mmu_idx == ARMMMUIdx_S12NSE1) {
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_S12NSE0:
-+    case ARMMMUIdx_S12NSE1:
-         /* Call ourselves recursively to do the stage 1 and then stage 2
-          * translations.
-          */
-@@ -10713,6 +10724,16 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-              */
-             mmu_idx = stage_1_mmu_idx(mmu_idx);
-         }
-+        break;
-+
-+    case ARMMMUIdx_TagS:
-+    case ARMMMUIdx_TagNS:
-+        /* Indicate tag memory to arm_asidx_from_attrs.  */
-+        attrs->target_tlb_bit2 = true;
-+        break;
-+
-+    default:
-+        break;
-     }
- 
-     /* The page table entries may downgrade secure to non-secure, but
+diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+index b96f0c6..07a9319 100644
+--- a/include/hw/virtio/virtio-net.h
++++ b/include/hw/virtio/virtio-net.h
+@@ -182,6 +182,8 @@ struct VirtIONet {
+     char *netclient_name;
+     char *netclient_type;
+     uint64_t curr_guest_offloads;
++    /* used on saved state restore phase to preserve the curr_guest_offloads */
++    uint64_t saved_guest_offloads;
+     AnnounceTimer announce_timer;
+     bool needs_vnet_hdr_swap;
+     bool mtu_bypass_backend;
 -- 
-2.17.1
+2.7.4
 
 
