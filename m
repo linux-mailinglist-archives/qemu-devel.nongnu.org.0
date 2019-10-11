@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142BED44D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 17:59:53 +0200 (CEST)
-Received: from localhost ([::1]:52860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646A1D44E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:03:05 +0200 (CEST)
+Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxKZ-00074i-Kz
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 11:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34007)
+	id 1iIxNf-0000XZ-QR
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33585)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxH2-0002mm-Nt
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIxGl-0002GZ-KF
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxH1-0007t6-Jz
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:12 -0400
-Received: from mail-yw1-xc2f.google.com ([2607:f8b0:4864:20::c2f]:34677)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIxGj-0007aC-DG
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:54 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:37864)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIxH1-0007sV-GW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:11 -0400
-Received: by mail-yw1-xc2f.google.com with SMTP id d192so3653868ywa.1
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:56:11 -0700 (PDT)
+ id 1iIxGj-0007ZB-9X
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:55:53 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id z125so3257328ybc.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DCSw/5tSs06WnyBBz0elixvkoTyCltSaS21y5mPKf08=;
- b=RZk1XQ0AyDu7WLopi7UjKmZExBFfbiQQDTYGRKlQe/93Nnw8f8a5ic8TfED2nJkbcJ
- +a9f7L4hLPg2JIQZl4it4HPtlJXiv6DhbaPUi0yOzpH8F1uGFHGGLHZ8LIrt300R4FYU
- oKGLZuup6I6FzivBeKC9of/WjrxKHOKsSEhekVNT9hgnK9OpYjx6gQAf+25RFs26131F
- qdvr5TTNwAJUNn7yE4d64AOXe4Ex/M72r6RTtAz815QKEhiOf41ogqLNWqBGP7W5GfOr
- FpyUytdpYAyi51iamDUAUIKs3+TLjpge3t2X5k+/Ksd2hBrZV2TlnQVpBocVEN3VobAn
- tThQ==
+ bh=JZ4FcxbCDDWJsqSaXfQWATqqO+tlQqneKyRyH+pvJoM=;
+ b=VoKm83e3fCwHAtGn1hsDLYwwFA2FmbBEeuMbI1Wuu/C6nJEnbuJOeozqfZHTgZz0fG
+ KT4A2Gwyamd8MUTe82jS3tbMnjnezUBxRPYzzG1nCFYrc7QpVo5/8RSkITGpYKXx5IDT
+ n7f2NbeOwcxfOTZPJ2oY586SKGWp/w2AiIbmX0filRsQ1i5jngKKkB0j4rjwRHr4xl4y
+ ojDUy4RHKfQbYi9FuvvuZlii37W4Gp1J6vdlz9cgXaA6GlYRYuBJnYhvooEptfAJEMiZ
+ iZb2v1abw/Wdaqh5J04itKQK/TLxgKrUzjEJHSsFvMWM2b2+SiuGy7kBanCAiVaO6iph
+ KTxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=DCSw/5tSs06WnyBBz0elixvkoTyCltSaS21y5mPKf08=;
- b=W1Be8ejcUmVRYs8l/opSy/Mw9biQQSRMMDCgWc9UB4j3xaeQ/b58KDAJWV+uxI6JaK
- AZeqPFtTulU96mNC3ocg4jiVQ376ZIKwVsJFC8taMzM5ABTtJZ5jfhDhycOzC3ZEZo0E
- fWbC09r+zCAMcWDXhZvTDjrQiF3x0rL9QJD9BXY5sO1nD2WylrFubu16RSy8ioirn5vd
- +eGbko8ez0eKscWWj5Dl+NHi+7VRKopdAxLm/0G8xlCQkDziOfSCJxUAHoD/sZ/Z4+nZ
- 57lHbWZ/gBhEgjJoFB8QHCYvLjNYaLwlG7vhSrhAU216f8jab+dZD0tA9+m/hGrAuA6M
- 1cxQ==
-X-Gm-Message-State: APjAAAVcO6Eqtp7woyzZQFvQgscFjJGPNQ0d8Bz/VLFHXt8l41o31iCE
- I6Gmb2ZoTzC4lP+YyEIrLP64pH/VWZ4=
-X-Google-Smtp-Source: APXvYqxfFIor3Lifc7V/tCQVIjwjcPP9/E+2byPsji6yxYLTxE6H3DO2dKQVtWHa2DT8j7xlbQGStA==
-X-Received: by 2002:a81:8282:: with SMTP id s124mr2994173ywf.498.1570809370122; 
- Fri, 11 Oct 2019 08:56:10 -0700 (PDT)
+ bh=JZ4FcxbCDDWJsqSaXfQWATqqO+tlQqneKyRyH+pvJoM=;
+ b=rKSWgBvtlbd37ad984cvoyKfEGAU/WnAhH8Bdacr0ldUm9T1viBK8rrA1vblM4ELXb
+ K4s4vOxZ+hKqjU3fQ6LUmGtRe+aOd2NDP8jUZAUsU6P+5ROL5DvZd7oLF+zlBxrx9JmK
+ MniRJkNqROQbvstI3SiLSeFeDJTYd5BZO+ldhDc6zyAlrWuqZJHr5gC8wLdBPwAJ9qBO
+ qd/d+GquzEF9levpwE/gRUHZh34MtlXcl1aOSdi3iGcJ7GGMiUORbufkEJFsou28CcGz
+ veHMoRbJfysvSdKdbxQbzS7jSQ57HlP2ZSeN5YqInL+PItnS3rYBQJ9gOBpEuDJHct8k
+ c2mQ==
+X-Gm-Message-State: APjAAAVGpKzIy291kZvrAOWmI3e6wjLsopYhj/+4isv3VsNG8rXxDCJo
+ RXeFYFKHtD0y3zXirJjd9HlTyBMapN8=
+X-Google-Smtp-Source: APXvYqwm7E36eHgRIVaDeQwAM1ckqu1T/UHK9aLI0/FAiFTxwBUmAApQqrWEahDQ4M13RjlC8jS6Kw==
+X-Received: by 2002:a25:7b44:: with SMTP id w65mr10012844ybc.393.1570809351386; 
+ Fri, 11 Oct 2019 08:55:51 -0700 (PDT)
 Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
  [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id d17sm2473139ywb.95.2019.10.11.08.56.09
+ by smtp.gmail.com with ESMTPSA id d17sm2473139ywb.95.2019.10.11.08.55.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 08:56:09 -0700 (PDT)
+ Fri, 11 Oct 2019 08:55:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 19/20] target/arm: Rebuild hflags for M-profile.
-Date: Fri, 11 Oct 2019 11:55:45 -0400
-Message-Id: <20191011155546.14342-20-richard.henderson@linaro.org>
+Subject: [PATCH v6 03/20] target/arm: Split out rebuild_hflags_common_32
+Date: Fri, 11 Oct 2019 11:55:29 -0400
+Message-Id: <20191011155546.14342-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191011155546.14342-1-richard.henderson@linaro.org>
 References: <20191011155546.14342-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c2f
+X-Received-From: 2607:f8b0:4864:20::b42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,65 +79,66 @@ Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue setting, but not relying upon, env->hflags.
+Create a function to compute the values of the TBFLAG_A32 bits
+that will be cached, and are used by all profiles.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/m_helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/arm/helper.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 27cd2f3f96..f2512e448e 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -494,6 +494,7 @@ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-     switch_v7m_security_state(env, dest & 1);
-     env->thumb = 1;
-     env->regs[15] = dest & ~1;
-+    arm_rebuild_hflags(env);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 69da04786e..f05d042474 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11070,6 +11070,15 @@ static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
+     return flags;
  }
  
- void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-@@ -555,6 +556,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-     switch_v7m_security_state(env, 0);
-     env->thumb = 1;
-     env->regs[15] = dest;
-+    arm_rebuild_hflags(env);
- }
++static uint32_t rebuild_hflags_common_32(CPUARMState *env, int fp_el,
++                                         ARMMMUIdx mmu_idx, uint32_t flags)
++{
++    flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, arm_sctlr_b(env));
++    flags = FIELD_DP32(flags, TBFLAG_A32, NS, !access_secure_reg(env));
++
++    return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
++}
++
+ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+                                    ARMMMUIdx mmu_idx)
+ {
+@@ -11141,7 +11150,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+     ARMMMUIdx mmu_idx = arm_mmu_idx(env);
+     int current_el = arm_current_el(env);
+     int fp_el = fp_exception_el(env, current_el);
+-    uint32_t flags = 0;
++    uint32_t flags;
  
- static uint32_t *get_v7m_sp_ptr(CPUARMState *env, bool secure, bool threadmode,
-@@ -895,6 +897,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-     env->regs[14] = lr;
-     env->regs[15] = addr & 0xfffffffe;
-     env->thumb = addr & 1;
-+    arm_rebuild_hflags(env);
- }
+     if (is_a64(env)) {
+         *pc = env->pc;
+@@ -11151,12 +11160,11 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+         }
+     } else {
+         *pc = env->regs[15];
++        flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
+         flags = FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
+         flags = FIELD_DP32(flags, TBFLAG_A32, VECLEN, env->vfp.vec_len);
+         flags = FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE, env->vfp.vec_stride);
+         flags = FIELD_DP32(flags, TBFLAG_A32, CONDEXEC, env->condexec_bits);
+-        flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, arm_sctlr_b(env));
+-        flags = FIELD_DP32(flags, TBFLAG_A32, NS, !access_secure_reg(env));
+         if (env->vfp.xregs[ARM_VFP_FPEXC] & (1 << 30)
+             || arm_el_is_aa64(env, 1) || arm_feature(env, ARM_FEATURE_M)) {
+             flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
+@@ -11166,8 +11174,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+             flags = FIELD_DP32(flags, TBFLAG_A32,
+                                XSCALE_CPAR, env->cp15.c15_cpar);
+         }
+-
+-        flags = rebuild_hflags_common(env, fp_el, mmu_idx, flags);
+     }
  
- static void v7m_update_fpccr(CPUARMState *env, uint32_t frameptr,
-@@ -1765,6 +1768,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
- 
-     /* Otherwise, we have a successful exception exit. */
-     arm_clear_exclusive(env);
-+    arm_rebuild_hflags(env);
-     qemu_log_mask(CPU_LOG_INT, "...successful exception return\n");
- }
- 
-@@ -1837,6 +1841,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-     xpsr_write(env, 0, XPSR_IT);
-     env->thumb = newpc & 1;
-     env->regs[15] = newpc & ~1;
-+    arm_rebuild_hflags(env);
- 
-     qemu_log_mask(CPU_LOG_INT, "...function return successful\n");
-     return true;
-@@ -1959,6 +1964,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-     switch_v7m_security_state(env, true);
-     xpsr_write(env, 0, XPSR_IT);
-     env->regs[15] += 4;
-+    arm_rebuild_hflags(env);
-     return true;
- 
- gen_invep:
+     /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
 -- 
 2.17.1
 
