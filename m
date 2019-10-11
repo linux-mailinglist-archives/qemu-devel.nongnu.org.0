@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D484AD41D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:53:58 +0200 (CEST)
-Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FB0D41F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:59:11 +0200 (CEST)
+Received: from localhost ([::1]:50734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIvMj-0000Rc-Jz
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:53:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39032)
+	id 1iIvRm-0007gy-A1
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39065)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvJB-0005kb-ES
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIvJC-0005nI-KW
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvJA-0003yN-C8
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:17 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:41699)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIvJB-0003zN-He
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:18 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:43494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIvJA-0003y6-8o
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:16 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id 129so3491286ywb.8
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:50:16 -0700 (PDT)
+ id 1iIvJB-0003z4-ER
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:17 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id y204so3107061yby.10
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pcMD6K9ABOmTlLHKMBTY6fPd9eU2rhpEHRshToPyGV0=;
- b=dGxHV+m5uqvHH6DiyrQWtbYyx7jpaXPmW2wrVX5XXMnLXk09jViHydpQ3bM0L2imtK
- T0e0fJiP0y2LJ33BwbeRChUcY/JSsnCpylRoMcaFcioU3ZWkvgt2TWSbo+GwC26i9FWK
- +Z1bRmbXk+opvgu/RTXHH2H9JRgzgGV3Hm2lptSMLA7yqIe00OToGgPf4FmosXMYseER
- Hbdg/aXTdwhSLlwXB7vRAbdW/qILAXnpVo5z8dgRrZnNCCo3Yl25keS7oo4ka+apTZwh
- TLo0E/d/L/xIqh8dE9RrabTvXPK6F0mIfkUSXd6c15FBvggmErdFL9AbEVn3DOnzHOmP
- LA/Q==
+ bh=loK2jdE9Lal6vbE+5e7UnQvjF9Y+wxx/GDkdqZVvRmE=;
+ b=rgQUFRwwaWMEgX5YCcnaVMpy3V0hXYTFShehuEbdsWzUWaJmEQlOeXEtWM1y27D7mM
+ CSUMBgNLjfDQL/gi5E+/8rgfOt3WmIoZs4N4b6au6hoxDwnvhu5uGFooADfmlXnyWJcY
+ mS/yl1wyPd1OllYK2lTPH4jVTwQ7eLiX+tGFbZF9f2vwWZbGAt4YeBGp4eP9dUYua0hD
+ Y8h4whClCNhCo6tZoN46BceCJO8hM5113fOqxFUWzV3euz1kHcrs/4VSquCvjYvak4sn
+ eWsLuCvjZhzCsb+mENz7ZvQa77x/xbXpQ47GS9SPXMhnGk81Vv282w8LwV3JW1qIY8cN
+ bvGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=pcMD6K9ABOmTlLHKMBTY6fPd9eU2rhpEHRshToPyGV0=;
- b=WyYV1lbiYT0asaqcOdYWuAOExD4b8Y/hoWVibsu7injS2ZmgmsB3BV7MI/K4zPqb+b
- 7OXzpsGG6NdGW1l/CwxlHZUysujOFVMYGSgHyuesh3K+olKFVotSGuW8oiMDpekMB3+y
- ccTGt2qn0XwNqenWrdEjWJvSwEJ6NG1osxmlQzNC8GNmLe218eDNBqcYH0Rti/aV2CBo
- 1509rH3BLUQiVbauM/WH7rceK9S6wydp5+lDRIsSR0XZOGsCB5YGHdtX9vklbLB2/4oJ
- id6PFY8mjjppRvZLEMQi0haI6ZsffvFvTn5lwooQHruGIQCLhDQs4bm1q/ZWWjFZIOxs
- Spvg==
-X-Gm-Message-State: APjAAAXgAa1sfiL9dy8d7Jdmdsmh7HBgJ9GTgUy9G+kQOP62mXU7oPzl
- kOZxbzyoSCPZt2L2/PPlebg8zhfVkxM=
-X-Google-Smtp-Source: APXvYqwyO/ifGAxsFCzYZ2HQlnQg3Ad2WSanLyampFnqEEMu+OZdw3Zr1kMFuPhlFbC3uo2GFuM3oQ==
-X-Received: by 2002:a81:1ac4:: with SMTP id a187mr2528455ywa.482.1570801815337; 
- Fri, 11 Oct 2019 06:50:15 -0700 (PDT)
+ bh=loK2jdE9Lal6vbE+5e7UnQvjF9Y+wxx/GDkdqZVvRmE=;
+ b=rj47UZPIimds9VbLRkN943AVpdbQh4cUGGPKVj0QIL+aKtNmy/WnA627KbGIaDNgNQ
+ KyabqpaH+0qsgzHyGKF7oal1mtF9Ly0+Dn0nxlzz8jbZRHZOo2qQs6PNmshtEicEUFoE
+ uKxTcWH+Ye1wPs5O6lS0+DfUPTj54VpzL8ajHTfXgUygj6nI/PjNXrgXexbffAmJrrAe
+ 6IYAJwqj/C3eSf1X82xCge+5uy/HRcnSbeJNNfOAg/ZFRA5IGHotpMaYs3uacXMannhC
+ dNnfeVXLZFa3QyZ7ZjPXqse6vLNDQyKg5Yf2LeFpxeQ84NU/N6c3Cqv9iOahixnEGz9j
+ yfrQ==
+X-Gm-Message-State: APjAAAU4ruCSuH1IkYp7yP0jKgU/vRUzNAhpB6bj08o8hB9eF63nDrB3
+ drpGEGU9VpH136rwQxRiJ7DqVn5bAns=
+X-Google-Smtp-Source: APXvYqwI0yhVcQ6ScFN0xzgNUIeDt4772vHwaBy6KG/3Osw7VS9Ug7xXAF0x0dAiMIaCYDml7wSAHg==
+X-Received: by 2002:a25:cbce:: with SMTP id
+ b197mr10026823ybg.355.1570801816528; 
+ Fri, 11 Oct 2019 06:50:16 -0700 (PDT)
 Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
  [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.50.06
+ by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.50.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 06:50:14 -0700 (PDT)
+ Fri, 11 Oct 2019 06:50:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/22] target/arm: Implement the SUBP instruction
-Date: Fri, 11 Oct 2019 09:47:31 -0400
-Message-Id: <20191011134744.2477-10-richard.henderson@linaro.org>
+Subject: [PATCH v5 10/22] target/arm: Define arm_cpu_do_unaligned_access for
+ CONFIG_USER_ONLY
+Date: Fri, 11 Oct 2019 09:47:32 -0400
+Message-Id: <20191011134744.2477-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191011134744.2477-1-richard.henderson@linaro.org>
 References: <20191011134744.2477-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
+X-Received-From: 2607:f8b0:4864:20::b41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,60 +81,34 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+We will need this to raise unaligned exceptions from user mode.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Fix extraction length.
----
- target/arm/translate-a64.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ target/arm/tlb_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 4184d65d97..cf341c98d3 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -5162,19 +5162,39 @@ static void handle_crc32(DisasContext *s,
-  */
- static void disas_data_proc_2src(DisasContext *s, uint32_t insn)
- {
--    unsigned int sf, rm, opcode, rn, rd;
-+    unsigned int sf, rm, opcode, rn, rd, setflag;
-     sf = extract32(insn, 31, 1);
-+    setflag = extract32(insn, 29, 1);
-     rm = extract32(insn, 16, 5);
-     opcode = extract32(insn, 10, 6);
-     rn = extract32(insn, 5, 5);
-     rd = extract32(insn, 0, 5);
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 5feb312941..29b92a1149 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -10,8 +10,6 @@
+ #include "internals.h"
+ #include "exec/exec-all.h"
  
--    if (extract32(insn, 29, 1)) {
-+    if (setflag && opcode != 0) {
-         unallocated_encoding(s);
-         return;
-     }
+-#if !defined(CONFIG_USER_ONLY)
+-
+ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+                                             unsigned int target_el,
+                                             bool same_el, bool ea,
+@@ -122,6 +120,7 @@ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+     arm_deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
+ }
  
-     switch (opcode) {
-+    case 0: /* SUBP(S) */
-+        if (sf == 0 || !dc_isar_feature(aa64_mte_insn_reg, s)) {
-+            goto do_unallocated;
-+        } else {
-+            TCGv_i64 tcg_n, tcg_m, tcg_d;
-+
-+            tcg_n = read_cpu_reg_sp(s, rn, true);
-+            tcg_m = read_cpu_reg_sp(s, rm, true);
-+            tcg_gen_sextract_i64(tcg_n, tcg_n, 0, 56);
-+            tcg_gen_sextract_i64(tcg_m, tcg_m, 0, 56);
-+            tcg_d = cpu_reg(s, rd);
-+
-+            if (setflag) {
-+                gen_sub_CC(true, tcg_d, tcg_n, tcg_m);
-+            } else {
-+                tcg_gen_sub_i64(tcg_d, tcg_n, tcg_m);
-+            }
-+        }
-+        break;
-     case 2: /* UDIV */
-         handle_div(s, false, sf, rm, rn, rd);
-         break;
++#ifndef CONFIG_USER_ONLY
+ /*
+  * arm_cpu_do_transaction_failed: handle a memory system error response
+  * (eg "no device/memory present at address") by raising an external abort
 -- 
 2.17.1
 
