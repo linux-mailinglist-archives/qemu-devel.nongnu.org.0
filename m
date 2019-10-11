@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408DAD4522
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:13:10 +0200 (CEST)
-Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C042FD4515
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:10:26 +0200 (CEST)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxXR-0005tP-9I
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35926)
+	id 1iIxUn-0002ie-Fn
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQX-0005a2-0N
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQW-0005Zn-Rz
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQV-00041z-Jh
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQV-00042O-Sj
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:00 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47800)
+Received: from relay.sw.ru ([185.231.240.75]:47806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQV-00040i-BC
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:05:59 -0400
+ id 1iIxQV-000419-L2; Fri, 11 Oct 2019 12:05:59 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQT-0003XG-Tg; Fri, 11 Oct 2019 19:05:58 +0300
+ id 1iIxQU-0003XG-5T; Fri, 11 Oct 2019 19:05:58 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 006/126] qdev-monitor: well form error hint helpers
-Date: Fri, 11 Oct 2019 19:03:52 +0300
-Message-Id: <20191011160552.22907-7-vsementsov@virtuozzo.com>
+Subject: [RFC v5 007/126] nbd: well form nbd_iter_channel_error errp handler
+Date: Fri, 11 Oct 2019 19:03:53 +0300
+Message-Id: <20191011160552.22907-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,98 +47,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, vsementsov@virtuozzo.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- armbru@redhat.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make qbus_list_bus and qbus_list_dev hint append helpers well formed:
+Make nbd_iter_channel_error errp handler well formed:
 rename errp to errp_in, as it is IN-parameter here (which is unusual
-for errp), rename functions to be error_append_*_hint.
+for errp).
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qdev-monitor.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ block/nbd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 85b58620d1..d14ef6af01 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -326,36 +326,36 @@ static Object *qdev_get_peripheral_anon(void)
-     return dev;
- }
+diff --git a/block/nbd.c b/block/nbd.c
+index 813c40d8f0..c66fdf54b9 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -684,18 +684,18 @@ typedef struct NBDReplyChunkIter {
+ } NBDReplyChunkIter;
  
--static void qbus_list_bus(DeviceState *dev, Error **errp)
-+static void error_append_qbus_bus_list_hint(DeviceState *dev, Error **errp_in)
+ static void nbd_iter_channel_error(NBDReplyChunkIter *iter,
+-                                   int ret, Error **local_err)
++                                   int ret, Error **errp_in)
  {
-     BusState *child;
-     const char *sep = " ";
+-    assert(ret < 0);
++    assert(ret < 0 && errp_in && *errp_in);
  
--    error_append_hint(errp, "child buses at \"%s\":",
-+    error_append_hint(errp_in, "child buses at \"%s\":",
-                       dev->id ? dev->id : object_get_typename(OBJECT(dev)));
-     QLIST_FOREACH(child, &dev->child_bus, sibling) {
--        error_append_hint(errp, "%s\"%s\"", sep, child->name);
-+        error_append_hint(errp_in, "%s\"%s\"", sep, child->name);
-         sep = ", ";
+     if (!iter->ret) {
+         iter->ret = ret;
+-        error_propagate(&iter->err, *local_err);
++        error_propagate(&iter->err, *errp_in);
+     } else {
+-        error_free(*local_err);
++        error_free(*errp_in);
      }
--    error_append_hint(errp, "\n");
-+    error_append_hint(errp_in, "\n");
+ 
+-    *local_err = NULL;
++    *errp_in = NULL;
  }
  
--static void qbus_list_dev(BusState *bus, Error **errp)
-+static void error_append_qbus_dev_list_hint(BusState *bus, Error **errp_in)
- {
-     BusChild *kid;
-     const char *sep = " ";
- 
--    error_append_hint(errp, "devices at \"%s\":", bus->name);
-+    error_append_hint(errp_in, "devices at \"%s\":", bus->name);
-     QTAILQ_FOREACH(kid, &bus->children, sibling) {
-         DeviceState *dev = kid->child;
--        error_append_hint(errp, "%s\"%s\"", sep,
-+        error_append_hint(errp_in, "%s\"%s\"", sep,
-                           object_get_typename(OBJECT(dev)));
-         if (dev->id) {
--            error_append_hint(errp, "/\"%s\"", dev->id);
-+            error_append_hint(errp_in, "/\"%s\"", dev->id);
-         }
-         sep = ", ";
-     }
--    error_append_hint(errp, "\n");
-+    error_append_hint(errp_in, "\n");
- }
- 
- static BusState *qbus_find_bus(DeviceState *dev, char *elem)
-@@ -498,7 +498,7 @@ static BusState *qbus_find(const char *path, Error **errp)
-         if (!dev) {
-             error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-                       "Device '%s' not found", elem);
--            qbus_list_dev(bus, errp);
-+            error_append_qbus_dev_list_hint(bus, errp);
-             return NULL;
-         }
- 
-@@ -516,7 +516,7 @@ static BusState *qbus_find(const char *path, Error **errp)
-             if (dev->num_child_bus) {
-                 error_setg(errp, "Device '%s' has multiple child buses",
-                            elem);
--                qbus_list_bus(dev, errp);
-+                error_append_qbus_bus_list_hint(dev, errp);
-             } else {
-                 error_setg(errp, "Device '%s' has no child bus", elem);
-             }
-@@ -532,7 +532,7 @@ static BusState *qbus_find(const char *path, Error **errp)
-         bus = qbus_find_bus(dev, elem);
-         if (!bus) {
-             error_setg(errp, "Bus '%s' not found", elem);
--            qbus_list_bus(dev, errp);
-+            error_append_qbus_bus_list_hint(dev, errp);
-             return NULL;
-         }
-     }
+ static void nbd_iter_request_error(NBDReplyChunkIter *iter, int ret)
 -- 
 2.21.0
 
