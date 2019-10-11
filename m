@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DCFD3BA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 10:52:16 +0200 (CEST)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12F2D3BB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 10:56:33 +0200 (CEST)
+Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIqel-0004iM-4k
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 04:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46485)
+	id 1iIqio-0001hK-VG
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 04:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iIqd6-0003Mn-Hg
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:33 -0400
+ (envelope-from <armbru@redhat.com>) id 1iIqd8-0003NN-S7
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iIqd4-0005iA-KG
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38480)
+ (envelope-from <armbru@redhat.com>) id 1iIqd7-0005jQ-JS
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57772)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iIqd4-0005hb-CK
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:30 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iIqd7-0005iv-Du
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 04:50:33 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 150F618CB8E0
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:50:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AD41A10CC1EE
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:50:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE1251001B2D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ADF255D6C8;
  Fri, 11 Oct 2019 08:50:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 22B081132D6D; Fri, 11 Oct 2019 10:50:27 +0200 (CEST)
+ id 25DA11132A05; Fri, 11 Oct 2019 10:50:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/4] tests: qapi: Test 'features' of commands
-Date: Fri, 11 Oct 2019 10:50:26 +0200
-Message-Id: <20191011085027.28606-4-armbru@redhat.com>
+Subject: [PATCH v4 4/4] qapi: Allow introspecting fix for savevm's cooperation
+ with blockdev
+Date: Fri, 11 Oct 2019 10:50:27 +0200
+Message-Id: <20191011085027.28606-5-armbru@redhat.com>
 In-Reply-To: <20191011085027.28606-1-armbru@redhat.com>
 References: <20191011085027.28606-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Fri, 11 Oct 2019 08:50:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.65]); Fri, 11 Oct 2019 08:50:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,166 +64,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Krempa <pkrempa@redhat.com>
 
+'savevm' was buggy as it considered all monitor-owned block device
+nodes for snapshot. With the introduction of -blockdev, the common
+usage made all nodes including protocol and backing file nodes be
+monitor-owned and thus considered for snapshot.
+
+This is a problem since the 'file' protocol nodes can't have internal
+snapshots and it does not make sense to take snapshot of nodes
+representing backing files.
+
+This was fixed by commit 05f4aced658a02b02. Clients need to be able to
+detect whether this fix is present.
+
+Since savevm does not have an QMP alternative, add the feature for the
+'human-monitor-command' backdoor which is used to call this command in
+modern use.
+
 Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-cmds.c                   | 24 ++++++++++++++++++++++++
- tests/qapi-schema/qapi-schema-test.json | 22 ++++++++++++++++++++++
- tests/qapi-schema/qapi-schema-test.out  | 23 +++++++++++++++++++++++
- tests/qapi-schema/test-qapi.py          | 12 ++++++++----
- 4 files changed, 77 insertions(+), 4 deletions(-)
+ qapi/misc.json | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
-index 36fdf5b115..ba623fda29 100644
---- a/tests/test-qmp-cmds.c
-+++ b/tests/test-qmp-cmds.c
-@@ -51,6 +51,30 @@ void qmp_test_features(FeatureStruct0 *fs0, FeatureStr=
-uct1 *fs1,
- {
- }
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 6bd11f50e6..35dca86ce7 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -1020,6 +1020,13 @@
+ #
+ # @cpu-index: The CPU to use for commands that require an implicit CPU
+ #
++# Features:
++
++# @savevm-monitor-nodes: If present, HMP command savevm only snapshots
++#                        monitor-owned nodes if they have no parents.
++#                        This allows the use of 'savevm' with
++#                        -blockdev. (since 4.2)
++#
+ # Returns: the output of the command as a string
+ #
+ # Since: 0.14.0
+@@ -1047,7 +1054,8 @@
+ ##
+ { 'command': 'human-monitor-command',
+   'data': {'command-line': 'str', '*cpu-index': 'int'},
+-  'returns': 'str' }
++  'returns': 'str',
++  'features': [ 'savevm-monitor-nodes' ] }
 =20
-+void qmp_test_command_features1(Error **errp)
-+{
-+}
-+
-+void qmp_test_command_features2(Error **errp)
-+{
-+}
-+
-+void qmp_test_command_features3(Error **errp)
-+{
-+}
-+
-+void qmp_test_command_features4(Error **errp)
-+{
-+}
-+
-+void qmp_test_command_features5(Error **errp)
-+{
-+}
-+
-+void qmp_test_command_features6(Error **errp)
-+{
-+}
-+
- UserDefTwo *qmp_user_def_cmd2(UserDefOne *ud1a,
-                               bool has_udb1, UserDefOne *ud1b,
-                               Error **errp)
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
-qapi-schema-test.json
-index 75c42eb0e3..80811dc8f0 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -290,3 +290,25 @@
-             'cfs1': 'CondFeatureStruct1',
-             'cfs2': 'CondFeatureStruct2',
-             'cfs3': 'CondFeatureStruct3' } }
-+
-+# test 'features' for command
-+
-+{ 'command': 'test-command-features1',
-+  'features': [] }
-+
-+{ 'command': 'test-command-features2',
-+  'features': [ 'feature1' ] }
-+
-+{ 'command': 'test-command-features3',
-+  'features': [ 'feature1', 'feature2' ] }
-+
-+{ 'command': 'test-command-features4',
-+  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'=
-} ] }
-+
-+{ 'command': 'test-command-features5',
-+  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'=
-},
-+                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2)'=
-} ] }
-+
-+{ 'command': 'test-command-features6',
-+  'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
-+                                              'defined(TEST_IF_COND_2)']=
- } ] }
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
-api-schema-test.out
-index aca43186a9..4061152cae 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -412,3 +412,26 @@ object q_obj_test-features-arg
-     member cfs3: CondFeatureStruct3 optional=3DFalse
- command test-features q_obj_test-features-arg -> None
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+command test-command-features1 None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+command test-command-features2 None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    feature feature1
-+command test-command-features3 None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    feature feature1
-+    feature feature2
-+command test-command-features4 None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    feature feature1
-+        if ['defined(TEST_IF_FEATURE_1)']
-+command test-command-features5 None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    feature feature1
-+        if ['defined(TEST_IF_FEATURE_1)']
-+    feature feature2
-+        if ['defined(TEST_IF_FEATURE_2)']
-+command test-command-features6 None -> None
-+    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
-ig=3DFalse
-+    feature feature1
-+        if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
-.py
-index d31ac4bbb7..32333d3bf9 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -61,10 +61,7 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-             self._print_if(m.ifcond, 8)
-         self._print_variants(variants)
-         self._print_if(ifcond)
--        if features:
--            for f in features:
--                print('    feature %s' % f.name)
--                self._print_if(f.ifcond, 8)
-+        self._print_features(features)
-=20
-     def visit_alternate_type(self, name, info, ifcond, variants):
-         print('alternate %s' % name)
-@@ -80,6 +77,7 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         print('    gen=3D%s success_response=3D%s boxed=3D%s oob=3D%s pr=
-econfig=3D%s'
-               % (gen, success_response, boxed, allow_oob, allow_preconfi=
-g))
-         self._print_if(ifcond)
-+        self._print_features(features)
-=20
-     def visit_event(self, name, info, ifcond, arg_type, boxed):
-         print('event %s %s' % (name, arg_type and arg_type.name))
-@@ -99,6 +97,12 @@ class QAPISchemaTestVisitor(QAPISchemaVisitor):
-         if ifcond:
-             print('%sif %s' % (' ' * indent, ifcond))
-=20
-+    @classmethod
-+    def _print_features(cls, features):
-+        if features:
-+            for f in features:
-+                print('    feature %s' % f.name)
-+                cls._print_if(f.ifcond, 8)
-=20
- def test_frontend(fname):
-     schema =3D QAPISchema(fname)
+ ##
+ # @change:
 --=20
 2.21.0
 
