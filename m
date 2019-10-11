@@ -2,69 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29419D452D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:16:12 +0200 (CEST)
-Received: from localhost ([::1]:53548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408DAD4522
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:13:10 +0200 (CEST)
+Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxaM-0000OB-3n
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33868)
+	id 1iIxXR-0005tP-9I
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxGw-0002bX-8n
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:07 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQX-0005a2-0N
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxGv-0007lZ-7N
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:06 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:37867)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIxGv-0007lB-3c
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:05 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id z125so3257532ybc.4
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:56:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ReDLvA+WR/T82Ne1Z6mUqgY0iX8aRnhgEWdNBPA2eNw=;
- b=wswCKfzZ6ZGMe3YYDoaISuVaqu0ShmUFqHtawTQxD6dxDG6iPuTssqczv+YrA9s6Mp
- u6fq4eIgOF1k20SRumbKrjDvmQQJPtU3CXf48TBNADU5zY4gSLZZvk94IJsACbmgKgXO
- alE0vPdweclCXnEGNWkuE5gqhp+R3Sa48tl0lWotAhebsNMjgw2hp8uLifNQNmj06Q1q
- Ixf75bivWH6cFM3ioQyysonDMftMFv/fKzqmZ6LI3kjGWdk9Gi9NcdVUkCx7Qi7c4AAt
- SwVn7GCirvYX2UyGVPQSDkiuwuV6+7cqkcb864jpkTSWj5L4H4FPlEX3l/MDuYVdamox
- QLmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ReDLvA+WR/T82Ne1Z6mUqgY0iX8aRnhgEWdNBPA2eNw=;
- b=gi0pQnV7JjuQrk+7zLVIXHnvHzGVYiVi5+y2rB7+QHY80ggJKq/ckHXkHWUFEUhAco
- dvda9bJuJAB5uy367IGCEyc9jDVmwlzRwnyIZZUkrumupY6n4y9ARp9BACBbgGMKn4/X
- Xvm252rroUTXGRAqDjyp21PmPH9GJ7vUW++Bf8LCQTTj6PW5KRViXXIu8SJr3K3vaLCJ
- WRu5tD7bFDkcX7VasbCvJFieQPqbAil74I7PgZp2I2r1TD0KoLFfbD5dfi+xjE28Xe3c
- s6hHTuiplX8BpWcwHz0/52Nw2l2hFNMSe1Fo88txbumUTfT5Gm2GwfJhDkavd8hN1QcR
- XKYg==
-X-Gm-Message-State: APjAAAVo4zZzuAOf4fP7H9+3viDaX3q8GhLWdgBI4l6+Ir6EthQhhQcD
- rqCLjzek+mVtLRHj+ve/eHcV1B5SPdQ=
-X-Google-Smtp-Source: APXvYqwZOkNFX1UP2/pMPPHNfIpIor/Zp5Y8bZZEI5L5PNJDnmm7gRTzymY48VTc5Fvn4QLOGd2cDg==
-X-Received: by 2002:a5b:30d:: with SMTP id j13mr10598348ybp.308.1570809364235; 
- Fri, 11 Oct 2019 08:56:04 -0700 (PDT)
-Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
- [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id d17sm2473139ywb.95.2019.10.11.08.56.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 08:56:03 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQV-00041z-Jh
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:00 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47800)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxQV-00040i-BC
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:05:59 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxQT-0003XG-Tg; Fri, 11 Oct 2019 19:05:58 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 14/20] target/arm: Hoist store to cs_base in
- cpu_get_tb_cpu_state
-Date: Fri, 11 Oct 2019 11:55:40 -0400
-Message-Id: <20191011155546.14342-15-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191011155546.14342-1-richard.henderson@linaro.org>
-References: <20191011155546.14342-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+Subject: [RFC v5 006/126] qdev-monitor: well form error hint helpers
+Date: Fri, 11 Oct 2019 19:03:52 +0300
+Message-Id: <20191011160552.22907-7-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,39 +48,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ armbru@redhat.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By performing this store early, we avoid having to save and restore
-the register holding the address around any function calls.
+Make qbus_list_bus and qbus_list_dev hint append helpers well formed:
+rename errp to errp_in, as it is IN-parameter here (which is unusual
+for errp), rename functions to be error_append_*_hint.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qdev-monitor.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3f7d3f257d..37424e3d4d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11225,6 +11225,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
- {
-     uint32_t flags, pstate_for_ss;
- 
-+    *cs_base = 0;
-     flags = rebuild_hflags_internal(env);
- 
-     if (is_a64(env)) {
-@@ -11298,7 +11299,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-     }
- 
-     *pflags = flags;
--    *cs_base = 0;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 85b58620d1..d14ef6af01 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -326,36 +326,36 @@ static Object *qdev_get_peripheral_anon(void)
+     return dev;
  }
  
- #ifdef TARGET_AARCH64
+-static void qbus_list_bus(DeviceState *dev, Error **errp)
++static void error_append_qbus_bus_list_hint(DeviceState *dev, Error **errp_in)
+ {
+     BusState *child;
+     const char *sep = " ";
+ 
+-    error_append_hint(errp, "child buses at \"%s\":",
++    error_append_hint(errp_in, "child buses at \"%s\":",
+                       dev->id ? dev->id : object_get_typename(OBJECT(dev)));
+     QLIST_FOREACH(child, &dev->child_bus, sibling) {
+-        error_append_hint(errp, "%s\"%s\"", sep, child->name);
++        error_append_hint(errp_in, "%s\"%s\"", sep, child->name);
+         sep = ", ";
+     }
+-    error_append_hint(errp, "\n");
++    error_append_hint(errp_in, "\n");
+ }
+ 
+-static void qbus_list_dev(BusState *bus, Error **errp)
++static void error_append_qbus_dev_list_hint(BusState *bus, Error **errp_in)
+ {
+     BusChild *kid;
+     const char *sep = " ";
+ 
+-    error_append_hint(errp, "devices at \"%s\":", bus->name);
++    error_append_hint(errp_in, "devices at \"%s\":", bus->name);
+     QTAILQ_FOREACH(kid, &bus->children, sibling) {
+         DeviceState *dev = kid->child;
+-        error_append_hint(errp, "%s\"%s\"", sep,
++        error_append_hint(errp_in, "%s\"%s\"", sep,
+                           object_get_typename(OBJECT(dev)));
+         if (dev->id) {
+-            error_append_hint(errp, "/\"%s\"", dev->id);
++            error_append_hint(errp_in, "/\"%s\"", dev->id);
+         }
+         sep = ", ";
+     }
+-    error_append_hint(errp, "\n");
++    error_append_hint(errp_in, "\n");
+ }
+ 
+ static BusState *qbus_find_bus(DeviceState *dev, char *elem)
+@@ -498,7 +498,7 @@ static BusState *qbus_find(const char *path, Error **errp)
+         if (!dev) {
+             error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
+                       "Device '%s' not found", elem);
+-            qbus_list_dev(bus, errp);
++            error_append_qbus_dev_list_hint(bus, errp);
+             return NULL;
+         }
+ 
+@@ -516,7 +516,7 @@ static BusState *qbus_find(const char *path, Error **errp)
+             if (dev->num_child_bus) {
+                 error_setg(errp, "Device '%s' has multiple child buses",
+                            elem);
+-                qbus_list_bus(dev, errp);
++                error_append_qbus_bus_list_hint(dev, errp);
+             } else {
+                 error_setg(errp, "Device '%s' has no child bus", elem);
+             }
+@@ -532,7 +532,7 @@ static BusState *qbus_find(const char *path, Error **errp)
+         bus = qbus_find_bus(dev, elem);
+         if (!bus) {
+             error_setg(errp, "Bus '%s' not found", elem);
+-            qbus_list_bus(dev, errp);
++            error_append_qbus_bus_list_hint(dev, errp);
+             return NULL;
+         }
+     }
 -- 
-2.17.1
+2.21.0
 
 
