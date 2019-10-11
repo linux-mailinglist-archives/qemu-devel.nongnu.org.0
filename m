@@ -2,77 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A66CD478E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:28:14 +0200 (CEST)
-Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE62D47A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:33:09 +0200 (CEST)
+Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIze9-0001fO-Es
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52488)
+	id 1iIzit-0005wB-A2
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40615)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dann.frazier@canonical.com>) id 1iIz3K-0008Sh-Mc
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:50:11 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhK-00015v-De
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dann.frazier@canonical.com>) id 1iIz3J-000333-Kr
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:50:10 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:34982)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dann.frazier@canonical.com>)
- id 1iIz3J-00032R-Fd
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:50:09 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <dann.frazier@canonical.com>) id 1iIz3I-0007f6-4w
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:50:08 +0000
-Received: by mail-io1-f70.google.com with SMTP id o11so15578742iop.12
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 10:50:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0IbGoxc82xatwrwn5PJ3w2SXIJIdha2Kkk4OjLJe6bw=;
- b=sjGvHMZwKYVx+LcH2JFJU7/uP5KcWhqbh8kEANpdi63EfFRsvwwD3cNxA92LSi/rTf
- 50agCYmlPkrEc0/UTu2KEauzxYDDqR8hWgqg/lsY61rZRdmkKzKVE5Q8jexzOoqM7+wW
- LezQTf2TYylKibEiyf1l9OLYBf47VpU03e1zvwC1dbYf1wtgTRcqTNLqb/ACTqomWImX
- zrb/F5V6+L/wzBborbk6brw8XbxAnz7fSIjADLIz5NqZrMLiSLmfpduKf01JDT9th7hP
- K3W7G3P/qkEN2JY4RrPk0ZYmyg7mzaIxK8AObb1XnkQx98A8nkuMAZSW5tIPLZVeSXiU
- TKBg==
-X-Gm-Message-State: APjAAAVQUz6CjE6DEtPfjmRkM/H28GEfh7o40b1OKF5pg/41eV7GzS8A
- LjTc/LpQ4auLmAtV30yO5lgM78fFBIBCvSSUemqTzjxGhOer8b8+ZC4mi7LmmbHI88juJ/4+Bdm
- 9MUNdBdKC+NdhOJIpYzdrSXVBuIISlWYu
-X-Received: by 2002:a5e:9b04:: with SMTP id j4mr815729iok.45.1570816206947;
- Fri, 11 Oct 2019 10:50:06 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxPYW/ueoUdYFkDu0vjH8lYV/22VYKenaeoz+EsWRsEdshsk00HDcpzdJcwoqjc08F4Ut9MzQ==
-X-Received: by 2002:a5e:9b04:: with SMTP id j4mr815676iok.45.1570816206534;
- Fri, 11 Oct 2019 10:50:06 -0700 (PDT)
-Received: from xps13.canonical.com (c-71-56-235-36.hsd1.co.comcast.net.
- [71.56.235.36])
- by smtp.gmail.com with ESMTPSA id 26sm8058970iog.10.2019.10.11.10.50.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 10:50:05 -0700 (PDT)
-Date: Fri, 11 Oct 2019 11:50:06 -0600
-From: dann frazier <dann.frazier@canonical.com>
-To: Jan Glauber <jglauber@marvell.com>
-Subject: Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2 possible issues
-Message-ID: <20191011175006.GA25464@xps13.dannf>
-References: <d94f18f1-986f-ec19-02c0-e83e5e7af3d0@redhat.com>
- <1864070a-2f84-1d98-341e-f01ddf74ec4b@ubuntu.com>
- <20190924202517.GA21422@xps13.dannf> <20191002092253.GA3857@hc>
- <6dd73749-49b0-0fbc-b9bb-44c3736642b8@redhat.com>
- <20191007144432.GA29958@xps13.dannf>
- <065a52a9-5bb0-1259-6c73-41af60e0a05d@redhat.com>
- <20191009080220.GA2905@hc>
- <d5367b2a-84ee-1211-a2dc-7d631c94fe3f@redhat.com>
- <20191011060518.GA6920@hc>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhI-0008NX-CM
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:22 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49704)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxhI-0008N4-0Z; Fri, 11 Oct 2019 12:23:20 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxR6-0003XG-Nk; Fri, 11 Oct 2019 19:06:37 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC v5 111/126] raw: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:37 +0300
+Message-Id: <20191011160552.22907-112-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191011060518.GA6920@hc>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 91.189.89.112
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,87 +47,422 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>,
- lizhengui <lizhengui@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Bug 1805256 <1805256@bugs.launchpad.net>,
- QEMU Developers - ARM <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>, armbru@redhat.com,
+ Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 11, 2019 at 06:05:25AM +0000, Jan Glauber wrote:
-> On Wed, Oct 09, 2019 at 11:15:04AM +0200, Paolo Bonzini wrote:
-> > On 09/10/19 10:02, Jan Glauber wrote:
-> 
-> > > I'm still not sure what the actual issue is here, but could it be some bad
-> > > interaction between the notify_me and the list_lock? The are both 4 byte
-> > > and side-by-side:
-> > > 
-> > > address notify_me: 0xaaaadb528aa0  sizeof notify_me: 4
-> > > address list_lock: 0xaaaadb528aa4  sizeof list_lock: 4
-> > > 
-> > > AFAICS the generated code looks OK (all load/store exclusive done
-> > > with 32 bit size):
-> > > 
-> > >      e6c:       885ffc01        ldaxr   w1, [x0]
-> > >      e70:       11000821        add     w1, w1, #0x2
-> > >      e74:       8802fc01        stlxr   w2, w1, [x0]
-> > > 
-> > > ...but if I bump notify_me size to uint64_t the issue goes away.
-> > 
-> > Ouch. :)  Is this with or without my patch(es)?
-> > 
-> > Also, what if you just add a dummy uint32_t after notify_me?
-> 
-> With the dummy the testcase also runs fine for 500 iterations.
-> 
-> Dann, can you try if this works on the Hi1620 too?
+If we want to add some info to errp (by error_prepend() or
+error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+Otherwise, this info will not be added when errp == &fatal_err
+(the program will exit prior to the error_append_hint() or
+error_prepend() call).  Fix such cases.
 
-On Hi1620, it hung on the first iteration. Here's the complete patch
-I'm running with:
+If we want to check error after errp-function call, we need to
+introduce local_err and than propagate it to errp. Instead, use
+ERRP_AUTO_PROPAGATE macro, benefits are:
+1. No need of explicit error_propagate call
+2. No need of explicit local_err variable: use errp directly
+3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+   &error_fatel, this means that we don't break error_abort
+   (we'll abort on error_set, not on error_propagate)
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 6b0d52f732..e6fd6f1a1a 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -82,7 +82,7 @@ struct AioContext {
-      * Instead, the aio_poll calls include both the prepare and the
-      * dispatch phase, hence a simple counter is enough for them.
-      */
--    uint32_t notify_me;
-+    uint64_t notify_me;
+This commit (together with its neighbors) was generated by
+
+for f in $(git grep -l errp \*.[ch]); do \
+    spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
+done;
+
+then fix a bit of compilation problems: coccinelle for some reason
+leaves several
+f() {
+    ...
+    goto out;
+    ...
+    out:
+}
+patterns, with "out:" at function end.
+
+then
+./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+
+(auto-msg was a file with this commit message)
+
+Still, for backporting it may be more comfortable to use only the first
+command and then do one huge commit.
+
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reported-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/file-posix.c | 79 ++++++++++++++++++++--------------------------
+ block/file-win32.c | 29 +++++++----------
+ block/raw-format.c |  7 ++--
+ 3 files changed, 50 insertions(+), 65 deletions(-)
+
+diff --git a/block/file-posix.c b/block/file-posix.c
+index f12c06de2d..fa75232713 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -320,6 +320,7 @@ static bool raw_is_io_aligned(int fd, void *buf, size_t len)
  
-     /* A lock to protect between QEMUBH and AioHandler adders and deleter,
-      * and to ensure that no callbacks are removed while we're walking and
-diff --git a/util/async.c b/util/async.c
-index ca83e32c7f..024c4c567d 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -242,7 +242,7 @@ aio_ctx_check(GSource *source)
-     aio_notify_accept(ctx);
- 
-     for (bh = ctx->first_bh; bh; bh = bh->next) {
--        if (bh->scheduled) {
-+        if (atomic_mb_read(&bh->scheduled)) {
-             return true;
-         }
-     }
-@@ -342,12 +342,12 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
- 
- void aio_notify(AioContext *ctx)
+ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
  {
--    /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
--     * with atomic_or in aio_ctx_prepare or atomic_add in aio_poll.
-+    /* Using atomic_mb_read ensures that e.g. bh->scheduled is written before
-+     * ctx->notify_me is read.  Pairs with atomic_or in aio_ctx_prepare or
-+     * atomic_add in aio_poll.
-      */
--    smp_mb();
--    if (ctx->notify_me) {
--        event_notifier_set(&ctx->notifier);
-+    if (atomic_mb_read(&ctx->notify_me)) {
-+	event_notifier_set(&ctx->notifier);
-         atomic_mb_set(&ctx->notified, true);
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+     char *buf;
+     size_t max_align = MAX(MAX_BLOCKSIZE, getpagesize());
+@@ -473,9 +474,9 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+                            int bdrv_flags, int open_flags,
+                            bool device, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     const char *filename = NULL;
+     const char *str;
+     BlockdevAioOptions aio, aio_default;
+@@ -484,9 +485,8 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+     OnOffAuto locking;
+ 
+     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
      }
- }
+@@ -503,9 +503,8 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+                   : BLOCKDEV_AIO_OPTIONS_THREADS;
+     aio = qapi_enum_parse(&BlockdevAioOptions_lookup,
+                           qemu_opt_get(opts, "aio"),
+-                          aio_default, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                          aio_default, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
+@@ -513,9 +512,8 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+ 
+     locking = qapi_enum_parse(&OnOffAuto_lookup,
+                               qemu_opt_get(opts, "locking"),
+-                              ON_OFF_AUTO_AUTO, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                              ON_OFF_AUTO_AUTO, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
+@@ -541,9 +539,8 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+ 
+     str = qemu_opt_get(opts, "pr-manager");
+     if (str) {
+-        s->pr_mgr = pr_manager_lookup(str, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        s->pr_mgr = pr_manager_lookup(str, errp);
++        if (*errp) {
+             ret = -EINVAL;
+             goto fail;
+         }
+@@ -817,9 +814,9 @@ static int raw_handle_perm_lock(BlockDriverState *bs,
+                                 uint64_t new_perm, uint64_t new_shared,
+                                 Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+     int ret = 0;
+-    Error *local_err = NULL;
+ 
+     if (!s->use_lock) {
+         return 0;
+@@ -859,22 +856,22 @@ static int raw_handle_perm_lock(BlockDriverState *bs,
+         /* fall through to unlock bytes. */
+     case RAW_PL_ABORT:
+         raw_apply_lock_bytes(s, s->fd, s->perm, ~s->shared_perm,
+-                             true, &local_err);
+-        if (local_err) {
++                             true, errp);
++        if (*errp) {
+             /* Theoretically the above call only unlocks bytes and it cannot
+              * fail. Something weird happened, report it.
+              */
+-            warn_report_err(local_err);
++            warn_report_errp(errp);
+         }
+         break;
+     case RAW_PL_COMMIT:
+         raw_apply_lock_bytes(s, s->fd, new_perm, ~new_shared,
+-                             true, &local_err);
+-        if (local_err) {
++                             true, errp);
++        if (*errp) {
+             /* Theoretically the above call only unlocks bytes and it cannot
+              * fail. Something weird happened, report it.
+              */
+-            warn_report_err(local_err);
++            warn_report_errp(errp);
+         }
+         break;
+     }
+@@ -948,11 +945,11 @@ static int raw_reconfigure_getfd(BlockDriverState *bs, int flags,
+ static int raw_reopen_prepare(BDRVReopenState *state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s;
+     BDRVRawReopenState *rs;
+     QemuOpts *opts;
+     int ret;
+-    Error *local_err = NULL;
+ 
+     assert(state != NULL);
+     assert(state->bs != NULL);
+@@ -964,9 +961,8 @@ static int raw_reopen_prepare(BDRVReopenState *state,
+ 
+     /* Handle options changes */
+     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, state->options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, state->options, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto out;
+     }
+@@ -981,9 +977,8 @@ static int raw_reopen_prepare(BDRVReopenState *state,
+     qemu_opts_to_qdict(opts, state->options);
+ 
+     rs->fd = raw_reconfigure_getfd(state->bs, state->flags, &rs->open_flags,
+-                                   state->perm, true, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                   state->perm, true, errp);
++    if (*errp) {
+         ret = -1;
+         goto out;
+     }
+@@ -991,9 +986,8 @@ static int raw_reopen_prepare(BDRVReopenState *state,
+     /* Fail already reopen_prepare() if we can't get a working O_DIRECT
+      * alignment with the new fd. */
+     if (rs->fd != -1) {
+-        raw_probe_alignment(state->bs, rs->fd, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        raw_probe_alignment(state->bs, rs->fd, errp);
++        if (*errp) {
+             ret = -EINVAL;
+             goto out_fd;
+         }
+@@ -2232,8 +2226,8 @@ static int64_t raw_get_allocated_file_size(BlockDriverState *bs)
+ static int coroutine_fn
+ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BlockdevCreateOptionsFile *file_opts;
+-    Error *local_err = NULL;
+     int fd;
+     uint64_t perm, shared;
+     int result = 0;
+@@ -2315,13 +2309,13 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+     }
+ 
+ out_unlock:
+-    raw_apply_lock_bytes(NULL, fd, 0, 0, true, &local_err);
+-    if (local_err) {
++    raw_apply_lock_bytes(NULL, fd, 0, 0, true, errp);
++    if (*errp) {
+         /* The above call should not fail, and if it does, that does
+          * not mean the whole creation operation has failed.  So
+          * report it the user for their convenience, but do not report
+          * it to the caller. */
+-        warn_report_err(local_err);
++        warn_report_errp(errp);
+     }
+ 
+ out_close:
+@@ -2336,12 +2330,12 @@ out:
+ static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts *opts,
+                                            Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BlockdevCreateOptions options;
+     int64_t total_size = 0;
+     bool nocow = false;
+     PreallocMode prealloc;
+     char *buf = NULL;
+-    Error *local_err = NULL;
+ 
+     /* Skip file: protocol prefix */
+     strstart(filename, "file:", &filename);
+@@ -2352,10 +2346,9 @@ static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts *opts,
+     nocow = qemu_opt_get_bool(opts, BLOCK_OPT_NOCOW, false);
+     buf = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
+     prealloc = qapi_enum_parse(&PreallocMode_lookup, buf,
+-                               PREALLOC_MODE_OFF, &local_err);
++                               PREALLOC_MODE_OFF, errp);
+     g_free(buf);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         return -EINVAL;
+     }
+ 
+@@ -3155,8 +3148,8 @@ static bool hdev_is_sg(BlockDriverState *bs)
+ static int hdev_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+-    Error *local_err = NULL;
+     int ret;
+ 
+ #if defined(__APPLE__) && defined(__MACH__)
+@@ -3221,9 +3214,8 @@ hdev_open_Mac_error:
+ 
+     s->type = FTYPE_FILE;
+ 
+-    ret = raw_open_common(bs, options, flags, 0, true, &local_err);
++    ret = raw_open_common(bs, options, flags, 0, true, errp);
+     if (ret < 0) {
+-        error_propagate(errp, local_err);
+ #if defined(__APPLE__) && defined(__MACH__)
+         if (*bsd_path) {
+             filename = bsd_path;
+@@ -3557,15 +3549,14 @@ static BlockDriver bdrv_host_cdrom = {
+ static int cdrom_open(BlockDriverState *bs, QDict *options, int flags,
+                       Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     s->type = FTYPE_CD;
+ 
+-    ret = raw_open_common(bs, options, flags, 0, true, &local_err);
++    ret = raw_open_common(bs, options, flags, 0, true, errp);
+     if (ret) {
+-        error_propagate(errp, local_err);
+         return ret;
+     }
+ 
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 41f55dfece..6ef3117cda 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -326,11 +326,11 @@ static bool get_aio_option(QemuOpts *opts, int flags, Error **errp)
+ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+                     Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+     int access_flags;
+     DWORD overlapped;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     const char *filename;
+     bool use_aio;
+     int ret;
+@@ -338,9 +338,8 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     s->type = FTYPE_FILE;
+ 
+     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
+@@ -353,9 +352,8 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+     filename = qemu_opt_get(opts, "filename");
+ 
+-    use_aio = get_aio_option(opts, flags, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    use_aio = get_aio_option(opts, flags, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto fail;
+     }
+@@ -722,33 +720,30 @@ static void hdev_refresh_limits(BlockDriverState *bs, Error **errp)
+ static int hdev_open(BlockDriverState *bs, QDict *options, int flags,
+                      Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BDRVRawState *s = bs->opaque;
+     int access_flags, create_flags;
+     int ret = 0;
+     DWORD overlapped;
+     char device_name[64];
+-
+-    Error *local_err = NULL;
+     const char *filename;
+     bool use_aio;
+ 
+     QemuOpts *opts = qemu_opts_create(&raw_runtime_opts, NULL, 0,
+                                       &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto done;
+     }
+ 
+     filename = qemu_opt_get(opts, "filename");
+ 
+-    use_aio = get_aio_option(opts, flags, &local_err);
+-    if (!local_err && use_aio) {
+-        error_setg(&local_err, "AIO is not supported on Windows host devices");
++    use_aio = get_aio_option(opts, flags, errp);
++    if (!*errp && use_aio) {
++        error_setg(errp, "AIO is not supported on Windows host devices");
+     }
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         ret = -EINVAL;
+         goto done;
+     }
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 42c28cc29a..8903b54499 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -74,7 +74,7 @@ static QemuOptsList raw_create_opts = {
+ static int raw_read_options(QDict *options, BlockDriverState *bs,
+     BDRVRawState *s, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     QemuOpts *opts = NULL;
+     int64_t real_size = 0;
+     int ret;
+@@ -86,9 +86,8 @@ static int raw_read_options(QDict *options, BlockDriverState *bs,
+     }
+ 
+     opts = qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         ret = -EINVAL;
+         goto end;
+     }
+-- 
+2.21.0
+
 
