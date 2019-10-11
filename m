@@ -2,68 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04300D4507
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:09:28 +0200 (CEST)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A07DD44FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:08:23 +0200 (CEST)
+Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxTq-00017t-LO
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33787)
+	id 1iIxSo-0007lx-3M
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:08:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxGt-0002W1-AE
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQW-0005ZT-Mu
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIxGs-0007is-2p
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:03 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:36711)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIxGr-0007iD-VW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:56:02 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id x64so3651768ywg.3
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 08:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4OOGMGav7WyY+i6Vj46PkAX7nW+w3pL8v7F+DMrUq7Y=;
- b=aILbN6xZ30EdzU7O9mibwUqzEqS2SYXFObkfEjAJZKVPFnRsKsQ7cLSrGAVHICGR4V
- y3o7gQPy64gjZJ4lN1GLaHIvu5Gf0AQKQp2Kwnd4hPC4LOoeQj0mDoHM0iTZOxSKp79r
- oKAobjVm6JkBKqFytkWOtvdf/hVVug3pjTQpSpYwLwbi31tVKZsDJg7ocTjwNGL9IMgD
- 6Vhs/FsABJEFrTFGsKOCCezZDFf9xrpTXRJh+VkzdHmM2YRkCVblHLmFg9nIkmj8nNdj
- r+/SnYZvW3gGRxeKHEts9pWMhMSsxF7ig26z4IRTkj+4733JmWbcfLjwag+9/wtvfBTI
- lwJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=4OOGMGav7WyY+i6Vj46PkAX7nW+w3pL8v7F+DMrUq7Y=;
- b=HDbSdpVcYTRwoF4AoThNyJBdnKGPsu7xoTf6GSlelY5yMkEHZn8PdmC91VUXBxVUGd
- NuEm/gdvNFjaE15jh1jLwz98mLDBPeW8uFxchbNLs2716numavHVzJwZQXDJWYymUPp8
- yHSgN/ecFLVYfUKWBEWmnn/9bTP8tgUYQIzQa70kSgcrv6Ya5kJGHQmDXNGmuAWmpi6e
- Ab/bcHHHQU7J3mIaGmHRaRrn7Rp6VBx8MxbZcm7tic1On51vYTeZ0FvCN9IFNpoKoSR9
- 1dLiW19dD8z1vibGri+h+UvuShqntoetiAu5mQ6k1rHOeZyH/MRDS936upej8ETfD36w
- Yrow==
-X-Gm-Message-State: APjAAAXGsoOSfZ2xUrNSbVgJONwvTS19+gB51vSZTH4JVRhLFxzPL6bE
- qUKv7+kG8n6aWJdmySMnw76SyPkM0Ak=
-X-Google-Smtp-Source: APXvYqwHLw2/gfnwTQwIIZFwKjz0TnGLJTXYOlE8nNeeG5UP5SCUJBCwldg/tpfyZvnmrUSQOg0EDQ==
-X-Received: by 2002:a0d:d384:: with SMTP id v126mr2818553ywd.166.1570809360832; 
- Fri, 11 Oct 2019 08:56:00 -0700 (PDT)
-Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
- [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id d17sm2473139ywb.95.2019.10.11.08.55.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 08:56:00 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQV-00041b-Bt
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:00 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47792)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxQV-00040M-39
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:05:59 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIxQS-0003XG-Ur; Fri, 11 Oct 2019 19:05:57 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 11/20] target/arm: Hoist computation of TBFLAG_A32.VFPEN
-Date: Fri, 11 Oct 2019 11:55:37 -0400
-Message-Id: <20191011155546.14342-12-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191011155546.14342-1-richard.henderson@linaro.org>
-References: <20191011155546.14342-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
+Subject: [RFC v5 003/126] error: rename errp to errp_in where it is IN-argument
+Date: Fri, 11 Oct 2019 19:03:49 +0300
+Message-Id: <20191011160552.22907-4-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,78 +48,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are 3 conditions that each enable this flag.  M-profile always
-enables; A-profile with EL1 as AA64 always enables.  Both of these
-conditions can easily be cached.  The final condition relies on the
-FPEXC register which we are not prepared to cache.
+Error **errp is almost always OUT-argument: it's assumed to be NULL, or
+pointer to NULL-initialized pointer, or pointer to error_abort or
+error_fatal, for callee to report error.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+But very few functions instead get Error **errp as IN-argument:
+it's assumed to be set (or, maybe, NULL), and callee should clean it,
+or add some information.
+
+In such cases, rename errp to errp_in.
+
+This patch updates only error API functions. There still a few
+functions with errp-in semantics, they will be updated in further
+commits.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- target/arm/cpu.h    |  2 +-
- target/arm/helper.c | 14 ++++++++++----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ include/qapi/error.h |  8 ++++----
+ util/error.c         | 30 +++++++++++++++---------------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 4d961474ce..9909ff89d4 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3192,7 +3192,7 @@ FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
-  * the same thing as the current security state of the processor!
+diff --git a/include/qapi/error.h b/include/qapi/error.h
+index 3f95141a01..12532bdf69 100644
+--- a/include/qapi/error.h
++++ b/include/qapi/error.h
+@@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Error *local_err,
+  * Prepend some text to @errp's human-readable error message.
+  * The text is made by formatting @fmt, @ap like vprintf().
   */
- FIELD(TBFLAG_A32, NS, 6, 1)
--FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Not cached. */
-+FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Partially cached, minus FPEXC. */
- FIELD(TBFLAG_A32, CONDEXEC, 8, 8)       /* Not cached. */
- FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
- /* For M profile only, set if FPCCR.LSPACT is set */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 398e5f5d6d..89aa6fd933 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11088,6 +11088,9 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
- {
-     uint32_t flags = 0;
+-void error_vprepend(Error **errp, const char *fmt, va_list ap);
++void error_vprepend(Error **errp_in, const char *fmt, va_list ap);
  
-+    /* v8M always enables the fpu.  */
-+    flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
-+
-     if (arm_v7m_is_handler_mode(env)) {
-         flags = FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
-     }
-@@ -11119,6 +11122,10 @@ static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
-                                    ARMMMUIdx mmu_idx)
- {
-     uint32_t flags = rebuild_hflags_aprofile(env);
-+
-+    if (arm_el_is_aa64(env, 1)) {
-+        flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
-+    }
-     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ /*
+  * Prepend some text to @errp's human-readable error message.
+  * The text is made by formatting @fmt, ... like printf().
+  */
+-void error_prepend(Error **errp, const char *fmt, ...)
++void error_prepend(Error **errp_in, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
+ 
+ /*
+@@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
+  * May be called multiple times.  The resulting hint should end with a
+  * newline.
+  */
+-void error_append_hint(Error **errp, const char *fmt, ...)
++void error_append_hint(Error **errp_in, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
+ 
+ /*
+@@ -283,7 +283,7 @@ void error_free(Error *err);
+ /*
+  * Convenience function to assert that *@errp is set, then silently free it.
+  */
+-void error_free_or_abort(Error **errp);
++void error_free_or_abort(Error **errp_in);
+ 
+ /*
+  * Convenience function to warn_report() and free @err.
+diff --git a/util/error.c b/util/error.c
+index d4532ce318..275586faa8 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -121,41 +121,41 @@ void error_setg_file_open_internal(Error **errp,
+                               "Could not open '%s'", filename);
  }
  
-@@ -11250,14 +11257,13 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                 flags = FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE,
-                                    env->vfp.vec_stride);
-             }
-+            if (env->vfp.xregs[ARM_VFP_FPEXC] & (1 << 30)) {
-+                flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
-+            }
-         }
+-void error_vprepend(Error **errp, const char *fmt, va_list ap)
++void error_vprepend(Error **errp_in, const char *fmt, va_list ap)
+ {
+     GString *newmsg;
  
-         flags = FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
-         flags = FIELD_DP32(flags, TBFLAG_A32, CONDEXEC, env->condexec_bits);
--        if (env->vfp.xregs[ARM_VFP_FPEXC] & (1 << 30)
--            || arm_el_is_aa64(env, 1) || arm_feature(env, ARM_FEATURE_M)) {
--            flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
--        }
-         pstate_for_ss = env->uncached_cpsr;
+-    if (!errp) {
++    if (!errp_in) {
+         return;
      }
  
+     newmsg = g_string_new(NULL);
+     g_string_vprintf(newmsg, fmt, ap);
+-    g_string_append(newmsg, (*errp)->msg);
+-    g_free((*errp)->msg);
+-    (*errp)->msg = g_string_free(newmsg, 0);
++    g_string_append(newmsg, (*errp_in)->msg);
++    g_free((*errp_in)->msg);
++    (*errp_in)->msg = g_string_free(newmsg, 0);
+ }
+ 
+-void error_prepend(Error **errp, const char *fmt, ...)
++void error_prepend(Error **errp_in, const char *fmt, ...)
+ {
+     va_list ap;
+ 
+     va_start(ap, fmt);
+-    error_vprepend(errp, fmt, ap);
++    error_vprepend(errp_in, fmt, ap);
+     va_end(ap);
+ }
+ 
+-void error_append_hint(Error **errp, const char *fmt, ...)
++void error_append_hint(Error **errp_in, const char *fmt, ...)
+ {
+     va_list ap;
+     int saved_errno = errno;
+     Error *err;
+ 
+-    if (!errp) {
++    if (!errp_in) {
+         return;
+     }
+-    err = *errp;
+-    assert(err && errp != &error_abort && errp != &error_fatal);
++    err = *errp_in;
++    assert(err && errp_in != &error_abort && errp_in != &error_fatal);
+ 
+     if (!err->hint) {
+         err->hint = g_string_new(NULL);
+@@ -271,11 +271,11 @@ void error_free(Error *err)
+     }
+ }
+ 
+-void error_free_or_abort(Error **errp)
++void error_free_or_abort(Error **errp_in)
+ {
+-    assert(errp && *errp);
+-    error_free(*errp);
+-    *errp = NULL;
++    assert(errp_in && *errp_in);
++    error_free(*errp_in);
++    *errp_in = NULL;
+ }
+ 
+ void error_propagate(Error **dst_errp, Error *local_err)
 -- 
-2.17.1
+2.21.0
 
 
