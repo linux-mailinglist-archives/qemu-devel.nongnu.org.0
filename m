@@ -2,59 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20008D3A3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:47:18 +0200 (CEST)
-Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183B5D3A5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:52:51 +0200 (CEST)
+Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIpds-0004Dy-H7
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35456)
+	id 1iIpjG-0001Sz-3r
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35408)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iIpYR-0000rW-UT
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:41 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIpYL-0000hw-4V
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iIpYQ-0003mb-0U
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:12707)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIpYP-0003lv-Ni
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:37 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 67DB1307D88C;
- Fri, 11 Oct 2019 07:41:36 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-177.rdu2.redhat.com
- [10.10.120.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2E0360600;
- Fri, 11 Oct 2019 07:41:25 +0000 (UTC)
-Subject: Re: [RFC 0/3] acpi: cphp: add CPHP_GET_CPU_ID_CMD command to cpu
- hotplug MMIO interface
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20191009132252.17860-1-imammedo@redhat.com>
- <20191010055356-mutt-send-email-mst@kernel.org>
- <20191010153815.4f7a3fc9@redhat.com>
- <20191010095459-mutt-send-email-mst@kernel.org>
- <20191010175754.7c62cf8f@Igors-MacBook-Pro>
- <20191010140934-mutt-send-email-mst@kernel.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <361f8d36-5dc7-6428-2954-fd20707f351a@redhat.com>
-Date: Fri, 11 Oct 2019 09:41:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20191010140934-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIpYK-0003hK-39
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:33 -0400
+Received: from mail-eopbgr10113.outbound.protection.outlook.com
+ ([40.107.1.113]:23501 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIpYE-0003d2-TF; Fri, 11 Oct 2019 03:41:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DBQY5qhr6FvLjBJ8L79jct1SSHRViSRE07G83/+O5Y3t24JaU+lDYFOEB4ePfaXeTLQzsoIyz7S6mLRzUV8vxLGDHOk3+aQHd+zHs+Ypa+53TKNwZLgMe7TQMGi/O2cVpeZdzdcIUvT6py4a3rlY5efDFuPY5uPFIqYmA5ALGFLKKiuGTtDgBy83ui/tZxT3ZL7XicIFsz9KscxbBnFTAoC96WOX/XL/evnOvNUGIS7/kPuQOdDtDL+0OG909fZUm+OO98Z5T8Dg9v3hrTvOnfKHKOL6EPvwhRbCd8vhKfMorjbnyhDxx4/5jXnRxd/jjJoQw88IBRp63ZvGAXI9Xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xI8rt3+fS4QcOpgfQetZBHeg4htyBmOoOtQeyugTto0=;
+ b=l4g0RK7bkw/mStUn0SYT0KzkQGkWWcu6dxQMIfMGH/7Cbl6ibQ7MsTEMWYtqGy315Cy9fPpUjIRwn1Gy7MF6dg85ng0O605i6Fw+ATzDUGd/IUo/yFWomR30epJIpGw/amvBBWLp7fAaMLK7xl7LQeQ1TSMKLEoE7GHn3ZKZS5UUx2l76Cgvok4a2RI7aBz+/GR6zplkg0INMkZkrZRKjBzLYsHaSX8xv7hNyIH/qJdSttxlW39qs5NHgkfFBR5LI+dp6XMU0zulmDNULv5m3EIYixovljlDi536z1RxbiPyvC9xXs0d0eXCQCAjaFA85WORRFvktXx4wF6USnmn0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xI8rt3+fS4QcOpgfQetZBHeg4htyBmOoOtQeyugTto0=;
+ b=cmzzY7/w6ZP1za1Yd22HKOk8KTkbxIYyXdU3L7JRX3I9ADxLVZ5mP0DN8SjZcW9JX1DWaBavs/Zjre1ltuuk7yt8a7yKS3NLu55bbTGqquVqmFbxP9qRiWWzPc+SHqfNIdkgQJNtT2pzQ2mNzKPhZBmEblUwBh3RX8gLTojHtZ4=
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
+ DB8PR08MB5018.eurprd08.prod.outlook.com (10.255.16.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.21; Fri, 11 Oct 2019 07:41:20 +0000
+Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
+ ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2347.021; Fri, 11 Oct 2019
+ 07:41:20 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 2/2] nbd: Allow description when creating NBD blockdev
+Thread-Topic: [PATCH v2 2/2] nbd: Allow description when creating NBD blockdev
+Thread-Index: AQHVf629k2MuG+kVEE64yFRXZjDGPadVDyyA
+Date: Fri, 11 Oct 2019 07:41:20 +0000
+Message-ID: <ac6040ac-a42a-8c23-3958-6566b22960b9@virtuozzo.com>
+References: <20191010210018.22000-1-eblake@redhat.com>
+ <20191010210018.22000-3-eblake@redhat.com>
+In-Reply-To: <20191010210018.22000-3-eblake@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 11 Oct 2019 07:41:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P190CA0026.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::15)
+ To DB8PR08MB5498.eurprd08.prod.outlook.com
+ (2603:10a6:10:11c::24)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191011104116975
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9b8c6d94-b5df-4454-739a-08d74e1e6864
+x-ms-traffictypediagnostic: DB8PR08MB5018:
+x-microsoft-antispam-prvs: <DB8PR08MB50183E63AAD69C1779A72012C1970@DB8PR08MB5018.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2657;
+x-forefront-prvs: 0187F3EA14
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39830400003)(346002)(376002)(396003)(366004)(136003)(189003)(199004)(66476007)(8936002)(6116002)(8676002)(6512007)(11346002)(25786009)(446003)(476003)(486006)(6436002)(7736002)(66066001)(2616005)(6246003)(4326008)(31686004)(81156014)(86362001)(26005)(66946007)(14454004)(186003)(256004)(3846002)(71190400001)(71200400001)(6486002)(81166006)(66446008)(5660300002)(102836004)(31696002)(64756008)(66556008)(110136005)(54906003)(386003)(2501003)(6506007)(36756003)(99286004)(229853002)(305945005)(478600001)(316002)(52116002)(76176011)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB5018;
+ H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WqbhYo/Ixy0BlrC0VSo/Jqb+nwHreGtZLgRU92HyklIwWYBl9EN4fBU+u7IihJ071TagD2btCDm0B0utL9r3uqZWMHPky0mnGCvQIMIE8Z7M9JLgs3njciJVqoJUFvgn8zaqZYTT08L2rcHQWuHc1FNlVNuJyL56ihV9NFXQojBA6Bd+S+eNb47N2jKbabp57DtHlSSLTdl7FlIwX9HTogjOUXFPgkaTbx55w9aZoW588gYdP6o48U9FZyoDstYq6p8LUFPDup6DiGTZJ70dwks6SCkjg9LAw0Q0jNPTh+/R2DN9qHAeQ2ml3NKv31tijFHv2lgRAs4t2PMldv8Dv2zbpWaEr1v3GNFiw0NLB1gwYHhu2XFTH2RCDSu74KxyHankXKWfAnuOvsnW7FBku6R9PnXYsbbeF7RNhGqkSqI=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D5C0D84C1E42F348B60B0B44B4113B64@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b8c6d94-b5df-4454-739a-08d74e1e6864
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2019 07:41:20.5194 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aNcojDHoPFBN3+PFFk56xh1HOXUJWxSdfPtAe5Ps7L8nINDqG/u8Rm9Nv+RMQ9Kp+PgYypeitTC5qgICmw9BziVmYVnan85nQkFGh0y2l1E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5018
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,98 +109,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/19 20:15, Michael S. Tsirkin wrote:
-> On Thu, Oct 10, 2019 at 05:57:54PM +0200, Igor Mammedov wrote:
->>> Then we should consider switching acpi to use fw cfg.
->>> Or build another interface that can scale.
->>
->> Could be an option, it would be a pain to write a driver in AML for fwcfg access though
->> (I've looked at possibility to access fwcfg from AML about a year ago and gave up.
->> I'm definitely not volunteering for the second attempt and can't even give an estimate
->> it it's viable approach).
->>
->> But what scaling issue you are talking about, exactly?
-> 
-> Just this: each new thing we add is an ad-hoc data structure with
-> manually maintained backwards compatibility and no built-in discovery.
-> 
-> fw cfg has built-in discovery and we've finally managed to
-> handle compatibility reasonably well.
-> 
-> PV is already very problematic.  Spreading PV code all over the place
-> like this is a very bad idea.  For you CPU hotplug is something that you
-> keep in mind first of all, but someone bringing up a new platform
-> already has a steep hill to climb.  Adding tons of custom firmware is
-> not helping things.
-> 
-
-- Custom firmware is unfortunately unavoidable in this case. SMM is a
-privilege barrier between the firmware and the OS. The firmware needs to
-care because to OS could use a hotplugged CPU to attack SMM, unless
-hardware and firmware co-operate to prevent that. This whole ordeal aims
-to prevent such an attack.
-
-If you remove SMM from the picture (build OVMF without it), there is no
-such privilege barrier between fw and OS, the firmware doesn't need to
-know anything about VCPU hotplug events, and hotplug already works.
-
-
-- Custom hardware is also expected. On physical platforms, there is a
-dedicated BMC / RAS thingy that e.g. provides the APIC-ID to firmware,
-when a CPU is hotplugged. One factor that makes this feature difficult
-is that edk2 does not contain any code driving such hardware; it only
-contains firmware code for *consuming* what the BMC / RAS thingy
-produces. We're trying to work backwards from that. We could implement a
-brand new hotplug controller device model, but it would be entirely PV
-(= it would be our own design). Reusing the CPU hotplug register block
-isn't worse, in that regard. This is my understanding anyway.
-
-
-- Using fw_cfg *DMA* in an SMI handler (at OS runtime) could be
-problematic. Especially if you consider SEV guests. For DMA transfers,
-memory has to be decrypted and encrypted, which involves page table
-manipulation.
-
-In the firmware, this is handled with a SEV-specific
-EDKII_IOMMU_PROTOCOL implementation. The fw_cfg library (transparently
-to the caller) utilizes the IOMMU protocol, for dealing with DMA in SEV
-guests.
-
-Such protocols are boot-time only; they are not runtime protocols, let
-alone SMM protocols. They are not available to SMI handlers.
-
-Raw IO ports are extremely attractive in this regard: they don't depend
-on page tables (SMM has its own set of page tables), they just work
-under SEV out of the box. (The only exception is [REP] INS*/OUTS*, as
-those depend on memory, not just registers, but no such instructions are
-expected for the hotplug register block.)
-
-- IO-port based fw_cfg might be suitable for the hotplug SMI handler,
-yes. Assuming it's really only the firmware that needs information from
-QEMU in the hotplug SMI handler, and not the other way around. (IO-port
-based fw_cfg doesn't support writes.)
-
-Now, when considering IO-port based fw_cfg in the SMI handler, we should
-at least mention the risk of interfering with the Linux guest's own
-fw_cfg driver. I've *never* been happy with anything non-firmware
-accessing fw_cfg (it says "*firmware* config" in the name!), so I
-wouldn't care much in practice. It's just that we should be aware that
-there is a chance for entanglement. (The SMI handler cannot restore the
-previous fw_cfg state, when it finishes up.)
-
-At least on a theoretical level, the ACPI CPU hotplug register block is
-nicer in this regard: the OS doesn't know about it at all (it is
-accessed only through QEMU-generated AML code), and the plan is for the
-same AML code to closely coordinate with the firmware. Namely, the AML
-would raise the hotplug SMI.
-
-Thanks
-Laszlo
+MTEuMTAuMjAxOSAwOjAwLCBFcmljIEJsYWtlIHdyb3RlOg0KPiBBbGxvdyBibG9ja2RldnMgdG8g
+bWF0Y2ggdGhlIGZlYXR1cmUgYWxyZWFkeSBwcmVzZW50IGluIHFlbXUtbmJkIC1ELg0KPiBFbmhh
+bmNlIGlvdGVzdCAyMjMgdG8gY292ZXIgaXQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBFcmljIEJs
+YWtlIDxlYmxha2VAcmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNv
+di1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KPiAtLS0NCj4gICBxYXBp
+L2Jsb2NrLmpzb24gICAgICAgICAgICB8IDggKysrKystLS0NCj4gICBibG9ja2Rldi1uYmQuYyAg
+ICAgICAgICAgICB8IDkgKysrKysrKystDQo+ICAgbW9uaXRvci9obXAtY21kcy5jICAgICAgICAg
+fCA0ICsrLS0NCj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMjIzICAgICB8IDIgKy0NCj4gICB0ZXN0
+cy9xZW11LWlvdGVzdHMvMjIzLm91dCB8IDEgKw0KPiAgIDUgZmlsZXMgY2hhbmdlZCwgMTcgaW5z
+ZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9xYXBpL2Jsb2Nr
+Lmpzb24gYi9xYXBpL2Jsb2NrLmpzb24NCj4gaW5kZXggMTQ1YzI2OGJiNjQ2Li5hNjYxN2I1YmQw
+M2EgMTAwNjQ0DQo+IC0tLSBhL3FhcGkvYmxvY2suanNvbg0KPiArKysgYi9xYXBpL2Jsb2NrLmpz
+b24NCj4gQEAgLTI1MCw5ICsyNTAsMTEgQEANCj4gICAjIEBuYW1lOiBFeHBvcnQgbmFtZS4gSWYg
+dW5zcGVjaWZpZWQsIHRoZSBAZGV2aWNlIHBhcmFtZXRlciBpcyB1c2VkIGFzIHRoZQ0KPiAgICMg
+ICAgICAgIGV4cG9ydCBuYW1lLiAoU2luY2UgMi4xMikNCj4gICAjDQo+ICsjIEBkZXNjcmlwdGlv
+bjogRnJlZS1mb3JtIGRlc2NyaXB0aW9uIG9mIHRoZSBleHBvcnQuIChTaW5jZSA0LjIpDQoNCldv
+cnRoIG1lbnRpb24gbWF4aW11bSBvZiA0MDk2Pw0KDQo+ICsjDQo+ICAgIyBAd3JpdGFibGU6IFdo
+ZXRoZXIgY2xpZW50cyBzaG91bGQgYmUgYWJsZSB0byB3cml0ZSB0byB0aGUgZGV2aWNlIHZpYSB0
+aGUNCj4gICAjICAgICBOQkQgY29ubmVjdGlvbiAoZGVmYXVsdCBmYWxzZSkuDQo+IC0NCj4gKyMN
+Cj4gICAjIEBiaXRtYXA6IEFsc28gZXhwb3J0IHRoZSBkaXJ0eSBiaXRtYXAgcmVhY2hhYmxlIGZy
+b20gQGRldmljZSwgc28gdGhlDQo+ICAgIyAgICAgICAgICBOQkQgY2xpZW50IGNhbiB1c2UgTkJE
+X09QVF9TRVRfTUVUQV9DT05URVhUIHdpdGgNCj4gICAjICAgICAgICAgICJxZW11OmRpcnR5LWJp
+dG1hcDpOQU1FIiB0byBpbnNwZWN0IHRoZSBiaXRtYXAuIChzaW5jZSA0LjApDQo+IEBAIC0yNjMs
+OCArMjY1LDggQEANCj4gICAjIFNpbmNlOiAxLjMuMA0KPiAgICMjDQoNClsuLl0NCg0KDQotLSAN
+CkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
