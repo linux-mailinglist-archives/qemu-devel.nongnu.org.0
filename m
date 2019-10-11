@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D427D4A1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:51:42 +0200 (CEST)
-Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B0FD4A1D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 23:53:10 +0200 (CEST)
+Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ2p3-00026S-3P
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
+	id 1iJ2qT-0004V5-Ss
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 17:53:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58011)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iJ2bp-0004ug-8h
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:38:02 -0400
+ (envelope-from <eblake@redhat.com>) id 1iJ2m6-0007BO-Dg
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:48:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iJ2bo-0004R4-74
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:38:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48992)
+ (envelope-from <eblake@redhat.com>) id 1iJ2m5-0007ed-93
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 17:48:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53654)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iJ2bl-0004Py-Vo; Fri, 11 Oct 2019 17:37:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1iJ2m2-0007bh-Dj; Fri, 11 Oct 2019 17:48:34 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2139A801661;
- Fri, 11 Oct 2019 21:37:57 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 80E3C368DA;
+ Fri, 11 Oct 2019 21:48:31 +0000 (UTC)
 Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1F9B6012A;
- Fri, 11 Oct 2019 21:37:56 +0000 (UTC)
-Subject: Re: [PATCH 3/4] qemu-img: Support help options for --object
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20191011205551.32149-1-kwolf@redhat.com>
- <20191011205551.32149-4-kwolf@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC18D10016EB;
+ Fri, 11 Oct 2019 21:48:23 +0000 (UTC)
+Subject: Re: [PULL 01/19] util/hbitmap: strict hbitmap_reset
+To: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191011212550.27269-1-jsnow@redhat.com>
+ <20191011212550.27269-2-jsnow@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <74a5d9e1-602f-39a4-1854-d12534fbbbbf@redhat.com>
-Date: Fri, 11 Oct 2019 16:37:56 -0500
+Message-ID: <15c20480-0240-bdd2-2cc2-60c388022e86@redhat.com>
+Date: Fri, 11 Oct 2019 16:48:22 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011205551.32149-4-kwolf@redhat.com>
+In-Reply-To: <20191011212550.27269-2-jsnow@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 11 Oct 2019 21:37:57 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Fri, 11 Oct 2019 21:48:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,27 +62,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 3:55 PM, Kevin Wolf wrote:
-> Instead of parsing help options as normal object properties and
-> returning an error, provide the same help functionality as the system
-> emulator in qemu-img, too.
+On 10/11/19 4:25 PM, John Snow wrote:
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> hbitmap_reset has an unobvious property: it rounds requested region up.
+> It may provoke bugs, like in recently fixed write-blocking mode of
+> mirror: user calls reset on unaligned region, not keeping in mind that
+> there are possible unrelated dirty bytes, covered by rounded-up region
+> and information of this unrelated "dirtiness" will be lost.
+> 
+> Make hbitmap_reset strict: assert that arguments are aligned, allowing
+> only one exception when @start + @count == hb->orig_size. It's needed
+> to comfort users of hbitmap_next_dirty_area, which cares about
+> hb->orig_size.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> Message-Id: <20190806152611.280389-1-vsementsov@virtuozzo.com>
+> [Maintainer edit: Max's suggestions from on-list. --js]
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   qemu-img.c | 34 +++++++++++++++++++++-------------
->   1 file changed, 21 insertions(+), 13 deletions(-)
+>   include/qemu/hbitmap.h | 5 +++++
+>   tests/test-hbitmap.c   | 2 +-
+>   util/hbitmap.c         | 4 ++++
+>   3 files changed, 10 insertions(+), 1 deletion(-)
 > 
-Missing man page documentation of this new feature.  Perhaps iotest 
-coverage is also warranted?  (qemu-io is only for testing purposes, so I 
-don't care about that in patch 2 as much as I do here)
 
-But the patch itself is a strict improvement, so
+> +++ b/util/hbitmap.c
+> @@ -476,6 +476,10 @@ void hbitmap_reset(HBitmap *hb, uint64_t start, uint64_t count)
+>       /* Compute range in the last layer.  */
+>       uint64_t first;
+>       uint64_t last = start + count - 1;
+> +    uint64_t gran = 1ULL << hb->granularity;
+> +
+> +    assert(!(start & (gran - 1)));
+> +    assert(!(count & (gran - 1)) || (start + count == hb->orig_size));
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+I know I'm replying a bit late (since this is now a pull request), but 
+would it be worth using the dedicated macro:
+
+assert(QEMU_IS_ALIGNED(start, gran));
+assert(QEMU_IS_ALIGNED(count, gran) || start + count == hb->orig_size);
+
+instead of open-coding it?  (I would also drop the extra () around the 
+right half of ||). If we want it, that would now be a followup patch.
 
 -- 
 Eric Blake, Principal Software Engineer
