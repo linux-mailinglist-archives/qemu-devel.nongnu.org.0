@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186DED4600
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:00:44 +0200 (CEST)
-Received: from localhost ([::1]:54260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B6CD4637
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:08:13 +0200 (CEST)
+Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyHS-0002fx-LS
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:00:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
+	id 1iIyOi-0005Yj-3i
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRB-0006hQ-SG
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:44 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRK-0006we-Uj
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oC-In
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:41 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48480)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRJ-0004wI-4b
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:50 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48516)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR8-0004WK-8f
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
+ id 1iIxRI-0004Yu-Sf; Fri, 11 Oct 2019 12:06:49 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQw-0003XG-MD; Fri, 11 Oct 2019 19:06:26 +0300
+ id 1iIxQx-0003XG-IF; Fri, 11 Oct 2019 19:06:27 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 091/126] colo: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:17 +0300
-Message-Id: <20191011160552.22907-92-vsementsov@virtuozzo.com>
+Subject: [RFC v5 094/126] RBD: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:20 +0300
+Message-Id: <20191011160552.22907-95-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,9 +48,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,103 +97,120 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/colo.c | 38 +++++++++++++++++---------------------
- 1 file changed, 17 insertions(+), 21 deletions(-)
+ block/rbd.c | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 2c88aa57a2..375aa6d8ce 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -243,19 +243,19 @@ void qmp_xen_set_replication(bool enable, bool primary,
- 
- ReplicationStatus *qmp_query_xen_replication_status(Error **errp)
+diff --git a/block/rbd.c b/block/rbd.c
+index 057af43d48..fc821da17e 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -428,10 +428,10 @@ static int coroutine_fn qemu_rbd_co_create_opts(const char *filename,
+                                                 QemuOpts *opts,
+                                                 Error **errp)
  {
--    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     ReplicationStatus *s = g_new0(ReplicationStatus, 1);
+     BlockdevCreateOptions *create_options;
+     BlockdevCreateOptionsRbd *rbd_opts;
+     BlockdevOptionsRbd *loc;
+-    Error *local_err = NULL;
+     const char *keypairs, *password_secret;
+     QDict *options = NULL;
+     int ret = 0;
+@@ -452,10 +452,9 @@ static int coroutine_fn qemu_rbd_co_create_opts(const char *filename,
+     rbd_opts->has_cluster_size = (rbd_opts->cluster_size != 0);
  
--    replication_get_error_all(&err);
--    if (err) {
-+    replication_get_error_all(errp);
+     options = qdict_new();
+-    qemu_rbd_parse_filename(filename, options, &local_err);
+-    if (local_err) {
++    qemu_rbd_parse_filename(filename, options, errp);
 +    if (*errp) {
-         s->error = true;
-         s->has_desc = true;
--        s->desc = g_strdup(error_get_pretty(err));
-+        s->desc = g_strdup(error_get_pretty(*errp));
-     } else {
-         s->error = false;
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto exit;
      }
  
--    error_free(err);
-+    error_free_errp(errp);
-     return s;
- }
- 
-@@ -314,12 +314,11 @@ static void colo_send_message(QEMUFile *f, COLOMessage msg,
- static void colo_send_message_value(QEMUFile *f, COLOMessage msg,
-                                     uint64_t value, Error **errp)
+@@ -572,8 +571,8 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+                             const char *keypairs, const char *secretid,
+                             Error **errp)
  {
--    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     int ret;
+     char *mon_host = NULL;
+-    Error *local_err = NULL;
+     int r;
  
--    colo_send_message(f, msg, &local_err);
+     if (secretid) {
+@@ -586,9 +585,8 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+         opts->has_key_secret = true;
+     }
+ 
+-    mon_host = qemu_rbd_mon_host(opts, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    colo_send_message(f, msg, errp);
++    mon_host = qemu_rbd_mon_host(opts, errp);
 +    if (*errp) {
-         return;
+         r = -EINVAL;
+         goto failed_opts;
      }
-     qemu_put_be64(f, value);
-@@ -354,12 +353,11 @@ static COLOMessage colo_receive_message(QEMUFile *f, Error **errp)
- static void colo_receive_check_message(QEMUFile *f, COLOMessage expect_msg,
-                                        Error **errp)
+@@ -660,8 +658,8 @@ failed_opts:
+ static int qemu_rbd_convert_options(QDict *options, BlockdevOptionsRbd **opts,
+                                     Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     COLOMessage msg;
+     Visitor *v;
 -    Error *local_err = NULL;
  
--    msg = colo_receive_message(f, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    msg = colo_receive_message(f, errp);
-+    if (*errp) {
-         return;
-     }
-     if (msg != expect_msg) {
-@@ -371,13 +369,12 @@ static void colo_receive_check_message(QEMUFile *f, COLOMessage expect_msg,
- static uint64_t colo_receive_message_value(QEMUFile *f, uint32_t expect_msg,
-                                            Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     uint64_t value;
-     int ret;
- 
--    colo_receive_check_message(f, expect_msg, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    colo_receive_check_message(f, expect_msg, errp);
-+    if (*errp) {
-         return 0;
+     /* Convert the remaining options into a QAPI object */
+     v = qobject_input_visitor_new_flat_confused(options, errp);
+@@ -669,11 +667,10 @@ static int qemu_rbd_convert_options(QDict *options, BlockdevOptionsRbd **opts,
+         return -EINVAL;
      }
  
-@@ -667,12 +664,11 @@ void migrate_start_colo_process(MigrationState *s)
- static void colo_wait_handle_message(QEMUFile *f, int *checkpoint_request,
-                                      Error **errp)
+-    visit_type_BlockdevOptionsRbd(v, NULL, opts, &local_err);
++    visit_type_BlockdevOptionsRbd(v, NULL, opts, errp);
+     visit_free(v);
+ 
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         return -EINVAL;
+     }
+ 
+@@ -710,10 +707,10 @@ static int qemu_rbd_attempt_legacy_options(QDict *options,
+ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+                          Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     COLOMessage msg;
+     BDRVRBDState *s = bs->opaque;
+     BlockdevOptionsRbd *opts = NULL;
+     const QDictEntry *e;
 -    Error *local_err = NULL;
+     char *keypairs, *secretid;
+     int r;
  
--    msg = colo_receive_message(f, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    msg = colo_receive_message(f, errp);
-+    if (*errp) {
-         return;
+@@ -727,13 +724,12 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+         qdict_del(options, "password-secret");
      }
  
+-    r = qemu_rbd_convert_options(options, &opts, &local_err);
+-    if (local_err) {
++    r = qemu_rbd_convert_options(options, &opts, errp);
++    if (*errp) {
+         /* If keypairs are present, that means some options are present in
+          * the modern option format.  Don't attempt to parse legacy option
+          * formats, as we won't support mixed usage. */
+         if (keypairs) {
+-            error_propagate(errp, local_err);
+             goto out;
+         }
+ 
+@@ -746,7 +742,6 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+         if (r < 0) {
+             /* Propagate the original error, not the legacy parsing fallback
+              * error, as the latter was just a best-effort attempt. */
+-            error_propagate(errp, local_err);
+             goto out;
+         }
+         /* Take care whenever deciding to actually deprecate; once this ability
 -- 
 2.21.0
 
