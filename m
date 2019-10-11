@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB6FD47CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:43:37 +0200 (CEST)
-Received: from localhost ([::1]:55726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BD4D47D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:46:54 +0200 (CEST)
+Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzt2-0002Xx-6o
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1iIzwD-00062e-JN
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:46:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iIzfq-0004LP-B4
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:29:59 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIzuO-0004rU-HT
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:45:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iIzfn-0001va-Q5
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:29:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37264)
+ (envelope-from <eblake@redhat.com>) id 1iIzuL-0002pq-KZ
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:44:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzfn-0001ui-KE
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:29:55 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzuL-0002p5-Bk
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:44:57 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 57A0130715F9;
- Fri, 11 Oct 2019 18:29:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 01F9EA3CD64;
+ Fri, 11 Oct 2019 18:44:56 +0000 (UTC)
 Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA2E25D6C8;
- Fri, 11 Oct 2019 18:29:53 +0000 (UTC)
-Subject: Re: [RFC v5 003/126] error: rename errp to errp_in where it is
- IN-argument
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F03110018FF;
+ Fri, 11 Oct 2019 18:44:55 +0000 (UTC)
+Subject: Re: [RFC v5 027/126] misc: introduce ERRP_AUTO_PROPAGATE
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-4-vsementsov@virtuozzo.com>
+ <20191011160552.22907-28-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <9f23dc4a-92e5-003e-ac3b-16a91df6df17@redhat.com>
-Date: Fri, 11 Oct 2019 13:29:53 -0500
+Message-ID: <632cfeaf-52cd-829a-2f49-b7302f558a3a@redhat.com>
+Date: Fri, 11 Oct 2019 13:44:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011160552.22907-4-vsementsov@virtuozzo.com>
+In-Reply-To: <20191011160552.22907-28-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 11 Oct 2019 18:29:54 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Fri, 11 Oct 2019 18:44:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,76 +62,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
-> pointer to NULL-initialized pointer, or pointer to error_abort or
-> error_fatal, for callee to report error.
+On 10/11/19 11:04 AM, Vladimir Sementsov-Ogievskiy wrote:
+> If we want to add some info to errp (by error_prepend() or
+> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+> Otherwise, this info will not be added when errp == &fatal_err
+> (the program will exit prior to the error_append_hint() or
+> error_prepend() call).  Fix such cases.
 > 
-> But very few functions instead get Error **errp as IN-argument:
-> it's assumed to be set (or, maybe, NULL), and callee should clean it,
-> or add some information.
+> If we want to check error after errp-function call, we need to
+> introduce local_err and than propagate it to errp. Instead, use
+> ERRP_AUTO_PROPAGATE macro, benefits are:
+> 1. No need of explicit error_propagate call
+> 2. No need of explicit local_err variable: use errp directly
+> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+>     &error_fatel, this means that we don't break error_abort
+>     (we'll abort on error_set, not on error_propagate)
 > 
-> In such cases, rename errp to errp_in.
+> This commit (together with its neighbors) was generated by
 > 
-> This patch updates only error API functions. There still a few
-> functions with errp-in semantics, they will be updated in further
-> commits.
+> for f in $(git grep -l errp \*.[ch]); do \
+>      spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>      --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
+> done;
 > 
+> then fix a bit of compilation problems: coccinelle for some reason
+> leaves several
+> f() {
+>      ...
+>      goto out;
+>      ...
+>      out:
+> }
+> patterns, with "out:" at function end.
+
+Was that still happening even after your tweaks to the .cocci script? 
+But manual touch-up after cocci is not unheard of, so it is not a 
+showstopper to the series.  Still, it might be nicer if this disclaimer 
+only appears on the patches within the series where it actually matters, 
+rather than on every message in the series even when no tweaks were 
+needed (as this patch is an example where the touchup was not needed).
+
+> 
+> then
+> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+> 
+
+If we don't check the python script into git, then changing this to a 
+URL to one of the threads where you posted the script in an earlier 
+version of the patch is also acceptable.
+
+> (auto-msg was a file with this commit message)
+> 
+> Still, for backporting it may be more comfortable to use only the first
+> command and then do one huge commit.
+> 
+> Reported-by: Kevin Wolf <kwolf@redhat.com>
+> Reported-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   include/qapi/error.h |  8 ++++----
->   util/error.c         | 30 +++++++++++++++---------------
->   2 files changed, 19 insertions(+), 19 deletions(-)
+>   hw/misc/ivshmem.c | 37 ++++++++++++++++---------------------
+>   hw/misc/tmp105.c  |  7 +++----
+>   hw/misc/tmp421.c  |  7 +++----
+>   3 files changed, 22 insertions(+), 29 deletions(-)
 > 
 
-> +++ b/include/qapi/error.h
-> @@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Error *local_err,
->    * Prepend some text to @errp's human-readable error message.
->    * The text is made by formatting @fmt, @ap like vprintf().
->    */
-> -void error_vprepend(Error **errp, const char *fmt, va_list ap);
-> +void error_vprepend(Error **errp_in, const char *fmt, va_list ap);
-
-Fails to update the comment.
-
+> @@ -864,6 +858,7 @@ static void ivshmem_write_config(PCIDevice *pdev, uint32_t address,
 >   
->   /*
->    * Prepend some text to @errp's human-readable error message.
->    * The text is made by formatting @fmt, ... like printf().
->    */
-> -void error_prepend(Error **errp, const char *fmt, ...)
-> +void error_prepend(Error **errp_in, const char *fmt, ...)
+>   static void ivshmem_common_realize(PCIDevice *dev, Error **errp)
+>   {
+> +    ERRP_AUTO_PROPAGATE();
+>       IVShmemState *s = IVSHMEM_COMMON(dev);
+>       Error *err = NULL;
 
-and again
+Umm, so why did Coccinelle not remove this line, or retouch lower down at:
 
->       GCC_FMT_ATTR(2, 3);
->   
->   /*
-> @@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
->    * May be called multiple times.  The resulting hint should end with a
->    * newline.
->    */
-> -void error_append_hint(Error **errp, const char *fmt, ...)
-> +void error_append_hint(Error **errp_in, const char *fmt, ...)
->       GCC_FMT_ATTR(2, 3);
->   
->   /*
-> @@ -283,7 +283,7 @@ void error_free(Error *err);
->   /*
->    * Convenience function to assert that *@errp is set, then silently free it.
->    */
-> -void error_free_or_abort(Error **errp);
-> +void error_free_or_abort(Error **errp_in);
+     if (!ivshmem_is_master(s)) {
+         error_setg(&s->migration_blocker,
+                    "Migration is disabled when using feature 'peer 
+mode' in devi
+ce 'ivshmem'");
+         migrate_add_blocker(s->migration_blocker, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             error_free(s->migration_blocker);
+             return;
+         }
+     }
 
-and again.
 
-Otherwise makes sense; if matching comments are the only things changed,
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
+But the conversions that Coccinelle made look correct.
 
 -- 
 Eric Blake, Principal Software Engineer
