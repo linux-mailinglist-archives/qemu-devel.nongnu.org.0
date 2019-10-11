@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3485CD46D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:42:58 +0200 (CEST)
-Received: from localhost ([::1]:54832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA088D46E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:49:36 +0200 (CEST)
+Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIywL-0007la-6t
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:42:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36599)
+	id 1iIz2l-0006K5-8p
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR1-0006Pb-T1
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:33 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0006bJ-Ef
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0004cy-D1
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:31 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48240)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0004kw-0D
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48408)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR0-0004Ln-5F
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:30 -0400
+ id 1iIxR5-0004SQ-Nu
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQo-0003XG-HU; Fri, 11 Oct 2019 19:06:18 +0300
+ id 1iIxQu-0003XG-8Y; Fri, 11 Oct 2019 19:06:24 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 066/126] Audio: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:52 +0300
-Message-Id: <20191011160552.22907-67-vsementsov@virtuozzo.com>
+Subject: [RFC v5 083/126] QMP: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:09 +0300
+Message-Id: <20191011160552.22907-84-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Gerd Hoffmann <kraxel@redhat.com>, armbru@redhat.com,
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
  Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -98,80 +97,36 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- audio/audio.c        | 12 +++++-------
- hw/audio/intel-hda.c | 13 ++++++-------
- 2 files changed, 11 insertions(+), 14 deletions(-)
+ monitor/qmp-cmds.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 7128ee98dc..774f47d418 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1936,19 +1936,17 @@ static void audio_validate_per_direction_opts(
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index c6faa3eaf0..2db3199a2e 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -126,9 +126,9 @@ void qmp_x_exit_preconfig(Error **errp)
  
- static void audio_validate_opts(Audiodev *dev, Error **errp)
+ void qmp_cont(Error **errp)
  {
--    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
+     BlockBackend *blk;
+     BlockJob *job;
+-    Error *local_err = NULL;
  
-     audio_create_pdos(dev);
- 
--    audio_validate_per_direction_opts(audio_get_pdo_in(dev), &err);
--    if (err) {
--        error_propagate(errp, err);
-+    audio_validate_per_direction_opts(audio_get_pdo_in(dev), errp);
+     /* if there is a dump in background, we should wait until the dump
+      * finished */
+@@ -161,9 +161,8 @@ void qmp_cont(Error **errp)
+      * If there are no inactive block nodes (e.g. because the VM was just
+      * paused rather than completing a migration), bdrv_inactivate_all() simply
+      * doesn't do anything. */
+-    bdrv_invalidate_cache_all(&local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    bdrv_invalidate_cache_all(errp);
 +    if (*errp) {
          return;
      }
  
--    audio_validate_per_direction_opts(audio_get_pdo_out(dev), &err);
--    if (err) {
--        error_propagate(errp, err);
-+    audio_validate_per_direction_opts(audio_get_pdo_out(dev), errp);
-+    if (*errp) {
-         return;
-     }
- 
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index 6ecd383540..d0b178a1e1 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -1095,9 +1095,9 @@ static void intel_hda_reset(DeviceState *dev)
- 
- static void intel_hda_realize(PCIDevice *pci, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     IntelHDAState *d = INTEL_HDA(pci);
-     uint8_t *conf = d->pci.config;
--    Error *err = NULL;
-     int ret;
- 
-     d->name = object_get_typename(OBJECT(d));
-@@ -1109,20 +1109,19 @@ static void intel_hda_realize(PCIDevice *pci, Error **errp)
- 
-     if (d->msi != ON_OFF_AUTO_OFF) {
-         ret = msi_init(&d->pci, d->old_msi_addr ? 0x50 : 0x60,
--                       1, true, false, &err);
-+                       1, true, false, errp);
-         /* Any error other than -ENOTSUP(board's MSI support is broken)
-          * is a programming error */
-         assert(!ret || ret == -ENOTSUP);
-         if (ret && d->msi == ON_OFF_AUTO_ON) {
-             /* Can't satisfy user's explicit msi=on request, fail */
--            error_append_hint(&err, "You have to use msi=auto (default) or "
--                    "msi=off with this machine type.\n");
--            error_propagate(errp, err);
-+            error_append_hint(errp, "You have to use msi=auto (default) or "
-+                              "msi=off with this machine type.\n");
-             return;
-         }
--        assert(!err || d->msi == ON_OFF_AUTO_AUTO);
-+        assert(!*errp || d->msi == ON_OFF_AUTO_AUTO);
-         /* With msi=auto, we fall back to MSI off silently */
--        error_free(err);
-+        error_free_errp(errp);
-     }
- 
-     memory_region_init_io(&d->mmio, OBJECT(d), &intel_hda_mmio_ops, d,
 -- 
 2.21.0
 
