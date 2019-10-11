@@ -2,46 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58F5D47C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:40:22 +0200 (CEST)
-Received: from localhost ([::1]:55684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB6FD47CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:43:37 +0200 (CEST)
+Received: from localhost ([::1]:55726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzpr-0006Vj-QR
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57049)
+	id 1iIzt2-0002Xx-6o
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iIzXy-00036I-7S
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:21:53 -0400
+ (envelope-from <eblake@redhat.com>) id 1iIzfq-0004LP-B4
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:29:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iIzXw-0004uH-AV
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:21:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35847)
+ (envelope-from <eblake@redhat.com>) id 1iIzfn-0001va-Q5
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:29:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37264)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iIzXw-0004tm-3Z
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:21:48 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iIzfn-0001ui-KE
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 14:29:55 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4BC6A30024DA;
- Fri, 11 Oct 2019 18:21:47 +0000 (UTC)
-Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A55355DC1E;
- Fri, 11 Oct 2019 18:21:44 +0000 (UTC)
-Date: Fri, 11 Oct 2019 15:21:43 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: Re: [PATCH v2] target/i386: Add Snowridge-v2 (noMPX) CPU model
-Message-ID: <20191011182143.GD4084@habkost.net>
-References: <20191011145349.123425-1-xiaoyao.li@intel.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 57A0130715F9;
+ Fri, 11 Oct 2019 18:29:54 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA2E25D6C8;
+ Fri, 11 Oct 2019 18:29:53 +0000 (UTC)
+Subject: Re: [RFC v5 003/126] error: rename errp to errp_in where it is
+ IN-argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-4-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9f23dc4a-92e5-003e-ac3b-16a91df6df17@redhat.com>
+Date: Fri, 11 Oct 2019 13:29:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191011145349.123425-1-xiaoyao.li@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20191011160552.22907-4-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 11 Oct 2019 18:21:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 11 Oct 2019 18:29:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -56,65 +63,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: armbru@redhat.com, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 11, 2019 at 10:53:49PM +0800, Xiaoyao Li wrote:
-> Add new version of Snowridge CPU model that removes MPX feature.
+On 10/11/19 11:03 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
+> pointer to NULL-initialized pointer, or pointer to error_abort or
+> error_fatal, for callee to report error.
 > 
-> MPX support is being phased out by Intel. GCC has dropped it, Linux kernel
-> and kvm are also going to do that in the future.
+> But very few functions instead get Error **errp as IN-argument:
+> it's assumed to be set (or, maybe, NULL), and callee should clean it,
+> or add some information.
 > 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> In such cases, rename errp to errp_in.
+> 
+> This patch updates only error API functions. There still a few
+> functions with errp-in semantics, they will be updated in further
+> commits.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
-> Changes in v2:
->     - Use CPU model versioning mechanism instead of machine-type compat
-> ---
->  target/i386/cpu.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>   include/qapi/error.h |  8 ++++----
+>   util/error.c         | 30 +++++++++++++++---------------
+>   2 files changed, 19 insertions(+), 19 deletions(-)
 > 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 44f1bbdcac76..27b0a17b46a8 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -2793,6 +2793,19 @@ static X86CPUDefinition builtin_x86_defs[] = {
->              CPUID_6_EAX_ARAT,
->          .xlevel = 0x80000008,
->          .model_id = "Intel Atom Processor (SnowRidge)",
-> +        .versions = (X86CPUVersionDefinition[]) {
-> +            { .version = 1 },
-> +            {
-> +                .version = 2,
-> +                .alias = "Snowridge-noMPX",
 
-The intention is to stop creating new funny names for CPU model
-variations, now, and stick to -v1, -v2, -v3, etc.
+> +++ b/include/qapi/error.h
+> @@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Error *local_err,
+>    * Prepend some text to @errp's human-readable error message.
+>    * The text is made by formatting @fmt, @ap like vprintf().
+>    */
+> -void error_vprepend(Error **errp, const char *fmt, va_list ap);
+> +void error_vprepend(Error **errp_in, const char *fmt, va_list ap);
 
-The .alias field is optional, and was added only for
-compatibility with the existing -noTSX and -IBRS CPU models.
+Fails to update the comment.
 
+>   
+>   /*
+>    * Prepend some text to @errp's human-readable error message.
+>    * The text is made by formatting @fmt, ... like printf().
+>    */
+> -void error_prepend(Error **errp, const char *fmt, ...)
+> +void error_prepend(Error **errp_in, const char *fmt, ...)
 
-> +                .props = (PropValue[]) {
-> +                    { "mpx", "off" },
-> +                    { "model-id", "Intel Atom Processor (Snowridge, no MPX)" },
+and again
 
-Do you think it's important to report a different model-id?
-I would keep it the same and only add mpx=off.
+>       GCC_FMT_ATTR(2, 3);
+>   
+>   /*
+> @@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
+>    * May be called multiple times.  The resulting hint should end with a
+>    * newline.
+>    */
+> -void error_append_hint(Error **errp, const char *fmt, ...)
+> +void error_append_hint(Error **errp_in, const char *fmt, ...)
+>       GCC_FMT_ATTR(2, 3);
+>   
+>   /*
+> @@ -283,7 +283,7 @@ void error_free(Error *err);
+>   /*
+>    * Convenience function to assert that *@errp is set, then silently free it.
+>    */
+> -void error_free_or_abort(Error **errp);
+> +void error_free_or_abort(Error **errp_in);
 
-> +                    { /* end of list */ },
-> +                },
-> +            },
-> +            { /* end of list */ },
-> +        },
->      },
->      {
->          .name = "KnightsMill",
-> -- 
-> 2.19.1
-> 
+and again.
+
+Otherwise makes sense; if matching comments are the only things changed,
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
-Eduardo
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
