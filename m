@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1506CD4729
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:04:58 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFA4D472F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:07:18 +0200 (CEST)
+Received: from localhost ([::1]:55142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzHc-0006ME-Gc
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37256)
+	id 1iIzJs-0001he-UU
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRK-0006wf-Un
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:52 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRP-000752-69
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRI-0004w4-Vd
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48506)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRM-0004zc-Jg
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:54 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48602)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxRI-0004Y4-Na; Fri, 11 Oct 2019 12:06:48 -0400
+ id 1iIxRM-0004e1-BG; Fri, 11 Oct 2019 12:06:52 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQx-0003XG-7b; Fri, 11 Oct 2019 19:06:27 +0300
+ id 1iIxR0-0003XG-2P; Fri, 11 Oct 2019 19:06:30 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 093/126] VMDK: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:19 +0300
-Message-Id: <20191011160552.22907-94-vsementsov@virtuozzo.com>
+Subject: [RFC v5 099/126] nbd: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:25 +0300
+Message-Id: <20191011160552.22907-100-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,9 +47,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, qemu-block@nongnu.org, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,149 +97,273 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/vmdk.c | 41 +++++++++++++++++------------------------
- 1 file changed, 17 insertions(+), 24 deletions(-)
+ include/block/nbd.h |  1 +
+ block/nbd.c         | 49 +++++++++++++++++++++------------------------
+ nbd/client.c        |  5 +++++
+ nbd/server.c        |  5 +++++
+ 4 files changed, 34 insertions(+), 26 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index fed3b50c8a..bf1f2c4cac 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -1078,6 +1078,7 @@ static const char *next_line(const char *s)
- static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
-                               QDict *options, Error **errp)
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 316fd705a9..330f40142a 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -360,6 +360,7 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+ static inline int nbd_read(QIOChannel *ioc, void *buffer, size_t size,
+                            const char *desc, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int ret;
-     int matches;
-     char access[11];
-@@ -1092,7 +1093,6 @@ static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
-     BDRVVmdkState *s = bs->opaque;
-     VmdkExtent *extent;
-     char extent_opt_prefix[32];
+     int ret = qio_channel_read_all(ioc, buffer, size, errp) < 0 ? -EIO : 0;
+ 
+     if (ret < 0) {
+diff --git a/block/nbd.c b/block/nbd.c
+index c66fdf54b9..2f8a924562 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -805,10 +805,10 @@ static int nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
+                                         uint64_t offset, QEMUIOVector *qiov,
+                                         int *request_ret, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     NBDReplyChunkIter iter;
+     NBDReply reply;
+     void *payload = NULL;
 -    Error *local_err = NULL;
  
-     for (p = desc; *p; p = next_line(p)) {
-         /* parse extent line in one of below formats:
-@@ -1152,10 +1152,9 @@ static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
-         assert(ret < 32);
- 
-         extent_file = bdrv_open_child(extent_path, options, extent_opt_prefix,
--                                      bs, &child_file, false, &local_err);
-+                                      bs, &child_file, false, errp);
-         g_free(extent_path);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (*errp) {
-             ret = -EINVAL;
-             goto out;
+     NBD_FOREACH_REPLY_CHUNK(s, iter, handle, s->info.structured_reply,
+                             qiov, &reply, &payload)
+@@ -827,20 +827,20 @@ static int nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
+             break;
+         case NBD_REPLY_TYPE_OFFSET_HOLE:
+             ret = nbd_parse_offset_hole_payload(s, &reply.structured, payload,
+-                                                offset, qiov, &local_err);
++                                                offset, qiov, errp);
+             if (ret < 0) {
+                 nbd_channel_error(s, ret);
+-                nbd_iter_channel_error(&iter, ret, &local_err);
++                nbd_iter_channel_error(&iter, ret, errp);
+             }
+             break;
+         default:
+             if (!nbd_reply_type_is_error(chunk->type)) {
+                 /* not allowed reply type */
+                 nbd_channel_error(s, -EINVAL);
+-                error_setg(&local_err,
++                error_setg(errp,
+                            "Unexpected reply type: %d (%s) for CMD_READ",
+                            chunk->type, nbd_reply_type_lookup(chunk->type));
+-                nbd_iter_channel_error(&iter, -EINVAL, &local_err);
++                nbd_iter_channel_error(&iter, -EINVAL, errp);
+             }
          }
-@@ -1251,11 +1250,11 @@ exit:
- static int vmdk_open(BlockDriverState *bs, QDict *options, int flags,
-                      Error **errp)
+ 
+@@ -858,10 +858,10 @@ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+                                             NBDExtent *extent,
+                                             int *request_ret, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     char *buf;
-     int ret;
-     BDRVVmdkState *s = bs->opaque;
-     uint32_t magic;
+     NBDReplyChunkIter iter;
+     NBDReply reply;
+     void *payload = NULL;
+-    Error *local_err = NULL;
+     bool received = false;
+ 
+     assert(!extent->length);
+@@ -875,27 +875,27 @@ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+         case NBD_REPLY_TYPE_BLOCK_STATUS:
+             if (received) {
+                 nbd_channel_error(s, -EINVAL);
+-                error_setg(&local_err, "Several BLOCK_STATUS chunks in reply");
+-                nbd_iter_channel_error(&iter, -EINVAL, &local_err);
++                error_setg(errp, "Several BLOCK_STATUS chunks in reply");
++                nbd_iter_channel_error(&iter, -EINVAL, errp);
+             }
+             received = true;
+ 
+             ret = nbd_parse_blockstatus_payload(s, &reply.structured,
+                                                 payload, length, extent,
+-                                                &local_err);
++                                                errp);
+             if (ret < 0) {
+                 nbd_channel_error(s, ret);
+-                nbd_iter_channel_error(&iter, ret, &local_err);
++                nbd_iter_channel_error(&iter, ret, errp);
+             }
+             break;
+         default:
+             if (!nbd_reply_type_is_error(chunk->type)) {
+                 nbd_channel_error(s, -EINVAL);
+-                error_setg(&local_err,
++                error_setg(errp,
+                            "Unexpected reply type: %d (%s) "
+                            "for CMD_BLOCK_STATUS",
+                            chunk->type, nbd_reply_type_lookup(chunk->type));
+-                nbd_iter_channel_error(&iter, -EINVAL, &local_err);
++                nbd_iter_channel_error(&iter, -EINVAL, errp);
+             }
+         }
+ 
+@@ -904,8 +904,8 @@ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+     }
+ 
+     if (!extent->length && !iter.request_ret) {
+-        error_setg(&local_err, "Server did not reply with any status extents");
+-        nbd_iter_channel_error(&iter, -EIO, &local_err);
++        error_setg(errp, "Server did not reply with any status extents");
++        nbd_iter_channel_error(&iter, -EIO, errp);
+     }
+ 
+     error_propagate(errp, iter.err);
+@@ -1173,16 +1173,15 @@ static void nbd_client_close(BlockDriverState *bs)
+ static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
+                                                   Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     QIOChannelSocket *sioc;
 -    Error *local_err = NULL;
  
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
-                                false, errp);
-@@ -1303,9 +1302,8 @@ static int vmdk_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The vmdk format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
+     sioc = qio_channel_socket_new();
+     qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
+ 
+-    qio_channel_socket_connect_sync(sioc, saddr, &local_err);
+-    if (local_err) {
++    qio_channel_socket_connect_sync(sioc, saddr, errp);
++    if (*errp) {
+         object_unref(OBJECT(sioc));
+-        error_propagate(errp, local_err);
+         return NULL;
+     }
+ 
+@@ -1486,10 +1485,10 @@ static bool nbd_process_legacy_socket_options(QDict *output_options,
+ static SocketAddress *nbd_config(BDRVNBDState *s, QDict *options,
+                                  Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SocketAddress *saddr = NULL;
+     QDict *addr = NULL;
+     Visitor *iv = NULL;
+-    Error *local_err = NULL;
+ 
+     qdict_extract_subqdict(options, &addr, "server.");
+     if (!qdict_size(addr)) {
+@@ -1502,9 +1501,8 @@ static SocketAddress *nbd_config(BDRVNBDState *s, QDict *options,
+         goto done;
+     }
+ 
+-    visit_type_SocketAddress(iv, NULL, &saddr, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
++    visit_type_SocketAddress(iv, NULL, &saddr, errp);
 +    if (*errp) {
-         error_free(s->migration_blocker);
-         goto fail;
+         goto done;
      }
-@@ -2223,21 +2221,19 @@ static int vmdk_create_extent(const char *filename, int64_t filesize,
-                               BlockBackend **pbb,
-                               QemuOpts *opts, Error **errp)
+ 
+@@ -1597,15 +1595,14 @@ static QemuOptsList nbd_runtime_opts = {
+ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+                                Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
+     BDRVNBDState *s = bs->opaque;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     int ret = -EINVAL;
+ 
+     opts = qemu_opts_create(&nbd_runtime_opts, NULL, 0, &error_abort);
+-    qemu_opts_absorb_qdict(opts, options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(opts, options, errp);
++    if (*errp) {
+         goto error;
+     }
+ 
+diff --git a/nbd/client.c b/nbd/client.c
+index f6733962b4..6e510f4a14 100644
+--- a/nbd/client.c
++++ b/nbd/client.c
+@@ -68,6 +68,7 @@ static int nbd_send_option_request(QIOChannel *ioc, uint32_t opt,
+                                    uint32_t len, const char *data,
+                                    Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     NBDOption req;
+     QEMU_BUILD_BUG_ON(sizeof(req) != 16);
+ 
+@@ -153,6 +154,7 @@ static int nbd_receive_option_reply(QIOChannel *ioc, uint32_t opt,
+ static int nbd_handle_reply_err(QIOChannel *ioc, NBDOptionReply *reply,
+                                 bool strict, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     g_autofree char *msg = NULL;
+ 
+     if (!(reply->type & (1 << 31))) {
+@@ -331,6 +333,7 @@ static int nbd_receive_list(QIOChannel *ioc, char **name, char **description,
+ static int nbd_opt_info_or_go(QIOChannel *ioc, uint32_t opt,
+                               NBDExportInfo *info, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     NBDOptionReply reply;
+     uint32_t len = strlen(info->name);
+     uint16_t type;
+@@ -870,6 +873,7 @@ static int nbd_start_negotiate(AioContext *aio_context, QIOChannel *ioc,
+                                bool structured_reply, bool *zeroes,
+                                Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     uint64_t magic;
+ 
+     trace_nbd_start_negotiate(tlscreds, hostname ? hostname : "<null>");
+@@ -1005,6 +1009,7 @@ int nbd_receive_negotiate(AioContext *aio_context, QIOChannel *ioc,
+                           const char *hostname, QIOChannel **outioc,
+                           NBDExportInfo *info, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int result;
+     bool zeroes;
+     bool base_allocation = info->base_allocation;
+diff --git a/nbd/server.c b/nbd/server.c
+index d8d1e62455..fdb93aab3f 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -211,6 +211,7 @@ static int GCC_FMT_ATTR(4, 0)
+ nbd_negotiate_send_rep_verr(NBDClient *client, uint32_t type,
+                             Error **errp, const char *fmt, va_list va)
+ {
++    ERRP_AUTO_PROPAGATE();
+     g_autofree char *msg = NULL;
      int ret;
-     BlockBackend *blk = NULL;
--    Error *local_err = NULL;
- 
--    ret = bdrv_create_file(filename, opts, &local_err);
-+    ret = bdrv_create_file(filename, opts, errp);
-     if (ret < 0) {
--        error_propagate(errp, local_err);
-         goto exit;
-     }
- 
-     blk = blk_new_open(filename, NULL, NULL,
-                        BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL,
--                       &local_err);
-+                       errp);
-     if (blk == NULL) {
--        error_propagate(errp, local_err);
-         ret = -EIO;
-         goto exit;
-     }
-@@ -2333,10 +2329,10 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
-                                           void *opaque,
-                                           Error **errp)
+     size_t len;
+@@ -365,6 +366,7 @@ static int nbd_opt_read_name(NBDClient *client, char *name, uint32_t *length,
+ static int nbd_negotiate_send_rep_list(NBDClient *client, NBDExport *exp,
+                                        Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int extent_idx;
-     BlockBackend *blk = NULL;
-     BlockBackend *extent_blk;
--    Error *local_err = NULL;
-     char *desc = NULL;
-     int ret = 0;
-     bool flat, split, compress;
-@@ -2440,9 +2436,8 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
-         char *full_backing =
-             bdrv_get_full_backing_filename_from_filename(blk_bs(blk)->filename,
-                                                          backing_file,
--                                                         &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                                         errp);
-+        if (*errp) {
-             ret = -ENOENT;
-             goto exit;
-         }
-@@ -2591,7 +2586,7 @@ exit:
- static int coroutine_fn vmdk_co_create_opts(const char *filename, QemuOpts *opts,
+     size_t name_len, desc_len;
+     uint32_t len;
+     const char *name = exp->name ? exp->name : "";
+@@ -427,6 +429,7 @@ static void nbd_check_meta_export(NBDClient *client)
+ static int nbd_negotiate_handle_export_name(NBDClient *client, bool no_zeroes,
                                              Error **errp)
  {
--    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     char *desc = NULL;
-     int64_t total_size = 0;
-     char *adapter_type = NULL;
-@@ -2634,9 +2629,8 @@ static int coroutine_fn vmdk_co_create_opts(const char *filename, QemuOpts *opts
-         adapter_type_enum = qapi_enum_parse(&BlockdevVmdkAdapterType_lookup,
-                                             adapter_type,
-                                             BLOCKDEV_VMDK_ADAPTER_TYPE_IDE,
--                                            &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                            errp);
-+        if (*errp) {
-             ret = -EINVAL;
-             goto exit;
-         }
-@@ -2651,9 +2645,8 @@ static int coroutine_fn vmdk_co_create_opts(const char *filename, QemuOpts *opts
-         subformat = qapi_enum_parse(&BlockdevVmdkSubformat_lookup,
-                                     fmt,
-                                     BLOCKDEV_VMDK_SUBFORMAT_MONOLITHICSPARSE,
--                                    &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+                                    errp);
-+        if (*errp) {
-             ret = -EINVAL;
-             goto exit;
-         }
+     char name[NBD_MAX_NAME_SIZE + 1];
+     char buf[NBD_REPLY_EXPORT_NAME_SIZE] = "";
+     size_t len;
+@@ -1260,6 +1263,7 @@ static int nbd_negotiate_options(NBDClient *client, Error **errp)
+  */
+ static coroutine_fn int nbd_negotiate(NBDClient *client, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     char buf[NBD_OLDSTYLE_NEGOTIATE_SIZE] = "";
+     int ret;
+ 
+@@ -1631,6 +1635,7 @@ void nbd_export_close(NBDExport *exp)
+ 
+ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     if (mode == NBD_SERVER_REMOVE_MODE_HARD || QTAILQ_EMPTY(&exp->clients)) {
+         nbd_export_close(exp);
+         return;
 -- 
 2.21.0
 
