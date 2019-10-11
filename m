@@ -2,102 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB77D474A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:16:42 +0200 (CEST)
-Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2489D476D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:20:13 +0200 (CEST)
+Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzSz-00045n-6V
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45696)
+	id 1iIzWO-0007Ie-DY
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1iIyGT-0002ZA-RS
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:59:43 -0400
+ (envelope-from <stefanb@linux.ibm.com>) id 1iIyHA-0003eK-TW
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:00:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1iIyGR-0002iD-Ql
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:59:41 -0400
-Received: from mail-eopbgr750044.outbound.protection.outlook.com
- ([40.107.75.44]:15406 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ (envelope-from <stefanb@linux.ibm.com>) id 1iIyH8-00036T-Lo
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:00:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29822)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iIyGR-0002hk-H4
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:59:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HhB06p9OA5OAI/JOP/ju+qh+tp2QtMZ7cVykW+8A+mJ02bb4YHyaSfij78hBn/h85DXsnomou4xXYKhUXEbMuVG/R/cy0CS9DGROPI9+9CG3OsJODwx+js1NkYtUmJjlRrmPcpHmBcPv/s8781X7TT/tMSbpgMEG1vN0j4b3/K2+0cpyxkCAwkJlBNT8USJub2XIrk9KYznfSsSpLjMpIm24YFbicVRZ27QjcfIaBu/TljMLR7dE6fRPlkktQSBtTALEUnpId8tZ8BCXMjk655MWeSYSSZIroZadVRYjd6byYeM+UEJj8SLzu1nx4Vbbq5BRW0gQhwLTRIGg7yAKMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YLRoCKIdYSQ3m8oXQFwCVicZJ+xxCGo4rKpyvfw4OBk=;
- b=eHHIGajvJE8OtdmFlBOhoPabeS+7UIkBYm92E8/EmeO8CYRddoJGYP6M73ha3hq1PwKnb+7J8+p/ZPOYl7Nbzp3ViawtwgIkv9PCBYPRrIGE1sbT3OYYViNl6KTCI3mEoYoAzG3po+kupMBNSe3NEvdkLuct04W5WiwYSkx3In4+6qcaSIDs82oOtF2BLohN5d7Ccl/mjIvGfbvKkUwmMiO5TFctvD015tADjrdWOpX/f0GST9bbNTzu2RuzV6qWdDbGLMjzUI/1TWYRLH4Z58NknfPSpmLnQX8hoPZ6ZLWdnRgNrmLRMQQM+HaTmY6JU6lVC28RPS73q+eUidvdpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YLRoCKIdYSQ3m8oXQFwCVicZJ+xxCGo4rKpyvfw4OBk=;
- b=EeQbfC8KTegSBwYCanNZvD4RyxmVMjJkSgvhsdkFCrpBsQnGdP3O2hiB09P5OZqFCkTFVlPg5LsS0kYh4BP//58WfSFKrSiQH1CpDBOQMYjnP1ehYiO/FlLRRZRKYaWNfEqJoxxCZ9EHq2EnCGSPvMqgFGiSYsB7DI0/kIf8SG8=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB2565.namprd12.prod.outlook.com (52.132.143.37) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Fri, 11 Oct 2019 16:59:38 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::9089:8467:a76c:6f9d]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::9089:8467:a76c:6f9d%6]) with mapi id 15.20.2347.016; Fri, 11 Oct 2019
- 16:59:37 +0000
-From: "Moger, Babu" <Babu.Moger@amd.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [Qemu-devel] [RFC 2 PATCH 13/16] machine: Add new epyc property
- in PCMachineState
-Thread-Topic: [Qemu-devel] [RFC 2 PATCH 13/16] machine: Add new epyc property
- in PCMachineState
-Thread-Index: AQHVZOceIuce90DAyEeExN49RF5ewqdVBqUAgAB7F4A=
-Date: Fri, 11 Oct 2019 16:59:37 +0000
-Message-ID: <35f27ef1-a8ee-19e3-fa01-230135f1ed02@amd.com>
-References: <156779689013.21957.1631551572950676212.stgit@localhost.localdomain>
- <156779718791.21957.9675425538561156773.stgit@localhost.localdomain>
- <20191011035906.GH29387@habkost.net>
-In-Reply-To: <20191011035906.GH29387@habkost.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-imapappendstamp: DM5PR12MB2471.namprd12.prod.outlook.com
- (15.20.2347.014)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: caa19024-4939-43b1-0a43-08d74e6c6683
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: DM5PR12MB2565:
-x-microsoft-antispam-prvs: <DM5PR12MB2565113337E0C1D75CFE3D2595970@DM5PR12MB2565.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0187F3EA14
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(136003)(346002)(396003)(39860400002)(376002)(189003)(199004)(6512007)(81166006)(81156014)(31686004)(25786009)(8936002)(6486002)(8676002)(6916009)(6436002)(66066001)(256004)(476003)(26005)(3846002)(6246003)(6116002)(4326008)(186003)(5660300002)(486006)(305945005)(7736002)(66556008)(66476007)(6506007)(102836004)(53546011)(66446008)(11346002)(2616005)(14454004)(64756008)(446003)(316002)(36756003)(31696002)(76116006)(86362001)(229853002)(478600001)(2906002)(99286004)(54906003)(66946007)(71200400001)(76176011)(71190400001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB2565;
- H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: v6+Tai3SSoHvApoG7dquwvOz3XonL9y75pIizT4ljfPyCg+xs2Tqt8cU81+tf/HiI4V1DfQHZ6MrIOOyIPVAgB4PWpA5W91sgHQ7FKu+d7ynP/FqZcQ2MWzysV/SdkExXj7RlE7FORlB082vcNGS9N4ioRfhd7/E1gAw+qsyR6PXQ4REp/J/0k1kUrziEkabvURE8AJEHNryLyAn0dUNwEumXfhaquo1iqBVUWZW7CbRaDAEf+9np0L4KSj6DzLLPrV7uuSzW9IeS42z1KQJj6y7fPY5JcJfv8svt5dtC5iFtupvR2SRkxQlW7XePcDHoCIah759kgpfi0Dvf9s3dE+pizGImayIl30LSeI/HmmH1eLVvwFmrjX7kzK0Pfb5ldPwMeBM1APgZ8NvXHusQpxYIH9C9PWPBM2c5R8Rqzg=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <239F897C92DE8541BCB9088A8B992985@amdcloud.onmicrosoft.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1iIyH8-00034I-Cs
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 13:00:22 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9BGrSM0076468; Fri, 11 Oct 2019 13:00:19 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vjwdprwbv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Oct 2019 13:00:18 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x9BGukiv083866;
+ Fri, 11 Oct 2019 13:00:18 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vjwdprwa6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Oct 2019 13:00:18 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x9BGuF0k032448;
+ Fri, 11 Oct 2019 17:00:16 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 2vejt82d7f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Oct 2019 17:00:16 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9BH0Fj347972670
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Oct 2019 17:00:15 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 96DF9124054;
+ Fri, 11 Oct 2019 17:00:15 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88C68124053;
+ Fri, 11 Oct 2019 17:00:15 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 11 Oct 2019 17:00:15 +0000 (GMT)
+Subject: Re: [RFC v5 017/126] hw/tpm: rename Error ** parameter to more common
+ errp
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-18-vsementsov@virtuozzo.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <d590bbd5-196c-4a60-17c6-26cff54e3be1@linux.ibm.com>
+Date: Fri, 11 Oct 2019 13:00:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: caa19024-4939-43b1-0a43-08d74e6c6683
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2019 16:59:37.8693 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BQrBCLNU5J6GiMhEXwcSYiozRpZM+B0LErG0sxDMH294T7xz5B4GeKLb+DK15CQJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2565
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.75.44
+In-Reply-To: <20191011160552.22907-18-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-MW
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-11_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910110149
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,51 +96,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=0A=
-On 10/10/19 10:59 PM, Eduardo Habkost wrote:=0A=
-> On Fri, Sep 06, 2019 at 07:13:09PM +0000, Moger, Babu wrote:=0A=
->> Adds new epyc property in PCMachineState and also in MachineState.=0A=
->> This property will be used to initialize the mode specific handlers=0A=
->> to generate apic ids.=0A=
->>=0A=
->> Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
->> ---=0A=
-> [...]=0A=
->> diff --git a/include/hw/boards.h b/include/hw/boards.h=0A=
->> index 12eb5032a5..0001d42e50 100644=0A=
->> --- a/include/hw/boards.h=0A=
->> +++ b/include/hw/boards.h=0A=
->> @@ -299,6 +299,8 @@ struct MachineState {=0A=
->>      AccelState *accelerator;=0A=
->>      CPUArchIdList *possible_cpus;=0A=
->>      CpuTopology smp;=0A=
->> +    bool epyc;=0A=
->> +=0A=
-> =0A=
-> This won't scale at all when we start adding new CPU models with=0A=
-> different topology constraints.=0A=
-=0A=
-Yes, I knew. This could cause scaling issues. Let me see if we could=0A=
-do anything different.=0A=
-=0A=
-> =0A=
-> I still have hope we can avoid having separate set of topology ID=0A=
-> functions (see my reply to "hw/386: Add new epyc mode topology=0A=
-=0A=
-Yes. That was my hope too. Let me think thru this bit more. I will come=0A=
-back on this.=0A=
-=0A=
-=0A=
-> decoding functions").  But if we really have to create separate=0A=
-> functions, we can make them part of the CPU model table, not a=0A=
-> boolean machine property.=0A=
-> =0A=
+On 10/11/19 12:04 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+
+
+
+> ---
+>   hw/tpm/tpm_emulator.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+> index 22f9113432..10d587ed40 100644
+> --- a/hw/tpm/tpm_emulator.c
+> +++ b/hw/tpm/tpm_emulator.c
+> @@ -155,7 +155,7 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
+>                                        const uint8_t *in, uint32_t in_len,
+>                                        uint8_t *out, uint32_t out_len,
+>                                        bool *selftest_done,
+> -                                     Error **err)
+> +                                     Error **errp)
+>   {
+>       ssize_t ret;
+>       bool is_selftest = false;
+> @@ -165,20 +165,20 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
+>           is_selftest = tpm_util_is_selftest(in, in_len);
+>       }
+>   
+> -    ret = qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, err);
+> +    ret = qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, errp);
+>       if (ret != 0) {
+>           return -1;
+>       }
+>   
+>       ret = qio_channel_read_all(tpm_emu->data_ioc, (char *)out,
+> -              sizeof(struct tpm_resp_hdr), err);
+> +              sizeof(struct tpm_resp_hdr), errp);
+>       if (ret != 0) {
+>           return -1;
+>       }
+>   
+>       ret = qio_channel_read_all(tpm_emu->data_ioc,
+>                 (char *)out + sizeof(struct tpm_resp_hdr),
+> -              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), err);
+> +              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), errp);
+>       if (ret != 0) {
+>           return -1;
+>       }
+
+
 
