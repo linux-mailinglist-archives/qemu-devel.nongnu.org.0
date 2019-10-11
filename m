@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0CDD4458
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 17:32:10 +0200 (CEST)
-Received: from localhost ([::1]:52218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F15FD447F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 17:36:06 +0200 (CEST)
+Received: from localhost ([::1]:52270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIwtk-0003pO-Jr
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 11:32:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
+	id 1iIwxZ-0007sE-5P
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 11:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57737)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iIwqG-0001P4-O9
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:28:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iIwqJ-0001RS-HF
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:28:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iIwqF-0006Rx-JE
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:28:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45254)
+ (envelope-from <mreitz@redhat.com>) id 1iIwqI-0006UM-1r
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 11:28:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38058)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iIwqB-0006QE-Ka; Fri, 11 Oct 2019 11:28:27 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iIwqE-0006RO-CW; Fri, 11 Oct 2019 11:28:30 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C64627575F;
- Fri, 11 Oct 2019 15:28:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9F7AD300CB26;
+ Fri, 11 Oct 2019 15:28:29 +0000 (UTC)
 Received: from localhost (ovpn-116-40.ams2.redhat.com [10.36.116.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38EE660872;
- Fri, 11 Oct 2019 15:28:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E50E310013D9;
+ Fri, 11 Oct 2019 15:28:28 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 03/16] qcow2: Add Error ** to qcow2_read_snapshots()
-Date: Fri, 11 Oct 2019 17:28:01 +0200
-Message-Id: <20191011152814.14791-4-mreitz@redhat.com>
+Subject: [PATCH v3 04/16] qcow2: Keep unknown extra snapshot data
+Date: Fri, 11 Oct 2019 17:28:02 +0200
+Message-Id: <20191011152814.14791-5-mreitz@redhat.com>
 In-Reply-To: <20191011152814.14791-1-mreitz@redhat.com>
 References: <20191011152814.14791-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 11 Oct 2019 15:28:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Fri, 11 Oct 2019 15:28:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,99 +60,199 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The qcow2 specification says to ignore unknown extra data fields in
+snapshot table entries.  Currently, we discard it whenever we update the
+image, which is a bit different from "ignore".
+
+This patch makes the qcow2 driver keep all unknown extra data fields
+when updating an image's snapshot table.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2.h          | 2 +-
- block/qcow2-snapshot.c | 7 ++++++-
- block/qcow2.c          | 3 +--
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ block/qcow2.h          |  5 ++++
+ block/qcow2-snapshot.c | 61 +++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 56 insertions(+), 10 deletions(-)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index f51f478e34..8da1ad11d9 100644
+index 8da1ad11d9..61e5d4ba94 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -708,7 +708,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
-                             Error **errp);
+@@ -61,6 +61,9 @@
+  * space for snapshot names and IDs */
+ #define QCOW_MAX_SNAPSHOTS_SIZE (1024 * QCOW_MAX_SNAPSHOTS)
 =20
- void qcow2_free_snapshots(BlockDriverState *bs);
--int qcow2_read_snapshots(BlockDriverState *bs);
-+int qcow2_read_snapshots(BlockDriverState *bs, Error **errp);
++/* Maximum amount of extra data per snapshot table entry to accept */
++#define QCOW_MAX_SNAPSHOT_EXTRA_DATA 1024
++
+ /* Bitmap header extension constraints */
+ #define QCOW2_MAX_BITMAPS 65535
+ #define QCOW2_MAX_BITMAP_DIRECTORY_SIZE (1024 * QCOW2_MAX_BITMAPS)
+@@ -181,6 +184,8 @@ typedef struct QCowSnapshot {
+     uint32_t date_sec;
+     uint32_t date_nsec;
+     uint64_t vm_clock_nsec;
++    uint32_t extra_data_size;
++    void *unknown_extra_data; /* Extra data past QCowSnapshotExtraData *=
+/
+ } QCowSnapshot;
 =20
- /* qcow2-cache.c functions */
- Qcow2Cache *qcow2_cache_create(BlockDriverState *bs, int num_tables,
+ struct Qcow2Cache;
 diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 752883e5c3..80d32e4504 100644
+index 80d32e4504..120cb7fa09 100644
 --- a/block/qcow2-snapshot.c
 +++ b/block/qcow2-snapshot.c
-@@ -43,7 +43,7 @@ void qcow2_free_snapshots(BlockDriverState *bs)
-     s->nb_snapshots =3D 0;
- }
+@@ -37,6 +37,7 @@ void qcow2_free_snapshots(BlockDriverState *bs)
+     for(i =3D 0; i < s->nb_snapshots; i++) {
+         g_free(s->snapshots[i].name);
+         g_free(s->snapshots[i].id_str);
++        g_free(s->snapshots[i].unknown_extra_data);
+     }
+     g_free(s->snapshots);
+     s->snapshots =3D NULL;
+@@ -51,7 +52,6 @@ int qcow2_read_snapshots(BlockDriverState *bs, Error **=
+errp)
+     QCowSnapshot *sn;
+     int i, id_str_size, name_size;
+     int64_t offset;
+-    uint32_t extra_data_size;
+     int ret;
 =20
--int qcow2_read_snapshots(BlockDriverState *bs)
-+int qcow2_read_snapshots(BlockDriverState *bs, Error **errp)
- {
-     BDRVQcow2State *s =3D bs->opaque;
-     QCowSnapshotHeader h;
-@@ -68,6 +68,7 @@ int qcow2_read_snapshots(BlockDriverState *bs)
-         offset =3D ROUND_UP(offset, 8);
-         ret =3D bdrv_pread(bs->file, offset, &h, sizeof(h));
-         if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Failed to read snapshot table"=
-);
-             goto fail;
-         }
+     if (!s->nb_snapshots) {
+@@ -80,31 +80,53 @@ int qcow2_read_snapshots(BlockDriverState *bs, Error =
+**errp)
+         sn->date_sec =3D be32_to_cpu(h.date_sec);
+         sn->date_nsec =3D be32_to_cpu(h.date_nsec);
+         sn->vm_clock_nsec =3D be64_to_cpu(h.vm_clock_nsec);
+-        extra_data_size =3D be32_to_cpu(h.extra_data_size);
++        sn->extra_data_size =3D be32_to_cpu(h.extra_data_size);
 =20
-@@ -88,6 +89,7 @@ int qcow2_read_snapshots(BlockDriverState *bs)
+         id_str_size =3D be16_to_cpu(h.id_str_size);
+         name_size =3D be16_to_cpu(h.name_size);
+=20
+-        /* Read extra data */
++        if (sn->extra_data_size > QCOW_MAX_SNAPSHOT_EXTRA_DATA) {
++            ret =3D -EFBIG;
++            error_setg(errp, "Too much extra metadata in snapshot table =
+"
++                       "entry %i", i);
++            goto fail;
++        }
++
++        /* Read known extra data */
          ret =3D bdrv_pread(bs->file, offset, &extra,
-                          MIN(sizeof(extra), extra_data_size));
+-                         MIN(sizeof(extra), extra_data_size));
++                         MIN(sizeof(extra), sn->extra_data_size));
          if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Failed to read snapshot table"=
+             error_setg_errno(errp, -ret, "Failed to read snapshot table"=
 );
              goto fail;
          }
-         offset +=3D extra_data_size;
-@@ -107,6 +109,7 @@ int qcow2_read_snapshots(BlockDriverState *bs)
+-        offset +=3D extra_data_size;
++        offset +=3D MIN(sizeof(extra), sn->extra_data_size);
+=20
+-        if (extra_data_size >=3D endof(QCowSnapshotExtraData,
+-                                     vm_state_size_large)) {
++        if (sn->extra_data_size >=3D endof(QCowSnapshotExtraData,
++                                         vm_state_size_large)) {
+             sn->vm_state_size =3D be64_to_cpu(extra.vm_state_size_large)=
+;
+         }
+=20
+-        if (extra_data_size >=3D endof(QCowSnapshotExtraData, disk_size)=
+) {
++        if (sn->extra_data_size >=3D endof(QCowSnapshotExtraData, disk_s=
+ize)) {
+             sn->disk_size =3D be64_to_cpu(extra.disk_size);
+         } else {
+             sn->disk_size =3D bs->total_sectors * BDRV_SECTOR_SIZE;
+         }
+=20
++        if (sn->extra_data_size > sizeof(extra)) {
++            /* Store unknown extra data */
++            size_t unknown_extra_data_size =3D
++                sn->extra_data_size - sizeof(extra);
++
++            sn->unknown_extra_data =3D g_malloc(unknown_extra_data_size)=
+;
++            ret =3D bdrv_pread(bs->file, offset, sn->unknown_extra_data,
++                             unknown_extra_data_size);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "Failed to read snapshot ta=
+ble");
++                goto fail;
++            }
++            offset +=3D unknown_extra_data_size;
++        }
++
+         /* Read snapshot ID */
          sn->id_str =3D g_malloc(id_str_size + 1);
          ret =3D bdrv_pread(bs->file, offset, sn->id_str, id_str_size);
-         if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Failed to read snapshot table"=
-);
-             goto fail;
-         }
-         offset +=3D id_str_size;
-@@ -116,6 +119,7 @@ int qcow2_read_snapshots(BlockDriverState *bs)
-         sn->name =3D g_malloc(name_size + 1);
-         ret =3D bdrv_pread(bs->file, offset, sn->name, name_size);
-         if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Failed to read snapshot table"=
-);
-             goto fail;
-         }
-         offset +=3D name_size;
-@@ -123,6 +127,7 @@ int qcow2_read_snapshots(BlockDriverState *bs)
+@@ -162,7 +184,7 @@ static int qcow2_write_snapshots(BlockDriverState *bs=
+)
+         sn =3D s->snapshots + i;
+         offset =3D ROUND_UP(offset, 8);
+         offset +=3D sizeof(h);
+-        offset +=3D sizeof(extra);
++        offset +=3D MAX(sizeof(extra), sn->extra_data_size);
+         offset +=3D strlen(sn->id_str);
+         offset +=3D strlen(sn->name);
 =20
-         if (offset - s->snapshots_offset > QCOW_MAX_SNAPSHOTS_SIZE) {
-             ret =3D -EFBIG;
-+            error_setg(errp, "Snapshot table is too big");
-             goto fail;
-         }
-     }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 7961c05783..d0135912d0 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1584,9 +1584,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverSt=
-ate *bs, QDict *options,
-     s->snapshots_offset =3D header.snapshots_offset;
-     s->nb_snapshots =3D header.nb_snapshots;
+@@ -209,7 +231,8 @@ static int qcow2_write_snapshots(BlockDriverState *bs=
+)
+         h.date_sec =3D cpu_to_be32(sn->date_sec);
+         h.date_nsec =3D cpu_to_be32(sn->date_nsec);
+         h.vm_clock_nsec =3D cpu_to_be64(sn->vm_clock_nsec);
+-        h.extra_data_size =3D cpu_to_be32(sizeof(extra));
++        h.extra_data_size =3D cpu_to_be32(MAX(sizeof(extra),
++                                            sn->extra_data_size));
 =20
--    ret =3D qcow2_read_snapshots(bs);
-+    ret =3D qcow2_read_snapshots(bs, errp);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret, "Could not read snapshots");
-         goto fail;
-     }
+         memset(&extra, 0, sizeof(extra));
+         extra.vm_state_size_large =3D cpu_to_be64(sn->vm_state_size);
+@@ -234,6 +257,22 @@ static int qcow2_write_snapshots(BlockDriverState *b=
+s)
+         }
+         offset +=3D sizeof(extra);
+=20
++        if (sn->extra_data_size > sizeof(extra)) {
++            size_t unknown_extra_data_size =3D
++                sn->extra_data_size - sizeof(extra);
++
++            /* qcow2_read_snapshots() ensures no unbounded allocation */
++            assert(unknown_extra_data_size <=3D BDRV_REQUEST_MAX_BYTES);
++            assert(sn->unknown_extra_data);
++
++            ret =3D bdrv_pwrite(bs->file, offset, sn->unknown_extra_data=
+,
++                              unknown_extra_data_size);
++            if (ret < 0) {
++                goto fail;
++            }
++            offset +=3D unknown_extra_data_size;
++        }
++
+         ret =3D bdrv_pwrite(bs->file, offset, sn->id_str, id_str_size);
+         if (ret < 0) {
+             goto fail;
+@@ -376,6 +415,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUS=
+napshotInfo *sn_info)
+     sn->date_sec =3D sn_info->date_sec;
+     sn->date_nsec =3D sn_info->date_nsec;
+     sn->vm_clock_nsec =3D sn_info->vm_clock_nsec;
++    sn->extra_data_size =3D sizeof(QCowSnapshotExtraData);
+=20
+     /* Allocate the L1 table of the snapshot and copy the current one th=
+ere. */
+     l1_table_offset =3D qcow2_alloc_clusters(bs, s->l1_size * sizeof(uin=
+t64_t));
+@@ -647,6 +687,7 @@ int qcow2_snapshot_delete(BlockDriverState *bs,
+      * The snapshot is now unused, clean up. If we fail after this point=
+, we
+      * won't recover but just leak clusters.
+      */
++    g_free(sn.unknown_extra_data);
+     g_free(sn.id_str);
+     g_free(sn.name);
 =20
 --=20
 2.21.0
