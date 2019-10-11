@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93551D46BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:37:52 +0200 (CEST)
-Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60F3D46B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:35:23 +0200 (CEST)
+Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyrP-0001ER-4a
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41604)
+	id 1iIyoz-0006Rz-Tw
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:35:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmI-0007jg-JH
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:31 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhP-0001Bo-Gw
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmH-0002tX-6e
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:30 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49982)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhO-0008Pg-4G
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:27 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49718)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxmG-0002tD-W2
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:29 -0400
+ id 1iIxhM-0008Oh-Md
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:26 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR9-0003XG-PN; Fri, 11 Oct 2019 19:06:39 +0300
+ id 1iIxRA-0003XG-22; Fri, 11 Oct 2019 19:06:40 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 125/126] tests/test-image-locking.c: introduce
- ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:51 +0300
-Message-Id: <20191011160552.22907-126-vsementsov@virtuozzo.com>
+Subject: [RFC v5 126/126] util/qemu-config.c: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:52 +0300
+Message-Id: <20191011160552.22907-127-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -98,37 +97,83 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/test-image-locking.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ util/qemu-config.c | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/tests/test-image-locking.c b/tests/test-image-locking.c
-index ba057bd66c..4c996bdf55 100644
---- a/tests/test-image-locking.c
-+++ b/tests/test-image-locking.c
-@@ -35,20 +35,19 @@ static BlockBackend *open_image(const char *path,
-                                 uint64_t perm, uint64_t shared_perm,
-                                 Error **errp)
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 772f5a219e..13e2f797ba 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -478,10 +478,10 @@ int qemu_read_config_file(const char *filename)
+ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
+                                        Error **errp)
  {
--    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     BlockBackend *blk;
-     QDict *options = qdict_new();
+     QemuOpts *subopts;
+     QDict *subqdict;
+     QList *list = NULL;
+-    Error *local_err = NULL;
+     size_t orig_size, enum_size;
+     char *prefix;
  
-     qdict_put_str(options, "driver", "raw");
--    blk = blk_new_open(path, NULL, options, BDRV_O_RDWR, &local_err);
-+    blk = blk_new_open(path, NULL, options, BDRV_O_RDWR, errp);
-     if (blk) {
--        g_assert_null(local_err);
-+        g_assert_null(*errp);
-         if (blk_set_perm(blk, perm, shared_perm, errp)) {
-             blk_unref(blk);
-             blk = NULL;
-         }
-     } else {
--        error_propagate(errp, local_err);
+@@ -493,15 +493,13 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
+         goto out;
      }
-     return blk;
- }
+ 
+-    subopts = qemu_opts_create(opts, NULL, 0, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    subopts = qemu_opts_create(opts, NULL, 0, errp);
++    if (*errp) {
+         goto out;
+     }
+ 
+-    qemu_opts_absorb_qdict(subopts, subqdict, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_absorb_qdict(subopts, subqdict, errp);
++    if (*errp) {
+         goto out;
+     }
+ 
+@@ -538,16 +536,14 @@ static void config_parse_qdict_section(QDict *options, QemuOptsList *opts,
+             }
+ 
+             opt_name = g_strdup_printf("%s.%u", opts->name, i++);
+-            subopts = qemu_opts_create(opts, opt_name, 1, &local_err);
++            subopts = qemu_opts_create(opts, opt_name, 1, errp);
+             g_free(opt_name);
+-            if (local_err) {
+-                error_propagate(errp, local_err);
++            if (*errp) {
+                 goto out;
+             }
+ 
+-            qemu_opts_absorb_qdict(subopts, section, &local_err);
+-            if (local_err) {
+-                error_propagate(errp, local_err);
++            qemu_opts_absorb_qdict(subopts, section, errp);
++            if (*errp) {
+                 qemu_opts_del(subopts);
+                 goto out;
+             }
+@@ -569,13 +565,12 @@ out:
+ void qemu_config_parse_qdict(QDict *options, QemuOptsList **lists,
+                              Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int i;
+-    Error *local_err = NULL;
+ 
+     for (i = 0; lists[i]; i++) {
+-        config_parse_qdict_section(options, lists[i], &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        config_parse_qdict_section(options, lists[i], errp);
++        if (*errp) {
+             return;
+         }
+     }
 -- 
 2.21.0
 
