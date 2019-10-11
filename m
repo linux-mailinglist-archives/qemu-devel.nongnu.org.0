@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9B0D487B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 21:33:55 +0200 (CEST)
-Received: from localhost ([::1]:56314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C36BD487F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 21:36:27 +0200 (CEST)
+Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ0fi-0002Gd-0p
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 15:33:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37563)
+	id 1iJ0iA-0005uk-BB
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 15:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37607)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iJ0Pe-0000Oq-Ad
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:19 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iJ0Pi-0000Vb-5i
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iJ0Pd-0003sn-7T
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50684)
+ (envelope-from <dgilbert@redhat.com>) id 1iJ0Pg-0003vl-VJ
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43086)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iJ0Pd-0003s5-26
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:17 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iJ0Pg-0003vD-Ps
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:20 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 92F94306729E;
- Fri, 11 Oct 2019 19:17:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 098A210C0930;
+ Fri, 11 Oct 2019 19:17:20 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-210.ams2.redhat.com
  [10.36.117.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C23695D6C8;
- Fri, 11 Oct 2019 19:17:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4BE55D6C8;
+ Fri, 11 Oct 2019 19:17:18 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, eric.auger@redhat.com,
  richardw.yang@linux.intel.com
-Subject: [PULL 10/21] migration/postcopy: fix typo in
- mark_postcopy_blocktime_begin's comment
-Date: Fri, 11 Oct 2019 20:16:35 +0100
-Message-Id: <20191011191646.226814-11-dgilbert@redhat.com>
+Subject: [PULL 13/21] migration/postcopy: mis->have_listen_thread check will
+ never be touched
+Date: Fri, 11 Oct 2019 20:16:38 +0100
+Message-Id: <20191011191646.226814-14-dgilbert@redhat.com>
 In-Reply-To: <20191011191646.226814-1-dgilbert@redhat.com>
 References: <20191011191646.226814-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 11 Oct 2019 19:17:15 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Fri, 11 Oct 2019 19:17:20 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,34 +64,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
+If mis->have_listen_thread is true, this means current PostcopyState
+must be LISTENING or RUNNING. While the check at the beginning of the
+function makes sure the state transaction happens when its previous
+PostcopyState is ADVISE or DISCARD.
+
+This means we would never touch this check.
+
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20191005220517.24029-3-richardw.yang@linux.intel.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191006000249.29926-2-richardw.yang@linux.intel.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/postcopy-ram.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ migration/savevm.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 08a3ed516e..3a72f7b4fe 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -768,9 +768,11 @@ static void mark_postcopy_blocktime_begin(uintptr_t =
-addr, uint32_t ptid,
-     atomic_xchg(&dc->page_fault_vcpu_time[cpu], low_time_offset);
-     atomic_xchg(&dc->vcpu_addr[cpu], addr);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 241c5dd097..c62687afef 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1878,11 +1878,6 @@ static int loadvm_postcopy_handle_listen(Migration=
+IncomingState *mis)
+         return -1;
+     }
 =20
--    /* check it here, not at the begining of the function,
--     * due to, check could accur early than bitmap_set in
--     * qemu_ufd_copy_ioctl */
-+    /*
-+     * check it here, not at the beginning of the function,
-+     * due to, check could occur early than bitmap_set in
-+     * qemu_ufd_copy_ioctl
-+     */
-     already_received =3D ramblock_recv_bitmap_test(rb, (void *)addr);
-     if (already_received) {
-         atomic_xchg(&dc->vcpu_addr[cpu], 0);
+-    if (mis->have_listen_thread) {
+-        error_report("CMD_POSTCOPY_RAM_LISTEN already has a listen threa=
+d");
+-        return -1;
+-    }
+-
+     mis->have_listen_thread =3D true;
+     /* Start up the listening thread and wait for it to signal ready */
+     qemu_sem_init(&mis->listen_thread_sem, 0);
 --=20
 2.23.0
 
