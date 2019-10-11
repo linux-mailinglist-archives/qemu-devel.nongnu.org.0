@@ -2,48 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1F8D3A32
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:43:41 +0200 (CEST)
-Received: from localhost ([::1]:46686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20008D3A3D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 09:47:18 +0200 (CEST)
+Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIpaO-0002CO-Je
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
+	id 1iIpds-0004Dy-H7
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 03:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iIpY6-0000bk-KA
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:20 -0400
+ (envelope-from <lersek@redhat.com>) id 1iIpYR-0000rW-UT
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iIpY4-0003ZX-I1
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:18 -0400
-Received: from mga11.intel.com ([192.55.52.93]:1929)
+ (envelope-from <lersek@redhat.com>) id 1iIpYQ-0003mb-0U
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:12707)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iIpY0-0003XF-Qf
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:14 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2019 00:41:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,283,1566889200"; d="scan'208";a="194257174"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2019 00:41:09 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
- mtosatti@redhat.com
-Subject: [PATCH RESEND v6 2/2] target/i386: Add support for save/load
- IA32_UMWAIT_CONTROL MSR
-Date: Fri, 11 Oct 2019 15:41:03 +0800
-Message-Id: <20191011074103.30393-3-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191011074103.30393-1-tao3.xu@intel.com>
-References: <20191011074103.30393-1-tao3.xu@intel.com>
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIpYP-0003lv-Ni
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 03:41:37 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 67DB1307D88C;
+ Fri, 11 Oct 2019 07:41:36 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-177.rdu2.redhat.com
+ [10.10.120.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2E0360600;
+ Fri, 11 Oct 2019 07:41:25 +0000 (UTC)
+Subject: Re: [RFC 0/3] acpi: cphp: add CPHP_GET_CPU_ID_CMD command to cpu
+ hotplug MMIO interface
+To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20191009132252.17860-1-imammedo@redhat.com>
+ <20191010055356-mutt-send-email-mst@kernel.org>
+ <20191010153815.4f7a3fc9@redhat.com>
+ <20191010095459-mutt-send-email-mst@kernel.org>
+ <20191010175754.7c62cf8f@Igors-MacBook-Pro>
+ <20191010140934-mutt-send-email-mst@kernel.org>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <361f8d36-5dc7-6428-2954-fd20707f351a@redhat.com>
+Date: Fri, 11 Oct 2019 09:41:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
+In-Reply-To: <20191010140934-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Fri, 11 Oct 2019 07:41:36 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,144 +66,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UMWAIT and TPAUSE instructions use 32bits IA32_UMWAIT_CONTROL at MSR
-index E1H to determines the maximum time in TSC-quanta that the processor
-can reside in either C0.1 or C0.2.
+On 10/10/19 20:15, Michael S. Tsirkin wrote:
+> On Thu, Oct 10, 2019 at 05:57:54PM +0200, Igor Mammedov wrote:
+>>> Then we should consider switching acpi to use fw cfg.
+>>> Or build another interface that can scale.
+>>
+>> Could be an option, it would be a pain to write a driver in AML for fwcfg access though
+>> (I've looked at possibility to access fwcfg from AML about a year ago and gave up.
+>> I'm definitely not volunteering for the second attempt and can't even give an estimate
+>> it it's viable approach).
+>>
+>> But what scaling issue you are talking about, exactly?
+> 
+> Just this: each new thing we add is an ad-hoc data structure with
+> manually maintained backwards compatibility and no built-in discovery.
+> 
+> fw cfg has built-in discovery and we've finally managed to
+> handle compatibility reasonably well.
+> 
+> PV is already very problematic.  Spreading PV code all over the place
+> like this is a very bad idea.  For you CPU hotplug is something that you
+> keep in mind first of all, but someone bringing up a new platform
+> already has a steep hill to climb.  Adding tons of custom firmware is
+> not helping things.
+> 
 
-This patch is to Add support for save/load IA32_UMWAIT_CONTROL MSR in
-guest.
+- Custom firmware is unfortunately unavoidable in this case. SMM is a
+privilege barrier between the firmware and the OS. The firmware needs to
+care because to OS could use a hotplugged CPU to attack SMM, unless
+hardware and firmware co-operate to prevent that. This whole ordeal aims
+to prevent such an attack.
 
-Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+If you remove SMM from the picture (build OVMF without it), there is no
+such privilege barrier between fw and OS, the firmware doesn't need to
+know anything about VCPU hotplug events, and hotplug already works.
 
-No changes in v5 and v6.
 
-Changes in v4:
-        Set IA32_UMWAIT_CONTROL 32bits
----
- target/i386/cpu.h     |  2 ++
- target/i386/kvm.c     | 13 +++++++++++++
- target/i386/machine.c | 20 ++++++++++++++++++++
- 3 files changed, 35 insertions(+)
+- Custom hardware is also expected. On physical platforms, there is a
+dedicated BMC / RAS thingy that e.g. provides the APIC-ID to firmware,
+when a CPU is hotplugged. One factor that makes this feature difficult
+is that edk2 does not contain any code driving such hardware; it only
+contains firmware code for *consuming* what the BMC / RAS thingy
+produces. We're trying to work backwards from that. We could implement a
+brand new hotplug controller device model, but it would be entirely PV
+(= it would be our own design). Reusing the CPU hotplug register block
+isn't worse, in that regard. This is my understanding anyway.
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 4e3206c8a2..134d14d14d 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -451,6 +451,7 @@ typedef enum X86Seg {
- 
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
-+#define MSR_IA32_UMWAIT_CONTROL         0xe1
- 
- #define MSR_IA32_VMX_BASIC              0x00000480
- #define MSR_IA32_VMX_PINBASED_CTLS      0x00000481
-@@ -1534,6 +1535,7 @@ typedef struct CPUX86State {
-     uint16_t fpregs_format_vmstate;
- 
-     uint64_t xss;
-+    uint32_t umwait;
- 
-     TPRAccess tpr_access_type;
- 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index a465c893b5..cdf731815f 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -95,6 +95,7 @@ static bool has_msr_hv_stimer;
- static bool has_msr_hv_frequencies;
- static bool has_msr_hv_reenlightenment;
- static bool has_msr_xss;
-+static bool has_msr_umwait;
- static bool has_msr_spec_ctrl;
- static bool has_msr_virt_ssbd;
- static bool has_msr_smi_count;
-@@ -1946,6 +1947,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-             case MSR_IA32_XSS:
-                 has_msr_xss = true;
-                 break;
-+            case MSR_IA32_UMWAIT_CONTROL:
-+                has_msr_umwait = true;
-+                break;
-             case HV_X64_MSR_CRASH_CTL:
-                 has_msr_hv_crash = true;
-                 break;
-@@ -2625,6 +2629,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, env->xss);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, env->umwait);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
-     }
-@@ -3038,6 +3045,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, 0);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, 0);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
-     }
-@@ -3290,6 +3300,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_IA32_XSS:
-             env->xss = msrs[i].data;
-             break;
-+        case MSR_IA32_UMWAIT_CONTROL:
-+            env->umwait = msrs[i].data;
-+            break;
-         default:
-             if (msrs[i].index >= MSR_MC0_CTL &&
-                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 2767b3096d..6481f846f6 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -943,6 +943,25 @@ static const VMStateDescription vmstate_xss = {
-     }
- };
- 
-+static bool umwait_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->umwait != 0;
-+}
-+
-+static const VMStateDescription vmstate_umwait = {
-+    .name = "cpu/umwait",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = umwait_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(env.umwait, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- #ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
- {
-@@ -1391,6 +1410,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_hyperv_reenlightenment,
-         &vmstate_avx512,
-         &vmstate_xss,
-+        &vmstate_umwait,
-         &vmstate_tsc_khz,
-         &vmstate_msr_smi_count,
- #ifdef TARGET_X86_64
--- 
-2.20.1
 
+- Using fw_cfg *DMA* in an SMI handler (at OS runtime) could be
+problematic. Especially if you consider SEV guests. For DMA transfers,
+memory has to be decrypted and encrypted, which involves page table
+manipulation.
+
+In the firmware, this is handled with a SEV-specific
+EDKII_IOMMU_PROTOCOL implementation. The fw_cfg library (transparently
+to the caller) utilizes the IOMMU protocol, for dealing with DMA in SEV
+guests.
+
+Such protocols are boot-time only; they are not runtime protocols, let
+alone SMM protocols. They are not available to SMI handlers.
+
+Raw IO ports are extremely attractive in this regard: they don't depend
+on page tables (SMM has its own set of page tables), they just work
+under SEV out of the box. (The only exception is [REP] INS*/OUTS*, as
+those depend on memory, not just registers, but no such instructions are
+expected for the hotplug register block.)
+
+- IO-port based fw_cfg might be suitable for the hotplug SMI handler,
+yes. Assuming it's really only the firmware that needs information from
+QEMU in the hotplug SMI handler, and not the other way around. (IO-port
+based fw_cfg doesn't support writes.)
+
+Now, when considering IO-port based fw_cfg in the SMI handler, we should
+at least mention the risk of interfering with the Linux guest's own
+fw_cfg driver. I've *never* been happy with anything non-firmware
+accessing fw_cfg (it says "*firmware* config" in the name!), so I
+wouldn't care much in practice. It's just that we should be aware that
+there is a chance for entanglement. (The SMI handler cannot restore the
+previous fw_cfg state, when it finishes up.)
+
+At least on a theoretical level, the ACPI CPU hotplug register block is
+nicer in this regard: the OS doesn't know about it at all (it is
+accessed only through QEMU-generated AML code), and the plan is for the
+same AML code to closely coordinate with the firmware. Namely, the AML
+would raise the hotplug SMI.
+
+Thanks
+Laszlo
 
