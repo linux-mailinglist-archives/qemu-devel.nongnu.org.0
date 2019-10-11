@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE60D467F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:21:05 +0200 (CEST)
-Received: from localhost ([::1]:54559 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A0CD4692
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:26:10 +0200 (CEST)
+Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyb9-0003qw-Mg
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36328)
+	id 1iIyg5-0002ym-5d
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQu-0006DI-S3
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:26 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQw-0006G7-CR
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQt-0004QA-BN
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:24 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48030)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQu-0004Ru-B7
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:26 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48054)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQt-0004C6-3w
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:23 -0400
+ id 1iIxQu-0004F0-2k
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:24 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQh-0003XG-QU; Fri, 11 Oct 2019 19:06:11 +0300
+ id 1iIxQi-0003XG-Md; Fri, 11 Oct 2019 19:06:12 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 047/126] SD (Secure Card): introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:33 +0300
-Message-Id: <20191011160552.22907-48-vsementsov@virtuozzo.com>
+Subject: [RFC v5 050/126] VFIO: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:36 +0300
+Message-Id: <20191011160552.22907-51-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,88 +97,247 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/sd/sdhci-pci.c |  7 +++----
- hw/sd/sdhci.c     | 21 +++++++++------------
- 2 files changed, 12 insertions(+), 16 deletions(-)
+ hw/vfio/common.c     |  3 +++
+ hw/vfio/pci-quirks.c |  8 ++++----
+ hw/vfio/pci.c        | 42 +++++++++++++++++++-----------------------
+ hw/vfio/platform.c   |  1 +
+ 4 files changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/hw/sd/sdhci-pci.c b/hw/sd/sdhci-pci.c
-index 2c8d8f59b5..b1448cf22e 100644
---- a/hw/sd/sdhci-pci.c
-+++ b/hw/sd/sdhci-pci.c
-@@ -29,13 +29,12 @@ static Property sdhci_pci_properties[] = {
- 
- static void sdhci_pci_realize(PCIDevice *dev, Error **errp)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 5ca11488d6..53edbf9530 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -136,6 +136,7 @@ static const char *index_to_str(VFIODevice *vbasedev, int index)
+ int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex,
+                            int action, int fd, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SDHCIState *s = PCI_SDHCI(dev);
+     struct vfio_irq_set *irq_set;
+     int argsz, ret = 0;
+     const char *name;
+@@ -1455,6 +1456,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+ 
+ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VFIOGroup *group;
+     char path[32];
+     struct vfio_group_status status = { .argsz = sizeof(status) };
+@@ -1544,6 +1546,7 @@ void vfio_put_group(VFIOGroup *group)
+ int vfio_get_device(VFIOGroup *group, const char *name,
+                     VFIODevice *vbasedev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
+     int ret, fd;
+ 
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index 136f3a9ad6..a70abeca19 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -2106,19 +2106,18 @@ static void set_nv_gpudirect_clique_id(Object *obj, Visitor *v,
+                                        const char *name, void *opaque,
+                                        Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     DeviceState *dev = DEVICE(obj);
+     Property *prop = opaque;
+     uint8_t value, *ptr = qdev_get_prop_ptr(dev, prop);
 -    Error *local_err = NULL;
  
-     sdhci_initfn(s);
--    sdhci_common_realize(s, &local_err);
+     if (dev->realized) {
+         qdev_prop_set_after_realize(dev, name, errp);
+         return;
+     }
+ 
+-    visit_type_uint8(v, name, &value, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    sdhci_common_realize(s, errp);
++    visit_type_uint8(v, name, &value, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index e56031b5e4..db9e9add82 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1293,7 +1293,7 @@ static const MemoryRegionOps sdhci_mmio_ops = {
+@@ -2139,6 +2138,7 @@ const PropertyInfo qdev_prop_nv_gpudirect_clique = {
  
- static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
-     switch (s->sd_spec_version) {
-     case 2 ... 3:
-@@ -1304,9 +1304,8 @@ static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
-     }
-     s->version = (SDHC_HCVER_VENDOR << 8) | (s->sd_spec_version - 1);
- 
--    sdhci_check_capareg(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    sdhci_check_capareg(s, errp);
-+    if (*errp) {
-         return;
-     }
- }
-@@ -1337,11 +1336,10 @@ void sdhci_uninitfn(SDHCIState *s)
- 
- void sdhci_common_realize(SDHCIState *s, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
- 
--    sdhci_init_readonly_registers(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    sdhci_init_readonly_registers(s, errp);
-+    if (*errp) {
-         return;
-     }
-     s->buf_maxsz = sdhci_get_fifolen(s);
-@@ -1461,13 +1459,12 @@ static void sdhci_sysbus_finalize(Object *obj)
- 
- static void sdhci_sysbus_realize(DeviceState *dev, Error **errp)
+ static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     SDHCIState *s = SYSBUS_SDHCI(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    Error *local_err = NULL;
+     PCIDevice *pdev = &vdev->pdev;
+     int ret, pos = 0xC8;
  
--    sdhci_common_realize(s, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    sdhci_common_realize(s, errp);
-+    if (*errp) {
-         return;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index c5e6fe61cb..e779b2cd22 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -119,7 +119,6 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
+         .gsi = vdev->intx.route.irq,
+         .flags = KVM_IRQFD_FLAG_RESAMPLE,
+     };
+-    Error *err = NULL;
+ 
+     if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
+         vdev->intx.route.mode != PCI_INTX_ENABLED ||
+@@ -149,8 +148,7 @@ static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
+ 
+     if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
+                                VFIO_IRQ_SET_ACTION_UNMASK,
+-                               irqfd.resamplefd, &err)) {
+-        error_propagate(errp, err);
++                               irqfd.resamplefd, errp)) {
+         goto fail_vfio;
      }
  
+@@ -253,8 +251,8 @@ static void vfio_intx_update(PCIDevice *pdev)
+ 
+ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     uint8_t pin = vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN, 1);
+-    Error *err = NULL;
+     int32_t fd;
+     int ret;
+ 
+@@ -288,16 +286,15 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
+     qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
+ 
+     if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
+-                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+-        error_propagate(errp, err);
++                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
+         qemu_set_fd_handler(fd, NULL, NULL, vdev);
+         event_notifier_cleanup(&vdev->intx.interrupt);
+         return -errno;
+     }
+ 
+-    vfio_intx_enable_kvm(vdev, &err);
+-    if (err) {
+-        warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
++    vfio_intx_enable_kvm(vdev, errp);
++    if (*errp) {
++        warn_reportf_err(*errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+     }
+ 
+     vdev->interrupt = VFIO_INT_INTx;
+@@ -1218,10 +1215,10 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
+ 
+ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     uint16_t ctrl;
+     bool msi_64bit, msi_maskbit;
+     int ret, entries;
+-    Error *err = NULL;
+ 
+     if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
+               vdev->config_offset + pos + PCI_CAP_FLAGS) != sizeof(ctrl)) {
+@@ -1236,12 +1233,12 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+ 
+     trace_vfio_msi_setup(vdev->vbasedev.name, pos);
+ 
+-    ret = msi_init(&vdev->pdev, pos, entries, msi_64bit, msi_maskbit, &err);
++    ret = msi_init(&vdev->pdev, pos, entries, msi_64bit, msi_maskbit, errp);
+     if (ret < 0) {
+         if (ret == -ENOTSUP) {
+             return 0;
+         }
+-        error_propagate_prepend(errp, err, "msi_init failed: ");
++        error_prepend(errp, "msi_init failed: ");
+         return ret;
+     }
+     vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
+@@ -1502,8 +1499,8 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
+ 
+ static int vfio_msix_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int ret;
+-    Error *err = NULL;
+ 
+     vdev->msix->pending = g_malloc0(BITS_TO_LONGS(vdev->msix->entries) *
+                                     sizeof(unsigned long));
+@@ -1512,14 +1509,13 @@ static int vfio_msix_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+                     vdev->msix->table_bar, vdev->msix->table_offset,
+                     vdev->bars[vdev->msix->pba_bar].mr,
+                     vdev->msix->pba_bar, vdev->msix->pba_offset, pos,
+-                    &err);
++                    errp);
+     if (ret < 0) {
+         if (ret == -ENOTSUP) {
+-            warn_report_err(err);
++            warn_report_errp(errp);
+             return 0;
+         }
+ 
+-        error_propagate(errp, err);
+         return ret;
+     }
+ 
+@@ -1916,6 +1912,7 @@ static void vfio_check_af_flr(VFIOPCIDevice *vdev, uint8_t pos)
+ 
+ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     PCIDevice *pdev = &vdev->pdev;
+     uint8_t cap_id, next, size;
+     int ret;
+@@ -2469,6 +2466,7 @@ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
+ 
+ static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VFIODevice *vbasedev = &vdev->vbasedev;
+     struct vfio_region_info *reg_info;
+     struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info) };
+@@ -2700,11 +2698,11 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+ 
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+     VFIODevice *vbasedev_iter;
+     VFIOGroup *group;
+     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+-    Error *err = NULL;
+     ssize_t len;
+     struct stat st;
+     int groupid;
+@@ -2796,9 +2794,8 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         goto error;
+     }
+ 
+-    vfio_populate_device(vdev, &err);
+-    if (err) {
+-        error_propagate(errp, err);
++    vfio_populate_device(vdev, errp);
++    if (*errp) {
+         goto error;
+     }
+ 
+@@ -2891,9 +2888,8 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ 
+     vfio_bars_prepare(vdev);
+ 
+-    vfio_msix_early_setup(vdev, &err);
+-    if (err) {
+-        error_propagate(errp, err);
++    vfio_msix_early_setup(vdev, errp);
++    if (*errp) {
+         goto error;
+     }
+ 
+diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+index d7598c6152..236e5f8f57 100644
+--- a/hw/vfio/platform.c
++++ b/hw/vfio/platform.c
+@@ -617,6 +617,7 @@ static int vfio_base_device_init(VFIODevice *vbasedev, Error **errp)
+  */
+ static void vfio_platform_realize(DeviceState *dev, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     VFIOPlatformDevice *vdev = VFIO_PLATFORM_DEVICE(dev);
+     SysBusDevice *sbdev = SYS_BUS_DEVICE(dev);
+     VFIODevice *vbasedev = &vdev->vbasedev;
 -- 
 2.21.0
 
