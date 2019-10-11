@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CC4D469B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:29:01 +0200 (CEST)
-Received: from localhost ([::1]:54662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FB3D4689
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:23:32 +0200 (CEST)
+Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyiq-0006oZ-AS
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41263)
+	id 1iIydW-0007TC-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxlA-0006jV-8D
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:21 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhU-0001If-JD
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxl6-0002J0-Hc
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:27:19 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49774)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhT-0008RP-Fe
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:32 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49726)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxl4-0002GX-LT; Fri, 11 Oct 2019 12:27:14 -0400
+ id 1iIxhT-0008R0-8c
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:31 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR7-0003XG-GU; Fri, 11 Oct 2019 19:06:37 +0300
+ id 1iIxR8-0003XG-Fc; Fri, 11 Oct 2019 19:06:38 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 113/126] qcow: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:39 +0300
-Message-Id: <20191011160552.22907-114-vsementsov@virtuozzo.com>
+Subject: [RFC v5 118/126] PVRDMA: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:44 +0300
+Message-Id: <20191011160552.22907-119-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ Yuval Shaia <yuval.shaia@oracle.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,77 +97,21 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ hw/rdma/vmw/pvrdma_main.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/qcow.c b/block/qcow.c
-index 5bdf72ba33..c58d3e36be 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -117,11 +117,11 @@ static QemuOptsList qcow_runtime_opts = {
- static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
-                      Error **errp)
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index 3e36e13013..fd1a6ef099 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -592,6 +592,7 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+ 
+ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     BDRVQcowState *s = bs->opaque;
-     unsigned int len, i, shift;
-     int ret;
-     QCowHeader header;
--    Error *local_err = NULL;
-     QCryptoBlockOpenOptions *crypto_opts = NULL;
-     unsigned int cflags = 0;
-     QDict *encryptopts = NULL;
-@@ -314,9 +314,8 @@ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
-     error_setg(&s->migration_blocker, "The qcow format used by node '%s' "
-                "does not support live migration",
-                bdrv_get_device_or_node_name(bs));
--    ret = migrate_add_blocker(s->migration_blocker, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = migrate_add_blocker(s->migration_blocker, errp);
-+    if (*errp) {
-         error_free(s->migration_blocker);
-         goto fail;
-     }
-@@ -942,12 +941,12 @@ exit:
- static int coroutine_fn qcow_co_create_opts(const char *filename,
-                                             QemuOpts *opts, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BlockdevCreateOptions *create_options = NULL;
-     BlockDriverState *bs = NULL;
-     QDict *qdict;
-     Visitor *v;
-     const char *val;
--    Error *local_err = NULL;
-     int ret;
- 
-     static const QDictRenames opt_renames[] = {
-@@ -977,9 +976,8 @@ static int coroutine_fn qcow_co_create_opts(const char *filename,
-     }
- 
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, &local_err);
-+    ret = bdrv_create_file(filename, opts, errp);
-     if (ret < 0) {
--        error_propagate(errp, local_err);
-         goto fail;
-     }
- 
-@@ -1000,11 +998,10 @@ static int coroutine_fn qcow_co_create_opts(const char *filename,
-         goto fail;
-     }
- 
--    visit_type_BlockdevCreateOptions(v, NULL, &create_options, &local_err);
-+    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
-     visit_free(v);
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-         ret = -EINVAL;
-         goto fail;
-     }
+     int rc = 0;
+     PVRDMADev *dev = PVRDMA_DEV(pdev);
+     Object *memdev_root;
 -- 
 2.21.0
 
