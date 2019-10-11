@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328C8D4574
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:30:33 +0200 (CEST)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D53DD459B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:40:16 +0200 (CEST)
+Received: from localhost ([::1]:54048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIxoF-0008Tz-Jm
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:30:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36555)
+	id 1iIxxf-0003AJ-97
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0006NS-Ha
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:31 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR4-0006Tm-ET
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQz-0004bl-5t
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:30 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48208)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR2-0004fj-Kg
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48314)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQy-0004Jz-UW
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:29 -0400
+ id 1iIxR2-0004Nn-Cx
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:32 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQn-0003XG-JA; Fri, 11 Oct 2019 19:06:17 +0300
+ id 1iIxQr-0003XG-1K; Fri, 11 Oct 2019 19:06:21 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 064/126] fw_cfg: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:50 +0300
-Message-Id: <20191011160552.22907-65-vsementsov@virtuozzo.com>
+Subject: [RFC v5 073/126] SPICE: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:59 +0300
+Message-Id: <20191011160552.22907-74-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -49,9 +49,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- armbru@redhat.com, Greg Kurz <groug@kaod.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,43 +98,32 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/nvram/fw_cfg.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ hw/display/qxl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 7dc3ac378e..e10687c876 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -1104,12 +1104,11 @@ static Property fw_cfg_io_properties[] = {
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index cd7eb39d20..7596c7969b 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -2210,9 +2210,9 @@ static void qxl_realize_common(PCIQXLDevice *qxl, Error **errp)
  
- static void fw_cfg_io_realize(DeviceState *dev, Error **errp)
+ static void qxl_realize_primary(PCIDevice *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     FWCfgIoState *s = FW_CFG_IO(dev);
+     PCIQXLDevice *qxl = PCI_QXL(dev);
+     VGACommonState *vga = &qxl->vga;
 -    Error *local_err = NULL;
  
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
-+    if (*errp) {
+     qxl_init_ramsize(qxl);
+     vga->vbe_size = qxl->vgamem_size;
+@@ -2234,9 +2234,8 @@ static void qxl_realize_primary(PCIDevice *dev, Error **errp)
          return;
      }
  
-@@ -1155,14 +1154,13 @@ static Property fw_cfg_mem_properties[] = {
- 
- static void fw_cfg_mem_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     FWCfgMemState *s = FW_CFG_MEM(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     const MemoryRegionOps *data_ops = &fw_cfg_data_mem_ops;
--    Error *local_err = NULL;
- 
--    fw_cfg_file_slots_allocate(FW_CFG(s), &local_err);
+-    qxl_realize_common(qxl, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    fw_cfg_file_slots_allocate(FW_CFG(s), errp);
++    qxl_realize_common(qxl, errp);
 +    if (*errp) {
          return;
      }
