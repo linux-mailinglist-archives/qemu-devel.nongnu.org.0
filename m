@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06409D4627
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:05:05 +0200 (CEST)
-Received: from localhost ([::1]:54328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05AD3D4639
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:08:48 +0200 (CEST)
+Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyLf-00009w-Ng
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:05:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
+	id 1iIyPG-0006ML-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0006Ny-Mf
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:32 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQs-00069l-PP
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQy-0004aC-9e
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:30 -0400
-Received: from relay.sw.ru ([185.231.240.75]:47914)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQp-0004M5-IH
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:22 -0400
+Received: from relay.sw.ru ([185.231.240.75]:47936)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQx-00048G-SA; Fri, 11 Oct 2019 12:06:28 -0400
+ id 1iIxQp-00049j-6I
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:19 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQc-0003XG-Hd; Fri, 11 Oct 2019 19:06:06 +0300
+ id 1iIxQd-0003XG-Pg; Fri, 11 Oct 2019 19:06:07 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 028/126] s390x: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:14 +0300
-Message-Id: <20191011160552.22907-29-vsementsov@virtuozzo.com>
+Subject: [RFC v5 032/126] Hosts: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:18 +0300
+Message-Id: <20191011160552.22907-33-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,13 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- vsementsov@virtuozzo.com, David Hildenbrand <david@redhat.com>,
- qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -101,442 +98,438 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/intc/s390_flic_kvm.c    |  9 ++++-----
- hw/s390x/3270-ccw.c        | 13 ++++++-------
- hw/s390x/css-bridge.c      |  7 +++----
- hw/s390x/css.c             |  7 +++----
- hw/s390x/s390-skeys.c      |  7 +++----
- hw/s390x/s390-virtio-ccw.c | 11 +++++------
- hw/s390x/sclp.c            | 15 ++++++---------
- hw/s390x/tod-kvm.c         | 14 ++++++--------
- hw/vfio/ccw.c              | 24 +++++++++++-------------
- target/s390x/cpu.c         | 26 ++++++++++++--------------
- 10 files changed, 59 insertions(+), 74 deletions(-)
+ qga/commands-win32.c | 139 +++++++++++++++++++------------------------
+ util/oslib-posix.c   |   6 +-
+ 2 files changed, 64 insertions(+), 81 deletions(-)
 
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index cedccba8a9..5550cecef8 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -578,14 +578,14 @@ typedef struct KVMS390FLICStateClass {
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 9789465b4a..70e4311a98 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -240,15 +240,15 @@ void qmp_guest_file_close(int64_t handle, Error **errp)
  
- static void kvm_s390_flic_realize(DeviceState *dev, Error **errp)
+ static void acquire_privilege(const char *name, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     KVMS390FLICState *flic_state = KVM_S390_FLIC(dev);
-     struct kvm_create_device cd = {0};
-     struct kvm_device_attr test_attr = {0};
-     int ret;
--    Error *errp_local = NULL;
+     HANDLE token = NULL;
+     TOKEN_PRIVILEGES priv;
+-    Error *local_err = NULL;
  
--    KVM_S390_FLIC_GET_CLASS(dev)->parent_realize(dev, &errp_local);
--    if (errp_local) {
-+    KVM_S390_FLIC_GET_CLASS(dev)->parent_realize(dev, errp);
-+    if (*errp) {
-         goto fail;
+     if (OpenProcessToken(GetCurrentProcess(),
+         TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY, &token))
+     {
+         if (!LookupPrivilegeValue(NULL, name, &priv.Privileges[0].Luid)) {
+-            error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++            error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                        "no luid for requested privilege");
+             goto out;
+         }
+@@ -257,13 +257,13 @@ static void acquire_privilege(const char *name, Error **errp)
+         priv.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+ 
+         if (!AdjustTokenPrivileges(token, FALSE, &priv, 0, NULL, 0)) {
+-            error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++            error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                        "unable to acquire requested privilege");
+             goto out;
+         }
+ 
+     } else {
+-        error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                    "failed to open privilege token");
      }
-     flic_state->fd = -1;
-@@ -593,7 +593,7 @@ static void kvm_s390_flic_realize(DeviceState *dev, Error **errp)
-     cd.type = KVM_DEV_TYPE_FLIC;
-     ret = kvm_vm_ioctl(kvm_state, KVM_CREATE_DEVICE, &cd);
-     if (ret < 0) {
--        error_setg_errno(&errp_local, errno, "Creating the KVM device failed");
-+        error_setg_errno(errp, errno, "Creating the KVM device failed");
-         trace_flic_create_device(errno);
-         goto fail;
+ 
+@@ -271,25 +271,23 @@ out:
+     if (token) {
+         CloseHandle(token);
      }
-@@ -605,7 +605,6 @@ static void kvm_s390_flic_realize(DeviceState *dev, Error **errp)
-                                             KVM_HAS_DEVICE_ATTR, test_attr);
-     return;
- fail:
--    error_propagate(errp, errp_local);
+-    error_propagate(errp, local_err);
  }
  
- static void kvm_s390_flic_reset(DeviceState *dev)
-diff --git a/hw/s390x/3270-ccw.c b/hw/s390x/3270-ccw.c
-index c19a75b9b7..830d7f385e 100644
---- a/hw/s390x/3270-ccw.c
-+++ b/hw/s390x/3270-ccw.c
-@@ -95,13 +95,13 @@ static int emulated_ccw_3270_cb(SubchDev *sch, CCW1 ccw)
- 
- static void emulated_ccw_3270_realize(DeviceState *ds, Error **errp)
+ static void execute_async(DWORD WINAPI (*func)(LPVOID), LPVOID opaque,
+                           Error **errp)
  {
-+    ERRP_AUTO_PROPAGATE();
-     uint16_t chpid;
-     EmulatedCcw3270Device *dev = EMULATED_CCW_3270(ds);
-     EmulatedCcw3270Class *ck = EMULATED_CCW_3270_GET_CLASS(dev);
-     CcwDevice *cdev = CCW_DEVICE(ds);
-     CCWDeviceClass *cdk = CCW_DEVICE_GET_CLASS(cdev);
-     SubchDev *sch;
--    Error *err = NULL;
- 
-     sch = css_create_sch(cdev->devno, errp);
-     if (!sch) {
-@@ -117,7 +117,7 @@ static void emulated_ccw_3270_realize(DeviceState *ds, Error **errp)
-     chpid = css_find_free_chpid(sch->cssid);
- 
-     if (chpid > MAX_CHPID) {
--        error_setg(&err, "No available chpid to use.");
-+        error_setg(errp, "No available chpid to use.");
-         goto out_err;
-     }
- 
-@@ -128,20 +128,19 @@ static void emulated_ccw_3270_realize(DeviceState *ds, Error **errp)
-     sch->do_subchannel_work = do_subchannel_work_virtual;
-     sch->ccw_cb = emulated_ccw_3270_cb;
- 
--    ck->init(dev, &err);
--    if (err) {
-+    ck->init(dev, errp);
-+    if (*errp) {
-         goto out_err;
-     }
- 
--    cdk->realize(cdev, &err);
--    if (err) {
-+    cdk->realize(cdev, errp);
-+    if (*errp) {
-         goto out_err;
-     }
- 
-     return;
- 
- out_err:
--    error_propagate(errp, err);
-     css_subch_assign(sch->cssid, sch->ssid, sch->schid, sch->devno, NULL);
-     cdev->sch = NULL;
-     g_free(sch);
-diff --git a/hw/s390x/css-bridge.c b/hw/s390x/css-bridge.c
-index 15a8ed96de..93dca01b0f 100644
---- a/hw/s390x/css-bridge.c
-+++ b/hw/s390x/css-bridge.c
-@@ -30,15 +30,14 @@
- static void ccw_device_unplug(HotplugHandler *hotplug_dev,
-                               DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     CcwDevice *ccw_dev = CCW_DEVICE(dev);
-     CCWDeviceClass *k = CCW_DEVICE_GET_CLASS(ccw_dev);
-     SubchDev *sch = ccw_dev->sch;
--    Error *err = NULL;
- 
-     if (k->unplug) {
--        k->unplug(hotplug_dev, dev, &err);
--        if (err) {
--            error_propagate(errp, err);
-+        k->unplug(hotplug_dev, dev, errp);
-+        if (*errp) {
-             return;
-         }
-     }
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index 844caab408..e911d2fbd2 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -2351,10 +2351,10 @@ static void get_css_devid(Object *obj, Visitor *v, const char *name,
- static void set_css_devid(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     DeviceState *dev = DEVICE(obj);
-     Property *prop = opaque;
-     CssDevId *dev_id = qdev_get_prop_ptr(dev, prop);
 -    Error *local_err = NULL;
-     char *str;
-     int num, n1, n2;
-     unsigned int cssid, ssid, devid;
-@@ -2364,9 +2364,8 @@ static void set_css_devid(Object *obj, Visitor *v, const char *name,
-         return;
-     }
++    ERRP_AUTO_PROPAGATE();
  
--    visit_type_str(v, name, &str, &local_err);
+     HANDLE thread = CreateThread(NULL, 0, func, opaque, 0, NULL);
+     if (!thread) {
+-        error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                    "failed to dispatch asynchronous command");
+-        error_propagate(errp, local_err);
+     }
+ }
+ 
+ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     UINT shutdown_flag = EWX_FORCE;
+ 
+     slog("guest-shutdown called, mode: %s", mode);
+@@ -308,9 +306,8 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+ 
+     /* Request a shutdown privilege, but try to shut down the system
+        anyway. */
+-    acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    visit_type_str(v, name, &str, errp);
++    acquire_privilege(SE_SHUTDOWN_NAME, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
-index bd37f39120..f176db09c9 100644
---- a/hw/s390x/s390-skeys.c
-+++ b/hw/s390x/s390-skeys.c
-@@ -107,11 +107,11 @@ void hmp_dump_skeys(Monitor *mon, const QDict *qdict)
- 
- void qmp_dump_skeys(const char *filename, Error **errp)
+@@ -409,6 +406,7 @@ GuestFileSeek *qmp_guest_file_seek(int64_t handle, int64_t offset,
+                                    GuestFileWhence *whence_code,
+                                    Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     S390SKeysState *ss = s390_get_skeys_device();
-     S390SKeysClass *skeyclass = S390_SKEYS_GET_CLASS(ss);
-     const uint64_t total_count = ram_size / TARGET_PAGE_SIZE;
-     uint64_t handled_count = 0, cur_count;
--    Error *lerr = NULL;
-     vaddr cur_gfn = 0;
-     uint8_t *buf;
-     int ret;
-@@ -155,8 +155,8 @@ void qmp_dump_skeys(const char *filename, Error **errp)
-         }
- 
-         /* write keys to stream */
--        write_keys(f, buf, cur_gfn, cur_count, &lerr);
--        if (lerr) {
-+        write_keys(f, buf, cur_gfn, cur_count, errp);
-+        if (*errp) {
-             goto out_free;
-         }
- 
-@@ -165,7 +165,6 @@ void qmp_dump_skeys(const char *filename, Error **errp)
-     }
- 
- out_free:
--    error_propagate(errp, lerr);
-     g_free(buf);
- out:
-     fclose(f);
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 18ad279a00..3c5e4c9804 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -61,19 +61,18 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
- static S390CPU *s390x_new_cpu(const char *typename, uint32_t core_id,
-                               Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     S390CPU *cpu = S390_CPU(object_new(typename));
+     GuestFileHandle *gfh;
+     GuestFileSeek *seek_data;
+     HANDLE fh;
+@@ -416,7 +414,6 @@ GuestFileSeek *qmp_guest_file_seek(int64_t handle, int64_t offset,
+     off_pos.QuadPart = offset;
+     BOOL res;
+     int whence;
 -    Error *err = NULL;
  
--    object_property_set_int(OBJECT(cpu), core_id, "core-id", &err);
--    if (err != NULL) {
-+    object_property_set_int(OBJECT(cpu), core_id, "core-id", errp);
-+    if (*errp) {
-         goto out;
+     gfh = guest_file_handle_find(handle, errp);
+     if (!gfh) {
+@@ -424,9 +421,8 @@ GuestFileSeek *qmp_guest_file_seek(int64_t handle, int64_t offset,
      }
--    object_property_set_bool(OBJECT(cpu), true, "realized", &err);
-+    object_property_set_bool(OBJECT(cpu), true, "realized", errp);
  
- out:
-     object_unref(OBJECT(cpu));
+     /* We stupidly exposed 'whence':'int' in our qapi */
+-    whence = ga_parse_whence(whence_code, &err);
 -    if (err) {
 -        error_propagate(errp, err);
++    whence = ga_parse_whence(whence_code, errp);
 +    if (*errp) {
-         cpu = NULL;
+         return NULL;
      }
-     return cpu;
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index f57ce7b739..4cacd7b3a8 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -300,16 +300,16 @@ void s390_sclp_init(void)
  
- static void sclp_realize(DeviceState *dev, Error **errp)
+@@ -792,10 +788,10 @@ out_free:
+ static void get_single_disk_info(int disk_number,
+                                  GuestDiskAddress *disk, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     MachineState *machine = MACHINE(qdev_get_machine());
-     SCLPDevice *sclp = SCLP(dev);
--    Error *err = NULL;
-     uint64_t hw_limit;
-     int ret;
+     SCSI_ADDRESS addr, *scsi_ad;
+     DWORD len;
+     HANDLE disk_h;
+-    Error *local_err = NULL;
  
-     object_property_set_bool(OBJECT(sclp->event_facility), true, "realized",
--                             &err);
--    if (err) {
--        goto out;
-+                             errp);
+     scsi_ad = &addr;
+ 
+@@ -807,9 +803,8 @@ static void get_single_disk_info(int disk_number,
+         return;
+     }
+ 
+-    get_disk_properties(disk_h, disk, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    get_disk_properties(disk_h, disk, errp);
 +    if (*errp) {
+         goto err_close;
+     }
+ 
+@@ -819,9 +814,8 @@ static void get_single_disk_info(int disk_number,
+      * if that doesn't hold since that suggests some other unexpected
+      * breakage
+      */
+-    disk->pci_controller = get_pci_info(disk_number, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    disk->pci_controller = get_pci_info(disk_number, errp);
++    if (*errp) {
+         goto err_close;
+     }
+     if (disk->bus_type == GUEST_DISK_BUS_TYPE_SCSI
+@@ -854,7 +848,7 @@ err_close:
+  * volume is returned for the spanned disk group (LVM) */
+ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     GuestDiskAddressList *list = NULL, *cur_item = NULL;
+     GuestDiskAddress *disk = NULL;
+     int i;
+@@ -900,11 +894,11 @@ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
+             disk = g_malloc0(sizeof(GuestDiskAddress));
+             disk->has_dev = true;
+             disk->dev = g_strdup(name);
+-            get_single_disk_info(0xffffffff, disk, &local_err);
+-            if (local_err) {
++            get_single_disk_info(0xffffffff, disk, errp);
++            if (*errp) {
+                 g_debug("failed to get disk info, ignoring error: %s",
+-                    error_get_pretty(local_err));
+-                error_free(local_err);
++                    error_get_pretty(*errp));
++                error_free_errp(errp);
+                 goto out;
+             }
+             list = g_malloc0(sizeof(*list));
+@@ -936,9 +930,8 @@ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
+         disk->dev = g_strdup_printf("\\\\.\\PhysicalDrive%lu",
+                                     extents->Extents[i].DiskNumber);
+ 
+-        get_single_disk_info(extents->Extents[i].DiskNumber, disk, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        get_single_disk_info(extents->Extents[i].DiskNumber, disk, errp);
++        if (*errp) {
+             goto out;
+         }
+         cur_item = g_malloc0(sizeof(*list));
+@@ -1090,8 +1083,8 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+                                        strList *mountpoints,
+                                        Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     int i;
+-    Error *local_err = NULL;
+ 
+     if (!vss_initialized()) {
+         error_setg(errp, QERR_UNSUPPORTED);
+@@ -1103,20 +1096,19 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+     /* cannot risk guest agent blocking itself on a write in this state */
+     ga_set_frozen(ga_state);
+ 
+-    qga_vss_fsfreeze(&i, true, mountpoints, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qga_vss_fsfreeze(&i, true, mountpoints, errp);
++    if (*errp) {
+         goto error;
+     }
+ 
+     return i;
+ 
+ error:
+-    local_err = NULL;
+-    qmp_guest_fsfreeze_thaw(&local_err);
+-    if (local_err) {
+-        g_debug("cleanup thaw: %s", error_get_pretty(local_err));
+-        error_free(local_err);
++    *errp = NULL;
++    qmp_guest_fsfreeze_thaw(errp);
++    if (*errp) {
++        g_debug("cleanup thaw: %s", error_get_pretty(*errp));
++        error_free_errp(errp);
+     }
+     return 0;
+ }
+@@ -1281,36 +1273,33 @@ typedef enum {
+ 
+ static void check_suspend_mode(GuestSuspendMode mode, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     SYSTEM_POWER_CAPABILITIES sys_pwr_caps;
+-    Error *local_err = NULL;
+ 
+     ZeroMemory(&sys_pwr_caps, sizeof(sys_pwr_caps));
+     if (!GetPwrCapabilities(&sys_pwr_caps)) {
+-        error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                    "failed to determine guest suspend capabilities");
+-        goto out;
 +        return;
      }
-     /*
-      * qdev_device_add searches the sysbus for TYPE_SCLP_EVENTS_BUS. As long
-@@ -320,14 +320,11 @@ static void sclp_realize(DeviceState *dev, Error **errp)
  
-     ret = s390_set_memory_limit(machine->maxram_size, &hw_limit);
-     if (ret == -E2BIG) {
--        error_setg(&err, "host supports a maximum of %" PRIu64 " GB",
-+        error_setg(errp, "host supports a maximum of %" PRIu64 " GB",
-                    hw_limit / GiB);
-     } else if (ret) {
--        error_setg(&err, "setting the guest size failed");
-+        error_setg(errp, "setting the guest size failed");
+     switch (mode) {
+     case GUEST_SUSPEND_MODE_DISK:
+         if (!sys_pwr_caps.SystemS4) {
+-            error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++            error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                        "suspend-to-disk not supported by OS");
+         }
+         break;
+     case GUEST_SUSPEND_MODE_RAM:
+         if (!sys_pwr_caps.SystemS3) {
+-            error_setg(&local_err, QERR_QGA_COMMAND_FAILED,
++            error_setg(errp, QERR_QGA_COMMAND_FAILED,
+                        "suspend-to-ram not supported by OS");
+         }
+         break;
+     default:
+-        error_setg(&local_err, QERR_INVALID_PARAMETER_VALUE, "mode",
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "mode",
+                    "GuestSuspendMode");
      }
 -
 -out:
--    error_propagate(errp, err);
+-    error_propagate(errp, local_err);
  }
  
- static void sclp_memory_init(SCLPDevice *sclp)
-diff --git a/hw/s390x/tod-kvm.c b/hw/s390x/tod-kvm.c
-index 6e21d83181..f59d07b375 100644
---- a/hw/s390x/tod-kvm.c
-+++ b/hw/s390x/tod-kvm.c
-@@ -55,7 +55,7 @@ static void kvm_s390_set_tod_raw(const S390TOD *tod, Error **errp)
+ static DWORD WINAPI do_suspend(LPVOID opaque)
+@@ -1328,32 +1317,30 @@ static DWORD WINAPI do_suspend(LPVOID opaque)
  
- static void kvm_s390_tod_set(S390TODState *td, const S390TOD *tod, Error **errp)
+ void qmp_guest_suspend_disk(Error **errp)
  {
 -    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
+     GuestSuspendMode *mode = g_new(GuestSuspendMode, 1);
  
-     /*
-      * Somebody (e.g. migration) set the TOD. We'll store it into KVM to
-@@ -64,9 +64,8 @@ static void kvm_s390_tod_set(S390TODState *td, const S390TOD *tod, Error **errp)
-      * is the point where we want to stop the initially running TOD to fire
-      * it back up when actually starting the migrated guest.
-      */
--    kvm_s390_set_tod_raw(tod, &local_err);
+     *mode = GUEST_SUSPEND_MODE_DISK;
+-    check_suspend_mode(*mode, &local_err);
+-    acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
+-    execute_async(do_suspend, mode, &local_err);
++    check_suspend_mode(*mode, errp);
++    acquire_privilege(SE_SHUTDOWN_NAME, errp);
++    execute_async(do_suspend, mode, errp);
+ 
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+    kvm_s390_set_tod_raw(tod, errp);
++    if (*errp) {
+         g_free(mode);
+     }
+ }
+ 
+ void qmp_guest_suspend_ram(Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     GuestSuspendMode *mode = g_new(GuestSuspendMode, 1);
+ 
+     *mode = GUEST_SUSPEND_MODE_RAM;
+-    check_suspend_mode(*mode, &local_err);
+-    acquire_privilege(SE_SHUTDOWN_NAME, &local_err);
+-    execute_async(do_suspend, mode, &local_err);
++    check_suspend_mode(*mode, errp);
++    acquire_privilege(SE_SHUTDOWN_NAME, errp);
++    execute_async(do_suspend, mode, errp);
+ 
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         g_free(mode);
+     }
+ }
+@@ -1616,7 +1603,7 @@ int64_t qmp_guest_get_time(Error **errp)
+ 
+ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     SYSTEMTIME ts;
+     FILETIME tf;
+     LONGLONG time;
+@@ -1681,9 +1668,8 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+         return;
+     }
+ 
+-    acquire_privilege(SE_SYSTEMTIME_NAME, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    acquire_privilege(SE_SYSTEMTIME_NAME, errp);
 +    if (*errp) {
          return;
      }
  
-@@ -106,13 +105,12 @@ static void kvm_s390_tod_vm_state_change(void *opaque, int running,
+@@ -1695,10 +1681,10 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
  
- static void kvm_s390_tod_realize(DeviceState *dev, Error **errp)
+ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     S390TODState *td = S390_TOD(dev);
-     S390TODClass *tdc = S390_TOD_GET_CLASS(td);
+     PSYSTEM_LOGICAL_PROCESSOR_INFORMATION pslpi, ptr;
+     DWORD length;
+     GuestLogicalProcessorList *head, **link;
 -    Error *local_err = NULL;
+     int64_t current;
  
--    tdc->parent_realize(dev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    tdc->parent_realize(dev, errp);
-+    if (*errp) {
-         return;
+     ptr = pslpi = NULL;
+@@ -1712,16 +1698,16 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+         (length > sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION))) {
+         ptr = pslpi = g_malloc0(length);
+         if (GetLogicalProcessorInformation(pslpi, &length) == FALSE) {
+-            error_setg(&local_err, "Failed to get processor information: %d",
++            error_setg(errp, "Failed to get processor information: %d",
+                        (int)GetLastError());
+         }
+     } else {
+-        error_setg(&local_err,
++        error_setg(errp,
+                    "Failed to get processor information buffer length: %d",
+                    (int)GetLastError());
      }
  
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index 6863f6c69f..057c2e4f09 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -476,38 +476,38 @@ static VFIOGroup *vfio_ccw_get_group(S390CCWDevice *cdev, Error **errp)
+-    while ((local_err == NULL) && (length > 0)) {
++    while ((*errp == NULL) && (length > 0)) {
+         if (pslpi->Relationship == RelationProcessorCore) {
+             ULONG_PTR cpu_bits = pslpi->ProcessorMask;
  
- static void vfio_ccw_realize(DeviceState *dev, Error **errp)
+@@ -1750,16 +1736,15 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+ 
+     g_free(ptr);
+ 
+-    if (local_err == NULL) {
++    if (*errp == NULL) {
+         if (head != NULL) {
+             return head;
+         }
+         /* there's no guest with zero VCPUs */
+-        error_setg(&local_err, "Guest reported zero VCPUs");
++        error_setg(errp, "Guest reported zero VCPUs");
+     }
+ 
+     qapi_free_GuestLogicalProcessorList(head);
+-    error_propagate(errp, local_err);
+     return NULL;
+ }
+ 
+@@ -2186,22 +2171,20 @@ static char *ga_get_current_arch(void)
+ 
+ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     OSVERSIONINFOEXW os_version = {0};
+     bool server;
+     char *product_name;
+     GuestOSInfo *info;
+ 
+-    ga_get_win_version(&os_version, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    ga_get_win_version(&os_version, errp);
++    if (*errp) {
+         return NULL;
+     }
+ 
+     server = os_version.wProductType != VER_NT_WORKSTATION;
+-    product_name = ga_get_win_product_name(&local_err);
++    product_name = ga_get_win_product_name(errp);
+     if (product_name == NULL) {
+-        error_propagate(errp, local_err);
+         return NULL;
+     }
+ 
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index f8693384fc..ad4cbe9c16 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -542,6 +542,7 @@ char *qemu_get_pid_name(pid_t pid)
+ 
+ pid_t qemu_fork(Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     VFIOGroup *group;
-     CcwDevice *ccw_dev = DO_UPCAST(CcwDevice, parent_obj, dev);
-     S390CCWDevice *cdev = DO_UPCAST(S390CCWDevice, parent_obj, ccw_dev);
-     VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
--    Error *err = NULL;
- 
-     /* Call the class init function for subchannel. */
-     if (cdc->realize) {
--        cdc->realize(cdev, vcdev->vdev.sysfsdev, &err);
--        if (err) {
--            goto out_err_propagate;
-+        cdc->realize(cdev, vcdev->vdev.sysfsdev, errp);
-+        if (*errp) {
-+            return;
+     sigset_t oldmask, newmask;
+     struct sigaction sig_action;
+     int saved_errno;
+@@ -600,10 +601,9 @@ pid_t qemu_fork(Error **errp)
+          * propagate that to children */
+         sigemptyset(&newmask);
+         if (pthread_sigmask(SIG_SETMASK, &newmask, NULL) != 0) {
+-            Error *local_err = NULL;
+-            error_setg_errno(&local_err, errno,
++            error_setg_errno(errp, errno,
+                              "cannot unblock signals");
+-            error_report_err(local_err);
++            error_report_errp(errp);
+             _exit(1);
          }
      }
- 
--    group = vfio_ccw_get_group(cdev, &err);
-+    group = vfio_ccw_get_group(cdev, errp);
-     if (!group) {
-         goto out_group_err;
-     }
- 
--    vfio_ccw_get_device(group, vcdev, &err);
--    if (err) {
-+    vfio_ccw_get_device(group, vcdev, errp);
-+    if (*errp) {
-         goto out_device_err;
-     }
- 
--    vfio_ccw_get_region(vcdev, &err);
--    if (err) {
-+    vfio_ccw_get_region(vcdev, errp);
-+    if (*errp) {
-         goto out_region_err;
-     }
- 
--    vfio_ccw_register_io_notifier(vcdev, &err);
--    if (err) {
-+    vfio_ccw_register_io_notifier(vcdev, errp);
-+    if (*errp) {
-         goto out_notifier_err;
-     }
- 
-@@ -523,8 +523,6 @@ out_group_err:
-     if (cdc->unrealize) {
-         cdc->unrealize(cdev, NULL);
-     }
--out_err_propagate:
--    error_propagate(errp, err);
- }
- 
- static void vfio_ccw_unrealize(DeviceState *dev, Error **errp)
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 3abe7e80fd..5569b48934 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -184,42 +184,42 @@ static void s390_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- 
- static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     CPUState *cs = CPU(dev);
-     S390CPUClass *scc = S390_CPU_GET_CLASS(dev);
- #if !defined(CONFIG_USER_ONLY)
-     S390CPU *cpu = S390_CPU(dev);
- #endif
--    Error *err = NULL;
- 
-     /* the model has to be realized before qemu_init_vcpu() due to kvm */
--    s390_realize_cpu_model(cs, &err);
--    if (err) {
--        goto out;
-+    s390_realize_cpu_model(cs, errp);
-+    if (*errp) {
-+        return;
-     }
- 
- #if !defined(CONFIG_USER_ONLY)
-     MachineState *ms = MACHINE(qdev_get_machine());
-     unsigned int max_cpus = ms->smp.max_cpus;
-     if (cpu->env.core_id >= max_cpus) {
--        error_setg(&err, "Unable to add CPU with core-id: %" PRIu32
-+        error_setg(errp, "Unable to add CPU with core-id: %" PRIu32
-                    ", maximum core-id: %d", cpu->env.core_id,
-                    max_cpus - 1);
--        goto out;
-+        return;
-     }
- 
-     if (cpu_exists(cpu->env.core_id)) {
--        error_setg(&err, "Unable to add CPU with core-id: %" PRIu32
-+        error_setg(errp, "Unable to add CPU with core-id: %" PRIu32
-                    ", it already exists", cpu->env.core_id);
--        goto out;
-+        return;
-     }
- 
-     /* sync cs->cpu_index and env->core_id. The latter is needed for TCG. */
-     cs->cpu_index = cpu->env.core_id;
- #endif
- 
--    cpu_exec_realizefn(cs, &err);
--    if (err != NULL) {
--        goto out;
-+    cpu_exec_realizefn(cs, errp);
-+    if (*errp) {
-+        return;
-     }
- 
- #if !defined(CONFIG_USER_ONLY)
-@@ -240,9 +240,7 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
-         cpu_reset(cs);
-     }
- 
--    scc->parent_realize(dev, &err);
--out:
--    error_propagate(errp, err);
-+    scc->parent_realize(dev, errp);
- }
- 
- static GuestPanicInformation *s390_cpu_get_crash_info(CPUState *cs)
 -- 
 2.21.0
 
