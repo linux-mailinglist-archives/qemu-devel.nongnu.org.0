@@ -2,41 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54D2D4678
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:20:19 +0200 (CEST)
-Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E2BD4684
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:21:44 +0200 (CEST)
+Received: from localhost ([::1]:54566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyaQ-0002re-AQ
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40441)
+	id 1iIybn-0004zm-DX
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:21:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38779)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxgl-0000Ju-9O
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:48 -0400
+ (envelope-from <lersek@redhat.com>) id 1iIxXg-0007T1-OW
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:13:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxgj-00083D-UE
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:47 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49644)
+ (envelope-from <lersek@redhat.com>) id 1iIxXe-0001Ez-Dg
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:13:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33472)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxgj-00082L-My
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:22:45 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.2)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR9-0003XG-75; Fri, 11 Oct 2019 19:06:39 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v5 121/126] hw/sd/ssi-sd.c: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:47 +0300
-Message-Id: <20191011160552.22907-122-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iIxXe-0001EO-7c
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:13:22 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 961C54628B;
+ Fri, 11 Oct 2019 16:13:20 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-177.rdu2.redhat.com
+ [10.10.120.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BABDD600C4;
+ Fri, 11 Oct 2019 16:13:11 +0000 (UTC)
+Subject: Re: [RFC 0/3] acpi: cphp: add CPHP_GET_CPU_ID_CMD command to cpu
+ hotplug MMIO interface
+To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20191009132252.17860-1-imammedo@redhat.com>
+ <20191010055356-mutt-send-email-mst@kernel.org>
+ <20191010153815.4f7a3fc9@redhat.com>
+ <20191010095459-mutt-send-email-mst@kernel.org>
+ <20191010175754.7c62cf8f@Igors-MacBook-Pro>
+ <20191010192039.GE4084@habkost.net>
+ <e17adca7-f5f4-3a28-a4a2-6b921c1c2e2f@redhat.com>
+ <20191011085852-mutt-send-email-mst@kernel.org>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <e47c373b-959c-deb8-5585-a04e119c86d8@redhat.com>
+Date: Fri, 11 Oct 2019 18:13:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+In-Reply-To: <20191011085852-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Fri, 11 Oct 2019 16:13:20 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,95 +68,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we want to add some info to errp (by error_prepend() or
-error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-Otherwise, this info will not be added when errp == &fatal_err
-(the program will exit prior to the error_append_hint() or
-error_prepend() call).  Fix such cases.
+On 10/11/19 15:00, Michael S. Tsirkin wrote:
+> On Fri, Oct 11, 2019 at 10:01:42AM +0200, Laszlo Ersek wrote:
 
-If we want to check error after errp-function call, we need to
-introduce local_err and than propagate it to errp. Instead, use
-ERRP_AUTO_PROPAGATE macro, benefits are:
-1. No need of explicit error_propagate call
-2. No need of explicit local_err variable: use errp directly
-3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
-   &error_fatel, this means that we don't break error_abort
-   (we'll abort on error_set, not on error_propagate)
+[...]
 
-This commit (together with its neighbors) was generated by
+>> ... I must admit: I didn't expect this, but now I've grown to *prefer*
+>> the CPU hotplug register block!
+> 
+> OK, send an ack then.
 
-for f in $(git grep -l errp \*.[ch]); do \
-    spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
-    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
-done;
+This RFC isn't mature enough for an ACK, but I like the direction, and
+I've given ample feedback. I'm looking forward to v1.
 
-then fix a bit of compilation problems: coccinelle for some reason
-leaves several
-f() {
-    ...
-    goto out;
-    ...
-    out:
-}
-patterns, with "out:" at function end.
+When Igor posts v1, I plan to first write firmware code for deriving
+"max_cpus" through the register block. For that, I only need the docs to
+reflect reality *closely* (I've posted my own suggestions for the docs);
+plus "max_cpus" is something I can put to use immediately.
 
-then
-./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+Regarding the CPHP_GET_CPU_ID_CMD feature, I'll have to test that from
+within the SMI handler. Thus, until my "final" ACK, it's going to take a
+while. I'm OK if the QEMU patch set remains pending on the list meanwhile.
 
-(auto-msg was a file with this commit message)
+Igor -- can you please answer my questions in this thread? (Part of my
+feedback has been questions.)
 
-Still, for backporting it may be more comfortable to use only the first
-command and then do one huge commit.
-
-Reported-by: Kevin Wolf <kwolf@redhat.com>
-Reported-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- hw/sd/ssi-sd.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 91db069212..f42204d649 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -241,10 +241,10 @@ static const VMStateDescription vmstate_ssi_sd = {
- 
- static void ssi_sd_realize(SSISlave *d, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     ssi_sd_state *s = FROM_SSI_SLAVE(ssi_sd_state, d);
-     DeviceState *carddev;
-     DriveInfo *dinfo;
--    Error *err = NULL;
- 
-     qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
-                         DEVICE(d), "sd-bus");
-@@ -254,12 +254,14 @@ static void ssi_sd_realize(SSISlave *d, Error **errp)
-     dinfo = drive_get_next(IF_SD);
-     carddev = qdev_create(BUS(&s->sdbus), TYPE_SD_CARD);
-     if (dinfo) {
--        qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo), &err);
-+        qdev_prop_set_drive(carddev, "drive", blk_by_legacy_dinfo(dinfo),
-+                            errp);
-     }
--    object_property_set_bool(OBJECT(carddev), true, "spi", &err);
--    object_property_set_bool(OBJECT(carddev), true, "realized", &err);
--    if (err) {
--        error_setg(errp, "failed to init SD card: %s", error_get_pretty(err));
-+    object_property_set_bool(OBJECT(carddev), true, "spi", errp);
-+    object_property_set_bool(OBJECT(carddev), true, "realized", errp);
-+    if (*errp) {
-+        error_setg(errp, "failed to init SD card: %s",
-+                   error_get_pretty(*errp));
-         return;
-     }
- }
--- 
-2.21.0
+Thanks!
+Laszlo
 
 
