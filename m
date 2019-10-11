@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DEAD4202
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:02:13 +0200 (CEST)
-Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4F7D4259
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:09:30 +0200 (CEST)
+Received: from localhost ([::1]:50992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIvUi-0002ck-2I
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39403)
+	id 1iIvbl-0003cv-Ei
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvJR-0006CA-Ig
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:35 -0400
+ (envelope-from <imammedo@redhat.com>) id 1iIvPb-00061m-Hb
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:56:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvJP-0004HN-RM
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:33 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:38673)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIvJP-0004GT-NE
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:50:31 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id r68so3116423ybf.5
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=0RZ0xvYp1EHUhrR/jUU3w+01QyCWCYmAXLZX7xD3PR8=;
- b=uCEGC8kNa6GGYVrOD8nReHdJ3sk8I8nn+XU4yk6RFvoBXP+Pl+D084SCX2vV+BRJCV
- zxigj8xIMWW+5jlDnRAK/TI/2E8izDzFKIZowcLmWzRksk+bCBjWoY+LCq8aipZU22oP
- GsApGuzwZc+roaj2Cuk38hin78oVXv1x1dBfl4dwvNL4/egIBGfVdrwc0ixQcoOoGeeK
- ALsww59uoz73UMybGM+IDI3EQmWL2iqUNkj+ka6pMIMzujzGjvNG+JBKDRFX1pQiZ66J
- 2jCcecy2SJVip86fz/t5y+Kw8hHvYN+46a3au5hKKHcLIYQ90ttwCADoGl4B/388yv7t
- XqqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=0RZ0xvYp1EHUhrR/jUU3w+01QyCWCYmAXLZX7xD3PR8=;
- b=SmCNMoBqVeesQtnjR1PctqLNmQQWQpMrhu8cahoeD7hP7Y/qB7L72/rVx7XJgMX4Xf
- oLJI/QjMyYqt7YCRy+O1QcJwnOW1YZKqk+D35RT4znXZ74KgWy2969YbomgEuAkArrTl
- tCag3eEt13P/7mLsElVToZ4NYkxHzkFKN4HS6mC5+WB0/tZgA+yKQMoEUcx/ERCKYExU
- u1O1IoryHkCZSbjlUClB/831vLcN6vHO2G5klfwB7zx068QUX32U3/4x8dxVJLoapWe6
- qEUmdLlSWT9X6/7BPGHWHZ4U0aLJrVlW5sLPg0eODy/LgyNtYla47H2lRvMUDOaeLsjZ
- 4L7A==
-X-Gm-Message-State: APjAAAVHm9ScPHhgcdzsUeUepzlqnqnVZXYbFWtdZPx/uTm5x5DCqcj7
- olBBYvZboVMsW/Tc7zcAMmCJWgzn1jI=
-X-Google-Smtp-Source: APXvYqwLKlmgx7OizHSpjCvub3xKbRlR+q3x6vYr8/P6VzS2WuXiP0Rc2KaVZN0hAugCAFhHyp04mA==
-X-Received: by 2002:a25:acc7:: with SMTP id x7mr10338104ybd.305.1570801830716; 
- Fri, 11 Oct 2019 06:50:30 -0700 (PDT)
-Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
- [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.50.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 06:50:29 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 22/22] target/arm: Add allocation tag storage for system
- mode
-Date: Fri, 11 Oct 2019 09:47:44 -0400
-Message-Id: <20191011134744.2477-23-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191011134744.2477-1-richard.henderson@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b43
+ (envelope-from <imammedo@redhat.com>) id 1iIvPZ-0007tX-Tu
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:56:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:20672)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iIvPZ-0007sf-L1
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:56:53 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 078A710CC205;
+ Fri, 11 Oct 2019 13:56:51 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77D0D60C18;
+ Fri, 11 Oct 2019 13:56:49 +0000 (UTC)
+Date: Fri, 11 Oct 2019 15:56:47 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v12 06/11] numa: Extend CLI to provide memory latency
+ and bandwidth information
+Message-ID: <20191011155647.5b3fdf27@redhat.com>
+In-Reply-To: <5bfe9d25-89a1-90a6-75fb-a6aecf4844c0@intel.com>
+References: <20190920074349.2616-1-tao3.xu@intel.com>
+ <20190920074349.2616-7-tao3.xu@intel.com>
+ <20191002171619.04a11347@redhat.com>
+ <5bfe9d25-89a1-90a6-75fb-a6aecf4844c0@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Fri, 11 Oct 2019 13:56:51 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,90 +60,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
+ Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>, "Williams, Dan
+ J" <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/mte_helper.c | 61 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+On Wed, 9 Oct 2019 14:39:46 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index e8d8a6bedb..657383ba0e 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -28,8 +28,69 @@
- static uint8_t *allocation_tag_mem(CPUARMState *env, uint64_t ptr,
-                                    bool write, uintptr_t ra)
- {
-+#ifdef CONFIG_USER_ONLY
-     /* Tag storage not implemented.  */
-     return NULL;
-+#else
-+    CPUState *cs = env_cpu(env);
-+    uintptr_t index;
-+    int mmu_idx;
-+    CPUTLBEntry *entry;
-+    CPUIOTLBEntry *iotlbentry;
-+    MemoryRegionSection *section;
-+    hwaddr physaddr, tag_physaddr;
-+
-+    /*
-+     * Find the TLB entry for this access.
-+     * As a side effect, this also raises an exception for invalid access.
-+     *
-+     * TODO: Perhaps there should be a cputlb helper that returns a
-+     * matching tlb entry + iotlb entry.  That would also be able to
-+     * make use of the victim tlb cache, which is currently private.
-+     */
-+    mmu_idx = cpu_mmu_index(env, false);
-+    index = tlb_index(env, mmu_idx, ptr);
-+    entry = tlb_entry(env, mmu_idx, ptr);
-+    if (!tlb_hit(write ? tlb_addr_write(entry) : entry->addr_read, ptr)) {
-+        bool ok = arm_cpu_tlb_fill(cs, ptr, 16,
-+                                   write ? MMU_DATA_STORE : MMU_DATA_LOAD,
-+                                   mmu_idx, false, ra);
-+        assert(ok);
-+        index = tlb_index(env, mmu_idx, ptr);
-+        entry = tlb_entry(env, mmu_idx, ptr);
-+    }
-+
-+    /* If the virtual page MemAttr != Tagged, nothing to do.  */
-+    iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
-+    if (!iotlbentry->attrs.target_tlb_bit1) {
-+        return NULL;
-+    }
-+
-+    /*
-+     * Find the physical address for the virtual access.
-+     *
-+     * TODO: It should be possible to have the tag mmu_idx map
-+     * from main memory ram_addr to tag memory host address.
-+     * that would allow this lookup step to be cached as well.
-+     */
-+    section = iotlb_to_section(cs, iotlbentry->addr, iotlbentry->attrs);
-+    physaddr = ((iotlbentry->addr & TARGET_PAGE_MASK) + ptr
-+                + section->offset_within_address_space
-+                - section->offset_within_region);
-+
-+    /* Convert to the physical address in tag space.  */
-+    tag_physaddr = physaddr >> (LOG2_TAG_GRANULE + 1);
-+
-+    /* Choose the tlb index to use for the tag physical access.  */
-+    mmu_idx = iotlbentry->attrs.secure ? ARMMMUIdx_TagS : ARMMMUIdx_TagNS;
-+    mmu_idx = arm_to_core_mmu_idx(mmu_idx);
-+
-+    /*
-+     * FIXME: Get access length and type so that we can use
-+     * probe_access, so that pages are marked dirty for migration.
-+     */
-+    return tlb_vaddr_to_host(env, tag_physaddr, MMU_DATA_LOAD, mmu_idx);
-+#endif
- }
- 
- static int get_allocation_tag(CPUARMState *env, uint64_t ptr, uintptr_t ra)
--- 
-2.17.1
+> On 10/2/2019 11:16 PM, Igor Mammedov wrote:
+> > On Fri, 20 Sep 2019 15:43:44 +0800
+> > Tao Xu <tao3.xu@intel.com> wrote:
+> >   
+> [...]
+> >> +struct HMAT_LB_Info {
+> >> +    /* Indicates it's memory or the specified level memory side cache. */
+> >> +    uint8_t     hierarchy;
+> >> +
+> >> +    /* Present the type of data, access/read/write latency or bandwidth. */
+> >> +    uint8_t     data_type;
+> >> +
+> >> +    /* Array to store the latencies */  
+> > specify units it's stored in
+> >   
+> >> +    uint64_t    *latency;
+> >> +
+> >> +    /* Array to store the bandwidthes */  
+> > ditto
+> >   
+> >> +    uint64_t    *bandwidth;  
+> > btw:
+> > 
+> > what was the reason for picking uint64_t for storing above values?
+> > 
+> > it seems in this patch you dumb down bandwidth to MB/s above but
+> > store latency as is.  
+> 
+> Because I want to store the bandwidth or latency value (minimum unit) 
+> that user input. In HMAT, the minimum unit of bandwidth is MB/s, but in 
+> QAPI, the minimum unit of size is Byte. So I convert size into MB/s and 
+> time unit is "ps", need not convert.
+Just be consistent and store (user input) raw values for both fields
+(i.e. B/s PS/s) and post-process them later to uint16_t.
+
+> > and then in 9/11 build_hmat_lb you divide that on 'base' units,
+> > where are guaranties that value stored here will fit into 2 bytes
+> > used in HMAT to store it in the table?
+> >   
+> For HMAT spec, for a matrix of bandwidth or latency, there is only one 
+> base (in order to save ACPI tables space). We need to extract base for a 
+> matrix, but user input bandwidth or latency line by line. So after all 
+> data input, we can extract the base (as in 9/11).
+> 
+> There is another benefit. If user input different but similar units, 
+> such as "10ns" and "100ps", we can also store them. Only If user input 
+> big gap units, such as "1ps" and "1000ms". we can't store them and raise 
+> error.
+No disagreement here,
+
+but I suggest to move verification and base calculation from 09/11
+into a separate patch (right after this one) and doing it at
+numa_complete_configuration() time.
+To store calculated base you can add a common_base field to
+sub-table structure (HMAT_LB_Info) and use it when building ACPI
+table without extra calculations.
+
+> > if this structure should store values in terms on HMAT table it should
+> > probably use uint16_t and check that user provided value won't overflow
+> > at the time of CLI parsing.
+> >   
+> 
 
 
