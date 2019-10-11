@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCCFD4375
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:52:45 +0200 (CEST)
-Received: from localhost ([::1]:51652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DCAD437E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 16:54:17 +0200 (CEST)
+Received: from localhost ([::1]:51672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIwHc-0006f7-H1
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50038)
+	id 1iIwJ6-0000gs-95
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 10:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iIwG2-0004tY-0Y
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 10:51:07 -0400
+ (envelope-from <thuth@redhat.com>) id 1iIwG2-0004tc-1Z
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 10:51:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iIwG0-0007Cx-Sv
+ (envelope-from <thuth@redhat.com>) id 1iIwG0-0007CR-JQ
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 10:51:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49936)
+Received: from mx1.redhat.com ([209.132.183.28]:54222)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iIwFy-0007Ai-Ed; Fri, 11 Oct 2019 10:51:02 -0400
+ id 1iIwFy-0007Az-7l; Fri, 11 Oct 2019 10:51:02 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2684518C8914;
- Fri, 11 Oct 2019 14:51:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7389B300CB26;
+ Fri, 11 Oct 2019 14:51:01 +0000 (UTC)
 Received: from thuth.com (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEAAB6012A;
- Fri, 11 Oct 2019 14:50:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64E1F60468;
+ Fri, 11 Oct 2019 14:51:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Max Reitz <mreitz@redhat.com>,
 	qemu-block@nongnu.org
-Subject: [PATCH 1/5] iotests: remove 'linux' from default supported platforms
-Date: Fri, 11 Oct 2019 16:50:43 +0200
-Message-Id: <20191011145047.19051-2-thuth@redhat.com>
+Subject: [PATCH 2/5] iotests: Test 041 does not work on macOS
+Date: Fri, 11 Oct 2019 16:50:44 +0200
+Message-Id: <20191011145047.19051-3-thuth@redhat.com>
 In-Reply-To: <20191011145047.19051-1-thuth@redhat.com>
 References: <20191011145047.19051-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Fri, 11 Oct 2019 14:51:00 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 11 Oct 2019 14:51:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -59,75 +59,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+041 works fine on Linux, FreeBSD and OpenBSD, so let's mark it as
+only supported on these systems.
 
-verify_platform will check an explicit whitelist and blacklist instead.
-The default will now be assumed to be allowed to run anywhere.
-
-For tests that do not specify their platforms explicitly, this has the effect of
-enabling these tests on non-linux platforms. For tests that always specified
-linux explicitly, there is no change.
-
-For Python tests on FreeBSD at least; only seven python tests fail:
-045 147 149 169 194 199 211
-
-045 and 149 appear to be misconfigurations,
-147 and 194 are the AF_UNIX path too long error,
-169 and 199 are bitmap migration bugs, and
-211 is a bug that shows up on Linux platforms, too.
-
-This is at least good evidence that these tests are not Linux-only. If
-they aren't suitable for other platforms, they should be disabled on a
-per-platform basis as appropriate.
-
-Therefore, let's switch these on and deal with the failures.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/041 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 66090b70c1..d7b9a6f3ef 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -844,9 +844,14 @@ def verify_protocol(supported=[], unsupported=[]):
-     if not_sup or (imgproto in unsupported):
-         notrun('not suitable for this protocol: %s' % imgproto)
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 8568426311..7211f1950a 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -1123,4 +1123,5 @@ class TestOrphanedSource(iotests.QMPTestCase):
  
--def verify_platform(supported_oses=['linux']):
--    if True not in [sys.platform.startswith(x) for x in supported_oses]:
--        notrun('not suitable for this OS: %s' % sys.platform)
-+def verify_platform(supported=None, unsupported=None):
-+    if unsupported is not None:
-+        if any((sys.platform.startswith(x) for x in unsupported)):
-+            notrun('not suitable for this OS: %s' % sys.platform)
-+
-+    if supported is not None:
-+        if not any((sys.platform.startswith(x) for x in supported)):
-+            notrun('not suitable for this OS: %s' % sys.platform)
- 
- def verify_cache_mode(supported_cache_modes=[]):
-     if supported_cache_modes and (cachemode not in supported_cache_modes):
-@@ -908,7 +913,8 @@ def execute_unittest(output, verbosity, debug):
-                                     r'Ran \1 tests', output.getvalue()))
- 
- def execute_test(test_function=None,
--                 supported_fmts=[], supported_oses=['linux'],
-+                 supported_fmts=[],
-+                 supported_platforms=None,
-                  supported_cache_modes=[], unsupported_fmts=[],
-                  supported_protocols=[], unsupported_protocols=[]):
-     """Run either unittest or script-style tests."""
-@@ -925,7 +931,7 @@ def execute_test(test_function=None,
-     verbosity = 1
-     verify_image_format(supported_fmts, unsupported_fmts)
-     verify_protocol(supported_protocols, unsupported_protocols)
--    verify_platform(supported_oses)
-+    verify_platform(supported=supported_platforms)
-     verify_cache_mode(supported_cache_modes)
- 
-     if debug:
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2', 'qed'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 supported_platforms=['linux', 'freebsd', 'openbsd6'])
 -- 
 2.18.1
 
