@@ -2,78 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9816CD393E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 08:14:34 +0200 (CEST)
-Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32667D3936
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 08:11:58 +0200 (CEST)
+Received: from localhost ([::1]:46160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIoC9-0005DK-Ma
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 02:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
+	id 1iIo9d-0003IU-6j
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 02:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50805)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iIo8o-0003BF-Es
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:11:07 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1iIo8G-0002am-Ua
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:10:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iIo8m-00046K-UY
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:11:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:32960)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iIo8m-00045z-NQ
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:11:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iIo8l-00019n-8x
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:11:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4218C2E80C8
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:11:03 +0000 (UTC)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iIo8F-0003w2-Gy
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:10:32 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:56642)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1iIo8F-0003uj-5o
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 02:10:31 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 3F39E54006A;
+ Fri, 11 Oct 2019 09:10:27 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Kevin Wolf'" <kwolf@redhat.com>
+References: <20190918094436.GG5207@localhost.localdomain>
+ <001501d56e06$bbd7aa30$3386fe90$@ru>
+ <20190919085302.GA10163@localhost.localdomain>
+ <001901d56ec9$620ae260$2620a720$@ru>
+ <20190919112702.GC10163@localhost.localdomain>
+ <001a01d56ee3$4354a530$c9fdef90$@ru>
+ <20190919130005.GF10163@localhost.localdomain>
+ <002401d56f84$83900e40$8ab02ac0$@ru>
+ <20190920100150.GD5458@localhost.localdomain>
+ <001601d57380$002b3f20$0081bd60$@ru>
+ <20191010152830.GF7616@localhost.localdomain>
+In-Reply-To: <20191010152830.GF7616@localhost.localdomain>
+Subject: RE: [for-4.2 PATCH 3/6] replay: update docs for record/replay with
+ block devices
+Date: Fri, 11 Oct 2019 09:10:24 +0300
+Message-ID: <002401d57ffa$927ffab0$b77ff010$@ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Oct 2019 06:05:25 -0000
-From: Jan Glauber <jglauber@marvell.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=kunpeng920; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rafaeldtinoco@kernelpath.com; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=In Progress; importance=Medium; assignee=rafaeldtinoco@kernelpath.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
- component=main; status=New; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
- component=main; status=New; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=In Progress; importance=Medium;
- assignee=rafaeldtinoco@kernelpath.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=ff-series;
- sourcepackage=qemu; component=None; status=New; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug-Tags: qemu-img
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dannf jan-glauber-i jnsnow lizhengui rafaeldtinoco
-X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: Jan Glauber (jan-glauber-i)
-References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <20191011060518.GA6920@hc>
-Subject: [Bug 1805256] Re: [Qemu-devel] qemu_futex_wait() lockups in ARM64: 2
- possible issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1b521799e90ffac61666d7860617e1d7edf77209
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdV/f2Y6+SShHM08RyCUBXimHJwn0wAeknuw
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 83.149.199.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,193 +61,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, quintela@redhat.com,
+ ciro.santilli@gmail.com, jasowang@redhat.com, crosthwaite.peter@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, alex.bennee@linaro.org,
+ maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+ boost.lists@gmail.com, thomas.dullien@googlemail.com, pbonzini@redhat.com,
+ mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 09, 2019 at 11:15:04AM +0200, Paolo Bonzini wrote:
-> On 09/10/19 10:02, Jan Glauber wrote:
+> From: Kevin Wolf [mailto:kwolf@redhat.com]
+> Am 25.09.2019 um 11:02 hat Pavel Dovgalyuk geschrieben:
+> > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > Am 20.09.2019 um 09:25 hat Pavel Dovgalyuk geschrieben:
+> > > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > > > Am 19.09.2019 um 14:10 hat Pavel Dovgalyuk geschrieben:
+> > > > > > > From: Kevin Wolf [mailto:kwolf@redhat.com]
+> > > > > > > diff --git a/block/block-backend.c b/block/block-backend.c
+> > > > > > > index 1c605d5444..c57d3d9fdf 100644
+> > > > > > > --- a/block/block-backend.c
+> > > > > > > +++ b/block/block-backend.c
+> > > > > > > @@ -17,6 +17,7 @@
+> > > > > > >  #include "block/throttle-groups.h"
+> > > > > > >  #include "hw/qdev-core.h"
+> > > > > > >  #include "sysemu/blockdev.h"
+> > > > > > > +#include "sysemu/replay.h"
+> > > > > > >  #include "sysemu/runstate.h"
+> > > > > > >  #include "qapi/error.h"
+> > > > > > >  #include "qapi/qapi-events-block.h"
+> > > > > > > @@ -808,6 +809,12 @@ void blk_remove_bs(BlockBackend *blk)
+> > > > > > >  int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+> > > > > > >  {
+> > > > > > >      ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+> > > > > > > +
+> > > > > > > +    if (replay_mode != REPLAY_MODE_NONE && bs->drv != &bdrv_blkreplay) {
+> > > > > > > +        error_setg(errp, "Root node must be blkreplay");
+> > > > > > > +        return -ENOTSUP;
+> > > > > > > +    }
+> > > > > >
+> > > > > > I guess this is opposite direction - bs->drv is bdrv_file.
+> > > > > > And we should check its parent.
+> > > > >
+> > > > > If bs->drv is bdrv_file, you want this to fail because only
+> > > > > bdrv_blkreplay should be able to be attached to devices.
+> > > >
+> > > > There was a regular rr invocation (as described in docs).
+> > > > And bs->drv always was a pointer to bdrv_file: for original image,
+> > > > and for temporary snapshot.
+> > >
+> > > Hm, what was the actual command line you used? I can see that you have a
+> > > separate -drive for the qcow2 file, so I can see how you get an unused
+> > > BlockBackend for the qcow2 node, but I don't see how it would be a file
+> > > node.
+> > >
+> > > Anyway, this leaves us two options: Either change the recommended
+> > > command line to use -blockdev for the qcow2 file so that no BlockBackend
+> > > is created for it (I think this might be preferable), or restrict the
+> > > error to when the BlockBackend is used.
+> >
+> > I started playing with -blockdev: added new blockdev for blkreplay and
+> > constructed the following command line:
+> >
+> > -blockdev driver=file,filename=disk.img,node-name=hd0
+> > -blockdev driver=blkreplay,file=hd0,node-name=hd0-rr
+> > -device virtio-blk-device,drive=hd0-rr
+> >
+> > However, I get an error: "Could not open 'disk.img': Permission denied"
+> > Everything works when I use this file in '-drive' parameter.
+> > What am I doing wrong?
+> 
+> The reason why I didn't reply immediately is because I don't see
+> anything wrong in the options you used.
+> 
+> Just to confirm, do you still get the same error when you use only the
+> first -blockdev option and no other options at all?
 
-> > I'm still not sure what the actual issue is here, but could it be some =
-bad
-> > interaction between the notify_me and the list_lock? The are both 4 byte
-> > and side-by-side:
-> > =
+Ok, I tried again and got different error, which was caused by incorrect
+QAPI schema for blkreplay.
+Now it seems ok, but I still can't boot.
 
-> > address notify_me: 0xaaaadb528aa0  sizeof notify_me: 4
-> > address list_lock: 0xaaaadb528aa4  sizeof list_lock: 4
-> > =
+> I've now tried out the options you gave, and it does fail for me, but
+> with a different error:
+> 
+>     qemu-system-x86_64: -blockdev driver=blkreplay,file=hd0,node-name=hd0-rr: Invalid
+> parameter 'blkreplay'
+> 
+> This one is because the QAPI schema doesn't know blkreplay and should
+> easily be fixed by adding a blkreplay field to BlockdevOptions.
 
-> > AFAICS the generated code looks OK (all load/store exclusive done
-> > with 32 bit size):
-> > =
+Right, I added the following schema:
 
-> >      e6c:       885ffc01        ldaxr   w1, [x0]
-> >      e70:       11000821        add     w1, w1, #0x2
-> >      e74:       8802fc01        stlxr   w2, w1, [x0]
-> > =
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2832,8 +2832,8 @@
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevDriver',
+-  'data': [ 'blkdebug', 'blklogwrites', 'blkverify', 'bochs', 'cloop',
+-            'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
++  'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
++            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
+             'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
+             'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qcow',
+             'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+@@ -3446,6 +3446,18 @@
+   'data': { 'test': 'BlockdevRef',
+             'raw': 'BlockdevRef' } }
+ 
++##
++# @BlockdevOptionsBlkreplay:
++#
++# Driver specific block device options for blkreplay.
++#
++# @image:     disk image which should be controlled with blkreplay
++#
++# Since: 4.2
++##
++{ 'struct': 'BlockdevOptionsBlkreplay',
++  'data': { 'image': 'BlockdevRef' } }
++
+ ##
+ # @QuorumReadPattern:
+ #
+@@ -3973,6 +3985,7 @@
+       'blkdebug':   'BlockdevOptionsBlkdebug',
+       'blklogwrites':'BlockdevOptionsBlklogwrites',
+       'blkverify':  'BlockdevOptionsBlkverify',
++      'blkreplay':  'BlockdevOptionsBlkreplay',
+       'bochs':      'BlockdevOptionsGenericFormat',
+       'cloop':      'BlockdevOptionsGenericFormat',
+       'copy-on-read':'BlockdevOptionsGenericFormat',
 
-> > ...but if I bump notify_me size to uint64_t the issue goes away.
-> =
+> As soft freeze is coming closer, I'm considering taking this series as
+> it is (it's wrong in parts, but the old state is probably even more
+> wrong) and letting you fix up these checks on top. What do you think?
 
-> Ouch. :)  Is this with or without my patch(es)?
-> =
+That sounds reasonable.
 
-> Also, what if you just add a dummy uint32_t after notify_me?
+Pavel Dovgalyuk
 
-With the dummy the testcase also runs fine for 500 iterations.
-
-Dann, can you try if this works on the Hi1620 too?
-
---Jan
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805256
-
-Title:
-  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
-  converting images
-
-Status in kunpeng920:
-  New
-Status in QEMU:
-  In Progress
-Status in qemu package in Ubuntu:
-  In Progress
-Status in qemu source package in Bionic:
-  New
-Status in qemu source package in Disco:
-  New
-Status in qemu source package in Eoan:
-  In Progress
-Status in qemu source package in FF-Series:
-  New
-
-Bug description:
-  Command:
-
-  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs.
-
-  ----
-
-  Workaround:
-
-  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
-
-  ----
-
-  (gdb) thread 1
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf1ad81c in __GI_ppoll
-  #1 0x0000aaaaaabcf73c in ppoll
-  #2 qemu_poll_ns
-  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
-  #4 main_loop_wait
-  ...
-
-  (gdb) thread 2
-  ...
-  (gdb) bt
-  #0 syscall ()
-  #1 0x0000aaaaaabd41cc in qemu_futex_wait
-  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
-  #3 0x0000aaaaaabed05c in call_rcu_thread
-  #4 0x0000aaaaaabd34c8 in qemu_thread_start
-  #5 0x0000ffffbf25c880 in start_thread
-  #6 0x0000ffffbf1b6b9c in thread_start ()
-
-  (gdb) thread 3
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
-  #1 0x0000ffffbf2671b4 in __sigwait
-  #2 0x0000aaaaaabd1ddc in sigwait_compat
-  #3 0x0000aaaaaabd34c8 in qemu_thread_start
-  #4 0x0000ffffbf25c880 in start_thread
-  #5 0x0000ffffbf1b6b9c in thread_start
-
-  ----
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
-  ./disk01.ext4.qcow2 ./output.qcow2
-
-  [New Thread 0xffffbec5ad90 (LWP 72839)]
-  [New Thread 0xffffbe459d90 (LWP 72840)]
-  [New Thread 0xffffbdb57d90 (LWP 72841)]
-  [New Thread 0xffffacac9d90 (LWP 72859)]
-  [New Thread 0xffffa7ffed90 (LWP 72860)]
-  [New Thread 0xffffa77fdd90 (LWP 72861)]
-  [New Thread 0xffffa6ffcd90 (LWP 72862)]
-  [New Thread 0xffffa67fbd90 (LWP 72863)]
-  [New Thread 0xffffa5ffad90 (LWP 72864)]
-
-  [Thread 0xffffa5ffad90 (LWP 72864) exited]
-  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
-  [Thread 0xffffa77fdd90 (LWP 72861) exited]
-  [Thread 0xffffbdb57d90 (LWP 72841) exited]
-  [Thread 0xffffa67fbd90 (LWP 72863) exited]
-  [Thread 0xffffacac9d90 (LWP 72859) exited]
-  [Thread 0xffffa7ffed90 (LWP 72860) exited]
-
-  <HUNG w/ 3 threads in the stack trace showed before>
-  """
-
-  All the tasks left are blocked in a system call, so no task left to call
-  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
-  thread #1 (doing poll() in a pipe with thread #2).
-
-  Those 7 threads exit before disk conversion is complete (sometimes in
-  the beginning, sometimes at the end).
-
-  ----
-
-  [ Original Description ]
-
-  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
-  frequently hangs (~50% of the time) with this command:
-
-  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
-
-  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
-  qcow2->qcow2 conversion happens to be something uvtool does every time
-  it fetches images.
-
-  Once hung, attaching gdb gives the following backtrace:
-
-  (gdb) bt
-  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
-274213760,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
-igmask=3D0xffffc123b950)
-  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
-  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
-linux-gnu/bits/poll2.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
-c:322
-  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
-  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
-  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
-  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
-g.c:1980
-  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
-img.c:2456
-  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:4975
-
-  Reproduced w/ latest QEMU git (@ 53744e0a182)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
