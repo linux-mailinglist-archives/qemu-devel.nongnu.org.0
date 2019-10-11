@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1EED45F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:57:48 +0200 (CEST)
-Received: from localhost ([::1]:54232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FC3D45CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:53:16 +0200 (CEST)
+Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyEd-00072g-F0
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
+	id 1iIyAF-0001St-1Q
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRA-0006eQ-A9
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR9-0006dk-Rq
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0004lr-NN
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48436)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0004mF-0g
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:39 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48444)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR6-0004Tt-Dr
+ id 1iIxR6-0004Ub-OK
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:36 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQu-0003XG-VF; Fri, 11 Oct 2019 19:06:25 +0300
+ id 1iIxQv-0003XG-A4; Fri, 11 Oct 2019 19:06:25 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 085/126] Tracing: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:11 +0300
-Message-Id: <20191011160552.22907-86-vsementsov@virtuozzo.com>
+Subject: [RFC v5 086/126] TPM: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:12 +0300
+Message-Id: <20191011160552.22907-87-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,52 +97,63 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- trace/qmp.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ hw/tpm/tpm_util.c | 7 +++----
+ tpm.c             | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/trace/qmp.c b/trace/qmp.c
-index 38246e1aa6..05335f2da4 100644
---- a/trace/qmp.c
-+++ b/trace/qmp.c
-@@ -70,7 +70,7 @@ TraceEventInfoList *qmp_trace_event_get_state(const char *name,
-                                               bool has_vcpu, int64_t vcpu,
-                                               Error **errp)
+diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
+index 62b091f0c0..b0657bbbf2 100644
+--- a/hw/tpm/tpm_util.c
++++ b/hw/tpm/tpm_util.c
+@@ -47,8 +47,8 @@ static void get_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+                     Error **errp)
  {
--    Error *err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     TraceEventInfoList *events = NULL;
-     TraceEventIter iter;
-     TraceEvent *ev;
-@@ -78,9 +78,8 @@ TraceEventInfoList *qmp_trace_event_get_state(const char *name,
-     CPUState *cpu;
- 
-     /* Check provided vcpu */
--    cpu = get_cpu(has_vcpu, vcpu, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    cpu = get_cpu(has_vcpu, vcpu, errp);
-+    if (*errp) {
-         return NULL;
+     DeviceState *dev = DEVICE(obj);
+-    Error *local_err = NULL;
+     Property *prop = opaque;
+     TPMBackend *s, **be = qdev_get_prop_ptr(dev, prop);
+     char *str;
+@@ -58,9 +58,8 @@ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+         return;
      }
  
-@@ -135,16 +134,15 @@ void qmp_trace_event_set_state(const char *name, bool enable,
-                                bool has_vcpu, int64_t vcpu,
-                                Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     TraceEventIter iter;
-     TraceEvent *ev;
-     bool is_pattern = trace_event_is_pattern(name);
-     CPUState *cpu;
- 
-     /* Check provided vcpu */
--    cpu = get_cpu(has_vcpu, vcpu, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    cpu = get_cpu(has_vcpu, vcpu, errp);
+-    visit_type_str(v, name, &str, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    visit_type_str(v, name, &str, errp);
 +    if (*errp) {
          return;
+     }
+ 
+diff --git a/tpm.c b/tpm.c
+index 9c9e20bbb7..359ebb7f68 100644
+--- a/tpm.c
++++ b/tpm.c
+@@ -81,11 +81,11 @@ TPMBackend *qemu_find_tpm_be(const char *id)
+ 
+ static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     const char *value;
+     const char *id;
+     const TPMBackendClass *be;
+     TPMBackend *drv;
+-    Error *local_err = NULL;
+     int i;
+ 
+     if (!QLIST_EMPTY(&tpm_backends)) {
+@@ -116,9 +116,8 @@ static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+     }
+ 
+     /* validate backend specific opts */
+-    qemu_opts_validate(opts, be->opts, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    qemu_opts_validate(opts, be->opts, errp);
++    if (*errp) {
+         return 1;
      }
  
 -- 
