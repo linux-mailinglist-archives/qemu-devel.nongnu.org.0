@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F46D4626
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:05:01 +0200 (CEST)
-Received: from localhost ([::1]:54326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A23D461C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:02:28 +0200 (CEST)
+Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyLc-0008Vm-42
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36919)
+	id 1iIyJ8-0004lq-Kg
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRA-0006fO-NF
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRD-0006k5-CG
  for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0004k6-Cd
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48388)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oN-JC
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:43 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48470)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR4-0004RB-Vf
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
+ id 1iIxR8-0004WM-8x
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQt-0003XG-Ho; Fri, 11 Oct 2019 19:06:23 +0300
+ id 1iIxQv-0003XG-KW; Fri, 11 Oct 2019 19:06:25 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 081/126] qga: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:07 +0300
-Message-Id: <20191011160552.22907-82-vsementsov@virtuozzo.com>
+Subject: [RFC v5 087/126] Migration: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:13 +0300
+Message-Id: <20191011160552.22907-88-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Juan Quintela <quintela@redhat.com>, armbru@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,723 +98,292 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qga/commands-posix.c | 220 +++++++++++++++++++------------------------
- 1 file changed, 97 insertions(+), 123 deletions(-)
+ migration/migration.c | 39 ++++++++++++++++++---------------------
+ migration/ram.c       | 13 ++++++-------
+ migration/rdma.c      | 13 ++++++-------
+ migration/savevm.c    |  2 ++
+ migration/socket.c    | 18 ++++++++----------
+ 5 files changed, 40 insertions(+), 45 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 6dcd2d5db6..257eaaf0da 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -82,8 +82,8 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
+diff --git a/migration/migration.c b/migration/migration.c
+index 5f7e4d15e9..36a0b9e783 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -583,6 +583,7 @@ void migration_fd_process_incoming(QEMUFile *f)
  
- void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     const char *shutdown_flag;
--    Error *local_err = NULL;
-     pid_t pid;
-     int status;
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     bool start_migration;
  
-@@ -116,9 +116,8 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-         return;
-     }
- 
--    ga_wait_child(pid, &status, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ga_wait_child(pid, &status, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -151,10 +150,10 @@ int64_t qmp_guest_get_time(Error **errp)
- 
- void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     int ret;
-     int status;
-     pid_t pid;
--    Error *local_err = NULL;
-     struct timeval tv;
- 
-     /* If user has passed a time, validate and set it. */
-@@ -203,9 +202,8 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
-         return;
-     }
- 
--    ga_wait_child(pid, &status, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ga_wait_child(pid, &status, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -328,11 +326,11 @@ find_open_flag(const char *mode_str, Error **errp)
- static FILE *
- safe_open_or_create(const char *path, const char *mode, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     int oflag;
- 
--    oflag = find_open_flag(mode, &local_err);
--    if (local_err == NULL) {
-+    oflag = find_open_flag(mode, errp);
-+    if (*errp == NULL) {
-         int fd;
- 
-         /* If the caller wants / allows creation of a new file, we implement it
-@@ -364,13 +362,13 @@ safe_open_or_create(const char *path, const char *mode, Error **errp)
-         }
- 
-         if (fd == -1) {
--            error_setg_errno(&local_err, errno, "failed to open file '%s' "
-+            error_setg_errno(errp, errno, "failed to open file '%s' "
-                              "(mode: '%s')", path, mode);
-         } else {
-             qemu_set_cloexec(fd);
- 
-             if ((oflag & O_CREAT) && fchmod(fd, DEFAULT_NEW_FILE_MODE) == -1) {
--                error_setg_errno(&local_err, errno, "failed to set permission "
-+                error_setg_errno(errp, errno, "failed to set permission "
-                                  "0%03o on new file '%s' (mode: '%s')",
-                                  (unsigned)DEFAULT_NEW_FILE_MODE, path, mode);
-             } else {
-@@ -378,7 +376,7 @@ safe_open_or_create(const char *path, const char *mode, Error **errp)
- 
-                 f = fdopen(fd, mode);
-                 if (f == NULL) {
--                    error_setg_errno(&local_err, errno, "failed to associate "
-+                    error_setg_errno(errp, errno, "failed to associate "
-                                      "stdio stream with file descriptor %d, "
-                                      "file '%s' (mode: '%s')", fd, path, mode);
-                 } else {
-@@ -393,24 +391,22 @@ safe_open_or_create(const char *path, const char *mode, Error **errp)
-         }
-     }
- 
--    error_propagate(errp, local_err);
-     return NULL;
- }
- 
- int64_t qmp_guest_file_open(const char *path, bool has_mode, const char *mode,
-                             Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     FILE *fh;
--    Error *local_err = NULL;
-     int64_t handle;
- 
-     if (!has_mode) {
-         mode = "r";
-     }
-     slog("guest-file-open called, filepath: %s, mode: %s", path, mode);
--    fh = safe_open_or_create(path, mode, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
-+    fh = safe_open_or_create(path, mode, errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-@@ -563,21 +559,20 @@ struct GuestFileSeek *qmp_guest_file_seek(int64_t handle, int64_t offset,
-                                           GuestFileWhence *whence_code,
-                                           Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     GuestFileHandle *gfh = guest_file_handle_find(handle, errp);
-     GuestFileSeek *seek_data = NULL;
-     FILE *fh;
-     int ret;
-     int whence;
--    Error *err = NULL;
- 
-     if (!gfh) {
-         return NULL;
-     }
- 
-     /* We stupidly exposed 'whence':'int' in our qapi */
--    whence = ga_parse_whence(whence_code, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    whence = ga_parse_whence(whence_code, errp);
-+    if (*errp) {
-         return NULL;
-     }
- 
-@@ -1150,15 +1145,14 @@ static GuestFilesystemInfo *build_guest_fsinfo(struct FsMount *mount,
- 
- GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     FsMountList mounts;
-     struct FsMount *mount;
-     GuestFilesystemInfoList *new, *ret = NULL;
--    Error *local_err = NULL;
- 
-     QTAILQ_INIT(&mounts);
--    build_fs_mount_list(&mounts, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    build_fs_mount_list(&mounts, errp);
-+    if (*errp) {
-         return NULL;
-     }
- 
-@@ -1166,11 +1160,10 @@ GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
-         g_debug("Building guest fsinfo for '%s'", mount->dirname);
- 
-         new = g_malloc0(sizeof(*ret));
--        new->value = build_guest_fsinfo(mount, &local_err);
-+        new->value = build_guest_fsinfo(mount, errp);
-         new->next = ret;
-         ret = new;
+@@ -603,12 +604,10 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+          */
+         start_migration = !migrate_use_multifd();
+     } else {
+-        Error *local_err = NULL;
+         /* Multiple connections */
+         assert(migrate_use_multifd());
+-        start_migration = multifd_recv_new_channel(ioc, &local_err);
 -        if (local_err) {
 -            error_propagate(errp, local_err);
++        start_migration = multifd_recv_new_channel(ioc, errp);
 +        if (*errp) {
-             qapi_free_GuestFilesystemInfoList(ret);
-             ret = NULL;
-             break;
-@@ -1194,11 +1187,11 @@ static const char *fsfreeze_hook_arg_string[] = {
- 
- static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
+             return;
+         }
+     }
+@@ -971,6 +970,7 @@ static bool migrate_caps_check(bool *cap_list,
+                                MigrationCapabilityStatusList *params,
+                                Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int status;
-     pid_t pid;
-     const char *hook;
-     const char *arg_str = fsfreeze_hook_arg_string[arg];
--    Error *local_err = NULL;
+     MigrationCapabilityStatusList *cap;
+     bool old_postcopy_cap;
+     MigrationIncomingState *mis = migration_incoming_get_current();
+@@ -1764,7 +1764,7 @@ void migrate_del_blocker(Error *reason)
  
-     hook = ga_fsfreeze_hook(ga_state);
-     if (!hook) {
-@@ -1224,9 +1217,8 @@ static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
+ void qmp_migrate_incoming(const char *uri, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     static bool once = true;
+ 
+     if (!deferred_incoming) {
+@@ -1775,10 +1775,9 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+         error_setg(errp, "The incoming migration has already been started");
+     }
+ 
+-    qemu_start_incoming_migration(uri, &local_err);
++    qemu_start_incoming_migration(uri, errp);
+ 
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
          return;
      }
  
--    ga_wait_child(pid, &status, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ga_wait_child(pid, &status, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -1267,25 +1259,23 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
-                                        strList *mountpoints,
-                                        Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     int ret = 0, i = 0;
-     strList *list;
-     FsMountList mounts;
-     struct FsMount *mount;
--    Error *local_err = NULL;
-     int fd;
- 
-     slog("guest-fsfreeze called");
- 
--    execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-     QTAILQ_INIT(&mounts);
--    build_fs_mount_list(&mounts, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    build_fs_mount_list(&mounts, errp);
-+    if (*errp) {
-         return -1;
-     }
- 
-@@ -1358,16 +1348,15 @@ error:
-  */
- int64_t qmp_guest_fsfreeze_thaw(Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     int ret;
-     FsMountList mounts;
-     FsMount *mount;
-     int fd, i = 0, logged;
--    Error *local_err = NULL;
- 
-     QTAILQ_INIT(&mounts);
--    build_fs_mount_list(&mounts, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    build_fs_mount_list(&mounts, errp);
-+    if (*errp) {
-         return 0;
-     }
- 
-@@ -1433,6 +1422,7 @@ static void guest_fsfreeze_cleanup(void)
- GuestFilesystemTrimResponse *
- qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     GuestFilesystemTrimResponse *response;
-     GuestFilesystemTrimResultList *list;
-     GuestFilesystemTrimResult *result;
-@@ -1440,15 +1430,13 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
-     FsMountList mounts;
-     struct FsMount *mount;
-     int fd;
--    Error *local_err = NULL;
-     struct fstrim_range r;
- 
-     slog("guest-fstrim called");
- 
-     QTAILQ_INIT(&mounts);
--    build_fs_mount_list(&mounts, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    build_fs_mount_list(&mounts, errp);
-+    if (*errp) {
-         return NULL;
-     }
- 
-@@ -1554,13 +1542,13 @@ static int run_process_child(const char *command[], Error **errp)
- 
- static bool systemd_supports_mode(SuspendMode mode, Error **errp)
+@@ -1856,7 +1855,7 @@ bool migration_is_blocked(Error **errp)
+ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+                             bool resume, Error **errp)
  {
 -    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     const char *systemctl_args[3] = {"systemd-hibernate", "systemd-suspend",
-                                      "systemd-hybrid-sleep"};
-     const char *cmd[4] = {"systemctl", "status", systemctl_args[mode], NULL};
-     int status;
  
--    status = run_process_child(cmd, &local_err);
-+    status = run_process_child(cmd, errp);
- 
-     /*
-      * systemctl status uses LSB return codes so we can expect
-@@ -1574,31 +1562,29 @@ static bool systemd_supports_mode(SuspendMode mode, Error **errp)
-         return true;
-     }
- 
--    error_propagate(errp, local_err);
-     return false;
- }
- 
- static void systemd_suspend(SuspendMode mode, Error **errp)
+     if (resume) {
+         if (s->state != MIGRATION_STATUS_POSTCOPY_PAUSED) {
+@@ -1909,9 +1908,8 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+                        "current migration capabilities");
+             return false;
+         }
+-        migrate_set_block_enabled(true, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        migrate_set_block_enabled(true, errp);
++        if (*errp) {
+             return false;
+         }
+         s->must_remove_block_options = true;
+@@ -1935,7 +1933,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+                  bool has_inc, bool inc, bool has_detach, bool detach,
+                  bool has_resume, bool resume, Error **errp)
  {
 -    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     const char *systemctl_args[3] = {"hibernate", "suspend", "hybrid-sleep"};
-     const char *cmd[3] = {"systemctl", systemctl_args[mode], NULL};
-     int status;
+     MigrationState *s = migrate_get_current();
+     const char *p;
  
--    status = run_process_child(cmd, &local_err);
-+    status = run_process_child(cmd, errp);
- 
-     if (status == 0) {
-         return;
+@@ -1946,17 +1944,17 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
      }
  
--    if ((status == -1) && !local_err) {
-+    if ((status == -1) && !*errp) {
-         error_setg(errp, "the helper program 'systemctl %s' was not found",
-                    systemctl_args[mode]);
-         return;
-     }
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
+     if (strstart(uri, "tcp:", &p)) {
+-        tcp_start_outgoing_migration(s, p, &local_err);
++        tcp_start_outgoing_migration(s, p, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+-        rdma_start_outgoing_migration(s, p, &local_err);
++        rdma_start_outgoing_migration(s, p, errp);
+ #endif
+     } else if (strstart(uri, "exec:", &p)) {
+-        exec_start_outgoing_migration(s, p, &local_err);
++        exec_start_outgoing_migration(s, p, errp);
+     } else if (strstart(uri, "unix:", &p)) {
+-        unix_start_outgoing_migration(s, p, &local_err);
++        unix_start_outgoing_migration(s, p, errp);
+     } else if (strstart(uri, "fd:", &p)) {
+-        fd_start_outgoing_migration(s, p, &local_err);
++        fd_start_outgoing_migration(s, p, errp);
      } else {
-         error_setg(errp, "the helper program 'systemctl %s' returned an "
-                    "unexpected exit status code (%d)",
-@@ -1608,24 +1594,23 @@ static void systemd_suspend(SuspendMode mode, Error **errp)
- 
- static bool pmutils_supports_mode(SuspendMode mode, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     const char *pmutils_args[3] = {"--hibernate", "--suspend",
-                                    "--suspend-hybrid"};
-     const char *cmd[3] = {"pm-is-supported", pmutils_args[mode], NULL};
-     int status;
- 
--    status = run_process_child(cmd, &local_err);
-+    status = run_process_child(cmd, errp);
- 
-     if (status == SUSPEND_SUPPORTED) {
-         return true;
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "uri",
+                    "a valid migration protocol");
+@@ -1966,9 +1964,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         return;
      }
  
--    if ((status == -1) && !local_err) {
-+    if ((status == -1) && !*errp) {
+-    if (local_err) {
+-        migrate_fd_error(s, local_err);
+-        error_propagate(errp, local_err);
++    if (*errp) {
++        migrate_fd_error(s, *errp);
+         return;
+     }
+ }
+diff --git a/migration/ram.c b/migration/ram.c
+index 22423f08cd..0100c11dd7 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1474,14 +1474,14 @@ bool multifd_recv_all_channels_created(void)
+  */
+ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     MultiFDRecvParams *p;
+-    Error *local_err = NULL;
+     int id;
+ 
+-    id = multifd_recv_initial_packet(ioc, &local_err);
++    id = multifd_recv_initial_packet(ioc, errp);
+     if (id < 0) {
+-        multifd_recv_terminate_threads(local_err);
+-        error_propagate_prepend(errp, local_err,
++        multifd_recv_terminate_threads(*errp);
++        error_prepend(errp,
+                                 "failed to receive packet"
+                                 " via multifd channel %d: ",
+                                 atomic_read(&multifd_recv_state->count));
+@@ -1491,10 +1491,9 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+ 
+     p = &multifd_recv_state->params[id];
+     if (p->c != NULL) {
+-        error_setg(&local_err, "multifd: received id '%d' already setup'",
++        error_setg(errp, "multifd: received id '%d' already setup'",
+                    id);
+-        multifd_recv_terminate_threads(local_err);
+-        error_propagate(errp, local_err);
++        multifd_recv_terminate_threads(*errp);
          return false;
      }
+     p->c = ioc;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 4c74e88a37..db985fee73 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -2396,8 +2396,9 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
  
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-     } else {
-         error_setg(errp,
-                    "the helper program '%s' returned an unexpected exit"
-@@ -1637,26 +1622,25 @@ static bool pmutils_supports_mode(SuspendMode mode, Error **errp)
- 
- static void pmutils_suspend(SuspendMode mode, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     const char *pmutils_binaries[3] = {"pm-hibernate", "pm-suspend",
-                                        "pm-suspend-hybrid"};
-     const char *cmd[2] = {pmutils_binaries[mode], NULL};
-     int status;
- 
--    status = run_process_child(cmd, &local_err);
-+    status = run_process_child(cmd, errp);
- 
-     if (status == 0) {
-         return;
-     }
- 
--    if ((status == -1) && !local_err) {
-+    if ((status == -1) && !*errp) {
-         error_setg(errp, "the helper program '%s' was not found",
-                    pmutils_binaries[mode]);
-         return;
-     }
- 
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (*errp) {
-     } else {
-         error_setg(errp,
-                    "the helper program '%s' returned an unexpected exit"
-@@ -1697,7 +1681,7 @@ static bool linux_sys_state_supports_mode(SuspendMode mode, Error **errp)
- 
- static void linux_sys_state_suspend(SuspendMode mode, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     const char *sysfile_strs[3] = {"disk", "mem", NULL};
-     const char *sysfile_str = sysfile_strs[mode];
-     pid_t pid;
-@@ -1733,9 +1717,8 @@ static void linux_sys_state_suspend(SuspendMode mode, Error **errp)
-         return;
-     }
- 
--    ga_wait_child(pid, &status, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ga_wait_child(pid, &status, errp);
-+    if (*errp) {
-         return;
-     }
- 
-@@ -1747,41 +1730,40 @@ static void linux_sys_state_suspend(SuspendMode mode, Error **errp)
- 
- static void guest_suspend(SuspendMode mode, Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     bool mode_supported = false;
- 
--    if (systemd_supports_mode(mode, &local_err)) {
-+    if (systemd_supports_mode(mode, errp)) {
-         mode_supported = true;
--        systemd_suspend(mode, &local_err);
-+        systemd_suspend(mode, errp);
-     }
- 
--    if (!local_err) {
-+    if (!*errp) {
-         return;
-     }
- 
--    error_free(local_err);
-+    error_free_errp(errp);
- 
--    if (pmutils_supports_mode(mode, &local_err)) {
-+    if (pmutils_supports_mode(mode, errp)) {
-         mode_supported = true;
--        pmutils_suspend(mode, &local_err);
-+        pmutils_suspend(mode, errp);
-     }
- 
--    if (!local_err) {
-+    if (!*errp) {
-         return;
-     }
- 
--    error_free(local_err);
-+    error_free_errp(errp);
- 
--    if (linux_sys_state_supports_mode(mode, &local_err)) {
-+    if (linux_sys_state_supports_mode(mode, errp)) {
-         mode_supported = true;
--        linux_sys_state_suspend(mode, &local_err);
-+        linux_sys_state_suspend(mode, errp);
-     }
- 
-     if (!mode_supported) {
-         error_setg(errp,
-                    "the requested suspend mode is not supported by the guest");
-     } else {
--        error_propagate(errp, local_err);
-     }
- }
- 
-@@ -2120,17 +2102,17 @@ static void transfer_vcpu(GuestLogicalProcessor *vcpu, bool sys2vcpu,
- 
- GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+ static int qemu_rdma_source_init(RDMAContext *rdma, bool pin_all, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int64_t current;
-     GuestLogicalProcessorList *head, **link;
-     long sc_max;
--    Error *local_err = NULL;
+     int ret, idx;
+-    Error *local_err = NULL, **temp = &local_err;
++    Error **temp = errp;
  
-     current = 0;
-     head = NULL;
-     link = &head;
--    sc_max = SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
-+    sc_max = SYSCONF_EXACT(_SC_NPROCESSORS_CONF, errp);
+     /*
+      * Will be validated against destination's actual capabilities
+@@ -2450,7 +2451,6 @@ static int qemu_rdma_source_init(RDMAContext *rdma, bool pin_all, Error **errp)
+     return 0;
  
--    while (local_err == NULL && current < sc_max) {
-+    while (*errp == NULL && current < sc_max) {
-         GuestLogicalProcessor *vcpu;
-         GuestLogicalProcessorList *entry;
-         int64_t id = current++;
-@@ -2141,7 +2123,7 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
-             vcpu = g_malloc0(sizeof *vcpu);
-             vcpu->logical_id = id;
-             vcpu->has_can_offline = true; /* lolspeak ftw */
--            transfer_vcpu(vcpu, true, path, &local_err);
-+            transfer_vcpu(vcpu, true, path, errp);
-             entry = g_malloc0(sizeof *entry);
-             entry->value = vcpu;
-             *link = entry;
-@@ -2150,41 +2132,39 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
-         g_free(path);
-     }
- 
--    if (local_err == NULL) {
-+    if (*errp == NULL) {
-         /* there's no guest with zero VCPUs */
-         g_assert(head != NULL);
-         return head;
-     }
- 
-     qapi_free_GuestLogicalProcessorList(head);
+ err_rdma_source_init:
 -    error_propagate(errp, local_err);
-     return NULL;
+     qemu_rdma_cleanup(rdma);
+     return -1;
  }
+@@ -4044,18 +4044,18 @@ static void rdma_accept_incoming_migration(void *opaque)
  
- int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+ void rdma_start_incoming_migration(const char *host_port, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int64_t processed;
+     int ret;
+     RDMAContext *rdma, *rdma_return_path = NULL;
 -    Error *local_err = NULL;
  
-     processed = 0;
-     while (vcpus != NULL) {
-         char *path = g_strdup_printf("/sys/devices/system/cpu/cpu%" PRId64 "/",
-                                      vcpus->value->logical_id);
+     trace_rdma_start_incoming_migration();
+-    rdma = qemu_rdma_data_init(host_port, &local_err);
++    rdma = qemu_rdma_data_init(host_port, errp);
  
--        transfer_vcpu(vcpus->value, false, path, &local_err);
-+        transfer_vcpu(vcpus->value, false, path, errp);
-         g_free(path);
--        if (local_err != NULL) {
-+        if (*errp) {
-             break;
-         }
-         ++processed;
-         vcpus = vcpus->next;
+     if (rdma == NULL) {
+         goto err;
      }
  
--    if (local_err != NULL) {
-+    if (*errp) {
-         if (processed == 0) {
--            error_propagate(errp, local_err);
-         } else {
--            error_free(local_err);
-+            error_free_errp(errp);
-         }
-     }
+-    ret = qemu_rdma_dest_init(rdma, &local_err);
++    ret = qemu_rdma_dest_init(rdma, errp);
  
-@@ -2196,7 +2176,7 @@ void qmp_guest_set_user_password(const char *username,
-                                  bool crypted,
-                                  Error **errp)
+     if (ret) {
+         goto err;
+@@ -4074,7 +4074,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+ 
+     /* initialize the RDMAContext for return path */
+     if (migrate_postcopy()) {
+-        rdma_return_path = qemu_rdma_data_init(host_port, &local_err);
++        rdma_return_path = qemu_rdma_data_init(host_port, errp);
+ 
+         if (rdma_return_path == NULL) {
+             goto err;
+@@ -4087,7 +4087,6 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+                         NULL, (void *)(intptr_t)rdma);
+     return;
+ err:
+-    error_propagate(errp, local_err);
+     g_free(rdma);
+     g_free(rdma_return_path);
+ }
+diff --git a/migration/savevm.c b/migration/savevm.c
+index bb9462a54d..f9293fe192 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2586,6 +2586,7 @@ int qemu_load_device_state(QEMUFile *f)
+ 
+ int save_snapshot(const char *name, Error **errp)
  {
--    Error *local_err = NULL;
 +    ERRP_AUTO_PROPAGATE();
-     char *passwd_path = NULL;
-     pid_t pid;
-     int status;
-@@ -2268,9 +2248,8 @@ void qmp_guest_set_user_password(const char *username,
-     close(datafd[1]);
-     datafd[1] = -1;
+     BlockDriverState *bs, *bs1;
+     QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
+     int ret = -1;
+@@ -2790,6 +2791,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
  
--    ga_wait_child(pid, &status, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    ga_wait_child(pid, &status, errp);
-+    if (*errp) {
-         goto out;
-     }
- 
-@@ -2356,10 +2335,10 @@ static void transfer_memory_block(GuestMemoryBlock *mem_blk, bool sys2memblk,
-                                   GuestMemoryBlockResponse *result,
+ int load_snapshot(const char *name, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     BlockDriverState *bs, *bs_vm_state;
+     QEMUSnapshotInfo sn;
+     QEMUFile *f;
+diff --git a/migration/socket.c b/migration/socket.c
+index 97c9efde59..bc07ef92a1 100644
+--- a/migration/socket.c
++++ b/migration/socket.c
+@@ -139,12 +139,11 @@ void tcp_start_outgoing_migration(MigrationState *s,
+                                   const char *host_port,
                                    Error **errp)
  {
+-    Error *err = NULL;
+-    SocketAddress *saddr = tcp_build_address(host_port, &err);
+-    if (!err) {
+-        socket_start_outgoing_migration(s, saddr, &err);
 +    ERRP_AUTO_PROPAGATE();
-     char *dirpath;
-     int dirfd;
-     char *status;
--    Error *local_err = NULL;
- 
-     if (!sys2memblk) {
-         DIR *dp;
-@@ -2404,11 +2383,11 @@ static void transfer_memory_block(GuestMemoryBlock *mem_blk, bool sys2memblk,
-     g_free(dirpath);
- 
-     status = g_malloc0(10);
--    ga_read_sysfs_file(dirfd, "state", status, 10, &local_err);
--    if (local_err) {
-+    ga_read_sysfs_file(dirfd, "state", status, 10, errp);
-+    if (*errp) {
-         /* treat with sysfs file that not exist in old kernel */
-         if (errno == ENOENT) {
--            error_free(local_err);
-+            error_free_errp(errp);
-             if (sys2memblk) {
-                 mem_blk->online = true;
-                 mem_blk->can_offline = false;
-@@ -2418,7 +2397,6 @@ static void transfer_memory_block(GuestMemoryBlock *mem_blk, bool sys2memblk,
-             }
-         } else {
-             if (sys2memblk) {
--                error_propagate(errp, local_err);
-             } else {
-                 result->response =
-                     GUEST_MEMORY_BLOCK_RESPONSE_TYPE_OPERATION_FAILED;
-@@ -2432,14 +2410,13 @@ static void transfer_memory_block(GuestMemoryBlock *mem_blk, bool sys2memblk,
- 
-         mem_blk->online = (strncmp(status, "online", 6) == 0);
- 
--        ga_read_sysfs_file(dirfd, "removable", &removable, 1, &local_err);
--        if (local_err) {
-+        ga_read_sysfs_file(dirfd, "removable", &removable, 1, errp);
-+        if (*errp) {
-             /* if no 'removable' file, it doesn't support offline mem blk */
-             if (errno == ENOENT) {
--                error_free(local_err);
-+                error_free_errp(errp);
-                 mem_blk->can_offline = false;
-             } else {
--                error_propagate(errp, local_err);
-             }
-         } else {
-             mem_blk->can_offline = (removable != '0');
-@@ -2449,9 +2426,9 @@ static void transfer_memory_block(GuestMemoryBlock *mem_blk, bool sys2memblk,
-             const char *new_state = mem_blk->online ? "online" : "offline";
- 
-             ga_write_sysfs_file(dirfd, "state", new_state, strlen(new_state),
--                                &local_err);
--            if (local_err) {
--                error_free(local_err);
-+                                errp);
-+            if (*errp) {
-+                error_free_errp(errp);
-                 result->response =
-                     GUEST_MEMORY_BLOCK_RESPONSE_TYPE_OPERATION_FAILED;
-                 goto out2;
-@@ -2477,8 +2454,8 @@ out1:
- 
- GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     GuestMemoryBlockList *head, **link;
--    Error *local_err = NULL;
-     struct dirent *de;
-     DIR *dp;
- 
-@@ -2516,7 +2493,7 @@ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
-         /* The d_name is "memoryXXX",  phys_index is block id, same as XXX */
-         mem_blk->phys_index = strtoul(&de->d_name[6], NULL, 10);
-         mem_blk->has_can_offline = true; /* lolspeak ftw */
--        transfer_memory_block(mem_blk, true, NULL, &local_err);
-+        transfer_memory_block(mem_blk, true, NULL, errp);
- 
-         entry = g_malloc0(sizeof *entry);
-         entry->value = mem_blk;
-@@ -2526,7 +2503,7 @@ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
++    SocketAddress *saddr = tcp_build_address(host_port, errp);
++    if (!*errp) {
++        socket_start_outgoing_migration(s, saddr, errp);
      }
- 
-     closedir(dp);
--    if (local_err == NULL) {
-+    if (*errp == NULL) {
-         /* there's no guest with zero memory blocks */
-         if (head == NULL) {
-             error_setg(errp, "guest reported zero memory blocks!");
-@@ -2535,15 +2512,14 @@ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
-     }
- 
-     qapi_free_GuestMemoryBlockList(head);
--    error_propagate(errp, local_err);
-     return NULL;
+-    error_propagate(errp, err);
  }
  
- GuestMemoryBlockResponseList *
- qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
+ void unix_start_outgoing_migration(MigrationState *s,
+@@ -209,13 +208,12 @@ static void socket_start_incoming_migration(SocketAddress *saddr,
+ 
+ void tcp_start_incoming_migration(const char *host_port, Error **errp)
  {
+-    Error *err = NULL;
+-    SocketAddress *saddr = tcp_build_address(host_port, &err);
+-    if (!err) {
+-        socket_start_incoming_migration(saddr, &err);
 +    ERRP_AUTO_PROPAGATE();
-     GuestMemoryBlockResponseList *head, **link;
--    Error *local_err = NULL;
- 
-     head = NULL;
-     link = &head;
-@@ -2555,8 +2531,8 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
- 
-         result = g_malloc0(sizeof(*result));
-         result->phys_index = current_mem_blk->phys_index;
--        transfer_memory_block(current_mem_blk, false, result, &local_err);
--        if (local_err) { /* should never happen */
-+        transfer_memory_block(current_mem_blk, false, result, errp);
-+        if (*errp) { /* should never happen */
-             goto err;
-         }
-         entry = g_malloc0(sizeof *entry);
-@@ -2570,13 +2546,12 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
-     return head;
- err:
-     qapi_free_GuestMemoryBlockResponseList(head);
--    error_propagate(errp, local_err);
-     return NULL;
++    SocketAddress *saddr = tcp_build_address(host_port, errp);
++    if (!*errp) {
++        socket_start_incoming_migration(saddr, errp);
+     }
+     qapi_free_SocketAddress(saddr);
+-    error_propagate(errp, err);
  }
  
- GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
- {
--    Error *local_err = NULL;
-+    ERRP_AUTO_PROPAGATE();
-     char *dirpath;
-     int dirfd;
-     char *buf;
-@@ -2592,11 +2567,10 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
-     g_free(dirpath);
- 
-     buf = g_malloc0(20);
--    ga_read_sysfs_file(dirfd, "block_size_bytes", buf, 20, &local_err);
-+    ga_read_sysfs_file(dirfd, "block_size_bytes", buf, 20, errp);
-     close(dirfd);
--    if (local_err) {
-+    if (*errp) {
-         g_free(buf);
--        error_propagate(errp, local_err);
-         return NULL;
-     }
- 
+ void unix_start_incoming_migration(const char *path, Error **errp)
 -- 
 2.21.0
 
