@@ -2,54 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9CFD3BEE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 11:10:07 +0200 (CEST)
-Received: from localhost ([::1]:47594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84588D3C19
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 11:17:40 +0200 (CEST)
+Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIqw2-0000ai-5y
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 05:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
+	id 1iIr3L-0001oB-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 05:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1iIqtt-0006oF-5b
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:54 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIqtM-0005wc-3U
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1iIqts-0004Xx-5S
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42798)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIqtL-0004BH-5k
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:20 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60308)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1iIqtr-0004XZ-Vv
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 05:07:52 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3D6F218CB908
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 09:07:51 +0000 (UTC)
-Received: from andariel.pipo.sk (ovpn-204-231.brq.redhat.com [10.40.204.231])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D2B51001956;
- Fri, 11 Oct 2019 09:07:49 +0000 (UTC)
-Date: Fri, 11 Oct 2019 11:07:45 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 1/4] tests/qapi-schema: Tidy up test output indentation
-Message-ID: <20191011090745.GB1979@andariel.pipo.sk>
-References: <20191011085027.28606-1-armbru@redhat.com>
- <20191011085027.28606-2-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIqtH-000475-MW; Fri, 11 Oct 2019 05:07:15 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iIqtD-0000XM-No; Fri, 11 Oct 2019 12:07:11 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/5] active-mirror: support unaligned guest operations
+Date: Fri, 11 Oct 2019 12:07:06 +0300
+Message-Id: <20191011090711.19940-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
-Content-Disposition: inline
-In-Reply-To: <20191011085027.28606-2-armbru@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Fri, 11 Oct 2019 09:07:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,50 +45,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 9adc1cb49af8d fixed a bug about unaligned (to dirty bitmap
+granularity) guest writes (and discards) by simply requesting
+corresponding alignment on mirror-top filter. However forcing large
+alignment obviously decreases performance of unaligned requests.
 
---wq9mPyueHGvFACwf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So it's time for a new solution which is in 04. And 05 reverts
+9adc1cb49af8d.
 
-On Fri, Oct 11, 2019 at 10:50:24 +0200, Markus Armbruster wrote:
-> Command and event details are indented three spaces, everything else
-> four.  Messed up in commit 156402e5042.  Use four spaces consistently.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  tests/qapi-schema/doc-good.out         |  4 +-
->  tests/qapi-schema/event-case.out       |  2 +-
->  tests/qapi-schema/indented-expr.out    |  4 +-
->  tests/qapi-schema/qapi-schema-test.out | 52 +++++++++++++-------------
->  tests/qapi-schema/test-qapi.py         |  4 +-
->  5 files changed, 33 insertions(+), 33 deletions(-)
+v2:
+01: new fix (do we need it for stable?)
+02,03,05: add Max's r-b
+04: fix bitmap handling
+    improve comments
 
-Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+Vladimir Sementsov-Ogievskiy (5):
+  hbitmap: handle set/reset with zero length
+  block/mirror: simplify do_sync_target_write
+  block/block-backend: add blk_co_pwritev_part
+  block/mirror: support unaligned write in active mirror
+  Revert "mirror: Only mirror granularity-aligned chunks"
 
---wq9mPyueHGvFACwf
-Content-Type: application/pgp-signature; name="signature.asc"
+ include/sysemu/block-backend.h |   4 +
+ block/block-backend.c          |  17 +++-
+ block/mirror.c                 | 181 ++++++++++++++++-----------------
+ util/hbitmap.c                 |   8 ++
+ 4 files changed, 114 insertions(+), 96 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.21.0
 
-iQIzBAEBCAAdFiEEUn7DGLvflazX+2GwHGwCByjY1GoFAl2gRl4ACgkQHGwCByjY
-1Gp3XBAA1ZHRIDyIrFX3pR8NYu5snX3UUfWF4KPkIrUAPbNej+kO7ShbByfJ/IiE
-olh9lsEHxv52kOcbfZ/JzPU4EvHTb3vk2HbqoDkRk7PnHhbqXYlUvTcOhiZGBHT5
-kdd6sW7A55AObDKJQl+P4oCXVoKDWwfhhRFj1mxi/JvjvBy6Z6VXiZbBUP5xuORr
-umZvOX8X2dFHqIGiUXpEea3LhMitxmARbBNjm3oGJUr6A8zKsLPv/L1wctunOLd/
-kpRwJMBWn9pUQf1+EnMhpEP/6RcMj+WW0jmSZPTzjMkv2lie/wMGXw8rR5CM3b3m
-Qmtn04ckq01ubnvLozyINwDTvI9EulG7/lB33kvgVfd2EsCJNClaeDNkSsSt9kGq
-BlrkVYxEzA1fD9eFCxDMs9gl8tKzNfrF4WwmXGXko+hBvupbTePmAxE6Qy8JSDHb
-GepKxrRKCPQaYvsG8S6Yohn5XDpy5rNaYXxoZU51+2mg4SkFfX5Sgi/B6C0omU0x
-URewmkvVIsGpfch5200nzalQWwXbLfYLoHOsF3lSVNAQwN4fcp7f/xBMtUDNAgHb
-6D4fv0hbwFioFmyxmrWRrFn8rwusXmUx2JzcpQZKoC7kJkg2rYRpbW1aW+xoZHdz
-DpNlFCQZm3uzPaKoK0vzuQ4s0JDZW9IrBneMnj1taOimteek67E=
-=RvIG
------END PGP SIGNATURE-----
-
---wq9mPyueHGvFACwf--
 
