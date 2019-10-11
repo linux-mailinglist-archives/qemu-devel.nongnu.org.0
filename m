@@ -2,51 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E46D473F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:12:55 +0200 (CEST)
-Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB77D474A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:16:42 +0200 (CEST)
+Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzPJ-0008LE-Oo
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44657)
+	id 1iIzSz-00045n-6V
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45696)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iIy7D-0006ZM-2b
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:50:08 -0400
+ (envelope-from <Babu.Moger@amd.com>) id 1iIyGT-0002ZA-RS
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:59:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iIy7B-0006ad-Fm
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:50:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54042)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iIy7B-0006aC-6e
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:50:05 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 64334309C388;
- Fri, 11 Oct 2019 16:50:04 +0000 (UTC)
-Received: from work-vm (ovpn-117-210.ams2.redhat.com [10.36.117.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 377535D713;
- Fri, 11 Oct 2019 16:49:52 +0000 (UTC)
-Date: Fri, 11 Oct 2019 17:49:50 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH v3 07/10] migration: add new migration state wait-unplug
-Message-ID: <20191011164950.GS3354@work-vm>
-References: <20191011112015.11785-1-jfreimann@redhat.com>
- <20191011112015.11785-8-jfreimann@redhat.com>
+ (envelope-from <Babu.Moger@amd.com>) id 1iIyGR-0002iD-Ql
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:59:41 -0400
+Received: from mail-eopbgr750044.outbound.protection.outlook.com
+ ([40.107.75.44]:15406 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iIyGR-0002hk-H4
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:59:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HhB06p9OA5OAI/JOP/ju+qh+tp2QtMZ7cVykW+8A+mJ02bb4YHyaSfij78hBn/h85DXsnomou4xXYKhUXEbMuVG/R/cy0CS9DGROPI9+9CG3OsJODwx+js1NkYtUmJjlRrmPcpHmBcPv/s8781X7TT/tMSbpgMEG1vN0j4b3/K2+0cpyxkCAwkJlBNT8USJub2XIrk9KYznfSsSpLjMpIm24YFbicVRZ27QjcfIaBu/TljMLR7dE6fRPlkktQSBtTALEUnpId8tZ8BCXMjk655MWeSYSSZIroZadVRYjd6byYeM+UEJj8SLzu1nx4Vbbq5BRW0gQhwLTRIGg7yAKMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YLRoCKIdYSQ3m8oXQFwCVicZJ+xxCGo4rKpyvfw4OBk=;
+ b=eHHIGajvJE8OtdmFlBOhoPabeS+7UIkBYm92E8/EmeO8CYRddoJGYP6M73ha3hq1PwKnb+7J8+p/ZPOYl7Nbzp3ViawtwgIkv9PCBYPRrIGE1sbT3OYYViNl6KTCI3mEoYoAzG3po+kupMBNSe3NEvdkLuct04W5WiwYSkx3In4+6qcaSIDs82oOtF2BLohN5d7Ccl/mjIvGfbvKkUwmMiO5TFctvD015tADjrdWOpX/f0GST9bbNTzu2RuzV6qWdDbGLMjzUI/1TWYRLH4Z58NknfPSpmLnQX8hoPZ6ZLWdnRgNrmLRMQQM+HaTmY6JU6lVC28RPS73q+eUidvdpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YLRoCKIdYSQ3m8oXQFwCVicZJ+xxCGo4rKpyvfw4OBk=;
+ b=EeQbfC8KTegSBwYCanNZvD4RyxmVMjJkSgvhsdkFCrpBsQnGdP3O2hiB09P5OZqFCkTFVlPg5LsS0kYh4BP//58WfSFKrSiQH1CpDBOQMYjnP1ehYiO/FlLRRZRKYaWNfEqJoxxCZ9EHq2EnCGSPvMqgFGiSYsB7DI0/kIf8SG8=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB2565.namprd12.prod.outlook.com (52.132.143.37) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.16; Fri, 11 Oct 2019 16:59:38 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::9089:8467:a76c:6f9d]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::9089:8467:a76c:6f9d%6]) with mapi id 15.20.2347.016; Fri, 11 Oct 2019
+ 16:59:37 +0000
+From: "Moger, Babu" <Babu.Moger@amd.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [Qemu-devel] [RFC 2 PATCH 13/16] machine: Add new epyc property
+ in PCMachineState
+Thread-Topic: [Qemu-devel] [RFC 2 PATCH 13/16] machine: Add new epyc property
+ in PCMachineState
+Thread-Index: AQHVZOceIuce90DAyEeExN49RF5ewqdVBqUAgAB7F4A=
+Date: Fri, 11 Oct 2019 16:59:37 +0000
+Message-ID: <35f27ef1-a8ee-19e3-fa01-230135f1ed02@amd.com>
+References: <156779689013.21957.1631551572950676212.stgit@localhost.localdomain>
+ <156779718791.21957.9675425538561156773.stgit@localhost.localdomain>
+ <20191011035906.GH29387@habkost.net>
+In-Reply-To: <20191011035906.GH29387@habkost.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-imapappendstamp: DM5PR12MB2471.namprd12.prod.outlook.com
+ (15.20.2347.014)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: caa19024-4939-43b1-0a43-08d74e6c6683
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: DM5PR12MB2565:
+x-microsoft-antispam-prvs: <DM5PR12MB2565113337E0C1D75CFE3D2595970@DM5PR12MB2565.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0187F3EA14
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(136003)(346002)(396003)(39860400002)(376002)(189003)(199004)(6512007)(81166006)(81156014)(31686004)(25786009)(8936002)(6486002)(8676002)(6916009)(6436002)(66066001)(256004)(476003)(26005)(3846002)(6246003)(6116002)(4326008)(186003)(5660300002)(486006)(305945005)(7736002)(66556008)(66476007)(6506007)(102836004)(53546011)(66446008)(11346002)(2616005)(14454004)(64756008)(446003)(316002)(36756003)(31696002)(76116006)(86362001)(229853002)(478600001)(2906002)(99286004)(54906003)(66946007)(71200400001)(76176011)(71190400001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB2565;
+ H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: v6+Tai3SSoHvApoG7dquwvOz3XonL9y75pIizT4ljfPyCg+xs2Tqt8cU81+tf/HiI4V1DfQHZ6MrIOOyIPVAgB4PWpA5W91sgHQ7FKu+d7ynP/FqZcQ2MWzysV/SdkExXj7RlE7FORlB082vcNGS9N4ioRfhd7/E1gAw+qsyR6PXQ4REp/J/0k1kUrziEkabvURE8AJEHNryLyAn0dUNwEumXfhaquo1iqBVUWZW7CbRaDAEf+9np0L4KSj6DzLLPrV7uuSzW9IeS42z1KQJj6y7fPY5JcJfv8svt5dtC5iFtupvR2SRkxQlW7XePcDHoCIah759kgpfi0Dvf9s3dE+pizGImayIl30LSeI/HmmH1eLVvwFmrjX7kzK0Pfb5ldPwMeBM1APgZ8NvXHusQpxYIH9C9PWPBM2c5R8Rqzg=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <239F897C92DE8541BCB9088A8B992985@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191011112015.11785-8-jfreimann@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 11 Oct 2019 16:50:04 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: caa19024-4939-43b1-0a43-08d74e6c6683
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2019 16:59:37.8693 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BQrBCLNU5J6GiMhEXwcSYiozRpZM+B0LErG0sxDMH294T7xz5B4GeKLb+DK15CQJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2565
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.75.44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,250 +109,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, aadam@redhat.com,
- qemu-devel@nongnu.org, alex.williamson@redhat.com, laine@redhat.com,
- ailan@redhat.com, parav@mellanox.com
+Cc: "mst@redhat.com" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jens Freimann (jfreimann@redhat.com) wrote:
-> This patch adds a new migration state called wait-unplug.  It is entered
-> after the SETUP state and will transition into ACTIVE once all devices
-> were succesfully unplugged from the guest.
-> 
-> So if a guest doesn't respond or takes long to honor the unplug request
-> the user will see the migration state 'wait-unplug'.
-> 
-> In the migration thread we query failover devices if they're are still
-> pending the guest unplug. When all are unplugged the migration
-> continues. We give it a defined number of iterations including small
-> waiting periods before we proceed.
-> 
-> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> ---
->  include/migration/vmstate.h |  2 ++
->  migration/migration.c       | 34 ++++++++++++++++++++++++++++++++++
->  migration/migration.h       |  3 +++
->  migration/savevm.c          | 36 ++++++++++++++++++++++++++++++++++++
->  migration/savevm.h          |  1 +
->  qapi/migration.json         |  5 ++++-
->  6 files changed, 80 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index 1fbfd099dd..39ef125225 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -186,6 +186,8 @@ struct VMStateDescription {
->      int (*pre_save)(void *opaque);
->      int (*post_save)(void *opaque);
->      bool (*needed)(void *opaque);
-> +    bool (*dev_unplug_pending)(void *opaque);
-> +
->      const VMStateField *fields;
->      const VMStateDescription **subsections;
->  };
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 5f7e4d15e9..a17d9fb990 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -52,9 +52,14 @@
->  #include "hw/qdev-properties.h"
->  #include "monitor/monitor.h"
->  #include "net/announce.h"
-> +#include "qemu/queue.h"
->  
->  #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
->  
-> +/* Time in milliseconds to wait for guest OS to unplug PCI device */
-> +#define FAILOVER_GUEST_UNPLUG_WAIT 10000
-> +#define FAILOVER_UNPLUG_RETRIES 5
-> +
->  /* Amount of time to allocate to each "chunk" of bandwidth-throttled
->   * data. */
->  #define BUFFER_DELAY     100
-> @@ -954,6 +959,9 @@ static void fill_source_migration_info(MigrationInfo *info)
->      case MIGRATION_STATUS_CANCELLED:
->          info->has_status = true;
->          break;
-> +    case MIGRATION_STATUS_WAIT_UNPLUG:
-> +        info->has_status = true;
-> +        break;
->      }
->      info->status = s->state;
->  }
-> @@ -1695,6 +1703,7 @@ bool migration_is_idle(void)
->      case MIGRATION_STATUS_COLO:
->      case MIGRATION_STATUS_PRE_SWITCHOVER:
->      case MIGRATION_STATUS_DEVICE:
-> +    case MIGRATION_STATUS_WAIT_UNPLUG:
-
-I think the patchew failure that it shows in the migration test is
-because that new state is visible to the test and it's not expecting it.
-
-Dave
-
->          return false;
->      case MIGRATION_STATUS__MAX:
->          g_assert_not_reached();
-> @@ -3224,6 +3233,8 @@ static void *migration_thread(void *opaque)
->      int64_t setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
->      MigThrError thr_error;
->      bool urgent = false;
-> +    bool all_unplugged = true;
-> +    int i = 0;
->  
->      rcu_register_thread();
->  
-> @@ -3260,6 +3271,27 @@ static void *migration_thread(void *opaque)
->  
->      qemu_savevm_state_setup(s->to_dst_file);
->  
-> +    migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-> +                      MIGRATION_STATUS_WAIT_UNPLUG);
-> +
-> +    while (i < FAILOVER_UNPLUG_RETRIES &&
-> +           s->state == MIGRATION_STATUS_WAIT_UNPLUG) {
-> +        i++;
-> +        qemu_sem_timedwait(&s->wait_unplug_sem, FAILOVER_GUEST_UNPLUG_WAIT);
-> +        all_unplugged = qemu_savevm_state_guest_unplug_pending();
-> +        if (all_unplugged) {
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (all_unplugged) {
-> +        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-> +                MIGRATION_STATUS_ACTIVE);
-> +    } else {
-> +        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-> +                          MIGRATION_STATUS_CANCELLING);
-> +    }
-> +
->      s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
->      migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
->                        MIGRATION_STATUS_ACTIVE);
-> @@ -3508,6 +3540,7 @@ static void migration_instance_finalize(Object *obj)
->      qemu_mutex_destroy(&ms->qemu_file_lock);
->      g_free(params->tls_hostname);
->      g_free(params->tls_creds);
-> +    qemu_sem_destroy(&ms->wait_unplug_sem);
->      qemu_sem_destroy(&ms->rate_limit_sem);
->      qemu_sem_destroy(&ms->pause_sem);
->      qemu_sem_destroy(&ms->postcopy_pause_sem);
-> @@ -3553,6 +3586,7 @@ static void migration_instance_init(Object *obj)
->      qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
->      qemu_sem_init(&ms->rp_state.rp_sem, 0);
->      qemu_sem_init(&ms->rate_limit_sem, 0);
-> +    qemu_sem_init(&ms->wait_unplug_sem, 0);
->      qemu_mutex_init(&ms->qemu_file_lock);
->  }
->  
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 4f2fe193dc..79b3dda146 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -206,6 +206,9 @@ struct MigrationState
->      /* Flag set once the migration thread called bdrv_inactivate_all */
->      bool block_inactive;
->  
-> +    /* Migration is waiting for guest to unplug device */
-> +    QemuSemaphore wait_unplug_sem;
-> +
->      /* Migration is paused due to pause-before-switchover */
->      QemuSemaphore pause_sem;
->  
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index bb9462a54d..26e5bde687 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -942,6 +942,20 @@ static void qemu_savevm_command_send(QEMUFile *f,
->      qemu_fflush(f);
->  }
->  
-> +static int qemu_savevm_nr_failover_devices(void)
-> +{
-> +    SaveStateEntry *se;
-> +    int n = 0;
-> +
-> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> +        if (se->vmsd && se->vmsd->dev_unplug_pending) {
-> +            n++;
-> +        }
-> +    }
-> +
-> +    return n;
-> +}
-> +
->  void qemu_savevm_send_colo_enable(QEMUFile *f)
->  {
->      trace_savevm_send_colo_enable();
-> @@ -1113,6 +1127,28 @@ void qemu_savevm_state_header(QEMUFile *f)
->      }
->  }
->  
-> +bool qemu_savevm_state_guest_unplug_pending(void)
-> +{
-> +    int nr_failover_devs;
-> +    SaveStateEntry *se;
-> +    bool ret = false;
-> +    int n = 0;
-> +
-> +    nr_failover_devs = qemu_savevm_nr_failover_devices();
-> +
-> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> +        if (!se->vmsd || !se->vmsd->dev_unplug_pending) {
-> +            continue;
-> +        }
-> +        ret = se->vmsd->dev_unplug_pending(se->opaque);
-> +        if (!ret) {
-> +            n++;
-> +        }
-> +    }
-> +
-> +    return n == nr_failover_devs;
-> +}
-> +
->  void qemu_savevm_state_setup(QEMUFile *f)
->  {
->      SaveStateEntry *se;
-> diff --git a/migration/savevm.h b/migration/savevm.h
-> index 51a4b9caa8..ba64a7e271 100644
-> --- a/migration/savevm.h
-> +++ b/migration/savevm.h
-> @@ -31,6 +31,7 @@
->  
->  bool qemu_savevm_state_blocked(Error **errp);
->  void qemu_savevm_state_setup(QEMUFile *f);
-> +bool qemu_savevm_state_guest_unplug_pending(void);
->  int qemu_savevm_state_resume_prepare(MigrationState *s);
->  void qemu_savevm_state_header(QEMUFile *f);
->  int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy);
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 52e69e2868..5a06cd489f 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -133,6 +133,9 @@
->  # @device: During device serialisation when pause-before-switchover is enabled
->  #        (since 2.11)
->  #
-> +# @wait-unplug: wait for device unplug request by guest OS to be completed.
-> +#               (since 4.2)
-> +#
->  # Since: 2.3
->  #
->  ##
-> @@ -140,7 +143,7 @@
->    'data': [ 'none', 'setup', 'cancelling', 'cancelled',
->              'active', 'postcopy-active', 'postcopy-paused',
->              'postcopy-recover', 'completed', 'failed', 'colo',
-> -            'pre-switchover', 'device' ] }
-> +            'pre-switchover', 'device', 'wait-unplug' ] }
->  
->  ##
->  # @MigrationInfo:
-> -- 
-> 2.21.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+=0A=
+On 10/10/19 10:59 PM, Eduardo Habkost wrote:=0A=
+> On Fri, Sep 06, 2019 at 07:13:09PM +0000, Moger, Babu wrote:=0A=
+>> Adds new epyc property in PCMachineState and also in MachineState.=0A=
+>> This property will be used to initialize the mode specific handlers=0A=
+>> to generate apic ids.=0A=
+>>=0A=
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
+>> ---=0A=
+> [...]=0A=
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h=0A=
+>> index 12eb5032a5..0001d42e50 100644=0A=
+>> --- a/include/hw/boards.h=0A=
+>> +++ b/include/hw/boards.h=0A=
+>> @@ -299,6 +299,8 @@ struct MachineState {=0A=
+>>      AccelState *accelerator;=0A=
+>>      CPUArchIdList *possible_cpus;=0A=
+>>      CpuTopology smp;=0A=
+>> +    bool epyc;=0A=
+>> +=0A=
+> =0A=
+> This won't scale at all when we start adding new CPU models with=0A=
+> different topology constraints.=0A=
+=0A=
+Yes, I knew. This could cause scaling issues. Let me see if we could=0A=
+do anything different.=0A=
+=0A=
+> =0A=
+> I still have hope we can avoid having separate set of topology ID=0A=
+> functions (see my reply to "hw/386: Add new epyc mode topology=0A=
+=0A=
+Yes. That was my hope too. Let me think thru this bit more. I will come=0A=
+back on this.=0A=
+=0A=
+=0A=
+> decoding functions").  But if we really have to create separate=0A=
+> functions, we can make them part of the CPU model table, not a=0A=
+> boolean machine property.=0A=
+> =0A=
 
