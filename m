@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FC3D45CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:53:16 +0200 (CEST)
-Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551D2D45F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:59:25 +0200 (CEST)
+Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyAF-0001St-1Q
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
+	id 1iIyGB-0000e1-Tt
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR9-0006dk-Rq
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:43 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRC-0006j3-PU
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0004mF-0g
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:39 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48444)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR8-0004oO-JF
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:42 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48478)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR6-0004Ub-OK
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:36 -0400
+ id 1iIxR8-0004WI-8Y
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQv-0003XG-A4; Fri, 11 Oct 2019 19:06:25 +0300
+ id 1iIxQw-0003XG-En; Fri, 11 Oct 2019 19:06:26 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 086/126] TPM: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:12 +0300
-Message-Id: <20191011160552.22907-87-vsementsov@virtuozzo.com>
+Subject: [RFC v5 090/126] Sockets: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:16 +0300
+Message-Id: <20191011160552.22907-91-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -48,8 +48,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ armbru@redhat.com, Greg Kurz <groug@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,65 +99,137 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/tpm/tpm_util.c | 7 +++----
- tpm.c             | 7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+ util/qemu-sockets.c | 31 ++++++++++++++-----------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
-index 62b091f0c0..b0657bbbf2 100644
---- a/hw/tpm/tpm_util.c
-+++ b/hw/tpm/tpm_util.c
-@@ -47,8 +47,8 @@ static void get_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
- static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index bcc06d0e01..12db07c092 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -211,6 +211,7 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+                              int num,
+                              Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     DeviceState *dev = DEVICE(obj);
--    Error *local_err = NULL;
-     Property *prop = opaque;
-     TPMBackend *s, **be = qdev_get_prop_ptr(dev, prop);
-     char *str;
-@@ -58,9 +58,8 @@ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
-         return;
-     }
+     struct addrinfo ai,*res,*e;
+     char port[33];
+     char uaddr[INET6_ADDRSTRLEN+1];
+@@ -219,7 +220,6 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+     int slisten = -1;
+     int saved_errno = 0;
+     bool socket_created = false;
+-    Error *err = NULL;
  
--    visit_type_str(v, name, &str, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    visit_type_str(v, name, &str, errp);
+     if (saddr->keep_alive) {
+         error_setg(errp, "keep-alive option is not supported for passive "
+@@ -232,11 +232,10 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+     if (saddr->has_numeric && saddr->numeric) {
+         ai.ai_flags |= AI_NUMERICHOST | AI_NUMERICSERV;
+     }
+-    ai.ai_family = inet_ai_family_from_address(saddr, &err);
++    ai.ai_family = inet_ai_family_from_address(saddr, errp);
+     ai.ai_socktype = SOCK_STREAM;
+ 
+-    if (err) {
+-        error_propagate(errp, err);
 +    if (*errp) {
-         return;
+         return -1;
      }
  
-diff --git a/tpm.c b/tpm.c
-index 9c9e20bbb7..359ebb7f68 100644
---- a/tpm.c
-+++ b/tpm.c
-@@ -81,11 +81,11 @@ TPMBackend *qemu_find_tpm_be(const char *id)
- 
- static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+@@ -387,9 +386,9 @@ static int inet_connect_addr(struct addrinfo *addr, Error **errp)
+ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+                                                  Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     const char *value;
-     const char *id;
-     const TPMBackendClass *be;
-     TPMBackend *drv;
--    Error *local_err = NULL;
-     int i;
+     struct addrinfo ai, *res;
+     int rc;
+-    Error *err = NULL;
+     static int useV4Mapped = 1;
  
-     if (!QLIST_EMPTY(&tpm_backends)) {
-@@ -116,9 +116,8 @@ static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+     memset(&ai, 0, sizeof(ai));
+@@ -398,11 +397,10 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+     if (atomic_read(&useV4Mapped)) {
+         ai.ai_flags |= AI_V4MAPPED;
      }
+-    ai.ai_family = inet_ai_family_from_address(saddr, &err);
++    ai.ai_family = inet_ai_family_from_address(saddr, errp);
+     ai.ai_socktype = SOCK_STREAM;
  
-     /* validate backend specific opts */
--    qemu_opts_validate(opts, be->opts, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    qemu_opts_validate(opts, be->opts, errp);
+-    if (err) {
+-        error_propagate(errp, err);
 +    if (*errp) {
-         return 1;
+         return NULL;
      }
  
+@@ -443,7 +441,7 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+  */
+ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+ {
+-    Error *local_err = NULL;
++    ERRP_AUTO_PROPAGATE();
+     struct addrinfo *res, *e;
+     int sock = -1;
+ 
+@@ -453,9 +451,8 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     }
+ 
+     for (e = res; e != NULL; e = e->ai_next) {
+-        error_free(local_err);
+-        local_err = NULL;
+-        sock = inet_connect_addr(e, &local_err);
++        error_free_errp(errp);
++        sock = inet_connect_addr(e, errp);
+         if (sock >= 0) {
+             break;
+         }
+@@ -464,7 +461,6 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     freeaddrinfo(res);
+ 
+     if (sock < 0) {
+-        error_propagate(errp, local_err);
+         return sock;
+     }
+ 
+@@ -487,20 +483,19 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr,
+                             InetSocketAddress *sladdr,
+                             Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     struct addrinfo ai, *peer = NULL, *local = NULL;
+     const char *addr;
+     const char *port;
+     int sock = -1, rc;
+-    Error *err = NULL;
+ 
+     /* lookup peer addr */
+     memset(&ai,0, sizeof(ai));
+     ai.ai_flags = AI_CANONNAME | AI_V4MAPPED | AI_ADDRCONFIG;
+-    ai.ai_family = inet_ai_family_from_address(sraddr, &err);
++    ai.ai_family = inet_ai_family_from_address(sraddr, errp);
+     ai.ai_socktype = SOCK_DGRAM;
+ 
+-    if (err) {
+-        error_propagate(errp, err);
++    if (*errp) {
+         goto err;
+     }
+ 
+@@ -861,6 +856,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
+                              int num,
+                              Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     struct sockaddr_un un;
+     int sock, fd;
+     char *pathbuf = NULL;
+@@ -936,6 +932,7 @@ err:
+ 
+ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     struct sockaddr_un un;
+     int sock, rc;
+     size_t pathlen;
 -- 
 2.21.0
 
