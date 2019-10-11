@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28175D45E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:56:13 +0200 (CEST)
-Received: from localhost ([::1]:54218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1C1D45FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 18:59:28 +0200 (CEST)
+Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyD5-00056R-P2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36903)
+	id 1iIyGE-0000lF-LU
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 12:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxRA-0006eS-9V
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:43 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQy-0006Jg-IB
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR6-0004lw-No
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48136)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxQx-0004W4-4w
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:28 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48152)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR6-0004HR-Eu; Fri, 11 Oct 2019 12:06:36 -0400
+ id 1iIxQw-0004IL-Tc
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:27 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQk-0003XG-Ud; Fri, 11 Oct 2019 19:06:15 +0300
+ id 1iIxQl-0003XG-JW; Fri, 11 Oct 2019 19:06:15 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 056/126] virtio-ccw: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:42 +0300
-Message-Id: <20191011160552.22907-57-vsementsov@virtuozzo.com>
+Subject: [RFC v5 058/126] virtio-serial: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:44 +0300
+Message-Id: <20191011160552.22907-59-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,12 +48,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ vsementsov@virtuozzo.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Amit Shah <amit@kernel.org>, armbru@redhat.com, Greg Kurz <groug@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -100,106 +100,39 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/s390x/virtio-ccw-crypto.c |  7 +++----
- hw/s390x/virtio-ccw-rng.c    |  7 +++----
- hw/s390x/virtio-ccw.c        | 13 ++++++-------
- 3 files changed, 12 insertions(+), 15 deletions(-)
+ hw/char/virtio-serial-bus.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/virtio-ccw-crypto.c b/hw/s390x/virtio-ccw-crypto.c
-index 086b397ad2..b942179f3f 100644
---- a/hw/s390x/virtio-ccw-crypto.c
-+++ b/hw/s390x/virtio-ccw-crypto.c
-@@ -17,14 +17,13 @@
+diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+index 4e0ed829ae..8ab7f29d0a 100644
+--- a/hw/char/virtio-serial-bus.c
++++ b/hw/char/virtio-serial-bus.c
+@@ -935,12 +935,12 @@ static void remove_port(VirtIOSerial *vser, uint32_t port_id)
  
- static void virtio_ccw_crypto_realize(VirtioCcwDevice *ccw_dev, Error **errp)
+ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     VirtIOCryptoCcw *dev = VIRTIO_CRYPTO_CCW(ccw_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
+     VirtIOSerialPort *port = VIRTIO_SERIAL_PORT(dev);
+     VirtIOSerialPortClass *vsc = VIRTIO_SERIAL_PORT_GET_CLASS(port);
+     VirtIOSerialBus *bus = VIRTIO_SERIAL_BUS(qdev_get_parent_bus(dev));
+     int max_nr_ports;
+     bool plugging_port0;
 -    Error *err = NULL;
  
-     qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
--    object_property_set_bool(OBJECT(vdev), true, "realized", &err);
--    if (err) {
+     port->vser = bus->vser;
+     port->bh = qemu_bh_new(flush_queued_data_bh, port);
+@@ -986,9 +986,8 @@ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    vsc->realize(dev, &err);
+-    if (err != NULL) {
 -        error_propagate(errp, err);
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
++    vsc->realize(dev, errp);
 +    if (*errp) {
          return;
      }
  
-diff --git a/hw/s390x/virtio-ccw-rng.c b/hw/s390x/virtio-ccw-rng.c
-index 854254dd50..bc242f1fc6 100644
---- a/hw/s390x/virtio-ccw-rng.c
-+++ b/hw/s390x/virtio-ccw-rng.c
-@@ -18,14 +18,13 @@
- 
- static void virtio_ccw_rng_realize(VirtioCcwDevice *ccw_dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIORNGCcw *dev = VIRTIO_RNG_CCW(ccw_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
--    Error *err = NULL;
- 
-     qdev_set_parent_bus(vdev, BUS(&ccw_dev->bus));
--    object_property_set_bool(OBJECT(vdev), true, "realized", &err);
--    if (err) {
--        error_propagate(errp, err);
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+    if (*errp) {
-         return;
-     }
- 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 6580ce5907..3d80b27ef5 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -692,18 +692,18 @@ static void virtio_sch_disable_cb(SubchDev *sch)
- 
- static void virtio_ccw_device_realize(VirtioCcwDevice *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     VirtIOCCWDeviceClass *k = VIRTIO_CCW_DEVICE_GET_CLASS(dev);
-     CcwDevice *ccw_dev = CCW_DEVICE(dev);
-     CCWDeviceClass *ck = CCW_DEVICE_GET_CLASS(ccw_dev);
-     SubchDev *sch;
--    Error *err = NULL;
- 
-     sch = css_create_sch(ccw_dev->devno, errp);
-     if (!sch) {
-         return;
-     }
-     if (!virtio_ccw_rev_max(dev) && dev->force_revision_1) {
--        error_setg(&err, "Invalid value of property max_rev "
-+        error_setg(errp, "Invalid value of property max_rev "
-                    "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
-         goto out_err;
-     }
-@@ -728,21 +728,20 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *dev, Error **errp)
-     }
- 
-     if (k->realize) {
--        k->realize(dev, &err);
--        if (err) {
-+        k->realize(dev, errp);
-+        if (*errp) {
-             goto out_err;
-         }
-     }
- 
--    ck->realize(ccw_dev, &err);
--    if (err) {
-+    ck->realize(ccw_dev, errp);
-+    if (*errp) {
-         goto out_err;
-     }
- 
-     return;
- 
- out_err:
--    error_propagate(errp, err);
-     css_subch_assign(sch->cssid, sch->ssid, sch->schid, sch->devno, NULL);
-     ccw_dev->sch = NULL;
-     g_free(sch);
 -- 
 2.21.0
 
