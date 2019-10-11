@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEE7D46D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:45:55 +0200 (CEST)
-Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3485CD46D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:42:58 +0200 (CEST)
+Received: from localhost ([::1]:54832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIyzB-0002RI-Tr
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:45:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36802)
+	id 1iIywL-0007la-6t
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR7-0006ZG-IF
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:40 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR1-0006Pb-T1
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0004jm-2X
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:37 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48070)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR0-0004cy-D1
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:31 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48240)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR4-0004Fd-O5; Fri, 11 Oct 2019 12:06:34 -0400
+ id 1iIxR0-0004Ln-5F
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:30 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQi-0003XG-W4; Fri, 11 Oct 2019 19:06:13 +0300
+ id 1iIxQo-0003XG-HU; Fri, 11 Oct 2019 19:06:18 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 051/126] vfio-ccw: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:37 +0300
-Message-Id: <20191011160552.22907-52-vsementsov@virtuozzo.com>
+Subject: [RFC v5 066/126] Audio: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:04:52 +0300
+Message-Id: <20191011160552.22907-67-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,12 +48,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- vsementsov@virtuozzo.com, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Gerd Hoffmann <kraxel@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -100,72 +98,80 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/s390x/s390-ccw.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ audio/audio.c        | 12 +++++-------
+ hw/audio/intel-hda.c | 13 ++++++-------
+ 2 files changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
-index 0c5a5b60bd..415fa04091 100644
---- a/hw/s390x/s390-ccw.c
-+++ b/hw/s390x/s390-ccw.c
-@@ -55,6 +55,7 @@ static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
-                                   char *sysfsdev,
-                                   Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     unsigned int cssid, ssid, devid;
-     char dev_path[PATH_MAX] = {0}, *tmp;
+diff --git a/audio/audio.c b/audio/audio.c
+index 7128ee98dc..774f47d418 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1936,19 +1936,17 @@ static void audio_validate_per_direction_opts(
  
-@@ -86,19 +87,19 @@ static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
- 
- static void s390_ccw_realize(S390CCWDevice *cdev, char *sysfsdev, Error **errp)
+ static void audio_validate_opts(Audiodev *dev, Error **errp)
  {
-+    ERRP_AUTO_PROPAGATE();
-     CcwDevice *ccw_dev = CCW_DEVICE(cdev);
-     CCWDeviceClass *ck = CCW_DEVICE_GET_CLASS(ccw_dev);
-     DeviceState *parent = DEVICE(ccw_dev);
-     SubchDev *sch;
-     int ret;
 -    Error *err = NULL;
++    ERRP_AUTO_PROPAGATE();
  
--    s390_ccw_get_dev_info(cdev, sysfsdev, &err);
+     audio_create_pdos(dev);
+ 
+-    audio_validate_per_direction_opts(audio_get_pdo_in(dev), &err);
 -    if (err) {
--        goto out_err_propagate;
-+    s390_ccw_get_dev_info(cdev, sysfsdev, errp);
+-        error_propagate(errp, err);
++    audio_validate_per_direction_opts(audio_get_pdo_in(dev), errp);
 +    if (*errp) {
-+        return;
+         return;
      }
  
--    sch = css_create_sch(ccw_dev->devno, &err);
-+    sch = css_create_sch(ccw_dev->devno, errp);
-     if (!sch) {
-         goto out_mdevid_free;
-     }
-@@ -108,13 +109,13 @@ static void s390_ccw_realize(S390CCWDevice *cdev, char *sysfsdev, Error **errp)
-     ccw_dev->sch = sch;
-     ret = css_sch_build_schib(sch, &cdev->hostid);
-     if (ret) {
--        error_setg_errno(&err, -ret, "%s: Failed to build initial schib",
-+        error_setg_errno(errp, -ret, "%s: Failed to build initial schib",
-                          __func__);
-         goto out_err;
-     }
- 
--    ck->realize(ccw_dev, &err);
+-    audio_validate_per_direction_opts(audio_get_pdo_out(dev), &err);
 -    if (err) {
-+    ck->realize(ccw_dev, errp);
+-        error_propagate(errp, err);
++    audio_validate_per_direction_opts(audio_get_pdo_out(dev), errp);
 +    if (*errp) {
-         goto out_err;
+         return;
      }
  
-@@ -128,8 +129,6 @@ out_err:
-     g_free(sch);
- out_mdevid_free:
-     g_free(cdev->mdevid);
--out_err_propagate:
--    error_propagate(errp, err);
- }
+diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+index 6ecd383540..d0b178a1e1 100644
+--- a/hw/audio/intel-hda.c
++++ b/hw/audio/intel-hda.c
+@@ -1095,9 +1095,9 @@ static void intel_hda_reset(DeviceState *dev)
  
- static void s390_ccw_unrealize(S390CCWDevice *cdev, Error **errp)
+ static void intel_hda_realize(PCIDevice *pci, Error **errp)
+ {
++    ERRP_AUTO_PROPAGATE();
+     IntelHDAState *d = INTEL_HDA(pci);
+     uint8_t *conf = d->pci.config;
+-    Error *err = NULL;
+     int ret;
+ 
+     d->name = object_get_typename(OBJECT(d));
+@@ -1109,20 +1109,19 @@ static void intel_hda_realize(PCIDevice *pci, Error **errp)
+ 
+     if (d->msi != ON_OFF_AUTO_OFF) {
+         ret = msi_init(&d->pci, d->old_msi_addr ? 0x50 : 0x60,
+-                       1, true, false, &err);
++                       1, true, false, errp);
+         /* Any error other than -ENOTSUP(board's MSI support is broken)
+          * is a programming error */
+         assert(!ret || ret == -ENOTSUP);
+         if (ret && d->msi == ON_OFF_AUTO_ON) {
+             /* Can't satisfy user's explicit msi=on request, fail */
+-            error_append_hint(&err, "You have to use msi=auto (default) or "
+-                    "msi=off with this machine type.\n");
+-            error_propagate(errp, err);
++            error_append_hint(errp, "You have to use msi=auto (default) or "
++                              "msi=off with this machine type.\n");
+             return;
+         }
+-        assert(!err || d->msi == ON_OFF_AUTO_AUTO);
++        assert(!*errp || d->msi == ON_OFF_AUTO_AUTO);
+         /* With msi=auto, we fall back to MSI off silently */
+-        error_free(err);
++        error_free_errp(errp);
+     }
+ 
+     memory_region_init_io(&d->mmio, OBJECT(d), &intel_hda_mmio_ops, d,
 -- 
 2.21.0
 
