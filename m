@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BD2D41D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:53:55 +0200 (CEST)
-Received: from localhost ([::1]:50600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF6DD41D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 15:52:04 +0200 (CEST)
+Received: from localhost ([::1]:50570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIvMg-0000Kc-2f
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
+	id 1iIvKt-0006tJ-45
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 09:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvIT-0004Zn-3h
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:49:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iIvIj-0004zf-MT
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:49:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iIvIR-0003aX-RC
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:49:32 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:40339)
+ (envelope-from <richard.henderson@linaro.org>) id 1iIvIi-0003j2-9y
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:49:49 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:39687)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iIvIR-0003aI-NY
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:49:31 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id s7so3115739ybq.7
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:49:31 -0700 (PDT)
+ id 1iIvIi-0003ip-6T
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 09:49:48 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id z2so79187ybn.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 06:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DBn82VDoTIkQHKrcIDGuEVCWKjWKbpPGI9lxXV47UXY=;
- b=ufd5x4g0OMzc1f3gjfMgUaDLvB0xHGQQCNgDp3kUD2jk2SX0CGKxt/5v3IoIZqX9Ys
- 0TELz48Ia74rWxI3baTtHWmnvDuZ+tFGPi5hNVYSWm266T01VZmxQLGawL20d5HBIYmZ
- Jqxaxag80kZBCQnSl5fAgcApqr3cegWNUEnJUCTJ104M1bJQoF2b0YUVeMTbcgABEfD0
- Ufy7F4NWzpIVcDjLYRNYZrYo37Gxq4J7LnGbKUp8Ke1tmJZKarB0xwvUo+0CL2mdtEnI
- xYkKWk7n4TwsHIDVQffror+eaujZuxeULCMQPRYMHUgpsrFMADafRdkdAnv8417PmOPa
- 7vzw==
+ bh=xZH3oa+fEbaUjwm0ZjIFF1dWywajMdYu17rk2IR9ClE=;
+ b=MQ4zWAxKtitI9+2b0FGNMzBNoenroObDuSLYzQPKbT3hAh8es22qjqTYBeNdS7gpff
+ tyQbFYKC6DkYWdJzoRXbDsuXwmnHPhUjLPqx51TpGqcGCkP4NcmsD7XlAcEiyzZFwksL
+ b1qAzpS96C6xumgoLAX9sWr3CCJlECkamxqTbisXW14NAMzpz1RFJ9pGcpaV650/kQcF
+ wGgJCnRDMbiIXSoFga1ebN1ZJXfxwHuVqA7rJVpvC3qekIy61efkf+wHSo8sWA3RTUZu
+ TqzXOa0AIeShcgnhMhrSkPNduSnAwoe4egKm+cJtfSE1EJc20BfsCwosdCc+6tDr94Qc
+ HX2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=DBn82VDoTIkQHKrcIDGuEVCWKjWKbpPGI9lxXV47UXY=;
- b=sZKHYRGcq4ytAvOJ6V02dwikbuDb7I8MCLmnD8s9Zq9FSqxfxRLDSuglRza0UA2S4b
- ZaIM1DFLVSIw28KVBuQB+kfBZ/aBa/1NxdRINDBQ8ytaCa8xpZEoAnkiSAndJm1/CsmU
- jMYOmu64ftnS0oGgIr3BXU9ucSXVzAqwqEUvvLTj+6QwWj8F1T+qsV+/a2YFSQRoAXaO
- ikte+gGPU2n2ZIYkvsmcM8zp0jm65lW4I4sUvZtCf3q5Cdy3Q+Y0A37ARWSlIxmaYUzN
- cWwZX0UTEDEghptqqiZejar7/90oPZPGB4To9cHwqSItnT8I6lrLnJ+hqmB9+M48W/Tx
- YY6w==
-X-Gm-Message-State: APjAAAVyCvUYWNp/a2kfneB2Y0hyNdy2A3C9CiTAsS/Gmkly8Q/HN6kX
- mHbu4aXHYFYbrWJM1IdscSCNLM+zujI=
-X-Google-Smtp-Source: APXvYqxBdn4dOjYy7OFjPx8jM3NqRsFQKlvwibJRqHIb2I2PYUpUo5RehkTDeW3itcAdNFoHsGexDQ==
-X-Received: by 2002:a25:cbce:: with SMTP id
- b197mr10024381ybg.355.1570801770705; 
- Fri, 11 Oct 2019 06:49:30 -0700 (PDT)
+ bh=xZH3oa+fEbaUjwm0ZjIFF1dWywajMdYu17rk2IR9ClE=;
+ b=VjB9Uq14qU3yvzp76T7+iavJsSYIQrBZj2I3/Ll4tY08LbLTmuIvIGSPaBKhp65/Tp
+ Fj0PO0oItvo2WERZ99cUP2kyBQ1rVRX1pruZWgNMwQhGkiGuKWNAhoWayDW5vZuRVhiG
+ +HypQBAityk7IN5KqLagNGJMbeIK4j+C3eH6V4F0eG2SSpZmGrNmwCPhm65JLMqI2M9L
+ 9yK0CONbDzo0M4X/4Lq2PouLS5UfdN/ioh73Onw7ZsXEAafXlW4UWBdrAZ+nIC9zNZS7
+ 2sYp3rPl/zMoONiiM37SNgPQaYSxYoLzyPuRf3i4WL39FMOWb2EyT+MJRASyaY4vu927
+ skPw==
+X-Gm-Message-State: APjAAAVB0roRY5BRRX4hdV3asaTLPVIYIr9K6wlL1O9+DgajwT86gf/w
+ UOlc1aQ5cYE0r+Cfu8oMx1pqAsqqALs=
+X-Google-Smtp-Source: APXvYqy7QAfamC2s4LUQqZI/Tyv0cxaQ9PN9OYqRR+/LU6cl66v057PVvTXxodl0SF8s86B2ZDMaAQ==
+X-Received: by 2002:a25:5b09:: with SMTP id p9mr10890709ybb.236.1570801787211; 
+ Fri, 11 Oct 2019 06:49:47 -0700 (PDT)
 Received: from cloudburst.gateway.pace.com (67.216.151.25.pool.hargray.net.
  [67.216.151.25])
- by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.49.29
+ by smtp.gmail.com with ESMTPSA id f68sm2534000ywb.96.2019.10.11.06.49.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 06:49:29 -0700 (PDT)
+ Fri, 11 Oct 2019 06:49:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/22] target/arm: Implement the IRG instruction
-Date: Fri, 11 Oct 2019 09:47:28 -0400
-Message-Id: <20191011134744.2477-7-richard.henderson@linaro.org>
+Subject: [PATCH v5 07/22] target/arm: Implement ADDG, SUBG instructions
+Date: Fri, 11 Oct 2019 09:47:29 -0400
+Message-Id: <20191011134744.2477-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191011134744.2477-1-richard.henderson@linaro.org>
 References: <20191011134744.2477-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
+X-Received-From: 2607:f8b0:4864:20::b41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,116 +79,187 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Update to 00eac5.
-    Merge choose_random_nonexcluded_tag into helper_irg since
-    that pseudo function no longer exists separately.
+v2: Shift offset in translate; use extract32.
 ---
- target/arm/helper-a64.h    |  1 +
- target/arm/mte_helper.c    | 57 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-a64.c |  7 +++++
- 3 files changed, 65 insertions(+)
+ target/arm/helper-a64.h    |  2 ++
+ target/arm/internals.h     |  4 +++
+ target/arm/mte_helper.c    | 32 +++++++++++++++++
+ target/arm/translate-a64.c | 71 ++++++++++++++++++++++++++------------
+ 4 files changed, 86 insertions(+), 23 deletions(-)
 
 diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
-index a82e21f15a..6ff7f5b756 100644
+index 6ff7f5b756..268c114b79 100644
 --- a/target/arm/helper-a64.h
 +++ b/target/arm/helper-a64.h
-@@ -106,3 +106,4 @@ DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
- DEF_HELPER_FLAGS_2(mte_check1, TCG_CALL_NO_WG, i64, env, i64)
+@@ -107,3 +107,5 @@ DEF_HELPER_FLAGS_2(mte_check1, TCG_CALL_NO_WG, i64, env, i64)
  DEF_HELPER_FLAGS_2(mte_check2, TCG_CALL_NO_WG, i64, env, i64)
  DEF_HELPER_FLAGS_3(mte_check3, TCG_CALL_NO_WG, i64, env, i64, i32)
-+DEF_HELPER_FLAGS_3(irg, TCG_CALL_NO_RWG, i64, env, i64, i64)
+ DEF_HELPER_FLAGS_3(irg, TCG_CALL_NO_RWG, i64, env, i64, i64)
++DEF_HELPER_FLAGS_4(addg, TCG_CALL_NO_RWG_SE, i64, env, i64, i32, i32)
++DEF_HELPER_FLAGS_4(subg, TCG_CALL_NO_RWG_SE, i64, env, i64, i32, i32)
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index bfa243be06..a434743b15 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1085,4 +1085,8 @@ void arm_log_exception(int idx);
+  */
+ #define GMID_EL1_BS  6
+ 
++/* We associate one allocation tag per 16 bytes, the minimum.  */
++#define LOG2_TAG_GRANULE 4
++#define TAG_GRANULE      (1 << LOG2_TAG_GRANULE)
++
+ #endif
 diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index bbb90cbe86..9848849a91 100644
+index 9848849a91..c3edc51bba 100644
 --- a/target/arm/mte_helper.c
 +++ b/target/arm/mte_helper.c
-@@ -37,6 +37,31 @@ static int allocation_tag_from_addr(uint64_t ptr)
-     return extract64(ptr, 56, 4);
- }
+@@ -222,3 +222,35 @@ uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
  
-+static int choose_nonexcluded_tag(int tag, int offset, uint16_t exclude)
-+{
-+    if (exclude == 0xffff) {
-+        return 0;
-+    }
-+    if (offset == 0) {
-+        while (exclude & (1 << tag)) {
-+            tag = (tag + 1) & 15;
-+        }
-+    } else {
-+        do {
-+            do {
-+                tag = (tag + 1) & 15;
-+            } while (exclude & (1 << tag));
-+        } while (--offset > 0);
-+    }
-+    return tag;
-+}
-+
-+static uint64_t address_with_allocation_tag(uint64_t ptr, int rtag)
-+{
-+    rtag -= extract64(ptr, 55, 1);
-+    return deposit64(ptr, 56, 4, rtag);
-+}
-+
- /*
-  * Perform a checked access for MTE.
-  * On arrival, TBI is known to enabled, as is allocation_tag_access_enabled.
-@@ -165,3 +190,35 @@ uint64_t HELPER(mte_check3)(CPUARMState *env, uint64_t dirty_ptr, uint32_t tbi)
-         return dirty_ptr;
-     }
+     return address_with_allocation_tag(rn, rtag);
  }
 +
-+uint64_t HELPER(irg)(CPUARMState *env, uint64_t rn, uint64_t rm)
++uint64_t HELPER(addg)(CPUARMState *env, uint64_t ptr,
++                      uint32_t offset, uint32_t tag_offset)
 +{
 +    int el = arm_current_el(env);
 +    uint64_t sctlr = arm_sctlr(env, el);
 +    int rtag = 0;
 +
 +    if (allocation_tag_access_enabled(env, el, sctlr)) {
-+        /*
-+         * Our IMPDEF choice for GCR_EL1.RRND==1 is to behave as if
-+         * GCR_EL1.RRND==0, always producing deterministic results.
-+         */
-+        uint16_t exclude = extract32(rm | env->cp15.gcr_el1, 0, 16);
-+        int start = extract32(env->cp15.rgsr_el1, 0, 4);
-+        int seed = extract32(env->cp15.rgsr_el1, 8, 16);
-+        int offset, i;
-+
-+        /* RandomTag */
-+        for (i = offset = 0; i < 4; ++i) {
-+            /* NextRandomTagBit */
-+            int top = (extract32(seed, 5, 1) ^ extract32(seed, 3, 1) ^
-+                       extract32(seed, 2, 1) ^ extract32(seed, 0, 1));
-+            seed = (top << 15) | (seed >> 1);
-+            offset |= top << i;
-+        }
-+        rtag = choose_nonexcluded_tag(start, offset, exclude);
-+
-+        env->cp15.rgsr_el1 = rtag | (seed << 8);
++        int start_tag = allocation_tag_from_addr(ptr);
++        uint16_t exclude = extract32(env->cp15.gcr_el1, 0, 16);
++        rtag = choose_nonexcluded_tag(start_tag, tag_offset, exclude);
 +    }
 +
-+    return address_with_allocation_tag(rn, rtag);
++    return address_with_allocation_tag(ptr + offset, rtag);
++}
++
++uint64_t HELPER(subg)(CPUARMState *env, uint64_t ptr,
++                      uint32_t offset, uint32_t tag_offset)
++{
++    int el = arm_current_el(env);
++    uint64_t sctlr = arm_sctlr(env, el);
++    int rtag = 0;
++
++    if (allocation_tag_access_enabled(env, el, sctlr)) {
++        int start_tag = allocation_tag_from_addr(ptr);
++        uint16_t exclude = extract32(env->cp15.gcr_el1, 0, 16);
++        rtag = choose_nonexcluded_tag(start_tag, tag_offset, exclude);
++    }
++
++    return address_with_allocation_tag(ptr - offset, rtag);
 +}
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 18d45fba87..83d253d67f 100644
+index 83d253d67f..26aee0c1c9 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -5156,6 +5156,13 @@ static void disas_data_proc_2src(DisasContext *s, uint32_t insn)
-     case 3: /* SDIV */
-         handle_div(s, true, sf, rm, rn, rd);
+@@ -3628,7 +3628,9 @@ static void disas_pc_rel_adr(DisasContext *s, uint32_t insn)
+  *    sf: 0 -> 32bit, 1 -> 64bit
+  *    op: 0 -> add  , 1 -> sub
+  *     S: 1 -> set flags
+- * shift: 00 -> LSL imm by 0, 01 -> LSL imm by 12
++ * shift: 00 -> LSL imm by 0,
++ *        01 -> LSL imm by 12
++ *        10 -> ADDG, SUBG
+  */
+ static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
+ {
+@@ -3639,10 +3641,10 @@ static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
+     bool setflags = extract32(insn, 29, 1);
+     bool sub_op = extract32(insn, 30, 1);
+     bool is_64bit = extract32(insn, 31, 1);
++    bool is_tag = false;
+ 
+     TCGv_i64 tcg_rn = cpu_reg_sp(s, rn);
+     TCGv_i64 tcg_rd = setflags ? cpu_reg(s, rd) : cpu_reg_sp(s, rd);
+-    TCGv_i64 tcg_result;
+ 
+     switch (shift) {
+     case 0x0:
+@@ -3650,35 +3652,58 @@ static void disas_add_sub_imm(DisasContext *s, uint32_t insn)
+     case 0x1:
+         imm <<= 12;
          break;
-+    case 4: /* IRG */
-+        if (sf == 0 || !dc_isar_feature(aa64_mte_insn_reg, s)) {
++    case 0x2:
++        /* ADDG, SUBG */
++        if (!is_64bit || setflags || (imm & 0x30) ||
++            !dc_isar_feature(aa64_mte_insn_reg, s)) {
 +            goto do_unallocated;
 +        }
-+        gen_helper_irg(cpu_reg_sp(s, rd), cpu_env,
-+                       cpu_reg_sp(s, rn), cpu_reg(s, rm));
++        is_tag = true;
 +        break;
-     case 8: /* LSLV */
-         handle_shift_reg(s, A64_SHIFT_TYPE_LSL, sf, rm, rn, rd);
-         break;
+     default:
++    do_unallocated:
+         unallocated_encoding(s);
+         return;
+     }
+ 
+-    tcg_result = tcg_temp_new_i64();
+-    if (!setflags) {
+-        if (sub_op) {
+-            tcg_gen_subi_i64(tcg_result, tcg_rn, imm);
+-        } else {
+-            tcg_gen_addi_i64(tcg_result, tcg_rn, imm);
+-        }
+-    } else {
+-        TCGv_i64 tcg_imm = tcg_const_i64(imm);
+-        if (sub_op) {
+-            gen_sub_CC(is_64bit, tcg_result, tcg_rn, tcg_imm);
+-        } else {
+-            gen_add_CC(is_64bit, tcg_result, tcg_rn, tcg_imm);
+-        }
+-        tcg_temp_free_i64(tcg_imm);
+-    }
++    if (is_tag) {
++        TCGv_i32 tag_offset = tcg_const_i32(imm & 15);
++        TCGv_i32 offset = tcg_const_i32((imm >> 6) << LOG2_TAG_GRANULE);
+ 
+-    if (is_64bit) {
+-        tcg_gen_mov_i64(tcg_rd, tcg_result);
++        if (sub_op) {
++            gen_helper_subg(tcg_rd, cpu_env, tcg_rn, offset, tag_offset);
++        } else {
++            gen_helper_addg(tcg_rd, cpu_env, tcg_rn, offset, tag_offset);
++        }
++        tcg_temp_free_i32(tag_offset);
++        tcg_temp_free_i32(offset);
+     } else {
+-        tcg_gen_ext32u_i64(tcg_rd, tcg_result);
+-    }
++        TCGv_i64 tcg_result;
+ 
+-    tcg_temp_free_i64(tcg_result);
++        if (!setflags) {
++            tcg_result = tcg_rd;
++            if (sub_op) {
++                tcg_gen_subi_i64(tcg_result, tcg_rn, imm);
++            } else {
++                tcg_gen_addi_i64(tcg_result, tcg_rn, imm);
++            }
++        } else {
++            TCGv_i64 tcg_imm = tcg_const_i64(imm);
++            tcg_result = new_tmp_a64(s);
++            if (sub_op) {
++                gen_sub_CC(is_64bit, tcg_result, tcg_rn, tcg_imm);
++            } else {
++                gen_add_CC(is_64bit, tcg_result, tcg_rn, tcg_imm);
++            }
++            tcg_temp_free_i64(tcg_imm);
++        }
++
++        if (is_64bit) {
++            tcg_gen_mov_i64(tcg_rd, tcg_result);
++        } else {
++            tcg_gen_ext32u_i64(tcg_rd, tcg_result);
++        }
++    }
+ }
+ 
+ /* The input should be a value in the bottom e bits (with higher
 -- 
 2.17.1
 
