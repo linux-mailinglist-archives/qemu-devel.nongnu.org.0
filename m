@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56956D464C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:12:30 +0200 (CEST)
-Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30878D4668
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 19:15:56 +0200 (CEST)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIySr-0002PP-0l
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36711)
+	id 1iIyWA-0005ur-9W
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 13:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0006VA-29
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:37 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR5-0006WB-Lw
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR3-0004gS-3d
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:34 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48018)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxR3-0004hu-OL
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:35 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48350)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR2-0004Bf-P3; Fri, 11 Oct 2019 12:06:33 -0400
+ id 1iIxR3-0004Ok-Ev
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:06:33 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxQh-0003XG-59; Fri, 11 Oct 2019 19:06:11 +0300
+ id 1iIxQr-0003XG-QI; Fri, 11 Oct 2019 19:06:21 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 045/126] pflash: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:04:31 +0300
-Message-Id: <20191011160552.22907-46-vsementsov@virtuozzo.com>
+Subject: [RFC v5 076/126] Human Monitor (HMP): introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:02 +0300
+Message-Id: <20191011160552.22907-77-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,10 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,67 +97,38 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/block/pflash_cfi01.c | 7 +++----
- hw/block/pflash_cfi02.c | 7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+ monitor/misc.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 566c0acb77..37571b6efb 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -700,12 +700,12 @@ static const MemoryRegionOps pflash_cfi01_ops = {
+diff --git a/monitor/misc.c b/monitor/misc.c
+index aef16f6cfb..4c658884f4 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1775,20 +1775,19 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
  
- static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+ int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     PFlashCFI01 *pfl = PFLASH_CFI01(dev);
-     uint64_t total_len;
-     int ret;
-     uint64_t blocks_per_device, sector_len_per_device, device_len;
-     int num_devices;
+     int fd;
 -    Error *local_err = NULL;
  
-     if (pfl->sector_len == 0) {
-         error_setg(errp, "attribute \"sector-length\" not specified or zero.");
-@@ -739,9 +739,8 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-         &pfl->mem, OBJECT(dev),
-         &pflash_cfi01_ops,
-         pfl,
--        pfl->name, total_len, &local_err);
+     if (!qemu_isdigit(fdname[0]) && mon) {
+-        fd = monitor_get_fd(mon, fdname, &local_err);
++        fd = monitor_get_fd(mon, fdname, errp);
+     } else {
+         fd = qemu_parse_fd(fdname);
+         if (fd == -1) {
+-            error_setg(&local_err, "Invalid file descriptor number '%s'",
++            error_setg(errp, "Invalid file descriptor number '%s'",
+                        fdname);
+         }
+     }
 -    if (local_err) {
 -        error_propagate(errp, local_err);
-+        pfl->name, total_len, errp);
 +    if (*errp) {
-         return;
-     }
- 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 4baca701b7..9dcdc13289 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -719,9 +719,9 @@ static const MemoryRegionOps pflash_cfi02_ops = {
- 
- static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     PFlashCFI02 *pfl = PFLASH_CFI02(dev);
-     int ret;
--    Error *local_err = NULL;
- 
-     if (pfl->uniform_sector_len == 0 && pfl->sector_len[0] == 0) {
-         error_setg(errp, "attribute \"sector-length\" not specified or zero.");
-@@ -787,9 +787,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
- 
-     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
-                                   &pflash_cfi02_ops, pfl, pfl->name,
--                                  pfl->chip_len, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+                                  pfl->chip_len, errp);
-+    if (*errp) {
-         return;
-     }
- 
+         assert(fd == -1);
+     } else {
+         assert(fd != -1);
 -- 
 2.21.0
 
