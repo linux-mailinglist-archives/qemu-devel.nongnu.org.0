@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D65CD485E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 21:23:39 +0200 (CEST)
-Received: from localhost ([::1]:56198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C615ED4863
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 21:25:04 +0200 (CEST)
+Received: from localhost ([::1]:56214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJ0Vm-0007tf-5S
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 15:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
+	id 1iJ0X9-0001C7-Ew
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 15:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iJ0Pf-0000QR-8H
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:20 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1iJ0Pg-0000Sp-Ji
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iJ0Pe-0003tZ-7X
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42948)
+ (envelope-from <dgilbert@redhat.com>) id 1iJ0Pf-0003ur-G2
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iJ0Pe-0003t0-1N
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:18 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iJ0Pf-0003u3-AW
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 15:17:19 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 169F810DCCA6;
- Fri, 11 Oct 2019 19:17:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8CAEE83F3D;
+ Fri, 11 Oct 2019 19:17:18 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-210.ams2.redhat.com
  [10.36.117.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCD845D6C8;
- Fri, 11 Oct 2019 19:17:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E6DA5D6C8;
+ Fri, 11 Oct 2019 19:17:17 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, eric.auger@redhat.com,
  richardw.yang@linux.intel.com
-Subject: [PULL 11/21] migration: pass in_postcopy instead of check state again
-Date: Fri, 11 Oct 2019 20:16:36 +0100
-Message-Id: <20191011191646.226814-12-dgilbert@redhat.com>
+Subject: [PULL 12/21] migration: report SaveStateEntry id and name on failure
+Date: Fri, 11 Oct 2019 20:16:37 +0100
+Message-Id: <20191011191646.226814-13-dgilbert@redhat.com>
 In-Reply-To: <20191011191646.226814-1-dgilbert@redhat.com>
 References: <20191011191646.226814-1-dgilbert@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 11 Oct 2019 19:17:17 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Fri, 11 Oct 2019 19:17:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,31 +64,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
-Not necessary to do the check again.
+This provides helpful information on which entry failed.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20191005220517.24029-4-richardw.yang@linux.intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20191005220517.24029-5-richardw.yang@linux.intel.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ migration/savevm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index d7f8b428e0..3febd0f8f3 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3149,8 +3149,7 @@ static MigIterateState migration_iteration_run(Migr=
-ationState *s)
-             return MIG_ITERATE_SKIP;
+diff --git a/migration/savevm.c b/migration/savevm.c
+index bb9462a54d..241c5dd097 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1215,6 +1215,8 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool pos=
+tcopy)
+         save_section_footer(f, se);
+=20
+         if (ret < 0) {
++            error_report("failed to save SaveStateEntry with id(name): %=
+d(%s)",
++                         se->section_id, se->idstr);
+             qemu_file_set_error(f, ret);
          }
-         /* Just another iteration step */
--        qemu_savevm_state_iterate(s->to_dst_file,
--            s->state =3D=3D MIGRATION_STATUS_POSTCOPY_ACTIVE);
-+        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
-     } else {
-         trace_migration_thread_low_pending(pending_size);
-         migration_completion(s);
+         if (ret <=3D 0) {
 --=20
 2.23.0
 
