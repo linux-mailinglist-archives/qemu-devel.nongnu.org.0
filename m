@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1303CD474F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:17:28 +0200 (CEST)
-Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653DED473E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Oct 2019 20:12:04 +0200 (CEST)
+Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iIzTi-0004mV-Um
-	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:17:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1iIzOV-0007eD-8y
+	for lists+qemu-devel@lfdr.de; Fri, 11 Oct 2019 14:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmL-0007oo-L1
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:34 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhG-00010I-Da
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iIxmK-0002vo-Bm
- for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:28:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49990)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iIxhF-0008Mb-10
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:18 -0400
+Received: from relay.sw.ru ([185.231.240.75]:49696)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxmK-0002ur-4H; Fri, 11 Oct 2019 12:28:32 -0400
+ id 1iIxhE-0008MF-Qa
+ for qemu-devel@nongnu.org; Fri, 11 Oct 2019 12:23:16 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iIxR3-0003XG-7w; Fri, 11 Oct 2019 19:06:33 +0300
+ id 1iIxR8-0003XG-Kt; Fri, 11 Oct 2019 19:06:38 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v5 104/126] NVMe Block Driver: introduce ERRP_AUTO_PROPAGATE
-Date: Fri, 11 Oct 2019 19:05:30 +0300
-Message-Id: <20191011160552.22907-105-vsementsov@virtuozzo.com>
+Subject: [RFC v5 119/126] hw/core/bus.c: introduce ERRP_AUTO_PROPAGATE
+Date: Fri, 11 Oct 2019 19:05:45 +0300
+Message-Id: <20191011160552.22907-120-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191011160552.22907-1-vsementsov@virtuozzo.com>
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
@@ -47,9 +48,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, qemu-block@nongnu.org, armbru@redhat.com,
- Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,71 +97,54 @@ Reported-by: Kevin Wolf <kwolf@redhat.com>
 Reported-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/nvme.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ hw/core/bus.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 5be3a39b63..8447d1caea 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -187,9 +187,9 @@ static NVMeQueuePair *nvme_create_queue_pair(BlockDriverState *bs,
-                                              int idx, int size,
-                                              Error **errp)
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index 7f3d2a3dbd..0a1e508963 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -146,14 +146,14 @@ static bool bus_get_realized(Object *obj, Error **errp)
+ 
+ static void bus_set_realized(Object *obj, bool value, Error **errp)
  {
 +    ERRP_AUTO_PROPAGATE();
-     int i, r;
-     BDRVNVMeState *s = bs->opaque;
--    Error *local_err = NULL;
-     NVMeQueuePair *q = g_new0(NVMeQueuePair, 1);
-     uint64_t prp_list_iova;
- 
-@@ -209,16 +209,14 @@ static NVMeQueuePair *nvme_create_queue_pair(BlockDriverState *bs,
-         req->prp_list_page = q->prp_list_pages + i * s->page_size;
-         req->prp_list_iova = prp_list_iova + i * s->page_size;
-     }
--    nvme_init_queue(bs, &q->sq, size, NVME_SQ_ENTRY_BYTES, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    nvme_init_queue(bs, &q->sq, size, NVME_SQ_ENTRY_BYTES, errp);
-+    if (*errp) {
-         goto fail;
-     }
-     q->sq.doorbell = &s->regs->doorbells[idx * 2 * s->doorbell_scale];
- 
--    nvme_init_queue(bs, &q->cq, size, NVME_CQ_ENTRY_BYTES, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    nvme_init_queue(bs, &q->cq, size, NVME_CQ_ENTRY_BYTES, errp);
-+    if (*errp) {
-         goto fail;
-     }
-     q->cq.doorbell = &s->regs->doorbells[(idx * 2 + 1) * s->doorbell_scale];
-@@ -569,12 +567,12 @@ static bool nvme_poll_cb(void *opaque)
- static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-                      Error **errp)
- {
-+    ERRP_AUTO_PROPAGATE();
-     BDRVNVMeState *s = bs->opaque;
-     int ret;
-     uint64_t cap;
-     uint64_t timeout_ms;
-     uint64_t deadline, now;
+     BusState *bus = BUS(obj);
+     BusClass *bc = BUS_GET_CLASS(bus);
+     BusChild *kid;
 -    Error *local_err = NULL;
  
-     qemu_co_mutex_init(&s->dma_map_lock);
-     qemu_co_queue_init(&s->dma_flush_queue);
-@@ -666,9 +664,8 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     aio_set_event_notifier(bdrv_get_aio_context(bs), &s->irq_notifier,
-                            false, nvme_handle_event, nvme_poll_cb);
+     if (value && !bus->realized) {
+         if (bc->realize) {
+-            bc->realize(bus, &local_err);
++            bc->realize(bus, errp);
+         }
  
--    nvme_identify(bs, namespace, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    nvme_identify(bs, namespace, errp);
-+    if (*errp) {
-         ret = -EIO;
-         goto out;
+         /* TODO: recursive realization */
+@@ -161,18 +161,17 @@ static void bus_set_realized(Object *obj, bool value, Error **errp)
+         QTAILQ_FOREACH(kid, &bus->children, sibling) {
+             DeviceState *dev = kid->child;
+             object_property_set_bool(OBJECT(dev), false, "realized",
+-                                     &local_err);
+-            if (local_err != NULL) {
++                                     errp);
++            if (*errp) {
+                 break;
+             }
+         }
+-        if (bc->unrealize && local_err == NULL) {
+-            bc->unrealize(bus, &local_err);
++        if (bc->unrealize && *errp == NULL) {
++            bc->unrealize(bus, errp);
+         }
      }
+ 
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
++    if (*errp) {
+         return;
+     }
+ 
 -- 
 2.21.0
 
