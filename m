@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59955D5093
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 17:05:28 +0200 (CEST)
-Received: from localhost ([::1]:34144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7A5D509F
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 17:11:01 +0200 (CEST)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJIxT-0006FW-8H
-	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 11:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49015)
+	id 1iJJ2q-0003xT-7e
+	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 11:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45520)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iJIwe-0005Ya-4T
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 11:04:37 -0400
+ (envelope-from <bounces@canonical.com>) id 1iJIZh-0004CX-5N
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 10:40:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iJIwc-0007DF-8P
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 11:04:35 -0400
-Resent-Date: Sat, 12 Oct 2019 11:04:35 -0400
-Resent-Message-Id: <E1iJIwc-0007DF-8P@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21493)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iJIwc-0007CS-0d
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 11:04:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1570892657; cv=none; d=zoho.com; s=zohoarc; 
- b=mp2jCNsAcemAwgr0uZgBF067taAe04hsCVgg0VhZAqmNMmLDlmVGpp5u2XKaRYyMJOfI4hvSshQGcfq55vDnF0h3/x94UyAqBeao+Q3VbK+iClxhioq8kvnY6+N6Jm56u1faBVxj0C0IAOu6DmvKTUOYDdmaZ0xIz59InUelnyo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1570892657;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Mcb9falT5P/zzhBokKcx8+4NCumrAhZvFgWhgjyO8Yc=; 
- b=LLhx+SSmc1JYsLeDv7T7clvpH7gJ3DyRrnSFz+fTKuC89T9/+7iHo7aG/E0DFE+SdZEbFV11z4d3S12SuSvJa91jnn3T502MdMAakOYbTqVEayUfzcnib8Cl11OT1he2BVgHCyZ2IjbZSFKA4t5/6m2zh76GWyp5dC+swo6EjS4=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1570892656368321.5811850315049;
- Sat, 12 Oct 2019 08:04:16 -0700 (PDT)
-In-Reply-To: <1570863638-22272-1-git-send-email-cathy.zhang@intel.com>
-Subject: Re: [PATCH 0/3] Add CPU model for intel processor Cooper Lake
-Message-ID: <157089265511.19705.15924275646599772449@37313f22b938>
+ (envelope-from <bounces@canonical.com>) id 1iJIZe-000712-3Z
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 10:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54434)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iJIZd-0006zP-TJ
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 10:40:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iJIZc-0003wd-Cn
+ for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 14:40:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5CB4D2E80CD
+ for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 14:40:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: cathy.zhang@intel.com
-Date: Sat, 12 Oct 2019 08:04:16 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 12 Oct 2019 14:25:57 -0000
+From: Emanuele Faranda <black.silver@hotmail.it>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: black-silver
+X-Launchpad-Bug-Reporter: Emanuele Faranda (black-silver)
+X-Launchpad-Bug-Modifier: Emanuele Faranda (black-silver)
+Message-Id: <157089035721.2099.14904442368526379360.malonedeb@wampee.canonical.com>
+Subject: [Bug 1847861] [NEW] Guest stuttering under high disk IO (virtio)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0e6db7b60ff04eee03f91f0c5f62edac0e59c3a1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Sat, 12 Oct 2019 11:06:39 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,55 +65,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, cathy.zhang@intel.com,
- ehabkost@redhat.com, rth@twiddle.net
+Reply-To: Bug 1847861 <1847861@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTcwODYzNjM4LTIyMjcyLTEt
-Z2l0LXNlbmQtZW1haWwtY2F0aHkuemhhbmdAaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
-IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
-b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0ggMC8zXSBBZGQgQ1BVIG1v
-ZGVsIGZvciBpbnRlbCBwcm9jZXNzb3IgQ29vcGVyIExha2UKVHlwZTogc2VyaWVzCk1lc3NhZ2Ut
-aWQ6IDE1NzA4NjM2MzgtMjIyNzItMS1naXQtc2VuZC1lbWFpbC1jYXRoeS56aGFuZ0BpbnRlbC5j
-b20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCmMxNmE3NGYgaTM4NjogQWRkIG5ldyBDUFUgbW9kZWwgQ29vcGVybGFr
-ZQpjNzBiZGQwIGkzODY6IEFkZCBtYWNybyBmb3Igc3RpYnAKMDczYWJkMyBpMzg2OiBBZGQgTVNS
-IGZlYXR1cmUgYml0IGZvciBNRFMtTk8KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMyBDaGVja2lu
-ZyBjb21taXQgMDczYWJkMzY3MTkxIChpMzg2OiBBZGQgTVNSIGZlYXR1cmUgYml0IGZvciBNRFMt
-Tk8pCjIvMyBDaGVja2luZyBjb21taXQgYzcwYmRkMDY2NWYwIChpMzg2OiBBZGQgbWFjcm8gZm9y
-IHN0aWJwKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjM6IEZJTEU6IHRhcmdl
-dC9pMzg2L2NwdS5oOjcyMDoKKyNkZWZpbmUgQ1BVSURfN18wX0VEWF9TVElCUCAgICAgKDFVIDw8
-IDI3KSAvKiBTaW5nbGUgVGhyZWFkIEluZGlyZWN0IEJyYW5jaCBQcmVkaWN0b3JzICovCgp0b3Rh
-bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8zIGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMvMyBDaGVja2luZyBjb21taXQgYzE2YTc0ZjEzOGUxIChp
-Mzg2OiBBZGQgbmV3IENQVSBtb2RlbCBDb29wZXJsYWtlKQpFUlJPUjogdHJhaWxpbmcgd2hpdGVz
-cGFjZQojNTI6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjI2NDQ6CisgICAgICAgICAgICBDUFVJ
-RF83XzBfRUJYX1NNQVAgfCBDUFVJRF83XzBfRUJYX0NMV0IgfCAkCgpFUlJPUjogdHJhaWxpbmcg
-d2hpdGVzcGFjZQojNjE6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjI2NTM6CisgICAgICAgICAg
-ICBDUFVJRF83XzBfRURYX1NQRUNfQ1RSTF9TU0JEIHwgQ1BVSURfN18wX0VEWF9BUkNIX0NBUEFC
-SUxJVElFUywgJAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
-IHNlcGFyYXRlIGxpbmUKIzY3OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzoyNjU5OgorICAgICAg
-ICAvKiBNaXNzaW5nOiBYU0FWRVMgKG5vdCBzdXBwb3J0ZWQgYnkgc29tZSBMaW51eCB2ZXJzaW9u
-cywKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHNob3VsZCBhbGlnbiB0aGUgKiBvbiBlYWNoIGxp
-bmUKIzY4OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzoyNjYwOgorICAgICAgICAvKiBNaXNzaW5n
-OiBYU0FWRVMgKG5vdCBzdXBwb3J0ZWQgYnkgc29tZSBMaW51eCB2ZXJzaW9ucywKKyAgICAgICAg
-ICAgICAgICAqIGluY2x1ZGluZyB2NC4xIHRvIHY0LjEyKS4KCnRvdGFsOiAyIGVycm9ycywgMiB3
-YXJuaW5ncywgNjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8zIGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2Rl
-OiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9n
-cy8xNTcwODYzNjM4LTIyMjcyLTEtZ2l0LXNlbmQtZW1haWwtY2F0aHkuemhhbmdAaW50ZWwuY29t
-L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
-dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
-ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Public bug reported:
 
+Performing io intensive tasks on virtualized Windows causes the system
+to visually stutter. I can often reproduce the problem by running fio on
+windows:
+
+fio --randrepeat=3D1 --ioengine=3Dwindowsaio --direct=3D1 --gtod_reduce=3D1
+--name=3Dtest --filename=3D\\.\PhysicalDrive0 --bs=3D4k --iodepth=3D128
+--size=3D4G --readwrite=3Drandread
+
+While the fio command is running, moving the mouse pointer will be be
+laggy. The stuttering does not appear with iodepth <=3D 32 . The
+stuttering also manifests while playing games, the music and video
+pauses for a fraction of second in a playable but disturbing way.
+
+Here are my system specs:
+
+Host OS: archlinux
+Guest OS: Windows 10 Enterprise
+qemu version: qemu-git 8:v4.1.0.r1378.g98b2e3c9ab-1 (from AUR, compiled wit=
+h -march=3Dnative)
+CPU: AMD Ryzen Threadripper 1900X 8-Core Processor
+Huge Pages: vm.nr_hugepages=3D4128
+Disk: nvme type=3Draw, io=3Dthreads bus=3Dvirtio
+GPU (passthrough): Radeon RX 570
+
+Here are some fio test results on my windows guest:
+
+[size=3D512M,iodepth=3D1 -> min=3D30k,avg=3D31k,stddev=3D508]
+[size=3D2G,iodepth=3D8 -> min=3D203k,avg=3D207k,stddev=3D2.3k]
+[size=3D2G,iodepth=3D16 -> min=3D320k,avg=3D330k,stddev=3D4.3k]
+[size=3D4G,iodepth=3D32 -> min=3D300k,avg=3D310k,stddev=3D4.8k]
+[size=3D4G,iodepth=3D64 -> min=3D278k,avg=3D366k,stddev=3D68.6k] -> STUTTER
+[size=3D4G,iodepth=3D64 -> min=3D358k,avg=3D428k,stddev=3D52.6k] -> STUTTER
+[size=3D4G,iodepth=3D128 -> min=3D92k,avg=3D217k,stddev=3D185k] -> STUTTER
+[size=3D4G,iodepth=3D128 -> min=3D241k,avg=3D257k,stddev=3D14k] -> same con=
+fig as above, but no stuttering
+
+The min and avg values are the bandwidth values reported in KB/s by fio.
+You can see that, when the stuttering occurs, the stardard deviation is
+high and the minimum bandwidth is way below the average.
+
+Additional note: the bandwidth reported with `fio` on my linux host is
+about 2x the one reported in the guest:
+
+sudo fio --randrepeat=3D1 --ioengine=3Dlibaio --direct=3D1 --gtod_reduce=3D1
+--name=3Dtest --filename=3D/dev/nvme0n1 --bs=3D4k --iodepth=3D64 --size=3D5=
+12M
+--readwrite=3Drandread
+
+read: IOPS=3D279k, BW=3D1092MiB/s (1145MB/s)(512MiB/469msec)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Description changed:
+
+  Performing io intensive tasks on virtualized Windows causes the system
+  to visually stutter. I can often reproduce the problem by running fio on
+  windows:
+  =
+
+  fio --randrepeat=3D1 --ioengine=3Dwindowsaio --direct=3D1 --gtod_reduce=
+=3D1
+  --name=3Dtest --filename=3D\\.\PhysicalDrive0 --bs=3D4k --iodepth=3D128
+  --size=3D4G --readwrite=3Drandread
+  =
+
+  While the fio command is running, moving the mouse pointer will be be
+  laggy. The stuttering does not appear with iodepth <=3D 32 . The
+  stuttering also manifests while playing games, the music and video
+  pauses for a fraction of second in a playable but disturbing way.
+  =
+
+  Here are my system specs:
+  =
+
+  Host OS: archlinux
+  Guest OS: Windows 10 Enterprise
+  qemu version: qemu-git 8:v4.1.0.r1378.g98b2e3c9ab-1 (from AUR, compiled w=
+ith -march=3Dnative)
+  CPU: AMD Ryzen Threadripper 1900X 8-Core Processor
+  Huge Pages: vm.nr_hugepages=3D4128
+  Disk: nvme type=3Draw, io=3Dthreads bus=3Dvirtio
+  GPU (passthrough): Radeon RX 570
+  =
+
+  Here are some fio test results on my windows guest:
+  =
+
+  [size=3D512M,iodepth=3D1 -> min=3D30k,avg=3D31k,stddev=3D508]
+  [size=3D2G,iodepth=3D8 -> min=3D203k,avg=3D207k,stddev=3D2.3k]
+  [size=3D2G,iodepth=3D16 -> min=3D320k,avg=3D330k,stddev=3D4.3k]
+  [size=3D4G,iodepth=3D32 -> min=3D300k,avg=3D310k,stddev=3D4.8k]
+  [size=3D4G,iodepth=3D64 -> min=3D278k,avg=3D366k,stddev=3D68.6k] -> STUTT=
+ER
+  [size=3D4G,iodepth=3D64 -> min=3D358k,avg=3D428k,stddev=3D52.6k] -> STUTT=
+ER
+  [size=3D4G,iodepth=3D128 -> min=3D92k,avg=3D217k,stddev=3D185k] -> STUTTER
+  [size=3D4G,iodepth=3D128 -> min=3D241k,avg=3D257k,stddev=3D14k] -> same c=
+onfig as above, but no stuttering
+  =
+
+  The min and avg values are the bandwidth values reported in KB/s by fio.
+  You can see that, when the stuttering occurs, the stardard deviation is
+  high and the minimum bandwidth is way below the average.
++ =
+
++ Additional note: the bandwidth reported with `fio` on my linux host is
++ about 2x the one reported in the guest:
++ =
+
++ sudo fio --randrepeat=3D1 --ioengine=3Dlibaio --direct=3D1 --gtod_reduce=
+=3D1
++ --name=3Dtest --filename=3D/dev/nvme0n1 --bs=3D4k --iodepth=3D64 --size=
+=3D512M
++ --readwrite=3Drandread
++ =
+
++ read: IOPS=3D279k, BW=3D1092MiB/s (1145MB/s)(512MiB/469msec)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847861
+
+Title:
+  Guest stuttering under high disk IO (virtio)
+
+Status in QEMU:
+  New
+
+Bug description:
+  Performing io intensive tasks on virtualized Windows causes the system
+  to visually stutter. I can often reproduce the problem by running fio
+  on windows:
+
+  fio --randrepeat=3D1 --ioengine=3Dwindowsaio --direct=3D1 --gtod_reduce=
+=3D1
+  --name=3Dtest --filename=3D\\.\PhysicalDrive0 --bs=3D4k --iodepth=3D128
+  --size=3D4G --readwrite=3Drandread
+
+  While the fio command is running, moving the mouse pointer will be be
+  laggy. The stuttering does not appear with iodepth <=3D 32 . The
+  stuttering also manifests while playing games, the music and video
+  pauses for a fraction of second in a playable but disturbing way.
+
+  Here are my system specs:
+
+  Host OS: archlinux
+  Guest OS: Windows 10 Enterprise
+  qemu version: qemu-git 8:v4.1.0.r1378.g98b2e3c9ab-1 (from AUR, compiled w=
+ith -march=3Dnative)
+  CPU: AMD Ryzen Threadripper 1900X 8-Core Processor
+  Huge Pages: vm.nr_hugepages=3D4128
+  Disk: nvme type=3Draw, io=3Dthreads bus=3Dvirtio
+  GPU (passthrough): Radeon RX 570
+
+  Here are some fio test results on my windows guest:
+
+  [size=3D512M,iodepth=3D1 -> min=3D30k,avg=3D31k,stddev=3D508]
+  [size=3D2G,iodepth=3D8 -> min=3D203k,avg=3D207k,stddev=3D2.3k]
+  [size=3D2G,iodepth=3D16 -> min=3D320k,avg=3D330k,stddev=3D4.3k]
+  [size=3D4G,iodepth=3D32 -> min=3D300k,avg=3D310k,stddev=3D4.8k]
+  [size=3D4G,iodepth=3D64 -> min=3D278k,avg=3D366k,stddev=3D68.6k] -> STUTT=
+ER
+  [size=3D4G,iodepth=3D64 -> min=3D358k,avg=3D428k,stddev=3D52.6k] -> STUTT=
+ER
+  [size=3D4G,iodepth=3D128 -> min=3D92k,avg=3D217k,stddev=3D185k] -> STUTTER
+  [size=3D4G,iodepth=3D128 -> min=3D241k,avg=3D257k,stddev=3D14k] -> same c=
+onfig as above, but no stuttering
+
+  The min and avg values are the bandwidth values reported in KB/s by
+  fio. You can see that, when the stuttering occurs, the stardard
+  deviation is high and the minimum bandwidth is way below the average.
+
+  Additional note: the bandwidth reported with `fio` on my linux host is
+  about 2x the one reported in the guest:
+
+  sudo fio --randrepeat=3D1 --ioengine=3Dlibaio --direct=3D1 --gtod_reduce=
+=3D1
+  --name=3Dtest --filename=3D/dev/nvme0n1 --bs=3D4k --iodepth=3D64 --size=
+=3D512M
+  --readwrite=3Drandread
+
+  read: IOPS=3D279k, BW=3D1092MiB/s (1145MB/s)(512MiB/469msec)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847861/+subscriptions
 
