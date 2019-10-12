@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D2DD4D61
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 08:08:24 +0200 (CEST)
-Received: from localhost ([::1]:58936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658E9D4D62
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 08:09:30 +0200 (CEST)
+Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJAZj-0005n4-Ot
-	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 02:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43798)
+	id 1iJAan-0006sU-GF
+	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 02:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iJAYs-0005N8-1A
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 02:07:30 -0400
+ (envelope-from <philmd@redhat.com>) id 1iJAZs-0006Ds-9M
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 02:08:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iJAYq-0006nZ-VO
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 02:07:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46160)
+ (envelope-from <philmd@redhat.com>) id 1iJAZr-00072c-8j
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 02:08:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46240)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iJAYq-0006nR-Nh
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 02:07:28 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iJAZr-00072O-3j
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 02:08:31 -0400
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C27DAC06513B
- for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 06:07:27 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id x11so3800887wro.15
- for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 23:07:27 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 42A32C06513B
+ for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 06:08:30 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id f4so1710287wrj.12
+ for <qemu-devel@nongnu.org>; Fri, 11 Oct 2019 23:08:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=z6c4/T+Wmi+EKJAGWVgKFs4BshBiK+WuDhQn4K3OwO8=;
- b=UiSgpDQYkJuVozx4h7vjVy1ZqRUITYDUy/XpvpgLZjp5NPniZAgS/vF2KAd/lScItB
- cCREj6yRbDYCM1pXAfZEYGO9PY0+uBZRIVOUu0kliO9L0a4ml35rlPoDO8j12f/Z5C2W
- 0rRbqIhEylD5xQPKZBckSEfa4mB7dZls6SaYr/gZ4FbcMXt4GpUqtL4nvJShm9kEnBEa
- d7uXKuuQ9EvPegxdJG1PMwc9OmU6kfnD84NQwDYC9X86tkb1Yx7Bl1k33b+UZ9BLcjda
- f+/JsDPuRYgYiBJig5AhI0Y5uOJHkUog9C4RxNtcdoiGh4RDK7Qla3vWoMucXhk7hLhj
- 8+qQ==
-X-Gm-Message-State: APjAAAVkgCGKL62jquteaLw1kEW2ES5m9TEs9t+VG4wmD++2C+iMyh+y
- RNsLVi+1avzj4DdohS/9/hJ7oreeBG7HQofmltMewjGP89hmwdE8ipt6I15Mp9TgPAxWhdopiXy
- 1iCzruDq8FhcnyVw=
-X-Received: by 2002:adf:fe12:: with SMTP id n18mr4563532wrr.114.1570860446493; 
- Fri, 11 Oct 2019 23:07:26 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwSBqaBYHWPcVnSwnSwFKE5jN064RKseCgHkLlEkf2yCHwBwre9nv4Hc6vqMvt8r/f4Fc1URg==
-X-Received: by 2002:adf:fe12:: with SMTP id n18mr4563516wrr.114.1570860446328; 
- Fri, 11 Oct 2019 23:07:26 -0700 (PDT)
+ bh=0vnpcsrU0I2Pe6Mkan6uKknulM/dk2vQZizhIQox5tI=;
+ b=BVjtFOkF0xJZQls31k1sLa0PJr5tfJSxbom+kKemfb/2moNz+K9bcmXKacJCD2g3jo
+ 0OtDJ7Ooe4KTCMGgcR+/ZrxDMzvU+pO0/CS6curGLjeY+U0x5sKrdJ3Apltktq9Gn3Hv
+ wXb4CXCgDXphK11OScsMS9U1i5oSU/HEJA818jY2y2qBIXv5ZQKx3w+r5wLbeaeENPem
+ oxz9fTu7Ho7a5vulIMIp9+zfUylroyFHjRMEPF+K5BATDCIKgpp7lAyQN5BbNhuzdHFW
+ SPxpdvhNyqvIzcXeLgDl3k7ePPtY1bXDgfdjI5Hh9YTm+0BoJwY0PhWdMr2yJwCWpzVT
+ xIOQ==
+X-Gm-Message-State: APjAAAVmojC9FbvfJJY12HQkyccLWMqJGYQBA9vtNFy3hKWELlf3XsRe
+ zwj431C5hdsJVTjEH/S9gTP8I8u+NYxYAH3qOhxOLgsi+xfGFRSMtIhLzwWtnDIIw65i9HxbWk2
+ PU2r6xdtGzvDuB4o=
+X-Received: by 2002:adf:f48c:: with SMTP id l12mr15364795wro.99.1570860509071; 
+ Fri, 11 Oct 2019 23:08:29 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw/6dcSdA6Wn90amI6/2MYBQXYL4l+rLx9et5wZwfH4Z8jJGdvHoersE1ueYnwpI7cMgNf7ag==
+X-Received: by 2002:adf:f48c:: with SMTP id l12mr15364783wro.99.1570860508902; 
+ Fri, 11 Oct 2019 23:08:28 -0700 (PDT)
 Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id f83sm17411902wmf.43.2019.10.11.23.07.25
+ by smtp.gmail.com with ESMTPSA id e6sm13947086wre.29.2019.10.11.23.08.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Oct 2019 23:07:25 -0700 (PDT)
-Subject: Re: [RFC v5 020/126] include/qom/object.h: rename Error ** parameter
- to more common errp
+ Fri, 11 Oct 2019 23:08:28 -0700 (PDT)
+Subject: Re: [RFC v5 022/126] backends/cryptodev: drop local_err from
+ cryptodev_backend_complete()
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-21-vsementsov@virtuozzo.com>
+ <20191011160552.22907-23-vsementsov@virtuozzo.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <29245503-5a09-73f0-fba5-afb05a6b08c9@redhat.com>
-Date: Sat, 12 Oct 2019 08:07:25 +0200
+Message-ID: <f4ba75f7-3f2a-74fb-af16-21d81af30149@redhat.com>
+Date: Sat, 12 Oct 2019 08:08:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011160552.22907-21-vsementsov@virtuozzo.com>
+In-Reply-To: <20191011160552.22907-23-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -83,42 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, armbru@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/11/19 6:04 PM, Vladimir Sementsov-Ogievskiy wrote:
+> No reason for local_err here, use errp directly instead.
+>=20
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   include/qom/object.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   backends/cryptodev.c | 11 +----------
+>   1 file changed, 1 insertion(+), 10 deletions(-)
 >=20
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index 128d00c77f..716f6f655d 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -1635,9 +1635,9 @@ void object_class_property_add_uint32_ptr(ObjectC=
-lass *klass, const char *name,
->    * property of type 'uint64'.
->    */
->   void object_property_add_uint64_ptr(Object *obj, const char *name,
-> -                                    const uint64_t *v, Error **Errp);
-> +                                    const uint64_t *v, Error **errp);
->   void object_class_property_add_uint64_ptr(ObjectClass *klass, const c=
-har *name,
-> -                                          const uint64_t *v, Error **E=
-rrp);
-> +                                          const uint64_t *v, Error **e=
-rrp);
-
-Oddly the implementation already use lowercase.
+> diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+> index 3c071eab95..5a9735684e 100644
+> --- a/backends/cryptodev.c
+> +++ b/backends/cryptodev.c
+> @@ -176,19 +176,10 @@ cryptodev_backend_complete(UserCreatable *uc, Err=
+or **errp)
+>   {
+>       CryptoDevBackend *backend =3D CRYPTODEV_BACKEND(uc);
+>       CryptoDevBackendClass *bc =3D CRYPTODEV_BACKEND_GET_CLASS(uc);
+> -    Error *local_err =3D NULL;
+>  =20
+>       if (bc->init) {
+> -        bc->init(backend, &local_err);
+> -        if (local_err) {
+> -            goto out;
+> -        }
+> +        bc->init(backend, errp);
+>       }
+> -
+> -    return;
+> -
+> -out:
+> -    error_propagate(errp, local_err);
+>   }
+>  =20
+>   void cryptodev_backend_set_used(CryptoDevBackend *backend, bool used)
+>=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->  =20
->   /**
->    * object_property_add_alias:
->=20
 
