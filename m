@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BDCD4DDB
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 09:15:46 +0200 (CEST)
-Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69649D4DE3
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 09:19:58 +0200 (CEST)
+Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJBcv-0005lk-6B
-	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 03:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
+	id 1iJBgz-0008TS-Gi
+	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 03:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iJBbB-0004e5-CN
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 03:13:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1iJBf4-0007rX-CV
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 03:17:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iJBbA-0007Ir-6x
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 03:13:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33732)
+ (envelope-from <philmd@redhat.com>) id 1iJBf2-0000wE-Rs
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 03:17:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51562)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iJBb9-0007IM-V7
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 03:13:56 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iJBf2-0000vz-Mk
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 03:17:56 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E854383F42
- for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 07:13:54 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id f3so5457888wrr.23
- for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 00:13:54 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 63DDB33027C
+ for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 07:17:55 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id t11so5481089wro.10
+ for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 00:17:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NS3FA3koecDNRH9WMDGnMPBnzVD5/MuhKLph+ggovE0=;
- b=NCCiqHjFgAF/ZvIuqP09f+RCL4J2Y2KPHOeSokOUfmADmowFDUGW+58A+oG2cKjG5N
- /6v72sDEcMS0B1PcSRBFaUpACvr2MhWq1sU2Dv18xLblPTZe+7ph1F6A0cEA9FR1Luxq
- AFTyeWgc+5qEw4yqhonER6T+K1itnrP8i9ufEaWYWjCLwepv5c1wS9QNPezN2APXPesy
- LuT/of3ycNirBz+lZ095+Mky8hoTBNqGpHwW5LRAhcklay18PZ9T4WWBartIWtGldsyr
- DPmus0WHzELCFkjLtlRElHkOfuOh40nVkEyD/dasrZBJL3eLN3lwDTXx41Zhl/vO0lVL
- a8eg==
-X-Gm-Message-State: APjAAAVYvbblvs58zEBXj1yWJ0Sk3bbyyGu43wQid/LZJYjZMWpAcvtT
- 3cE16rjGvyHHDKrniz5vkr7x8ckmmmSISP8qY/7j1uN/089WNiUFQ6WMPpbQJIc0czQVXrq1KkN
- o/29RKp5wJdiTaGc=
-X-Received: by 2002:a05:600c:2201:: with SMTP id
- z1mr6425724wml.169.1570864433503; 
- Sat, 12 Oct 2019 00:13:53 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxa93JGq/SrT/qdHQFrdp5HtWk/9pvBiN8J2i0kO6g5Z99BVZmjznjvP/r2NKgsiVBzOm4JCQ==
-X-Received: by 2002:a05:600c:2201:: with SMTP id
- z1mr6425709wml.169.1570864433277; 
- Sat, 12 Oct 2019 00:13:53 -0700 (PDT)
+ bh=YMFJqdZvxz7LkdzBSGR29K1A4/C6gMAzg3dfEammoiU=;
+ b=pIBjRZrvpD1ECh/wiPoJh8eJNzLAB/7fWv7Tu+lKTAAV1bk6SM5i/qv6EOgXTkdZzF
+ 3olhSRb4WtrqqP9p1WPKC6a0AsnVmKFom1itqc3IoR/x+HGRpZ8X0qyoKdMq2EDDVMwa
+ kfWBmnCfxzB/tCv8ozeAMGFhTcaWUMeEBmDXRZJ8CuduO1YSCSTGr4sb1aWVX2et/9fr
+ xWoe7MgHswhA48NwMsgydSlA5K3yqJ+xgKRQDD1zF2EnY+2vClzoiOo5XK0eFYb0o4YY
+ GKCwinyzkowTG2KB8UI3NfftFrOCt2OU/yd3SOazrdvhlnnif5XYiRGfEwJJ8IKGuvUR
+ RRew==
+X-Gm-Message-State: APjAAAVGS5hlVKMOfePrEq/4Qrh0xps6w/c7dZZMh2cIpt17+AmElCAD
+ qS6PBYEzb3cVouTYyhJJU5SD0k4/Fz0Y0U6ZBlg/DTFglADY1RGnIbk6DqZyi+A0tve1ly3C3et
+ 7QThrxoWT+ITldIU=
+X-Received: by 2002:adf:fe10:: with SMTP id n16mr5886314wrr.288.1570864674207; 
+ Sat, 12 Oct 2019 00:17:54 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzIL98qd2hOWamNHBpbWDDiPInctjvmGJar+6zs3A0VxVefrYDs5++zdrQ1gRy1APk5nWxi9g==
+X-Received: by 2002:adf:fe10:: with SMTP id n16mr5886296wrr.288.1570864674016; 
+ Sat, 12 Oct 2019 00:17:54 -0700 (PDT)
 Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id l20sm1044106wrf.19.2019.10.12.00.13.52
+ by smtp.gmail.com with ESMTPSA id f83sm18066010wmf.43.2019.10.12.00.17.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 12 Oct 2019 00:13:52 -0700 (PDT)
-Subject: Re: [RFC v5 124/126] target/tilegx/cpu.c: introduce
- ERRP_AUTO_PROPAGATE
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-125-vsementsov@virtuozzo.com>
+ Sat, 12 Oct 2019 00:17:53 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH v29 8/8] target/avr: Add tests
+To: Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ =?UTF-8?B?J0FsZXggQmVubsOpZSc=?= <alex.bennee@linaro.org>,
+ 'Richard Henderson' <richard.henderson@linaro.org>
+References: <20190824184635.34192-1-mrolnik@gmail.com>
+ <20190824184635.34192-9-mrolnik@gmail.com> <87mufwz3e0.fsf@linaro.org>
+ <6c7f5897-e7ed-b5f3-f167-78073a9e5b67@linaro.org> <87r25755a7.fsf@linaro.org>
+ <001b01d55cb9$f5f88df0$e1e9a9d0$@ru>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <86963e53-8d35-a073-c8c0-fcf5546c1fc4@redhat.com>
-Date: Sat, 12 Oct 2019 09:13:51 +0200
+Message-ID: <0e57fb85-200d-de10-331f-977c9f4246ed@redhat.com>
+Date: Sat, 12 Oct 2019 09:17:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011160552.22907-125-vsementsov@virtuozzo.com>
+In-Reply-To: <001b01d55cb9$f5f88df0$e1e9a9d0$@ru>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -85,82 +85,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com,
- Greg Kurz <groug@kaod.org>
+Cc: imammedo@redhat.com, thuth@redhat.com, 'Michael Rolnik' <mrolnik@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/19 6:05 PM, Vladimir Sementsov-Ogievskiy wrote:
-> If we want to add some info to errp (by error_prepend() or
-> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-> Otherwise, this info will not be added when errp =3D=3D &fatal_err
-> (the program will exit prior to the error_append_hint() or
-> error_prepend() call).  Fix such cases.
->=20
-> If we want to check error after errp-function call, we need to
-> introduce local_err and than propagate it to errp. Instead, use
-> ERRP_AUTO_PROPAGATE macro, benefits are:
-> 1. No need of explicit error_propagate call
-> 2. No need of explicit local_err variable: use errp directly
-> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
->     &error_fatel, this means that we don't break error_abort
->     (we'll abort on error_set, not on error_propagate)
->=20
-> This commit (together with its neighbors) was generated by
->=20
-> for f in $(git grep -l errp \*.[ch]); do \
->      spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
->      --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff =
-$f; \
-> done;
->=20
-> then fix a bit of compilation problems: coccinelle for some reason
-> leaves several
-> f() {
->      ...
->      goto out;
->      ...
->      out:
-> }
-> patterns, with "out:" at function end.
->=20
-> then
-> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
->=20
-> (auto-msg was a file with this commit message)
->=20
-> Still, for backporting it may be more comfortable to use only the first
-> command and then do one huge commit.
->=20
-> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> Reported-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   target/tilegx/cpu.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-> index 2b2a7ccc31..79bfe27856 100644
-> --- a/target/tilegx/cpu.c
-> +++ b/target/tilegx/cpu.c
-> @@ -81,13 +81,12 @@ static void tilegx_cpu_reset(CPUState *s)
->  =20
->   static void tilegx_cpu_realizefn(DeviceState *dev, Error **errp)
->   {
-> +    ERRP_AUTO_PROPAGATE();
->       CPUState *cs =3D CPU(dev);
->       TileGXCPUClass *tcc =3D TILEGX_CPU_GET_CLASS(dev);
-> -    Error *local_err =3D NULL;
->  =20
-> -    cpu_exec_realizefn(cs, &local_err);
-> -    if (local_err !=3D NULL) {
-> -        error_propagate(errp, local_err);
-> +    cpu_exec_realizefn(cs, errp);
-> +    if (*errp) {
->           return;
->       }
->  =20
->=20
+Hi Pavel,
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 8/27/19 11:29 AM, Pavel Dovgalyuk wrote:
+>> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>
+>>> On 8/26/19 2:23 AM, Alex Benn=C3=A9e wrote:
+>>>> Are there any compilers available so we can add the multiarch tests =
+to "check-tcg"?
+>>>
+>>> Debian has a gcc-avr package.
+>>
+>> Looking at the bios "bytes" it should be easy enough to do a simple
+>> serial based test. We can add it after it's merged though... is it rea=
+dy
+>> to go yet?
+>=20
+> I tried running this series with ASCIITable example from Arduino IDE.
+> Everything worked and I've got an ASCII table in the console.
+
+Does that mean we can add your Tested-by tag?
 
