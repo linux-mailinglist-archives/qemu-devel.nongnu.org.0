@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3747D4FBA
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 14:31:56 +0200 (CEST)
-Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4E5D4FBE
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Oct 2019 14:42:00 +0200 (CEST)
+Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJGYt-0007j7-E7
-	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 08:31:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53823)
+	id 1iJGid-0002RC-2L
+	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 08:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iJGRL-0008RX-QV
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 08:24:09 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iJGhh-0001lw-Tw
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 08:41:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iJGRK-00025Y-Fl
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 08:24:07 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:38820)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iJGhg-0008UC-LV
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 08:41:01 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35479)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iJGRK-00025R-BA
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 08:24:06 -0400
-Received: by mail-oi1-x231.google.com with SMTP id m16so10226293oic.5
- for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 05:24:06 -0700 (PDT)
+ id 1iJGhg-0008Ti-CM
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 08:41:00 -0400
+Received: by mail-ot1-x342.google.com with SMTP id z6so10247133otb.2
+ for <qemu-devel@nongnu.org>; Sat, 12 Oct 2019 05:41:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=TmGU9WAPsEVWhfmgtFdDLBvqM5rH3VdZccUlSg63gPM=;
- b=tmFmus87wgOZPtOKNkub0pT9/rFMn+RRVD5ry5sx4Qt5gvVEgnnB4RA8XSrh4t/Eej
- Rde7ddR5X9Xf/VaDHMzSnxCPF4ftmwHQPJLpy9Jp+4/FR3rSNdJrZxWA3/d8V0eOFQke
- NI8ccX/pqzAWQPpw1/HDC8fogQjEv9st3i+fPFBUEK1wJ4j0l44XdJv4gsNBqtUjYB4n
- bswEkCI5388H5Djbc/81rhnSpz4H6Y59cs6GBVq4OxN3EZ3IRPTyfTRqKqsOp6+by2a6
- gauAefHXm/OE33WwacMVmY7UtzvhbURgmG5S6VuWk4JWcu/IL6iocXJukF/KcAXdbZdY
- zYYw==
+ :cc; bh=DHyvr3l8NAM4U4Rn508Sh7F3vnZJamzcXfH88r2aZD4=;
+ b=ZTimR7ugCr8RSycjKw7r0/clDhYUE9Iskp6M2zige7V6yVmkpZ7A+WlIULa9JK9SKd
+ yJSERMbAdB2XUbB/nzc3s+YHdasNznhFYGlyijU+VWUz+N7vElCE/yKZsHeZt5XWorKS
+ Ee2+kl+jFKyag5CUFnhnuvl5iN8CMOlNHPDhzjie6t/w0nWBMYbntD2cwjLe5ak+Ryx/
+ zZqpHSFItF76l9sa5qquiroc0ATFX32XEI2zPAgzYqSquUZsT/0ndRqG7LP7kyU0QGTc
+ v50aVogT4C1277viW9NkIdoIPuCXtlD1lTvkHTFpUGE6ypnSBmuztMQDk/g2bRcINjtt
+ dvBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=TmGU9WAPsEVWhfmgtFdDLBvqM5rH3VdZccUlSg63gPM=;
- b=iunPLNdVZoWazybfufKrdh7OZ59822NeCd1A8wK1mBlFi8QjjHMnNXcZfZrqNvO9p+
- KjWm4th7U0rDPIlrv7zgjQDK+jYBcOke7wYYpQvQMaH82KHkCQZ39hwiXWdaII+NDSs1
- UT/n/A69HsuPL9VpOP1uG6689hLz9i45AQjSKCITDS36AgNUmeOxrC85WB+4HFb5F0VX
- gb+UWyXKfJP7LuMUQz1qRVJKal4WYUn+Elqx13Q/ThmaZ4mZY0PCa66zD4g61Kwd7fJB
- /ENgnR9a77kyJqhwNsZl+ES8B/7vyQKdRSCh8qPU5ASh13GXwyEFGUjxdhw6rgEY3V3J
- uRDg==
-X-Gm-Message-State: APjAAAV+cOoZ04EAXvXh26TfMkXKh04bxIHHYFLT3ZMnDwJ4+veeoPp7
- gNSzHy/RQPMMaiYi5KmEV5qtfG3mV0fU/kmY7Uk=
-X-Google-Smtp-Source: APXvYqy7GpuECzCOcLE1T/S+w2DdJ2AOb57u/TBxDUhv+5K2slgHAAaATogcO83DfxPHlHJiAWaXDIsqmkYFJapuitI=
-X-Received: by 2002:a54:460c:: with SMTP id p12mr16666994oip.62.1570883045317; 
- Sat, 12 Oct 2019 05:24:05 -0700 (PDT)
+ bh=DHyvr3l8NAM4U4Rn508Sh7F3vnZJamzcXfH88r2aZD4=;
+ b=i0x7dJKSKkTx6kAVUVruhhQNzTvERIKgVyJZex4+/271lZ7iplO5KLnXOfgJUgqMvE
+ f5OmcoAHIS/zdwYQ3/6Yjq9P8x7oNMnraw/3c3FuggErKP390a3InVU/Q4HBu9sl9+am
+ AXn+aUbb/Cdxje/oBWRacfrgTje/+sl+8xpBZRtnpEK7wmuehiQiQLCdKf0Yjlsr/mvc
+ mbXDjBLtURg8XBsZupUKa5aElHoHxbtGCuvXDzN9wZJHX8ipaa0vyYWs6+F+0mpLdyee
+ X6MY1SMWA/Ie7AyqPHy2KcK9VCoy5tqwO6JNWqF+uOFwH8DZ8VZk7sBOJvyXc2fyGYc/
+ phEQ==
+X-Gm-Message-State: APjAAAXAUiRIb8b0Z6QOpRwL1AJA5HjJ+8DCL0CGvF17x/cuiB2g3sBf
+ 3myZWpOnmzv7E45xPkvsY6VMvBitdYsvHoc0exg=
+X-Google-Smtp-Source: APXvYqzL8LL1NxF8o/tmNm8svfhVC6Waq1woewBUsr7nEIhgvuKHqC7beLK2u+CL5kiI0PN+Paa2Xwb2FfPPF9GS1h0=
+X-Received: by 2002:a9d:5914:: with SMTP id t20mr16608497oth.306.1570884059460; 
+ Sat, 12 Oct 2019 05:40:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sat, 12 Oct 2019 05:24:04
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sat, 12 Oct 2019 05:40:58
  -0700 (PDT)
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sat, 12 Oct 2019 05:24:04
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Sat, 12 Oct 2019 05:40:58
  -0700 (PDT)
-In-Reply-To: <6dfd36cf-9d2f-d74a-2c8e-4b283973e8f7@redhat.com>
-References: <20190504083638.13380-1-S.E.Harris@kent.ac.uk>
- <20190504083638.13380-9-S.E.Harris@kent.ac.uk>
- <c05b4876-c55e-fd82-46d0-83be1b128cee@linaro.org>
- <CAK4993h0yCqpjBFzPy7GHt3kbSK43nLD6EXh4WFd_STHu15DTA@mail.gmail.com>
- <20190510121732.de0aa4075bcf6962a7414054@kent.ac.uk>
- <6dfd36cf-9d2f-d74a-2c8e-4b283973e8f7@redhat.com>
+In-Reply-To: <20191012071210.13632-1-philmd@redhat.com>
+References: <20191012071210.13632-1-philmd@redhat.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 12 Oct 2019 14:24:04 +0200
-Message-ID: <CAL1e-=h4-ebdM5yNjhx5hm0SB-3w+6KNECneZyq_pM4=Rkb7uA@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH v1 8/8] target/avr: Register AVR support with
- the rest of QEMU, the build system, and the MAINTAINERS file
+Date: Sat, 12 Oct 2019 14:40:58 +0200
+Message-ID: <CAL1e-=h2d8vBs3bKpsReFNgCW-f4FMTYvJuSahjyNgeF7x5cfw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add a TILE-Gx section
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e661100594b5b50e"
+Content-Type: multipart/alternative; boundary="00000000000058fa3e0594b5f29c"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::231
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,190 +75,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
- E.J.C.Robbins@kent.ac.uk, A.M.King@kent.ac.uk
+Cc: Richard Henderson <rth@twiddle.net>, Chen Gang <gang.chen.5i5j@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e661100594b5b50e
+--00000000000058fa3e0594b5f29c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-12.10.2019. 09.31, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> =D1=98=
+12.10.2019. 09.12, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> =D1=98=
 =D0=B5
 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
-> Hi Sarah,
+> The TILE-Gx architecture was missing its section, add it.
 >
->
-> On 5/10/19 1:17 PM, Sarah Harris wrote:
->>
->> Hi Richard,
->>
->> Having discussed with my colleagues, we don't have the resources to
-maintain this.
->> If you wanted to take up Michael's offer then I'm happy to respond to
-queries and provide minor fixes.
->> Otherwise, we will make our repository publicly available in the near
-future for anyone who wants to use it.
->
->
-> Would you agree to be listed as reviewer for AVR (Michael being the
-maintainer)?
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  MAINTAINERS | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
 
-I support this idea, and hopefully Sarah agrees. Reviewer role typically
-require mucj less tome resources.
+It is certainly good that there is a maintainer for each QEMU component.
+But:
 
->   M: Mail patches to: FullName <address@domain>
->      Maintainers are looking after a certain area and must be CCed on
->      patches. They are considered the main contact point.
->   R: Designated reviewer: FullName <address@domain>
->      These reviewers should be CCed on patches.
->      Reviewers are familiar with the subject matter and provide feedback
->      even though they are not maintainers.
+- is Chen Gang available and willing to assume the role?
+
+- sadly, tilegx arch support was recently removed from kernel upstream.
+That does not mean (in my understanding) automatic removal from QEMU, but
+certainly raises some eyebrows. Should we continue supporting tilegx?
+Isthete any feedback from users, or the company that owns tilegx?
+
+Sincerely,
+Aleksandar
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3ca814850e..a3be0a4a31 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -299,6 +299,11 @@ F: hw/sparc64/
+>  F: include/hw/sparc/sparc64.h
+>  F: disas/sparc.c
 >
->
->> Kind regards,
->> Sarah Harris
->>
->> On Sun, 5 May 2019 09:10:00 -0700
->> Michael Rolnik <mrolnik@gmail.com> wrote:
->>
->>> Hi Richard.
->>>
->>> I can maintain it
->>>
->>> Sent from my cell phone, please ignore typos
->>>
->>> On Sun, May 5, 2019, 8:57 AM Richard Henderson <
-richard.henderson@linaro.org>
->>> wrote:
->>>
->>>> On 5/4/19 1:36 AM, Sarah Harris wrote:
->>>>>
->>>>> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
->>>>
->>>> ...
->>>>>
->>>>>
->>>>> +AVR
->>>>> +M: Michael Rolnik <mrolnik@gmail.com>
->>>>> +S: Odd Fixes
->>>>> +F: target-avr/
->>>>> +F: hw/avr/
->>>>> +
->>>>
->>>>
->>>> This is not how things work.  Michael wasn't up to maintaining the
-code 2
->>>> years
->>>> ago; that's why it was never committed.
->>>>
->>>> You would need to maintain this yourself, and for more than "Odd
-Fixes".
->>>>
->>>>
->>>> r~
->>>>
->>
+> +TILE-Gx CPUs
+> +M: Chen Gang <gang.chen.5i5j@gmail.com>
+> +S: Maintained
+> +F: target/tilegx/
+> +
+>  UniCore32 TCG CPUs
+>  M: Guan Xuetao <gxt@mprc.pku.edu.cn>
+>  S: Maintained
+> --
+> 2.21.0
 >
 >
 
---000000000000e661100594b5b50e
+--00000000000058fa3e0594b5f29c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <p dir=3D"ltr"><br>
-12.10.2019. 09.31, &quot;Philippe Mathieu-Daud=C3=A9&quot; &lt;<a href=3D"m=
+12.10.2019. 09.12, &quot;Philippe Mathieu-Daud=C3=A9&quot; &lt;<a href=3D"m=
 ailto:philmd@redhat.com">philmd@redhat.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=
 =B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
 &gt;<br>
-&gt; Hi Sarah,<br>
+&gt; The TILE-Gx architecture was missing its section, add it.<br>
 &gt;<br>
-&gt;<br>
-&gt; On 5/10/19 1:17 PM, Sarah Harris wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Hi Richard,<br>
-&gt;&gt;<br>
-&gt;&gt; Having discussed with my colleagues, we don&#39;t have the resourc=
-es to maintain this.<br>
-&gt;&gt; If you wanted to take up Michael&#39;s offer then I&#39;m happy to=
- respond to queries and provide minor fixes.<br>
-&gt;&gt; Otherwise, we will make our repository publicly available in the n=
-ear future for anyone who wants to use it.<br>
-&gt;<br>
-&gt;<br>
-&gt; Would you agree to be listed as reviewer for AVR (Michael being the ma=
-intainer)?<br>
+&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philm=
+d@redhat.com">philmd@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0MAINTAINERS | 5 +++++<br>
+&gt; =C2=A01 file changed, 5 insertions(+)<br>
 &gt;</p>
-<p dir=3D"ltr">I support this idea, and hopefully Sarah agrees. Reviewer ro=
-le typically require mucj less tome resources.</p>
-<p dir=3D"ltr">&gt; =C2=A0 M: Mail patches to: FullName &lt;address@domain&=
-gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0Maintainers are looking after a certain area and m=
-ust be CCed on<br>
-&gt; =C2=A0 =C2=A0 =C2=A0patches. They are considered the main contact poin=
-t.<br>
-&gt; =C2=A0 R: Designated reviewer: FullName &lt;address@domain&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0These reviewers should be CCed on patches.<br>
-&gt; =C2=A0 =C2=A0 =C2=A0Reviewers are familiar with the subject matter and=
- provide feedback<br>
-&gt; =C2=A0 =C2=A0 =C2=A0even though they are not maintainers.<br>
+<p dir=3D"ltr">It is certainly good that there is a maintainer for each QEM=
+U component. But:</p>
+<p dir=3D"ltr">- is Chen Gang available and willing to assume the role?</p>
+<p dir=3D"ltr">- sadly, tilegx arch support was recently removed from kerne=
+l upstream. That does not mean (in my understanding) automatic removal from=
+ QEMU, but certainly raises some eyebrows. Should we continue supporting ti=
+legx? Isthete any feedback from users, or the company that owns tilegx?</p>
+<p dir=3D"ltr">Sincerely,<br>
+Aleksandar<br></p>
+<p dir=3D"ltr">&gt; diff --git a/MAINTAINERS b/MAINTAINERS<br>
+&gt; index 3ca814850e..a3be0a4a31 100644<br>
+&gt; --- a/MAINTAINERS<br>
+&gt; +++ b/MAINTAINERS<br>
+&gt; @@ -299,6 +299,11 @@ F: hw/sparc64/<br>
+&gt; =C2=A0F: include/hw/sparc/sparc64.h<br>
+&gt; =C2=A0F: disas/sparc.c<br>
 &gt;<br>
-&gt;<br>
-&gt;&gt; Kind regards,<br>
-&gt;&gt; Sarah Harris<br>
-&gt;&gt;<br>
-&gt;&gt; On Sun, 5 May 2019 09:10:00 -0700<br>
-&gt;&gt; Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com">mrolnik@gm=
-ail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; Hi Richard.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I can maintain it<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Sent from my cell phone, please ignore typos<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On Sun, May 5, 2019, 8:57 AM Richard Henderson &lt;<a href=3D"=
-mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt;<b=
-r>
-&gt;&gt;&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; On 5/4/19 1:36 AM, Sarah Harris wrote:<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Signed-off-by: Sarah Harris &lt;<a href=3D"mailto:S.E.=
-Harris@kent.ac.uk">S.E.Harris@kent.ac.uk</a>&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; ...<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; +AVR<br>
-&gt;&gt;&gt;&gt;&gt; +M: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail=
-.com">mrolnik@gmail.com</a>&gt;<br>
-&gt;&gt;&gt;&gt;&gt; +S: Odd Fixes<br>
-&gt;&gt;&gt;&gt;&gt; +F: target-avr/<br>
-&gt;&gt;&gt;&gt;&gt; +F: hw/avr/<br>
-&gt;&gt;&gt;&gt;&gt; +<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; This is not how things work.=C2=A0 Michael wasn&#39;t up t=
-o maintaining the code 2<br>
-&gt;&gt;&gt;&gt; years<br>
-&gt;&gt;&gt;&gt; ago; that&#39;s why it was never committed.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; You would need to maintain this yourself, and for more tha=
-n &quot;Odd Fixes&quot;.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; r~<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;<br>
+&gt; +TILE-Gx CPUs<br>
+&gt; +M: Chen Gang &lt;<a href=3D"mailto:gang.chen.5i5j@gmail.com">gang.che=
+n.5i5j@gmail.com</a>&gt;<br>
+&gt; +S: Maintained<br>
+&gt; +F: target/tilegx/<br>
+&gt; +<br>
+&gt; =C2=A0UniCore32 TCG CPUs<br>
+&gt; =C2=A0M: Guan Xuetao &lt;<a href=3D"mailto:gxt@mprc.pku.edu.cn">gxt@mp=
+rc.pku.edu.cn</a>&gt;<br>
+&gt; =C2=A0S: Maintained<br>
+&gt; -- <br>
+&gt; 2.21.0<br>
 &gt;<br>
 &gt;<br>
 </p>
 
---000000000000e661100594b5b50e--
+--00000000000058fa3e0594b5f29c--
 
