@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EDBD589D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 00:28:16 +0200 (CEST)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33BDD589F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 00:28:32 +0200 (CEST)
+Received: from localhost ([::1]:43070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJmLX-0008Jp-OA
-	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 18:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51143)
+	id 1iJmLn-0008QS-N1
+	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 18:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iJmJE-0006Y7-65
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:25:53 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iJmJG-0006bF-VU
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:25:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iJmJD-0000pY-8f
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:25:52 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:40899)
+ (envelope-from <richard.henderson@linaro.org>) id 1iJmJF-0000qZ-Tw
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:25:54 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:38258)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iJmJD-0000pH-34
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:25:51 -0400
-Received: by mail-pl1-x631.google.com with SMTP id d22so7128579pll.7
- for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 15:25:51 -0700 (PDT)
+ id 1iJmJF-0000qG-OZ
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:25:53 -0400
+Received: by mail-pg1-x536.google.com with SMTP id w3so2020009pgt.5
+ for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 15:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Sg+1BNlUkd68yFef7dmXTKIYOAnPSKke44HmN/xx+JE=;
- b=YZ8KyX3n98lPMRNNLxxbBPtqyQL+1RcyxjRf5ebHPt72kCDP9DJtVKJavJ5IbNwa8K
- l1ou1neAD1J/+JgaxgefntvOnjbt2vNEEZ4LxQW8CXzLozaAupm2gVx4M/FUtov6fZfI
- HeCSm8yjIf5pKayh4AFiC+KmvrEZCP1qCdzmPuTYKfHl30mmb2GMUtqC3VvMm17YDBS5
- NHAhPnAzCgGVeGLrjbxWN4G5s9O8Twkh26N9sWBsGHRtqHNJW8UYuJEw3TRQzRoEOpMT
- +Os8j7p0Fstwn3auy8jY8ou1p186LHNYgwJg7e+wbHhIl/yFuRqoRooh9oN0Z2n+LWVx
- ccXw==
+ bh=3r9lmg0xOia6vKK6bS8vYuvXdDkpmktVvUvQAVF/QiE=;
+ b=TklwMhNKWIOXn3osOx4pOB04IIOditZ6hFek+9J9LdNLzbiEsLl2VV80Q8ROL55MsP
+ jaOav6dKIUxFsu9WzN9iIyGcli8tfXvlIOG9FnEGPx4SjJxX1pXwR7C0KRcFT79CTDya
+ tZLpYZ+jJz0ILORzlZxXxiF1AOEgqPsDPxkBhSuKIztM5lfENzMYg+wV+/ISNLrT7+aL
+ barvlBALSBX9BCQSH/cuTSKngZXRzHtxPQ24bXyYlp1NoXlN+tVdIzKDfIu07FpMXcsG
+ gPQO3sAZGge1F1PWlNEL9LHfCRHXrCj0IpVP5pJghlceaPwGw+zEQYYPZqDpC60U+L2o
+ 97Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Sg+1BNlUkd68yFef7dmXTKIYOAnPSKke44HmN/xx+JE=;
- b=RQAYr1hewqjAt0+qfKOJkJ3cjBl23pA5clUkY0JtKNDWPKZDQGQ8hnJ5kLOcP9EBv0
- sZI72VxNoNdxjI2m+dbXbBh0QIxyYnCYZM6p9s6uG6tWO9VjdPP8Ka/2gf7XHJyL/gbK
- +Xr8o8u/hdZPdwfbvnCe5LtSGjllGFPtVquIlII0RDfv3jBRcc5qes1u+5L1gISq2sJh
- S0rVjXh5MN4QnvbaOgHj356DgwUVndBfsih/8LGWGm5y1RPS0VAJ2TVCmBPr0bLW/F/F
- /EcPXqk1jgSPLXMGWMC502+TzLhUcwImu/TYy2sBkMZxeBowOJNlGxK/yI2Yn2DjBZ89
- AnxA==
-X-Gm-Message-State: APjAAAVRZoKXbjgVCdjlD3EBlVf09uJ2PyOWNeQ+zDoASlfp0a/lLey9
- tf7WeAABOjW1gNOEbReR9ibvJATFf4k=
-X-Google-Smtp-Source: APXvYqxT0jyAUdpBLWRRKQl6FWsqo3B9nVCW+zXTFI+ebzNXOeCKpcSTG6sK3orJr5ucNBAfnah65Q==
-X-Received: by 2002:a17:902:6b02:: with SMTP id
- o2mr27028052plk.302.1571005549768; 
- Sun, 13 Oct 2019 15:25:49 -0700 (PDT)
+ bh=3r9lmg0xOia6vKK6bS8vYuvXdDkpmktVvUvQAVF/QiE=;
+ b=OTxQ+9/StjcwL3hmwhhH2Mb65pK/dzqfq4QB5YP4+lJ07J6+wkPe6FtYz0LXmOZ7qn
+ 2aHjRb4vkRz8oBJqvgniU+qOhNaYX9GX8hrKcvanCXp/ETWKkAyP1F4pKg8dFVzUZDfM
+ 37m3d7D56oS014Sg+J9WfUgEs35MnWlxe8RLA3HykF5D7k+jTY4qlyaii5s6w/DNQ5Aq
+ yihNW6nedC2F7RJB/tyezAuOW6JsezQn3nzmTJfiHAyb/qHWI2drJ+Ys3knJvrBRMS8M
+ r/3gmIg6q80LebDAQVSvoFKyEM4KhXyRifUH5LWNUyttINSFMHyKse5ac3+b29iYrJ0x
+ vx+w==
+X-Gm-Message-State: APjAAAV37dfj0qhVEdFsDA5lAkQpGYtC+06XB4JaWCubS5bESJd2QWcU
+ TNdHz4co7jOeTdFbkqXW2bxybEQfalA=
+X-Google-Smtp-Source: APXvYqy7mwaW8NZJJST9dwdenbxQbvsFuAUmGonYZOLtLvkmNbme13LeYiphJ/cg7waHRiZHJtLN8w==
+X-Received: by 2002:a65:464b:: with SMTP id k11mr11787065pgr.263.1571005552383; 
+ Sun, 13 Oct 2019 15:25:52 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d76sm15940571pfd.185.2019.10.13.15.25.48
+ by smtp.gmail.com with ESMTPSA id d76sm15940571pfd.185.2019.10.13.15.25.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Oct 2019 15:25:49 -0700 (PDT)
+ Sun, 13 Oct 2019 15:25:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/23] tcg/ppc: Introduce macro VX4()
-Date: Sun, 13 Oct 2019 15:25:23 -0700
-Message-Id: <20191013222544.3679-3-richard.henderson@linaro.org>
+Subject: [PULL 04/23] tcg/ppc: Create TCGPowerISA and have_isa
+Date: Sun, 13 Oct 2019 15:25:25 -0700
+Message-Id: <20191013222544.3679-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191013222544.3679-1-richard.henderson@linaro.org>
 References: <20191013222544.3679-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::631
+X-Received-From: 2607:f8b0:4864:20::536
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,30 +75,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce macro VX4() used for encoding Altivec instructions.
+Introduce an enum to hold base < 2.06 < 3.00.  Use macros to
+preserve the existing have_isa_2_06 and have_isa_3_00 predicates.
 
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- tcg/ppc/tcg-target.inc.c | 1 +
- 1 file changed, 1 insertion(+)
+ tcg/ppc/tcg-target.h     | 12 ++++++++++--
+ tcg/ppc/tcg-target.inc.c |  8 ++++----
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index 690fa744e1..35ba8693fa 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -58,8 +58,16 @@ typedef enum {
+     TCG_AREG0 = TCG_REG_R27
+ } TCGReg;
+ 
+-extern bool have_isa_2_06;
+-extern bool have_isa_3_00;
++typedef enum {
++    tcg_isa_base,
++    tcg_isa_2_06,
++    tcg_isa_3_00,
++} TCGPowerISA;
++
++extern TCGPowerISA have_isa;
++
++#define have_isa_2_06  (have_isa >= tcg_isa_2_06)
++#define have_isa_3_00  (have_isa >= tcg_isa_3_00)
+ 
+ /* optional instructions automatically implemented */
+ #define TCG_TARGET_HAS_ext8u_i32        0 /* andi */
 diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 9d678c3bf1..8dc5455600 100644
+index 4aad5d2b36..0bfaef9418 100644
 --- a/tcg/ppc/tcg-target.inc.c
 +++ b/tcg/ppc/tcg-target.inc.c
-@@ -319,6 +319,7 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define XO31(opc) (OPCD(31)|((opc)<<1))
- #define XO58(opc) (OPCD(58)|(opc))
- #define XO62(opc) (OPCD(62)|(opc))
-+#define VX4(opc)  (OPCD(4)|(opc))
+@@ -64,8 +64,7 @@
  
- #define B      OPCD( 18)
- #define BC     OPCD( 16)
+ static tcg_insn_unit *tb_ret_addr;
+ 
+-bool have_isa_2_06;
+-bool have_isa_3_00;
++TCGPowerISA have_isa;
+ 
+ #define HAVE_ISA_2_06  have_isa_2_06
+ #define HAVE_ISEL      have_isa_2_06
+@@ -2787,12 +2786,13 @@ static void tcg_target_init(TCGContext *s)
+     unsigned long hwcap = qemu_getauxval(AT_HWCAP);
+     unsigned long hwcap2 = qemu_getauxval(AT_HWCAP2);
+ 
++    have_isa = tcg_isa_base;
+     if (hwcap & PPC_FEATURE_ARCH_2_06) {
+-        have_isa_2_06 = true;
++        have_isa = tcg_isa_2_06;
+     }
+ #ifdef PPC_FEATURE2_ARCH_3_00
+     if (hwcap2 & PPC_FEATURE2_ARCH_3_00) {
+-        have_isa_3_00 = true;
++        have_isa = tcg_isa_3_00;
+     }
+ #endif
+ 
 -- 
 2.17.1
 
