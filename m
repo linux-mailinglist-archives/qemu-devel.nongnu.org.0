@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36FAD58B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 00:43:39 +0200 (CEST)
-Received: from localhost ([::1]:43334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2326CD58BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 00:49:37 +0200 (CEST)
+Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJmaQ-0000tw-Ox
-	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 18:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51377)
+	id 1iJmgC-0006Lz-6k
+	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 18:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iJmJf-00075U-H3
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:22 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iJmJk-00076A-Bm
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iJmJa-00013x-PZ
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:17 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35788)
+ (envelope-from <richard.henderson@linaro.org>) id 1iJmJj-00018x-8z
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:24 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40448)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iJmJa-00013T-KD
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:14 -0400
-Received: by mail-pf1-x434.google.com with SMTP id 205so9281939pfw.2
- for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 15:26:14 -0700 (PDT)
+ id 1iJmJf-00015C-F4
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:22 -0400
+Received: by mail-pg1-x543.google.com with SMTP id e13so725763pga.7
+ for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 15:26:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QD+wZzGPXKzCZAwgjUrbeScdVsIlsrL6yXXxm/mMbjU=;
- b=t5G/mGkfKBnoN0J+svQUqMBJaIPYg7iDZP5FKD7Rmhpf7LrNfT5iIQUgAdHKssawpV
- W+Q0LwZCuK4mAo4r1FNemOBHR3PwINtFm9FOCem8hpx6GY5TMyc604pitw9k1j7pbXwK
- l6ofuOS9LMNrm2hbAXm1DLCZhpWrkIqNfV8jBXNlW3jbU7NR6t/X/Op4Itn3Op61L4vb
- 3zbLAi/VDrooYRDXHcwGxKqdr6mR7gpfkvdWXQG3T62dJSzEnnn8HgjWa/5nmXe8ExyC
- pip3NjBkyjWOMHaG1E6E7jW+92yocN9fxiTIAmF+29RB2UdITgYkW5BCzumEFmO9Kbaa
- B5AQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mbGjA7d6AQiFvZB5+xEjn3eOcLNF0/a+vXYuP56z9BY=;
+ b=nZP+XcmwTKiIjP+VQdUQS35Akek47LhX0vjgUdvW9MBW8veUyAwEYWWyEtVBfTpTVz
+ KYtFL/+amHtfr0PHG0WD12tF4E9ojPviuGwNGeBJQlJDQZkdNAFXGHXUhEXjzP9mt4lw
+ 1nEtGGcVM7w4s6gzXNr46b+pSFmNueNRB9evbUTXb4jiltB2Ak3jbER4aR1GZqQO3Wzf
+ ir3KVN4o1hBC7miFEC6B5hQ8apPEaW9V5CSAn39J5Uqv8de6PAS9XTpLp4hvWRAK7T5z
+ uPMe4g494P5q6CVfxcrSZ4EK2lnZUJ8XMTRYnRV9trvoFQ+ba+/M0S08H3JrPct5ZW0C
+ PjCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=QD+wZzGPXKzCZAwgjUrbeScdVsIlsrL6yXXxm/mMbjU=;
- b=iNCjQblSaEInc/cMYPI6X0ReAiO4wBmwcqU9ZdfypG7SF0xxm8SQhR1KsSWzwrLA6m
- TbuymPaG9S/2xigBYGV44pmfKLbef6tBeMMjf3Z4lzNVcADncHNkCL9pLiR4JVBbX2Qd
- XIxFKjflZyZO/+2EO34/PbhfewdwUzY/vd35kQ3R2YONiDMx6vjIye2MTmY250ejTWAv
- GkGEtk/B90avut/TL2P0KFAI/ujJkqJPyZCbquYZHy8XzQBrs18QSXXeyxZlnvpjHnLc
- U1qrPb9vhGXqzKWatCDBTwB2ni/X9C9dqAcHo8emK0mAv/Wkj2gZK3hSwwvS9rMq7RsI
- RpJA==
-X-Gm-Message-State: APjAAAXh0/Aox8ExwHg1rxbFonGEHLaxOTNFYXj6j3p+epD5B/GhoKpJ
- +31jEkrHkYRJ6vmQ/NGYHsfz15L9tSU=
-X-Google-Smtp-Source: APXvYqxrBr62bbWe174IhXasUIazAKk7gFHY64leihoCLEIhdQirNQCtdVjkxiIybYwiMOUmW+8yng==
-X-Received: by 2002:a17:90a:cf8c:: with SMTP id
- i12mr32697855pju.77.1571005572881; 
- Sun, 13 Oct 2019 15:26:12 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=mbGjA7d6AQiFvZB5+xEjn3eOcLNF0/a+vXYuP56z9BY=;
+ b=Ppa2EMDuNe0t6xkAcSgduBUmp6bjtj7w/DWhtN6iFr8CdhvJF4UBuT2SZKlsVQt2no
+ m+A90i2rDD1dc1+v7jk5iTtMJEIbIHjh03Okooho92JYEHsstQPDGH4OS0DW7/on0Owa
+ rK8eb+gU79zvV39jXiUr8aw1hQwCNZS/bGKVr64mYjbp0zcNkpZH2iz/VX99qiVpkEwM
+ ystlC4lGjxRk7Ww3S8aFrpG+L625gBePKA5H4ATsMp2TL/uX3ftuRix/+tLRTA+qNukY
+ 040SR8bMRDzVaHoeownntIKmBRAtEgv3tBGo5EPEo9Q2RqpDVudakUKCZonqLmk/dPVF
+ z8bw==
+X-Gm-Message-State: APjAAAWJ6zLmQCeqV/rhSiNUgNS97MEJejlzIpe4O1Vs95tN6oPC2VZb
+ lSWq64PYQQWrR7r7k/LP/+m8hFRRY/4=
+X-Google-Smtp-Source: APXvYqz3pFKflABq/EceH36FtATsW8NW30Ah8592YNPKBPXxx9yWu56q8xeeDM7Uz60qyEKwl9JbTg==
+X-Received: by 2002:aa7:9157:: with SMTP id 23mr30094311pfi.61.1571005576666; 
+ Sun, 13 Oct 2019 15:26:16 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d76sm15940571pfd.185.2019.10.13.15.26.11
+ by smtp.gmail.com with ESMTPSA id d76sm15940571pfd.185.2019.10.13.15.26.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Oct 2019 15:26:12 -0700 (PDT)
+ Sun, 13 Oct 2019 15:26:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/23] tcg/ppc: Update vector support for v3.00 Altivec
-Date: Sun, 13 Oct 2019 15:25:41 -0700
-Message-Id: <20191013222544.3679-21-richard.henderson@linaro.org>
+Subject: [PULL 23/23] cpus: kick all vCPUs when running thread=single
+Date: Sun, 13 Oct 2019 15:25:44 -0700
+Message-Id: <20191013222544.3679-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191013222544.3679-1-richard.henderson@linaro.org>
 References: <20191013222544.3679-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::434
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,118 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These new instructions are conditional only on MSR.VEC and
-are thus part of the Altivec instruction set, and not VSX.
-This includes negation and compare not equal.
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+qemu_cpu_kick is used for a number of reasons including to indicate
+there is work to be done. However when thread=single the old
+qemu_cpu_kick_rr_cpu only advanced the vCPU to the next executing one
+which can lead to a hang in the case that:
+
+  a) the kick is from outside the vCPUs (e.g. iothread)
+  b) the timers are paused (i.e. iothread calling run_on_cpu)
+
+To avoid this lets split qemu_cpu_kick_rr into two functions. One for
+the timer which continues to advance to the next timeslice and another
+for all other kicks.
+
+Message-Id: <20191001160426.26644-1-alex.bennee@linaro.org>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.h     |  2 +-
- tcg/ppc/tcg-target.inc.c | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+), 1 deletion(-)
+ cpus.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 13197eddce..4fa21f0e71 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -159,7 +159,7 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_andc_vec         1
- #define TCG_TARGET_HAS_orc_vec          have_isa_2_07
- #define TCG_TARGET_HAS_not_vec          1
--#define TCG_TARGET_HAS_neg_vec          0
-+#define TCG_TARGET_HAS_neg_vec          have_isa_3_00
- #define TCG_TARGET_HAS_abs_vec          0
- #define TCG_TARGET_HAS_shi_vec          0
- #define TCG_TARGET_HAS_shs_vec          0
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 840464aab5..bd9259c60f 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -499,6 +499,9 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define VSUBUWM    VX4(1152)
- #define VSUBUDM    VX4(1216)      /* v2.07 */
+diff --git a/cpus.c b/cpus.c
+index d2c61ff155..bee7209134 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -949,8 +949,8 @@ static inline int64_t qemu_tcg_next_kick(void)
+     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+ }
  
-+#define VNEGW      (VX4(1538) | (6 << 16))  /* v3.00 */
-+#define VNEGD      (VX4(1538) | (7 << 16))  /* v3.00 */
+-/* Kick the currently round-robin scheduled vCPU */
+-static void qemu_cpu_kick_rr_cpu(void)
++/* Kick the currently round-robin scheduled vCPU to next */
++static void qemu_cpu_kick_rr_next_cpu(void)
+ {
+     CPUState *cpu;
+     do {
+@@ -961,6 +961,16 @@ static void qemu_cpu_kick_rr_cpu(void)
+     } while (cpu != atomic_mb_read(&tcg_current_rr_cpu));
+ }
+ 
++/* Kick all RR vCPUs */
++static void qemu_cpu_kick_rr_cpus(void)
++{
++    CPUState *cpu;
 +
- #define VMAXSB     VX4(258)
- #define VMAXSH     VX4(322)
- #define VMAXSW     VX4(386)
-@@ -528,6 +531,9 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define VCMPGTUH   VX4(582)
- #define VCMPGTUW   VX4(646)
- #define VCMPGTUD   VX4(711)       /* v2.07 */
-+#define VCMPNEB    VX4(7)         /* v3.00 */
-+#define VCMPNEH    VX4(71)        /* v3.00 */
-+#define VCMPNEW    VX4(135)       /* v3.00 */
++    CPU_FOREACH(cpu) {
++        cpu_exit(cpu);
++    };
++}
++
+ static void do_nothing(CPUState *cpu, run_on_cpu_data unused)
+ {
+ }
+@@ -993,7 +1003,7 @@ void qemu_timer_notify_cb(void *opaque, QEMUClockType type)
+ static void kick_tcg_thread(void *opaque)
+ {
+     timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+-    qemu_cpu_kick_rr_cpu();
++    qemu_cpu_kick_rr_next_cpu();
+ }
  
- #define VSLB       VX4(260)
- #define VSLH       VX4(324)
-@@ -2976,6 +2982,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_shri_vec:
-     case INDEX_op_sari_vec:
-         return vece <= MO_32 || have_isa_2_07 ? -1 : 0;
-+    case INDEX_op_neg_vec:
-+        return vece >= MO_32 && have_isa_3_00;
-     case INDEX_op_mul_vec:
-         switch (vece) {
-         case MO_8:
-@@ -3090,7 +3098,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     static const uint32_t
-         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
-         sub_op[4] = { VSUBUBM, VSUBUHM, VSUBUWM, VSUBUDM },
-+        neg_op[4] = { 0, 0, VNEGW, VNEGD },
-         eq_op[4]  = { VCMPEQUB, VCMPEQUH, VCMPEQUW, VCMPEQUD },
-+        ne_op[4]  = { VCMPNEB, VCMPNEH, VCMPNEW, 0 },
-         gts_op[4] = { VCMPGTSB, VCMPGTSH, VCMPGTSW, VCMPGTSD },
-         gtu_op[4] = { VCMPGTUB, VCMPGTUH, VCMPGTUW, VCMPGTUD },
-         ssadd_op[4] = { VADDSBS, VADDSHS, VADDSWS, 0 },
-@@ -3132,6 +3142,11 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_sub_vec:
-         insn = sub_op[vece];
-         break;
-+    case INDEX_op_neg_vec:
-+        insn = neg_op[vece];
-+        a2 = a1;
-+        a1 = 0;
-+        break;
-     case INDEX_op_mul_vec:
-         tcg_debug_assert(vece == MO_32 && have_isa_2_07);
-         insn = VMULUWM;
-@@ -3194,6 +3209,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         case TCG_COND_EQ:
-             insn = eq_op[vece];
-             break;
-+        case TCG_COND_NE:
-+            insn = ne_op[vece];
-+            break;
-         case TCG_COND_GT:
-             insn = gts_op[vece];
-             break;
-@@ -3276,6 +3294,10 @@ static void expand_vec_cmp(TCGType type, unsigned vece, TCGv_vec v0,
-     case TCG_COND_GTU:
-         break;
-     case TCG_COND_NE:
-+        if (have_isa_3_00 && vece <= MO_32) {
-+            break;
+ static void start_tcg_kick_timer(void)
+@@ -1828,9 +1838,11 @@ void qemu_cpu_kick(CPUState *cpu)
+ {
+     qemu_cond_broadcast(cpu->halt_cond);
+     if (tcg_enabled()) {
+-        cpu_exit(cpu);
+-        /* NOP unless doing single-thread RR */
+-        qemu_cpu_kick_rr_cpu();
++        if (qemu_tcg_mttcg_enabled()) {
++            cpu_exit(cpu);
++        } else {
++            qemu_cpu_kick_rr_cpus();
 +        }
-+        /* fall through */
-     case TCG_COND_LE:
-     case TCG_COND_LEU:
-         need_inv = true;
-@@ -3599,6 +3621,7 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_dup2_vec:
-         return &v_v_v;
-     case INDEX_op_not_vec:
-+    case INDEX_op_neg_vec:
-     case INDEX_op_dup_vec:
-         return &v_v;
-     case INDEX_op_ld_vec:
+     } else {
+         if (hax_enabled()) {
+             /*
 -- 
 2.17.1
 
