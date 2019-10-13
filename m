@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EE3D53C6
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Oct 2019 04:17:59 +0200 (CEST)
-Received: from localhost ([::1]:37208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE6FD53C8
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Oct 2019 04:19:17 +0200 (CEST)
+Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJTSH-0007X4-Nh
-	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 22:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57556)
+	id 1iJTTY-0000u7-PN
+	for lists+qemu-devel@lfdr.de; Sat, 12 Oct 2019 22:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iJTPl-0006Gf-Ps
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 22:15:22 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iJTPr-0006JO-H2
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 22:15:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iJTPk-0001pI-N9
- for qemu-devel@nongnu.org; Sat, 12 Oct 2019 22:15:21 -0400
-Received: from mga12.intel.com ([192.55.52.136]:49573)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iJTPq-00028u-CQ
+ for qemu-devel@nongnu.org; Sat, 12 Oct 2019 22:15:27 -0400
+Received: from mga09.intel.com ([134.134.136.24]:56369)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iJTPk-0001o0-Em; Sat, 12 Oct 2019 22:15:20 -0400
+ id 1iJTPq-00020i-4J; Sat, 12 Oct 2019 22:15:26 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2019 19:15:17 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2019 19:15:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,290,1566889200"; d="scan'208";a="199076874"
+X-IronPort-AV: E=Sophos;i="5.67,290,1566889200"; d="scan'208";a="346407424"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga006.jf.intel.com with ESMTP; 12 Oct 2019 19:15:12 -0700
+ by orsmga004.jf.intel.com with ESMTP; 12 Oct 2019 19:15:18 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: pbonzini@redhat.com, ehabkost@redhat.com, imammedo@redhat.com,
  kwolf@redhat.com, mreitz@redhat.com, stefanha@redhat.com, fam@euphon.net,
@@ -38,13 +38,15 @@ To: pbonzini@redhat.com, ehabkost@redhat.com, imammedo@redhat.com,
  david@gibson.dropbear.id.au, yuval.shaia@oracle.com,
  marcel.apfelbaum@gmail.com, alex.williamson@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, armbru@redhat.com, sw@weilnetz.de
-Subject: [PATCH 0/2] cleanup on page size
-Date: Sun, 13 Oct 2019 10:11:43 +0800
-Message-Id: <20191013021145.16011-1-richardw.yang@linux.intel.com>
+Subject: [PATCH 1/2] cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
+Date: Sun, 13 Oct 2019 10:11:44 +0800
+Message-Id: <20191013021145.16011-2-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191013021145.16011-1-richardw.yang@linux.intel.com>
+References: <20191013021145.16011-1-richardw.yang@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.136
+X-Received-From: 134.134.136.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,43 +63,38 @@ Cc: qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch 1 simplify the definition of xxx_PAGE_ALIGN.
-Patch 2 replaces getpagesize() with qemu_real_host_page_size. This one touch a
-volume of code. If some point is not correct, I'd appreciate your
-notification.
+Use ROUND_UP() to define, which is a little bit easy to read.
 
-Wei Yang (2):
-  cpu: use ROUND_UP() to define xxx_PAGE_ALIGN
-  core: replace getpagesize() with qemu_real_host_page_size
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+---
+ include/exec/cpu-all.h | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
- accel/kvm/kvm-all.c            |  6 +++---
- backends/hostmem.c             |  2 +-
- block.c                        |  4 ++--
- block/file-posix.c             |  9 +++++----
- block/io.c                     |  2 +-
- block/parallels.c              |  2 +-
- block/qcow2-cache.c            |  2 +-
- contrib/vhost-user-gpu/vugbm.c |  2 +-
- exec.c                         |  6 +++---
- hw/intc/s390_flic_kvm.c        |  2 +-
- hw/ppc/mac_newworld.c          |  2 +-
- hw/ppc/spapr_pci.c             |  2 +-
- hw/rdma/vmw/pvrdma_main.c      |  2 +-
- hw/vfio/spapr.c                |  7 ++++---
- include/exec/cpu-all.h         |  7 +++----
- include/exec/ram_addr.h        |  2 +-
- include/qemu/osdep.h           |  4 ++--
- migration/migration.c          |  2 +-
- migration/postcopy-ram.c       |  4 ++--
- monitor/misc.c                 |  2 +-
- target/ppc/kvm.c               |  2 +-
- tests/vhost-user-bridge.c      |  8 ++++----
- util/mmap-alloc.c              | 10 +++++-----
- util/oslib-posix.c             |  4 ++--
- util/oslib-win32.c             |  2 +-
- util/vfio-helpers.c            | 12 ++++++------
- 26 files changed, 55 insertions(+), 54 deletions(-)
-
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index ad9ab85eb3..255bb186ac 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -220,7 +220,7 @@ extern int target_page_bits;
+ 
+ #define TARGET_PAGE_SIZE (1 << TARGET_PAGE_BITS)
+ #define TARGET_PAGE_MASK ~(TARGET_PAGE_SIZE - 1)
+-#define TARGET_PAGE_ALIGN(addr) (((addr) + TARGET_PAGE_SIZE - 1) & TARGET_PAGE_MASK)
++#define TARGET_PAGE_ALIGN(addr) ROUND_UP((addr), TARGET_PAGE_SIZE)
+ 
+ /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+  * when intptr_t is 32-bit and we are aligning a long long.
+@@ -228,9 +228,8 @@ extern int target_page_bits;
+ extern uintptr_t qemu_host_page_size;
+ extern intptr_t qemu_host_page_mask;
+ 
+-#define HOST_PAGE_ALIGN(addr) (((addr) + qemu_host_page_size - 1) & qemu_host_page_mask)
+-#define REAL_HOST_PAGE_ALIGN(addr) (((addr) + qemu_real_host_page_size - 1) & \
+-                                    qemu_real_host_page_mask)
++#define HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_host_page_size)
++#define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size)
+ 
+ /* same as PROT_xxx */
+ #define PAGE_READ      0x0001
 -- 
 2.17.1
 
