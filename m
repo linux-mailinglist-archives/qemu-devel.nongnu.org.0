@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A29D550D
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Oct 2019 09:50:51 +0200 (CEST)
-Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2C9D5510
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Oct 2019 09:52:57 +0200 (CEST)
+Received: from localhost ([::1]:38142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJYeQ-0002hu-IA
-	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 03:50:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47658)
+	id 1iJYgS-0005tF-JZ
+	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 03:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iJYcB-0000eQ-PO
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:33 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1iJYcC-0000fr-Vc
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iJYcA-0008Hr-8f
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:31 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41136)
+ (envelope-from <mrolnik@gmail.com>) id 1iJYcB-0008JJ-IY
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:32 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36576)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iJYcA-0008HB-1Z
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:30 -0400
-Received: by mail-wr1-x435.google.com with SMTP id p4so258013wrm.8
- for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 00:48:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iJYcB-0008IS-C7
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:31 -0400
+Received: by mail-wr1-x432.google.com with SMTP id y19so16153428wrd.3
+ for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 00:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sXgUfb/k+VBdpZH8pPaVua4ZrgGvG7BUVKKWHWPW/NE=;
- b=AY3J+EbHueZ251jh791SjOJ2X9QtgJN+7QEny+6zP11QmV8Z381oMoIBw/6Ily5g3n
- zor3r5rYka+RC1rkDiegUD1thNCai0LjSXOcR4+j+c+HqWA5AGYU/IfnmLlCUXEJFUge
- qSOJ89y6btDA/Go9t0h7D+FVO92SSpG+MxY9iqK5EXmYRhlrSBVI3xJ4ltuwOKOJB94Z
- 90ol4TBWUfvJhpLSa8YTduFONNqg1r7b4f3H+YOZcQTsa5pqIF8ruE75KQVlpDPTnxwT
- LtI/SfC/NRdUIByOY6bNJaQZ545cf+nV2iEhsU9kdFS/VQu6ieMIABSU55dUfolEZjbs
- sFBw==
+ bh=MBE/sZ604WgtEEK2KK0XvQaJBBoGSHYTdBPmGrMUCB0=;
+ b=XzKSwq2MIiUKjQ+NzhXqUUhyAy62iFyMuuNoCMkyWrfFBtRdu1na9qgb4kL2zuntmH
+ t49Qg6+Z27a+4Ok/Tyq5+/3AWQspkAhclHMq4BJi6D7AlBAqdGdXPZphwVzfz3unu3pX
+ 8W0B92z8g7n219M+Zqo0zAS5pDmNbpSW86DWhrIF8oeysM9xKDdzQRoIR5NdtOF842Px
+ Rk+ktbjBPccKjHnPkTqPMjpvDdoJT560MWjOf2NrWQNkDk1/FDWL2zCD8wpg3uiAbXM/
+ sJnd9Wq/HasN2VDsHsNJ8kv7ycG5VM6fB5/tmci01rvMCM2c1yXfeVAo5sx2fpByf9kr
+ r2fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=sXgUfb/k+VBdpZH8pPaVua4ZrgGvG7BUVKKWHWPW/NE=;
- b=FtjCWbLun3fc6dfaPI5AxsnCcFfawp1o0yYz+cedjoeLzi3wiIEFV9DJgbADR2B2wd
- Ml0PDHH32GUeq73s7SgrEEA9EsugN3rvr5fb1rMHbNiM+Y6Wx/D6cnq7JW2abVbGnLi3
- izjQV8OP63E85Is0Aen4NaPUvCvSpEs5cX1YltL4urrDWZSCpw2Q0E3Kt6ShkJeEdw9e
- T/w2qr7dL2K5++dJNQiC1OE+kGbXtAT+UNi2YUQ4Zb7dBRnj0yXOMzZaPat6jQQMiett
- mXlz8xaoshFd82t1d2yGvUPQ4R2woMB0aioHSTNWzvlnEDLd8V4dBctn0vmP3x0HXFI9
- RlpQ==
-X-Gm-Message-State: APjAAAUHGt/YEYgQvZFwSIqtjV9I0jdZyjqzCLXfaf5XNfonFnbWUuiV
- OiiXy2paluy/GR+/FHLCHrFZXvLCpNY=
-X-Google-Smtp-Source: APXvYqzjM0SwwjU14w9QClZX91S+BYdqSQkWxITfp2sKfBD0G1j8qlXhSMwkjp9r6g0nKzuA8VfVnA==
-X-Received: by 2002:adf:f4c2:: with SMTP id h2mr21281586wrp.69.1570952908609; 
- Sun, 13 Oct 2019 00:48:28 -0700 (PDT)
+ bh=MBE/sZ604WgtEEK2KK0XvQaJBBoGSHYTdBPmGrMUCB0=;
+ b=e3sxqFrTn87HHQZHyGfB1iXqVEdExs/HrDX2KbVV/u76p2MiDk0va2WhQFmIeTqWgH
+ OD/hzS/dgxM9btEfGjl4sEaob/HlXFOmgFJsTMFEHg8BShJ5/+/dxooxvNJ9AM7lvV9O
+ K6PI4vg7ksccFXCpmL24rf8lBXr1SIE/NyPg3JRIP9ZXrCSorIxmExk2u16emPx7oCrJ
+ FW9DYa8C2h7rFJuyC+OMzI1A32mrgMZPB63WzK2NnNZmWMzBGd8G891ehB70REdAzl8f
+ KHfGQPkbZ2NWgsFUQcleW4RdMHHn1mkysgaPMB7YjIPOjLsi0b3g/S+KDS5dDTogAtg9
+ GDVQ==
+X-Gm-Message-State: APjAAAUcstHV41NWKHRxKSV40aoSmvPwRF5+fcrNW/QaOkFCjToMEXr1
+ mckV2XF2U9yK1jfjWVmE7WXn7AmD/6Y=
+X-Google-Smtp-Source: APXvYqzArfhhdD6iOTW48Z+zrQQdwtygRUu3gUFwBJKYsRzrlbjpupwECKN5Xg4BnOjHBIkrkCY7Yw==
+X-Received: by 2002:a5d:51d1:: with SMTP id n17mr20787368wrv.125.1570952909950; 
+ Sun, 13 Oct 2019 00:48:29 -0700 (PDT)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-79-179-64-109.red.bezeqint.net. [79.179.64.109])
- by smtp.gmail.com with ESMTPSA id u26sm9277532wrd.87.2019.10.13.00.48.27
+ by smtp.gmail.com with ESMTPSA id u26sm9277532wrd.87.2019.10.13.00.48.28
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 13 Oct 2019 00:48:28 -0700 (PDT)
+ Sun, 13 Oct 2019 00:48:29 -0700 (PDT)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v32 04/13] target/avr: Add instruction translation - Registers
- definition
-Date: Sun, 13 Oct 2019 10:47:56 +0300
-Message-Id: <20191013074803.91390-5-mrolnik@gmail.com>
+Subject: [PATCH v32 04/13] target/avr: Add instruction translation - begin
+Date: Sun, 13 Oct 2019 10:47:57 +0300
+Message-Id: <20191013074803.91390-6-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191013074803.91390-1-mrolnik@gmail.com>
 References: <20191013074803.91390-1-mrolnik@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,6 +79,9 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
  philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+This includes:
+- TCG translations for each instruction
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 ---
