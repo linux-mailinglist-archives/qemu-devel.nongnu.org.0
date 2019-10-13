@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B9BD58A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 00:35:33 +0200 (CEST)
-Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C3ED58B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 00:38:08 +0200 (CEST)
+Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJmSZ-0007MC-Si
-	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 18:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
+	id 1iJmV4-0002Zf-Sm
+	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 18:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iJmJl-00076G-0g
+ (envelope-from <richard.henderson@linaro.org>) id 1iJmJl-00076F-09
  for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iJmJj-00018k-8R
+ (envelope-from <richard.henderson@linaro.org>) id 1iJmJj-00018t-8x
  for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:24 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:41187)
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:35794)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iJmJf-000142-EO
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:21 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id q7so9250227pfh.8
- for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 15:26:15 -0700 (PDT)
+ id 1iJmJh-00014c-AG
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 18:26:22 -0400
+Received: by mail-pg1-x530.google.com with SMTP id p30so8941512pgl.2
+ for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 15:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Ca0/JTgWp5vQ6VZt3FKmDT0cq5/Y2RTYUY9dPjXj27o=;
- b=xhd4QTC0KxQKaY5XSiafEMKIyaoyuwS1rh5ZG+mO98TROVit5Ta3pw5RUU9Qywr1IO
- 6LBwD1R+8Ay8RCgoy/pRWOUZn/QckUhaDQZ7r+gy2bs+5or3MVx7rRV5vuoprSA5Qj35
- 2CcsNMCwL1TiS70Lct9ywaRUPa2Ati9hoaxMvxC5eagNU3ej0Zunx4glcs8Kll1M34up
- Shtev8jNmXUVwN/xyaRU8dcHFKLfCeUf0nd14rr3l+1zEn8A9sDg9TxCvTalBXpbacTh
- EdO/qXKn77Yynr+uQ5cP4EuCV/EX7210pTvY+yHEo5QjIheiqhDgnv+aYeq7hHR/MQ5M
- EwrQ==
+ bh=eQFl1TFXthP4AT6NgGUJRpsDofwtKBJ7n5fJYlO6V1Y=;
+ b=ra11ZBumrgiUZtKOkdbajdgjI0Ui7WB3PzcfVJJQ8pAW+v6ozDasf/sUE5GCDcGek7
+ ah/h2czo7ydjBtog0hRMQBWNFlq8mL7g8AgAkv+Qfj9m9cdjy/MD4jpR5KgKnv1nyzXI
+ XaWlg/z77spMO73l2S5YQfe0/SuJRuyVnOEqNvaNMnNjTNOKEjmEFdC/eFPaXElSMG8V
+ teGfFm6ORQsKwJpQmil6aLjP2geSMExdgRzdF2OXfC9G/PUaSwYOd4rP/s7w9LUp+zck
+ tDA0tkivrYjzbNwT7DRzAQUEA62LeSKPotugg3MXfv0+ikYYAUAkl8mhMMgOSlWrlHLa
+ m+6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Ca0/JTgWp5vQ6VZt3FKmDT0cq5/Y2RTYUY9dPjXj27o=;
- b=j2O7Da9hWa1Gb4RNvVIEwuTMS0XmMWdoSEOWga3N/bf27NrcBhv2PEnLErqH4dcILE
- sagFkyJVGlUA++3nM9hmJat3969rAKk/CDNcCjqO4vJ/c0VzCjVkY+4SuPdS96bOKTFP
- FHdPQup7Ml1SUmXl0x/HtcrPjoz75xAa/VFbGKc3Ubd5I/sU845JAPb4J7BRbwIUkgRE
- n7AV/Qnx3eVEmySg5g82NcUIt5fx4BDl28/+XWOjmmMT+V92EurKHMU75imRU7gRmA7l
- xOPjAcegM+H+PjYYv5C8+jvnjqAioR5tXCPXh95dyLzV+51MixBtwtgdOb8IyzH409RY
- IUcg==
-X-Gm-Message-State: APjAAAWNG7vCY3r5mvWQNGVa4jeFs92OH5ZRLrTU+By5QJ5LIik/0GVv
- VaX4wW8Okglq1c8t+cqgsqbIbYJx26w=
-X-Google-Smtp-Source: APXvYqxvlwtgqgdE6mE6lvZUkF7Fo8ULQ0q4HlQbckgH77Gvyoslj5PvQ+DGzxmSD4fBSJfusHBJ/g==
-X-Received: by 2002:a63:1e59:: with SMTP id p25mr29501986pgm.361.1571005574041; 
- Sun, 13 Oct 2019 15:26:14 -0700 (PDT)
+ bh=eQFl1TFXthP4AT6NgGUJRpsDofwtKBJ7n5fJYlO6V1Y=;
+ b=Gy0opnEaGE7K9x9SWorN0T2eRdItrJ1zfEHhllZwXRfd7hAFdEeNwHqARk2tLFU1Fp
+ u/wU99QAGlx+Qm6aBKXUyo6sBRhB7bTY8gbeOAUPGJ0UNs4zuYAmlG16z+ANkJpnVUgV
+ BDwvSOJOY7uVupEJTdi1fR8oFkk8IfLaE9W5hYjQScrutDl2G/SYLfGzpYZZ39g1sUZk
+ tj7PsWYEO7WRIJ4O307Hb5ccln3JzVucjPjJ0rwza9hDAl9s/6xBFd8QX8ar/OjVVB/9
+ VqJFkPJhOabGAckmefhzAPiosunbFl38Xa2x/fA4KeENlOTld0TGtBO+ZW7uMa0+6M05
+ 3fqQ==
+X-Gm-Message-State: APjAAAUcsXN+8qQOgBPblq2O7VOyd2M6jNEPhssrx5SazYEpiCECuQ+A
+ FOyyJ6SaH/U4JZI0+TaouJ+wJvVrh/Y=
+X-Google-Smtp-Source: APXvYqwSPfHs82xth0h1e7beJbj6C7P+ENU/aGhgcyJ43Wki4GolmJX2pcYqztdvcRleTYi2zE5few==
+X-Received: by 2002:a63:ea45:: with SMTP id l5mr16785414pgk.189.1571005575331; 
+ Sun, 13 Oct 2019 15:26:15 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d76sm15940571pfd.185.2019.10.13.15.26.13
+ by smtp.gmail.com with ESMTPSA id d76sm15940571pfd.185.2019.10.13.15.26.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Oct 2019 15:26:13 -0700 (PDT)
+ Sun, 13 Oct 2019 15:26:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/23] tcg/ppc: Update vector support for v3.00 load/store
-Date: Sun, 13 Oct 2019 15:25:42 -0700
-Message-Id: <20191013222544.3679-22-richard.henderson@linaro.org>
+Subject: [PULL 22/23] tcg/ppc: Update vector support for v3.00 dup/dupi
+Date: Sun, 13 Oct 2019 15:25:43 -0700
+Message-Id: <20191013222544.3679-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191013222544.3679-1-richard.henderson@linaro.org>
 References: <20191013222544.3679-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42c
+X-Received-From: 2607:f8b0:4864:20::530
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,154 +79,88 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These new instructions are a mix of those like LXSD that are
-only conditional only on MSR.VEC and those like LXV that are
-conditional on MSR.VEC for TX=1.  Thus, in the end, we can
-consider all of these as Altivec instructions.
+These new instructions are conditional on MSR.VEC for TX=1,
+so we can consider these Altivec instructions.
 
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.inc.c | 47 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 9 deletions(-)
+ tcg/ppc/tcg-target.inc.c | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
 diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index bd9259c60f..5b7d1bd2dc 100644
+index 5b7d1bd2dc..d308d69aba 100644
 --- a/tcg/ppc/tcg-target.inc.c
 +++ b/tcg/ppc/tcg-target.inc.c
-@@ -471,11 +471,16 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define LXSDX      (XO31(588) | 1)  /* v2.06, force tx=1 */
- #define LXVDSX     (XO31(332) | 1)  /* v2.06, force tx=1 */
- #define LXSIWZX    (XO31(12) | 1)   /* v2.07, force tx=1 */
-+#define LXV        (OPCD(61) | 8 | 1)  /* v3.00, force tx=1 */
-+#define LXSD       (OPCD(57) | 2)   /* v3.00 */
-+#define LXVWSX     (XO31(364) | 1)  /* v3.00, force tx=1 */
+@@ -596,11 +596,14 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
  
- #define STVX       XO31(231)
- #define STVEWX     XO31(199)
- #define STXSDX     (XO31(716) | 1)  /* v2.06, force sx=1 */
- #define STXSIWX    (XO31(140) | 1)  /* v2.07, force sx=1 */
-+#define STXV       (OPCD(61) | 8 | 5) /* v3.00, force sx=1 */
-+#define STXSD      (OPCD(61) | 2)   /* v3.00 */
+ #define XXPERMDI   (OPCD(60) | (10 << 3) | 7)  /* v2.06, force ax=bx=tx=1 */
+ #define XXSEL      (OPCD(60) | (3 << 4) | 0xf) /* v2.06, force ax=bx=cx=tx=1 */
++#define XXSPLTIB   (OPCD(60) | (360 << 1) | 1) /* v3.00, force tx=1 */
  
- #define VADDSBS    VX4(768)
- #define VADDUBS    VX4(512)
-@@ -1114,7 +1119,7 @@ static void tcg_out_mem_long(TCGContext *s, int opi, int opx, TCGReg rt,
-                              TCGReg base, tcg_target_long offset)
- {
-     tcg_target_long orig = offset, l0, l1, extra = 0, align = 0;
--    bool is_store = false;
-+    bool is_int_store = false;
-     TCGReg rs = TCG_REG_TMP1;
+ #define MFVSRD     (XO31(51) | 1)   /* v2.07, force sx=1 */
+ #define MFVSRWZ    (XO31(115) | 1)  /* v2.07, force sx=1 */
+ #define MTVSRD     (XO31(179) | 1)  /* v2.07, force tx=1 */
+ #define MTVSRWZ    (XO31(243) | 1)  /* v2.07, force tx=1 */
++#define MTVSRDD    (XO31(435) | 1)  /* v3.00, force tx=1 */
++#define MTVSRWS    (XO31(403) | 1)  /* v3.00, force tx=1 */
  
-     switch (opi) {
-@@ -1127,11 +1132,19 @@ static void tcg_out_mem_long(TCGContext *s, int opi, int opx, TCGReg rt,
-             break;
+ #define RT(r) ((r)<<21)
+ #define RS(r) ((r)<<21)
+@@ -931,6 +934,10 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, TCGReg ret,
+             return;
          }
-         break;
-+    case LXSD:
-+    case STXSD:
-+        align = 3;
-+        break;
-+    case LXV:
-+    case STXV:
-+        align = 15;
-+        break;
-     case STD:
-         align = 3;
-         /* FALLTHRU */
-     case STB: case STH: case STW:
--        is_store = true;
-+        is_int_store = true;
-         break;
      }
++    if (have_isa_3_00 && val == (tcg_target_long)dup_const(MO_8, val)) {
++        tcg_out32(s, XXSPLTIB | VRT(ret) | ((val & 0xff) << 11));
++        return;
++    }
  
-@@ -1140,7 +1153,7 @@ static void tcg_out_mem_long(TCGContext *s, int opi, int opx, TCGReg rt,
-         if (rs == base) {
-             rs = TCG_REG_R0;
-         }
--        tcg_debug_assert(!is_store || rs != rt);
-+        tcg_debug_assert(!is_int_store || rs != rt);
-         tcg_out_movi(s, TCG_TYPE_PTR, rs, orig);
-         tcg_out32(s, opx | TAB(rt & 31, base, rs));
-         return;
-@@ -1205,7 +1218,8 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
-     case TCG_TYPE_V64:
-         tcg_debug_assert(ret >= TCG_REG_V0);
-         if (have_vsx) {
--            tcg_out_mem_long(s, 0, LXSDX, ret, base, offset);
-+            tcg_out_mem_long(s, have_isa_3_00 ? LXSD : 0, LXSDX,
-+                             ret, base, offset);
-             break;
-         }
-         tcg_debug_assert((offset & 7) == 0);
-@@ -1217,7 +1231,8 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
-     case TCG_TYPE_V128:
-         tcg_debug_assert(ret >= TCG_REG_V0);
-         tcg_debug_assert((offset & 15) == 0);
--        tcg_out_mem_long(s, 0, LVX, ret, base, offset);
-+        tcg_out_mem_long(s, have_isa_3_00 ? LXV : 0,
-+                         LVX, ret, base, offset);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -1258,7 +1273,8 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-     case TCG_TYPE_V64:
-         tcg_debug_assert(arg >= TCG_REG_V0);
-         if (have_vsx) {
--            tcg_out_mem_long(s, 0, STXSDX, arg, base, offset);
-+            tcg_out_mem_long(s, have_isa_3_00 ? STXSD : 0,
-+                             STXSDX, arg, base, offset);
-             break;
-         }
-         tcg_debug_assert((offset & 7) == 0);
-@@ -1271,7 +1287,8 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-         break;
-     case TCG_TYPE_V128:
-         tcg_debug_assert(arg >= TCG_REG_V0);
--        tcg_out_mem_long(s, 0, STVX, arg, base, offset);
-+        tcg_out_mem_long(s, have_isa_3_00 ? STXV : 0,
-+                         STVX, arg, base, offset);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -3042,7 +3059,11 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-     tcg_debug_assert(out >= TCG_REG_V0);
-     switch (vece) {
-     case MO_8:
--        tcg_out_mem_long(s, 0, LVEBX, out, base, offset);
-+        if (have_isa_3_00) {
-+            tcg_out_mem_long(s, LXV, LVX, out, base, offset & -16);
-+        } else {
-+            tcg_out_mem_long(s, 0, LVEBX, out, base, offset);
+     /*
+      * Otherwise we must load the value from the constant pool.
+@@ -3021,7 +3028,22 @@ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                             TCGReg dst, TCGReg src)
+ {
+     tcg_debug_assert(dst >= TCG_REG_V0);
+-    tcg_debug_assert(src >= TCG_REG_V0);
++
++    /* Splat from integer reg allowed via constraints for v3.00.  */
++    if (src < TCG_REG_V0) {
++        tcg_debug_assert(have_isa_3_00);
++        switch (vece) {
++        case MO_64:
++            tcg_out32(s, MTVSRDD | VRT(dst) | RA(src) | RB(src));
++            return true;
++        case MO_32:
++            tcg_out32(s, MTVSRWS | VRT(dst) | RA(src));
++            return true;
++        default:
++            /* Fail, so that we fall back on either dupm or mov+dup.  */
++            return false;
 +        }
-         elt = extract32(offset, 0, 4);
- #ifndef HOST_WORDS_BIGENDIAN
-         elt ^= 15;
-@@ -3051,7 +3072,11 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-         break;
-     case MO_16:
-         tcg_debug_assert((offset & 1) == 0);
--        tcg_out_mem_long(s, 0, LVEHX, out, base, offset);
-+        if (have_isa_3_00) {
-+            tcg_out_mem_long(s, LXV | 8, LVX, out, base, offset & -16);
-+        } else {
-+            tcg_out_mem_long(s, 0, LVEHX, out, base, offset);
-+        }
-         elt = extract32(offset, 1, 3);
- #ifndef HOST_WORDS_BIGENDIAN
-         elt ^= 7;
-@@ -3059,6 +3084,10 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-         tcg_out32(s, VSPLTH | VRT(out) | VRB(out) | (elt << 16));
-         break;
-     case MO_32:
-+        if (have_isa_3_00) {
-+            tcg_out_mem_long(s, 0, LXVWSX, out, base, offset);
-+            break;
-+        }
-         tcg_debug_assert((offset & 3) == 0);
-         tcg_out_mem_long(s, 0, LVEWX, out, base, offset);
-         elt = extract32(offset, 2, 2);
++    }
+ 
+     /*
+      * Recall we use (or emulate) VSX integer loads, so the integer is
+@@ -3482,6 +3504,7 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+     static const TCGTargetOpDef sub2
+         = { .args_ct_str = { "r", "r", "rI", "rZM", "r", "r" } };
+     static const TCGTargetOpDef v_r = { .args_ct_str = { "v", "r" } };
++    static const TCGTargetOpDef v_vr = { .args_ct_str = { "v", "vr" } };
+     static const TCGTargetOpDef v_v = { .args_ct_str = { "v", "v" } };
+     static const TCGTargetOpDef v_v_v = { .args_ct_str = { "v", "v", "v" } };
+     static const TCGTargetOpDef v_v_v_v
+@@ -3651,8 +3674,9 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+         return &v_v_v;
+     case INDEX_op_not_vec:
+     case INDEX_op_neg_vec:
+-    case INDEX_op_dup_vec:
+         return &v_v;
++    case INDEX_op_dup_vec:
++        return have_isa_3_00 ? &v_vr : &v_v;
+     case INDEX_op_ld_vec:
+     case INDEX_op_st_vec:
+     case INDEX_op_dupm_vec:
 -- 
 2.17.1
 
