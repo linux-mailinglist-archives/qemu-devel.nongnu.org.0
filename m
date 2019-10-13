@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6825D5515
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Oct 2019 09:57:00 +0200 (CEST)
-Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DB7D555E
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Oct 2019 10:50:49 +0200 (CEST)
+Received: from localhost ([::1]:38344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJYkN-0002CI-PB
-	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 03:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47748)
+	id 1iJZaS-00039U-67
+	for lists+qemu-devel@lfdr.de; Sun, 13 Oct 2019 04:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iJYcM-0000va-T7
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:44 -0400
+ (envelope-from <vkuznets@redhat.com>) id 1iJZZL-0002bB-DF
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 04:49:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iJYcL-0008Qc-7e
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:42 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45428)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iJYcK-0008Pw-Sh
- for qemu-devel@nongnu.org; Sun, 13 Oct 2019 03:48:41 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r5so16095627wrm.12
- for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 00:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=EU/R6kg8Qa2S2tf1n/s8/Ragb+3RZKw+3SYbXSlumns=;
- b=nB43d2Td+G9ni4xrAkPudujOiur8+clCUXT3+dCh0VSzVqhXqDkWtSO8FhG4Kvffzt
- 1k0qCKFAPbXvS77/iw1+oEINGMsfAhea/cG/SNsHOxFCr8urhxnkSVRvyrfECO0OyAY+
- ZUuEvEOo2HQ9lvYqAaeznkZRDZD9Co7NUEGgK6zwy9dT6o1m3oOxnUJCVzhcLA38smJC
- +rNa+ytbG/OwTISupOrDTogY5kNL5iojTBWX/Fq6+5Imiu8YsTriQj2utHOclu3Y0zOi
- pgrUDnSfP7uDMJdif9fjhirGOqCWYrwnGiKcp1w2d0QR72fCDvOkYD1hiZ4qitVOK0sL
- fUuA==
+ (envelope-from <vkuznets@redhat.com>) id 1iJZZI-0007pl-Rk
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 04:49:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48940)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1iJZZI-0007oZ-JK
+ for qemu-devel@nongnu.org; Sun, 13 Oct 2019 04:49:36 -0400
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 912B83DE0C
+ for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 08:49:33 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id k4so7009252wru.1
+ for <qemu-devel@nongnu.org>; Sun, 13 Oct 2019 01:49:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=EU/R6kg8Qa2S2tf1n/s8/Ragb+3RZKw+3SYbXSlumns=;
- b=pqjuohD2NSV/wrCFd4AsONevQF54jN98W3WCZ8/EYKGYJCS14/VFL9p3ihTYT9Q1UX
- zt8gAlxNxSju/e16SMeBVuj5SdCACfD1BQM8cBEgQki9d4jQyxtwbV8+CU4o5OqLBokS
- mRWEHbfHKFQpq2+A6Af7iWTZcrz5AZPIGylA5jz23RWpSAbkj/rse5hfYq9uTcxK2mh7
- kj+y0HAwRCSsxeB8IvYHpNXmlmGLS6RVb0PgI4CajOc2Z/50AV+oiCQjeLbNd318jH5L
- a8fVTYNrbMVuqVTC8TYF/5/GmjtDzgr1m9MZaXroWJJIgl00mybOakjU0WLFLhZT1jAU
- Uk4g==
-X-Gm-Message-State: APjAAAVRSst1ApQg/l1FEwQFhqhzKDJsTNw76tgULRR+TB6jWfu9MDtc
- BiWOB/YAr917mo9J3CEwHfXXzFeHzx8=
-X-Google-Smtp-Source: APXvYqwKdeylRJ2nnxHeIBqud9cRLqavBxW2M/9D1+y2TAd63+pqrVhIeeH14tl2C2A/ebnwvJrP0w==
-X-Received: by 2002:adf:e286:: with SMTP id v6mr15757930wri.226.1570952919561; 
- Sun, 13 Oct 2019 00:48:39 -0700 (PDT)
-Received: from 8c859074c0ff.ant.amazon.com.com
- (bzq-79-179-64-109.red.bezeqint.net. [79.179.64.109])
- by smtp.gmail.com with ESMTPSA id u26sm9277532wrd.87.2019.10.13.00.48.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 13 Oct 2019 00:48:39 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v32 09/13] target/avr: Add instruction translation - end
-Date: Sun, 13 Oct 2019 10:48:03 +0300
-Message-Id: <20191013074803.91390-12-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20191013074803.91390-1-mrolnik@gmail.com>
-References: <20191013074803.91390-1-mrolnik@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=Ja9qbq8pwNINxaby4hLqVgL+JEeU/d+fL6MBhBXvMXU=;
+ b=jN7a7r2RFfCba/Kh5DDtVpW3C5b0hb3v8DVTS1d1thOyHTVXkdQ0qYR6TqajKu/35g
+ edyA93zJWpDJ3kyRFibCZUUbGqLS0uAoUtXtAZMCzVv/Uv2azVsNNhvzdhnMsytKIWue
+ jKssIchIGP9yqqQ0H2/XqNHOZc51dztRVfIvhdPssyxa5njYgHjp8yzLA1a5qaeFnDdr
+ GCxIhgoU96wWcv6M2PeQTBWIrsCNaA+rEGoVQitjsfZSiPKx0U5aSu2nfSWnJ6cwmu8e
+ 3VywXv18A1wkafFaqkw0ZueEIJ1eyXiB7J3/2j/KZ+x+IJZCfvkrYjQkqDoeJPTe8eB4
+ R6ow==
+X-Gm-Message-State: APjAAAUYDRqJMrux0J6L/PoBU4WBL3aLfmiCqrbLZGTc6UdPfAIjeGpR
+ 7aUwAHr/Z3dRNb+O6nWlpLXj+YWWc0vphQqSRufAh43McVA9gIaU9Lin/sfz/T7O1vrX0L3Z78M
+ OVL6NmqJlHgNIN14=
+X-Received: by 2002:a05:600c:2c2:: with SMTP id
+ 2mr10686813wmn.112.1570956572215; 
+ Sun, 13 Oct 2019 01:49:32 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxo3H0voKcFIvJsSqXkvXStyxqzlu/VzQtkrGy4RT5JKhephQan3h6hxxgpNm1WZEyY9x3gyQ==
+X-Received: by 2002:a05:600c:2c2:: with SMTP id
+ 2mr10686793wmn.112.1570956571896; 
+ Sun, 13 Oct 2019 01:49:31 -0700 (PDT)
+Received: from vitty.brq.redhat.com ([95.82.135.110])
+ by smtp.gmail.com with ESMTPSA id u4sm27814969wmg.41.2019.10.13.01.49.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Oct 2019 01:49:31 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: lantianyu1986@gmail.com
+Subject: Re: [PATCH] target/i386/kvm: Add Hyper-V direct tlb flush support
+In-Reply-To: <20191012034153.31817-1-Tianyu.Lan@microsoft.com>
+References: <20191012034153.31817-1-Tianyu.Lan@microsoft.com>
+Date: Sun, 13 Oct 2019 10:49:30 +0200
+Message-ID: <87r23h58th.fsf@vitty.brq.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,260 +76,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
- philmd@redhat.com, aleksandar.m.mail@gmail.com
+Cc: mtosatti@redhat.com, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ ehabkost@redhat.com, kvm@vger.kernel.org, mst@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
----
- target/avr/translate.c | 234 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 234 insertions(+)
+lantianyu1986@gmail.com writes:
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 21ba6004ee..6d4a023ff9 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2780,3 +2780,237 @@ static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
- 
-     return true;
- }
-+
-+
-+void avr_cpu_tcg_init(void)
-+{
-+    int i;
-+
-+#define AVR_REG_OFFS(x) offsetof(CPUAVRState, x)
-+    cpu_pc = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(pc_w), "pc");
-+    cpu_Cf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregC), "Cf");
-+    cpu_Zf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregZ), "Zf");
-+    cpu_Nf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregN), "Nf");
-+    cpu_Vf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregV), "Vf");
-+    cpu_Sf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregS), "Sf");
-+    cpu_Hf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregH), "Hf");
-+    cpu_Tf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregT), "Tf");
-+    cpu_If = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregI), "If");
-+    cpu_rampD = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampD), "rampD");
-+    cpu_rampX = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampX), "rampX");
-+    cpu_rampY = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampY), "rampY");
-+    cpu_rampZ = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampZ), "rampZ");
-+    cpu_eind = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(eind), "eind");
-+    cpu_sp = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sp), "sp");
-+    cpu_skip = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(skip), "skip");
-+
-+    for (i = 0; i < NO_CPU_REGISTERS; i++) {
-+        cpu_r[i] = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(r[i]),
-+                                          reg_names[i]);
-+    }
-+#undef AVR_REG_OFFS
-+}
-+
-+static void translate(DisasContext *ctx)
-+{
-+    uint32_t opcode = next_word(ctx);
-+
-+    if (!decode_insn(ctx, opcode)) {
-+        gen_helper_unsupported(cpu_env);
-+        ctx->bstate = DISAS_NORETURN;
-+    }
-+}
-+
-+/* Standardize the cpu_skip condition to NE.  */
-+static bool canonicalize_skip(DisasContext *ctx)
-+{
-+    switch (ctx->skip_cond) {
-+    case TCG_COND_NEVER:
-+        /* Normal case: cpu_skip is known to be false.  */
-+        return false;
-+
-+    case TCG_COND_ALWAYS:
-+        /*
-+         * Breakpoint case: cpu_skip is known to be true, via TB_FLAGS_SKIP.
-+         * The breakpoint is on the instruction being skipped, at the start
-+         * of the TranslationBlock.  No need to update.
-+         */
-+        return false;
-+
-+    case TCG_COND_NE:
-+        if (ctx->skip_var1 == NULL) {
-+            tcg_gen_mov_tl(cpu_skip, ctx->skip_var0);
-+        } else {
-+            tcg_gen_xor_tl(cpu_skip, ctx->skip_var0, ctx->skip_var1);
-+            ctx->skip_var1 = NULL;
-+        }
-+        break;
-+
-+    default:
-+        /* Convert to a NE condition vs 0. */
-+        if (ctx->skip_var1 == NULL) {
-+            tcg_gen_setcondi_tl(ctx->skip_cond, cpu_skip, ctx->skip_var0, 0);
-+        } else {
-+            tcg_gen_setcond_tl(ctx->skip_cond, cpu_skip,
-+                               ctx->skip_var0, ctx->skip_var1);
-+            ctx->skip_var1 = NULL;
-+        }
-+        ctx->skip_cond = TCG_COND_NE;
-+        break;
-+    }
-+    if (ctx->free_skip_var0) {
-+        tcg_temp_free(ctx->skip_var0);
-+        ctx->free_skip_var0 = false;
-+    }
-+    ctx->skip_var0 = cpu_skip;
-+    return true;
-+}
-+
-+void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-+{
-+    CPUAVRState *env = cs->env_ptr;
-+    DisasContext ctx = {
-+        .tb = tb,
-+        .cs = cs,
-+        .env = env,
-+        .memidx = 0,
-+        .bstate = DISAS_NEXT,
-+        .skip_cond = TCG_COND_NEVER,
-+        .singlestep = cs->singlestep_enabled,
-+    };
-+    target_ulong pc_start = tb->pc / 2;
-+    int num_insns = 0;
-+
-+    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
-+        /*
-+         * This flag is set by ST/LD instruction we will regenerate it ONLY
-+         * with mem/cpu memory access instead of mem access
-+         */
-+        max_insns = 1;
-+    }
-+    if (ctx.singlestep) {
-+        max_insns = 1;
-+    }
-+
-+    gen_tb_start(tb);
-+
-+    ctx.npc = pc_start;
-+    if (tb->flags & TB_FLAGS_SKIP) {
-+        ctx.skip_cond = TCG_COND_ALWAYS;
-+        ctx.skip_var0 = cpu_skip;
-+    }
-+
-+    do {
-+        TCGLabel *skip_label = NULL;
-+
-+        /* translate current instruction */
-+        tcg_gen_insn_start(ctx.npc);
-+        num_insns++;
-+
-+        /*
-+         * this is due to some strange GDB behavior
-+         * let's assume main has address 0x100
-+         * b main   - sets breakpoint at address 0x00000100 (code)
-+         * b *0x100 - sets breakpoint at address 0x00800100 (data)
-+         */
-+        if (unlikely(!ctx.singlestep &&
-+                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
-+                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
-+            canonicalize_skip(&ctx);
-+            tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+            gen_helper_debug(cpu_env);
-+            goto done_generating;
-+        }
-+
-+        /* Conditionally skip the next instruction, if indicated.  */
-+        if (ctx.skip_cond != TCG_COND_NEVER) {
-+            skip_label = gen_new_label();
-+            if (ctx.skip_var0 == cpu_skip) {
-+                /*
-+                 * Copy cpu_skip so that we may zero it before the branch.
-+                 * This ensures that cpu_skip is non-zero after the label
-+                 * if and only if the skipped insn itself sets a skip.
-+                 */
-+                ctx.free_skip_var0 = true;
-+                ctx.skip_var0 = tcg_temp_new();
-+                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
-+                tcg_gen_movi_tl(cpu_skip, 0);
-+            }
-+            if (ctx.skip_var1 == NULL) {
-+                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip_label);
-+            } else {
-+                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
-+                                  ctx.skip_var1, skip_label);
-+                ctx.skip_var1 = NULL;
-+            }
-+            if (ctx.free_skip_var0) {
-+                tcg_temp_free(ctx.skip_var0);
-+                ctx.free_skip_var0 = false;
-+            }
-+            ctx.skip_cond = TCG_COND_NEVER;
-+            ctx.skip_var0 = NULL;
-+        }
-+
-+        translate(&ctx);
-+
-+        if (skip_label) {
-+            canonicalize_skip(&ctx);
-+            gen_set_label(skip_label);
-+            if (ctx.bstate == DISAS_NORETURN) {
-+                ctx.bstate = DISAS_CHAIN;
-+            }
-+        }
-+    } while (ctx.bstate == DISAS_NEXT
-+             && num_insns < max_insns
-+             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-+             && !tcg_op_buf_full());
-+
-+    if (tb->cflags & CF_LAST_IO) {
-+        gen_io_end();
-+    }
-+
-+    bool nonconst_skip = canonicalize_skip(&ctx);
-+
-+    switch (ctx.bstate) {
-+    case DISAS_NORETURN:
-+        assert(!nonconst_skip);
-+        break;
-+    case DISAS_NEXT:
-+    case DISAS_TOO_MANY:
-+    case DISAS_CHAIN:
-+        if (!nonconst_skip) {
-+            /* Note gen_goto_tb checks singlestep.  */
-+            gen_goto_tb(&ctx, 1, ctx.npc);
-+            break;
-+        }
-+        tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+        /* fall through */
-+    case DISAS_LOOKUP:
-+        if (!ctx.singlestep) {
-+            tcg_gen_lookup_and_goto_ptr();
-+            break;
-+        }
-+        /* fall through */
-+    case DISAS_EXIT:
-+        if (ctx.singlestep) {
-+            gen_helper_debug(cpu_env);
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+done_generating:
-+    gen_tb_end(tb, num_insns);
-+
-+    tb->size = (ctx.npc - pc_start) * 2;
-+    tb->icount = num_insns;
-+}
-+
-+void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
-+                            target_ulong *data)
-+{
-+    env->pc_w = data[0];
-+}
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+>
+
+(Please also Cc: Roman on you Hyper-V related submissions to QEMU who's
+known to be a great reviewer)
+
+> Hyper-V direct tlb flush targets KVM on Hyper-V guest.
+> Enable direct TLB flush for its guests meaning that TLB
+> flush hypercalls are handled by Level 0 hypervisor (Hyper-V)
+> bypassing KVM in Level 1. Due to the different ABI for hypercall
+> parameters between Hyper-V and KVM, KVM capabilities should be
+> hidden when enable Hyper-V direct tlb flush otherwise KVM
+> hypercalls may be intercepted by Hyper-V. Add new parameter
+> "hv-direct-tlbflush". Check expose_kvm and Hyper-V tlb flush
+> capability status before enabling the feature.
+>
+> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> ---
+>  docs/hyperv.txt           | 12 ++++++++++++
+>  linux-headers/linux/kvm.h |  1 +
+>  target/i386/cpu.c         |  2 ++
+>  target/i386/cpu.h         |  1 +
+>  target/i386/kvm.c         | 21 +++++++++++++++++++++
+>  5 files changed, 37 insertions(+)
+>
+> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+> index 8fdf25c829..ceab8c21fe 100644
+> --- a/docs/hyperv.txt
+> +++ b/docs/hyperv.txt
+> @@ -184,6 +184,18 @@ enabled.
+>  
+>  Requires: hv-vpindex, hv-synic, hv-time, hv-stimer
+>  
+> +3.18. hv-direct-tlbflush
+> +=======================
+> +The enlightenment targets KVM on Hyper-V guest. Enable direct TLB flush for
+> +its guests meaning that TLB flush hypercalls are handled by Level 0 hypervisor
+> +(Hyper-V) bypassing KVM in Level 1. Due to the different ABI for hypercall
+> +parameters between Hyper-V and KVM, enabling this capability effectively
+> +disables all hypercall handling by KVM (as some KVM hypercall may be mistakenly
+> +treated as TLB flush hypercalls by Hyper-V). So kvm capability should not show
+> +to guest when enable this capability. If not, user will fail to enable this
+> +capability.
+> +
+> +Requires: hv-tlbflush, -kvm
+>  
+>  4. Development features
+>  ========================
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 18892d6541..923fb33a01 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -995,6 +995,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_ARM_SVE 170
+>  #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
+>  #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
+> +#define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 174
+
+I was once told that scripts/update-linux-headers.sh script is supposed
+to be used instead of cherry-picking stuff you need (adn this would be a
+separate patch - update linux headers to smth).
+
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+>  
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 44f1bbdcac..7bc7fee512 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -6156,6 +6156,8 @@ static Property x86_cpu_properties[] = {
+>                        HYPERV_FEAT_IPI, 0),
+>      DEFINE_PROP_BIT64("hv-stimer-direct", X86CPU, hyperv_features,
+>                        HYPERV_FEAT_STIMER_DIRECT, 0),
+> +    DEFINE_PROP_BIT64("hv-direct-tlbflush", X86CPU, hyperv_features,
+> +                      HYPERV_FEAT_DIRECT_TLBFLUSH, 0),
+>      DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
+>  
+>      DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index eaa5395aa5..3cb105f7d6 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -907,6 +907,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+>  #define HYPERV_FEAT_EVMCS               12
+>  #define HYPERV_FEAT_IPI                 13
+>  #define HYPERV_FEAT_STIMER_DIRECT       14
+> +#define HYPERV_FEAT_DIRECT_TLBFLUSH     15
+>  
+>  #ifndef HYPERV_SPINLOCK_NEVER_RETRY
+>  #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 11b9c854b5..8e999dbcf1 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -1235,6 +1235,27 @@ static int hyperv_handle_properties(CPUState *cs,
+>          r |= 1;
+>      }
+>  
+> +    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_DIRECT_TLBFLUSH)) {
+> +        if (!kvm_check_extension(cs->kvm_state,
+> +            KVM_CAP_HYPERV_DIRECT_TLBFLUSH)) {
+> +            fprintf(stderr,
+> +                    "Kernel doesn't support Hyper-V direct tlbflush.\n");
+> +            r = -ENOSYS;
+> +            goto free;
+> +        }
+> +
+> +        if (cpu->expose_kvm ||
+> +            !hyperv_feat_enabled(cpu, HYPERV_FEAT_TLBFLUSH)) {
+> +            fprintf(stderr, "Hyper-V direct tlbflush requires Hyper-V %s"
+> +                    " and not expose KVM.\n",
+> +                    kvm_hyperv_properties[HYPERV_FEAT_TLBFLUSH].desc);
+> +            r = -ENOSYS;
+> +            goto free;
+> +        }
+> +
+> +        kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_DIRECT_TLBFLUSH, 0, 0);
+> +    }
+
+We also have hv-passthrough mode where all Hyper-V enlightenments are
+supposed to be enabled; I'd suggest you do the same we currently do with
+HYPERV_FEAT_EVMCS:
+
+    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_DIRECT_TLBFLUSH) ||
+        cpu->hyperv_passthrough) {
+
+        r = kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_DIRECT_TLBFLUSH, 0, 0);
+
+        if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) && r) {
+            fprintf(stderr, "Hyper-V %s is not supported by kernel\n",
+                    kvm_hyperv_properties[HYPERV_FEAT_DIRECT_TLBFLUSH].desc);
+            return -ENOSYS;
+        }
+
+No need to check for a capability if you're going to enable it right
+away (and btw - this can fail).
+
+You also need to use kvm_hyperv_properties to track dependencies between
+features and not do it manually here (like you required
+HYPERV_FEAT_TLBFLUSH). This is going to be the first feature without its
+own CPUID bits assigned so some tweaks to kvm_hyperv_properties handling
+may be required. Or we can use HYPERV_FEAT_TLBFLUSH bits, I'm not sure
+here.
+
+
+> +
+>      /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+>      env->features[FEAT_HYPERV_EDX] |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
+
 -- 
-2.17.2 (Apple Git-113)
-
+Vitaly
 
