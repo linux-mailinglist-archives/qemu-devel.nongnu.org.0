@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8CFD67D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:58:36 +0200 (CEST)
-Received: from localhost ([::1]:53862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EFBD67C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:54:40 +0200 (CEST)
+Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3g3-0005AV-49
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:58:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37442)
+	id 1iK3cF-0008Us-De
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qo-0005Mv-DT
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:39 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qr-0005SI-FA
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qn-0008Bp-DT
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:38 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35809)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qq-0008Em-1d
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:41 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56000)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qn-0008BK-7K
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:37 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v8so20394493wrt.2
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:37 -0700 (PDT)
+ id 1iK2qp-0008EF-RA
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:39 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id a6so17835739wma.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4mjoAx/4zPP86DcVuhlqzEK8KSu+aCR1EU6og0vmhNY=;
- b=hEef7XYPguojyZ9lprZhg9bmsF7khfOoYtn484WxWGJcCFEh24lc2WbsR7s/B2ErBk
- tF4LWGi/duBF5UC9c+BsYACZfvgfnadrvOxBEJjL7Vr/SB44w1xuIVHlW+0W9rCx0l72
- OR0dp6kUO2nZWaGtbeWNWalNtAaovEkEpCiYssLZudUuI52LqglPj23fM5EebNcjytcG
- aRgpIWz+9NO2oPzhmDV/sgTBs3mwvmjYc3TwgZ26OAXN0mjCeFIzExl4o9jRQZNLi5Hu
- uYsescebdYwtRxlZs/83dHFEHzcT3HcAQ1iCS+WkOxjklM1IteTtjNG/oiugmbF97ozY
- snAw==
+ bh=KXSQWrkgVKujQgWAmEV6JwKVKd1aFY1WSRQmmAz+nVY=;
+ b=jWB+94ujTc439fKVKwSIrrowL/39fs3zOhGyba2gJcdpgiVi1rY3pOYxhnTo2BoZKM
+ mNPiFP76lMQUW40yviUDrbdSRKbbc/2BL29u3Xp0fTfTl3xqwYncLnpzAEQQOdpYvPCe
+ bmvg8y9TscUZOcUdRRmh7Rgt0ZII+4bBgbdCdyKBqv60O1WDk2sbpNMXp7D9XAxfEtqY
+ QKY1/7VFWaSu2XGWqzStqd9SqlKG/69oxGdJYt4bJXn+Ub1bGmFrfXQoKkLdgEV9IP+C
+ Umvx574AYRPRRJIwT8ziK4FfwP2drWhjCWdFGy8dFcqeApmntoR+FUPpmtpJxN9CTb4r
+ KlRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4mjoAx/4zPP86DcVuhlqzEK8KSu+aCR1EU6og0vmhNY=;
- b=WaVu52hPMZEBzX/OQFgbP74cXo3K5fHHMzC6RMAyiX8zVfSJAfjIYGmfTnjXsbN/nP
- 7IeeeBgPWfUztmlWN09iY4xS7y1UxiAa8sVljkXiIgbRmu9W4IUnwI50SqQMtBFzdBcR
- IxB2KU0kOIFUmiF25/9ZljudimJlJMJIOqSF25xogPpLfe8LiO641WZwBHk/6FtAXUvj
- SJo4dkTvqqXCakmQ9H7Z/G+Tc+oFtam+6BuYdJ0ASZ8rKVV+KrbgqqIpbaymKH6O+ARl
- gtZmFY2520n6EwZy97ItrbhNpn0XtAd+cMQMptf+8o13pFSE7sJg7IqjqroJLjhHXIGB
- 4jdw==
-X-Gm-Message-State: APjAAAWoFA6GKjXpxN6t+QgMdDeAQqT3VwS6YmyErHwscyksgh56hkxE
- t0vZtwua4nczQpgc0QkrpSSdzUOSnvbO4w==
-X-Google-Smtp-Source: APXvYqxgqsEQYK7bskiiiKS43vocxbxzGqxygxyIMvrZiPvWPfEdL9WiGcUPj3Ng8o7AVoyixoheRQ==
-X-Received: by 2002:a05:6000:18d:: with SMTP id
- p13mr3936796wrx.396.1571069135831; 
- Mon, 14 Oct 2019 09:05:35 -0700 (PDT)
+ bh=KXSQWrkgVKujQgWAmEV6JwKVKd1aFY1WSRQmmAz+nVY=;
+ b=Q7ESrBrrW6G1yS+98NwMJECx3VaRlpKdSKp/kLRYIUSMeUlIkm5QHJZjcSvaQ/Polv
+ OQEPaR5jlj77PR3dSK6cOmFA1Zx+VFFKlwpYa7WPNlZcynT8bFpILBOzYH9OCgFtap5m
+ tmEsNbxng/HiNjFKCuv6rX66m5vhcawuv3TJNn4p3DIJ+Zs/BTX119nPqYs87XUY3Nu5
+ qN0KkqurjI7xQkw7djETIjGyErm/+w6a78Uc2iA3Fjg9oseU50kvVtRaWKT2AKWrdY5q
+ FiZGTFqOw/OQmk/aLYU4rGAMHKPplDqEp8+meTnqvRjKHk2vs3grgtxlwci7OHxFY1mO
+ E1Og==
+X-Gm-Message-State: APjAAAWeAqmfLBMQQh9kiqdmmwWZXqYzAS4F8EAO+FEMfkhR4D4BZ7hb
+ a9EY+YgIB0CNA3LhUrOyiMF2TxQZfAOJfw==
+X-Google-Smtp-Source: APXvYqyN3qLuRVLFt5DH26dgz0LAFbgQbK0iAo+6frXhRnmGkjrVcrX+5giQawTTybn7lcV5nm1BZA==
+X-Received: by 2002:a1c:4456:: with SMTP id r83mr15561509wma.44.1571069138442; 
+ Mon, 14 Oct 2019 09:05:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.34
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:35 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:37 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 58/68] m25p80: Add support for w25q512jv
-Date: Mon, 14 Oct 2019 17:03:54 +0100
-Message-Id: <20191014160404.19553-59-peter.maydell@linaro.org>
+Subject: [PULL 60/68] aspeed: Parameterise number of MACs
+Date: Mon, 14 Oct 2019 17:03:56 +0100
+Message-Id: <20191014160404.19553-61-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,28 +82,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
 
+To support the ast2600's four MACs allow SoCs to specify the number
+they have, and create that many.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-20-clg@kaod.org
+Message-id: 20190925143248.10000-22-clg@kaod.org
+[clg: - included a check on sc->macs_num when realizing the macs
+      - included interrupt definitions for the AST2600 ]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/block/m25p80.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/arm/aspeed_soc.h |  5 ++++-
+ hw/arm/aspeed_ast2600.c     | 10 ++++++++--
+ hw/arm/aspeed_soc.c         |  6 ++++--
+ 3 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 47159de3a44..11ff5b9ad7b 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -327,6 +327,7 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("w25q80",      0xef5014,      0,  64 << 10,  16, ER_4K) },
-     { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
-     { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
-+    { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 67c59956f83..088a5d10818 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -30,7 +30,7 @@
+ #define ASPEED_SPIS_NUM  2
+ #define ASPEED_WDTS_NUM  4
+ #define ASPEED_CPUS_NUM  2
+-#define ASPEED_MACS_NUM  2
++#define ASPEED_MACS_NUM  4
+ 
+ typedef struct AspeedSoCState {
+     /*< private >*/
+@@ -69,6 +69,7 @@ typedef struct AspeedSoCClass {
+     uint64_t sram_size;
+     int spis_num;
+     int wdts_num;
++    int macs_num;
+     const int *irqmap;
+     const hwaddr *memmap;
+     uint32_t num_cpus;
+@@ -114,6 +115,8 @@ enum {
+     ASPEED_I2C,
+     ASPEED_ETH1,
+     ASPEED_ETH2,
++    ASPEED_ETH3,
++    ASPEED_ETH4,
+     ASPEED_SDRAM,
+     ASPEED_XDMA,
+ };
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index a4f0fafab7c..25d2c2d05d6 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -32,7 +32,9 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+     [ASPEED_SPI1]      = 0x1E630000,
+     [ASPEED_SPI2]      = 0x1E641000,
+     [ASPEED_ETH1]      = 0x1E660000,
++    [ASPEED_ETH3]      = 0x1E670000,
+     [ASPEED_ETH2]      = 0x1E680000,
++    [ASPEED_ETH4]      = 0x1E690000,
+     [ASPEED_VIC]       = 0x1E6C0000,
+     [ASPEED_SDMC]      = 0x1E6E0000,
+     [ASPEED_SCU]       = 0x1E6E2000,
+@@ -88,6 +90,9 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+     [ASPEED_I2C]       = 110,   /* 110 -> 125 */
+     [ASPEED_ETH1]      = 2,
+     [ASPEED_ETH2]      = 3,
++    [ASPEED_ETH3]      = 32,
++    [ASPEED_ETH4]      = 33,
++
  };
  
- typedef enum {
+ static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
+@@ -173,7 +178,7 @@ static void aspeed_soc_ast2600_init(Object *obj)
+                                        OBJECT(&s->scu), &error_abort);
+     }
+ 
+-    for (i = 0; i < ASPEED_MACS_NUM; i++) {
++    for (i = 0; i < sc->macs_num; i++) {
+         sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
+                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
+     }
+@@ -397,7 +402,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Net */
+-    for (i = 0; i < nb_nics; i++) {
++    for (i = 0; i < nb_nics && i < sc->macs_num; i++) {
+         qdev_set_nic_properties(DEVICE(&s->ftgmac100[i]), &nd_table[i]);
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+@@ -470,6 +475,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+     sc->sram_size    = 0x10000;
+     sc->spis_num     = 2;
+     sc->wdts_num     = 4;
++    sc->macs_num     = 4;
+     sc->irqmap       = aspeed_soc_ast2600_irqmap;
+     sc->memmap       = aspeed_soc_ast2600_memmap;
+     sc->num_cpus     = 2;
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index a063be9fd79..6defb143acd 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -198,7 +198,7 @@ static void aspeed_soc_init(Object *obj)
+                                        OBJECT(&s->scu), &error_abort);
+     }
+ 
+-    for (i = 0; i < ASPEED_MACS_NUM; i++) {
++    for (i = 0; i < sc->macs_num; i++) {
+         sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
+                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
+     }
+@@ -372,7 +372,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Net */
+-    for (i = 0; i < nb_nics; i++) {
++    for (i = 0; i < nb_nics && i < sc->macs_num; i++) {
+         qdev_set_nic_properties(DEVICE(&s->ftgmac100[i]), &nd_table[i]);
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), true, "aspeed",
+                                  &err);
+@@ -455,6 +455,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+     sc->sram_size    = 0x8000;
+     sc->spis_num     = 1;
+     sc->wdts_num     = 2;
++    sc->macs_num     = 2;
+     sc->irqmap       = aspeed_soc_ast2400_irqmap;
+     sc->memmap       = aspeed_soc_ast2400_memmap;
+     sc->num_cpus     = 1;
+@@ -478,6 +479,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+     sc->sram_size    = 0x9000;
+     sc->spis_num     = 2;
+     sc->wdts_num     = 3;
++    sc->macs_num     = 2;
+     sc->irqmap       = aspeed_soc_ast2500_irqmap;
+     sc->memmap       = aspeed_soc_ast2500_memmap;
+     sc->num_cpus     = 1;
 -- 
 2.20.1
 
