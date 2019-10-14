@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C15DD6129
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:20:42 +0200 (CEST)
-Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6FBD6133
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:25:04 +0200 (CEST)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyP2-0005aB-TV
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44751)
+	id 1iJyTH-00032y-BL
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvW-0007as-JJ
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:11 -0400
+ (envelope-from <berto@igalia.com>) id 1iJyRA-0001Mt-Kp
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:22:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvV-0006L0-GU
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:10 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35668)
+ (envelope-from <berto@igalia.com>) id 1iJyR9-00088J-Ih
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:22:52 -0400
+Received: from 6.130.60.178.static.reverse-mundo-r.com ([178.60.130.6]:43442
+ helo=fanzine.igalia.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iJxvV-0006Jg-A6
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:09 -0400
-Received: by mail-wr1-x441.google.com with SMTP id v8so19151684wrt.2
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AQnBIoxWJcGF7VxKdA+3Fs3YaFpJDSvvaPPi8ZLzb54=;
- b=TlF03HDFOj2n6QqbryaZSM7qOLJY8m/vg6xIzE2uNwk0xaUG/i78iswMP8JLNXSIWz
- b6QyK/OtmBGTFDM7UppTa0KBsnf+S9kJSus5cufQyI2Q0lmow/3ZgskgBTb1Y4rg4bQx
- sv+u4FL8gxfw1/Z6N8WwDy8hT8bms0W0RgX9EX50W/0DX10+stiRFYeIBhFHUPwoSLSM
- XkLuUIOW5lkE98XoUkal37Kt3Bs6IQNS0q2pQBnSqT4OdFvjcspFnlFKCTw2g+T1H5Sx
- MiOh5C16C0Y76BNDt15gNM+K6JwkX/MviBNLl5jf+JmodFXtpkMqknbvbgRTR5oMuOVa
- 4FYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AQnBIoxWJcGF7VxKdA+3Fs3YaFpJDSvvaPPi8ZLzb54=;
- b=p5if6eiRJYbZDxUqf9OXrUlYQb31eleF+FInZd3skEUt5e05/QbYevTm6EjsqrGeE7
- SQ2L0HsglfCyR1/crcJ1/Aa4Zh6Nf1oNbZ0ytsy8l2GKq0AEWkgr/pmwMZoECGhbesgW
- vH75J0MP4abRxow1xhAK4G0Lli4vML6uUcSLIkvKrIcaPw/kj8ww2XZp6C4pchDF4jv7
- nFVnDCinPQXOCw+7zcjBwYUM+K1KdNbwRNLE7MQi9mhfOCVSMXVScX3MWNf0zY6NYWfX
- LG7b0gs9XsMvaoZG//OTuJDEWP7uYnmgYuMPD6VQiZ153R41HqEpyOBMc5Ubspf+tBSW
- 1Twg==
-X-Gm-Message-State: APjAAAWnu7m2tMfeC5FGHfsf5lcPaDoTlS3rXBda6wufiCmxIeT6QEkv
- P1ixEkuMcpPLesD3c0Lc1v7gsw==
-X-Google-Smtp-Source: APXvYqxOsZKOwaPSVCLT6/pegkRPArMpDg1w0ZRkrrptT8bcxCeClq4jipPgmHB9kX6W8ND40qBNiw==
-X-Received: by 2002:a5d:5228:: with SMTP id i8mr19531464wra.191.1571050208199; 
- Mon, 14 Oct 2019 03:50:08 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s1sm25625137wrg.80.2019.10.14.03.50.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 03:50:04 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E66B41FFD4;
- Mon, 14 Oct 2019 11:49:59 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v5 49/55] accel/stubs: reduce headers from tcg-stub
-Date: Mon, 14 Oct 2019 11:49:42 +0100
-Message-Id: <20191014104948.4291-50-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
-References: <20191014104948.4291-1-alex.bennee@linaro.org>
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iJyR9-000863-4G; Mon, 14 Oct 2019 07:22:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=QeYmsx23ggp5o7Ri22dWYdyGfnV3ov0eSML2CtDoTDg=; 
+ b=lQTkvwPhjYlKk8hXHTpXow5iggq2vcXX0ozkKVKL61thaQuoRCqhcltF1Gf5u3JvZ70+9ZWuq68sWCkA2zd0M/oMmfdP6Ax3WjsnxlAKYqqM/7lURlOh4AXKmEd3LV40SxwYnOiWtGDXOqJRJrt6lFCXxrVYvQWzGnjo41alPPyzsxJ+CwBrp7+9kle/ufh7E+5iB0I4ph5wrOb9hwJEZJkrLtsfRxdqn61fy49mUu0oecCKIVt7S8ZRmk4vH/xB5sk8SiDv4FRXWoBRthKM5nWtRoCq5eb5KQQYasdK7LoV5AVxnyhIxCstXuWac0fZ2UVu3q+ESzTFc55WFiInjQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1iJyR6-0005Iz-3F; Mon, 14 Oct 2019 13:22:48 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1iJyR6-0007ni-0B; Mon, 14 Oct 2019 13:22:48 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2] block: Reject misaligned write requests with
+ BDRV_REQ_NO_FALLBACK
+In-Reply-To: <20191014092601.GA7173@localhost.localdomain>
+References: <20191014081545.29694-1-berto@igalia.com>
+ <20191014092601.GA7173@localhost.localdomain>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Mon, 14 Oct 2019 13:22:47 +0200
+Message-ID: <w5136fvtvug.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,37 +59,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@futurewei.com,
- Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Nir Soffer <nsoffer@redhat.com>,
+ Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need much for these. However I do wonder why these aren't
-just null inlines in exec-all.h
+On Mon 14 Oct 2019 11:26:01 AM CEST, Kevin Wolf wrote:
+>> Signed-off-by: Alberto Garcia <berto@igalia.com>
+>
+> Thanks, applied to the block branch.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/stubs/tcg-stub.c | 1 -
- 1 file changed, 1 deletion(-)
+I'm a bit late now, but a possible trivial optimization is to flip the
+conditions, because checking the flag should be faster than checking the
+alignment and it's going to be false in almost all cases:
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index e2d23edafe..677191a69c 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -11,7 +11,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
- #include "tcg/tcg.h"
- #include "exec/exec-all.h"
--- 
-2.20.1
+    if ((flags & BDRV_REQ_NO_FALLBACK) &&
+        !QEMU_IS_ALIGNED(offset | bytes, align)) {
+        return -ENOTSUP;
+    }
 
+Feel free to edit the commit if you want.
+
+Berto
 
