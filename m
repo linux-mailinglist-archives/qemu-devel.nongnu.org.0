@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD94D6197
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:44:55 +0200 (CEST)
-Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C142CD61B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:50:52 +0200 (CEST)
+Received: from localhost ([::1]:48164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJymU-0000iN-JA
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50305)
+	id 1iJysF-0006pq-TX
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:50:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47297)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iJyaD-0003Wh-Tl
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:32:15 -0400
+ (envelope-from <bounces@canonical.com>) id 1iJyFU-0004DR-LT
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:10:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iJya8-0002gZ-Cr
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:32:10 -0400
-Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:49410)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iJya4-0002WY-DL
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:32:05 -0400
-Received: from player793.ha.ovh.net (unknown [10.108.35.124])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 09DE01454B4
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 13:31:56 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player793.ha.ovh.net (Postfix) with ESMTPSA id DCCD5AEA73CF;
- Mon, 14 Oct 2019 11:31:51 +0000 (UTC)
-Date: Mon, 14 Oct 2019 13:31:49 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 7/7] spapr: Set VSMT to smp_threads by default
-Message-ID: <20191014133149.686b681e@bahia.lan>
-In-Reply-To: <20191014061247.GZ4080@umbus.fritz.box>
-References: <157010404888.246126.9768030542733152637.stgit@bahia.lan>
- <157010411885.246126.12610015369068227139.stgit@bahia.lan>
- <20191014061247.GZ4080@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <bounces@canonical.com>) id 1iJyFS-0003Ge-Ao
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:10:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60894)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iJyFS-0003FT-5A
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:10:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iJyFQ-0006CE-M1
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 11:10:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A05C22E804E
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 11:10:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/I47mP63z5TeIBN61Vqkk7q3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Ovh-Tracer-Id: 6677712348298713574
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrjedugdegvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Oct 2019 11:02:36 -0000
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: davidhildenbrand ivmn
+X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
+X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
+References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
+Message-Id: <157105095629.9858.5974026344753374832.malone@chaenomeles.canonical.com>
+Subject: [Bug 1847232] Re: qemu TCG in s390x mode issue with calculating HASH
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b0c8b256a4d9f12b4d60dfb271b41e276036ac64
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.251.175
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,134 +65,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Ivan Warren <ivan@vmfacility.fr>
+From: Ivan Warren via <qemu-devel@nongnu.org>
 
---Sig_/I47mP63z5TeIBN61Vqkk7q3
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Since wget/curl use the openssl library - which (unless a specific
+engine is specified) uses the lowest common denominator - it will work
+even when z/Arch VX is present.. However, "golang" may be using a
+different technique (and may not be using openssl at all) - or invoke
+openssl with a specific engine if it detects z/Arch VX...
 
-On Mon, 14 Oct 2019 17:12:47 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+However, I have the workaround (vx=3Doff), but I'd love to see if there is
+something amiss with z/Arch VX (for purely educational purpose).
 
-> On Thu, Oct 03, 2019 at 02:02:00PM +0200, Greg Kurz wrote:
-> > Support for setting VSMT is available in KVM since linux-4.13. Most dis=
-tros
-> > that support KVM on POWER already have it. It thus seem reasonable enou=
-gh
-> > to have the default machine to set VSMT to smp_threads.
-> >=20
-> > This brings contiguous VCPU ids and thus brings their upper bound down =
-to
-> > the machine's max_cpus. This is especially useful for XIVE KVM devices,
-> > which may thus allocate only one VP descriptor per VCPU.
-> >=20
+-- =
 
-Just to clarify that without the other patches in this series, XIVE
-KVM devices still allocate a fixed block of 2048 VPs, no matter what.
-ie, the last sentence in the changelog may be slightly misleading.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847232
 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
->=20
-> Applied to ppc-for-4.2, thanks.
->=20
-> > ---
-> >  hw/ppc/spapr.c         |    7 ++++++-
-> >  include/hw/ppc/spapr.h |    1 +
-> >  2 files changed, 7 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 8f59f08c102e..473ce1d04775 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -2503,6 +2503,7 @@ static CPUArchId *spapr_find_cpu_slot(MachineStat=
-e *ms, uint32_t id, int *idx)
-> >  static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
-> >  {
-> >      MachineState *ms =3D MACHINE(spapr);
-> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> >      Error *local_err =3D NULL;
-> >      bool vsmt_user =3D !!spapr->vsmt;
-> >      int kvm_smt =3D kvmppc_smt_threads();
-> > @@ -2529,7 +2530,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState=
- *spapr, Error **errp)
-> >              goto out;
-> >          }
-> >          /* In this case, spapr->vsmt has been set by the command line =
-*/
-> > -    } else {
-> > +    } else if (!smc->smp_threads_vsmt) {
-> >          /*
-> >           * Default VSMT value is tricky, because we need it to be as
-> >           * consistent as possible (for migration), but this requires
-> > @@ -2538,6 +2539,8 @@ static void spapr_set_vsmt_mode(SpaprMachineState=
- *spapr, Error **errp)
-> >           * overwhelmingly common case in production systems.
-> >           */
-> >          spapr->vsmt =3D MAX(8, smp_threads);
-> > +    } else {
-> > +        spapr->vsmt =3D smp_threads;
-> >      }
-> > =20
-> >      /* KVM: If necessary, set the SMT mode: */
-> > @@ -4452,6 +4455,7 @@ static void spapr_machine_class_init(ObjectClass =
-*oc, void *data)
-> >      smc->irq =3D &spapr_irq_dual;
-> >      smc->dr_phb_enabled =3D true;
-> >      smc->linux_pci_probe =3D true;
-> > +    smc->smp_threads_vsmt =3D true;
-> >  }
-> > =20
-> >  static const TypeInfo spapr_machine_info =3D {
-> > @@ -4519,6 +4523,7 @@ static void spapr_machine_4_1_class_options(Machi=
-neClass *mc)
-> > =20
-> >      spapr_machine_4_2_class_options(mc);
-> >      smc->linux_pci_probe =3D false;
-> > +    smc->smp_threads_vsmt =3D false;
-> >      compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_le=
-n);
-> >      compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
-> >  }
-> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > index cbd1a4c9f390..2009eb64f9cb 100644
-> > --- a/include/hw/ppc/spapr.h
-> > +++ b/include/hw/ppc/spapr.h
-> > @@ -122,6 +122,7 @@ struct SpaprMachineClass {
-> >      bool broken_host_serial_model; /* present real host info to the gu=
-est */
-> >      bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
-> >      bool linux_pci_probe;
-> > +    bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
-> > =20
-> >      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-> >                            uint64_t *buid, hwaddr *pio,=20
-> >=20
->=20
+Title:
+  qemu TCG in s390x mode issue with calculating HASH
 
+Status in QEMU:
+  New
 
---Sig_/I47mP63z5TeIBN61Vqkk7q3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Bug description:
+  When using go on s390x on Debian x64 (buster) (host) and debian s390x
+  (sid) (guest) I run into the following problem :
 
------BEGIN PGP SIGNATURE-----
+  The following occurs while trying to build a custom project :
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2kXKUACgkQcdTV5YIv
-c9Z0gxAAyO+CLPJjJZomJKzLD8W9rnh4j9DkSJuvmjK7nEmMayiUwEE+3F+Le4tQ
-9sMB3H1nk8TJKrG0A3WZhlLKdxW6cUnrj8hGiwteI5I0DsJn/A/34v+28FGLBoRo
-tzG7FaPc+c3cwzgphIOFunB5XcRwdF+pTJ8Aao5iJUqOrOHmkBlGhLkc7KhyKUCN
-YeR6SzW26ABXWqBwhXGRP93Q5dtavAOp6LW1ZabTaru+x15i39E/RS7nJRuKdtjX
-cRayqwrQ5u34u5GpF/jYRwXDGVIijhzIL3ZLJHM5Lv6VDPXPcs9ZsYqYRi6U3Nt4
-d22RQndB2DHEkm/ej6UULvUyzq6M9N9CUf2iulxBswcw1x7uUxdvXjDEksgCnMVn
-V2VDN2NNTD+iz2hXt+3v9SMlU/Or/IxMDVfjdCia4Fi51TjCCltmXSchxkRITGeB
-jlbT84EKTLCL/Fo+rn6raVDA0jDeRNXO1JZPSxmSTGWJ+uAK/J/BVzesjn2VJIz3
-DBSERZSmB9QwytibRLwjo4WsTUhlBagJqeVMNtAV7CAaZDGS1K96SqXgQlar69sY
-pb/en8DIeA3ytAuUUmaJWPSajFHwpuOy+w847QIFRr+OMTvBm09OU1vpvP4oCMUD
-n/FovFTSIXIBg6HaKYM5zVhg5yCGZJ75sVq20t8zaVsgIoC6X1k=
-=DFqS
------END PGP SIGNATURE-----
+  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
+  Get
+  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
+0150613233007-fe3947df716e.mod:
+  local error: tls: bad record MAC
 
---Sig_/I47mP63z5TeIBN61Vqkk7q3--
+  Doing a git bisect I find that this problem only occurs on and after
+  commit 08ef92d556c584c7faf594ff3af46df456276e1b
+
+  Before that commit, all works fine. Past this commit, build always
+  fails.
+
+  Without any proof, It looks like a hash calculation bug related to
+  using z/Arch vector facilities...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
 
