@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36560D6791
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:43:39 +0200 (CEST)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8802DD67A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:47:22 +0200 (CEST)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3RZ-00035I-T1
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37301)
+	id 1iK3VB-00076h-2a
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qa-0004zM-CH
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qc-00052k-CZ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qZ-00082u-04
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:24 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56007)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qa-000847-DS
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:26 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33462)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qY-00082I-Pm
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:22 -0400
-Received: by mail-wm1-x335.google.com with SMTP id a6so17834860wma.5
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:22 -0700 (PDT)
+ id 1iK2qa-00083V-6R
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:24 -0400
+Received: by mail-wr1-x433.google.com with SMTP id b9so20413748wrs.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Cv6HZ91yGk0xGYbUoTFw/+DdSIijp5QJpKDphiE70KU=;
- b=Lt7IfiW1JftmiClW5f/IVDVxaZCGPpBT+TjimKispERn50D9DGW8HS9oMaJg6EFP/p
- W/w+x3BVs7TNcrgS4PFQcDSfS2Nl3DoWRncRox9oE4zSV665M+4s7+IbCAax6yujG47K
- t0A9EQcN1AsM5n6Jp71ND43gdbRdbVovNnAhKRbT80NYuAiZEztH0uROggnmiFu2/C7V
- FmHeIeLI/oRU5g7wZL2T1QDK2n5BcoGK1bOZfFSsZATNWv4jslhND6cDg3KCjVwZ3DS2
- uldEJeWGthtApdxnsNtL+XzOC+IUcZX/JkZ93zG8UlSJzLz8Zq4LOQx5lgEXnfHuKrL/
- gGXw==
+ bh=Kc9SYaiOEnADleFNrui1oghbL5wdsg/3XBYIsNvSHsA=;
+ b=qA03vafNUIOOz/84MeQFqXpXqVne6FMebdL+mCJFXFy8MugO9s0EFZbO8KBsO6M9Ne
+ Jg2p+6ZhBXKSbaJHFhYkXvGSJtzD9nq/zcgN+3jOJ+Ghn3PV8ZahmXWHq464ac4xf3Th
+ JMRum04ANE+iMRpCNaVeLhCn5b5tarqULJlcW/i/eko4dNP2eA59qtW9jsCTJt2X+x/3
+ iw+25iUpvdb2QUay4dIjVZIsW/ul4Ww9nFB0W5FZx42xsjDxCRUiQpB+6y82vUef+7z7
+ 9A0FaYrocM3WiYG064J/w3dGsm3rOy0Jpyr16yptPgo0naSB3jEKDDHOGM8xIso8FvsM
+ zCKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cv6HZ91yGk0xGYbUoTFw/+DdSIijp5QJpKDphiE70KU=;
- b=m6CcoNgriEaQHoXaZfX7Bfumd9yUiUIGEw9LwBnELYeTGhL1LObo7ctjH1SUlTXxrB
- 8BXox+FIs72g1U15M1aICXNziMb2XBY6XmPuRvVHpuf8zuwMLdM26Ph8YgSON7tAqOED
- 1q0PdHidmjLVqvJAABrZRZ5M8NqYQBes+QK4swdvFNLxCBou/Duo/DV7oFKkKerx49nI
- elh9Qr3NOySmN/1xKVWFICpyRFYXde2PXZaySIcz2Diw2X0LxsobzJMJUTml9ZG8K2/a
- 7dedqF9iILpdUbhKzYjNX3th6NuWTPvruYuhFF6tYYpBm5ijsBMSIASIHT69WJRwTH6p
- QO5Q==
-X-Gm-Message-State: APjAAAWyMQ6Sz0vXGGkqx5bPu6jx7JvbpLkdaGBOOIpmLwxpPCl32Tfw
- 65m0ZlzxyxRB90Vx6telY5X7sfHGqVsyag==
-X-Google-Smtp-Source: APXvYqxJ+XwYzDMsFn6f2lVGb4+0y2wJfScFy752LgQ84DBlDnN3pn8CdrpEXCs7r+LNxhbrfQ2HYw==
-X-Received: by 2002:a7b:c011:: with SMTP id c17mr16026485wmb.95.1571069121590; 
- Mon, 14 Oct 2019 09:05:21 -0700 (PDT)
+ bh=Kc9SYaiOEnADleFNrui1oghbL5wdsg/3XBYIsNvSHsA=;
+ b=gayEZTPl3grFsBj3BwLyFGxcxktIXTcmtuSvapQzL1C3sRB8BstMaiyVIcDQ1UeV2k
+ sEEB8m24Ql25/StavGlzVu+WQ73I0DDLzK03G3ro4sY/dR8haby/SIZlRG8QjHpmRXqG
+ zOP9+DkJqDtXQieqPxMKyjQsn+HhNfrlM3aM5OURLdbZ1Wnnoa6uiKUBDM4kJJ97QiNa
+ eHtFhKXnK3qJYyEthu4MTUXEourNlgCO0I+nB/5Q8zHzTwnJRSZgchYhVIPGJodgGbLh
+ vCemGFWXBEII6z/V3Tx7gaZKTU0nCenCQcgNB+SPPpQSkuciJ41Ro6Ph7cxgUcp6L7Xf
+ 0+aQ==
+X-Gm-Message-State: APjAAAXry0sEcCcHz5DQ1mh0nHYo/hBDvPN2rRrYt0uYXasQOS+B9kQh
+ S/2go9J/8TD8f7XiSd1uj89z+LGI9Js0AQ==
+X-Google-Smtp-Source: APXvYqw9ePMsbSp7aAd4yHXQfxfSpjeS/F3OU63PwaOyXYjg7ImVFliGjqO3oNxERokbT+PBOlP1RQ==
+X-Received: by 2002:adf:9ec7:: with SMTP id b7mr3655733wrf.221.1571069122710; 
+ Mon, 14 Oct 2019 09:05:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.20
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:20 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 46/68] aspeed/timer: Add support for IRQ status register on the
- AST2600
-Date: Mon, 14 Oct 2019 17:03:42 +0100
-Message-Id: <20191014160404.19553-47-peter.maydell@linaro.org>
+Subject: [PULL 47/68] aspeed/sdmc: Introduce an object class per SoC
+Date: Mon, 14 Oct 2019 17:03:43 +0100
+Message-Id: <20191014160404.19553-48-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,166 +84,299 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The AST2600 timer replaces control register 2 with a interrupt status
-register. It is set by hardware when an IRQ occurs and cleared by
-software.
-
-Modify the vmstate version to take into account the new fields.
-
-Based on previous work from Joel Stanley.
+Use class handlers and class constants to differentiate the
+characteristics of the memory controller and remove the 'silicon_rev'
+property.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-8-clg@kaod.org
+Message-id: 20190925143248.10000-9-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/timer/aspeed_timer.h |  1 +
- hw/timer/aspeed_timer.c         | 36 +++++++++++++++++++++++++--------
- 2 files changed, 29 insertions(+), 8 deletions(-)
+ include/hw/misc/aspeed_sdmc.h |  19 +++-
+ hw/arm/aspeed_soc.c           |   5 +-
+ hw/misc/aspeed_sdmc.c         | 168 +++++++++++++++++++++-------------
+ 3 files changed, 122 insertions(+), 70 deletions(-)
 
-diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_timer.h
-index 69b1377af01..948329893c0 100644
---- a/include/hw/timer/aspeed_timer.h
-+++ b/include/hw/timer/aspeed_timer.h
-@@ -60,6 +60,7 @@ typedef struct AspeedTimerCtrlState {
-     uint32_t ctrl;
-     uint32_t ctrl2;
-     uint32_t ctrl3;
-+    uint32_t irq_sts;
-     AspeedTimer timers[ASPEED_TIMER_NR_TIMERS];
+diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
+index b3c926acae9..81156320c49 100644
+--- a/include/hw/misc/aspeed_sdmc.h
++++ b/include/hw/misc/aspeed_sdmc.h
+@@ -13,6 +13,8 @@
  
-     AspeedSCUState *scu;
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index 7f73d0c7533..bcce2192a92 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -160,7 +160,9 @@ static uint64_t calculate_next(struct AspeedTimer *t)
-     timer_del(&t->timer);
+ #define TYPE_ASPEED_SDMC "aspeed.sdmc"
+ #define ASPEED_SDMC(obj) OBJECT_CHECK(AspeedSDMCState, (obj), TYPE_ASPEED_SDMC)
++#define TYPE_ASPEED_2400_SDMC TYPE_ASPEED_SDMC "-ast2400"
++#define TYPE_ASPEED_2500_SDMC TYPE_ASPEED_SDMC "-ast2500"
  
-     if (timer_overflow_interrupt(t)) {
-+        AspeedTimerCtrlState *s = timer_to_ctrl(t);
-         t->level = !t->level;
-+        s->irq_sts |= BIT(t->id);
-         qemu_set_irq(t->irq, t->level);
-     }
+ #define ASPEED_SDMC_NR_REGS (0x174 >> 2)
  
-@@ -199,7 +201,9 @@ static void aspeed_timer_expire(void *opaque)
-     }
+@@ -24,12 +26,21 @@ typedef struct AspeedSDMCState {
+     MemoryRegion iomem;
  
-     if (interrupt) {
-+        AspeedTimerCtrlState *s = timer_to_ctrl(t);
-         t->level = !t->level;
-+        s->irq_sts |= BIT(t->id);
-         qemu_set_irq(t->irq, t->level);
-     }
+     uint32_t regs[ASPEED_SDMC_NR_REGS];
+-    uint32_t silicon_rev;
+-    uint32_t ram_bits;
+     uint64_t ram_size;
+     uint64_t max_ram_size;
+-    uint32_t fixed_conf;
+-
+ } AspeedSDMCState;
  
-@@ -244,9 +248,6 @@ static uint64_t aspeed_timer_read(void *opaque, hwaddr offset, unsigned size)
-     case 0x30: /* Control Register */
-         value = s->ctrl;
-         break;
--    case 0x34: /* Control Register 2 */
--        value = s->ctrl2;
--        break;
-     case 0x00 ... 0x2c: /* Timers 1 - 4 */
-         value = aspeed_timer_get_value(&s->timers[(offset >> 4)], reg);
-         break;
-@@ -438,9 +439,6 @@ static void aspeed_timer_write(void *opaque, hwaddr offset, uint64_t value,
-     case 0x30:
-         aspeed_timer_set_ctrl(s, tv);
-         break;
--    case 0x34:
--        aspeed_timer_set_ctrl2(s, tv);
--        break;
-     /* Timer Registers */
-     case 0x00 ... 0x2c:
-         aspeed_timer_set_value(s, (offset >> TIMER_NR_REGS), reg, tv);
-@@ -468,6 +466,9 @@ static uint64_t aspeed_2400_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
-     uint64_t value;
- 
-     switch (offset) {
-+    case 0x34:
-+        value = s->ctrl2;
-+        break;
-     case 0x38:
-     case 0x3C:
-     default:
-@@ -482,7 +483,12 @@ static uint64_t aspeed_2400_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
- static void aspeed_2400_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-                                     uint64_t value)
- {
-+    const uint32_t tv = (uint32_t)(value & 0xFFFFFFFF);
++#define ASPEED_SDMC_CLASS(klass) \
++     OBJECT_CLASS_CHECK(AspeedSDMCClass, (klass), TYPE_ASPEED_SDMC)
++#define ASPEED_SDMC_GET_CLASS(obj) \
++     OBJECT_GET_CLASS(AspeedSDMCClass, (obj), TYPE_ASPEED_SDMC)
 +
-     switch (offset) {
-+    case 0x34:
-+        aspeed_timer_set_ctrl2(s, tv);
-+        break;
-     case 0x38:
-     case 0x3C:
-     default:
-@@ -497,6 +503,9 @@ static uint64_t aspeed_2500_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
-     uint64_t value;
++typedef struct AspeedSDMCClass {
++    SysBusDeviceClass parent_class;
++
++    uint64_t max_ram_size;
++    uint32_t (*compute_conf)(AspeedSDMCState *s, uint32_t data);
++    void (*write)(AspeedSDMCState *s, uint32_t reg, uint32_t data);
++} AspeedSDMCClass;
++
+ #endif /* ASPEED_SDMC_H */
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 26e03486f9b..aaf18d3e42f 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -205,10 +205,9 @@ static void aspeed_soc_init(Object *obj)
+                               sizeof(s->spi[i]), typename);
+     }
  
-     switch (offset) {
-+    case 0x34:
-+        value = s->ctrl2;
-+        break;
-     case 0x38:
-         value = s->ctrl3 & BIT(0);
-         break;
-@@ -517,6 +526,9 @@ static void aspeed_2500_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-     uint8_t command;
++    snprintf(typename, sizeof(typename), "aspeed.sdmc-%s", socname);
+     sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdmc),
+-                          TYPE_ASPEED_SDMC);
+-    qdev_prop_set_uint32(DEVICE(&s->sdmc), "silicon-rev",
+-                         sc->info->silicon_rev);
++                          typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size", &error_abort);
+     object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+index cb13c63ec84..60c99e77348 100644
+--- a/hw/misc/aspeed_sdmc.c
++++ b/hw/misc/aspeed_sdmc.c
+@@ -110,6 +110,7 @@ static void aspeed_sdmc_write(void *opaque, hwaddr addr, uint64_t data,
+                              unsigned int size)
+ {
+     AspeedSDMCState *s = ASPEED_SDMC(opaque);
++    AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
  
-     switch (offset) {
-+    case 0x34:
-+        aspeed_timer_set_ctrl2(s, tv);
-+        break;
-     case 0x38:
-         command = (value >> 1) & 0xFF;
-         if (command == 0xAE) {
-@@ -543,6 +555,9 @@ static uint64_t aspeed_2600_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
-     uint64_t value;
+     addr >>= 2;
  
-     switch (offset) {
-+    case 0x34:
-+        value = s->irq_sts;
-+        break;
-     case 0x38:
-     case 0x3C:
-     default:
-@@ -560,6 +575,9 @@ static void aspeed_2600_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-     const uint32_t tv = (uint32_t)(value & 0xFFFFFFFF);
+@@ -130,41 +131,7 @@ static void aspeed_sdmc_write(void *opaque, hwaddr addr, uint64_t data,
+         return;
+     }
  
-     switch (offset) {
-+    case 0x34:
-+        s->irq_sts &= tv;
-+        break;
-     case 0x3C:
-         aspeed_timer_set_ctrl(s, s->ctrl & ~tv);
-         break;
-@@ -626,6 +644,7 @@ static void aspeed_timer_reset(DeviceState *dev)
-     s->ctrl = 0;
-     s->ctrl2 = 0;
-     s->ctrl3 = 0;
-+    s->irq_sts = 0;
+-    if (addr == R_CONF) {
+-        /* Make sure readonly bits are kept */
+-        switch (s->silicon_rev) {
+-        case AST2400_A0_SILICON_REV:
+-        case AST2400_A1_SILICON_REV:
+-            data &= ~ASPEED_SDMC_READONLY_MASK;
+-            data |= s->fixed_conf;
+-            break;
+-        case AST2500_A0_SILICON_REV:
+-        case AST2500_A1_SILICON_REV:
+-            data &= ~ASPEED_SDMC_AST2500_READONLY_MASK;
+-            data |= s->fixed_conf;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    }
+-    if (s->silicon_rev == AST2500_A0_SILICON_REV ||
+-            s->silicon_rev == AST2500_A1_SILICON_REV) {
+-        switch (addr) {
+-        case R_STATUS1:
+-            /* Will never return 'busy' */
+-            data &= ~PHY_BUSY_STATE;
+-            break;
+-        case R_ECC_TEST_CTRL:
+-            /* Always done, always happy */
+-            data |= ECC_TEST_FINISHED;
+-            data &= ~ECC_TEST_FAIL;
+-            break;
+-        default:
+-            break;
+-        }
+-    }
+-
+-    s->regs[addr] = data;
++    asc->write(s, addr, data);
  }
  
- static const VMStateDescription vmstate_aspeed_timer = {
-@@ -644,12 +663,13 @@ static const VMStateDescription vmstate_aspeed_timer = {
+ static const MemoryRegionOps aspeed_sdmc_ops = {
+@@ -222,44 +189,21 @@ static int ast2500_rambits(AspeedSDMCState *s)
+ static void aspeed_sdmc_reset(DeviceState *dev)
+ {
+     AspeedSDMCState *s = ASPEED_SDMC(dev);
++    AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
  
- static const VMStateDescription vmstate_aspeed_timer_state = {
-     .name = "aspeed.timerctrl",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(ctrl, AspeedTimerCtrlState),
-         VMSTATE_UINT32(ctrl2, AspeedTimerCtrlState),
-         VMSTATE_UINT32(ctrl3, AspeedTimerCtrlState),
-+        VMSTATE_UINT32(irq_sts, AspeedTimerCtrlState),
-         VMSTATE_STRUCT_ARRAY(timers, AspeedTimerCtrlState,
-                              ASPEED_TIMER_NR_TIMERS, 1, vmstate_aspeed_timer,
-                              AspeedTimer),
+     memset(s->regs, 0, sizeof(s->regs));
+ 
+     /* Set ram size bit and defaults values */
+-    s->regs[R_CONF] = s->fixed_conf;
++    s->regs[R_CONF] = asc->compute_conf(s, 0);
+ }
+ 
+ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedSDMCState *s = ASPEED_SDMC(dev);
++    AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
+ 
+-    if (!is_supported_silicon_rev(s->silicon_rev)) {
+-        error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
+-                s->silicon_rev);
+-        return;
+-    }
+-
+-    switch (s->silicon_rev) {
+-    case AST2400_A0_SILICON_REV:
+-    case AST2400_A1_SILICON_REV:
+-        s->ram_bits = ast2400_rambits(s);
+-        s->max_ram_size = 512 << 20;
+-        s->fixed_conf = ASPEED_SDMC_VGA_COMPAT |
+-            ASPEED_SDMC_DRAM_SIZE(s->ram_bits);
+-        break;
+-    case AST2500_A0_SILICON_REV:
+-    case AST2500_A1_SILICON_REV:
+-        s->ram_bits = ast2500_rambits(s);
+-        s->max_ram_size = 1024 << 20;
+-        s->fixed_conf = ASPEED_SDMC_HW_VERSION(1) |
+-            ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
+-            ASPEED_SDMC_CACHE_INITIAL_DONE |
+-            ASPEED_SDMC_DRAM_SIZE(s->ram_bits);
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
++    s->max_ram_size = asc->max_ram_size;
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
+                           TYPE_ASPEED_SDMC, 0x1000);
+@@ -277,7 +221,6 @@ static const VMStateDescription vmstate_aspeed_sdmc = {
+ };
+ 
+ static Property aspeed_sdmc_properties[] = {
+-    DEFINE_PROP_UINT32("silicon-rev", AspeedSDMCState, silicon_rev, 0),
+     DEFINE_PROP_UINT64("ram-size", AspeedSDMCState, ram_size, 0),
+     DEFINE_PROP_UINT64("max-ram-size", AspeedSDMCState, max_ram_size, 0),
+     DEFINE_PROP_END_OF_LIST(),
+@@ -298,11 +241,110 @@ static const TypeInfo aspeed_sdmc_info = {
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(AspeedSDMCState),
+     .class_init = aspeed_sdmc_class_init,
++    .class_size = sizeof(AspeedSDMCClass),
++    .abstract   = true,
++};
++
++static uint32_t aspeed_2400_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
++{
++    uint32_t fixed_conf = ASPEED_SDMC_VGA_COMPAT |
++        ASPEED_SDMC_DRAM_SIZE(ast2400_rambits(s));
++
++    /* Make sure readonly bits are kept */
++    data &= ~ASPEED_SDMC_READONLY_MASK;
++
++    return data | fixed_conf;
++}
++
++static void aspeed_2400_sdmc_write(AspeedSDMCState *s, uint32_t reg,
++                                   uint32_t data)
++{
++    switch (reg) {
++    case R_CONF:
++        data = aspeed_2400_sdmc_compute_conf(s, data);
++        break;
++    default:
++        break;
++    }
++
++    s->regs[reg] = data;
++}
++
++static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
++
++    dc->desc = "ASPEED 2400 SDRAM Memory Controller";
++    asc->max_ram_size = 512 << 20;
++    asc->compute_conf = aspeed_2400_sdmc_compute_conf;
++    asc->write = aspeed_2400_sdmc_write;
++}
++
++static const TypeInfo aspeed_2400_sdmc_info = {
++    .name = TYPE_ASPEED_2400_SDMC,
++    .parent = TYPE_ASPEED_SDMC,
++    .class_init = aspeed_2400_sdmc_class_init,
++};
++
++static uint32_t aspeed_2500_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
++{
++    uint32_t fixed_conf = ASPEED_SDMC_HW_VERSION(1) |
++        ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
++        ASPEED_SDMC_CACHE_INITIAL_DONE |
++        ASPEED_SDMC_DRAM_SIZE(ast2500_rambits(s));
++
++    /* Make sure readonly bits are kept */
++    data &= ~ASPEED_SDMC_AST2500_READONLY_MASK;
++
++    return data | fixed_conf;
++}
++
++static void aspeed_2500_sdmc_write(AspeedSDMCState *s, uint32_t reg,
++                                   uint32_t data)
++{
++    switch (reg) {
++    case R_CONF:
++        data = aspeed_2500_sdmc_compute_conf(s, data);
++        break;
++    case R_STATUS1:
++        /* Will never return 'busy' */
++        data &= ~PHY_BUSY_STATE;
++        break;
++    case R_ECC_TEST_CTRL:
++        /* Always done, always happy */
++        data |= ECC_TEST_FINISHED;
++        data &= ~ECC_TEST_FAIL;
++        break;
++    default:
++        break;
++    }
++
++    s->regs[reg] = data;
++}
++
++static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
++
++    dc->desc = "ASPEED 2500 SDRAM Memory Controller";
++    asc->max_ram_size = 1024 << 20;
++    asc->compute_conf = aspeed_2500_sdmc_compute_conf;
++    asc->write = aspeed_2500_sdmc_write;
++}
++
++static const TypeInfo aspeed_2500_sdmc_info = {
++    .name = TYPE_ASPEED_2500_SDMC,
++    .parent = TYPE_ASPEED_SDMC,
++    .class_init = aspeed_2500_sdmc_class_init,
+ };
+ 
+ static void aspeed_sdmc_register_types(void)
+ {
+     type_register_static(&aspeed_sdmc_info);
++    type_register_static(&aspeed_2400_sdmc_info);
++    type_register_static(&aspeed_2500_sdmc_info);
+ }
+ 
+ type_init(aspeed_sdmc_register_types);
 -- 
 2.20.1
 
