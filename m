@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B5BD6146
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:28:20 +0200 (CEST)
-Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AC8D613A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:25:34 +0200 (CEST)
+Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyWR-0006Xu-Cf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46038)
+	id 1iJyTl-0003qa-GM
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:25:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iJy69-0002KG-Bd
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:01:15 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iJy29-0006a8-Jt
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:57:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iJy67-00013e-Ap
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:01:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58970)
+ (envelope-from <alex.bennee@linaro.org>) id 1iJy28-000589-2I
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:57:01 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39868)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iJy67-000127-57
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:01:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iJy65-00050U-MC
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 11:01:05 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A6A3B2E80C3
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 11:01:05 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Oct 2019 10:48:59 -0000
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iJy27-00056k-R6
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:57:00 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r3so19173443wrj.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oN1mnKuiyoRPUYVWg4mbq/TduDJ+Zln9LyiIfU1AE/I=;
+ b=ELAYYCE9wO2Pxa6cvtOlk3xEi0wTbV74U2+gI+mwaGGMljj9wetrsCZZao01FFSmT6
+ xLo+uN0Cws4Ovfg/BVpyPb2YJJQr2ebNwsIdVkIvTVdcYp6CzfdVzI3ChPvujpbW/l5F
+ cvq32IlEUQLvHXG7m4+yGwf6JnOpEt/Jc/0E6DD/R0D6Liwq8SIVoL/eOW+90mjO+Y6D
+ idbxudWbersoHeKtARMxJxkxBof3HdHK9y6oL3t7xIm2gcLDjVpm0ZojU9OCnO7rscCU
+ kc07qk4qPH+Y7zB4Kr0+ZNO3Sd8I6HzORQzbwD0so8wrC6clk1aWEnXd5nLVOb8PM4/M
+ pMMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=oN1mnKuiyoRPUYVWg4mbq/TduDJ+Zln9LyiIfU1AE/I=;
+ b=a2ksKiyfVrnTPYiAJWYTpC234waBps62Ht2fjYzwS7LUoTd4l0BlcYUlHuIt3HVfoL
+ iVZbr/xzCuuMo18zZVgPQqInzengotMiMzxDAVjeAUjZgvvTSbCB5NLSrIE7kCh6eym3
+ LaleJAkYIguf3ooqJzecP/SkQpLkJs6ssMiE7A8kH03D+LDAVcPNTxvdLEznr8vJraGY
+ gxJ/+1xpXKnx9w+f5Fv1WFn8/s7iSczstkpzh/2DSyWyuebgUxgprmOE3CD/zFtqWfdF
+ DVAhWQz+ZaDQgDdxDtF6xeGQwXKII6MvC5hm3ITeXsSlffO+4oW7nGwGyfX8qOjScGLB
+ PRmQ==
+X-Gm-Message-State: APjAAAXpRE+xRNmYYWCxn8kSohFVKQTIn3pujAAu6H+/+Vs82nUdRhzy
+ ALXuYUUslbF5EONRv/4tLWIAUFR5U7s=
+X-Google-Smtp-Source: APXvYqwHn+g2KaI2RQJqYxikWKO26cSrAJULui+XGjIAJUoT774ktOyFtNoNri8DOsfmxPzcLZMqRg==
+X-Received: by 2002:a5d:51d1:: with SMTP id n17mr25291390wrv.125.1571050618706; 
+ Mon, 14 Oct 2019 03:56:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n7sm19363697wrt.59.2019.10.14.03.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Oct 2019 03:56:56 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3E4451FF93;
+ Mon, 14 Oct 2019 11:49:53 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: davidhildenbrand ivmn
-X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
-X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
-References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
-Message-Id: <157105013982.10113.9045792506090548064.malone@chaenomeles.canonical.com>
-Subject: [Bug 1847232] Re: qemu TCG in s390x mode issue with calculating HASH
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="af2eefe214bd95389a09b7c956720881bab16807";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1fbb41e1f1a770b16628f6b3eb760141ae66a8ba
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Subject: [PATCH  v5 17/55] plugins: implement helpers for resolving hwaddr
+Date: Mon, 14 Oct 2019 11:49:10 +0100
+Message-Id: <20191014104948.4291-18-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
+References: <20191014104948.4291-1-alex.bennee@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,52 +81,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: robert.foley@futurewei.com, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Ivan Warren <ivan@vmfacility.fr>
-From: Ivan Warren via <qemu-devel@nongnu.org>
 
-I was looking for a simpler method (without using go), but curl/wget and
-whatnot don't seem to have any problem..  There must be something go is
-doing that is different.
+We need to keep a local per-cpu copy of the data as other threads may
+be running. We use a automatically growing array and re-use the space
+for subsequent queries.
 
-My guess (but ONLY a guess) is that the "go" TLS code might be doing
-some dynamic checking on the z/Arch facility list (STFLE ?) and do some
-dynamic change to the code path. Maybe a bit far fetched...
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
--- =
+---
+v5
+  - use TLS instead of racy GArray
+  - add more commentary regarding success
+  - error_report if we fail
+---
+ accel/tcg/cputlb.c      | 35 +++++++++++++++++++++++++++++++++++
+ include/exec/exec-all.h | 20 ++++++++++++++++++++
+ include/qemu/plugin.h   |  6 ++++++
+ plugins/api.c           | 34 +++++++++++++++++++++++++++++++++-
+ 4 files changed, 94 insertions(+), 1 deletion(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1847232
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b587d910f8..2937dac7a5 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1247,6 +1247,41 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+     return (void *)((uintptr_t)addr + entry->addend);
+ }
+ 
++
++#ifdef CONFIG_PLUGIN
++/*
++ * Perform a TLB lookup and populate the qemu_plugin_hwaddr structure.
++ * This should be a hot path as we will have just looked this path up
++ * in the softmmu lookup code (or helper). We don't handle re-fills or
++ * checking the victim table. This is purely informational.
++ *
++ * This should never fail as the memory access being instrumented
++ * should have just filled the TLB.
++ */
++
++bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
++                       bool is_store, struct qemu_plugin_hwaddr *data)
++{
++    CPUArchState *env = cpu->env_ptr;
++    CPUTLBEntry *tlbe = tlb_entry(env, mmu_idx, addr);
++    target_ulong tlb_addr = is_store ? tlb_addr_write(tlbe) : tlbe->addr_read;
++
++    if (likely(tlb_hit(tlb_addr, addr))) {
++        if (tlb_addr & TLB_MMIO) {
++            data->hostaddr = 0;
++            data->is_io = true;
++            /* XXX: lookup device */
++        } else {
++            data->hostaddr = addr + tlbe->addend;
++            data->is_io = false;
++        }
++        return true;
++    }
++    return false;
++}
++
++#endif
++
+ /* Probe for a read-modify-write atomic operation.  Do not allow unaligned
+  * operations, or io operations to proceed.  Return the host address.  */
+ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index ba2f501f0f..47a071fee0 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -261,6 +261,20 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+                   hwaddr paddr, int prot,
+                   int mmu_idx, target_ulong size);
++
++/**
++ * tlb_plugin_lookup: query last TLB lookup
++ * @cpu: cpu environment
++ *
++ * This function can be used directly after a memory operation to
++ * query information about the access. It is used by the plugin
++ * infrastructure to expose more information about the address.
++ *
++ * It would only fail if not called from an instrumented memory access
++ * which would be an abuse of the API.
++ */
++bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
++                       bool is_store, struct qemu_plugin_hwaddr *data);
+ #else
+ static inline void tlb_init(CPUState *cpu)
+ {
+@@ -310,6 +324,12 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
+                                                        uint16_t idxmap)
+ {
+ }
++static inline bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr,
++                                     int mmu_idx, bool is_store,
++                                     struct qemu_plugin_hwaddr *data)
++{
++    return false;
++}
+ #endif
+ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 3c46a24166..657345df60 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -182,6 +182,12 @@ struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
+     return insn;
+ }
+ 
++struct qemu_plugin_hwaddr {
++    uint64_t hostaddr;
++    bool is_io;
++};
++
++
+ #ifdef CONFIG_PLUGIN
+ 
+ void qemu_plugin_vcpu_init_hook(CPUState *cpu);
+diff --git a/plugins/api.c b/plugins/api.c
+index 3de05719a8..fbacd78df6 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -39,7 +39,7 @@
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "tcg/tcg.h"
+-#include "trace/mem-internal.h" /* mem_info macros */
++#include "exec/exec-all.h"
+ #include "plugin.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/boards.h"
+@@ -240,11 +240,30 @@ bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info)
+  * Virtual Memory queries
+  */
+ 
++#ifdef CONFIG_SOFTMMU
++static __thread struct qemu_plugin_hwaddr hwaddr_info;
++
++struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
++                                                  uint64_t vaddr)
++{
++    CPUState *cpu = current_cpu;
++    unsigned int mmu_idx = info >> TRACE_MEM_MMU_SHIFT;
++
++    if (!tlb_plugin_lookup(cpu, vaddr, mmu_idx,
++                           info & TRACE_MEM_ST, &hwaddr_info)) {
++        error_report("invalid use of qemu_plugin_get_hwaddr");
++        return NULL;
++    }
++
++    return &hwaddr_info;
++}
++#else
+ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+                                                   uint64_t vaddr)
+ {
+     return NULL;
+ }
++#endif
+ 
+ bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr)
+ {
+@@ -253,7 +272,20 @@ bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr)
+ 
+ uint64_t qemu_plugin_hwaddr_to_raddr(const struct qemu_plugin_hwaddr *haddr)
+ {
++#ifdef CONFIG_SOFTMMU
++    ram_addr_t ram_addr = 0;
++
++    if (haddr && !haddr->is_io) {
++        ram_addr = qemu_ram_addr_from_host((void *) haddr->hostaddr);
++        if (ram_addr == RAM_ADDR_INVALID) {
++            error_report("Bad ram pointer %"PRIx64"", haddr->hostaddr);
++            abort();
++        }
++    }
++    return ram_addr;
++#else
+     return 0;
++#endif
+ }
+ 
+ /*
+-- 
+2.20.1
 
-Title:
-  qemu TCG in s390x mode issue with calculating HASH
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using go on s390x on Debian x64 (buster) (host) and debian s390x
-  (sid) (guest) I run into the following problem :
-
-  The following occurs while trying to build a custom project :
-
-  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
-  Get
-  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
-0150613233007-fe3947df716e.mod:
-  local error: tls: bad record MAC
-
-  Doing a git bisect I find that this problem only occurs on and after
-  commit 08ef92d556c584c7faf594ff3af46df456276e1b
-
-  Before that commit, all works fine. Past this commit, build always
-  fails.
-
-  Without any proof, It looks like a hash calculation bug related to
-  using z/Arch vector facilities...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
 
