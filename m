@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B19CD6716
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:19:40 +0200 (CEST)
-Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA2CD66F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:12:36 +0200 (CEST)
+Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK34M-0005FU-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
+	id 1iK2xX-0005Nh-3E
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2ph-0003ap-0q
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:30 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iK2p9-0002mq-Oi
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:03:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pf-00070B-NJ
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:28 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40692)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2pf-0006za-H4
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:27 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h4so20406868wrv.7
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=93xF/zHlNMtx3KJOnjnh3nh2MFInn1otyO8XwLGexyQ=;
- b=XyLlToMURoRWcdMIZSmORyHGgRPCoUAP/hCxC63hLYneQLTt8bK5x8hB4oJ7cE9CXN
- F7sykh0sPpu4+N01g9jVB4+K19URZcQFSnCn53+heuZQsSyGY/Yn6dHyuSsniVFRzXg0
- iQUkIvMCzN5XD/Rr9bMAPwFVk6CZ/BdoGs+RSY2z4be67HMv4jxlbrDuPLOiMC1Vi+1h
- j0uTXKsgiGZgItjU+WFq1/1cmO+Bq0TsRvVqWfaMIjAjnCJ1UxnyRepMSqn5EN77IlOT
- b7IDHn+Bf4WOcOJbhDuZWFDsqmP+OvJwzfKbKpRRsRqzb5j6nNeZ0rUcqPGEQqIGOHUf
- /O7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=93xF/zHlNMtx3KJOnjnh3nh2MFInn1otyO8XwLGexyQ=;
- b=We0jcaBD67YTIVoqqITlO8XFM7ZbN6vkJgcIdwcEjZ/K21UsuE6Ydk6mpU7+IXw2HH
- 80Nn2z9x7/c6jTS1fP4tKN9Zidk3KTW+qMWquOSe2JNRER941WS/ACKEpEJrwI6a8K8u
- R+F3gCvFGX+5BIC2OUeewZN20z0YLf02ywKZ+XbFV94PuxOQaGL61mMuNkrVPJm4/W+5
- 9LKoM8Isu3mg9f7IvPkzfWkmaG1Hom4s/GEa+xjaLG7rELPjvUNjohP6w8FYNj/rcgPE
- Z0gIcZyMx4XaOZ/jln6BOWOXSSKyauNMPoDey2XIspd62+ADThRDqKDb/s4QJKMs8cAJ
- ulKg==
-X-Gm-Message-State: APjAAAXIMxOLXxO0yoOpAnuaeqQMpVnKOlwep/vky0jpoXif1+jofVea
- feJLts52RcyhMztN7ZoTQdnPV8voJ4fhZw==
-X-Google-Smtp-Source: APXvYqzpHzw+VJAyKDVUMr01SMvb1y/G7PtJJSAIKl5zYyJOIZrbAKpawKcOyekKyPqClosMmbFTGQ==
-X-Received: by 2002:a5d:5705:: with SMTP id a5mr27497595wrv.112.1571069066129; 
- Mon, 14 Oct 2019 09:04:26 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.23
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:04:24 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 08/68] hw/arm/musicpal.c: Switch to transaction-based ptimer API
-Date: Mon, 14 Oct 2019 17:03:04 +0100
-Message-Id: <20191014160404.19553-9-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
-References: <20191014160404.19553-1-peter.maydell@linaro.org>
+ (envelope-from <kwolf@redhat.com>) id 1iK2p8-0006OA-CT
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:03:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37642)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iK2p5-0006JE-1u; Mon, 14 Oct 2019 12:03:51 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4D095309BF21;
+ Mon, 14 Oct 2019 16:03:50 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.118.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40D2A5C541;
+ Mon, 14 Oct 2019 16:03:49 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 01/15] block/vhdx: add check for truncated image files
+Date: Mon, 14 Oct 2019 18:03:35 +0200
+Message-Id: <20191014160343.8211-2-kwolf@redhat.com>
+In-Reply-To: <20191014160343.8211-1-kwolf@redhat.com>
+References: <20191014160343.8211-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 14 Oct 2019 16:03:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,83 +55,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the musicpal code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
+From: Peter Lieven <pl@kamp.de>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191008171740.9679-6-peter.maydell@linaro.org
+qemu is currently not able to detect truncated vhdx image files.
+Add a basic check if all allocated blocks are reachable at open and
+report all errors during bdrv_co_check.
+
+Signed-off-by: Peter Lieven <pl@kamp.de>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/arm/musicpal.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ block/vhdx.c | 120 +++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 103 insertions(+), 17 deletions(-)
 
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index b3624d5e280..f68a399a984 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -843,13 +843,10 @@ static void mv88w8618_timer_tick(void *opaque)
- static void mv88w8618_timer_init(SysBusDevice *dev, mv88w8618_timer_state *s,
-                                  uint32_t freq)
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 6a09d0a55c..371f226286 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -24,6 +24,7 @@
+ #include "qemu/option.h"
+ #include "qemu/crc32c.h"
+ #include "qemu/bswap.h"
++#include "qemu/error-report.h"
+ #include "vhdx.h"
+ #include "migration/blocker.h"
+ #include "qemu/uuid.h"
+@@ -235,6 +236,9 @@ static int vhdx_region_check(BDRVVHDXState *s, uint64=
+_t start, uint64_t length)
+     end =3D start + length;
+     QLIST_FOREACH(r, &s->regions, entries) {
+         if (!((start >=3D r->end) || (end <=3D r->start))) {
++            error_report("VHDX region %" PRIu64 "-%" PRIu64 " overlaps w=
+ith "
++                         "region %" PRIu64 "-%." PRIu64, start, end, r->=
+start,
++                         r->end);
+             ret =3D -EINVAL;
+             goto exit;
+         }
+@@ -877,6 +881,95 @@ static void vhdx_calc_bat_entries(BDRVVHDXState *s)
+=20
+ }
+=20
++static int vhdx_check_bat_entries(BlockDriverState *bs, int *errcnt)
++{
++    BDRVVHDXState *s =3D bs->opaque;
++    int64_t image_file_size =3D bdrv_getlength(bs->file->bs);
++    uint64_t payblocks =3D s->chunk_ratio;
++    uint64_t i;
++    int ret =3D 0;
++
++    if (image_file_size < 0) {
++        error_report("Could not determinate VHDX image file size.");
++        return image_file_size;
++    }
++
++    for (i =3D 0; i < s->bat_entries; i++) {
++        if ((s->bat[i] & VHDX_BAT_STATE_BIT_MASK) =3D=3D
++            PAYLOAD_BLOCK_FULLY_PRESENT) {
++            uint64_t offset =3D s->bat[i] & VHDX_BAT_FILE_OFF_MASK;
++            /*
++             * Allow that the last block exists only partially. The VHDX=
+ spec
++             * states that the image file can only grow in blocksize inc=
+rements,
++             * but QEMU created images with partial last blocks in the p=
+ast.
++             */
++            uint32_t block_length =3D MIN(s->block_size,
++                bs->total_sectors * BDRV_SECTOR_SIZE - i * s->block_size=
+);
++            /*
++             * Check for BAT entry overflow.
++             */
++            if (offset > INT64_MAX - s->block_size) {
++                error_report("VHDX BAT entry %" PRIu64 " offset overflow=
+.", i);
++                ret =3D -EINVAL;
++                if (!errcnt) {
++                    break;
++                }
++                (*errcnt)++;
++            }
++            /*
++             * Check if fully allocated BAT entries do not reside after
++             * end of the image file.
++             */
++            if (offset >=3D image_file_size) {
++                error_report("VHDX BAT entry %" PRIu64 " start offset %"=
+ PRIu64
++                             " points after end of file (%" PRIi64 "). I=
+mage"
++                             " has probably been truncated.",
++                             i, offset, image_file_size);
++                ret =3D -EINVAL;
++                if (!errcnt) {
++                    break;
++                }
++                (*errcnt)++;
++            } else if (offset + block_length > image_file_size) {
++                error_report("VHDX BAT entry %" PRIu64 " end offset %" P=
+RIu64
++                             " points after end of file (%" PRIi64 "). I=
+mage"
++                             " has probably been truncated.",
++                             i, offset + block_length - 1, image_file_si=
+ze);
++                ret =3D -EINVAL;
++                if (!errcnt) {
++                    break;
++                }
++                (*errcnt)++;
++            }
++
++            /*
++             * verify populated BAT field file offsets against
++             * region table and log entries
++             */
++            if (payblocks--) {
++                /* payload bat entries */
++                int ret2;
++                ret2 =3D vhdx_region_check(s, offset, s->block_size);
++                if (ret2 < 0) {
++                    ret =3D -EINVAL;
++                    if (!errcnt) {
++                        break;
++                    }
++                    (*errcnt)++;
++                }
++            } else {
++                payblocks =3D s->chunk_ratio;
++                /*
++                 * Once differencing files are supported, verify sector =
+bitmap
++                 * blocks here
++                 */
++            }
++        }
++    }
++
++    return ret;
++}
++
+ static void vhdx_close(BlockDriverState *bs)
  {
--    QEMUBH *bh;
--
-     sysbus_init_irq(dev, &s->irq);
-     s->freq = freq;
- 
--    bh = qemu_bh_new(mv88w8618_timer_tick, s);
--    s->ptimer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_DEFAULT);
- }
- 
- static uint64_t mv88w8618_pit_read(void *opaque, hwaddr offset,
-@@ -879,16 +876,19 @@ static void mv88w8618_pit_write(void *opaque, hwaddr offset,
-     case MP_PIT_TIMER1_LENGTH ... MP_PIT_TIMER4_LENGTH:
-         t = &s->timer[offset >> 2];
-         t->limit = value;
-+        ptimer_transaction_begin(t->ptimer);
-         if (t->limit > 0) {
-             ptimer_set_limit(t->ptimer, t->limit, 1);
-         } else {
-             ptimer_stop(t->ptimer);
-         }
-+        ptimer_transaction_commit(t->ptimer);
-         break;
- 
-     case MP_PIT_CONTROL:
-         for (i = 0; i < 4; i++) {
-             t = &s->timer[i];
-+            ptimer_transaction_begin(t->ptimer);
-             if (value & 0xf && t->limit > 0) {
-                 ptimer_set_limit(t->ptimer, t->limit, 0);
-                 ptimer_set_freq(t->ptimer, t->freq);
-@@ -896,6 +896,7 @@ static void mv88w8618_pit_write(void *opaque, hwaddr offset,
-             } else {
-                 ptimer_stop(t->ptimer);
-             }
-+            ptimer_transaction_commit(t->ptimer);
-             value >>= 4;
-         }
-         break;
-@@ -914,8 +915,11 @@ static void mv88w8618_pit_reset(DeviceState *d)
-     int i;
- 
-     for (i = 0; i < 4; i++) {
--        ptimer_stop(s->timer[i].ptimer);
--        s->timer[i].limit = 0;
-+        mv88w8618_timer_state *t = &s->timer[i];
-+        ptimer_transaction_begin(t->ptimer);
-+        ptimer_stop(t->ptimer);
-+        ptimer_transaction_commit(t->ptimer);
-+        t->limit = 0;
+     BDRVVHDXState *s =3D bs->opaque;
+@@ -981,25 +1074,15 @@ static int vhdx_open(BlockDriverState *bs, QDict *=
+options, int flags,
+         goto fail;
      }
+=20
+-    uint64_t payblocks =3D s->chunk_ratio;
+-    /* endian convert, and verify populated BAT field file offsets again=
+st
+-     * region table and log entries */
++    /* endian convert populated BAT field entires */
+     for (i =3D 0; i < s->bat_entries; i++) {
+         s->bat[i] =3D le64_to_cpu(s->bat[i]);
+-        if (payblocks--) {
+-            /* payload bat entries */
+-            if ((s->bat[i] & VHDX_BAT_STATE_BIT_MASK) =3D=3D
+-                    PAYLOAD_BLOCK_FULLY_PRESENT) {
+-                ret =3D vhdx_region_check(s, s->bat[i] & VHDX_BAT_FILE_O=
+FF_MASK,
+-                                        s->block_size);
+-                if (ret < 0) {
+-                    goto fail;
+-                }
+-            }
+-        } else {
+-            payblocks =3D s->chunk_ratio;
+-            /* Once differencing files are supported, verify sector bitm=
+ap
+-             * blocks here */
++    }
++
++    if (!(flags & BDRV_O_CHECK)) {
++        ret =3D vhdx_check_bat_entries(bs, NULL);
++        if (ret < 0) {
++            goto fail;
+         }
+     }
+=20
+@@ -2072,6 +2155,9 @@ static int coroutine_fn vhdx_co_check(BlockDriverSt=
+ate *bs,
+     if (s->log_replayed_on_open) {
+         result->corruptions_fixed++;
+     }
++
++    vhdx_check_bat_entries(bs, &result->corruptions);
++
+     return 0;
  }
- 
--- 
+=20
+--=20
 2.20.1
 
 
