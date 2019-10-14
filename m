@@ -2,77 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87162D69F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 21:16:47 +0200 (CEST)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7703D6A30
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 21:33:21 +0200 (CEST)
+Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK5pm-0008IY-9r
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 15:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37284)
+	id 1iK65o-0007qY-FI
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 15:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iK5oC-0007PF-5T
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:15:09 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iK623-0005NR-Gj
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:29:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iK5oB-0001xL-4E
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:15:07 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34621)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iK5oA-0001wV-VO
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:15:07 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b128so10932630pfa.1
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 12:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=e93wkwG0HkPCKwmBCpkvboT2RX+XxELhxVuTIwX89fE=;
- b=ipMxbr77UHJDHLXy2/ZqWR0VIOI3+L+t+WrpfGR4Jel1pivi7afMuZCdSHM2SlBg2F
- gwWdI502lZ7kFCKJfksMn7WSisazDmpBrWgXbNb+L/EW/oT4bbv8fAlH4rigBfnWFgju
- 7yrYyKLPiYI0YNucblC/z2KN99r9suT9XJuC5g3n3x138Su+6q4FkBd4+7sde07I/H9L
- EYV5Njo2YzAoWleEiff4vueaCpFKPqIEpPWH/d7BrHMDsw+nNgqNFWLeHw4X06NFJ/8N
- aDzRqicPdC+a16PVmJYAARFEW64wRWdacjKoWOHXwNxBgVT8P5tX6cHOwot+4mGmV2vK
- VqaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e93wkwG0HkPCKwmBCpkvboT2RX+XxELhxVuTIwX89fE=;
- b=PNCbZXpA/0Yzn/aDOdTR0q7t7cxLgAABNLM5tmPbK21/UbmjwA++RNImCcO4WWNg5v
- r3/g5VFEfwXlkA54xz1wBGGqA1Z5l9vJCCG/XX0lO5BtqZRXnZgloKiubx8CiH/CMnyI
- w1bmc36+Ch+AMDJNg5FyMeNSI75bBeYwEfyqCUVmz58LRT4pW4oURnHqaiFOaZUAjZyt
- OHH/fc3RQjfurBXSal7ajAEjHyYFR27Nx8wxWG8f6P5JmheyvzAfklG+X+7i5csGj1Cc
- bO1ZDsdGxqY0vKYdtdfuFkAaOArysKjhvJ2Pcqpxnr2otPd3h7rJFAzQ4Jtx/dU4Wezz
- +Oeg==
-X-Gm-Message-State: APjAAAXjuB+mQDPChRkIZ6Z3z7Yon+OdLoTF2r4UrqNfIU8DwTHk/8Qe
- cvRVia2B4QgLvPdvaiRxy8TR6iHRZ0U=
-X-Google-Smtp-Source: APXvYqygZJydYDmTMun8JMuX9GYEqcz2fjHLLuzygYA1CANWOV3veLqdNokKHvZB9EImAaWBoE+N/g==
-X-Received: by 2002:a65:434c:: with SMTP id k12mr35412626pgq.141.1571080505338; 
- Mon, 14 Oct 2019 12:15:05 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d19sm16638408pjz.5.2019.10.14.12.15.04
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Oct 2019 12:15:04 -0700 (PDT)
-Subject: Re: [PATCH v6 18/20] target/arm: Rebuild hflags at CPSR writes
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org
-References: <20191011155546.14342-1-richard.henderson@linaro.org>
- <20191011155546.14342-19-richard.henderson@linaro.org>
- <875zkrm9gg.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <1aa62e90-6915-c0e6-7a8e-22308ee48f0d@linaro.org>
-Date: Mon, 14 Oct 2019 12:15:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <jsnow@redhat.com>) id 1iK621-0001st-IF
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:29:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38710)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1iK61w-0001Vp-AQ; Mon, 14 Oct 2019 15:29:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CFDAB10C0938;
+ Mon, 14 Oct 2019 19:29:18 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-152.bos.redhat.com [10.18.17.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BEC860BE2;
+ Mon, 14 Oct 2019 19:29:09 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 00/19] Bitmaps patches
+Date: Mon, 14 Oct 2019 15:28:50 -0400
+Message-Id: <20191014192909.16044-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <875zkrm9gg.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Mon, 14 Oct 2019 19:29:18 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,47 +54,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/19 12:08 PM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> Continue setting, but not relying upon, env->hflags.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  target/arm/op_helper.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
->> index ccc2cecb46..b529d6c1bf 100644
->> --- a/target/arm/op_helper.c
->> +++ b/target/arm/op_helper.c
->> @@ -224,6 +224,7 @@ uint32_t HELPER(usat16)(CPUARMState *env, uint32_t x, uint32_t shift)
->>  void HELPER(setend)(CPUARMState *env)
->>  {
->>      env->uncached_cpsr ^= CPSR_E;
->> +    arm_rebuild_hflags(env);
->>  }
->>
->>  /* Function checks whether WFx (WFI/WFE) instructions are set up to be trapped.
->> @@ -387,6 +388,8 @@ uint32_t HELPER(cpsr_read)(CPUARMState *env)
->>  void HELPER(cpsr_write)(CPUARMState *env, uint32_t val, uint32_t mask)
->>  {
->>      cpsr_write(env, val, mask, CPSRWriteByInstr);
->> +    /* TODO: Not all cpsr bits are relevant to hflags.  */
-> 
-> Do you mean by this we could check which bits changed and avoid a
-> re-compute if we wanted to? Is it likely to be anything other than the
-> SS_ACTIVE bit?
+The following changes since commit c760cb77e511eb05094df67c1b30029a952efa=
+35:
 
-Yes.  Well, there's also NZCV.  But neither case happens particularly often, so
-it's probably not worth worrying about.
+  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-2019=
+1011a' into staging (2019-10-14 16:09:52 +0100)
 
+are available in the Git repository at:
 
-r~
+  https://github.com/jnsnow/qemu.git tags/bitmaps-pull-request
+
+for you to fetch changes up to b2ca29ee390743c42a6062d44ee3b10fb51f9fa6:
+
+  dirty-bitmaps: remove deprecated autoload parameter (2019-10-14 15:28:1=
+7 -0400)
+
+----------------------------------------------------------------
+Pull request
+
+----------------------------------------------------------------
+
+John Snow (2):
+  MAINTAINERS: Add Vladimir as a reviewer for bitmaps
+  dirty-bitmaps: remove deprecated autoload parameter
+
+Vladimir Sementsov-Ogievskiy (17):
+  util/hbitmap: strict hbitmap_reset
+  block: move bdrv_can_store_new_dirty_bitmap to block/dirty-bitmap.c
+  block/dirty-bitmap: return int from
+    bdrv_remove_persistent_dirty_bitmap
+  block/qcow2: proper locking on bitmap add/remove paths
+  block/dirty-bitmap: drop meta
+  block/dirty-bitmap: add bs link
+  block/dirty-bitmap: drop BdrvDirtyBitmap.mutex
+  block/dirty-bitmap: refactor bdrv_dirty_bitmap_next
+  block: switch reopen queue from QSIMPLEQ to QTAILQ
+  block: reverse order for reopen commits
+  iotests: add test-case to 165 to test reopening qcow2 bitmaps to RW
+  block/qcow2-bitmap: get rid of bdrv_has_changed_persistent_bitmaps
+  block/qcow2-bitmap: drop qcow2_reopen_bitmaps_rw_hint()
+  block/qcow2-bitmap: do not remove bitmaps on reopen-ro
+  iotests: add test 260 to check bitmap life after snapshot + commit
+  block/qcow2-bitmap: fix and improve qcow2_reopen_bitmaps_rw
+  qcow2-bitmap: move bitmap reopen-rw code to qcow2_reopen_commit
+
+ qemu-deprecated.texi           |  20 ++-
+ qapi/block-core.json           |   6 +-
+ block/qcow2.h                  |  19 +--
+ include/block/block.h          |   2 +-
+ include/block/block_int.h      |  20 +--
+ include/block/dirty-bitmap.h   |  34 ++--
+ include/qemu/hbitmap.h         |   5 +
+ block.c                        |  79 +++------
+ block/backup.c                 |   8 +-
+ block/block-copy.c             |   2 +-
+ block/dirty-bitmap.c           | 290 +++++++++++++++++++--------------
+ block/mirror.c                 |   4 +-
+ block/qcow2-bitmap.c           | 212 +++++++++++++++---------
+ block/qcow2.c                  |  22 ++-
+ blockdev.c                     |  40 ++---
+ migration/block-dirty-bitmap.c |  11 +-
+ migration/block.c              |   4 +-
+ tests/test-hbitmap.c           |   2 +-
+ util/hbitmap.c                 |   4 +
+ MAINTAINERS                    |   3 +-
+ tests/qemu-iotests/165         |  57 ++++++-
+ tests/qemu-iotests/165.out     |   4 +-
+ tests/qemu-iotests/260         |  89 ++++++++++
+ tests/qemu-iotests/260.out     |  52 ++++++
+ tests/qemu-iotests/group       |   1 +
+ 25 files changed, 623 insertions(+), 367 deletions(-)
+ create mode 100755 tests/qemu-iotests/260
+ create mode 100644 tests/qemu-iotests/260.out
+
+--=20
+2.21.0
+
 
