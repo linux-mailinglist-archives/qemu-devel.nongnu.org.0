@@ -2,55 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA55D5DB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 10:43:24 +0200 (CEST)
-Received: from localhost ([::1]:45758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D851D5DCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 10:48:10 +0200 (CEST)
+Received: from localhost ([::1]:45790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJvwo-0001z7-Ug
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 04:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55561)
+	id 1iJw1R-0003lc-6L
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 04:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iJvvq-0001Z5-LO
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 04:42:23 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iJvzG-000389-DZ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 04:45:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iJvvo-0005xJ-UU
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 04:42:22 -0400
-Resent-Date: Mon, 14 Oct 2019 04:42:22 -0400
-Resent-Message-Id: <E1iJvvo-0005xJ-UU@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21404)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iJvvo-0005wO-NA; Mon, 14 Oct 2019 04:42:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1571042511; cv=none; d=zoho.com; s=zohoarc; 
- b=KMsJcEXD1kWQlsB7B9sdt2olp6Yw+f2FvqMcFzYC7kstW2PZWdyEylc+sNuYamVU+YS2DGCm4gBuwOSIK5sEKvkZJdkIih7ly3Ff5KsTziCm8+B3YRP2XQIpbvf2jWZm/LP3wM/r3bY0JqdcpnPmdNCK6GYYZ4Wc30fEPSRI4wM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1571042511;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=GwlAqQkXnXbsdJEa8FIFmrLpWcmYSBMi45OHiDHcrS4=; 
- b=ZqnGTsyUAyLTQMPYT6fh+SFVrYiu7nZcvZu6mm+R+cgUnARio7sxjHD23iKuLu2OCcrS1ngH/H1Ag/5zsEt41W5S1EL3KDB5nOfMIuoTwC66sFFqNiqHU44gwO3M09hkT5DAhNlRZg8BjW7269U4LNeNWJdeepLbOSMiH6Lj/6Y=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1571042508494902.5391177133597;
- Mon, 14 Oct 2019 01:41:48 -0700 (PDT)
-In-Reply-To: <20191014081545.29694-1-berto@igalia.com>
-Subject: Re: [PATCH v2] block: Reject misaligned write requests with
- BDRV_REQ_NO_FALLBACK
-Message-ID: <157104250708.31500.17641159477782057221@37313f22b938>
+ (envelope-from <mreitz@redhat.com>) id 1iJvzD-0008EN-0f
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 04:45:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46634)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iJvz6-00084e-EB; Mon, 14 Oct 2019 04:45:44 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 441133082145;
+ Mon, 14 Oct 2019 08:45:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-165.ams2.redhat.com
+ [10.36.117.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08A295D6A7;
+ Mon, 14 Oct 2019 08:45:40 +0000 (UTC)
+Subject: Re: [PATCH v3 07/16] qcow2: Write v3-compliant snapshot list on
+ upgrade
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20191011152814.14791-1-mreitz@redhat.com>
+ <20191011152814.14791-8-mreitz@redhat.com>
+ <a9263c74-f958-5859-9db3-a67aefe73ff5@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <085c7aec-edd7-79bd-136f-5a3785a5d430@redhat.com>
+Date: Mon, 14 Oct 2019 10:45:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berto@igalia.com
-Date: Mon, 14 Oct 2019 01:41:48 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <a9263c74-f958-5859-9db3-a67aefe73ff5@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="D1fQ9ySsE0UKa7gZMEVjONSHmYPtQz3WM"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Mon, 14 Oct 2019 08:45:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.54
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,45 +87,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, anton.nefedov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- nsoffer@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTAxNDA4MTU0NS4yOTY5
-NC0xLWJlcnRvQGlnYWxpYS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
-ZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
-bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
-IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1h
-Z2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZlZG9y
-YSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAgIGJsb2Nr
-L3FlZC10YWJsZS5vCiAgQ0MgICAgICBibG9jay9xZWQtY2x1c3Rlci5vCiAgQ0MgICAgICBibG9j
-ay9xZWQtY2hlY2subwptYWtlOiAqKiogW01ha2VmaWxlOjk5NDogZG9jcy9pbnRlcm9wL2luZGV4
-Lmh0bWxdIEVycm9yIDIKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4K
-ICBDQyAgICAgIGJsb2NrL3ZoZHgubwpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6
-Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vz
-cy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAn
-cnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD01ZTNjOWNlYjBkMGU0OGYx
-YjdmZGFlZTMyYmZiZDJjMicsICctdScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2Nv
-bXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRS
-QV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJV
-Rz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hl
-JywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90
-bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXRfc2d4cHp0
-L3NyYy9kb2NrZXItc3JjLjIwMTktMTAtMTQtMDQuMzkuNTMuMTY2NTk6L3Zhci90bXAvcWVtdTp6
-LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtbWluZ3cnXScg
-cmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNv
-bS5xZW11Lmluc3RhbmNlLnV1aWQ9NWUzYzljZWIwZDBlNDhmMWI3ZmRhZWUzMmJmYmQyYzIKbWFr
-ZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5
-IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtdF9zZ3hwenQvc3JjJwptYWtlOiAqKiogW2Rv
-Y2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgMW01My42OTdzCnVz
-ZXIgICAgMG03LjQxMXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
-aGV3Lm9yZy9sb2dzLzIwMTkxMDE0MDgxNTQ1LjI5Njk0LTEtYmVydG9AaWdhbGlhLmNvbS90ZXN0
-aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
-ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
-IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--D1fQ9ySsE0UKa7gZMEVjONSHmYPtQz3WM
+Content-Type: multipart/mixed; boundary="I1YuivWm28i89R4YYbgp2TwXGOd6mvkPq"
 
+--I1YuivWm28i89R4YYbgp2TwXGOd6mvkPq
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 11.10.19 18:23, Eric Blake wrote:
+> On 10/11/19 10:28 AM, Max Reitz wrote:
+>> qcow2 v3 requires every snapshot table entry to have two extra data
+>> fields: The 64-bit VM state size, and the virtual disk size.=C2=A0 Bot=
+h are
+>> optional for v2 images, so they may not be present.
+>>
+>> qcow2_upgrade() therefore should update the snapshot table to ensure a=
+ll
+>> entries have these extra data fields.
+>>
+>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1727347
+>> Reported-by: Eric Blake <eblake@redhat.com>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> ---
+>> =C2=A0 block/qcow2.c | 32 ++++++++++++++++++++++++++++++--
+>> =C2=A0 1 file changed, 30 insertions(+), 2 deletions(-)
+>>
+>=20
+>> +=C2=A0=C2=A0=C2=A0 need_snapshot_update =3D false;
+>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < s->nb_snapshots; i++) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->snapshots[i].extra_=
+data_size <
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 si=
+zeof_field(QCowSnapshotExtraData, vm_state_size_large) +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 si=
+zeof_field(QCowSnapshotExtraData, disk_size))
+>=20
+> Shorter as:
+> if (s->snapshots[i].extra_data_size < sizeof(QCowSnapshotExtraData))
+>=20
+> but that's stylistic, so R-b still stands.
+
+Yes, but if we ever add fields to QCowSnapshotExtraData, we shouldn=E2=80=
+=99t
+count them here.  Therefore, I think we need to count exactly the fields
+that the standard says are mandatory in v3.
+
+Max
+
+
+--I1YuivWm28i89R4YYbgp2TwXGOd6mvkPq--
+
+--D1fQ9ySsE0UKa7gZMEVjONSHmYPtQz3WM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2kNbMACgkQ9AfbAGHV
+z0CZzQgAqbxjYpPmOpwWDEUQ9nsArRtKDXRdT1iV+Yr+1BO/c1iaVb87dcn4EFhL
+W2lAaTTRjaIs7Bu06/pJtacAvtWR/clCKZHKl1sa9ok+F5HFVxe3GR+nSsysatgs
+6jkz3yx+pWZ7443yaV1nzYCe9gzpFLfVVUgiwxNb43FQ6fiWnQh23FYSxDLnW/eb
+G0qHq+tFQSvcuKyync5XA38jDOqbH3bugMdQ42NKZX7i5/Y3xM1YVJpOLZB+TdS0
+CGtj3ubM0gshl6TTu37ugYDKQlebrM1Gy0p2MYqqr5Kek8StneHooSdH4TjFHKWV
+Xz5D6wni0FMwuxKuM7WnukwrNgdZqg==
+=Npe/
+-----END PGP SIGNATURE-----
+
+--D1fQ9ySsE0UKa7gZMEVjONSHmYPtQz3WM--
 
