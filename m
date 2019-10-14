@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DD3D67A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:49:41 +0200 (CEST)
-Received: from localhost ([::1]:53656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B326D679A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:45:17 +0200 (CEST)
+Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3XQ-0000uT-0S
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37387)
+	id 1iK3T9-0004T8-Au
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qj-0005EM-66
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2ql-0005Id-WB
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qh-00088I-By
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:33 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36486)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qj-00089a-Do
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:35 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37682)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qh-00087x-4T
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:31 -0400
-Received: by mail-wm1-x344.google.com with SMTP id m18so17318994wmc.1
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:31 -0700 (PDT)
+ id 1iK2qj-00088Z-6h
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:33 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id p14so20382536wro.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lR7JPqBiPFTeth0ID+Afs9r8RzOrtrvYkIMiIfP7pIQ=;
- b=bmUGG7ccvtC3feXcDfDgz9nxeGRlJqdWiO/wpC+244PGrMp3pJRFzFLF7PH2Z6ZjlB
- rmHcICtbImDcepl9RoJ38BGR3ZfgUuMfkE8tiJHFEF6UDO+igo9gLuvyeggS47wcqjFU
- gBs6+ybtU2tWNi/FaUM/yX9CFra46AExPXjLiN2nW+eiESQyx1xLFT5yscgsRpNaAVei
- V89VFHV385/VthtA19L2Xs0/C8u1NpPMfQ/fuSRMyu/6+YR6KctDan2EUqKoqG9FkbIn
- TwbvP/UuwWZjubnxk6wSB4DN37b5MkVGAwguraDqwsj5PAod2bHYHHnrOJGlGFYpPTw7
- 9tVA==
+ bh=vP5GcYuUE/pjFlJ1lHMM9Tj7/XDRmZl7iSdxbfoBULU=;
+ b=IawZ/1jHhf+PIor81+rbQZyJRuxezJJesef1df1fpTP7BLt/iaIYC+BXJy3ya2enzj
+ Qy8JrHQy5HnhcQJYos0ltNW76TT1xV7tdhMjw6UuYg3JooYfiL736fsH35xl3uyROUdc
+ afT4bWOMqrhRh9ubNgHvZg/BC/SjbLpXTmmGUZcW2MWOxYFw0a1pkJW76J0rPqT4heoN
+ lucnDFIIPDN0nuPK7KflJWEzyhvfzBVvvGAki7nbVjFQ/Ss+SxMApXJ8AiOS31A5+ncS
+ WTxBe80yuOn7E1W1Ljm4N7ug8z/QOVF+4TM1s95l+TbEzS+asr2Q3r7rAMTxo1uAEazy
+ y2+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lR7JPqBiPFTeth0ID+Afs9r8RzOrtrvYkIMiIfP7pIQ=;
- b=cory6UmbQdiXZFYuXe1eiTjvNSeUGgjy+HdbIbErUcZ7TfFK2rVvrM8R5t/trvYTpi
- 02fQlCEoblKvrc3Sry2/iIERkNe7+FKn/la89ct319PIXsyGlc/L1oXTqYFnY255DsmB
- cwb3MVW0R/sOnKFEW7HZD5VuZOaiQ0Ujh7PB1pTpLChIci8tsNfCudJHJ7pOcbz1U/QB
- LMzAxYCGclKWm44TqFfN6pBTbMcRljX2vE9bReLu2ObxXACy3Q2gLhB2u7AydQl/NGRj
- Gg47AfUN/d9JIJmw7oH81ffzcHzd2zQMLYqxp5D4DZQv9s5gSfFaN8DS78MqDjmDj7lv
- OwlQ==
-X-Gm-Message-State: APjAAAWRfWO91k4sV7p1OxJGHrKXW6oC0OWrYsIh4aWrS13ADnqRlnVl
- 5phFC9ZsxuzUQ6oY+Co5LcfNDjcrov640A==
-X-Google-Smtp-Source: APXvYqz1uHenNnrnUnrZUwmLO3+k4DbszJ2BOEF5c1ritjNSe+RHqXAWgfLu+RddBFAag8BbWUiJEQ==
-X-Received: by 2002:a1c:4386:: with SMTP id q128mr16485221wma.39.1571069129756; 
- Mon, 14 Oct 2019 09:05:29 -0700 (PDT)
+ bh=vP5GcYuUE/pjFlJ1lHMM9Tj7/XDRmZl7iSdxbfoBULU=;
+ b=dtLg+cQpJ13lMJpSoVxXwQIilZfGtbA2Lu0K6ZO+EJN/2P/RQO8U8Das1wVVmfCcB+
+ XV+al9yCHjUIU5jpB2G0puioFL4UxclzhiaCYPCnvCzVsmlEbQ8dPzvy5h4MWi2p157n
+ RfUek0KATbzYdOgN0dzIERF/Dq2JsvnnCMxD3qHe8KMupAtx3WIzebX+7ut8WDr9hFZ7
+ A1veYeus1SQ0MDuWplT8uMn8AfuoNiM4g2E1xQ5sXOWsFx7RrxnuujaMtcW7Tsw7RSpf
+ eIVNvSupmDV4Lm5eF1/OxA5uaUDFBXG0N4ggAqe7Z5Q5YE8onW1yhymheKpTDRYdkORW
+ wpPg==
+X-Gm-Message-State: APjAAAVNZRGuwjkuUp37g/teibkMRilW9V1pI2aqhL+KXaAomUTOsUvm
+ CptPQGLSK64lMfPc2xMtpJDkNqsgoyyxPA==
+X-Google-Smtp-Source: APXvYqx2qtoS0H9K5lmCVcCnLYweqQpflsTuary7rKQ7g1S6+Br6/uEMC3hDbpKKy6nMt1MotLDCrg==
+X-Received: by 2002:adf:e2c5:: with SMTP id d5mr12606072wrj.283.1571069130845; 
+ Mon, 14 Oct 2019 09:05:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.28
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:28 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 53/68] hw/gpio: Add in AST2600 specific implementation
-Date: Mon, 14 Oct 2019 17:03:49 +0100
-Message-Id: <20191014160404.19553-54-peter.maydell@linaro.org>
+Subject: [PULL 54/68] aspeed/i2c: Introduce an object class per SoC
+Date: Mon, 14 Oct 2019 17:03:50 +0100
+Message-Id: <20191014160404.19553-55-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,228 +82,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rashmica Gupta <rashmica.g@gmail.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-The AST2600 has the same sets of 3.6v gpios as the AST2400 plus an
-addtional two sets of 1.8V gpios.
+It prepares ground for register differences between SoCs.
 
-Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Acked-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-15-clg@kaod.org
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20190925143248.10000-16-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/gpio/aspeed_gpio.c | 142 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 137 insertions(+), 5 deletions(-)
+ include/hw/i2c/aspeed_i2c.h | 15 ++++++++++
+ hw/arm/aspeed_soc.c         |  3 +-
+ hw/i2c/aspeed_i2c.c         | 60 ++++++++++++++++++++++++++++++++-----
+ 3 files changed, 69 insertions(+), 9 deletions(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 25fbfec3b84..196e47c2628 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -169,6 +169,48 @@
- #define GPIO_3_6V_MEM_SIZE         0x1F0
- #define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index a2753f0bbba..6e2dae7db81 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -25,6 +25,8 @@
+ #include "hw/sysbus.h"
  
-+/* AST2600 only - 1.8V gpios */
-+/*
-+ * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x198)
-+ * and addtional 1.8V gpios (memory offsets 0x800-0x9D4).
-+ */
-+#define GPIO_1_8V_REG_OFFSET          0x800
-+#define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DIRECTION      ((0x804 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_ENABLE     ((0x808 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_0     ((0x80C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_1     ((0x810 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_SENS_2     ((0x814 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INT_STATUS     ((0x818 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_RESET_TOLERANT ((0x81C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DATA_VALUE        ((0x820 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DIRECTION         ((0x824 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_ENABLE        ((0x828 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_SENS_0        ((0x82C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_SENS_1        ((0x830 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_SENS_2        ((0x834 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INT_STATUS        ((0x838 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_RESET_TOLERANT    ((0x83C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DEBOUNCE_1     ((0x840 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DEBOUNCE_2     ((0x844 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DEBOUNCE_1        ((0x848 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DEBOUNCE_2        ((0x84C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_1     ((0x850 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_2     ((0x854 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_DEBOUNCE_TIME_3     ((0x858 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_COMMAND_SRC_0  ((0x860 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_COMMAND_SRC_1  ((0x864 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_COMMAND_SRC_0     ((0x868 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_COMMAND_SRC_1     ((0x86C - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_DATA_READ      ((0x8C0 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_DATA_READ         ((0x8C4 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_ABCD_INPUT_MASK     ((0x9D0 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_E_INPUT_MASK        ((0x9D4 - GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_1_8V_MEM_SIZE            0x9D8
-+#define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
-+                                      GPIO_1_8V_REG_OFFSET) >> 2)
-+#define GPIO_MAX_MEM_SIZE           MAX(GPIO_3_6V_MEM_SIZE, GPIO_1_8V_MEM_SIZE)
+ #define TYPE_ASPEED_I2C "aspeed.i2c"
++#define TYPE_ASPEED_2400_I2C TYPE_ASPEED_I2C "-ast2400"
++#define TYPE_ASPEED_2500_I2C TYPE_ASPEED_I2C "-ast2500"
+ #define ASPEED_I2C(obj) \
+     OBJECT_CHECK(AspeedI2CState, (obj), TYPE_ASPEED_I2C)
+ 
+@@ -59,6 +61,19 @@ typedef struct AspeedI2CState {
+     AspeedI2CBus busses[ASPEED_I2C_NR_BUSSES];
+ } AspeedI2CState;
+ 
++#define ASPEED_I2C_CLASS(klass) \
++     OBJECT_CLASS_CHECK(AspeedI2CClass, (klass), TYPE_ASPEED_I2C)
++#define ASPEED_I2C_GET_CLASS(obj) \
++     OBJECT_GET_CLASS(AspeedI2CClass, (obj), TYPE_ASPEED_I2C)
 +
- static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high, int gpio)
++typedef struct AspeedI2CClass {
++    SysBusDeviceClass parent_class;
++
++    uint8_t num_busses;
++    uint8_t reg_size;
++    uint8_t gap;
++} AspeedI2CClass;
++
+ I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr);
+ 
+ #endif /* ASPEED_I2C_H */
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 5c5fcb81094..e60f198d92c 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -188,8 +188,9 @@ static void aspeed_soc_init(Object *obj)
+     object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
+                                    OBJECT(&s->scu), &error_abort);
+ 
++    snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+     sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
+-                          TYPE_ASPEED_I2C);
++                          typename);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
+     sysbus_init_child_obj(obj, "fmc", OBJECT(&s->fmc), sizeof(s->fmc),
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index a956eb38492..fabdb01e974 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -408,10 +408,11 @@ static void aspeed_i2c_reset(DeviceState *dev)
  {
-     uint32_t falling_edge = 0, rising_edge = 0;
-@@ -465,6 +507,39 @@ static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] = {
-     [GPIO_AC_INPUT_MASK] =         { 7, gpio_reg_input_mask },
- };
+     int i;
+     AspeedI2CState *s = ASPEED_I2C(dev);
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
  
-+static const AspeedGPIOReg aspeed_1_8v_gpios[GPIO_1_8V_REG_ARRAY_SIZE] = {
-+    /* 1.8V Set ABCD */
-+    [GPIO_1_8V_ABCD_DATA_VALUE] =     {0, gpio_reg_data_value},
-+    [GPIO_1_8V_ABCD_DIRECTION] =      {0, gpio_reg_direction},
-+    [GPIO_1_8V_ABCD_INT_ENABLE] =     {0, gpio_reg_int_enable},
-+    [GPIO_1_8V_ABCD_INT_SENS_0] =     {0, gpio_reg_int_sens_0},
-+    [GPIO_1_8V_ABCD_INT_SENS_1] =     {0, gpio_reg_int_sens_1},
-+    [GPIO_1_8V_ABCD_INT_SENS_2] =     {0, gpio_reg_int_sens_2},
-+    [GPIO_1_8V_ABCD_INT_STATUS] =     {0, gpio_reg_int_status},
-+    [GPIO_1_8V_ABCD_RESET_TOLERANT] = {0, gpio_reg_reset_tolerant},
-+    [GPIO_1_8V_ABCD_DEBOUNCE_1] =     {0, gpio_reg_debounce_1},
-+    [GPIO_1_8V_ABCD_DEBOUNCE_2] =     {0, gpio_reg_debounce_2},
-+    [GPIO_1_8V_ABCD_COMMAND_SRC_0] =  {0, gpio_reg_cmd_source_0},
-+    [GPIO_1_8V_ABCD_COMMAND_SRC_1] =  {0, gpio_reg_cmd_source_1},
-+    [GPIO_1_8V_ABCD_DATA_READ] =      {0, gpio_reg_data_read},
-+    [GPIO_1_8V_ABCD_INPUT_MASK] =     {0, gpio_reg_input_mask},
-+    /* 1.8V Set E */
-+    [GPIO_1_8V_E_DATA_VALUE] =     {1, gpio_reg_data_value},
-+    [GPIO_1_8V_E_DIRECTION] =      {1, gpio_reg_direction},
-+    [GPIO_1_8V_E_INT_ENABLE] =     {1, gpio_reg_int_enable},
-+    [GPIO_1_8V_E_INT_SENS_0] =     {1, gpio_reg_int_sens_0},
-+    [GPIO_1_8V_E_INT_SENS_1] =     {1, gpio_reg_int_sens_1},
-+    [GPIO_1_8V_E_INT_SENS_2] =     {1, gpio_reg_int_sens_2},
-+    [GPIO_1_8V_E_INT_STATUS] =     {1, gpio_reg_int_status},
-+    [GPIO_1_8V_E_RESET_TOLERANT] = {1, gpio_reg_reset_tolerant},
-+    [GPIO_1_8V_E_DEBOUNCE_1] =     {1, gpio_reg_debounce_1},
-+    [GPIO_1_8V_E_DEBOUNCE_2] =     {1, gpio_reg_debounce_2},
-+    [GPIO_1_8V_E_COMMAND_SRC_0] =  {1, gpio_reg_cmd_source_0},
-+    [GPIO_1_8V_E_COMMAND_SRC_1] =  {1, gpio_reg_cmd_source_1},
-+    [GPIO_1_8V_E_DATA_READ] =      {1, gpio_reg_data_read},
-+    [GPIO_1_8V_E_INPUT_MASK] =     {1, gpio_reg_input_mask},
-+};
-+
- static uint64_t aspeed_gpio_read(void *opaque, hwaddr offset, uint32_t size)
- {
-     AspeedGPIOState *s = ASPEED_GPIO(opaque);
-@@ -663,8 +738,11 @@ static void aspeed_gpio_get_pin(Object *obj, Visitor *v, const char *name,
-     int set_idx, group_idx = 0;
+     s->intr_status = 0;
  
-     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
--        error_setg(errp, "%s: error reading %s", __func__, name);
--        return;
-+        /* 1.8V gpio */
-+        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
-+            error_setg(errp, "%s: error reading %s", __func__, name);
-+            return;
-+        }
-     }
-     set_idx = get_set_idx(s, group, &group_idx);
-     if (set_idx == -1) {
-@@ -692,8 +770,11 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor *v, const char *name,
-         return;
-     }
-     if (sscanf(name, "gpio%2[A-Z]%1d", group, &pin) != 2) {
--        error_setg(errp, "%s: error reading %s", __func__, name);
--        return;
-+        /* 1.8V gpio */
-+        if (sscanf(name, "gpio%3s%1d", group, &pin) != 2) {
-+            error_setg(errp, "%s: error reading %s", __func__, name);
-+            return;
-+        }
-     }
-     set_idx = get_set_idx(s, group, &group_idx);
-     if (set_idx == -1) {
-@@ -726,6 +807,21 @@ static const GPIOSetProperties ast2500_set_props[] = {
-     [7] = {0x000000ff,  0x000000ff,  {"AC"} },
- };
+-    for (i = 0; i < ASPEED_I2C_NR_BUSSES; i++) {
++    for (i = 0; i < aic->num_busses; i++) {
+         s->busses[i].intr_ctrl = 0;
+         s->busses[i].intr_status = 0;
+         s->busses[i].cmd = 0;
+@@ -421,7 +422,7 @@ static void aspeed_i2c_reset(DeviceState *dev)
+ }
  
-+static GPIOSetProperties ast2600_3_6v_set_props[] = {
-+    [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-+    [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-+    [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-+    [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
-+    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
-+    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
-+    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
-+};
-+
-+static GPIOSetProperties ast2600_1_8v_set_props[] = {
-+    [0] = {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
-+    [1] = {0x0000000f,  0x0000000f,  {"18E"} },
-+};
-+
- static const MemoryRegionOps aspeed_gpio_ops = {
-     .read       = aspeed_gpio_read,
-     .write      = aspeed_gpio_write,
-@@ -758,7 +854,7 @@ static void aspeed_gpio_realize(DeviceState *dev, Error **errp)
-     }
+ /*
+- * Address Definitions
++ * Address Definitions (AST2400 and AST2500)
+  *
+  *   0x000 ... 0x03F: Global Register
+  *   0x040 ... 0x07F: Device 1
+@@ -446,22 +447,24 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
+     int i;
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedI2CState *s = ASPEED_I2C(dev);
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
  
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
--            TYPE_ASPEED_GPIO, GPIO_3_6V_MEM_SIZE);
-+            TYPE_ASPEED_GPIO, GPIO_MAX_MEM_SIZE);
- 
+     sysbus_init_irq(sbd, &s->irq);
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_i2c_ctrl_ops, s,
+                           "aspeed.i2c", 0x1000);
      sysbus_init_mmio(sbd, &s->iomem);
- }
-@@ -851,6 +947,26 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-     agc->reg_table = aspeed_3_6v_gpios;
- }
  
-+static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void *data)
-+{
-+    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
+-    for (i = 0; i < ASPEED_I2C_NR_BUSSES; i++) {
+-        char name[16];
+-        int offset = i < 7 ? 1 : 5;
++    for (i = 0; i < aic->num_busses; i++) {
++        char name[32];
++        int offset = i < aic->gap ? 1 : 5;
+         snprintf(name, sizeof(name), "aspeed.i2c.%d", i);
+         s->busses[i].controller = s;
+         s->busses[i].id = i;
+         s->busses[i].bus = i2c_init_bus(dev, name);
+         memory_region_init_io(&s->busses[i].mr, OBJECT(dev),
+-                              &aspeed_i2c_bus_ops, &s->busses[i], name, 0x40);
+-        memory_region_add_subregion(&s->iomem, 0x40 * (i + offset),
++                              &aspeed_i2c_bus_ops, &s->busses[i], name,
++                              aic->reg_size);
++        memory_region_add_subregion(&s->iomem, aic->reg_size * (i + offset),
+                                     &s->busses[i].mr);
+     }
+ }
+@@ -481,11 +484,51 @@ static const TypeInfo aspeed_i2c_info = {
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(AspeedI2CState),
+     .class_init    = aspeed_i2c_class_init,
++    .class_size = sizeof(AspeedI2CClass),
++    .abstract   = true,
++};
 +
-+    agc->props = ast2600_3_6v_set_props;
-+    agc->nr_gpio_pins = 208;
-+    agc->nr_gpio_sets = 7;
-+    agc->reg_table = aspeed_3_6v_gpios;
++static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedI2CClass *aic = ASPEED_I2C_CLASS(klass);
++
++    dc->desc = "ASPEED 2400 I2C Controller";
++
++    aic->num_busses = 14;
++    aic->reg_size = 0x40;
++    aic->gap = 7;
 +}
 +
-+static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-+{
-+    AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
++static const TypeInfo aspeed_2400_i2c_info = {
++    .name = TYPE_ASPEED_2400_I2C,
++    .parent = TYPE_ASPEED_I2C,
++    .class_init = aspeed_2400_i2c_class_init,
++};
 +
-+    agc->props = ast2600_1_8v_set_props;
-+    agc->nr_gpio_pins = 36;
-+    agc->nr_gpio_sets = 2;
-+    agc->reg_table = aspeed_1_8v_gpios;
++static void aspeed_2500_i2c_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedI2CClass *aic = ASPEED_I2C_CLASS(klass);
++
++    dc->desc = "ASPEED 2500 I2C Controller";
++
++    aic->num_busses = 14;
++    aic->reg_size = 0x40;
++    aic->gap = 7;
 +}
 +
- static const TypeInfo aspeed_gpio_info = {
-     .name           = TYPE_ASPEED_GPIO,
-     .parent         = TYPE_SYS_BUS_DEVICE,
-@@ -874,11 +990,27 @@ static const TypeInfo aspeed_gpio_ast2500_info = {
-     .instance_init  = aspeed_gpio_init,
++static const TypeInfo aspeed_2500_i2c_info = {
++    .name = TYPE_ASPEED_2500_I2C,
++    .parent = TYPE_ASPEED_I2C,
++    .class_init = aspeed_2500_i2c_class_init,
  };
  
-+static const TypeInfo aspeed_gpio_ast2600_3_6v_info = {
-+    .name           = TYPE_ASPEED_GPIO "-ast2600",
-+    .parent         = TYPE_ASPEED_GPIO,
-+    .class_init     = aspeed_gpio_ast2600_3_6v_class_init,
-+    .instance_init  = aspeed_gpio_init,
-+};
-+
-+static const TypeInfo aspeed_gpio_ast2600_1_8v_info = {
-+    .name           = TYPE_ASPEED_GPIO "-ast2600-1_8v",
-+    .parent         = TYPE_ASPEED_GPIO,
-+    .class_init     = aspeed_gpio_ast2600_1_8v_class_init,
-+    .instance_init  = aspeed_gpio_init,
-+};
-+
- static void aspeed_gpio_register_types(void)
+ static void aspeed_i2c_register_types(void)
  {
-     type_register_static(&aspeed_gpio_info);
-     type_register_static(&aspeed_gpio_ast2400_info);
-     type_register_static(&aspeed_gpio_ast2500_info);
-+    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
-+    type_register_static(&aspeed_gpio_ast2600_1_8v_info);
+     type_register_static(&aspeed_i2c_info);
++    type_register_static(&aspeed_2400_i2c_info);
++    type_register_static(&aspeed_2500_i2c_info);
  }
  
- type_init(aspeed_gpio_register_types);
+ type_init(aspeed_i2c_register_types)
+@@ -494,9 +537,10 @@ type_init(aspeed_i2c_register_types)
+ I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr)
+ {
+     AspeedI2CState *s = ASPEED_I2C(dev);
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
+     I2CBus *bus = NULL;
+ 
+-    if (busnr >= 0 && busnr < ASPEED_I2C_NR_BUSSES) {
++    if (busnr >= 0 && busnr < aic->num_busses) {
+         bus = s->busses[busnr].bus;
+     }
+ 
 -- 
 2.20.1
 
