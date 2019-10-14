@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A34D6194
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:44:24 +0200 (CEST)
-Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1E6D619A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:46:05 +0200 (CEST)
+Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJylz-0000I0-O2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46887)
+	id 1iJync-0001Ik-Sz
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iJyCC-00087A-5q
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:07:25 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iJyC8-00081p-WB
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:07:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iJyC9-0007hu-QU
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:07:24 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44288)
+ (envelope-from <alex.bennee@linaro.org>) id 1iJyC7-0007eJ-0w
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:07:20 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34882)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iJyC9-0007gW-Jf
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:07:21 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id z9so19189819wrl.11
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 04:07:21 -0700 (PDT)
+ id 1iJyC6-0007dM-Q4
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:07:18 -0400
+Received: by mail-wr1-x441.google.com with SMTP id v8so19217095wrt.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 04:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NcM2OW8hOZLGEmTgGaT1ah5hV9uWmpQOgbN08Bz7RB0=;
- b=Rg5GYxxqSGji7CEHQVpbwf7H3UlExM6gUkQqFW3zFtORmZLLNYzx/s2WBKDPLD3y44
- RdTmXK9UjafVaRYzdFNWG35avRoJQj5mbzswOTj+BZ4HHOo2pQ4hZlfxsO/SKcwDmfKT
- 411x7KNfLXL+PAkfomCj+dINSaHybW1A+U5b1S0tx6KjP0Q1Nz1DRwap0NpeTUcmiIr1
- hZMQgaSPPsJVdnZrYD0b/dI5Jj54KI8pOJhAhOeHsdU5KWwgeKx0/c4EtoQzIXyCCfmt
- l6dYLgh75yZJ8V191V6lvaYhiSjB+P/Q7Tall6/a6yBuS7FqXRHWaHZ9Ie4bnH2TTfRj
- LMYQ==
+ bh=3DpqzaOrNntDkFAtLNgfVGSPKEwLzzpzG6mkI3f5/AE=;
+ b=ImaDVd7LxXydpl7pcYiPgZ1vdyAVAgbO8Q7HnjywLiP1LCYREfdymKJKMBmr9msY+c
+ sRDEuYHTtX18uefWeBvbQuD69iy9bP15FsASA+XryJLC6jkj1J6FYr5HVNOytqTcMzkQ
+ 5viDbwswTo2RbXye7hWN/Xuz95LEOfkETPAri+iSoxW9JNkt021K3C6uVWgHzqqUBjRu
+ ySkxJXtU2CbGa4AjV74Jt+KRSRdicnT+1Rpxz8J42j87clXXX2ilDPgy0aWz2L81WjTv
+ +9rxZmBX1BmgMIAm4dRAaIqi63dM3oPA/6D876ELkiH8p05Vp3/mvAWVVN/bWkAR9awR
+ WAeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NcM2OW8hOZLGEmTgGaT1ah5hV9uWmpQOgbN08Bz7RB0=;
- b=Rp2CdLhXgFg/VzfyR7TDUgLCRMb5ZdM+dO0R6YXs83Y8FbR4PqTVwn+Y64CsVelLm4
- xYmAj6FsrGqUIg0GFw+SL3UpwpERj25j0YwnNIo31iUVqaTFX8W2reQwQZwlzM2b7+xL
- do6RQQ+tYi4n0U4RQSd9WgWJ7MnJbLqLeuvLYhp3fxxUKy5jyVj75HB9vNjoxpbXilw4
- dJqsBDCwzicq2ctkBhuiCk9OsSr403gUyJOdcj27LMTu5biM4HaU8pZDN37ywN1MsOrl
- 3Z0i7FHx9b2mHTWvOnV2f+6RuSbLeKT+NlIQzJmTF8p89vR1y1rY9gqttBd30EIvvDXw
- s4pg==
-X-Gm-Message-State: APjAAAWPOrDnF4nXcoIrsZB1ymtM9NmcfhQNHyQwsCxNbnIY3QNB/ijT
- je2Kvgpi3obhAZmggq9tOUm6kTrIBhs=
-X-Google-Smtp-Source: APXvYqwzeXjN2sdR4AU15dAmAgUTaP7I8X6aDAOl/fVP/gvdgZAwhD6xCYhj6CRV9fXHaRZiLbJShA==
-X-Received: by 2002:adf:e401:: with SMTP id g1mr23688737wrm.211.1571051240373; 
- Mon, 14 Oct 2019 04:07:20 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q22sm15585251wmj.5.2019.10.14.04.07.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=3DpqzaOrNntDkFAtLNgfVGSPKEwLzzpzG6mkI3f5/AE=;
+ b=G9ZjyZDL1NPtVeGhveG4fGKgFvFUZvFPJg+iyOYIfyFu4oPimfY9Ug7gXBhDa7dFoV
+ Fj6n88nSbS/Ge9QmgOdTlnTBu3lfsJH5qkTDmBagNTjQoan6dZCoZgjzxW19QkT5zoy2
+ i0/NiOuVwCaTl2b6eV5iAd5mYETibdYCZVYZnM6OiFbDln4KWHCMtC5bIZrTMF2zVAZV
+ OXO9JxcCraCRtVyEZGBIz4WBzXgBi1miDkE3f5AZrAQTQ8QVCOE/SK6+NVNeunJfavEZ
+ R1mfIgU0DDbSM/gSkO6UWG7vcyXJM4urlpbXMOYxcVsghzX9rWkGwy/eq2b9i+vXM0c9
+ KflQ==
+X-Gm-Message-State: APjAAAVxuLsWwo6YD8J+4hb5ahaBYoHru+w1R7NK60nMxOdJE8Okhw22
+ wuQW0z3ocrAIgGfpNVswXHt3+g==
+X-Google-Smtp-Source: APXvYqxMlONgYQY22I4g+e3D6trvZYDaQbeijXv3izPRzbL7LgRgKrfchx37nFsbPjPa+zLJGIojLw==
+X-Received: by 2002:adf:ba12:: with SMTP id o18mr15204429wrg.147.1571051237648; 
  Mon, 14 Oct 2019 04:07:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h63sm31448934wmf.15.2019.10.14.04.07.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Oct 2019 04:07:16 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89A2E1FFD2;
- Mon, 14 Oct 2019 11:49:59 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 741E51FFAC;
+ Mon, 14 Oct 2019 11:50:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v5 47/55] tests/plugin: add instruction execution breakdown
-Date: Mon, 14 Oct 2019 11:49:40 +0100
-Message-Id: <20191014104948.4291-48-alex.bennee@linaro.org>
+Subject: [PATCH v5 51/55] plugins: expand the plugin_init function to include
+ an info block
+Date: Mon, 14 Oct 2019 11:49:44 +0100
+Message-Id: <20191014104948.4291-52-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,341 +88,249 @@ Cc: aaron@os.amperecomputing.com, cota@braap.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gives a break down of instruction classes and individual
-instruction types.
+This provides a limited amount of info to plugins about the guest
+system that will allow them to make some additional decisions on
+setup.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-v5
-  - add a bitmap guide to the comment ;-)
----
- tests/plugin/Makefile |   1 +
- tests/plugin/howvec.c | 303 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 304 insertions(+)
- create mode 100644 tests/plugin/howvec.c
+ include/qemu/qemu-plugin.h | 26 ++++++++++++++++++++++++--
+ plugins/loader.c           | 22 ++++++++++++++++++----
+ tests/plugin/bb.c          |  5 +++--
+ tests/plugin/empty.c       |  5 +++--
+ tests/plugin/hotblocks.c   |  5 +++--
+ tests/plugin/hotpages.c    |  5 +++--
+ tests/plugin/howvec.c      |  5 +++--
+ tests/plugin/insn.c        |  5 +++--
+ tests/plugin/mem.c         |  5 +++--
+ 9 files changed, 63 insertions(+), 20 deletions(-)
 
-diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
-index e74940eaac..3656429d46 100644
---- a/tests/plugin/Makefile
-+++ b/tests/plugin/Makefile
-@@ -11,6 +11,7 @@ NAMES += empty
- NAMES += insn
- NAMES += mem
- NAMES += hotblocks
-+NAMES += howvec
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 8b403dd615..719d7054a1 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -38,9 +38,27 @@
  
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ typedef uint64_t qemu_plugin_id_t;
+ 
++typedef struct {
++    /* string describing architecture */
++    const char *target_name;
++    /* is this a full system emulation? */
++    bool system_emulation;
++    union {
++        /*
++         * smp_vcpus may change if vCPUs can be hot-plugged, max_vcpus
++         * is the system-wide limit.
++         */
++        struct {
++            int smp_vcpus;
++            int max_vcpus;
++        } system;
++    };
++} qemu_info_t;
++
+ /**
+  * qemu_plugin_install() - Install a plugin
+  * @id: this plugin's opaque ID
++ * @info: a block describing some details about the guest
+  * @argc: number of arguments
+  * @argv: array of arguments (@argc elements)
+  *
+@@ -49,10 +67,14 @@ typedef uint64_t qemu_plugin_id_t;
+  * Note: Calling qemu_plugin_uninstall() from this function is a bug. To raise
+  * an error during install, return !0.
+  *
++ * Note: @info is only live during the call. Copy any information we
++ * want to keep.
++ *
+  * Note: @argv remains valid throughout the lifetime of the loaded plugin.
+  */
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv);
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv);
+ 
+ /*
+  * Prototypes for the various callback styles we will be registering
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 5de5cff8e3..a136a71d35 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -29,6 +29,9 @@
+ #include "hw/core/cpu.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
++#ifndef CONFIG_USER_ONLY
++#include "hw/boards.h"
++#endif
+ 
+ #include "plugin.h"
+ 
+@@ -60,7 +63,7 @@ QemuOptsList qemu_plugin_opts = {
+     },
+ };
+ 
+-typedef int (*qemu_plugin_install_func_t)(qemu_plugin_id_t, int, char **);
++typedef int (*qemu_plugin_install_func_t)(qemu_plugin_id_t, const qemu_info_t *, int, char **);
+ 
+ extern struct qemu_plugin_state plugin;
+ 
+@@ -147,7 +150,7 @@ static uint64_t xorshift64star(uint64_t x)
+     return x * UINT64_C(2685821657736338717);
+ }
+ 
+-static int plugin_load(struct qemu_plugin_desc *desc)
++static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+ {
+     qemu_plugin_install_func_t install;
+     struct qemu_plugin_ctx *ctx;
+@@ -198,7 +201,7 @@ static int plugin_load(struct qemu_plugin_desc *desc)
+     }
+     QTAILQ_INSERT_TAIL(&plugin.ctxs, ctx, entry);
+     ctx->installing = true;
+-    rc = install(ctx->id, desc->argc, desc->argv);
++    rc = install(ctx->id, info, desc->argc, desc->argv);
+     ctx->installing = false;
+     if (rc) {
+         error_report("%s: qemu_plugin_install returned error code %d",
+@@ -249,11 +252,22 @@ static void plugin_desc_free(struct qemu_plugin_desc *desc)
+ int qemu_plugin_load_list(QemuPluginList *head)
+ {
+     struct qemu_plugin_desc *desc, *next;
++    g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
++
++    info->target_name = TARGET_NAME;
++#ifndef CONFIG_USER_ONLY
++    MachineState * ms = MACHINE(qdev_get_machine());
++    info->system_emulation = true;
++    info->system.smp_vcpus = ms->smp.cpus;
++    info->system.max_vcpus = ms->smp.max_cpus;
++#else
++    info->system_emulation = false;
++#endif
+ 
+     QTAILQ_FOREACH_SAFE(desc, head, entry, next) {
+         int err;
+ 
+-        err = plugin_load(desc);
++        err = plugin_load(desc, info);
+         if (err) {
+             return err;
+         }
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index 93d25de363..4a6d6ca0bc 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -48,8 +48,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+     }
+ }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv)
+ {
+     if (argc && strcmp(argv[0], "inline") == 0) {
+         do_inline = true;
+diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
+index b141ddd0df..3f60f69027 100644
+--- a/tests/plugin/empty.c
++++ b/tests/plugin/empty.c
+@@ -21,8 +21,9 @@
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ { }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv)
+ {
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+     return 0;
+diff --git a/tests/plugin/hotblocks.c b/tests/plugin/hotblocks.c
+index a150179a5c..57bea765b3 100644
+--- a/tests/plugin/hotblocks.c
++++ b/tests/plugin/hotblocks.c
+@@ -129,8 +129,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+     }
+ }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
+ {
+     if (argc && strcmp(argv[0], "inline") == 0) {
+         do_inline = true;
+diff --git a/tests/plugin/hotpages.c b/tests/plugin/hotpages.c
+index 13ce8ffeb8..99bb4be07c 100644
+--- a/tests/plugin/hotpages.c
++++ b/tests/plugin/hotpages.c
+@@ -148,8 +148,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+     }
+ }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
+ {
+     int i;
  
 diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
-new file mode 100644
-index 0000000000..b435c6b64d
---- /dev/null
+index b435c6b64d..3b1d177ef3 100644
+--- a/tests/plugin/howvec.c
 +++ b/tests/plugin/howvec.c
-@@ -0,0 +1,303 @@
-+/*
-+ * Copyright (C) 2019, Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * How vectorised is this code?
-+ *
-+ * Attempt to measure the amount of vectorisation that has been done
-+ * on some code by counting classes of instruction. This is very much
-+ * ARM specific.
-+ *
-+ * License: GNU GPL, version 2 or later.
-+ *   See the COPYING file in the top-level directory.
-+ */
-+#include <inttypes.h>
-+#include <assert.h>
-+#include <stdlib.h>
-+#include <inttypes.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <glib.h>
-+
-+#include <qemu-plugin.h>
-+
-+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+
-+typedef enum {
-+    COUNT_CLASS,
-+    COUNT_INDIVIDUAL,
-+    COUNT_NONE
-+} CountType;
-+
-+static int limit = 50;
-+static int stdout_fd;
-+static bool do_inline;
-+static bool verbose;
-+
-+static GMutex lock;
-+static GHashTable *insns;
-+
-+typedef struct {
-+    const char *class;
-+    const char *opt;
-+    uint32_t mask;
-+    uint32_t pattern;
-+    CountType what;
-+    uint64_t count;
-+} InsnClassExecCount;
-+
-+typedef struct {
-+    char *insn;
-+    uint32_t opcode;
-+    uint64_t count;
-+    InsnClassExecCount *class;
-+} InsnExecCount;
-+
-+/*
-+ * Matchers for classes of instructions, order is important.
-+ *
-+ * Your most precise match must be before looser matches. If no match
-+ * is found in the table we can create an individual entry.
-+ *
-+ * 31..28 27..24 23..20 19..16 15..12 11..8 7..4 3..0
-+ */
-+InsnClassExecCount insn_classes[] = {
-+    /* "Reserved"" */
-+    { "  UDEF",              "udef",   0xffff0000, 0x00000000, COUNT_NONE},
-+    { "  SVE",               "sve",    0x1e000000, 0x04000000, COUNT_CLASS},
-+    { "Reserved",            "res",    0x1e000000, 0x00000000, COUNT_CLASS},
-+    /* Data Processing Immediate */
-+    { "  PCrel addr",        "pcrel",  0x1f000000, 0x10000000, COUNT_CLASS},
-+    { "  Add/Sub (imm,tags)","asit",   0x1f800000, 0x11800000, COUNT_CLASS},
-+    { "  Add/Sub (imm)",     "asi",    0x1f000000, 0x11000000, COUNT_CLASS},
-+    { "  Logical (imm)",     "logi",   0x1f800000, 0x12000000, COUNT_CLASS},
-+    { "  Move Wide (imm)",   "movwi",  0x1f800000, 0x12800000, COUNT_CLASS},
-+    { "  Bitfield",          "bitf",   0x1f800000, 0x13000000, COUNT_CLASS},
-+    { "  Extract",           "extr",   0x1f800000, 0x13800000, COUNT_CLASS},
-+    { "Data Proc Imm",       "dpri",   0x1c000000, 0x10000000, COUNT_CLASS},
-+    /* Branches */
-+    { "  Cond Branch (imm)", "cndb",   0xfe000000, 0x54000000, COUNT_CLASS},
-+    { "  Exception Gen",     "excp",   0xff000000, 0xd4000000, COUNT_CLASS},
-+    { "    NOP",             "nop",    0xffffffff, 0xd503201f, COUNT_NONE},
-+    { "  Hints",             "hint",   0xfffff000, 0xd5032000, COUNT_CLASS},
-+    { "  Barriers",          "barr",   0xfffff000, 0xd5033000, COUNT_CLASS},
-+    { "  PSTATE",            "psta",   0xfff8f000, 0xd5004000, COUNT_CLASS},
-+    { "  System Insn",       "sins",   0xffd80000, 0xd5080000, COUNT_CLASS},
-+    { "  System Reg",        "sreg",   0xffd00000, 0xd5100000, COUNT_CLASS},
-+    { "  Branch (reg)",      "breg",   0xfe000000, 0xd6000000, COUNT_CLASS},
-+    { "  Branch (imm)",      "bimm",   0x7c000000, 0x14000000, COUNT_CLASS},
-+    { "  Cmp & Branch",      "cmpb",   0x7e000000, 0x34000000, COUNT_CLASS},
-+    { "  Tst & Branch",      "tstb",   0x7e000000, 0x36000000, COUNT_CLASS},
-+    { "Branches",            "branch", 0x1c000000, 0x14000000, COUNT_CLASS},
-+    /* Loads and Stores */
-+    { "  AdvSimd ldstmult",  "advlsm", 0xbfbf0000, 0x0c000000, COUNT_CLASS},
-+    { "  AdvSimd ldstmult++","advlsmp",0xbfb00000, 0x0c800000, COUNT_CLASS},
-+    { "  AdvSimd ldst",      "advlss", 0xbf9f0000, 0x0d000000, COUNT_CLASS},
-+    { "  AdvSimd ldst++",    "advlssp",0xbf800000, 0x0d800000, COUNT_CLASS},
-+    { "  ldst excl",         "ldstx",  0x3f000000, 0x08000000, COUNT_CLASS},
-+    { "    Prefetch",        "prfm",   0xff000000, 0xd8000000, COUNT_CLASS},
-+    { "  Load Reg (lit)",    "ldlit",  0x1b000000, 0x18000000, COUNT_CLASS},
-+    { "  ldst noalloc pair", "ldstnap",0x3b800000, 0x28000000, COUNT_CLASS},
-+    { "  ldst pair",         "ldstp",  0x38000000, 0x28000000, COUNT_CLASS},
-+    { "  ldst reg",          "ldstr",  0x3b200000, 0x38000000, COUNT_CLASS},
-+    { "  Atomic ldst",       "atomic", 0x3b200c00, 0x38200000, COUNT_CLASS},
-+    { "  ldst reg (reg off)","ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
-+    { "  ldst reg (pac)",    "ldstpa", 0x3b200200, 0x38200800, COUNT_CLASS},
-+    { "  ldst reg (imm)",    "ldsti",  0x3b000000, 0x39000000, COUNT_CLASS},
-+    { "Loads & Stores",      "ldst",   0x0a000000, 0x08000000, COUNT_CLASS},
-+    /* Data Processing Register */
-+    { "Data Proc Reg",       "dprr",   0x0e000000, 0x0a000000, COUNT_CLASS},
-+    /* Scalar FP */
-+    { "Scalar FP ",          "fpsimd", 0x0e000000, 0x0e000000, COUNT_CLASS},
-+    /* Unclassified */
-+    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_CLASS}
-+};
-+
-+static gint cmp_exec_count(gconstpointer a, gconstpointer b)
-+{
-+    InsnExecCount *ea = (InsnExecCount *) a;
-+    InsnExecCount *eb = (InsnExecCount *) b;
-+    return ea->count > eb->count ? -1 : 1;
-+}
-+
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    GString *report = g_string_new("Instruction Classes:\n");
-+    int i;
-+    GList *counts;
-+
-+    for (i = 0; i < ARRAY_SIZE(insn_classes); i++) {
-+        switch (insn_classes[i].what) {
-+        case COUNT_CLASS:
-+            if (insn_classes[i].count || verbose) {
-+                g_string_append_printf(report, "Class: %-24s\t(%ld hits)\n",
-+                                       insn_classes[i].class,
-+                                       insn_classes[i].count);
-+            }
-+            break;
-+        case COUNT_INDIVIDUAL:
-+            g_string_append_printf(report, "Class: %-24s\tcounted individually\n",
-+                                   insn_classes[i].class);
-+            break;
-+        case COUNT_NONE:
-+            g_string_append_printf(report, "Class: %-24s\tnot counted\n",
-+                                   insn_classes[i].class);
-+            break;
-+        default:
-+            break;
-+        }
-+    }
-+
-+    counts = g_hash_table_get_values(insns);
-+    if (counts && g_list_next(counts)) {
-+        GList *it;
-+
-+        g_string_append_printf(report,"Individual Instructions:\n");
-+
-+        it = g_list_sort(counts, cmp_exec_count);
-+
-+        for (i = 0; i < limit && it->next; i++, it = it->next) {
-+            InsnExecCount *rec = (InsnExecCount *) it->data;
-+            g_string_append_printf(report, "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
-+                                   rec->insn,
-+                                   rec->count,
-+                                   rec->opcode,
-+                                   rec->class ?
-+                                   rec->class->class : "un-categorised");
-+        }
-+        g_list_free(it);
-+    }
-+
-+    dprintf(stdout_fd, "%s", report->str);
-+    g_string_free(report, true);
-+}
-+
-+static void plugin_init(void)
-+{
-+    insns = g_hash_table_new(NULL, g_direct_equal);
-+}
-+
-+static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
-+{
-+    uint64_t *count = (uint64_t *) udata;
-+    (*count)++;
-+}
-+
-+static uint64_t * find_counter(struct qemu_plugin_insn *insn)
-+{
-+    int i;
-+    uint64_t *cnt = NULL;
-+    uint32_t opcode;
-+    InsnClassExecCount *class = NULL;
-+
-+    /* we expect all instructions to by 32 bits for ARM */
-+    g_assert(qemu_plugin_insn_size(insn) == 4);
-+    opcode = *((uint32_t *)qemu_plugin_insn_data(insn));
-+
-+    for (i = 0; !cnt && i < ARRAY_SIZE(insn_classes); i++) {
-+        uint32_t masked_bits = opcode & insn_classes[i].mask;
-+        if (masked_bits == insn_classes[i].pattern) {
-+            class = &insn_classes[i];
-+            break;
-+        }
-+    }
-+
-+    g_assert(class);
-+
-+    switch (class->what) {
-+    case COUNT_NONE:
-+        return NULL;
-+    case COUNT_CLASS:
-+        return &class->count;
-+    case COUNT_INDIVIDUAL:
-+    {
-+        InsnExecCount *icount;
-+
-+        g_mutex_lock(&lock);
-+        icount = (InsnExecCount *) g_hash_table_lookup(insns,
-+                                                       GUINT_TO_POINTER(opcode));
-+
-+        if (!icount) {
-+            icount = g_new0(InsnExecCount, 1);
-+            icount->opcode = opcode;
-+            icount->insn = qemu_plugin_insn_disas(insn);
-+            icount->class = class;
-+
-+            if (verbose) {
-+                dprintf(stdout_fd, "adding for %s (%#08x @ %#20lx from %s)\n",
-+                        icount->insn, opcode, qemu_plugin_insn_vaddr(insn),
-+                        class->class);
-+            }
-+            g_hash_table_insert(insns, GUINT_TO_POINTER(opcode),
-+                                (gpointer) icount);
-+        }
-+        g_mutex_unlock(&lock);
-+
-+        return &icount->count;
-+    }
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    return NULL;
-+}
-+
-+static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-+{
-+    size_t n = qemu_plugin_tb_n_insns(tb);
-+    size_t i;
-+
-+    for (i = 0; i < n; i++) {
-+        uint64_t *cnt;
-+        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
-+        cnt = find_counter(insn);
-+
-+        if (cnt) {
-+            if (do_inline) {
-+                qemu_plugin_register_vcpu_insn_exec_inline(
-+                    insn, QEMU_PLUGIN_INLINE_ADD_U64, cnt, 1);
-+            } else {
-+                qemu_plugin_register_vcpu_insn_exec_cb(
-+                    insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, cnt);
-+            }
-+        }
-+    }
-+}
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
-+                                           char **argv)
-+{
-+    int i;
-+
-+    for (i = 0; i < argc; i++) {
-+        char *p = argv[i];
-+        if (strcmp(p, "inline") == 0) {
-+            do_inline = true;
-+        } else if (strcmp(p, "verbose") == 0) {
-+            verbose = true;
-+        } else {
-+            int j;
-+            CountType type = COUNT_INDIVIDUAL;
-+            if (*p == '!') {
-+                type = COUNT_NONE;
-+                p++;
-+            }
-+            for (j = 0; j < ARRAY_SIZE(insn_classes); j++) {
-+                if (strcmp(p, insn_classes[j].opt) == 0) {
-+                    insn_classes[j].what = type;
-+                    break;
-+                }
-+            }
-+        }
-+    }
-+
-+    /* to be used when in the exit hook */
-+    stdout_fd = dup(STDOUT_FILENO);
-+    assert(stdout_fd);
-+
-+    plugin_init();
-+
-+    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+    return 0;
-+}
+@@ -264,8 +264,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+     }
+ }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv)
+ {
+     int i;
+ 
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index 3000ab4b73..9cfa7d0e53 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -45,8 +45,9 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+     dprintf(stdout_fd, "insns: %" PRIu64 "\n", insn_count);
+ }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv)
+ {
+     if (argc && !strcmp(argv[0], "inline")) {
+         do_inline = true;
+diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+index e5490f4a99..fdf4347c5e 100644
+--- a/tests/plugin/mem.c
++++ b/tests/plugin/mem.c
+@@ -64,8 +64,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+     }
+ }
+ 
+-QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
+-                                           char **argv)
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info,
++                                           int argc, char **argv)
+ {
+     if (argc) {
+         if (argc >= 3) {
 -- 
 2.20.1
 
