@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36098D6536
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:32:11 +0200 (CEST)
-Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5016D654D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:35:14 +0200 (CEST)
+Received: from localhost ([::1]:50644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1OL-0004RF-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:32:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48739)
+	id 1iK1RJ-000874-79
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iK1Hu-0007mL-D0
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:25:31 -0400
+ (envelope-from <philmd@redhat.com>) id 1iK1JN-00010o-7X
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:27:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iK1Ht-0000fD-88
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:25:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51474)
+ (envelope-from <philmd@redhat.com>) id 1iK1JM-000191-5J
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:27:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39382)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iK1Ho-0000aa-LL; Mon, 14 Oct 2019 10:25:24 -0400
+ id 1iK1JC-00015l-Ci; Mon, 14 Oct 2019 10:26:50 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AAB8044BCF;
- Mon, 14 Oct 2019 14:25:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB60176521;
+ Mon, 14 Oct 2019 14:26:48 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD8DF600CD;
- Mon, 14 Oct 2019 14:24:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48B6261379;
+ Mon, 14 Oct 2019 14:26:00 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 05/20] hw/timer: Remove unused "ui/console.h" header
-Date: Mon, 14 Oct 2019 16:22:31 +0200
-Message-Id: <20191014142246.4538-6-philmd@redhat.com>
+Subject: [PATCH 07/20] hw/i386/intel_iommu: Remove unused includes
+Date: Mon, 14 Oct 2019 16:22:33 +0200
+Message-Id: <20191014142246.4538-8-philmd@redhat.com>
 In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
 References: <20191014142246.4538-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 14 Oct 2019 14:25:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Mon, 14 Oct 2019 14:26:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,39 +76,30 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The timer models don't need anything from "ui/console.h".
-Remove it.
+intel_iommu.h does not use any of these includes, remove them.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/timer/hpet.c     | 1 -
- hw/timer/twl92230.c | 1 -
- 2 files changed, 2 deletions(-)
+ include/hw/i386/intel_iommu.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 1ddae4e7d7..4772cccfe3 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -27,7 +27,6 @@
- #include "qemu/osdep.h"
- #include "hw/i386/pc.h"
- #include "hw/irq.h"
--#include "ui/console.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
-diff --git a/hw/timer/twl92230.c b/hw/timer/twl92230.c
-index 63bd13d2ca..d0011be89e 100644
---- a/hw/timer/twl92230.c
-+++ b/hw/timer/twl92230.c
-@@ -27,7 +27,6 @@
- #include "migration/qemu-file-types.h"
- #include "migration/vmstate.h"
- #include "sysemu/sysemu.h"
--#include "ui/console.h"
- #include "qemu/bcd.h"
- #include "qemu/module.h"
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.=
+h
+index 66b931e526..a1c4afcda5 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -22,11 +22,7 @@
+ #ifndef INTEL_IOMMU_H
+ #define INTEL_IOMMU_H
 =20
+-#include "sysemu/dma.h"
+ #include "hw/i386/x86-iommu.h"
+-#include "hw/i386/ioapic.h"
+-#include "hw/pci/msi.h"
+-#include "hw/sysbus.h"
+ #include "qemu/iova-tree.h"
+=20
+ #define TYPE_INTEL_IOMMU_DEVICE "intel-iommu"
 --=20
 2.21.0
 
