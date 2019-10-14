@@ -2,116 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C9CD6544
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:33:56 +0200 (CEST)
-Received: from localhost ([::1]:50620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18D2D656B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:42:25 +0200 (CEST)
+Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1Q2-0006Uh-SA
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:33:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48953)
+	id 1iK1YG-00012N-T3
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Tianyu.Lan@microsoft.com>) id 1iK1IX-00009e-61
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:26:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1iK1KY-0002LF-S0
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:28:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Tianyu.Lan@microsoft.com>) id 1iK1IV-0000w6-DU
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:26:08 -0400
-Received: from mail-eopbgr1310107.outbound.protection.outlook.com
- ([40.107.131.107]:64064 helo=APC01-SG2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Tianyu.Lan@microsoft.com>)
- id 1iK1IU-0000uV-UB
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:26:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q23XmHqFqZpK4ubFNFwTZKAj2T8FKZxNlesPT1HMW/VAu2Zz0+dscNlXQLkMkKovJQClnk+cIzpYPxkqEaO80utm5KPvPA/aEPa03FNVfG8mpCBLHlYwKcnJ51pYtnkF68pnie1PZ6dgWBlDiAcJ/awIW46dw2fkLBISnb4zmQZhRawGEIrnCa7mgGtp4zpI6xtlr8vRXe+cIcB8oHD9KnmPHnS9bfoxzjdNbc3yBvG7m1l1/XTB1YYWuMDdZfoaGJqK1sQBph9egpHdwqzBi7NbOCY5TXcYsrl9IYz0VWS4Fui4VYCmaDZC+iHpgh6RC22Bue4SxnBtb5897qc4Kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vnuyZLq6XAOnG7RthxXE5XnKoDZRSZkCMIVMRPRxzLM=;
- b=MUQUsGm/2y69YgUUPomvnve8IkvUFumlcnEqK/7o1S8yVWoOnV1NKuNUuIte5P2ZLbx9Xxzm4htuJvi/7QMpVcN09FS1GKp/irvmoy41XfyFmIgIGHpOPXk9DNTgUs0nYAphStMLem7J+U0C07oMV8wE3Ys1wiWaRQth3HWDHrhrH5Eoa/YY2kdiUOcWAcfF986iFjqDeP87UqZIMyLzFy2/2kjb0KBLGbPmjD938o06a7WBcmNO99a652shE+5OIhDaTDblck8dmE0hOcfpcwgxRm6AUm1ofbWgnYfJ162ERVwamBOyq9wlA9javYuWTwDOoBfTtS+FBHQZs8CqBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vnuyZLq6XAOnG7RthxXE5XnKoDZRSZkCMIVMRPRxzLM=;
- b=JdudXCvDDxgfaeeNuYCh2Ty3WbySV6wHfs6cHf5KOGCrrmNJ3r9LHVBVVHM0EzvBCmuysPkb50LoIs4OABO+Dz72MxSC0pmiIeDp96LhrQ8TMyQl8HBr2CHw3KmrQzEYqtWthK8c2HtZz22sDj/WxvY9ek9Ygh/o/BhJcIdNcIo=
-Received: from KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM (52.132.240.14) by
- KL1P15301MB0278.APCP153.PROD.OUTLOOK.COM (52.132.240.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.3; Mon, 14 Oct 2019 14:26:02 +0000
-Received: from KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM
- ([fe80::d4ef:dc1e:e10:7318]) by KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM
- ([fe80::d4ef:dc1e:e10:7318%6]) with mapi id 15.20.2367.014; Mon, 14 Oct 2019
- 14:26:02 +0000
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-To: Cornelia Huck <cohuck@redhat.com>
-CC: vkuznets <vkuznets@redhat.com>, "lantianyu1986@gmail.com"
- <lantianyu1986@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com"
- <mst@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>, "ehabkost@redhat.com"
- <ehabkost@redhat.com>, "mtosatti@redhat.com" <mtosatti@redhat.com>, Roman
- Kagan <rkagan@virtuozzo.com>
-Subject: RE: [PATCH] target/i386/kvm: Add Hyper-V direct tlb flush support
-Thread-Topic: [PATCH] target/i386/kvm: Add Hyper-V direct tlb flush support
-Thread-Index: AQHVgK8HkSJ/Ajtt/E6pHX3BH3x3w6dYROIAgAHM/1KAABjagIAABs9Q
-Date: Mon, 14 Oct 2019 14:26:01 +0000
-Message-ID: <KL1P15301MB02619B5B1EB5BB1E83881F8292900@KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM>
-References: <20191012034153.31817-1-Tianyu.Lan@microsoft.com>
- <87r23h58th.fsf@vitty.brq.redhat.com>
- <KL1P15301MB02611D1F7C54C4A599766B8D92900@KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM>
- <20191014154825.7eb5017d.cohuck@redhat.com>
-In-Reply-To: <20191014154825.7eb5017d.cohuck@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=tiala@microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-10-14T14:25:58.9876832Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8e1190ff-2cb9-4d6c-92c2-9bf4003561ae;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tianyu.Lan@microsoft.com; 
-x-originating-ip: [167.220.255.119]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7e25e57b-93b2-4b63-65e8-08d750b270de
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: KL1P15301MB0278:|KL1P15301MB0278:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <KL1P15301MB027820A8949E6C07534B751C92900@KL1P15301MB0278.APCP153.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 01901B3451
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(979002)(4636009)(39860400002)(376002)(366004)(396003)(346002)(136003)(189003)(199004)(11346002)(229853002)(9686003)(446003)(476003)(305945005)(74316002)(7416002)(55016002)(6436002)(66066001)(54906003)(2906002)(26005)(33656002)(3846002)(10090500001)(53546011)(6506007)(486006)(186003)(6116002)(102836004)(76176011)(7696005)(8936002)(5660300002)(14444005)(52536014)(316002)(86362001)(6916009)(256004)(81166006)(81156014)(8676002)(8990500004)(66946007)(66476007)(71200400001)(14454004)(6246003)(66556008)(64756008)(478600001)(71190400001)(76116006)(66446008)(7736002)(99286004)(4326008)(22452003)(25786009)(10290500003)(969003)(989001)(999001)(1009001)(1019001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:KL1P15301MB0278;
- H:KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 06djXRVZ09XoOk6H9bDUw3VlEsgygzckXN+sueKn3rUVFemy3VKI1seGw2HYQu5Uzud6gpfop77Vl8Cm7Qa/R9e0fAq+zPLBB2Vn2K5vLhTwLm/l02NXiUgqn/DdTn4ueP3I6dVZK3a1cJOHrJcFJ+z6CvSgizGCpzqq2YXaVFU6rTtr47UFgjw720c4tS6abou70Qe1pAB681jJk6DqRdWx2FYoLYeihNy8NurKebR51dJrOaN9IW/eYXzM+poIis+DbmId5GvcXacRd6SyCPJSTNJyzjpslcb+qnfEFvtq5gOC31zljZO91HRFlZsYVi4I9cbaw3eIlG+u4GaBk9esGpNf0PTAVrM+7TbDfMs8y9oDyTYfBhjbwyVlsO08WmkIx2u7mt11nnUvix2hGm5xe5PAogIpUm8r3FMrGF4=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philmd@redhat.com>) id 1iK1KX-0001XV-LM
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:28:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53480)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1iK1KQ-0001TQ-KT; Mon, 14 Oct 2019 10:28:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F33301017C0F;
+ Mon, 14 Oct 2019 14:28:03 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.206.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB003600CD;
+ Mon, 14 Oct 2019 14:27:39 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH 10/20] hw/alpha/dp264: Include "net/net.h"
+Date: Mon, 14 Oct 2019 16:22:36 +0200
+Message-Id: <20191014142246.4538-11-philmd@redhat.com>
+In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
+References: <20191014142246.4538-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e25e57b-93b2-4b63-65e8-08d750b270de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2019 14:26:02.0011 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Dav6m7GaCXXusB7lyIyn8PTSl8Cc7ffjdSX0XulY8mQt2vIbA3s39fkJs/PRKzxLQHmpbNetiWAxRlaqeo8EDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1P15301MB0278
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.131.107
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Mon, 14 Oct 2019 14:28:04 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,48 +57,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Helge Deller <deller@gmx.de>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 14, 2019 at 9:48 PM Cornelia Huck <cohuck@redhat.com> wrote:
->
-> On Mon, 14 Oct 2019 13:29:12 +0000
-> Tianyu Lan <Tianyu.Lan@microsoft.com> wrote:
->
-> > > > diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> > > > index 18892d6541..923fb33a01 100644
-> > > > --- a/linux-headers/linux/kvm.h
-> > > > +++ b/linux-headers/linux/kvm.h
-> > > > @@ -995,6 +995,7 @@ struct kvm_ppc_resize_hpt {
-> > > > =A0#define KVM_CAP_ARM_SVE 170
-> > > > =A0#define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
-> > > > =A0#define KVM_CAP_ARM_PTRAUTH_GENERIC 172
-> > > > +#define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 174=20
-> > >
-> > > I was once told that scripts/update-linux-headers.sh script is suppos=
-ed
-> > > to be used instead of cherry-picking stuff you need (adn this would b=
-e a
-> > > separate patch - update linux headers to smth).
-> > >=20
-> >
-> > Thanks for suggestion. I just try the update-linux-headers.sh and there=
- are a lot
-> > of changes which are not related with my patch. I also include these
-> > changes in my patch, right?
->
-> The important part is that you split out the headers update as a
-> separate patch.
->
-> If this change is already included in the upstream kernel, just do a
-> complete update via the script (mentioning the base you did the update
-> against.) If not, include a placeholder patch that can be replaced by a
-> real update when applying.
+hw/alpha/dp264.c uses NICInfo variables which are declared in
+"net/net.h". Include it.
 
-OK. This change has been upstreamed and I will send complete update patch. =
-Thanks.
+This fixes (when modifying unrelated headers):
 
+  hw/alpha/dp264.c:89:21: error: use of undeclared identifier 'nb_nics'
+      for (i =3D 0; i < nb_nics; i++) {
+                      ^
+  hw/alpha/dp264.c:90:30: error: use of undeclared identifier 'nd_table'
+          pci_nic_init_nofail(&nd_table[i], pci_bus, "e1000", NULL);
+                               ^
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/alpha/dp264.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index 51feee8558..013a9d3510 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -20,6 +20,7 @@
+ #include "hw/isa/superio.h"
+ #include "hw/dma/i8257.h"
+ #include "qemu/cutils.h"
++#include "net/net.h"
+=20
+ #define MAX_IDE_BUS 2
+=20
 --=20
-Best regards
-Tianyu Lan
+2.21.0
+
 
