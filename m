@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C118FD61C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:53:30 +0200 (CEST)
-Received: from localhost ([::1]:48196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67A1D61C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:57:10 +0200 (CEST)
+Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyun-0000j9-RD
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:53:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52477)
+	id 1iJyyL-0004AT-VI
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iJysx-0008AQ-I5
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:51:36 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iJysx-0008Af-Or
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:51:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iJysw-0005lE-AZ
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iJysw-0005ld-Gm
  for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:51:35 -0400
-Received: from relay.sw.ru ([185.231.240.75]:57684)
+Received: from relay.sw.ru ([185.231.240.75]:57682)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iJyst-0005eV-Oo; Mon, 14 Oct 2019 07:51:31 -0400
+ id 1iJyss-0005eQ-OA; Mon, 14 Oct 2019 07:51:30 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iJysp-0002Oa-Tn; Mon, 14 Oct 2019 14:51:28 +0300
+ id 1iJysq-0002Oa-1M; Mon, 14 Oct 2019 14:51:28 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 1/2] qcow2-bitmaps: fix qcow2_can_store_new_dirty_bitmap
-Date: Mon, 14 Oct 2019 14:51:25 +0300
-Message-Id: <20191014115126.15360-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 2/2] iotests: add 269 to check maximum of bitmaps in qcow2
+Date: Mon, 14 Oct 2019 14:51:26 +0300
+Message-Id: <20191014115126.15360-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191014115126.15360-1-vsementsov@virtuozzo.com>
 References: <20191014115126.15360-1-vsementsov@virtuozzo.com>
@@ -52,91 +52,89 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow2_can_store_new_dirty_bitmap works wrong, as it considers only
-bitmaps already stored in the qcow2 image and ignores persistent
-BdrvDirtyBitmap objects.
-
-So, let's instead count persistent BdrvDirtyBitmaps. We load all qcow2
-bitmaps on open, so there should not be any bitmap in the image for
-which we don't have BdrvDirtyBitmaps version. If it is - it's a kind of
-corruption, and no reason to check for corruptions here (open() and
-close() are better places for it).
+Check that it's impossible to create more persistent bitmaps than qcow2
+supports.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2-bitmap.c | 41 ++++++++++++++++++-----------------------
- 1 file changed, 18 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/269     | 47 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/269.out |  3 +++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 51 insertions(+)
+ create mode 100755 tests/qemu-iotests/269
+ create mode 100644 tests/qemu-iotests/269.out
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 98294a7696..d5131181a3 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1671,8 +1671,14 @@ bool coroutine_fn qcow2_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-                                                       Error **errp)
- {
-     BDRVQcow2State *s = bs->opaque;
--    bool found;
--    Qcow2BitmapList *bm_list;
-+    BdrvDirtyBitmap *bitmap;
-+    uint64_t bitmap_directory_size = 0;
-+    uint32_t nb_bitmaps = 0;
+diff --git a/tests/qemu-iotests/269 b/tests/qemu-iotests/269
+new file mode 100755
+index 0000000000..cf14d519ee
+--- /dev/null
++++ b/tests/qemu-iotests/269
+@@ -0,0 +1,47 @@
++#!/usr/bin/env python
++#
++# Test exceeding dirty bitmaps maximum amount in qcow2 image
++#
++# Copyright (c) 2019 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+    if (bdrv_find_dirty_bitmap(bs, name)) {
-+        error_setg(errp, "Bitmap already exists: %s", name);
-+        return false;
-+    }
- 
-     if (s->qcow_version < 3) {
-         /* Without autoclear_features, we would always have to assume
-@@ -1688,38 +1694,27 @@ bool coroutine_fn qcow2_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-         goto fail;
-     }
- 
--    if (s->nb_bitmaps == 0) {
--        return true;
-+    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
-+        if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-+            nb_bitmaps++;
-+            bitmap_directory_size +=
-+                calc_dir_entry_size(strlen(bdrv_dirty_bitmap_name(bitmap)), 0);
-+        }
-     }
-+    nb_bitmaps++;
-+    bitmap_directory_size += calc_dir_entry_size(strlen(name), 0);
- 
--    if (s->nb_bitmaps >= QCOW2_MAX_BITMAPS) {
-+    if (nb_bitmaps > QCOW2_MAX_BITMAPS) {
-         error_setg(errp,
-                    "Maximum number of persistent bitmaps is already reached");
-         goto fail;
-     }
- 
--    if (s->bitmap_directory_size + calc_dir_entry_size(strlen(name), 0) >
--        QCOW2_MAX_BITMAP_DIRECTORY_SIZE)
--    {
-+    if (bitmap_directory_size > QCOW2_MAX_BITMAP_DIRECTORY_SIZE) {
-         error_setg(errp, "Not enough space in the bitmap directory");
-         goto fail;
-     }
- 
--    qemu_co_mutex_lock(&s->lock);
--    bm_list = bitmap_list_load(bs, s->bitmap_directory_offset,
--                               s->bitmap_directory_size, errp);
--    qemu_co_mutex_unlock(&s->lock);
--    if (bm_list == NULL) {
--        goto fail;
--    }
--
--    found = find_bitmap_by_name(bm_list, name);
--    bitmap_list_free(bm_list);
--    if (found) {
--        error_setg(errp, "Bitmap with the same name is already stored");
--        goto fail;
--    }
--
-     return true;
- 
- fail:
++import iotests
++from iotests import qemu_img_create, file_path, log, filter_qmp_event
++
++iotests.verify_image_format(supported_fmts=['qcow2'])
++
++img = file_path('img')
++size = 64 * 1024
++
++qemu_img_create('-f', iotests.imgfmt, img, str(size))
++vm = iotests.VM().add_drive(img)
++vm.launch()
++
++# Look at block/qcow2.h
++QCOW2_MAX_BITMAPS = 65535
++
++for i in range(QCOW2_MAX_BITMAPS):
++    result = vm.qmp('block-dirty-bitmap-add', node='drive0',
++                    name='bitmap{}'.format(i), persistent=True)
++    assert result['return'] == {}
++
++log("{} persistent bitmap already created, " \
++    "let's try to create one more".format(QCOW2_MAX_BITMAPS))
++
++vm.qmp_log('block-dirty-bitmap-add', node='drive0',
++           name='bitmap{}'.format(QCOW2_MAX_BITMAPS), persistent=True)
++
++vm.shutdown()
+diff --git a/tests/qemu-iotests/269.out b/tests/qemu-iotests/269.out
+new file mode 100644
+index 0000000000..bcfa616a2b
+--- /dev/null
++++ b/tests/qemu-iotests/269.out
+@@ -0,0 +1,3 @@
++65535 persistent bitmap already created, let's try to create one more
++{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap65535", "node": "drive0", "persistent": true}}
++{"error": {"class": "GenericError", "desc": "Can't make bitmap 'bitmap65535' persistent in 'drive0': Maximum number of persistent bitmaps is already reached"}}
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 0c1e5ef414..fe8274a204 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -279,3 +279,4 @@
+ 265 rw auto quick
+ 266 rw quick
+ 267 rw auto quick snapshot
++269
 -- 
 2.21.0
 
