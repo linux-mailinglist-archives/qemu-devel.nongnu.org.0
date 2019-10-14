@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88687D610B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:14:08 +0200 (CEST)
-Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5BED60FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:10:34 +0200 (CEST)
+Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyIg-0006Pi-VL
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44651)
+	id 1iJyFF-0002TO-1A
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvT-0007UN-3L
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:08 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iJyBk-0007fj-7B
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:06:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvR-0006Ea-M3
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:06 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38546)
+ (envelope-from <alex.bennee@linaro.org>) id 1iJyBi-0007Af-SR
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:06:55 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40931)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iJxvR-0006DR-E1
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:05 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y18so9677410wrn.5
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:50:05 -0700 (PDT)
+ id 1iJyBi-00078T-LF
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:06:54 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b24so16301977wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 04:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wkKvV4m59QNrxbn2cShYQVtK2L5V4Z2RfTcq3RzCI+A=;
- b=ib8GIKxGCj/S/SDhI+albNwezZ2VxDgbviecKDonjK3TkO1GR/t65pLI9WNFa3n7aO
- /0N+ZK24IsVFGDYLo3EXrkeTCygZVlW3bLbkIOu2nzCGs+U06mErsezjOIByskWrCyMq
- FgRbU0pWgesd7nxf+kTNuAlKuI8dE8+qG5HXcoWn7ubrrEym0NI5vVT5EMVc+KbJzMn1
- ab+f+uO/cYlP+TH/YWL5OLwhgRF8hPzZvceGLU1+78O5CnNZULH1o+R1BCpmaRbtvuAX
- 8WxE8ttrQINMRWjOgeFUY5TFm1Pp0+Jvocgbq5YZ0XySOObe97ntalfAhiN36lEU4A1T
- U/Xw==
+ bh=X0Zojohlrp9hFXtLnwWUFyqJ6AI3VRmKHspf1lmW8O0=;
+ b=y8WL9jcZEL8j8g5ZUFblK07JKH9jMhPNspIfxwRpIuCiXHmFls01aQlmbA1xCu36qr
+ HB1s2dgPku02tKlPJE3u7G339kgbPVeRVtIy/cafAAfQ4ENU5FTohGo7KoGPA1YAkZ9s
+ 1WNVvJXoMIdanFp50LiL39wLBI7imsU9pAjw/Ucj6CjuWdEvDDka2iCLo5jDPWbYrj4S
+ PzmpA26rz/wklL67lGzR/p/GDFQdDDQTFbDU5Z6QOlfsTE9WH98sCKMFPJo9te18txOT
+ Ol0lwstNLxqJsHJPwnQvnqd7h7u10ti3fULc8cifBQRRkcEZpsGvFc3Kj0j3Z7nzOfaJ
+ FlVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wkKvV4m59QNrxbn2cShYQVtK2L5V4Z2RfTcq3RzCI+A=;
- b=j0M91AYWHN2vl7GYZa6MWeA1pdQ8QllxTkN8So86VK8fxz3g+ZjZlfCdJoH1TprVAQ
- VNXI1yChHsgeOydE0Z6O8bhNif6cjTVG6VW+aaZoC+EgoJhyREqiKgZmISDW0uJu9n39
- zzEu+4x8cZhMV1ZDFW0Cg2l+F1HahohKFLuSFNLFg+lcW9C0a/m6ueBaN5p1mdBcpGxi
- XqRRiPJc9X8vPLv9htb4pznmqdxRfTA156PNYlcdaCkC4qf1s23mwYscURrrKJsU5/hQ
- DjBd+meWv/uje2Sa3UxaqcskzDM5stnxtqXuHKL57nLghWNKx7YqC2UKhrrdXBmJ5kLU
- pMLQ==
-X-Gm-Message-State: APjAAAWTmgAf0GoIZwl9Lzrsj8I0nMI9TMEsxTtiJIyB/6h+Cyae5993
- zkgSBH1ZZAWS0LEi6V8cFFqGcQ==
-X-Google-Smtp-Source: APXvYqwIEn/JXkY8vnoSMTzOTt5/DN6WbchrHU5v+yXYfCqmbdJeJZ6hbFnzD/s0E9/DTS+ZiILl/A==
-X-Received: by 2002:adf:f547:: with SMTP id j7mr26755221wrp.26.1571050204391; 
- Mon, 14 Oct 2019 03:50:04 -0700 (PDT)
+ bh=X0Zojohlrp9hFXtLnwWUFyqJ6AI3VRmKHspf1lmW8O0=;
+ b=Hhaz9IOBJWpWV4znlWsl4jq8eQW8wjkfDSkt+2qmi2n+EpB3Wx84EU+VFAygqC0VgO
+ rCm4aYYOj0a2V2myebCO46RkxNH1mT0h3iSyB7RiL6PEyzR8LigVtrw/LEIjFJcz0W4h
+ n8fuqYJZdO+tlaaENQHrteONp3qO5O9+gMx8O2pNILC3y9JEJO39A3L9QH0TPfIizD4h
+ LEsFhJIjyab+c579X3dHyx7Y2881EVvVf9wf6o6VJK43YZhTgb77sBcy38zicpS/2XJL
+ T3PL+EWHTuwWa6SHYMdJQ7tXRjA3FPTqG6KfRPYpmKoVv6Tau8uabz9cooSFLQjSgwc5
+ p9kw==
+X-Gm-Message-State: APjAAAV+j76OZb/Ehz6OUpIHYplGtBNBa7uYRmLJ5LQecq7Q1N2cU7is
+ hz6wysmcTGJMP+JGSL/uSwqNvw==
+X-Google-Smtp-Source: APXvYqzcF6T3trT6erdzrQqgePsB3R/D2tlDtmSwAn2vFXKEEopjT9sECdwxpLzG09a17d1on+ZTiQ==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr14323942wmi.21.1571051212873; 
+ Mon, 14 Oct 2019 04:06:52 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f9sm21372680wre.74.2019.10.14.03.49.55
+ by smtp.gmail.com with ESMTPSA id x2sm22107558wrn.81.2019.10.14.04.06.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 03:50:00 -0700 (PDT)
+ Mon, 14 Oct 2019 04:06:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1A73E1FFAE;
+ by zen.linaroharston (Postfix) with ESMTP id A6B6E1FFB4;
  Mon, 14 Oct 2019 11:49:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v5 25/55] target/ppc: fetch code with translator_ld
-Date: Mon, 14 Oct 2019 11:49:18 +0100
-Message-Id: <20191014104948.4291-26-alex.bennee@linaro.org>
+Subject: [PATCH  v5 28/55] target/hppa: fetch code with translator_ld
+Date: Mon, 14 Oct 2019 11:49:21 +0100
+Message-Id: <20191014104948.4291-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,9 +84,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,31 +93,24 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/ppc/translate.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ target/hppa/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index adb8fd516f..f5fe5d0611 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7853,11 +7853,9 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     LOG_DISAS("nip=" TARGET_FMT_lx " super=%d ir=%d\n",
-               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index c1b2822f60..2f8d407a82 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -4221,7 +4221,7 @@ static void hppa_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     {
+         /* Always fetch the insn, even if nullified, so that we check
+            the page permissions for execute.  */
+-        uint32_t insn = cpu_ldl_code(env, ctx->base.pc_next);
++        uint32_t insn = translator_ldl(env, ctx->base.pc_next);
  
--    if (unlikely(need_byteswap(ctx))) {
--        ctx->opcode = bswap32(cpu_ldl_code(env, ctx->base.pc_next));
--    } else {
--        ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
--    }
-+    ctx->opcode = translator_ldl_swap(env, ctx->base.pc_next,
-+                                      need_byteswap(ctx));
-+
-     LOG_DISAS("translate opcode %08x (%02x %02x %02x %02x) (%s)\n",
-               ctx->opcode, opc1(ctx->opcode), opc2(ctx->opcode),
-               opc3(ctx->opcode), opc4(ctx->opcode),
+         /* Set up the IA queue for the next insn.
+            This will be overwritten by a branch.  */
 -- 
 2.20.1
 
