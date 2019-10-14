@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A33FD6819
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:13:25 +0200 (CEST)
-Received: from localhost ([::1]:54172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C55D682A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:17:03 +0200 (CEST)
+Received: from localhost ([::1]:54229 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3uN-0007U8-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37291)
+	id 1iK3xt-0002lQ-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:17:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qZ-0004xc-Cr
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:24 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qp-0005PQ-VS
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qY-000825-2A
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:23 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36561)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qo-0008DP-Lj
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:39 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54052)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qX-00081K-SB
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:22 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id m18so17318442wmc.1
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:21 -0700 (PDT)
+ id 1iK2qo-0008C8-FC
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:38 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id i16so17856781wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MkJTDzl7sqFJssCYKDYW4CGvMgjxfSmS7ViVzWLm0o8=;
- b=JUNgnE/bqju8rqO8SpOZ7cUgrdZ3cqzY2xfCy7XmcFjjqTszr3qFN6S8Ly8aXTMbj7
- TQlFyy8PQqB/ne4QHhtCELg4vCe+ngGZ3Wpz1FRPwNMhdXlXrjEYvhIWbaDks1G2HIwl
- AiRTLvRjRRh3ReGlApKGko+ZGsSBebWgRUg6OEnkA9npqb7cDRkP7Dw6PFAs6rnsrYpZ
- 8xGT8q7DU7OyRNj9ErffUjcPRHkBzkQlkNW3RVQZdVB+itGdbriDdJaWQdqpI89iOBV9
- FySPLRvJOkklg9QXGNRl+2Ro9+wUBh8j5inq5cwQvPkWFxQBuodCWDd+e6toTc5g0tXo
- 8/zg==
+ bh=Wulo7R94Iq8ptsT23tpBNYgZOyzQznGQhwj7EIibDEY=;
+ b=yQub7cMxUnAJ6+eKmtT2qQEA+E6lh3Oxxd8nYVHujpWomnzQm5I/IvS4HNOszUzs1N
+ bwjJo7+ENHtyXAbkpp41HTpXrYaUQaDLPPYdPVYm/8mifeeDdrRBFk9Xqoh4rDKqwak9
+ BaSgBbxoejKIs3GKjn8X7oR5xTzJsINFQAz7uzHpMWS94QKknCFF4burasnbI/dnZaml
+ 1K6kVVUvNVq2+ixuqGsXcp6uBx8BWiSPEORsp4y3hwLT5J9wofSmkqG5kiuoeE7EGJjB
+ f1gdryEUS5v8v4oxniHTR23CWIzFhKVaWr4CphJNurqTEpqHXiNnYU9kD/rpnO2TAjNT
+ MCzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MkJTDzl7sqFJssCYKDYW4CGvMgjxfSmS7ViVzWLm0o8=;
- b=NuK737meFxHGm/YZrO8/+wG9cxFS8zmME/Wqh/IbhiWPo2BEh3pZuuVCSxa8nR+UNT
- 5ydgpG2M7eLEA1HAmOsvEusLLLGE9dpEXF/25er7VK8sevTDZdyvi4n4y7tw+rC+Pn46
- wR21/vyOG0SAtG0Wz6zo66SVDuTOFoePvlo7MFKo/JNc2jesJslshT6DK3t8UGTAOYQ3
- 7NHcNm5SFdzpG/8Lf1+8/JsQ+IXDvbbbUtYK8CaVSXRpQ0uzX6NQVHxLb93ObztFw3UK
- PzivwmcP4MLOyJlPkxGqBprbHL/zO6Y4OnbugqahCMMqjgPiP3kcB/le+IB3xwyHJ4en
- PRqg==
-X-Gm-Message-State: APjAAAUXOXx2yr32BeDeDNNmkbul+5gYcrHA68DffoFWG9gf7IiP/QTT
- EAWS+oeGMdxo25Mg1s2EksoZAPuXpE0bQQ==
-X-Google-Smtp-Source: APXvYqwBpCI8npXsq/6TUjtE62alZK4W9npKXo7TqTkSwWB2gO8ks6ve7oFq6GkoQ2xHlT516P1C0Q==
-X-Received: by 2002:a1c:4386:: with SMTP id q128mr16484533wma.39.1571069120530; 
- Mon, 14 Oct 2019 09:05:20 -0700 (PDT)
+ bh=Wulo7R94Iq8ptsT23tpBNYgZOyzQznGQhwj7EIibDEY=;
+ b=kZX/zeKhMHK7h6S6XhPTjlSZAMpn9X4Ait8nIPD8ItSsEvrklffVp71YGCfQnHcDYC
+ b7SaG4JlCCAhMqwZflNEq9Dudg2kNXcnTeVM2VDRyBJ08Br12MvbxEuVFHuhIi1wfU/W
+ JAsXYL8Rdc8XTrRjxGtTQN0UkcY1H5wyHB7teigu+9jzcCquTWCe2ezxkDRR8yoE15Yc
+ NQITU5yoPPGTy2ugxgdf5fxwat3wjhqloQ3qDNMJy90xq0ksFAqo4m4uo1vzsUtur5QI
+ wxGVmnHZd5e3VSC6WCFSVPHpeHjfJCqjtcdRdqOKBSBfnheemxFDUDosGWoft41lN1Ot
+ O73g==
+X-Gm-Message-State: APjAAAXpi+bnuz9lA4G9DrYXvNCgz6b7mEjgxKkCJqbstJKmu/jA7GOT
+ 35X1OuZreKB3YXA8hdkS+oALJk0guijiNw==
+X-Google-Smtp-Source: APXvYqy9PFaT2ZGKJ6qCAqbPsB3Jba5LT8HoMWyRKSbEQJGnt+RCljIIrXGzf9vIiHf9HRz6YY2Ukw==
+X-Received: by 2002:a1c:99cd:: with SMTP id
+ b196mr15751213wme.105.1571069137112; 
+ Mon, 14 Oct 2019 09:05:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.19
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:19 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/68] aspeed/timer: Add AST2600 support
-Date: Mon, 14 Oct 2019 17:03:41 +0100
-Message-Id: <20191014160404.19553-46-peter.maydell@linaro.org>
+Subject: [PULL 59/68] aspeed: Add an AST2600 eval board
+Date: Mon, 14 Oct 2019 17:03:55 +0100
+Message-Id: <20191014160404.19553-60-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -84,109 +85,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The AST2600 timer has a third control register that is used to
-implement a set-to-clear feature for the main control register.
-
-On the AST2600, it is not configurable via 0x38 (control register 3)
-as it is on the AST2500.
-
-Based on previous work from Joel Stanley.
-
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-7-clg@kaod.org
+Message-id: 20190925143248.10000-21-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/timer/aspeed_timer.h |  1 +
- hw/timer/aspeed_timer.c         | 51 +++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ include/hw/arm/aspeed.h |  1 +
+ hw/arm/aspeed.c         | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_timer.h
-index 1e0288ebc49..69b1377af01 100644
---- a/include/hw/timer/aspeed_timer.h
-+++ b/include/hw/timer/aspeed_timer.h
-@@ -30,6 +30,7 @@
- #define TYPE_ASPEED_TIMER "aspeed.timer"
- #define TYPE_ASPEED_2400_TIMER TYPE_ASPEED_TIMER "-ast2400"
- #define TYPE_ASPEED_2500_TIMER TYPE_ASPEED_TIMER "-ast2500"
-+#define TYPE_ASPEED_2600_TIMER TYPE_ASPEED_TIMER "-ast2600"
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index 02073a6b4d6..f49bc7081e4 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -18,6 +18,7 @@ typedef struct AspeedBoardConfig {
+     const char *desc;
+     const char *soc_name;
+     uint32_t hw_strap1;
++    uint32_t hw_strap2;
+     const char *fmc_model;
+     const char *spi_model;
+     uint32_t num_cs;
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 52993f84b46..65453278a75 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -88,6 +88,10 @@ struct AspeedBoardState {
+ /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
+ #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
  
- #define ASPEED_TIMER_NR_TIMERS 8
- 
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index d70e78a0293..7f73d0c7533 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -538,6 +538,40 @@ static void aspeed_2500_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-     }
++/* AST2600 evb hardware value */
++#define AST2600_EVB_HW_STRAP1 0x000000C0
++#define AST2600_EVB_HW_STRAP2 0x00000003
++
+ /*
+  * The max ram region is for firmwares that scan the address space
+  * with load/store to guess how much RAM the SoC has.
+@@ -187,6 +191,8 @@ static void aspeed_board_init(MachineState *machine,
+                              &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap1, "hw-strap1",
+                             &error_abort);
++    object_property_set_int(OBJECT(&bmc->soc), cfg->hw_strap2, "hw-strap2",
++                            &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), cfg->num_cs, "num-cs",
+                             &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), machine->smp.cpus, "num-cpus",
+@@ -308,6 +314,12 @@ static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
  }
  
-+static uint64_t aspeed_2600_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
++static void ast2600_evb_i2c_init(AspeedBoardState *bmc)
 +{
-+    uint64_t value;
-+
-+    switch (offset) {
-+    case 0x38:
-+    case 0x3C:
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                __func__, offset);
-+        value = 0;
-+        break;
-+    }
-+    return value;
++    /* Start with some devices on our I2C busses */
++    ast2500_evb_i2c_init(bmc);
 +}
 +
-+static void aspeed_2600_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-+                                    uint64_t value)
-+{
-+    const uint32_t tv = (uint32_t)(value & 0xFFFFFFFF);
-+
-+    switch (offset) {
-+    case 0x3C:
-+        aspeed_timer_set_ctrl(s, s->ctrl & ~tv);
-+        break;
-+
-+    case 0x38:
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                __func__, offset);
-+        break;
-+    }
-+}
-+
- static void aspeed_init_one_timer(AspeedTimerCtrlState *s, uint8_t id)
+ static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
  {
-     AspeedTimer *t = &s->timers[id];
-@@ -674,11 +708,28 @@ static const TypeInfo aspeed_2500_timer_info = {
-     .class_init = aspeed_2500_timer_class_init,
+     AspeedSoCState *soc = &bmc->soc;
+@@ -455,6 +467,17 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .num_cs    = 2,
+         .i2c_init  = witherspoon_bmc_i2c_init,
+         .ram       = 512 * MiB,
++    }, {
++        .name      = MACHINE_TYPE_NAME("ast2600-evb"),
++        .desc      = "Aspeed AST2600 EVB (Cortex A7)",
++        .soc_name  = "ast2600-a0",
++        .hw_strap1 = AST2600_EVB_HW_STRAP1,
++        .hw_strap2 = AST2600_EVB_HW_STRAP2,
++        .fmc_model = "w25q512jv",
++        .spi_model = "mx66u51235f",
++        .num_cs    = 1,
++        .i2c_init  = ast2600_evb_i2c_init,
++        .ram       = 2 * GiB,
+     },
  };
  
-+static void aspeed_2600_timer_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    AspeedTimerClass *awc = ASPEED_TIMER_CLASS(klass);
-+
-+    dc->desc = "ASPEED 2600 Timer";
-+    awc->read = aspeed_2600_timer_read;
-+    awc->write = aspeed_2600_timer_write;
-+}
-+
-+static const TypeInfo aspeed_2600_timer_info = {
-+    .name = TYPE_ASPEED_2600_TIMER,
-+    .parent = TYPE_ASPEED_TIMER,
-+    .class_init = aspeed_2600_timer_class_init,
-+};
-+
- static void aspeed_timer_register_types(void)
- {
-     type_register_static(&aspeed_timer_info);
-     type_register_static(&aspeed_2400_timer_info);
-     type_register_static(&aspeed_2500_timer_info);
-+    type_register_static(&aspeed_2600_timer_info);
- }
- 
- type_init(aspeed_timer_register_types)
 -- 
 2.20.1
 
