@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFE7D64C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:08:39 +0200 (CEST)
-Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C31D64DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:15:05 +0200 (CEST)
+Received: from localhost ([::1]:50242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK11a-0002TF-3o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44575)
+	id 1iK17o-0007ps-NN
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iK0uM-0004NG-DJ
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:01:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK121-0003z4-Th
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:09:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iK0uL-00089l-2Y
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:01:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:9908)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iK0uC-000828-91; Mon, 14 Oct 2019 10:01:02 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 62DE020FD;
- Mon, 14 Oct 2019 14:00:56 +0000 (UTC)
-Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EDD0E5C541;
- Mon, 14 Oct 2019 14:00:19 +0000 (UTC)
-Subject: Re: [RFC v5 025/126] scripts: add coccinelle script to use auto
- propagated errp
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-26-vsementsov@virtuozzo.com>
- <5dd4d642-7ea6-42a2-66fc-6d6710b77b8d@redhat.com>
- <6856bd09-65fc-30d7-2a3c-c85334a024e9@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e8fa1e71-5f48-e1f0-80f3-ef438c117693@redhat.com>
-Date: Mon, 14 Oct 2019 09:00:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iK120-0002xl-Jx
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:09:05 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36986)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iK120-0002xR-Do
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:09:04 -0400
+Received: by mail-ot1-x342.google.com with SMTP id k32so13895363otc.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 07:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xq5PnMBpf3Bmds+3iSe4apB/7mn77O6MbCBikiQoLLk=;
+ b=A5IDf6Q2l5J2xI37TGU4sZjcsKVZCcRYPl21kYhLwK520y1IMzP9nrgYJ6rJooYWqw
+ JfHuqLWI74Ndh+xsA0SDP/qIMM6jKTkzGnOws9AyGig6A/v7LCGUMIqpMYtzjolbRDSq
+ ZKhcqV88eMOuwp/SGEUCKWzs1BiavOakouvgLMnAybZGETzV1I4GL/0hNHBimBaNk7AW
+ PUQXsWJU0fDJbX7Ql52MqZYaweX/+EQKT2M9GxQpfAFMcWCB6uxnq98+Qs9MbPJmvlVl
+ 8wIXgeCfDjtbMv6+rsWrKo3kIxPP7M5fqgJkP4/XQCDo2AlfIz0GgchJEZSDKRixDuKx
+ thwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xq5PnMBpf3Bmds+3iSe4apB/7mn77O6MbCBikiQoLLk=;
+ b=TP4LUdHQzSlZpZMUKG4PDcs8B1zcIoudCF2Wn1/iVetDzs1Ysu4jdLCrd4CGWUlPW2
+ OQ1uxfWCFt+Km/a5Gf4sPWxil5/NsZBWTEBfKawHQeD7FEYUQ/tnKfVXXIOZIFjobKsS
+ lEKjUC9v/c4QqrjNU6MCXIMMZ+tqJltWHTdA2DQDPklSCw7czBncww6DVljzux2lrF+d
+ V0V5wQPZm8HvZRQjGQayBMv1MfEXuMVg29Nh43A2inhlnWIEmecMFWLCKm/ma75Ffdz0
+ JPWQj3wZT5U/qFC9gA3uyPzVC/LcYZNgI1nVrF5eVuELAiik+1vD+inhpfVWgRDguNOw
+ ABUg==
+X-Gm-Message-State: APjAAAX/taP85zPq8ZFEDxo/nYVBc3cJYj6RqQQj7iYfS67f1lMcGFyS
+ j4wvrKxhGI5JX2uR6ul6iai1RMSaqRwKJ6nFjxyisITdnjA=
+X-Google-Smtp-Source: APXvYqxvFE9WyGayTpakAiv+kX5MjwYVxQaG4G5fXuKMEoIK98Fo9RVlnPL96kVG1586rw2cjSM6Q7DO95GrMkt4grE=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr24894236otg.91.1571062143222; 
+ Mon, 14 Oct 2019 07:09:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6856bd09-65fc-30d7-2a3c-c85334a024e9@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Mon, 14 Oct 2019 14:00:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191010131809.1284004-1-groug@kaod.org>
+In-Reply-To: <20191010131809.1284004-1-groug@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Oct 2019 15:08:52 +0100
+Message-ID: <CAFEAcA8tdhYm0EuVGx5OiPv7NuZvrtrPLnK+tz=xoJ0Gn4DCmw@mail.gmail.com>
+Subject: Re: [PULL v2 0/8] 9p patches 2019-10-10
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,110 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Jan Kiszka <jan.kiszka@siemens.com>, Alberto Garcia <berto@igalia.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Halil Pasic <pasic@linux.ibm.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Anthony Green <green@moxielogic.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Chris Wulff <crwulff@gmail.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Walle <michael@walle.cc>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Igor Mammedov <imammedo@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- "sheepdog@lists.wpkg.org" <sheepdog@lists.wpkg.org>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Palmer Dabbelt <palmer@sifive.com>, Thomas Huth <thuth@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Hannes Reinecke <hare@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Liu Yuan <namei.unix@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eric Farman <farman@linux.ibm.com>,
- Amit Shah <amit@kernel.org>, Stefan Weil <sw@weilnetz.de>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stafford Horne <shorne@gmail.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <pburton@wavecomp.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Ari Sundholm <ari@tuxera.com>,
- Juan Quintela <quintela@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Jason Dillaman <dillaman@redhat.com>, Antony Pavlov <antonynpavlov@gmail.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "integration@gluster.org" <integration@gluster.org>,
- Laszlo Ersek <lersek@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, Max Reitz <mreitz@redhat.com>,
- Denis Lunev <den@virtuozzo.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Vincenzo Maffione <v.maffione@gmail.com>, Marek Vasut <marex@denx.de>,
- "armbru@redhat.com" <armbru@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
- David Gibson <david@gibson.dropbear.id.au>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Wen Congyang <wencongyang2@huawei.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/19 3:19 AM, Vladimir Sementsov-Ogievskiy wrote:
+On Thu, 10 Oct 2019 at 14:18, Greg Kurz <groug@kaod.org> wrote:
+>
+> The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/gkurz/qemu.git tags/9p-next-2019-10-10
+>
+> for you to fetch changes up to e410bbc52a7a246858af54ce1842fadf26f39ff7:
+>
+>   MAINTAINERS: Downgrade status of virtio-9p to "Odd Fixes" (2019-10-10 12:36:28 +0200)
+>
+> ----------------------------------------------------------------
+> The most notable change is that we now detect cross-device setups in the
+> host since it may cause inode number collision and mayhem in the guest.
+> A new fsdev property is added for the user to choose the appropriate
+> policy to handle that: either remap all inode numbers or fail I/Os to
+> another host device or just print out a warning (default behaviour).
+>
+> This is also my last PR as _active_ maintainer of 9pfs.
+>
+> ----------------------------------------------------------------
 
->>> +|
->>> +-=C2=A0=C2=A0=C2=A0 error_propagate(errp, local_err);
->>> +)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 ...>
->>> + }
->>> +
->>
->> It looks like once this script is run, error_propagate_prepend() will =
-have no clients.
->=20
-> No, it still have a bit, when working with error_copy, and/or moving er=
-rors from/to structures.
 
-No public clients. So can we turn it into a static function only used by=20
-error.c?
+Applied, thanks.
 
->=20
->> Is there a non-generated cleanup patch that removes it (and once it is=
- removed, it can also be removed from the .cocci script as no further cli=
-ents will reappear later)?
->=20
-> Maybe.
->=20
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-Basically, if we can get error_propagate out of error.h, that's a good=20
-sign.  But it's not a show-stopper if we can't do it for some legitimate=20
-reason (such a reason might include that the definition of the=20
-ERRP_AUTO_PROPAGATE macro is easier to write if error_propagate remains=20
-in the .h), so we'll just have to see what is possible.
+Thanks for all your work on the 9pfs code!
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- PMM
 
