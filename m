@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69832D67C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:56:04 +0200 (CEST)
-Received: from localhost ([::1]:53792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B567D67BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:52:10 +0200 (CEST)
+Received: from localhost ([::1]:53718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3da-0001MJ-Ta
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37363)
+	id 1iK3Zp-0004dN-0z
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qg-00059U-As
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2ql-0005Gy-3U
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qe-000871-Q0
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:30 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38267)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qj-00089o-MP
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:35 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35087)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qe-00086T-J8
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:28 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id 3so17313307wmi.3
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:28 -0700 (PDT)
+ id 1iK2qj-000896-Ft
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:33 -0400
+Received: by mail-wm1-x336.google.com with SMTP id y21so17310951wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BJMpg027/jfUn1ObzXXMPD/Qwlerbw16EgxLfnuCrsE=;
- b=tVNVg4xvER2OPVmVMSzhEdBcJbhijJSpRU0gph4SQFPs7mBS04W8+NzIONzws33FpZ
- uNbnFEsy+mgXf1B+PgSgxpO0H4taFiJrIRbFs5uzvm6CedMGD6M2snZ/XIvx190BJJa6
- Kw3ecGK6KqhuXXk2XOn1rpNAA2U8vfQnVMCxhxnH5a5+AifO3Gg/gADwltx600osmy/h
- s774WOZsbPBtlgibbV+Ok7x8Z6Jyui1/n9+RDa+ekcUnU24Z4aKpCNT67OdQDoXxErJC
- ISRghSyxXxZMJX+yU4mTME51DveMDzY4cO9ez/lr59ssqEk+lxgI3/a/ZEYBTif0b3ad
- HUJw==
+ bh=VnKuGKYmXvKiYUaWE62O1+t40crCAoje8TmSropWhmQ=;
+ b=v7QVT5ty9nW9jpo/2jCxHBW/C9BfyzNjwHCXG5tQsfv4NS7HQ+VcgN27RQDWdVvfTK
+ mOl3D467/2ac6DFGyC06Zva0eh2rLgB0/RZvnAxOszsbZIg8xJNJQLIYf04JQtt6Bh1/
+ NRanOTqAMtueQWY3qogVm8nzgcFryM+rFTCLp548Y7p69PD5sTz5SXf0IXY4R370xH0y
+ juOSOW196sXcFKytKDONl4ctgvS+wVMI1brFkpQYsPdH5hReBEA5vYVhTsBB/uoOJqSK
+ 2pFrdlsbPq17yo6Icc2AYtfrCUYUOs3i79ixZozDZpPP6s0GzbJ5actzaLxy1F49/r1T
+ Oglw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BJMpg027/jfUn1ObzXXMPD/Qwlerbw16EgxLfnuCrsE=;
- b=JT3yUF+AHsQ1/dS00Y5/s+QQMWTdDQagyF7G62AVaqPSII7rwQn/nietQauMVSMtrk
- ar6zOCDiCkZA22bsrjY8U3OFQ94EtzLi75XFB7WVU6FEsXb3e5RqEZWnmao3OCplTybU
- fMftLOBuY17NN/AfO0F92pAsUYRJv82aijZkT6SVngX0acusuIy/ueQ61YuhXUDL3m8Z
- gHQ6Lou+NCbKYbQuVE7L/TQlgYGda9i4im67Rd9dCgqSxFPR5xbgwl9Q+Paq59we0ukK
- n3oRRm+1Zc4UCalBIJWpooR0+thGF9+O3QLq+pZ+RDe1v35lDvdvCc7/tKUnugdPHoqs
- zSPQ==
-X-Gm-Message-State: APjAAAUSloGN46CdarCIxRpNyau+kUllOMUFFglS1rYBFEUGTMyANqbr
- yZTDvPdtcgYXl5C6NW3PJZKhvez4Z+PjAQ==
-X-Google-Smtp-Source: APXvYqzj7MeoIR3cSZ0soUe2rbi4hlybjnrunMDNM3M2U5UjVaKWlfdStT8czXHivpAT4rK5O9QYWw==
-X-Received: by 2002:a7b:caa9:: with SMTP id r9mr14871805wml.133.1571069127265; 
- Mon, 14 Oct 2019 09:05:27 -0700 (PDT)
+ bh=VnKuGKYmXvKiYUaWE62O1+t40crCAoje8TmSropWhmQ=;
+ b=iVk57iTHelsPZu+uleNRzorlCYiOmQnLGCEk/Y+ciHq93vX6n5HBAXKN1hwIps4The
+ lPi5ar4dHBkJEWdRvgsqa+pQyoWxpHiqM22Pc/IzKShn1sl9Qe4Kuy22ql4XDJtMxqlg
+ 68ZcArNMo+q6Tcg3zF6T7YchUartWu74C1O8m3mo41OwzILV0K76hjosfAOO4Alp/mKQ
+ enHGSJzYhCp4ioXMyaRBubWTWvchX9nsJNvVogrf3ZiNqcBFMm7zS7fCLkNlbteb1QVo
+ j57cDDw3am0JrMaaYWkN4Mrpoii+apFlfpaJKc9kH9vPg2hQVt+peDcghF685QpUI7df
+ qUvQ==
+X-Gm-Message-State: APjAAAWjmb6Oi1uwFpTdxDVDUEkCclUi1qB/R3Vwm7n+/2skbbYnNh0b
+ K5d/40MLT1TNxX8kPl2Mk9mmPq1oxpMFIg==
+X-Google-Smtp-Source: APXvYqzMhZzmaKSQ/jLnXIYnlGJEZJ8QkOHCRmcvcFb6oImvIuAscVW/8QU/r5nfSKVRQLn41pfAvg==
+X-Received: by 2002:a1c:e10a:: with SMTP id y10mr15664194wmg.29.1571069132058; 
+ Mon, 14 Oct 2019 09:05:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.26
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:26 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/68] aspeed/smc: Introduce segment operations
-Date: Mon, 14 Oct 2019 17:03:47 +0100
-Message-Id: <20191014160404.19553-52-peter.maydell@linaro.org>
+Subject: [PULL 55/68] aspeed/i2c: Add AST2600 support
+Date: Mon, 14 Oct 2019 17:03:51 +0100
+Message-Id: <20191014160404.19553-56-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,185 +84,173 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-AST2600 will use a different encoding for the addresses defined in the
-Segment Register.
+The I2C controller of the AST2400 and AST2500 SoCs have one IRQ shared
+by all I2C busses. The AST2600 SoC I2C controller has one IRQ per bus
+and 16 busses.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Acked-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-13-clg@kaod.org
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20190925143248.10000-17-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/ssi/aspeed_smc.h |  4 ++++
- hw/ssi/aspeed_smc.c         | 45 ++++++++++++++++++++++++-------------
- 2 files changed, 34 insertions(+), 15 deletions(-)
+ include/hw/i2c/aspeed_i2c.h |  5 +++-
+ hw/i2c/aspeed_i2c.c         | 46 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 48 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-index 5176ff6bf95..684d16e3361 100644
---- a/include/hw/ssi/aspeed_smc.h
-+++ b/include/hw/ssi/aspeed_smc.h
-@@ -49,6 +49,10 @@ typedef struct AspeedSMCController {
-     hwaddr dma_flash_mask;
-     hwaddr dma_dram_mask;
-     uint32_t nregs;
-+    uint32_t (*segment_to_reg)(const struct AspeedSMCState *s,
-+                               const AspeedSegments *seg);
-+    void (*reg_to_segment)(const struct AspeedSMCState *s, uint32_t reg,
-+                           AspeedSegments *seg);
- } AspeedSMCController;
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 6e2dae7db81..13e01059189 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -27,10 +27,11 @@
+ #define TYPE_ASPEED_I2C "aspeed.i2c"
+ #define TYPE_ASPEED_2400_I2C TYPE_ASPEED_I2C "-ast2400"
+ #define TYPE_ASPEED_2500_I2C TYPE_ASPEED_I2C "-ast2500"
++#define TYPE_ASPEED_2600_I2C TYPE_ASPEED_I2C "-ast2600"
+ #define ASPEED_I2C(obj) \
+     OBJECT_CHECK(AspeedI2CState, (obj), TYPE_ASPEED_I2C)
  
- typedef struct AspeedSMCFlash {
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 9ffc7e01179..9909135a2cf 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -211,6 +211,10 @@ static const AspeedSegments aspeed_segments_ast2500_spi2[] = {
-     { 0x38000000, 32 * 1024 * 1024 }, /* start address is readonly */
-     { 0x3A000000, 96 * 1024 * 1024 }, /* end address is readonly */
- };
-+static uint32_t aspeed_smc_segment_to_reg(const AspeedSMCState *s,
-+                                          const AspeedSegments *seg);
-+static void aspeed_smc_reg_to_segment(const AspeedSMCState *s, uint32_t reg,
-+                                      AspeedSegments *seg);
+-#define ASPEED_I2C_NR_BUSSES 14
++#define ASPEED_I2C_NR_BUSSES 16
  
- static const AspeedSMCController controllers[] = {
-     {
-@@ -226,6 +230,8 @@ static const AspeedSMCController controllers[] = {
-         .flash_window_size = 0x6000000,
-         .has_dma           = false,
-         .nregs             = ASPEED_SMC_R_SMC_MAX,
-+        .segment_to_reg    = aspeed_smc_segment_to_reg,
-+        .reg_to_segment    = aspeed_smc_reg_to_segment,
-     }, {
-         .name              = "aspeed.fmc-ast2400",
-         .r_conf            = R_CONF,
-@@ -241,6 +247,8 @@ static const AspeedSMCController controllers[] = {
-         .dma_flash_mask    = 0x0FFFFFFC,
-         .dma_dram_mask     = 0x1FFFFFFC,
-         .nregs             = ASPEED_SMC_R_MAX,
-+        .segment_to_reg    = aspeed_smc_segment_to_reg,
-+        .reg_to_segment    = aspeed_smc_reg_to_segment,
-     }, {
-         .name              = "aspeed.spi1-ast2400",
-         .r_conf            = R_SPI_CONF,
-@@ -254,6 +262,8 @@ static const AspeedSMCController controllers[] = {
-         .flash_window_size = 0x10000000,
-         .has_dma           = false,
-         .nregs             = ASPEED_SMC_R_SPI_MAX,
-+        .segment_to_reg    = aspeed_smc_segment_to_reg,
-+        .reg_to_segment    = aspeed_smc_reg_to_segment,
-     }, {
-         .name              = "aspeed.fmc-ast2500",
-         .r_conf            = R_CONF,
-@@ -269,6 +279,8 @@ static const AspeedSMCController controllers[] = {
-         .dma_flash_mask    = 0x0FFFFFFC,
-         .dma_dram_mask     = 0x3FFFFFFC,
-         .nregs             = ASPEED_SMC_R_MAX,
-+        .segment_to_reg    = aspeed_smc_segment_to_reg,
-+        .reg_to_segment    = aspeed_smc_reg_to_segment,
-     }, {
-         .name              = "aspeed.spi1-ast2500",
-         .r_conf            = R_CONF,
-@@ -282,6 +294,8 @@ static const AspeedSMCController controllers[] = {
-         .flash_window_size = 0x8000000,
-         .has_dma           = false,
-         .nregs             = ASPEED_SMC_R_MAX,
-+        .segment_to_reg    = aspeed_smc_segment_to_reg,
-+        .reg_to_segment    = aspeed_smc_reg_to_segment,
-     }, {
-         .name              = "aspeed.spi2-ast2500",
-         .r_conf            = R_CONF,
-@@ -295,19 +309,19 @@ static const AspeedSMCController controllers[] = {
-         .flash_window_size = 0x8000000,
-         .has_dma           = false,
-         .nregs             = ASPEED_SMC_R_MAX,
-+        .segment_to_reg    = aspeed_smc_segment_to_reg,
-+        .reg_to_segment    = aspeed_smc_reg_to_segment,
-     },
- };
+ struct AspeedI2CState;
  
- /*
-- * The Segment Register uses a 8MB unit to encode the start address
-- * and the end address of the mapping window of a flash SPI slave :
-- *
-- *        | byte 1 | byte 2 | byte 3 | byte 4 |
-- *        +--------+--------+--------+--------+
-- *        |  end   |  start |   0    |   0    |
-- *
-+ * The Segment Registers of the AST2400 and AST2500 have a 8MB
-+ * unit. The address range of a flash SPI slave is encoded with
-+ * absolute addresses which should be part of the overall controller
-+ * window.
-  */
--static inline uint32_t aspeed_smc_segment_to_reg(const AspeedSegments *seg)
-+static uint32_t aspeed_smc_segment_to_reg(const AspeedSMCState *s,
-+                                          const AspeedSegments *seg)
+@@ -41,6 +42,7 @@ typedef struct AspeedI2CBus {
+ 
+     I2CBus *bus;
+     uint8_t id;
++    qemu_irq irq;
+ 
+     uint32_t ctrl;
+     uint32_t timing[2];
+@@ -72,6 +74,7 @@ typedef struct AspeedI2CClass {
+     uint8_t num_busses;
+     uint8_t reg_size;
+     uint8_t gap;
++    qemu_irq (*bus_get_irq)(AspeedI2CBus *);
+ } AspeedI2CClass;
+ 
+ I2CBus *aspeed_i2c_get_bus(DeviceState *dev, int busnr);
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index fabdb01e974..06c119f385b 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -145,10 +145,12 @@ static inline bool aspeed_i2c_bus_is_enabled(AspeedI2CBus *bus)
+ 
+ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
  {
-     uint32_t reg = 0;
-     reg |= ((seg->addr >> 23) & SEG_START_MASK) << SEG_START_SHIFT;
-@@ -315,7 +329,8 @@ static inline uint32_t aspeed_smc_segment_to_reg(const AspeedSegments *seg)
-     return reg;
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
++
+     bus->intr_status &= bus->intr_ctrl;
+     if (bus->intr_status) {
+         bus->controller->intr_status |= 1 << bus->id;
+-        qemu_irq_raise(bus->controller->irq);
++        qemu_irq_raise(aic->bus_get_irq(bus));
+     }
  }
  
--static inline void aspeed_smc_reg_to_segment(uint32_t reg, AspeedSegments *seg)
-+static void aspeed_smc_reg_to_segment(const AspeedSMCState *s,
-+                                      uint32_t reg, AspeedSegments *seg)
+@@ -273,6 +275,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+                                  uint64_t value, unsigned size)
  {
-     seg->addr = ((reg >> SEG_START_SHIFT) & SEG_START_MASK) << 23;
-     seg->size = (((reg >> SEG_END_SHIFT) & SEG_END_MASK) << 23) - seg->addr;
-@@ -333,7 +348,7 @@ static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
-             continue;
+     AspeedI2CBus *bus = opaque;
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+     bool handle_rx;
+ 
+     switch (offset) {
+@@ -299,7 +302,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+         bus->intr_status &= ~(value & 0x7FFF);
+         if (!bus->intr_status) {
+             bus->controller->intr_status &= ~(1 << bus->id);
+-            qemu_irq_lower(bus->controller->irq);
++            qemu_irq_lower(aic->bus_get_irq(bus));
          }
+         if (handle_rx && (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST))) {
+             aspeed_i2c_handle_rx_cmd(bus);
+@@ -457,6 +460,8 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < aic->num_busses; i++) {
+         char name[32];
+         int offset = i < aic->gap ? 1 : 5;
++
++        sysbus_init_irq(sbd, &s->busses[i].irq);
+         snprintf(name, sizeof(name), "aspeed.i2c.%d", i);
+         s->busses[i].controller = s;
+         s->busses[i].id = i;
+@@ -488,6 +493,11 @@ static const TypeInfo aspeed_i2c_info = {
+     .abstract   = true,
+ };
  
--        aspeed_smc_reg_to_segment(s->regs[R_SEG_ADDR0 + i], &seg);
-+        s->ctrl->reg_to_segment(s, s->regs[R_SEG_ADDR0 + i], &seg);
++static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
++{
++    return bus->controller->irq;
++}
++
+ static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -498,6 +508,7 @@ static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
+     aic->num_busses = 14;
+     aic->reg_size = 0x40;
+     aic->gap = 7;
++    aic->bus_get_irq = aspeed_2400_i2c_bus_get_irq;
+ }
  
-         if (new->addr + new->size > seg.addr &&
-             new->addr < seg.addr + seg.size) {
-@@ -354,7 +369,7 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-     AspeedSMCFlash *fl = &s->flashes[cs];
-     AspeedSegments seg;
+ static const TypeInfo aspeed_2400_i2c_info = {
+@@ -506,6 +517,11 @@ static const TypeInfo aspeed_2400_i2c_info = {
+     .class_init = aspeed_2400_i2c_class_init,
+ };
  
--    aspeed_smc_reg_to_segment(new, &seg);
-+    s->ctrl->reg_to_segment(s, new, &seg);
++static qemu_irq aspeed_2500_i2c_bus_get_irq(AspeedI2CBus *bus)
++{
++    return bus->controller->irq;
++}
++
+ static void aspeed_2500_i2c_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -516,6 +532,7 @@ static void aspeed_2500_i2c_class_init(ObjectClass *klass, void *data)
+     aic->num_busses = 14;
+     aic->reg_size = 0x40;
+     aic->gap = 7;
++    aic->bus_get_irq = aspeed_2500_i2c_bus_get_irq;
+ }
  
-     /* The start address of CS0 is read-only */
-     if (cs == 0 && seg.addr != s->ctrl->flash_window_base) {
-@@ -362,7 +377,7 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-                       "%s: Tried to change CS0 start address to 0x%"
-                       HWADDR_PRIx "\n", s->ctrl->name, seg.addr);
-         seg.addr = s->ctrl->flash_window_base;
--        new = aspeed_smc_segment_to_reg(&seg);
-+        new = s->ctrl->segment_to_reg(s, &seg);
-     }
+ static const TypeInfo aspeed_2500_i2c_info = {
+@@ -524,11 +541,36 @@ static const TypeInfo aspeed_2500_i2c_info = {
+     .class_init = aspeed_2500_i2c_class_init,
+ };
  
-     /*
-@@ -379,7 +394,7 @@ static void aspeed_smc_flash_set_segment(AspeedSMCState *s, int cs,
-                       HWADDR_PRIx "\n", s->ctrl->name, cs, seg.addr + seg.size);
-         seg.size = s->ctrl->segments[cs].addr + s->ctrl->segments[cs].size -
-             seg.addr;
--        new = aspeed_smc_segment_to_reg(&seg);
-+        new = s->ctrl->segment_to_reg(s, &seg);
-     }
++static qemu_irq aspeed_2600_i2c_bus_get_irq(AspeedI2CBus *bus)
++{
++    return bus->irq;
++}
++
++static void aspeed_2600_i2c_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedI2CClass *aic = ASPEED_I2C_CLASS(klass);
++
++    dc->desc = "ASPEED 2600 I2C Controller";
++
++    aic->num_busses = 16;
++    aic->reg_size = 0x80;
++    aic->gap = -1; /* no gap */
++    aic->bus_get_irq = aspeed_2600_i2c_bus_get_irq;
++}
++
++static const TypeInfo aspeed_2600_i2c_info = {
++    .name = TYPE_ASPEED_2600_I2C,
++    .parent = TYPE_ASPEED_I2C,
++    .class_init = aspeed_2600_i2c_class_init,
++};
++
+ static void aspeed_i2c_register_types(void)
+ {
+     type_register_static(&aspeed_i2c_info);
+     type_register_static(&aspeed_2400_i2c_info);
+     type_register_static(&aspeed_2500_i2c_info);
++    type_register_static(&aspeed_2600_i2c_info);
+ }
  
-     /* Keep the segment in the overall flash window */
-@@ -509,7 +524,7 @@ static uint32_t aspeed_smc_check_segment_addr(const AspeedSMCFlash *fl,
-     const AspeedSMCState *s = fl->controller;
-     AspeedSegments seg;
- 
--    aspeed_smc_reg_to_segment(s->regs[R_SEG_ADDR0 + fl->id], &seg);
-+    s->ctrl->reg_to_segment(s, s->regs[R_SEG_ADDR0 + fl->id], &seg);
-     if ((addr % seg.size) != addr) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid address 0x%08x for CS%d segment : "
-@@ -769,7 +784,7 @@ static void aspeed_smc_reset(DeviceState *d)
-     /* setup default segment register values for all */
-     for (i = 0; i < s->ctrl->max_slaves; ++i) {
-         s->regs[R_SEG_ADDR0 + i] =
--            aspeed_smc_segment_to_reg(&s->ctrl->segments[i]);
-+            s->ctrl->segment_to_reg(s, &s->ctrl->segments[i]);
-     }
- 
-     /* HW strapping flash type for FMC controllers  */
+ type_init(aspeed_i2c_register_types)
 -- 
 2.20.1
 
