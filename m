@@ -2,101 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FDCD61ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 14:02:29 +0200 (CEST)
-Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3220ED620E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 14:09:02 +0200 (CEST)
+Received: from localhost ([::1]:48462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJz3U-0007hb-GO
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 08:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52713)
+	id 1iJz9p-0007KO-2d
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 08:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53399)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iJyuO-00011p-PT
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:53:06 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iJyzK-0005Q0-20
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:58:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iJyuN-0007Je-Jd
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:53:04 -0400
-Received: from mail-eopbgr130102.outbound.protection.outlook.com
- ([40.107.13.102]:42932 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iJyuM-0007Hq-Um; Mon, 14 Oct 2019 07:53:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IMdl36XUP03NiSF305gu67ba4rSIMuPjnfraAiwcYL50maIJ53snUn4mwvDh+in7QdRA4USe4GYkh3hPTYXW40GTok9VYdRd/wVXiwdkAyOG6hP0w/+QGPH2dL6cGR+MqPUyE/0eoTfCI5BWWwjk+UlyWlsrf9tluO26vMW6JAHlh3/inn13KVpCZvYWu9lZr3RMw+5PJCPHcxO6sXGvUaobNMFxMxSZ36kjtH5mdKRtN4IxHpixGakw0Jg25/EGhkZqdjhn/w/4HK5JN6J8aS7bWeC0kf0TRFYHXiWOmm4UZMYGg5bTiTxoqDBe314/GmfIxv9Z/Vwr9ZBxXnSzgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A+9r2bFsrMcKMXOJbsJtXO0XA6pcXKDbXTGuNgb0uWg=;
- b=j+G49/AiCuXgFwRZubhLhATMDKxySW/gOUF0BgJkb5N1PJrPU818uQQXMu2hlyqXpk7oWJ2HrPnoXIowpW+sv7GQXRtQ619Jr4gpLgeQ1x3bffaY/+tRBoBa+OXXpaFHcCwFHwn754tbzXEgLREWziqQ+r0A3qFCnV38hU42wq1z4TmrUbdI2kJlCcMo6IxvBp+iHzVyyz2sTpPCXxjjpSHW1kzVsZbElmvn6H/4x47xRxcR2YguQN4900TcrklLzT/wGWD18BEWK2lu31HqGVriNfK/NaybDN5vkWMFKLGKz4hd+KCgETkTr/RddA1a/rujhcDzGdVhtrRNSGyJdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A+9r2bFsrMcKMXOJbsJtXO0XA6pcXKDbXTGuNgb0uWg=;
- b=AgL8mrjUogd6Oz5tQgov/QIz0LznWVAIZ19TxOt9KmRYIoWONaA6e5hDBUAY/VwrysdvhcjoEEQMHG2x5OKtZ0bImLAgkGb02AymH5TlXU0KiI1kd26I8W7Am5G3MD7GsK/GjvO+sIm8vSuLrGSUrlGj4j72JwE0n/mbcaO+f4s=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4169.eurprd08.prod.outlook.com (20.179.10.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Mon, 14 Oct 2019 11:53:00 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::2856:990a:197a:288f%2]) with mapi id 15.20.2347.021; Mon, 14 Oct 2019
- 11:53:00 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v2 0/2] fix qcow2_can_store_new_dirty_bitmap
-Thread-Topic: [PATCH v2 0/2] fix qcow2_can_store_new_dirty_bitmap
-Thread-Index: AQHVgoW5R0JiiFjWEkC5eKx2r1dN66daBsuA
-Date: Mon, 14 Oct 2019 11:52:59 +0000
-Message-ID: <3c08fc07-dff8-0d70-7436-a52d67e9542e@virtuozzo.com>
-References: <20191014115126.15360-1-vsementsov@virtuozzo.com>
-In-Reply-To: <20191014115126.15360-1-vsementsov@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0202CA0022.eurprd02.prod.outlook.com
- (2603:10a6:3:8c::32) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191014145257581
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3c199df0-4690-459b-ff79-08d7509d0f91
-x-ms-traffictypediagnostic: DB8PR08MB4169:
-x-ms-exchange-purlcount: 2
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR08MB4169CB45259449E5B0478F08C1900@DB8PR08MB4169.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1284;
-x-forefront-prvs: 01901B3451
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(136003)(366004)(346002)(39850400004)(376002)(189003)(199004)(53754006)(71190400001)(71200400001)(86362001)(36756003)(256004)(386003)(6506007)(3846002)(6116002)(2906002)(99286004)(52116002)(76176011)(54906003)(316002)(31696002)(25786009)(4326008)(81166006)(8936002)(186003)(102836004)(476003)(11346002)(2616005)(486006)(5660300002)(81156014)(8676002)(66556008)(446003)(14454004)(6246003)(2501003)(2351001)(7736002)(229853002)(305945005)(107886003)(66066001)(31686004)(66946007)(6916009)(966005)(5640700003)(478600001)(6486002)(66476007)(64756008)(66446008)(6436002)(6306002)(6512007)(26005)(14143004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4169;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sjjkX4G0MFSaKznTp591iMTXEgikuR3XYatQQpYzLS7XYOXDv7fFcCDApVrffagVH/awZa6inZtypn1IU4FGYBOVWB4T+kFpftIeSu1FFnOAJoUqwByxjN15u+JOCJu6tuaEL5KL1P1YAucxfRrJmRG6/2x5D64wIJzsHIZf0zo/ujDDSALFFRhjdlzp44wVtAmcG/BqsPVCH/pgTZ87L1sPoKeBTgnOfnAVUBdNxfS92Lqy1E6jDRkNAgqWUTlNS4qufB+ZUfbirejsk0vNWgnkfGod7N6chPWsQ38IIIHWvKPz9I2BH+4aW5bAXb/nIJwIfKldpgUPGKdCTDSFYspTq+8OOu/pQPxPfT0Qi8UcXvw6Vp1HdirUjC4tW1seX9u4VT3QPn+ZlB1V/TPcqbd0j54iS/nJyBkaXvlBtLz9Q1ano8nLumBmNyP3I1MODa1YRJfvmonsmOnajWEN5A==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <304007DCB144DF4A9C9D4ADAF4F4231A@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iJyzI-0003UK-E3
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:58:09 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:35670)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iJyzI-0003Qc-5Z
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:58:08 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id A8D9D6DF62;
+ Mon, 14 Oct 2019 20:58:04 +0900 (JST)
+Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
+ [222.8.5.235])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 3F0D824008E;
+ Mon, 14 Oct 2019 20:58:03 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v26 00/21] Add RX archtecture support
+Date: Mon, 14 Oct 2019 20:57:36 +0900
+Message-Id: <20191014115757.51866-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c199df0-4690-459b-ff79-08d7509d0f91
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2019 11:52:59.9239 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Dlp3BpkLlDUdJJrvDClgfrIc5l5bykkdBefCX9I3kbAL0LnaCgvfUEA9MUuHwITjEx3KIJqjPrzJEcVc13/6n0VQ/arCGaIJrRJZuR6G3a8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4169
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.102
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.14
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,35 +51,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>
+Cc: philmd@redhat.com, Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTQuMTAuMjAxOSAxNDo1MSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4g
-SGkgYWxsIQ0KPiANCj4gSGVyZSBpcyBhIGZpeCBmb3IgcGVyc2lzdGVudCBiaXRtYXBzIG1hbmFn
-aW5nOiB3ZSBtdXN0IGNoZWNrIGV4aXN0ZW50DQo+IGJ1dCBub3QgeWV0IHN0b3JlZCBiaXRtYXBz
-IGZvciBxY293Mi1yZWxhdGVkIGNvbnN0cmFpbnRzLCBsaWtlIG1heGltdW0NCj4gbnVtYmVyIG9m
-IGJpdG1hcHMgaW4gcWNvdzIgaW1hZ2UuDQo+IA0KPiB2MjoNCg0KbWFpbiB0aGluZyBiYXNlZCBv
-biBodHRwczovL2dpdGh1Yi5jb20vam5zbm93L3FlbXUgYml0bWFwcw0KQmFzZWQtb246IDwyMDE5
-MTAxMTIxMjU1MC4yNzI2OS0xLWpzbm93QHJlZGhhdC5jb20+DQoNCj4gDQo+IDAxOiBjaGFuZ2Ug
-YXNzZXJ0aW9uIHRvIGVycm9yLXJldHVybiBhdCBmdW5jdGlvbiBzdGFydA0KPiAgICAgIEJlIGZy
-ZWUgdG8gYWRkDQo+ICAgICAgUmVwb3J0ZWQtYnk6IGFpaHVhIGxpYW5nIDxhbGlhbmdAcmVkaGF0
-LmNvbT4NCj4gICAgICBGaXhlczogaHR0cHM6Ly9idWd6aWxsYS5yZWRoYXQuY29tL3Nob3dfYnVn
-LmNnaT9pZD0xNzEyNjM2DQo+ICAgICAgaWYgaXQncyBhcHByb3ByaWF0ZQ0KPiAwMjogbmV3IHRl
-c3QNCj4gICAgICBPaGgsIGl0IHRha2VzIGFib3V0IDQgbWludXRlcy4gQmUgZnJlZSB0byBkcm9w
-IGl0LCBhcyBJIGRvdWJ0IHRoYXQNCj4gICAgICBpdCB3b3J0aCB0byBoYXZlLiBUaGUgY2FzZSBp
-cyBzaW1wbGUsIHdlIG1heSBsaXZlIHdpdGhvdXQgYQ0KPiAgICAgIHRlc3QuDQo+IA0KPiBWbGFk
-aW1pciBTZW1lbnRzb3YtT2dpZXZza2l5ICgyKToNCj4gICAgcWNvdzItYml0bWFwczogZml4IHFj
-b3cyX2Nhbl9zdG9yZV9uZXdfZGlydHlfYml0bWFwDQo+ICAgIGlvdGVzdHM6IGFkZCAyNjkgdG8g
-Y2hlY2sgbWF4aW11bSBvZiBiaXRtYXBzIGluIHFjb3cyDQo+IA0KPiAgIGJsb2NrL3Fjb3cyLWJp
-dG1hcC5jICAgICAgIHwgNDEgKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAg
-dGVzdHMvcWVtdS1pb3Rlc3RzLzI2OSAgICAgfCA0NyArKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKw0KPiAgIHRlc3RzL3FlbXUtaW90ZXN0cy8yNjkub3V0IHwgIDMgKysrDQo+
-ICAgdGVzdHMvcWVtdS1pb3Rlc3RzL2dyb3VwICAgfCAgMSArDQo+ICAgNCBmaWxlcyBjaGFuZ2Vk
-LCA2OSBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkNCj4gICBjcmVhdGUgbW9kZSAxMDA3
-NTUgdGVzdHMvcWVtdS1pb3Rlc3RzLzI2OQ0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9x
-ZW11LWlvdGVzdHMvMjY5Lm91dA0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWly
-DQo=
+Hello.
+This patch series is added Renesas RX target emulation.
+
+Changes for v25.
+Update commit message.
+Squashed qapi/machine.json changes.
+
+Changes for v24.
+Add note for qapi/machine.json.
+Added Acked-by for 6/22.
+git rebase master.
+
+Changes for v23.
+Follow master changes.
+
+Changes for v22.
+Added some include.
+
+Changes for v21.
+rebase latest master.
+Remove unneeded hmp_info_tlb.
+
+Chanegs for v20.
+Reorderd patches.
+Squashed v19 changes.
+
+Changes for v19.
+Follow tcg changes.
+Cleanup cpu.c.
+simplify rx_cpu_class_by_name and rx_load_image move to rx-virt.
+
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190912
+
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
+
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTre=
+e)
+
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
+  BootLinuxConsoleTest: Test the RX-Virt machine
+
+Richard Henderson (7):
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (11):
+  MAINTAINERS: Add RX
+  qemu/bitops.h: Add extract8 and extract16
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+
+ configure                              |    8 +
+ default-configs/rx-softmmu.mak         |    3 +
+ qapi/machine.json                      |    3 +-
+ include/disas/dis-asm.h                |    5 +
+ include/exec/poison.h                  |    1 +
+ include/hw/char/renesas_sci.h          |   45 +
+ include/hw/intc/rx_icu.h               |   56 +
+ include/hw/registerfields.h            |   32 +-
+ include/hw/rx/rx.h                     |    7 +
+ include/hw/rx/rx62n.h                  |   91 +
+ include/hw/timer/renesas_cmt.h         |   38 +
+ include/hw/timer/renesas_tmr.h         |   53 +
+ include/qemu/bitops.h                  |   38 +
+ include/sysemu/arch_init.h             |    1 +
+ target/rx/cpu-param.h                  |   31 +
+ target/rx/cpu-qom.h                    |   42 +
+ target/rx/cpu.h                        |  181 ++
+ target/rx/helper.h                     |   31 +
+ arch_init.c                            |    2 +
+ hw/char/renesas_sci.c                  |  343 ++++
+ hw/intc/rx_icu.c                       |  379 ++++
+ hw/rx/rx-virt.c                        |  135 ++
+ hw/rx/rx62n.c                          |  247 +++
+ hw/timer/renesas_cmt.c                 |  278 +++
+ hw/timer/renesas_tmr.c                 |  458 +++++
+ target/rx/cpu.c                        |  217 +++
+ target/rx/disas.c                      | 1446 ++++++++++++++
+ target/rx/gdbstub.c                    |  112 ++
+ target/rx/helper.c                     |  149 ++
+ target/rx/op_helper.c                  |  470 +++++
+ target/rx/translate.c                  | 2432 ++++++++++++++++++++++++
+ tests/machine-none-test.c              |    1 +
+ MAINTAINERS                            |   19 +
+ hw/Kconfig                             |    1 +
+ hw/char/Kconfig                        |    3 +
+ hw/char/Makefile.objs                  |    1 +
+ hw/intc/Kconfig                        |    3 +
+ hw/intc/Makefile.objs                  |    1 +
+ hw/rx/Kconfig                          |   14 +
+ hw/rx/Makefile.objs                    |    2 +
+ hw/timer/Kconfig                       |    6 +
+ hw/timer/Makefile.objs                 |    3 +
+ target/rx/Makefile.objs                |   11 +
+ target/rx/insns.decode                 |  621 ++++++
+ tests/acceptance/boot_linux_console.py |   46 +
+ 45 files changed, 8064 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu-param.h
+ create mode 100644 target/rx/cpu-qom.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
+
+--=20
+2.20.1
+
 
