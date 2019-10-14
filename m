@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E86D5AB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 07:29:00 +0200 (CEST)
-Received: from localhost ([::1]:44620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5594FD5B01
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 08:04:15 +0200 (CEST)
+Received: from localhost ([::1]:44830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJsuh-0002w0-KU
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 01:28:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60206)
+	id 1iJtSn-0004Oh-QH
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 02:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iJstE-0002Lw-JG
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 01:27:30 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iJtNx-0000Dc-Nb
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 01:59:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iJstB-0004gk-I1
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 01:27:28 -0400
-Received: from ozlabs.org ([203.11.71.1]:47893)
+ (envelope-from <dgibson@ozlabs.org>) id 1iJtNw-0004Lj-3s
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 01:59:13 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59023 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iJstA-0004fT-Iq; Mon, 14 Oct 2019 01:27:25 -0400
+ id 1iJtNv-0004KY-9x; Mon, 14 Oct 2019 01:59:12 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46s6WV6gcXz9sPj; Mon, 14 Oct 2019 16:27:18 +1100 (AEDT)
+ id 46s7D85k3Vz9sPh; Mon, 14 Oct 2019 16:59:04 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1571030838;
- bh=XbUzoF2pCmQP+TnRyVcf7qaPkAzS0GFvLbd/5AtQMJM=;
+ d=gibson.dropbear.id.au; s=201602; t=1571032744;
+ bh=vX0AubCGIwk3bW9+Qwp20WoFFx7C4/mznICav8Fa1ic=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Adp+E2CvI0nuMSVdLAhQ8sqsCgxZfspWlQ696cM57PLxqD/IeORhE3rEKo8T9thOS
- dtDPA3QOjAu0jriCwcNooa7ksdIsEvPh0fCICxdeDUzbJMhN9HczU3flef2G2b6xde
- UJ7kk1pOw4NF5V9Df6vNWJIsKjv++uGJf9i5bdgQ=
-Date: Mon, 14 Oct 2019 16:27:13 +1100
+ b=AIfE6FJtEt5qJZUWraPZONhdWwckhUStKzuGCY4BaAh7Tk5T3sr4ev93rSusKZElJ
+ R5Qc+RynGdCH1oCka5zYc0r0oQBN72FD22PqMJs3IqHbgKD8NwDtik5Zv8YQZxIoGc
+ bSOayG9ET8JIvYauPNlumM8CdE2tFjpNm82nHjDE=
+Date: Mon, 14 Oct 2019 16:28:24 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Ganesh Goudar <ganeshgr@linux.ibm.com>
-Subject: Re: [PATCH v16 2/7] ppc: spapr: Introduce FWNMI capability
-Message-ID: <20191014052713.GR4080@umbus.fritz.box>
-References: <20191010065950.23169-1-ganeshgr@linux.ibm.com>
- <20191010065950.23169-3-ganeshgr@linux.ibm.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/9] ppc/pnv: Improve trigger data definition
+Message-ID: <20191014052824.GS4080@umbus.fritz.box>
+References: <20191007084102.29776-1-clg@kaod.org>
+ <20191007084102.29776-2-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Uw+RRa3pmtkgiNaD"
+ protocol="application/pgp-signature"; boundary="cjNiBkmi8s9yAE0W"
 Content-Disposition: inline
-In-Reply-To: <20191010065950.23169-3-ganeshgr@linux.ibm.com>
+In-Reply-To: <20191007084102.29776-2-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,195 +56,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arawinda.p@gmail.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- paulus@ozlabs.org, qemu-ppc@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Uw+RRa3pmtkgiNaD
-Content-Type: text/plain; charset=us-ascii
+--cjNiBkmi8s9yAE0W
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 10, 2019 at 12:29:45PM +0530, Ganesh Goudar wrote:
-> From: Aravinda Prasad <arawinda.p@gmail.com>
+On Mon, Oct 07, 2019 at 10:40:54AM +0200, C=C3=A9dric Le Goater wrote:
+> The trigger data is used for both triggers of a HW source interrupts,
+> PHB, PSI, and triggers for rerouting interrupts between interrupt
+> controllers.
 >=20
-> Introduce the KVM capability KVM_CAP_PPC_FWNMI so that
-> the KVM causes guest exit with NMI as exit reason
-> when it encounters a machine check exception on the
-> address belonging to a guest. Without this capability
-> enabled, KVM redirects machine check exceptions to
-> guest's 0x200 vector.
+> When an interrupt is rerouted, the trigger data follows an "END
+> trigger" format. In that case, the remote IC needs EAS containing an
+> END index to perform a lookup of an END.
 >=20
-> This patch also introduces fwnmi-mce capability to
-> deal with the case when a guest with the
-> KVM_CAP_PPC_FWNMI capability enabled is attempted
-> to migrate to a host that does not support this
-> capability.
+> An END trigger, bit0 of word0 set to '1', is defined as :
+>=20
+>              |0123|4567|0123|4567|0123|4567|0123|4567|
+>     W0 E=3D1   |1P--|BLOC|          END IDX            |
+>     W1 E=3D1   |M   |           END DATA               |
+>=20
+> An EAS is defined as :
+>=20
+>              |0123|4567|0123|4567|0123|4567|0123|4567|
+>     W0       |V---|BLOC|          END IDX            |
+>     W1       |M   |          END DATA                |
+>=20
+> The END trigger adds an extra 'PQ' bit, bit1 of word0 set to '1',
+> signaling that the PQ bits have been checked. That bit is unused in
+> the initial EAS definition.
+>=20
+> When a HW device performs the trigger, the trigger data follows an
+> "EAS trigger" format because the trigger data in that case contains an
+> EAS index which the IC needs to look for.
+>=20
+> An EAS trigger, bit0 of word0 set to '0', is defined as :
+>=20
+>              |0123|4567|0123|4567|0123|4567|0123|4567|
+>     W0 E=3D0   |0P--|---- ---- ---- ---- ---- ---- ----|
+>     W1 E=3D0   |BLOC|            EAS INDEX             |
+>=20
+> There is also a 'PQ' bit, bit1 of word0 to '1', signaling that the
+> PQ bits have been checked.
+>=20
+> Introduce these new trigger bits and rename the XIVE_SRCNO macros in
+> XIVE_EAS to reflect better the nature of the data.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-I think the commit message needs some updating.  This doesn't really
-introduce the KVM cap.  It introduces the spapr capability, and
-validates it against the kernel's exising capability.
+Applied to ppc-for-4.2, thanks.
 
->=20
-> [eliminate cap_ppc_fwnmi]
-> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
-> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
 > ---
->  hw/ppc/spapr.c         |  1 +
->  hw/ppc/spapr_caps.c    | 29 +++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |  4 +++-
->  target/ppc/kvm.c       |  8 ++++++++
->  target/ppc/kvm_ppc.h   |  6 ++++++
->  5 files changed, 47 insertions(+), 1 deletion(-)
+>  include/hw/ppc/xive_regs.h | 26 +++++++++++++++++++++++---
+>  hw/intc/pnv_xive.c         | 20 ++++++++++++++++----
+>  hw/intc/xive.c             |  4 ++--
+>  3 files changed, 41 insertions(+), 9 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 514a17ae74..7e6a15c9b4 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4441,6 +4441,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
->      spapr_caps_add_properties(smc, &error_abort);
->      smc->irq =3D &spapr_irq_dual;
->      smc->dr_phb_enabled =3D true;
-
-To have migration work correctly, you also need to add
-&vmstate_spapr_cap_fwnmi_mce  to the list in vmstate_spapr.  (Yes,
-that makes three places you have to put things to get migration
-right, which is really easy to mess up - I've done it more than once
-myself - unfortunately, I haven't come up with a better way yet).
-
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 481dfd2a27..778bf32181 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -496,6 +496,25 @@ static void cap_ccf_assist_apply(SpaprMachineState *=
-spapr, uint8_t val,
+> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+> index 08c8bf7172e2..55307cd1533c 100644
+> --- a/include/hw/ppc/xive_regs.h
+> +++ b/include/hw/ppc/xive_regs.h
+> @@ -22,9 +22,29 @@
+>  /*
+>   * Interrupt source number encoding on PowerBUS
+>   */
+> -#define XIVE_SRCNO_BLOCK(srcno) (((srcno) >> 28) & 0xf)
+> -#define XIVE_SRCNO_INDEX(srcno) ((srcno) & 0x0fffffff)
+> -#define XIVE_SRCNO(blk, idx)    ((uint32_t)(blk) << 28 | (idx))
+> +/*
+> + * Trigger data definition
+> + *
+> + * The trigger definition is used for triggers both for HW source
+> + * interrupts (PHB, PSI), as well as for rerouting interrupts between
+> + * Interrupt Controller.
+> + *
+> + * HW source controllers set bit0 of word0 to =E2=80=980=E2=80=99 as the=
+y provide EAS
+> + * information (EAS block + EAS index) in the 8 byte data and not END
+> + * information, which is use for rerouting interrupts.
+> + *
+> + * bit1 of word0 to =E2=80=981=E2=80=99 signals that the state bit check=
+ has been
+> + * performed.
+> + */
+> +#define XIVE_TRIGGER_END        PPC_BIT(0)
+> +#define XIVE_TRIGGER_PQ         PPC_BIT(1)
+> +
+> +/*
+> + * QEMU macros to manipulate the trigger payload in native endian
+> + */
+> +#define XIVE_EAS_BLOCK(n)       (((n) >> 28) & 0xf)
+> +#define XIVE_EAS_INDEX(n)       ((n) & 0x0fffffff)
+> +#define XIVE_EAS(blk, idx)      ((uint32_t)(blk) << 28 | (idx))
+> =20
+>  #define TM_SHIFT                16
+> =20
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index ed6e9d71bbfa..348f2fdd263d 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -385,7 +385,7 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_t=
+ blk, uint32_t idx,
+>      PnvXive *xive =3D PNV_XIVE(xrtr);
+> =20
+>      if (pnv_xive_get_ic(blk) !=3D xive) {
+> -        xive_error(xive, "VST: EAS %x is remote !?", XIVE_SRCNO(blk, idx=
+));
+> +        xive_error(xive, "VST: EAS %x is remote !?", XIVE_EAS(blk, idx));
+>          return -1;
 >      }
+> =20
+> @@ -431,7 +431,7 @@ static void pnv_xive_notify(XiveNotifier *xn, uint32_=
+t srcno)
+>      PnvXive *xive =3D PNV_XIVE(xn);
+>      uint8_t blk =3D xive->chip->chip_id;
+> =20
+> -    xive_router_notify(xn, XIVE_SRCNO(blk, srcno));
+> +    xive_router_notify(xn, XIVE_EAS(blk, srcno));
 >  }
-> =20
-> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-> +                                Error **errp)
-> +{
-> +    if (!val) {
-> +        return; /* Disabled by default */
-> +    }
-> +
-> +    if (tcg_enabled()) {
-> +        /*
-> +         * TCG support may not be correct in some conditions (e.g., in c=
-ase
-> +         * of software injected faults like duplicate SLBs).
-> +         */
-> +        warn_report("Firmware Assisted Non-Maskable Interrupts not suppo=
-rted in TCG");
-> +    } else if (kvm_enabled() && kvmppc_set_fwnmi()) {
-
-When checking integer error code return values (like
-kvmppc_set_fwnmi()) please include an explicit !=3D 0, to make it
-clearer that's what's happening, rather than a function returning a bool.
-
-> +        error_setg(errp,
-> +"Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap=
--fwnmi-mce=3Doff");
-> +    }
-> +}
-> +
->  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
->      [SPAPR_CAP_HTM] =3D {
->          .name =3D "htm",
-> @@ -595,6 +614,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
-=3D {
->          .type =3D "bool",
->          .apply =3D cap_ccf_assist_apply,
->      },
-> +    [SPAPR_CAP_FWNMI_MCE] =3D {
-> +        .name =3D "fwnmi-mce",
-> +        .description =3D "Handle fwnmi machine check exceptions",
-> +        .index =3D SPAPR_CAP_FWNMI_MCE,
-> +        .get =3D spapr_cap_get_bool,
-> +        .set =3D spapr_cap_set_bool,
-> +        .type =3D "bool",
-> +        .apply =3D cap_fwnmi_mce_apply,
-> +    },
->  };
-> =20
->  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-> @@ -734,6 +762,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MA=
-XPAGESIZE);
->  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
-> =20
->  void spapr_caps_init(SpaprMachineState *spapr)
->  {
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index cbd1a4c9f3..dcd2e7d0cc 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -79,8 +79,10 @@ typedef enum {
->  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
->  /* Count Cache Flush Assist HW Instruction */
->  #define SPAPR_CAP_CCF_ASSIST            0x09
-> +/* FWNMI machine check handling */
-> +#define SPAPR_CAP_FWNMI_MCE             0x0A
->  /* Num Caps */
-> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
 > =20
 >  /*
->   * Capability Values
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 820724cc7d..d56f11a883 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2060,6 +2060,14 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mp=
-ic_proxy)
->      }
+> @@ -1225,12 +1225,24 @@ static const MemoryRegionOps pnv_xive_ic_reg_ops =
+=3D {
+> =20
+>  static void pnv_xive_ic_hw_trigger(PnvXive *xive, hwaddr addr, uint64_t =
+val)
+>  {
+> +    uint8_t blk;
+> +    uint32_t idx;
+> +
+> +    if (val & XIVE_TRIGGER_END) {
+> +        xive_error(xive, "IC: END trigger at @0x%"HWADDR_PRIx" data 0x%"=
+PRIx64,
+> +                   addr, val);
+> +        return;
+> +    }
+> +
+>      /*
+>       * Forward the source event notification directly to the Router.
+>       * The source interrupt number should already be correctly encoded
+>       * with the chip block id by the sending device (PHB, PSI).
+>       */
+> -    xive_router_notify(XIVE_NOTIFIER(xive), val);
+> +    blk =3D XIVE_EAS_BLOCK(val);
+> +    idx =3D XIVE_EAS_INDEX(val);
+> +
+> +    xive_router_notify(XIVE_NOTIFIER(xive), XIVE_EAS(blk, idx));
 >  }
 > =20
-> +int kvmppc_set_fwnmi(void)
-> +{
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> +    CPUState *cs =3D CPU(cpu);
-> +
-> +    return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-> +}
-> +
->  int kvmppc_smt_threads(void)
+>  static void pnv_xive_ic_notify_write(void *opaque, hwaddr addr, uint64_t=
+ val,
+> @@ -1566,7 +1578,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
 >  {
->      return cap_ppc_smt ? cap_ppc_smt : 1;
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 98bd7d5da6..5727a5025f 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -27,6 +27,7 @@ void kvmppc_enable_h_page_init(void);
->  void kvmppc_set_papr(PowerPCCPU *cpu);
->  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> +int kvmppc_set_fwnmi(void);
->  int kvmppc_smt_threads(void);
->  void kvmppc_hint_smt_possible(Error **errp);
->  int kvmppc_set_smt_threads(int smt);
-> @@ -159,6 +160,11 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU =
-*cpu, int mpic_proxy)
+>      XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+>      uint8_t blk =3D xive->chip->chip_id;
+> -    uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
+> +    uint32_t srcno0 =3D XIVE_EAS(blk, 0);
+>      uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive);
+>      uint32_t nr_ends =3D pnv_xive_nr_ends(xive);
+>      XiveEAS eas;
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 29df06df1136..cbe4ae6c294d 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1648,8 +1648,8 @@ do_escalation:
+>  void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
 >  {
->  }
+>      XiveRouter *xrtr =3D XIVE_ROUTER(xn);
+> -    uint8_t eas_blk =3D XIVE_SRCNO_BLOCK(lisn);
+> -    uint32_t eas_idx =3D XIVE_SRCNO_INDEX(lisn);
+> +    uint8_t eas_blk =3D XIVE_EAS_BLOCK(lisn);
+> +    uint32_t eas_idx =3D XIVE_EAS_INDEX(lisn);
+>      XiveEAS eas;
 > =20
-> +static inline int kvmppc_set_fwnmi(void)
-> +{
-> +    return -1;
-> +}
-> +
->  static inline int kvmppc_smt_threads(void)
->  {
->      return 1;
+>      /* EAS cache lookup */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -252,25 +243,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Uw+RRa3pmtkgiNaD
+--cjNiBkmi8s9yAE0W
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2kBzEACgkQbDjKyiDZ
-s5I4Hw/+OTpzjoduUkzHXn0khwiNAsjVAa2DMQQUTpnKknzPUNLb5wgxLHwZYsah
-whTgjvCq2BW/4KhPeBhGvHA3aSKgKgsYOKZO8AH4u8HDLpRRBGbSrdwyOPayd4v/
-hSwO/SK0IETZGVApg1xUr9jsrshK2Gb7PtIePnrFVLJjDY13WnWkNEedy8mo/iLp
-EUdrWYUzlQP5h2yHnFCI5pYwkEMKJI0JHv3laZF/9kGq2cXRY+VKBX3iV4avWC71
-Ep8qkGzUkwwalHnzR7VHGxu1xRyGqTqByxXUYzwbJxGUBjFUv4kp9Ha1z+ZTBfip
-hh8vHrGkCkAx3cDu6M5zVjEvMzdJleXCjsl0xOBNRQThk4MuAdKh/iHA0hRMSEd3
-XUmYU9i1mAqDXtAl7oPvwhKOaXmAfm6xy0u3oxwBSqJHuyMPvYeavR8J0EDTkXdA
-RkrPiokUEBgMTwKZKfeLBa60dhc+faz06gtw8CiMRO4LNmGhDxRxYDrZnlSLRu4u
-K9x5SEr/osu9YCIOFVAaLGTjaf9n+dV11J4b5YQp0+bMgZ10syThHyR1uymATmbr
-LAIfgR3DukJri/ZgGGsogjx0m3ExmQnsiiytmIyFmc78+u025xQ0b5nWe5BqVDhY
-YqWaRVOsLzuDKUP5fe2APIJtXIiBtWLP6hm3Br7IDX4xSlAoGBc=
-=ZbZ8
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2kB3gACgkQbDjKyiDZ
+s5LyqBAAlf+/rTwuRZs0IAPuBHNbJ6wPZt6ZvabPddvumLILGloLUJ49Lx5ujD/H
+DTx2C3SZKhRxxboy8+6xAyzrHJ7JN0FxGD/u7ogdO4eP8Z9Md50DA65NjYMHDHCX
+LUhwXp2zMUbgvbI7G9BaHMrzmF9FXj5l2TauiQh26SJmlCgGWPUESnY17gMG+CHC
+ge4VnzHj16k1tvs80nHiMZsepDeKy9ESrHRJx5SwfiaxmRs15HUHlYLM5C+LesAr
+qn1AizwKjpVvuTsKHbUccRvPWf4HWfIJVKNweji+AkdgZU3b/wrAj0HUB11edRYt
+B9of7mVXgPilMKZumTfvrr9626OEOqpyi6j+xtC6K75u2zqlhzNGWuKnmODF0Twf
+PXt77sdNkW0kDI+zdGmkjtl6ZU22stE7qQC//9RFntGXKX1ODd6reBXR3jQPFhTz
+PI6/rkSvE+YBUywuZwmjZFsKc9igHkB4qWdYfIK6Lv9Bg2LRYYzjOEvgkn0k0pyS
+QP+WsnjTWkbNI+YNQxGp1N8xDUJ7oOnsyOhH7DbEfYj/b3iKQleR6PsKFb5JIuR5
+efB8mBsqUXhkdLbgODfdtAxTprc54TwOhEDm/Hb8/sGd2ABs1d8UA0zSEi8GRLpI
+dRK+2QlP6EAt/kaGn5g3CfrvsH0I3p4kXHz9xGC4fka+X7d1esk=
+=M5lc
 -----END PGP SIGNATURE-----
 
---Uw+RRa3pmtkgiNaD--
+--cjNiBkmi8s9yAE0W--
 
