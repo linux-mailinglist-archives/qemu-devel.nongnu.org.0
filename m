@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF57CD6222
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 14:16:16 +0200 (CEST)
-Received: from localhost ([::1]:48720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD7DD626B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 14:23:20 +0200 (CEST)
+Received: from localhost ([::1]:48842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJzGp-0007Rs-Vn
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 08:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54284)
+	id 1iJzNf-0005Ez-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 08:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iJz4D-0001qe-99
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 08:03:14 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iJyzN-0005Tg-Mw
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:58:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iJz4A-0000QM-35
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 08:03:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33640)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iJz49-0000Nd-Qa
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 08:03:10 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB85130842B0;
- Mon, 14 Oct 2019 12:03:07 +0000 (UTC)
-Received: from localhost (dhcp-192-238.str.redhat.com [10.33.192.238])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18F535DAAE;
- Mon, 14 Oct 2019 12:02:59 +0000 (UTC)
-Date: Mon, 14 Oct 2019 14:02:58 +0200
-From: Jens Freimann <jfreimann@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v3 01/10] qdev/qbus: add hidden device support
-Message-ID: <20191014120258.sjpe4tfhueag72f6@jenstp.localdomain>
-References: <20191011112015.11785-1-jfreimann@redhat.com>
- <20191011112015.11785-2-jfreimann@redhat.com>
- <20191014114622.6dcd9f90.cohuck@redhat.com>
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iJyzI-0003Uq-JE
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:58:13 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:35683)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iJyzI-0003RR-5b
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:58:08 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id CB82A75C9A;
+ Mon, 14 Oct 2019 20:58:05 +0900 (JST)
+Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
+ [222.8.5.235])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 630F224008E;
+ Mon, 14 Oct 2019 20:58:05 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v26 05/21] target/rx: TCG helper
+Date: Mon, 14 Oct 2019 20:57:41 +0900
+Message-Id: <20191014115757.51866-6-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191014115757.51866-1-ysato@users.sourceforge.jp>
+References: <20191014115757.51866-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20191014114622.6dcd9f90.cohuck@redhat.com>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 14 Oct 2019 12:03:07 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,190 +53,710 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: parav@mellanox.com, mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, alex.williamson@redhat.com, laine@redhat.com,
- ailan@redhat.com, ehabkost@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, philmd@redhat.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 14, 2019 at 11:46:22AM +0200, Cornelia Huck wrote:
->On Fri, 11 Oct 2019 13:20:06 +0200
->Jens Freimann <jfreimann@redhat.com> wrote:
->
->> This adds support for hiding a device to the qbus and qdev APIs.  The
->> first user of this will be the virtio-net failover feature but the API
->> introduced with this patch could be used to implement other features as
->> well, for example hiding pci devices when a pci bus is powered off.
->>
->> qdev_device_add() is modified to check for a net_failover_pair_id
->> argument in the option string. A DeviceListener callback
->> should_be_hidden() is added. It can be used by a standby device to
->> inform qdev that this device should not be added now. The standby device
->> handler can store the device options to plug the device in at a later
->> point in time.
->>
->> One reason for hiding the device is that we don't want to expose both
->> devices to the guest kernel until the respective virtio feature bit
->> VIRTIO_NET_F_STANDBY was negotiated and we know that the devices will be
->> handled correctly by the guest.
->>
->> More information on the kernel feature this is using:
->>  https://www.kernel.org/doc/html/latest/networking/net_failover.html
->>
->> An example where the primary device is a vfio-pci device and the standby
->> device is a virtio-net device:
->>
->> A device is hidden when it has an "net_failover_pair_id" option, e.g.
->>
->>  -device virtio-net-pci,...,failover=on,...
->>  -device vfio-pci,...,net_failover_pair_id=net1,...
->>
->> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
->> ---
->>  hw/core/qdev.c         | 19 +++++++++++++++++++
->>  include/hw/qdev-core.h |  9 +++++++++
->>  qdev-monitor.c         | 43 ++++++++++++++++++++++++++++++++++++++----
->>  vl.c                   |  6 ++++--
->>  4 files changed, 71 insertions(+), 6 deletions(-)
->>
->
->(...)
->
->> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->> index aa123f88cb..b61cf82ded 100644
->> --- a/include/hw/qdev-core.h
->> +++ b/include/hw/qdev-core.h
->> @@ -154,6 +154,13 @@ struct DeviceState {
->>  struct DeviceListener {
->>      void (*realize)(DeviceListener *listener, DeviceState *dev);
->>      void (*unrealize)(DeviceListener *listener, DeviceState *dev);
->> +    /*
->> +     * This callback is called just upon init of the DeviceState
->> +     * and can be used by a standby device for informing qdev if this
->> +     * device should be hidden by checking the device opts
->> +     */
->
->Maybe tweak this comment a bit:
->
->/*
-> * This callback is called upon init of the DeviceState and allows to
-> * inform qdev that a device should be hidden, depending on the device
-> * opts, for example, to hide a standby device.
-> */
->
->This makes it clearer that this interface could be reused for other
->purposes.
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Sounds good. 
->
->> +    void (*should_be_hidden)(DeviceListener *listener, QemuOpts *device_opts,
->> +            bool *match_found, bool *res);
->>      QTAILQ_ENTRY(DeviceListener) link;
->>  };
->>
->> @@ -451,4 +458,6 @@ static inline bool qbus_is_hotpluggable(BusState *bus)
->>  void device_listener_register(DeviceListener *listener);
->>  void device_listener_unregister(DeviceListener *listener);
->>
->> +bool qdev_should_hide_device(QemuOpts *opts, Error **errp);
->> +
->>  #endif
->> diff --git a/qdev-monitor.c b/qdev-monitor.c
->> index 148df9cacf..9fc8331157 100644
->> --- a/qdev-monitor.c
->> +++ b/qdev-monitor.c
->> @@ -32,9 +32,11 @@
->>  #include "qemu/help_option.h"
->>  #include "qemu/option.h"
->>  #include "qemu/qemu-print.h"
->> +#include "qemu/option_int.h"
->>  #include "sysemu/block-backend.h"
->>  #include "sysemu/sysemu.h"
->>  #include "migration/misc.h"
->> +#include "migration/migration.h"
->>
->>  /*
->>   * Aliases were a bad idea from the start.  Let's keep them
->> @@ -562,14 +564,45 @@ void qdev_set_id(DeviceState *dev, const char *id)
->>      }
->>  }
->>
->> +static int is_failover_device(void *opaque, const char *name, const char *value,
->> +                        Error **errp)
->> +{
->> +    if (strcmp(name, "net_failover_pair_id") == 0) {
->> +        QemuOpts *opts = (QemuOpts *)opaque;
->> +
->> +        if (qdev_should_hide_device(opts, errp) && errp && !*errp) {
->> +            return 1;
->> +        } else if (errp && *errp) {
->> +            return -1;
->> +        }
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static bool should_hide_device(QemuOpts *opts, Error **err)
->> +{
->> +    if (qemu_opt_foreach(opts, is_failover_device, opts, err) == 0) {
->> +        return false;
->
->Maybe turn that check around? I.e. return true if the failover property
->is present, else return false. Makes it easier to add checks for other
->properties in the future.
+Message-Id: <20190616142836.10614-3-ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190607091116.49044-3-ysato@users.sourceforge.jp>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+[PMD: Removed tlb_fill, extracted from patch of Yoshinori Sato
+ 'Convert to CPUClass::tlb_fill']
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+---
+ target/rx/helper.h    |  31 +++
+ target/rx/helper.c    | 149 +++++++++++++
+ target/rx/op_helper.c | 470 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 650 insertions(+)
+ create mode 100644 target/rx/helper.h
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/op_helper.c
 
-Done.
+diff --git a/target/rx/helper.h b/target/rx/helper.h
+new file mode 100644
+index 0000000000..f0b7ebbbf7
+--- /dev/null
++++ b/target/rx/helper.h
+@@ -0,0 +1,31 @@
++DEF_HELPER_1(raise_illegal_instruction, noreturn, env)
++DEF_HELPER_1(raise_access_fault, noreturn, env)
++DEF_HELPER_1(raise_privilege_violation, noreturn, env)
++DEF_HELPER_1(wait, noreturn, env)
++DEF_HELPER_1(debug, noreturn, env)
++DEF_HELPER_2(rxint, noreturn, env, i32)
++DEF_HELPER_1(rxbrk, noreturn, env)
++DEF_HELPER_FLAGS_3(fadd, TCG_CALL_NO_WG, f32, env, f32, f32)
++DEF_HELPER_FLAGS_3(fsub, TCG_CALL_NO_WG, f32, env, f32, f32)
++DEF_HELPER_FLAGS_3(fmul, TCG_CALL_NO_WG, f32, env, f32, f32)
++DEF_HELPER_FLAGS_3(fdiv, TCG_CALL_NO_WG, f32, env, f32, f32)
++DEF_HELPER_FLAGS_3(fcmp, TCG_CALL_NO_WG, void, env, f32, f32)
++DEF_HELPER_FLAGS_2(ftoi, TCG_CALL_NO_WG, i32, env, f32)
++DEF_HELPER_FLAGS_2(round, TCG_CALL_NO_WG, i32, env, f32)
++DEF_HELPER_FLAGS_2(itof, TCG_CALL_NO_WG, f32, env, i32)
++DEF_HELPER_2(set_fpsw, void, env, i32)
++DEF_HELPER_FLAGS_2(racw, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_2(set_psw_rte, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_2(set_psw, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_1(pack_psw, i32, env)
++DEF_HELPER_FLAGS_3(div, TCG_CALL_NO_WG, i32, env, i32, i32)
++DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
++DEF_HELPER_FLAGS_1(scmpu, TCG_CALL_NO_WG, void, env)
++DEF_HELPER_1(smovu, void, env)
++DEF_HELPER_1(smovf, void, env)
++DEF_HELPER_1(smovb, void, env)
++DEF_HELPER_2(sstr, void, env, i32)
++DEF_HELPER_FLAGS_2(swhile, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_2(suntil, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_FLAGS_2(rmpa, TCG_CALL_NO_WG, void, env, i32)
++DEF_HELPER_1(satr, void, env)
+diff --git a/target/rx/helper.c b/target/rx/helper.c
+new file mode 100644
+index 0000000000..a34a40af83
+--- /dev/null
++++ b/target/rx/helper.c
+@@ -0,0 +1,149 @@
++/*
++ *  RX emulation
++ *
++ *  Copyright (c) 2019 Yoshinori Sato
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "cpu.h"
++#include "exec/log.h"
++#include "exec/cpu_ldst.h"
++#include "sysemu/sysemu.h"
++#include "hw/irq.h"
++
++void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte)
++{
++    if (env->psw_pm =3D=3D 0) {
++        env->psw_ipl =3D FIELD_EX32(psw, PSW, IPL);
++        if (rte) {
++            /* PSW.PM can write RTE and RTFI */
++            env->psw_pm =3D FIELD_EX32(psw, PSW, PM);
++        }
++        env->psw_u =3D FIELD_EX32(psw, PSW, U);
++        env->psw_i =3D FIELD_EX32(psw, PSW, I);
++    }
++    env->psw_o =3D FIELD_EX32(psw, PSW, O) << 31;
++    env->psw_s =3D FIELD_EX32(psw, PSW, S) << 31;
++    env->psw_z =3D 1 - FIELD_EX32(psw, PSW, Z);
++    env->psw_c =3D FIELD_EX32(psw, PSW, C);
++}
++
++#define INT_FLAGS (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR)
++void rx_cpu_do_interrupt(CPUState *cs)
++{
++    RXCPU *cpu =3D RXCPU(cs);
++    CPURXState *env =3D &cpu->env;
++    int do_irq =3D cs->interrupt_request & INT_FLAGS;
++    uint32_t save_psw;
++
++    env->in_sleep =3D 0;
++
++    if (env->psw_u) {
++        env->usp =3D env->regs[0];
++    } else {
++        env->isp =3D env->regs[0];
++    }
++    save_psw =3D rx_cpu_pack_psw(env);
++    env->psw_pm =3D env->psw_i =3D env->psw_u =3D 0;
++
++    if (do_irq) {
++        if (do_irq & CPU_INTERRUPT_FIR) {
++            env->bpc =3D env->pc;
++            env->bpsw =3D save_psw;
++            env->pc =3D env->fintv;
++            env->psw_ipl =3D 15;
++            cs->interrupt_request &=3D ~CPU_INTERRUPT_FIR;
++            qemu_set_irq(env->ack, env->ack_irq);
++            qemu_log_mask(CPU_LOG_INT, "fast interrupt raised\n");
++        } else if (do_irq & CPU_INTERRUPT_HARD) {
++            env->isp -=3D 4;
++            cpu_stl_all(env, env->isp, save_psw);
++            env->isp -=3D 4;
++            cpu_stl_all(env, env->isp, env->pc);
++            env->pc =3D cpu_ldl_all(env, env->intb + env->ack_irq * 4);
++            env->psw_ipl =3D env->ack_ipl;
++            cs->interrupt_request &=3D ~CPU_INTERRUPT_HARD;
++            qemu_set_irq(env->ack, env->ack_irq);
++            qemu_log_mask(CPU_LOG_INT,
++                          "interrupt 0x%02x raised\n", env->ack_irq);
++        }
++    } else {
++        uint32_t vec =3D cs->exception_index;
++        const char *expname =3D "unknown exception";
++
++        env->isp -=3D 4;
++        cpu_stl_all(env, env->isp, save_psw);
++        env->isp -=3D 4;
++        cpu_stl_all(env, env->isp, env->pc);
++
++        if (vec < 0x100) {
++            env->pc =3D cpu_ldl_all(env, 0xffffffc0 + vec * 4);
++        } else {
++            env->pc =3D cpu_ldl_all(env, env->intb + (vec & 0xff) * 4);
++        }
++        switch (vec) {
++        case 20:
++            expname =3D "privilege violation";
++            break;
++        case 21:
++            expname =3D "access exception";
++            break;
++        case 23:
++            expname =3D "illegal instruction";
++            break;
++        case 25:
++            expname =3D "fpu exception";
++            break;
++        case 30:
++            expname =3D "non-maskable interrupt";
++            break;
++        case 0x100 ... 0x1ff:
++            expname =3D "unconditional trap";
++        }
++        qemu_log_mask(CPU_LOG_INT, "exception 0x%02x [%s] raised\n",
++                      (vec & 0xff), expname);
++    }
++    env->regs[0] =3D env->isp;
++}
++
++bool rx_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++{
++    RXCPU *cpu =3D RXCPU(cs);
++    CPURXState *env =3D &cpu->env;
++    int accept =3D 0;
++    /* hardware interrupt (Normal) */
++    if ((interrupt_request & CPU_INTERRUPT_HARD) &&
++        env->psw_i && (env->psw_ipl < env->req_ipl)) {
++        env->ack_irq =3D env->req_irq;
++        env->ack_ipl =3D env->req_ipl;
++        accept =3D 1;
++    }
++    /* hardware interrupt (FIR) */
++    if ((interrupt_request & CPU_INTERRUPT_FIR) &&
++        env->psw_i && (env->psw_ipl < 15)) {
++        accept =3D 1;
++    }
++    if (accept) {
++        rx_cpu_do_interrupt(cs);
++        return true;
++    }
++    return false;
++}
++
++hwaddr rx_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++{
++    return addr;
++}
+diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+new file mode 100644
+index 0000000000..f89d294f2b
+--- /dev/null
++++ b/target/rx/op_helper.c
+@@ -0,0 +1,470 @@
++/*
++ *  RX helper functions
++ *
++ *  Copyright (c) 2019 Yoshinori Sato
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "exec/cpu_ldst.h"
++#include "fpu/softfloat.h"
++
++static inline void QEMU_NORETURN raise_exception(CPURXState *env, int in=
+dex,
++                                                 uintptr_t retaddr);
++
++static void _set_psw(CPURXState *env, uint32_t psw, uint32_t rte)
++{
++    uint32_t prev_u;
++    prev_u =3D env->psw_u;
++    rx_cpu_unpack_psw(env, psw, rte);
++    if (prev_u !=3D env->psw_u) {
++        /* switch r0  */
++        if (env->psw_u) {
++            env->isp =3D env->regs[0];
++            env->regs[0] =3D env->usp;
++        } else {
++            env->usp =3D env->regs[0];
++            env->regs[0] =3D env->isp;
++        }
++    }
++}
++
++void helper_set_psw(CPURXState *env, uint32_t psw)
++{
++    _set_psw(env, psw, 0);
++}
++
++void helper_set_psw_rte(CPURXState *env, uint32_t psw)
++{
++    _set_psw(env, psw, 1);
++}
++
++uint32_t helper_pack_psw(CPURXState *env)
++{
++    return rx_cpu_pack_psw(env);
++}
++
++#define SET_FPSW(b)                                             \
++    do {                                                        \
++        env->fpsw =3D FIELD_DP32(env->fpsw, FPSW, C ## b, 1);     \
++        if (!FIELD_EX32(env->fpsw, FPSW, E ## b)) {             \
++            env->fpsw =3D FIELD_DP32(env->fpsw, FPSW, F ## b, 1); \
++        }                                                       \
++    } while (0)
++
++/* fp operations */
++static void update_fpsw(CPURXState *env, float32 ret, uintptr_t retaddr)
++{
++    int xcpt, cause, enable;
++
++    env->psw_z =3D ret & ~(1 << 31); /* mask sign bit */
++    env->psw_s =3D ret;
++
++    xcpt =3D get_float_exception_flags(&env->fp_status);
++
++    /* Clear the cause entries */
++    env->fpsw =3D FIELD_DP32(env->fpsw, FPSW, CAUSE, 0);
++
++    /* set FPSW */
++    if (unlikely(xcpt)) {
++        if (xcpt & float_flag_invalid) {
++            SET_FPSW(V);
++        }
++        if (xcpt & float_flag_divbyzero) {
++            SET_FPSW(Z);
++        }
++        if (xcpt & float_flag_overflow) {
++            SET_FPSW(O);
++        }
++        if (xcpt & float_flag_underflow) {
++            SET_FPSW(U);
++        }
++        if (xcpt & float_flag_inexact) {
++            SET_FPSW(X);
++        }
++        if ((xcpt & (float_flag_input_denormal
++                     | float_flag_output_denormal))
++            && !FIELD_EX32(env->fpsw, FPSW, DN)) {
++            env->fpsw =3D FIELD_DP32(env->fpsw, FPSW, CE, 1);
++        }
++
++        /* update FPSW_FLAG_S */
++        if (FIELD_EX32(env->fpsw, FPSW, FLAGS) !=3D 0) {
++            env->fpsw =3D FIELD_DP32(env->fpsw, FPSW, FS, 1);
++        }
++
++        /* Generate an exception if enabled */
++        cause =3D FIELD_EX32(env->fpsw, FPSW, CAUSE);
++        enable =3D FIELD_EX32(env->fpsw, FPSW, ENABLE);
++        enable |=3D 1 << 5; /* CE always enabled */
++        if (cause & enable) {
++            raise_exception(env, 21, retaddr);
++        }
++    }
++}
++
++void helper_set_fpsw(CPURXState *env, uint32_t val)
++{
++    static const int roundmode[] =3D {
++        float_round_nearest_even,
++        float_round_to_zero,
++        float_round_up,
++        float_round_down,
++    };
++    uint32_t fpsw =3D env->fpsw;
++    fpsw |=3D 0x7fffff03;
++    val &=3D ~0x80000000;
++    fpsw &=3D val;
++    FIELD_DP32(fpsw, FPSW, FS, FIELD_EX32(fpsw, FPSW, FLAGS) !=3D 0);
++    env->fpsw =3D fpsw;
++    set_float_rounding_mode(roundmode[FIELD_EX32(env->fpsw, FPSW, RM)],
++                            &env->fp_status);
++}
++
++#define FLOATOP(op, func)                                           \
++    float32 helper_##op(CPURXState *env, float32 t0, float32 t1)    \
++    {                                                               \
++        float32 ret;                                                \
++        ret =3D func(t0, t1, &env->fp_status);                        \
++        update_fpsw(env, *(uint32_t *)&ret, GETPC());               \
++        return ret;                                                 \
++    }
++
++FLOATOP(fadd, float32_add)
++FLOATOP(fsub, float32_sub)
++FLOATOP(fmul, float32_mul)
++FLOATOP(fdiv, float32_div)
++
++void helper_fcmp(CPURXState *env, float32 t0, float32 t1)
++{
++    int st;
++    st =3D float32_compare(t0, t1, &env->fp_status);
++    update_fpsw(env, 0, GETPC());
++    env->psw_z =3D 1;
++    env->psw_s =3D env->psw_o =3D 0;
++    switch (st) {
++    case float_relation_equal:
++        env->psw_z =3D 0;
++        break;
++    case float_relation_less:
++        env->psw_s =3D -1;
++        break;
++    case float_relation_unordered:
++        env->psw_o =3D -1;
++        break;
++    }
++}
++
++uint32_t helper_ftoi(CPURXState *env, float32 t0)
++{
++    uint32_t ret;
++    ret =3D float32_to_int32_round_to_zero(t0, &env->fp_status);
++    update_fpsw(env, ret, GETPC());
++    return ret;
++}
++
++uint32_t helper_round(CPURXState *env, float32 t0)
++{
++    uint32_t ret;
++    ret =3D float32_to_int32(t0, &env->fp_status);
++    update_fpsw(env, ret, GETPC());
++    return ret;
++}
++
++float32 helper_itof(CPURXState *env, uint32_t t0)
++{
++    float32 ret;
++    ret =3D int32_to_float32(t0, &env->fp_status);
++    update_fpsw(env, ret, GETPC());
++    return ret;
++}
++
++/* string operations */
++void helper_scmpu(CPURXState *env)
++{
++    uint8_t tmp0, tmp1;
++    if (env->regs[3] =3D=3D 0) {
++        return;
++    }
++    while (env->regs[3] !=3D 0) {
++        tmp0 =3D cpu_ldub_data_ra(env, env->regs[1]++, GETPC());
++        tmp1 =3D cpu_ldub_data_ra(env, env->regs[2]++, GETPC());
++        env->regs[3]--;
++        if (tmp0 !=3D tmp1 || tmp0 =3D=3D '\0') {
++            break;
++        }
++    }
++    env->psw_z =3D tmp0 - tmp1;
++    env->psw_c =3D (tmp0 >=3D tmp1);
++}
++
++static uint32_t (* const cpu_ldufn[])(CPUArchState *env,
++                                     target_ulong ptr,
++                                     uintptr_t retaddr) =3D {
++    cpu_ldub_data_ra, cpu_lduw_data_ra, cpu_ldl_data_ra,
++};
++
++static uint32_t (* const cpu_ldfn[])(CPUArchState *env,
++                                     target_ulong ptr,
++                                     uintptr_t retaddr) =3D {
++    cpu_ldub_data_ra, cpu_lduw_data_ra, cpu_ldl_data_ra,
++};
++
++static void (* const cpu_stfn[])(CPUArchState *env,
++                                 target_ulong ptr,
++                                 uint32_t val,
++                                 uintptr_t retaddr) =3D {
++    cpu_stb_data_ra, cpu_stw_data_ra, cpu_stl_data_ra,
++};
++
++void helper_sstr(CPURXState *env, uint32_t sz)
++{
++    tcg_debug_assert(sz < 3);
++    while (env->regs[3] !=3D 0) {
++        cpu_stfn[sz](env, env->regs[1], env->regs[2], GETPC());
++        env->regs[1] +=3D 1 << sz;
++        env->regs[3]--;
++    }
++}
++
++#define OP_SMOVU 1
++#define OP_SMOVF 0
++#define OP_SMOVB 2
++
++static void smov(uint32_t mode, CPURXState *env)
++{
++    uint8_t tmp;
++    int dir;
++
++    dir =3D (mode & OP_SMOVB) ? -1 : 1;
++    while (env->regs[3] !=3D 0) {
++        tmp =3D cpu_ldub_data_ra(env, env->regs[2], GETPC());
++        cpu_stb_data_ra(env, env->regs[1], tmp, GETPC());
++        env->regs[1] +=3D dir;
++        env->regs[2] +=3D dir;
++        env->regs[3]--;
++        if ((mode & OP_SMOVU) && tmp =3D=3D 0) {
++            break;
++        }
++    }
++}
++
++void helper_smovu(CPURXState *env)
++{
++    smov(OP_SMOVU, env);
++}
++
++void helper_smovf(CPURXState *env)
++{
++    smov(OP_SMOVF, env);
++}
++
++void helper_smovb(CPURXState *env)
++{
++    smov(OP_SMOVB, env);
++}
++
++
++void helper_suntil(CPURXState *env, uint32_t sz)
++{
++    uint32_t tmp;
++    tcg_debug_assert(sz < 3);
++    if (env->regs[3] =3D=3D 0) {
++        return ;
++    }
++    while (env->regs[3] !=3D 0) {
++        tmp =3D cpu_ldufn[sz](env, env->regs[1], GETPC());
++        env->regs[1] +=3D 1 << sz;
++        env->regs[3]--;
++        if (tmp =3D=3D env->regs[2]) {
++            break;
++        }
++    }
++    env->psw_z =3D tmp - env->regs[2];
++    env->psw_c =3D (tmp <=3D env->regs[2]);
++}
++
++void helper_swhile(CPURXState *env, uint32_t sz)
++{
++    uint32_t tmp;
++    tcg_debug_assert(sz < 3);
++    if (env->regs[3] =3D=3D 0) {
++        return ;
++    }
++    while (env->regs[3] !=3D 0) {
++        tmp =3D cpu_ldufn[sz](env, env->regs[1], GETPC());
++        env->regs[1] +=3D 1 << sz;
++        env->regs[3]--;
++        if (tmp !=3D env->regs[2]) {
++            break;
++        }
++    }
++    env->psw_z =3D env->regs[3];
++    env->psw_c =3D (tmp <=3D env->regs[2]);
++}
++
++/* accumlator operations */
++void helper_rmpa(CPURXState *env, uint32_t sz)
++{
++    uint64_t result_l, prev;
++    int32_t result_h;
++    int64_t tmp0, tmp1;
++
++    if (env->regs[3] =3D=3D 0) {
++        return;
++    }
++    result_l =3D env->regs[5];
++    result_l <<=3D 32;
++    result_l |=3D env->regs[4];
++    result_h =3D env->regs[6];
++    env->psw_o =3D 0;
++
++    while (env->regs[3] !=3D 0) {
++        tmp0 =3D cpu_ldfn[sz](env, env->regs[1], GETPC());
++        tmp1 =3D cpu_ldfn[sz](env, env->regs[2], GETPC());
++        tmp0 *=3D tmp1;
++        prev =3D result_l;
++        result_l +=3D tmp0;
++        /* carry / bollow */
++        if (tmp0 < 0) {
++            if (prev > result_l) {
++                result_h--;
++            }
++        } else {
++            if (prev < result_l) {
++                result_h++;
++            }
++        }
++
++        env->regs[1] +=3D 1 << sz;
++        env->regs[2] +=3D 1 << sz;
++    }
++    env->psw_s =3D result_h;
++    env->psw_o =3D (result_h !=3D 0 && result_h !=3D -1) << 31;
++    env->regs[6] =3D result_h;
++    env->regs[5] =3D result_l >> 32;
++    env->regs[4] =3D result_l & 0xffffffff;
++}
++
++void helper_racw(CPURXState *env, uint32_t imm)
++{
++    int64_t acc;
++    acc =3D env->acc;
++    acc <<=3D (imm + 1);
++    acc +=3D 0x0000000080000000LL;
++    if (acc > 0x00007fff00000000LL) {
++        acc =3D 0x00007fff00000000LL;
++    } else if (acc < -0x800000000000LL) {
++        acc =3D -0x800000000000LL;
++    } else {
++        acc &=3D 0xffffffff00000000LL;
++    }
++    env->acc =3D acc;
++}
++
++void helper_satr(CPURXState *env)
++{
++    if (env->psw_o >> 31) {
++        if ((int)env->psw_s < 0) {
++            env->regs[6] =3D 0x00000000;
++            env->regs[5] =3D 0x7fffffff;
++            env->regs[4] =3D 0xffffffff;
++        } else {
++            env->regs[6] =3D 0xffffffff;
++            env->regs[5] =3D 0x80000000;
++            env->regs[4] =3D 0x00000000;
++        }
++    }
++}
++
++/* div */
++uint32_t helper_div(CPURXState *env, uint32_t num, uint32_t den)
++{
++    uint32_t ret =3D num;
++    if (!((num =3D=3D INT_MIN && den =3D=3D -1) || den =3D=3D 0)) {
++        ret =3D (int32_t)num / (int32_t)den;
++        env->psw_o =3D 0;
++    } else {
++        env->psw_o =3D -1;
++    }
++    return ret;
++}
++
++uint32_t helper_divu(CPURXState *env, uint32_t num, uint32_t den)
++{
++    uint32_t ret =3D num;
++    if (den !=3D 0) {
++        ret =3D num / den;
++        env->psw_o =3D 0;
++    } else {
++        env->psw_o =3D -1;
++    }
++    return ret;
++}
++
++/* exception */
++static inline void QEMU_NORETURN raise_exception(CPURXState *env, int in=
+dex,
++                                                 uintptr_t retaddr)
++{
++    CPUState *cs =3D env_cpu(env);
++
++    cs->exception_index =3D index;
++    cpu_loop_exit_restore(cs, retaddr);
++}
++
++void QEMU_NORETURN helper_raise_privilege_violation(CPURXState *env)
++{
++    raise_exception(env, 20, GETPC());
++}
++
++void QEMU_NORETURN helper_raise_access_fault(CPURXState *env)
++{
++    raise_exception(env, 21, GETPC());
++}
++
++void QEMU_NORETURN helper_raise_illegal_instruction(CPURXState *env)
++{
++    raise_exception(env, 23, GETPC());
++}
++
++void QEMU_NORETURN helper_wait(CPURXState *env)
++{
++    CPUState *cs =3D env_cpu(env);
++
++    cs->halted =3D 1;
++    env->in_sleep =3D 1;
++    raise_exception(env, EXCP_HLT, 0);
++}
++
++void QEMU_NORETURN helper_debug(CPURXState *env)
++{
++    CPUState *cs =3D env_cpu(env);
++
++    cs->exception_index =3D EXCP_DEBUG;
++    cpu_loop_exit(cs);
++}
++
++void QEMU_NORETURN helper_rxint(CPURXState *env, uint32_t vec)
++{
++    raise_exception(env, 0x100 + vec, 0);
++}
++
++void QEMU_NORETURN helper_rxbrk(CPURXState *env)
++{
++    raise_exception(env, 0x100, 0);
++}
+--=20
+2.20.1
 
->> +    }
->> +    return true;
->> +}
->> +
->>  DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
->>  {
->>      DeviceClass *dc;
->>      const char *driver, *path;
->> -    DeviceState *dev;
->> +    DeviceState *dev = NULL;
->>      BusState *bus = NULL;
->>      Error *err = NULL;
->>
->> +    if (opts && should_hide_device(opts, &err)) {
->> +        if (err) {
->> +            goto err_del_dev;
->> +        }
->> +        return NULL;
->> +    }
->> +
->>      driver = qemu_opt_get(opts, "driver");
->>      if (!driver) {
->>          error_setg(errp, QERR_MISSING_PARAMETER, "driver");
->> @@ -648,8 +681,10 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
->>
->>  err_del_dev:
->>      error_propagate(errp, err);
->> -    object_unparent(OBJECT(dev));
->> -    object_unref(OBJECT(dev));
->> +    if (dev) {
->> +        object_unparent(OBJECT(dev));
->> +        object_unref(OBJECT(dev));
->> +    }
->>      return NULL;
->>  }
->>
->> @@ -818,7 +853,7 @@ void qdev_unplug(DeviceState *dev, Error **errp)
->>          return;
->>      }
->>
->> -    if (!migration_is_idle()) {
->> +    if (!migration_is_idle() && !migration_in_setup(migrate_get_current())) {
->
->Hm, should that hunk go into another patch?
-
-Yes it should :)
-
-Thanks for the review!
-
-regards,
-Jens 
 
