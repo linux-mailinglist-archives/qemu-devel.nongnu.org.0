@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFACD686A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:25:40 +0200 (CEST)
-Received: from localhost ([::1]:54462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B2AD686E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:26:09 +0200 (CEST)
+Received: from localhost ([::1]:54469 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK46E-0006OM-W9
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44920)
+	id 1iK46h-00079h-W3
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK3dy-0003O0-SH
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:56:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iK3j2-0002Iy-41
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:01:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK3dx-0004Hs-K5
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:56:26 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39276)
+ (envelope-from <richard.henderson@linaro.org>) id 1iK3j1-0005qu-0p
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:01:40 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34656)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK3dx-0004HF-EP
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:56:25 -0400
-Received: by mail-ot1-x343.google.com with SMTP id s22so14375786otr.6
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:56:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iK3j0-0005ph-RK
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:01:38 -0400
+Received: by mail-pl1-x635.google.com with SMTP id k7so8287076pll.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 10:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6Dkz4ccsuMO4YafX7n8ER4ev2rKY1yy9iqCtaDhgm9M=;
- b=VaAMdL3xteL0jTyixSKq0gKZH6R88Q7mj1isT+EFL1WuHdoJr/aauN70Bpqbw87iB0
- ekP2jeoXN1cV+xiVev+A3NK3WayHReu25UUXYs69HnM9Mxj1g/FWB7+74veCULFEerYn
- d5u7fT7reAdCNijPDv/U117jsfekFlZ14OUV3Mu8q0dv2oCREH3drL8A/26WVxU358Hs
- DjZ9U7Jz4owHj/oichmz9FI7zRnrpZ37bGcQjyFgmUfzT5KrUeMbNb/dTY3kKGx7juRU
- 94Wxy61u6jjhLxGCltUE3SjRRnWUpbsNxX456i4bEqkNsf6RsXPEs4EX2EzQT8SZIzKq
- TcpQ==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eblkwcZW3JEeU+VtoWSF8yuiTYILJ+fT8OPZ3vIl3yk=;
+ b=VOCFqXGJC2C59aQTk7reoS8VnQL4LFzuB1kyqLHkX6AK2mhPoezEaTizMJjIVZkKED
+ i+mr9VMy7lV5sZ3HaopzJDEMkgaUvnC7EHxJHCOwLAeAXrUviELuj1HR/qfjeC1qnKFi
+ CknFRP+nfxm1f1NnbtFuTJG531CD4ruWJS4+19g3UfO0UhEUoUgYlqNP+pJch3X0AiCn
+ Nn50ji5hmE4nNEkE63lrR6KuBiv5bxllB5UJM3hsXZm/XnnXePgChE6d9iKPMzitUoWu
+ 6mJSlm5ESxBlxMK2WRbRYfS/yRSna7xHHTLuenOG3S04ZqKc2lc7mV9LQIQU0ZeLJ73h
+ iZdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Dkz4ccsuMO4YafX7n8ER4ev2rKY1yy9iqCtaDhgm9M=;
- b=E6LJkOeO9CMhq+O9vqZ/m2GXNO7cAkfpMvnW171+tMyMs1GRZki8WtzTMlyOsQwFQp
- t23KFxEW8vnySjg5hYcHuJmXsZfG0OnbbW/Y8xORz5ulkGjncqYiZMUChC2zpf0VtdD0
- 5nbIMaKjXJUwVj4ZdSW1o/mMqOREyAhGnY0NKzKGsC2QaT6dKjWo2FLbhuRGSWBxjNEO
- eRHyv43ewhX4tTyVMGb2cYSNn/LL4cwLu64OxbYufSLTOg/o/+gaC5pvUjMbQT5vy6XO
- Ja87G5skhvTMM1/kc1gc8k82qYpbvoFcKaEw9o/yFK1+vIYoxQ9Zs9o8fe/KOnL4HLli
- Mh8w==
-X-Gm-Message-State: APjAAAXgBXnjv9S5b0f2URO7TKqpuQnNDR/37e79y/1zBxHRP3gdEfEv
- jAtG1veM08wAcCd+GEh4TRAq8ud6PdSwEvswa4DiWU7j1JE=
-X-Google-Smtp-Source: APXvYqz8PeSIvX0SjhrNObMU9M3JSrfWw6zv44K08fU18dZCUHj9w0qZme3pxAaKn0W24jC23y/gwuzNmn6RAejDdVk=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr25481059otj.135.1571072183419; 
- Mon, 14 Oct 2019 09:56:23 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eblkwcZW3JEeU+VtoWSF8yuiTYILJ+fT8OPZ3vIl3yk=;
+ b=jbmCKgu5A8+Uit4WPuDO872bD6sSjY//wq0NfhkOii23oTaV/ORioyhLGfQ7HOCUSo
+ omQROnUBDDv/c6tAb0y5ytCoopfdxzWykZpeycuo77GB+Du95bbZ22iiiY6dwHEs67XQ
+ NQwQJ7i2JOXYJ1Q/ruCflbIdivU6U6W7GWjdyuxGGJRIOcCc8Q8/DIcrzz9H4C9yMZoB
+ 2Dt0TE0FRy9GyGse28fGnvusk7UIqZlr03UoEyu01m80ZcRgr5eQALi2HhGW2Yt6Mpbx
+ wthnqyHVbJ+EPCi3SXZH7kPRIrfCz9s1tdACFPm57uSt+oqlDUu6KBwPw7TuuHlq5w07
+ qDTQ==
+X-Gm-Message-State: APjAAAUY+0t0W5aSq2tXs8am4gJXHqk3lapkv+jB8qlNYwPko09ZRRfi
+ 2boVGU0g4GPLme9wMcrgR39saw==
+X-Google-Smtp-Source: APXvYqxS6u+EcFQS7m1a5j/gCNyckmd8bzRHeJgOwfKJelreytalp5hwjRNEwJA4HNv37bUlSRZ5qQ==
+X-Received: by 2002:a17:902:a712:: with SMTP id
+ w18mr31555947plq.304.1571072497480; 
+ Mon, 14 Oct 2019 10:01:37 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id 20sm19603285pfp.153.2019.10.14.10.01.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Oct 2019 10:01:36 -0700 (PDT)
+Subject: Re: [PATCH v5 53/55] plugins: add sparc64 instruction classification
+ table
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
- <20191014104948.4291-18-alex.bennee@linaro.org>
- <CAFEAcA8u3Srp_Lsucxh0-EaXW5UbETLOPA_KdpzONCaTob0GVA@mail.gmail.com>
- <87lftnmgkg.fsf@linaro.org>
-In-Reply-To: <87lftnmgkg.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Oct 2019 17:56:11 +0100
-Message-ID: <CAFEAcA9aCyxJU60wbYd3DXamGQkuuWFM9sVAq9hjmAAQKUNeAA@mail.gmail.com>
-Subject: Re: [PATCH v5 17/55] plugins: implement helpers for resolving hwaddr
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20191014104948.4291-54-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <3ce497fe-9dc1-5fa3-acf6-155ae16e0793@linaro.org>
+Date: Mon, 14 Oct 2019 10:01:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191014104948.4291-54-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::635
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@futurewei.com, QEMU Developers <qemu-devel@nongnu.org>,
- peter.puhov@futurewei.com, Aaron Lindsay <aaron@os.amperecomputing.com>,
- "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: aaron@os.amperecomputing.com, cota@braap.org, robert.foley@futurewei.com,
+ peter.puhov@futurewei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Oct 2019 at 17:34, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > Apologies for dropping into the middle of this patchset, but
-> > this API looks a bit odd. A hwaddr alone isn't a complete
-> > definition of an access -- you need an (AddressSpace, hwaddr)
-> > tuple for that. So this API looks like it doesn't really cope
-> > with things like TrustZone ?
->
-> Aren't hwaddr's unique across the bus? Or is this because you would have
-> two address buses (secure and non-secure) with different address lines to
-> different chips?
+On 10/14/19 3:49 AM, Alex Bennée wrote:
+> +InsnClassExecCount sparc32_insn_classes[] = {
+> +    { "Call",                "call",   0xc0000000, 0x40000000, COUNT_CLASS},
+> +    { "Branch ICond",        "bcc",    0xc1c00000, 0x00800000, COUNT_CLASS},
+> +    { "Branch Fcond",        "fbcc",   0xc1c00000, 0x01800000, COUNT_CLASS},
+> +    { "SetHi",               "sethi",  0xc1c00000, 0x01000000, COUNT_CLASS},
+> +    { "FPU ALU",             "fpu",    0xc1f00000, 0x81a00000, COUNT_CLASS},
+> +    { "ALU",                 "alu",    0xc0000000, 0x80000000, COUNT_CLASS},
+> +    { "Load/Store",          "ldst",   0xc0000000, 0xc0000000, COUNT_CLASS},
+> +    /* Unclassified */
+> +    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_INDIVIDUAL},
+> +};
+> +
 
-Architecturally, there are two completely separate physical
-address spaces for Secure and NonSecure.
-In actual Arm hardware, what you get is a bus/interconnect
-where effectively the 'S/NS' line is an extra address bit.
-The interconnect can set things up however it likes, but the
-most common setup is "most devices mapped at the same address
-in both S and NS", aka "most decode ignores the S/NS signal",
-with some "this device is only present in S". There's no inherent
-reason you couldn't have "address A is device X in S and device
-Y in NS", though.
+Unused.  You'd see this if they were static.
 
-> But surely we have all the information we need because we've hooked the
-> two things that QEMU's softmmu code knows. The mmu_idx and the vaddr
-> with which the slow path can figure out what it needs.
 
-I think the slowpath uses the MemTxAttrs rather than the mmu_idx:
-iotlb_to_section() calls cpu_asidx_from_attrs() and then pulls the
-AddressSpace out of cpu->cpu_ases[].
-
-From the point of view of a plugin, it probably wants
-the (hwaddr, MemTxAttrs) for the access.
-
-> > This looks odd to see in the plugin API -- ramaddrs should
-> > be a QEMU internal concept, shouldn't they?
->
-> Hmm maybe.. I guess it's a special case of device offset. Do you want to
-> drop this part for now?
-
-I'd need to go and look at the overall plugin-facing API to
-be sure, but in general my expectation would be that the
-whole API should be in terms of guest-architectural concepts,
-with no QEMU-isms like ramaddrs leaking through.
-
-thanks
--- PMM
+r~
 
