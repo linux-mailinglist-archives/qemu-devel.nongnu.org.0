@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30188D60E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:06:18 +0200 (CEST)
-Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1333D60FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:10:57 +0200 (CEST)
+Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyB6-0005MN-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44712)
+	id 1iJyFc-00034r-NB
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:10:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvV-0007YP-1n
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iJxvQ-0007PQ-0z
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvU-0006Ih-0r
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:08 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39495)
+ (envelope-from <alex.bennee@linaro.org>) id 1iJxvO-00069e-JN
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:03 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35669)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iJxvT-0006HN-RA
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:07 -0400
-Received: by mail-wm1-x344.google.com with SMTP id v17so16247258wml.4
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:50:07 -0700 (PDT)
+ id 1iJxvO-000676-9t
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:02 -0400
+Received: by mail-wr1-x444.google.com with SMTP id v8so19151213wrt.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7e3kGGDhCCeDmaWnT5E6lm7XvO8I2yKVtKu9Sla1anI=;
- b=ArQdQWmumjGXoXSIKblyHPxWNGkITe3vRfYdLJ+A/tNTNMEa+c3phhEvaFnPx1D6ms
- vnrhQlQxyLv3mG95GwVs6M9GYruXb6MBCGiOzIUIRVQj1M7bpgDjcJpZFi8ljpRFe0GV
- Qrtwprlmz6II+yrvPcYWEjy08Xh22gR6qTAnlnwIv4tQ9pn4DY3iHapo73owHSmPbZBv
- y2psxOMymqZ3Sdujw5kWVP6zEvc1AV8oOzMS1qzKwO9OA1C5eaNGrjgtB8cK7VomlzGp
- HeMyFKnUZiPfDIBmpAN7ANqGIV1V+GtUCOJC+WzrKnK75eJY1MQWO5GQG3O+B+0cj+Mu
- tCVQ==
+ bh=m4scFyBAux7omI9dWRwoni82M9uy+xh8rsre9KWj8Gc=;
+ b=ixzKDEDqwTfH2etxANMqaOVs1pohVls0R5oSxR4AItQcP65hF/1gn8eyJpQyNmR/qy
+ Ow0NiVv15FZLuDw+6UV4gM17Yj9ayWZYLeljmkH6l4RkdlD/AmwoYodIiRWdQfv1Yhqz
+ e6Yjseq5yZgVd5PHNtM868lt4Wr/QmfUWkdRyjw89hW4XxnwItjM5pBGZ4LBgZYtOxK9
+ tOp/zzk5+P5HJ2Z73Fz0/WMWau9brkPoI+526urBDXvmHAHTTPnvaXl6IMdrNgslNkBU
+ w/IoLmrOALBWd9906EO0vSlfz0bqVJ0UW711SU3HRUXpZpX4Zpx9y5Qpl4yxHUFh+NhN
+ LOBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7e3kGGDhCCeDmaWnT5E6lm7XvO8I2yKVtKu9Sla1anI=;
- b=Y/SzURMsIfGw7sXNcdjKlRZxobll5Plb0ihIXru2SMJk/an8uD47FhV+M7j6OdOylQ
- nf+PgntBvKwbj8dgB6jU8MA2mMupN4kOQLQM4TCRwvfw/JC9biGcC8F72uhL/kKQg0lG
- MbSZrUdJjzV95ztVNaHIaEBeTnTydSFPOQhd1PUHYgKThTFUT0QIpgGfBqhZTsg5lJgL
- DoEbHZwuSAHEqh/0ls5RDG9RA2xJJo6vFoEhvDJO733BtEZIxe80w78iFcM8IolD3g8i
- Lj4GWMc2SXeTcPXB+vo/zqjhTGJSZSj/bBxHQ9NrlNhfOLRu/xzGDV46T6AX+ynPW1No
- 3Snw==
-X-Gm-Message-State: APjAAAUtMZW6LSmuXG48knJ6+2Fpb+s9Y5fj7NA8EmK4RzdQ1uw8lBcy
- +MSSzx5fUdldfJMb5OmrqdRicHmP3uY=
-X-Google-Smtp-Source: APXvYqxKS7sj4abCA9cOBucAjYq04ZkYjPx1B55p8Hhnl7yzej7nHnU3jR10D65l725OuxpJhzANfA==
-X-Received: by 2002:a1c:6389:: with SMTP id x131mr14155783wmb.77.1571050206744; 
- Mon, 14 Oct 2019 03:50:06 -0700 (PDT)
+ bh=m4scFyBAux7omI9dWRwoni82M9uy+xh8rsre9KWj8Gc=;
+ b=cn3J6ZWccHz3M7K5RjAt3veHjCFTeuy8wuuGBTn0IZIgfgh0HfjoeJ5YAWW2JkRfe+
+ yiHdnloaa6n5Ko32BL1M0Fy7rYdVOstUClzey8C78o5UVUBKYfj79cXDoeJtPD8ayxtx
+ 6bHr5MG8WuELpbOElb9iHOt6b0R3dp8lk2LG+stHveXeFU7k+OgcWLj94I27n4NqEBQo
+ 2MqAOQu7Q89fRIsCd3RI7SELLRMWJaC+DpG9VcthriUwfQowHEEUbO7VxwpXY9Z0pMxz
+ BOuTfdhvVxu7SLW2oitw2ko7Wo9AkU0L3DNKcty8Vkajv0ATqrlmMVZqgpE89+QkDllF
+ F2Sw==
+X-Gm-Message-State: APjAAAVmkw7RZJMmppf02b8/eftt+1F6rD8FgJMIohLz98DSPbW+SPoT
+ m9GPkx+v5MpnLEGCBiGBv4IUQg==
+X-Google-Smtp-Source: APXvYqz1XadoZ813nmRYolYLZqLi/w3+CcDbTPZaTYAJXCQX7UJUuGzXXIs5y3lnkzMJkq7FPF89xA==
+X-Received: by 2002:a5d:50c9:: with SMTP id f9mr24181232wrt.36.1571050200337; 
+ Mon, 14 Oct 2019 03:50:00 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p85sm24611469wme.23.2019.10.14.03.49.58
+ by smtp.gmail.com with ESMTPSA id h17sm14980217wmb.33.2019.10.14.03.49.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 03:50:04 -0700 (PDT)
+ Mon, 14 Oct 2019 03:49:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E67A41FF98;
- Mon, 14 Oct 2019 11:49:57 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id DB45F1FFAC;
+ Mon, 14 Oct 2019 11:49:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 40/55] tests/tcg/Makefile.target: fix path to
- config-host.mak
-Date: Mon, 14 Oct 2019 11:49:33 +0100
-Message-Id: <20191014104948.4291-41-alex.bennee@linaro.org>
+Subject: [PATCH  v5 24/55] target/arm: fetch code with translator_ld
+Date: Mon, 14 Oct 2019 11:49:17 +0100
+Message-Id: <20191014104948.4291-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,37 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- robert.foley@futurewei.com, peter.puhov@futurewei.com,
+Cc: Peter Maydell <peter.maydell@linaro.org>, robert.foley@futurewei.com,
+ Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since moving where the tests are run the path to config-host.mak has
-been wrong. This doesn't affect much but things like the time fallback
-for CONFIG_DEBUG_TCG and will also get in the way of checking for
-PLUGINS support.
+From: "Emilio G. Cota" <cota@braap.org>
 
-Fixes: fc76c56d3f4
+Now the arm_ld*_code functions are only used at translate time we can
+just pass down to translator_ld functions.
+
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+[AJB: convert from plugin_insn_append to translator_ld]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/Makefile.target | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v4
+  - use translator_ld like the rest of them
+---
+ target/arm/arm_ldst.h | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 5a9a6faba4..84abbd24f3 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -30,7 +30,7 @@
- #
+diff --git a/target/arm/arm_ldst.h b/target/arm/arm_ldst.h
+index 5e0ac8bef0..45edb108f6 100644
+--- a/target/arm/arm_ldst.h
++++ b/target/arm/arm_ldst.h
+@@ -20,25 +20,20 @@
+ #ifndef ARM_LDST_H
+ #define ARM_LDST_H
  
- all:
---include ../../config-host.mak
-+-include ../../../config-host.mak
- -include ../config-$(TARGET).mak
+-#include "exec/cpu_ldst.h"
++#include "exec/translator.h"
+ #include "qemu/bswap.h"
  
- # for including , in command strings
+ /* Load an instruction and return it in the standard little-endian order */
+ static inline uint32_t arm_ldl_code(CPUARMState *env, target_ulong addr,
+                                     bool sctlr_b)
+ {
+-    uint32_t insn = cpu_ldl_code(env, addr);
+-    if (bswap_code(sctlr_b)) {
+-        return bswap32(insn);
+-    }
+-    return insn;
++    return translator_ldl_swap(env, addr, bswap_code(sctlr_b));
+ }
+ 
+ /* Ditto, for a halfword (Thumb) instruction */
+ static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
+                                      bool sctlr_b)
+ {
+-    uint16_t insn;
+ #ifndef CONFIG_USER_ONLY
+     /* In big-endian (BE32) mode, adjacent Thumb instructions have been swapped
+        within each word.  Undo that now.  */
+@@ -46,11 +41,7 @@ static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
+         addr ^= 2;
+     }
+ #endif
+-    insn = cpu_lduw_code(env, addr);
+-    if (bswap_code(sctlr_b)) {
+-        return bswap16(insn);
+-    }
+-    return insn;
++    return translator_lduw_swap(env, addr, bswap_code(sctlr_b));
+ }
+ 
+ #endif
 -- 
 2.20.1
 
