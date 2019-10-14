@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0771D6915
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 20:07:26 +0200 (CEST)
-Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17B6D690E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 20:04:09 +0200 (CEST)
+Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK4kf-0002xz-U9
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 14:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48968)
+	id 1iK4hU-0007x6-Np
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 14:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iK4BS-0005iX-S0
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:31:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1iK4eK-00067T-Hy
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 14:00:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iK4BR-0001zt-OW
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:31:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57340)
+ (envelope-from <bounces@canonical.com>) id 1iK4eI-00013Z-Bv
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 14:00:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60260)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iK4BR-0001zV-Iq
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:31:01 -0400
+ id 1iK4eI-000133-5w
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 14:00:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iK4BP-000524-Mg
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 17:30:59 +0000
+ id 1iK4eG-0007Ov-Uc
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 18:00:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AA3412E80C9
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 17:30:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D5B2E2E8010
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 18:00:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Oct 2019 17:23:57 -0000
+Date: Mon, 14 Oct 2019 17:55:36 -0000
 From: Shachar Itzhaky <corwin.amber@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: corwin-amber pmaydell zenojevski
 X-Launchpad-Bug-Reporter: Shachar Itzhaky (corwin-amber)
 X-Launchpad-Bug-Modifier: Shachar Itzhaky (corwin-amber)
 References: <157097450557.5820.4200729468686724078.malonedeb@gac.canonical.com>
-Message-Id: <157107383710.5928.6877894875959962008.malone@gac.canonical.com>
+Message-Id: <157107573686.1785.1116490413035577256.malone@wampee.canonical.com>
 Subject: [Bug 1847906] Re: Cocoa display hangs on macOS 10.15 (Catalina)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="af2eefe214bd95389a09b7c956720881bab16807";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4a2787527d57c24bdfc26e58075a56d3afb071a1
+X-Launchpad-Hash: cbe52fee11fa802bc74631dcaace9bc259349d2f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -69,8 +69,7 @@ Reply-To: Bug 1847906 <1847906@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is wonderful! Thank you Peter and Hikaru for this patch. I will try
-it ASAP and confirm.
+Yes, works perfectly!
 
 -- =
 
