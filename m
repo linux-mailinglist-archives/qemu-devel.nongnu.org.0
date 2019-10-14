@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CD3D6465
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 15:50:36 +0200 (CEST)
-Received: from localhost ([::1]:49848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA1CD646B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 15:52:32 +0200 (CEST)
+Received: from localhost ([::1]:49894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK0k7-0004pd-6p
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 09:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39663)
+	id 1iK0lz-00079o-9z
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 09:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iK0hl-0003DT-Uo
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:48:10 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iK0iC-0003Wu-0h
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iK0hk-0007UM-UT
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:48:09 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38069)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iK0hk-0007Ti-OS
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:48:08 -0400
-Received: by mail-wm1-x332.google.com with SMTP id 3so16843878wmi.3
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 06:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UEXCjAhdu0FKHjjtnW1230km7QIS6Nvx34ZHiSKDVCA=;
- b=htu7rP9bJC5DcYjOa/XndViIgo1a0L/5PDBv86DTC7hp2/NZUdMXvMInF947d7gH2j
- Dzjs4OPjd0v7HnKblSd10Y9TzYWLqcihe9T43lcfaoMdW8xDv9oULHmohfwPOesbQu0Z
- ehawMQvFlshCEflvqDJXh1vR/cc0FuDoMiOkNY40om+lrhLtoh3xxJozwVBvzqcaYiJa
- T4Wnk1NRoTisFhHd9K8ZNFRjXyqBe/O+fYAUCB6WsJA6P0G8ghxU9tlMiyBMf2QTXoiU
- o57H1ZqvCmYKhDf4ONBw+UgFypSKgi6v83Qgk3rxH3kU0o3/HP877Hb0J/dErlr/s6v+
- VrNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UEXCjAhdu0FKHjjtnW1230km7QIS6Nvx34ZHiSKDVCA=;
- b=WVIINaWF9SHl3HhB/FribJOuUSpVHCxG5MLQ5K1FuWFrH0WXZ+C2bH88cPeTgU4KfX
- OUB6wNs/ZOpqmd0T+YFS2YtFtePCJkEgUAkVnoKrUdXUiy8TV952FeB6lc8qhm9C5hAp
- mzUttXn6eePHOa7CVtjHTmm0clTMHsJehlcrrNYBdLCCzNakr0ZxjHLDWlH8GN9Zf7W3
- nhB8sIaOXMIVBzQXXxyyOqWnLSZEu79DjjJOtB8tkcXMGvRInjUEml8N/nBCBglxbNSO
- BeiDPw0sdce4BJ5QVOya86dPa4FQVHSK3ZBXJzUt9VtJNVjOpDUW/kHmb/nR7XiH9Ipa
- v3hw==
-X-Gm-Message-State: APjAAAWeA3s+BhbC7b/jqM9tJr9sqNuKnaeKE5MzZh62U1dL0IY3gezf
- ePxhvgyM7FEfUIbXyluwaRqAaA==
-X-Google-Smtp-Source: APXvYqxnbFJ/sSqI+/EbBpuTVFWIoFZkIlpiC0T+IijMJLIhEsEja7b7duqa/jnQANY5Jnc9hcUc4Q==
-X-Received: by 2002:a05:600c:20ca:: with SMTP id
- y10mr14852291wmm.82.1571060887483; 
- Mon, 14 Oct 2019 06:48:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b186sm25678335wmd.16.2019.10.14.06.48.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 06:48:06 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5AE8E1FF87;
- Mon, 14 Oct 2019 14:48:06 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for 4.2 v1 0/5] gitdm updates
-Date: Mon, 14 Oct 2019 14:48:01 +0100
-Message-Id: <20191014134806.21900-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <cohuck@redhat.com>) id 1iK0i9-0007hV-Ec
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:48:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55872)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iK0i9-0007g4-96
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:48:33 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C70A9A707;
+ Mon, 14 Oct 2019 13:48:31 +0000 (UTC)
+Received: from gondolin (dhcp-192-233.str.redhat.com [10.33.192.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BBCF1001B03;
+ Mon, 14 Oct 2019 13:48:27 +0000 (UTC)
+Date: Mon, 14 Oct 2019 15:48:25 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Tianyu Lan <Tianyu.Lan@microsoft.com>
+Subject: Re: [PATCH] target/i386/kvm: Add Hyper-V direct tlb flush support
+Message-ID: <20191014154825.7eb5017d.cohuck@redhat.com>
+In-Reply-To: <KL1P15301MB02611D1F7C54C4A599766B8D92900@KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM>
+References: <20191012034153.31817-1-Tianyu.Lan@microsoft.com>
+ <87r23h58th.fsf@vitty.brq.redhat.com>
+ <KL1P15301MB02611D1F7C54C4A599766B8D92900@KL1P15301MB0261.APCP153.PROD.OUTLOOK.COM>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::332
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Mon, 14 Oct 2019 13:48:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,33 +59,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- dirty.ice.hu@gmail.com
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Roman Kagan <rkagan@virtuozzo.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, vkuznets <vkuznets@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>,
+ "lantianyu1986@gmail.com" <lantianyu1986@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Mon, 14 Oct 2019 13:29:12 +0000
+Tianyu Lan <Tianyu.Lan@microsoft.com> wrote:
 
-With these changes I get a reasonably clean set of stats going back
-two years and to the top 20. However most of the individuals are pure
-guess work so I won't submit them in a PR without positive feedback to
-it being correct. If you want the numbers to be correct by the time of
-the KVM Forum QEMU keynote now is the time to let me know ;-)
+> > > diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> > > index 18892d6541..923fb33a01 100644
+> > > --- a/linux-headers/linux/kvm.h
+> > > +++ b/linux-headers/linux/kvm.h
+> > > @@ -995,6 +995,7 @@ struct kvm_ppc_resize_hpt {
+> > >  #define KVM_CAP_ARM_SVE 170
+> > >  #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
+> > >  #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
+> > > +#define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 174  
+> >
+> > I was once told that scripts/update-linux-headers.sh script is supposed
+> > to be used instead of cherry-picking stuff you need (adn this would be a
+> > separate patch - update linux headers to smth).
+> >  
+> 
+> Thanks for suggestion. I just try the update-linux-headers.sh and there are a lot
+> of changes which are not related with my patch. I also include these
+> changes in my patch, right?
 
+The important part is that you split out the headers update as a
+separate patch.
 
-Alex Bennée (5):
-  contrib/gitdm: add more entries individuals and academics
-  contrib/gitdm: add MontaVista to the domain map
-  contrib/gitdm: add Andrey to the individual group
-  contrib/gitdm: add Bin Meng to the individual group
-  contrib/gitdm: add China Mobile to the domain map
-
- contrib/gitdm/domain-map            | 2 ++
- contrib/gitdm/group-map-academics   | 3 +++
- contrib/gitdm/group-map-individuals | 6 ++++++
- 3 files changed, 11 insertions(+)
-
--- 
-2.20.1
-
+If this change is already included in the upstream kernel, just do a
+complete update via the script (mentioning the base you did the update
+against.) If not, include a placeholder patch that can be replaced by a
+real update when applying.
 
