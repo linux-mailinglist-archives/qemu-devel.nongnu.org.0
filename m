@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD88D658B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:47:20 +0200 (CEST)
-Received: from localhost ([::1]:50932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E65D6591
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:49:18 +0200 (CEST)
+Received: from localhost ([::1]:50958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1d0-00068g-L4
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50099)
+	id 1iK1ev-0008Vd-4K
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iK1Ng-0005KK-LV
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:31:29 -0400
+ (envelope-from <philmd@redhat.com>) id 1iK1OY-0006Ai-Md
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:32:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iK1Nf-0002Z6-DU
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:31:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41698)
+ (envelope-from <philmd@redhat.com>) id 1iK1OX-0002tn-E5
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:32:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58912)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iK1Na-0002Xl-Kz; Mon, 14 Oct 2019 10:31:22 -0400
+ id 1iK1OS-0002rK-OT; Mon, 14 Oct 2019 10:32:16 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AA45476525;
- Mon, 14 Oct 2019 14:31:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A9DD7308FBB4;
+ Mon, 14 Oct 2019 14:32:15 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 995CB60126;
- Mon, 14 Oct 2019 14:30:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8E70600CD;
+ Mon, 14 Oct 2019 14:31:48 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 17/20] hw/acpi: Include "hw/mem/nvdimm.h"
-Date: Mon, 14 Oct 2019 16:22:43 +0200
-Message-Id: <20191014142246.4538-18-philmd@redhat.com>
+Subject: [PATCH 19/20] hw/pci-host/q35: Remove unused includes
+Date: Mon, 14 Oct 2019 16:22:45 +0200
+Message-Id: <20191014142246.4538-20-philmd@redhat.com>
 In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
 References: <20191014142246.4538-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 14 Oct 2019 14:31:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Mon, 14 Oct 2019 14:32:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,59 +76,48 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both ich9.c and piix4.c use methods/definitions declared in the
-NVDIMM device header. Include it.
-
-This fixes (when modifying unrelated headers):
-
-  hw/acpi/ich9.c:507:46: error: use of undeclared identifier 'TYPE_NVDIMM=
-'
-        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
-                                             ^
-  hw/acpi/ich9.c:508:13: error: implicit declaration of function 'nvdimm_=
-acpi_plug_cb' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-            nvdimm_acpi_plug_cb(hotplug_dev, dev);
-            ^
-  hw/acpi/piix4.c:403:46: error: use of undeclared identifier 'TYPE_NVDIM=
-M'
-        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
-                                             ^
-  hw/acpi/piix4.c:404:13: error: implicit declaration of function 'nvdimm=
-_acpi_plug_cb' is invalid in C99 [-Werror,-Wimplicit-function-declaration=
-]
-            nvdimm_acpi_plug_cb(hotplug_dev, dev);
-            ^
+Only q35.c requires declarations from "hw/i386/pc.h", move it there.
+Remove all the includes not used by "q35.h".
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/acpi/ich9.c  | 1 +
- hw/acpi/piix4.c | 1 +
- 2 files changed, 2 insertions(+)
+ hw/pci-host/q35.c         | 1 +
+ include/hw/pci-host/q35.h | 7 -------
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index fdd0a6c79e..4e74284b65 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -39,6 +39,7 @@
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 158d270b9f..918843d373 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -29,6 +29,7 @@
+  */
 =20
- #include "hw/i386/ich9.h"
- #include "hw/mem/pc-dimm.h"
-+#include "hw/mem/nvdimm.h"
+ #include "qemu/osdep.h"
++#include "hw/i386/pc.h"
+ #include "hw/pci-host/q35.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
+index 79a88d67b1..534d90dbaf 100644
+--- a/include/hw/pci-host/q35.h
++++ b/include/hw/pci-host/q35.h
+@@ -22,16 +22,9 @@
+ #ifndef HW_Q35_H
+ #define HW_Q35_H
 =20
- //#define DEBUG
+-#include "hw/isa/isa.h"
+-#include "hw/sysbus.h"
+-#include "hw/i386/pc.h"
+-#include "hw/isa/apm.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pcie_host.h"
+-#include "hw/acpi/acpi.h"
+-#include "hw/acpi/ich9.h"
+ #include "hw/pci-host/pam.h"
+-#include "hw/i386/intel_iommu.h"
+ #include "qemu/range.h"
 =20
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 5742c3df87..11a3e33e5b 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -39,6 +39,7 @@
- #include "hw/acpi/cpu.h"
- #include "hw/hotplug.h"
- #include "hw/mem/pc-dimm.h"
-+#include "hw/mem/nvdimm.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/xen/xen.h"
+ #define TYPE_Q35_HOST_DEVICE "q35-pcihost"
 --=20
 2.21.0
 
