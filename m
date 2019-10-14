@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69042D67E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:02:15 +0200 (CEST)
-Received: from localhost ([::1]:53946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88A0D67F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:05:26 +0200 (CEST)
+Received: from localhost ([::1]:54035 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3jZ-0001el-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
+	id 1iK3mf-0005M5-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qu-0005X5-9V
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qw-0005aA-33
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qt-0008GD-2o
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:44 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33463)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qu-0008HC-Ur
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:45 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33035)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qs-0008Fr-T3
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:43 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b9so20414959wrs.0
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:42 -0700 (PDT)
+ id 1iK2qu-0008Gk-Og
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:44 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b9so20415063wrs.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5mJ0GPrObe+pueZ1GTRIi8XqZtfYiyJoa0nyAQxJfzA=;
- b=H+YQ1SemLM71n5ni4tE20PJB/OT6wdi7eDL7Oh/5+27r68/X0BRoJU9L+4+gI3+Cre
- /GlJjIZUj5lXkJ4p/wFjTonjpnlcS6EhkYr+3xU2sBvEUEugx8dQCsPjMBeZsGB8TgGu
- QfubcusS873uxqEmJWtrlaUj3Ve+TeIkOtHSS/VXtPYP8vdPfkr+Ofb+oAe1GIXbmcpq
- 4xuGgzYqTWHV2FMQCDJ5T1b0BphV44xVT9jtCUhXhlkExzUDV0tDEMaaUc/7ZGTYcOqx
- Om7QKoDckN0JfGGSVtxxgeKQy3oUdkzvSsTG0ZITjLpgit0IosGDjIZ+AJttdny4UkzW
- eSsw==
+ bh=Nqq/qCS55sXki5wRHSne5LpAqEVFLWInVJY+PePtc1g=;
+ b=w3tJPH+OAk0u3vk2rpDI9JqQP2Tzq09mjz9OAKxvDYuHyjWd0BWHhXo3NZaLNZTj9g
+ xb13Jw7KGVcH49YXrayXlR0rNY4c8MfeRFGxaVauECzOOtGQlhYMXwcKnU9i2BuMfMOK
+ BQfQJ5XXZ2khx0JKweYpKypNsdqOv1LiwBzfVkpFi5U0wWCBhhAT3DDAdzYg31rUSpnb
+ x5Y2o+ZkGHkD8EDr3a/FiSSftZH9QzXPngSVu5Mi6SpqqapZL58idW6LEOdTpeXwPdcc
+ pmUo84LdiL7Skp6uF0rbpBunzxDDFgnIHYYaFjwQ1WkuW6U/q1RW4Pk97G1jmnF+Ziex
+ VD9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5mJ0GPrObe+pueZ1GTRIi8XqZtfYiyJoa0nyAQxJfzA=;
- b=jKVfms911LpgGagCxOsjiVuGR3blQpcqgmgwbueznqsApB/AVrHAe2O4q7gNV08BbI
- wmEic/0d9Ak1EQwLZG78aqv4xma6zfXjSwSfDfBPNsMIYtpWEX7Lr5cNPZq2SUG+g8kY
- lnw5FgKgHv4UldVb0Sl4vfGbfeILrgUFPFF7m3Na5nTygu2Yf5api7lvbMRRwOHSRSdd
- CFo7Fh5Ucfa3wVw1ZxuihAsRoFIpu/srZjimx0K2aKmyDnYFl+m4wjrz5vWrmNMsyDQA
- pg891QV3R6gya31D9N0ZumPoEfzenERdc45tyhPKSlMqx9kmA9C+dQjI+jRFglj8ExRQ
- TenA==
-X-Gm-Message-State: APjAAAVAigOpSun1qvsigqXtT4POP/ngf7mHRZ5rlcDWtKzC16pJKFjI
- pOTs4Tt+3C+izFcWHtNbFDj7SwLxch3iLw==
-X-Google-Smtp-Source: APXvYqyDDYZzp4r2ixayQ/IQd1lZ93595kGZxZCzaaLoYE7pdJrcG2QACEVsA6vk/6Px2xlhVWReYA==
-X-Received: by 2002:adf:fa92:: with SMTP id h18mr26479638wrr.220.1571069141489; 
- Mon, 14 Oct 2019 09:05:41 -0700 (PDT)
+ bh=Nqq/qCS55sXki5wRHSne5LpAqEVFLWInVJY+PePtc1g=;
+ b=OkEJzgxbbVSEgSCFIC4H5G4Y8XMkcaMynKa8/kjSN8mHS2OaMlYgzXO5DG/W6YyNA3
+ ZpLGdKXQn5qEdE2dyfN0GiyLkaLO4G5X+W4HNyv9oB8rekzRoo+gXRgktck+Vk5nZzV1
+ YyHWfHW97wn9MC20jvn/Dr8NKcEqcgzHbFfaAipD96xpXtTPFzmdLJOLijRI0OY/hOES
+ pKV9UzWfWLJ8yMjBk3MhwPSa5fMeFGMAnFjH14hu9U6Xxzj7ROm4s565nJVfTzRzK6Z1
+ I8oNVYkUqcHCfgVSN9nkw8yHoFzD5l7zbPfjKPuxpoQqHhe68UQFDbOIgLB0JN+GrBJK
+ tmOA==
+X-Gm-Message-State: APjAAAUmaqEx9U3bgITCHwj4uVEeeZvXjrVFdEt3ip6yoO0PgK0wMmrb
+ VLyu4b3PGVnmHhEaN+UsdhJlAIxZ0EAreA==
+X-Google-Smtp-Source: APXvYqwxujIMyFovr6SbkO27nO+iuq9+fOuHREscJNCUrRltZQr4uxiQ1E3kVtwDeZl2Az00OjdOXg==
+X-Received: by 2002:a5d:568a:: with SMTP id f10mr4357242wrv.215.1571069143271; 
+ Mon, 14 Oct 2019 09:05:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.40
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:40 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 62/68] aspeed/soc: Add ASPEED Video stub
-Date: Mon, 14 Oct 2019 17:03:58 +0100
-Message-Id: <20191014160404.19553-63-peter.maydell@linaro.org>
+Subject: [PULL 63/68] hw/arm/raspi: Use the IEC binary prefix definitions
+Date: Mon, 14 Oct 2019 17:03:59 +0100
+Message-Id: <20191014160404.19553-64-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,84 +82,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20190925143248.10000-24-clg@kaod.org
+IEC binary prefixes ease code review: the unit is explicit.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-id: 20190926173428.10713-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h | 1 +
- hw/arm/aspeed_ast2600.c     | 5 +++++
- hw/arm/aspeed_soc.c         | 6 ++++++
- 3 files changed, 12 insertions(+)
+ hw/arm/raspi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 43478f61787..cccb684a19b 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -96,6 +96,7 @@ enum {
-     ASPEED_SDMC,
-     ASPEED_SCU,
-     ASPEED_ADC,
-+    ASPEED_VIDEO,
-     ASPEED_SRAM,
-     ASPEED_SDHCI,
-     ASPEED_GPIO,
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index af047463a35..931887ac681 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -44,6 +44,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_SCU]       = 0x1E6E2000,
-     [ASPEED_XDMA]      = 0x1E6E7000,
-     [ASPEED_ADC]       = 0x1E6E9000,
-+    [ASPEED_VIDEO]     = 0x1E700000,
-     [ASPEED_SDHCI]     = 0x1E740000,
-     [ASPEED_GPIO]      = 0x1E780000,
-     [ASPEED_GPIO_1_8V] = 0x1E780800,
-@@ -236,6 +237,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM],
-                                 ASPEED_SOC_IOMEM_SIZE);
- 
-+    /* Video engine stub */
-+    create_unimplemented_device("aspeed.video", sc->memmap[ASPEED_VIDEO],
-+                                0x1000);
-+
-     if (s->num_cpus > sc->num_cpus) {
-         warn_report("%s: invalid number of CPUs %d, using default %d",
-                     sc->name, s->num_cpus, sc->num_cpus);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 6defb143acd..f4fe243458f 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -34,6 +34,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
-     [ASPEED_SDMC]   = 0x1E6E0000,
-     [ASPEED_SCU]    = 0x1E6E2000,
-     [ASPEED_XDMA]   = 0x1E6E7000,
-+    [ASPEED_VIDEO]  = 0x1E700000,
-     [ASPEED_ADC]    = 0x1E6E9000,
-     [ASPEED_SRAM]   = 0x1E720000,
-     [ASPEED_SDHCI]  = 0x1E740000,
-@@ -63,6 +64,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
-     [ASPEED_SCU]    = 0x1E6E2000,
-     [ASPEED_XDMA]   = 0x1E6E7000,
-     [ASPEED_ADC]    = 0x1E6E9000,
-+    [ASPEED_VIDEO]  = 0x1E700000,
-     [ASPEED_SRAM]   = 0x1E720000,
-     [ASPEED_SDHCI]  = 0x1E740000,
-     [ASPEED_GPIO]   = 0x1E780000,
-@@ -231,6 +233,10 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("aspeed_soc.io", sc->memmap[ASPEED_IOMEM],
-                                 ASPEED_SOC_IOMEM_SIZE);
- 
-+    /* Video engine stub */
-+    create_unimplemented_device("aspeed.video", sc->memmap[ASPEED_VIDEO],
-+                                0x1000);
-+
-     if (s->num_cpus > sc->num_cpus) {
-         warn_report("%s: invalid number of CPUs %d, using default %d",
-                     sc->name, s->num_cpus, sc->num_cpus);
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 74c062d05e3..615d7558790 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -230,7 +230,7 @@ static void raspi2_machine_init(MachineClass *mc)
+     mc->max_cpus = BCM283X_NCPUS;
+     mc->min_cpus = BCM283X_NCPUS;
+     mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = 1024 * 1024 * 1024;
++    mc->default_ram_size = 1 * GiB;
+     mc->ignore_memory_transaction_failures = true;
+ };
+ DEFINE_MACHINE("raspi2", raspi2_machine_init)
+@@ -252,7 +252,7 @@ static void raspi3_machine_init(MachineClass *mc)
+     mc->max_cpus = BCM283X_NCPUS;
+     mc->min_cpus = BCM283X_NCPUS;
+     mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = 1024 * 1024 * 1024;
++    mc->default_ram_size = 1 * GiB;
+ }
+ DEFINE_MACHINE("raspi3", raspi3_machine_init)
+ #endif
 -- 
 2.20.1
 
