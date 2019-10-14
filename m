@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F2DD6750
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:29:59 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D1CD673F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:24:45 +0200 (CEST)
+Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3EL-0001tv-KD
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36773)
+	id 1iK39I-0003vF-K9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pp-0003mw-2C
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:38 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2pq-0003pE-Kp
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pn-00078E-R6
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:36 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43502)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2pp-00079v-F2
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:38 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36788)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2pn-00077a-KP
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:35 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j18so20368209wrq.10
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:35 -0700 (PDT)
+ id 1iK2pp-00079A-95
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:37 -0400
+Received: by mail-wr1-x442.google.com with SMTP id y19so20399321wrd.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9CK3JV7Hq6bflgcOK+hFl60lUrNCbR1Yaa8PaHX9yvY=;
- b=G3mKbYuwmIGqEsA4pbMctEo3OJ0im8pSTs05zGJ5UaTGUCsceJvdYPIO+seCAiLLbB
- rqDe4XUbM2PNH9lhwek28kHY0dITE1evhM/HohfqoMzKs6xJAvsgGrJJNj5RxvlG6Y84
- 8pGeGNKTQRUarC961l/RXLWPLUsq59SRFFyIX+8ICQnY6vVwgZNMB45J10bwt/0rZx0A
- vq26TMYOnObstdL/WH1/uv7xaSTBW4zRScDkQI5Em0SCAQYPIcvEnddlEiy1JSoNziwz
- NwFx9b4+QSy1ju8P2f1P9NBGT07FW0HoJEvsvTcmAqty9JeLaA9LjGC4toVYD4ahe1wJ
- AVeA==
+ bh=MPwTcMBQ1S4get8cdHWOjMJ/U+e/1QSjXd8MI5RrTyI=;
+ b=XLwOUK0CXj/Uk79M6/LLCLvERS+d7J2KlvqW8V37nNN0knqUK7Flc/gPYL7fyiqQtM
+ Ud11Xl5j/XKEO2/dJI1OtL4ZM3cIUj04XUt+7b/QAUzrpenc79gmvvGPvXzDD6HP/gz+
+ hDvSgGue6lMpvuEATeWJohjYaGVOg8uGY1Sl7YSNw75DcDrZmMuW54KIghyf4TWpb+Ux
+ 7s+A305Rz/itLJhmrTOEFd+r41DLIK6LliwmuljJmq18QyWe2TfpntgjrJ1z3LV5sgQf
+ gdvfzMf3SYS1ltB3gux/49+u4ZHl6gte00Xux/2P3Id9eWAFcTKldaa3OY7Vk5gR4018
+ diGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9CK3JV7Hq6bflgcOK+hFl60lUrNCbR1Yaa8PaHX9yvY=;
- b=rSbLnx5PhV8FmS4Ew3EE6Y/wZmk27ZlyKZ5Ao0wjej74/8jESL6LCJG/a8wpe2MPSd
- CRU7H605TyvIFkYXBJOjVtJ4/y73LxKkvWdvDz0TaJrnu+DujukQ1SyBMyCbOYo2R5OR
- PFQkzHpCeUqqs1aFj9/nR8FTrdU/0hJO1B1SiTZS659XJiFMM2HhLO/Segb0ha33deBR
- xx3qUkd3vpVzpNjuMRnXKBUq79IGIc4n5ZTRlT9NYt9ME4VczE9YNGZtYNoFURKzcif8
- B/5+F9uC+UqIAjLEDcD/sJoxKSA+u4rPigz80Z1wu4kKhoj0/XQqrp9AX/aaMUYT8IxY
- VNJQ==
-X-Gm-Message-State: APjAAAWy9N/GsqgOWGK/9NshGSaemYH3TohIE8ai6Vd74X6TAq4P31bm
- nFvdPgZODXq3bGGDSEgAYNGZNIvPuRLKOg==
-X-Google-Smtp-Source: APXvYqx4G9+iAUXeEQLNtPOVaAwpRpn9+R1/v0t5GPXD+O71Cr3DQ1YBKleP5XzcFen9Sje2XlBjDQ==
-X-Received: by 2002:a5d:540d:: with SMTP id g13mr22579504wrv.8.1571069074094; 
- Mon, 14 Oct 2019 09:04:34 -0700 (PDT)
+ bh=MPwTcMBQ1S4get8cdHWOjMJ/U+e/1QSjXd8MI5RrTyI=;
+ b=UFzkhPhGr173hJZlm8BH69ryBAqdzBy7zx/hhP2vWoBaJOHC2gLnc4yWN3nKGXYWCC
+ 55QGciGR6yvc1fFKQqc/mRcvC8LqGrJ64ysgqpkq1NoKKlg47kOWZXdJ98zqOnlj61Hf
+ 2hH0c7aFu3tbrkQZUapAcFQ7Hrfl2jbTYw5uklDwfoXrQa4Or7kjVfvIi5w1lVRIGmCW
+ KqJmcjntGKi5hZEcSz0GdXCdFK07nSEd32+31ADLZ6W9eEVkOofaV7Xf1EZb1ERZVxdk
+ 45nx1AbqD6ra1u0gAJxE2hNdhsVJYohRC8YAL+sQD0clNn5zEQtbhSfIBgWhZNGoiaPU
+ t64A==
+X-Gm-Message-State: APjAAAU0aeGeDns98HYZ2MF9I9ANVT+0T7IsDAALnSlt1vhSFpaDSZKG
+ RJAd27berT2x9W+iRNhhbPEz073hlZ5ejg==
+X-Google-Smtp-Source: APXvYqwDecBIHwOecOb+5Z560v3/xWU5i4tEMiWGTI3zxL6y5SfVnr78SUCUFhJj+Nn5Ef7mIo8F4g==
+X-Received: by 2002:a05:6000:18d:: with SMTP id
+ p13mr3932123wrx.396.1571069075866; 
+ Mon, 14 Oct 2019 09:04:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.32
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:04:32 -0700 (PDT)
+ Mon, 14 Oct 2019 09:04:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/68] hw/timer/cmsdk-apb-timer.c: Switch to transaction-based
+Subject: [PULL 13/68] hw/timer/digic-timer.c: Switch to transaction-based
  ptimer API
-Date: Mon, 14 Oct 2019 17:03:08 +0100
-Message-Id: <20191014160404.19553-13-peter.maydell@linaro.org>
+Date: Mon, 14 Oct 2019 17:03:09 +0100
+Message-Id: <20191014160404.19553-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,104 +83,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the cmsdk-apb-timer code away from bottom-half based ptimers
-to the new transaction-based ptimer API.  This just requires adding
+Switch the digic-timer.c code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
 state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191008171740.9679-10-peter.maydell@linaro.org
+Message-id: 20191008171740.9679-11-peter.maydell@linaro.org
 ---
- hw/timer/cmsdk-apb-timer.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ hw/timer/digic-timer.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
-index c9ce9770cef..40728e85e20 100644
---- a/hw/timer/cmsdk-apb-timer.c
-+++ b/hw/timer/cmsdk-apb-timer.c
+diff --git a/hw/timer/digic-timer.c b/hw/timer/digic-timer.c
+index b111e1fe643..32612228daf 100644
+--- a/hw/timer/digic-timer.c
++++ b/hw/timer/digic-timer.c
 @@ -29,7 +29,6 @@
- 
  #include "qemu/osdep.h"
- #include "qemu/log.h"
+ #include "hw/sysbus.h"
+ #include "hw/ptimer.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
- #include "qapi/error.h"
- #include "trace.h"
-@@ -121,14 +120,17 @@ static void cmsdk_apb_timer_write(void *opaque, hwaddr offset, uint64_t value,
-                           "CMSDK APB timer: EXTIN input not supported\n");
-         }
-         s->ctrl = value & 0xf;
-+        ptimer_transaction_begin(s->timer);
-         if (s->ctrl & R_CTRL_EN_MASK) {
-             ptimer_run(s->timer, ptimer_get_limit(s->timer) == 0);
-         } else {
-             ptimer_stop(s->timer);
-         }
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case A_RELOAD:
-         /* Writing to reload also sets the current timer value */
-+        ptimer_transaction_begin(s->timer);
-         if (!value) {
-             ptimer_stop(s->timer);
-         }
-@@ -140,8 +142,10 @@ static void cmsdk_apb_timer_write(void *opaque, hwaddr offset, uint64_t value,
-              */
-             ptimer_run(s->timer, 0);
-         }
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case A_VALUE:
-+        ptimer_transaction_begin(s->timer);
-         if (!value && !ptimer_get_limit(s->timer)) {
-             ptimer_stop(s->timer);
-         }
-@@ -149,6 +153,7 @@ static void cmsdk_apb_timer_write(void *opaque, hwaddr offset, uint64_t value,
-         if (value && (s->ctrl & R_CTRL_EN_MASK)) {
-             ptimer_run(s->timer, ptimer_get_limit(s->timer) == 0);
-         }
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case A_INTSTATUS:
-         /* Just one bit, which is W1C. */
-@@ -191,9 +196,11 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
-     trace_cmsdk_apb_timer_reset();
-     s->ctrl = 0;
-     s->intstatus = 0;
-+    ptimer_transaction_begin(s->timer);
-     ptimer_stop(s->timer);
-     /* Set the limit and the count */
-     ptimer_set_limit(s->timer, 0, 1);
-+    ptimer_transaction_commit(s->timer);
- }
+ #include "qemu/log.h"
  
- static void cmsdk_apb_timer_init(Object *obj)
-@@ -210,21 +217,21 @@ static void cmsdk_apb_timer_init(Object *obj)
- static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+@@ -52,7 +51,9 @@ static void digic_timer_reset(DeviceState *dev)
  {
-     CMSDKAPBTIMER *s = CMSDK_APB_TIMER(dev);
--    QEMUBH *bh;
+     DigicTimerState *s = DIGIC_TIMER(dev);
  
-     if (s->pclk_frq == 0) {
-         error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
-         return;
-     }
- 
--    bh = qemu_bh_new(cmsdk_apb_timer_tick, s);
--    s->timer = ptimer_init_with_bh(bh,
-+    s->timer = ptimer_init(cmsdk_apb_timer_tick, s,
-                            PTIMER_POLICY_WRAP_AFTER_ONE_PERIOD |
-                            PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT |
-                            PTIMER_POLICY_NO_IMMEDIATE_RELOAD |
-                            PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
- 
-+    ptimer_transaction_begin(s->timer);
-     ptimer_set_freq(s->timer, s->pclk_frq);
-+    ptimer_transaction_commit(s->timer);
++    ptimer_transaction_begin(s->ptimer);
+     ptimer_stop(s->ptimer);
++    ptimer_transaction_commit(s->ptimer);
+     s->control = 0;
+     s->relvalue = 0;
  }
+@@ -93,16 +94,20 @@ static void digic_timer_write(void *opaque, hwaddr offset,
+             break;
+         }
  
- static const VMStateDescription cmsdk_apb_timer_vmstate = {
++        ptimer_transaction_begin(s->ptimer);
+         if (value & DIGIC_TIMER_CONTROL_EN) {
+             ptimer_run(s->ptimer, 0);
+         }
+ 
+         s->control = (uint32_t)value;
++        ptimer_transaction_commit(s->ptimer);
+         break;
+ 
+     case DIGIC_TIMER_RELVALUE:
+         s->relvalue = extract32(value, 0, 16);
++        ptimer_transaction_begin(s->ptimer);
+         ptimer_set_limit(s->ptimer, s->relvalue, 1);
++        ptimer_transaction_commit(s->ptimer);
+         break;
+ 
+     case DIGIC_TIMER_VALUE:
+@@ -125,17 +130,24 @@ static const MemoryRegionOps digic_timer_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
++static void digic_timer_tick(void *opaque)
++{
++    /* Nothing to do on timer rollover */
++}
++
+ static void digic_timer_init(Object *obj)
+ {
+     DigicTimerState *s = DIGIC_TIMER(obj);
+ 
+-    s->ptimer = ptimer_init_with_bh(NULL, PTIMER_POLICY_DEFAULT);
++    s->ptimer = ptimer_init(digic_timer_tick, NULL, PTIMER_POLICY_DEFAULT);
+ 
+     /*
+      * FIXME: there is no documentation on Digic timer
+      * frequency setup so let it always run at 1 MHz
+      */
++    ptimer_transaction_begin(s->ptimer);
+     ptimer_set_freq(s->ptimer, 1 * 1000 * 1000);
++    ptimer_transaction_commit(s->ptimer);
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &digic_timer_ops, s,
+                           TYPE_DIGIC_TIMER, 0x100);
 -- 
 2.20.1
 
