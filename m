@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE62CD65D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:04:57 +0200 (CEST)
-Received: from localhost ([::1]:51184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D3AD65E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:07:17 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1u4-0004M4-O8
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
+	id 1iK1wK-0006zP-2P
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iK1ro-0002Kj-9W
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:02:38 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iK1v3-0005o5-Vr
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:05:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iK1rm-0005n3-JG
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:02:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50222)
+ (envelope-from <ehabkost@redhat.com>) id 1iK1v2-0008Ol-1z
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:05:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:23991)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iK1rm-0005mH-9N
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:02:34 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iK1v1-0008NQ-SR
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:05:56 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 440DA7F74A;
- Mon, 14 Oct 2019 15:02:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 86D2018C8929;
+ Mon, 14 Oct 2019 15:05:54 +0000 (UTC)
 Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C040360566;
- Mon, 14 Oct 2019 15:02:25 +0000 (UTC)
-Date: Mon, 14 Oct 2019 12:02:24 -0300
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21E8A5C231;
+ Mon, 14 Oct 2019 15:05:48 +0000 (UTC)
+Date: Mon, 14 Oct 2019 12:05:47 -0300
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: sphinx-build parallel build failures (was Re: [PATCH v3]
- target/i386: Add Snowridge-v2 (no MPX) CPU model)
-Message-ID: <20191014150224.GQ4084@habkost.net>
-References: <157087059993.19261.12706853972165466894@37313f22b938>
- <00a6687037f90374605d8f4f69b9d2b3d614040b.camel@intel.com>
- <20191012135158.GN4084@habkost.net>
- <CAFEAcA8x-6zsz-aZShCheOnE_d-VnvJ9u7=0qmxXStBF7EUsNg@mail.gmail.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] refine memory_device_get_free_addr
+Message-ID: <20191014150547.GR4084@habkost.net>
+References: <20190730003740.20694-1-richardw.yang@linux.intel.com>
+ <20190913234746.jb5a5vlwl6cebudz@master>
+ <20190914154026-mutt-send-email-mst@kernel.org>
+ <20191012090209.GA6047@richard>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA8x-6zsz-aZShCheOnE_d-VnvJ9u7=0qmxXStBF7EUsNg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20191012090209.GA6047@richard>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Mon, 14 Oct 2019 15:02:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.70]); Mon, 14 Oct 2019 15:05:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -60,66 +59,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: imammedo@redhat.com, Wei Yang <richard.weiyang@gmail.com>, david@redhat.com,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 14, 2019 at 01:02:44PM +0100, Peter Maydell wrote:
-> On Sat, 12 Oct 2019 at 14:52, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Sat, Oct 12, 2019 at 05:02:09PM +0800, Wei Yang wrote:
+> On Sat, Sep 14, 2019 at 03:40:41PM -0400, Michael S. Tsirkin wrote:
+> >On Fri, Sep 13, 2019 at 11:47:46PM +0000, Wei Yang wrote:
+> >> On Tue, Jul 30, 2019 at 08:37:38AM +0800, Wei Yang wrote:
+> >> >When we iterate the memory-device list to get the available range, it is not
+> >> >necessary to iterate the whole list.
+> >> >
+> >> >1) no more overlap for hinted range if tmp exceed it
+> >> >
+> >> >v2:
+> >> >   * remove #2 as suggested by Igor and David
+> >> >   * add some comment to inform address assignment stay the same as before
+> >> >     this change 
+> >> >
+> >> >Wei Yang (2):
+> >> >  memory-device: not necessary to use goto for the last check
+> >> >  memory-device: break the loop if tmp exceed the hinted range
+> >> >
+> >> > hw/mem/memory-device.c | 3 ++-
+> >> > 1 file changed, 2 insertions(+), 1 deletion(-)
+> >> >
+> >> 
+> >> Would someone take this patch set?
 > >
-> > On Sat, Oct 12, 2019 at 07:40:30PM +0800, Xiaoyao Li wrote:
-> > > On Sat, 2019-10-12 at 01:56 -0700, no-reply@patchew.org wrote:
-> > > > Patchew URL:
-> > > > https://patchew.org/QEMU/20191012024748.127135-1-xiaoyao.li@intel.com/
-> > > >
-> > > >
-> > > >
-> > > > Hi,
-> > > >
-> > > > This series failed the docker-mingw@fedora build test. Please find the testing
-> > > > commands and
-> > > > their output below. If you have Docker installed, you can probably reproduce
-> > > > it
-> > > > locally.
-> > > >
-> > > > === TEST SCRIPT BEGIN ===
-> > > > #! /bin/bash
-> > > > export ARCH=x86_64
-> > > > make docker-image-fedora V=1 NETWORK=1
-> > > > time make docker-test-mingw@fedora J=14 NETWORK=1
-> > > > === TEST SCRIPT END ===
-> > > >
-> > > >   CC      stubs/machine-init-done.o
-> > > >   CC      stubs/migr-blocker.o
-> > > >   CC      stubs/change-state-handler.o
-> > > > make: *** [Makefile:994: docs/interop/index.html] Error 2
-> > > > make: *** Waiting for unfinished jobs....
+> >yes looks good to me too.
+> >Eduardo?
 > >
-> > This looks like the sphinx-build parallel build failures I am
-> > also seeing in my builds:
-> > https://github.com/sphinx-doc/sphinx/issues/2946
 > 
-> Could you send your workaround patch:
-> https://github.com/ehabkost/qemu-hacks/commit/569f1dcb5764fccd5942ebbe39d3a8ed91cd632b
-> to qemu-devel? It seems like a reasonable way to avoid
-> the problem (just use different doctrees) and less complicated
-> than trying to serialize the two builds in the QEMU makefiles.
-> I think my only review comment would be to add a couple of
-> comment lines to the makefile, something like:
->  # Note use of different doctrees for each (manual, builder) tuple;
->  # this works around Sphinx not handling parallel invocation on
->  # a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
-> 
-> so we don't forget why we had to do this.
-> 
-> If you do that you can add my
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> tag when you send the patch.
+> Hmm... I don't see this any where. May I ask the status?
 
-Done, including the comment you've suggested above and your
-Reviewed-by line.  Thanks!
+Sorry, I hadn't seen Michael's message.  Queued on machine-next.
+Thanks!
 
 -- 
 Eduardo
