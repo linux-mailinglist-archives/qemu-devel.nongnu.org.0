@@ -2,49 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98001D6A4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 21:46:25 +0200 (CEST)
-Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDF2D6ACF
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 22:30:25 +0200 (CEST)
+Received: from localhost ([::1]:57368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK6IS-0007C8-5T
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 15:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40735)
+	id 1iK6z1-0007To-5T
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 16:30:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52260)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iK63B-00072A-Ie
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:30:38 -0400
+ (envelope-from <incredible.tack@gmail.com>) id 1iK6xk-0006fy-TZ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 16:29:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iK63A-0003ES-3J
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 15:30:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51652)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iK636-0003Cx-VG; Mon, 14 Oct 2019 15:30:33 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 293ECC03D478;
- Mon, 14 Oct 2019 19:30:32 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-152.bos.redhat.com [10.18.17.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 581C360C5D;
- Mon, 14 Oct 2019 19:30:28 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 19/19] dirty-bitmaps: remove deprecated autoload parameter
-Date: Mon, 14 Oct 2019 15:29:09 -0400
-Message-Id: <20191014192909.16044-20-jsnow@redhat.com>
-In-Reply-To: <20191014192909.16044-1-jsnow@redhat.com>
-References: <20191014192909.16044-1-jsnow@redhat.com>
+ (envelope-from <incredible.tack@gmail.com>) id 1iK6xj-0006iM-FU
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 16:29:04 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40361)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <incredible.tack@gmail.com>)
+ id 1iK6xj-0006hf-6q
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 16:29:03 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h4so21189578wrv.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 13:29:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=74FU2wgeq8Tz9l2TgC2P08Izi2uA7upveMAbzTmL84g=;
+ b=jefwxsbnzdzOMqtWOJXpCd8vReylRs5eEVVusP0zxWtuUoUBEqjTqK0tm1CxlUl56+
+ /iLyLdsD5AMdTB0jiuy6NNch7Fs99E3CntjYDIpBuwDI+AwoAxgIbfyGZVgm8G6X9bMf
+ I+sbbBBurQraUplxsNZiilIYGoAuhb4SzMmUSApNHs3pB0uco6oyq/91WiKa9z8IciBI
+ GCTpVnwf2mVdFSpHeIQLQ4oySqmibLorRV+XYfKGNkXew3nLpTCsqwFyVLx3Zu01E9+Q
+ dRtEdnuhEiyMQyafXDntQ4+dPXP87mde+ulK3X+nAu20xUdBWN4/iQCCfTRxyNI4g1PP
+ Z0hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=74FU2wgeq8Tz9l2TgC2P08Izi2uA7upveMAbzTmL84g=;
+ b=nRisab4+9s+BWzGCL+VrWR7H0WNEOgxEhFWK/dDoo8hAkylqBTbJWXxUbtcwbkjqJY
+ Hj8OBqn8eJPVnTENDE5l02jsKV1S82VHtjROqC0Ssbq0w2aRfMSpZjJPkgfiTL+xu4TD
+ vw84gd9+uO1NugS/8sFcUAaLkEACxYgXJFEvt46tsLhb6c0Rt+dY6gBASTpiWbE5yMdk
+ C0+guDLCAK4o4qJxAorcvzEifeR1/u33P1tKvRbB4nhJ6UO/Sem6KnsJG1Lsd5LdyEz1
+ EB2Wr1hRQTnd6AFzcvJ5pgUtZz0H//MzhRlb3WX2iUoenWRa7cuMMvFmw25DfCq5tRF7
+ QczA==
+X-Gm-Message-State: APjAAAVbtjvGUsYa5kfow2f3SPiDHSIsN8UaPbScrMcElGpq6t/wd5z4
+ EAK7XS9Rq8n/Z7vIzU7tpVsJm2aOeLuVG7YPiylZe61r
+X-Google-Smtp-Source: APXvYqyLPcrbjDuIbLdADeVHejkb0qT/XrMuQGfeAyKZMhZa1ydqoSfWh7vOdhv89GizcIHrd2052tfUtUtVEwtISkw=
+X-Received: by 2002:a5d:6449:: with SMTP id d9mr28697981wrw.246.1571084940716; 
+ Mon, 14 Oct 2019 13:29:00 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 14 Oct 2019 19:30:32 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+From: Jintack Lim <incredible.tack@gmail.com>
+Date: Mon, 14 Oct 2019 13:28:49 -0700
+Message-ID: <CAHyh4xisBvQ+-p5R6Wj0po17-3EOkKsALzRysHU+R=mprbdjtg@mail.gmail.com>
+Subject: Using virtual IOMMU in guest hypervisors other than KVM and Xen?
+To: QEMU Devel Mailing List <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,134 +68,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
- John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This parameter has been deprecated since 2.12.0 and is eligible for
-removal. Remove this parameter as it is actually completely ignored;
-let's not give false hope.
+Hi,
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191002232411.29968-1-jsnow@redhat.com
----
- qemu-deprecated.texi | 20 +++++++++++++++-----
- qapi/block-core.json |  6 +-----
- blockdev.c           |  6 ------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+I'm trying to pass through a physical network device to a nested VM
+using virtual IOMMU. While I was able to do it successfully using KVM
+and Xen guest hypervisors running in a VM respectively, I couldn't do
+it with Hyper-V as I described below. I wonder if anyone have
+successfully used virtual IOMMU in other hypervisors other than KVM
+and Xen? (like Hyper-V or VMware)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 01245e0b1c..7239e0959d 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -149,11 +149,6 @@ QEMU 4.1 has three options, please migrate to one of=
- these three:
-=20
- @section QEMU Machine Protocol (QMP) commands
-=20
--@subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
--
--"autoload" parameter is now ignored. All bitmaps are automatically loade=
-d
--from qcow2 images.
--
- @subsection query-block result field dirty-bitmaps[i].status (since 4.0)
-=20
- The ``status'' field of the ``BlockDirtyInfo'' structure, returned by
-@@ -356,3 +351,18 @@ existing CPU models.  Management software that needs=
- runnability
- guarantees must resolve the CPU model aliases using te
- ``alias-of'' field returned by the ``query-cpu-definitions'' QMP
- command.
-+
-+
-+@node Recently removed features
-+@appendix Recently removed features
-+
-+What follows is a record of recently removed, formerly deprecated
-+features that serves as a record for users who have encountered
-+trouble after a recent upgrade.
-+
-+@section QEMU Machine Protocol (QMP) commands
-+
-+@subsection block-dirty-bitmap-add "autoload" parameter (since 4.2.0)
-+
-+The "autoload" parameter has been ignored since 2.12.0. All bitmaps
-+are automatically loaded from qcow2 images.
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index f66553aac7..b274aef713 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2052,10 +2052,6 @@
- #              Qcow2 disks support persistent bitmaps. Default is false =
-for
- #              block-dirty-bitmap-add. (Since: 2.10)
- #
--# @autoload: ignored and deprecated since 2.12.
--#            Currently, all dirty tracking bitmaps are loaded from Qcow2=
- on
--#            open.
--#
- # @disabled: the bitmap is created in the disabled state, which means th=
-at
- #            it will not track drive changes. The bitmap may be enabled =
-with
- #            block-dirty-bitmap-enable. Default is false. (Since: 4.0)
-@@ -2064,7 +2060,7 @@
- ##
- { 'struct': 'BlockDirtyBitmapAdd',
-   'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
--            '*persistent': 'bool', '*autoload': 'bool', '*disabled': 'bo=
-ol' } }
-+            '*persistent': 'bool', '*disabled': 'bool' } }
-=20
- ##
- # @BlockDirtyBitmapMergeSource:
-diff --git a/blockdev.c b/blockdev.c
-index d77e809623..03c7cd7651 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1966,7 +1966,6 @@ static void block_dirty_bitmap_add_prepare(BlkActio=
-nState *common,
-     qmp_block_dirty_bitmap_add(action->node, action->name,
-                                action->has_granularity, action->granular=
-ity,
-                                action->has_persistent, action->persisten=
-t,
--                               action->has_autoload, action->autoload,
-                                action->has_disabled, action->disabled,
-                                &local_err);
-=20
-@@ -2858,7 +2857,6 @@ out:
- void qmp_block_dirty_bitmap_add(const char *node, const char *name,
-                                 bool has_granularity, uint32_t granulari=
-ty,
-                                 bool has_persistent, bool persistent,
--                                bool has_autoload, bool autoload,
-                                 bool has_disabled, bool disabled,
-                                 Error **errp)
- {
-@@ -2890,10 +2888,6 @@ void qmp_block_dirty_bitmap_add(const char *node, =
-const char *name,
-         persistent =3D false;
-     }
-=20
--    if (has_autoload) {
--        warn_report("Autoload option is deprecated and its value is igno=
-red");
--    }
--
-     if (!has_disabled) {
-         disabled =3D false;
-     }
---=20
-2.21.0
+The issue I have with Hyper-V is that Hyper-V gives an error that the
+underlying hardware is not capable of doing passthrough. The exact
+error message is as follows.
 
+Windows Power-shell > (Get-VMHost).IovSupportReasons
+The chipset on the system does not do DMA remapping, without which
+SR-IOV cannot be supported.
+
+I'm pretty sure that Hyper-V recognizes virtual IOMMU, though; I have
+enabled iommu in windows boot loader[1], and I see differences when
+booing a Windows VM with and without virtual IOMMU. I also checked
+that virtual IOMMU traces are printed.
+
+I have tried multiple KVM/QEMU versions including the latest ones
+(kernel v5.3, QEMU 4.1.0) as well as two different Windows servers
+(2016 and 2019), but I see the same result. [4]
+
+I'd love to hear if somebody is using virtual IOMMU in Hyper-V or
+VMware successfully, especially for passthrough. I also appreciate if
+somebody can point out any configuration errors I have.
+
+Here's the qemu command line I use, basically from the QEMU vt-d
+page[2] and Hyper-v on KVM from kvmforum [3].
+
+./qemu/x86_64-softmmu/qemu-system-x86_64 -device
+intel-iommu,intremap=on,caching-mode=on -smp 6 -m 24G -M
+q35,accel=kvm,kernel-irqchip=split -cpu
+host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -drive
+if=none,file=/vm/guest0.img,id=vda,cache=none,format=raw -device
+virtio-blk-pci,drive=vda --nographic -qmp
+unix:/var/run/qmp,server,nowait -serial
+telnet:127.0.0.1:4444,server,nowait -netdev
+user,id=net0,hostfwd=tcp::2222-:22 -device
+virtio-net-pci,netdev=net0,mac=de:ad:be:ef:f2:12 -netdev
+tap,id=net1,vhost=on,helper=/srv/vm/qemu/qemu-bridge-helper -device
+virtio-net-pci,netdev=net1,disable-modern=off,disable-legacy=on,mac=de:ad:be:ef:f2:11
+-device vfio-pci,host=0000:06:10.0,id=net2 -monitor stdio -usb -device
+usb-tablet -rtc base=localtime,clock=host -vnc 127.0.0.1:4 --cdrom
+win19.iso --drive file=virtio-win.iso,index=3,media=cdrom
+
+Thanks,
+Jintack
+
+[1] https://social.technet.microsoft.com/Forums/en-US/a7c2940a-af32-4dab-8b31-7a605e8cf075/a-hypervisor-feature-is-not-available-to-the-user?forum=WinServerPreview
+[2] https://wiki.qemu.org/Features/VT-d
+[3] https://www.linux-kvm.org/images/6/6a/HyperV-KVM.pdf
+[4] https://www.mail-archive.com/qemu-devel@nongnu.org/msg568963.html
 
