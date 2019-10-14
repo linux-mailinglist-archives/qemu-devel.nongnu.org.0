@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954B9D609A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 12:52:46 +0200 (CEST)
-Received: from localhost ([::1]:46960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C19D6099
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 12:52:44 +0200 (CEST)
+Received: from localhost ([::1]:46952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJxy1-0000mA-6l
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 06:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
+	id 1iJxxy-0000ii-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 06:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvJ-0007JT-7h
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:49:58 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvH-0005yu-HS
+ (envelope-from <alex.bennee@linaro.org>) id 1iJxvF-0007JD-Ud
  for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:49:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35667)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iJxvE-0005vX-VA
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:49:53 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34538)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iJxvH-0005x4-BX
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:49:55 -0400
-Received: by mail-wr1-x444.google.com with SMTP id v8so19150800wrt.2
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:49:54 -0700 (PDT)
+ id 1iJxvE-0005uk-P9
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:49:52 -0400
+Received: by mail-wr1-x442.google.com with SMTP id j11so19161269wrp.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xbXPv2RF3r3lJivkBr9kmxKqq17UhIjfz0xNCVqHlWU=;
- b=qFaD6LL8FzEURO4TEhMYUrqi1TkpsSCQ4Qf16bdXVPLyIPP9Hvyt9xVWZs8gVXcVof
- /L263HeDN6Xs/SWVJHZ0Qp5yjlsJClabCXoazBsaMDBtxs373vaeRWFDR9jUf3sTE0xu
- rVmy0CwfjtkSjLNDIZe3LhdyD3FCn6GNWuWMBRBlKZ7EepFfAIYPGss+uBtRTuu/b+jn
- HAVp43PiBoyC++Dn5qW7BRv8A5pgeUZliKarhAqwJDniz+kt9tklkG2pcsjysEcjh/ha
- C3mXO6yZjjW9WJwpYBWG8FvtReGicrxg+qn7buIuw/XRprOOTcXHDww78IxDkxLzCqza
- RE5A==
+ bh=TcDnMTCbqc+SMPI8ZRIhg2t2SAwRlKS9dBsRR316T8M=;
+ b=VnTpB8sqXBvIvtF5yjTZvEcpflNYrKJhxc8WiUTIuCs8QgtlYbp8+ETdtBf/aZlmxg
+ KPsKx7HgK4Z43ZdttNWYoSw1VYD3zXAmBNEiW/ujR+v4yrAikRnN46I7de3L4nIgF5Dd
+ jMi2VmkthDwbumSM99z+14a7D8QKrnqlyC6HC+piA2a99bdaIgb7LgchgrjoTAnMqgm1
+ EROzAamFa1HdKpc03SdazTJrKbxbZiw2cf0N0woa4MX7vADSAwF8FwWHohyNhphSLUgH
+ sowYJ5ugpwDqv/NRVufeiL0EklUJfbbsdVTDW9VKZfrSjRpfxFKucsUQyV3v16zUa+lj
+ HS9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xbXPv2RF3r3lJivkBr9kmxKqq17UhIjfz0xNCVqHlWU=;
- b=LbiHpgj2TKoX2LjQEi/rrDBsOhltM9mwfeNFrTBcexTrqPrL+9RRcR3cmN7bIbAgtF
- 91cp8C4JFRe3dlUoKxJaQh+FDtVlobTPoW8581xNggceYtplqcIfj8o3IupIyPkxG8Dx
- 6BaFbF9biHJXF9pGoVU3Q8XeDe4tRKrZB7FXFn9D746/RpLwExe95nXCWeO5sZ0ZYlKH
- YvtRHLm79cbev0DctLWlyLMXHqidLPk0UyvVPMubQxwVCV2z9NXrEPIOowp0686k33Nk
- q2AD02xVEajpeI1ZMuikOIophpFOoRpq4LvD33TIpNCbabp2a29SWfFyXVr5TzyEv5M4
- EdBw==
-X-Gm-Message-State: APjAAAXfFe3mRy90eDcQ4BEl1oFD0Ad2qKd08m4HwgnO6dg1hUbsD2x9
- BJfDUZl1kflAlG50lzHWeWZI+Q==
-X-Google-Smtp-Source: APXvYqx8Fm7cHvED4IO5rxGYPBRGDH3q/kW7D6iElNFsPau6UoTNCOSxBGpm5TNQlA89J6xPuE3ZEA==
-X-Received: by 2002:adf:fe8d:: with SMTP id l13mr11845837wrr.365.1571050193565; 
- Mon, 14 Oct 2019 03:49:53 -0700 (PDT)
+ bh=TcDnMTCbqc+SMPI8ZRIhg2t2SAwRlKS9dBsRR316T8M=;
+ b=brQ5rztqUgVA2CmiZ4lhPW41ipVLBKD+jpTIUc3mDFMVX7iACChvzDFYzyLk5sAh23
+ fPh9oP5R5uUMjD1Q5csCYBAwi9CuQhSPQ6yBPGCFlHkuv8D4GRj/K0vELAj/Q0ChYy3U
+ SIFSUdXpsCvmXGd6Cg1UxGtafKAZIY5Domzy57zat6e3zmXDune4zwxmT7EJPdXn0gWY
+ 3gPr2YCivTWM3WKf7/g5vAsvrBhIUg3MW1chM7d2kpvnOLLnPG5IjNpw7wIQW5TKGB45
+ ZSghCnYU9Ln4wmUYa8wWgrwFApfCgwEnEdVDaECuV8d4Crmt+gAoxIOYRhdCjMMoWRSm
+ KrVg==
+X-Gm-Message-State: APjAAAVLFPo7d+hGrzPSbJwM5Y7au2bMktmxBP5O+7G/AMuTvHXSF80K
+ i6nBeOJNf1FT2hUEU7GO6SJ+pw==
+X-Google-Smtp-Source: APXvYqzk9SbKRTqNJl3Ito9j5uHQWz6UCu87Fw3DgAsg0U2C3sLl4OZQjTvbRktOGaNsRji3Q5fCuA==
+X-Received: by 2002:adf:ee82:: with SMTP id b2mr24823864wro.285.1571050191698; 
+ Mon, 14 Oct 2019 03:49:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l18sm19810331wrc.18.2019.10.14.03.49.50
+ by smtp.gmail.com with ESMTPSA id t203sm21013915wmf.42.2019.10.14.03.49.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Oct 2019 03:49:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B1AD61FF90;
+ by zen.linaroharston (Postfix) with ESMTP id E5EDD1FF91;
  Mon, 14 Oct 2019 11:49:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v5 03/55] cpu: introduce cpu_in_exclusive_context()
-Date: Mon, 14 Oct 2019 11:48:56 +0100
-Message-Id: <20191014104948.4291-4-alex.bennee@linaro.org>
+Subject: [PATCH v5 04/55] translate-all: use cpu_in_exclusive_work_context()
+ in tb_flush
+Date: Mon, 14 Oct 2019 11:48:57 +0100
+Message-Id: <20191014104948.4291-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,7 +82,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, robert.foley@futurewei.com,
+Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -92,104 +93,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+tb_flush will be called by the plugin module from a safe
+work environment. Prepare for that.
+
 Suggested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-[AJB: moved inside start/end_exclusive fns + cleanup]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4
-  - -> cpu_in_exclusive_context
-  - moved inside start/end exclusive
-  - fixed up cpu_exec_step_atomic
----
- accel/tcg/cpu-exec.c  |  5 +----
- cpus-common.c         |  4 ++++
- include/hw/core/cpu.h | 13 +++++++++++++
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ accel/tcg/translate-all.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 48272c781b..81c33d6475 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -238,8 +238,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     uint32_t flags;
-     uint32_t cflags = 1;
-     uint32_t cf_mask = cflags & CF_HASH_MASK;
--    /* volatile because we modify it between setjmp and longjmp */
--    volatile bool in_exclusive_region = false;
- 
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-@@ -253,7 +251,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
- 
-         /* Since we got here, we know that parallel_cpus must be true.  */
-         parallel_cpus = false;
--        in_exclusive_region = true;
-         cc->cpu_exec_enter(cpu);
-         /* execute the generated code */
-         trace_exec_tb(tb, pc);
-@@ -273,7 +270,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         assert_no_pages_locked();
-     }
- 
--    if (in_exclusive_region) {
-+    if (cpu_in_exclusive_context(cpu)) {
-         /* We might longjump out of either the codegen or the
-          * execution, so must make sure we only end the exclusive
-          * region if we started it.
-diff --git a/cpus-common.c b/cpus-common.c
-index af3385a296..eaf590cb38 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -200,11 +200,15 @@ void start_exclusive(void)
-      * section until end_exclusive resets pending_cpus to 0.
-      */
-     qemu_mutex_unlock(&qemu_cpu_list_lock);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 66d4bc4341..0a08fcda3e 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1268,8 +1268,13 @@ void tb_flush(CPUState *cpu)
+ {
+     if (tcg_enabled()) {
+         unsigned tb_flush_count = atomic_mb_read(&tb_ctx.tb_flush_count);
+-        async_safe_run_on_cpu(cpu, do_tb_flush,
+-                              RUN_ON_CPU_HOST_INT(tb_flush_count));
 +
-+    current_cpu->in_exclusive_context = true;
++        if (cpu_in_exclusive_context(cpu)) {
++            do_tb_flush(cpu, RUN_ON_CPU_HOST_INT(tb_flush_count));
++        } else {
++            async_safe_run_on_cpu(cpu, do_tb_flush,
++                                  RUN_ON_CPU_HOST_INT(tb_flush_count));
++        }
+     }
  }
  
- /* Finish an exclusive operation.  */
- void end_exclusive(void)
- {
-+    current_cpu->in_exclusive_context = false;
-+
-     qemu_mutex_lock(&qemu_cpu_list_lock);
-     atomic_set(&pending_cpus, 0);
-     qemu_cond_broadcast(&exclusive_resume);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 031f587e51..07f2ab0590 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -372,6 +372,7 @@ struct CPUState {
-     bool unplug;
-     bool crash_occurred;
-     bool exit_request;
-+    bool in_exclusive_context;
-     uint32_t cflags_next_tb;
-     /* updates protected by BQL */
-     uint32_t interrupt_request;
-@@ -783,6 +784,18 @@ void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
-  */
- void async_safe_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data);
- 
-+/**
-+ * cpu_in_exclusive_context()
-+ * @cpu: The vCPU to check
-+ *
-+ * Returns true if @cpu is an exclusive context, for example running
-+ * something which has previously been queued via async_safe_run_on_cpu().
-+ */
-+static inline bool cpu_in_exclusive_context(const CPUState *cpu)
-+{
-+    return cpu->in_exclusive_context;
-+}
-+
- /**
-  * qemu_get_cpu:
-  * @index: The CPUState@cpu_index value of the CPU to obtain.
 -- 
 2.20.1
 
