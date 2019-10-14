@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3D8D678C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:41:33 +0200 (CEST)
-Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB46BD6799
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:44:56 +0200 (CEST)
+Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3PY-0000jI-74
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36941)
+	id 1iK3Sp-0004Fn-Bk
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36950)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2q3-00049r-0Z
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2q4-0004Bx-9A
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2q1-0007Oi-Ju
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:50 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42948)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2q2-0007QF-U5
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:51 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36894)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2q1-0007Ns-CW
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:49 -0400
-Received: by mail-wr1-x429.google.com with SMTP id n14so20339432wrw.9
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:49 -0700 (PDT)
+ id 1iK2q2-0007PI-NK
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p14so20379797wro.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5+kOs0teFFCsk+a/XyNTZMVCXSHzbGikT6RQ04d9kmY=;
- b=cZ8j5vPekk4jpgSWBw21FmVVfIvnGdEq0Cjm00E4LPMXwjCJNv8Kr5vGibxzLgYhTW
- OsFFo2K9xWapD9x2sD6EF2J7ipO6NjgfBqM46wj6QM5fTp0dubXReAWWBJenZrGNlM7M
- cJv8gGIzjnXGqZcU5sk0Inpr4Uhgfcy5/NVhbgJiNLOiBa4045AtYd3ll2gPh/fTxGdy
- FthhLqSRAw1wf7kDkOJsXkwsoa937a3/qshC00TLvnukP0jyXNWRthZEPRLt0Y4FnH22
- KISP6MJVf1Zc0UajKbfnQU774gLMOQgTnelCoF8TQhNcAkexXVbLMn5yUu9uMcd81anI
- kY5Q==
+ bh=AqfOX9DanbrHqfYl2VtcpfIOP77gIYhu/52gPlZVV/I=;
+ b=cRXmWSLRSUUl2Uag/YMbiBTHxMpURXzmrUSZgQyDLliu45CbNKdzC5LGr3MpfTvwxL
+ GQZQwYrOiT5nMWvWYR6hVRe49JR/6udbg1vgsFoEGTrojCM2yz5cwo4LzbKOnbaziAsA
+ 1kGYuMeJi/ggB7jexRD1X6rLsbMjTKROiajf8xPwhv/Q0ztRp+buE4KzGn5dW0onsKei
+ MLDvAt03ettAgI90YyIl01cCPXLNsLbysfqTHkngbwo7OwmfgXVckq8tR7HLSi39fKmx
+ tPDUdcTA2z8PPsNeFfRBC/hWECNazkYESIHMaqFxRugkNrRCwMj7FRXyKFno2XWup/SF
+ W64Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5+kOs0teFFCsk+a/XyNTZMVCXSHzbGikT6RQ04d9kmY=;
- b=cJCRHls7B3dV9K2UTi/qZAJDwh/sZknbbxZK2CalLTWGLMpz+F1J+9kZy5C5FLxrku
- +zGLUgZEOtKma1IcX/BAJTtHjKuPBF9WaX+SgKETKm43L1oPYidMCt1z3+WnRp5ObXXg
- 0gcwCl/VV7GzW6gKWBvneFm3R0yTNizwtNJ3krDvvRVLgKWguQMXEk0/pwFldO36pZYW
- EDxxtvTh2zOUj0fG5s/Xi1igDmmsVaIOszIKSxfvbS23eHOEXy958rK+CS6iIFWURJCW
- SCHjsWQ7VOm3/+zjBv0rdiUTIpFw5eMZvcvOIAqcAUWy8tLmo+cTItTyJ/5cY/yT4rFy
- Wddg==
-X-Gm-Message-State: APjAAAW9vRvH5KvP8/w0Fo/YFVF/N0PmPd0Zj7xIDbh3aCnjIL9V2PPU
- FvJYA0GVi1TTzn3CSzpjqR3r6hzB2Qjp/A==
-X-Google-Smtp-Source: APXvYqyOohthrxWnGik5zasXDdB+uKHGD6lnwEGBmLrFdAe791fxNQP4Q3A58oSnUTXfZ4J4JDlaKw==
-X-Received: by 2002:a5d:5705:: with SMTP id a5mr27499379wrv.112.1571069087773; 
- Mon, 14 Oct 2019 09:04:47 -0700 (PDT)
+ bh=AqfOX9DanbrHqfYl2VtcpfIOP77gIYhu/52gPlZVV/I=;
+ b=iSFl+cS8QihyBIDAB7W3rdN1mKVsnwfI0r/KZ98VFPP5cMSvWIwkrF2XYEXBstLqoD
+ BxwXKsyjzAkImRkjD3cu278IFyqvpP8PHmjZofxl9KR1MR8ETGRXA2lJht1thErNIjAD
+ aMyCWXwxac7r+dEjQV7WmYmeHs2/Qs03k7QKGXZQR6+HyUHzlipRvyegvTVP4EjRwz50
+ pYxj4ysDelPc6juVaCi8jD9At6xso1GrMKTvuBNrunNdfwHUN+x1DzVbbHKPg5E8phVv
+ R6+HZgHtWhB8Vg7o7i/OWdTA8jfMkpnDuEBUTrVxyihoOd25Ml0NOJXPjRUMYafsdvc1
+ WYxw==
+X-Gm-Message-State: APjAAAXc1ZTN06pPRnN9hfOpB8ZN4x6gPnSUxNgmYNuMdfTkgmDkoiQP
+ drCV4K0Odyd5cIegKqOxvsJj8gFRf8vf2Q==
+X-Google-Smtp-Source: APXvYqw2U5QtnatkDf6k2+QKRrhQKFX5pOgMsmBUClRjDTsEjd54QhgJD/75rEcG3yoKTdne/fkwmg==
+X-Received: by 2002:a05:6000:103:: with SMTP id
+ o3mr2574464wrx.357.1571069089237; 
+ Mon, 14 Oct 2019 09:04:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.46
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:04:46 -0700 (PDT)
+ Mon, 14 Oct 2019 09:04:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/68] hw/timer/imx_gpt.c: Switch to transaction-based ptimer
+Subject: [PULL 22/68] hw/timer/mss-timerc: Switch to transaction-based ptimer
  API
-Date: Mon, 14 Oct 2019 17:03:17 +0100
-Message-Id: <20191014160404.19553-22-peter.maydell@linaro.org>
+Date: Mon, 14 Oct 2019 17:03:18 +0100
+Message-Id: <20191014160404.19553-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,148 +83,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the imx_epit.c code away from bottom-half based ptimers to
+Switch the mss-timer code away from bottom-half based ptimers to
 the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
 state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191008171740.9679-19-peter.maydell@linaro.org
+Message-id: 20191008171740.9679-20-peter.maydell@linaro.org
 ---
- hw/timer/imx_gpt.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ include/hw/timer/mss-timer.h |  1 -
+ hw/timer/mss-timer.c         | 11 ++++++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
-index c535d191292..5c0d9a269ce 100644
---- a/hw/timer/imx_gpt.c
-+++ b/hw/timer/imx_gpt.c
-@@ -16,7 +16,6 @@
- #include "hw/irq.h"
- #include "hw/timer/imx_gpt.h"
- #include "migration/vmstate.h"
+diff --git a/include/hw/timer/mss-timer.h b/include/hw/timer/mss-timer.h
+index d15d1732f81..e5a784b27e4 100644
+--- a/include/hw/timer/mss-timer.h
++++ b/include/hw/timer/mss-timer.h
+@@ -46,7 +46,6 @@
+ #define R_TIM1_MAX        6
+ 
+ struct Msf2Timer {
+-    QEMUBH *bh;
+     ptimer_state *ptimer;
+ 
+     uint32_t regs[R_TIM1_MAX];
+diff --git a/hw/timer/mss-timer.c b/hw/timer/mss-timer.c
+index a34c2402b00..b1c9a805011 100644
+--- a/hw/timer/mss-timer.c
++++ b/hw/timer/mss-timer.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
  #include "qemu/log.h"
- 
-@@ -127,6 +126,7 @@ static const IMXClk imx7_gpt_clocks[] = {
-     CLK_NONE,      /* 111 not defined */
- };
- 
-+/* Must be called from within ptimer_transaction_begin/commit block */
- static void imx_gpt_set_freq(IMXGPTState *s)
- {
-     uint32_t clksrc = extract32(s->cr, GPT_CR_CLKSRC_SHIFT, 3);
-@@ -167,6 +167,7 @@ static inline uint32_t imx_gpt_find_limit(uint32_t count, uint32_t reg,
-     return timeout;
+ #include "hw/irq.h"
+@@ -67,6 +66,7 @@ static void timer_update_irq(struct Msf2Timer *st)
+     qemu_set_irq(st->irq, (ier && isr));
  }
  
-+/* Must be called from within ptimer_transaction_begin/commit block */
- static void imx_gpt_compute_next_timeout(IMXGPTState *s, bool event)
++/* Must be called from within a ptimer_transaction_begin/commit block */
+ static void timer_update(struct Msf2Timer *st)
  {
-     uint32_t timeout = GPT_TIMER_MAX;
-@@ -313,6 +314,7 @@ static uint64_t imx_gpt_read(void *opaque, hwaddr offset, unsigned size)
+     uint64_t count;
+@@ -159,7 +159,9 @@ timer_write(void *opaque, hwaddr offset,
+     switch (addr) {
+     case R_TIM_CTRL:
+         st->regs[R_TIM_CTRL] = value;
++        ptimer_transaction_begin(st->ptimer);
+         timer_update(st);
++        ptimer_transaction_commit(st->ptimer);
+         break;
  
- static void imx_gpt_reset_common(IMXGPTState *s, bool is_soft_reset)
- {
-+    ptimer_transaction_begin(s->timer);
-     /* stop timer */
-     ptimer_stop(s->timer);
- 
-@@ -350,6 +352,7 @@ static void imx_gpt_reset_common(IMXGPTState *s, bool is_soft_reset)
-     if (s->freq && (s->cr & GPT_CR_EN)) {
-         ptimer_run(s->timer, 1);
-     }
-+    ptimer_transaction_commit(s->timer);
- }
- 
- static void imx_gpt_soft_reset(DeviceState *dev)
-@@ -382,6 +385,7 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
-             imx_gpt_soft_reset(DEVICE(s));
-         } else {
-             /* set our freq, as the source might have changed */
-+            ptimer_transaction_begin(s->timer);
-             imx_gpt_set_freq(s);
- 
-             if ((oldreg ^ s->cr) & GPT_CR_EN) {
-@@ -397,12 +401,15 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
-                     ptimer_stop(s->timer);
-                 }
-             }
-+            ptimer_transaction_commit(s->timer);
+     case R_TIM_RIS:
+@@ -171,7 +173,9 @@ timer_write(void *opaque, hwaddr offset,
+     case R_TIM_LOADVAL:
+         st->regs[R_TIM_LOADVAL] = value;
+         if (st->regs[R_TIM_CTRL] & TIMER_CTRL_ENBL) {
++            ptimer_transaction_begin(st->ptimer);
+             timer_update(st);
++            ptimer_transaction_commit(st->ptimer);
          }
          break;
  
-     case 1: /* Prescaler */
-         s->pr = value & 0xfff;
-+        ptimer_transaction_begin(s->timer);
-         imx_gpt_set_freq(s);
-+        ptimer_transaction_commit(s->timer);
-         break;
+@@ -228,9 +232,10 @@ static void mss_timer_init(Object *obj)
+     for (i = 0; i < NUM_TIMERS; i++) {
+         struct Msf2Timer *st = &t->timers[i];
  
-     case 2: /* SR */
-@@ -414,13 +421,16 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
-         s->ir = value & 0x3f;
-         imx_gpt_update_int(s);
+-        st->bh = qemu_bh_new(timer_hit, st);
+-        st->ptimer = ptimer_init_with_bh(st->bh, PTIMER_POLICY_DEFAULT);
++        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
++        ptimer_transaction_begin(st->ptimer);
+         ptimer_set_freq(st->ptimer, t->freq_hz);
++        ptimer_transaction_commit(st->ptimer);
+         sysbus_init_irq(SYS_BUS_DEVICE(obj), &st->irq);
+     }
  
-+        ptimer_transaction_begin(s->timer);
-         imx_gpt_compute_next_timeout(s, false);
-+        ptimer_transaction_commit(s->timer);
- 
-         break;
- 
-     case 4: /* OCR1 -- output compare register */
-         s->ocr1 = value;
- 
-+        ptimer_transaction_begin(s->timer);
-         /* In non-freerun mode, reset count when this register is written */
-         if (!(s->cr & GPT_CR_FRR)) {
-             s->next_timeout = GPT_TIMER_MAX;
-@@ -429,6 +439,7 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
- 
-         /* compute the new timeout */
-         imx_gpt_compute_next_timeout(s, false);
-+        ptimer_transaction_commit(s->timer);
- 
-         break;
- 
-@@ -436,7 +447,9 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
-         s->ocr2 = value;
- 
-         /* compute the new timeout */
-+        ptimer_transaction_begin(s->timer);
-         imx_gpt_compute_next_timeout(s, false);
-+        ptimer_transaction_commit(s->timer);
- 
-         break;
- 
-@@ -444,7 +457,9 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
-         s->ocr3 = value;
- 
-         /* compute the new timeout */
-+        ptimer_transaction_begin(s->timer);
-         imx_gpt_compute_next_timeout(s, false);
-+        ptimer_transaction_commit(s->timer);
- 
-         break;
- 
-@@ -484,15 +499,13 @@ static void imx_gpt_realize(DeviceState *dev, Error **errp)
- {
-     IMXGPTState *s = IMX_GPT(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    QEMUBH *bh;
- 
-     sysbus_init_irq(sbd, &s->irq);
-     memory_region_init_io(&s->iomem, OBJECT(s), &imx_gpt_ops, s, TYPE_IMX_GPT,
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
- 
--    bh = qemu_bh_new(imx_gpt_timeout, s);
--    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(imx_gpt_timeout, s, PTIMER_POLICY_DEFAULT);
- }
- 
- static void imx_gpt_class_init(ObjectClass *klass, void *data)
 -- 
 2.20.1
 
