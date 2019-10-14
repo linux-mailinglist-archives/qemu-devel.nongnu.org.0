@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1531D6713
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:18:36 +0200 (CEST)
-Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B19CD6716
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:19:40 +0200 (CEST)
+Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK33G-0003oz-6T
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36683)
+	id 1iK34M-0005FU-Sa
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pe-0003Xl-QN
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:28 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2ph-0003ap-0q
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pd-0006xr-D6
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:26 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41595)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2pf-00070B-NJ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:28 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40692)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2pd-0006xB-70
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:25 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p4so4500507wrm.8
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:25 -0700 (PDT)
+ id 1iK2pf-0006za-H4
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:27 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h4so20406868wrv.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ppKekkdyvFhkeosiKomCQMOUGLuIDXn9EHr3PuXEGrU=;
- b=cqPscYcXcr/F9vM26ijL4lnVAZnLcPxHrPbgchirfvMO3y4UOrUNvlhOVjTvHRpxRj
- POhN0zhsSu9qVYHrqHWeNHXBTGe2DygHq1diqC7lA9C2SYoYi2RfhVxaB6SXSkey4ap9
- j3HD11hM3kWVFZ6zbM0JL4rNZsq8FmPcrpj2GWh7zETq+9j83WnyQ69Bw9NdOc9a7+Jx
- POPpIaE3O0tfkkLHpHzza4Xw+KWlSkSBCLt+lR3oBeZQvjtdpWZHZB5XLrFFHcQMBzhf
- IMfeLtMsTTYbrHBx3ZTjzGBk1pKWmSW719O8jLYn4uv2fgQC523UFTX3ULnyFo4d3HVd
- DYEw==
+ bh=93xF/zHlNMtx3KJOnjnh3nh2MFInn1otyO8XwLGexyQ=;
+ b=XyLlToMURoRWcdMIZSmORyHGgRPCoUAP/hCxC63hLYneQLTt8bK5x8hB4oJ7cE9CXN
+ F7sykh0sPpu4+N01g9jVB4+K19URZcQFSnCn53+heuZQsSyGY/Yn6dHyuSsniVFRzXg0
+ iQUkIvMCzN5XD/Rr9bMAPwFVk6CZ/BdoGs+RSY2z4be67HMv4jxlbrDuPLOiMC1Vi+1h
+ j0uTXKsgiGZgItjU+WFq1/1cmO+Bq0TsRvVqWfaMIjAjnCJ1UxnyRepMSqn5EN77IlOT
+ b7IDHn+Bf4WOcOJbhDuZWFDsqmP+OvJwzfKbKpRRsRqzb5j6nNeZ0rUcqPGEQqIGOHUf
+ /O7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ppKekkdyvFhkeosiKomCQMOUGLuIDXn9EHr3PuXEGrU=;
- b=WUe3oAOhy9wiPK9OMFyUX8eVZvRMmCBvYMwAXEIcrQJ4xXQ+SQEi82bZNPLv0Bn8EN
- dMZ06bKshYfpf5GfhdVgv8I4NRJ0lONgx1lrBIniXNAPrzvIlE4jyhpxaH8aFLXymR3N
- 6Io8pZo/r/7jj9rL2Q7F3yNElt6jxouvF3Gyu64VgWrtf16yXpWEUiBaBF0IV+H1YXg1
- AnAJ8VuEWmwQKtb+3PVyAyR4hA6G36s6vt2zizWhf2xBfqFnpTsC12LZMJ0Z+Y9Lzd3n
- BpcuyzTuN3BFvG8CeXA3MNbfXRbkYMeQkZEdIEHW/3pqd6SjFHNoVNlvIISZNQM4PLDX
- EW6g==
-X-Gm-Message-State: APjAAAWau1D5bMSlFx9DAG1UaBG6Wcup/WtTM7hdF7XbH3EZQ5w9I+XC
- 3/lZh4wbJ4DjnLBpe1ZOE7nK3NBvUZEhmg==
-X-Google-Smtp-Source: APXvYqwt2x+5DvCRaJgIa6yssiO8pyb5NsSL6ZP2HjJFZ8thii8V0+HJlVXHQwk4Mnyf40R/6ms0mA==
-X-Received: by 2002:adf:e2c5:: with SMTP id d5mr12600853wrj.283.1571069063689; 
- Mon, 14 Oct 2019 09:04:23 -0700 (PDT)
+ bh=93xF/zHlNMtx3KJOnjnh3nh2MFInn1otyO8XwLGexyQ=;
+ b=We0jcaBD67YTIVoqqITlO8XFM7ZbN6vkJgcIdwcEjZ/K21UsuE6Ydk6mpU7+IXw2HH
+ 80Nn2z9x7/c6jTS1fP4tKN9Zidk3KTW+qMWquOSe2JNRER941WS/ACKEpEJrwI6a8K8u
+ R+F3gCvFGX+5BIC2OUeewZN20z0YLf02ywKZ+XbFV94PuxOQaGL61mMuNkrVPJm4/W+5
+ 9LKoM8Isu3mg9f7IvPkzfWkmaG1Hom4s/GEa+xjaLG7rELPjvUNjohP6w8FYNj/rcgPE
+ Z0gIcZyMx4XaOZ/jln6BOWOXSSKyauNMPoDey2XIspd62+ADThRDqKDb/s4QJKMs8cAJ
+ ulKg==
+X-Gm-Message-State: APjAAAXIMxOLXxO0yoOpAnuaeqQMpVnKOlwep/vky0jpoXif1+jofVea
+ feJLts52RcyhMztN7ZoTQdnPV8voJ4fhZw==
+X-Google-Smtp-Source: APXvYqzpHzw+VJAyKDVUMr01SMvb1y/G7PtJJSAIKl5zYyJOIZrbAKpawKcOyekKyPqClosMmbFTGQ==
+X-Received: by 2002:a5d:5705:: with SMTP id a5mr27497595wrv.112.1571069066129; 
+ Mon, 14 Oct 2019 09:04:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.21
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:04:22 -0700 (PDT)
+ Mon, 14 Oct 2019 09:04:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/68] hw/timer/arm_timer.c: Switch to transaction-based ptimer
- API
-Date: Mon, 14 Oct 2019 17:03:03 +0100
-Message-Id: <20191014160404.19553-8-peter.maydell@linaro.org>
+Subject: [PULL 08/68] hw/arm/musicpal.c: Switch to transaction-based ptimer API
+Date: Mon, 14 Oct 2019 17:03:04 +0100
+Message-Id: <20191014160404.19553-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,94 +81,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the arm_timer.c code away from bottom-half based ptimers
-to the new transaction-based ptimer API. This just requires
-adding begin/commit calls around the various arms of
-arm_timer_write() that modify the ptimer state, and using the
-new ptimer_init() function to create the timer.
+Switch the musicpal code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1777777
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191008171740.9679-5-peter.maydell@linaro.org
+Message-id: 20191008171740.9679-6-peter.maydell@linaro.org
 ---
- hw/timer/arm_timer.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ hw/arm/musicpal.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
-index dc33ab31050..af524fabf75 100644
---- a/hw/timer/arm_timer.c
-+++ b/hw/timer/arm_timer.c
-@@ -14,7 +14,6 @@
- #include "hw/irq.h"
- #include "hw/ptimer.h"
- #include "hw/qdev-properties.h"
--#include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "qemu/log.h"
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index b3624d5e280..f68a399a984 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -843,13 +843,10 @@ static void mv88w8618_timer_tick(void *opaque)
+ static void mv88w8618_timer_init(SysBusDevice *dev, mv88w8618_timer_state *s,
+                                  uint32_t freq)
+ {
+-    QEMUBH *bh;
+-
+     sysbus_init_irq(dev, &s->irq);
+     s->freq = freq;
  
-@@ -75,7 +74,10 @@ static uint32_t arm_timer_read(void *opaque, hwaddr offset)
+-    bh = qemu_bh_new(mv88w8618_timer_tick, s);
+-    s->ptimer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++    s->ptimer = ptimer_init(mv88w8618_timer_tick, s, PTIMER_POLICY_DEFAULT);
+ }
+ 
+ static uint64_t mv88w8618_pit_read(void *opaque, hwaddr offset,
+@@ -879,16 +876,19 @@ static void mv88w8618_pit_write(void *opaque, hwaddr offset,
+     case MP_PIT_TIMER1_LENGTH ... MP_PIT_TIMER4_LENGTH:
+         t = &s->timer[offset >> 2];
+         t->limit = value;
++        ptimer_transaction_begin(t->ptimer);
+         if (t->limit > 0) {
+             ptimer_set_limit(t->ptimer, t->limit, 1);
+         } else {
+             ptimer_stop(t->ptimer);
+         }
++        ptimer_transaction_commit(t->ptimer);
+         break;
+ 
+     case MP_PIT_CONTROL:
+         for (i = 0; i < 4; i++) {
+             t = &s->timer[i];
++            ptimer_transaction_begin(t->ptimer);
+             if (value & 0xf && t->limit > 0) {
+                 ptimer_set_limit(t->ptimer, t->limit, 0);
+                 ptimer_set_freq(t->ptimer, t->freq);
+@@ -896,6 +896,7 @@ static void mv88w8618_pit_write(void *opaque, hwaddr offset,
+             } else {
+                 ptimer_stop(t->ptimer);
+             }
++            ptimer_transaction_commit(t->ptimer);
+             value >>= 4;
+         }
+         break;
+@@ -914,8 +915,11 @@ static void mv88w8618_pit_reset(DeviceState *d)
+     int i;
+ 
+     for (i = 0; i < 4; i++) {
+-        ptimer_stop(s->timer[i].ptimer);
+-        s->timer[i].limit = 0;
++        mv88w8618_timer_state *t = &s->timer[i];
++        ptimer_transaction_begin(t->ptimer);
++        ptimer_stop(t->ptimer);
++        ptimer_transaction_commit(t->ptimer);
++        t->limit = 0;
      }
  }
  
--/* Reset the timer limit after settings have changed.  */
-+/*
-+ * Reset the timer limit after settings have changed.
-+ * May only be called from inside a ptimer transaction block.
-+ */
- static void arm_timer_recalibrate(arm_timer_state *s, int reload)
- {
-     uint32_t limit;
-@@ -102,13 +104,16 @@ static void arm_timer_write(void *opaque, hwaddr offset,
-     switch (offset >> 2) {
-     case 0: /* TimerLoad */
-         s->limit = value;
-+        ptimer_transaction_begin(s->timer);
-         arm_timer_recalibrate(s, 1);
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case 1: /* TimerValue */
-         /* ??? Linux seems to want to write to this readonly register.
-            Ignore it.  */
-         break;
-     case 2: /* TimerControl */
-+        ptimer_transaction_begin(s->timer);
-         if (s->control & TIMER_CTRL_ENABLE) {
-             /* Pause the timer if it is running.  This may cause some
-                inaccuracy dure to rounding, but avoids a whole lot of other
-@@ -128,13 +133,16 @@ static void arm_timer_write(void *opaque, hwaddr offset,
-             /* Restart the timer if still enabled.  */
-             ptimer_run(s->timer, (s->control & TIMER_CTRL_ONESHOT) != 0);
-         }
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case 3: /* TimerIntClr */
-         s->int_level = 0;
-         break;
-     case 6: /* TimerBGLoad */
-         s->limit = value;
-+        ptimer_transaction_begin(s->timer);
-         arm_timer_recalibrate(s, 0);
-+        ptimer_transaction_commit(s->timer);
-         break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-@@ -166,14 +174,12 @@ static const VMStateDescription vmstate_arm_timer = {
- static arm_timer_state *arm_timer_init(uint32_t freq)
- {
-     arm_timer_state *s;
--    QEMUBH *bh;
- 
-     s = (arm_timer_state *)g_malloc0(sizeof(arm_timer_state));
-     s->freq = freq;
-     s->control = TIMER_CTRL_IE;
- 
--    bh = qemu_bh_new(arm_timer_tick, s);
--    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(arm_timer_tick, s, PTIMER_POLICY_DEFAULT);
-     vmstate_register(NULL, -1, &vmstate_arm_timer, s);
-     return s;
- }
 -- 
 2.20.1
 
