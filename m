@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE5BD6691
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:53:04 +0200 (CEST)
-Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177E9D6681
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:50:53 +0200 (CEST)
+Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK2ec-0002P3-Tp
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33806)
+	id 1iK2cW-0008UZ-0X
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33670)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iK2Yf-0005Eg-7A
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2Y3-0004nD-Pi
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iK2Yd-00083Z-7d
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:53 -0400
-Received: from rs224.mailgun.us ([209.61.151.224]:50623)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2Y0-0007iC-Nn
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:14 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33696)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iK2YK-0007ql-5d
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:49 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
- s=pic; 
- t=1571067991; h=Content-Transfer-Encoding: MIME-Version: References:
- In-Reply-To: Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=4uh4XYKZoSn8NOfnf5km4QH3rcQLS4UNihTw7pl8V1k=;
- b=frIcUwHlBZM0BOQ9ZwujlGfhDuepoGKyXSnUHWO1guGwkAyinv8KKc12syUIOxHUU7DKyxZH
- b8DdxpzLRzkffdY0imZVEa2X3Jgherseya3qgCmknjQB9AAhYtu0tNXKno+3yns8rwzAktTG
- MOkYPkFbOPs5D9A7l2I2SCVI5GQg7UxgDYNh6B33i83cFQT2GV1UKwaLRf0mZ5qMx5ixLZOZ
- JxbrmeuKvPhZbIInXe85IkVO+MQWNpEzUxCKcPfMTOKLbSLjsLn8v/OCnNdaGuHyKWitFiKi
- K7AvPywyO1tcBD3eS7z/+C3rlqeSvB9rxKBdy3S+X+O+QMxb2MGdWA==
-X-Mailgun-Sending-Ip: 209.61.151.224
-X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
-Received: from jonathan-ThinkPad-X1-Carbon.pdos.lcs.mit.edu
- (26-5-211.dynamic.csail.mit.edu [18.26.5.211])
- by mxa.mailgun.org with ESMTP id 5da49853.7f705dace450-smtp-out-n01;
- Mon, 14 Oct 2019 15:46:27 -0000 (UTC)
-From: Jonathan Behrens <jonathan@fintelia.io>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v4 2/3] target/riscv: Expose "priv" register for GDB for reads
-Date: Mon, 14 Oct 2019 11:45:28 -0400
-Message-Id: <20191014154529.287048-3-jonathan@fintelia.io>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014154529.287048-1-jonathan@fintelia.io>
-References: <20191014154529.287048-1-jonathan@fintelia.io>
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iK2Y0-0007hW-Ht
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:12 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a15so14153497oic.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 08:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ttVrenm4QLLTwpCCco+SKk5k4NpVsUUsicg6JQ4hx4k=;
+ b=kGeVmdBoRJLq2eR2LuzVocnQwajwVXUOWfTqOTM3DycwX3S+18gpWMZPVeb9Hsinhs
+ jVjQBcfnoX0/0+YLy8M3AXLFO2QBXIaHBQ6KTYc5MtXKJU4X/lkR1M05QG/PbgQtWo1A
+ BOTNbndHuhq90cOkIBxCFFxCutohXsIXmJ25Vkxl5Wlnz9ceGEj+N7oV+4o5k2rcDvxz
+ +hH01jZWf6CasriDgb8DZWBh0o3CkRM7aQ+E5B2TNVBmS+y1ggGo83onFl8wgdhCBQo5
+ kUbpweADb6Ph2raDqchCq6KkyhN2702YicSyQj0eLpR8pn9MEAQgb8Xu+VgkE9ztZmYw
+ qVPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ttVrenm4QLLTwpCCco+SKk5k4NpVsUUsicg6JQ4hx4k=;
+ b=ZXg66G1WjtP3U3/9U0Q7Hk0ToljiNk3x0Y3OJ/ejX9fddiSsgKGAu0Dj//bLYFyXTA
+ W7WVYA6Utyqt866xa4YJqgc7cFZNwet1eupajcfzbzX2D0wW+yJle2tIVfkGXc8XJGv+
+ 7lhJbe1gqKNbIibjpOUROx1IOFN/yMaHOw6riXrh93odr+wmBvMJ1um5aYZ54I2MKBXI
+ HUYzG4YnN32tpK/jCfHtIOWpPRLC/ypehEgWpPK8cTzwNrReqcHgqnEzLNXnCUKQoxzt
+ cBI6YKd8OijQTA2qKCJXd873dlxodh5cL+0xt9qr/rt6aYPSQ7vNABtQ9zc5J/PUZFkP
+ C1WQ==
+X-Gm-Message-State: APjAAAX5naz/YhqrCBCllftacTfyRpb++ezWIRpOKhvfSk3aKEfPNuTp
+ Qn6JcLbhDIqLPXUe6ojGzi9ctwVKtQpQvMJDvorQgg==
+X-Google-Smtp-Source: APXvYqxm40idwVPHLypQMGSOpdSIbn5TTFoyZzs5JVY38rSwox3XO09ClljL4e+cbSzPTnsdheL1ACV0AIjKN16M5vc=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr23728332oia.48.1571067971007; 
+ Mon, 14 Oct 2019 08:46:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.61.151.224
+References: <20190926173428.10713-1-f4bug@amsat.org>
+In-Reply-To: <20190926173428.10713-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Oct 2019 16:45:59 +0100
+Message-ID: <CAFEAcA-2ovf5Y4uaCteRB7Ytt2bcOS1BgfQNRr8G6z5_VobKZw@mail.gmail.com>
+Subject: Re: [PATCH 00/19] hw/arm/raspi: Improve Raspberry Pi 2/3 reliability
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,130 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Jonathan Behrens <jonathan@fintelia.io>, Palmer Dabbelt <palmer@sifive.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Esteban Bosse <estebanbosse@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch enables a debugger to read the current privilege level via a virtual
-"priv" register. When compiled with CONFIG_USER_ONLY the register is still
-visible but always reports the value zero.
+On Thu, 26 Sep 2019 at 18:34, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Hi,
+>
+> I previously posted a RFC for the Raspberry Pi 4:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg642241.html
+> and got it almost working (boots Linux kernel to userland, sadly
+> I'm still having timeout issues with the eMMC block).
+> However since it is quite usable, I started to clean up to post
+> the series and realized it is way too big for Peter Maydell, so
+> I'm following his rule of thumb by splitting in 3 sets of ~20
+> functional patches.
 
-Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
----
- configure                       |  4 ++--
- gdb-xml/riscv-32bit-virtual.xml | 11 +++++++++++
- gdb-xml/riscv-64bit-virtual.xml | 11 +++++++++++
- target/riscv/gdbstub.c          | 23 +++++++++++++++++++++++
- 4 files changed, 47 insertions(+), 2 deletions(-)
- create mode 100644 gdb-xml/riscv-32bit-virtual.xml
- create mode 100644 gdb-xml/riscv-64bit-virtual.xml
+> Philippe Mathieu-Daud=C3=A9 (19):
+>   hw/arm/raspi: Use the IEC binary prefix definitions
+>   hw/arm/bcm2835_peripherals: Improve logging
+>   hw/arm/bcm2835_peripherals: Name various address spaces
+>   hw/arm/bcm2835: Rename some definitions
+>   hw/arm/bcm2835: Add various unimplemented peripherals
+>   hw/char/bcm2835_aux: Add trace events
+>   hw/misc/bcm2835_mbox: Add trace events
+>   hw/misc/bcm2835_thermal: Add a dummy BCM2835 thermal sensor
+>   hw/arm/bcm2835_peripherals: Use the thermal sensor block
+>   hw/timer/bcm2835: Add the BCM2835 SYS_timer
+>   hw/arm/bcm2835_peripherals: Use the SYS_timer
+>   hw/arm/bcm2835_peripherals: Add Clock/Power/Reset Manager blocks
+>   hw/arm/raspi: Define various blocks base addresses
+>   python/qemu/machine: Allow to use other serial consoles than default
+>   tests/boot_linux_console: Extract the gunzip() helper
+>   tests/boot_linux_console: Add a test for the Raspberry Pi 2
+>   tests/boot_linux_console: Test the raspi2 UART1 (16550 based)
+>   tests/boot_linux_console: Boot Linux and run few commands on raspi3
+>   tests/boot_linux_console: Test SDHCI and termal sensor on raspi3
 
-diff --git a/configure b/configure
-index 30544f52e6..6118a6a045 100755
---- a/configure
-+++ b/configure
-@@ -7520,13 +7520,13 @@ case "$target_name" in
-     TARGET_BASE_ARCH=riscv
-     TARGET_ABI_DIR=riscv
-     mttcg=yes
--    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit-csr.xml"
-+    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
-   ;;
-   riscv64)
-     TARGET_BASE_ARCH=riscv
-     TARGET_ABI_DIR=riscv
-     mttcg=yes
--    gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml"
-+    gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml riscv-64bit-virtual.xml"
-   ;;
-   sh4|sh4eb)
-     TARGET_ARCH=sh4
-diff --git a/gdb-xml/riscv-32bit-virtual.xml b/gdb-xml/riscv-32bit-virtual.xml
-new file mode 100644
-index 0000000000..905f1c555d
---- /dev/null
-+++ b/gdb-xml/riscv-32bit-virtual.xml
-@@ -0,0 +1,11 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.riscv.virtual">
-+  <reg name="priv" bitsize="32"/>
-+</feature>
-diff --git a/gdb-xml/riscv-64bit-virtual.xml b/gdb-xml/riscv-64bit-virtual.xml
-new file mode 100644
-index 0000000000..62d86c237b
---- /dev/null
-+++ b/gdb-xml/riscv-64bit-virtual.xml
-@@ -0,0 +1,11 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.riscv.virtual">
-+  <reg name="priv" bitsize="64"/>
-+</feature>
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index cb5bfd3d50..1f71604b78 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -373,6 +373,23 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
-     return 0;
- }
- 
-+static int riscv_gdb_get_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
-+{
-+    if (n == 0) {
-+#ifdef CONFIG_USER_ONLY
-+        return gdb_get_regl(mem_buf, 0);
-+#else
-+        return gdb_get_regl(mem_buf, cs->priv);
-+#endif
-+    }
-+    return 0;
-+}
-+
-+static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
-+{
-+    return 0;
-+}
-+
- void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-@@ -385,6 +402,9 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
- 
-     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
-                              240, "riscv-32bit-csr.xml", 0);
-+
-+    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
-+                             1, "riscv-32bit-virtual.xml", 0);
- #elif defined(TARGET_RISCV64)
-     if (env->misa & RVF) {
-         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-@@ -393,5 +413,8 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
- 
-     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
-                              240, "riscv-64bit-csr.xml", 0);
-+
-+    gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
-+                             1, "riscv-64bit-virtual.xml", 0);
- #endif
- }
--- 
-2.23.0
+From this patchset, I'm going to apply patches 1-5 and 7
+to target-arm.next, since they're good cleanups that have
+been reviewed. I've given a few review comments on
+some of the others but mostly it seems to have been reviewed
+by others already (so thanks to those reviewers).
+
+-- PMM
 
