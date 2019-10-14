@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F3ED6780
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:38:04 +0200 (CEST)
-Received: from localhost ([::1]:53448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD62D6783
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:39:07 +0200 (CEST)
+Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3MB-0003cq-7N
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37191)
+	id 1iK3NC-0005Vi-GG
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qP-0004cY-59
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qS-0004j7-Vs
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qN-0007qk-ML
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:12 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45257)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qR-0007vc-SH
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:16 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:54977)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qN-0007pJ-Es
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:11 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r5so20332353wrm.12
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:11 -0700 (PDT)
+ id 1iK2qR-0007ub-MA
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:15 -0400
+Received: by mail-wm1-x330.google.com with SMTP id p7so17868212wmp.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zC6VJp3a0CtLyA+DqXCNpM+KVzmwGdLNruQDpA/F78g=;
- b=KBz4XVKuqJyYbFXs57IwCsq4bYpNlUtabWoY6USD9fLtwPiHIjpm9dYdqRUqldtzNn
- i1pqMniXYvqKRQsTvRk5uSeeXDTzUxo5Kgu4rG6XtRYY3zwnDTmDCAxqn4snJ5WRqMIa
- fd4f98/4J50YAq2Q+/HVU/U/Gr7zUGpbRWbRth1UmWnyc4tE9AztvpjUanEu6kELpLe8
- qST7mVxq9HWNHHQ4fqtT0ni0194BJouwfqUjfc5uPLEteTtTZv7eorF5C1KGzzafdTKW
- viZyNFQ0iwGb+o32axbL3zF0nYTnyNMruKSf1Gfl16jEdRGe8CJA01HBfgyuGBDW5sl4
- Is1Q==
+ bh=IPPpRDvS1khlTKhQXpsP8betxpNnecGFCTfAvZZmBYI=;
+ b=l2X4mcWiQwjJTESJQHgOwNf2zaN90pCzSndilgEohpgxa8rRca0IFuTfQqHaXl9+k0
+ pVFWTBB+5JQGE/5GckgitcniQsWk3aJ/3nghEXWqVXxEyQ8qUi5kSuUg1/hwRqejiE3Q
+ pYmtauaLMr2FhPsxdSzdkGwI+XQ7Fl26Jt0vajhQTS9KIN3O2LoqMGw8xMXWxPpwmOmL
+ aPuVcuNVw9fAUWz9gVrafzH6XXbdqwYff3tyuheboIarr5lYMfjQBxjNvcmIr1jCW3I0
+ oX6DN1UPYnw1W3B0vtW2UcTXjvA22Yw6jP7xDHKVQwir/g2VNSnClAEQC4rGq0iqIvMJ
+ ks+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zC6VJp3a0CtLyA+DqXCNpM+KVzmwGdLNruQDpA/F78g=;
- b=d9IE7BJweP2FCoH6xi1fH5UoDI6GpeZbe6zSEMhonztof1xCsKCX0U4G1iwjs8Bvfp
- 18F64ae4eElY2jyFyXZ8XqftYKmHEzzgClT8CT+tgf/Gmmhj/+sfu1JjuydPD+OLaESX
- WMnVKaRgDFoiF1gxWsdttgftbbXosQvXQ4smJns0RfkphNGVbgMKSx6qVPmUwo0Wra7T
- xXztNLkRq0C7qHO+KLvYk/mhyEfb/5uGrTeN9BvojHbEOfjK+LgT6m5NHSw0IiisyN9h
- EufHuTaxFberLhC5mZumc3mTH5jceUuyI0sHb8gUOuTGxd6pEIKrWFLu9W0rhtxLZ/nb
- sMXw==
-X-Gm-Message-State: APjAAAURUr37knRr1cLQj025gKXzRH/Qu3R2+ryNzgsyd718TbXhHTf9
- 0utQmnMtOeM+vxWZ0vZ9vsOWkjGNFQgp6A==
-X-Google-Smtp-Source: APXvYqyNDwi6j66RLM0OoNFddLatj2zlr8UwTYjeYN5LsQS81D2m95yI9TKDGpW2mOEFMfZrvQq2fg==
-X-Received: by 2002:a5d:4a46:: with SMTP id v6mr11048579wrs.158.1571069110120; 
- Mon, 14 Oct 2019 09:05:10 -0700 (PDT)
+ bh=IPPpRDvS1khlTKhQXpsP8betxpNnecGFCTfAvZZmBYI=;
+ b=UHP73vbtKKlEaQlVLGK7YjW0mtUjldAWSE0jbqwKL78mYg8S5xpXiJX7YfcyusYxpn
+ CD1t7Zw8r2x8fqxF2easiK922tsi0W/BN5pb58de5CopCoe5DdZrWquPw+xjaR0vnWz3
+ nV6P28SnSs6sqP7OLQg7Mz+/xDVO4xLzHbVFfEKbJI0QnrsKSP9WPM8EY6vAsnSPzZiG
+ OyXDk7g+o4bcsQ2/EHe6xuTviBVrEqW0JpN9GdW/hZlwOgPejpPgRemrb64am21QAXlc
+ OFBrQ9UXxehx9AjsqEPjwi8GGSm+VVdOQRDpy+77eSFBYiVD3ZAfT6CdSwwelojsPvFE
+ 037g==
+X-Gm-Message-State: APjAAAVWnt1QD4Nk2RzFt2hUYazZT2Wv69dPPgipJKDbPfM7BmcuI4u8
+ Ey8fRexogEVzr7y/wyeHKHACNLR2x+UGig==
+X-Google-Smtp-Source: APXvYqyFgIVgUen3cre5YfGrNB1JbNo4c5P/EkNvmxC/nlIpJdYR/+H0TMbpwCXCwfy2H9c1Dre1PA==
+X-Received: by 2002:a05:600c:2201:: with SMTP id
+ z1mr16076270wml.169.1571069113709; 
+ Mon, 14 Oct 2019 09:05:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.08
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:09 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/68] target/arm/arm-semi: Implement support for semihosting
- feature detection
-Date: Mon, 14 Oct 2019 17:03:33 +0100
-Message-Id: <20191014160404.19553-38-peter.maydell@linaro.org>
+Subject: [PULL 40/68] aspeed/wdt: Check correct register for clock source
+Date: Mon, 14 Oct 2019 17:03:36 +0100
+Message-Id: <20191014160404.19553-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,174 +83,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 2.0 of the semihosting specification added support for
-allowing a guest to detect whether the implementation supported
-particular features. This works by the guest opening a magic
-file ":semihosting-features", which contains a fixed set of
-data with some magic numbers followed by a sequence of bytes
-with feature flags. The file is expected to behave sensibly
-for the various semihosting calls which operate on files
-(SYS_FLEN, SYS_SEEK, etc).
+From: Amithash Prasad <amithash@fb.com>
 
-Implement this as another kind of guest FD using our function
-table dispatch mechanism. Initially we report no extended
-features, so we have just one feature flag byte which is zero.
+When WDT_RESTART is written, the data is not the contents
+of the WDT_CTRL register. Hence ensure we are looking at
+WDT_CTRL to check if bit WDT_CTRL_1MHZ_CLK is set or not.
 
+Signed-off-by: Amithash Prasad <amithash@fb.com>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20190925143248.10000-2-clg@kaod.org
+[clg: improved Suject prefix ]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20190916141544.17540-14-peter.maydell@linaro.org
 ---
- target/arm/arm-semi.c | 109 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 108 insertions(+), 1 deletion(-)
+ hw/watchdog/wdt_aspeed.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index 87c911f0187..57491740d73 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -110,6 +110,7 @@ typedef enum GuestFDType {
-     GuestFDUnused = 0,
-     GuestFDHost = 1,
-     GuestFDGDB = 2,
-+    GuestFDFeatureFile = 3,
- } GuestFDType;
- 
- /*
-@@ -118,7 +119,10 @@ typedef enum GuestFDType {
-  */
- typedef struct GuestFD {
-     GuestFDType type;
--    int hostfd;
-+    union {
-+        int hostfd;
-+        target_ulong featurefile_offset;
-+    };
- } GuestFD;
- 
- static GArray *guestfd_array;
-@@ -504,6 +508,89 @@ static uint32_t gdb_flenfn(ARMCPU *cpu, GuestFD *gf)
-                            gf->hostfd, arm_flen_buf(cpu));
- }
- 
-+#define SHFB_MAGIC_0 0x53
-+#define SHFB_MAGIC_1 0x48
-+#define SHFB_MAGIC_2 0x46
-+#define SHFB_MAGIC_3 0x42
-+
-+static const uint8_t featurefile_data[] = {
-+    SHFB_MAGIC_0,
-+    SHFB_MAGIC_1,
-+    SHFB_MAGIC_2,
-+    SHFB_MAGIC_3,
-+    0, /* Feature byte 0 */
-+};
-+
-+static void init_featurefile_guestfd(int guestfd)
-+{
-+    GuestFD *gf = do_get_guestfd(guestfd);
-+
-+    assert(gf);
-+    gf->type = GuestFDFeatureFile;
-+    gf->featurefile_offset = 0;
-+}
-+
-+static uint32_t featurefile_closefn(ARMCPU *cpu, GuestFD *gf)
-+{
-+    /* Nothing to do */
-+    return 0;
-+}
-+
-+static uint32_t featurefile_writefn(ARMCPU *cpu, GuestFD *gf,
-+                                    target_ulong buf, uint32_t len)
-+{
-+    /* This fd can never be open for writing */
-+    CPUARMState *env = &cpu->env;
-+
-+    errno = EBADF;
-+    return set_swi_errno(env, -1);
-+}
-+
-+static uint32_t featurefile_readfn(ARMCPU *cpu, GuestFD *gf,
-+                                   target_ulong buf, uint32_t len)
-+{
-+    uint32_t i;
-+#ifndef CONFIG_USER_ONLY
-+    CPUARMState *env = &cpu->env;
-+#endif
-+    char *s;
-+
-+    s = lock_user(VERIFY_WRITE, buf, len, 0);
-+    if (!s) {
-+        return len;
-+    }
-+
-+    for (i = 0; i < len; i++) {
-+        if (gf->featurefile_offset >= sizeof(featurefile_data)) {
-+            break;
-+        }
-+        s[i] = featurefile_data[gf->featurefile_offset];
-+        gf->featurefile_offset++;
-+    }
-+
-+    unlock_user(s, buf, len);
-+
-+    /* Return number of bytes not read */
-+    return len - i;
-+}
-+
-+static uint32_t featurefile_isattyfn(ARMCPU *cpu, GuestFD *gf)
-+{
-+    return 0;
-+}
-+
-+static uint32_t featurefile_seekfn(ARMCPU *cpu, GuestFD *gf,
-+                                   target_ulong offset)
-+{
-+    gf->featurefile_offset = offset;
-+    return 0;
-+}
-+
-+static uint32_t featurefile_flenfn(ARMCPU *cpu, GuestFD *gf)
-+{
-+    return sizeof(featurefile_data);
-+}
-+
- typedef struct GuestFDFunctions {
-     sys_closefn *closefn;
-     sys_writefn *writefn;
-@@ -530,6 +617,14 @@ static const GuestFDFunctions guestfd_fns[] = {
-         .seekfn = gdb_seekfn,
-         .flenfn = gdb_flenfn,
-     },
-+    [GuestFDFeatureFile] = {
-+        .closefn = featurefile_closefn,
-+        .writefn = featurefile_writefn,
-+        .readfn = featurefile_readfn,
-+        .isattyfn = featurefile_isattyfn,
-+        .seekfn = featurefile_seekfn,
-+        .flenfn = featurefile_flenfn,
-+    },
- };
- 
- /* Read the input value from the argument block; fail the semihosting
-@@ -616,6 +711,18 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-             unlock_user(s, arg0, 0);
-             return guestfd;
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index 9b932134172..f710036535d 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -140,7 +140,7 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+     case WDT_RESTART:
+         if ((data & 0xFFFF) == WDT_RESTART_MAGIC) {
+             s->regs[WDT_STATUS] = s->regs[WDT_RELOAD_VALUE];
+-            aspeed_wdt_reload(s, !(data & WDT_CTRL_1MHZ_CLK));
++            aspeed_wdt_reload(s, !(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK));
          }
-+        if (strcmp(s, ":semihosting-features") == 0) {
-+            unlock_user(s, arg0, 0);
-+            /* We must fail opens for modes other than 0 ('r') or 1 ('rb') */
-+            if (arg1 != 0 && arg1 != 1) {
-+                dealloc_guestfd(guestfd);
-+                errno = EACCES;
-+                return set_swi_errno(env, -1);
-+            }
-+            init_featurefile_guestfd(guestfd);
-+            return guestfd;
-+        }
-+
-         if (use_gdb_syscalls()) {
-             arm_semi_open_guestfd = guestfd;
-             ret = arm_gdb_syscall(cpu, arm_semi_open_cb, "open,%s,%x,1a4", arg0,
+         break;
+     case WDT_CTRL:
 -- 
 2.20.1
 
