@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9E8D6B70
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 00:02:37 +0200 (CEST)
-Received: from localhost ([::1]:58106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C329D6BAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 00:28:19 +0200 (CEST)
+Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK8QG-0006oJ-Gk
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 18:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38619)
+	id 1iK8p7-0004Lz-Vx
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 18:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iK8OC-0005bO-Qs
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 18:00:30 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1iK8o4-0003tQ-43
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 18:27:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iK8OA-0001ef-8Z
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 18:00:28 -0400
-Received: from mga04.intel.com ([192.55.52.120]:21111)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iK8OA-0001e6-02
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 18:00:26 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2019 15:00:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,296,1566889200"; d="scan'208";a="189157797"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga008.jf.intel.com with ESMTP; 14 Oct 2019 15:00:22 -0700
-Date: Tue, 15 Oct 2019 06:00:07 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v2 0/2] refine memory_device_get_free_addr
-Message-ID: <20191014220007.GC15059@richard>
-References: <20190730003740.20694-1-richardw.yang@linux.intel.com>
- <20190913234746.jb5a5vlwl6cebudz@master>
- <20190914154026-mutt-send-email-mst@kernel.org>
- <20191012090209.GA6047@richard> <20191014150547.GR4084@habkost.net>
+ (envelope-from <tcminyard@gmail.com>) id 1iK8o3-0008LV-2S
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 18:27:12 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:44902)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1iK8o2-0008Ie-Tk
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 18:27:11 -0400
+Received: by mail-oi1-x233.google.com with SMTP id w6so15041466oie.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 15:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=45Ouz/KmciYmGQL4SqVu58W0tUDLpZvvIBqcXSbwB3Y=;
+ b=E86/XccI4XCB0lPVXIYg6r0lCmbQ1rJnp+aaIfAKm7WTIZ6m4zn+AIj/ZAkuzlj9Lf
+ WMGbFOzAK+TocETb+4QKdecawFTYwi8Hd1wFXrpMTM5/LQbA6m6w1Ty3bFDUpFRp4cL/
+ GMy/zud8mby04dqbV0FznPsWLv3nNorUQsyoLgWaVKtHfo8QOFmrfubmAqreSwxWnyO6
+ 7UEnCVZrpeT2mm5K6qq2h2fOdG0xLSYhXZU9i+ugoSOg6QjhbmkwqHtIYtznvH/wETBx
+ k+Qm0KCX3569Qfy8edDinhIlyBtK4CM7cBVsmxj1drn04IWw9lB9xukS95KsmrNT3TJ/
+ RIxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=45Ouz/KmciYmGQL4SqVu58W0tUDLpZvvIBqcXSbwB3Y=;
+ b=rKhAgnjlW7YjwUaLUgnBPe1/JjAAb2VfrgrVY7eCswTUaNcjohJmrgCHID9K5wW/ys
+ mtl9W5Fj15iKpv57A/79/Bzn8yLOeDvnThNIMhhULSqpp1sKINzRcHkR7WFls6jCWlYc
+ QZQ6kDdJzZfVe0y+femQ3ITmvfO+F7CvcOEA7RABzqzswA9qdHn0lvyCvDx89hcWxafX
+ GYS0SpaVjlWd/fs4/zzqxaVm9BOxTlbLFKUbLNPMsFUETs3VM/keg6nSeh8WKB7qznk/
+ NmvDVyE9B0UKAmNVZYMtErP7vWghWmtGQdsN1CyRx2TYxSd+v7uOz2vGzh6wLRmSXc6m
+ +ZoQ==
+X-Gm-Message-State: APjAAAX10mo0fbfJwOJmqzr0Sd+9qjAHaYUqsmJNhXiLHRW4RA36yHL9
+ R117KfhVD/OHUF40Mgn/EQ==
+X-Google-Smtp-Source: APXvYqwGUbk5y/46gA/PNB3LxX+kRecFJ/qHgzBWywDm2nd8M5FLBVpxjVEXCL3TqVSrDNQNe5hytA==
+X-Received: by 2002:a05:6808:255:: with SMTP id
+ m21mr26634015oie.32.1571092029258; 
+ Mon, 14 Oct 2019 15:27:09 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id 93sm6323276ota.16.2019.10.14.15.27.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Oct 2019 15:27:08 -0700 (PDT)
+Received: from t560 (unknown [192.168.27.180])
+ by serve.minyard.net (Postfix) with ESMTPSA id 191D0180046;
+ Mon, 14 Oct 2019 22:27:08 +0000 (UTC)
+Date: Mon, 14 Oct 2019 17:27:06 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: ACPI table modifications
+Message-ID: <20191014222706.GK14232@t560>
+References: <CAM2a4uzF-mtTEYwQE3+MvvDiQrfC_KQMwX4vqCg_dY9ytjZrjA@mail.gmail.com>
+ <8a3d99b5-d9d3-28a7-2de0-e8a0a17356c1@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191014150547.GR4084@habkost.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8a3d99b5-d9d3-28a7-2de0-e8a0a17356c1@redhat.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.120
+X-Received-From: 2607:f8b0:4864:20::233
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,54 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: david@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Wei Yang <richard.weiyang@gmail.com>,
- Wei Yang <richardw.yang@linux.intel.com>, imammedo@redhat.com
+Reply-To: minyard@acm.org
+Cc: Gautam Bhat <mindentropy@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 14, 2019 at 12:05:47PM -0300, Eduardo Habkost wrote:
->On Sat, Oct 12, 2019 at 05:02:09PM +0800, Wei Yang wrote:
->> On Sat, Sep 14, 2019 at 03:40:41PM -0400, Michael S. Tsirkin wrote:
->> >On Fri, Sep 13, 2019 at 11:47:46PM +0000, Wei Yang wrote:
->> >> On Tue, Jul 30, 2019 at 08:37:38AM +0800, Wei Yang wrote:
->> >> >When we iterate the memory-device list to get the available range, it is not
->> >> >necessary to iterate the whole list.
->> >> >
->> >> >1) no more overlap for hinted range if tmp exceed it
->> >> >
->> >> >v2:
->> >> >   * remove #2 as suggested by Igor and David
->> >> >   * add some comment to inform address assignment stay the same as before
->> >> >     this change 
->> >> >
->> >> >Wei Yang (2):
->> >> >  memory-device: not necessary to use goto for the last check
->> >> >  memory-device: break the loop if tmp exceed the hinted range
->> >> >
->> >> > hw/mem/memory-device.c | 3 ++-
->> >> > 1 file changed, 2 insertions(+), 1 deletion(-)
->> >> >
->> >> 
->> >> Would someone take this patch set?
->> >
->> >yes looks good to me too.
->> >Eduardo?
->> >
->> 
->> Hmm... I don't see this any where. May I ask the status?
->
->Sorry, I hadn't seen Michael's message.  Queued on machine-next.
->Thanks!
->
+On Fri, Oct 11, 2019 at 09:22:19PM +0200, Philippe Mathieu-Daudé wrote:
+> Hi Gautam,
+> 
+> On 10/11/19 8:47 PM, Gautam Bhat wrote:
+> > Hi,
+> > 
+> > I want to add some I2C based temperature sensors to the -M Q35 machine.
+> > I want to update the ACPI tables to add this device information. How can
+> > I go about  doing this?
 
-Thanks~ have a nice day.
+FYI, I just added the SMB ACPI entry to q35, change:
 
->-- 
->Eduardo
+  ebe15582cafeb "pc: Add an SMB0 ACPI device to q35"
 
--- 
-Wei Yang
-Help you, Help me
+I did this for IPMI, but it should be easy to add your own entries
+the same way.
+
+-corey
+
+> 
+> QEMU provides a MAINTAINERS file with persons to contact sorted by topics (I
+> Cc'ed in this reply).
+> 
+> This is the relevant ACPI section, it also lists the files you might look
+> at:
+> 
+> ACPI/SMBIOS
+> M: Michael S. Tsirkin
+> M: Igor Mammedov
+> S: Supported
+> F: include/hw/acpi/*
+> F: include/hw/firmware/smbios.h
+> F: hw/mem/*
+> F: hw/acpi/*
+> F: hw/smbios/*
+> F: hw/i386/acpi-build.[hc]
+> F: hw/arm/virt-acpi-build.c
+> F: tests/bios-tables-test.c
+> F: tests/acpi-utils.[hc]
+> F: tests/data/acpi/
+> 
+> Eventually the bios-tables-test.c file is a good starting point.
+> 
+> Regards,
+> 
+> Phil.
+> 
 
