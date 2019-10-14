@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADC9D6859
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:22:56 +0200 (CEST)
-Received: from localhost ([::1]:54380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA0CD6867
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:25:14 +0200 (CEST)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK43b-0002In-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:22:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37496)
+	id 1iK45o-0005me-W1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qt-0005WA-Sz
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qz-0005gx-Vl
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qs-0008Fi-0C
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:43 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33460)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qy-0008JS-Eh
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:49 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35153)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qr-0008FG-Pb
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:41 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id b9so20414893wrs.0
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:41 -0700 (PDT)
+ id 1iK2qy-0008J3-8I
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:48 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v8so20395216wrt.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XNiBn4X3d0rJzAFSTzHsptth+MKPz04rdh87xR5jgCE=;
- b=HExwyYsO0yxsTRTE+zuisqXOLo18knVcrvhiHYBfWcPHqauVTEqnDMfPIWsGjhg9uA
- 8oKXPW2miw/Pdix6uqlXxm0/8wwyaFFy/1AbI3YgQBWm2yKPj362Px5gXt0tWFJrtqC2
- qsuX7oKyfwr8UVCnFGcvmuWQzsW25H6/48Qtkv8jTx7qoLH7ITMgnj2HRIRGGWqTdWJo
- 5ZLqOYxpnI32dyI4z78G93Njx7tRdQJvdz9oL0i1RUQe2P3HJ9jNOSaby8Z65qOlQNHA
- n3wV8Yv4GAQ9iXbuNyVnZnUGofIqoSEdqLnPvmkBeQ4Q3BuLsbR4uXNRA2hTFPpuTRIF
- Ex/g==
+ bh=5DChURQVufIfpY2xmSqPZYPNyt4Hv2t7GUJcEwkfdFw=;
+ b=VfCQZ62HBJ9tSBk4QCmGgmm/9Ya2PLzS0LcCDxCyiJVWByYXv/luthzuWcP0QL3+yR
+ 0acAriY48uz0bUuKNBQagRXtPvoQ9ICabUwqZZhT3SXHZG1gQQXet+88+Axcyp+k4ZvF
+ tv2EOgVv82lVFXoIZy+UXzeyhJddX2sx9oUbPTVqROEXKqn9rBjjhFEkXovuq5N6XGbg
+ Wq5Xs3IFqDUNcDmeCFUL0UsSAAkD2J56/HapfzXuXUJrXLooMJ0Y0897aa89Vh8zAlPY
+ D+lBZLypsl4ddNfJAvJIWeum4XPnFwGMYosVLaIxxVPtCCPFipOFU3dEi8AN7llhfNwh
+ R0fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XNiBn4X3d0rJzAFSTzHsptth+MKPz04rdh87xR5jgCE=;
- b=MrLpu3m4ghV1SadaytFgdAcgiLqIT2VLCN0dMabiSHgHtlfZLEthvhtZqEV3ijjLsU
- oC0qhU/eFYJssNglzLih3v1PfZn9NAQNFOgLTaXfExv6apJjvRQ4qRLxqCt5keIEFtU9
- hThjAbCx1Wb2AvCDTEvm+IGAdiw6fyyR5adL5RlakhFcEudlEbEzvQZG462B6Qx08sZU
- scGgSKTOTQOhyr/1o+t7edroyOUqgVxQflohoFguLq6ELe0OSnpzHt+KIn+r7bqBmWKt
- 8rpprO049c3pif/jdZ4CN+OwJ1+2OOOCcXOBwnt7FWgiPJNfyEGtQAPZSid8k4gbWxAT
- zhmA==
-X-Gm-Message-State: APjAAAXhRU46y+TdD4Ny6QO4YWy5mKZW8WV+BJU5kSLTqeAQNpybi+8K
- dP/hrIxWdq3QxDSnkjTb69vJNXoDHaCo9A==
-X-Google-Smtp-Source: APXvYqx0EF7pU1LDDmZFCw8h1dQ6Q2uHOuLXIuQY1e9JiO9kwLXowXiS5eyNCv5aHjQdxJ2jQMiTvw==
-X-Received: by 2002:adf:e688:: with SMTP id r8mr28623133wrm.342.1571069140222; 
- Mon, 14 Oct 2019 09:05:40 -0700 (PDT)
+ bh=5DChURQVufIfpY2xmSqPZYPNyt4Hv2t7GUJcEwkfdFw=;
+ b=QlK+4GlsAkPSiLBJzjA6mg30nYXGZIaj/iip5PkK48xHhWsdyK2WkS5nyAsw0WqCfG
+ aGu/3bu/pYIMhfLFntTKkinGgessG2qyAXJk7hiMJ23EvxrI6srqC2ZFExeGB9IMyTFl
+ gTS2g59Mk025xgAXTp9Gc4UeeeM685j9ALM1PlNiq9ijfu0UgwyWvTocYQillm5Exn4p
+ VCQ/sOxhZIrTzX0HWhYvz8FXK0Jq9aMr7/pQiTK1+cZ0wdcNTam/msQ3CkPC+8ssXLYR
+ Avm5XZEoNz3LsF9yiWuQHN1mbz4rJnS7gwW0xhPXxBbGlLrwJTc0lX28FAAMIa1KLrS0
+ naQg==
+X-Gm-Message-State: APjAAAXWNYlKyyfMrGFRiz5EOdzLqSvHKgpZoHgFiddHTyJzaQfmJBKP
+ QrBcvBEZtL8/c0rxf++kVpeE99nHvQ7dYQ==
+X-Google-Smtp-Source: APXvYqxB3lQf6DXu4GieenZAZTxWxg2Ibsiv/VhWEkMAUViAKYeIhMQ7swzmNEB1Dzdod5LAkk3qSQ==
+X-Received: by 2002:adf:fa92:: with SMTP id h18mr26480060wrr.220.1571069146909; 
+ Mon, 14 Oct 2019 09:05:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.38
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:39 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 61/68] aspeed: add support for the Aspeed MII controller of the
- AST2600
-Date: Mon, 14 Oct 2019 17:03:57 +0100
-Message-Id: <20191014160404.19553-62-peter.maydell@linaro.org>
+Subject: [PULL 65/68] hw/arm/bcm2835_peripherals: Name various address spaces
+Date: Mon, 14 Oct 2019 17:04:01 +0100
+Message-Id: <20191014160404.19553-66-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,298 +82,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The AST2600 SoC has an extra controller to set the PHY registers.
+Various address spaces from the BCM2835 are reported as
+'anonymous' in memory tree:
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-23-clg@kaod.org
+  (qemu) info mtree
+
+  address-space: anonymous
+    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+
+  address-space: anonymous
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  [...]
+
+Since the address_space_init() function takes a 'name' argument,
+set it to correctly describe each address space:
+
+  (qemu) info mtree
+
+  address-space: bcm2835-mbox-memory
+    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+
+  address-space: bcm2835-fb-memory
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  address-space: bcm2835-property-memory
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  address-space: bcm2835-dma-memory
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, i/o): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Message-id: 20190926173428.10713-4-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h |   5 ++
- include/hw/net/ftgmac100.h  |  17 ++++
- hw/arm/aspeed_ast2600.c     |  20 +++++
- hw/net/ftgmac100.c          | 162 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 204 insertions(+)
+ hw/display/bcm2835_fb.c    | 2 +-
+ hw/dma/bcm2835_dma.c       | 2 +-
+ hw/misc/bcm2835_mbox.c     | 2 +-
+ hw/misc/bcm2835_property.c | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 088a5d10818..43478f61787 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -52,6 +52,7 @@ typedef struct AspeedSoCState {
-     AspeedSDMCState sdmc;
-     AspeedWDTState wdt[ASPEED_WDTS_NUM];
-     FTGMAC100State ftgmac100[ASPEED_MACS_NUM];
-+    AspeedMiiState mii[ASPEED_MACS_NUM];
-     AspeedGPIOState gpio;
-     AspeedGPIOState gpio_1_8v;
-     AspeedSDHCIState sdhci;
-@@ -117,6 +118,10 @@ enum {
-     ASPEED_ETH2,
-     ASPEED_ETH3,
-     ASPEED_ETH4,
-+    ASPEED_MII1,
-+    ASPEED_MII2,
-+    ASPEED_MII3,
-+    ASPEED_MII4,
-     ASPEED_SDRAM,
-     ASPEED_XDMA,
- };
-diff --git a/include/hw/net/ftgmac100.h b/include/hw/net/ftgmac100.h
-index 94cfe053329..ab37e7b2b8a 100644
---- a/include/hw/net/ftgmac100.h
-+++ b/include/hw/net/ftgmac100.h
-@@ -66,4 +66,21 @@ typedef struct FTGMAC100State {
-     uint32_t rxdes0_edorr;
- } FTGMAC100State;
+diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+index 8f856878cd5..85aaa54330e 100644
+--- a/hw/display/bcm2835_fb.c
++++ b/hw/display/bcm2835_fb.c
+@@ -425,7 +425,7 @@ static void bcm2835_fb_realize(DeviceState *dev, Error **errp)
+     s->initial_config.base = s->vcram_base + BCM2835_FB_OFFSET;
  
-+#define TYPE_ASPEED_MII "aspeed-mmi"
-+#define ASPEED_MII(obj) OBJECT_CHECK(AspeedMiiState, (obj), TYPE_ASPEED_MII)
-+
-+/*
-+ * AST2600 MII controller
-+ */
-+typedef struct AspeedMiiState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    FTGMAC100State *nic;
-+
-+    MemoryRegion iomem;
-+    uint32_t phycr;
-+    uint32_t phydata;
-+} AspeedMiiState;
-+
- #endif
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 25d2c2d05d6..af047463a35 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -31,6 +31,10 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_FMC]       = 0x1E620000,
-     [ASPEED_SPI1]      = 0x1E630000,
-     [ASPEED_SPI2]      = 0x1E641000,
-+    [ASPEED_MII1]      = 0x1E650000,
-+    [ASPEED_MII2]      = 0x1E650008,
-+    [ASPEED_MII3]      = 0x1E650010,
-+    [ASPEED_MII4]      = 0x1E650018,
-     [ASPEED_ETH1]      = 0x1E660000,
-     [ASPEED_ETH3]      = 0x1E670000,
-     [ASPEED_ETH2]      = 0x1E680000,
-@@ -181,6 +185,12 @@ static void aspeed_soc_ast2600_init(Object *obj)
-     for (i = 0; i < sc->macs_num; i++) {
-         sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
-                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
-+
-+        sysbus_init_child_obj(obj, "mii[*]", &s->mii[i], sizeof(s->mii[i]),
-+                              TYPE_ASPEED_MII);
-+        object_property_add_const_link(OBJECT(&s->mii[i]), "nic",
-+                                       OBJECT(&s->ftgmac100[i]),
-+                                       &error_abort);
+     s->dma_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->dma_as, s->dma_mr, NULL);
++    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_FB "-memory");
+ 
+     bcm2835_fb_reset(dev);
+ 
+diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
+index 6acc2b644ec..1e458d7fba5 100644
+--- a/hw/dma/bcm2835_dma.c
++++ b/hw/dma/bcm2835_dma.c
+@@ -383,7 +383,7 @@ static void bcm2835_dma_realize(DeviceState *dev, Error **errp)
      }
  
-     sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma),
-@@ -417,6 +427,16 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-                         sc->memmap[ASPEED_ETH1 + i]);
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
-                            aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
-+
-+        object_property_set_bool(OBJECT(&s->mii[i]), true, "realized",
-+                                 &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->mii[i]), 0,
-+                        sc->memmap[ASPEED_MII1 + i]);
+     s->dma_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->dma_as, s->dma_mr, NULL);
++    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_DMA "-memory");
+ 
+     bcm2835_dma_reset(dev);
+ }
+diff --git a/hw/misc/bcm2835_mbox.c b/hw/misc/bcm2835_mbox.c
+index 7690b9afaf8..77285624c9f 100644
+--- a/hw/misc/bcm2835_mbox.c
++++ b/hw/misc/bcm2835_mbox.c
+@@ -311,7 +311,7 @@ static void bcm2835_mbox_realize(DeviceState *dev, Error **errp)
      }
  
-     /* XDMA */
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 04c78e85170..eb8b441461a 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -15,6 +15,7 @@
- #include "hw/irq.h"
- #include "hw/net/ftgmac100.h"
- #include "sysemu/dma.h"
-+#include "qapi/error.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "net/checksum.h"
-@@ -1087,9 +1088,170 @@ static const TypeInfo ftgmac100_info = {
-     .class_init = ftgmac100_class_init,
- };
- 
-+/*
-+ * AST2600 MII controller
-+ */
-+#define ASPEED_MII_PHYCR_FIRE        BIT(31)
-+#define ASPEED_MII_PHYCR_ST_22       BIT(28)
-+#define ASPEED_MII_PHYCR_OP(x)       ((x) & (ASPEED_MII_PHYCR_OP_WRITE | \
-+                                             ASPEED_MII_PHYCR_OP_READ))
-+#define ASPEED_MII_PHYCR_OP_WRITE    BIT(26)
-+#define ASPEED_MII_PHYCR_OP_READ     BIT(27)
-+#define ASPEED_MII_PHYCR_DATA(x)     (x & 0xffff)
-+#define ASPEED_MII_PHYCR_PHY(x)      (((x) >> 21) & 0x1f)
-+#define ASPEED_MII_PHYCR_REG(x)      (((x) >> 16) & 0x1f)
-+
-+#define ASPEED_MII_PHYDATA_IDLE      BIT(16)
-+
-+static void aspeed_mii_transition(AspeedMiiState *s, bool fire)
-+{
-+    if (fire) {
-+        s->phycr |= ASPEED_MII_PHYCR_FIRE;
-+        s->phydata &= ~ASPEED_MII_PHYDATA_IDLE;
-+    } else {
-+        s->phycr &= ~ASPEED_MII_PHYCR_FIRE;
-+        s->phydata |= ASPEED_MII_PHYDATA_IDLE;
-+    }
-+}
-+
-+static void aspeed_mii_do_phy_ctl(AspeedMiiState *s)
-+{
-+    uint8_t reg;
-+    uint16_t data;
-+
-+    if (!(s->phycr & ASPEED_MII_PHYCR_ST_22)) {
-+        aspeed_mii_transition(s, !ASPEED_MII_PHYCR_FIRE);
-+        qemu_log_mask(LOG_UNIMP, "%s: unsupported ST code\n", __func__);
-+        return;
-+    }
-+
-+    /* Nothing to do */
-+    if (!(s->phycr & ASPEED_MII_PHYCR_FIRE)) {
-+        return;
-+    }
-+
-+    reg = ASPEED_MII_PHYCR_REG(s->phycr);
-+    data = ASPEED_MII_PHYCR_DATA(s->phycr);
-+
-+    switch (ASPEED_MII_PHYCR_OP(s->phycr)) {
-+    case ASPEED_MII_PHYCR_OP_WRITE:
-+        do_phy_write(s->nic, reg, data);
-+        break;
-+    case ASPEED_MII_PHYCR_OP_READ:
-+        s->phydata = (s->phydata & ~0xffff) | do_phy_read(s->nic, reg);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid OP code %08x\n",
-+                      __func__, s->phycr);
-+    }
-+
-+    aspeed_mii_transition(s, !ASPEED_MII_PHYCR_FIRE);
-+}
-+
-+static uint64_t aspeed_mii_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    AspeedMiiState *s = ASPEED_MII(opaque);
-+
-+    switch (addr) {
-+    case 0x0:
-+        return s->phycr;
-+    case 0x4:
-+        return s->phydata;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static void aspeed_mii_write(void *opaque, hwaddr addr,
-+                             uint64_t value, unsigned size)
-+{
-+    AspeedMiiState *s = ASPEED_MII(opaque);
-+
-+    switch (addr) {
-+    case 0x0:
-+        s->phycr = value & ~(s->phycr & ASPEED_MII_PHYCR_FIRE);
-+        break;
-+    case 0x4:
-+        s->phydata = value & ~(0xffff | ASPEED_MII_PHYDATA_IDLE);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    aspeed_mii_transition(s, !!(s->phycr & ASPEED_MII_PHYCR_FIRE));
-+    aspeed_mii_do_phy_ctl(s);
-+}
-+
-+static const MemoryRegionOps aspeed_mii_ops = {
-+    .read = aspeed_mii_read,
-+    .write = aspeed_mii_write,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void aspeed_mii_reset(DeviceState *dev)
-+{
-+    AspeedMiiState *s = ASPEED_MII(dev);
-+
-+    s->phycr = 0;
-+    s->phydata = 0;
-+
-+    aspeed_mii_transition(s, !!(s->phycr & ASPEED_MII_PHYCR_FIRE));
-+};
-+
-+static void aspeed_mii_realize(DeviceState *dev, Error **errp)
-+{
-+    AspeedMiiState *s = ASPEED_MII(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    Object *obj;
-+    Error *local_err = NULL;
-+
-+    obj = object_property_get_link(OBJECT(dev), "nic", &local_err);
-+    if (!obj) {
-+        error_propagate(errp, local_err);
-+        error_prepend(errp, "required link 'nic' not found: ");
-+        return;
-+    }
-+
-+    s->nic = FTGMAC100(obj);
-+
-+    memory_region_init_io(&s->iomem, OBJECT(dev), &aspeed_mii_ops, s,
-+                          TYPE_ASPEED_MII, 0x8);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+}
-+
-+static const VMStateDescription vmstate_aspeed_mii = {
-+    .name = TYPE_ASPEED_MII,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(phycr, FTGMAC100State),
-+        VMSTATE_UINT32(phydata, FTGMAC100State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+static void aspeed_mii_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &vmstate_aspeed_mii;
-+    dc->reset = aspeed_mii_reset;
-+    dc->realize = aspeed_mii_realize;
-+    dc->desc = "Aspeed MII controller";
-+}
-+
-+static const TypeInfo aspeed_mii_info = {
-+    .name = TYPE_ASPEED_MII,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AspeedMiiState),
-+    .class_init = aspeed_mii_class_init,
-+};
-+
- static void ftgmac100_register_types(void)
- {
-     type_register_static(&ftgmac100_info);
-+    type_register_static(&aspeed_mii_info);
+     s->mbox_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->mbox_as, s->mbox_mr, NULL);
++    address_space_init(&s->mbox_as, s->mbox_mr, TYPE_BCM2835_MBOX "-memory");
+     bcm2835_mbox_reset(dev);
  }
  
- type_init(ftgmac100_register_types)
+diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
+index 0a1a3eb5d92..43a5465c5dc 100644
+--- a/hw/misc/bcm2835_property.c
++++ b/hw/misc/bcm2835_property.c
+@@ -407,7 +407,7 @@ static void bcm2835_property_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     s->dma_mr = MEMORY_REGION(obj);
+-    address_space_init(&s->dma_as, s->dma_mr, NULL);
++    address_space_init(&s->dma_as, s->dma_mr, TYPE_BCM2835_PROPERTY "-memory");
+ 
+     /* TODO: connect to MAC address of USB NIC device, once we emulate it */
+     qemu_macaddr_default_if_unset(&s->macaddr);
 -- 
 2.20.1
 
