@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A761CD67CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:56:29 +0200 (CEST)
-Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E5BD67DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:00:10 +0200 (CEST)
+Received: from localhost ([::1]:53898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3e0-0002KD-FO
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
+	id 1iK3hY-0007Yy-K5
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:00:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iK2sP-000818-8f
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:07:18 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2u1-0001Q0-M4
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:08:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iK2sN-0000hX-Tx
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:07:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52292)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iK2sN-0000gj-Ky
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:07:15 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D7815945E
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 16:07:14 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id i14so8687731wro.19
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:07:14 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2u0-0001iB-HT
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:08:57 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42147)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iK2u0-0001hq-Ck
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:08:56 -0400
+Received: by mail-ot1-x341.google.com with SMTP id c10so14254452otd.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4em2LLOJ6aqTPyQlYNBUx6Ow2uXrQsyozzIKZSY4Ybo=;
+ b=RMyasfcZQy2Hokkw6nRi/oWmtL7bO2hmG6YdKSdQwCq6UUp7Djj7uGxPBdHNHteEsd
+ XhBPQ/yyMQs17L12EfKOq5zi6wwvNmuc7EwrJwVkRsVX4B6FHojTu+7VwDS9wje6Ua5O
+ Hd8cPhiL+hry0/GMr1Xl2pk/rD1NDEbvpnJ+gobD9+Mfih4Ji872kOL87qXRUreIhdUo
+ zwS0Zqu6TGkubZAh3dMWyTZm7yoUK9uiGx9lvNYX4cfcm2ABPyw2SjMOvnLLVGJxe8X9
+ 3fvaMZiwzpnbV1GgyBLsjU8tU92YM7aThJDCoVzzkzGSD0/a713OZoKVhQyqcVNDSGCs
+ xrsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PHFpWThQhnJj62Bl/tihULoYzZMcq0hbNQYAPPTHm9w=;
- b=cEuAQiSu3oVz/NNMaK6URpZLULuZjokkQ6U9ckJPUE/ENKni8XPzOaqiiCEJ+ZRQs6
- bkHUMZCbNzAi9tO5S6BcnKuJ8qCtgX2rSvWBm+imSa8Jtb79KAJNYB77kU9rHZ9dzsF8
- EM4W/OgkW9i2foXLbuToYiUzfLWqpoVyHe8uIfGABI54J74KPHhQRxj92iVnQxMzXg9k
- ax7kdNm+cM0ykWxFKVzwBUwC5sIjTs+Cdac3PC7SlOalYIor3mZkJYwuIwsyUEOI1kHK
- 4MV2879x9nUlEniitWiUqhOwBx3CdksVI4hGYrhEYLFZvHLb1XV51NaM0yLlCrt/hsBx
- Pdug==
-X-Gm-Message-State: APjAAAU1sCxiSbovhXSKidbIN2bnLod2lzJUd+1bXZcoX1geId36ZMbG
- 5EhGmbGED3nDen2UOjWDuCvdplrYqcG3s5auYXYR7izfZNhpmS6Yk7M6dgyHOegFZBJY50AfbI0
- +fcccHjSOgrE/rqE=
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr8929606wrn.334.1571069233392; 
- Mon, 14 Oct 2019 09:07:13 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyL85axGqHZ3S5Msynw7UsT7ZlGLqjpDS6fvqrRCSeoeBHHX1LhtI56ndV0sK2ejjkAH4j8Kw==
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr8929574wrn.334.1571069233185; 
- Mon, 14 Oct 2019 09:07:13 -0700 (PDT)
-Received: from [192.168.1.35] (46.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.46])
- by smtp.gmail.com with ESMTPSA id g3sm22545742wro.14.2019.10.14.09.07.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Oct 2019 09:07:12 -0700 (PDT)
-Subject: Re: [PATCH 00/19] hw/arm/raspi: Improve Raspberry Pi 2/3 reliability
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20190926173428.10713-1-f4bug@amsat.org>
- <CAFEAcA-2ovf5Y4uaCteRB7Ytt2bcOS1BgfQNRr8G6z5_VobKZw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bf9829b5-395b-eec3-7824-408d35febc44@redhat.com>
-Date: Mon, 14 Oct 2019 18:07:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4em2LLOJ6aqTPyQlYNBUx6Ow2uXrQsyozzIKZSY4Ybo=;
+ b=siSCkUXQGx++BlfnrxeXmMVWceMM+Cz80R1uMcgnMU7wrqA1QDOHOW1ACjxh5EUjej
+ hWFbmNH6KVkdJ3V8O5ka1J1823XE3Om0sLXwGZzBYreR1A683VabmqR9Gch39pxfap06
+ jBErhxtVtBkk3TFZkGX8taqDA1Ws55IN+KVA3CI4lmo2wz4PAce7a8aVtJgrV539o1O7
+ QiH2qZDU05yb94ySjVqTZjPyXq8OomdWbossFawRzNC/+HVS8zlBMs0+BsudFGxHineF
+ SGpaPqkf/IoE0QbXC9FANiFJoSJ5CqIaYXy7qj5o6on6iRBW/5v/JTAd5TeJyUdW2bKb
+ /mBQ==
+X-Gm-Message-State: APjAAAVsXYS3slY/yy87q15bnLWe2HAHyuwUE1Ec1BACdDrloaR3gWLH
+ GBbso5csBHn2eUxtWM77fuzDe52RYdal0jlS6OSIbw==
+X-Google-Smtp-Source: APXvYqzGmpo/uZZIuCGhgUpoQN6GGulx/cX0HAqCb2mQq6VyyeNNZBKuqT1NWpOCA5QvmEVqrgoMGzgZmgtqDetHalg=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr25359913otg.91.1571069335567; 
+ Mon, 14 Oct 2019 09:08:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-2ovf5Y4uaCteRB7Ytt2bcOS1BgfQNRr8G6z5_VobKZw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191011191646.226814-1-dgilbert@redhat.com>
+In-Reply-To: <20191011191646.226814-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Oct 2019 17:08:44 +0100
+Message-ID: <CAFEAcA-zu2pKkQWJshJEv-B-fAJ3NwJFYh-0sCy-aeQNZj8iFg@mail.gmail.com>
+Subject: Re: [PULL 00/21] migration queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,63 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Zolt=c3=a1n_Baldaszti?= <bztemail@gmail.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
- Esteban Bosse <estebanbosse@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- Clement Deschamps <clement.deschamps@antfield.fr>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>, Pekka Enberg <penberg@iki.fi>,
- Guenter Roeck <linux@roeck-us.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/19 5:45 PM, Peter Maydell wrote:
-> On Thu, 26 Sep 2019 at 18:34, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
->>
->> Hi,
->>
->> I previously posted a RFC for the Raspberry Pi 4:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg642241.html
->> and got it almost working (boots Linux kernel to userland, sadly
->> I'm still having timeout issues with the eMMC block).
->> However since it is quite usable, I started to clean up to post
->> the series and realized it is way too big for Peter Maydell, so
->> I'm following his rule of thumb by splitting in 3 sets of ~20
->> functional patches.
->=20
->> Philippe Mathieu-Daud=C3=A9 (19):
->>    hw/arm/raspi: Use the IEC binary prefix definitions
->>    hw/arm/bcm2835_peripherals: Improve logging
->>    hw/arm/bcm2835_peripherals: Name various address spaces
->>    hw/arm/bcm2835: Rename some definitions
->>    hw/arm/bcm2835: Add various unimplemented peripherals
->>    hw/char/bcm2835_aux: Add trace events
->>    hw/misc/bcm2835_mbox: Add trace events
->>    hw/misc/bcm2835_thermal: Add a dummy BCM2835 thermal sensor
->>    hw/arm/bcm2835_peripherals: Use the thermal sensor block
->>    hw/timer/bcm2835: Add the BCM2835 SYS_timer
->>    hw/arm/bcm2835_peripherals: Use the SYS_timer
->>    hw/arm/bcm2835_peripherals: Add Clock/Power/Reset Manager blocks
->>    hw/arm/raspi: Define various blocks base addresses
->>    python/qemu/machine: Allow to use other serial consoles than defaul=
-t
->>    tests/boot_linux_console: Extract the gunzip() helper
->>    tests/boot_linux_console: Add a test for the Raspberry Pi 2
->>    tests/boot_linux_console: Test the raspi2 UART1 (16550 based)
->>    tests/boot_linux_console: Boot Linux and run few commands on raspi3
->>    tests/boot_linux_console: Test SDHCI and termal sensor on raspi3
->=20
->  From this patchset, I'm going to apply patches 1-5 and 7
-> to target-arm.next, since they're good cleanups that have
-> been reviewed. I've given a few review comments on
-> some of the others but mostly it seems to have been reviewed
-> by others already (so thanks to those reviewers).
+On Fri, 11 Oct 2019 at 20:19, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-migration-20191011a
+>
+> for you to fetch changes up to 9a85e4b8f672016adbf7b7d5beaab2a99b9b5615:
+>
+>   migration: Support gtree migration (2019-10-11 17:52:31 +0100)
+>
+> ----------------------------------------------------------------
+> Migration pull 2019-10-11
+>
+> Mostly cleanups and minor fixes
+>
+> [Note I'm seeing a hang on the aarch64 hosted x86-64 tcg migration
+> test in xbzrle; but I'm seeing that on current head as well]
+>
 
-OK, thanks!
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
