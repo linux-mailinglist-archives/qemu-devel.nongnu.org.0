@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C304D611A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:18:34 +0200 (CEST)
-Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC130D6109
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:13:17 +0200 (CEST)
+Received: from localhost ([::1]:47498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyMy-0001Op-8Z
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44727)
+	id 1iJyHs-0005l6-Ti
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvV-0007ZK-JC
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:10 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iJxvU-0006JN-Fi
+ (envelope-from <alex.bennee@linaro.org>) id 1iJxvU-0007XH-MH
  for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:09 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50316)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iJxvT-0006Hm-E5
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:08 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50315)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iJxvU-0006IC-9u
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:08 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 5so16761870wmg.0
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:50:08 -0700 (PDT)
+ id 1iJxvT-0006GK-7v
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:50:07 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 5so16761805wmg.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 03:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7/acujaq0f8VIuYkCq8x2pbN5arCr0y/77PvQd1T9zw=;
- b=xCi5jrcctHYt6cJ8cWOqCxcCYDafzYCmO/vdDUoHooCaZraUHYgKJgmSvRchLli1XI
- C1ZrilPAq9oeh6Mu6RjWZomMJwbyrT+gz97iB9MT6NZD++9bXvhc9HjRHtSZNtF63cEZ
- PkFGKZuqS2Dp52Q9LecVVB6j+YoYxIH+2zQHFW0c/RpQxNUZWUbjvqukwwBYE0y9ajC8
- 3j/yNDm1ZxX2RomVlRywlJ5Phn+zkN+YE3WnKzi+yvikloGCiTizL8ZW7kZb9XDqZO6m
- FmII10g+MpCSOukglXD57XQiEvaFlbs7q/QcWcqpX4URxqQ0Acm2o7U+Hf2gsfK+ZJZh
- tzfQ==
+ bh=bN4XmGTG9/FatEh/7FtZa/B9CvFqCRZ6R/2X2ZutnFU=;
+ b=bjm7HNaujfIiQwunUt3Oir/dBUL78Uo1Fh7DuPuLOMBoUNax9PKvxw0PU/STqGvvaI
+ gjct/iBy2Z8XQ63InA2K+iYUOk4jiVf46oC4mxEDgP7u4vnp89GJ4VrIyqWaLVwgSVk5
+ UOvXb6gRJfQPAU/H9a9RHsCsDenU0jA2kSqCDbvycij+ek/PMYgaIFk+ebkI6diLe6xL
+ 9aOighsAaFOBGWtnWPjPGMTs4+T/xVBGCeajQVIvg+xDpavrSe/B23gMMumjAmr1LzgZ
+ AetesW3SU3XbUSgwNSZLo2BPScPx7CIuuyYYLQm6HBZLTGIwzqTy4vwsxeYmEIYhIhag
+ oD1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7/acujaq0f8VIuYkCq8x2pbN5arCr0y/77PvQd1T9zw=;
- b=DCOGh7b1wsntMNsxLNcOO3W9NwwS3wGD/b06Dw60CQWC17iKl2DarXNabHn2zJvwSu
- /N45Yg/KeZe0gH7nZX+2cFEiLza9YhN0ZOmGjHFAQ9ihKIcbSmhdT4VKCe1SbkX/MQ1r
- CWUa3dxXLyUYs690tanQoNPvgpI2CWGrkOgxqxakSOn73ZZ3dvaTeR2BRX2rsP7yS6Pk
- VuRZyWpUv2kCI8w8xYMyk/Hc1rLxTyhfEqmnOst/czT69KCLLSlNO02eRwn2nzkHBWT7
- 4fowLP3mT1KnMAfEPkbTAoIgJKXnLlJJ8jtHlarssFYjvXRc7EDHHSveTV0jTjDaHymn
- 64cQ==
-X-Gm-Message-State: APjAAAXemIQFyg9PfbdeZfu+JDKCHcETdoAuRb538/bpcD2fIcvpYlHb
- DwIiokx08nIhlxJ0u+Mo05LU0g==
-X-Google-Smtp-Source: APXvYqx9PQRKtSGe/rt3j+w1O6ITR+S1eu0iIkT3BmD13KTOKswiGYgZk4ZSbUlo3ZvotKtrduQsZQ==
-X-Received: by 2002:a1c:4e15:: with SMTP id g21mr13486037wmh.148.1571050207289; 
- Mon, 14 Oct 2019 03:50:07 -0700 (PDT)
+ bh=bN4XmGTG9/FatEh/7FtZa/B9CvFqCRZ6R/2X2ZutnFU=;
+ b=eA+k5U3m51UfonygSCHeRQ49IdCqhnjnom4AlvUfkKhtzTCUTn5yR26NBOUPDbw5ow
+ Tbailo0kzEp7NcX0Jv9fzh/RzCi65Ry8blMhNq/k9C0tEtVczUaXUG/y8oE2WCde3d7a
+ BjEoeDqmmU5Lc4n66Rrnn0FEOrFITlq+KU9Chd+CzgPOX7IiSbwx01DqtQXcq3cQbDE9
+ lhUS5Hhf2QCjQ/LXencIs5QGM4Y8frG8NclyBuEAPSRjf9ofq0wV5e776tDCq0NjRNyH
+ pAZzHlx7fkgCcDMaoAHahePMEUBFAAE8xwKw4V9oHNhRqeoyNhETxujHJUqrGc9OPzLf
+ CeSg==
+X-Gm-Message-State: APjAAAVw+/pdHzLgmTVTSrrVwOGhiIUvuCcMZZS5hXAs/qI9xTrkp97P
+ 2BZVP6kLDKq2PbS4jrqDNORJnSFGP/o=
+X-Google-Smtp-Source: APXvYqzXCqUmQshn3QNmxHDOkfkz/8/4unnaDwzc95iC10JJsf3plnByOD0LJWlLr5Kwmw28T0VmwQ==
+X-Received: by 2002:a1c:5f09:: with SMTP id t9mr15395842wmb.124.1571050206167; 
+ Mon, 14 Oct 2019 03:50:06 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y186sm37048985wmd.26.2019.10.14.03.49.58
+ by smtp.gmail.com with ESMTPSA id b7sm19111097wrx.56.2019.10.14.03.50.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Oct 2019 03:50:04 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8AB501FFCD;
- Mon, 14 Oct 2019 11:49:58 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1BCA91FFD6;
+ Mon, 14 Oct 2019 11:50:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 43/55] tests/tcg: drop test-i386-fprem from TESTS when not
- SLOW
-Date: Mon, 14 Oct 2019 11:49:36 +0100
-Message-Id: <20191014104948.4291-44-alex.bennee@linaro.org>
+Subject: [PATCH  v5 50/55] include/exec: wrap cpu_ldst.h in CONFIG_TCG
+Date: Mon, 14 Oct 2019 11:49:43 +0100
+Message-Id: <20191014104948.4291-51-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014104948.4291-1-alex.bennee@linaro.org>
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,55 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, robert.foley@futurewei.com,
- peter.puhov@futurewei.com, aaron@os.amperecomputing.com, cota@braap.org,
+Cc: robert.foley@futurewei.com,
+ Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a very slow running test which we only enable explicitly.
-However having it in the TESTS lists would confuse additional tests
-like the plugins test which want to run on all currently enabled
-tests.
+This gets around a build problem with --disable-tcg.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/i386/Makefile.target | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ include/exec/exec-all.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index 08c5736a4d..43ee2e181e 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -7,10 +7,8 @@ VPATH 		+= $(I386_SRC)
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 47a071fee0..e74cf980e9 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -22,7 +22,9 @@
  
- I386_SRCS=$(notdir $(wildcard $(I386_SRC)/*.c))
- ALL_X86_TESTS=$(I386_SRCS:.c=)
--I386_TESTS:=$(filter-out test-i386-ssse3, $(ALL_X86_TESTS))
-+SKIP_I386_TESTS=test-i386-ssse3
- X86_64_TESTS:=$(filter test-i386-ssse3, $(ALL_X86_TESTS))
--# Update TESTS
--TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
+ #include "cpu.h"
+ #include "exec/tb-context.h"
++#ifdef CONFIG_TCG
+ #include "exec/cpu_ldst.h"
++#endif
+ #include "sysemu/cpus.h"
  
- #
- # hello-i386 is a barebones app
-@@ -36,9 +34,12 @@ run-test-i386-fprem: test-i386-fprem test-i386-fprem.ref
- 	$(call run-test,test-i386-fprem, $(QEMU) $<,"$< on $(TARGET_NAME)")
- 	$(call diff-out,test-i386-fprem, test-i386-fprem.ref)
- else
--run-test-i386-fprem: test-i386-fprem
--	$(call skip-test, $<, "SLOW")
-+SKIP_I386_TESTS+=test-i386-fprem
- endif
- 
-+# Update TESTS
-+I386_TESTS:=$(filter-out $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
-+TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
-+
- # On i386 and x86_64 Linux only supports 4k pages (large pages are a different hack)
- EXTRA_RUNS+=run-test-mmap-4096
+ /* allow to see translation results - the slowdown should be negligible, so we leave it */
 -- 
 2.20.1
 
