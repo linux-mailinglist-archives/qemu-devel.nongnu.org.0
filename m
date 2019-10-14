@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B52D5E0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 10:59:51 +0200 (CEST)
-Received: from localhost ([::1]:45922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8AED5E09
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 10:59:44 +0200 (CEST)
+Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJwCi-0004T4-U2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 04:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57405)
+	id 1iJwCd-0004N0-8l
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 04:59:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iJwAO-0002iT-Ai
+ (envelope-from <stefanha@redhat.com>) id 1iJwAO-0002iw-Kk
  for qemu-devel@nongnu.org; Mon, 14 Oct 2019 04:57:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iJwAN-0001Ol-8g
+ (envelope-from <stefanha@redhat.com>) id 1iJwAN-0001P9-LE
  for qemu-devel@nongnu.org; Mon, 14 Oct 2019 04:57:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35676)
+Received: from mx1.redhat.com ([209.132.183.28]:55930)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1iJwAI-0001K4-MX; Mon, 14 Oct 2019 04:57:18 -0400
+ id 1iJwAK-0001Ls-Ei; Mon, 14 Oct 2019 04:57:20 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CB78C10C093B;
- Mon, 14 Oct 2019 08:57:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A974E73A60;
+ Mon, 14 Oct 2019 08:57:19 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B6F8600CD;
- Mon, 14 Oct 2019 08:57:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42645600CD;
+ Mon, 14 Oct 2019 08:57:19 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] trace: add --group=all to tracing.txt
-Date: Mon, 14 Oct 2019 09:57:08 +0100
-Message-Id: <20191014085709.26812-2-stefanha@redhat.com>
+Subject: [PULL 2/2] trace: avoid "is" with a literal Python 3.8 warnings
+Date: Mon, 14 Oct 2019 09:57:09 +0100
+Message-Id: <20191014085709.26812-3-stefanha@redhat.com>
 In-Reply-To: <20191014085709.26812-1-stefanha@redhat.com>
 References: <20191014085709.26812-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Mon, 14 Oct 2019 08:57:17 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 14 Oct 2019 08:57:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,39 +65,43 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tracetool needs to know the group name ("all", "root", or a specific
-subdirectory).  Also remove the stdin redirection because tracetool.py
-needs the path to the trace-events file.  Update the documentation.
+The following statement produces a SyntaxWarning with Python 3.8:
 
-Fixes: 2098c56a9bc5901e145fa5d4759f075808811685
-       ("trace: move setting of group name into Makefiles")
-Launchpad: https://bugs.launchpad.net/bugs/1844814
-Reported-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+  if len(format) is 0:
+  scripts/tracetool/__init__.py:459: SyntaxWarning: "is" with a literal. =
+Did you mean "=3D=3D"?
+
+Use the conventional len(x) =3D=3D 0 syntax instead.
+
+Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191010122154.10553-1-stefanha@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20191009135154.10970-1-stefanha@redhat.com>
 ---
- docs/devel/tracing.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/tracetool/__init__.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/tracing.txt b/docs/devel/tracing.txt
-index 8231bbf5d1..8c0376fefa 100644
---- a/docs/devel/tracing.txt
-+++ b/docs/devel/tracing.txt
-@@ -317,7 +317,8 @@ probes:
-                          --binary path/to/qemu-binary \
-                          --target-type system \
-                          --target-name x86_64 \
--                         <trace-events-all >qemu.stp
-+                         --group=3Dall \
-+                         trace-events-all >qemu.stp
+diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.p=
+y
+index 04279fa62e..44c118bc2a 100644
+--- a/scripts/tracetool/__init__.py
++++ b/scripts/tracetool/__init__.py
+@@ -456,12 +456,12 @@ def generate(events, group, format, backends,
+     import tracetool
 =20
- To facilitate simple usage of systemtap where there merely needs to be p=
-rintf
- logging of certain probes, a helper script "qemu-trace-stap" is provided=
-.
+     format =3D str(format)
+-    if len(format) is 0:
++    if len(format) =3D=3D 0:
+         raise TracetoolError("format not set")
+     if not tracetool.format.exists(format):
+         raise TracetoolError("unknown format: %s" % format)
+=20
+-    if len(backends) is 0:
++    if len(backends) =3D=3D 0:
+         raise TracetoolError("no backends specified")
+     for backend in backends:
+         if not tracetool.backend.exists(backend):
 --=20
 2.21.0
 
