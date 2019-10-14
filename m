@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2050FD6458
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 15:48:47 +0200 (CEST)
-Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC052D6466
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 15:50:46 +0200 (CEST)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK0iL-0002ww-Gk
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 09:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39303)
+	id 1iK0kH-00055Z-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 09:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39441)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iK0fs-00027N-33
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:46:13 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iK0gT-0002DS-HJ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:46:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iK0fq-0006HB-No
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:46:11 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35381)
+ (envelope-from <alex.bennee@linaro.org>) id 1iK0gS-0006fX-6k
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:46:49 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53746)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iK0fo-0006Eh-Qf
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:46:09 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id v8so19833274wrt.2
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 06:46:07 -0700 (PDT)
+ id 1iK0gP-0006Zr-FH
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 09:46:46 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id i16so17356673wmd.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 06:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=UEXCjAhdu0FKHjjtnW1230km7QIS6Nvx34ZHiSKDVCA=;
- b=ScDWZ//izVK/Kjcz/qtNRfNlr1QEP1xm4MLqjlbUZPZ4iyPfn5rqUWNJpe4CvSZrS5
- PE3ezyLY3IjpG5Zvn6bARlVIw7iA9i03nYEiIsQK0W/wMDxseCMITTWxnXDWQKtFSxj1
- 91tVHGuYngJICaxjuDDmXaqE9Busgp9ombNgWsECHlaqiPPvLeJnzAjI1Xed0PHpl025
- OedkrccncAsVn4l5Bj3ZpvdB0mmS+zVvur7Ddv7mSfT5PiMuhH//uYnBD5jT3vIABlhA
- 9Dyshwd2CrbJz/wAdM40FDpp7QIoawNhG4DAW8uhwaPsHuAjcq7GsTfTmlpieC5rxaKU
- i40Q==
+ b=S8VAk+64CwjIOGagIcCky1Yzz72q1j3+upj9nOiS7Jgzmjcd5QVrRMrDNtztjya9Yc
+ MwDFP6W8HJEo/FBTqg3Q6fTrkwNgj/DzFht8jN2cSQJencymdxyIu3+rSRhaA9tzqkGE
+ 8tNiUiV3fcKgeFeWYOfEiOafpv0pCL46jx69xfvsjM3/irmqZ954xdScMnz50yjV+pCT
+ +ZAh2CGnOXZjnh5z9kG0NjPhAwWz+lHSsONnYWDcIAjWILSCPpcQYzMwP8Q85y932R1i
+ Xx0Xb522jM/MFFiSJ2WP2t3Hu9m3R/lhOTCGD3HM6ANvHbQ+xlyECAKPtX3t+O0Dy1Ml
+ 91Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=UEXCjAhdu0FKHjjtnW1230km7QIS6Nvx34ZHiSKDVCA=;
- b=g23TaYmLSCxLbXOantoju8h+aWbaCO7nNWNyTPH+mPomXvgKaN/gx+pFTKO4PC6UDH
- JyT0qpVKLJ7GSsjmLPC5CnFoOP7841OaqpjV2QQpIt126ZSZkgpC72bM/Dtw5s6NgNgC
- p25ISk63Fvmr8TuW9fl/JudluIJJc1NXCZKP+rABycfUmo+aqL74evnu9iPjbcD3tHvw
- eCBqLyQHWmXOk0qV8t9QgPeMKJVe/03lPvDuy3cXUvjkXTDpEWLrz5UOqvylK5W0x+5r
- vCeLFi0ty14XvpXnSrQ78Q14BAuKV2y/NyjtvMSoD7dDcoe9TijgcU2yZQ8Lljp/CVr0
- muRQ==
-X-Gm-Message-State: APjAAAUIcjazkiOrTH+W99GzZ4ZXP2dgZuubsi2RnoE03ByweWuv4JPo
- rhiqvEd023+ft3WYpstWyYGMhQ==
-X-Google-Smtp-Source: APXvYqwoGb9PzPxpwS/0hyEDtrdNlt8DXCaJVfE2dqelZJrY+mLZrLX2zo2/Z66Cr36Cuu1ffLVx1Q==
-X-Received: by 2002:adf:e5cc:: with SMTP id a12mr11725119wrn.258.1571060766150; 
- Mon, 14 Oct 2019 06:46:06 -0700 (PDT)
+ b=RhKHC7V9M1NM2PGhlfoDCiuyygeoIQFL7Db9twFLgPw1zABjOzFc1uwkCu5bfR8lI0
+ iN0X/2Fau+92sUVlCiz8fj1hkFgnXw1deLVg+l3/DAGFHwW6dEDSVDDU0xoOy+VWytTB
+ d/VUl8AsoSwmiaMDPfC/oATGiKqbfxTUwpAZCKm/BiiFCgLYYvBmg9kB9LKeZBL1YkPO
+ haA1Z1z6J30kIo8f3YcLxn0+YMG81p7iF9cn5BgSiQRWbgwBiYGP/kfjpw5hz1SXBqcS
+ p0SmXQeHsNUZNHrwHBeEyAebv+6QIlRFaVqBth5N1VYmCHeSeI3cP2MLTyVpY0lgxCzl
+ h7nA==
+X-Gm-Message-State: APjAAAUbTGwIt/onXy12ms7X/CujwW9XwZCoYL81VLVSjj3EQg7FYfzY
+ DBupWifFAG+JVmKS8L2AfEoQcA==
+X-Google-Smtp-Source: APXvYqy6SlkWeOi9GGDdp/dvx5fnbj8g9F4+SAkOWjz7qaPqmBlJXQKjUiGyYDHYEkym6OSPBwclxA==
+X-Received: by 2002:a7b:c5c9:: with SMTP id n9mr16005246wmk.28.1571060800820; 
+ Mon, 14 Oct 2019 06:46:40 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e18sm25408208wrv.63.2019.10.14.06.46.05
+ by smtp.gmail.com with ESMTPSA id n1sm22878480wrg.67.2019.10.14.06.46.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 06:46:05 -0700 (PDT)
+ Mon, 14 Oct 2019 06:46:40 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D29BD1FF87;
- Mon, 14 Oct 2019 14:46:04 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id B26801FF87;
+ Mon, 14 Oct 2019 14:46:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Subject: [PATCH for 4.2 v1 0/5] gitdm updates
-Date: Mon, 14 Oct 2019 14:45:59 +0100
-Message-Id: <20191014134604.21340-1-alex.bennee@linaro.org>
+Date: Mon, 14 Oct 2019 14:46:34 +0100
+Message-Id: <20191014134639.21509-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
