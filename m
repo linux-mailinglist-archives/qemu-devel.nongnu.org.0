@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6A8D67ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:04:37 +0200 (CEST)
-Received: from localhost ([::1]:54011 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FFCD6809
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:11:03 +0200 (CEST)
+Received: from localhost ([::1]:54130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3lr-0004LP-QA
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:04:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
+	id 1iK3s6-0003yQ-2O
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:11:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iK33y-00062l-8w
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:16 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qW-0004rT-Nh
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iK33w-0007Ma-2I
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:14 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51435)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qU-0007yP-Lk
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:20 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52244)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iK33v-0007Lz-Rg
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:12 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 7so17925411wme.1
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Wrb/eh//pKqC5sqQg+JmF7gLP8TvTzApdrnvwmESS9w=;
- b=PWLxPQWPyUXqhQ7kOzg0kfalcfAGxqK1SdRf9jtdX8fv7eSrPPckmNQPj0k7APVYnb
- jlURwEWZNESImEkhI0Ydjp3CvDDNfOG/zsJ86CBauVsQfSaRstZVhwDbRJQGyfhRYrJq
- P2CSiMCeTf0cmZ6az1f78+I4R4P6oa862rvpmKj9LpPfINVSoWQABgTAxeYO5QHz15TR
- dNE8VOrAc9EosUBWPnp1Un7g/qy6UQu+slRs2OV7mVbrHQCkRvvZLqiHaCK9UZ+xSlvL
- eJ6PrJCoA1EuHZimOct8HUbEn7JRGLn36InqM9ALBXkjdmFrJyHoc6+wNm/n6fg+iVK+
- euVQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iK2qU-0007xe-Dv
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:18 -0400
+Received: by mail-wm1-x333.google.com with SMTP id r19so17863319wmh.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=Z87K1A4AtAr1SWatzIx6AlN8HdAIvYdTN2erflZQfyY=;
+ b=bgouXHn3eOkotzEMPajKiSKWrolWSYZcYKNMpf/2w0uzengfy03/jHw9mrz6dmWyjh
+ nYG9ZQT+r7+OF6PGYjsotI/Ze1LZF7iqj3BmRD96Y6+ZV6SBxf70vo/Je4R2bWuXcvoO
+ aYMB+I4soxxIi454ly87pA/+Oxo41jXCO30chli6UcKAr3cxFlSvQD+x3hVEoBpBlAmd
+ XMGSKhrE6ZKOlKl71oNe00szdoz9aOBTsWS9PPsH6dTiPtnLWFOUoZ21JqQlt8fzFRRD
+ Bb0Yej2QgeZ6saXZXO/F5byavv/koD35L8RUe26hZyQzbjIMefI5HHtUxS9rNmE/dQzi
+ JUqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Wrb/eh//pKqC5sqQg+JmF7gLP8TvTzApdrnvwmESS9w=;
- b=qOkd5HtY8RRbKkxLEnJnCuWKx6VXnlsZseFGwIVZQXkeXacFEX7HjLt+2enDGTBtsy
- 3QLk592zjKn+/hnwA5bcIafWO5WscX4kWVULdwJmYmWyQdXJliduu/kVmcdCBrI6EA9U
- eNfOmjm0ky3pTQCMYsCE63dBgfwJZsaruBdhEFnBRtZCL+JcSOhc5Xy31WF1kZHZN+f6
- 629p41aTuL1OXFTs7IHHiR9Diwo7L8pcbP+wkX70R2NBaqB2nzGVJ0cQd+e72dlVXij6
- UYTmANjFF2+cSPb3Tig9NIcQQ9an202rk1nrszo5FHyd4vR2qLTikkdMzu7qURd37Moo
- yMJA==
-X-Gm-Message-State: APjAAAWaCMDLmtfq9noBIPegHW2F/3QgF1oFkkJF0Mr67Q+bs3CoozNc
- lVpO1L2l5XBTuzRWOpWnV5VAR9V3BRA=
-X-Google-Smtp-Source: APXvYqwqeaXZX/lj1Caj17CgLDVTnrHQcFlyEBXf8eN6ge1jyA1eGpi08IZZndTX/k+qq6xSC5q4KA==
-X-Received: by 2002:a7b:c936:: with SMTP id h22mr15289414wml.1.1571069950348; 
- Mon, 14 Oct 2019 09:19:10 -0700 (PDT)
-Received: from 8c859074c0ff.ant.amazon.com.com
- (bzq-79-178-11-117.red.bezeqint.net. [79.178.11.117])
- by smtp.gmail.com with ESMTPSA id c132sm28050861wme.27.2019.10.14.09.19.08
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Mon, 14 Oct 2019 09:19:09 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Z87K1A4AtAr1SWatzIx6AlN8HdAIvYdTN2erflZQfyY=;
+ b=TTTGFsV0hD7iDprBXwHic6qqTvA3MBcgT14xrRWxdZd7rHz9Aaz4q4FYLi1mcxEx2T
+ +E9oH2uHmuN0tvEAqjiLC2xfttrbLV+CmjlUnMQV0HKY86X5jzl+/w5jOAfkm+dAc/zY
+ FBsvf/CzrNL0lfBkK7xh/CZFOxumWhAlcOQaFqPe78eFEJma6ENrOma3ns0H7yfMuwm6
+ cHQcgKkbZGLhi7MRdE1W9EvvtPd6TAU14/Dg4m8Iu4tO7z2Gz1aIxWufTKv0Ppk83VeY
+ Kobhs8K0+k/rPaTvcvv5euPmnYM5vebQ+aYG8xTuJJT8YhBk0e8HOL87orKwNguS5BMe
+ YU3Q==
+X-Gm-Message-State: APjAAAVqSe381AR8kCb6Vt+oZ0lPvHuilGpqfCwtsMaSMI/EXv7NrzEt
+ Xfr9vPbr9Z2ALwTpciQlHU0rWpP+qlI6Ow==
+X-Google-Smtp-Source: APXvYqyN810KZi+osdRo7fVOGcxkp+sNq3JARc+TA4jWDzuKvxzUrICGLrwn8UHPn3aEp5k08XIwmw==
+X-Received: by 2002:a1c:55c4:: with SMTP id
+ j187mr15778680wmb.155.1571069116920; 
+ Mon, 14 Oct 2019 09:05:16 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.15
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Oct 2019 09:05:15 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v32 02/13] target/avr: Add instruction helpers
-Date: Mon, 14 Oct 2019 19:18:32 +0300
-Message-Id: <20191014161843.84845-3-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <20191014161843.84845-1-mrolnik@gmail.com>
-References: <20191014161843.84845-1-mrolnik@gmail.com>
+Subject: [PULL 42/68] hw: aspeed_scu: Add AST2600 support
+Date: Mon, 14 Oct 2019 17:03:38 +0100
+Message-Id: <20191014160404.19553-43-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
+References: <20191014160404.19553-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,421 +80,350 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
- richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
- philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stubs for unimplemented instructions and helpers for instructions that need to interact with QEMU.
-SPM and WDR are unimplemented because they require emulation of complex peripherals.
-The implementation of SLEEP is very limited due to the lack of peripherals to generate wake interrupts.
-Memory access instructions are implemented here because some address ranges actually refer to CPU registers.
+From: Joel Stanley <joel@jms.id.au>
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+The SCU controller on the AST2600 SoC has extra registers. Increase
+the number of regs of the model and introduce a new field in the class
+to customize the MemoryRegion operations depending on the SoC model.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20190925143248.10000-4-clg@kaod.org
+[clg: - improved commit log
+      - changed vmstate version
+      - reworked model integration into new object class
+      - included AST2600_HPLL_PARAM value ]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/avr/helper.c | 354 ++++++++++++++++++++++++++++++++++++++++++++
- target/avr/helper.h |  29 ++++
- 2 files changed, 383 insertions(+)
- create mode 100644 target/avr/helper.c
- create mode 100644 target/avr/helper.h
+ include/hw/misc/aspeed_scu.h |   7 +-
+ hw/misc/aspeed_scu.c         | 192 +++++++++++++++++++++++++++++++++--
+ 2 files changed, 191 insertions(+), 8 deletions(-)
 
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-new file mode 100644
-index 0000000000..f0f0d4f15a
---- /dev/null
-+++ b/target/avr/helper.c
-@@ -0,0 +1,354 @@
-+/*
-+ * QEMU AVR CPU
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
+diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
+index 239e94fe2c4..1d7f7ffc159 100644
+--- a/include/hw/misc/aspeed_scu.h
++++ b/include/hw/misc/aspeed_scu.h
+@@ -17,8 +17,10 @@
+ #define ASPEED_SCU(obj) OBJECT_CHECK(AspeedSCUState, (obj), TYPE_ASPEED_SCU)
+ #define TYPE_ASPEED_2400_SCU TYPE_ASPEED_SCU "-ast2400"
+ #define TYPE_ASPEED_2500_SCU TYPE_ASPEED_SCU "-ast2500"
++#define TYPE_ASPEED_2600_SCU TYPE_ASPEED_SCU "-ast2600"
+ 
+ #define ASPEED_SCU_NR_REGS (0x1A8 >> 2)
++#define ASPEED_AST2600_SCU_NR_REGS (0xE20 >> 2)
+ 
+ typedef struct AspeedSCUState {
+     /*< private >*/
+@@ -27,7 +29,7 @@ typedef struct AspeedSCUState {
+     /*< public >*/
+     MemoryRegion iomem;
+ 
+-    uint32_t regs[ASPEED_SCU_NR_REGS];
++    uint32_t regs[ASPEED_AST2600_SCU_NR_REGS];
+     uint32_t silicon_rev;
+     uint32_t hw_strap1;
+     uint32_t hw_strap2;
+@@ -38,6 +40,7 @@ typedef struct AspeedSCUState {
+ #define AST2400_A1_SILICON_REV   0x02010303U
+ #define AST2500_A0_SILICON_REV   0x04000303U
+ #define AST2500_A1_SILICON_REV   0x04010303U
++#define AST2600_A0_SILICON_REV   0x05000303U
+ 
+ #define ASPEED_IS_AST2500(si_rev)     ((((si_rev) >> 24) & 0xff) == 0x04)
+ 
+@@ -54,6 +57,8 @@ typedef struct  AspeedSCUClass {
+     const uint32_t *resets;
+     uint32_t (*calc_hpll)(AspeedSCUState *s, uint32_t hpll_reg);
+     uint32_t apb_divider;
++    uint32_t nr_regs;
++    const MemoryRegionOps *ops;
+ }  AspeedSCUClass;
+ 
+ #define ASPEED_SCU_PROT_KEY      0x1688A8A8
+diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+index 620b25c2047..84699b78d4c 100644
+--- a/hw/misc/aspeed_scu.c
++++ b/hw/misc/aspeed_scu.c
+@@ -88,6 +88,35 @@
+ #define BMC_REV              TO_REG(0x19C)
+ #define BMC_DEV_ID           TO_REG(0x1A4)
+ 
++#define AST2600_PROT_KEY          TO_REG(0x00)
++#define AST2600_SILICON_REV       TO_REG(0x04)
++#define AST2600_SILICON_REV2      TO_REG(0x14)
++#define AST2600_SYS_RST_CTRL      TO_REG(0x40)
++#define AST2600_SYS_RST_CTRL_CLR  TO_REG(0x44)
++#define AST2600_SYS_RST_CTRL2     TO_REG(0x50)
++#define AST2600_SYS_RST_CTRL2_CLR TO_REG(0x54)
++#define AST2600_CLK_STOP_CTRL     TO_REG(0x80)
++#define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
++#define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
++#define AST2600_CLK_STOP_CTR2L_CLR TO_REG(0x94)
++#define AST2600_HPLL_PARAM        TO_REG(0x200)
++#define AST2600_HPLL_EXT          TO_REG(0x204)
++#define AST2600_MPLL_EXT          TO_REG(0x224)
++#define AST2600_EPLL_EXT          TO_REG(0x244)
++#define AST2600_CLK_SEL           TO_REG(0x300)
++#define AST2600_CLK_SEL2          TO_REG(0x304)
++#define AST2600_CLK_SEL3          TO_REG(0x310)
++#define AST2600_HW_STRAP1         TO_REG(0x500)
++#define AST2600_HW_STRAP1_CLR     TO_REG(0x504)
++#define AST2600_HW_STRAP1_PROT    TO_REG(0x508)
++#define AST2600_HW_STRAP2         TO_REG(0x510)
++#define AST2600_HW_STRAP2_CLR     TO_REG(0x514)
++#define AST2600_HW_STRAP2_PROT    TO_REG(0x518)
++#define AST2600_RNG_CTRL          TO_REG(0x524)
++#define AST2600_RNG_DATA          TO_REG(0x540)
 +
-+#include "qemu/osdep.h"
++#define AST2600_CLK TO_REG(0x40)
 +
-+#include "cpu.h"
-+#include "hw/irq.h"
-+#include "hw/sysbus.h"
-+#include "sysemu/sysemu.h"
-+#include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "exec/helper-proto.h"
-+#include "exec/ioport.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/error-report.h"
-+
-+bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ #define SCU_IO_REGION_SIZE 0x1000
+ 
+ static const uint32_t ast2400_a0_resets[ASPEED_SCU_NR_REGS] = {
+@@ -178,7 +207,7 @@ static uint64_t aspeed_scu_read(void *opaque, hwaddr offset, unsigned size)
+     AspeedSCUState *s = ASPEED_SCU(opaque);
+     int reg = TO_REG(offset);
+ 
+-    if (reg >= ARRAY_SIZE(s->regs)) {
++    if (reg >= ASPEED_SCU_NR_REGS) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
+                       __func__, offset);
+@@ -208,7 +237,7 @@ static void aspeed_scu_write(void *opaque, hwaddr offset, uint64_t data,
+     AspeedSCUState *s = ASPEED_SCU(opaque);
+     int reg = TO_REG(offset);
+ 
+-    if (reg >= ARRAY_SIZE(s->regs)) {
++    if (reg >= ASPEED_SCU_NR_REGS) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
+                       __func__, offset);
+@@ -346,7 +375,7 @@ static void aspeed_scu_reset(DeviceState *dev)
+     AspeedSCUState *s = ASPEED_SCU(dev);
+     AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(dev);
+ 
+-    memcpy(s->regs, asc->resets, sizeof(s->regs));
++    memcpy(s->regs, asc->resets, asc->nr_regs * 4);
+     s->regs[SILICON_REV] = s->silicon_rev;
+     s->regs[HW_STRAP1] = s->hw_strap1;
+     s->regs[HW_STRAP2] = s->hw_strap2;
+@@ -358,6 +387,7 @@ static uint32_t aspeed_silicon_revs[] = {
+     AST2400_A1_SILICON_REV,
+     AST2500_A0_SILICON_REV,
+     AST2500_A1_SILICON_REV,
++    AST2600_A0_SILICON_REV,
+ };
+ 
+ bool is_supported_silicon_rev(uint32_t silicon_rev)
+@@ -377,6 +407,7 @@ static void aspeed_scu_realize(DeviceState *dev, Error **errp)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedSCUState *s = ASPEED_SCU(dev);
++    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(dev);
+ 
+     if (!is_supported_silicon_rev(s->silicon_rev)) {
+         error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
+@@ -384,7 +415,7 @@ static void aspeed_scu_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_scu_ops, s,
++    memory_region_init_io(&s->iomem, OBJECT(s), asc->ops, s,
+                           TYPE_ASPEED_SCU, SCU_IO_REGION_SIZE);
+ 
+     sysbus_init_mmio(sbd, &s->iomem);
+@@ -392,10 +423,10 @@ static void aspeed_scu_realize(DeviceState *dev, Error **errp)
+ 
+ static const VMStateDescription vmstate_aspeed_scu = {
+     .name = "aspeed.scu",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+-        VMSTATE_UINT32_ARRAY(regs, AspeedSCUState, ASPEED_SCU_NR_REGS),
++        VMSTATE_UINT32_ARRAY(regs, AspeedSCUState, ASPEED_AST2600_SCU_NR_REGS),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -436,6 +467,8 @@ static void aspeed_2400_scu_class_init(ObjectClass *klass, void *data)
+     asc->resets = ast2400_a0_resets;
+     asc->calc_hpll = aspeed_2400_scu_calc_hpll;
+     asc->apb_divider = 2;
++    asc->nr_regs = ASPEED_SCU_NR_REGS;
++    asc->ops = &aspeed_scu_ops;
+ }
+ 
+ static const TypeInfo aspeed_2400_scu_info = {
+@@ -454,6 +487,8 @@ static void aspeed_2500_scu_class_init(ObjectClass *klass, void *data)
+     asc->resets = ast2500_a1_resets;
+     asc->calc_hpll = aspeed_2500_scu_calc_hpll;
+     asc->apb_divider = 4;
++    asc->nr_regs = ASPEED_SCU_NR_REGS;
++    asc->ops = &aspeed_scu_ops;
+ }
+ 
+ static const TypeInfo aspeed_2500_scu_info = {
+@@ -463,11 +498,154 @@ static const TypeInfo aspeed_2500_scu_info = {
+     .class_init = aspeed_2500_scu_class_init,
+ };
+ 
++static uint64_t aspeed_ast2600_scu_read(void *opaque, hwaddr offset,
++                                        unsigned size)
 +{
-+    bool ret = false;
-+    CPUClass *cc = CPU_GET_CLASS(cs);
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
++    AspeedSCUState *s = ASPEED_SCU(opaque);
++    int reg = TO_REG(offset);
 +
-+    if (interrupt_request & CPU_INTERRUPT_RESET) {
-+        if (cpu_interrupts_enabled(env)) {
-+            cs->exception_index = EXCP_RESET;
-+            cc->do_interrupt(cs);
-+
-+            cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
-+
-+            ret = true;
-+        }
++    if (reg >= ASPEED_AST2600_SCU_NR_REGS) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
++                      __func__, offset);
++        return 0;
 +    }
-+    if (interrupt_request & CPU_INTERRUPT_HARD) {
-+        if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
-+            int index = ctz32(env->intsrc);
-+            cs->exception_index = EXCP_INT(index);
-+            cc->do_interrupt(cs);
 +
-+            env->intsrc &= env->intsrc - 1; /* clear the interrupt */
-+            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-+
-+            ret = true;
-+        }
-+    }
-+    return ret;
-+}
-+
-+void avr_cpu_do_interrupt(CPUState *cs)
-+{
-+    AVRCPU *cpu = AVR_CPU(cs);
-+    CPUAVRState *env = &cpu->env;
-+
-+    uint32_t ret = env->pc_w;
-+    int vector = 0;
-+    int size = avr_feature(env, AVR_FEATURE_JMP_CALL) ? 2 : 1;
-+    int base = 0;
-+
-+    if (cs->exception_index == EXCP_RESET) {
-+        vector = 0;
-+    } else if (env->intsrc != 0) {
-+        vector = ctz32(env->intsrc) + 1;
-+    }
-+
-+    if (avr_feature(env, AVR_FEATURE_3_BYTE_PC)) {
-+        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
-+        cpu_stb_data(env, env->sp--, (ret & 0x00ff00) >> 8);
-+        cpu_stb_data(env, env->sp--, (ret & 0xff0000) >> 16);
-+    } else if (avr_feature(env, AVR_FEATURE_2_BYTE_PC)) {
-+        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
-+        cpu_stb_data(env, env->sp--, (ret & 0x00ff00) >> 8);
-+    } else {
-+        cpu_stb_data(env, env->sp--, (ret & 0x0000ff));
-+    }
-+
-+    env->pc_w = base + vector * size;
-+    env->sregI = 0; /* clear Global Interrupt Flag */
-+
-+    cs->exception_index = -1;
-+}
-+
-+int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
-+                                int len, bool is_write)
-+{
-+    return cpu_memory_rw_debug(cs, addr, buf, len, is_write);
-+}
-+
-+hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-+{
-+    return addr; /* I assume 1:1 address correspondance */
-+}
-+
-+int avr_cpu_handle_mmu_fault(
-+    CPUState *cs, vaddr address, int size, int rw, int mmu_idx)
-+{
-+    /* currently it's assumed that this will never happen */
-+    cs->exception_index = EXCP_DEBUG;
-+    cpu_dump_state(cs, stderr, 0);
-+    return 1;
-+}
-+
-+bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
-+{
-+    int prot = 0;
-+    MemTxAttrs attrs = {};
-+    uint32_t paddr;
-+
-+    address &= TARGET_PAGE_MASK;
-+
-+    if (mmu_idx == MMU_CODE_IDX) {
-+        /* access to code in flash */
-+        paddr = OFFSET_CODE + address;
-+        prot = PAGE_READ | PAGE_EXEC;
-+        if (paddr + TARGET_PAGE_SIZE > OFFSET_DATA) {
-+            error_report("execution left flash memory");
-+            exit(1);
-+        }
-+    } else if (address < NO_CPU_REGISTERS + NO_IO_REGISTERS) {
++    switch (reg) {
++    case AST2600_HPLL_EXT:
++    case AST2600_EPLL_EXT:
++    case AST2600_MPLL_EXT:
++        /* PLLs are always "locked" */
++        return s->regs[reg] | BIT(31);
++    case AST2600_RNG_DATA:
 +        /*
-+         * access to CPU registers, exit and rebuilt this TB to use full access
-+         * incase it touches specially handled registers like SREG or SP
++         * On hardware, RNG_DATA works regardless of the state of the
++         * enable bit in RNG_CTRL
++         *
++         * TODO: Check this is true for ast2600
 +         */
-+        AVRCPU *cpu = AVR_CPU(cs);
-+        CPUAVRState *env = &cpu->env;
-+        env->fullacc = 1;
-+        cpu_loop_exit_restore(cs, retaddr);
-+    } else {
-+        /* access to memory. nothing special */
-+        paddr = OFFSET_DATA + address;
-+        prot = PAGE_READ | PAGE_WRITE;
++        s->regs[AST2600_RNG_DATA] = aspeed_scu_get_random();
++        break;
 +    }
 +
-+    tlb_set_page_with_attrs(
-+        cs, address, paddr, attrs, prot, mmu_idx, TARGET_PAGE_SIZE);
-+
-+    return true;
++    return s->regs[reg];
 +}
 +
-+void helper_sleep(CPUAVRState *env)
++static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset, uint64_t data,
++                                     unsigned size)
 +{
-+    CPUState *cs = env_cpu(env);
++    AspeedSCUState *s = ASPEED_SCU(opaque);
++    int reg = TO_REG(offset);
 +
-+    cs->exception_index = EXCP_HLT;
-+    cpu_loop_exit(cs);
-+}
-+
-+void helper_unsupported(CPUAVRState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    /*
-+     *  I count not find what happens on the real platform, so
-+     *  it's EXCP_DEBUG for meanwhile
-+     */
-+    cs->exception_index = EXCP_DEBUG;
-+    if (qemu_loglevel_mask(LOG_UNIMP)) {
-+        qemu_log("UNSUPPORTED\n");
-+        cpu_dump_state(cs, qemu_logfile, 0);
-+    }
-+    cpu_loop_exit(cs);
-+}
-+
-+void helper_debug(CPUAVRState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->exception_index = EXCP_DEBUG;
-+    cpu_loop_exit(cs);
-+}
-+
-+void helper_break(CPUAVRState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->exception_index = EXCP_DEBUG;
-+    cpu_loop_exit(cs);
-+}
-+
-+void helper_wdr(CPUAVRState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    /* WD is not implemented yet, placeholder */
-+    cs->exception_index = EXCP_DEBUG;
-+    cpu_loop_exit(cs);
-+}
-+
-+/*
-+ * This function implements IN instruction
-+ *
-+ * It does the following
-+ * a.  if an IO register belongs to CPU, its value is read and returned
-+ * b.  otherwise io address is translated to mem address and physical memory
-+ *     is read.
-+ * c.  it caches the value for sake of SBI, SBIC, SBIS & CBI implementation
-+ *
-+ */
-+target_ulong helper_inb(CPUAVRState *env, uint32_t port)
-+{
-+    target_ulong data = 0;
-+
-+    switch (port) {
-+    case 0x38: /* RAMPD */
-+        data = 0xff & (env->rampD >> 16);
-+        break;
-+    case 0x39: /* RAMPX */
-+        data = 0xff & (env->rampX >> 16);
-+        break;
-+    case 0x3a: /* RAMPY */
-+        data = 0xff & (env->rampY >> 16);
-+        break;
-+    case 0x3b: /* RAMPZ */
-+        data = 0xff & (env->rampZ >> 16);
-+        break;
-+    case 0x3c: /* EIND */
-+        data = 0xff & (env->eind >> 16);
-+        break;
-+    case 0x3d: /* SPL */
-+        data = env->sp & 0x00ff;
-+        break;
-+    case 0x3e: /* SPH */
-+        data = env->sp >> 8;
-+        break;
-+    case 0x3f: /* SREG */
-+        data = cpu_get_sreg(env);
-+        break;
-+    default:
-+        /* not a special register, pass to normal memory access */
-+        cpu_physical_memory_read(OFFSET_IO_REGISTERS + port, &data, 1);
++    if (reg >= ASPEED_AST2600_SCU_NR_REGS) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
++                      __func__, offset);
++        return;
 +    }
 +
-+    return data;
-+}
++    if (reg > PROT_KEY && !s->regs[PROT_KEY]) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: SCU is locked!\n", __func__);
++    }
 +
-+/*
-+ *  This function implements OUT instruction
-+ *
-+ *  It does the following
-+ *  a.  if an IO register belongs to CPU, its value is written into the register
-+ *  b.  otherwise io address is translated to mem address and physical memory
-+ *      is written.
-+ *  c.  it caches the value for sake of SBI, SBIC, SBIS & CBI implementation
-+ *
-+ */
-+void helper_outb(CPUAVRState *env, uint32_t port, uint32_t data)
-+{
-+    data &= 0x000000ff;
++    trace_aspeed_scu_write(offset, size, data);
 +
-+    switch (port) {
-+    case 0x38: /* RAMPD */
-+        if (avr_feature(env, AVR_FEATURE_RAMPD)) {
-+            env->rampD = (data & 0xff) << 16;
++    switch (reg) {
++    case AST2600_PROT_KEY:
++        s->regs[reg] = (data == ASPEED_SCU_PROT_KEY) ? 1 : 0;
++        return;
++    case AST2600_HW_STRAP1:
++    case AST2600_HW_STRAP2:
++        if (s->regs[reg + 2]) {
++            return;
 +        }
-+        break;
-+    case 0x39: /* RAMPX */
-+        if (avr_feature(env, AVR_FEATURE_RAMPX)) {
-+            env->rampX = (data & 0xff) << 16;
-+        }
-+        break;
-+    case 0x3a: /* RAMPY */
-+        if (avr_feature(env, AVR_FEATURE_RAMPY)) {
-+            env->rampY = (data & 0xff) << 16;
-+        }
-+        break;
-+    case 0x3b: /* RAMPZ */
-+        if (avr_feature(env, AVR_FEATURE_RAMPZ)) {
-+            env->rampZ = (data & 0xff) << 16;
-+        }
-+        break;
-+    case 0x3c: /* EIDN */
-+        env->eind = (data & 0xff) << 16;
-+        break;
-+    case 0x3d: /* SPL */
-+        env->sp = (env->sp & 0xff00) | (data);
-+        break;
-+    case 0x3e: /* SPH */
-+        if (avr_feature(env, AVR_FEATURE_2_BYTE_SP)) {
-+            env->sp = (env->sp & 0x00ff) | (data << 8);
-+        }
-+        break;
-+    case 0x3f: /* SREG */
-+        cpu_set_sreg(env, data);
-+        break;
-+    default:
-+        /* not a special register, pass to normal memory access */
-+        cpu_physical_memory_write(OFFSET_IO_REGISTERS + port, &data, 1);
++        /* fall through */
++    case AST2600_SYS_RST_CTRL:
++    case AST2600_SYS_RST_CTRL2:
++        /* W1S (Write 1 to set) registers */
++        s->regs[reg] |= data;
++        return;
++    case AST2600_SYS_RST_CTRL_CLR:
++    case AST2600_SYS_RST_CTRL2_CLR:
++    case AST2600_HW_STRAP1_CLR:
++    case AST2600_HW_STRAP2_CLR:
++        /* W1C (Write 1 to clear) registers */
++        s->regs[reg] &= ~data;
++        return;
++
++    case AST2600_RNG_DATA:
++    case AST2600_SILICON_REV:
++    case AST2600_SILICON_REV2:
++        /* Add read only registers here */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
++                      __func__, offset);
++        return;
 +    }
++
++    s->regs[reg] = data;
 +}
 +
-+/*
-+ *  this function implements LD instruction when there is a posibility to read
-+ *  from a CPU register
-+ */
-+target_ulong helper_fullrd(CPUAVRState *env, uint32_t addr)
++static const MemoryRegionOps aspeed_ast2600_scu_ops = {
++    .read = aspeed_ast2600_scu_read,
++    .write = aspeed_ast2600_scu_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++    .valid.unaligned = false,
++};
++
++static const uint32_t ast2600_a0_resets[ASPEED_AST2600_SCU_NR_REGS] = {
++    [AST2600_SILICON_REV]       = AST2600_SILICON_REV,
++    [AST2600_SILICON_REV2]      = AST2600_SILICON_REV,
++    [AST2600_SYS_RST_CTRL]      = 0xF7CFFEDC | 0x100,
++    [AST2600_SYS_RST_CTRL2]     = 0xFFFFFFFC,
++    [AST2600_CLK_STOP_CTRL]     = 0xEFF43E8B,
++    [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
++    [AST2600_HPLL_PARAM]        = 0x1000405F,
++};
++
++static void aspeed_ast2600_scu_reset(DeviceState *dev)
 +{
-+    uint8_t data;
++    AspeedSCUState *s = ASPEED_SCU(dev);
++    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(dev);
 +
-+    env->fullacc = false;
++    memcpy(s->regs, asc->resets, asc->nr_regs * 4);
 +
-+    if (addr < NO_CPU_REGISTERS) {
-+        /* CPU registers */
-+        data = env->r[addr];
-+    } else if (addr < NO_CPU_REGISTERS + NO_IO_REGISTERS) {
-+        /* IO registers */
-+        data = helper_inb(env, addr - NO_CPU_REGISTERS);
-+    } else {
-+        /* memory */
-+        cpu_physical_memory_read(OFFSET_DATA + addr, &data, 1);
-+    }
-+    return data;
++    s->regs[AST2600_SILICON_REV] = s->silicon_rev;
++    s->regs[AST2600_SILICON_REV2] = s->silicon_rev;
++    s->regs[AST2600_HW_STRAP1] = s->hw_strap1;
++    s->regs[AST2600_HW_STRAP2] = s->hw_strap2;
++    s->regs[PROT_KEY] = s->hw_prot_key;
 +}
 +
-+/*
-+ *  this function implements ST instruction when there is a posibility to write
-+ *  into a CPU register
-+ */
-+void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
++static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
 +{
-+    env->fullacc = false;
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedSCUClass *asc = ASPEED_SCU_CLASS(klass);
 +
-+    /* Following logic assumes this: */
-+    assert(OFFSET_CPU_REGISTERS == OFFSET_DATA);
-+    assert(OFFSET_IO_REGISTERS == OFFSET_CPU_REGISTERS + NO_CPU_REGISTERS);
-+
-+    if (addr < NO_CPU_REGISTERS) {
-+        /* CPU registers */
-+        env->r[addr] = data;
-+    } else if (addr < NO_CPU_REGISTERS + NO_IO_REGISTERS) {
-+        /* IO registers */
-+        helper_outb(env, addr - NO_CPU_REGISTERS, data);
-+    } else {
-+        /* memory */
-+        cpu_physical_memory_write(OFFSET_DATA + addr, &data, 1);
-+    }
++    dc->desc = "ASPEED 2600 System Control Unit";
++    dc->reset = aspeed_ast2600_scu_reset;
++    asc->resets = ast2600_a0_resets;
++    asc->calc_hpll = aspeed_2500_scu_calc_hpll; /* No change since AST2500 */
++    asc->apb_divider = 4;
++    asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
++    asc->ops = &aspeed_ast2600_scu_ops;
 +}
-diff --git a/target/avr/helper.h b/target/avr/helper.h
-new file mode 100644
-index 0000000000..bf087504a8
---- /dev/null
-+++ b/target/avr/helper.h
-@@ -0,0 +1,29 @@
-+/*
-+ * QEMU AVR CPU
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
-+ */
 +
-+DEF_HELPER_1(wdr, void, env)
-+DEF_HELPER_1(debug, void, env)
-+DEF_HELPER_1(break, void, env)
-+DEF_HELPER_1(sleep, void, env)
-+DEF_HELPER_1(unsupported, void, env)
-+DEF_HELPER_3(outb, void, env, i32, i32)
-+DEF_HELPER_2(inb, tl, env, i32)
-+DEF_HELPER_3(fullwr, void, env, i32, i32)
-+DEF_HELPER_2(fullrd, tl, env, i32)
++static const TypeInfo aspeed_2600_scu_info = {
++    .name = TYPE_ASPEED_2600_SCU,
++    .parent = TYPE_ASPEED_SCU,
++    .instance_size = sizeof(AspeedSCUState),
++    .class_init = aspeed_2600_scu_class_init,
++};
++
+ static void aspeed_scu_register_types(void)
+ {
+     type_register_static(&aspeed_scu_info);
+     type_register_static(&aspeed_2400_scu_info);
+     type_register_static(&aspeed_2500_scu_info);
++    type_register_static(&aspeed_2600_scu_info);
+ }
+ 
+ type_init(aspeed_scu_register_types);
 -- 
-2.17.2 (Apple Git-113)
+2.20.1
 
 
