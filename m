@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A30D678E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:42:09 +0200 (CEST)
-Received: from localhost ([::1]:53530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C05D679D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:46:33 +0200 (CEST)
+Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3Q7-0001cc-QW
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37323)
+	id 1iK3Tj-0005Li-Vf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qc-00053N-OA
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:28 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qh-0005BT-DA
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qb-00084n-9G
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:26 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38063)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qf-00087W-Sy
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:31 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36569)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qb-00084D-2V
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:25 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id y18so10928108wrn.5
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:25 -0700 (PDT)
+ id 1iK2qf-00087B-Ln
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:29 -0400
+Received: by mail-wm1-x333.google.com with SMTP id m18so17318880wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dxXU4mpzkxcQwcn/SZR487jhjpUk6sYg7UJhmpV7TT4=;
- b=y/6VbhgKZ+kBx3TdLojOW9FX/0guzq9J6n+8Fg6D7e5VxhV1/VFuRTETHfM9sDmPcr
- gortuSkRJCflkrZck3fI5P4aOMiCHm8CS0Ant3UMen/vSmeaH6e6Y169B3BCne2qJc+D
- AsAG9EDE6kquOGPYLxa1a1a0AmxZfQ+PP8ZVqWYlPytzOf8rPr2P5i3q66hl+mY/rRPJ
- /2dZRRJzvnKsvf2R1JHgTZuO3w40BIOALMDcp6RFLRWuwSIJPue8o5vdwrEU82rbfnA/
- yQ7hpkCWGC7uwBEXZlTbLx3c6khKKGgWjwlTOkTe2ZuDtm3fgk3liumqUAtNQUPjvQZ9
- m0Yg==
+ bh=mw6+Wr/pIx5nSkikgnpBOotMcP/UREJEgwoaswzOmgE=;
+ b=IvP5rw++mV7qtapL4NeDIp5tSQpEXCnfdgfdb9OAcTEMAZCRH+YPuijJ2ylYkZ4d7Y
+ oXcAfHy/UCCP5UbSXe4Ctwz28ZqbirXleDB0Nu6xokBglXA/T6JyyL3zYdTwlK+X4nHa
+ csKAc/l9RpqTDDHCgOiwUnX7WEjOctv88FsZu9nGfOy361lyocZESS7SFmgY6pH4uf2a
+ xzjdSc0PZ1WNWU0kovPB0lGuYkGMSiSwrP8gEBBTo9de3gyj+dIalOcYfga2iIHKizir
+ MqOhzcFyA7Lu66DZfLRJP+5igMLDNxpi53QOqoSyiFColKeWCWY41guQiAiFw5hoWLtr
+ rtoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dxXU4mpzkxcQwcn/SZR487jhjpUk6sYg7UJhmpV7TT4=;
- b=ZnjClMT28UzSEKdxpDjscs1eqtnk13fnvP/SnkNs2/frPynU0K+cMPNBzOLL8GHK7c
- 17GiW7VFNhh7D8d1j3IWDnPz6pU4w/cny8kxBSbgigHz9mCa82tLNCRGNUr1lizvlcuz
- Wl4f+R7cLiYE7t/NL9U2jnsVBIw6l/k49UnXPCrAmg0TRoA5bl46draI9htL+U7UyK7Y
- effMUsRu6tGg/Kn6NddyhHyYm/D5oDY0FWr6htHGsk8xH3OHjNXj7AjteDVn6F3xLUum
- kQrraccSkhny6ZRYGaxyUW5aSHhDRwPGvdMBPmGqvM/KcizDb5m57oT755j6m4n28F2K
- IFpA==
-X-Gm-Message-State: APjAAAUp86/RkiVeJe3EBi91UKUJ8SPUIrl7KZbQ77leCzjf/4xfAJ0U
- 89K3sMb5yZSkzuq1UwIbGtViV6F+onvJ0A==
-X-Google-Smtp-Source: APXvYqyGeDJOSMc9iyVs1Sk3lnGG0oWTLW0nKnTLwHATtL0+uh5xgeXb9tI8Wa6U/98Pmu6/Df0ifw==
-X-Received: by 2002:adf:f188:: with SMTP id h8mr26235574wro.38.1571069123766; 
- Mon, 14 Oct 2019 09:05:23 -0700 (PDT)
+ bh=mw6+Wr/pIx5nSkikgnpBOotMcP/UREJEgwoaswzOmgE=;
+ b=rV/5n/33iyh+n2qc4f0nba1K79cgkzOY/od3aOOfSjPGtbPJiZUfPB5kYNrn2aL7Yz
+ QVf7DxdkTsPEecdE9xK3DqpPcR+ls6BSUdBgIMB+wLFTr51T9/Cnq6pFc5sWXib0YXJJ
+ 5OBuXFfcpl92Inivjjsk6EmT9B1yMFD9o4fpjZGr4r1NfJwG5IpiaQxj22r7TDJfRk0+
+ ZP6l5YaNIL23i+7QLrFNlh8ibeLSioGswxIjRNlutmVgW107fCs9X6Akwx4geW/rX3vT
+ FsdXrWjU0zuLCQans38jqteL7DKZkbCI+egL8LjzLT4CBL2fukTCyIa/hFiaaHfR9beX
+ 9naw==
+X-Gm-Message-State: APjAAAW/RAqoDIBOPD6n2lHVBiv8VJ3I765LDTNs4PMWNJHuGyiQ7xGn
+ hoi6OVrnRTrQHC59VQyLvE9DhBvz7cyVxA==
+X-Google-Smtp-Source: APXvYqwtnMckpHhzjKHWKI4p8bcNRJ/1wvDLXVs5ecfR/GDtVwucxmKaj3PQNcpx0P0g1Z3SASXkIA==
+X-Received: by 2002:a7b:c5c9:: with SMTP id n9mr16568092wmk.28.1571069128356; 
+ Mon, 14 Oct 2019 09:05:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.22
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:23 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/68] aspeed/sdmc: Add AST2600 support
-Date: Mon, 14 Oct 2019 17:03:44 +0100
-Message-Id: <20191014160404.19553-49-peter.maydell@linaro.org>
+Subject: [PULL 52/68] aspeed/smc: Add AST2600 support
+Date: Mon, 14 Oct 2019 17:03:48 +0100
+Message-Id: <20191014160404.19553-53-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,175 +82,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: Cédric Le Goater <clg@kaod.org>
 
-The AST2600 SDMC controller is slightly different from its predecessor
-(DRAM training). Max memory is now 2G on the AST2600.
+The AST2600 SoC SMC controller is a SPI only controller now and has a
+few extensions which we will need to take into account when SW
+requires it. This is enough to support u-boot and Linux.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20190925143248.10000-10-clg@kaod.org
-[clg: - improved commit log
-      - reworked model integration into new object class ]
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Acked-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20190925143248.10000-14-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/aspeed_sdmc.h |  1 +
- hw/misc/aspeed_scu.c          |  2 +
- hw/misc/aspeed_sdmc.c         | 82 +++++++++++++++++++++++++++++++++++
- 3 files changed, 85 insertions(+)
+ hw/ssi/aspeed_smc.c | 132 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 128 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
-index 81156320c49..5dbde59fe77 100644
---- a/include/hw/misc/aspeed_sdmc.h
-+++ b/include/hw/misc/aspeed_sdmc.h
-@@ -15,6 +15,7 @@
- #define ASPEED_SDMC(obj) OBJECT_CHECK(AspeedSDMCState, (obj), TYPE_ASPEED_SDMC)
- #define TYPE_ASPEED_2400_SDMC TYPE_ASPEED_SDMC "-ast2400"
- #define TYPE_ASPEED_2500_SDMC TYPE_ASPEED_SDMC "-ast2500"
-+#define TYPE_ASPEED_2600_SDMC TYPE_ASPEED_SDMC "-ast2600"
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 9909135a2cf..f0c7bbbad30 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -30,6 +30,7 @@
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "exec/address-spaces.h"
++#include "qemu/units.h"
  
- #define ASPEED_SDMC_NR_REGS (0x174 >> 2)
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+@@ -50,7 +51,7 @@
+ #define   CONF_FLASH_TYPE0     0
+ #define      CONF_FLASH_TYPE_NOR   0x0
+ #define      CONF_FLASH_TYPE_NAND  0x1
+-#define      CONF_FLASH_TYPE_SPI   0x2
++#define      CONF_FLASH_TYPE_SPI   0x2 /* AST2600 is SPI only */
  
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index 84699b78d4c..717509bc546 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -99,6 +99,7 @@
- #define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
- #define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
- #define AST2600_CLK_STOP_CTR2L_CLR TO_REG(0x94)
-+#define AST2600_SDRAM_HANDSHAKE   TO_REG(0x100)
- #define AST2600_HPLL_PARAM        TO_REG(0x200)
- #define AST2600_HPLL_EXT          TO_REG(0x204)
- #define AST2600_MPLL_EXT          TO_REG(0x224)
-@@ -602,6 +603,7 @@ static const uint32_t ast2600_a0_resets[ASPEED_AST2600_SCU_NR_REGS] = {
-     [AST2600_SYS_RST_CTRL2]     = 0xFFFFFFFC,
-     [AST2600_CLK_STOP_CTRL]     = 0xEFF43E8B,
-     [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
-+    [AST2600_SDRAM_HANDSHAKE]   = 0x00000040,  /* SoC completed DRAM init */
-     [AST2600_HPLL_PARAM]        = 0x1000405F,
- };
+ /* CE Control Register */
+ #define R_CE_CTRL            (0x04 / 4)
+@@ -71,8 +72,11 @@
  
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 60c99e77348..f3a63a2e01d 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -28,6 +28,7 @@
- /* Control/Status Register #1 (ast2500) */
- #define R_STATUS1         (0x60 / 4)
- #define   PHY_BUSY_STATE      BIT(0)
-+#define   PHY_PLL_LOCK_STATUS BIT(4)
+ /* CEx Control Register */
+ #define R_CTRL0           (0x10 / 4)
++#define   CTRL_IO_QPI              (1 << 31)
++#define   CTRL_IO_QUAD_DATA        (1 << 30)
+ #define   CTRL_IO_DUAL_DATA        (1 << 29)
+ #define   CTRL_IO_DUAL_ADDR_DATA   (1 << 28) /* Includes dummies */
++#define   CTRL_IO_QUAD_ADDR_DATA   (1 << 28) /* Includes dummies */
+ #define   CTRL_CMD_SHIFT           16
+ #define   CTRL_CMD_MASK            0xff
+ #define   CTRL_DUMMY_HIGH_SHIFT    14
+@@ -136,7 +140,7 @@
+ /* Misc Control Register #2 */
+ #define R_TIMINGS         (0x94 / 4)
  
- #define R_ECC_TEST_CTRL   (0x70 / 4)
- #define   ECC_TEST_FINISHED   BIT(12)
-@@ -85,6 +86,11 @@
- #define     ASPEED_SDMC_AST2500_512MB       0x2
- #define     ASPEED_SDMC_AST2500_1024MB      0x3
+-/* SPI controller registers and bits */
++/* SPI controller registers and bits (AST2400) */
+ #define R_SPI_CONF        (0x00 / 4)
+ #define   SPI_CONF_ENABLE_W0   0
+ #define R_SPI_CTRL0       (0x4 / 4)
+@@ -216,6 +220,35 @@ static uint32_t aspeed_smc_segment_to_reg(const AspeedSMCState *s,
+ static void aspeed_smc_reg_to_segment(const AspeedSMCState *s, uint32_t reg,
+                                       AspeedSegments *seg);
  
-+#define     ASPEED_SDMC_AST2600_256MB       0x0
-+#define     ASPEED_SDMC_AST2600_512MB       0x1
-+#define     ASPEED_SDMC_AST2600_1024MB      0x2
-+#define     ASPEED_SDMC_AST2600_2048MB      0x3
++/*
++ * AST2600 definitions
++ */
++#define ASPEED26_SOC_FMC_FLASH_BASE   0x20000000
++#define ASPEED26_SOC_SPI_FLASH_BASE   0x30000000
++#define ASPEED26_SOC_SPI2_FLASH_BASE  0x50000000
 +
- #define ASPEED_SDMC_AST2500_READONLY_MASK                               \
-     (ASPEED_SDMC_HW_VERSION(0xf) | ASPEED_SDMC_CACHE_INITIAL_DONE |     \
-      ASPEED_SDMC_AST2500_RESERVED | ASPEED_SDMC_VGA_COMPAT |            \
-@@ -186,6 +192,28 @@ static int ast2500_rambits(AspeedSDMCState *s)
-     return ASPEED_SDMC_AST2500_512MB;
- }
- 
-+static int ast2600_rambits(AspeedSDMCState *s)
-+{
-+    switch (s->ram_size >> 20) {
-+    case 256:
-+        return ASPEED_SDMC_AST2600_256MB;
-+    case 512:
-+        return ASPEED_SDMC_AST2600_512MB;
-+    case 1024:
-+        return ASPEED_SDMC_AST2600_1024MB;
-+    case 2048:
-+        return ASPEED_SDMC_AST2600_2048MB;
-+    default:
-+        break;
-+    }
-+
-+    /* use a common default */
-+    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
-+                s->ram_size);
-+    s->ram_size = 512 << 20;
-+    return ASPEED_SDMC_AST2600_512MB;
-+}
-+
- static void aspeed_sdmc_reset(DeviceState *dev)
- {
-     AspeedSDMCState *s = ASPEED_SDMC(dev);
-@@ -340,11 +368,65 @@ static const TypeInfo aspeed_2500_sdmc_info = {
-     .class_init = aspeed_2500_sdmc_class_init,
- };
- 
-+static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
-+{
-+    uint32_t fixed_conf = ASPEED_SDMC_HW_VERSION(3) |
-+        ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
-+        ASPEED_SDMC_DRAM_SIZE(ast2600_rambits(s));
-+
-+    /* Make sure readonly bits are kept (use ast2500 mask) */
-+    data &= ~ASPEED_SDMC_AST2500_READONLY_MASK;
-+
-+    return data | fixed_conf;
-+}
-+
-+static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
-+                                   uint32_t data)
-+{
-+    switch (reg) {
-+    case R_CONF:
-+        data = aspeed_2600_sdmc_compute_conf(s, data);
-+        break;
-+    case R_STATUS1:
-+        /* Will never return 'busy'. 'lock status' is always set */
-+        data &= ~PHY_BUSY_STATE;
-+        data |= PHY_PLL_LOCK_STATUS;
-+        break;
-+    case R_ECC_TEST_CTRL:
-+        /* Always done, always happy */
-+        data |= ECC_TEST_FINISHED;
-+        data &= ~ECC_TEST_FAIL;
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    s->regs[reg] = data;
-+}
-+
-+static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    AspeedSDMCClass *asc = ASPEED_SDMC_CLASS(klass);
-+
-+    dc->desc = "ASPEED 2600 SDRAM Memory Controller";
-+    asc->max_ram_size = 2048 << 20;
-+    asc->compute_conf = aspeed_2600_sdmc_compute_conf;
-+    asc->write = aspeed_2600_sdmc_write;
-+}
-+
-+static const TypeInfo aspeed_2600_sdmc_info = {
-+    .name = TYPE_ASPEED_2600_SDMC,
-+    .parent = TYPE_ASPEED_SDMC,
-+    .class_init = aspeed_2600_sdmc_class_init,
++static const AspeedSegments aspeed_segments_ast2600_fmc[] = {
++    { 0x0, 128 * MiB }, /* start address is readonly */
++    { 0x0, 0 }, /* disabled */
++    { 0x0, 0 }, /* disabled */
 +};
 +
- static void aspeed_sdmc_register_types(void)
- {
-     type_register_static(&aspeed_sdmc_info);
-     type_register_static(&aspeed_2400_sdmc_info);
-     type_register_static(&aspeed_2500_sdmc_info);
-+    type_register_static(&aspeed_2600_sdmc_info);
++static const AspeedSegments aspeed_segments_ast2600_spi1[] = {
++    { 0x0, 128 * MiB }, /* start address is readonly */
++    { 0x0, 0 }, /* disabled */
++};
++
++static const AspeedSegments aspeed_segments_ast2600_spi2[] = {
++    { 0x0, 128 * MiB }, /* start address is readonly */
++    { 0x0, 0 }, /* disabled */
++    { 0x0, 0 }, /* disabled */
++};
++
++static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSMCState *s,
++                                               const AspeedSegments *seg);
++static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
++                                           uint32_t reg, AspeedSegments *seg);
++
+ static const AspeedSMCController controllers[] = {
+     {
+         .name              = "aspeed.smc-ast2400",
+@@ -311,6 +344,51 @@ static const AspeedSMCController controllers[] = {
+         .nregs             = ASPEED_SMC_R_MAX,
+         .segment_to_reg    = aspeed_smc_segment_to_reg,
+         .reg_to_segment    = aspeed_smc_reg_to_segment,
++    }, {
++        .name              = "aspeed.fmc-ast2600",
++        .r_conf            = R_CONF,
++        .r_ce_ctrl         = R_CE_CTRL,
++        .r_ctrl0           = R_CTRL0,
++        .r_timings         = R_TIMINGS,
++        .conf_enable_w0    = CONF_ENABLE_W0,
++        .max_slaves        = 3,
++        .segments          = aspeed_segments_ast2600_fmc,
++        .flash_window_base = ASPEED26_SOC_FMC_FLASH_BASE,
++        .flash_window_size = 0x10000000,
++        .has_dma           = true,
++        .nregs             = ASPEED_SMC_R_MAX,
++        .segment_to_reg    = aspeed_2600_smc_segment_to_reg,
++        .reg_to_segment    = aspeed_2600_smc_reg_to_segment,
++    }, {
++        .name              = "aspeed.spi1-ast2600",
++        .r_conf            = R_CONF,
++        .r_ce_ctrl         = R_CE_CTRL,
++        .r_ctrl0           = R_CTRL0,
++        .r_timings         = R_TIMINGS,
++        .conf_enable_w0    = CONF_ENABLE_W0,
++        .max_slaves        = 2,
++        .segments          = aspeed_segments_ast2600_spi1,
++        .flash_window_base = ASPEED26_SOC_SPI_FLASH_BASE,
++        .flash_window_size = 0x10000000,
++        .has_dma           = false,
++        .nregs             = ASPEED_SMC_R_MAX,
++        .segment_to_reg    = aspeed_2600_smc_segment_to_reg,
++        .reg_to_segment    = aspeed_2600_smc_reg_to_segment,
++    }, {
++        .name              = "aspeed.spi2-ast2600",
++        .r_conf            = R_CONF,
++        .r_ce_ctrl         = R_CE_CTRL,
++        .r_ctrl0           = R_CTRL0,
++        .r_timings         = R_TIMINGS,
++        .conf_enable_w0    = CONF_ENABLE_W0,
++        .max_slaves        = 3,
++        .segments          = aspeed_segments_ast2600_spi2,
++        .flash_window_base = ASPEED26_SOC_SPI2_FLASH_BASE,
++        .flash_window_size = 0x10000000,
++        .has_dma           = false,
++        .nregs             = ASPEED_SMC_R_MAX,
++        .segment_to_reg    = aspeed_2600_smc_segment_to_reg,
++        .reg_to_segment    = aspeed_2600_smc_reg_to_segment,
+     },
+ };
+ 
+@@ -336,6 +414,40 @@ static void aspeed_smc_reg_to_segment(const AspeedSMCState *s,
+     seg->size = (((reg >> SEG_END_SHIFT) & SEG_END_MASK) << 23) - seg->addr;
  }
  
- type_init(aspeed_sdmc_register_types);
++/*
++ * The Segment Registers of the AST2600 have a 1MB unit. The address
++ * range of a flash SPI slave is encoded with offsets in the overall
++ * controller window. The previous SoC AST2400 and AST2500 used
++ * absolute addresses. Only bits [27:20] are relevant and the end
++ * address is an upper bound limit.
++ */
++#define AST2600_SEG_ADDR_MASK 0x0ff00000
++
++static uint32_t aspeed_2600_smc_segment_to_reg(const AspeedSMCState *s,
++                                               const AspeedSegments *seg)
++{
++    uint32_t reg = 0;
++
++    /* Disabled segments have a nil register */
++    if (!seg->size) {
++        return 0;
++    }
++
++    reg |= (seg->addr & AST2600_SEG_ADDR_MASK) >> 16; /* start offset */
++    reg |= (seg->addr + seg->size - 1) & AST2600_SEG_ADDR_MASK; /* end offset */
++    return reg;
++}
++
++static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
++                                           uint32_t reg, AspeedSegments *seg)
++{
++    uint32_t start_offset = (reg << 16) & AST2600_SEG_ADDR_MASK;
++    uint32_t end_offset = reg & AST2600_SEG_ADDR_MASK;
++
++    seg->addr = s->ctrl->flash_window_base + start_offset;
++    seg->size = end_offset + MiB - start_offset;
++}
++
+ static bool aspeed_smc_flash_overlap(const AspeedSMCState *s,
+                                      const AspeedSegments *new,
+                                      int cs)
+@@ -470,8 +582,12 @@ static inline int aspeed_smc_flash_cmd(const AspeedSMCFlash *fl)
+     const AspeedSMCState *s = fl->controller;
+     int cmd = (s->regs[s->r_ctrl0 + fl->id] >> CTRL_CMD_SHIFT) & CTRL_CMD_MASK;
+ 
+-    /* In read mode, the default SPI command is READ (0x3). In other
+-     * modes, the command should necessarily be defined */
++    /*
++     * In read mode, the default SPI command is READ (0x3). In other
++     * modes, the command should necessarily be defined
++     *
++     * TODO: add support for READ4 (0x13) on AST2600
++     */
+     if (aspeed_smc_flash_mode(fl) == CTRL_READMODE) {
+         cmd = SPI_OP_READ;
+     }
+@@ -787,6 +903,14 @@ static void aspeed_smc_reset(DeviceState *d)
+             s->ctrl->segment_to_reg(s, &s->ctrl->segments[i]);
+     }
+ 
++    /* HW strapping flash type for the AST2600 controllers  */
++    if (s->ctrl->segments == aspeed_segments_ast2600_fmc) {
++        /* flash type is fixed to SPI for all */
++        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0);
++        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1);
++        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE2);
++    }
++
+     /* HW strapping flash type for FMC controllers  */
+     if (s->ctrl->segments == aspeed_segments_ast2500_fmc) {
+         /* flash type is fixed to SPI for CE0 and CE1 */
 -- 
 2.20.1
 
