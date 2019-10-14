@@ -2,76 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEA1D68C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:43:50 +0200 (CEST)
-Received: from localhost ([::1]:54821 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B72D68C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:45:27 +0200 (CEST)
+Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK4Np-0003nD-Ul
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42824)
+	id 1iK4PN-0005kj-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iK3O1-0007lu-Tl
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:39:58 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iK3Wd-00012w-VJ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:48:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iK3O0-0005IR-IY
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:39:57 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35496)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iK3O0-0005Ha-AF
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:39:56 -0400
-Received: by mail-wr1-x444.google.com with SMTP id v8so20519004wrt.2
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=fTZTa1X8Ued9EKu5wJDqZ4sgEoAepINZP1QNVK08sro=;
- b=UjfUaD8l+Bix5k1kDTayyKU0yxbpqwoxq8gkKDwcbbM96cLgxBm03zG13Zmv0znCah
- AuvdP7xd5ZGYAVyRaczvCEXt1WOENxBLqENON4XHsAYPKYuXiEywiMy6u1pq2mFLK+Lw
- XhWCV1DJXw7kIxDNVr7fqNOX5BN2V+MkM7/Xdl1967EcJayfKbEjDUnCdaqmQ4T0FqIb
- ZrBszt4zLmjyk/34QmGP6nS8twWOkO4T32nQ0HYwPdepfftxbL9qTznwtR0ArSh2BYzL
- lvx/QvfLvg9Zm5EnAL9bvgxDWr7BUTqPaGvqILNbsLaU9VOcuCw2QjHyaMV5xdVqhZyj
- Wx0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=fTZTa1X8Ued9EKu5wJDqZ4sgEoAepINZP1QNVK08sro=;
- b=fKd1oncguzP52E4OTly7At7oAWLDXcow0lTBV7UE7j3Q6/hhxaGtInSZ/xpLF5/0Z7
- cH0S+NjaswDy6fScpuGZlhO6vg0cGw4/W4WyOP3XNamDtdaY76w0VWdJfForURHdbb21
- xUVaeRYH6XSF8QuhL9/Vf+7JmTiCe0wYVcstLi4olxeTe8CbGJnRxlxw5Lg9q9VK/UIu
- 67PByjs24s7VTN3Nu4jlOOjiEYGR1Wfs23270jp60QEYeCmExv6caUC9uGTmb1NQXkfX
- D4XTyCwpjm18rA0+iPZzeIBgURqELFN+lhdC3alv70sPD7J2scVbRlLM8DC+dvCvKa9o
- gMrg==
-X-Gm-Message-State: APjAAAUXqgTxKD1I5dc3mveA+1yDEbg0qRfOBd5Aebgq1ib1PL8kk4eV
- oCWBEbQZaQcPbVK4SxDl4wCznw==
-X-Google-Smtp-Source: APXvYqxC1savmplNTTAjB1N+KTflJF+x1AYLQOoD39sAC33EKpgiCwGwCkwHJwvb2Err9oyWmiRu1w==
-X-Received: by 2002:adf:8068:: with SMTP id 95mr28634980wrk.249.1571071194692; 
- Mon, 14 Oct 2019 09:39:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d193sm33043084wmd.0.2019.10.14.09.39.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:39:53 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 41AB11FF87;
- Mon, 14 Oct 2019 17:39:53 +0100 (BST)
-References: <20191011155546.14342-1-richard.henderson@linaro.org>
- <20191011155546.14342-10-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH v6 09/20] target/arm: Hoist XSCALE_CPAR, VECLEN,
- VECSTRIDE in cpu_get_tb_cpu_state
-In-reply-to: <20191011155546.14342-10-richard.henderson@linaro.org>
-Date: Mon, 14 Oct 2019 17:39:53 +0100
-Message-ID: <87k197mgbq.fsf@linaro.org>
+ (envelope-from <jsnow@redhat.com>) id 1iK3Wb-0000uN-6e
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:48:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42066)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iK3Wa-0000tu-UR
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:48:49 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D9C3510C0938;
+ Mon, 14 Oct 2019 16:48:47 +0000 (UTC)
+Received: from [10.18.17.152] (dhcp-17-152.bos.redhat.com [10.18.17.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AB755D6A3;
+ Mon, 14 Oct 2019 16:48:47 +0000 (UTC)
+Subject: Re: [PATCH] sphinx: Use separate doctree directories for different
+ builders
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20191014150133.14318-1-ehabkost@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <eecab739-bf75-b0e8-0d80-cb8f49ccd430@redhat.com>
+Date: Mon, 14 Oct 2019 12:48:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
+In-Reply-To: <20191014150133.14318-1-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Mon, 14 Oct 2019 16:48:47 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,73 +134,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
 
-> We do not need to compute any of these values for M-profile.
-> Further, XSCALE_CPAR overlaps VECSTRIDE so obviously the two
-> sets must be mutually exclusive.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 10/14/19 11:01 AM, Eduardo Habkost wrote:
+> sphinx-build is buggy when multiple processes are using the same
+> doctree directory in parallel.  See the 3-year-old Sphinx bug
+> report at: https://github.com/sphinx-doc/sphinx/issues/2946
+> 
+> Instead of avoiding parallel builds or adding some kind of
+> locking, I'm using the simplest solution: just using a different
+> doctree cache for each builder.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 > ---
->  target/arm/helper.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index ddd21edfcf..e2a62cf19a 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -11235,21 +11235,28 @@ void cpu_get_tb_cpu_state(CPUARMState *env, tar=
-get_ulong *pc,
->              }
->          } else {
->              flags =3D rebuild_hflags_a32(env, fp_el, mmu_idx);
-> +
-> +            /*
-> +             * Note that XSCALE_CPAR shares bits with VECSTRIDE.
-> +             * Note that VECLEN+VECSTRIDE are RES0 for M-profile.
-> +             */
-> +            if (arm_feature(env, ARM_FEATURE_XSCALE)) {
-> +                flags =3D FIELD_DP32(flags, TBFLAG_A32,
-> +                                   XSCALE_CPAR, env->cp15.c15_cpar);
-> +            } else {
-> +                flags =3D FIELD_DP32(flags, TBFLAG_A32, VECLEN,
-> +                                   env->vfp.vec_len);
-> +                flags =3D FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE,
-> +                                   env->vfp.vec_stride);
-> +            }
->          }
->
->          flags =3D FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
-> -        flags =3D FIELD_DP32(flags, TBFLAG_A32, VECLEN, env->vfp.vec_len=
-);
-> -        flags =3D FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE, env->vfp.vec_=
-stride);
->          flags =3D FIELD_DP32(flags, TBFLAG_A32, CONDEXEC, env->condexec_=
-bits);
->          if (env->vfp.xregs[ARM_VFP_FPEXC] & (1 << 30)
->              || arm_el_is_aa64(env, 1) || arm_feature(env, ARM_FEATURE_M)=
-) {
->              flags =3D FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
->          }
-> -        /* Note that XSCALE_CPAR shares bits with VECSTRIDE */
-> -        if (arm_feature(env, ARM_FEATURE_XSCALE)) {
-> -            flags =3D FIELD_DP32(flags, TBFLAG_A32,
-> -                               XSCALE_CPAR, env->cp15.c15_cpar);
-> -        }
->      }
->
->      /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
+>  Makefile | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 30f0abfb42..d20e7ffce3 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -983,7 +983,10 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index
+>  
+>  # Canned command to build a single manual
+>  # Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
+> -build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+> +# Note the use of different doctree for each (manual, builder) tuple;
+> +# this works around Sphinx not handling parallel invocation on
+> +# a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
+> +build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+>  # We assume all RST files in the manual's directory are used in it
+>  manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
+>  
+> 
 
-
---
-Alex Benn=C3=A9e
+Thanks for this!
 
