@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE6FFD6858
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:22:37 +0200 (CEST)
-Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D24DD6874
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:29:22 +0200 (CEST)
+Received: from localhost ([::1]:54534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK43I-0001jd-ES
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38665)
+	id 1iK49o-0002At-Oo
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iK2yD-0007eM-Ur
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:13:18 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1iK33z-00064S-Cu
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iK2yC-0003Vz-VP
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:13:17 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43259)
+ (envelope-from <mrolnik@gmail.com>) id 1iK33x-0007N7-Ve
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:15 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39943)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iK2yC-0003VU-Pj
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:13:16 -0400
-Received: by mail-pl1-x643.google.com with SMTP id f21so8210680plj.10
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PZHCWSGmCsPNoUR/KBBu5TBF2nwi8jPZplJhDwr1wQA=;
- b=dqG22rycYzUVGNqbEld/SvFMR4/9PDC+Hh6J90tRI/PM04d2oJgl+lDuhlma5IZPlf
- uj3llzqzYtHxmCqmLrCrvLLL7vjNH8jXf6dEU8IXg5KOlf9qfVTNPrGC8tQ2PZxn42n9
- uhTp1cbe4Za+UXPB/nO9+cS4TOGXqGmECauEMZ6bQIFZLcuGvpg8uZUJAQSu1n9EXnFq
- GFtxbGxsV0cRb+95dJYmS2yUtERA+uFsmHxuYciIXZyk4JY9loGHNmqn0oUbL3a4jsAO
- ww/GYJKzfxUG/ocHPIBolNjXISthoOSs/2LjWBH9jsAKCHB6vWL1xqHx7F9AvLHRZy7X
- g5bA==
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iK33x-0007My-Ou
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:13 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b24so17343304wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=oElsIV9jGIkcznG1hjJ8A0RR90Xk82sVn+s7o2gFZVw=;
+ b=SPJy60QKyOu/5wWK/bzMAAKGhfXFW5PXCgksozOY58WD+nsCZf9zFxU9zGN+/x9OZl
+ TQ7Z499SOYsNpmTDVcanP+BVQAr3pcOV72JvWtO+yd6Kzj7D9Tq0SEyjSYcX99fXM24k
+ w0junZJBS5Rk8yHYXHggup42I/jDgZpYQ2p59xGZFnvggDNwwfYrNPXAC2fB7bSQzAt4
+ mEDtDe14SV4ljE1UCfGAbhpCv4NCuTG8UAUH7dxvR5hXsto1AoFGS+x3OydawTH6UdhD
+ zn78ELpP7CiVyHYB+W3nsXixcIpySmOAYAwDlTe8z5BDVklXnolfbIKhAWUHhQh+m/Kr
+ hTSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PZHCWSGmCsPNoUR/KBBu5TBF2nwi8jPZplJhDwr1wQA=;
- b=XAOIuf4WQe5t0ZvUfiND/LU/VOslY1lz+iJVP2Dzq8O2a04bQV7ie1BA/aTYWXtBnU
- 5X00DY6ueuqM5XA2sZVJGw8Y1qdFf4SYnXf8vcF18Ga7bRYdJlycTLVYP0jMFgqmNY3R
- udu1bfSzJXDy9pR6OkDytbkxiDjRwGzgJNMInT3SJyWVk9ec6Bp7XleXtFzW4HclGiu9
- TclNKQDZ5hqmHUXgLYo9SmvTjztMvdJy5bYILnokCPQm+le+3VtrIClGqezr8yLJJNZV
- ilanw7eaNL8wNsCqAhX9AZMM14KdvX9T9/8L8oHnBFlGiTvfMnAQ8DkzUkg7Qyfmw8gY
- O1ww==
-X-Gm-Message-State: APjAAAXRtyckePq1ka7wKi9CdESh5MZi99pvMNszOTFzYKTJYh5TrBKt
- nrlHRgOvgG5INUCK6368MlADkQ==
-X-Google-Smtp-Source: APXvYqwM7Gsx7D9mzgV3wOzeFb6b1naULBdXi44QfwF7kfOEzpFPRwKq2GtBRctxhdlsAce46i3N1g==
-X-Received: by 2002:a17:902:9a06:: with SMTP id
- v6mr30928388plp.221.1571069595648; 
- Mon, 14 Oct 2019 09:13:15 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n15sm15175689pjt.13.2019.10.14.09.13.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Oct 2019 09:13:14 -0700 (PDT)
-Subject: Re: [PATCH v5 36/55] plugin: add API symbols to qemu-plugins.symbols
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191014104948.4291-1-alex.bennee@linaro.org>
- <20191014104948.4291-37-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <aa2d3ca2-1f79-8605-191b-50afa08c1baa@linaro.org>
-Date: Mon, 14 Oct 2019 09:13:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191014104948.4291-37-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=oElsIV9jGIkcznG1hjJ8A0RR90Xk82sVn+s7o2gFZVw=;
+ b=sIHDK8SjQG/jbaHsXmgdf91LOhclAIVbxQU2EyELt2t64db/Y/8kFMC59A+Ix6Q63g
+ ZX4/PW8pgwFzz4mB2Mq2371kzQ089qst5h2FNRcXQwT6UMm8kwAYBNGu0A3jefFP1Xvq
+ 23arNso3fUYu9NAp9S80Du/lDjYQA5Q43/kFm2pDi4A1psHi+1V6FUXOWsoUOzrKtqq2
+ WQjONW+/0VKzX60wtscJc+4OpQfJ1UOsRVGfGHN3rAQTcaXs5OH9Rn6hCxzcBkXR3ycR
+ HaRxOolS8NRsU4hPDyegqPTQtmo9A0Oy5NxwycGAKLXx+qi6qnNfriDcSLEkaCNU3cou
+ imtQ==
+X-Gm-Message-State: APjAAAUuEWzNaLXUfcVOTottDuQVTgGvulxxYuOvKbJB9CrKgHNbaovq
+ uKv0UMldcxgL2pCj3d/VJcWaePhr+VY=
+X-Google-Smtp-Source: APXvYqzZc1qNS4ADPXr2kLNmntPdFMVWE5KempNv1Fs9aL+miKN75Z6jQqKegsbG07dPJmAUYqR14Q==
+X-Received: by 2002:a1c:1dc9:: with SMTP id d192mr16538135wmd.51.1571069952318; 
+ Mon, 14 Oct 2019 09:19:12 -0700 (PDT)
+Received: from 8c859074c0ff.ant.amazon.com.com
+ (bzq-79-178-11-117.red.bezeqint.net. [79.178.11.117])
+ by smtp.gmail.com with ESMTPSA id c132sm28050861wme.27.2019.10.14.09.19.10
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Mon, 14 Oct 2019 09:19:11 -0700 (PDT)
+From: Michael Rolnik <mrolnik@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v32 03/13] target/avr: Add instruction decoding
+Date: Mon, 14 Oct 2019 19:18:33 +0300
+Message-Id: <20191014161843.84845-4-mrolnik@gmail.com>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
+In-Reply-To: <20191014161843.84845-1-mrolnik@gmail.com>
+References: <20191014161843.84845-1-mrolnik@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,30 +74,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aaron@os.amperecomputing.com, cota@braap.org, robert.foley@futurewei.com,
- peter.puhov@futurewei.com
+Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
+ richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
+ philmd@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/19 3:49 AM, Alex Bennée wrote:
-> From: "Emilio G. Cota" <cota@braap.org>
-> 
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> [AJB: moved into plugins]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v3
->   - moved to plugins/
->   - include qemu_plugin_reset
-> v5
->   - re-trigger configure if symbols are updated
->   - wrap ld checks inside if static = no
-> ---
+This includes:
+- encoding of all 16 bit instructions
+- encoding of all 32 bit instructions
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+---
+ target/avr/insn.decode | 175 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 175 insertions(+)
+ create mode 100644 target/avr/insn.decode
 
-
-r~
+diff --git a/target/avr/insn.decode b/target/avr/insn.decode
+new file mode 100644
+index 0000000000..6b387762c6
+--- /dev/null
++++ b/target/avr/insn.decode
+@@ -0,0 +1,175 @@
++#
++#   A = [16 .. 31]
++#   B = [16 .. 23]
++#   C = [24, 26, 28, 30]
++#   D = [0, 2, 4, 6, 8, .. 30]
++
++%rd             4:5
++%rr             9:1 0:4
++
++&rd_rr          rd rr
++&rd_imm         rd imm
++
++@op_rd_rr       .... .. . ..... ....        &rd_rr      rd=%rd rr=%rr
++ADD             0000 11 . ..... ....        @op_rd_rr
++ADC             0001 11 . ..... ....        @op_rd_rr
++AND             0010 00 . ..... ....        @op_rd_rr
++CP              0001 01 . ..... ....        @op_rd_rr
++CPC             0000 01 . ..... ....        @op_rd_rr
++CPSE            0001 00 . ..... ....        @op_rd_rr
++EOR             0010 01 . ..... ....        @op_rd_rr
++MOV             0010 11 . ..... ....        @op_rd_rr
++MUL             1001 11 . ..... ....        @op_rd_rr
++OR              0010 10 . ..... ....        @op_rd_rr
++SBC             0000 10 . ..... ....        @op_rd_rr
++SUB             0001 10 . ..... ....        @op_rd_rr
++
++
++%rd_c           4:2                         !function=to_C
++%imm6           6:2 0:4
++
++@op_rd_imm6     .... .... .. .. ....        &rd_imm     rd=%rd_c imm=%imm6
++ADIW            1001 0110 .. .. ....        @op_rd_imm6
++SBIW            1001 0111 .. .. ....        @op_rd_imm6
++
++
++%rd_a           4:4                         !function=to_A
++%rr_a           0:4                         !function=to_A
++%rd_d           4:4                         !function=to_D
++%rr_d           0:4                         !function=to_D
++%imm8           8:4 0:4
++
++@op_rd_imm8     .... .... .... ....         &rd_imm     rd=%rd_a imm=%imm8
++ANDI            0111 .... .... ....         @op_rd_imm8
++CPI             0011 .... .... ....         @op_rd_imm8
++LDI             1110 .... .... ....         @op_rd_imm8
++ORI             0110 .... .... ....         @op_rd_imm8
++SBCI            0100 .... .... ....         @op_rd_imm8
++SUBI            0101 .... .... ....         @op_rd_imm8
++
++
++@op_rd          .... ... rd:5 ....
++ASR             1001 010 ..... 0101         @op_rd
++COM             1001 010 ..... 0000         @op_rd
++DEC             1001 010 ..... 1010         @op_rd
++ELPM2           1001 000 ..... 0110         @op_rd
++ELPMX           1001 000 ..... 0111         @op_rd
++INC             1001 010 ..... 0011         @op_rd
++LDX1            1001 000 ..... 1100         @op_rd
++LDX2            1001 000 ..... 1101         @op_rd
++LDX3            1001 000 ..... 1110         @op_rd
++LDY2            1001 000 ..... 1001         @op_rd
++LDY3            1001 000 ..... 1010         @op_rd
++LDZ2            1001 000 ..... 0001         @op_rd
++LDZ3            1001 000 ..... 0010         @op_rd
++LPM2            1001 000 ..... 0100         @op_rd
++LPMX            1001 000 ..... 0101         @op_rd
++LSR             1001 010 ..... 0110         @op_rd
++NEG             1001 010 ..... 0001         @op_rd
++POP             1001 000 ..... 1111         @op_rd
++PUSH            1001 001 ..... 1111         @op_rd
++ROR             1001 010 ..... 0111         @op_rd
++STY2            1001 001 ..... 1001         @op_rd
++STY3            1001 001 ..... 1010         @op_rd
++STZ2            1001 001 ..... 0001         @op_rd
++STZ3            1001 001 ..... 0010         @op_rd
++SWAP            1001 010 ..... 0010         @op_rd
++
++
++@op_bit         .... .... . bit:3 ....
++BCLR            1001 0100 1 ... 1000        @op_bit
++BSET            1001 0100 0 ... 1000        @op_bit
++
++
++@op_rd_bit      .... ... rd:5 . bit:3
++BLD             1111 100 ..... 0 ...        @op_rd_bit
++BST             1111 101 ..... 0 ...        @op_rd_bit
++
++
++@op_bit_imm     .... .. imm:s7 bit:3
++BRBC            1111 01 ....... ...         @op_bit_imm
++BRBS            1111 00 ....... ...         @op_bit_imm
++
++
++BREAK           1001 0101 1001 1000
++EICALL          1001 0101 0001 1001
++EIJMP           1001 0100 0001 1001
++ELPM1           1001 0101 1101 1000
++ICALL           1001 0101 0000 1001
++IJMP            1001 0100 0000 1001
++LPM1            1001 0101 1100 1000
++NOP             0000 0000 0000 0000
++RET             1001 0101 0000 1000
++RETI            1001 0101 0001 1000
++SLEEP           1001 0101 1000 1000
++SPM             1001 0101 1110 1000
++SPMX            1001 0101 1111 1000
++WDR             1001 0101 1010 1000
++
++
++@op_reg_bit     .... .... reg:5 bit:3
++CBI             1001 1000 ..... ...         @op_reg_bit
++SBI             1001 1010 ..... ...         @op_reg_bit
++SBIC            1001 1001 ..... ...         @op_reg_bit
++SBIS            1001 1011 ..... ...         @op_reg_bit
++
++
++DES             1001 0100 imm:4 1011
++
++
++%rd_b           4:3                         !function=to_B
++%rr_b           0:3                         !function=to_B
++@fmul           .... .... . ... . ...       &rd_rr      rd=%rd_b rr=%rr_b
++FMUL            0000 0011 0 ... 1 ...       @fmul
++FMULS           0000 0011 1 ... 0 ...       @fmul
++FMULSU          0000 0011 1 ... 1 ...       @fmul
++MULSU           0000 0011 0 ... 0 ...       @fmul
++
++
++%io_imm         9:2 0:4
++@io_rd_imm      .... . .. ..... ....        &rd_imm     rd=%rd imm=%io_imm
++IN              1011 0 .. ..... ....        @io_rd_imm
++OUT             1011 1 .. ..... ....        @io_rd_imm
++
++
++XCH             1001 001 rd:5 0100
++LAC             1001 001 rd:5 0110
++LAS             1001 001 rd:5 0101
++LAT             1001 001 rd:5 0111
++STX1            1001 001 rr:5 1100
++STX2            1001 001 rr:5 1101
++STX3            1001 001 rr:5 1110
++
++
++%ldst_d_imm     13:1 10:2 0:3
++@ldst_d         .. . . .. . rd:5  . ...     &rd_imm     imm=%ldst_d_imm
++LDDY            10 . 0 .. 0 ..... 1 ...     @ldst_d
++LDDZ            10 . 0 .. 0 ..... 0 ...     @ldst_d
++STDY            10 . 0 .. 1 ..... 1 ...     @ldst_d
++STDZ            10 . 0 .. 1 ..... 0 ...     @ldst_d
++
++
++MOVW            0000 0001 .... ....         &rd_rr      rd=%rd_d rr=%rr_d
++MULS            0000 0010 .... ....         &rd_rr      rd=%rd_a rr=%rr_a
++
++RCALL           1101 imm:s12
++RJMP            1100 imm:s12
++
++SBRC            1111 110 rr:5 0 bit:3
++SBRS            1111 111 rr:5 0 bit:3
++
++# The 22-bit immediate is partially in the opcode word,
++# and partially in the next.  Use append_16 to build the
++# complete 22-bit value.
++%imm_call       4:5 0:1                     !function=append_16
++CALL            1001 010 ..... 111 .        imm=%imm_call
++JMP             1001 010 ..... 110 .        imm=%imm_call
++
++
++# The 16-bit immediate is completely in the next word.
++# Fields cannot be defined with no bits, so we cannot play
++# the same trick and append to a zero-bit value.
++# Defer reading the immediate until trans_{LDS,STS}.
++@ldst_s         .... ... rd:5 ....          imm=0
++LDS             1001 000 ..... 0000         @ldst_s
++STS             1001 001 ..... 0000         @ldst_s
+-- 
+2.17.2 (Apple Git-113)
 
 
