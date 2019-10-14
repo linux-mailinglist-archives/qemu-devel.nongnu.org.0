@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E09AD6108
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:13:12 +0200 (CEST)
-Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20246D6119
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:17:41 +0200 (CEST)
+Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyHn-0005hZ-M5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45295)
+	id 1iJyM7-0000aq-JS
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iJy1i-0005y8-BA
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:56:35 -0400
+ (envelope-from <berto@igalia.com>) id 1iJyIX-00079i-2w
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:13:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iJy1g-0004Zq-4n
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 06:56:34 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56149)
+ (envelope-from <berto@igalia.com>) id 1iJyIU-0006ZK-JR
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:13:56 -0400
+Received: from 6.130.60.178.static.reverse-mundo-r.com ([178.60.130.6]:51929
+ helo=fanzine.igalia.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iJy1e-0004VI-QH; Mon, 14 Oct 2019 06:56:32 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a6so16735559wma.5;
- Mon, 14 Oct 2019 03:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fpVCniRK6qIUkUWwjCvekvk/Zya7KZVpgagyAg4Va7E=;
- b=P2ej4W3YzxaUjqqMxBZ0lbQJLWqgq6A7WyXgIMKImSHEK5t08tedvQ1bFuT3DFdIPY
- PL6mLWCZAgeAVPKYWUIFTWEv6YhMALQMQ9m8J10pU73cksnzRhRUTQab/CqCshGcD+qe
- AjIPWQUEYlCn6PhpvhfNdv5UT1YlibT2g7UQY7lnyeBtY9sb0FU2Od33pMQBwfHNf92D
- Ie9LXyJDAcZN0QapP7gXs3gk+RobLol4rKukwsBz2GgdKZ2pYU01eCs06w7fAdhoTgYs
- i70I9CN76EQ6xMZD91lCGtArhECUb81ouN/E1arVFUlPmFEuQx9VR/qeqzSjC/dhSwwt
- 5cRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=fpVCniRK6qIUkUWwjCvekvk/Zya7KZVpgagyAg4Va7E=;
- b=SFyP8OI7KzQWg6+cUsxhaRdpwh/vohoXe4gXZETvPoHk2j8Vqx8P0dixGQ4Ru9wXF1
- WlnM3g3Z4iXNJDbMHTT9pyoW0N18tUp3yFHZ5VI2EPjvBO9yzRjOTJQZx0NjtXdMVCGF
- lgSbVGdSF5UM7hZEeSAetAiHZ84alO4qFu2VZEjirxtZFCg7t5aCoDs6wUsi3PXgS9fd
- HpDLYJsLG3oUjd27KwtbwIUHt6Q4npPFGQjiFHF24h7G5eNP3vqRkBYz06WwRYANaQFc
- GY9OM5o0PHzxFp43eGQU+AIXzn52npSiHn0GbzkNv1jj5jAO7W8Gxoov+o04uCiEQOZh
- ehTg==
-X-Gm-Message-State: APjAAAVk+KwiUHCJM5ILaaRv78y8je58PMqwLTYgaFjWViM/ccjWm4He
- IOiOWAIGX6Wdi+7lxO88JyIRLMj7
-X-Google-Smtp-Source: APXvYqyYAasWyajZoapl0hwR2HCIm238IshjLcUPX+Dp0i8UCvrIbUodFSyDg6FrEovHeO0E6BzEeA==
-X-Received: by 2002:a1c:a444:: with SMTP id n65mr15078584wme.111.1571050587280; 
- Mon, 14 Oct 2019 03:56:27 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:ddc7:c53c:581a:7f3e])
- by smtp.gmail.com with ESMTPSA id s10sm33921404wmf.48.2019.10.14.03.56.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 03:56:26 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: fix iothread_join() race condition
-Date: Mon, 14 Oct 2019 12:56:27 +0200
-Message-Id: <20191014105627.26977-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iJyIR-0006Oi-Uv; Mon, 14 Oct 2019 07:13:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=YkLdicxX46ih5g/ufOe1Xk38geLi4YEmvcP2hYp14MY=; 
+ b=ScGreFsGRCXUMA/+qKeRR+T3d6MBVu1SbaIYLfpITuuyVTWUkobXuWOLjEKmrKnzTIEGz71GBYrd99p1cdA5xDmiuBX+kYMNzSH6Pn7vWCy9OzVR7pAH7cpUUDc/SPfyenqJ0rw6xuTGPKRRHtMU/Q6DoktpSNeMoPnXotP/s1Di5tEiiEs8pyGYlmzE8LZgCclJKmYhZJhqZgr8svDUbgW25OZU6m4AX4gQIC5xUfgEHdgMD2ox0HsosDXtkkc9B6OUgXmQ0D8q230ehE2vxygddevLzToPeyWo0XnKLZ5GDckYjg79C6mZRJJqF0HuQQ1SQFpn+1WL+/5yOEfODw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1iJyIK-0004K4-KY; Mon, 14 Oct 2019 13:13:44 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1iJyIK-0005Kn-Hg; Mon, 14 Oct 2019 13:13:44 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel\@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] block: Reject misaligned write requests with
+ BDRV_REQ_NO_FALLBACK
+In-Reply-To: <6bbe4db2-a4fd-ee2b-1b79-879658b81753@virtuozzo.com>
+References: <20191013204853.1046-1-berto@igalia.com>
+ <6bbe4db2-a4fd-ee2b-1b79-879658b81753@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Mon, 14 Oct 2019 13:13:44 +0200
+Message-ID: <w515zkrtw9j.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,82 +60,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- stefanha@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a similar race condition to the one fixed in commit 2362a28ea1
-("iothread: fix iothread_stop() race condition", 2017-12-19), which in this case
-was exposed as a failure in test-aio-multithread.  Here, the iothread->stopping
-flag was set too soon, and the AioContext could be destroyed before the
-last round of entering scheduled coroutines and bottom halves.  The fix is
-similar.
+On Mon 14 Oct 2019 12:11:52 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> 13.10.2019 23:48, Alberto Garcia wrote:
+>> The BDRV_REQ_NO_FALLBACK flag means that an operation should only be
+>> performed if it can be offloaded or otherwise performed efficiently.
+>
+> As I know, BDRV_REQ_NO_FALLBACK is for write-zeros only, not about
+> offloading..
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/iothread.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+I just used the same wording from the documentation in block.h:
 
-diff --git a/tests/iothread.c b/tests/iothread.c
-index 777d9eea46..1e6d3e2218 100644
---- a/tests/iothread.c
-+++ b/tests/iothread.c
-@@ -26,6 +26,7 @@ struct IOThread {
-     QemuMutex init_done_lock;
-     QemuCond init_done_cond;    /* is thread initialization done? */
-     bool stopping;
-+    bool running;
- };
- 
- static __thread IOThread *my_iothread;
-@@ -47,7 +48,7 @@ static void *iothread_run(void *opaque)
-     qemu_cond_signal(&iothread->init_done_cond);
-     qemu_mutex_unlock(&iothread->init_done_lock);
- 
--    while (!atomic_read(&iothread->stopping)) {
-+    while (iothread->running) {
-         aio_poll(iothread->ctx, true);
-     }
- 
-@@ -55,10 +56,26 @@ static void *iothread_run(void *opaque)
-     return NULL;
- }
- 
-+/* Runs in iothread_run() thread */
-+static void iothread_stop_bh(void *opaque)
-+{
-+    IOThread *iothread = opaque;
-+
-+    iothread->running = false; /* stop iothread_run() */
-+}
-+
- void iothread_join(IOThread *iothread)
- {
-+    /* Forbid reentering iothread_join.  */
-+    assert(!iothread->stopping);
-     iothread->stopping = true;
--    aio_notify(iothread->ctx);
-+
-+    /*
-+     * Force the loop to run once more, so that already scheduled bottom
-+     * halves and coroutines are executed.
-+     */
-+    aio_bh_schedule_oneshot(iothread->ctx, iothread_stop_bh, iothread);
-+
-     qemu_thread_join(&iothread->thread);
-     qemu_cond_destroy(&iothread->init_done_cond);
-     qemu_mutex_destroy(&iothread->init_done_lock);
-@@ -76,6 +93,7 @@ IOThread *iothread_new(void)
-                        iothread, QEMU_THREAD_JOINABLE);
- 
-     /* Wait for initialization to complete */
-+    iothread->running = true;
-     qemu_mutex_lock(&iothread->init_done_lock);
-     while (iothread->ctx == NULL) {
-         qemu_cond_wait(&iothread->init_done_cond,
--- 
-2.21.0
+/* Execute the request only if the operation can be offloaded or otherwise
+ * be executed efficiently, but return an error instead of using a slow
+ * fallback. */
 
+Berto
 
