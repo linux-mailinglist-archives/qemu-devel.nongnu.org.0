@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC1DD680A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:11:29 +0200 (CEST)
-Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED804D681D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:13:46 +0200 (CEST)
+Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3sW-0004nK-Bz
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37607)
+	id 1iK3uj-00088M-J9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2r4-0005j5-7z
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:55 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iK2tt-0001G2-MN
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:08:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2r1-0008Ln-4H
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:53 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43769)
+ (envelope-from <richard.henderson@linaro.org>) id 1iK2ts-0001cV-A4
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:08:49 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46577)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2r0-0008KZ-Qp
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:51 -0400
-Received: by mail-wr1-x429.google.com with SMTP id j18so20372995wrq.10
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iK2ts-0001c0-3M
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:08:48 -0400
+Received: by mail-pg1-x544.google.com with SMTP id e15so2365142pgu.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=UraMZutU1VvKULhAxA6XaJqHAyKCSSxGQ8DBYDAxU98=;
- b=W7fAjvDw5a59pjKmCUZajLiwM+sEP+VROJbIH5cO20crzM6FG7DXmVAg9j/DH0hO4D
- 7XasxdqHRYMQN3t4vwWnupSS3B+8j30bilA9ShFx8JjnMsq9fqSfRGg6auJaq/J0FuVC
- /IK5LzjNU3u6gxZ4MhYup0PPhohWdRKMJTrH94nOicSwFGEF/sewCIgjP1LpQ+JHGMYp
- C4OBEtfka26bvuAMgAIEwg8t3U38r4m3pLY3grrCmiBQAqnPYMzBTWtupTg5hVPnuypY
- 2afyU81ARlTuHLtfGmFhmkyANS7BJGP9X4ybVjzb7D3oAj+V0o200X5tI87HdjoQACGS
- tG2w==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3+JWM5Gz13YlZX39mERjEq1vu6mXRE9D7OMu76eWgko=;
+ b=KIYoLX37aXiEJuMCiZtXyIOPte3UVs3uQgEtDI1PUgYvuS6yTghmlnw3M1Fo5Tv3QO
+ Cz4r1IlxuZZ3808FqQpU9LcY5zQE+V3gni2aHRmVtUx7eqeoqPUNAjWy8V6EhYcBv72x
+ +ZAEH6u8cLsZXnAyw0K2cE540QvXASP7GsTOeoYXbPnwCqVX2rrb9tNF/UEMD675Wvay
+ 3cDcTrGYa9WfQ73BzLHEH6BEoZx3oRzIxtgPADcRV81f7FlacxIDOpzJ/LVUm9SybIKs
+ 7KUnzcj/L5MFHR0CujM2joY8Mtt0f5ZKvx9GNRQIziY7F6m4iGV8c+dx/P/67okV1Ftv
+ gn7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UraMZutU1VvKULhAxA6XaJqHAyKCSSxGQ8DBYDAxU98=;
- b=o89i43ZZGx/rc3/2nNUWekMDuuAJPJb/fK7uoGZ9v+jbH4MZ3jvg7eoVy7Ervt83P9
- IAxVDN0jB0pzdN3YxbikHt9AQGUFOeNFBJT8l8FRVfcQ5eZ1FtpKchF5epVJSfsAbnsK
- TyyJQLFQmDfq0V1AhdadB6FIy5gcwSx0O4rPWzZdKNnS4f6OhPC/RnMqGqYJ6FcTI8ma
- ZXeU5wuFOR85I3pxaUuYRVDQbsD0b8Q4WGbqMGSOydAUEIN8b/B41siLrDDTxw5dwtq+
- Haw8PpUx9dVzQwt6J4D7u5g+TyWmRfDmL0n60eXDrtyF5v5RAPC59PUcxxPWNcTlMWhC
- YveQ==
-X-Gm-Message-State: APjAAAXkEx1USwC4X2xc9FCTWvXK3PSQ4WJIz1MDEoK/Kme2A4brQRe5
- GkYvY0E+FFmEwNgncgDxmt4dE+jELQM7fA==
-X-Google-Smtp-Source: APXvYqwW2dMN1WAKDEEJ5yDKUjXgOq/zsrJ7L8KQriFmeK6UmMKQ4PaAr0qJ7vYEio02HyB7WskRwg==
-X-Received: by 2002:adf:de85:: with SMTP id w5mr25899176wrl.278.1571069149430; 
- Mon, 14 Oct 2019 09:05:49 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.48
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:48 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 67/68] hw/arm/bcm2835: Add various unimplemented peripherals
-Date: Mon, 14 Oct 2019 17:04:03 +0100
-Message-Id: <20191014160404.19553-68-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
-References: <20191014160404.19553-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3+JWM5Gz13YlZX39mERjEq1vu6mXRE9D7OMu76eWgko=;
+ b=Hq+EOwFx7xDKqJWmi0v57qNJ63ACYZEFecNYq8z9jgqNj1Sa/l12t7Kr5Of6fEhwbD
+ NvqPqJVEKpS556MyTYieaJGWAmZCflBtp55wYBUASXCXtfDFxUOgJBkgz1COxLz4TAAu
+ MYbZ52DEgm3d/uPBVhM4QrpyCyxtaKyZiMroFl8wLrkSkRidtQRFV5qlul1kS2Sp6UFB
+ WGTk1hpL46T3t+WipshHi+909iTN2OgFOcNoMDeHw/seARLjHGjL0Tw0HzMJ5UFWW7kI
+ e8SQLKlcYAMHUgVXoqxW1MKzKlQzGQYHavMcFXXTRMv7O8Jf40rH7Cg5lVuk/UjJf/M1
+ i/bA==
+X-Gm-Message-State: APjAAAXgJaVzMW8KbwpOSOBa286jS+ZUOpqwiekV4/ACaTVRi1NhQ5kP
+ Nqju7U14E+9O6YXjjRFUdP6aSw==
+X-Google-Smtp-Source: APXvYqxfgWNvrExsABzgIkZSPc4PTP3nM3fUU4gj2Yf4cWhCLlZc/BaCDEkvJL2qUxjkbBOKy5cCsQ==
+X-Received: by 2002:a17:90a:fb85:: with SMTP id
+ cp5mr3074255pjb.19.1571069326129; 
+ Mon, 14 Oct 2019 09:08:46 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id t21sm19135444pgi.87.2019.10.14.09.08.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Oct 2019 09:08:45 -0700 (PDT)
+Subject: Re: [PATCH v5 23/55] translator: add translator_ld{ub,sw,uw,l,q}
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191014104948.4291-1-alex.bennee@linaro.org>
+ <20191014104948.4291-24-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <cefab505-ea0b-75bd-e6f5-a5c53c4559a7@linaro.org>
+Date: Mon, 14 Oct 2019 09:08:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20191014104948.4291-24-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,148 +85,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: robert.foley@futurewei.com, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 10/14/19 3:49 AM, Alex Bennée wrote:
+> From: "Emilio G. Cota" <cota@braap.org>
+> 
+> We don't bother with replicating the fast path (tlb_hit) of the old
+> cpu_ldst helpers as it has no measurable effect on performance. This
+> probably indicates we should consider flattening the whole set of
+> helpers but that is out of scope for this change.
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Emilio G. Cota <cota@braap.org>
+> [AJB: directly plumb into softmmu/user helpers]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v4
+>   - don't use the cpu_ldst helpers, plumb directly into the lower
+>   level
+>   - mark the CODE_ACCESS/SOFTMMU_CODE_ACCESS as deprecated
+> v5
+>   - expand commit message w.r.t. fast path.
+> ---
 
-Base addresses and sizes taken from the "BCM2835 ARM Peripherals"
-datasheet from February 06 2012:
-https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20190926173428.10713-6-f4bug@amsat.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/bcm2835_peripherals.h | 15 ++++++++++++++
- include/hw/arm/raspi_platform.h      |  8 +++++++
- hw/arm/bcm2835_peripherals.c         | 31 ++++++++++++++++++++++++++++
- 3 files changed, 54 insertions(+)
 
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index 6b17f6a3827..62a4c7b559d 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -23,6 +23,7 @@
- #include "hw/sd/sdhci.h"
- #include "hw/sd/bcm2835_sdhost.h"
- #include "hw/gpio/bcm2835_gpio.h"
-+#include "hw/misc/unimp.h"
- 
- #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
- #define BCM2835_PERIPHERALS(obj) \
-@@ -37,6 +38,10 @@ typedef struct BCM2835PeripheralState {
-     MemoryRegion ram_alias[4];
-     qemu_irq irq, fiq;
- 
-+    UnimplementedDeviceState systmr;
-+    UnimplementedDeviceState armtmr;
-+    UnimplementedDeviceState cprman;
-+    UnimplementedDeviceState a2w;
-     PL011State uart0;
-     BCM2835AuxState aux;
-     BCM2835FBState fb;
-@@ -48,6 +53,16 @@ typedef struct BCM2835PeripheralState {
-     SDHCIState sdhci;
-     BCM2835SDHostState sdhost;
-     BCM2835GpioState gpio;
-+    UnimplementedDeviceState i2s;
-+    UnimplementedDeviceState spi[1];
-+    UnimplementedDeviceState i2c[3];
-+    UnimplementedDeviceState otp;
-+    UnimplementedDeviceState dbus;
-+    UnimplementedDeviceState ave0;
-+    UnimplementedDeviceState bscsl;
-+    UnimplementedDeviceState smi;
-+    UnimplementedDeviceState dwc2;
-+    UnimplementedDeviceState sdramc;
- } BCM2835PeripheralState;
- 
- #endif /* BCM2835_PERIPHERALS_H */
-diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-index 66969fac5d2..cdcbca943fb 100644
---- a/include/hw/arm/raspi_platform.h
-+++ b/include/hw/arm/raspi_platform.h
-@@ -38,6 +38,8 @@
-                                                       * Doorbells & Mailboxes */
- #define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
- #define CM_OFFSET               0x101000 /* Clock Management */
-+#define A2W_OFFSET              0x102000 /* Reset controller */
-+#define AVS_OFFSET              0x103000 /* Audio Video Standard */
- #define RNG_OFFSET              0x104000
- #define GPIO_OFFSET             0x200000
- #define UART0_OFFSET            0x201000
-@@ -45,11 +47,17 @@
- #define I2S_OFFSET              0x203000
- #define SPI0_OFFSET             0x204000
- #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
-+#define OTP_OFFSET              0x20f000
-+#define BSC_SL_OFFSET           0x214000 /* SPI slave */
- #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
- #define EMMC1_OFFSET            0x300000
- #define SMI_OFFSET              0x600000
- #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
-+#define BSC2_OFFSET             0x805000 /* BSC2 I2C/TWI */
-+#define DBUS_OFFSET             0x900000
-+#define AVE0_OFFSET             0x910000
- #define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
-+#define SDRAMC_OFFSET           0xe00000
- #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
- 
- /* GPU interrupts */
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 1bd2ff41d52..fdcf616c56a 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -22,6 +22,20 @@
- /* Capabilities for SD controller: no DMA, high-speed, default clocks etc. */
- #define BCM2835_SDHC_CAPAREG 0x52134b4
- 
-+static void create_unimp(BCM2835PeripheralState *ps,
-+                         UnimplementedDeviceState *uds,
-+                         const char *name, hwaddr ofs, hwaddr size)
-+{
-+    sysbus_init_child_obj(OBJECT(ps), name, uds,
-+                          sizeof(UnimplementedDeviceState),
-+                          TYPE_UNIMPLEMENTED_DEVICE);
-+    qdev_prop_set_string(DEVICE(uds), "name", name);
-+    qdev_prop_set_uint64(DEVICE(uds), "size", size);
-+    object_property_set_bool(OBJECT(uds), true, "realized", &error_fatal);
-+    memory_region_add_subregion_overlap(&ps->peri_mr, ofs,
-+                    sysbus_mmio_get_region(SYS_BUS_DEVICE(uds), 0), -1000);
-+}
-+
- static void bcm2835_peripherals_init(Object *obj)
- {
-     BCM2835PeripheralState *s = BCM2835_PERIPHERALS(obj);
-@@ -323,6 +337,23 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         error_propagate(errp, err);
-         return;
-     }
-+
-+    create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
-+    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
-+    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
-+    create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-+    create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
-+    create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
-+    create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
-+    create_unimp(s, &s->bscsl, "bcm2835-spis", BSC_SL_OFFSET, 0x100);
-+    create_unimp(s, &s->i2c[0], "bcm2835-i2c0", BSC0_OFFSET, 0x20);
-+    create_unimp(s, &s->i2c[1], "bcm2835-i2c1", BSC1_OFFSET, 0x20);
-+    create_unimp(s, &s->i2c[2], "bcm2835-i2c2", BSC2_OFFSET, 0x20);
-+    create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
-+    create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
-+    create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-+    create_unimp(s, &s->dwc2, "dwc-usb2", USB_OTG_OFFSET, 0x1000);
-+    create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
- }
- 
- static void bcm2835_peripherals_class_init(ObjectClass *oc, void *data)
--- 
-2.20.1
+r~
 
 
