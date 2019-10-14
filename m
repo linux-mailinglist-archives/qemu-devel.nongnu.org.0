@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BB9D6732
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:23:45 +0200 (CEST)
-Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C62D6742
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:26:26 +0200 (CEST)
+Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK38K-0002jq-7b
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36906)
+	id 1iK3Av-0006KK-9W
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pz-00044C-OL
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:48 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2q5-0004EL-Hk
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2py-0007LK-De
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:47 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44751)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2q4-0007Rt-8L
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:53 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55016)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2py-0007KX-6l
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:46 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z9so20366802wrl.11
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:46 -0700 (PDT)
+ id 1iK2q4-0007R6-1w
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:52 -0400
+Received: by mail-wm1-x344.google.com with SMTP id p7so17866872wmp.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8Qb3uEtVa31jjwSH7w0tbpjKxkHdEIWFnSCioRvfNgw=;
- b=VOyrMNCs5Pay3VWaK+Rf2iiElrS9R9XmE4R2TvYJmHPR2BVxEeGC+aCHc3ofOArxQY
- oqqSks6b1mWsvyGTl+y6awIe83o/3pHM/HEssoWPJWy/Km/hnGwH2Sb8yr/akIrEBiP3
- U2eIfZ7qAOKHUixwDm6waOyeDpYED/4IRncJSfOhxlmGgMynMDIOj+2JotCIbxNlMip0
- zBV4ReOZtyaB0HjiC9NkqOHeWd0cB6nQypf1soJIR3k+ZfNQN0F4+u4dx0MWRrHoH5mO
- Ee6W2ecsGBAe6dpzqZkr52kO+zbzRyuLyuxpsIZo4IfdOzJ7+3bn/nqfNroREIexmpd5
- xiUQ==
+ bh=9b9GZNMAUz56Mm9M7+arYCaaqvYl4kdVBrW1fhBiXYU=;
+ b=cj+8MGehiWCGG0/ZnCZ6JiJ3yvcf1zGNM6sphJa21TiEjdeGlv5j2jeOCzZLwpGXg/
+ 9+uE/gU5PrgwLc+es4O/s+MaCQXUENVlWJ6Jzz+CHl95Wd/LonSsZhnvtR73cnWT0X5a
+ E/CVVNjIx1C40sm7/hX2gWRejkmuViKombllwUkaDU43ToozQtjGZbah0R12zk8AjUZT
+ 5SVdCVCAw6cjTZWtjYZDEkSAwrFnxE6IqnnLnxYhGWxKzyQaJLEckD5sNzId9ihBjE2y
+ 7TDfvYDCQsKWVd8yWQH2Ip5LRoqKcYhyFoBrlk4ezBoVP1HAkGU+pp/+QkyIgyMoZ1J7
+ YLWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8Qb3uEtVa31jjwSH7w0tbpjKxkHdEIWFnSCioRvfNgw=;
- b=pC7dchcaot4KRGo6Y2juIawYkb0VnwERyKq5scZJS74wKor4twF4W99XqBaOC0KE07
- 6w7ui99QUx8t9h3poG4ZSjPkMLckKSbBbn0goOEtEjYHVx7Yz7lCYQ6PsIa8QGczLVUr
- TM/Y3aOOlG0+7lD1AJZAh1sC/kD7Tfvxd/CwjG+ymp6WeuAiJF+rpRSmcydWhIcd22w6
- c18XmEozy7LXcfoyhWAnNeh+808my3ZkLUGzle7TmVSGWMSwMmWAGMjb+dM45g83CEtK
- 6AXshcbbpaN4irKR+zMCCyFQfjSyEHgB9ri/HmjGCBq1yKJRU7iSjOR1vziLXLHFjM/k
- PljQ==
-X-Gm-Message-State: APjAAAX7QHEVBlAFoMy6Vv9B8RXUV+x/ey3o1S+qSnCQdJ77Gb28/Hic
- lrVI43D5ZFvaZ/cQt/q0zloYTo3hsrbDOw==
-X-Google-Smtp-Source: APXvYqyh6ay2p2pxiV9E1mA79Sz+yKZRtrzEzTsufZ6w4G2uQOHfSsrOk/BP9dS20w5+JRPMfZPH0g==
-X-Received: by 2002:adf:8123:: with SMTP id 32mr27727218wrm.300.1571069084799; 
- Mon, 14 Oct 2019 09:04:44 -0700 (PDT)
+ bh=9b9GZNMAUz56Mm9M7+arYCaaqvYl4kdVBrW1fhBiXYU=;
+ b=gJb2bMpxeAxM8c7iuv5+B+5V65xw8kcyDmF7S8kMmhIe/mVb5KDAg46ahyxMaip7aS
+ NzvH+fWWwbuMmmIuonRzZtawaU0/gAGqOGw/p3Nb+KVd3RKApT1YK2q9lyQIK0pvXAvr
+ HqS60WTmwp36F9eBzRijtVdU232F5u3LrKj3ttPMJqWvCxO8W2k+Y8XWnXhIwqzVZkBB
+ X08qKzebpW03abUKpr2ZEglKSAHJNpxbvkNoZfr92/XrVlBm6c6lKP0iVndgEMykBy2C
+ rtMmbiGKuCVT2PJDPmhqZ8GXuzmMNAI2C0D9mSVYs/Fo4quO7clhOEUFa1RNPJ12GHga
+ QhkA==
+X-Gm-Message-State: APjAAAUn+V1aSbjqJVP0Sb5jxYYkJlRwrN895cJhJ7uz62tC3ZmL4cCn
+ DkCEnrScg50qBD5ZqrTjsd+cDJYhVy1S+w==
+X-Google-Smtp-Source: APXvYqwXCmQdfVvBPGNlGwPVtHNej8zIJxaKzIncsEMEYQJaGZPV2BFVCCLCx0ViDFch56BxLQs65A==
+X-Received: by 2002:a1c:e10a:: with SMTP id y10mr15661170wmg.29.1571069090725; 
+ Mon, 14 Oct 2019 09:04:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.43
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:04:43 -0700 (PDT)
+ Mon, 14 Oct 2019 09:04:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/68] hw/timer/exynos4210_rtc.c: Switch main ptimer to
- transaction-based API
-Date: Mon, 14 Oct 2019 17:03:15 +0100
-Message-Id: <20191014160404.19553-20-peter.maydell@linaro.org>
+Subject: [PULL 23/68] hw/watchdog/cmsdk-apb-watchdog.c: Switch to
+ transaction-based ptimer API
+Date: Mon, 14 Oct 2019 17:03:19 +0100
+Message-Id: <20191014160404.19553-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,79 +82,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the exynos41210_rtc main ptimer over to the transaction-based
-API, completing the transition for this device.
+Switch the cmsdk-apb-watchdog code away from bottom-half based
+ptimers to the new transaction-based ptimer API.  This just requires
+adding begin/commit calls around the various places that modify the
+ptimer state, and using the new ptimer_init() function to create the
+timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20191008171740.9679-17-peter.maydell@linaro.org
+Message-id: 20191008171740.9679-21-peter.maydell@linaro.org
 ---
- hw/timer/exynos4210_rtc.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ hw/watchdog/cmsdk-apb-watchdog.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/exynos4210_rtc.c b/hw/timer/exynos4210_rtc.c
-index b7ae99e9aa7..f85483a07f8 100644
---- a/hw/timer/exynos4210_rtc.c
-+++ b/hw/timer/exynos4210_rtc.c
-@@ -28,7 +28,6 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
+diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
+index e42c3ebd29d..e6f3b93c44e 100644
+--- a/hw/watchdog/cmsdk-apb-watchdog.c
++++ b/hw/watchdog/cmsdk-apb-watchdog.c
+@@ -24,7 +24,6 @@
  #include "qemu/log.h"
+ #include "trace.h"
+ #include "qapi/error.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
+ #include "sysemu/watchdog.h"
  #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-@@ -195,6 +194,7 @@ static void check_alarm_raise(Exynos4210RTCState *s)
-  * RTC update frequency
-  * Parameters:
-  *     reg_value - current RTCCON register or his new value
-+ * Must be called within a ptimer_transaction_begin/commit block for s->ptimer.
-  */
- static void exynos4210_rtc_update_freq(Exynos4210RTCState *s,
-                                        uint32_t reg_value)
-@@ -402,6 +402,7 @@ static void exynos4210_rtc_write(void *opaque, hwaddr offset,
+@@ -200,8 +199,10 @@ static void cmsdk_apb_watchdog_write(void *opaque, hwaddr offset,
+          * Reset the load value and the current count, and make sure
+          * we're counting.
+          */
++        ptimer_transaction_begin(s->timer);
+         ptimer_set_limit(s->timer, value, 1);
+         ptimer_run(s->timer, 0);
++        ptimer_transaction_commit(s->timer);
          break;
-     case RTCCON:
-         ptimer_transaction_begin(s->ptimer_1Hz);
-+        ptimer_transaction_begin(s->ptimer);
-         if (value & RTC_ENABLE) {
-             exynos4210_rtc_update_freq(s, value);
-         }
-@@ -432,6 +433,7 @@ static void exynos4210_rtc_write(void *opaque, hwaddr offset,
-             }
-         }
-         ptimer_transaction_commit(s->ptimer_1Hz);
-+        ptimer_transaction_commit(s->ptimer);
-         s->reg_rtccon = value;
+     case A_WDOGCONTROL:
+         if (s->is_luminary && 0 != (R_WDOGCONTROL_INTEN_MASK & s->control)) {
+@@ -217,7 +218,9 @@ static void cmsdk_apb_watchdog_write(void *opaque, hwaddr offset,
          break;
-     case TICCNT:
-@@ -539,8 +541,10 @@ static void exynos4210_rtc_reset(DeviceState *d)
+     case A_WDOGINTCLR:
+         s->intstatus = 0;
++        ptimer_transaction_begin(s->timer);
+         ptimer_set_count(s->timer, ptimer_get_limit(s->timer));
++        ptimer_transaction_commit(s->timer);
+         cmsdk_apb_watchdog_update(s);
+         break;
+     case A_WDOGLOCK:
+@@ -299,8 +302,10 @@ static void cmsdk_apb_watchdog_reset(DeviceState *dev)
+     s->itop = 0;
+     s->resetstatus = 0;
+     /* Set the limit and the count */
++    ptimer_transaction_begin(s->timer);
+     ptimer_set_limit(s->timer, 0xffffffff, 1);
+     ptimer_run(s->timer, 0);
++    ptimer_transaction_commit(s->timer);
+ }
  
-     s->reg_curticcnt = 0;
- 
-+    ptimer_transaction_begin(s->ptimer);
-     exynos4210_rtc_update_freq(s, s->reg_rtccon);
-     ptimer_stop(s->ptimer);
-+    ptimer_transaction_commit(s->ptimer);
-     ptimer_transaction_begin(s->ptimer_1Hz);
-     ptimer_stop(s->ptimer_1Hz);
-     ptimer_transaction_commit(s->ptimer_1Hz);
-@@ -559,12 +563,12 @@ static void exynos4210_rtc_init(Object *obj)
+ static void cmsdk_apb_watchdog_init(Object *obj)
+@@ -320,7 +325,6 @@ static void cmsdk_apb_watchdog_init(Object *obj)
+ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
  {
-     Exynos4210RTCState *s = EXYNOS4210_RTC(obj);
-     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
+     CMSDKAPBWatchdog *s = CMSDK_APB_WATCHDOG(dev);
 -    QEMUBH *bh;
  
--    bh = qemu_bh_new(exynos4210_rtc_tick, s);
--    s->ptimer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(exynos4210_rtc_tick, s, PTIMER_POLICY_DEFAULT);
-+    ptimer_transaction_begin(s->ptimer);
-     ptimer_set_freq(s->ptimer, RTC_BASE_FREQ);
-     exynos4210_rtc_update_freq(s, 0);
-+    ptimer_transaction_commit(s->ptimer);
+     if (s->wdogclk_frq == 0) {
+         error_setg(errp,
+@@ -328,14 +332,15 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
-     s->ptimer_1Hz = ptimer_init(exynos4210_rtc_1Hz_tick,
-                                 s, PTIMER_POLICY_DEFAULT);
+-    bh = qemu_bh_new(cmsdk_apb_watchdog_tick, s);
+-    s->timer = ptimer_init_with_bh(bh,
++    s->timer = ptimer_init(cmsdk_apb_watchdog_tick, s,
+                            PTIMER_POLICY_WRAP_AFTER_ONE_PERIOD |
+                            PTIMER_POLICY_TRIGGER_ONLY_ON_DECREMENT |
+                            PTIMER_POLICY_NO_IMMEDIATE_RELOAD |
+                            PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
+ 
++    ptimer_transaction_begin(s->timer);
+     ptimer_set_freq(s->timer, s->wdogclk_frq);
++    ptimer_transaction_commit(s->timer);
+ }
+ 
+ static const VMStateDescription cmsdk_apb_watchdog_vmstate = {
 -- 
 2.20.1
 
