@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E65D6591
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:49:18 +0200 (CEST)
-Received: from localhost ([::1]:50958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940D4D658C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:47:46 +0200 (CEST)
+Received: from localhost ([::1]:50934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1ev-0008Vd-4K
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50352)
+	id 1iK1dR-0006eA-B0
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:47:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iK1OY-0006Ai-Md
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:32:23 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iK1ZZ-0002sG-0d
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:43:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iK1OX-0002tn-E5
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:32:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58912)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iK1OS-0002rK-OT; Mon, 14 Oct 2019 10:32:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A9DD7308FBB4;
- Mon, 14 Oct 2019 14:32:15 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.206.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8E70600CD;
- Mon, 14 Oct 2019 14:31:48 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH 19/20] hw/pci-host/q35: Remove unused includes
-Date: Mon, 14 Oct 2019 16:22:45 +0200
-Message-Id: <20191014142246.4538-20-philmd@redhat.com>
-In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
-References: <20191014142246.4538-1-philmd@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iK1ZX-0008LL-Rd
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:43:44 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45267)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iK1ZX-0008JX-JK
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:43:43 -0400
+Received: by mail-pl1-x643.google.com with SMTP id u12so8096032pls.12
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 07:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=paKtNlRZ7hmE9+8cTD9FyDY4OaDKN9g0GMkoc4hnIC8=;
+ b=GI4A41YE/HjCzMYHfc2LeR35XbQmZ9TQbrHLUa7JATdtoRwTPU3KMI42GgSvhzf8wt
+ +bSD45fUEtt2kYF9mKSthic0oUB1EX8CL5vljPdXbIJZhQ9DLjjztaIzV/9WpSIWC3Hl
+ 3ocHB+tzx8qXvWfY0q0eGDN9rLL74pwD100/G6AThSPvPJ9oIacnwB3ZWLz5pw2NK7lJ
+ i/NpyU47O8oCDUVfmDAbVxdrypF/iCrx0krHIDgRnBnK/U/DsIo4pRZLc0vJ+X+8snxn
+ rHWZhGTAcLqhepUyWmmMqO1s2b416DckLhIo46g5ypU7QzDYmIEAGKF5z6DpeR8Nzedx
+ oIpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=paKtNlRZ7hmE9+8cTD9FyDY4OaDKN9g0GMkoc4hnIC8=;
+ b=QF88cARyUKmL2jNjVz4nO63tL+dQCt3UaRFHbfHtzJ5SPGnTwskx2yRxXIyw5o0jFI
+ Eyyn77eQcnnX/lkx8THu5AS5mH2EDTlHP27PkIybkZ55W6mfcKw3dMzuwge7AtlikyRF
+ SpFzuUO25FQCa0GxQogXG23Yw8BBOlXNlm4VzzqOTZEkZW+QYcE0ghjWn6+/B5L1dE4A
+ mQnuK5DXLx8ZUEkE3FqWZrrk9ZCSPS0asvssAhGZRTYU3OBiGpmJ+l5RrhJ/c+w/y+BC
+ sIqTO2wX80fo3pSeZMGvqGvM/9Z5mrWdCmJ5DSBeEh5af7GwV7jzgaj+vD/3wrKSP/hW
+ jS8Q==
+X-Gm-Message-State: APjAAAWknMvKPQiw/PZHtXHNISdu/aB2juFLhzWPgYAWOegtQ6yhY2z0
+ mIHygxa2eHCck0QbevMrHtviLQ==
+X-Google-Smtp-Source: APXvYqwCOkM/nBcL9/1gUWrmt0G62N8nbR6RX/X67wuXIM0Vfjuxqr8j4RI7DdfWU6Xm++PY2Ejz7A==
+X-Received: by 2002:a17:902:22b:: with SMTP id 40mr88172plc.176.1571063750679; 
+ Mon, 14 Oct 2019 07:35:50 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id d10sm20994432pfh.8.2019.10.14.07.35.49
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Oct 2019 07:35:49 -0700 (PDT)
+Subject: Re: [PATCH v5 01/55] trace: expand mem_info:size_shift to 4 bits
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191014104948.4291-1-alex.bennee@linaro.org>
+ <20191014104948.4291-2-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <580c188d-8a80-4ed3-2559-e906a3c30ed9@linaro.org>
+Date: Mon, 14 Oct 2019 07:35:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 14 Oct 2019 14:32:15 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <20191014104948.4291-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,68 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Helge Deller <deller@gmx.de>,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: robert.foley@futurewei.com, cota@braap.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, aaron@os.amperecomputing.com,
+ peter.puhov@futurewei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only q35.c requires declarations from "hw/i386/pc.h", move it there.
-Remove all the includes not used by "q35.h".
+On 10/14/19 3:48 AM, Alex Bennée wrote:
+> From: "Emilio G. Cota" <cota@braap.org>
+> 
+> This will allow us to trace 32k-long memory accesses (although our
+> maximum is something like 256 bytes at the moment).
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Emilio G. Cota <cota@braap.org>
+> [AJB: expanded to 3->4 bits]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v5
+>   - return the tweaks to mem-internal.h
+> ---
+>  trace-events         | 2 +-
+>  trace/mem-internal.h | 8 ++++----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/pci-host/q35.c         | 1 +
- include/hw/pci-host/q35.h | 7 -------
- 2 files changed, 1 insertion(+), 7 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 158d270b9f..918843d373 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -29,6 +29,7 @@
-  */
-=20
- #include "qemu/osdep.h"
-+#include "hw/i386/pc.h"
- #include "hw/pci-host/q35.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
-index 79a88d67b1..534d90dbaf 100644
---- a/include/hw/pci-host/q35.h
-+++ b/include/hw/pci-host/q35.h
-@@ -22,16 +22,9 @@
- #ifndef HW_Q35_H
- #define HW_Q35_H
-=20
--#include "hw/isa/isa.h"
--#include "hw/sysbus.h"
--#include "hw/i386/pc.h"
--#include "hw/isa/apm.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
--#include "hw/acpi/acpi.h"
--#include "hw/acpi/ich9.h"
- #include "hw/pci-host/pam.h"
--#include "hw/i386/intel_iommu.h"
- #include "qemu/range.h"
-=20
- #define TYPE_Q35_HOST_DEVICE "q35-pcihost"
---=20
-2.21.0
 
+r~
 
