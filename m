@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4DED6706
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:16:21 +0200 (CEST)
-Received: from localhost ([::1]:52972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DEF3D66FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:15:04 +0200 (CEST)
+Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK319-0001nG-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36498)
+	id 1iK2zb-00005w-Q1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iK2pL-00036m-3z
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:08 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iK2pJ-00034O-ME
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iK2pJ-0006dK-J6
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49006)
+ (envelope-from <kwolf@redhat.com>) id 1iK2pI-0006bx-Ap
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10549)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iK2pE-0006Wp-Gt; Mon, 14 Oct 2019 12:04:00 -0400
+ id 1iK2pF-0006YR-Q9; Mon, 14 Oct 2019 12:04:01 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ABE188980E0;
- Mon, 14 Oct 2019 16:03:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0A53530860C0;
+ Mon, 14 Oct 2019 16:04:01 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.118.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A47885C1D4;
- Mon, 14 Oct 2019 16:03:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 032265C1D4;
+ Mon, 14 Oct 2019 16:03:59 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/15] block: Reject misaligned write requests with
- BDRV_REQ_NO_FALLBACK
-Date: Mon, 14 Oct 2019 18:03:42 +0200
-Message-Id: <20191014160343.8211-9-kwolf@redhat.com>
+Subject: [PULL 09/15] iotests/028: Fix for long $TEST_DIRs
+Date: Mon, 14 Oct 2019 18:03:43 +0200
+Message-Id: <20191014160343.8211-10-kwolf@redhat.com>
 In-Reply-To: <20191014160343.8211-1-kwolf@redhat.com>
 References: <20191014160343.8211-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Mon, 14 Oct 2019 16:03:59 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Mon, 14 Oct 2019 16:04:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,144 +59,71 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
 
-The BDRV_REQ_NO_FALLBACK flag means that an operation should only be
-performed if it can be offloaded or otherwise performed efficiently.
+For long test image paths, the order of the "Formatting" line and the
+"(qemu)" prompt after a drive_backup HMP command may be reversed.  In
+fact, the interaction between the prompt and the line may lead to the
+"Formatting" to being greppable at all after "read"-ing it (if the
+prompt injects an IFS character into the "Formatting" string).
 
-However a misaligned write request requires a RMW so we should return
-an error and let the caller decide how to proceed.
+So just wait until we get a prompt.  At that point, the block job must
+have been started, so "info block-jobs" will only return "No active
+jobs" once it is done.
 
-This hits an assertion since commit c8bb23cbdb if the required
-alignment is larger than the cluster size:
-
-qemu-img create -f qcow2 -o cluster_size=3D2k img.qcow2 4G
-qemu-io -c "open -o driver=3Dqcow2,file.align=3D4k blkdebug::img.qcow2" \
-        -c 'write 0 512'
-qemu-io: block/io.c:1127: bdrv_driver_pwritev: Assertion `!(flags & BDRV_=
-REQ_NO_FALLBACK)' failed.
-Aborted
-
-The reason is that when writing to an unallocated cluster we try to
-skip the copy-on-write part and zeroize it using BDRV_REQ_NO_FALLBACK
-instead, resulting in a write request that is too small (2KB cluster
-size vs 4KB required alignment).
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c                 |  7 +++++
- tests/qemu-iotests/268     | 55 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/268.out |  7 +++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 70 insertions(+)
- create mode 100755 tests/qemu-iotests/268
- create mode 100644 tests/qemu-iotests/268.out
+ tests/qemu-iotests/028     | 11 ++++++++---
+ tests/qemu-iotests/028.out |  1 -
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 8b6dace056..f0b86c1d19 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2090,6 +2090,13 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *c=
-hild,
-         return ret;
-     }
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 71301ec6e5..bba1ee59ae 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -119,9 +119,14 @@ fi
+ # Silence output since it contains the disk image path and QEMU's readli=
+ne
+ # character echoing makes it very hard to filter the output. Plus, there
+ # is no telling how many times the command will repeat before succeeding=
+.
+-_send_qemu_cmd $h "drive_backup disk ${TEST_IMG}.copy" "(qemu)" >/dev/nu=
+ll
+-_send_qemu_cmd $h "" "Formatting" | _filter_img_create
+-qemu_cmd_repeat=3D20 _send_qemu_cmd $h "info block-jobs" "No active jobs=
+" >/dev/null
++# (Note that creating the image results in a "Formatting..." message ove=
+r
++# stdout, which is the same channel the monitor uses.  We cannot reliabl=
+y
++# wait for it because the monitor output may interact with it in such a
++# way that _timed_wait_for cannot read it.  However, once the block job =
+is
++# done, we know that the "Formatting..." message must have appeared
++# already, so the output is still deterministic.)
++silent=3Dy _send_qemu_cmd $h "drive_backup disk ${TEST_IMG}.copy" "(qemu=
+)"
++silent=3Dy qemu_cmd_repeat=3D20 _send_qemu_cmd $h "info block-jobs" "No =
+active jobs"
+ _send_qemu_cmd $h "info block-jobs" "No active jobs"
+ _send_qemu_cmd $h 'quit' ""
 =20
-+    /* If the request is misaligned then we can't make it efficient */
-+    if ((flags & BDRV_REQ_NO_FALLBACK) &&
-+        !QEMU_IS_ALIGNED(offset | bytes, align))
-+    {
-+        return -ENOTSUP;
-+    }
-+
-     bdrv_inc_in_flight(bs);
-     /*
-      * Align write if necessary by performing a read-modify-write cycle.
-diff --git a/tests/qemu-iotests/268 b/tests/qemu-iotests/268
-new file mode 100755
-index 0000000000..78c3f4db3a
---- /dev/null
-+++ b/tests/qemu-iotests/268
-@@ -0,0 +1,55 @@
-+#!/usr/bin/env bash
-+#
-+# Test write request with required alignment larger than the cluster siz=
-e
-+#
-+# Copyright (C) 2019 Igalia, S.L.
-+# Author: Alberto Garcia <berto@igalia.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dberto@igalia.com
-+
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+
-+echo
-+echo "=3D=3D Required alignment larger than cluster size =3D=3D"
-+
-+CLUSTER_SIZE=3D2k _make_test_img 1M
-+# Since commit c8bb23cbdb writing to an unallocated cluster fills the
-+# empty COW areas with bdrv_write_zeroes(flags=3DBDRV_REQ_NO_FALLBACK)
-+$QEMU_IO -c "open -o driver=3D$IMGFMT,file.align=3D4k blkdebug::$TEST_IM=
-G" \
-+         -c "write 0 512" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/268.out b/tests/qemu-iotests/268.out
-new file mode 100644
-index 0000000000..2ed6c68529
---- /dev/null
-+++ b/tests/qemu-iotests/268.out
-@@ -0,0 +1,7 @@
-+QA output created by 268
-+
-+=3D=3D Required alignment larger than cluster size =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
-+wrote 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 5805a79d9e..4c861f7eed 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -278,3 +278,4 @@
- 265 rw auto quick
- 266 rw quick
- 267 rw auto quick snapshot
-+268 rw auto quick
+diff --git a/tests/qemu-iotests/028.out b/tests/qemu-iotests/028.out
+index 7d54aeb003..37aed84436 100644
+--- a/tests/qemu-iotests/028.out
++++ b/tests/qemu-iotests/028.out
+@@ -468,7 +468,6 @@ No errors were found on the image.
+=20
+ block-backup
+=20
+-Formatting 'TEST_DIR/t.IMGFMT.copy', fmt=3DIMGFMT size=3D4294968832 back=
+ing_file=3DTEST_DIR/t.IMGFMT.base backing_fmt=3DIMGFMT
+ (qemu) info block-jobs
+ No active jobs
+ =3D=3D=3D IO: pattern 195
 --=20
 2.20.1
 
