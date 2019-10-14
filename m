@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1CED66D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:06:28 +0200 (CEST)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98EDD66E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:10:02 +0200 (CEST)
+Received: from localhost ([::1]:52856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK2ra-0005Mr-Tv
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36331)
+	id 1iK2v3-0001Vw-5M
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iK2pB-0002p5-5v
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:03:58 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iK2pE-0002uk-UV
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iK2pA-0006Qa-2M
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:03:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35922)
+ (envelope-from <kwolf@redhat.com>) id 1iK2pD-0006WO-JP
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37294)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iK2p7-0006MU-OF; Mon, 14 Oct 2019 12:03:53 -0400
+ id 1iK2pA-0006QD-EA; Mon, 14 Oct 2019 12:03:56 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F218C308FE9A;
- Mon, 14 Oct 2019 16:03:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A3CD03086211;
+ Mon, 14 Oct 2019 16:03:55 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.118.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E717E5C541;
- Mon, 14 Oct 2019 16:03:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E23D5C1D4;
+ Mon, 14 Oct 2019 16:03:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/15] replay: disable default snapshot for record/replay
-Date: Mon, 14 Oct 2019 18:03:37 +0200
-Message-Id: <20191014160343.8211-4-kwolf@redhat.com>
+Subject: [PULL 05/15] replay: don't drain/flush bdrv queue while RR is working
+Date: Mon, 14 Oct 2019 18:03:39 +0200
+Message-Id: <20191014160343.8211-6-kwolf@redhat.com>
 In-Reply-To: <20191014160343.8211-1-kwolf@redhat.com>
 References: <20191014160343.8211-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 14 Oct 2019 16:03:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Mon, 14 Oct 2019 16:03:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,49 +59,114 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch disables setting '-snapshot' option on by default
-in record/replay mode. This is needed for creating vmstates in record
-and replay modes.
+In record/replay mode bdrv queue is controlled by replay mechanism.
+It does not allow saving or loading the snapshots
+when bdrv queue is not empty. Stopping the VM is not blocked by nonempty
+queue, but flushing the queue is still impossible there,
+because it may cause deadlocks in replay mode.
+This patch disables bdrv_drain_all and bdrv_flush_all in
+record/replay mode.
+
+Stopping the machine when the IO requests are not finished is needed
+for the debugging. E.g., breakpoint may be set at the specified step,
+and forcing the IO requests to finish may break the determinism
+of the execution.
 
 Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
 Acked-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- vl.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ block/io.c | 28 ++++++++++++++++++++++++++++
+ cpus.c     |  2 --
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 0a295e5d77..fce9ce2364 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1203,7 +1203,7 @@ static void configure_blockdev(BlockdevOptionsQueue=
- *bdo_queue,
-         qapi_free_BlockdevOptions(bdo->bdo);
-         g_free(bdo);
+diff --git a/block/io.c b/block/io.c
+index 4f9ee97c2b..834841142a 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -33,6 +33,7 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
++#include "sysemu/replay.h"
+=20
+ #define NOT_DONE 0x7fffffff /* used while emulated sync operation in pro=
+gress */
+=20
+@@ -600,6 +601,15 @@ void bdrv_drain_all_begin(void)
+         return;
      }
--    if (snapshot || replay_mode !=3D REPLAY_MODE_NONE) {
-+    if (snapshot) {
-         qemu_opts_foreach(qemu_find_opts("drive"), drive_enable_snapshot=
-,
-                           NULL, NULL);
+=20
++    /*
++     * bdrv queue is managed by record/replay,
++     * waiting for finishing the I/O requests may
++     * be infinite
++     */
++    if (replay_events_enabled()) {
++        return;
++    }
++
+     /* AIO_WAIT_WHILE() with a NULL context can only be called from the =
+main
+      * loop AioContext, so make sure we're in the main context. */
+     assert(qemu_get_current_aio_context() =3D=3D qemu_get_aio_context())=
+;
+@@ -629,6 +639,15 @@ void bdrv_drain_all_end(void)
+     BlockDriverState *bs =3D NULL;
+     int drained_end_counter =3D 0;
+=20
++    /*
++     * bdrv queue is managed by record/replay,
++     * waiting for finishing the I/O requests may
++     * be endless
++     */
++    if (replay_events_enabled()) {
++        return;
++    }
++
+     while ((bs =3D bdrv_next_all_states(bs))) {
+         AioContext *aio_context =3D bdrv_get_aio_context(bs);
+=20
+@@ -2124,6 +2143,15 @@ int bdrv_flush_all(void)
+     BlockDriverState *bs =3D NULL;
+     int result =3D 0;
+=20
++    /*
++     * bdrv queue is managed by record/replay,
++     * creating new flush request for stopping
++     * the VM may break the determinism
++     */
++    if (replay_events_enabled()) {
++        return result;
++    }
++
+     for (bs =3D bdrv_first(&it); bs; bs =3D bdrv_next(&it)) {
+         AioContext *aio_context =3D bdrv_get_aio_context(bs);
+         int ret;
+diff --git a/cpus.c b/cpus.c
+index d2c61ff155..367f0657c5 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1097,7 +1097,6 @@ static int do_vm_stop(RunState state, bool send_sto=
+p)
      }
-@@ -3066,7 +3066,13 @@ int main(int argc, char **argv, char **envp)
-                 drive_add(IF_PFLASH, -1, optarg, PFLASH_OPTS);
-                 break;
-             case QEMU_OPTION_snapshot:
--                snapshot =3D 1;
-+                {
-+                    Error *blocker =3D NULL;
-+                    snapshot =3D 1;
-+                    error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
-+                               "-snapshot");
-+                    replay_add_blocker(blocker);
-+                }
-                 break;
-             case QEMU_OPTION_numa:
-                 opts =3D qemu_opts_parse_noisily(qemu_find_opts("numa"),
+=20
+     bdrv_drain_all();
+-    replay_disable_events();
+     ret =3D bdrv_flush_all();
+=20
+     return ret;
+@@ -2181,7 +2180,6 @@ int vm_prepare_start(void)
+     /* We are sending this now, but the CPUs will be resumed shortly lat=
+er */
+     qapi_event_send_resume();
+=20
+-    replay_enable_events();
+     cpu_enable_ticks();
+     runstate_set(RUN_STATE_RUNNING);
+     vm_state_notify(1, RUN_STATE_RUNNING);
 --=20
 2.20.1
 
