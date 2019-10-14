@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82010D6704
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:16:07 +0200 (CEST)
-Received: from localhost ([::1]:52964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1531D6713
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:18:36 +0200 (CEST)
+Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK30v-0001GR-TR
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36595)
+	id 1iK33G-0003oz-6T
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pU-0003JA-BD
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:18 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2pe-0003Xl-QN
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2pT-0006ns-5O
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:16 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46859)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2pd-0006xr-D6
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:26 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41595)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2pS-0006mq-QL
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:15 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o18so20326772wrv.13
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:14 -0700 (PDT)
+ id 1iK2pd-0006xB-70
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:25 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p4so4500507wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mUu/crkcybfRwlc27TBLyKHlAqm7Yf19HYM5Zi4VawI=;
- b=cRVbvWRzpP/t9q006tIEyolsGUNF2FY1DqySFPOGmDnfrTco8kNvk7QUeTcd4WTTR1
- jpoZLILBUwa8xYzcPWAgsa3ElXYU8tc/TWzrecF/EKnf/nMw5nsB1koGJDtUfL2yMEmF
- hc1qhcVXIBujzThAr6CDO9fFGKpJ+M0If1o83Q+7mJrgms9NGBQf0KkZBV8jE4gJfZU1
- nhUkrfRBPG6JwILq5kWY9CgrBtGo9TKl1Vu/AXRJAkLOdTCq0a9EXQSrIlKF38tR62te
- yDgEIsgNgD1htANQsnhKMPxbq8DyYf+w/SS3Ef9gElZsZCeX93n9c5Sji5f/jGFD5THy
- uzZQ==
+ bh=ppKekkdyvFhkeosiKomCQMOUGLuIDXn9EHr3PuXEGrU=;
+ b=cqPscYcXcr/F9vM26ijL4lnVAZnLcPxHrPbgchirfvMO3y4UOrUNvlhOVjTvHRpxRj
+ POhN0zhsSu9qVYHrqHWeNHXBTGe2DygHq1diqC7lA9C2SYoYi2RfhVxaB6SXSkey4ap9
+ j3HD11hM3kWVFZ6zbM0JL4rNZsq8FmPcrpj2GWh7zETq+9j83WnyQ69Bw9NdOc9a7+Jx
+ POPpIaE3O0tfkkLHpHzza4Xw+KWlSkSBCLt+lR3oBeZQvjtdpWZHZB5XLrFFHcQMBzhf
+ IMfeLtMsTTYbrHBx3ZTjzGBk1pKWmSW719O8jLYn4uv2fgQC523UFTX3ULnyFo4d3HVd
+ DYEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mUu/crkcybfRwlc27TBLyKHlAqm7Yf19HYM5Zi4VawI=;
- b=pdZlbqLNHFmXHw7tLJQVM394NoEf2sqGPyarTCYJp3Ji17TlWwmxtmI0lOUfJ1y/ot
- PcRsjfF0lFAbKi4TrQ9tmE6XRd87dDTduD6GTok9AYg2+obNJcjnfxfvb4k5gjHMy4Td
- CuNi00BxM2/oyLDOE6wTencL6siHfFH1gHMiwV5XEjODPQ/Gkn5ODYkfhhBrimQx5vFl
- 55OM7aECV79Xbb2dt9X3b3AIothsW21iD6TYKL4Md5p4spDgwOvA3cl0uAtNzEoYcXfc
- QuuD/D95oGf4oDUtzGQHpsoqymm21fsOt+VXUl0z7H/WJmLO5Me3zE55AfH4zYW3DXPk
- 2uoQ==
-X-Gm-Message-State: APjAAAXjXQ7Phnotm+wK2htocpCP4kHkWnQEiqiKLwcj9WEqv1NQmmg6
- t/aIif6N3NLE+SZuj6zewvkqcNcU3QLARA==
-X-Google-Smtp-Source: APXvYqzTtWuwrQpkW5CHvUZ0baiGO5wUSdFoGL3DyrIJdXpQnuzj1YZc2uABKj5rrrxaB+ebZhVuZQ==
-X-Received: by 2002:a05:6000:103:: with SMTP id
- o3mr2571323wrx.357.1571069053252; 
- Mon, 14 Oct 2019 09:04:13 -0700 (PDT)
+ bh=ppKekkdyvFhkeosiKomCQMOUGLuIDXn9EHr3PuXEGrU=;
+ b=WUe3oAOhy9wiPK9OMFyUX8eVZvRMmCBvYMwAXEIcrQJ4xXQ+SQEi82bZNPLv0Bn8EN
+ dMZ06bKshYfpf5GfhdVgv8I4NRJ0lONgx1lrBIniXNAPrzvIlE4jyhpxaH8aFLXymR3N
+ 6Io8pZo/r/7jj9rL2Q7F3yNElt6jxouvF3Gyu64VgWrtf16yXpWEUiBaBF0IV+H1YXg1
+ AnAJ8VuEWmwQKtb+3PVyAyR4hA6G36s6vt2zizWhf2xBfqFnpTsC12LZMJ0Z+Y9Lzd3n
+ BpcuyzTuN3BFvG8CeXA3MNbfXRbkYMeQkZEdIEHW/3pqd6SjFHNoVNlvIISZNQM4PLDX
+ EW6g==
+X-Gm-Message-State: APjAAAWau1D5bMSlFx9DAG1UaBG6Wcup/WtTM7hdF7XbH3EZQ5w9I+XC
+ 3/lZh4wbJ4DjnLBpe1ZOE7nK3NBvUZEhmg==
+X-Google-Smtp-Source: APXvYqwt2x+5DvCRaJgIa6yssiO8pyb5NsSL6ZP2HjJFZ8thii8V0+HJlVXHQwk4Mnyf40R/6ms0mA==
+X-Received: by 2002:adf:e2c5:: with SMTP id d5mr12600853wrj.283.1571069063689; 
+ Mon, 14 Oct 2019 09:04:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.12
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:04:12 -0700 (PDT)
+ Mon, 14 Oct 2019 09:04:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/68] ARM: KVM: Check KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 for
- smp_cpus > 256
-Date: Mon, 14 Oct 2019 17:02:59 +0100
-Message-Id: <20191014160404.19553-4-peter.maydell@linaro.org>
+Subject: [PULL 07/68] hw/timer/arm_timer.c: Switch to transaction-based ptimer
+ API
+Date: Mon, 14 Oct 2019 17:03:03 +0100
+Message-Id: <20191014160404.19553-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,55 +82,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+Switch the arm_timer.c code away from bottom-half based ptimers
+to the new transaction-based ptimer API. This just requires
+adding begin/commit calls around the various arms of
+arm_timer_write() that modify the ptimer state, and using the
+new ptimer_init() function to create the timer.
 
-Host kernel within [4.18, 5.3] report an erroneous KVM_MAX_VCPUS=512
-for ARM. The actual capability to instantiate more than 256 vcpus
-was fixed in 5.4 with the upgrade of the KVM_IRQ_LINE ABI to support
-vcpu id encoded on 12 bits instead of 8 and a redistributor consuming
-a single KVM IO device instead of 2.
-
-So let's check this capability when attempting to use more than 256
-vcpus within any ARM kvm accelerated machine.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Acked-by: Marc Zyngier <maz@kernel.org>
-Message-id: 20191003154640.22451-4-eric.auger@redhat.com
+Fixes: https://bugs.launchpad.net/qemu/+bug/1777777
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191008171740.9679-5-peter.maydell@linaro.org
 ---
- target/arm/kvm.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/timer/arm_timer.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index b10581fa066..b473c63edb1 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -182,6 +182,7 @@ int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
+index dc33ab31050..af524fabf75 100644
+--- a/hw/timer/arm_timer.c
++++ b/hw/timer/arm_timer.c
+@@ -14,7 +14,6 @@
+ #include "hw/irq.h"
+ #include "hw/ptimer.h"
+ #include "hw/qdev-properties.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "qemu/log.h"
  
- int kvm_arch_init(MachineState *ms, KVMState *s)
- {
-+    int ret = 0;
-     /* For ARM interrupt delivery is always asynchronous,
-      * whether we are using an in-kernel VGIC or not.
-      */
-@@ -195,7 +196,14 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
- 
-     cap_has_mp_state = kvm_check_extension(s, KVM_CAP_MP_STATE);
- 
--    return 0;
-+    if (ms->smp.cpus > 256 &&
-+        !kvm_check_extension(s, KVM_CAP_ARM_IRQ_LINE_LAYOUT_2)) {
-+        error_report("Using more than 256 vcpus requires a host kernel "
-+                     "with KVM_CAP_ARM_IRQ_LINE_LAYOUT_2");
-+        ret = -EINVAL;
-+    }
-+
-+    return ret;
+@@ -75,7 +74,10 @@ static uint32_t arm_timer_read(void *opaque, hwaddr offset)
+     }
  }
  
- unsigned long kvm_arch_vcpu_id(CPUState *cpu)
+-/* Reset the timer limit after settings have changed.  */
++/*
++ * Reset the timer limit after settings have changed.
++ * May only be called from inside a ptimer transaction block.
++ */
+ static void arm_timer_recalibrate(arm_timer_state *s, int reload)
+ {
+     uint32_t limit;
+@@ -102,13 +104,16 @@ static void arm_timer_write(void *opaque, hwaddr offset,
+     switch (offset >> 2) {
+     case 0: /* TimerLoad */
+         s->limit = value;
++        ptimer_transaction_begin(s->timer);
+         arm_timer_recalibrate(s, 1);
++        ptimer_transaction_commit(s->timer);
+         break;
+     case 1: /* TimerValue */
+         /* ??? Linux seems to want to write to this readonly register.
+            Ignore it.  */
+         break;
+     case 2: /* TimerControl */
++        ptimer_transaction_begin(s->timer);
+         if (s->control & TIMER_CTRL_ENABLE) {
+             /* Pause the timer if it is running.  This may cause some
+                inaccuracy dure to rounding, but avoids a whole lot of other
+@@ -128,13 +133,16 @@ static void arm_timer_write(void *opaque, hwaddr offset,
+             /* Restart the timer if still enabled.  */
+             ptimer_run(s->timer, (s->control & TIMER_CTRL_ONESHOT) != 0);
+         }
++        ptimer_transaction_commit(s->timer);
+         break;
+     case 3: /* TimerIntClr */
+         s->int_level = 0;
+         break;
+     case 6: /* TimerBGLoad */
+         s->limit = value;
++        ptimer_transaction_begin(s->timer);
+         arm_timer_recalibrate(s, 0);
++        ptimer_transaction_commit(s->timer);
+         break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -166,14 +174,12 @@ static const VMStateDescription vmstate_arm_timer = {
+ static arm_timer_state *arm_timer_init(uint32_t freq)
+ {
+     arm_timer_state *s;
+-    QEMUBH *bh;
+ 
+     s = (arm_timer_state *)g_malloc0(sizeof(arm_timer_state));
+     s->freq = freq;
+     s->control = TIMER_CTRL_IE;
+ 
+-    bh = qemu_bh_new(arm_timer_tick, s);
+-    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++    s->timer = ptimer_init(arm_timer_tick, s, PTIMER_POLICY_DEFAULT);
+     vmstate_register(NULL, -1, &vmstate_arm_timer, s);
+     return s;
+ }
 -- 
 2.20.1
 
