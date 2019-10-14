@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE1DD654C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:35:02 +0200 (CEST)
-Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E08BD6531
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:30:56 +0200 (CEST)
+Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1R7-0007u2-1o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48482)
+	id 1iK1N8-0003Uv-TW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iK1Gg-0006DD-JG
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:24:15 -0400
+ (envelope-from <philmd@redhat.com>) id 1iK1H3-0006ey-KM
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:24:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iK1Gf-0000BP-Eb
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:24:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55832)
+ (envelope-from <philmd@redhat.com>) id 1iK1H2-0000JY-Kj
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:24:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56127)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iK1Gb-00009x-29; Mon, 14 Oct 2019 10:24:09 -0400
+ id 1iK1Gy-0000Hs-Hn; Mon, 14 Oct 2019 10:24:32 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 112BA3086228;
- Mon, 14 Oct 2019 14:24:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 992A210B78;
+ Mon, 14 Oct 2019 14:24:31 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B130D600CD;
- Mon, 14 Oct 2019 14:23:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE463600CD;
+ Mon, 14 Oct 2019 14:24:08 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/20] hw/southbridge/ich9: Removed unused headers
-Date: Mon, 14 Oct 2019 16:22:28 +0200
-Message-Id: <20191014142246.4538-3-philmd@redhat.com>
+Subject: [PATCH 03/20] hw/input/pckbd: Remove unused "hw/i386/pc.h" header
+Date: Mon, 14 Oct 2019 16:22:29 +0200
+Message-Id: <20191014142246.4538-4-philmd@redhat.com>
 In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
 References: <20191014142246.4538-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 14 Oct 2019 14:24:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Mon, 14 Oct 2019 14:24:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,57 +76,26 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ICH9 chipset is not X86/PC specific.
-
-These files don't use anything declared by the "hw/i386/pc.h"
-or "hw/i386/ioapic.h" headers. Remove them.
+The keyboard controller model don't need anything from
+"hw/i386/pc.h". Remove it.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/acpi/ich9.c         | 1 -
- hw/isa/lpc_ich9.c      | 2 --
- include/hw/i386/ich9.h | 1 -
- 3 files changed, 4 deletions(-)
+ hw/input/pckbd.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 2034dd749e..fdd0a6c79e 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -27,7 +27,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
--#include "hw/i386/pc.h"
- #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
- #include "qemu/timer.h"
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 17c292e306..61cee2ae3a 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -35,10 +35,8 @@
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index f0acfd86f7..2f09f780ba 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -26,7 +26,6 @@
+ #include "qemu/log.h"
  #include "hw/isa/isa.h"
- #include "hw/sysbus.h"
  #include "migration/vmstate.h"
 -#include "hw/i386/pc.h"
+ #include "hw/input/ps2.h"
  #include "hw/irq.h"
- #include "hw/isa/apm.h"
--#include "hw/i386/ioapic.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/i386/ich9.h"
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index 72e803f6e2..a98d10b252 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -5,7 +5,6 @@
- #include "hw/sysbus.h"
- #include "hw/i386/pc.h"
- #include "hw/isa/apm.h"
--#include "hw/i386/ioapic.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci_bridge.h"
+ #include "hw/input/i8042.h"
 --=20
 2.21.0
 
