@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD62D6783
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:39:07 +0200 (CEST)
-Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CC8D6781
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:38:47 +0200 (CEST)
+Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3NC-0005Vi-GG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37226)
+	id 1iK3Ms-00053n-Ao
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:38:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qS-0004j7-Vs
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:18 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qX-0004sM-BR
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qR-0007vc-SH
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:16 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:54977)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2qV-0007zm-La
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:21 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51314)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qR-0007ub-MA
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:15 -0400
-Received: by mail-wm1-x330.google.com with SMTP id p7so17868212wmp.4
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:15 -0700 (PDT)
+ id 1iK2qV-0007yd-Ek
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:19 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id 7so17878120wme.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=IPPpRDvS1khlTKhQXpsP8betxpNnecGFCTfAvZZmBYI=;
- b=l2X4mcWiQwjJTESJQHgOwNf2zaN90pCzSndilgEohpgxa8rRca0IFuTfQqHaXl9+k0
- pVFWTBB+5JQGE/5GckgitcniQsWk3aJ/3nghEXWqVXxEyQ8qUi5kSuUg1/hwRqejiE3Q
- pYmtauaLMr2FhPsxdSzdkGwI+XQ7Fl26Jt0vajhQTS9KIN3O2LoqMGw8xMXWxPpwmOmL
- aPuVcuNVw9fAUWz9gVrafzH6XXbdqwYff3tyuheboIarr5lYMfjQBxjNvcmIr1jCW3I0
- oX6DN1UPYnw1W3B0vtW2UcTXjvA22Yw6jP7xDHKVQwir/g2VNSnClAEQC4rGq0iqIvMJ
- ks+A==
+ bh=KUMye//Fbkf+9msDoqPyPXUdss42C+DBua4/Sjth1Gs=;
+ b=Tge074b3W0MMVzRgckggTMV4kPX4AcUcOfsUTR4+rHmLSYdkDugO+yD7muLYc9bcCY
+ oBv54bIvrVBdmCpjRHo51t5gT4zZIqw6REx154wpKYeRgrEt17pyuDMIR7AK5UzOjvnD
+ 1WZ33/FN2W/iGVvC8GJjBJJfdfZ7d6GLM2yTf2WZVM4pW0nvvcL1PrS5YaS9lR2vTRGY
+ Ncnl1tmp76QUwUPorJVF2uXR8xvZLRYNCWKQPyxzK60x2nyoae3Hhojyz9Frk59ytVgP
+ T+tcZ6WHEcGG++8EU5gTICzRkK3nP1qZKQkbY0I3iIrxn3pp818TwPti57uE1/pMt2Iu
+ MLaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IPPpRDvS1khlTKhQXpsP8betxpNnecGFCTfAvZZmBYI=;
- b=UHP73vbtKKlEaQlVLGK7YjW0mtUjldAWSE0jbqwKL78mYg8S5xpXiJX7YfcyusYxpn
- CD1t7Zw8r2x8fqxF2easiK922tsi0W/BN5pb58de5CopCoe5DdZrWquPw+xjaR0vnWz3
- nV6P28SnSs6sqP7OLQg7Mz+/xDVO4xLzHbVFfEKbJI0QnrsKSP9WPM8EY6vAsnSPzZiG
- OyXDk7g+o4bcsQ2/EHe6xuTviBVrEqW0JpN9GdW/hZlwOgPejpPgRemrb64am21QAXlc
- OFBrQ9UXxehx9AjsqEPjwi8GGSm+VVdOQRDpy+77eSFBYiVD3ZAfT6CdSwwelojsPvFE
- 037g==
-X-Gm-Message-State: APjAAAVWnt1QD4Nk2RzFt2hUYazZT2Wv69dPPgipJKDbPfM7BmcuI4u8
- Ey8fRexogEVzr7y/wyeHKHACNLR2x+UGig==
-X-Google-Smtp-Source: APXvYqyFgIVgUen3cre5YfGrNB1JbNo4c5P/EkNvmxC/nlIpJdYR/+H0TMbpwCXCwfy2H9c1Dre1PA==
-X-Received: by 2002:a05:600c:2201:: with SMTP id
- z1mr16076270wml.169.1571069113709; 
- Mon, 14 Oct 2019 09:05:13 -0700 (PDT)
+ bh=KUMye//Fbkf+9msDoqPyPXUdss42C+DBua4/Sjth1Gs=;
+ b=Wf5cc/s6gDXyer2vXGr+ULwhdpyTZc+J1yYYprpVJCWY8/WdsZtNisaeeX7aakGIOr
+ tM8PL0cShfESi2bQuKcbMjZP8qW6bdossUtsft7VaC6qgwdYJls1RRFl6vCcJOwXCrNy
+ m736LJvmNbsLTmCwnElZx2wpv4asIseOWHdPq4jmsrqJ4n2Llx95eV+XE/LQYA72AteO
+ V4vesiTlEqtWmDhXDsSO1pOjMP7AqvNyJ9kBOL8o34bSeLe2PNgiP793nhI7QDArGBdL
+ TeGYt5lI7KhTPd+R/a7sWqOqzh49fkhDXYLkYxOEQp8n8Ssu1u/wNnqIaM1Z8DRE8qdm
+ +XWw==
+X-Gm-Message-State: APjAAAXqht6YcRavmDyo83Dw7aLij6V3XvYFXkSw1xt7ti8M8BMhXOkv
+ Ms8Msm5+L9B2IhFruKM5AVtjKhLdGxhACA==
+X-Google-Smtp-Source: APXvYqwJZV5jovGQR6p1DWKQUpngLV20qGAsJrX1RoPMw21bYWudfl7BauwJoquwY6rWAGdqeiVlBg==
+X-Received: by 2002:a1c:2d4d:: with SMTP id t74mr15079408wmt.108.1571069118077; 
+ Mon, 14 Oct 2019 09:05:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.12
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:12 -0700 (PDT)
+ Mon, 14 Oct 2019 09:05:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/68] aspeed/wdt: Check correct register for clock source
-Date: Mon, 14 Oct 2019 17:03:36 +0100
-Message-Id: <20191014160404.19553-41-peter.maydell@linaro.org>
+Subject: [PULL 43/68] aspeed/timer: Introduce an object class per SoC
+Date: Mon, 14 Oct 2019 17:03:39 +0100
+Message-Id: <20191014160404.19553-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,38 +82,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amithash Prasad <amithash@fb.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-When WDT_RESTART is written, the data is not the contents
-of the WDT_CTRL register. Hence ensure we are looking at
-WDT_CTRL to check if bit WDT_CTRL_1MHZ_CLK is set or not.
+The most important changes will be on the register range 0x34 - 0x3C
+memops. Introduce class read/write operations to handle the
+differences between SoCs.
 
-Signed-off-by: Amithash Prasad <amithash@fb.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20190925143248.10000-2-clg@kaod.org
-[clg: improved Suject prefix ]
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20190925143248.10000-5-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/watchdog/wdt_aspeed.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/timer/aspeed_timer.h |  15 +++++
+ hw/arm/aspeed_soc.c             |   3 +-
+ hw/timer/aspeed_timer.c         | 107 ++++++++++++++++++++++++++++----
+ 3 files changed, 113 insertions(+), 12 deletions(-)
 
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 9b932134172..f710036535d 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -140,7 +140,7 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
-     case WDT_RESTART:
-         if ((data & 0xFFFF) == WDT_RESTART_MAGIC) {
-             s->regs[WDT_STATUS] = s->regs[WDT_RELOAD_VALUE];
--            aspeed_wdt_reload(s, !(data & WDT_CTRL_1MHZ_CLK));
-+            aspeed_wdt_reload(s, !(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK));
-         }
+diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_timer.h
+index 1fb949e1671..a791fee276f 100644
+--- a/include/hw/timer/aspeed_timer.h
++++ b/include/hw/timer/aspeed_timer.h
+@@ -28,6 +28,9 @@
+ #define ASPEED_TIMER(obj) \
+     OBJECT_CHECK(AspeedTimerCtrlState, (obj), TYPE_ASPEED_TIMER);
+ #define TYPE_ASPEED_TIMER "aspeed.timer"
++#define TYPE_ASPEED_2400_TIMER TYPE_ASPEED_TIMER "-ast2400"
++#define TYPE_ASPEED_2500_TIMER TYPE_ASPEED_TIMER "-ast2500"
++
+ #define ASPEED_TIMER_NR_TIMERS 8
+ 
+ typedef struct AspeedTimer {
+@@ -60,4 +63,16 @@ typedef struct AspeedTimerCtrlState {
+     AspeedSCUState *scu;
+ } AspeedTimerCtrlState;
+ 
++#define ASPEED_TIMER_CLASS(klass) \
++     OBJECT_CLASS_CHECK(AspeedTimerClass, (klass), TYPE_ASPEED_TIMER)
++#define ASPEED_TIMER_GET_CLASS(obj) \
++     OBJECT_GET_CLASS(AspeedTimerClass, (obj), TYPE_ASPEED_TIMER)
++
++typedef struct AspeedTimerClass {
++    SysBusDeviceClass parent_class;
++
++    uint64_t (*read)(AspeedTimerCtrlState *s, hwaddr offset);
++    void (*write)(AspeedTimerCtrlState *s, hwaddr offset, uint64_t value);
++} AspeedTimerClass;
++
+ #endif /* ASPEED_TIMER_H */
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index c3821a56273..26e03486f9b 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -182,8 +182,9 @@ static void aspeed_soc_init(Object *obj)
+     sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
+                           TYPE_ASPEED_RTC);
+ 
++    snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+     sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
+-                          sizeof(s->timerctrl), TYPE_ASPEED_TIMER);
++                          sizeof(s->timerctrl), typename);
+     object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
+                                    OBJECT(&s->scu), &error_abort);
+ 
+diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
+index 2bda826882d..c78bc1bd2d2 100644
+--- a/hw/timer/aspeed_timer.c
++++ b/hw/timer/aspeed_timer.c
+@@ -253,13 +253,8 @@ static uint64_t aspeed_timer_read(void *opaque, hwaddr offset, unsigned size)
+     case 0x40 ... 0x8c: /* Timers 5 - 8 */
+         value = aspeed_timer_get_value(&s->timers[(offset >> 4) - 1], reg);
          break;
-     case WDT_CTRL:
+-    /* Illegal */
+-    case 0x38:
+-    case 0x3C:
+     default:
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
+-                __func__, offset);
+-        value = 0;
++        value = ASPEED_TIMER_GET_CLASS(s)->read(s, offset);
+         break;
+     }
+     trace_aspeed_timer_read(offset, size, value);
+@@ -453,12 +448,8 @@ static void aspeed_timer_write(void *opaque, hwaddr offset, uint64_t value,
+     case 0x40 ... 0x8c:
+         aspeed_timer_set_value(s, (offset >> TIMER_NR_REGS) - 1, reg, tv);
+         break;
+-    /* Illegal */
+-    case 0x38:
+-    case 0x3C:
+     default:
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
+-                __func__, offset);
++        ASPEED_TIMER_GET_CLASS(s)->write(s, offset, value);
+         break;
+     }
+ }
+@@ -472,6 +463,64 @@ static const MemoryRegionOps aspeed_timer_ops = {
+     .valid.unaligned = false,
+ };
+ 
++static uint64_t aspeed_2400_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
++{
++    uint64_t value;
++
++    switch (offset) {
++    case 0x38:
++    case 0x3C:
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
++                __func__, offset);
++        value = 0;
++        break;
++    }
++    return value;
++}
++
++static void aspeed_2400_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
++                                    uint64_t value)
++{
++    switch (offset) {
++    case 0x38:
++    case 0x3C:
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
++                __func__, offset);
++        break;
++    }
++}
++
++static uint64_t aspeed_2500_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
++{
++    uint64_t value;
++
++    switch (offset) {
++    case 0x38:
++    case 0x3C:
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
++                __func__, offset);
++        value = 0;
++        break;
++    }
++    return value;
++}
++
++static void aspeed_2500_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
++                                    uint64_t value)
++{
++    switch (offset) {
++    case 0x38:
++    case 0x3C:
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
++                __func__, offset);
++        break;
++    }
++}
++
+ static void aspeed_init_one_timer(AspeedTimerCtrlState *s, uint8_t id)
+ {
+     AspeedTimer *t = &s->timers[id];
+@@ -570,11 +619,47 @@ static const TypeInfo aspeed_timer_info = {
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(AspeedTimerCtrlState),
+     .class_init = timer_class_init,
++    .class_size = sizeof(AspeedTimerClass),
++    .abstract   = true,
++};
++
++static void aspeed_2400_timer_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedTimerClass *awc = ASPEED_TIMER_CLASS(klass);
++
++    dc->desc = "ASPEED 2400 Timer";
++    awc->read = aspeed_2400_timer_read;
++    awc->write = aspeed_2400_timer_write;
++}
++
++static const TypeInfo aspeed_2400_timer_info = {
++    .name = TYPE_ASPEED_2400_TIMER,
++    .parent = TYPE_ASPEED_TIMER,
++    .class_init = aspeed_2400_timer_class_init,
++};
++
++static void aspeed_2500_timer_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedTimerClass *awc = ASPEED_TIMER_CLASS(klass);
++
++    dc->desc = "ASPEED 2500 Timer";
++    awc->read = aspeed_2500_timer_read;
++    awc->write = aspeed_2500_timer_write;
++}
++
++static const TypeInfo aspeed_2500_timer_info = {
++    .name = TYPE_ASPEED_2500_TIMER,
++    .parent = TYPE_ASPEED_TIMER,
++    .class_init = aspeed_2500_timer_class_init,
+ };
+ 
+ static void aspeed_timer_register_types(void)
+ {
+     type_register_static(&aspeed_timer_info);
++    type_register_static(&aspeed_2400_timer_info);
++    type_register_static(&aspeed_2500_timer_info);
+ }
+ 
+ type_init(aspeed_timer_register_types)
 -- 
 2.20.1
 
