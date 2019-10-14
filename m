@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88EAD6893
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:36:52 +0200 (CEST)
-Received: from localhost ([::1]:54686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047D5D6888
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:34:55 +0200 (CEST)
+Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK4H5-0003QM-GX
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39917)
+	id 1iK4FC-0000am-1C
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iK34N-0006bP-7r
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:41 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1iK34K-0006Xz-Li
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iK34H-0007aB-Lw
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:39 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39425)
+ (envelope-from <mrolnik@gmail.com>) id 1iK34J-0007aP-9i
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:36 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42057)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iK34H-0007Zz-CG
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:33 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r3so20447732wrj.6
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:19:33 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iK34J-0007aF-2s
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:19:35 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n14so20393625wrw.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=SMsddy6aZ63CgsEepIUcm6WyV0wXdBfVOcMIs69xOFY=;
- b=fgMlSlf9RP6uuh5FTf0nJgK6ou6aeP2SvK3kT0FIxAa8ZwNgW7rC4rj2TdYKm1llcH
- XSw4OGUXHkppwSYrfX/dKue7w2urfEolr4FhEKXFT3zVShgugc9Qnbw3jYVpwP1maUmX
- YN88cAyuOm48HlZLmVbhyn4RFhLigTPQ0+SxDoE9PugiugXbqJbgk4KMD01iXb1l77mk
- jyz+CKzUqXFnZqI2I7gKmZau7v2QlCUBxEL1BEGoyIlyFtq9abfxmiwNHxuDAybJO2DI
- 9wRZTzOq3gh7u6Qt9wazIErXZdCf+cxejg1W0z6bHNUzQB+t0LM4K/YRpi50K66jT3Bm
- +tIw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9d/uDGv85dLEv33nEDGWywNGXN8GQJeP0QFNxDLvG8o=;
+ b=GfJKuOq4ESGuaUxpx+6ovR1uYdwow39CrkmXDFFF/bF8qfvzbw/V76Htztk3tEGUiD
+ uXjBBEvEiM/QvfKy9xhsTnkK2IOm5GYq99CI8K01FGaRCcFtvG4qHFAgyuTBj1vq3Awn
+ s5w1wYpI1c8hPqSHVrSCqG7FL0srrALZQ8UKG52/gaVt+qPqzlM7dEsBL0IEMhbsNXCx
+ SeUtTGcppS/vD5bPNY+q6re4uZkDnrMJFNxjdDNuhRgHW1MVGR8UhgaBB7fV1vBgScNN
+ e1/KcNcjiy3+3vGYUQrqmnPVZakLdOT8jpfMu8CZgICbxGvTGLxJSiadXuSqY8PxN1Ma
+ CJmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=SMsddy6aZ63CgsEepIUcm6WyV0wXdBfVOcMIs69xOFY=;
- b=MKzEdnqBr11cOiOsFm9jh531NpXWBxk7kwNSikwnR0yvdz226aEOWHeF0JyqiAkGho
- OGPM7w1VAFI61XnBATY6SZQCdFg6Ps/UFu5Yuij/ALD9TceRkvoB4keTC5Pu4xCK4Jv6
- a1CLj11nd81URxcVygtmEoV+2IJn9sa1Ap4i4qIAa7/e400gbIZkV8Ii7Me7LjjXMLMl
- AGxVD63VtUg5glnqGtAByWQAEsmGfOFRxFITXSXVtTn/Hx+DsSU8KjqJ1+o4T8rBaaFC
- hVGPOkQMwruUOxAf7edk3u5dRVH3rhUsUkWcAIGceNXLDVNNP0J130KO2hps07x1N5Yq
- QyWA==
-X-Gm-Message-State: APjAAAW0YOSy153Zp8jfIgA4y+lKbl8Lkaxmr8uZ/z+pTbue9lNR3Pla
- uCS5pp+KQ+z9h2Z8BVEDglh/DUhPQ5U=
-X-Google-Smtp-Source: APXvYqylgnNM/+ELhRqYA6NdMZi1MEzv2hV5A9BPiMNyJ8BXA5sas59d24rmcczAhulGdgNlpJgnOQ==
-X-Received: by 2002:adf:dfc6:: with SMTP id q6mr26770677wrn.207.1571069972019; 
- Mon, 14 Oct 2019 09:19:32 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=9d/uDGv85dLEv33nEDGWywNGXN8GQJeP0QFNxDLvG8o=;
+ b=V1fIfnFFOO/rDGt7Jaj8E/quS88lcWaYZ0/hqAnry/CT8Y4WYlUGwGLDNU3f6AxM7i
+ DOhVZZQixmYDDmABCRb1/K3a7pJKixF+U9ZWpUrzt2t0cOi3F2aut7sL5nfXEShr+A+C
+ xltkGJFi30PzvEj51aRKasFQjqE/oBO8Dm1pWLPnt/hVX/LyISYnXO/kcXWzLOch9xM3
+ WjEk9K4yvP9Mz6fQdk9rJ54+a+ZcBg0/FtjG8F8Z3fgUIlOnHIjxKseyy4rhFJGqowGY
+ Dk6JyM+KyIKbb2on6LDmuNcjUzfET2/8AbzzucUL0lzcxzPJhUsPwpygERIqszFq8Y1i
+ Kscg==
+X-Gm-Message-State: APjAAAWY6lYk1plgt5tFUl/kMTOdlDf8GzhXipohHGOcAwYt4rAnFPQ4
+ ptrk68p+MiuaH9VtLjch2ZUqTdss/pE=
+X-Google-Smtp-Source: APXvYqx0sUpqbezYqdztaupuNiNumTWPZxgpWggD7L2GJZKfqCF1bKGWLyLBci7GbL4SWevMbONfRg==
+X-Received: by 2002:adf:dec9:: with SMTP id i9mr13877325wrn.230.1571069973624; 
+ Mon, 14 Oct 2019 09:19:33 -0700 (PDT)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-79-178-11-117.red.bezeqint.net. [79.178.11.117])
- by smtp.gmail.com with ESMTPSA id c132sm28050861wme.27.2019.10.14.09.19.30
+ by smtp.gmail.com with ESMTPSA id c132sm28050861wme.27.2019.10.14.09.19.32
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Mon, 14 Oct 2019 09:19:31 -0700 (PDT)
+ Mon, 14 Oct 2019 09:19:33 -0700 (PDT)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v32 12/13] target/avr: Register AVR support with the rest of
- QEMU, the build system, and the WMAINTAINERS file
-Date: Mon, 14 Oct 2019 19:18:42 +0300
-Message-Id: <20191014161843.84845-13-mrolnik@gmail.com>
+Subject: [PATCH v32 13/13] target/avr: Add tests
+Date: Mon, 14 Oct 2019 19:18:43 +0300
+Message-Id: <20191014161843.84845-14-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191014161843.84845-1-mrolnik@gmail.com>
 References: <20191014161843.84845-1-mrolnik@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,188 +84,109 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
----
- MAINTAINERS                     |  9 +++++++++
- arch_init.c                     |  2 ++
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- include/disas/dis-asm.h         |  6 ++++++
- include/sysemu/arch_init.h      |  1 +
- qapi/machine.json               |  3 ++-
- target/avr/Makefile.objs        | 33 +++++++++++++++++++++++++++++++++
- tests/machine-none-test.c       |  1 +
- 9 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+1. Avocado test
+    The test is based on
+    https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
+    demo which. If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out.
+    it also demostrates that timer and IRQ are working
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3ca814850e..8c1a616958 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -163,6 +163,15 @@ S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
+2. Boot serial test
+    Print out 'T' through serial port
+
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/Makefile.include           |  2 ++
+ tests/acceptance/machine_avr6.py | 36 ++++++++++++++++++++++++++++++++
+ tests/boot-serial-test.c         | 10 +++++++++
+ 3 files changed, 48 insertions(+)
+ create mode 100644 tests/acceptance/machine_avr6.py
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 3543451ed3..376d7dfea3 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -199,6 +199,8 @@ check-qtest-i386-y += tests/test-x86-cpuid-compat$(EXESUF)
+ check-qtest-i386-y += tests/numa-test$(EXESUF)
+ check-qtest-x86_64-y += $(check-qtest-i386-y)
  
-+AVR TCG CPUs
-+M: Michael Rolnik <mrolnik@gmail.com>
-+S: Maintained
-+F: target/avr/
-+F: hw/misc/avr_mask.c
-+F: hw/char/avr_usart.c
-+F: hw/timer/avr_timer16.c
-+F: hw/avr/
++check-qtest-avr-y += tests/boot-serial-test$(EXESUF)
 +
- CRIS TCG CPUs
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
-diff --git a/arch_init.c b/arch_init.c
-index 0a1531124c..fb308aa802 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -85,6 +85,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
-+#elif defined(TARGET_AVR)
-+#define QEMU_ARCH QEMU_ARCH_AVR
- #endif
+ check-qtest-alpha-y += tests/boot-serial-test$(EXESUF)
+ check-qtest-alpha-$(CONFIG_VGA) += tests/display-vga-test$(EXESUF)
  
- const uint32_t arch_type = QEMU_ARCH;
-diff --git a/configure b/configure
-index 08ca4bcb46..e3b673b8cc 100755
---- a/configure
-+++ b/configure
-@@ -7444,6 +7444,10 @@ case "$target_name" in
-     mttcg="yes"
-     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
-   ;;
-+  avr)
-+    gdb_xml_files="avr-cpu.xml"
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-   ;;
-   hppa)
-@@ -7663,6 +7667,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
+diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
 new file mode 100644
-index 0000000000..d1e1c28118
+index 0000000000..0601080b01
 --- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
++++ b/tests/acceptance/machine_avr6.py
+@@ -0,0 +1,36 @@
++import logging
++import time
++import distutils.spawn
 +
-+# Boards:
-+#
-+CONFIG_AVR_SAMPLE=y
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index e9c7dd8eb4..8bedce17ac 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -211,6 +211,12 @@ enum bfd_architecture
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-   bfd_arch_mn10300,    /* Matsushita MN10300 */
-+  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-+#define bfd_mach_avr1          1
-+#define bfd_mach_avr2          2
-+#define bfd_mach_avr3          3
-+#define bfd_mach_avr4          4
-+#define bfd_mach_avr5          5
-   bfd_arch_cris,       /* Axis CRIS */
- #define bfd_mach_cris_v0_v10   255
- #define bfd_mach_cris_v32      32
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 62c6fe4cf1..893df26ce2 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -24,6 +24,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_AVR = (1 << 20),
- };
++from avocado import skipUnless
++from avocado_qemu import Test
++from avocado.utils import process
++
++class AVR6Machine(Test):
++    timeout = 5
++
++    def test_freertos(self):
++        """
++        :avocado: tags=arch:avr
++        :avocado: tags=machine:sample
++        """
++        """
++        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
++        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
++        """
++        rom_url = 'https://github.com/seharris/qemu-avr-tests'
++        rom_url += '/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
++        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
++        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
++
++        self.vm.set_machine('sample')
++        self.vm.add_args('-bios', rom_path)
++        self.vm.add_args('-nographic')
++        self.vm.launch()
++
++        time.sleep(2)
++        self.vm.shutdown()
++
++        match = 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
++
++        self.assertIn(match, self.vm.get_log())
+diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
+index d3a54a0ba5..1121ed0db2 100644
+--- a/tests/boot-serial-test.c
++++ b/tests/boot-serial-test.c
+@@ -16,6 +16,15 @@
+ #include "qemu/osdep.h"
+ #include "libqtest.h"
  
- extern const uint32_t arch_type;
-diff --git a/qapi/machine.json b/qapi/machine.json
-index ca26779f1a..1fa2917ba9 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -21,11 +21,12 @@
- #        is true even for "qemu-system-x86_64".
- #
- # ppcemb: dropped in 3.1
-+# avr: since 4.2
- #
- # Since: 3.0
- ##
- { 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..2976affd95
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,33 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2019 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
++static const uint8_t bios_avr[] = {
++    0x88, 0xe0,             /* ldi r24, 0x08   */
++    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
++    0x86, 0xe0,             /* ldi r24, 0x06   */
++    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
++    0x84, 0xe5,             /* ldi r24, 0x54   */
++    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
++};
 +
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode-y = $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
-diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
-index 5953d31755..3e5c74e73e 100644
---- a/tests/machine-none-test.c
-+++ b/tests/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
+ static const uint8_t kernel_mcf5208[] = {
+     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
+     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
+@@ -103,6 +112,7 @@ typedef struct testdef {
+ 
+ static testdef_t tests[] = {
+     { "alpha", "clipper", "", "PCI:" },
++    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
+     { "ppc", "ppce500", "", "U-Boot" },
+     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
+     { "ppc", "g3beige", "", "PowerPC,750" },
 -- 
 2.17.2 (Apple Git-113)
 
