@@ -2,58 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536BFD667B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:50:09 +0200 (CEST)
-Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F05D6672
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:47:58 +0200 (CEST)
+Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK2bn-00071g-PW
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33748)
+	id 1iK2Zg-0004vr-5h
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:47:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iK2YX-0005DS-HO
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iK2XV-0004BG-L7
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:45:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iK2YV-00080b-3P
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:45 -0400
-Received: from rs224.mailgun.us ([209.61.151.224]:22930)
+ (envelope-from <richard.henderson@linaro.org>) id 1iK2XT-0007WF-HX
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:45:41 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38105)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1iK2YP-0007ma-Di
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:42 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
- s=pic; 
- t=1571067998; h=Content-Transfer-Encoding: MIME-Version: References:
- In-Reply-To: Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=us11dJP4tYiWCt+M3OJ3tptc3yO5a5+8OevvcFXza3A=;
- b=XGRwGyV3YhA8N1XDkNkIG5iwcjbuHMtD2FP1CeGFEDauoAKinVupJ52dt1ZasSsHvmB+EzNw
- AxWDK1XxEEsF/5+gD4h+ZMsF+fkQ+tWLNm4mm7fsLSPOT542sfzAT+acBThTrNtJsvxlt6B4
- aClgMOuDMTP/wgNUNJmccFuHCvyH8viTwaPZ4i848Xv3n9zuhjfJko/dsyfjybDS03J2yPAP
- xaRdFFkIqQwd+EkR/v5iAQtTlJ36MomTvUMHc2vwQ9HD4tYBmumeWXky/T3OWmYFiPX5KqrD
- B4cenLfMXd5mXeFQ4hJWvWFzJFCweJArg0Zn8/0MXpuuQiQ3a3jQhw==
-X-Mailgun-Sending-Ip: 209.61.151.224
-X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
-Received: from jonathan-ThinkPad-X1-Carbon.pdos.lcs.mit.edu
- (26-5-211.dynamic.csail.mit.edu [18.26.5.211])
- by mxa.mailgun.org with ESMTP id 5da49856.7f705dace450-smtp-out-n01;
- Mon, 14 Oct 2019 15:46:30 -0000 (UTC)
-From: Jonathan Behrens <jonathan@fintelia.io>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v4 3/3] target/riscv: Make the priv register writable by GDB
-Date: Mon, 14 Oct 2019 11:45:29 -0400
-Message-Id: <20191014154529.287048-4-jonathan@fintelia.io>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014154529.287048-1-jonathan@fintelia.io>
-References: <20191014154529.287048-1-jonathan@fintelia.io>
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iK2XT-0007Ul-BY
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:45:39 -0400
+Received: by mail-pl1-x644.google.com with SMTP id w8so8177522plq.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 08:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IrS3xE40X23O9deChjT+7WzHLLNBRoS5UfnL3rbcn5o=;
+ b=VbQ6MckY0sCSl775PO/fJqQK24WneI9Ul1s1wKbKzjKs43Y5cEIVQmVUZTgFLWZOJM
+ AzufDBLrlTMQuC8H9xvtwewsEPIblNZqGfn4/QJPMF7UjpJE0JUdtROLzWpzM0lAiOKQ
+ rJRITg+YR5oX0NATYVRp4YeNA0RIb6uLCbi8ybA7Nljc8hWbbZ/yYwt0/YyNOKoGWXtJ
+ BYVrE3fovuapWvCDpKqAAcWPhG8yc2rwG7RcVxEkAdDJeWPjg6vYXmmrAh8yYdUvfGWC
+ zNmATINkfNg0C30w0CjmjHVOz4rTeqlfVb2Aq1kIUK039ZORUS/3C2IJ3oskxKKS8Fgv
+ Xh+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IrS3xE40X23O9deChjT+7WzHLLNBRoS5UfnL3rbcn5o=;
+ b=WU2yZ1uVffIT+vj9ooend6wqPzw/hn+coAVXCAXOUM6Nu3zrg/e1I+NRXl6JWFHURj
+ op+aEFYT2Nz397VjzTLB3tH1/qtYvYDP2pu84YplAy8SzQZboqgzUGDHu8YqLCVZYe0+
+ XiaauNENVOuYiDGEXMwHXxMomQqrZ17r6airuJXB7lfJgCRuRTcoQKNSrPgPjp6z7RSV
+ j79ynPOxx9FYfVAl+0r6+M9GPvpJCHD+hyFsKk6Po+nVP+ncdHUdtNJiWovwSE7gISed
+ 7p9peuJxAlyq00pkIXYbGmCiCa49aA/4MomcsPtZXmwVL5S+yE+hdI/VVcYT734GqBIN
+ KufQ==
+X-Gm-Message-State: APjAAAXWr09hAYVbQEI/7V4aOJ4a2AqFrxOhEf8xDIjk/oMKYZG2ol2u
+ wOMwBODK2lsNyaAC9ilJw3r/kQ==
+X-Google-Smtp-Source: APXvYqz/fIakr9druKHafpW2juOYKTLItnWIgaal/NgUbHoFVttDM198bHN03W60/NsW0OWR+BPGFg==
+X-Received: by 2002:a17:902:6905:: with SMTP id
+ j5mr31752275plk.323.1571067937847; 
+ Mon, 14 Oct 2019 08:45:37 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id y8sm15029589pgs.34.2019.10.14.08.45.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Oct 2019 08:45:36 -0700 (PDT)
+Subject: Re: [PATCH v5 17/55] plugins: implement helpers for resolving hwaddr
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191014104948.4291-1-alex.bennee@linaro.org>
+ <20191014104948.4291-18-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <1dbbc6b6-0898-ea5c-ea2a-cd29614cd615@linaro.org>
+Date: Mon, 14 Oct 2019 08:45:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191014104948.4291-18-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.61.151.224
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,48 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Jonathan Behrens <jonathan@fintelia.io>, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: robert.foley@futurewei.com, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently only PRV_U, PRV_S and PRV_M are supported, so this patch ensures that
-the privilege mode is set to one of them. Once support for the H-extension is
-added, this code will also need to properly update the virtualization status
-when switching between VU/VS-modes and M-mode.
+On 10/14/19 3:49 AM, Alex Bennée wrote:
+> +bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+> +                       bool is_store, struct qemu_plugin_hwaddr *data)
+> +{
+> +    CPUArchState *env = cpu->env_ptr;
+> +    CPUTLBEntry *tlbe = tlb_entry(env, mmu_idx, addr);
+> +    target_ulong tlb_addr = is_store ? tlb_addr_write(tlbe) : tlbe->addr_read;
+> +
+> +    if (likely(tlb_hit(tlb_addr, addr))) {
+> +        if (tlb_addr & TLB_MMIO) {
+> +            data->hostaddr = 0;
+> +            data->is_io = true;
+> +            /* XXX: lookup device */
+> +        } else {
+> +            data->hostaddr = addr + tlbe->addend;
+> +            data->is_io = false;
 
-Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+...
 
----
- target/riscv/gdbstub.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+>  uint64_t qemu_plugin_hwaddr_to_raddr(const struct qemu_plugin_hwaddr *haddr)
+>  {
+> +#ifdef CONFIG_SOFTMMU
+> +    ram_addr_t ram_addr = 0;
+> +
+> +    if (haddr && !haddr->is_io) {
+> +        ram_addr = qemu_ram_addr_from_host((void *) haddr->hostaddr);
+> +        if (ram_addr == RAM_ADDR_INVALID) {
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 1f71604b78..1a7947e019 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -387,6 +387,15 @@ static int riscv_gdb_get_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
- 
- static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
- {
-+    if (n == 0) {
-+#ifndef CONFIG_USER_ONLY
-+        cs->priv = ldtul_p(mem_buf) & 0x3;
-+        if (cs->priv == PRV_H) {
-+            cs->priv = PRV_S;
-+        }
-+#endif
-+        return sizeof(target_ulong);
-+    }
-     return 0;
- }
- 
--- 
-2.23.0
+So, did you want the host address or the ram_addr?
+
+If you really only want the ram_addr then you can get
+that directly from the (io)tlb:
+
+    uintptr_t index = tlb_index(env, mmu_idx, addr);
+    CPUTLB *tlb = &cpu_neg(cpu)->tlb;
+    CPUIOTLBEntry *iotlbentry = &tlb->d[mmu_idx].iotlb[index];
+
+    data->raddr = addr + iotlbentry->addr;
+
+That said, what you have works.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
