@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B1FD6610
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:25:03 +0200 (CEST)
-Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3E7D6637
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:37:15 +0200 (CEST)
+Received: from localhost ([::1]:51562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK2DV-000720-Vh
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58206)
+	id 1iK2PJ-0003gt-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iK2CK-0006Zj-Pa
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:23:50 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2OP-0003Bf-14
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:36:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iK2CJ-0002LI-Bb
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:23:48 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38790)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2ON-0001ve-R7
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:36:16 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:42903)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iK2CJ-0002Km-4W
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:23:47 -0400
-Received: by mail-pg1-x543.google.com with SMTP id w3so3396214pgt.5
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 08:23:46 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iK2ON-0001vL-LJ
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:36:15 -0400
+Received: by mail-oi1-x244.google.com with SMTP id i185so14067494oif.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 08:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zUxkJm21JyxGkQB/PNe3pLRGe8oxyMZXemkl3o/Mb9E=;
- b=XmGCFyej7q7xlvlD7NB8DSuUIFYpY5EXH5o1qjeuWslans6Qse2fJza7JmvSc8aomT
- YnQbHa6oT91IauOstdAayV/+PYDQMGwinCo1893Q+KghlWLEYk/cFVhHPhqvTso7hpBO
- VpldTZyHjSJE1Akl31pRQSWXir/K69RxDszIDAQkUSTWG0WxeOQCgfB9l5nZXP/tE1kB
- nS9r+eGE1gBydlTNJBAhkfe2m2LdkHiLuoRcMeaHL4medOzFMdVfS0ntcRj6T1iF9V/D
- 6v4WEfl8EtOHh+Oo5Y4l9cjKov9xS8w4My2U/NaGVyrGl+3AcGyYBj8+t6dPujh0DmLJ
- vjZQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=aon3RehBDE2fWEQvWFNGKmlKtZuPKRHzLBFzBefocu4=;
+ b=QPr80sNjdoNP3bzzbitYefaMoSWseR/mI/x9enTwKMYw6m0ioxtpjZPLIKCllr+yOW
+ UhR/pJxHhZ1aVtnFKxdpXIM1q92kbXXSDplG/fB6gTO5H2Z2QmPawIcYDXsJHoevcHzQ
+ tzwxUKkK8lmXoyh7KlorAKULmYnLGhWSys84aQq5qyZ1GWWdfs5lfCPIAHogFqOrpLh1
+ 2Di5dj8hYduToLriyf1xNEDB00soKPcB1cbX4Kb2+8p+xpks1S/G4+Wi2bFG8R7MoFxQ
+ wUOTarqzqZEmdh9ryS3kE+9/Hz/E7WtLAi6WudUG37VMqeumcUhO5sx+WmqJEqhRbE5+
+ y7qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zUxkJm21JyxGkQB/PNe3pLRGe8oxyMZXemkl3o/Mb9E=;
- b=GRqyBr7FGw9eninGulcHI8qxHl2+fytvPQacRM5R/63nJnLpD9Sk+vBIHYCfsXUqXs
- 0QlsWTHNbrFNHKXBHqSrvO4ntGVdspM0aal4b6zeNvgwh6S2gE99Iw/CX9dwmwpZ8L/E
- HwmYRbM24U/0koRPbWMDMaEwV/zJ6bl8UKNXlWbYc7nIP7b+Wgs6PHtbl82ExhtkK583
- +nKvTtjHHh+iRLyJb/1koDH4KuiSiDRokmdUCCNC98m8UNo8BkXHt3YW8j67w4RjrDKk
- XQulbpV72qp4eSSWGdVDXBbEzYD8PpZs8cDnHTTHKfkOKdTdV54sTTEnyYC7F41K9Bgd
- fLmw==
-X-Gm-Message-State: APjAAAUi49XntiveyNgPYQ+S9Or+5JByJXJZHokyVnYTdrLH6ZCwtHlW
- tE7RAUaS/2WnL3ikVu2999dpfQ==
-X-Google-Smtp-Source: APXvYqwXVFG28gDycJWqxT2PHGqBeKqz9gX3XIHCvn/EQ+FbciD3BP+ljs78RewAx7mpVfxOTzY5Mw==
-X-Received: by 2002:a17:90a:bd82:: with SMTP id
- z2mr37850620pjr.15.1571066625635; 
- Mon, 14 Oct 2019 08:23:45 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id j24sm18526447pff.71.2019.10.14.08.23.44
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Oct 2019 08:23:44 -0700 (PDT)
-Subject: Re: [PATCH v5 14/55] plugin-gen: add module for TCG-related code
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191014104948.4291-1-alex.bennee@linaro.org>
- <20191014104948.4291-15-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <5ca526aa-8e62-5e76-8ccc-fcf504959888@linaro.org>
-Date: Mon, 14 Oct 2019 08:23:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aon3RehBDE2fWEQvWFNGKmlKtZuPKRHzLBFzBefocu4=;
+ b=UBq5FsWDY3hQnZjD7jJTw/ZPvYCdzQFFfx+JrLPg59mLWHQosuV/ZGROn52IqkqEkU
+ grPZNprT4ppQvw9/WDwurSlFGXTpopGc3O6g5/RdnvLnn8XGms+WJRcldSMU7rNTtfjB
+ ZoL93zLWKr5eM58fOIfsSucnCOqqJX0UJDXCY623b5mk2qC8MNyZ5i4zrMQUQ9/VZjqM
+ 94WkKC7m4GD2AwXSxyxALwKJHectVKC6QxmJ9ohLimO1hhBZx3qSy865IQ5CfWSqfKxp
+ 7t1oqCjtFWm5mXnOMDck5Xb5ef5m/viyjFm86nPbRQFwlK5fJ/H9FwQ3Rpj6UT2zGpLp
+ TDpA==
+X-Gm-Message-State: APjAAAUupWyqcr8fhG5Ka/N2E/9r8BiL+3cPiD4t8RvNg/eFR673rOkl
+ z23PI42y0fv8s4xTlqmM/MvQviC8zYnqqPirBgXNGQ==
+X-Google-Smtp-Source: APXvYqy2D/G39aB1GnSiqwrIK4W3tLfK9yKU+UrcvAl3MJ7edbzAIkfs/Zk0bolZu6PUe6TNfOeKtlJwKLtXcRZLKU0=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr23694683oia.48.1571067374864; 
+ Mon, 14 Oct 2019 08:36:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191014104948.4291-15-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190926173428.10713-1-f4bug@amsat.org>
+ <20190926173428.10713-7-f4bug@amsat.org>
+In-Reply-To: <20190926173428.10713-7-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Oct 2019 16:36:03 +0100
+Message-ID: <CAFEAcA-cbTqYaRr8epJVgUV+tkGgCuf__aM3GxRzbKuqgWfPYQ@mail.gmail.com>
+Subject: Re: [PATCH 06/19] hw/char/bcm2835_aux: Add trace events
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,60 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@futurewei.com, peter.puhov@futurewei.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Esteban Bosse <estebanbosse@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Guenter Roeck <linux@roeck-us.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/19 3:49 AM, Alex Bennée wrote:
-> From: "Emilio G. Cota" <cota@braap.org>
-> 
-> We first inject empty instrumentation from translator_loop.
-> After translation, we go through the plugins to see what
-> they want to register for, filling in the empty instrumentation.
-> If if turns out that some instrumentation remains unused, we
-> remove it.
-> 
-> This approach supports the following features:
-> 
-> - Inlining TCG code for simple operations. Note that we do not
->   export TCG ops to plugins. Instead, we give them a C API to
->   insert inlined ops. So far we only support adding an immediate
->   to a u64, e.g. to count events.
-> 
-> - "Direct" callbacks. These are callbacks that do not go via
->   a helper. Instead, the helper is defined at run-time, so that
->   the plugin code is directly called from TCG. This makes direct
->   callbacks as efficient as possible; they are therefore used
->   for very frequent events, e.g. memory callbacks.
-> 
-> - Passing the host address to memory callbacks. Most of this
->   is implemented in a later patch though.
-> 
-> - Instrumentation of memory accesses performed from helpers.
->   See the corresponding comment, as well as a later patch.
-> 
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> [AJB: add alloc_tcg_plugin_context, use glib, rm hwaddr]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v3
->   - introduce alloc_tcg_plugin_context
->   - allocate GPtrArray for tracking insns
-> v4
->   - remove hwaddr variants of callbacks
->   - pass full 32bit meminfo
->   - remove now unused code
->   - move plugin_gen_from into .c file
-> v5
->   - fix offsets when storing mem callbacks.
->   - remove #if 0 code no longer needed
+On Thu, 26 Sep 2019 at 18:34, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> The BCM2835 AUX UART is compatible with the 16650 model, when
+> the registers belong the the 16650 block, use its trace events,
+> else use bcm2835_aux_read/write.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> +    if (is_16650(offset)) {
+> +        trace_serial_ioport_read((offset & 0x1f) >> 2, res);
+> +    } else {
+> +        trace_bcm2835_aux_read(offset, res);
+> +    }
 
+I'm not really a fan of this. I would expect that if I turn
+on the trace point for reads from the device that I see all
+the reads, not just a subset of them. The device may be
+minimally software-compatible with a 16650, but it isn't actually
+a 16650, and there doesn't seem to be much point in sharing
+the serial_ioport_read() tracepoint.
 
-r~
+thanks
+-- PMM
 
