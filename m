@@ -2,56 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20246D6119
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:17:41 +0200 (CEST)
-Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B5BD6146
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:28:20 +0200 (CEST)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyM7-0000aq-JS
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47623)
+	id 1iJyWR-0006Xu-Cf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iJyIX-00079i-2w
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:13:58 -0400
+ (envelope-from <bounces@canonical.com>) id 1iJy69-0002KG-Bd
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:01:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iJyIU-0006ZK-JR
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:13:56 -0400
-Received: from 6.130.60.178.static.reverse-mundo-r.com ([178.60.130.6]:51929
- helo=fanzine.igalia.com)
+ (envelope-from <bounces@canonical.com>) id 1iJy67-00013e-Ap
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:01:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58970)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iJyIR-0006Oi-Uv; Mon, 14 Oct 2019 07:13:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=YkLdicxX46ih5g/ufOe1Xk38geLi4YEmvcP2hYp14MY=; 
- b=ScGreFsGRCXUMA/+qKeRR+T3d6MBVu1SbaIYLfpITuuyVTWUkobXuWOLjEKmrKnzTIEGz71GBYrd99p1cdA5xDmiuBX+kYMNzSH6Pn7vWCy9OzVR7pAH7cpUUDc/SPfyenqJ0rw6xuTGPKRRHtMU/Q6DoktpSNeMoPnXotP/s1Di5tEiiEs8pyGYlmzE8LZgCclJKmYhZJhqZgr8svDUbgW25OZU6m4AX4gQIC5xUfgEHdgMD2ox0HsosDXtkkc9B6OUgXmQ0D8q230ehE2vxygddevLzToPeyWo0XnKLZ5GDckYjg79C6mZRJJqF0HuQQ1SQFpn+1WL+/5yOEfODw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1iJyIK-0004K4-KY; Mon, 14 Oct 2019 13:13:44 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1iJyIK-0005Kn-Hg; Mon, 14 Oct 2019 13:13:44 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel\@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] block: Reject misaligned write requests with
- BDRV_REQ_NO_FALLBACK
-In-Reply-To: <6bbe4db2-a4fd-ee2b-1b79-879658b81753@virtuozzo.com>
-References: <20191013204853.1046-1-berto@igalia.com>
- <6bbe4db2-a4fd-ee2b-1b79-879658b81753@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 14 Oct 2019 13:13:44 +0200
-Message-ID: <w515zkrtw9j.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iJy67-000127-57
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:01:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iJy65-00050U-MC
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 11:01:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A6A3B2E80C3
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 11:01:05 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Oct 2019 10:48:59 -0000
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: davidhildenbrand ivmn
+X-Launchpad-Bug-Reporter: Ivan Warren (ivmn)
+X-Launchpad-Bug-Modifier: Ivan Warren (ivmn)
+References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
+Message-Id: <157105013982.10113.9045792506090548064.malone@chaenomeles.canonical.com>
+Subject: [Bug 1847232] Re: qemu TCG in s390x mode issue with calculating HASH
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="af2eefe214bd95389a09b7c956720881bab16807";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1fbb41e1f1a770b16628f6b3eb760141ae66a8ba
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,24 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Ivan Warren <ivan@vmfacility.fr>
+From: Ivan Warren via <qemu-devel@nongnu.org>
 
-On Mon 14 Oct 2019 12:11:52 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> 13.10.2019 23:48, Alberto Garcia wrote:
->> The BDRV_REQ_NO_FALLBACK flag means that an operation should only be
->> performed if it can be offloaded or otherwise performed efficiently.
->
-> As I know, BDRV_REQ_NO_FALLBACK is for write-zeros only, not about
-> offloading..
+I was looking for a simpler method (without using go), but curl/wget and
+whatnot don't seem to have any problem..  There must be something go is
+doing that is different.
 
-I just used the same wording from the documentation in block.h:
+My guess (but ONLY a guess) is that the "go" TLS code might be doing
+some dynamic checking on the z/Arch facility list (STFLE ?) and do some
+dynamic change to the code path. Maybe a bit far fetched...
 
-/* Execute the request only if the operation can be offloaded or otherwise
- * be executed efficiently, but return an error instead of using a slow
- * fallback. */
+-- =
 
-Berto
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1847232
+
+Title:
+  qemu TCG in s390x mode issue with calculating HASH
+
+Status in QEMU:
+  New
+
+Bug description:
+  When using go on s390x on Debian x64 (buster) (host) and debian s390x
+  (sid) (guest) I run into the following problem :
+
+  The following occurs while trying to build a custom project :
+
+  go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df716e:
+  Get
+  https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v0.0.0-2=
+0150613233007-fe3947df716e.mod:
+  local error: tls: bad record MAC
+
+  Doing a git bisect I find that this problem only occurs on and after
+  commit 08ef92d556c584c7faf594ff3af46df456276e1b
+
+  Before that commit, all works fine. Past this commit, build always
+  fails.
+
+  Without any proof, It looks like a hash calculation bug related to
+  using z/Arch vector facilities...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1847232/+subscriptions
 
