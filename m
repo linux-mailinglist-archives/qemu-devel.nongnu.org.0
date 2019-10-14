@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F86DD689C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:38:57 +0200 (CEST)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0373D687D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 19:32:14 +0200 (CEST)
+Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK4J6-0006YO-FT
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39961)
+	id 1iK4Cb-00067G-KE
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 13:32:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45751)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iK34j-000755-J2
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:20:02 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iK3lS-00052v-Tf
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:04:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iK34i-0007oM-Cc
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:20:01 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55471)
+ (envelope-from <richard.henderson@linaro.org>) id 1iK3lR-0006e7-Ru
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:04:10 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35184)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iK34i-0007nL-5n
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:20:00 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a6so17883050wma.5
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:20:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iK3lR-0006dt-Lm
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 13:04:09 -0400
+Received: by mail-pl1-x642.google.com with SMTP id c3so8287600plo.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 10:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DmW9G6FZcAKdMaM6SQSmwramiRS1r47zdy8/Hdwn1QA=;
- b=TO6Dy4C3jNa1txYX4OysXUVqfoC0PHIvqVY0gB3T3HtkXLj8FsDIJIyNbud9y7uMRR
- 8XoFcO+/nIR1KoZZeY4d9Z/m7cOKagGrQ5iEwoR8miZt27/Wx3S8Q2Wp9oXfKF/oX62S
- FeSpuG8ucZeLShXnK9PCXDC12DV/JmqIhPsEVexuunsxT1dvCYFlR3nOrk6ozmaNkrmk
- CKpspaOhKQT18JgqGx0kvmgS5beYYzJfo941GJX+qTLBIwBrUJ8n1oLGw1REPVxc1+kt
- gTQnDPoAupZ1gMIaPPJpDITmwJ0OfNKd46MC0+i/38BW1K5LgtKky5opThgrh+b+6+PY
- OHUA==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=brbr1mzwjXmvv417aG3HnH/oWh9+2TVZEyNL8/qhPaU=;
+ b=yuyFUOS3vNmbeChjgnxitUCd3NS6KM/sT1rgSNZFHtJ3A3G86M3BNDzCzPF3SRsKYv
+ yWIbjcCXnAKymJmfmoVcodDMHNnpgglKN7E0DHXbPgghz4sTf65EGJdFly+DvF6aft9e
+ vqjwwfQEo35vWlCbwJ24k1d/6DzyuWJ5/d/jKk5hjwxHZvzgmeOhkkxI0WoeeBMrGVgY
+ 5c7A0jbEWPhp57AJe8jo9CIftRzan2gOp5Ewg77NDBePbdCM8QkiUKncuhAy0DQ7TarE
+ OI0paFl+FeyJfus2pbooWCOFGCXl6Lva6hUIykdSDw8r6LF3e1ua6qv1RTvYg/D4GU22
+ nZNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DmW9G6FZcAKdMaM6SQSmwramiRS1r47zdy8/Hdwn1QA=;
- b=DGO447xcotnbUPtA+wE+tijywD5ysrMbRA/RvLdtV8cMzpaS/UudjFQa0JPp2Zpc+1
- MLJrcg971ZiTcAJWeIj3GX5qLA++piHZv4p6zE/2JC+KbQtjWNYBMp8DXsT9knFG47eZ
- DwfQyHvWyvN1/zKGv0UKDP110qpcVwmHvcivdFSS/t3ew/ziCHr22yUnC670sLFvtvLQ
- Xt81nKZVBcSyJAiw4fMefsjJItO/sciWbeCRGcojNzWwjwK//YYSHMal988DgNLo40/G
- EmtWJVSM89QymzlIp9IjyfJ38VRQ7DSwjZ6yX3YUgQ52/PuTLpZ4K/LX/sZZpmOjKV5z
- 1Juw==
-X-Gm-Message-State: APjAAAVpNzgzIipp7G30CDHl9PKwJCGmPNfzUCcrkA5NiWhjoDTSVAwf
- V8dOT3TMMcGD3k8KzGPjh/u5Uw==
-X-Google-Smtp-Source: APXvYqzwfdZ6bHfNpeIxIZGq1oQ8JlFJbO7x91ojZr+f3fjyof+3pct428qFA0V/E9tv2Kk9yNfTbA==
-X-Received: by 2002:a1c:e912:: with SMTP id q18mr16036951wmc.29.1571069999032; 
- Mon, 14 Oct 2019 09:19:59 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n18sm15852220wmi.20.2019.10.14.09.19.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:19:58 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C44611FF87;
- Mon, 14 Oct 2019 17:19:57 +0100 (BST)
-References: <20191011155546.14342-1-richard.henderson@linaro.org>
- <20191011155546.14342-9-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH v6 08/20] target/arm: Split out rebuild_hflags_aprofile
-In-reply-to: <20191011155546.14342-9-richard.henderson@linaro.org>
-Date: Mon, 14 Oct 2019 17:19:57 +0100
-Message-ID: <87mue3mh8y.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=brbr1mzwjXmvv417aG3HnH/oWh9+2TVZEyNL8/qhPaU=;
+ b=R8yD6aN9fxOF8RjriA8HLeoqhGB2y+n3y1213ce2WDMM5GYDA/hdkf/3QJ6mDLeQki
+ BtpXt2AL4+fdcm/arsCabzo75dCOo8tmu+dLz7NppRetrKTrFXlXsrA7Xl9qsuetBtEi
+ 5aiEGZKh/w0WNCFJz+xvSUDTSoDQSDG6tl0BtMzJpqmcKSDQtW59a3zyuS/i2YlTzrO2
+ cYsXFSpDYu/jPA5IvR8BiWguiKspcUf7N5UZTrvCRs+/Z7+zmgHUswlg7dkV0L0GCuU3
+ YnWzeky/RseYgm593uWjk6dJoO+tzFCL7uRGW9XK/xDefJUuU/JumxH6s7stiVym9ekE
+ dAyg==
+X-Gm-Message-State: APjAAAUHeUo5UZM4B7uauw8hkxrB//q/hgxeKgxHPZYQVBoKnStqwP00
+ tsO28HEASn1gizHNmmH/BYRijg==
+X-Google-Smtp-Source: APXvYqxgNvYOJl8RwFftY442J6DNnN+dFHDBa38SWjxZhoR4FKuD9HTrHl3RETisy+h3rf11h8r1dA==
+X-Received: by 2002:a17:902:9888:: with SMTP id
+ s8mr22014803plp.193.1571072648631; 
+ Mon, 14 Oct 2019 10:04:08 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id l24sm18983501pff.151.2019.10.14.10.04.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Oct 2019 10:04:07 -0700 (PDT)
+Subject: Re: [PATCH v5 55/55] .travis.yml: add --enable-plugins tests
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191014104948.4291-1-alex.bennee@linaro.org>
+ <20191014104948.4291-56-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <37cb4eed-547f-e46a-864f-478293909c7b@linaro.org>
+Date: Mon, 14 Oct 2019 10:04:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191014104948.4291-56-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,78 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent.desnogues@gmail.com, peter.maydell@linaro.org,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, robert.foley@futurewei.com,
+ peter.puhov@futurewei.com, aaron@os.amperecomputing.com, cota@braap.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Create a function to compute the values of the TBFLAG_ANY bits
-> that will be cached, and are used by A-profile.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On 10/14/19 3:49 AM, Alex Bennée wrote:
+> check-tcg will automatically run the plugins against most TCG tests if
+> it is enabled in the build. We exclude sparc64-linux-user for now as
+> there are pending patches that need to be merged fixing it's fork
+> implementation.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/helper.c | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index d1cd54cc93..ddd21edfcf 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -11106,18 +11106,28 @@ static uint32_t rebuild_hflags_m32(CPUARMState =
-*env, int fp_el,
->      return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
->  }
->
-> +static uint32_t rebuild_hflags_aprofile(CPUARMState *env)
-> +{
-> +    int flags =3D 0;
-> +
-> +    flags =3D FIELD_DP32(flags, TBFLAG_ANY, DEBUG_TARGET_EL,
-> +                       arm_debug_target_el(env));
-> +    return flags;
-> +}
-> +
->  static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
->                                     ARMMMUIdx mmu_idx)
->  {
-> -    return rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
-> +    uint32_t flags =3D rebuild_hflags_aprofile(env);
-> +    return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
->  }
->
->  static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
->                                     ARMMMUIdx mmu_idx)
->  {
-> +    uint32_t flags =3D rebuild_hflags_aprofile(env);
->      ARMMMUIdx stage1 =3D stage_1_mmu_idx(mmu_idx);
->      ARMVAParameters p0 =3D aa64_va_parameters_both(env, 0, stage1);
-> -    uint32_t flags =3D 0;
->      uint64_t sctlr;
->      int tbii, tbid;
->
-> @@ -11262,12 +11272,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, targ=
-et_ulong *pc,
->          }
->      }
->
-> -    if (!arm_feature(env, ARM_FEATURE_M)) {
-> -        int target_el =3D arm_debug_target_el(env);
-> -
-> -        flags =3D FIELD_DP32(flags, TBFLAG_ANY, DEBUG_TARGET_EL, target_=
-el);
-> -    }
-> -
->      *pflags =3D flags;
->      *cs_base =3D 0;
->  }
+>  .travis.yml | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
---
-Alex Benn=C3=A9e
+r~
+
 
