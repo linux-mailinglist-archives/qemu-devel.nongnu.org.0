@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CC8D6781
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:38:47 +0200 (CEST)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3D8D678C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 18:41:33 +0200 (CEST)
+Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK3Ms-00053n-Ao
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
+	id 1iK3PY-0000jI-74
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 12:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qX-0004sM-BR
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:22 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2q3-00049r-0Z
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iK2qV-0007zm-La
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:21 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51314)
+ (envelope-from <peter.maydell@linaro.org>) id 1iK2q1-0007Oi-Ju
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:50 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42948)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iK2qV-0007yd-Ek
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:05:19 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id 7so17878120wme.1
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:05:19 -0700 (PDT)
+ id 1iK2q1-0007Ns-CW
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 12:04:49 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n14so20339432wrw.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 09:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KUMye//Fbkf+9msDoqPyPXUdss42C+DBua4/Sjth1Gs=;
- b=Tge074b3W0MMVzRgckggTMV4kPX4AcUcOfsUTR4+rHmLSYdkDugO+yD7muLYc9bcCY
- oBv54bIvrVBdmCpjRHo51t5gT4zZIqw6REx154wpKYeRgrEt17pyuDMIR7AK5UzOjvnD
- 1WZ33/FN2W/iGVvC8GJjBJJfdfZ7d6GLM2yTf2WZVM4pW0nvvcL1PrS5YaS9lR2vTRGY
- Ncnl1tmp76QUwUPorJVF2uXR8xvZLRYNCWKQPyxzK60x2nyoae3Hhojyz9Frk59ytVgP
- T+tcZ6WHEcGG++8EU5gTICzRkK3nP1qZKQkbY0I3iIrxn3pp818TwPti57uE1/pMt2Iu
- MLaw==
+ bh=5+kOs0teFFCsk+a/XyNTZMVCXSHzbGikT6RQ04d9kmY=;
+ b=cZ8j5vPekk4jpgSWBw21FmVVfIvnGdEq0Cjm00E4LPMXwjCJNv8Kr5vGibxzLgYhTW
+ OsFFo2K9xWapD9x2sD6EF2J7ipO6NjgfBqM46wj6QM5fTp0dubXReAWWBJenZrGNlM7M
+ cJv8gGIzjnXGqZcU5sk0Inpr4Uhgfcy5/NVhbgJiNLOiBa4045AtYd3ll2gPh/fTxGdy
+ FthhLqSRAw1wf7kDkOJsXkwsoa937a3/qshC00TLvnukP0jyXNWRthZEPRLt0Y4FnH22
+ KISP6MJVf1Zc0UajKbfnQU774gLMOQgTnelCoF8TQhNcAkexXVbLMn5yUu9uMcd81anI
+ kY5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KUMye//Fbkf+9msDoqPyPXUdss42C+DBua4/Sjth1Gs=;
- b=Wf5cc/s6gDXyer2vXGr+ULwhdpyTZc+J1yYYprpVJCWY8/WdsZtNisaeeX7aakGIOr
- tM8PL0cShfESi2bQuKcbMjZP8qW6bdossUtsft7VaC6qgwdYJls1RRFl6vCcJOwXCrNy
- m736LJvmNbsLTmCwnElZx2wpv4asIseOWHdPq4jmsrqJ4n2Llx95eV+XE/LQYA72AteO
- V4vesiTlEqtWmDhXDsSO1pOjMP7AqvNyJ9kBOL8o34bSeLe2PNgiP793nhI7QDArGBdL
- TeGYt5lI7KhTPd+R/a7sWqOqzh49fkhDXYLkYxOEQp8n8Ssu1u/wNnqIaM1Z8DRE8qdm
- +XWw==
-X-Gm-Message-State: APjAAAXqht6YcRavmDyo83Dw7aLij6V3XvYFXkSw1xt7ti8M8BMhXOkv
- Ms8Msm5+L9B2IhFruKM5AVtjKhLdGxhACA==
-X-Google-Smtp-Source: APXvYqwJZV5jovGQR6p1DWKQUpngLV20qGAsJrX1RoPMw21bYWudfl7BauwJoquwY6rWAGdqeiVlBg==
-X-Received: by 2002:a1c:2d4d:: with SMTP id t74mr15079408wmt.108.1571069118077; 
- Mon, 14 Oct 2019 09:05:18 -0700 (PDT)
+ bh=5+kOs0teFFCsk+a/XyNTZMVCXSHzbGikT6RQ04d9kmY=;
+ b=cJCRHls7B3dV9K2UTi/qZAJDwh/sZknbbxZK2CalLTWGLMpz+F1J+9kZy5C5FLxrku
+ +zGLUgZEOtKma1IcX/BAJTtHjKuPBF9WaX+SgKETKm43L1oPYidMCt1z3+WnRp5ObXXg
+ 0gcwCl/VV7GzW6gKWBvneFm3R0yTNizwtNJ3krDvvRVLgKWguQMXEk0/pwFldO36pZYW
+ EDxxtvTh2zOUj0fG5s/Xi1igDmmsVaIOszIKSxfvbS23eHOEXy958rK+CS6iIFWURJCW
+ SCHjsWQ7VOm3/+zjBv0rdiUTIpFw5eMZvcvOIAqcAUWy8tLmo+cTItTyJ/5cY/yT4rFy
+ Wddg==
+X-Gm-Message-State: APjAAAW9vRvH5KvP8/w0Fo/YFVF/N0PmPd0Zj7xIDbh3aCnjIL9V2PPU
+ FvJYA0GVi1TTzn3CSzpjqR3r6hzB2Qjp/A==
+X-Google-Smtp-Source: APXvYqyOohthrxWnGik5zasXDdB+uKHGD6lnwEGBmLrFdAe791fxNQP4Q3A58oSnUTXfZ4J4JDlaKw==
+X-Received: by 2002:a5d:5705:: with SMTP id a5mr27499379wrv.112.1571069087773; 
+ Mon, 14 Oct 2019 09:04:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.05.16
+ by smtp.gmail.com with ESMTPSA id 5sm18029779wrk.86.2019.10.14.09.04.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Oct 2019 09:05:17 -0700 (PDT)
+ Mon, 14 Oct 2019 09:04:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/68] aspeed/timer: Introduce an object class per SoC
-Date: Mon, 14 Oct 2019 17:03:39 +0100
-Message-Id: <20191014160404.19553-44-peter.maydell@linaro.org>
+Subject: [PULL 21/68] hw/timer/imx_gpt.c: Switch to transaction-based ptimer
+ API
+Date: Mon, 14 Oct 2019 17:03:17 +0100
+Message-Id: <20191014160404.19553-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191014160404.19553-1-peter.maydell@linaro.org>
 References: <20191014160404.19553-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,214 +82,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+Switch the imx_epit.c code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
-The most important changes will be on the register range 0x34 - 0x3C
-memops. Introduce class read/write operations to handle the
-differences between SoCs.
-
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190925143248.10000-5-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191008171740.9679-19-peter.maydell@linaro.org
 ---
- include/hw/timer/aspeed_timer.h |  15 +++++
- hw/arm/aspeed_soc.c             |   3 +-
- hw/timer/aspeed_timer.c         | 107 ++++++++++++++++++++++++++++----
- 3 files changed, 113 insertions(+), 12 deletions(-)
+ hw/timer/imx_gpt.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/timer/aspeed_timer.h b/include/hw/timer/aspeed_timer.h
-index 1fb949e1671..a791fee276f 100644
---- a/include/hw/timer/aspeed_timer.h
-+++ b/include/hw/timer/aspeed_timer.h
-@@ -28,6 +28,9 @@
- #define ASPEED_TIMER(obj) \
-     OBJECT_CHECK(AspeedTimerCtrlState, (obj), TYPE_ASPEED_TIMER);
- #define TYPE_ASPEED_TIMER "aspeed.timer"
-+#define TYPE_ASPEED_2400_TIMER TYPE_ASPEED_TIMER "-ast2400"
-+#define TYPE_ASPEED_2500_TIMER TYPE_ASPEED_TIMER "-ast2500"
-+
- #define ASPEED_TIMER_NR_TIMERS 8
+diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
+index c535d191292..5c0d9a269ce 100644
+--- a/hw/timer/imx_gpt.c
++++ b/hw/timer/imx_gpt.c
+@@ -16,7 +16,6 @@
+ #include "hw/irq.h"
+ #include "hw/timer/imx_gpt.h"
+ #include "migration/vmstate.h"
+-#include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "qemu/log.h"
  
- typedef struct AspeedTimer {
-@@ -60,4 +63,16 @@ typedef struct AspeedTimerCtrlState {
-     AspeedSCUState *scu;
- } AspeedTimerCtrlState;
- 
-+#define ASPEED_TIMER_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(AspeedTimerClass, (klass), TYPE_ASPEED_TIMER)
-+#define ASPEED_TIMER_GET_CLASS(obj) \
-+     OBJECT_GET_CLASS(AspeedTimerClass, (obj), TYPE_ASPEED_TIMER)
-+
-+typedef struct AspeedTimerClass {
-+    SysBusDeviceClass parent_class;
-+
-+    uint64_t (*read)(AspeedTimerCtrlState *s, hwaddr offset);
-+    void (*write)(AspeedTimerCtrlState *s, hwaddr offset, uint64_t value);
-+} AspeedTimerClass;
-+
- #endif /* ASPEED_TIMER_H */
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index c3821a56273..26e03486f9b 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -182,8 +182,9 @@ static void aspeed_soc_init(Object *obj)
-     sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
-                           TYPE_ASPEED_RTC);
- 
-+    snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
-     sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
--                          sizeof(s->timerctrl), TYPE_ASPEED_TIMER);
-+                          sizeof(s->timerctrl), typename);
-     object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
-                                    OBJECT(&s->scu), &error_abort);
- 
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index 2bda826882d..c78bc1bd2d2 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -253,13 +253,8 @@ static uint64_t aspeed_timer_read(void *opaque, hwaddr offset, unsigned size)
-     case 0x40 ... 0x8c: /* Timers 5 - 8 */
-         value = aspeed_timer_get_value(&s->timers[(offset >> 4) - 1], reg);
-         break;
--    /* Illegal */
--    case 0x38:
--    case 0x3C:
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
--                __func__, offset);
--        value = 0;
-+        value = ASPEED_TIMER_GET_CLASS(s)->read(s, offset);
-         break;
-     }
-     trace_aspeed_timer_read(offset, size, value);
-@@ -453,12 +448,8 @@ static void aspeed_timer_write(void *opaque, hwaddr offset, uint64_t value,
-     case 0x40 ... 0x8c:
-         aspeed_timer_set_value(s, (offset >> TIMER_NR_REGS) - 1, reg, tv);
-         break;
--    /* Illegal */
--    case 0x38:
--    case 0x3C:
-     default:
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
--                __func__, offset);
-+        ASPEED_TIMER_GET_CLASS(s)->write(s, offset, value);
-         break;
-     }
- }
-@@ -472,6 +463,64 @@ static const MemoryRegionOps aspeed_timer_ops = {
-     .valid.unaligned = false,
+@@ -127,6 +126,7 @@ static const IMXClk imx7_gpt_clocks[] = {
+     CLK_NONE,      /* 111 not defined */
  };
  
-+static uint64_t aspeed_2400_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
-+{
-+    uint64_t value;
-+
-+    switch (offset) {
-+    case 0x38:
-+    case 0x3C:
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                __func__, offset);
-+        value = 0;
-+        break;
-+    }
-+    return value;
-+}
-+
-+static void aspeed_2400_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-+                                    uint64_t value)
-+{
-+    switch (offset) {
-+    case 0x38:
-+    case 0x3C:
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                __func__, offset);
-+        break;
-+    }
-+}
-+
-+static uint64_t aspeed_2500_timer_read(AspeedTimerCtrlState *s, hwaddr offset)
-+{
-+    uint64_t value;
-+
-+    switch (offset) {
-+    case 0x38:
-+    case 0x3C:
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                __func__, offset);
-+        value = 0;
-+        break;
-+    }
-+    return value;
-+}
-+
-+static void aspeed_2500_timer_write(AspeedTimerCtrlState *s, hwaddr offset,
-+                                    uint64_t value)
-+{
-+    switch (offset) {
-+    case 0x38:
-+    case 0x3C:
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                __func__, offset);
-+        break;
-+    }
-+}
-+
- static void aspeed_init_one_timer(AspeedTimerCtrlState *s, uint8_t id)
++/* Must be called from within ptimer_transaction_begin/commit block */
+ static void imx_gpt_set_freq(IMXGPTState *s)
  {
-     AspeedTimer *t = &s->timers[id];
-@@ -570,11 +619,47 @@ static const TypeInfo aspeed_timer_info = {
-     .parent = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(AspeedTimerCtrlState),
-     .class_init = timer_class_init,
-+    .class_size = sizeof(AspeedTimerClass),
-+    .abstract   = true,
-+};
-+
-+static void aspeed_2400_timer_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    AspeedTimerClass *awc = ASPEED_TIMER_CLASS(klass);
-+
-+    dc->desc = "ASPEED 2400 Timer";
-+    awc->read = aspeed_2400_timer_read;
-+    awc->write = aspeed_2400_timer_write;
-+}
-+
-+static const TypeInfo aspeed_2400_timer_info = {
-+    .name = TYPE_ASPEED_2400_TIMER,
-+    .parent = TYPE_ASPEED_TIMER,
-+    .class_init = aspeed_2400_timer_class_init,
-+};
-+
-+static void aspeed_2500_timer_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    AspeedTimerClass *awc = ASPEED_TIMER_CLASS(klass);
-+
-+    dc->desc = "ASPEED 2500 Timer";
-+    awc->read = aspeed_2500_timer_read;
-+    awc->write = aspeed_2500_timer_write;
-+}
-+
-+static const TypeInfo aspeed_2500_timer_info = {
-+    .name = TYPE_ASPEED_2500_TIMER,
-+    .parent = TYPE_ASPEED_TIMER,
-+    .class_init = aspeed_2500_timer_class_init,
- };
- 
- static void aspeed_timer_register_types(void)
- {
-     type_register_static(&aspeed_timer_info);
-+    type_register_static(&aspeed_2400_timer_info);
-+    type_register_static(&aspeed_2500_timer_info);
+     uint32_t clksrc = extract32(s->cr, GPT_CR_CLKSRC_SHIFT, 3);
+@@ -167,6 +167,7 @@ static inline uint32_t imx_gpt_find_limit(uint32_t count, uint32_t reg,
+     return timeout;
  }
  
- type_init(aspeed_timer_register_types)
++/* Must be called from within ptimer_transaction_begin/commit block */
+ static void imx_gpt_compute_next_timeout(IMXGPTState *s, bool event)
+ {
+     uint32_t timeout = GPT_TIMER_MAX;
+@@ -313,6 +314,7 @@ static uint64_t imx_gpt_read(void *opaque, hwaddr offset, unsigned size)
+ 
+ static void imx_gpt_reset_common(IMXGPTState *s, bool is_soft_reset)
+ {
++    ptimer_transaction_begin(s->timer);
+     /* stop timer */
+     ptimer_stop(s->timer);
+ 
+@@ -350,6 +352,7 @@ static void imx_gpt_reset_common(IMXGPTState *s, bool is_soft_reset)
+     if (s->freq && (s->cr & GPT_CR_EN)) {
+         ptimer_run(s->timer, 1);
+     }
++    ptimer_transaction_commit(s->timer);
+ }
+ 
+ static void imx_gpt_soft_reset(DeviceState *dev)
+@@ -382,6 +385,7 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
+             imx_gpt_soft_reset(DEVICE(s));
+         } else {
+             /* set our freq, as the source might have changed */
++            ptimer_transaction_begin(s->timer);
+             imx_gpt_set_freq(s);
+ 
+             if ((oldreg ^ s->cr) & GPT_CR_EN) {
+@@ -397,12 +401,15 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
+                     ptimer_stop(s->timer);
+                 }
+             }
++            ptimer_transaction_commit(s->timer);
+         }
+         break;
+ 
+     case 1: /* Prescaler */
+         s->pr = value & 0xfff;
++        ptimer_transaction_begin(s->timer);
+         imx_gpt_set_freq(s);
++        ptimer_transaction_commit(s->timer);
+         break;
+ 
+     case 2: /* SR */
+@@ -414,13 +421,16 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
+         s->ir = value & 0x3f;
+         imx_gpt_update_int(s);
+ 
++        ptimer_transaction_begin(s->timer);
+         imx_gpt_compute_next_timeout(s, false);
++        ptimer_transaction_commit(s->timer);
+ 
+         break;
+ 
+     case 4: /* OCR1 -- output compare register */
+         s->ocr1 = value;
+ 
++        ptimer_transaction_begin(s->timer);
+         /* In non-freerun mode, reset count when this register is written */
+         if (!(s->cr & GPT_CR_FRR)) {
+             s->next_timeout = GPT_TIMER_MAX;
+@@ -429,6 +439,7 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
+ 
+         /* compute the new timeout */
+         imx_gpt_compute_next_timeout(s, false);
++        ptimer_transaction_commit(s->timer);
+ 
+         break;
+ 
+@@ -436,7 +447,9 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
+         s->ocr2 = value;
+ 
+         /* compute the new timeout */
++        ptimer_transaction_begin(s->timer);
+         imx_gpt_compute_next_timeout(s, false);
++        ptimer_transaction_commit(s->timer);
+ 
+         break;
+ 
+@@ -444,7 +457,9 @@ static void imx_gpt_write(void *opaque, hwaddr offset, uint64_t value,
+         s->ocr3 = value;
+ 
+         /* compute the new timeout */
++        ptimer_transaction_begin(s->timer);
+         imx_gpt_compute_next_timeout(s, false);
++        ptimer_transaction_commit(s->timer);
+ 
+         break;
+ 
+@@ -484,15 +499,13 @@ static void imx_gpt_realize(DeviceState *dev, Error **errp)
+ {
+     IMXGPTState *s = IMX_GPT(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-    QEMUBH *bh;
+ 
+     sysbus_init_irq(sbd, &s->irq);
+     memory_region_init_io(&s->iomem, OBJECT(s), &imx_gpt_ops, s, TYPE_IMX_GPT,
+                           0x00001000);
+     sysbus_init_mmio(sbd, &s->iomem);
+ 
+-    bh = qemu_bh_new(imx_gpt_timeout, s);
+-    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++    s->timer = ptimer_init(imx_gpt_timeout, s, PTIMER_POLICY_DEFAULT);
+ }
+ 
+ static void imx_gpt_class_init(ObjectClass *klass, void *data)
 -- 
 2.20.1
 
