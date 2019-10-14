@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EBAD6517
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:26:26 +0200 (CEST)
-Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0ABD651E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 16:27:41 +0200 (CEST)
+Received: from localhost ([::1]:50448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK1In-0007ca-3E
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48398)
+	id 1iK1K0-0000Yf-LQ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 10:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iK1GS-0005na-75
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:24:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1iK1HV-00070j-Eg
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:25:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iK1GN-00006E-C0
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:24:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55636)
+ (envelope-from <philmd@redhat.com>) id 1iK1HU-0000X4-E3
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 10:25:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iK1GD-0008Tu-Ba; Mon, 14 Oct 2019 10:23:45 -0400
+ id 1iK1HP-0000V4-VQ; Mon, 14 Oct 2019 10:25:00 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E2BB3086228;
- Mon, 14 Oct 2019 14:23:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 06D467FDFC;
+ Mon, 14 Oct 2019 14:24:58 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.206.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A45FB600CD;
- Mon, 14 Oct 2019 14:23:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E544600CD;
+ Mon, 14 Oct 2019 14:24:31 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/20] vl: Add missing "hw/boards.h" include
-Date: Mon, 14 Oct 2019 16:22:27 +0200
-Message-Id: <20191014142246.4538-2-philmd@redhat.com>
+Subject: [PATCH 04/20] hw/i386/ioapic_internal: Remove unused
+ "hw/i386/ioapic.h" header
+Date: Mon, 14 Oct 2019 16:22:30 +0200
+Message-Id: <20191014142246.4538-5-philmd@redhat.com>
 In-Reply-To: <20191014142246.4538-1-philmd@redhat.com>
 References: <20191014142246.4538-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 14 Oct 2019 14:23:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Mon, 14 Oct 2019 14:24:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,37 +77,27 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vl.c calls machine_usb() declared in "hw/boards.h". Include it.
-
-This fixes (when modifying unrelated headers):
-
-  vl.c:1283:10: error: implicit declaration of function 'machine_usb' is =
-invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      if (!machine_usb(current_machine)) {
-           ^
-  vl.c:1283:10: error: this function declaration is not a prototype [-Wer=
-ror,-Wstrict-prototypes]
-  vl.c:1283:22: error: use of undeclared identifier 'current_machine'
-      if (!machine_usb(current_machine)) {
-                       ^
+The "ioapic_internal.h" does not use anything from
+"hw/i386/ioapic.h", remove it.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- vl.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/i386/ioapic_internal.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/vl.c b/vl.c
-index 002bf4919e..e85b31df1b 100644
---- a/vl.c
-+++ b/vl.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/units.h"
-+#include "hw/boards.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu-version.h"
+diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_i=
+nternal.h
+index d46c87c510..fe06938bda 100644
+--- a/include/hw/i386/ioapic_internal.h
++++ b/include/hw/i386/ioapic_internal.h
+@@ -23,7 +23,6 @@
+ #define QEMU_IOAPIC_INTERNAL_H
+=20
+ #include "exec/memory.h"
+-#include "hw/i386/ioapic.h"
+ #include "hw/sysbus.h"
+ #include "qemu/notify.h"
+=20
 --=20
 2.21.0
 
