@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58164D6679
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:50:01 +0200 (CEST)
-Received: from localhost ([::1]:51828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49E5D667D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 17:50:23 +0200 (CEST)
+Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iK2bg-0006xc-32
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:50:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33773)
+	id 1iK2c2-0007fy-A4
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 11:50:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iK2Yd-0005E3-GN
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:53 -0400
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1iK2YP-00056Z-Vt
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iK2YZ-00081p-A1
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:49 -0400
-Received: from 9.mo173.mail-out.ovh.net ([46.105.72.44]:42965)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iK2YR-0007up-3h
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:45 -0400
-Received: from player786.ha.ovh.net (unknown [10.109.146.137])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 6672411C927
- for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 17:46:34 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 2AA7BB07D0FA;
- Mon, 14 Oct 2019 15:46:28 +0000 (UTC)
-Date: Mon, 14 Oct 2019 17:46:26 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 0/8] 9p patches 2019-10-10
-Message-ID: <20191014174626.76dc4e5c@bahia.lan>
-In-Reply-To: <CAFEAcA8tdhYm0EuVGx5OiPv7NuZvrtrPLnK+tz=xoJ0Gn4DCmw@mail.gmail.com>
-References: <20191010131809.1284004-1-groug@kaod.org>
- <CAFEAcA8tdhYm0EuVGx5OiPv7NuZvrtrPLnK+tz=xoJ0Gn4DCmw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1iK2YO-0007uk-WA
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:37 -0400
+Received: from rs224.mailgun.us ([209.61.151.224]:22930)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71)
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1iK2YK-0007ma-VX
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 11:46:36 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
+ s=pic; 
+ t=1571067985; h=Content-Transfer-Encoding: MIME-Version: Message-Id:
+ Date: Subject: To: From: Sender;
+ bh=Bi3YMZz2MEYyGeBYXwW6EEIw98GgauVCfCNzTFTBtOo=;
+ b=LW7qcjZdhv/LiHaxZ8/VSKNR/7kQ09NwER3zet9TxFKh6UMyu5LbEvieemKRC3zW8YlTj2Zq
+ 2PZpUDeiLkKFHXBWWwSZt9SbOjMfP8a/5XoSTsYAIvehs79f6pLcQINj33qwXGiSXkWvEZVs
+ jzZ2F6+cMeRVE7/Ek5QFz+xkVW+TAcnqf0E+mKhI6DNV4YgPqvT/rkODN7bM0GiZU7AZ0OZB
+ ahjRnbIm72datRVbibMgEhZaCuMocHyj6rfTokUqGW9Yr9JzNW/IhZiBX8Scxx2aBat6zxix
+ ajreLzyO33nGIPjISVtOw7DBrq/IZ37i5gzNCCJk4/Ld4og1DUc5gw==
+X-Mailgun-Sending-Ip: 209.61.151.224
+X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
+Received: from jonathan-ThinkPad-X1-Carbon.pdos.lcs.mit.edu
+ (26-5-211.dynamic.csail.mit.edu [18.26.5.211])
+ by mxa.mailgun.org with ESMTP id 5da4984b.7f705dace450-smtp-out-n01;
+ Mon, 14 Oct 2019 15:46:19 -0000 (UTC)
+From: Jonathan Behrens <jonathan@fintelia.io>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v4 0/3] target/riscv: Expose "priv" register for GDB
+Date: Mon, 14 Oct 2019 11:45:26 -0400
+Message-Id: <20191014154529.287048-1-jonathan@fintelia.io>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 10977805568754620689
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrjedugdelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.72.44
+X-Received-From: 209.61.151.224
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,59 +63,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Oct 2019 15:08:52 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
 
-> On Thu, 10 Oct 2019 at 14:18, Greg Kurz <groug@kaod.org> wrote:
-> >
-> > The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
-> >
-> >   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/gkurz/qemu.git tags/9p-next-2019-10-10
-> >
-> > for you to fetch changes up to e410bbc52a7a246858af54ce1842fadf26f39ff7:
-> >
-> >   MAINTAINERS: Downgrade status of virtio-9p to "Odd Fixes" (2019-10-10 12:36:28 +0200)
-> >
-> > ----------------------------------------------------------------
-> > The most notable change is that we now detect cross-device setups in the
-> > host since it may cause inode number collision and mayhem in the guest.
-> > A new fsdev property is added for the user to choose the appropriate
-> > policy to handle that: either remap all inode numbers or fail I/Os to
-> > another host device or just print out a warning (default behaviour).
-> >
-> > This is also my last PR as _active_ maintainer of 9pfs.
-> >
-> > ----------------------------------------------------------------
-> 
-> 
-> Applied, thanks.
-> 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-> for any user-visible changes.
-> 
-> Thanks for all your work on the 9pfs code!
-> 
+This series adds a new "priv" virtual register that reports the current
+privilege mode. This is helpful for debugging purposes because that information
+is not actually available in any of the real CSRs.
 
-Thanks Peter, and many others, for your valuable help.
+The third patch in this series makes the priv virtual register writitable. I'm
+not entirely sure this is a good idea, so I split it out into its own patch. In
+particular, this change will conflict with the hypervisor extension work which
+assumes that the privilege mode does not change in unexpected cases.
 
-As now indicated in MAINTAINERS, I'll stay around for odd fixes, one
-of which that comes to mind is to deprecate the "proxy" backend and
-its companion virtfs-proxy-helper binary at some point since it isn't
-supported by libvirt and will be superseded soon by "virtio-fs".
+As pointed out in a previous version of this series, GDB actually contains some
+support already for the accessing the privilege mode via a virtual "priv"
+register, including to convert the values into human readable forms:
 
-Cheers,
+(gdb) info reg priv
+priv           0x3      prv:3 [Machine]
 
---
-Greg
+Changlog V4:
+- Fix typo in filename
 
-> -- PMM
+Changlog V3:
+- Break patch into series
+- Make priv a virtual register
+
+Changelog V2:
+- Use PRV_H and PRV_S instead of integer literals
+
+Jonathan Behrens (3)
+  target/riscv: Tell gdbstub the correct number of CSRs
+  target/riscv: Expose priv register for GDB for reads
+  target/riscv: Make the priv register writable by GDB
+
+ configure                       |  4 ++--
+ gdb-xml/riscv-32bit-virtual.xml | 11 +++++++++++
+ gdb-xml/riscv-64bit-virtual.xml | 11 +++++++++++
+ target/riscv/gdbstub.c          | 36 ++++++++++++++++++++++++++++++++++--
+ 4 files changed, 58 insertions(+), 4 deletions(-)
+
 
 
