@@ -2,99 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C16D6183
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:41:44 +0200 (CEST)
-Received: from localhost ([::1]:48034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD94D6197
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Oct 2019 13:44:55 +0200 (CEST)
+Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iJyjP-0005to-5K
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49865)
+	id 1iJymU-0000iN-JA
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 07:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iJyW8-0007Es-I5
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:28:01 -0400
+ (envelope-from <groug@kaod.org>) id 1iJyaD-0003Wh-Tl
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:32:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iJyW7-0005rG-B3
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:28:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55402)
+ (envelope-from <groug@kaod.org>) id 1iJya8-0002gZ-Cr
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:32:10 -0400
+Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:49410)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iJyW1-0005ie-US; Mon, 14 Oct 2019 07:27:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 69B4418C891F;
- Mon, 14 Oct 2019 11:27:51 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E6A45C1D4;
- Mon, 14 Oct 2019 11:27:47 +0000 (UTC)
-Subject: Re: [PATCH 4/5] iotests: Skip "make check-block" if QEMU does not
- support virtio-blk
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20191011145047.19051-1-thuth@redhat.com>
- <20191011145047.19051-5-thuth@redhat.com>
- <20191014112126.GF7173@localhost.localdomain>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <d82aa777-e193-a484-980a-d0152989e920@redhat.com>
-Date: Mon, 14 Oct 2019 13:27:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iJya4-0002WY-DL
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 07:32:05 -0400
+Received: from player793.ha.ovh.net (unknown [10.108.35.124])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 09DE01454B4
+ for <qemu-devel@nongnu.org>; Mon, 14 Oct 2019 13:31:56 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player793.ha.ovh.net (Postfix) with ESMTPSA id DCCD5AEA73CF;
+ Mon, 14 Oct 2019 11:31:51 +0000 (UTC)
+Date: Mon, 14 Oct 2019 13:31:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 7/7] spapr: Set VSMT to smp_threads by default
+Message-ID: <20191014133149.686b681e@bahia.lan>
+In-Reply-To: <20191014061247.GZ4080@umbus.fritz.box>
+References: <157010404888.246126.9768030542733152637.stgit@bahia.lan>
+ <157010411885.246126.12610015369068227139.stgit@bahia.lan>
+ <20191014061247.GZ4080@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191014112126.GF7173@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.70]); Mon, 14 Oct 2019 11:27:51 +0000 (UTC)
+Content-Type: multipart/signed; boundary="Sig_/I47mP63z5TeIBN61Vqkk7q3";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 6677712348298713574
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrjedugdegvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 178.33.251.175
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,59 +58,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/10/2019 13.21, Kevin Wolf wrote:
-> Am 11.10.2019 um 16:50 hat Thomas Huth geschrieben:
->> The next patch is going to add some python-based tests to the "auto"
->> group, and these tests require virtio-blk to work properly. Running
->> iotests without virtio-blk likely does not make too much sense anyway,
->> so instead of adding a check for the availability of virtio-blk to each
->> and every test (which does not sound very appealing), let's rather add
->> a check for this at the top level in the check-block.sh script instead
->> (so that it is possible to run "make check" without the "check-block"
->> part for qemu-system-tricore for example).
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  tests/check-block.sh | 16 +++++++++++++++-
->>  1 file changed, 15 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/check-block.sh b/tests/check-block.sh
->> index 679aedec50..7582347ec2 100755
->> --- a/tests/check-block.sh
->> +++ b/tests/check-block.sh
->> @@ -26,10 +26,24 @@ if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null ; then
->>      exit 0
->>  fi
->>  
->> -if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
->> +if [ -n "$QEMU_PROG" ]; then
->> +    qemu_prog="$QEMU_PROG"
->> +else
->> +    for binary in *-softmmu/qemu-system-* ; do
->> +        if [ -x "$binary" ]; then
->> +            qemu_prog="$binary"
->> +            break
->> +        fi
-> 
-> Wouldn't it be better to check the availability of virtio-blk here, so
-> that if the current binary doesn't support it, we keep searching and
-> maybe pick up a different binary that supports it?
+--Sig_/I47mP63z5TeIBN61Vqkk7q3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-That's a good idea, indeed, but then I also need to adjust the code in
-the "check" script accordingly.
+On Mon, 14 Oct 2019 17:12:47 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-> Or actually, should we work with a whitelist?
+> On Thu, Oct 03, 2019 at 02:02:00PM +0200, Greg Kurz wrote:
+> > Support for setting VSMT is available in KVM since linux-4.13. Most dis=
+tros
+> > that support KVM on POWER already have it. It thus seem reasonable enou=
+gh
+> > to have the default machine to set VSMT to smp_threads.
+> >=20
+> > This brings contiguous VCPU ids and thus brings their upper bound down =
+to
+> > the machine's max_cpus. This is especially useful for XIVE KVM devices,
+> > which may thus allocate only one VP descriptor per VCPU.
+> >=20
 
-I don't think that a hard-coded list will work well: Since we introduced
-the Kconfig build system, it's now possible for example to also build an
-qemu-system-aarch64 binary that does not contain any of the boards that
-support virtio. So while virtio-blk is available by default in
-qemu-system-aarch64, some builds might not contain it.
+Just to clarify that without the other patches in this series, XIVE
+KVM devices still allocate a fixed block of 2048 VPs, no matter what.
+ie, the last sentence in the changelog may be slightly misleading.
 
- Thomas
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+>=20
+> Applied to ppc-for-4.2, thanks.
+>=20
+> > ---
+> >  hw/ppc/spapr.c         |    7 ++++++-
+> >  include/hw/ppc/spapr.h |    1 +
+> >  2 files changed, 7 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 8f59f08c102e..473ce1d04775 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -2503,6 +2503,7 @@ static CPUArchId *spapr_find_cpu_slot(MachineStat=
+e *ms, uint32_t id, int *idx)
+> >  static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
+> >  {
+> >      MachineState *ms =3D MACHINE(spapr);
+> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+> >      Error *local_err =3D NULL;
+> >      bool vsmt_user =3D !!spapr->vsmt;
+> >      int kvm_smt =3D kvmppc_smt_threads();
+> > @@ -2529,7 +2530,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState=
+ *spapr, Error **errp)
+> >              goto out;
+> >          }
+> >          /* In this case, spapr->vsmt has been set by the command line =
+*/
+> > -    } else {
+> > +    } else if (!smc->smp_threads_vsmt) {
+> >          /*
+> >           * Default VSMT value is tricky, because we need it to be as
+> >           * consistent as possible (for migration), but this requires
+> > @@ -2538,6 +2539,8 @@ static void spapr_set_vsmt_mode(SpaprMachineState=
+ *spapr, Error **errp)
+> >           * overwhelmingly common case in production systems.
+> >           */
+> >          spapr->vsmt =3D MAX(8, smp_threads);
+> > +    } else {
+> > +        spapr->vsmt =3D smp_threads;
+> >      }
+> > =20
+> >      /* KVM: If necessary, set the SMT mode: */
+> > @@ -4452,6 +4455,7 @@ static void spapr_machine_class_init(ObjectClass =
+*oc, void *data)
+> >      smc->irq =3D &spapr_irq_dual;
+> >      smc->dr_phb_enabled =3D true;
+> >      smc->linux_pci_probe =3D true;
+> > +    smc->smp_threads_vsmt =3D true;
+> >  }
+> > =20
+> >  static const TypeInfo spapr_machine_info =3D {
+> > @@ -4519,6 +4523,7 @@ static void spapr_machine_4_1_class_options(Machi=
+neClass *mc)
+> > =20
+> >      spapr_machine_4_2_class_options(mc);
+> >      smc->linux_pci_probe =3D false;
+> > +    smc->smp_threads_vsmt =3D false;
+> >      compat_props_add(mc->compat_props, hw_compat_4_1, hw_compat_4_1_le=
+n);
+> >      compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+> >  }
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index cbd1a4c9f390..2009eb64f9cb 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -122,6 +122,7 @@ struct SpaprMachineClass {
+> >      bool broken_host_serial_model; /* present real host info to the gu=
+est */
+> >      bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
+> >      bool linux_pci_probe;
+> > +    bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
+> > =20
+> >      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+> >                            uint64_t *buid, hwaddr *pio,=20
+> >=20
+>=20
+
+
+--Sig_/I47mP63z5TeIBN61Vqkk7q3
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl2kXKUACgkQcdTV5YIv
+c9Z0gxAAyO+CLPJjJZomJKzLD8W9rnh4j9DkSJuvmjK7nEmMayiUwEE+3F+Le4tQ
+9sMB3H1nk8TJKrG0A3WZhlLKdxW6cUnrj8hGiwteI5I0DsJn/A/34v+28FGLBoRo
+tzG7FaPc+c3cwzgphIOFunB5XcRwdF+pTJ8Aao5iJUqOrOHmkBlGhLkc7KhyKUCN
+YeR6SzW26ABXWqBwhXGRP93Q5dtavAOp6LW1ZabTaru+x15i39E/RS7nJRuKdtjX
+cRayqwrQ5u34u5GpF/jYRwXDGVIijhzIL3ZLJHM5Lv6VDPXPcs9ZsYqYRi6U3Nt4
+d22RQndB2DHEkm/ej6UULvUyzq6M9N9CUf2iulxBswcw1x7uUxdvXjDEksgCnMVn
+V2VDN2NNTD+iz2hXt+3v9SMlU/Or/IxMDVfjdCia4Fi51TjCCltmXSchxkRITGeB
+jlbT84EKTLCL/Fo+rn6raVDA0jDeRNXO1JZPSxmSTGWJ+uAK/J/BVzesjn2VJIz3
+DBSERZSmB9QwytibRLwjo4WsTUhlBagJqeVMNtAV7CAaZDGS1K96SqXgQlar69sY
+pb/en8DIeA3ytAuUUmaJWPSajFHwpuOy+w847QIFRr+OMTvBm09OU1vpvP4oCMUD
+n/FovFTSIXIBg6HaKYM5zVhg5yCGZJ75sVq20t8zaVsgIoC6X1k=
+=DFqS
+-----END PGP SIGNATURE-----
+
+--Sig_/I47mP63z5TeIBN61Vqkk7q3--
 
