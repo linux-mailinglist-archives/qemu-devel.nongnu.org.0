@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B63FD7A92
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:53:45 +0200 (CEST)
-Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E491D7AD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:08:45 +0200 (CEST)
+Received: from localhost ([::1]:51418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKP8q-0003d5-J4
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55329)
+	id 1iKPNM-00071c-AS
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:08:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKOy0-0007oF-88
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:42:34 -0400
+ (envelope-from <hhan@redhat.com>) id 1iKOXR-0004qu-70
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:15:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKOxx-0006jp-R8
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:42:31 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46018)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKOxx-0006jE-EI
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:42:29 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 41so17321605oti.12
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 08:42:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CHucFATY68OQojVz+Gz+AsVy0wRGchooF6iN/kOLZaA=;
- b=YuZ724udH3C35J3vU/2cOdGwg7lkZsh2uHZcAOs1mut6mjGlzeSajWOQGBBdxmrCAM
- w/bHPr6+yT31IDBrPx9IHD67jNUpTxQZcb0e//NBgSiRzM8IuJ65dLSHJjkDsQkbeEJa
- pJsl6tD32fj09ewesiHAoHxwBhfZt/rlIlWhzI8d2zXn+3rY/fBeqFoH0SNYAVepS/or
- UeWldh74v8aTKERFh5dXhpeHmtv5xgru1NjmpOPGxQqKBkbI7J+fOac72a3ir4OFbB8m
- 53kfwtELg8tWyDwMRVgS0wJOLSy892FVQ2NgjeTc1em6CkYEeOy7MTp9gbe+/4tsjjW+
- leuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CHucFATY68OQojVz+Gz+AsVy0wRGchooF6iN/kOLZaA=;
- b=I0JWURq1eslV25vxlcWS+jP8s2dWAE3wvlP9juVzCdn+tMsF+IWePLjp6YEZLaNGGC
- oV7vFi1vTE2yHSsSRPjA7aduVL0FnTsMgtct/w98WCW1hCWMZwKM/od9E0ZASMvWay/y
- j+Q3ZssgTw2mEDXxGXC2g2MwQ9Qaxci9nQrQlRHETz4IEIrwQ328zxSCWKKDuu9AgSQp
- rDTWtkiGE8/uBs/TreQ9qzfeVGqLk06WpUZ16mi5BVgasI5VKvv0o5xvc2A3yenB0raE
- oIjfUI4CO2ca5ey4afyqBV5X4ayMbQuQM4OVabj3poghu9WbKjNzAqH7MsrxFb1Nk6HK
- xZFw==
-X-Gm-Message-State: APjAAAUbBGzklolADkWD/6afOjD0A9p1zYPg90WviKhqx+BFtyCSMpVO
- 8W775i7yo4mwIMvei/C2J+n402/1hfaZd6ix7hdtqQ==
-X-Google-Smtp-Source: APXvYqxD3QmeBWaW/DTk9yHrEbl6sWbAyMf729euq4sccT0JXxWujW2M/ITO5EabkCY6CxUEwz/xFK8oKd3zpDaytU0=
-X-Received: by 2002:a9d:30c1:: with SMTP id r1mr29754889otg.91.1571154148208; 
- Tue, 15 Oct 2019 08:42:28 -0700 (PDT)
+ (envelope-from <hhan@redhat.com>) id 1iKOXP-00085m-1J
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:15:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44774)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <hhan@redhat.com>) id 1iKOXO-00083U-SG
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:15:02 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 853DEA3CD88
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 15:15:00 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-12-69.pek2.redhat.com
+ [10.72.12.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A6A2A19C58;
+ Tue, 15 Oct 2019 15:14:56 +0000 (UTC)
+From: Han Han <hhan@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qemu-options.hx: Update for reboot-timeout parameter
+Date: Tue, 15 Oct 2019 23:14:51 +0800
+Message-Id: <20191015151451.727323-1-hhan@redhat.com>
 MIME-Version: 1.0
-References: <20191014085709.26812-1-stefanha@redhat.com>
- <CAFEAcA_tPs_hfO3GVSf2CsYTFvBH5-RWe+JsR5vfqkh5HjAVNQ@mail.gmail.com>
- <f13e94c3-5ebc-3c55-3c3d-d9cef9233514@redhat.com>
-In-Reply-To: <f13e94c3-5ebc-3c55-3c3d-d9cef9233514@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 16:42:17 +0100
-Message-ID: <CAFEAcA8NR3HL6uqRE4ZMfzXPU=BMi3ZWO3RiMwn4VKOS_uWRsw@mail.gmail.com>
-Subject: Re: [PULL 0/2] Tracing patches
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Tue, 15 Oct 2019 15:15:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
+X-Mailman-Approved-At: Tue, 15 Oct 2019 12:04:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,53 +55,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Qemu-block <qemu-block@nongnu.org>,
- Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: philmd@redhat.com, Han Han <hhan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 at 16:38, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 10/15/19 2:24 PM, Peter Maydell wrote:
-> > On Mon, 14 Oct 2019 at 09:57, Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >>
-> >> The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb9=
-0e72d:
-> >>
-> >>    Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-requ=
-est' into staging (2019-10-08 16:08:35 +0100)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    https://github.com/stefanha/qemu.git tags/tracing-pull-request
-> >>
-> >> for you to fetch changes up to a1f4fc951a277c49a25418cafb028ec5529707f=
-a:
-> >>
-> >>    trace: avoid "is" with a literal Python 3.8 warnings (2019-10-14 09=
-:54:46 +0100)
-> >>
-> >> ----------------------------------------------------------------
-> >> Pull request
-> >>
-> >> ----------------------------------------------------------------
-> >>
-> >> Stefan Hajnoczi (2):
-> >>    trace: add --group=3Dall to tracing.txt
-> >>    trace: avoid "is" with a literal Python 3.8 warnings
-> >>
-> >
-> >
-> > Applied, thanks.
->
-> Buh, v2 missed :(
+Since ee5d0f89d, -1 is not valid for the value of reboot-timeout. Update
+that in qemu-options doc.
 
-Oops. I don't necessarily notice updated pullreq versions unless
-somebody follows up to the v1 coverletter to say the pull is out of date.
+Signed-off-by: Han Han <hhan@redhat.com>
+---
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks
--- PMM
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 793d70ff..6b92a916 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -327,8 +327,8 @@ format(true color). The resolution should be supporte=
+d by the SVGA mode, so
+ the recommended is 320x240, 640x480, 800x640.
+=20
+ A timeout could be passed to bios, guest will pause for @var{rb_timeout}=
+ ms
+-when boot failed, then reboot. If @var{rb_timeout} is '-1', guest will n=
+ot
+-reboot, qemu passes '-1' to bios by default. Currently Seabios for X86
++when boot failed, then reboot. If @option{reboot-timeout} is not set,
++guest will not reboot by default. Currently Seabios for X86
+ system support it.
+=20
+ Do strict boot via @option{strict=3Don} as far as firmware/BIOS
+--=20
+2.23.0
+
 
