@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65451D79D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:31:22 +0200 (CEST)
-Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9C5D79F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:38:57 +0200 (CEST)
+Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOnA-0000Yc-Rw
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48080)
+	id 1iKOuW-0001FA-7S
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iKOgy-0002kt-6t
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:24:57 -0400
+ (envelope-from <berto@igalia.com>) id 1iKOhI-0003H3-Q3
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iKOgw-0003g3-Vd
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:24:55 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47111)
+ (envelope-from <berto@igalia.com>) id 1iKOhH-0003qQ-Pd
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:47106)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iKOgw-0003ZJ-4z; Tue, 15 Oct 2019 11:24:54 -0400
+ id 1iKOhH-0003ZG-Gr; Tue, 15 Oct 2019 11:25:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=qmKlb9gHAF5qikvg/hwissybNRQvWCJ71g22MpPxHjc=; 
- b=NmCcZq0crz+5FjZf34+YAiQRwllhnm/Fs+JDtxiYL2iP8X/Igcw3/Y5kOLJr0PCvAphezFbuke2WkGRSE+qVB038T90IxgJ65fTzmEAfqo1wp3HlYJnzGTOdLU1Aog1kMv/pz8PTIZ6xUUKNeLDfUhJP/7YDwckHRQ3CTC+FgTsph/Evl+gUx4KHIa6Tre7n1jF1J1LPL4l8b9crb91RBNhXzcLQuSbXlKm30gTgbciR2zoJ26d5Dej5K96MKvXjgJ97r0cM6nvGmv5Pwa8Uz9bQ+v8hHIkFsXMrnnh/ZAxU88EEYaz1rQoOr0Eo2OLXI2pn4CEsM1NY/2abeq+XQA==;
+ bh=E3ZU1iFbE5HW1AIiBPqXlRoGatUOAMOrN4ipcn9TfgY=; 
+ b=ZdDtiuxMd1JdhWPQgT5IRKEtIITUgFIqBm/PRsGyhIq3YWq17SGQj4Ekbz48btSzglFr8EOHSr0Hpqhh6Bd64oM4cg4u755wt5dNOOeAK145uHBqJOTENLZwi8zZNKv2jpYmeVVej+oTqHfFRjvNooa41zwhpxuUmx+NNgJS5E9kyVcya97gK1na5dn305TWe5kUW4+6L2LaG5zaUrzTmbXB0LBYE1qm+xvmKJIuGOvYY3CTeAhxwbKI6xdsI+eDZBmXaUKIvaAIKTOvgTFKegKXZPt7er3djQAPg+r43uIYL5zK4hqE1TOOoBmLYOBVzhEQETiddY7NuXNm5OOGiw==;
 Received: from 82-181-115-92.bb.dnainternet.fi ([82.181.115.92]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iKOge-0003aT-0P; Tue, 15 Oct 2019 17:24:36 +0200
+ id 1iKOge-0003aV-1i; Tue, 15 Oct 2019 17:24:36 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iKOfm-00061H-MH; Tue, 15 Oct 2019 18:23:42 +0300
+ id 1iKOfm-00061M-Oa; Tue, 15 Oct 2019 18:23:42 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 06/23] qcow2: Add dummy has_subclusters() function
-Date: Tue, 15 Oct 2019 18:23:17 +0300
-Message-Id: <8acb804dd496964d07460f59ef39bdc63156c809.1571152571.git.berto@igalia.com>
+Subject: [RFC PATCH 08/23] qcow2: Add offset_to_sc_index()
+Date: Tue, 15 Oct 2019 18:23:19 +0300
+Message-Id: <9fce39a724a96ddd217ef2bed26eb9c4a6ef30df.1571152571.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1571152571.git.berto@igalia.com>
 References: <cover.1571152571.git.berto@igalia.com>
@@ -62,36 +62,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function will be used by the qcow2 code to check if an image has
-subclusters or not.
-
-At the moment this simply returns false. Once all patches needed for
-subcluster support are ready then QEMU will be able to create and
-read images with subclusters and this function will return the actual
-value.
+For a given offset, return the subcluster number within its cluster
+(i.e. with 32 subclusters per cluster it returns a number between 0
+and 31).
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ block/qcow2.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index 0b68c55c01..6d6fc57f41 100644
+index e6486a2cf8..c450267c88 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -485,6 +485,12 @@ typedef enum QCow2MetadataOverlap {
+@@ -556,6 +556,11 @@ static inline int offset_to_l2_slice_index(BDRVQcow2State *s, int64_t offset)
+     return (offset >> s->cluster_bits) & (s->l2_slice_size - 1);
+ }
  
- #define INV_OFFSET (-1ULL)
- 
-+static inline bool has_subclusters(BDRVQcow2State *s)
++static inline int offset_to_sc_index(BDRVQcow2State *s, int64_t offset)
 +{
-+    /* FIXME: Return false until this feature is complete */
-+    return false;
++    return (offset >> s->subcluster_bits) & (s->subclusters_per_cluster - 1);
 +}
 +
- static inline uint64_t get_l2_entry(BDRVQcow2State *s, uint64_t *l2_slice,
-                                     int idx)
+ static inline int64_t qcow2_vm_state_offset(BDRVQcow2State *s)
  {
+     return (int64_t)s->l1_vm_state_index << (s->cluster_bits + s->l2_bits);
 -- 
 2.20.1
 
