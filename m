@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA78DD7C71
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:55:27 +0200 (CEST)
-Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A83D7C61
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:54:26 +0200 (CEST)
+Received: from localhost ([::1]:53076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKQ6Y-00006z-Dx
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42208)
+	id 1iKQ5Y-0006l1-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPlJ-0005kT-NB
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:33:30 -0400
+ (envelope-from <dan.streetman@canonical.com>) id 1iKPjy-0004f2-3w
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPlI-0007eH-Go
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:33:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53690)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPlI-0007do-8o
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:33:28 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61EB97BDA9;
- Tue, 15 Oct 2019 16:33:27 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F265B4100;
- Tue, 15 Oct 2019 16:33:15 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 31/32] hw/pci-host: Rename incorrectly named 'piix' as 'i440fx'
-Date: Tue, 15 Oct 2019 18:27:04 +0200
-Message-Id: <20191015162705.28087-32-philmd@redhat.com>
-In-Reply-To: <20191015162705.28087-1-philmd@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
+ (envelope-from <dan.streetman@canonical.com>) id 1iKPjw-0006xu-8y
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:05 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:58468)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dan.streetman@canonical.com>)
+ id 1iKPjv-0006wX-7G
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:04 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <dan.streetman@canonical.com>) id 1iKPjs-0005eL-Vp
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 16:32:01 +0000
+Received: by mail-io1-f70.google.com with SMTP id i2so32793429ioo.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 09:32:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=H3z8TJLRoA9DpsPQHvXH+AS18iyABd8ervI2aNL8+1I=;
+ b=MD4Ts7llj8sbMqyHv09ACQoxXzFI/ny4EShK1TQWgZxvSZAHgSEplB6YjvdkQSiKCy
+ Lr5RZtRud9TtK8AgSOj9NIkWCtBwSCUW4aJxycWFG1JGGi8Cz868Vkekc0/cFeoBkhFk
+ hw1HmqLjtMRqtbA98arJq+GcMH1mStt1dYAbZMh7MuB5OE+E3OxuAuKzM1c18QjhezAy
+ Ec1x6BxWkrKbkp9Upy3Ojqyt1RZTSBNCps4JWpxXwTV5d9NN51tH7N4FemHl+Vcj0K5k
+ Mpk7W4TRQIvcEkq8hgEC4pBQ42lucDxrJ2RC2D2aKIFBUsaT7lFI8UfKAXiSSvloGyH9
+ JEPA==
+X-Gm-Message-State: APjAAAVFz/w53VXynMSuuvsW3XqSVul8Vro4cGSS+x/ZwODl59MHmUJb
+ 350OnHKv8H742oHZ6ScEiaPiBCrL29ftaHFMCtj8x2HM52gsDmoHSdmSLSI7CJ7M0WGV5lZNev9
+ jZcKFPM0IiA4e9zqcru43sugP468LSLnc321xox5v+IL/ha3Y
+X-Received: by 2002:a92:d784:: with SMTP id d4mr7075428iln.165.1571157119770; 
+ Tue, 15 Oct 2019 09:31:59 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyegLifxorMDkGp6TS192+TsASoSwHuzkssLHf7G4h0tXfFmU/S6KdCyFwt2NKI0dPGfN8oeFfLIBVK/Sq5jeM=
+X-Received: by 2002:a92:d784:: with SMTP id d4mr7075378iln.165.1571157119334; 
+ Tue, 15 Oct 2019 09:31:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 15 Oct 2019 16:33:27 +0000 (UTC)
+References: <20190917172422.5134-1-dan.streetman@canonical.com>
+ <87woe5z6mi.fsf@linaro.org>
+ <CAOZ2QJNgiB0ZoLAOUGjdFfWa+Hwkbqe=E+KQeOaUMEdvU0-ofw@mail.gmail.com>
+ <bb9bf110-1e5d-22e2-16d5-40a495c7ee84@redhat.com>
+In-Reply-To: <bb9bf110-1e5d-22e2-16d5-40a495c7ee84@redhat.com>
+From: Dan Streetman <dan.streetman@canonical.com>
+Date: Tue, 15 Oct 2019 12:31:23 -0400
+Message-ID: <CAOZ2QJNLKjdKBBJ_9qfHHFL_wMm4mhSzr4PRYdv_4fmjmfV7fA@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH] hw/arm: set machine 'virt' as default
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 91.189.89.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,95 +73,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On Thu, Sep 19, 2019 at 5:34 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> On 9/18/19 11:56 PM, Dan Streetman wrote:
+> > On Wed, Sep 18, 2019 at 4:34 PM Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+> >>
+> >> Dan Streetman <dan.streetman@canonical.com> writes:
+> >>
+> >>> From: Dan Streetman <ddstreet@canonical.com>
+> >>>
+> >>> There is currently no default machine type for arm so one must be spe=
+cified
+> >>> with --machine.  This sets the 'virt' machine type as default.
+> >>
+> >> We should really have a FAQ entry for why we don't have a default for
+> >> ARM. In short unlike PC's every ARM device is different so it pays to =
+be
+> >> precise about what you want when you invoke QEMU. Because any given
+> >> kernel/image is only likely to work on the machine it's built for.
+> >
+> > well, that's the problem, I have no idea at all what I want; and "I"
+> > doesn't really apply completely in this situation, as the call to run
+> > qemu comes from deep inside a test suite, and can run on multiple
+> > archs, and could even be run by other people on other systems/archs.
+> >
+> > This is what I have (tentatively) come up with to handle this in the te=
+st suite:
+> > https://github.com/systemd/systemd/pull/13409/files#diff-2ea30ffea3b108=
+e0f9c50846cfdcd4e5R197
+> >
+> > To be fair, it's unlikely that other people would run this on an arm
+> > system, unless they were a bit more familiar with arm, and maybe would
+> > know what machine type to pick.  Similarly for the testbeds that I
+> > handle for this test suite, I know that 'virt' seems to work.
+> >
+> >>
+> >> Why is virt special? It's just one of the many machines we emulate and
+> >> while it's probably the most popular these days for "something that
+> >> boots a Linux distro" why not -machine sba (when that comes)?
+>
+> This was my first reaction too, why not use the SBSA machine as default?
+>
+> > I am certainly not the right person to pick what the default should
+> > be, but I do think there should be *some* default.  If 'virt' is the
+> > most popular and/or has the widest kernel support, then it probably
+> > makes sense to make that the default.
+> >
+> > I would guess that users of qemu-system-aarch64 (or -arm) fall into 2 g=
+roups:
+> >
+> > 1. people who know about arm and know exactly what machine they want to=
+ use
+> > 2. people who don't know about arm and have no idea what machine to use
+> >
+> > group #1 of course can still pick whatever machine they want.  I'm in
+> > group #2, and I suspect that like most others in the group, I did:
+> >
+> > $ qemu-system-aarch64 ...
+> > qemu-system-aarch64: No machine specified, and there is no default
+> > Use -machine help to list supported machines
+> > $ qemu-system-aarch64 -M ?
+> > ...shows long list of machines that i'm unfamiliar with...
+> > virt-2.10            QEMU 2.10 ARM Virtual Machine
+> > virt-2.11            QEMU 2.11 ARM Virtual Machine
+> > virt-2.12            QEMU 2.12 ARM Virtual Machine
+> > virt-2.6             QEMU 2.6 ARM Virtual Machine
+> > virt-2.7             QEMU 2.7 ARM Virtual Machine
+> > virt-2.8             QEMU 2.8 ARM Virtual Machine
+> > virt-2.9             QEMU 2.9 ARM Virtual Machine
+> > virt-3.0             QEMU 3.0 ARM Virtual Machine
+> > virt                 QEMU 3.1 ARM Virtual Machine (alias of virt-3.1)
+> > virt-3.1             QEMU 3.1 ARM Virtual Machine
+> >
+> > (aha! those "virt" machines look generic enough that they'll work...)
+> > $ qemu-system-aarch64 -M virt ...
+> >
+> > I honestly don't know if it would be better to have a FAQ on why there
+> > is no default, or just to set a default.  Personally, I'd prefer just
+> > having a default.
+> >
+> > If you do decide against a default, I would suggest at least printing
+> > the url to the FAQ entry on why arm doesn't have a default, instead of
+> > just asking users to pick one out of the -M ? list.
+>
+> We can also go all the way around to educate users to use the -M flag,
+> by killing the 'default machine' on all targets.
 
-We moved all the PIIX3 southbridge code out of hw/pci-host/piix.c,
-it now only contains i440FX northbridge code.
-Rename it to match the chipset modelled.
+To follow up on this; is the final desicion for arm to not include any defa=
+ult?
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- MAINTAINERS                      | 2 +-
- hw/i386/Kconfig                  | 2 +-
- hw/pci-host/Kconfig              | 2 +-
- hw/pci-host/Makefile.objs        | 2 +-
- hw/pci-host/{piix.c =3D> i440fx.c} | 0
- 5 files changed, 4 insertions(+), 4 deletions(-)
- rename hw/pci-host/{piix.c =3D> i440fx.c} (100%)
+Also, will archs that currently do have defaults, have those defaults remov=
+ed?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4845f47d93..1bc9959b8a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1225,7 +1225,7 @@ M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
- S: Supported
- F: include/hw/i386/
- F: hw/i386/
--F: hw/pci-host/piix.c
-+F: hw/pci-host/i440fx.c
- F: hw/pci-host/q35.c
- F: hw/pci-host/pam.c
- F: include/hw/pci-host/i440fx.h
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 589d75e26a..cfe94aede7 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -60,7 +60,7 @@ config I440FX
-     select PC_PCI
-     select PC_ACPI
-     select ACPI_SMBUS
--    select PCI_PIIX
-+    select PCI_I440FX
-     select PIIX3
-     select IDE_PIIX
-     select DIMM
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 397043b289..b0aa8351c4 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -28,7 +28,7 @@ config PCI_SABRE
-     select PCI
-     bool
-=20
--config PCI_PIIX
-+config PCI_I440FX
-     bool
-     select PCI
-     select PAM
-diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
-index a9cd3e022d..efd752b766 100644
---- a/hw/pci-host/Makefile.objs
-+++ b/hw/pci-host/Makefile.objs
-@@ -13,7 +13,7 @@ common-obj-$(CONFIG_VERSATILE_PCI) +=3D versatile.o
-=20
- common-obj-$(CONFIG_PCI_SABRE) +=3D sabre.o
- common-obj-$(CONFIG_FULONG) +=3D bonito.o
--common-obj-$(CONFIG_PCI_PIIX) +=3D piix.o
-+common-obj-$(CONFIG_PCI_I440FX) +=3D i440fx.o
- common-obj-$(CONFIG_PCI_EXPRESS_Q35) +=3D q35.o
- common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) +=3D gpex.o
- common-obj-$(CONFIG_PCI_EXPRESS_XILINX) +=3D xilinx-pcie.o
-diff --git a/hw/pci-host/piix.c b/hw/pci-host/i440fx.c
-similarity index 100%
-rename from hw/pci-host/piix.c
-rename to hw/pci-host/i440fx.c
---=20
-2.21.0
+Thanks!
 
+>
+> Personally I also find the default ppc64 machine confusing.
+>
+> On the X86 side there is a long discussion/debt about when to change the
+> default i440fx to q35, so having no default at all would fix this other
+> issue.
+>
+> >>> Signed-off-by: Dan Streetman <ddstreet@canonical.com>
+> >>> ---
+> >>>  hw/arm/virt.c | 1 +
+> >>>  1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> >>> index d74538b021..e9fe888ca2 100644
+> >>> --- a/hw/arm/virt.c
+> >>> +++ b/hw/arm/virt.c
+> >>> @@ -78,6 +78,7 @@
+> >>>          mc->desc =3D "QEMU " # major "." # minor " ARM Virtual Machi=
+ne"; \
+> >>>          if (latest) { \
+> >>>              mc->alias =3D "virt"; \
+> >>> +            mc->is_default =3D 1; \
+> >>>          } \
+> >>>      } \
+> >>>      static const TypeInfo machvirt_##major##_##minor##_info =3D { \
+> >>
+> >>
+> >> --
+> >> Alex Benn=C3=A9e
+> >>
+> >
+>
 
