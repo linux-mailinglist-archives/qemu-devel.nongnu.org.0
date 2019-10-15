@@ -2,71 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B661D733C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:29:10 +0200 (CEST)
-Received: from localhost ([::1]:39862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FF8D73BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:48:14 +0200 (CEST)
+Received: from localhost ([::1]:40572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKK4i-0004te-QB
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
+	id 1iKKNB-0006rD-4N
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iKK3q-0004UW-VG
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:28:15 -0400
+ (envelope-from <its@irrelevant.dk>) id 1iKKEZ-0007P9-Rd
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iKK3q-0000gx-1G
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:28:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57842)
+ (envelope-from <its@irrelevant.dk>) id 1iKKEY-0006Fc-5Y
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:19 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:54724)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iKK3p-0000gk-S5
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:28:13 -0400
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 085EA44BCF
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 10:28:12 +0000 (UTC)
-Received: by mail-pl1-f199.google.com with SMTP id y2so11804780plk.19
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 03:28:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EyPHzd4U8raLFZIPAeZtCdUrehSbj3DARbdd9loQ1pQ=;
- b=L1FPFlVMlyUwRISuTAkrmc19aCjgaFYVnWwNneapmVmdffVQSbUM1699dkfiXUm0TQ
- Chf2edACLEH8ve1JfgeYNXXn3sPVftIqXFR7efR/StQuYSsFqlgAVFwmGobUJ1Es8zr5
- qYPI3gC2gCyiK2yOJUDjUQajuiywCPySz24dBfAAtduDjKpG6kKPZzsPLAY5Npze0tWd
- MROIbqm/PSukWiwJLI+SkmzYxXnZiOuawy2OFXznigcqUnP9PfpRI4ElUYVyXeeiN2a5
- 6dELmfU8Bau8HqnWNOtQRBs2MrKe6noO5c8MfjCXs2XhJBpYqlrdz74vAmE89rwxi11l
- bJGw==
-X-Gm-Message-State: APjAAAVLgbrY6D+KRc3St9sAzF7H8EOTapjzAMLluMKiQTDB4NGu5fju
- d26jz1bNpXwoFa7xKVylA7F682/stRyKDelmc4BIXN+BmJwRntOwXV7bUKnulBzhisEO1xgFJDt
- UeRbeKdb+0Vhj9yE=
-X-Received: by 2002:a63:e802:: with SMTP id s2mr1020402pgh.188.1571135291375; 
- Tue, 15 Oct 2019 03:28:11 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyXekqTanccBKnOqHMEh/1Wvfh8WrDFYA3jls4cL80/FDgDYerKm2fxHTBsCoc/7AaOVibcNg==
-X-Received: by 2002:a63:e802:: with SMTP id s2mr1020384pgh.188.1571135291172; 
- Tue, 15 Oct 2019 03:28:11 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id b16sm28414078pfb.54.2019.10.15.03.28.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 03:28:10 -0700 (PDT)
-Date: Tue, 15 Oct 2019 18:28:01 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 1/2] migration: Boost SaveStateEntry.instance_id to 64 bits
-Message-ID: <20191015102801.GF8666@xz-x1>
-References: <20191015075444.10955-1-peterx@redhat.com>
- <20191015075444.10955-2-peterx@redhat.com>
- <87tv8aqudq.fsf@trasno.org>
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1iKKET-00067v-OZ; Tue, 15 Oct 2019 06:39:13 -0400
+Received: from apples.localdomain (unknown [194.62.217.57])
+ by charlie.dont.surf (Postfix) with ESMTPSA id D6ED9BF506;
+ Tue, 15 Oct 2019 10:39:09 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 00/20] nvme: support NVMe v1.3d,
+ SGLs and multiple namespaces
+Date: Tue, 15 Oct 2019 12:38:40 +0200
+Message-Id: <20191015103900.313928-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87tv8aqudq.fsf@trasno.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,22 +46,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Javier Gonzalez <javier@javigon.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <keith.busch@intel.com>,
+ Paul Durrant <Paul.Durrant@citrix.com>, Stephen Bates <sbates@raithlin.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 15, 2019 at 10:34:57AM +0200, Juan Quintela wrote:
-> Peter Xu <peterx@redhat.com> wrote:
-> > It was "int" and used as 32bits fields (see save_section_header()).
-> > It's unsafe already because sizeof(int) could be 2 on i386,
-> 
-> i386 is 32bits, so int is 32bits O:-)
+Hi,
 
-Right it should be 16 bits systems.  And yes I don't think we need to
-consider that! :)
+(Quick note to Fam): most of this series is irrelevant to you as the
+maintainer of the nvme block driver, but patch "nvme: add support for
+scatter gather lists" touches block/nvme.c due to changes in the shared
+NvmeCmd struct.
 
--- 
-Peter Xu
+Anyway, v2 comes with a good bunch of changes. Compared to v1[1], I have
+squashed some commits in the beginning of the series and heavily
+refactored "nvme: support multiple block requests per request" into the
+new commit "nvme: allow multiple aios per command".
+
+I have also removed the original implementation of the Abort command
+(commit "nvme: add support for the abort command") as it is currently
+too tricky to test reliably. It has been replaced by a stub that,
+besides a trivial sanity check, just fails to abort the given command.
+*Some* implementation of the Abort command is mandatory, but given the
+"best effort" nature of the command this is acceptable for now. When the
+device gains support for arbitration it should be less tricky to test.
+
+The support for multiple namespaces is now backwards compatible. The
+nvme device still accepts a 'drive' parameter, but for multiple
+namespaces the use of 'nvme-ns' devices are required. I also integrated
+some feedback from Paul so the device supports non-consecutive namespace
+ids.
+
+I have also added some new commits at the end:
+
+  - "nvme: bump controller pci device id" makes sure the Linux kernel
+    doesn't apply any quirks to the controller that it no longer has.
+  - "nvme: handle dma errors" won't actually do anything before this[2]
+    fix to include/hw/pci/pci.h is merged. With these two patches added,
+    the device reliably passes some additional nasty tests from blktests
+    (block/011 "disable PCI device while doing I/O" and block/019 "break
+    PCI link device while doing I/O"). Before this patch, block/011
+    would pass from time to time if you were lucky, but would at least
+    mess up the controller pretty badly, causing a reset in the best
+    case.
+
+
+  [1]: https://patchwork.kernel.org/project/qemu-devel/list/?series=3D142=
+383
+  [2]: https://patchwork.kernel.org/patch/11184911/
+
+
+Klaus Jensen (20):
+  nvme: remove superfluous breaks
+  nvme: move device parameters to separate struct
+  nvme: add missing fields in the identify controller data structure
+  nvme: populate the mandatory subnqn and ver fields
+  nvme: allow completion queues in the cmb
+  nvme: add support for the abort command
+  nvme: refactor device realization
+  nvme: add support for the get log page command
+  nvme: add support for the asynchronous event request command
+  nvme: add logging to error information log page
+  nvme: add missing mandatory features
+  nvme: bump supported specification version to 1.3
+  nvme: refactor prp mapping
+  nvme: allow multiple aios per command
+  nvme: add support for scatter gather lists
+  nvme: support multiple namespaces
+  nvme: bump controller pci device id
+  nvme: remove redundant NvmeCmd pointer parameter
+  nvme: make lba data size configurable
+  nvme: handle dma errors
+
+ block/nvme.c           |   18 +-
+ hw/block/Makefile.objs |    2 +-
+ hw/block/nvme-ns.c     |  139 +++
+ hw/block/nvme-ns.h     |   60 ++
+ hw/block/nvme.c        | 1863 +++++++++++++++++++++++++++++++++-------
+ hw/block/nvme.h        |  219 ++++-
+ hw/block/trace-events  |   37 +-
+ include/block/nvme.h   |  132 ++-
+ 8 files changed, 2094 insertions(+), 376 deletions(-)
+ create mode 100644 hw/block/nvme-ns.c
+ create mode 100644 hw/block/nvme-ns.h
+
+--=20
+2.23.0
+
 
