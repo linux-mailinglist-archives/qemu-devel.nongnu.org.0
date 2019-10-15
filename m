@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20F2D7ACD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:06:43 +0200 (CEST)
-Received: from localhost ([::1]:51308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62342D7AE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:11:25 +0200 (CEST)
+Received: from localhost ([::1]:51756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKPLO-0005Ww-EH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
+	id 1iKPPw-00013R-GD
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iKPKG-0004gX-QN
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:05:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iKPOd-0008RG-5Z
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:10:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iKPKF-0006HK-Dw
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:05:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49922)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iKPKB-0006Bp-2i; Tue, 15 Oct 2019 12:05:27 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A3A058E1CE1;
- Tue, 15 Oct 2019 16:05:25 +0000 (UTC)
-Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DD5D60C57;
- Tue, 15 Oct 2019 16:05:23 +0000 (UTC)
-Subject: Re: [RFC PATCH 00/23] Add subcluster allocation to qcow2
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1571152571.git.berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <1d8b92eb-d530-9acb-82a6-87a04ea5c31d@redhat.com>
-Date: Tue, 15 Oct 2019 11:05:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iKPOb-0000e4-Lp
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:10:02 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43838)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iKPOb-0000dQ-Cx
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:10:01 -0400
+Received: by mail-ot1-x344.google.com with SMTP id o44so17398531ota.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 09:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=D9/LD6gXU73ozWnDM7iabvucHWxAZrWPqL4as4o0KQI=;
+ b=uGM0E32dO7GxuQXQhlNVLomNoUu/DVUNKdgbPWHkqbPJNjc1PHHPGWsWwjOLRotv4E
+ 4SlJIjEoiUiNJElyfikALyo9F72jMMTOL+5K8ck4PxI5q4LiV8AHTH3447pHTv+2rtu9
+ ELkWitdB8Pg0sZlFT0xGQTCjmWJlUNJYjPiTwHfer8xazzSzYz1HEX1gR86RDHTOsS6E
+ bMiX4GAsAz+RrVXC41Pojez9wvxoA306c6QUSeYEcAUACdO8fiXMIOB97z+Ke5pL3+vj
+ 6RBgeMZIXpO/BOafHDWNktLL0BNYV9oaLnGGfVj28hOi89SQhxm8jC5f4c9NFUW8vdaa
+ MyoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D9/LD6gXU73ozWnDM7iabvucHWxAZrWPqL4as4o0KQI=;
+ b=Q1VFzIx3AlryrW00OdEW59XhA2LflhK1xqvKcLyJogcsUYmI4s9isVhHsPmKDjqc90
+ dnPd9eRnupYJKUHzvdEmLkP/yOFEaIheF1NHh5wiEj2iGLFe3zJeSxSIlHQQrFihgM2F
+ gbyPWMgEMAV5U9OzwPjEMXhHCVYf22Lt1RHUCaPgHFzsD8tw2OMAHqmgcLJXznHHppv2
+ GHu85fn46hJfg8SDg7uBSNemxBepxuGrr19XUsS7xmChZePyZhuqXe5LlD12EL53bePl
+ THPvd2LnGEzdXogORUL4MXc+UM8BnwYU/Sf1372exAWQFkzEbJbbZ5seAF7IqGqAr1E8
+ lS+A==
+X-Gm-Message-State: APjAAAUOG3UMkNyArZgT0FBABi55RG1zZ7erzSg/EXOEo0ADDB7bCa0B
+ Ui6HgP7rPej3PVhXquLmd5IGgZRkssFvMKvfukRPWA==
+X-Google-Smtp-Source: APXvYqzStmD93r0kusq63jEra5b3TXIvrVH+omXI5JDMc+ULEMgYhl18DAr/S4PgMUoFoJoEg17OUeDFusFZS0iSw/E=
+X-Received: by 2002:a9d:708e:: with SMTP id l14mr29852273otj.135.1571155800581; 
+ Tue, 15 Oct 2019 09:10:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1571152571.git.berto@igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.69]); Tue, 15 Oct 2019 16:05:25 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191014160343.8211-1-kwolf@redhat.com>
+In-Reply-To: <20191014160343.8211-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Oct 2019 17:09:49 +0100
+Message-ID: <CAFEAcA_9GK1JXyqLuTWuX-o_rpYng-Sqhu0SnBHL2xyaR6gL9w@mail.gmail.com>
+Subject: Re: [PULL 00/15] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,130 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V . Lunev" <den@openvz.org>,
- Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/19 10:23 AM, Alberto Garcia wrote:
-> Hi,
-> 
-> this series adds a new feature to the qcow2 on-disk format called
-> "Extended L2 Entries", which allows us to do subcluster allocation.
-> 
-> This cover letter explains the reasons behind this proposal, the
-> changes to the on-disk format, test results and pending work. If you
-> are curious you can also have a look at previous discussions about
-> this feature:
-> 
-
-> === Changes to the on-disk format ===
-> 
-> An L2 entry is 64 bits wide, with this format (for uncompressed
-> clusters):
-> 
-> 63    56 55    48 47    40 39    32 31    24 23    16 15     8 7      0
-> 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> **<----> <--------------------------------------------------><------->*
->    Rsrved              host cluster offset of data             Reserved
->    (6 bits)                (47 bits)                           (8 bits)
-> 
->      bit 63: refcount == 1   (QCOW_OFLAG_COPIED)
->      bit 62: compressed = 1  (QCOW_OFLAG_COMPRESSED)
->      bit  0: all zeros       (QCOW_OFLAG_ZERO)
-> 
-> If Extended L2 Entries are enabled, bit 0 becomes reserved and must be
-> unset, and this 64-bit bitmap follows the entry:
-> 
-> 63    56 55    48 47    40 39    32 31    24 23    16 15     8 7      0
-> 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> <---------------------------------> <--------------------------------->
->       subcluster reads as zeros            subcluster is allocated
->               (32 bits)                           (32 bits)
-
-I like the grouping - you can then do a 4-byte read and comparison to 0 
-to see if the entire cluster reads as zeroes or is unallocated.
-
-With 32k clusters, this results in 1k subclusters.  In cluster 1 (offset 
-32k), which bits map where?  (The obvious choices are that sub-cluster 
-32k maps to bit 0, 33k maps to bit 1, ...; or that sub-cluster 32k maps 
-to bit 31, 33k maps to bit 30, ...)
-
-/me reads ahead
-
-okay, in patch 5, you said you map the most significant bit to the first 
-cluster. That feels backwards to me; I wonder if the math is any easier 
-if you map sub-clusters starting from the least-significant, because 
-then you get:
-
-bit = (address >> cluster_size) & 32
-
-rather than
-
-bit = 31 - ((address >> cluster_size) & 32)
+On Mon, 14 Oct 2019 at 17:03, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 22dbfdecc3c52228d3489da3fe81da92b21197bf:
+>
+>   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20191010.0' into staging (2019-10-14 15:09:08 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to a1406a9262a087d9ec9627b88da13c4590b61dae:
+>
+>   iotests: Test large write request to qcow2 file (2019-10-14 17:12:48 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - block: Fix crash with qcow2 partial cluster COW with small cluster
+>   sizes (misaligned write requests with BDRV_REQ_NO_FALLBACK)
+> - qcow2: Fix integer overflow potentially causing corruption with huge
+>   requests
+> - vhdx: Detect truncated image files
+> - tools: Support help options for --object
+> - Various block-related replay improvements
+> - iotests/028: Fix for long $TEST_DIRs
 
 
-> Some comments about the results:
-> 
-> - The smallest allowed cluster size for an image with subclusters is
->    16 KB (in this case the subclusters size is 512 bytes), hence the
->    missing values in the 4 KB and 8 KB rows.
+Applied, thanks.
 
-Again reading ahead, I see that patch 5 requires a 16k minimum cluster 
-for using extended L2.  Could we still permit clusters smaller than 
-that, but merely document that subclusters are always a minimum of 512 
-bytes and therefore for an 8k cluster we only use 16 bits (leaving the 
-other 16 bits zero)?  But I'm also fine with the simplicity of just 
-stating that subclusters require at least 16k clusters.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-
-> === To do ===
-> 
-> A couple of things are missing from this series:
-> 
-> - The ability to efficiently zero individual subclusters using
->    qcow2_co_pwrite_zeroes(). At the moment only full clusters can be
->    zeroed with this method.
-> 
-> - Alternatively we could get rid of the individual "all zeroes" bits
->    altogether and have 64 subclusters per cluster. We would still have
->    the QCOW_OFLAG_ZERO bit in the standard cluster descriptor.
-
-I think you've got more flexibility with the two bits per sub-cluster 
-than you would with just 1 bit and 64 subclusters, so I don't think this 
-direction is going to get us far.
-
-> 
-> - The number of subclusters per cluster is always 32. It would be
->    trivial to allow configuring this, but I don't see any use case.
-
-Agreed.
-
-> 
-> - Tests: I have a few written that I'll add in future revisions of
->    this series.
-> 
-> - handle_alloc_space() works at the subclusters level. That is, if you
->    have an unallocated 2MB cluster with 64KB subclusters, no backing
->    image and you write 4KB of data, QEMU won't write zeroes to the
->    affected subcluster(s) and will use handle_alloc_space() instead.
->    The other subclusters won't be touched and will remain unallocated.
->    This behavior is consistent with how subclusters work and saves disk
->    space, but offers slightly lower performance (see test results
->    above). Theoretically we could offer a setting to configure this,
->    but I'm not convinced that this is very useful.
-> 
-> ===========================
-> 
-> As usual, feedback is welcome,
-
-Looks promising!
-
-How do subclusters interact with external data files?
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- PMM
 
