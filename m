@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53CBD73B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:46:51 +0200 (CEST)
-Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D5CD7390
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:42:51 +0200 (CEST)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKKLq-0005MB-7C
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:46:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47622)
+	id 1iKKHy-0001ZP-87
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47674)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iKKEX-0007LX-EB
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:18 -0400
+ (envelope-from <its@irrelevant.dk>) id 1iKKEY-0007Nh-S3
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iKKEW-0006D3-Bs
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:17 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:54768)
+ (envelope-from <its@irrelevant.dk>) id 1iKKEX-0006Eq-HH
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:18 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:54784)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iKKET-00069c-SW; Tue, 15 Oct 2019 06:39:14 -0400
+ id 1iKKEU-0006B4-NN; Tue, 15 Oct 2019 06:39:14 -0400
 Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 8BFD9BF7FB;
- Tue, 15 Oct 2019 10:39:12 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 0B004BF80B;
+ Tue, 15 Oct 2019 10:39:13 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 03/20] nvme: add missing fields in the identify controller
- data structure
-Date: Tue, 15 Oct 2019 12:38:43 +0200
-Message-Id: <20191015103900.313928-4-its@irrelevant.dk>
+Subject: [PATCH v2 04/20] nvme: populate the mandatory subnqn and ver fields
+Date: Tue, 15 Oct 2019 12:38:44 +0200
+Message-Id: <20191015103900.313928-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191015103900.313928-1-its@irrelevant.dk>
 References: <20191015103900.313928-1-its@irrelevant.dk>
@@ -55,75 +54,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not used by the device model but added for completeness. See NVM Express
-1.2.1, Section 5.11 ("Identify command"), Figure 90.
+Required for compliance with NVMe revision 1.2.1 or later. See NVM
+Express 1.2.1, Section 5.11 ("Identify command"), Figure 90 and Section
+7.9 ("NVMe Qualified Names").
+
+This also bumps the supported version to 1.2.1.
 
 Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 ---
- include/block/nvme.h | 34 +++++++++++++++++++++++++++++-----
- 1 file changed, 29 insertions(+), 5 deletions(-)
+ hw/block/nvme.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 3ec8efcc435e..1b0accd4fe2b 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -543,7 +543,13 @@ typedef struct NvmeIdCtrl {
-     uint8_t     ieee[3];
-     uint8_t     cmic;
-     uint8_t     mdts;
--    uint8_t     rsvd255[178];
-+    uint16_t    cntlid;
-+    uint32_t    ver;
-+    uint16_t    rtd3r;
-+    uint32_t    rtd3e;
-+    uint32_t    oaes;
-+    uint32_t    ctratt;
-+    uint8_t     rsvd255[156];
-     uint16_t    oacs;
-     uint8_t     acl;
-     uint8_t     aerl;
-@@ -551,10 +557,22 @@ typedef struct NvmeIdCtrl {
-     uint8_t     lpa;
-     uint8_t     elpe;
-     uint8_t     npss;
--    uint8_t     rsvd511[248];
-+    uint8_t     avscc;
-+    uint8_t     apsta;
-+    uint16_t    wctemp;
-+    uint16_t    cctemp;
-+    uint16_t    mtfa;
-+    uint32_t    hmpre;
-+    uint32_t    hmmin;
-+    uint8_t     tnvmcap[16];
-+    uint8_t     unvmcap[16];
-+    uint32_t    rpmbs;
-+    uint8_t     rsvd319[4];
-+    uint16_t    kas;
-+    uint8_t     rsvd511[190];
-     uint8_t     sqes;
-     uint8_t     cqes;
--    uint16_t    rsvd515;
-+    uint16_t    maxcmd;
-     uint32_t    nn;
-     uint16_t    oncs;
-     uint16_t    fuses;
-@@ -562,8 +580,14 @@ typedef struct NvmeIdCtrl {
-     uint8_t     vwc;
-     uint16_t    awun;
-     uint16_t    awupf;
--    uint8_t     rsvd703[174];
--    uint8_t     rsvd2047[1344];
-+    uint8_t     nvscc;
-+    uint8_t     rsvd531;
-+    uint16_t    acwu;
-+    uint16_t    rsvd535;
-+    uint32_t    sgls;
-+    uint8_t     rsvd767[228];
-+    uint8_t     subnqn[256];
-+    uint8_t     rsvd2047[1024];
-     NvmePSD     psd[32];
-     uint8_t     vs[1024];
- } NvmeIdCtrl;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 277700fdcc58..16f0fba10b08 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -9,9 +9,9 @@
+  */
+=20
+ /**
+- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
++ * Reference Specification: NVM Express 1.2.1
+  *
+- *  http://www.nvmexpress.org/resources/
++ *   https://nvmexpress.org/resources/specifications/
+  */
+=20
+ /**
+@@ -1366,6 +1366,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+     id->ieee[0] =3D 0x00;
+     id->ieee[1] =3D 0x02;
+     id->ieee[2] =3D 0xb3;
++    id->ver =3D cpu_to_le32(0x00010201);
+     id->oacs =3D cpu_to_le16(0);
+     id->frmw =3D 7 << 1;
+     id->lpa =3D 1 << 0;
+@@ -1373,6 +1374,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
+ **errp)
+     id->cqes =3D (0x4 << 4) | 0x4;
+     id->nn =3D cpu_to_le32(n->num_namespaces);
+     id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
+);
++
++    strcpy((char *) id->subnqn, "nqn.2019-08.org.qemu:");
++    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
++
+     id->psd[0].mp =3D cpu_to_le16(0x9c4);
+     id->psd[0].enlat =3D cpu_to_le32(0x10);
+     id->psd[0].exlat =3D cpu_to_le32(0x4);
+@@ -1387,7 +1392,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+=20
+-    n->bar.vs =3D 0x00010200;
++    n->bar.vs =3D 0x00010201;
+     n->bar.intmc =3D n->bar.intms =3D 0;
+=20
+     if (n->params.cmb_size_mb) {
 --=20
 2.23.0
 
