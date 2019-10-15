@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA957D73B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:47:00 +0200 (CEST)
-Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68A7D73B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:46:39 +0200 (CEST)
+Received: from localhost ([::1]:40225 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKKLz-0005oo-Fb
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47765)
+	id 1iKKLe-00050Z-7o
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iKKEb-0007Se-UH
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:23 -0400
+ (envelope-from <its@irrelevant.dk>) id 1iKKEd-0007V5-Ez
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iKKEa-0006Hs-5s
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:21 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:54804)
+ (envelope-from <its@irrelevant.dk>) id 1iKKEb-0006Ip-Db
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:23 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:54822)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iKKEW-0006C2-61; Tue, 15 Oct 2019 06:39:16 -0400
+ id 1iKKEW-0006CR-KQ; Tue, 15 Oct 2019 06:39:16 -0400
 Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 2A1FEBF8DB;
+ by charlie.dont.surf (Postfix) with ESMTPSA id 77E1BBF907;
  Tue, 15 Oct 2019 10:39:15 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 07/20] nvme: refactor device realization
-Date: Tue, 15 Oct 2019 12:38:47 +0200
-Message-Id: <20191015103900.313928-8-its@irrelevant.dk>
+Subject: [PATCH v2 08/20] nvme: add support for the get log page command
+Date: Tue, 15 Oct 2019 12:38:48 +0200
+Message-Id: <20191015103900.313928-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191015103900.313928-1-its@irrelevant.dk>
 References: <20191015103900.313928-1-its@irrelevant.dk>
@@ -54,297 +54,350 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch splits up nvme_realize into multiple individual functions,
-each initializing a different subset of the device.
+Add support for the Get Log Page command and basic implementations
+of the mandatory Error Information, SMART/Health Information and
+Firmware Slot Information log pages.
+
+In violation of the specification, the SMART/Health Information log page
+does not persist information over the lifetime of the controller because
+the device has no place to store such persistent state.
+
+Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+Section 5.10 ("Get Log Page command").
 
 Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 ---
- hw/block/nvme.c | 176 +++++++++++++++++++++++++++++++-----------------
- hw/block/nvme.h |  22 ++++++
- 2 files changed, 135 insertions(+), 63 deletions(-)
+ hw/block/nvme.c       | 150 +++++++++++++++++++++++++++++++++++++++++-
+ hw/block/nvme.h       |   9 ++-
+ hw/block/trace-events |   2 +
+ include/block/nvme.h  |   2 +-
+ 4 files changed, 160 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 84e4f2ea7a15..1fdb3b8655ed 100644
+index 1fdb3b8655ed..4412a3bea3bc 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -43,6 +43,8 @@
- #include "trace.h"
+@@ -44,6 +44,7 @@
  #include "nvme.h"
 =20
-+#define NVME_MAX_QS PCI_MSIX_FLAGS_QSIZE
-+
+ #define NVME_MAX_QS PCI_MSIX_FLAGS_QSIZE
++#define NVME_TEMPERATURE 0x143
+=20
  #define NVME_GUEST_ERR(trace, fmt, ...) \
      do { \
-         (trace_##trace)(__VA_ARGS__); \
-@@ -1336,67 +1338,106 @@ static const MemoryRegionOps nvme_cmb_ops =3D {
-     },
- };
+@@ -577,6 +578,137 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeCmd=
+ *cmd)
+     return NVME_SUCCESS;
+ }
 =20
--static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+static int nvme_check_constraints(NvmeCtrl *n, Error **errp)
++static uint16_t nvme_error_info(NvmeCtrl *n, NvmeCmd *cmd,
++    uint32_t buf_len, uint64_t off, NvmeRequest *req)
++{
++    uint32_t trans_len;
++    uint64_t prp1 =3D le64_to_cpu(cmd->prp1);
++    uint64_t prp2 =3D le64_to_cpu(cmd->prp2);
++
++    if (off > sizeof(*n->elpes) * (n->params.elpe + 1)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    trans_len =3D MIN(sizeof(*n->elpes) * (n->params.elpe + 1) - off, bu=
+f_len);
++
++    return nvme_dma_read_prp(n, (uint8_t *) n->elpes + off, trans_len, p=
+rp1,
++        prp2);
++}
++
++static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_=
+len,
++    uint64_t off, NvmeRequest *req)
++{
++    uint64_t prp1 =3D le64_to_cpu(cmd->prp1);
++    uint64_t prp2 =3D le64_to_cpu(cmd->prp2);
++    uint32_t nsid =3D le32_to_cpu(cmd->nsid);
++
++    uint32_t trans_len;
++    time_t current_ms;
++    uint64_t units_read =3D 0, units_written =3D 0, read_commands =3D 0,
++        write_commands =3D 0;
++    NvmeSmartLog smart;
++    BlockAcctStats *s;
++
++    if (!nsid || (nsid !=3D 0xffffffff && nsid > n->num_namespaces)) {
++        trace_nvme_err_invalid_ns(nsid, n->num_namespaces);
++        return NVME_INVALID_NSID | NVME_DNR;
++    }
++
++    s =3D blk_get_stats(n->conf.blk);
++
++    units_read =3D s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
++    units_written =3D s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
++    read_commands =3D s->nr_ops[BLOCK_ACCT_READ];
++    write_commands =3D s->nr_ops[BLOCK_ACCT_WRITE];
++
++    if (off > sizeof(smart)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    trans_len =3D MIN(sizeof(smart) - off, buf_len);
++
++    memset(&smart, 0x0, sizeof(smart));
++
++    smart.data_units_read[0] =3D cpu_to_le64(units_read / 1000);
++    smart.data_units_written[0] =3D cpu_to_le64(units_written / 1000);
++    smart.host_read_commands[0] =3D cpu_to_le64(read_commands);
++    smart.host_write_commands[0] =3D cpu_to_le64(write_commands);
++
++    smart.number_of_error_log_entries[0] =3D cpu_to_le64(0);
++    smart.temperature[0] =3D n->temperature & 0xff;
++    smart.temperature[1] =3D (n->temperature >> 8) & 0xff;
++
++    if (n->features.temp_thresh <=3D n->temperature) {
++        smart.critical_warning |=3D NVME_SMART_TEMPERATURE;
++    }
++
++    current_ms =3D qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
++    smart.power_on_hours[0] =3D cpu_to_le64(
++        (((current_ms - n->starttime_ms) / 1000) / 60) / 60);
++
++    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp=
+1,
++        prp2);
++}
++
++static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf=
+_len,
++    uint64_t off, NvmeRequest *req)
++{
++    uint32_t trans_len;
++    uint64_t prp1 =3D le64_to_cpu(cmd->prp1);
++    uint64_t prp2 =3D le64_to_cpu(cmd->prp2);
++    NvmeFwSlotInfoLog fw_log;
++
++    if (off > sizeof(fw_log)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    memset(&fw_log, 0, sizeof(NvmeFwSlotInfoLog));
++
++    trans_len =3D MIN(sizeof(fw_log) - off, buf_len);
++
++    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, pr=
+p1,
++        prp2);
++}
++
++static uint16_t nvme_get_log(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req=
+)
++{
++    uint32_t dw10 =3D le32_to_cpu(cmd->cdw10);
++    uint32_t dw11 =3D le32_to_cpu(cmd->cdw11);
++    uint32_t dw12 =3D le32_to_cpu(cmd->cdw12);
++    uint32_t dw13 =3D le32_to_cpu(cmd->cdw13);
++    uint16_t lid =3D dw10 & 0xff;
++    uint8_t  rae =3D (dw10 >> 15) & 0x1;
++    uint32_t numdl, numdu;
++    uint64_t off, lpol, lpou;
++    size_t   len;
++
++    numdl =3D (dw10 >> 16);
++    numdu =3D (dw11 & 0xffff);
++    lpol =3D dw12;
++    lpou =3D dw13;
++
++    len =3D (((numdu << 16) | numdl) + 1) << 2;
++    off =3D (lpou << 32ULL) | lpol;
++
++    if (off & 0x3) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    trace_nvme_get_log(req->cid, lid, rae, len, off);
++
++    switch (lid) {
++    case NVME_LOG_ERROR_INFO:
++        return nvme_error_info(n, cmd, len, off, req);
++    case NVME_LOG_SMART_INFO:
++        return nvme_smart_info(n, cmd, len, off, req);
++    case NVME_LOG_FW_SLOT_INFO:
++        return nvme_fw_log_info(n, cmd, len, off, req);
++    default:
++        trace_nvme_err_invalid_log_page(req->cid, lid);
++        return NVME_INVALID_LOG_ID | NVME_DNR;
++    }
++}
++
+ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
  {
--    NvmeCtrl *n =3D NVME(pci_dev);
--    NvmeIdCtrl *id =3D &n->id_ctrl;
--
--    int i;
--    int64_t bs_size;
--    uint8_t *pci_conf;
--
--    if (!n->params.num_queues) {
--        error_setg(errp, "num_queues can't be zero");
--        return;
--    }
-+    NvmeParams *params =3D &n->params;
+     n->cq[cq->cqid] =3D NULL;
+@@ -812,6 +944,9 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd=
+ *cmd, NvmeRequest *req)
+     uint32_t result;
 =20
-     if (!n->conf.blk) {
--        error_setg(errp, "drive property not set");
--        return;
-+        error_setg(errp, "nvme: block backend not configured");
-+        return 1;
-     }
+     switch (dw10) {
++    case NVME_TEMPERATURE_THRESHOLD:
++        result =3D cpu_to_le32(n->features.temp_thresh);
++        break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         result =3D blk_enable_write_cache(n->conf.blk);
+         trace_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+@@ -856,6 +991,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCm=
+d *cmd, NvmeRequest *req)
+     uint32_t dw11 =3D le32_to_cpu(cmd->cdw11);
 =20
--    bs_size =3D blk_getlength(n->conf.blk);
--    if (bs_size < 0) {
--        error_setg(errp, "could not get backing file size");
--        return;
-+    if (!params->serial) {
-+        error_setg(errp, "nvme: serial not configured");
-+        return 1;
-     }
-=20
--    if (!n->params.serial) {
--        error_setg(errp, "serial property not set");
--        return;
-+    if ((params->num_queues < 1 || params->num_queues > NVME_MAX_QS)) {
-+        error_setg(errp, "nvme: invalid queue configuration");
-+        return 1;
-     }
+     switch (dw10) {
++    case NVME_TEMPERATURE_THRESHOLD:
++        n->features.temp_thresh =3D dw11;
++        break;
 +
-+    return 0;
-+}
-+
-+static int nvme_init_blk(NvmeCtrl *n, Error **errp)
-+{
-     blkconf_blocksizes(&n->conf);
-     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->con=
-f.blk),
--                                       false, errp)) {
--        return;
-+        false, errp)) {
-+        return 1;
-     }
+     case NVME_VOLATILE_WRITE_CACHE:
+         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+         break;
+@@ -884,6 +1023,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd =
+*cmd, NvmeRequest *req)
+         return nvme_del_sq(n, cmd);
+     case NVME_ADM_CMD_CREATE_SQ:
+         return nvme_create_sq(n, cmd);
++    case NVME_ADM_CMD_GET_LOG_PAGE:
++        return nvme_get_log(n, cmd, req);
+     case NVME_ADM_CMD_DELETE_CQ:
+         return nvme_del_cq(n, cmd);
+     case NVME_ADM_CMD_CREATE_CQ:
+@@ -923,6 +1064,7 @@ static void nvme_process_sq(void *opaque)
+         QTAILQ_INSERT_TAIL(&sq->out_req_list, req, entry);
+         memset(&req->cqe, 0, sizeof(req->cqe));
+         req->cqe.cid =3D cmd.cid;
++        req->cid =3D le16_to_cpu(cmd.cid);
 =20
--    pci_conf =3D pci_dev->config;
--    pci_conf[PCI_INTERRUPT_PIN] =3D 1;
--    pci_config_set_prog_interface(pci_dev->config, 0x2);
--    pci_config_set_class(pci_dev->config, PCI_CLASS_STORAGE_EXPRESS);
--    pcie_endpoint_cap_init(pci_dev, 0x80);
-+    return 0;
-+}
-=20
-+static void nvme_init_state(NvmeCtrl *n)
-+{
-     n->num_namespaces =3D 1;
-     n->reg_size =3D pow2ceil(0x1004 + 2 * (n->params.num_queues + 1) * 4=
-);
--    n->ns_size =3D bs_size / (uint64_t)n->num_namespaces;
--
+         status =3D sq->sqid ? nvme_io_cmd(n, &cmd, req) :
+             nvme_admin_cmd(n, &cmd, req);
+@@ -1378,6 +1520,10 @@ static void nvme_init_state(NvmeCtrl *n)
      n->namespaces =3D g_new0(NvmeNamespace, n->num_namespaces);
      n->sq =3D g_new0(NvmeSQueue *, n->params.num_queues);
      n->cq =3D g_new0(NvmeCQueue *, n->params.num_queues);
-+}
-+
-+static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-+{
-+    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
-+    NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-+
-+    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
-+    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
-+    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2);
-+    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+
-+    n->cmbloc =3D n->bar.cmbloc;
-+    n->cmbsz =3D n->bar.cmbsz;
-+
-+    n->cmbuf =3D g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-+    memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
-+                            "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz)=
-);
-+    pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
-+        PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+        PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-+}
-+
-+static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
-+{
-+    uint8_t *pci_conf =3D pci_dev->config;
-=20
--    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n,
--                          "nvme", n->reg_size);
-+    pci_conf[PCI_INTERRUPT_PIN] =3D 1;
-+    pci_config_set_prog_interface(pci_conf, 0x2);
-+    pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
-+    pci_config_set_device_id(pci_conf, 0x5845);
-+    pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-+    pcie_endpoint_cap_init(pci_dev, 0x80);
-+
-+    memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme=
-",
-+        n->reg_size);
-     pci_register_bar(pci_dev, 0,
-         PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
-         &n->iomem);
-     msix_init_exclusive_bar(pci_dev, n->params.num_queues, 4, NULL);
-=20
-+    if (n->params.cmb_size_mb) {
-+        nvme_init_cmb(n, pci_dev);
-+    }
-+}
-+
-+static void nvme_init_ctrl(NvmeCtrl *n)
-+{
-+    NvmeIdCtrl *id =3D &n->id_ctrl;
-+    NvmeParams *params =3D &n->params;
-+    uint8_t *pci_conf =3D n->parent_obj.config;
-+
-     id->vid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid =3D cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VEND=
-OR_ID));
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-     strpadcpy((char *)id->fr, sizeof(id->fr), "1.0", ' ');
--    strpadcpy((char *)id->sn, sizeof(id->sn), n->params.serial, ' ');
-+    strpadcpy((char *)id->sn, sizeof(id->sn), params->serial, ' ');
-     id->rab =3D 6;
-     id->ieee[0] =3D 0x00;
-     id->ieee[1] =3D 0x02;
-@@ -1430,46 +1471,55 @@ static void nvme_realize(PCIDevice *pci_dev, Erro=
-r **errp)
-=20
-     n->bar.vs =3D 0x00010201;
-     n->bar.intmc =3D n->bar.intms =3D 0;
-+}
-=20
--    if (n->params.cmb_size_mb) {
-+static int nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **e=
-rrp)
-+{
-+    int64_t bs_size;
-+    NvmeIdNs *id_ns =3D &ns->id_ns;
-+
-+    bs_size =3D blk_getlength(n->conf.blk);
-+    if (bs_size < 0) {
-+        error_setg_errno(errp, -bs_size, "blk_getlength");
-+        return 1;
-+    }
-+
-+    id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
-+    n->ns_size =3D bs_size;
-+
-+    id_ns->ncap =3D id_ns->nuse =3D id_ns->nsze =3D
-+        cpu_to_le64(nvme_ns_nlbas(n, ns));
-=20
--        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
--        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-+    return 0;
-+}
-=20
--        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
--        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
--        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
--        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
-+static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+{
-+    NvmeCtrl *n =3D NVME(pci_dev);
-+    Error *local_err =3D NULL;
-+    int i;
-=20
--        n->cmbloc =3D n->bar.cmbloc;
--        n->cmbsz =3D n->bar.cmbsz;
-+    if (nvme_check_constraints(n, &local_err)) {
-+        error_propagate_prepend(errp, local_err, "nvme_check_constraints=
-: ");
-+        return;
-+    }
-=20
--        n->cmbuf =3D g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
--        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
--                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbs=
-z));
--        pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
--            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64=
- |
--            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-+    nvme_init_state(n);
-=20
-+    if (nvme_init_blk(n, &local_err)) {
-+        error_propagate_prepend(errp, local_err, "nvme_init_blk: ");
-+        return;
-     }
-=20
-     for (i =3D 0; i < n->num_namespaces; i++) {
--        NvmeNamespace *ns =3D &n->namespaces[i];
--        NvmeIdNs *id_ns =3D &ns->id_ns;
--        id_ns->nsfeat =3D 0;
--        id_ns->nlbaf =3D 0;
--        id_ns->flbas =3D 0;
--        id_ns->mc =3D 0;
--        id_ns->dpc =3D 0;
--        id_ns->dps =3D 0;
--        id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
--        id_ns->ncap  =3D id_ns->nuse =3D id_ns->nsze =3D
--            cpu_to_le64(n->ns_size >>
--                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds)=
-;
-+        if (nvme_init_namespace(n, &n->namespaces[i], &local_err)) {
-+            error_propagate_prepend(errp, local_err, "nvme_init_namespac=
-e: ");
-+            return;
-+        }
-     }
-+
-+    nvme_init_pci(n, pci_dev);
-+    nvme_init_ctrl(n);
++    n->elpes =3D g_new0(NvmeErrorLog, n->params.elpe + 1);
++    n->starttime_ms =3D qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
++    n->temperature =3D NVME_TEMPERATURE;
++    n->features.temp_thresh =3D 0x14d;
  }
 =20
- static void nvme_exit(PCIDevice *pci_dev)
+ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -1446,7 +1592,8 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     id->oacs =3D cpu_to_le16(0);
+     id->acl =3D 3;
+     id->frmw =3D 7 << 1;
+-    id->lpa =3D 1 << 0;
++    id->lpa =3D 1 << 2;
++    id->elpe =3D n->params.elpe;
+     id->sqes =3D (0x6 << 4) | 0x6;
+     id->cqes =3D (0x4 << 4) | 0x4;
+     id->nn =3D cpu_to_le32(n->num_namespaces);
+@@ -1530,6 +1677,7 @@ static void nvme_exit(PCIDevice *pci_dev)
+     g_free(n->namespaces);
+     g_free(n->cq);
+     g_free(n->sq);
++    g_free(n->elpes);
+=20
+     if (n->params.cmb_size_mb) {
+         g_free(n->cmbuf);
 diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 9957c4a200e2..7c3c07bde887 100644
+index 7c3c07bde887..fcfd504e3f9f 100644
 --- a/hw/block/nvme.h
 +++ b/hw/block/nvme.h
-@@ -101,4 +101,26 @@ typedef struct NvmeCtrl {
+@@ -6,12 +6,14 @@
+ #define DEFINE_NVME_PROPERTIES(_state, _props) \
+     DEFINE_PROP_STRING("serial", _state, _props.serial), \
+     DEFINE_PROP_UINT32("cmb_size_mb", _state, _props.cmb_size_mb, 0), \
+-    DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 64)
++    DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 64), \
++    DEFINE_PROP_UINT8("elpe", _state, _props.elpe, 24)
+=20
+ typedef struct NvmeParams {
+     char     *serial;
+     uint32_t num_queues;
+     uint32_t cmb_size_mb;
++    uint8_t  elpe;
+ } NvmeParams;
+=20
+ typedef struct NvmeAsyncEvent {
+@@ -23,6 +25,7 @@ typedef struct NvmeRequest {
+     struct NvmeSQueue       *sq;
+     BlockAIOCB              *aiocb;
+     uint16_t                status;
++    uint16_t                cid;
+     bool                    has_sg;
+     NvmeCqe                 cqe;
+     BlockAcctCookie         acct;
+@@ -92,12 +95,16 @@ typedef struct NvmeCtrl {
+     uint64_t    irq_status;
+     uint64_t    host_timestamp;                 /* Timestamp sent by the=
+ host */
+     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
++    uint64_t    starttime_ms;
++    uint16_t    temperature;
+=20
+     NvmeNamespace   *namespaces;
+     NvmeSQueue      **sq;
+     NvmeCQueue      **cq;
+     NvmeSQueue      admin_sq;
+     NvmeCQueue      admin_cq;
++    NvmeFeatureVal  features;
++    NvmeErrorLog    *elpes;
      NvmeIdCtrl      id_ctrl;
  } NvmeCtrl;
 =20
-+static inline NvmeLBAF nvme_ns_lbaf(NvmeNamespace *ns)
-+{
-+    NvmeIdNs *id_ns =3D &ns->id_ns;
-+    return id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
-+}
-+
-+static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
-+{
-+    return nvme_ns_lbaf(ns).ds;
-+}
-+
-+static inline size_t nvme_ns_lbads_bytes(NvmeNamespace *ns)
-+{
-+    return 1 << nvme_ns_lbads(ns);
-+}
-+
-+static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
-+{
-+    return n->ns_size >> nvme_ns_lbads(ns);
-+}
-+
-+
- #endif /* HW_NVME_H */
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 13d1b21dd4e4..a2c7919c861e 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -46,6 +46,7 @@ nvme_getfeat_numq(int result) "get feature number of qu=
+eues, result=3D%d"
+ nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested=
+ cq_count=3D%d sq_count=3D%d, responding with cq_count=3D%d sq_count=3D%d=
+"
+ nvme_setfeat_timestamp(uint64_t ts) "set feature timestamp =3D 0x%"PRIx6=
+4""
+ nvme_getfeat_timestamp(uint64_t ts) "get feature timestamp =3D 0x%"PRIx6=
+4""
++nvme_get_log(uint16_t cid, uint16_t lid, uint8_t rae, uint32_t len, uint=
+64_t off) "cid %"PRIu16" lid 0x%"PRIx16" rae 0x%"PRIx8" len %"PRIu32" off=
+ %"PRIu64""
+ nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interr=
+upt mask set, data=3D0x%"PRIx64", new_mask=3D0x%"PRIx64""
+ nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interr=
+upt mask clr, data=3D0x%"PRIx64", new_mask=3D0x%"PRIx64""
+ nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=3D0x%=
+"PRIx64""
+@@ -85,6 +86,7 @@ nvme_err_invalid_create_cq_qflags(uint16_t qflags) "fai=
+led creating completion q
+ nvme_err_invalid_identify_cns(uint16_t cns) "identify, invalid cns=3D0x%=
+"PRIx16""
+ nvme_err_invalid_getfeat(int dw10) "invalid get features, dw10=3D0x%"PRI=
+x32""
+ nvme_err_invalid_setfeat(uint32_t dw10) "invalid set features, dw10=3D0x=
+%"PRIx32""
++nvme_err_invalid_log_page(uint16_t cid, uint16_t lid) "cid %"PRIu16" lid=
+ 0x%"PRIx16""
+ nvme_err_startfail_cq(void) "nvme_start_ctrl failed because there are no=
+n-admin completion queues"
+ nvme_err_startfail_sq(void) "nvme_start_ctrl failed because there are no=
+n-admin submission queues"
+ nvme_err_startfail_nbarasq(void) "nvme_start_ctrl failed because the adm=
+in submission queue address is null"
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 1b0accd4fe2b..a088ec7d4e38 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -515,7 +515,7 @@ enum NvmeSmartWarn {
+     NVME_SMART_FAILED_VOLATILE_MEDIA  =3D 1 << 4,
+ };
+=20
+-enum LogIdentifier {
++enum NvmeLogIdentifier {
+     NVME_LOG_ERROR_INFO     =3D 0x01,
+     NVME_LOG_SMART_INFO     =3D 0x02,
+     NVME_LOG_FW_SLOT_INFO   =3D 0x03,
 --=20
 2.23.0
 
