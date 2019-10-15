@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF77D72C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:06:15 +0200 (CEST)
-Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D476D72C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:07:42 +0200 (CEST)
+Received: from localhost ([::1]:39322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKJiY-0008OW-6F
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40323)
+	id 1iKJjw-0001JI-Tu
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKJYE-0003wq-9o
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 05:55:35 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iKJaY-0004vT-94
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 05:57:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKJYB-0005OW-Kg
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 05:55:33 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:41197)
+ (envelope-from <peter.maydell@linaro.org>) id 1iKJaW-0005y7-D5
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 05:57:57 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:46522)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKJYB-0005OC-C6
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 05:55:31 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id w65so16252644oiw.8
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 02:55:31 -0700 (PDT)
+ id 1iKJaW-0005xr-81
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 05:57:56 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id 89so16334980oth.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 02:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rOrc+lBWcBjJSieDQDJV2kbPkgS4lpEkrvkTEH0M3JY=;
- b=UnrtBPjQ/M9jzW7nh2hBB5c6OXUcVWCA6X5U4pJPgqc91pzhlXnFVIqMi2d+NCZ4Z1
- vMgLeg9c64l7R8IgEUJR0X/35oPTkbyc0cFuxpGsfggznluSrQlOHVj2509uFzAfah6Y
- tNonmtLk0hTq0Q8O4sL1CQJBuRaR2SBj6YPApZcoFBQGkA/TmD8gwWfaU/LK/+1pk6Pe
- Eogo/BbAKtEs8GvB/qYtxJgJKKX789qu8Db/6P8ZSZn9uXC1CQrot+M9VC7qxbRPBaH8
- 1XV3om6l3uafJRGTzzcak2PmAPPS4EpULQfv1yUmVt5+oVQFmwUSjMqArdUVo5RLJb9n
- AC1g==
+ :cc:content-transfer-encoding;
+ bh=rGDRpST5sieXiVLkqxlJk2ENwgXbiyOjDZ1Qgf6nsnk=;
+ b=ARNNc0Iu/vb60tOyhT6mUvKVX+0JXLfxjWdEvLr1JthyVrwlUktBrmWbNSyy2hlOsJ
+ tdTC29hhnyQCs5WeMRKo1csEE46+freOFErR3kfgOFLUw8RdvRwrJRTgkffSXdF3SWMB
+ j8sZaXwK0+Bjh7qcZjCe3I3/psUjst4kHk5/qqS3EAy6Au3zHEt+qTYrbasl7GxFPiPH
+ YFSkEKZRwDb/xmZpdt1HOwJ9ZOWYEgrho7seIbJnCzv27pzsEdelb0+B9Do5rR1KDq5I
+ nrHUxzavEeVna4Iw18xG/dQ3MKGMOrgSIgnhmJbxVfDrge/GXy1eYGfRa32AugxZgV95
+ tLMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rOrc+lBWcBjJSieDQDJV2kbPkgS4lpEkrvkTEH0M3JY=;
- b=ixmKcgJqmT+Ks8/E55cn+SYgOgO93jnwBdRWb+iKPhFVAcJV0OSc9a0uwc61bdNLWO
- 8rP4AFL1SHFu9MTG6Y7J5UnadupgMiRnO7001uDtn6ve/b03fxQpJ5y+3W97uktbMx5+
- M6GJOQ7Z4uWrUz174z+FtgEL3vm2j39418YkdlUyOhFl6U/x02zIPoUB/ta28zljyUrk
- lxFyepnFscsN7fSor1c3J/3etHTjra3aA3BtJGGfX7Xr5IQZJf+3DnG2ykvtjpQUvPW8
- B2ARfFJ71Y8rnBFlyq5Wsd3ry/ev5qBtTggaZSK0RDlAlTGwsTm9+fnE82iLXXRbuXGj
- m29g==
-X-Gm-Message-State: APjAAAUWEHOOWj7/qY/kMk+z391kAzHwQJQatpgSVWCWEbLpzksJfVuk
- z+RQmwkZNICXBW2EsRIfhtSSJQyRBCud5gOAMK4qlnOF2pw=
-X-Google-Smtp-Source: APXvYqwSrN8zL/X0lvPGC/q830ZLPBa2/HIPoKip1TxgUrqVljjeVqUatOzdXaNSH+84VFAvkEfpHUFoyuTp1ts2teE=
-X-Received: by 2002:aca:3b41:: with SMTP id i62mr26671155oia.48.1571133330238; 
- Tue, 15 Oct 2019 02:55:30 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rGDRpST5sieXiVLkqxlJk2ENwgXbiyOjDZ1Qgf6nsnk=;
+ b=lQROOcH78wdDJG3rYgW2kuhGWzVpNn+ySfplLqmh2+Ytv+yN02vD3dDlcZvol29qJq
+ ZvtkmbzD8lokgXgurNLQmVFlVJAwPpg9Kw+Vsht5N/SaO6uNuOcWZPCuWRFFraKLKMI1
+ eVeTzE62uuG7kWCwbL/6gArf1RkLOPGScbd9FH3MWPIhxvpWfTbCUSC277eSOAkXaKkv
+ 0b1iiXNPNEqtOGNMhQkvRipKGRrYLalhtPF3svMfQ7e3dBQRUzKn3LI245UCHwT7ZPJ7
+ 6TO/OfJFGWTVgiiVI1U8YtXcoiz5z+VtWReDp2HvVK1OnSTvU1uhDgrVQ14OL4o3xVuk
+ hcGw==
+X-Gm-Message-State: APjAAAVi/rwBlc2AyWnvSRnQSlMxjokGUtnFytAnsLVQq1lEYD1WIQXY
+ nCG4bFZBTiPuKr1J/BiJW4tTyskbew2Bl7eJ0lFOaA==
+X-Google-Smtp-Source: APXvYqwFXfyOKCuHuz5/hhYNzZkNFglhTnWY1NNfSfCMriD2nHlgvG6jSZynQmPY6QMWgKlFRu9WmmGVllDCBRM62VQ=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr28412069otg.91.1571133475325; 
+ Tue, 15 Oct 2019 02:57:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191012102240.22329-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20191012102240.22329-1-mark.cave-ayland@ilande.co.uk>
+References: <CALvKS=E-t1c+BVDn=0RbM8nBry8GcYOXh-PrziQO7XhS7W2NUw@mail.gmail.com>
+ <CALvKS=GB1-zDnkKxei6Dn5MNyr5kwj+vEtD_3MZyVNfzqQuRZg@mail.gmail.com>
+ <CAFEAcA-gLHm0D6vR0Rvpbi_bbVWpKspvm8YLSVPHpCVP6HmDUg@mail.gmail.com>
+ <20191015082708.GB22859@redhat.com>
+ <0a4262f8-df07-e83e-0928-b6cf4e12800d@redhat.com>
+ <20191015084722.GD22859@redhat.com>
+ <CAJ+F1CJACARosH6agtDQoyo6VoubYfrRm5z6DpiiV+fdw0U8aQ@mail.gmail.com>
+ <20191015091444.GE22859@redhat.com>
+In-Reply-To: <20191015091444.GE22859@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 10:55:18 +0100
-Message-ID: <CAFEAcA8wGOo9C5moapy9wVj2rFO+HTH2FXZosN+qLfiMWsF3Uw@mail.gmail.com>
-Subject: Re: [PULL 0/1] qemu-openbios queue 20191012
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Date: Tue, 15 Oct 2019 10:57:44 +0100
+Message-ID: <CAFEAcA8_MSHnGhr0R=YDqT7kZJTSOh-U5KmqGAJ5A3XuqV=-Qw@mail.gmail.com>
+Subject: Re: RFC: Why dont we move to newer capstone?
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22d
+X-Received-From: 2607:f8b0:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 12 Oct 2019 at 11:24, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+On Tue, 15 Oct 2019 at 10:14, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
 >
-> The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
+> On Tue, Oct 15, 2019 at 11:02:43AM +0200, Marc-Andr=C3=A9 Lureau wrote:
+> > I suppose the same applies to dtc (1.4.2 required by qemu, but xenial
+> > has 1.4.0... so we have to wait until April 26, 2020? 18.04 LTS
+> > release date + 2y).
 >
->   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/mcayland/qemu.git tags/qemu-openbios-20191012
->
-> for you to fetch changes up to 25bf1811cffc2772fedaa9345026cb5375ae11b4:
->
->   Update OpenBIOS images to f28e16f9 built from submodule. (2019-10-12 10:18:18 +0100)
->
-> ----------------------------------------------------------------
-> qemu-openbios queue
->
-> ----------------------------------------------------------------
+> Possibly - depends on scope of changes between 1.4.0 & 1.4.2 - maybe it
+> is easy to conditionally support 1.4.0 too.
 
+We need fdt_first_subnode() and fdt_next_subnode() which only
+came in in 1.4.2.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
-
+thanks
 -- PMM
 
