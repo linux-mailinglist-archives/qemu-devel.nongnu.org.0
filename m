@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EA2D7C13
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:40:34 +0200 (CEST)
-Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7897D7C2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:42:37 +0200 (CEST)
+Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKPs8-0005Rv-Hj
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41367)
+	id 1iKPu8-0008HL-EH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPhm-0002JU-2l
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKPiC-0002kA-Kw
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:30:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPhk-0005GH-VP
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56276)
+ (envelope-from <philmd@redhat.com>) id 1iKPiB-0005g5-Bl
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:30:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57418)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPhk-0005Fr-Pj
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:48 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPiB-0005fJ-31
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:30:15 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E85F880167A;
- Tue, 15 Oct 2019 16:29:47 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2FDE08E1CE4;
+ Tue, 15 Oct 2019 16:30:14 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C046B19C58;
- Tue, 15 Oct 2019 16:29:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 198B019C58;
+ Tue, 15 Oct 2019 16:29:55 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/32] piix4: convert reset function to QOM
-Date: Tue, 15 Oct 2019 18:26:46 +0200
-Message-Id: <20191015162705.28087-14-philmd@redhat.com>
+Subject: [PATCH 15/32] piix4: add a i8254 pit controller as specified in
+ datasheet
+Date: Tue, 15 Oct 2019 18:26:48 +0200
+Message-Id: <20191015162705.28087-16-philmd@redhat.com>
 In-Reply-To: <20191015162705.28087-1-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Tue, 15 Oct 2019 16:29:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.69]); Tue, 15 Oct 2019 16:30:14 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,51 +74,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
 
+Remove i8254 instanciated in malta board, to not have it twice.
+
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-Message-Id: <20180106153730.30313-15-hpoussin@reactos.org>
+Message-Id: <20171216090228.28505-10-hpoussin@reactos.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/isa/piix4.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/isa/piix4.c       | 4 ++++
+ hw/mips/mips_malta.c | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index c3a2bd0d70..8998b0ca47 100644
+index 1bc91b590c..0b0a0ecab1 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -48,10 +48,10 @@ typedef struct PIIX4State {
- #define PIIX4_PCI_DEVICE(obj) \
-     OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)
-=20
--static void piix4_reset(void *opaque)
-+static void piix4_reset(DeviceState *dev)
- {
--    PIIX4State *d =3D opaque;
--    uint8_t *pci_conf =3D d->dev.config;
-+    PIIX4State *s =3D PIIX4_PCI_DEVICE(dev);
-+    uint8_t *pci_conf =3D s->dev.config;
-=20
-     pci_conf[0x04] =3D 0x07; // master, memory and I/O
-     pci_conf[0x05] =3D 0x00;
-@@ -165,7 +165,6 @@ static void piix4_realize(PCIDevice *pci_dev, Error *=
+@@ -30,6 +30,7 @@
+ #include "hw/isa/isa.h"
+ #include "hw/sysbus.h"
+ #include "hw/dma/i8257.h"
++#include "hw/timer/i8254.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+@@ -165,6 +166,9 @@ static void piix4_realize(PCIDevice *pci_dev, Error *=
 *errp)
+     /* initialize ISA irqs */
      isa_bus_irqs(isa_bus, s->isa);
 =20
-     piix4_dev =3D pci_dev;
--    qemu_register_reset(piix4_reset, s);
- }
++    /* initialize pit */
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++
+     /* DMA */
+     i8257_dma_init(isa_bus, 0);
 =20
- static void piix4_class_init(ObjectClass *klass, void *data)
-@@ -177,6 +176,7 @@ static void piix4_class_init(ObjectClass *klass, void=
- *data)
-     k->vendor_id =3D PCI_VENDOR_ID_INTEL;
-     k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB_0;
-     k->class_id =3D PCI_CLASS_BRIDGE_ISA;
-+    dc->reset =3D piix4_reset;
-     dc->desc =3D "ISA bridge";
-     dc->vmsd =3D &vmstate_piix4;
-     /*
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+index df247177ca..16d7a0e785 100644
+--- a/hw/mips/mips_malta.c
++++ b/hw/mips/mips_malta.c
+@@ -45,7 +45,6 @@
+ #include "hw/loader.h"
+ #include "elf.h"
+ #include "hw/timer/mc146818rtc.h"
+-#include "hw/timer/i8254.h"
+ #include "exec/address-spaces.h"
+ #include "hw/sysbus.h"             /* SysBusDevice */
+ #include "qemu/host-utils.h"
+@@ -99,8 +98,6 @@ typedef struct {
+     qemu_irq i8259[16];
+ } MaltaState;
+=20
+-static ISADevice *pit;
+-
+ static struct _loaderparams {
+     int ram_size, ram_low_size;
+     const char *kernel_filename;
+@@ -1428,7 +1425,6 @@ void mips_malta_init(MachineState *machine)
+     pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
+     smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
+                           isa_get_irq(NULL, 9), NULL, 0, NULL);
+-    pit =3D i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     mc146818_rtc_init(isa_bus, 2000, NULL);
+=20
+     /* generate SPD EEPROM data */
 --=20
 2.21.0
 
