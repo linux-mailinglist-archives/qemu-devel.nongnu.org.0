@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87856D7C5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:52:53 +0200 (CEST)
-Received: from localhost ([::1]:53046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1099FD7C82
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:56:30 +0200 (CEST)
+Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKQ44-0004TF-1T
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41986)
+	id 1iKQ7Y-0001yo-KC
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPkL-0004nf-4q
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:34 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKPkj-00057H-V7
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPkJ-00078U-27
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58720)
+ (envelope-from <philmd@redhat.com>) id 1iKPki-0007MK-IM
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53434)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPkI-000786-PC
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:27 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPki-0007M7-AA
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:52 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CF7F618CB911;
- Tue, 15 Oct 2019 16:32:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 681543018ED0;
+ Tue, 15 Oct 2019 16:32:51 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26E3619C58;
- Tue, 15 Oct 2019 16:32:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D253319C69;
+ Tue, 15 Oct 2019 16:32:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/32] hw/pci-host/piix: Move RCR_IOPORT register definition
-Date: Tue, 15 Oct 2019 18:26:59 +0200
-Message-Id: <20191015162705.28087-27-philmd@redhat.com>
+Subject: [PATCH 28/32] hw/pci-host/piix: Move i440FX declarations to
+ hw/pci-host/i440fx.h
+Date: Tue, 15 Oct 2019 18:27:01 +0200
+Message-Id: <20191015162705.28087-29-philmd@redhat.com>
 In-Reply-To: <20191015162705.28087-1-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 15 Oct 2019 16:32:25 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 15 Oct 2019 16:32:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -74,68 +75,161 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The RCR_IOPORT register belongs to the PIIX chipset.
-Move the definition to "piix.h".
+The hw/pci-host/piix.c contains a mix of PIIX3 and i440FX chipsets
+functions. To be able to split it, we need to export some
+declarations first.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/pci-host/piix.c            | 1 +
- include/hw/i386/pc.h          | 6 ------
- include/hw/southbridge/piix.h | 6 ++++++
- 3 files changed, 7 insertions(+), 6 deletions(-)
+ MAINTAINERS                  |  1 +
+ hw/acpi/pcihp.c              |  2 +-
+ hw/i386/pc_piix.c            |  1 +
+ hw/pci-host/piix.c           |  1 +
+ include/hw/i386/pc.h         | 22 ---------------------
+ include/hw/pci-host/i440fx.h | 37 ++++++++++++++++++++++++++++++++++++
+ stubs/pci-host-piix.c        |  3 ++-
+ 7 files changed, 43 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/pci-host/i440fx.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 556f58bd8c..adf059a164 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1228,6 +1228,7 @@ F: hw/i386/
+ F: hw/pci-host/piix.c
+ F: hw/pci-host/q35.c
+ F: hw/pci-host/pam.c
++F: include/hw/pci-host/i440fx.h
+ F: include/hw/pci-host/q35.h
+ F: include/hw/pci-host/pam.h
+ F: hw/isa/lpc_ich9.c
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 82d295b6e8..8413348a33 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -27,7 +27,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/acpi/pcihp.h"
+=20
+-#include "hw/i386/pc.h"
++#include "hw/pci-host/i440fx.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/acpi/acpi.h"
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 5b35ff04c7..8ac4bf12ca 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -29,6 +29,7 @@
+ #include "hw/loader.h"
+ #include "hw/i386/pc.h"
+ #include "hw/i386/apic.h"
++#include "hw/pci-host/i440fx.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/display/ramfb.h"
+ #include "hw/firmware/smbios.h"
 diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
-index 3292703de7..3770575c1a 100644
+index a450fc726e..0b5da5bc94 100644
 --- a/hw/pci-host/piix.c
 +++ b/hw/pci-host/piix.c
 @@ -27,6 +27,7 @@
  #include "hw/irq.h"
  #include "hw/pci/pci.h"
  #include "hw/pci/pci_host.h"
-+#include "hw/southbridge/piix.h"
++#include "hw/pci-host/i440fx.h"
+ #include "hw/southbridge/piix.h"
  #include "hw/qdev-properties.h"
  #include "hw/isa/isa.h"
- #include "hw/sysbus.h"
 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 183326d9fe..1c20b96571 100644
+index 1c20b96571..cead2828de 100644
 --- a/include/hw/i386/pc.h
 +++ b/include/hw/i386/pc.h
-@@ -257,12 +257,6 @@ typedef struct PCII440FXState PCII440FXState;
+@@ -248,28 +248,6 @@ int cmos_get_fd_drive_type(FloppyDriveType fd0);
+ /* hpet.c */
+ extern int no_hpet;
 =20
- #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
-=20
--/*
-- * Reset Control Register: PCI-accessible ISA-Compatible Register at add=
-ress
-- * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0, 8086:700=
-0).
-- */
--#define RCR_IOPORT 0xcf9
+-/* piix_pci.c */
+-struct PCII440FXState;
+-typedef struct PCII440FXState PCII440FXState;
 -
- PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-                     PCII440FXState **pi440fx_state, int *piix_devfn,
-                     ISABus **isa_bus, qemu_irq *pic,
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.=
-h
-index add352456b..79ebe0089b 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -18,6 +18,12 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t=
- smb_io_base,
-                       qemu_irq sci_irq, qemu_irq smi_irq,
-                       int smm_enabled, DeviceState **piix4_pm);
-=20
+-#define TYPE_I440FX_PCI_HOST_BRIDGE "i440FX-pcihost"
+-#define TYPE_I440FX_PCI_DEVICE "i440FX"
+-
+-#define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
+-
+-PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+-                    PCII440FXState **pi440fx_state, int *piix_devfn,
+-                    ISABus **isa_bus, qemu_irq *pic,
+-                    MemoryRegion *address_space_mem,
+-                    MemoryRegion *address_space_io,
+-                    ram_addr_t ram_size,
+-                    ram_addr_t below_4g_mem_size,
+-                    ram_addr_t above_4g_mem_size,
+-                    MemoryRegion *pci_memory,
+-                    MemoryRegion *ram_memory);
+-
+-PCIBus *find_i440fx(void);
+-
+ /* pc_sysfw.c */
+ void pc_system_flash_create(PCMachineState *pcms);
+ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_mem=
+ory);
+diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+new file mode 100644
+index 0000000000..e327f9bf87
+--- /dev/null
++++ b/include/hw/pci-host/i440fx.h
+@@ -0,0 +1,37 @@
 +/*
-+ * Reset Control Register: PCI-accessible ISA-Compatible Register at add=
-ress
-+ * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0, 8086:700=
-0).
++ * QEMU i440FX North Bridge Emulation
++ *
++ * Copyright (c) 2006 Fabrice Bellard
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ *
 + */
-+#define RCR_IOPORT 0xcf9
 +
- extern PCIDevice *piix4_dev;
-=20
- DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
++#ifndef HW_PCI_I440FX_H
++#define HW_PCI_I440FX_H
++
++#include "hw/hw.h"
++#include "hw/pci/pci_bus.h"
++
++typedef struct PCII440FXState PCII440FXState;
++
++#define TYPE_I440FX_PCI_HOST_BRIDGE "i440FX-pcihost"
++#define TYPE_I440FX_PCI_DEVICE "i440FX"
++
++#define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
++
++PCIBus *i440fx_init(const char *host_type, const char *pci_type,
++                    PCII440FXState **pi440fx_state, int *piix_devfn,
++                    ISABus **isa_bus, qemu_irq *pic,
++                    MemoryRegion *address_space_mem,
++                    MemoryRegion *address_space_io,
++                    ram_addr_t ram_size,
++                    ram_addr_t below_4g_mem_size,
++                    ram_addr_t above_4g_mem_size,
++                    MemoryRegion *pci_memory,
++                    MemoryRegion *ram_memory);
++
++PCIBus *find_i440fx(void);
++
++#endif
+diff --git a/stubs/pci-host-piix.c b/stubs/pci-host-piix.c
+index 6ed81b1f21..93975adbfe 100644
+--- a/stubs/pci-host-piix.c
++++ b/stubs/pci-host-piix.c
+@@ -1,5 +1,6 @@
+ #include "qemu/osdep.h"
+-#include "hw/i386/pc.h"
++#include "hw/pci-host/i440fx.h"
++
+ PCIBus *find_i440fx(void)
+ {
+     return NULL;
 --=20
 2.21.0
 
