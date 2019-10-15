@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47A8D7FAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:11:21 +0200 (CEST)
-Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7191BD8040
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:26:47 +0200 (CEST)
+Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKSE4-0000Xu-6D
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37022)
+	id 1iKST0-00034h-I5
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iKSCY-00080x-Bx
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:09:47 -0400
+ (envelope-from <bounces@canonical.com>) id 1iKSRu-0002LS-1O
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:25:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iKSCX-00053K-3q
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:09:45 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35141)
+ (envelope-from <bounces@canonical.com>) id 1iKSRs-0002za-O4
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:25:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38648)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iKSCW-00052P-SC
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:09:45 -0400
-Received: by mail-wr1-x442.google.com with SMTP id v8so25205630wrt.2
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 12:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=3KFHf8YJUcAAbi1mXMZE1xa8jaVMs+4t2pxpxJYEBqg=;
- b=pxBd1Ktx7ckLnMA85gNj/l3YwB81KUK68/auB9cfuMX94AQ1kZhTJyDRpy1eBTgQa6
- qFbklR+xPwvYSY8Bsp0boaD0Nf+hQ+HOCWmmt62nJ/ze8pyyA3NgzyEfYY2fHn8b7wHL
- DCmeF007XJFgZdruuBawYUspbgXuzfwUeJ19lZPzLXCQkTVPynvrPpQe5HbIXN2EQ2Ui
- lxVqPDxflqnuGpN6QxCmYXK/MtjMESc0OagmO1kF5x+mB4ISDWpvPX2LpS/iqgcGZu/i
- nVvk30dtDhhu0tEY4yOnoX1IRuwmnAA3/ncen2jLieMUB9ooLgSecn4B6xyzj/b/uAOH
- /eFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=3KFHf8YJUcAAbi1mXMZE1xa8jaVMs+4t2pxpxJYEBqg=;
- b=qe6ELNtffOj3MBgjFDbsKgDhetFIEohGg3eL0Dkt4Rei2/wh2ZxajcdfqNOK+LY56J
- WB0cMgMiQcFgveUUglcwF6s+oHHrcgH1DJ1HA8Uhqir5eH4o7gi6N4dGMO7PMd5BioyQ
- OBlCv/0+PdVUjX2+9Z9rF/dw2+JMyl/tLPTqnxJnYRd+RCEda0BM+xEmG29yJDE8vQsI
- sTGM99R5fEFNpADZVzPpdmanlq2AEScSuX1j6/LNhDGCXreHOd2t92PM9ETqyaXLzZxS
- o+y9j4iZ5aIdTWR3nCs7dqJNQCj51K0/rU+isUI7rW/Oj+fk60XD6JeouqBc+2/K5Iqs
- L3HA==
-X-Gm-Message-State: APjAAAWof6dY9eEAT6nPWAP/AmRbDHiuTffoW4QUig2/YQNbYEoQAioD
- pWNFcqz7PnGX9K6Qa2/683IVTQ==
-X-Google-Smtp-Source: APXvYqwgz3dRp5qkxVLeOmcgLWIEKM5Zeas9NFgJrfKXKFD7DQMqer5lB4hYtTOToON+ri/a0xu9yw==
-X-Received: by 2002:adf:e38a:: with SMTP id e10mr21476748wrm.348.1571166583128; 
- Tue, 15 Oct 2019 12:09:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t83sm270741wmt.18.2019.10.15.12.09.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 12:09:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 77D941FF87;
- Tue, 15 Oct 2019 20:09:41 +0100 (BST)
-References: <20191014104948.4291-1-alex.bennee@linaro.org>
- <20191014104948.4291-54-alex.bennee@linaro.org>
- <3ce497fe-9dc1-5fa3-acf6-155ae16e0793@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 53/55] plugins: add sparc64 instruction
- classification table
-In-reply-to: <3ce497fe-9dc1-5fa3-acf6-155ae16e0793@linaro.org>
-Date: Tue, 15 Oct 2019 20:09:41 +0100
-Message-ID: <87wod5ltai.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iKSRs-0002zQ-IZ
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:25:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iKSRr-0001jh-Ds
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 19:25:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 67E542E8073
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 19:25:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Date: Tue, 15 Oct 2019 19:16:16 -0000
+From: Anastasios Vacharakis <1848244@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: docmax3
+X-Launchpad-Bug-Reporter: Anastasios Vacharakis (docmax3)
+X-Launchpad-Bug-Modifier: Anastasios Vacharakis (docmax3)
+Message-Id: <157116697702.19855.6802467063820397619.malonedeb@gac.canonical.com>
+Subject: [Bug 1848244] [NEW] QEMU KVM IGD SandyBridge Passthrough crash
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="44557a7d51630548e7d0aa4259446ccd7e1731bd";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b35d7ed219f52d985188eaf517014e49c5eccbc0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,46 +64,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aaron@os.amperecomputing.com, cota@braap.org, qemu-devel@nongnu.org,
- peter.puhov@futurewei.com, robert.foley@futurewei.com
+Reply-To: Bug 1848244 <1848244@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+I try to passthrough my Intel GPU with this command:
 
-> On 10/14/19 3:49 AM, Alex Benn=C3=A9e wrote:
->> +InsnClassExecCount sparc32_insn_classes[] =3D {
->> +    { "Call",                "call",   0xc0000000, 0x40000000, COUNT_CL=
-ASS},
->> +    { "Branch ICond",        "bcc",    0xc1c00000, 0x00800000, COUNT_CL=
-ASS},
->> +    { "Branch Fcond",        "fbcc",   0xc1c00000, 0x01800000, COUNT_CL=
-ASS},
->> +    { "SetHi",               "sethi",  0xc1c00000, 0x01000000, COUNT_CL=
-ASS},
->> +    { "FPU ALU",             "fpu",    0xc1f00000, 0x81a00000, COUNT_CL=
-ASS},
->> +    { "ALU",                 "alu",    0xc0000000, 0x80000000, COUNT_CL=
-ASS},
->> +    { "Load/Store",          "ldst",   0xc0000000, 0xc0000000, COUNT_CL=
-ASS},
->> +    /* Unclassified */
->> +    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_IN=
-DIVIDUAL},
->> +};
->> +
->
-> Unused.  You'd see this if they were static.
+qemu-system-x86_64 -nodefaults -parallel none -k de -rtc base=3Dlocaltime
+-serial unix:/run/qemu/win7-serial.sock,server,nowait -monitor
+unix:/run/qemu/win7-monitor.sock,server,nowait -netdev user,id=3Dnet0
+-device virtio-net-pci,netdev=3Dnet0,mac=3D52:54:00:00:00:07 -device vfio-
+pci,host=3D0000:00:02.0,addr=3D0x2 -device vfio-pci,host=3D0000:00:1b.0
+-device virtio-keyboard-pci -device virtio-mouse-pci -object input-
+linux,id=3Dkbd1,evdev=3D/dev/input/by-path/pci-0000:00:1a.0-usb-0:1.2.2:1.2
+-event-kbd,grab_all=3Don,repeat=3Don -object input-
+linux,id=3Dmouse1,evdev=3D/dev/input/by-
+path/pci-0000:00:1a.0-usb-0:1.2.2:1.2-event-mouse -enable-kvm -cpu host
+-smp 4,sockets=3D1,cores=3D4,threads=3D1 -vga none -display none -m 2g -dev=
+ice
+virtio-blk-pci,drive=3Dboot,bootindex=3D1 -drive
+file=3D/opt/vm/qcow2/win7.qcow2,format=3Dqcow2,if=3Dnone,id=3Dboot
 
-How similar are the sparc and sparc64 decodes? Is there a canonical
-table you can point to?
+This ONLY works if i remove "-enable-kvm" else the windows (7 and 10)
+boot crashes in bluescreen "stop 0x0000003b" (probably while loading the
+intel gpu driver (intel graphics 3000).
 
->
->
-> r~
+The system is an older ThinkPad T420 with Intel(R) Core(TM) i5-2520M CPU
+@ 2.50GHz.
 
+CMDLINE: BOOT_IMAGE=3D/vmlinuz-linux root=3DLABEL=3Droot rw ipv6.disable=3D0
+net.ifnames=3D0 intel_iommu=3Don iommu=3Dpt video=3DLVDS-1:d
 
---
-Alex Benn=C3=A9e
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1848244
+
+Title:
+  QEMU KVM IGD SandyBridge Passthrough crash
+
+Status in QEMU:
+  New
+
+Bug description:
+  I try to passthrough my Intel GPU with this command:
+
+  qemu-system-x86_64 -nodefaults -parallel none -k de -rtc
+  base=3Dlocaltime -serial unix:/run/qemu/win7-serial.sock,server,nowait
+  -monitor unix:/run/qemu/win7-monitor.sock,server,nowait -netdev
+  user,id=3Dnet0 -device virtio-net-pci,netdev=3Dnet0,mac=3D52:54:00:00:00:=
+07
+  -device vfio-pci,host=3D0000:00:02.0,addr=3D0x2 -device vfio-
+  pci,host=3D0000:00:1b.0 -device virtio-keyboard-pci -device virtio-
+  mouse-pci -object input-linux,id=3Dkbd1,evdev=3D/dev/input/by-
+  path/pci-0000:00:1a.0-usb-0:1.2.2:1.2-event-kbd,grab_all=3Don,repeat=3Don
+  -object input-linux,id=3Dmouse1,evdev=3D/dev/input/by-
+  path/pci-0000:00:1a.0-usb-0:1.2.2:1.2-event-mouse -enable-kvm -cpu
+  host -smp 4,sockets=3D1,cores=3D4,threads=3D1 -vga none -display none -m =
+2g
+  -device virtio-blk-pci,drive=3Dboot,bootindex=3D1 -drive
+  file=3D/opt/vm/qcow2/win7.qcow2,format=3Dqcow2,if=3Dnone,id=3Dboot
+
+  This ONLY works if i remove "-enable-kvm" else the windows (7 and 10)
+  boot crashes in bluescreen "stop 0x0000003b" (probably while loading
+  the intel gpu driver (intel graphics 3000).
+
+  The system is an older ThinkPad T420 with Intel(R) Core(TM) i5-2520M
+  CPU @ 2.50GHz.
+
+  CMDLINE: BOOT_IMAGE=3D/vmlinuz-linux root=3DLABEL=3Droot rw ipv6.disable=
+=3D0
+  net.ifnames=3D0 intel_iommu=3Don iommu=3Dpt video=3DLVDS-1:d
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1848244/+subscriptions
 
