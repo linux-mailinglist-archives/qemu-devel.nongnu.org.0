@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FC1D7E2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:54:45 +0200 (CEST)
-Received: from localhost ([::1]:55172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AE5D7E3D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:56:44 +0200 (CEST)
+Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKR1w-0007KR-MK
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:54:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54617)
+	id 1iKR3r-0000xL-CC
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iKQz0-0004yP-46
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:43 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1iKR1O-0007gz-Rv
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:54:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iKQyz-0003S9-05
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:42 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34386)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iKQyy-0003Re-R0
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:40 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b128so12971570pfa.1
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 10:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=8nOrlYeU5zcIwPQAiPQrEysfQ5wBLY582fozX0r/c2U=;
- b=DagjfiVGE76/S65G6eK8NIEjaJ0kab+fsDI39tEYEjw+UOlTN3hrj885V1WFlfP38O
- IT520qzq/QtWQgIljzWKhHGbPtD0HI6B0VllBSuKzh0Xh1CoOe8n7U/uvz0VDmuAiWRp
- AslcbdRu8aw+Sk3gwjaqNq/dcMkizrU62IB51iBGvlvSclIaHAMcAYUUFk7+IHVpb7ak
- gfTXVcdNZbq33oN3KOs3W9nwe4BpVEVyz7rUm6aeFJUH0EyJotWes2LJzukliyPqtUUV
- OcuUFdEXPhP0PGsAbSeZFABJOfL6EQd85QiXzLmWX2kaH299tT4F4ojB9N/fZclGAw10
- 039A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=8nOrlYeU5zcIwPQAiPQrEysfQ5wBLY582fozX0r/c2U=;
- b=dLYudaMzOrCvJPwwRQgUDefMIRwOCOP84j1IoO86HgHo2EODol4VLPLxOt5MTFgZxu
- qNgIxoxC1CqSuQ8GlIz56Zz7DBRz0Bcmm4sw7bjQOUs4s7htOYLSLE9TF4l/eVUiB7rO
- SBeiuMyar7txMsLnVmSxjYNPfM/ewfn7acnPtQwWwZXyKm1NTt3w5s40zmbSdUsRK3Mk
- c02qBAfcabXtvYI3WiQ+2w5GzvcXfWqDgkmJsaoOgyTsH0NzcmnAl9wWKH9oOfGuyd/X
- F45E8PBbdbIIlHofEUQ43fdFCV2xCidnEW6A5a+qOAq/txCEMd76nfpY0uKNcDGHTDp2
- YWEQ==
-X-Gm-Message-State: APjAAAVSSEbZ5PNV5zt+XYgYTdra5tOxwzpphNV2KoH66b82zeHO39lG
- 9viBJDZbbHZ6gGHngT0aPUyeAo5NRRo=
-X-Google-Smtp-Source: APXvYqysThFjDkfzq0Rqk3aJITJ8a6I83UvXa2dDb4gH3ZXKZp8PayvPz1KdObrk2VM2VejoS5zHVw==
-X-Received: by 2002:a17:90a:8085:: with SMTP id
- c5mr14018255pjn.60.1571161899372; 
- Tue, 15 Oct 2019 10:51:39 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t68sm20867845pgt.61.2019.10.15.10.51.38
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 10:51:38 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] capstone: Add s390x skipdata callback
-Date: Tue, 15 Oct 2019 10:51:33 -0700
-Message-Id: <20191015175133.16598-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191015175133.16598-1-richard.henderson@linaro.org>
-References: <20191015175133.16598-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+ (envelope-from <alex.williamson@redhat.com>) id 1iKR1L-0004PM-S9
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:54:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57094)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iKR1L-0004ON-ME
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:54:07 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2AC23307D974;
+ Tue, 15 Oct 2019 17:54:05 +0000 (UTC)
+Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B9245C1D6;
+ Tue, 15 Oct 2019 17:53:56 +0000 (UTC)
+Date: Tue, 15 Oct 2019 11:53:55 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [for-4.2 PATCH 0/2] PCI DMA alias support
+Message-ID: <20191015115355.5a46000e@x1.home>
+In-Reply-To: <20191014025957.GA8666@xz-x1>
+References: <156418830210.10856.17740359763468342629.stgit@gimli.home>
+ <20190729151504-mutt-send-email-mst@kernel.org>
+ <20190819152316.232bf1e5@x1.home> <20191014025957.GA8666@xz-x1>
+Organization: Red Hat
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Tue, 15 Oct 2019 17:54:05 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,74 +60,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: brijesh.singh@amd.com, Suravee.Suthikulpanit@amd.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, zhexu@redhat.com,
+ eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Capstone assumes any unknown instruction is 2 bytes.
-Instead, use the ilen field in the first two bits of
-the instruction to stay in sync with the insn stream.
+On Mon, 14 Oct 2019 10:59:57 +0800
+Peter Xu <peterx@redhat.com> wrote:
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- disas.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+> On Mon, Aug 19, 2019 at 03:23:16PM -0600, Alex Williamson wrote:
+> > On Mon, 29 Jul 2019 15:15:29 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Fri, Jul 26, 2019 at 06:55:27PM -0600, Alex Williamson wrote:  
+> > > > Please see patch 1/ for the motivation and utility of this series.
+> > > > This v1 submission improves on the previous RFC with revised commit
+> > > > logs, comments, and more testing, and the missing IVRS support for DMA
+> > > > alias ranges is now included.  Testing has been done with Linux guests
+> > > > with both SeaBIOS and OVMF with configurations of intel-iommu and
+> > > > amd-iommu.  Intel-iommu testing includes device assignment, amd-iommu
+> > > > is necessarily limited to emulated devices with interrupt remapping
+> > > > disabled and iommu=pt in the guest (enabling interrupt remapping or
+> > > > disabling guest passthrough mode fails to work regardless of this
+> > > > series).  This series is NOT intended for QEMU v4.1.  Thanks,
+> > > > 
+> > > > Alex    
+> > > 
+> > > 
+> > > series looks good to me.
+> > > pls ping when 4.1 is out and I'll queue it.  
+> > 
+> > Here's the requested ping :)  If you'd like a re-posting or comment
+> > update, just say so.  I think Peter was ultimately satisfied enough to
+> > not request a re-spin for comments alone.  Thanks,  
+> 
+> Hi, Michael,
+> 
+> Do you plan to merge this series?  Or do you still wait for an ack?
+> 
+> In all cases:
+> 
+> Reviewed-by: Peter Xu <peterx@redhat.com>
 
-diff --git a/disas.c b/disas.c
-index 51c71534a3..2a000cbeb0 100644
---- a/disas.c
-+++ b/disas.c
-@@ -178,6 +178,39 @@ static int print_insn_od_target(bfd_vma pc, disassemble_info *info)
-    to share this across calls and across host vs target disassembly.  */
- static __thread cs_insn *cap_insn;
- 
-+/*
-+ * The capstone library always skips 2 bytes for S390X.
-+ * This is less than ideal, since we can tell from the first two bits
-+ * the size of the insn and thus stay in sync with the insn stream.
-+ */
-+static size_t CAPSTONE_API
-+cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
-+                      size_t offset, void *user_data)
-+{
-+    size_t ilen;
-+
-+    /* See get_ilen() in target/s390x/internal.h.  */
-+    switch (code[offset] >> 6) {
-+    case 0:
-+        ilen = 2;
-+        break;
-+    case 1:
-+    case 2:
-+        ilen = 4;
-+        break;
-+    default:
-+        ilen = 6;
-+        break;
-+    }
-+
-+    return ilen;
-+}
-+
-+static const cs_opt_skipdata cap_skipdata_s390x = {
-+    .mnemonic = ".byte",
-+    .callback = cap_skipdata_s390x_cb
-+};
-+
- /* Initialize the Capstone library.  */
- /* ??? It would be nice to cache this.  We would need one handle for the
-    host and one for the target.  For most targets we can reset specific
-@@ -208,6 +241,10 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
- 
-     /* "Disassemble" unknown insns as ".byte W,X,Y,Z".  */
-     cs_option(*handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-+    if (info->cap_arch == CS_ARCH_SYSZ) {
-+        cs_option(*handle, CS_OPT_SKIPDATA_SETUP,
-+                  (uintptr_t)&cap_skipdata_s390x);
-+    }
- 
-     /* Allocate temp space for cs_disasm_iter.  */
-     if (cap_insn == NULL) {
--- 
-2.17.1
+Thanks Peter, somehow I had it in my head that MST has already queued
+these, but it seems not.  There's been hardly any churn in these files
+upstream, so please consider these patches in play.  Thanks,
 
+Alex
 
