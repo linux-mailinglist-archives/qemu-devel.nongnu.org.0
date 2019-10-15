@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769F7D752D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 13:37:45 +0200 (CEST)
-Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259F5D7557
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 13:43:38 +0200 (CEST)
+Received: from localhost ([::1]:41870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKL96-0004tm-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 07:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57985)
+	id 1iKLEm-0003mp-M9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 07:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKL7i-0003Yp-PP
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 07:36:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKLAT-0007c0-US
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 07:39:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKL7g-0000yI-Lt
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 07:36:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33352)
+ (envelope-from <philmd@redhat.com>) id 1iKLAR-0002Mi-ED
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 07:39:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKL7g-0000y7-Dn
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 07:36:16 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKLAQ-0002M2-VD
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 07:39:07 -0400
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 691BB757C8
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 11:36:15 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id q9so8525406wmj.9
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 04:36:15 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id D6EBC11A24
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 11:39:05 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id r21so5385194wme.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 04:39:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CO+WPAn61IG9hwrU8hW/EXIVcQ6h0JKuGP8yRLmYJ3w=;
- b=N6IImGbxNAqpxNENhXaFiOGuozB60zfaxGMw6CJwwas7sD7SDeXONDv4D1pgPXZ4l3
- 2WTH8IXptt5ob/UFCLuscKCnLX/MAbfvW5k94JmnEui+cSKhL2vY1KmAkmrnkE3EL6Cz
- l0LNE5ALCfwaDTWhRrpxkQ3qwpLmUXUYW+rpBKDGgCaqOWFj7pSCwebPxV1qJzZFE8HJ
- Yrs3RoQGsK/O6bPxW+nN1vza7pl2F0vvUko5vyj1roa0jWYt7bRVPvY+R7M4Q/B48rP2
- IPV+EbwV07fHkuXYEKb0DOvPUcSt/Qx6V+fT4liq6nFq8OX1SHFq39Su2IE7GC0m8kYz
- 4K/w==
-X-Gm-Message-State: APjAAAUWyuCVcWyNtOmxRgOncwDgIW6a+gKhqREyQ/uoEL2llnj6ftNc
- vpTtSodO4FHac0WI9DrejfRDWUVFlP84BB7/LtGCNBoxxcTvxlhN9NpRajfY20v+cfwXv1RAtRu
- S9HUsW6G4HzXgWMg=
-X-Received: by 2002:a1c:750d:: with SMTP id o13mr18523676wmc.140.1571139371809; 
- Tue, 15 Oct 2019 04:36:11 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwz5ZLOulfFtXErF2sIS1oWfdE7kmKTG0NkYJ+HCUontbi4aQEjd5roKZkAWXy/3VmFOvo5SQ==
-X-Received: by 2002:a1c:750d:: with SMTP id o13mr18523649wmc.140.1571139371579; 
- Tue, 15 Oct 2019 04:36:11 -0700 (PDT)
+ bh=mTqLaqeFEbjVVwQNNIvunKHQFI9h93v9WYr9xpp1+eA=;
+ b=HjeiJ6rd91hWeemHsHn/422ut1fhVGq7/YN0SETN5epgmZJNKil+jnWCgCWD0wOhjw
+ hS4GeTE822EKDBi9hijs9T7rKv1Sv50YJ88XJ9g3YLZC5mTc2l9y1CQONf9nfyv7XGkW
+ /FvxGVGKjH8F/yEWYYm4hIOxHAdJ1BsHFMBu+bET9sVpbuPSkA61IhYreEWIWtfMz0dZ
+ LiXHNhX6q6MOvW2gHOsJRS5rA3bH//J03s3pjdMfPa8ajdW+3T20MqUjgd3+NO4TmKeF
+ CgzlOe7yn1Pj6WfZDBatHma0F6ZVy09qA2//SAZYiFN05GLknkXAFehqMb6vWpSyRoXs
+ g/jg==
+X-Gm-Message-State: APjAAAVTCId/jWLfYEwSbo5tfmrh1Q2O/4EL+rXFjMG/GrwDxj0SD/y0
+ ywH4yZX65+4ydsgJL34DAWpzJpIk4SVRPHmBkhxllNgoO1TWXTeU19EZa6tYLaX+KK44cvytKNM
+ V+rDo2og/OejtYWs=
+X-Received: by 2002:a5d:4f8f:: with SMTP id d15mr15317153wru.126.1571139542799; 
+ Tue, 15 Oct 2019 04:39:02 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzYWqmL0r6OgLYVsQso3F4IM09Z2UOX8JMojI1+URNvckK/7O3p0zyrsT1BeMMS44DEChBi+A==
+X-Received: by 2002:a5d:4f8f:: with SMTP id d15mr15317138wru.126.1571139542611; 
+ Tue, 15 Oct 2019 04:39:02 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id t11sm5774425wmi.25.2019.10.15.04.36.10
+ by smtp.gmail.com with ESMTPSA id j26sm37556072wrd.2.2019.10.15.04.39.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Oct 2019 04:36:10 -0700 (PDT)
-Subject: Re: [PATCH v9 04/15] hw/i386/pc: replace use of strtol with
- qemu_strtol in x86_load_linux()
-To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
+ Tue, 15 Oct 2019 04:39:02 -0700 (PDT)
+Subject: Re: [PATCH v9 15/15] MAINTAINERS: add microvm related files
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
 References: <20191015112346.45554-1-slp@redhat.com>
- <20191015112346.45554-5-slp@redhat.com>
+ <20191015112346.45554-16-slp@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b7baa2ab-210b-e7ef-399e-4dbbbc0ee0aa@redhat.com>
-Date: Tue, 15 Oct 2019 13:36:09 +0200
+Message-ID: <321db25a-24c7-54e2-7a90-c7c5ef3708d1@redhat.com>
+Date: Tue, 15 Oct 2019 13:39:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191015112346.45554-5-slp@redhat.com>
+In-Reply-To: <20191015112346.45554-16-slp@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -89,69 +86,42 @@ Cc: ehabkost@redhat.com, mst@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sergio,
-
 On 10/15/19 1:23 PM, Sergio Lopez wrote:
-> Follow checkpatch.pl recommendation and replace the use of strtol with
-> qemu_strtol in x86_load_linux().
-
-"with qemu_strtoui"
-
+> Add a new "Microvm" section under "X86 Machines" with the new files
+> related to this machine type.
 >=20
 > Signed-off-by: Sergio Lopez <slp@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
->   hw/i386/pc.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+>   MAINTAINERS | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 >=20
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 77e86bfc3d..c8608b8007 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -68,6 +68,7 @@
->   #include "qemu/config-file.h"
->   #include "qemu/error-report.h"
->   #include "qemu/option.h"
-> +#include "qemu/cutils.h"
->   #include "hw/acpi/acpi.h"
->   #include "hw/acpi/cpu_hotplug.h"
->   #include "hw/boards.h"
-> @@ -1202,6 +1203,7 @@ static void x86_load_linux(PCMachineState *pcms,
->       vmode =3D strstr(kernel_cmdline, "vga=3D");
->       if (vmode) {
->           unsigned int video_mode;
-> +        int ret;
->           /* skip "vga=3D" */
->           vmode +=3D 4;
->           if (!strncmp(vmode, "normal", 6)) {
-> @@ -1211,7 +1213,12 @@ static void x86_load_linux(PCMachineState *pcms,
->           } else if (!strncmp(vmode, "ask", 3)) {
->               video_mode =3D 0xfffd;
->           } else {
-> -            video_mode =3D strtol(vmode, NULL, 0);
-> +            ret =3D qemu_strtoui(vmode, NULL, 0, &video_mode);
-> +            if (ret !=3D 0) {
-> +                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s=
-\n",
-> +                        strerror(-ret));
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fe4dc51b08..9744f07727 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1275,6 +1275,16 @@ F: include/hw/timer/hpet.h
+>   F: include/hw/timer/i8254*
+>   F: include/hw/timer/mc146818rtc*
+>  =20
+> +Microvm
+> +M: Sergio Lopez <slp@redhat.com>
+> +M: Paolo Bonzini <pbonzini@redhat.com>
+> +S: Maintained
+> +F: docs/microvm.rst
+> +F: hw/i386/microvm.c
+> +F: include/hw/i386/microvm.h
+> +F: roms/qboot
 
-(Cc'ing Markus/Daniel just in case)
+This is a submodule, change there won't be committed within QEMU.
 
-I'm wondering if using fprintf() is appropriate, thinking about=20
-instantiating a machine via libvirt, is this error reported to the user?
-
-I first thought about using error_report() instead:
-
-     error_report("qemu: can't parse 'vga' parameter: %s",
-                  strerror(-ret));
-
-But this API is meaningful when used in console/monitor. We can't get=20
-here from the monitor, so:
+Without the 'F: roms/qboot' line:
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> +                exit(1);
-> +            }
->           }
->           stw_p(header + 0x1fa, video_mode);
->       }
+> +F: pc-bios/bios-microvm.bin
+> +
+>   Machine core
+>   M: Eduardo Habkost <ehabkost@redhat.com>
+>   M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 >=20
 
