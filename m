@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C60D7A60
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:49:02 +0200 (CEST)
-Received: from localhost ([::1]:49330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32F3D7A88
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:52:38 +0200 (CEST)
+Received: from localhost ([::1]:50106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKP4G-0005Zi-Jl
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:49:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54602)
+	id 1iKP7l-00029S-MD
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKOu9-0002AS-EV
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:38:34 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKOtR-0000xH-Nw
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:37:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKOu8-0003TL-4q
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:38:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49038)
+ (envelope-from <philmd@redhat.com>) id 1iKOtP-00031D-Pc
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:37:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48678)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKOu7-0003St-Uc
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:38:32 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKOtP-00030q-I1
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:37:47 -0400
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1579F7FDE5
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 15:38:31 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id 190so8833859wme.4
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 08:38:31 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id ACA8F81129
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 15:37:46 +0000 (UTC)
+Received: by mail-wm1-f72.google.com with SMTP id q22so70095wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 08:37:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=upOn3asxmol8cSGc3dBEkTNu+0iKxNhIe5Q65bgvlLA=;
- b=iQ+bgWRyh/GeJUeOS9S0bUhQSHW/Vd/kA3YA1h21y7mbeB5ceXeoofLI8nVCutcX3M
- nVBRw1xVHP/muyWvGvPLB10ATTSlxPe2zhYTWjQO4aNUPRT62y91Hp2TLOUSiv+x2U3s
- 3uJFMp4PuAHBWmfwn3E0dX9wKJpZ7cERYzPp5fEYgmfUBeSuz+8hHKEh2ID1B1P8G1pQ
- ZZIQywSRADlgRzTSEqKpHiksO7S2Ksd+KsZbSaCNe+JIXorQUEM+YAsZXd+ZKSRBule1
- aYQOLwO2Iv4YnfCChMd10hvwutqAJ9zypDIFP7oHEnNfjgXUsauX+n/Xe/HXcWgL/eRG
- lESQ==
-X-Gm-Message-State: APjAAAUISAoXEgrxSo++a0WEpnWF6CDXekob/reOovQ4WeKsv/05M9H6
- B0hhJkHOV4RZaeMuIzsehzI5ifUjF5umJq41GR+xRy3DYvRNE8m3imG/j+Nbo4cUOWjHEwtnn//
- Cp/KwgRppRuxeWMQ=
-X-Received: by 2002:a1c:c90f:: with SMTP id f15mr20739775wmb.125.1571153909852; 
- Tue, 15 Oct 2019 08:38:29 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx7LPFkBpcL7wY5sOYl6tOx79Wi+b3+a3QRPSD9zRAU8OiFm3AEcfOEn8uWtf6jllUEUsiVzw==
-X-Received: by 2002:a1c:c90f:: with SMTP id f15mr20739759wmb.125.1571153909663; 
- Tue, 15 Oct 2019 08:38:29 -0700 (PDT)
+ bh=mH6KA/H4LAwyhAxZ39o0zeNmf2TlfdN7p/hlqbvX1xw=;
+ b=WkjXt4qw5+yqzn8Jg0XN/e4crEfo0Jb4MCUeAjxUSgBcUn85nVLfqCPM6izE/CmOn7
+ KF6NxSQFrq36iZCRnIVl2vAHQvUxDlpNhIo6uhjCQQXCutRXBbOpR12UUhjUKIOFRCcT
+ vv9iT4ycw+2EKq8YgnbmdHSn08mH+1TgenAy10RGk5Ncrn7r4C5VJVoCjzH4yvFwV2XI
+ 3AN7uFz8fGTmGk/+WQ9A9cUNvwxkB7kEqsLWfsKShMjiiCG0y1+cK34d+0t1/3JlDtaB
+ iqEGqJ9Op+hb5EdzeMsXY14F0dPDnH0g2QqaILcN3bPEMMvQT5uASqqjPtMT0AN4igXD
+ Vr8g==
+X-Gm-Message-State: APjAAAUcLDqlvyCMWhIDO1eILMspmgavRaF+BSmipjmNVlGh3Mds1Jv/
+ UbFtp2EmGGSunQN29TOMJS1zNzmZoiOHj1vq8g6bnnvb4h+2sCOl7WEgUlKC8ikwySRBLs4VV9l
+ SvHeAbVN36G51eYM=
+X-Received: by 2002:a1c:750d:: with SMTP id o13mr19437588wmc.140.1571153865114; 
+ Tue, 15 Oct 2019 08:37:45 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyuh7iBDUDNhrLlfN5VBAGVnK92F4NjKpXPnKzi5cVyepZkS/dEdJwMRZJgWAoezG+HwubaSQ==
+X-Received: by 2002:a1c:750d:: with SMTP id o13mr19437569wmc.140.1571153864803; 
+ Tue, 15 Oct 2019 08:37:44 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
  [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id b144sm25445476wmb.3.2019.10.15.08.38.28
+ by smtp.gmail.com with ESMTPSA id t11sm6666036wmi.25.2019.10.15.08.37.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Oct 2019 08:38:29 -0700 (PDT)
-Subject: Re: [PULL 0/2] Tracing patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20191014085709.26812-1-stefanha@redhat.com>
- <CAFEAcA_tPs_hfO3GVSf2CsYTFvBH5-RWe+JsR5vfqkh5HjAVNQ@mail.gmail.com>
+ Tue, 15 Oct 2019 08:37:44 -0700 (PDT)
+Subject: Re: [PATCH] blockdev: Use error_report() in hmp_commit()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20191015123932.12214-1-kwolf@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f13e94c3-5ebc-3c55-3c3d-d9cef9233514@redhat.com>
-Date: Tue, 15 Oct 2019 17:38:28 +0200
+Message-ID: <4a1867c3-ffe3-2252-ee96-9325b3ed7f2d@redhat.com>
+Date: Tue, 15 Oct 2019 17:37:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_tPs_hfO3GVSf2CsYTFvBH5-RWe+JsR5vfqkh5HjAVNQ@mail.gmail.com>
+In-Reply-To: <20191015123932.12214-1-kwolf@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -82,39 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/19 2:24 PM, Peter Maydell wrote:
-> On Mon, 14 Oct 2019 at 09:57, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->>
->> The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
->>
->>    Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/stefanha/qemu.git tags/tracing-pull-request
->>
->> for you to fetch changes up to a1f4fc951a277c49a25418cafb028ec5529707fa:
->>
->>    trace: avoid "is" with a literal Python 3.8 warnings (2019-10-14 09:54:46 +0100)
->>
->> ----------------------------------------------------------------
->> Pull request
->>
->> ----------------------------------------------------------------
->>
->> Stefan Hajnoczi (2):
->>    trace: add --group=all to tracing.txt
->>    trace: avoid "is" with a literal Python 3.8 warnings
->>
-> 
-> 
-> Applied, thanks.
+On 10/15/19 2:39 PM, Kevin Wolf wrote:
+> Instead of using monitor_printf() to report errors, hmp_commit() should
+> use error_report() like other places do.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   blockdev.c | 7 +++----
+>   1 file changed, 3 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/blockdev.c b/blockdev.c
+> index f89e48fc79..e2358966c3 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -1088,11 +1088,11 @@ void hmp_commit(Monitor *mon, const QDict *qdic=
+t)
+>  =20
+>           blk =3D blk_by_name(device);
+>           if (!blk) {
+> -            monitor_printf(mon, "Device '%s' not found\n", device);
+> +            error_report("Device '%s' not found", device);
+>               return;
+>           }
+>           if (!blk_is_available(blk)) {
+> -            monitor_printf(mon, "Device '%s' has no medium\n", device)=
+;
+> +            error_report("Device '%s' has no medium", device);
+>               return;
+>           }
+>  =20
+> @@ -1105,8 +1105,7 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+>           aio_context_release(aio_context);
+>       }
+>       if (ret < 0) {
+> -        monitor_printf(mon, "'commit' error for '%s': %s\n", device,
+> -                       strerror(-ret));
+> +        error_report("'commit' error for '%s': %s", device, strerror(-=
+ret));
+>       }
+>   }
+>  =20
+>=20
 
-Buh, v2 missed :(
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
