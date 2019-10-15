@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898F5D827E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:48:25 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6396ED828E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:48:40 +0200 (CEST)
+Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKUg4-0000jN-2O
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:48:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59993)
+	id 1iKUgJ-0000qh-9V
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:48:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iKUWU-0005tX-Du
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:31 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iKUWo-0006Oh-Pl
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iKUWT-0006oL-6I
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43852)
+ (envelope-from <ehabkost@redhat.com>) id 1iKUWn-0006to-Ax
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49900)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUWT-0006oA-0U
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:29 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUWn-0006tL-5R
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:49 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 41B2CA3CD8B;
- Tue, 15 Oct 2019 21:38:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 298D982DA;
+ Tue, 15 Oct 2019 21:38:47 +0000 (UTC)
 Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE5EB5C28F;
- Tue, 15 Oct 2019 21:38:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3797F5C231;
+ Tue, 15 Oct 2019 21:38:44 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
  qemu-devel@nongnu.org
-Subject: [PULL 10/18] hw/input/lm832x: Convert reset handler to DeviceReset
-Date: Tue, 15 Oct 2019 18:37:37 -0300
-Message-Id: <20191015213745.22174-11-ehabkost@redhat.com>
+Subject: [PULL 13/18] memory-device: break the loop if tmp exceed the hinted
+ range
+Date: Tue, 15 Oct 2019 18:37:40 -0300
+Message-Id: <20191015213745.22174-14-ehabkost@redhat.com>
 In-Reply-To: <20191015213745.22174-1-ehabkost@redhat.com>
 References: <20191015213745.22174-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Tue, 15 Oct 2019 21:38:28 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 15 Oct 2019 21:38:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,83 +60,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-The LM8323 key-scan controller is a I2C device, it will be reset
-when the I2C bus it stands on is reset.
+The memory-device list built by memory_device_build_list is ordered by
+its address, this means if the tmp range exceed the hinted range, all
+the following range will not overlap with it.
 
-Convert its reset handler into a proper Device reset method.
+And this won't change default pc-dimm mapping and address assignment stay
+the same as before this change.
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191010131527.32513-8-philmd@redhat.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20190730003740.20694-3-richardw.yang@linux.intel.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/input/lm832x.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ hw/mem/memory-device.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/input/lm832x.c b/hw/input/lm832x.c
-index a37eb854b9..aa629ddbf1 100644
---- a/hw/input/lm832x.c
-+++ b/hw/input/lm832x.c
-@@ -24,7 +24,6 @@
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
--#include "sysemu/reset.h"
- #include "ui/console.h"
+diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
+index 5029890e06..aef148c1d7 100644
+--- a/hw/mem/memory-device.c
++++ b/hw/mem/memory-device.c
+@@ -179,6 +179,8 @@ static uint64_t memory_device_get_free_addr(MachineSt=
+ate *ms,
+                 range_make_empty(&new);
+                 break;
+             }
++        } else if (range_lob(&tmp) > range_upb(&new)) {
++            break;
+         }
+     }
 =20
- #define TYPE_LM8323 "lm8323"
-@@ -94,8 +93,10 @@ static void lm_kbd_gpio_update(LM823KbdState *s)
- {
- }
-=20
--static void lm_kbd_reset(LM823KbdState *s)
-+static void lm_kbd_reset(DeviceState *dev)
- {
-+    LM823KbdState *s =3D LM8323(dev);
-+
-     s->config =3D 0x80;
-     s->status =3D INT_NOINIT;
-     s->acttime =3D 125;
-@@ -273,7 +274,7 @@ static void lm_kbd_write(LM823KbdState *s, int reg, i=
-nt byte, uint8_t value)
-=20
-     case LM832x_CMD_RESET:
-         if (value =3D=3D 0xaa)
--            lm_kbd_reset(s);
-+            lm_kbd_reset(DEVICE(s));
-         else
-             lm_kbd_error(s, ERR_BADPAR);
-         s->reg =3D LM832x_GENERAL_ERROR;
-@@ -476,10 +477,6 @@ static void lm8323_realize(DeviceState *dev, Error *=
-*errp)
-     s->pwm.tm[1] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, lm_kbd_pwm1_tick, =
-s);
-     s->pwm.tm[2] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, lm_kbd_pwm2_tick, =
-s);
-     qdev_init_gpio_out(dev, &s->nirq, 1);
--
--    lm_kbd_reset(s);
--
--    qemu_register_reset((void *) lm_kbd_reset, s);
- }
-=20
- void lm832x_key_event(DeviceState *dev, int key, int state)
-@@ -507,6 +504,7 @@ static void lm8323_class_init(ObjectClass *klass, voi=
-d *data)
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-     I2CSlaveClass *k =3D I2C_SLAVE_CLASS(klass);
-=20
-+    dc->reset =3D lm_kbd_reset;
-     dc->realize =3D lm8323_realize;
-     k->event =3D lm_i2c_event;
-     k->recv =3D lm_i2c_rx;
 --=20
 2.21.0
 
