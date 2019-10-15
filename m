@@ -2,67 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D06D7CDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:05:05 +0200 (CEST)
-Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2799ED7CED
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:08:37 +0200 (CEST)
+Received: from localhost ([::1]:53704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKQFr-0005In-Vp
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46470)
+	id 1iKQJI-0001jY-7Z
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKQEf-00046R-40
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:03:50 -0400
+ (envelope-from <thuth@redhat.com>) id 1iKQI6-0000Ef-8C
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:07:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKQEd-0000yp-Mj
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:03:48 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:41143)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKQEd-0000yP-IA
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:03:47 -0400
-Received: by mail-ot1-x334.google.com with SMTP id g13so17563798otp.8
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 10:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UcIbnJ7VtnM5P+YWIC3SrDz4tB9UIeJ+PX7t0huq+uE=;
- b=EGM9Psqo4C8uWFNP+wli2Uo9yj5SXrWnYsntut9T59LGF9JhgDpkYF5yIJSyXI3pjM
- KHT/kz9SOJ2nXRiRbA88Q1D5N3dNgVEuTjFHmahkInw2El/PJddBzW17rWMFvGRV0qfL
- KxbaipwPh5a0a2xxUUhyC3NUQRiFiX4Zl2DHHF6rJae0FZWbjOWmaJUxMJtR1UQMwPdr
- l8mocb8hpyqaVsjaO0uYMcXmJlTZozCg3YeTnETMPOq0ci+sudnfGMPp756ykiM5/AsC
- phmp2KxvbN91w4oOOM91UGA76JSRTRNZ1oE/l6UV/DptXukfpks/UJG8iSyJ6uhbXspd
- LupQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UcIbnJ7VtnM5P+YWIC3SrDz4tB9UIeJ+PX7t0huq+uE=;
- b=Xyg9r5ukXVDRTAhztkFrgW5KOXntU1ei/s3dY1vGZ62ryp+zyGfZKYyp00/bjS1ln/
- C+KfPax9S0ythwmFHRZW8eR7+OEYRI/CCvy0QcQN+EgFq0TVU+ic2RjiugjpX36IRi3X
- s3b3KSkadAjdD8pj+K09p0oCQdHKAewttGTAEe2ZYRffC+hi9ZxHXGW4RqlZ9a2VKOn1
- iaxxvUptQOyTeByBytPU+lH3+d9cZBGksML9zbGWlRI/Zyz8VBZtb0kCt+uIqfGdEgvq
- kL9ym8XehusBJKfKYUupdYPUFMcsZRZSGCzsx8TY5vxTdfud5+sjKIPraqkHdzwSCMe6
- TrqQ==
-X-Gm-Message-State: APjAAAW5BxC4c0F8lE47kTHQpRWlZgQvAPmpDOzSbpA6keJOO0mJOTFZ
- 3o0S8yji+IBWJrYjfkL0wikttjumYGYqmGE/3kUJpaQMEJw=
-X-Google-Smtp-Source: APXvYqyH1xYyYWU3DMGaTlTzYfLyOJ6BZB/bGaXkQ28UQagK48oCdgELgW8l1ju/yKtc8Tbn5xvUEcU5hv3UwVFY0zI=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr30046282otj.135.1571159025709; 
- Tue, 15 Oct 2019 10:03:45 -0700 (PDT)
+ (envelope-from <thuth@redhat.com>) id 1iKQHz-0003Mw-Fr
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:07:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60462)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iKQHz-0003Ll-7P; Tue, 15 Oct 2019 13:07:15 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C050810CC202;
+ Tue, 15 Oct 2019 17:07:13 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-28.ams2.redhat.com [10.36.117.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0EE819C5B;
+ Tue, 15 Oct 2019 17:07:06 +0000 (UTC)
+Subject: Re: [RFC PATCH] hw/mem/Kconfig: NVDIMM device requires
+ CONFIG_MEM_DEVICE
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191015164642.31069-1-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <bcc01da5-5615-4905-e21c-a93f7193081f@redhat.com>
+Date: Tue, 15 Oct 2019 19:07:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191014160404.19553-1-peter.maydell@linaro.org>
- <20191014160404.19553-60-peter.maydell@linaro.org>
-In-Reply-To: <20191014160404.19553-60-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 18:03:33 +0100
-Message-ID: <CAFEAcA-2EZnnrYViQUQK-mR0=JqR9mXNzfVNa_WR5HoCTJ+tag@mail.gmail.com>
-Subject: Re: [PULL 59/68] aspeed: Add an AST2600 eval board
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191015164642.31069-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.65]); Tue, 15 Oct 2019 17:07:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::334
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,57 +105,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: qemu-trivial@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Oct 2019 at 17:05, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> From: C=C3=A9dric Le Goater <clg@kaod.org>
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> Message-id: 20190925143248.10000-21-clg@kaod.org
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 15/10/2019 18.46, Philippe Mathieu-Daud=C3=A9 wrote:
+> When selecting only the NVDIMM device with "NVDIMM y", the
+> device is not compiled/linked because it does not select MEM_DEVICE
+> and hw/mem/Makefile.objs is not included:
+>=20
+>   $ git grep mem/ hw/Makefile.objs
+>   hw/Makefile.objs:39:devices-dirs-$(CONFIG_MEM_DEVICE) +=3D mem/
+>=20
+> Let NVDIMM config select MEM_DEVICE.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  include/hw/arm/aspeed.h |  1 +
->  hw/arm/aspeed.c         | 23 +++++++++++++++++++++++
->  2 files changed, 24 insertions(+)
+> I'm not sure this is the best fix, maybe we should simply include
+> mem/ regardless of CONFIG_MEM_DEVICE (all mem devices use it).
+> ---
+>  hw/mem/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+> index 620fd4cb59..5da724d7a2 100644
+> --- a/hw/mem/Kconfig
+> +++ b/hw/mem/Kconfig
+> @@ -7,5 +7,6 @@ config MEM_DEVICE
+> =20
+>  config NVDIMM
+>      bool
+> +    select MEM_DEVICE
+>      default y
+>      depends on PC
 
-> @@ -455,6 +467,17 @@ static const AspeedBoardConfig aspeed_boards[] =3D {
->          .num_cs    =3D 2,
->          .i2c_init  =3D witherspoon_bmc_i2c_init,
->          .ram       =3D 512 * MiB,
-> +    }, {
-> +        .name      =3D MACHINE_TYPE_NAME("ast2600-evb"),
-> +        .desc      =3D "Aspeed AST2600 EVB (Cortex A7)",
-> +        .soc_name  =3D "ast2600-a0",
-> +        .hw_strap1 =3D AST2600_EVB_HW_STRAP1,
-> +        .hw_strap2 =3D AST2600_EVB_HW_STRAP2,
-> +        .fmc_model =3D "w25q512jv",
-> +        .spi_model =3D "mx66u51235f",
-> +        .num_cs    =3D 1,
-> +        .i2c_init  =3D ast2600_evb_i2c_init,
-> +        .ram       =3D 2 * GiB,
+Looks reasonable to me.
 
-Hi. I just discovered that this makes 'make check' fail on
-32-bit systems, because you can't default to 2GB of RAM
-for a board:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-(armhf)pmaydell@mustang-maydell:~/qemu$
-./build/all-a32/arm-softmmu/qemu-system-arm -M ast2600-evb
-qemu-system-arm: at most 2047 MB RAM can be simulated
 
-It's also a pretty rudely large amount of RAM to allocate
-by default: it caused 'make check' to fail on my OSX
-box, which is 64-bits but doesn't have huge swathes
-of free RAM.
-
-I'm going to drop this patch from my queue and redo
-the pullreq.
-
-thanks
--- PMM
 
