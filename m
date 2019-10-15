@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B75D6D85
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 05:15:44 +0200 (CEST)
-Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B976D6D90
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 05:17:59 +0200 (CEST)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKDJH-0006Wn-5i
-	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 23:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51913)
+	id 1iKDLS-0000Dz-8u
+	for lists+qemu-devel@lfdr.de; Mon, 14 Oct 2019 23:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iKDI7-00063V-SE
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 23:14:32 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iKDK9-0007ZZ-R6
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 23:16:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iKDI7-0006Zr-1c
- for qemu-devel@nongnu.org; Mon, 14 Oct 2019 23:14:31 -0400
-Received: from mga01.intel.com ([192.55.52.88]:26479)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iKDK7-0007Mt-Th
+ for qemu-devel@nongnu.org; Mon, 14 Oct 2019 23:16:37 -0400
+Received: from mga14.intel.com ([192.55.52.115]:34171)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iKDI4-0006WL-Pa; Mon, 14 Oct 2019 23:14:28 -0400
+ id 1iKDK0-0006Wv-5Z; Mon, 14 Oct 2019 23:16:31 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2019 20:14:21 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2019 20:14:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,297,1566889200"; d="scan'208";a="195159998"
+X-IronPort-AV: E=Sophos;i="5.67,297,1566889200"; d="scan'208";a="207412346"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga007.fm.intel.com with ESMTP; 14 Oct 2019 20:14:20 -0700
+ by orsmga002.jf.intel.com with ESMTP; 14 Oct 2019 20:14:22 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: kwolf@redhat.com, mreitz@redhat.com, jasowang@redhat.com,
  alex.bennee@linaro.org, dgilbert@redhat.com, richard.henderson@linaro.org
-Subject: [PATCH 0/2] replace sysconf(_SC_PAGESIZE) with
- qemu_real_host_page_size
-Date: Tue, 15 Oct 2019 11:13:48 +0800
-Message-Id: <20191015031350.4345-1-richardw.yang@linux.intel.com>
+Subject: [PATCH 1/2] tests/tcg/multiarch: fix code style in function main of
+ test-mmap.c
+Date: Tue, 15 Oct 2019 11:13:49 +0800
+Message-Id: <20191015031350.4345-2-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191015031350.4345-1-richardw.yang@linux.intel.com>
+References: <20191015031350.4345-1-richardw.yang@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.88
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,22 +58,110 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a following up patch to cleanup page size, suggested by
-"Dr. David Alan Gilbert" <dgilbert@redhat.com>.
+This file uses quite a different code style and changing just one line
+would leads to some awkward appearance.
 
-Patch 2 does the job, while during the cleanup I found test-mmap.c has quite a
-lot code style problem. To make the code looks good, patch 1 is introduced to
-make checkpatch.pl happy a little.
+This is a preparation for the following replacement of
+sysconf(_SC_PAGESIZE).
 
-Wei Yang (2):
-  tests/tcg/multiarch: fix code style in function main of test-mmap.c
-  core: replace sysconf(_SC_PAGESIZE) with qemu_real_host_page_size
+BTW, to depress ERROR message from checkpatch.pl, this patch replaces
+strtoul with qemu_strtoul.
 
- block/file-posix.c              |  2 +-
- net/l2tpv3.c                    |  2 +-
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+---
  tests/tcg/multiarch/test-mmap.c | 67 ++++++++++++++++++---------------
- 3 files changed, 38 insertions(+), 33 deletions(-)
+ 1 file changed, 36 insertions(+), 31 deletions(-)
 
+diff --git a/tests/tcg/multiarch/test-mmap.c b/tests/tcg/multiarch/test-mmap.c
+index 11d0e777b1..9ea49e2307 100644
+--- a/tests/tcg/multiarch/test-mmap.c
++++ b/tests/tcg/multiarch/test-mmap.c
+@@ -456,49 +456,54 @@ void check_invalid_mmaps(void)
+ 
+ int main(int argc, char **argv)
+ {
+-	char tempname[] = "/tmp/.cmmapXXXXXX";
+-	unsigned int i;
+-
+-	/* Trust the first argument, otherwise probe the system for our
+-	   pagesize.  */
+-	if (argc > 1)
+-		pagesize = strtoul(argv[1], NULL, 0);
+-	else
+-		pagesize = sysconf(_SC_PAGESIZE);
++    char tempname[] = "/tmp/.cmmapXXXXXX";
++    unsigned int i;
++
++    /*
++     * Trust the first argument, otherwise probe the system for our
++     * pagesize.
++     */
++    if (argc > 1) {
++        qemu_strtoul(argv[1], NULL, 0, &pagesize);
++    } else {
++        pagesize = sysconf(_SC_PAGESIZE);
++    }
+ 
+-	/* Assume pagesize is a power of two.  */
+-	pagemask = pagesize - 1;
+-	dummybuf = malloc (pagesize);
+-	printf ("pagesize=%u pagemask=%x\n", pagesize, pagemask);
++    /* Assume pagesize is a power of two.  */
++    pagemask = pagesize - 1;
++    dummybuf = malloc(pagesize);
++    printf("pagesize=%u pagemask=%x\n", pagesize, pagemask);
+ 
+-	test_fd = mkstemp(tempname);
+-	unlink(tempname);
++    test_fd = mkstemp(tempname);
++    unlink(tempname);
+ 
+-	/* Fill the file with int's counting from zero and up.  */
++    /* Fill the file with int's counting from zero and up.  */
+     for (i = 0; i < (pagesize * 4) / sizeof i; i++) {
+         checked_write(test_fd, &i, sizeof i);
+     }
+ 
+-	/* Append a few extra writes to make the file end at non 
+-	   page boundary.  */
++    /*
++     * Append a few extra writes to make the file end at non
++     * page boundary.
++     */
+     checked_write(test_fd, &i, sizeof i); i++;
+     checked_write(test_fd, &i, sizeof i); i++;
+     checked_write(test_fd, &i, sizeof i); i++;
+ 
+-	test_fsize = lseek(test_fd, 0, SEEK_CUR);
++    test_fsize = lseek(test_fd, 0, SEEK_CUR);
+ 
+-	/* Run the tests.  */
+-	check_aligned_anonymous_unfixed_mmaps();
+-	check_aligned_anonymous_unfixed_colliding_mmaps();
+-	check_aligned_anonymous_fixed_mmaps();
+-	check_file_unfixed_mmaps();
+-	check_file_fixed_mmaps();
+-	check_file_fixed_eof_mmaps();
+-	check_file_unfixed_eof_mmaps();
+-	check_invalid_mmaps();
++    /* Run the tests.  */
++    check_aligned_anonymous_unfixed_mmaps();
++    check_aligned_anonymous_unfixed_colliding_mmaps();
++    check_aligned_anonymous_fixed_mmaps();
++    check_file_unfixed_mmaps();
++    check_file_fixed_mmaps();
++    check_file_fixed_eof_mmaps();
++    check_file_unfixed_eof_mmaps();
++    check_invalid_mmaps();
+ 
+-	/* Fails at the moment.  */
+-	/* check_aligned_anonymous_fixed_mmaps_collide_with_host(); */
++    /* Fails at the moment.  */
++    /* check_aligned_anonymous_fixed_mmaps_collide_with_host(); */
+ 
+-	return EXIT_SUCCESS;
++    return EXIT_SUCCESS;
+ }
 -- 
 2.17.1
 
