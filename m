@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50389D7ED3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 20:23:34 +0200 (CEST)
-Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E40FD7ED5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 20:23:49 +0200 (CEST)
+Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKRTo-00088i-Cb
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 14:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59671)
+	id 1iKRU4-000071-7f
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 14:23:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKRR6-0005oM-6G
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKRR6-0005ol-9K
  for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKRR4-0001Su-T0
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:20:43 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35020)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKRR4-0001T0-Tg
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:20:44 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35002)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iKRR4-0001RH-LQ; Tue, 15 Oct 2019 14:20:42 -0400
+ id 1iKRR4-0001RI-LK; Tue, 15 Oct 2019 14:20:42 -0400
 Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iKRQz-0003ry-6u; Tue, 15 Oct 2019 21:20:37 +0300
+ id 1iKRQz-0003ry-Co; Tue, 15 Oct 2019 21:20:37 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v3 4/5] block-stream: add compress option
-Date: Tue, 15 Oct 2019 21:20:24 +0300
-Message-Id: <1571163625-642312-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v3 5/5] tests/qemu-iotests: add case for block-stream compress
+Date: Tue, 15 Oct 2019 21:20:25 +0300
+Message-Id: <1571163625-642312-6-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571163625-642312-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1571163625-642312-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -52,81 +52,96 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow data compression during block-stream job for backup backing chain.
+Add a case to the iotest #030 that tests the 'compress' option for a
+block-stream job.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/stream.c | 10 ++++++++--
- blockdev.c     | 12 +++++++++++-
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/030     | 51 +++++++++++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/030.out |  4 ++--
+ 2 files changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/block/stream.c b/block/stream.c
-index 5562ccb..25f9324 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -41,10 +41,16 @@ typedef struct StreamBlockJob {
- static int coroutine_fn stream_populate(BlockBackend *blk,
-                                         int64_t offset, uint64_t bytes)
- {
-+    BlockDriverState *bs = blk_bs(blk);
-+    int flags = BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH;
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index f3766f2..f0f0e26 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -21,7 +21,8 @@
+ import time
+ import os
+ import iotests
+-from iotests import qemu_img, qemu_io
++from iotests import qemu_img, qemu_io, qemu_img_pipe
++import json
+ 
+ backing_img = os.path.join(iotests.test_dir, 'backing.img')
+ mid_img = os.path.join(iotests.test_dir, 'mid.img')
+@@ -956,6 +957,54 @@ class TestSetSpeed(iotests.QMPTestCase):
+ 
+         self.cancel_and_wait(resume=True)
+ 
++class TestCompressed(iotests.QMPTestCase):
++    test_img_init_size = 0
 +
-+    if (bs->all_write_compressed) {
-+        flags |= BDRV_REQ_WRITE_COMPRESSED;
-+    }
++    def setUp(self):
++        qemu_img('create', '-f', iotests.imgfmt, backing_img, '1M')
++        qemu_img('create', '-f', iotests.imgfmt, '-o',
++                 'backing_file=%s' % backing_img, mid_img)
++        qemu_img('create', '-f', iotests.imgfmt, '-o',
++                 'backing_file=%s' % mid_img, test_img)
++        qemu_io('-c', 'write -P 0x1 0 512k', backing_img)
++        top = json.loads(qemu_img_pipe('info', '--output=json', test_img))
++        self.test_img_init_size = top['actual-size']
++        self.vm = iotests.VM().add_drive(test_img, "backing.node-name=mid," +
++                                         "backing.backing.node-name=base," +
++                                         "compress=on")
++        self.vm.launch()
 +
-     assert(bytes < SIZE_MAX);
- 
--    return blk_co_preadv(blk, offset, bytes, NULL,
--                         BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH);
-+    return blk_co_preadv(blk, offset, bytes, NULL, flags);
- }
- 
- static void stream_abort(Job *job)
-diff --git a/blockdev.c b/blockdev.c
-index 2103730..fd824da 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -471,7 +471,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-     int bdrv_flags = 0;
-     int on_read_error, on_write_error;
-     bool account_invalid, account_failed;
--    bool writethrough, read_only;
-+    bool writethrough, read_only, compress;
-     BlockBackend *blk;
-     BlockDriverState *bs;
-     ThrottleConfig cfg;
-@@ -570,6 +570,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-     }
- 
-     read_only = qemu_opt_get_bool(opts, BDRV_OPT_READ_ONLY, false);
-+    compress = qemu_opt_get_bool(opts, BDRV_OPT_COMPRESS, false);
- 
-     /* init */
-     if ((!file || !*file) && !qdict_size(bs_opts)) {
-@@ -595,6 +596,8 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-         qdict_set_default_str(bs_opts, BDRV_OPT_READ_ONLY,
-                               read_only ? "on" : "off");
-         qdict_set_default_str(bs_opts, BDRV_OPT_AUTO_READ_ONLY, "on");
-+        qdict_set_default_str(bs_opts, BDRV_OPT_COMPRESS,
-+                              compress ? "on" : "off");
-         assert((bdrv_flags & BDRV_O_CACHE_MASK) == 0);
- 
-         if (runstate_check(RUN_STATE_INMIGRATE)) {
-@@ -3308,6 +3311,13 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         goto out;
-     }
- 
-+    if (bs->all_write_compressed &&
-+        bs->drv->bdrv_co_pwritev_compressed_part == NULL) {
-+        error_setg(errp, "Compression is not supported for this drive %s",
-+                   bdrv_get_device_name(bs));
-+        goto out;
-+    }
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(test_img)
++        os.remove(mid_img)
++        os.remove(backing_img)
 +
-     /* backing_file string overrides base bs filename */
-     base_name = has_backing_file ? backing_file : base_name;
++    def test_stream_compress(self):
++        self.assert_no_active_block_jobs()
++
++        result = self.vm.qmp('block-stream', device='mid', job_id='stream-mid')
++        self.assert_qmp(result, 'return', {})
++
++        self.wait_until_completed(drive='stream-mid')
++        # Remove other 'JOB_STATUS_CHANGE' events for the job 'stream-mid'
++        self.vm.get_qmp_events(wait=True)
++
++        result = self.vm.qmp('block-stream', device='drive0',
++                             job_id='stream-top')
++        self.assert_qmp(result, 'return', {})
++
++        self.wait_until_completed(drive='stream-top')
++        self.vm.shutdown()
++
++        top = json.loads(qemu_img_pipe('info', '--output=json', test_img))
++        mid = json.loads(qemu_img_pipe('info', '--output=json', mid_img))
++        base = json.loads(qemu_img_pipe('info', '--output=json', backing_img))
++
++        self.assertEqual(mid['actual-size'], base['actual-size'])
++        self.assertLess(top['actual-size'], mid['actual-size'])
++        self.assertLess(self.test_img_init_size, top['actual-size'])
++
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2', 'qed'],
+                  supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
+index 6d9bee1..af8dac1 100644
+--- a/tests/qemu-iotests/030.out
++++ b/tests/qemu-iotests/030.out
+@@ -1,5 +1,5 @@
+-...........................
++............................
+ ----------------------------------------------------------------------
+-Ran 27 tests
++Ran 28 tests
  
+ OK
 -- 
 1.8.3.1
 
