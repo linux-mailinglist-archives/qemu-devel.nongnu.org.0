@@ -2,47 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0263DD7C96
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:59:57 +0200 (CEST)
-Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D929D7C77
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:55:47 +0200 (CEST)
+Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKQAu-0007Kv-0Y
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43834)
+	id 1iKQ6r-0000UU-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPyM-0006ZI-1P
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:46:58 -0400
+ (envelope-from <joshua.shaffer@astrobotic.com>) id 1iKQ4x-0006we-3T
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:53:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPyJ-0006zb-N2
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:46:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35166)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1iKPyJ-0006yy-HP; Tue, 15 Oct 2019 12:46:55 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 66187C065113;
- Tue, 15 Oct 2019 16:46:54 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9AC460464;
- Tue, 15 Oct 2019 16:46:45 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] hw/mem/Kconfig: NVDIMM device requires CONFIG_MEM_DEVICE
-Date: Tue, 15 Oct 2019 18:46:42 +0200
-Message-Id: <20191015164642.31069-1-philmd@redhat.com>
+ (envelope-from <joshua.shaffer@astrobotic.com>) id 1iKQ4u-0002vn-7P
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:53:46 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:36737)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joshua.shaffer@astrobotic.com>)
+ id 1iKQ4t-0002ta-OQ
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:53:44 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id v24so21009023ljj.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 09:53:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=astrobotic-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=QFw9ZK1IuYPMV1Qi9BZnVxVEraLWxMWCKCsoCgv7moM=;
+ b=kMLTkYpHY8dFnP4Z3K6K182oTqw+bSaC4NdktUwmcgFNHyQggX/bnI1zy7YM8SeTc5
+ Zrk+BtMZvFncKJAHrdhibgq+piLTj+gTU5cqXQ/LPqAUt/I5O1vBhimztcH+Hi3RT29l
+ dyUKmoYnPnD/ppKJ892znwGh/ncrYPfWTLzmwuVNGv2u+RLNFjfNsKJyTB0sbylhTOKT
+ a3L9NNZFDs5qqYRgGna54SkDy/i/Ewi9vkMn42Bcc8XEDrfAez1wZTQm3lkz9UqEd3KA
+ G2PcpeNy2akScF82/d8b7abp8qwmPDC6Q2srL8FNrMN8PJKjLd5xXGUllO4OWFHcoPXn
+ XNZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=QFw9ZK1IuYPMV1Qi9BZnVxVEraLWxMWCKCsoCgv7moM=;
+ b=X88UQfi7SLeyghSjbFD5OBmrVKsXzwWrx9LK6rtkkwF5hsxVYggsoPo2f4ogjhB2OI
+ qLw0zHFdmsgT2Hpt2E4D0hTv2aUK0Va6vtK2w9XVCQLTIDyQcU20lV4mFrKcBiwq8FXb
+ tqmER0I6eyFkKQ18PM2xJu26oOjcj5Jcxr3812AvHBmgBGwSmZNmzjnqWrdUXfVo2tOz
+ IsiZU6HkoyfVBKNgxdb+hV1Mw0JDIb829Ef/cQfdXm3Tx8A5Bo9Mu6n0/e8LSuHAQXPS
+ X5wrpAScsXHxPFB1yxp97sTIn+PRvChVeMGr36ZeKHHx8Xj9hmhqLjZhrXhg3qHOkupJ
+ zAtw==
+X-Gm-Message-State: APjAAAVai+h52HjhR7K+z41jNOtFDA7IK6GQoR3BvIMXeP31idBFRXGX
+ DUQFnxpnThew9hVxye44ZyOnUDROvk3LhAYn2ZQih0XxBDw/w7QtZ6OOC2bAubV/5j7o6VQZv0F
+ PvyVpr8ZPih7UKH9QHzhYebzDFTw=
+X-Google-Smtp-Source: APXvYqytFbexqWxeyP7rDIoQmJV/zW994/cSzOouh7o3UcocWAaGumAZM4F1FanWXwKe2qtTRsoB3ZnQdW+qY6p0Hx0=
+X-Received: by 2002:a2e:3c05:: with SMTP id j5mr23613954lja.24.1571158421480; 
+ Tue, 15 Oct 2019 09:53:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 15 Oct 2019 16:46:54 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+In-Reply-To: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+From: Joshua Shaffer <joshua.shaffer@astrobotic.com>
+Date: Tue, 15 Oct 2019 12:53:29 -0400
+Message-ID: <CAPJW7GKKU3=uNV_f=Qq2hq=Z3qiX=WfP_0_oOozxu6nBjY0Tow@mail.gmail.com>
+Subject: Re: LEON3 networking
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::22e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,42 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When selecting only the NVDIMM device with "NVDIMM y", the
-device is not compiled/linked because it does not select MEM_DEVICE
-and hw/mem/Makefile.objs is not included:
+Hello,
 
-  $ git grep mem/ hw/Makefile.objs
-  hw/Makefile.objs:39:devices-dirs-$(CONFIG_MEM_DEVICE) +=3D mem/
+I've been using the LEON3 port of qemu, and am wondering if anyone has
+touched the networking setup for such since the thread here:
+https://lists.rtems.org/pipermail/users/2014-September/028224.html
 
-Let NVDIMM config select MEM_DEVICE.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-I'm not sure this is the best fix, maybe we should simply include
-mem/ regardless of CONFIG_MEM_DEVICE (all mem devices use it).
----
- hw/mem/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Oct 15, 2019 at 9:17 AM Joshua Shaffer
+<joshua.shaffer@astrobotic.com> wrote:
+>
+> Hello,
+>
+> I've been using the LEON3 port of qemu, and am wondering if anyone has touched the networking setup for such since the thread here: https://lists.rtems.org/pipermail/users/2014-September/028224.html
+>
+> Joshua Shaffer
 
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index 620fd4cb59..5da724d7a2 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -7,5 +7,6 @@ config MEM_DEVICE
-=20
- config NVDIMM
-     bool
-+    select MEM_DEVICE
-     default y
-     depends on PC
---=20
-2.21.0
-
+-- 
+Notice: This message is intended solely for use of the individual or entity 
+to which it is addressed and may contain information that is proprietary, 
+privileged, company confidential and/or exempt from disclosure under 
+applicable law. If the reader is not the intended recipient or agent 
+responsible for delivering the message to the intended recipient, you are 
+hereby notified that any dissemination, distribution or copying of this 
+communication is strictly prohibited. This communication may also contain 
+data subject to the International Traffic in Arms Regulations or U.S. 
+Export Administration Regulations and cannot be disseminated, distributed 
+or copied to foreign nationals, residing in the U.S. or abroad, without the 
+prior approval of the U.S. Department of State or appropriate export 
+licensing authority. If you have received this communication in error, 
+please notify the sender by reply e-mail or collect telephone call and 
+delete or destroy all copies of this email message, any physical copies 
+made of this e-mail message and/or any file attachment(s).
 
