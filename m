@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000CAD78FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 16:46:26 +0200 (CEST)
-Received: from localhost ([::1]:47110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF69BD78F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 16:42:55 +0200 (CEST)
+Received: from localhost ([::1]:47080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKO5c-0000ND-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 10:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36447)
+	id 1iKO2I-00050e-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 10:42:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iKNoH-0007D9-ML
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:28:26 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iKNoN-0007LI-Ab
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:28:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iKNoF-0000Hf-Lh
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:28:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:13156)
+ (envelope-from <mreitz@redhat.com>) id 1iKNoM-0000Ld-27
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:28:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60106)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iKNoD-0000Fu-7F; Tue, 15 Oct 2019 10:28:21 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1iKNoJ-0000Jx-JF; Tue, 15 Oct 2019 10:28:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 64B53C0568FD;
- Tue, 15 Oct 2019 14:28:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CAB79309DEE9;
+ Tue, 15 Oct 2019 14:28:26 +0000 (UTC)
 Received: from localhost (ovpn-117-226.ams2.redhat.com [10.36.117.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AEB2252FCC;
- Tue, 15 Oct 2019 14:28:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E872104812F;
+ Tue, 15 Oct 2019 14:28:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 16/21] iotests: Make 091 work with data_file
-Date: Tue, 15 Oct 2019 16:27:24 +0200
-Message-Id: <20191015142729.18123-17-mreitz@redhat.com>
+Subject: [PATCH v2 19/21] iotests: Make 198 work with data_file
+Date: Tue, 15 Oct 2019 16:27:27 +0200
+Message-Id: <20191015142729.18123-20-mreitz@redhat.com>
 In-Reply-To: <20191015142729.18123-1-mreitz@redhat.com>
 References: <20191015142729.18123-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 15 Oct 2019 14:28:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 15 Oct 2019 14:28:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,44 +60,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The image end offset as reported by qemu-img check is different when
-using an external data file; we do not care about its value here, so we
-can just filter it.  Incidentally, common.rc already has _check_test_img
-for us which does exactly that.
+We do not care about the json:{} filenames here, so we can just filter
+them out and thus make the test work both with and without external data
+files.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/091     | 2 +-
- tests/qemu-iotests/091.out | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ tests/qemu-iotests/198     | 6 ++++--
+ tests/qemu-iotests/198.out | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
-index f4b44659ae..0874fa84c8 100755
---- a/tests/qemu-iotests/091
-+++ b/tests/qemu-iotests/091
-@@ -101,7 +101,7 @@ echo "Check image pattern"
- ${QEMU_IO} -c "read -P 0x22 0 4M" "${TEST_IMG}" | _filter_testdir | _fil=
-ter_qemu_io
+diff --git a/tests/qemu-iotests/198 b/tests/qemu-iotests/198
+index c8f824cfae..fb0d5a29d3 100755
+--- a/tests/qemu-iotests/198
++++ b/tests/qemu-iotests/198
+@@ -92,13 +92,15 @@ echo
+ echo "=3D=3D checking image base =3D=3D"
+ $QEMU_IMG info --image-opts $IMGSPECBASE | _filter_img_info --format-spe=
+cific \
+     | sed -e "/^disk size:/ D" -e '/refcount bits:/ D' -e '/compat:/ D' =
+\
+-          -e '/lazy refcounts:/ D' -e '/corrupt:/ D'
++          -e '/lazy refcounts:/ D' -e '/corrupt:/ D' -e '/^\s*data file/=
+ D' \
++    | _filter_json_filename
 =20
- echo "Running 'qemu-img check -r all \$TEST_IMG'"
--"${QEMU_IMG}" check -r all "${TEST_IMG}" 2>&1 | _filter_testdir | _filte=
-r_qemu
-+_check_test_img -r all
+ echo
+ echo "=3D=3D checking image layer =3D=3D"
+ $QEMU_IMG info --image-opts $IMGSPECLAYER | _filter_img_info --format-sp=
+ecific \
+     | sed -e "/^disk size:/ D" -e '/refcount bits:/ D' -e '/compat:/ D' =
+\
+-          -e '/lazy refcounts:/ D' -e '/corrupt:/ D'
++          -e '/lazy refcounts:/ D' -e '/corrupt:/ D' -e '/^\s*data file/=
+ D' \
++    | _filter_json_filename
 =20
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/091.out b/tests/qemu-iotests/091.out
-index 5017f8c2d9..5ec7b00f13 100644
---- a/tests/qemu-iotests/091.out
-+++ b/tests/qemu-iotests/091.out
-@@ -23,6 +23,4 @@ read 4194304/4194304 bytes at offset 0
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- Running 'qemu-img check -r all $TEST_IMG'
- No errors were found on the image.
--80/16384 =3D 0.49% allocated, 0.00% fragmented, 0.00% compressed cluster=
-s
--Image end offset: 5570560
- *** done
+=20
+ # success, all done
+diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
+index e86b175e39..831ce3a289 100644
+--- a/tests/qemu-iotests/198.out
++++ b/tests/qemu-iotests/198.out
+@@ -32,7 +32,7 @@ read 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+=20
+ =3D=3D checking image base =3D=3D
+-image: json:{"encrypt.key-secret": "sec0", "driver": "IMGFMT", "file": {=
+"driver": "file", "filename": "TEST_DIR/t.IMGFMT.base"}}
++image: json:{ /* filtered */ }
+ file format: IMGFMT
+ virtual size: 16 MiB (16777216 bytes)
+ Format specific information:
+@@ -74,7 +74,7 @@ Format specific information:
+         master key iters: 1024
+=20
+ =3D=3D checking image layer =3D=3D
+-image: json:{"encrypt.key-secret": "sec1", "driver": "IMGFMT", "file": {=
+"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}}
++image: json:{ /* filtered */ }
+ file format: IMGFMT
+ virtual size: 16 MiB (16777216 bytes)
+ backing file: TEST_DIR/t.IMGFMT.base
 --=20
 2.21.0
 
