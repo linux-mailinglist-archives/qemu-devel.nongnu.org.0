@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBB9D789C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 16:31:59 +0200 (CEST)
-Received: from localhost ([::1]:46966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF70D78B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 16:36:14 +0200 (CEST)
+Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKNri-0000i8-4Z
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 10:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35932)
+	id 1iKNvo-0005B9-SE
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 10:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iKNnm-0006eu-FG
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:27:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iKNo2-0006rJ-S6
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:28:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iKNnl-0008Pf-Eq
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:27:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:30987)
+ (envelope-from <mreitz@redhat.com>) id 1iKNo1-000098-AI
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:28:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34854)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iKNnh-0008N1-0s; Tue, 15 Oct 2019 10:27:49 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1iKNnx-00004y-K7; Tue, 15 Oct 2019 10:28:06 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 45A9312A2;
- Tue, 15 Oct 2019 14:27:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB626C001F03;
+ Tue, 15 Oct 2019 14:28:02 +0000 (UTC)
 Received: from localhost (ovpn-117-226.ams2.redhat.com [10.36.117.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAA545DA8D;
- Tue, 15 Oct 2019 14:27:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 689FB194BE;
+ Tue, 15 Oct 2019 14:28:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 06/21] iotests: Drop compat=1.1 in 050
-Date: Tue, 15 Oct 2019 16:27:14 +0200
-Message-Id: <20191015142729.18123-7-mreitz@redhat.com>
+Subject: [PATCH v2 12/21] iotests: Drop IMGOPTS use in 267
+Date: Tue, 15 Oct 2019 16:27:20 +0200
+Message-Id: <20191015142729.18123-13-mreitz@redhat.com>
 In-Reply-To: <20191015142729.18123-1-mreitz@redhat.com>
 References: <20191015142729.18123-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 15 Oct 2019 14:27:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Tue, 15 Oct 2019 14:28:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,31 +60,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IMGOPTS can never be empty for qcow2, because the check scripts adds
-compat=3D1.1 unless the user specified any compat option themselves.
-Thus, this block does not do anything and can be dropped.
+Overwriting IMGOPTS means ignoring all user-supplied options, which is
+not what we want.  Replace the current IMGOPTS use by a new BACKING_FILE
+variable.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- tests/qemu-iotests/050 | 4 ----
- 1 file changed, 4 deletions(-)
+ tests/qemu-iotests/267 | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qemu-iotests/050 b/tests/qemu-iotests/050
-index 211fc00797..272ecab195 100755
---- a/tests/qemu-iotests/050
-+++ b/tests/qemu-iotests/050
-@@ -41,10 +41,6 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2 qed
- _supported_proto file
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+index d37a67c012..eda45449d4 100755
+--- a/tests/qemu-iotests/267
++++ b/tests/qemu-iotests/267
+@@ -68,7 +68,11 @@ size=3D128M
 =20
--if test "$IMGFMT" =3D qcow2 && test $IMGOPTS =3D ""; then
--  IMGOPTS=3Dcompat=3D1.1
--fi
--
+ run_test()
+ {
+-    _make_test_img $size
++    if [ -n "$BACKING_FILE" ]; then
++        _make_test_img -b "$BACKING_FILE" $size
++    else
++        _make_test_img $size
++    fi
+     printf "savevm snap0\ninfo snapshots\nloadvm snap0\n" | run_qemu "$@=
+" | _filter_date
+ }
+=20
+@@ -119,12 +123,12 @@ echo
+=20
+ TEST_IMG=3D"$TEST_IMG.base" _make_test_img $size
+=20
+-IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
++BACKING_FILE=3D"$TEST_IMG.base" \
+ run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3D=
+backing-file \
+          -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
+ \
+          -blockdev driver=3D$IMGFMT,file=3Dfile,backing=3Dbacking-file,n=
+ode-name=3Dfmt
+=20
+-IMGOPTS=3D"backing_file=3D$TEST_IMG.base" \
++BACKING_FILE=3D"$TEST_IMG.base" \
+ run_test -blockdev driver=3Dfile,filename=3D"$TEST_IMG.base",node-name=3D=
+backing-file \
+          -blockdev driver=3D$IMGFMT,file=3Dbacking-file,node-name=3Dback=
+ing-fmt \
+          -blockdev driver=3Dfile,filename=3D"$TEST_IMG",node-name=3Dfile=
+ \
+@@ -141,7 +145,7 @@ echo
+ echo "=3D=3D=3D -blockdev with NBD server on the backing file =3D=3D=3D"
  echo
- echo "=3D=3D Creating images =3D=3D"
 =20
+-IMGOPTS=3D"backing_file=3D$TEST_IMG.base" _make_test_img $size
++_make_test_img -b "$TEST_IMG.base" $size
+ cat <<EOF |
+ nbd_server_start unix:$TEST_DIR/nbd
+ nbd_server_add -w backing-fmt
 --=20
 2.21.0
 
