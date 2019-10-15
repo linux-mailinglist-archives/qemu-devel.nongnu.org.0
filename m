@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A621ED79F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:40:58 +0200 (CEST)
-Received: from localhost ([::1]:48970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2F8D79FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:41:41 +0200 (CEST)
+Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOwT-0004Mr-5Q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48482)
+	id 1iKOxA-0005IL-AN
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iKOhL-0003LR-2n
+ (envelope-from <berto@igalia.com>) id 1iKOhL-0003M0-Dq
  for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iKOhJ-0003rO-P1
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:18 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47175)
+ (envelope-from <berto@igalia.com>) id 1iKOhK-0003rz-2Q
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:19 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:47188)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iKOhJ-0003c8-DC; Tue, 15 Oct 2019 11:25:17 -0400
+ id 1iKOhJ-0003cP-GB; Tue, 15 Oct 2019 11:25:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=bb9ZdIeCIRGrOfF/Mvuj63LkDtjmwPtW8KRNa7nr2EA=; 
- b=ZnB3GS9FiAAEAz+z0kO0/S3Xl30LqcrPzQID/+Jr1WXL2mWhpTnOOULPUr93ZXvUBFvB/pPM1hrlc7j3Q/Yx/C471QX37h8c6P/i5S7VzXoofZZ2YWkIxEuytwT2U7ByKjZWUve5Gj1nauDHWlVh0naw5eVq+cOmOZw88aklTLpClszrd8oHcF7dDw89lRuCAfyyFwtJGyiomyX7xfhVEGrQGjyTJXoQeVqHQXlZbBWEZFeMq0GCb7siWvqcmlq5a3JaK6nX6+EwblczLFgmehGHNrW/i8PgDEewT2u4S/jTHe7GtQEU2xtceKrxnqmUJsqQPTUXhqbMtCg7pvnJPA==;
+ bh=1UUCR8PSkwTlRN0aVmtsJXO2y0bDQeQnKmM1wEB3Tf4=; 
+ b=SH2tQ03tYiI4tvMPeMFTOebZrpMznuEZNqBRkgzZuu9GoZJTuHA63+dholqPOiWJJJG8iS7nvVu9lPhLt9l2WH5aBnCiVff/yPGnXEV76tD1vH0f70KFPnvb+PYfdpWizFZLK07GY9N72yJUsSZtD0QjDVMzs0ny+UjgJ7ZLQmbzk4VkTNEnfscW2Jwvqe4v6KIbb+cO32IsWpNSNWn1BchD4gWaXuVgu7fxzR8IxK8nA7U0OcuWr0ZHphAV9Cnm6HwW7Wr06mT1ceHeuEgdCxqTSHpfSM34INsTBJVWKFXpqkVs/IrG2swGh5LY2wW4jyP3VvjrZFUnLDfEZlVpGw==;
 Received: from 82-181-115-92.bb.dnainternet.fi ([82.181.115.92]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iKOge-0003aP-1Z; Tue, 15 Oct 2019 17:24:36 +0200
+ id 1iKOge-0003aU-33; Tue, 15 Oct 2019 17:24:36 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iKOfm-000617-He; Tue, 15 Oct 2019 18:23:42 +0300
+ id 1iKOfm-00061J-NF; Tue, 15 Oct 2019 18:23:42 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 02/23] qcow2: Split cluster_needs_cow() out of
- count_cow_clusters()
-Date: Tue, 15 Oct 2019 18:23:13 +0300
-Message-Id: <a121a79d4dabecf3983c2614a451bad9a3b7128a.1571152571.git.berto@igalia.com>
+Subject: [RFC PATCH 07/23] qcow2: Add subcluster-related fields to
+ BDRVQcow2State
+Date: Tue, 15 Oct 2019 18:23:18 +0300
+Message-Id: <3adac2cac3deb983375cb3a2b611bd438041712d.1571152571.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1571152571.git.berto@igalia.com>
 References: <cover.1571152571.git.berto@igalia.com>
@@ -63,69 +63,60 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to need it in other places.
+This patch adds the following new fields to BDRVQcow2State:
+
+- subclusters_per_cluster: Number of subclusters in a cluster
+- subcluster_size: The size of each subcluster, in bytes
+- subcluster_bits: No. of bits so 1 << subcluster_bits = subcluster_size
+
+Images without subclusters are treated as if they had exactly one,
+with subcluster_size = cluster_size.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2-cluster.c | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+ block/qcow2.c | 5 +++++
+ block/qcow2.h | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index fe2523ed66..f462e169c0 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1068,6 +1068,24 @@ static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset,
-     QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
- }
- 
-+/* Returns true if writing to a cluster requires COW */
-+static bool cluster_needs_cow(BlockDriverState *bs, uint64_t l2_entry)
-+{
-+    switch (qcow2_get_cluster_type(bs, l2_entry)) {
-+    case QCOW2_CLUSTER_NORMAL:
-+        if (l2_entry & QCOW_OFLAG_COPIED) {
-+            return false;
-+        }
-+    case QCOW2_CLUSTER_UNALLOCATED:
-+    case QCOW2_CLUSTER_COMPRESSED:
-+    case QCOW2_CLUSTER_ZERO_PLAIN:
-+    case QCOW2_CLUSTER_ZERO_ALLOC:
-+        return true;
-+    default:
-+        abort();
-+    }
-+}
-+
- /*
-  * Returns the number of contiguous clusters that can be used for an allocating
-  * write, but require COW to be performed (this includes yet unallocated space,
-@@ -1080,25 +1098,11 @@ static int count_cow_clusters(BlockDriverState *bs, int nb_clusters,
- 
-     for (i = 0; i < nb_clusters; i++) {
-         uint64_t l2_entry = be64_to_cpu(l2_slice[l2_index + i]);
--        QCow2ClusterType cluster_type = qcow2_get_cluster_type(bs, l2_entry);
--
--        switch(cluster_type) {
--        case QCOW2_CLUSTER_NORMAL:
--            if (l2_entry & QCOW_OFLAG_COPIED) {
--                goto out;
--            }
-+        if (!cluster_needs_cow(bs, l2_entry)) {
-             break;
--        case QCOW2_CLUSTER_UNALLOCATED:
--        case QCOW2_CLUSTER_COMPRESSED:
--        case QCOW2_CLUSTER_ZERO_PLAIN:
--        case QCOW2_CLUSTER_ZERO_ALLOC:
--            break;
--        default:
--            abort();
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 4d16393e61..be9854c5ea 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1341,6 +1341,11 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
          }
      }
  
--out:
-     assert(i <= nb_clusters);
-     return i;
- }
++    s->subclusters_per_cluster =
++        has_subclusters(s) ? QCOW_MAX_SUBCLUSTERS_PER_CLUSTER : 1;
++    s->subcluster_size = s->cluster_size / s->subclusters_per_cluster;
++    s->subcluster_bits = ctz32(s->subcluster_size);
++
+     /* Check support for various header values */
+     if (header.refcount_order > 6) {
+         error_setg(errp, "Reference count entry width too large; may not "
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 6d6fc57f41..e6486a2cf8 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -72,6 +72,8 @@
+ /* The cluster reads as all zeros */
+ #define QCOW_OFLAG_ZERO (1ULL << 0)
+ 
++#define QCOW_MAX_SUBCLUSTERS_PER_CLUSTER 32
++
+ #define MIN_CLUSTER_BITS 9
+ #define MAX_CLUSTER_BITS 21
+ 
+@@ -274,6 +276,9 @@ typedef struct BDRVQcow2State {
+     int cluster_bits;
+     int cluster_size;
+     int l2_slice_size;
++    int subcluster_bits;
++    int subcluster_size;
++    int subclusters_per_cluster;
+     int l2_bits;
+     int l2_size;
+     int l1_size;
 -- 
 2.20.1
 
