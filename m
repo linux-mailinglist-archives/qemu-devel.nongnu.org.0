@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9B4D7F8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:05:12 +0200 (CEST)
-Received: from localhost ([::1]:56550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47A8D7FAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:11:21 +0200 (CEST)
+Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKS86-0005Sm-TV
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:05:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36047)
+	id 1iKSE4-0000Xu-6D
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:11:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iKS6P-0004M6-NB
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:03:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iKSCY-00080x-Bx
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:09:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iKS6O-000247-2s
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:03:25 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35491)
+ (envelope-from <alex.bennee@linaro.org>) id 1iKSCX-00053K-3q
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:09:45 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35141)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iKS6N-00023v-Ri
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:03:24 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y21so218742wmi.0
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 12:03:23 -0700 (PDT)
+ id 1iKSCW-00052P-SC
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:09:45 -0400
+Received: by mail-wr1-x442.google.com with SMTP id v8so25205630wrt.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 12:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=Wnsu517e6kvFDqqF4K40vMgZahvWSaPe+F3iXhPp58k=;
- b=EVoARnJ3QSrdnKe1/87klwWChNtfvOcXKnx9k0EAjuhn1v/VxgnPoZ8QUPAwrwEFI7
- yt+q2SP8AH6NsTgctWGFvRedGAg7QdZIa/vW+DEw0JmeL9WxQSYYa964c+Y77xQ5rS1m
- wrIqItFmw48emGODXKprVnWrJ89IzNFoYBRM2oEvs8nWSkigBrcwzwd5xGAMCtKBD0rr
- UNkx0vQj9xgsmWixcB/6PSZk8az87z5B84ml0JEkJWFkdsNphjrVsiuS9v0R4s++IrhA
- h375lfT0OyzzbsSW4KMpJi4nE1KsuT3eY3Ab8+2pNyltxqSg/qiorYNHjY16qfgqAfvS
- xo6A==
+ bh=3KFHf8YJUcAAbi1mXMZE1xa8jaVMs+4t2pxpxJYEBqg=;
+ b=pxBd1Ktx7ckLnMA85gNj/l3YwB81KUK68/auB9cfuMX94AQ1kZhTJyDRpy1eBTgQa6
+ qFbklR+xPwvYSY8Bsp0boaD0Nf+hQ+HOCWmmt62nJ/ze8pyyA3NgzyEfYY2fHn8b7wHL
+ DCmeF007XJFgZdruuBawYUspbgXuzfwUeJ19lZPzLXCQkTVPynvrPpQe5HbIXN2EQ2Ui
+ lxVqPDxflqnuGpN6QxCmYXK/MtjMESc0OagmO1kF5x+mB4ISDWpvPX2LpS/iqgcGZu/i
+ nVvk30dtDhhu0tEY4yOnoX1IRuwmnAA3/ncen2jLieMUB9ooLgSecn4B6xyzj/b/uAOH
+ /eFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Wnsu517e6kvFDqqF4K40vMgZahvWSaPe+F3iXhPp58k=;
- b=kv7EUu/ahp9ZCLEOIl0YGy2mcpO30ZCK1G46yabzrcnFzDzhnacm2y+nfXOOodH9Yh
- 8gg8LZYkdAwhPOvqe9uTJq5ionjlDzdJjQys1Rgru63NbZNbc2hBSnGXpIXTdxgAwDcO
- 05EzATvStwwc/Emh6y3A1oP+m5gZe9O+PuxfjObRfQR7MXu/RhDndMP8aRmO6eRAy2jh
- QQdy2te77GAsF2bwDe6Vom9LrUOxJUjrVhooO+oufrWXCXBoCAFmO8Y8dEBDTf0vyrfN
- KzadLjodvwt0Htu0CpTy5dKaDuTHW87yIm49s5z0ch0yVMCb5V9vpJfO4vqC5vPjxbAO
- ULJQ==
-X-Gm-Message-State: APjAAAXJ5mFJAUJkg6P7gRx3mbHLDw9HWGtkrNXfA68Og+aQHvWKSy/r
- +jHSn59OXzvVYgb0QzCH7GWY4A==
-X-Google-Smtp-Source: APXvYqxIcEuzltxqa4wXmAuLqI2kKV2x2MVO8v263URSwtPc6JDeyyYCYKiaQksOZiOaaCz2c7+RQQ==
-X-Received: by 2002:a1c:6389:: with SMTP id x131mr44724wmb.55.1571166201928;
- Tue, 15 Oct 2019 12:03:21 -0700 (PDT)
+ bh=3KFHf8YJUcAAbi1mXMZE1xa8jaVMs+4t2pxpxJYEBqg=;
+ b=qe6ELNtffOj3MBgjFDbsKgDhetFIEohGg3eL0Dkt4Rei2/wh2ZxajcdfqNOK+LY56J
+ WB0cMgMiQcFgveUUglcwF6s+oHHrcgH1DJ1HA8Uhqir5eH4o7gi6N4dGMO7PMd5BioyQ
+ OBlCv/0+PdVUjX2+9Z9rF/dw2+JMyl/tLPTqnxJnYRd+RCEda0BM+xEmG29yJDE8vQsI
+ sTGM99R5fEFNpADZVzPpdmanlq2AEScSuX1j6/LNhDGCXreHOd2t92PM9ETqyaXLzZxS
+ o+y9j4iZ5aIdTWR3nCs7dqJNQCj51K0/rU+isUI7rW/Oj+fk60XD6JeouqBc+2/K5Iqs
+ L3HA==
+X-Gm-Message-State: APjAAAWof6dY9eEAT6nPWAP/AmRbDHiuTffoW4QUig2/YQNbYEoQAioD
+ pWNFcqz7PnGX9K6Qa2/683IVTQ==
+X-Google-Smtp-Source: APXvYqwgz3dRp5qkxVLeOmcgLWIEKM5Zeas9NFgJrfKXKFD7DQMqer5lB4hYtTOToON+ri/a0xu9yw==
+X-Received: by 2002:adf:e38a:: with SMTP id e10mr21476748wrm.348.1571166583128; 
+ Tue, 15 Oct 2019 12:09:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l18sm24193425wrn.48.2019.10.15.12.03.21
+ by smtp.gmail.com with ESMTPSA id t83sm270741wmt.18.2019.10.15.12.09.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 12:03:21 -0700 (PDT)
+ Tue, 15 Oct 2019 12:09:42 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7319B1FF87;
- Tue, 15 Oct 2019 20:03:20 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 77D941FF87;
+ Tue, 15 Oct 2019 20:09:41 +0100 (BST)
 References: <20191014104948.4291-1-alex.bennee@linaro.org>
- <20191014104948.4291-24-alex.bennee@linaro.org>
- <CAFEAcA-PJ8V4to4SKu6PXZH6yFkrQ7FJBZR=2O-fJFoZgEq=TQ@mail.gmail.com>
+ <20191014104948.4291-54-alex.bennee@linaro.org>
+ <3ce497fe-9dc1-5fa3-acf6-155ae16e0793@linaro.org>
 User-agent: mu4e 1.3.5; emacs 27.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v5 23/55] translator: add translator_ld{ub,sw,uw,l,q}
-In-reply-to: <CAFEAcA-PJ8V4to4SKu6PXZH6yFkrQ7FJBZR=2O-fJFoZgEq=TQ@mail.gmail.com>
-Date: Tue, 15 Oct 2019 20:03:20 +0100
-Message-ID: <87y2xlltl3.fsf@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v5 53/55] plugins: add sparc64 instruction
+ classification table
+In-reply-to: <3ce497fe-9dc1-5fa3-acf6-155ae16e0793@linaro.org>
+Date: Tue, 15 Oct 2019 20:09:41 +0100
+Message-ID: <87wod5ltai.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,149 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@futurewei.com,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, peter.puhov@futurewei.com,
- Aaron Lindsay <aaron@os.amperecomputing.com>,
- "Emilio G. Cota" <cota@braap.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: aaron@os.amperecomputing.com, cota@braap.org, qemu-devel@nongnu.org,
+ peter.puhov@futurewei.com, robert.foley@futurewei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On Mon, 14 Oct 2019 at 12:38, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> From: "Emilio G. Cota" <cota@braap.org>
->>
->> We don't bother with replicating the fast path (tlb_hit) of the old
->> cpu_ldst helpers as it has no measurable effect on performance. This
->> probably indicates we should consider flattening the whole set of
->> helpers but that is out of scope for this change.
->>
->> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Emilio G. Cota <cota@braap.org>
->> [AJB: directly plumb into softmmu/user helpers]
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>
->> diff --git a/tcg/tcg.h b/tcg/tcg.h
->> index a38659ea5b..302533b463 100644
->> --- a/tcg/tcg.h
->> +++ b/tcg/tcg.h
->> @@ -1317,6 +1317,7 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, tar=
-get_ulong addr,
->>  # define helper_ret_stl_mmu   helper_be_stl_mmu
->>  # define helper_ret_stq_mmu   helper_be_stq_mmu
->>  # define helper_ret_ldw_cmmu  helper_be_ldw_cmmu
->> +# define helper_ret_lduw_cmmu helper_be_ldw_cmmu
->>  # define helper_ret_ldl_cmmu  helper_be_ldl_cmmu
->>  # define helper_ret_ldq_cmmu  helper_be_ldq_cmmu
->>  #else
->> @@ -1330,6 +1331,7 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, tar=
-get_ulong addr,
->>  # define helper_ret_stl_mmu   helper_le_stl_mmu
->>  # define helper_ret_stq_mmu   helper_le_stq_mmu
->>  # define helper_ret_ldw_cmmu  helper_le_ldw_cmmu
->> +# define helper_ret_lduw_cmmu helper_le_ldw_cmmu
->>  # define helper_ret_ldl_cmmu  helper_le_ldl_cmmu
->>  # define helper_ret_ldq_cmmu  helper_le_ldq_cmmu
->>  #endif
+> On 10/14/19 3:49 AM, Alex Benn=C3=A9e wrote:
+>> +InsnClassExecCount sparc32_insn_classes[] =3D {
+>> +    { "Call",                "call",   0xc0000000, 0x40000000, COUNT_CL=
+ASS},
+>> +    { "Branch ICond",        "bcc",    0xc1c00000, 0x00800000, COUNT_CL=
+ASS},
+>> +    { "Branch Fcond",        "fbcc",   0xc1c00000, 0x01800000, COUNT_CL=
+ASS},
+>> +    { "SetHi",               "sethi",  0xc1c00000, 0x01000000, COUNT_CL=
+ASS},
+>> +    { "FPU ALU",             "fpu",    0xc1f00000, 0x81a00000, COUNT_CL=
+ASS},
+>> +    { "ALU",                 "alu",    0xc0000000, 0x80000000, COUNT_CL=
+ASS},
+>> +    { "Load/Store",          "ldst",   0xc0000000, 0xc0000000, COUNT_CL=
+ASS},
+>> +    /* Unclassified */
+>> +    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_IN=
+DIVIDUAL},
+>> +};
+>> +
 >
-> This looks odd. Why is it ok to define a 'lduw' helper
-> as the 'ldw' cmmu helper ? One ought to be sign
-> extending and the other not...
+> Unused.  You'd see this if they were static.
 
-This is the alternative:
+How similar are the sparc and sparc64 decodes? Is there a canonical
+table you can point to?
 
-3 files changed, 9 insertions(+), 17 deletions(-)
-include/exec/translator.h | 19 +++++++++----------
-include/qemu/bswap.h      |  5 -----
-tcg/tcg.h                 |  2 --
+>
+>
+> r~
 
-modified   include/exec/translator.h
-@@ -158,26 +158,26 @@ void translator_loop_temp_check(DisasContextBase *db);
-
- #ifdef CONFIG_USER_ONLY
-
--#define DO_LOAD(type, name, shift)               \
-+#define DO_LOAD(type, name, uname, shift)        \
-     set_helper_retaddr(1);                       \
--    ret =3D name ## _p(g2h(pc));                   \
-+    ret =3D uname ## _p(g2h(pc));                  \
-     clear_helper_retaddr();
-
- #else
-
--#define DO_LOAD(type, name, shift)                   \
-+#define DO_LOAD(type, name, uname, shift)            \
-     int mmu_idx =3D cpu_mmu_index(env, true);          \
-     TCGMemOpIdx oi =3D make_memop_idx(shift, mmu_idx); \
-     ret =3D helper_ret_ ## name ## _cmmu(env, pc, oi, 0);
-
- #endif
-
--#define GEN_TRANSLATOR_LD(fullname, name, type, shift, swap_fn)         \
-+#define GEN_TRANSLATOR_LD(fullname, name, uname, type, shift, swap_fn)  \
-     static inline type                                                  \
-     fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
-     {                                                                   \
-         type ret;                                                       \
--        DO_LOAD(type, name, shift)                                      \
-+        DO_LOAD(type, name, uname, shift)                               \
-                                                                         \
-         if (do_swap) {                                                  \
-             ret =3D swap_fn(ret);                                         \
-@@ -191,11 +191,10 @@ void translator_loop_temp_check(DisasContextBase *db);
-         return fullname ## _swap(env, pc, false);                       \
-     }
-
--GEN_TRANSLATOR_LD(translator_ldub, ldb, uint8_t, 0, /* no swap needed */)
--GEN_TRANSLATOR_LD(translator_ldsw, lduw, int16_t, 1, bswap16)
--GEN_TRANSLATOR_LD(translator_lduw, lduw, uint16_t, 1, bswap16)
--GEN_TRANSLATOR_LD(translator_ldl, ldl, uint32_t, 2, bswap32)
--GEN_TRANSLATOR_LD(translator_ldq, ldq, uint64_t, 3, bswap64)
-+GEN_TRANSLATOR_LD(translator_ldub, ldb, ldub, uint8_t, 0, /* no swap neede=
-d */)
-+GEN_TRANSLATOR_LD(translator_ldw, ldw, lduw, uint16_t, 1, bswap16)
-+GEN_TRANSLATOR_LD(translator_ldl, ldl, ldl, uint32_t, 2, bswap32)
-+GEN_TRANSLATOR_LD(translator_ldq, ldq, ldl, uint64_t, 3, bswap64)
- #undef GEN_TRANSLATOR_LD
-
- #endif  /* EXEC__TRANSLATOR_H */
-modified   include/qemu/bswap.h
-@@ -306,11 +306,6 @@ static inline int ldub_p(const void *ptr)
-     return *(uint8_t *)ptr;
- }
-
--static inline int ldb_p(const void *ptr)
--{
--    return ldub_p(ptr);
--}
--
- static inline int ldsb_p(const void *ptr)
- {
-     return *(int8_t *)ptr;
-modified   tcg/tcg.h
-@@ -1317,7 +1317,6 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target=
-_ulong addr,
- # define helper_ret_stl_mmu   helper_be_stl_mmu
- # define helper_ret_stq_mmu   helper_be_stq_mmu
- # define helper_ret_ldw_cmmu  helper_be_ldw_cmmu
--# define helper_ret_lduw_cmmu helper_be_ldw_cmmu
- # define helper_ret_ldl_cmmu  helper_be_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_be_ldq_cmmu
- #else
-@@ -1331,7 +1330,6 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target=
-_ulong addr,
- # define helper_ret_stl_mmu   helper_le_stl_mmu
- # define helper_ret_stq_mmu   helper_le_stq_mmu
- # define helper_ret_ldw_cmmu  helper_le_ldw_cmmu
--# define helper_ret_lduw_cmmu helper_le_ldw_cmmu
- # define helper_ret_ldl_cmmu  helper_le_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_le_ldq_cmmu
- #endif
 
 --
 Alex Benn=C3=A9e
