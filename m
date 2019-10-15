@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D477D7984
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:13:32 +0200 (CEST)
-Received: from localhost ([::1]:48094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BC1D7971
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:10:36 +0200 (CEST)
+Received: from localhost ([::1]:47978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOVv-0002z4-IL
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40624)
+	id 1iKOT3-00082N-OO
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKO8L-0004jt-Nw
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:49:10 -0400
+ (envelope-from <eblake@redhat.com>) id 1iKOQd-0006FU-N5
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:08:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKO8K-0006ZK-A3
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:49:09 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33855)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKO8J-0006YZ-Rm
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:49:08 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 83so17052270oii.1
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 07:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/kwSlXh6iJx2O0gCfEtXXAa4F2WK8uIGGEOp4n92JOM=;
- b=LkjWXU/fZpk5VVnZObAdiPhF8A1Ozh6Fl7p+l0J7kmC3t20Uh+d+oCGGy3oF3r6NLe
- hEMsy2Wbsoy88zOrL45mi3wV5z9sQOIlnfWr49WcGTrBZZFV2BGwb3FveDziPpo2JDHn
- kpfwm1CHlRPfu67CpYnsHA+1wpF0ME1e5MUbXx5mtN+kOdrNVrNnJDBrZ1EIU+mV5Pdc
- tzOgjKPkaHhXJTvyHhOC488MgyE1HprVgxyht758wl7rSo7bBSglCnMNh6dlHJRqWz03
- BJmurMMAc0G60/VAehe5JtgYrsbOa1fAHAfsIw8/AbrFpjs06sppNhC+IkGXs5ZWKzIv
- V3jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/kwSlXh6iJx2O0gCfEtXXAa4F2WK8uIGGEOp4n92JOM=;
- b=qeJhustbcWD3EXqqlFttPhSAATN0ROF1jpkCErkH/xtJTIu3NU8utWayCmCV4TXqqF
- maFRbUQb7cLAnweRdy2bJE/jCNLIP9tgTx1BaySePDE3HPDP7gLFzH9LwgHg/Mwj4q1r
- JUPbzlPWSteb4V7fHbsnAeosKteEHRMnYt+XvaZqECEi7iA7qZjDUmDFUrR/9E7KMxCb
- ylCp/ywW5DbsM5nGLlu4Ceku5gDkniokvPPt1pMTWAWd33EYSGgDoxbhmaEG+QHVlSmK
- RadWg5dg9bHsZjSSnn1pN/LiJSv0cyDkINK3kTm5H8f2Xx6acyywSGARiaRgwljDzE/3
- CKNQ==
-X-Gm-Message-State: APjAAAUAQWcewcCc9rroLR1AkmhdsMsSlTaEbEB05da5eWbGXrQ2Gdp9
- pgHs4Oau2EZ1RTYNAqSTPyIkPNxtLYdwfo5C5/9s0g==
-X-Google-Smtp-Source: APXvYqxulgZJq7+EMr7REicShnKhm+CUfM2qlJR9cQM8gDJsBL49U+8xBNQAEvwouzHYF6STEw9GWU7u1fqNxMz29Vg=
-X-Received: by 2002:aca:49c2:: with SMTP id
- w185mr29667804oia.163.1571150945480; 
- Tue, 15 Oct 2019 07:49:05 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1iKOQc-0005pf-AS
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:08:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49408)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iKOQY-0005oY-2J; Tue, 15 Oct 2019 11:07:58 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3301E7BDAC;
+ Tue, 15 Oct 2019 15:07:57 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88AC960C63;
+ Tue, 15 Oct 2019 15:07:56 +0000 (UTC)
+Subject: Re: [PATCH v2 1/2] nbd: Don't send oversize strings
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20191010210018.22000-1-eblake@redhat.com>
+ <20191010210018.22000-2-eblake@redhat.com>
+ <e777bd6b-525d-99e1-2584-a31f3609d5cd@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c7ed4149-8cef-7897-ae95-9b24a3d4f378@redhat.com>
+Date: Tue, 15 Oct 2019 10:07:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-References: <20191015140140.34748-1-zhengxiang9@huawei.com>
- <20191015140140.34748-6-zhengxiang9@huawei.com>
-In-Reply-To: <20191015140140.34748-6-zhengxiang9@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 15:48:53 +0100
-Message-ID: <CAFEAcA-92YEgrBPDVVFEmjBYnw=keJWKUDnqNRakw-jKYaxK5Q@mail.gmail.com>
-Subject: Re: [PATCH v19 5/5] target-arm: kvm64: handle SIGBUS signal from
- kernel or KVM
-To: Xiang Zheng <zhengxiang9@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+In-Reply-To: <e777bd6b-525d-99e1-2584-a31f3609d5cd@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 15 Oct 2019 15:07:57 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,81 +63,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 at 15:02, Xiang Zheng <zhengxiang9@huawei.com> wrote:
->
-> From: Dongjiu Geng <gengdongjiu@huawei.com>
->
-> Add a SIGBUS signal handler. In this handler, it checks the SIGBUS type,
-> translates the host VA delivered by host to guest PA, then fills this PA
-> to guest APEI GHES memory, then notifies guest according to the SIGBUS
-> type.
->
-> When guest accesses the poisoned memory, it will generate a Synchronous
-> External Abort(SEA). Then host kernel gets an APEI notification and calls
-> memory_failure() to unmapped the affected page in stage 2, finally
-> returns to guest.
->
-> Guest continues to access the PG_hwpoison page, it will trap to KVM as
-> stage2 fault, then a SIGBUS_MCEERR_AR synchronous signal is delivered to
-> Qemu, Qemu records this error address into guest APEI GHES memory and
-> notifes guest using Synchronous-External-Abort(SEA).
->
-> In order to inject a vSEA, we introduce the kvm_inject_arm_sea() function
-> in which we can setup the type of exception and the syndrome information.
-> When switching to guest, the target vcpu will jump to the synchronous
-> external abort vector table entry.
->
-> The ESR_ELx.DFSC is set to synchronous external abort(0x10), and the
-> ESR_ELx.FnV is set to not valid(0x1), which will tell guest that FAR is
-> not valid and hold an UNKNOWN value. These values will be set to KVM
-> register structures through KVM_SET_ONE_REG IOCTL.
->
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+On 10/11/19 2:32 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 11.10.2019 0:00, Eric Blake wrote:
+>> Qemu as server currently won't accept export names larger than 256
+>> bytes, nor create dirty bitmap names longer than 1023 bytes, so most
+>> uses of qemu as client or server have no reason to get anywhere near
+>> the NBD spec maximum of a 4k limit per string.
+>>
+>> However, we weren't actually enforcing things, ignoring when the
+>> remote side violates the protocol on input, and also having several
+>> code paths where we send oversize strings on output (for example,
+>> qemu-nbd --description could easily send more than 4k).  Tighten
+>> things up as follows:
+>>
+>> client:
+>> - Perform bounds check on export name and dirty bitmap request prior
+>>     to handing it to server
+>> - Validate that copied server replies are not too long (ignoring
+>>     NBD_INFO_* replies that are not copied is not too bad)
+>> server:
+>> - Perform bounds check on export name and description prior to
+>>     advertising it to client
+>> - Reject client name or metadata query that is too long
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
 
-> +static int acpi_ghes_record_mem_error(uint64_t error_block_address,
-> +                                      uint64_t error_physical_addr,
-> +                                      uint32_t data_length)
-> +{
-> +    GArray *block;
-> +    uint64_t current_block_length;
-> +    /* Memory Error Section Type */
-> +    QemuUUID mem_section_id_le = UEFI_CPER_SEC_PLATFORM_MEM;
-> +    QemuUUID fru_id = {0};
+>> +++ b/include/block/nbd.h
+>> @@ -232,6 +232,7 @@ enum {
+>>     * going larger would require an audit of more code to make sure we
+>>     * aren't overflowing some other buffer. */
+> 
+> This comment says, that we restrict export name to 256...
 
-Hi; this makes at least some versions of clang complain
-(this is a clang bug, but it's present in shipped versions):
+Yes, because we still stack-allocate the name in places, but 4k is too 
+large for stack allocation.  But we're inconsistent on where we use the 
+smaller 256-limit; the server won't serve an image that large, but 
+doesn't prevent a client from requesting a 4k name export (even though 
+that export will not be present).
 
-/home/petmay01/linaro/qemu-from-laptop/qemu/hw/acpi/acpi_ghes.c:135:24:
-error: suggest braces around
-      initialization of subobject [-Werror,-Wmissing-braces]
-    QemuUUID fru_id = {0};
-                       ^
-                       {}
 
-We generally use "{}" as the generic zero-initializer for
-this reason (it's gcc/clang specific whereas "{0}" is
-in the standard, but all of the compilers we care about
-support it and don't warn about its use).
+>> +++ b/blockdev-nbd.c
+>> @@ -162,6 +162,11 @@ void qmp_nbd_server_add(const char *device, bool has_name, const char *name,
+>>            name = device;
+>>        }
+>>
+>> +    if (strlen(name) > NBD_MAX_STRING_SIZE) {
+>> +        error_setg(errp, "export name '%s' too long", name);
+>> +        return;
+>> +    }
+> 
+> Hmmm, no, so here we restrict to 4096, but, we will not allow client to request more than
+> 256. Seems, to correctly update server-part, we should drop NBD_MAX_NAME_SIZE and do the
+> audit mentioned in the comment above its definition.
 
-> +    uint8_t fru_text[20] = {0};
+Yeah, I guess it's time to just get rid of NBD_MAX_NAME_SIZE, and move 
+away from stack allocations.  Should I do that as a followup to this 
+patch, or spin a v3?
 
-Clang doesn't mind this one because it's not initializing
-a struct type, but you could use "{}" here too for consistency.
+>> +++ b/nbd/client.c
+>> @@ -289,8 +289,8 @@ static int nbd_receive_list(QIOChannel *ioc, char **name, char **description,
+>>            return -1;
+>>        }
+>>        len -= sizeof(namelen);
+>> -    if (len < namelen) {
+>> -        error_setg(errp, "incorrect option name length");
+>> +    if (len < namelen || namelen > NBD_MAX_STRING_SIZE) {
+>> +        error_setg(errp, "incorrect list name length");
+> 
+> New wording made me go above and read the comment, what functions does. Comment is good, but without
+> it, it sounds like name of the list for me...
 
-thanks
--- PMM
+Maybe:
+
+incorrect name length in server's list response
+
+> 
+>>            nbd_send_opt_abort(ioc);
+>>            return -1;
+>>        }
+>> @@ -303,6 +303,11 @@ static int nbd_receive_list(QIOChannel *ioc, char **name, char **description,
+>>        local_name[namelen] = '\0';
+>>        len -= namelen;
+>>        if (len) {
+>> +        if (len > NBD_MAX_STRING_SIZE) {
+>> +            error_setg(errp, "incorrect list description length");
+
+and
+
+incorrect description length in server's list response
+
+
+>> @@ -648,6 +657,7 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32_t opt,
+>>        if (query) {
+>>            query_len = strlen(query);
+>>            data_len += sizeof(query_len) + query_len;
+>> +        assert(query_len <= NBD_MAX_STRING_SIZE);
+>>        } else {
+>>            assert(opt == NBD_OPT_LIST_META_CONTEXT);
+>>        }
+> 
+> you may assert export_len as well..
+
+It was asserted earlier, but doing it again might not hurt, especially 
+if I do the followup patch getting rid of NBD_MAX_NAME_SIZE
+
+
+>> @@ -1561,6 +1569,8 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
+>>            exp->export_bitmap = bm;
+>>            exp->export_bitmap_context = g_strdup_printf("qemu:dirty-bitmap:%s",
+>>                                                         bitmap);
+>> +        /* See BME_MAX_NAME_SIZE in block/qcow2-bitmap.c */
+> 
+> Hmm. BME_MAX_NAME_SIZE is checked only when creating persistent bitmaps. But for non-persistent
+> name length is actually unlimited. So, we should either limit all bitmap names to 1023 (hope,
+> this will not break existing scenarios) or error out here (or earlier) instead of assertion.
+
+I'm leaning towards limiting ALL bitmaps to the same length (as we've 
+already debated the idea of being able to convert an existing bitmap 
+from transient to persistent).
+
+> 
+> We also may want QEMU_BUILD_BUG_ON(NBD_MAX_STRING_SIZE < BME_MAX_NAME_SIZE + sizeof("qemu:dirty-bitmap:") - 1)
+
+Except that BME_MAX_NAME_SIZE is not (currently) in a public .h file.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
