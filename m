@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6C1D7940
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 16:55:34 +0200 (CEST)
-Received: from localhost ([::1]:47464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE35AD798D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:15:31 +0200 (CEST)
+Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOEW-0003Ur-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 10:55:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41483)
+	id 1iKOXr-0004Bc-2a
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:15:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKOCH-0001TM-5l
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:53:14 -0400
+ (envelope-from <joshua.shaffer@astrobotic.com>) id 1iKMiH-0001bY-5u
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:18:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKOCF-0007y5-Rq
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:53:12 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42046)
+ (envelope-from <joshua.shaffer@astrobotic.com>) id 1iKMiF-0007Kw-QA
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:18:09 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:33442)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKOCF-0007wp-KL
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 10:53:11 -0400
-Received: by mail-oi1-x243.google.com with SMTP id i185so17010802oif.9
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 07:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pJHLxWBHfbqmvzOZUSxQLaGo5BYoxOcdXmYT8MESVjw=;
- b=xub1vEGEH9eORcaWMny1wqHLHVDX8S+d+vqaqqeWA5aKqQSbiX7OrCIGAthe6hu1/d
- Mrp97VpPtfEgTqcvJ62iH5fRPmM3VcGoRg/OBifl4WEPwpYj64dGvu8B6yBHQ82l5neY
- eaEnn00p8ynrcNEPceCCijGcb42XzIddNsoN6st0PvBxXwPKwN/36BY7RG6KBgSmNy6p
- 7/IzPL33RNCtbClPxUtV7wBEfETxpz57wORrtVJodn0AlQ+9IEfAc2E46iFBGz54CXva
- puTcYU/tgOJ3lLl32zPvdBjNWrRTFQjp+D+CFZksw41S9zGnVWzuT5WBCdW7khas7YPq
- B/qg==
+ (Exim 4.71) (envelope-from <joshua.shaffer@astrobotic.com>)
+ id 1iKMiF-0007Jb-82
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:18:07 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id y127so14478166lfc.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 06:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=astrobotic-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=GBsM+jjArf1xZWuYwUzAXxh0zV7QecWSOqNQxsYKnbU=;
+ b=Y5XUgSS2I314k4eIv9/Lj2hh6OhItFxLAjLsphws+PtkohZzsuHS91a9IlsSUNiCyu
+ pYpc7JoTWx1Hhh7lZaVAN9ZpWTCQDBBUMofwZOCHvqfDj0hGGAZ7N8ILha//Zm0m7rEM
+ TqyaeAbg9Fi6Hs6MnWVdiSZSFP3CHUJ9uvjS5YEkLdLU40ZWd8Tjvz/S0ktzM327OIwO
+ QtdvGLWektrgw3VYvbTdIjB+sEUDeomsyGnoMmYMoKnjkJQFy8WKOSOKg2dpu+RslXUj
+ H+PxZCxT6LLtLKpB5gxrQrLCpfECHSiaEG6C8lXOqlz2M8aGuPDtCq9McFtG2LQxabmV
+ sedw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pJHLxWBHfbqmvzOZUSxQLaGo5BYoxOcdXmYT8MESVjw=;
- b=svsffNyxvNJqXPZhfI7NyCC2XOtDVYBGM4naxWue870SWCi1x9TH0AxThdIAlCeWpE
- 1rh//9rwq+RmuJUZ2yTDrACJByXnbRf+YL83I56poy+q5b5P8oD4v2iXb/aKmxy8iOXb
- V53uv9vAjROEeJ/fJ/1+DQ/Ox7ftncc06eLhzYA4TQdf3IYZ/hPBuPbh0lUyi/Bx8B6q
- k4itUEYR4ogAmenv1VfpPqtW1JSiS7VD48jXz4zheAVLcg0P1IUYWiW8WYQG6Cfv9F8O
- 1p7pOOx1oTHbtQH6rxQ4FbMns2UvnCmpwTpJy17yjWbBA7nXGrCD0T4blZ3+IiLuaXzM
- I4aA==
-X-Gm-Message-State: APjAAAXVeo0XmghRTyoQrnQAZEO0TT1tFmqDmAPFd/miY7jT6GEvHHDU
- IFuCg8uCnquKiY4zPH2xnMpxCI8zpJ6Bb7KN84i5vtRbVAo=
-X-Google-Smtp-Source: APXvYqzqvQComCBgFaQw5Q1kH9xNYO35eAfDsvhDHQduxNV0EVl/ym25KkAdWnopvPsA8eHPMLcixw9oewjaRJjJJ+s=
-X-Received: by 2002:a54:4e83:: with SMTP id c3mr29597998oiy.170.1571151190401; 
- Tue, 15 Oct 2019 07:53:10 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=GBsM+jjArf1xZWuYwUzAXxh0zV7QecWSOqNQxsYKnbU=;
+ b=gcvWV9Vq6tKM4AK/H+THXLfe+zvmnhAlkVs4F+A+yM7XFv3FN+DT2mpV2VCWXR78Pi
+ GMSiW5OoDcREzInfo3Nw5AGxQJCfSwdF5upRJLejxCG6etLFMLLuEHPgt5RxxH/Cya/9
+ 1A+Sa9NJfU2zZGSp6Ow9fUBxkzuAj5MR8VJ7LX0+E08U8kO1iMAjeNgCLVU+1CwHqAHA
+ Je15ZNmwcN0vllW14CyJuUb/867Uc3aJu9e+l0a8PBvbDRLKAgNKfbDEQk9RJcJpK/tL
+ kTdkIOcrsHNTjy//OrCuCyQUfhUYbW6EbvymGU03m9cmN0/ITdCE0G+T2/M9ggQlQarg
+ Eynw==
+X-Gm-Message-State: APjAAAVtUmq53NcztECstciaRs9RkMdS16wBPiJhsUDV5q0RvNUM9Lap
+ aFVab9OXTVn0aQf01bXXbIQUZ+/yoxdWWHEl0Ff0xaQBXTxNct0V0WjztJZL9o71T1k2Mtp0P2f
+ AlVF9CoGfbH4qrnvGuAuJt0dmtt0=
+X-Google-Smtp-Source: APXvYqzmTvLUys4nSKeusfZ8C2r6Sa6okqkMpeBRMR3URTgt+d37v/WkiWV/PQBu5ulTsRmCN/zKEaLtkcrdJUOQTkI=
+X-Received: by 2002:ac2:555e:: with SMTP id l30mr20727504lfk.163.1571145483456; 
+ Tue, 15 Oct 2019 06:18:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191015140140.34748-1-zhengxiang9@huawei.com>
- <20191015140140.34748-4-zhengxiang9@huawei.com>
-In-Reply-To: <20191015140140.34748-4-zhengxiang9@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 15:52:59 +0100
-Message-ID: <CAFEAcA9CWPKF5XibFtZRwavVj4PboGoaM5368Omje6qrOjV3AQ@mail.gmail.com>
-Subject: Re: [PATCH v19 3/5] ACPI: Add APEI GHES table generation support
-To: Xiang Zheng <zhengxiang9@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+From: Joshua Shaffer <joshua.shaffer@astrobotic.com>
+Date: Tue, 15 Oct 2019 09:17:52 -0400
+Message-ID: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+Subject: LEON3 networking
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000006ea5f70594f2d066"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2a00:1450:4864:20::12d
+X-Mailman-Approved-At: Tue, 15 Oct 2019 11:04:09 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,62 +71,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 at 15:02, Xiang Zheng <zhengxiang9@huawei.com> wrote:
->
-> From: Dongjiu Geng <gengdongjiu@huawei.com>
->
-> This patch implements APEI GHES Table generation via fw_cfg blobs. Now
-> it only supports ARMv8 SEA, a type of GHESv2 error source. Afterwards,
-> we can extend the supported types if needed. For the CPER section,
-> currently it is memory section because kernel mainly wants userspace to
-> handle the memory errors.
->
-> This patch follows the spec ACPI 6.2 to build the Hardware Error Source
-> table. For more detailed information, please refer to document:
-> docs/specs/acpi_hest_ghes.rst
->
-> Suggested-by: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+--0000000000006ea5f70594f2d066
+Content-Type: text/plain; charset="UTF-8"
 
-> +    /* Error Status Address */
-> +    build_append_gas(table_data, AML_SYSTEM_MEMORY, 0x40, 0,
-> +                     4 /* QWord access */, 0);
+Hello,
 
-Hi; this doesn't seem to compile with clang:
+I've been using the LEON3 port of qemu, and am wondering if anyone has
+touched the networking setup for such since the thread here:
+https://lists.rtems.org/pipermail/users/2014-September/028224.html
 
-/home/petmay01/linaro/qemu-from-laptop/qemu/hw/acpi/acpi_ghes.c:330:34:
-error: implicit conversion from
-      enumeration type 'AmlRegionSpace' to different enumeration type
-'AmlAddressSpace'
-      [-Werror,-Wenum-conversion]
-    build_append_gas(table_data, AML_SYSTEM_MEMORY, 0x40, 0,
-    ~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~~
-/home/petmay01/linaro/qemu-from-laptop/qemu/hw/acpi/acpi_ghes.c:351:34:
-error: implicit conversion from
-      enumeration type 'AmlRegionSpace' to different enumeration type
-'AmlAddressSpace'
-      [-Werror,-Wenum-conversion]
-    build_append_gas(table_data, AML_SYSTEM_MEMORY, 0x40, 0,
-    ~~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~~~~
-2 errors generated.
+Joshua Shaffer
 
-Should these be AML_AS_SYSTEM_MEMORY, or should the build_append_gas()
-function be taking an AmlRegionSpace rather than an AmlAddressSpace ?
+-- 
+Notice: This message is intended solely for use of the individual or entity 
+to which it is addressed and may contain information that is proprietary, 
+privileged, company confidential and/or exempt from disclosure under 
+applicable law. If the reader is not the intended recipient or agent 
+responsible for delivering the message to the intended recipient, you are 
+hereby notified that any dissemination, distribution or copying of this 
+communication is strictly prohibited. This communication may also contain 
+data subject to the International Traffic in Arms Regulations or U.S. 
+Export Administration Regulations and cannot be disseminated, distributed 
+or copied to foreign nationals, residing in the U.S. or abroad, without the 
+prior approval of the U.S. Department of State or appropriate export 
+licensing authority. If you have received this communication in error, 
+please notify the sender by reply e-mail or collect telephone call and 
+delete or destroy all copies of this email message, any physical copies 
+made of this e-mail message and/or any file attachment(s).
 
-thanks
--- PMM
+--0000000000006ea5f70594f2d066
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>I&#39;ve been using t=
+he LEON3 port of qemu, and am wondering if anyone has touched the networkin=
+g setup for such since the thread here: <a href=3D"https://lists.rtems.org/=
+pipermail/users/2014-September/028224.html">https://lists.rtems.org/piperma=
+il/users/2014-September/028224.html</a> <br></div><div><br></div><div>Joshu=
+a Shaffer<br></div></div>
+
+<br>
+<span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;background-=
+color:rgb(255,255,255)">Notice: This message is intended solely for use of =
+the individual or entity to which it is addressed and may contain informati=
+on that is proprietary, privileged, company confidential and/or exempt from=
+ disclosure under applicable law. If the reader is not the intended recipie=
+nt or agent responsible for delivering the message to the intended recipien=
+t, you are hereby notified that any dissemination, distribution or copying =
+of this communication is strictly prohibited. This communication may also c=
+ontain data subject to the International Traffic in Arms Regulations or U.S=
+. Export Administration Regulations and cannot be disseminated, distributed=
+ or copied to foreign nationals, residing in the U.S. or abroad, without th=
+e prior approval of the U.S. Department of State or appropriate export lice=
+nsing authority. If you have received this communication in error, please n=
+otify the sender by reply e-mail or collect telephone call and delete or de=
+stroy all copies of this email message, any physical copies made of this e-=
+mail message and/or any file attachment(s).</span>
+--0000000000006ea5f70594f2d066--
 
