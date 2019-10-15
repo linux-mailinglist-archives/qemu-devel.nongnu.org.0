@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D33ED8259
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:43:55 +0200 (CEST)
-Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23472D830E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:51:38 +0200 (CEST)
+Received: from localhost ([::1]:60124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKUbh-0003qM-3X
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60120)
+	id 1iKUjB-0004SL-2t
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59970)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iKUX0-0006hB-1A
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:39:02 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iKUWS-0005oj-5Z
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iKUWz-0006xK-1y
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:39:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46956)
+ (envelope-from <ehabkost@redhat.com>) id 1iKUWR-0006nL-3Z
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44564)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUWy-0006x8-SQ
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:39:01 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUWQ-0006n4-U8
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:27 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1A745308FBB4;
- Tue, 15 Oct 2019 21:39:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 20B8173A60;
+ Tue, 15 Oct 2019 21:38:26 +0000 (UTC)
 Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD4FC5D70D;
- Tue, 15 Oct 2019 21:38:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 209D25D9E2;
+ Tue, 15 Oct 2019 21:38:22 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
  qemu-devel@nongnu.org
-Subject: [PULL 18/18] target/i386: Add Snowridge-v2 (no MPX) CPU model
-Date: Tue, 15 Oct 2019 18:37:45 -0300
-Message-Id: <20191015213745.22174-19-ehabkost@redhat.com>
+Subject: [PULL 09/18] hw/isa/vt82c686: Convert reset handler to DeviceReset
+Date: Tue, 15 Oct 2019 18:37:36 -0300
+Message-Id: <20191015213745.22174-10-ehabkost@redhat.com>
 In-Reply-To: <20191015213745.22174-1-ehabkost@redhat.com>
 References: <20191015213745.22174-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 15 Oct 2019 21:39:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Tue, 15 Oct 2019 21:38:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -59,49 +60,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Li Qiang <liq3ea@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiaoyao Li <xiaoyao.li@intel.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Add new version of Snowridge CPU model that removes MPX feature.
+The VIA VT82C686 Southbridge is a PCI device, it will be reset
+when the PCI bus it stands on is reset.
 
-MPX support is being phased out by Intel. GCC has dropped it, Linux kerne=
-l
-and KVM are also going to do that in the future.
+Convert its reset handler into a proper Device reset method.
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Message-Id: <20191012024748.127135-1-xiaoyao.li@intel.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191010131527.32513-7-philmd@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/isa/vt82c686.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b821132b6a..47200b40c1 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2793,6 +2793,18 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             CPUID_6_EAX_ARAT,
-         .xlevel =3D 0x80000008,
-         .model_id =3D "Intel Atom Processor (SnowRidge)",
-+        .versions =3D (X86CPUVersionDefinition[]) {
-+            { .version =3D 1 },
-+            {
-+                .version =3D 2,
-+                .props =3D (PropValue[]) {
-+                    { "mpx", "off" },
-+                    { "model-id", "Intel Atom Processor (Snowridge, no M=
-PX)" },
-+                    { /* end of list */ },
-+                },
-+            },
-+            { /* end of list */ },
-+        },
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 50bd28fa82..616f67f347 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -23,7 +23,6 @@
+ #include "hw/isa/apm.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/i2c/pm_smbus.h"
+-#include "sysemu/reset.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "exec/address-spaces.h"
+@@ -116,11 +115,10 @@ static const MemoryRegionOps superio_ops =3D {
      },
-     {
-         .name =3D "KnightsMill",
+ };
+=20
+-static void vt82c686b_reset(void * opaque)
++static void vt82c686b_isa_reset(DeviceState *dev)
+ {
+-    PCIDevice *d =3D opaque;
+-    uint8_t *pci_conf =3D d->config;
+-    VT82C686BState *vt82c =3D VT82C686B_DEVICE(d);
++    VT82C686BState *vt82c =3D VT82C686B_DEVICE(dev);
++    uint8_t *pci_conf =3D vt82c->dev.config;
+=20
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+     pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_ME=
+MORY |
+@@ -476,8 +474,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **e=
+rrp)
+      * But we do not emulate a floppy, so just set it here. */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+                                 &vt82c->superio);
+-
+-    qemu_register_reset(vt82c686b_reset, d);
+ }
+=20
+ ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
+@@ -501,6 +497,7 @@ static void via_class_init(ObjectClass *klass, void *=
+data)
+     k->device_id =3D PCI_DEVICE_ID_VIA_ISA_BRIDGE;
+     k->class_id =3D PCI_CLASS_BRIDGE_ISA;
+     k->revision =3D 0x40;
++    dc->reset =3D vt82c686b_isa_reset;
+     dc->desc =3D "ISA bridge";
+     dc->vmsd =3D &vmstate_via;
+     /*
 --=20
 2.21.0
 
