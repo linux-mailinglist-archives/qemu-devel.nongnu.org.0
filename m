@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEF5D7BCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:37:10 +0200 (CEST)
-Received: from localhost ([::1]:52740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1173D7BC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:34:21 +0200 (CEST)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKPoq-0000eB-Ok
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41031)
+	id 1iKPm8-0005Wm-Dh
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPgh-0000zR-U2
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:28:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKPgq-00017L-HH
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:28:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPgg-0004g8-Ti
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:28:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40298)
+ (envelope-from <philmd@redhat.com>) id 1iKPgp-0004ju-FN
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:28:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57310)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPgg-0004fk-O1
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:28:42 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPgp-0004jQ-9r
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:28:51 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9115A20FF;
- Tue, 15 Oct 2019 16:28:41 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2EED13E2AF;
+ Tue, 15 Oct 2019 16:28:50 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5778C19C69;
- Tue, 15 Oct 2019 16:28:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25C5A19C5B;
+ Tue, 15 Oct 2019 16:28:41 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/32] mc146818rtc: always register rtc to rtc list
-Date: Tue, 15 Oct 2019 18:26:39 +0200
-Message-Id: <20191015162705.28087-7-philmd@redhat.com>
+Subject: [PATCH 07/32] MAINTAINERS: Keep PIIX4 South Bridge separate from PC
+ Chipsets
+Date: Tue, 15 Oct 2019 18:26:40 +0200
+Message-Id: <20191015162705.28087-8-philmd@redhat.com>
 In-Reply-To: <20191015162705.28087-1-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Tue, 15 Oct 2019 16:28:41 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 15 Oct 2019 16:28:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,6 +61,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Stefano Stabellini <sstabellini@kernel.org>,
  Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>, xen-devel@lists.xenproject.org,
@@ -71,68 +73,43 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-We are not required anymore to use rtc_init() function.
+The PIIX4 Southbridge is not used by the PC machine,
+but by the Malta board (MIPS). Add a new section to
+keep it covered.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-Message-Id: <20171216090228.28505-5-hpoussin@reactos.org>
-[PMD: rebased, fix OBJECT() value]
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- hw/timer/mc146818rtc.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ MAINTAINERS | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-index 0c04b74c2e..8f7d3a9cdf 100644
---- a/hw/timer/mc146818rtc.c
-+++ b/hw/timer/mc146818rtc.c
-@@ -963,17 +963,16 @@ static void rtc_realizefn(DeviceState *dev, Error *=
-*errp)
-     object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fe4dc51b08..c9f625fc2e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1230,7 +1230,6 @@ F: hw/pci-host/q35.c
+ F: hw/pci-host/pam.c
+ F: include/hw/pci-host/q35.h
+ F: include/hw/pci-host/pam.h
+-F: hw/isa/piix4.c
+ F: hw/isa/lpc_ich9.c
+ F: hw/i2c/smbus_ich9.c
+ F: hw/acpi/piix4.c
+@@ -1716,6 +1715,12 @@ F: hw/display/edid*
+ F: include/hw/display/edid.h
+ F: qemu-edid.c
 =20
-     qdev_init_gpio_out(dev, &s->irq, 1);
-+    QLIST_INSERT_HEAD(&rtc_devices, s, link);
- }
-=20
- ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq interc=
-ept_irq)
- {
-     DeviceState *dev;
-     ISADevice *isadev;
--    RTCState *s;
-=20
-     isadev =3D isa_create(bus, TYPE_MC146818_RTC);
-     dev =3D DEVICE(isadev);
--    s =3D MC146818_RTC(isadev);
-     qdev_prop_set_int32(dev, "base_year", base_year);
-     qdev_init_nofail(dev);
-     if (intercept_irq) {
-@@ -981,9 +980,8 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_ye=
-ar, qemu_irq intercept_irq)
-     } else {
-         isa_connect_gpio_out(isadev, 0, RTC_ISA_IRQ);
-     }
--    QLIST_INSERT_HEAD(&rtc_devices, s, link);
-=20
--    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(s),
-+    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isa=
-dev),
-                               "date", NULL);
-=20
-     return isadev;
-@@ -1015,8 +1013,6 @@ static void rtc_class_initfn(ObjectClass *klass, vo=
-id *data)
-     dc->reset =3D rtc_resetdev;
-     dc->vmsd =3D &vmstate_rtc;
-     dc->props =3D mc146818rtc_properties;
--    /* Reason: needs to be wired up by rtc_init() */
--    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo mc146818rtc_info =3D {
++PIIX4 South Bridge (i82371AB)
++M: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
++M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
++S: Maintained
++F: hw/isa/piix4.c
++
+ Firmware configuration (fw_cfg)
+ M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+ R: Laszlo Ersek <lersek@redhat.com>
 --=20
 2.21.0
 
