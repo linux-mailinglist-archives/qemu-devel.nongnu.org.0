@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FF8D73BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:48:14 +0200 (CEST)
-Received: from localhost ([::1]:40572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D20ED7391
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:43:02 +0200 (CEST)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKKNB-0006rD-4N
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47711)
+	id 1iKKI8-0001sD-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:43:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iKKEZ-0007P9-Rd
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:21 -0400
+ (envelope-from <its@irrelevant.dk>) id 1iKKEX-0007LW-71
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iKKEY-0006Fc-5Y
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:19 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:54724)
+ (envelope-from <its@irrelevant.dk>) id 1iKKEW-0006Ch-6J
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:17 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:54738)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iKKET-00067v-OZ; Tue, 15 Oct 2019 06:39:13 -0400
+ id 1iKKET-00068E-Rc; Tue, 15 Oct 2019 06:39:13 -0400
 Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id D6ED9BF506;
- Tue, 15 Oct 2019 10:39:09 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id CEFC5BF624;
+ Tue, 15 Oct 2019 10:39:10 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 00/20] nvme: support NVMe v1.3d,
- SGLs and multiple namespaces
-Date: Tue, 15 Oct 2019 12:38:40 +0200
-Message-Id: <20191015103900.313928-1-its@irrelevant.dk>
+Subject: [PATCH v2 01/20] nvme: remove superfluous breaks
+Date: Tue, 15 Oct 2019 12:38:41 +0200
+Message-Id: <20191015103900.313928-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191015103900.313928-1-its@irrelevant.dk>
+References: <20191015103900.313928-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -53,85 +54,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+These break statements was left over when commit 3036a626e9ef ("nvme:
+add Get/Set Feature Timestamp support") was merged.
 
-(Quick note to Fam): most of this series is irrelevant to you as the
-maintainer of the nvme block driver, but patch "nvme: add support for
-scatter gather lists" touches block/nvme.c due to changes in the shared
-NvmeCmd struct.
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Anyway, v2 comes with a good bunch of changes. Compared to v1[1], I have
-squashed some commits in the beginning of the series and heavily
-refactored "nvme: support multiple block requests per request" into the
-new commit "nvme: allow multiple aios per command".
-
-I have also removed the original implementation of the Abort command
-(commit "nvme: add support for the abort command") as it is currently
-too tricky to test reliably. It has been replaced by a stub that,
-besides a trivial sanity check, just fails to abort the given command.
-*Some* implementation of the Abort command is mandatory, but given the
-"best effort" nature of the command this is acceptable for now. When the
-device gains support for arbitration it should be less tricky to test.
-
-The support for multiple namespaces is now backwards compatible. The
-nvme device still accepts a 'drive' parameter, but for multiple
-namespaces the use of 'nvme-ns' devices are required. I also integrated
-some feedback from Paul so the device supports non-consecutive namespace
-ids.
-
-I have also added some new commits at the end:
-
-  - "nvme: bump controller pci device id" makes sure the Linux kernel
-    doesn't apply any quirks to the controller that it no longer has.
-  - "nvme: handle dma errors" won't actually do anything before this[2]
-    fix to include/hw/pci/pci.h is merged. With these two patches added,
-    the device reliably passes some additional nasty tests from blktests
-    (block/011 "disable PCI device while doing I/O" and block/019 "break
-    PCI link device while doing I/O"). Before this patch, block/011
-    would pass from time to time if you were lucky, but would at least
-    mess up the controller pretty badly, causing a reset in the best
-    case.
-
-
-  [1]: https://patchwork.kernel.org/project/qemu-devel/list/?series=3D142=
-383
-  [2]: https://patchwork.kernel.org/patch/11184911/
-
-
-Klaus Jensen (20):
-  nvme: remove superfluous breaks
-  nvme: move device parameters to separate struct
-  nvme: add missing fields in the identify controller data structure
-  nvme: populate the mandatory subnqn and ver fields
-  nvme: allow completion queues in the cmb
-  nvme: add support for the abort command
-  nvme: refactor device realization
-  nvme: add support for the get log page command
-  nvme: add support for the asynchronous event request command
-  nvme: add logging to error information log page
-  nvme: add missing mandatory features
-  nvme: bump supported specification version to 1.3
-  nvme: refactor prp mapping
-  nvme: allow multiple aios per command
-  nvme: add support for scatter gather lists
-  nvme: support multiple namespaces
-  nvme: bump controller pci device id
-  nvme: remove redundant NvmeCmd pointer parameter
-  nvme: make lba data size configurable
-  nvme: handle dma errors
-
- block/nvme.c           |   18 +-
- hw/block/Makefile.objs |    2 +-
- hw/block/nvme-ns.c     |  139 +++
- hw/block/nvme-ns.h     |   60 ++
- hw/block/nvme.c        | 1863 +++++++++++++++++++++++++++++++++-------
- hw/block/nvme.h        |  219 ++++-
- hw/block/trace-events  |   37 +-
- include/block/nvme.h   |  132 ++-
- 8 files changed, 2094 insertions(+), 376 deletions(-)
- create mode 100644 hw/block/nvme-ns.c
- create mode 100644 hw/block/nvme-ns.h
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 12d825425016..c06e3ca31905 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -788,7 +788,6 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd=
+ *cmd, NvmeRequest *req)
+         break;
+     case NVME_TIMESTAMP:
+         return nvme_get_feature_timestamp(n, cmd);
+-        break;
+     default:
+         trace_nvme_err_invalid_getfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -832,11 +831,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCm=
+d *cmd, NvmeRequest *req)
+         req->cqe.result =3D
+             cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16=
+));
+         break;
+-
+     case NVME_TIMESTAMP:
+         return nvme_set_feature_timestamp(n, cmd);
+-        break;
+-
+     default:
+         trace_nvme_err_invalid_setfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
 --=20
 2.23.0
 
