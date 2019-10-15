@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55ACAD8313
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:54:09 +0200 (CEST)
-Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B71D8336
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 00:05:15 +0200 (CEST)
+Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKUlc-0008IY-93
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60109)
+	id 1iKUwM-0006kS-71
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 18:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iKUWy-0006de-7x
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:39:01 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iKUvQ-0006EI-IK
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 18:04:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iKUWw-0006wg-Uu
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:39:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54508)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUWw-0006wP-OR
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:58 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 032D2C05FF87;
- Tue, 15 Oct 2019 21:38:58 +0000 (UTC)
-Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9474E1001947;
- Tue, 15 Oct 2019 21:38:57 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-devel@nongnu.org
-Subject: [PULL 17/18] i386: Omit all-zeroes entries from KVM CPUID table
-Date: Tue, 15 Oct 2019 18:37:44 -0300
-Message-Id: <20191015213745.22174-18-ehabkost@redhat.com>
-In-Reply-To: <20191015213745.22174-1-ehabkost@redhat.com>
-References: <20191015213745.22174-1-ehabkost@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iKUvP-00008E-7I
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 18:04:16 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:47010)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iKUvO-00007y-W2
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 18:04:15 -0400
+Received: by mail-pl1-x641.google.com with SMTP id q24so10217234plr.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 15:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WlM9qJ26FVCtq2jMelepxWIYCn2U4CiSRTZw+YpUCb8=;
+ b=e+o7Flo/RQIdkm3zHprASXlgV+xKalpnNuUy66Cg4pWH2jsaB12eTKbyOX1XHcS2RW
+ aglfuAnOOkt2Izir/zLe5YrkGtMeLQd0K6LjUBMnwW2lWDPOwtyOhXStbVpJInUVHubz
+ UzRH8F/z3uL6Ml1nqWUAe5sSYdk8qwr3gY3fSkGCmYFx/LzlTI4KskfJzgWOZ7QxHbx+
+ pyBIrziISb8v/QfN8zTxKdxtNYH563nJkGhDr9N8HAeHV/dCotuNcsQ51vEi6BDkIBvQ
+ 5/e9+arnYRUOGoXS89fvKEqcF0caGde7VzBbMwA2JsP9O1KpBdn4nFW3P59zv1KZg6E3
+ VXdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WlM9qJ26FVCtq2jMelepxWIYCn2U4CiSRTZw+YpUCb8=;
+ b=c0vCG6OmozeukhAgjrdJ4eQOjdwbBLqBXrVz+LGWpHj6/5IBhUH5CRes+b0tYBG77j
+ HuIfBXXs9dhFbfK4lUcPnXmDzZiV4tr9KTeVH21xV34T5o+j/Yc8rL4XUH5le1Xb0W0Z
+ oG4braQ8cO0dLcvDP5lflcB+zct0+nUqUnb9HIFVii5Tb8Me/mY4pTfXSne2kmwFCZeh
+ KDWdwuARHHITl2VjVHoOaS2qgIJJ3USoFfHMR0uqpkzoidD+G3ArMfmqT3mIlmQvVDM5
+ j4z1Q2vNxMa5kiSJnvyf70Xx/YU7M1Ky7IoPUPt3zdXVfU2ei4MseETZifMEizK/oqC6
+ ZmgQ==
+X-Gm-Message-State: APjAAAW5gsS97GRD91e6ekdtq/CDATBDkkOKELO69IvujlpcuEFPB4DV
+ yzFfBjAjEXFy7+kXCXd0uXao8g==
+X-Google-Smtp-Source: APXvYqxC6LVo6IFjID5M2Or1B3+YgMiYotmEW1topciVqqIoIlkKxMgd+YuiU72TbGBuJIy1kLlreA==
+X-Received: by 2002:a17:902:bd47:: with SMTP id
+ b7mr3491572plx.124.1571177053361; 
+ Tue, 15 Oct 2019 15:04:13 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a13sm33727661pfg.10.2019.10.15.15.04.11
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 15 Oct 2019 15:04:12 -0700 (PDT)
+Subject: Re: [PATCH v5 00/22] target/arm: Implement ARMv8.5-MemTag, system mode
+To: Evgenii Stepanov <eugeni.stepanov@gmail.com>
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <CABMLtrhb2n3WbpROs0Qa9hFBObom0Qm60t2nioOyWTtgbpu7HA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <3d53c538-9725-18a8-079f-de490ed586a5@linaro.org>
+Date: Tue, 15 Oct 2019 15:04:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 15 Oct 2019 21:38:58 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <CABMLtrhb2n3WbpROs0Qa9hFBObom0Qm60t2nioOyWTtgbpu7HA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,78 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yumei Huang <yuhuang@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM has a 80-entry limit at KVM_SET_CPUID2.  With the
-introduction of CPUID[0x1F], it is now possible to hit this limit
-with unusual CPU configurations, e.g.:
+On 10/15/19 1:39 PM, Evgenii Stepanov wrote:
+> Hi,
+> 
+> please find attached three random fixes for instruction translation
+> and one for syscall emulation.
 
-  $ ./x86_64-softmmu/qemu-system-x86_64 \
-    -smp 1,dies=3D2,maxcpus=3D2 \
-    -cpu EPYC,check=3Doff,enforce=3Doff \
-    -machine accel=3Dkvm
-  qemu-system-x86_64: kvm_init_vcpu failed: Argument list too long
+Thanks for the patches.
 
-This happens because QEMU adds a lot of all-zeroes CPUID entries
-for unused CPUID leaves.  In the example above, we end up
-creating 48 all-zeroes CPUID entries.
+> @@ -2763,7 +2763,8 @@ static void disas_ldst_pair
+>          return;
+>      }
+>  
+> -    offset <<= size;
+> +    // STGP offset is 16-scaled.
+> +    offset <<= (size + set_tag);
 
-KVM already returns all-zeroes when emulating the CPUID
-instruction if an entry is missing, so the all-zeroes entries are
-redundant.  Skip those entries.  This reduces the CPUID table
-size by half while keeping CPUID output unchanged.
+Right.  I'll fix this with
 
-Reported-by: Yumei Huang <yuhuang@redhat.com>
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1741508
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190822225210.32541-1-ehabkost@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- target/i386/kvm.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+    offset <<= (set_tag ? LOG2_TAG_GRANULE : size);
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 11b9c854b5..8c73438c67 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1567,6 +1567,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             c->function =3D i;
-             c->flags =3D 0;
-             cpu_x86_cpuid(env, i, 0, &c->eax, &c->ebx, &c->ecx, &c->edx)=
-;
-+            if (!c->eax && !c->ebx && !c->ecx && !c->edx) {
-+                /*
-+                 * KVM already returns all zeroes if a CPUID entry is mi=
-ssing,
-+                 * so we can omit it and avoid hitting KVM's 80-entry li=
-mit.
-+                 */
-+                cpuid_i--;
-+            }
-             break;
-         }
-     }
-@@ -1631,6 +1638,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             c->function =3D i;
-             c->flags =3D 0;
-             cpu_x86_cpuid(env, i, 0, &c->eax, &c->ebx, &c->ecx, &c->edx)=
-;
-+            if (!c->eax && !c->ebx && !c->ecx && !c->edx) {
-+                /*
-+                 * KVM already returns all zeroes if a CPUID entry is mi=
-ssing,
-+                 * so we can omit it and avoid hitting KVM's 80-entry li=
-mit.
-+                 */
-+                cpuid_i--;
-+            }
-             break;
-         }
-     }
---=20
-2.21.0
+which I think is a bit clearer.
 
+> @@ -3611,7 +3611,7 @@ static void disas_ldst_tag
+>      int rt = extract32(insn, 0, 5);
+>      int rn = extract32(insn, 5, 5);
+>      uint64_t offset = sextract64(insn, 12, 9) << LOG2_TAG_GRANULE;
+> -    int op2 = extract32(insn, 10, 3);
+> +    int op2 = extract32(insn, 10, 2);
+
+Yep.
+
+> @@ -3679,7 +3679,7 @@ static void disas_ldst_tag(DisasContext *s, uint32_t insn)
+>      }
+>  
+>      dirty_addr = read_cpu_reg_sp(s, rn, true);
+> -    if (index <= 0) {
+> +    if (index >= 0) {
+>          /* pre-index or signed offset */
+>          tcg_gen_addi_i64(dirty_addr, dirty_addr, offset);
+>      }
+> @@ -3726,7 +3726,7 @@ static void disas_ldst_tag(DisasContext *s, uint32_t insn)
+>  
+>      if (index != 0) {
+>          /* pre-index or post-index */
+> -        if (index > 0) {
+> +        if (index < 0) {
+>              /* post-index */
+>              tcg_gen_addi_i64(dirty_addr, dirty_addr, offset);
+>          }
+
+Yep.
+
+Ideally there'd be a kernel patch for MTE that works well enough to run RISU on
+the fast model, and I'd be able to compare results.  I suppose in the meantime
+more unit testing will have to do.
+
+> +++ b/linux-user/qemu.h
+> @@ -456,8 +456,16 @@ extern unsigned long guest_stack_size;
+>  #define VERIFY_READ 0
+>  #define VERIFY_WRITE 1 /* implies read access */
+>  
+> +static inline abi_ulong untagged_addr(abi_ulong addr) {
+> +#if TARGET_ABI_BITS == 64
+> +    addr &= (((abi_ulong)-1) >> 8);
+> +#endif
+> +    return addr;
+> +}
+
+At minimum this needs TARGET_AARCH64, because this kernel feature doesn't apply
+to other targets.  But I'll see if I can do this such that it doesn't put
+target-specific stuff in linux-user/qemu.h.
+
+
+r~
 
