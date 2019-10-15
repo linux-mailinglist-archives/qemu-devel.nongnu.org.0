@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB070D7A1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:44:22 +0200 (CEST)
-Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C60D7A60
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:49:02 +0200 (CEST)
+Received: from localhost ([::1]:49330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOzl-0008GJ-7K
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48492)
+	id 1iKP4G-0005Zi-Jl
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iKOhL-0003Lt-Cr
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKOu9-0002AS-EV
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:38:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iKOhK-0003s5-3Y
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:19 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47191)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iKOhJ-0003cQ-F0; Tue, 15 Oct 2019 11:25:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=WMEj70ZX2RLuhYE9pIQSlcYumVwSBk1BVgAACnG2Mkc=; 
- b=PFdGFuqteWPgavtyy/+6FUhFP8C7+nlkvJGB4E07hWZsLLDW+g+dlBuV1ZB0sP+4aFPYDG7+bQoq4JEFBq5O2ZFhhdFl4vWeCEhicS4ARTfDENo+DE5+hvBIj29voB/3Ap1IjA6l031hDdE+Fok2QCo+Dk0U7hM2R3HGMd6KtQCSPdZQjXYPLDCO8X75er0VPOpLpfXTxQddjlkQ+v0JT11xlZum5cfKc6B+XZU5yNj/ZsOE3N6eJKplPB8257sxEBLQsOi7SsPx0nox4xC68DIuw7lmUVNANhfVemoi9l47EHQMciyYwO3x+R0Bk4FmM5KycZnYOh1N9xZeaMHKSQ==;
-Received: from 82-181-115-92.bb.dnainternet.fi ([82.181.115.92]
- helo=perseus.local) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iKOge-0003aj-5j; Tue, 15 Oct 2019 17:24:36 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1iKOfn-000622-6A; Tue, 15 Oct 2019 18:23:43 +0300
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 22/23] qcow2: Restrict qcow2_co_pwrite_zeroes() to full
- clusters only
-Date: Tue, 15 Oct 2019 18:23:33 +0300
-Message-Id: <a0098a6a28b64c709bd06c02e7603426b6a2992f.1571152571.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1571152571.git.berto@igalia.com>
-References: <cover.1571152571.git.berto@igalia.com>
+ (envelope-from <philmd@redhat.com>) id 1iKOu8-0003TL-4q
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:38:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49038)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKOu7-0003St-Uc
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:38:32 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1579F7FDE5
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 15:38:31 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id 190so8833859wme.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 08:38:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=upOn3asxmol8cSGc3dBEkTNu+0iKxNhIe5Q65bgvlLA=;
+ b=iQ+bgWRyh/GeJUeOS9S0bUhQSHW/Vd/kA3YA1h21y7mbeB5ceXeoofLI8nVCutcX3M
+ nVBRw1xVHP/muyWvGvPLB10ATTSlxPe2zhYTWjQO4aNUPRT62y91Hp2TLOUSiv+x2U3s
+ 3uJFMp4PuAHBWmfwn3E0dX9wKJpZ7cERYzPp5fEYgmfUBeSuz+8hHKEh2ID1B1P8G1pQ
+ ZZIQywSRADlgRzTSEqKpHiksO7S2Ksd+KsZbSaCNe+JIXorQUEM+YAsZXd+ZKSRBule1
+ aYQOLwO2Iv4YnfCChMd10hvwutqAJ9zypDIFP7oHEnNfjgXUsauX+n/Xe/HXcWgL/eRG
+ lESQ==
+X-Gm-Message-State: APjAAAUISAoXEgrxSo++a0WEpnWF6CDXekob/reOovQ4WeKsv/05M9H6
+ B0hhJkHOV4RZaeMuIzsehzI5ifUjF5umJq41GR+xRy3DYvRNE8m3imG/j+Nbo4cUOWjHEwtnn//
+ Cp/KwgRppRuxeWMQ=
+X-Received: by 2002:a1c:c90f:: with SMTP id f15mr20739775wmb.125.1571153909852; 
+ Tue, 15 Oct 2019 08:38:29 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx7LPFkBpcL7wY5sOYl6tOx79Wi+b3+a3QRPSD9zRAU8OiFm3AEcfOEn8uWtf6jllUEUsiVzw==
+X-Received: by 2002:a1c:c90f:: with SMTP id f15mr20739759wmb.125.1571153909663; 
+ Tue, 15 Oct 2019 08:38:29 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id b144sm25445476wmb.3.2019.10.15.08.38.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Oct 2019 08:38:29 -0700 (PDT)
+Subject: Re: [PULL 0/2] Tracing patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20191014085709.26812-1-stefanha@redhat.com>
+ <CAFEAcA_tPs_hfO3GVSf2CsYTFvBH5-RWe+JsR5vfqkh5HjAVNQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f13e94c3-5ebc-3c55-3c3d-d9cef9233514@redhat.com>
+Date: Tue, 15 Oct 2019 17:38:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+In-Reply-To: <CAFEAcA_tPs_hfO3GVSf2CsYTFvBH5-RWe+JsR5vfqkh5HjAVNQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,38 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, "Denis V . Lunev" <den@openvz.org>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally it should be possible to zero individual subclusters using
-this function, but this is currently not implemented.
+On 10/15/19 2:24 PM, Peter Maydell wrote:
+> On Mon, 14 Oct 2019 at 09:57, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>>
+>> The following changes since commit 98b2e3c9ab3abfe476a2b02f8f51813edb90e72d:
+>>
+>>    Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-10-08 16:08:35 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://github.com/stefanha/qemu.git tags/tracing-pull-request
+>>
+>> for you to fetch changes up to a1f4fc951a277c49a25418cafb028ec5529707fa:
+>>
+>>    trace: avoid "is" with a literal Python 3.8 warnings (2019-10-14 09:54:46 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Pull request
+>>
+>> ----------------------------------------------------------------
+>>
+>> Stefan Hajnoczi (2):
+>>    trace: add --group=all to tracing.txt
+>>    trace: avoid "is" with a literal Python 3.8 warnings
+>>
+> 
+> 
+> Applied, thanks.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index c54278ab0b..2eb032aed7 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3544,6 +3544,12 @@ static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
-         bytes = s->cluster_size;
-         nr = s->cluster_size;
-         ret = qcow2_get_cluster_offset(bs, offset, &nr, &off);
-+        /* TODO: allow zeroing separate subclusters, we only allow
-+         * zeroing full clusters at the moment. */
-+        if (nr != bytes) {
-+            qemu_co_mutex_unlock(&s->lock);
-+            return -ENOTSUP;
-+        }
-         if (ret != QCOW2_CLUSTER_UNALLOCATED &&
-             ret != QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER &&
-             ret != QCOW2_CLUSTER_ZERO_PLAIN &&
--- 
-2.20.1
-
+Buh, v2 missed :(
 
