@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1333CD79E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:35:45 +0200 (CEST)
-Received: from localhost ([::1]:48840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE946D79E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:35:51 +0200 (CEST)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOrP-0004yd-OH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48124)
+	id 1iKOrW-0005HF-C3
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:35:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iKOgz-0002l0-56
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:01 -0400
+ (envelope-from <berto@igalia.com>) id 1iKOgz-0002l1-7I
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iKOgw-0003ff-S3
+ (envelope-from <berto@igalia.com>) id 1iKOgw-0003gH-Tj
  for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:24:57 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47112)
+Received: from fanzine.igalia.com ([178.60.130.6]:47108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iKOgw-0003ZI-58; Tue, 15 Oct 2019 11:24:54 -0400
+ id 1iKOgw-0003ZH-54; Tue, 15 Oct 2019 11:24:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=bWkkZk8wHajg+H7Xkl8htXn0YTrSQIy/ZE4ciLqOUSg=; 
- b=VdCNRYCLnd77Es/6UsqYqyJdbj6uypQEycITBnTL4bOuBC4XNiDkmU+3fkm3+Hp9+z3rg2yeORwPouyYppAUg5E8iIjxrlLgcW0NZgVkSLfIzxfh9JBXNliAyJeMVwFmsa/L7V2GuTUK33KUH+/FMgYDXQ5xlR0VOM5y7BQe91wGvCRopdj0v9q/aAa3j56SdiHHLl3kGg//xMxivK2/leNU0s9iCbtJMfrE51z0GoiTmeJxg9oDCkPh7hqe0zz7rXigekamPFPnzHcdDCNqcwk8RUHt3xkEi6tOt6c+c5wvQGQ+dAZKdIJ0TGZBV/MyXfBn/+LL5lWGg4upcUfD/Q==;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=JKZDe4shtXRU+8kUbCZNNXhzpqNAhsbhejqfg2Rzb1c=; 
+ b=YgFiOy3u9KJ3uA3nWPf1sAMBQNTLQwSLEAxc8LmKTjivhwhAKPpIQPeVvsHK5d0pXGvEMecTLI7knrG3fkcfYt4h8NOi7elgXaOsWmU/DMlW/q3QlWDKPPOB1M/sUDPP2mkLwN24+eNF4mXkvgLeTfpu20md2r088U+yko7cXca3sG3uklz4IfZ5KCRBMmnbOaezufIO+mpUGFx3LslCQkljvXmTkQKkzMIlBIdsYhFyjJu/hFtD4OfQq2TXxHkrQsWsCawt1VxdYE1V+ueuGlkHbKRPjznewaZ1mpUWEcDi0VYzP8sb3rJtO25t5nP5O9l5ySthkRRIwnaksUaj5A==;
 Received: from 82-181-115-92.bb.dnainternet.fi ([82.181.115.92]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iKOge-0003aO-0k; Tue, 15 Oct 2019 17:24:36 +0200
+ id 1iKOgd-0003aQ-OM; Tue, 15 Oct 2019 17:24:35 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iKOfm-000613-Ez; Tue, 15 Oct 2019 18:23:42 +0300
+ id 1iKOfm-000619-J7; Tue, 15 Oct 2019 18:23:42 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/23] Add subcluster allocation to qcow2
-Date: Tue, 15 Oct 2019 18:23:11 +0300
-Message-Id: <cover.1571152571.git.berto@igalia.com>
+Subject: [RFC PATCH 03/23] qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in
+ handle_copied()
+Date: Tue, 15 Oct 2019 18:23:14 +0300
+Message-Id: <21379e61f052c9f8c2f4d13eb0c079195f4531d2.1571152571.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1571152571.git.berto@igalia.com>
+References: <cover.1571152571.git.berto@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
@@ -60,275 +63,340 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When writing to a qcow2 file there are two functions that take a
+virtual offset and return a host offset, possibly allocating new
+clusters if necessary:
 
-this series adds a new feature to the qcow2 on-disk format called
-"Extended L2 Entries", which allows us to do subcluster allocation.
+   - handle_copied() looks for normal data clusters that are already
+     allocated and have a reference count of 1. In those clusters we
+     can simply write the data and there is no need to perform any
+     copy-on-write.
 
-This cover letter explains the reasons behind this proposal, the
-changes to the on-disk format, test results and pending work. If you
-are curious you can also have a look at previous discussions about
-this feature:
+   - handle_alloc() looks for clusters that do need copy-on-write,
+     either because they haven't been allocated yet, because their
+     reference count is != 1 or because they are ZERO_ALLOC clusters.
 
-   https://lists.gnu.org/archive/html/qemu-block/2017-04/msg00178.html
-   https://lists.gnu.org/archive/html/qemu-block/2019-06/msg01155.html
+The ZERO_ALLOC case is a bit special because those are clusters that
+are already allocated and they could perfectly be dealt with in
+handle_copied() (as long as copy-on-write is performed when required).
 
-This is the first proper version of the patches, and I believe that
-the implementation is complete. However since I'm proposing a change
-to the on-disk format I'm labeling this as RFC because I'm expecting
-some debate. I'll remove the RFC tag and add more tests in future
-revisions.
+In fact, there is extra code specifically for them in handle_alloc()
+that tries to reuse the existing allocation if possible and frees them
+otherwise.
 
-=== Problem ===
+This patch changes the handling of ZERO_ALLOC clusters so the
+semantics of these two functions are now like this:
 
-A qcow2 image is divided into units of constant size called clusters,
-and among other things it contains metadata that maps guest addresses
-to host addresses (the so-called L1 and L2 tables).
+   - handle_copied() looks for clusters that are already allocated and
+     which we can overwrite (NORMAL and ZERO_ALLOC clusters with a
+     reference count of 1).
 
-There are two basic problems that result from this:
+   - handle_alloc() looks for clusters for which we need a new
+     allocation (all other cases).
 
-1) Reading from or writing to a qcow2 image involves reading the
-   corresponding entry on the L2 table that maps the guest address to
-   the host address. This is very slow because it involves two I/O
-   operations: one on the L2 table and the other one on the actual
-   data cluster.
+One importante difference after this change is that clusters found in
+handle_copied() may now require copy-on-write, but this will be anyway
+necessary once we add support for subclusters.
 
-2) A cluster is the smallest unit of allocation. Therefore writing a
-   mere 512 bytes to an empty disk requires allocating a complete
-   cluster and filling it with zeroes (or with data from the backing
-   image if there is one). This wastes more disk space and also has a
-   negative impact on I/O.
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block/qcow2-cluster.c | 177 +++++++++++++++++++++++-------------------
+ 1 file changed, 96 insertions(+), 81 deletions(-)
 
-Problem (1) can be solved by caching the L2 tables in memory. The
-maximum amount of disk space used by L2 tables depends on the virtual
-disk size and the cluster size:
-
-   max_l2_size = virtual_disk_size * 8 / cluster_size
-
-Because of this, the only way to reduce the size of the L2 tables is
-by increasing the cluster size (which can be any power of two between
-512 bytes and 2 MB). But then we hit problem (2): I/O is slower and
-more disk space is wasted.
-
-=== The proposal ===
-
-The proposal is to extend the qcow2 format by allowing subcluster
-allocation. The on-disk format remains essentially the same, except
-that each data cluster is internally divided into 32 subclusters of
-equal size.
-
-The way it works in practice is with a new optional feature called
-"Extended L2 Entries", that needs to be enabled when an image is
-created. With this, each entry on an L2 table is accompanied by a
-bitmap indicating the allocation state of each one of the subclusters
-for that cluster. The size of an L2 entry doubles from 64 to 128 bits.
-
-Other than L2 entries, all other data structures remain unchanged, but
-for data clusters the smallest unit of allocation is now the
-subcluster. Reference counting is still at the cluster level, because
-there is no way to reference individual subclusters. Copy-on-write on
-internal snapshots needs to copy complete clusters, so that scenario
-would not benefit from this change.
-
-I see two main use cases for this feature:
-
-a) The qcow2 image is not too large / the L2 cache is not a problem,
-   but you want to increase the allocation performance. In this case
-   you can have a 128KB cluster with 4KB subclusters (with 4KB being a
-   common block size in ext4 and other filesystems)
-
-b) The qcow2 image is very large and you want to save metadata space
-   in order to have a smaller L2 cache. In this case you can go for
-   the maximum cluster size (2MB) but you want to have smaller
-   subclusters to increase the allocation performance and optimize the
-   disk usage.
-
-=== Changes to the on-disk format ===
-
-An L2 entry is 64 bits wide, with this format (for uncompressed
-clusters):
-
-63    56 55    48 47    40 39    32 31    24 23    16 15     8 7      0
-00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-**<----> <--------------------------------------------------><------->*
-  Rsrved              host cluster offset of data             Reserved
-  (6 bits)                (47 bits)                           (8 bits)
-
-    bit 63: refcount == 1   (QCOW_OFLAG_COPIED)
-    bit 62: compressed = 1  (QCOW_OFLAG_COMPRESSED)
-    bit  0: all zeros       (QCOW_OFLAG_ZERO)
-
-If Extended L2 Entries are enabled, bit 0 becomes reserved and must be
-unset, and this 64-bit bitmap follows the entry:
-
-63    56 55    48 47    40 39    32 31    24 23    16 15     8 7      0
-00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-<---------------------------------> <--------------------------------->
-     subcluster reads as zeros            subcluster is allocated
-             (32 bits)                           (32 bits)
-
-All this applies to uncompressed clusters. Compressed clusters are not
-divided into subclusters, the cluster descriptor remains exactly the
-same, and the 64-bit bitmap is not used (i.e. all bits are always 0).
-
-=== Test results ===
-
-I made all tests on an SSD drive, writing to an empty qcow2 image with
-a fully populated 40GB backing image, performing random writes using
-fio with a block size of 4KB. I ran the tests with all available
-cluster sizes starting from 4KB.
-
-It's important to point out that once a cluster has been completely
-allocated then having subclusters offers no performance benefit. For
-this reason the size of the image for these tests (40GB) was chosen to
-be large enough to guarantee that there are always new clusters being
-allocated. This is therefore a worst-case scenario (or best-case for
-this feature, if you want).
-
-Subcluster sizes are in brackets:
-
-|-----------------+----------------+-----------------|
-|   Cluster size  | subclusters=on | subclusters=off |
-|-----------------+----------------+-----------------|
-|    4 KB ( N/A ) |            N/A |         95 IOPS |
-|    8 KB ( N/A ) |            N/A |        599 IOPS |
-|   16 KB (512 B) |      4129 IOPS |       3597 IOPS |
-|   32 KB  (1 KB) |     11255 IOPS |       2642 IOPS |
-|   64 KB  (2 KB) |     13341 IOPS |       1671 IOPS |
-|  128 KB  (4 KB) |     12391 IOPS |        870 IOPS |
-|  256 KB  (8 KB) |      9645 IOPS |        566 IOPS |
-|  512 KB (16 KB) |      4960 IOPS |        359 IOPS |
-| 1024 KB (32 KB) |      2732 IOPS |        215 IOPS |
-| 2048 KB (64 KB) |      1630 IOPS |        214 IOPS |
-|-----------------+----------------+-----------------|
-
-Here are the same tests, but without any backing image:
-
-|-----------------+----------------+-----------------|
-|   Cluster size  | subclusters=on | subclusters=off |
-|-----------------+----------------+-----------------|
-|    4 KB ( N/A ) |            N/A |         93 IOPS |
-|    8 KB ( N/A ) |            N/A |        539 IOPS |
-|   16 KB (512 B) |      4174 IOPS |       7598 IOPS |
-|   32 KB  (1 KB) |     11326 IOPS |      11957 IOPS |
-|   64 KB  (2 KB) |     13516 IOPS |      13375 IOPS |
-|  128 KB  (4 KB) |     12435 IOPS |      13274 IOPS |
-|  256 KB  (8 KB) |     12071 IOPS |      14174 IOPS |
-|  512 KB (16 KB) |     12169 IOPS |      14343 IOPS |
-| 1024 KB (32 KB) |     12307 IOPS |      14622 IOPS |
-| 2048 KB (64 KB) |     12784 IOPS |      14574 IOPS |
-|-----------------+----------------+-----------------|
-
-Some comments about the results:
-
-- The smallest allowed cluster size for an image with subclusters is
-  16 KB (in this case the subclusters size is 512 bytes), hence the
-  missing values in the 4 KB and 8 KB rows.
-
-- In images with a backing file: allocation is much faster when
-  subclusters are enabled. As expected, images with a cluster size of
-  64KB perform similar to images with a subcluster size of 64KB. When
-  there is no copy-on-write involved (subcluster size <= 4KB) then the
-  maximum performance is achieved.
-
-- In images without a backing file: Since commit c8bb23cbdb when empty
-  clusters are allocated for the first time they are filled with
-  zeroes using an efficient method (typically fallocate() with
-  FALLOC_FL_ZERO_RANGE). This is so fast that having subclusters here
-  is actually a bit slower in most cases (although it still saves disk
-  space).
-
-- The 16 KB cluster / 512 byte subcluster case is quite slow.
-  I haven't debugged this but I suspect that this is because new
-  clusters need to be allocated all the time, and also L2 and refcount
-  tables are very small and need to grow all the time. The same pattern
-  can be seen in images without subclusters.
-
-=== To do ===
-
-A couple of things are missing from this series:
-
-- The ability to efficiently zero individual subclusters using
-  qcow2_co_pwrite_zeroes(). At the moment only full clusters can be
-  zeroed with this method.
-
-- Alternatively we could get rid of the individual "all zeroes" bits
-  altogether and have 64 subclusters per cluster. We would still have
-  the QCOW_OFLAG_ZERO bit in the standard cluster descriptor.
-
-- The number of subclusters per cluster is always 32. It would be
-  trivial to allow configuring this, but I don't see any use case.
-
-- Tests: I have a few written that I'll add in future revisions of
-  this series.
-
-- handle_alloc_space() works at the subclusters level. That is, if you
-  have an unallocated 2MB cluster with 64KB subclusters, no backing
-  image and you write 4KB of data, QEMU won't write zeroes to the
-  affected subcluster(s) and will use handle_alloc_space() instead.
-  The other subclusters won't be touched and will remain unallocated.
-  This behavior is consistent with how subclusters work and saves disk
-  space, but offers slightly lower performance (see test results
-  above). Theoretically we could offer a setting to configure this,
-  but I'm not convinced that this is very useful.
-
-===========================
-
-As usual, feedback is welcome,
-
-Berto
-
-Alberto Garcia (23):
-  qcow2: Add calculate_l2_meta()
-  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
-  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
-  qcow2: Add get_l2_entry() and set_l2_entry()
-  qcow2: Document the Extended L2 Entries feature
-  qcow2: Add dummy has_subclusters() function
-  qcow2: Add subcluster-related fields to BDRVQcow2State
-  qcow2: Add offset_to_sc_index()
-  qcow2: Add l2_entry_size()
-  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
-  qcow2: Add qcow2_get_subcluster_type()
-  qcow2: Handle QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER
-  qcow2: Add subcluster support to calculate_l2_meta()
-  qcow2: Add subcluster support to qcow2_get_cluster_offset()
-  qcow2: Add subcluster support to zero_in_l2_slice()
-  qcow2: Add subcluster support to discard_in_l2_slice()
-  qcow2: Add subcluster support to check_refcounts_l2()
-  qcow2: Add subcluster support to expand_zero_clusters_in_l1()
-  qcow2: Fix offset calculation in handle_dependencies()
-  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
-  qcow2: Add subcluster support to handle_alloc_space()
-  qcow2: Restrict qcow2_co_pwrite_zeroes() to full clusters only
-  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
-
- block/qcow2-cluster.c            | 547 ++++++++++++++++++++-----------
- block/qcow2-refcount.c           |  38 ++-
- block/qcow2.c                    |  83 ++++-
- block/qcow2.h                    | 121 ++++++-
- docs/interop/qcow2.txt           |  68 +++-
- docs/qcow2-cache.txt             |  19 +-
- include/block/block_int.h        |   1 +
- qapi/block-core.json             |   2 +
- tests/qemu-iotests/031.out       |   8 +-
- tests/qemu-iotests/036.out       |   4 +-
- tests/qemu-iotests/049.out       | 102 +++---
- tests/qemu-iotests/060.out       |   1 +
- tests/qemu-iotests/061.out       |  20 +-
- tests/qemu-iotests/065           |  18 +-
- tests/qemu-iotests/082.out       |  48 ++-
- tests/qemu-iotests/085.out       |  38 +--
- tests/qemu-iotests/144.out       |   4 +-
- tests/qemu-iotests/182.out       |   2 +-
- tests/qemu-iotests/185.out       |   8 +-
- tests/qemu-iotests/198.out       |   2 +
- tests/qemu-iotests/206.out       |   4 +
- tests/qemu-iotests/242.out       |   5 +
- tests/qemu-iotests/255.out       |   8 +-
- tests/qemu-iotests/common.filter |   1 +
- 24 files changed, 817 insertions(+), 335 deletions(-)
-
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index f462e169c0..70b2e32f7e 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1021,7 +1021,8 @@ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
+ 
+ /*
+  * For a given write request, create a new QCowL2Meta structure and
+- * add it to @m.
++ * add it to @m. If the write request does not need copy-on-write or
++ * changes to the L2 metadata then this function does nothing.
+  *
+  * @host_offset points to the beginning of the first cluster.
+  *
+@@ -1034,15 +1035,51 @@ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
+  */
+ static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset,
+                               uint64_t guest_offset, uint64_t bytes,
+-                              QCowL2Meta **m, bool keep_old)
++                              uint64_t *l2_slice, QCowL2Meta **m, bool keep_old)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    unsigned cow_start_from = 0;
++    int l2_index = offset_to_l2_slice_index(s, guest_offset);
++    uint64_t l2_entry;
++    unsigned cow_start_from, cow_end_to;
+     unsigned cow_start_to = offset_into_cluster(s, guest_offset);
+     unsigned cow_end_from = cow_start_to + bytes;
+-    unsigned cow_end_to = ROUND_UP(cow_end_from, s->cluster_size);
+     unsigned nb_clusters = size_to_clusters(s, cow_end_from);
+     QCowL2Meta *old_m = *m;
++    QCow2ClusterType type;
++
++    /* Return if there's no COW (all clusters are normal and we keep them) */
++    if (keep_old) {
++        int i;
++        for (i = 0; i < nb_clusters; i++) {
++            l2_entry = be64_to_cpu(l2_slice[l2_index + i]);
++            if (qcow2_get_cluster_type(bs, l2_entry) != QCOW2_CLUSTER_NORMAL) {
++                break;
++            }
++        }
++        if (i == nb_clusters) {
++            return;
++        }
++    }
++
++    /* Get the L2 entry from the first cluster */
++    l2_entry = be64_to_cpu(l2_slice[l2_index]);
++    type = qcow2_get_cluster_type(bs, l2_entry);
++
++    if (type == QCOW2_CLUSTER_NORMAL && keep_old) {
++        cow_start_from = cow_start_to;
++    } else {
++        cow_start_from = 0;
++    }
++
++    /* Get the L2 entry from the last cluster */
++    l2_entry = be64_to_cpu(l2_slice[l2_index + nb_clusters - 1]);
++    type = qcow2_get_cluster_type(bs, l2_entry);
++
++    if (type == QCOW2_CLUSTER_NORMAL && keep_old) {
++        cow_end_to = cow_end_from;
++    } else {
++        cow_end_to = ROUND_UP(cow_end_from, s->cluster_size);
++    }
+ 
+     *m = g_malloc0(sizeof(**m));
+     **m = (QCowL2Meta) {
+@@ -1068,18 +1105,18 @@ static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset,
+     QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
+ }
+ 
+-/* Returns true if writing to a cluster requires COW */
++/* Returns true if the cluster is unallocated or has refcount > 1 */
+ static bool cluster_needs_cow(BlockDriverState *bs, uint64_t l2_entry)
+ {
+     switch (qcow2_get_cluster_type(bs, l2_entry)) {
+     case QCOW2_CLUSTER_NORMAL:
++    case QCOW2_CLUSTER_ZERO_ALLOC:
+         if (l2_entry & QCOW_OFLAG_COPIED) {
+             return false;
+         }
+     case QCOW2_CLUSTER_UNALLOCATED:
+     case QCOW2_CLUSTER_COMPRESSED:
+     case QCOW2_CLUSTER_ZERO_PLAIN:
+-    case QCOW2_CLUSTER_ZERO_ALLOC:
+         return true;
+     default:
+         abort();
+@@ -1087,20 +1124,34 @@ static bool cluster_needs_cow(BlockDriverState *bs, uint64_t l2_entry)
+ }
+ 
+ /*
+- * Returns the number of contiguous clusters that can be used for an allocating
+- * write, but require COW to be performed (this includes yet unallocated space,
+- * which must copy from the backing file)
++ * Returns the number of contiguous clusters that can be written to
++ * using one single write request, starting from @l2_index.
++ * At most @nb_clusters are checked.
++ *
++ * If @want_cow is true this counts clusters that are either
++ * unallocated, or allocated but with refcount > 1.
++ *
++ * If @want_cow is false this counts clusters that are already
++ * allocated and can be written to using their current locations
++ * (including QCOW2_CLUSTER_ZERO_ALLOC).
+  */
+ static int count_cow_clusters(BlockDriverState *bs, int nb_clusters,
+-    uint64_t *l2_slice, int l2_index)
++                              uint64_t *l2_slice, int l2_index, bool want_cow)
+ {
++    BDRVQcow2State *s = bs->opaque;
++    uint64_t l2_entry = be64_to_cpu(l2_slice[l2_index]);
++    uint64_t expected_offset = l2_entry & L2E_OFFSET_MASK;
+     int i;
+ 
+     for (i = 0; i < nb_clusters; i++) {
+-        uint64_t l2_entry = be64_to_cpu(l2_slice[l2_index + i]);
+-        if (!cluster_needs_cow(bs, l2_entry)) {
++        l2_entry = be64_to_cpu(l2_slice[l2_index + i]);
++        if (cluster_needs_cow(bs, l2_entry) != want_cow) {
+             break;
+         }
++        if (!want_cow && expected_offset != (l2_entry & L2E_OFFSET_MASK)) {
++            break;
++        }
++        expected_offset += s->cluster_size;
+     }
+ 
+     assert(i <= nb_clusters);
+@@ -1228,18 +1279,17 @@ static int handle_copied(BlockDriverState *bs, uint64_t guest_offset,
+ 
+     cluster_offset = be64_to_cpu(l2_slice[l2_index]);
+ 
+-    /* Check how many clusters are already allocated and don't need COW */
+-    if (qcow2_get_cluster_type(bs, cluster_offset) == QCOW2_CLUSTER_NORMAL
+-        && (cluster_offset & QCOW_OFLAG_COPIED))
+-    {
++    if (!cluster_needs_cow(bs, cluster_offset)) {
+         /* If a specific host_offset is required, check it */
+         bool offset_matches =
+             (cluster_offset & L2E_OFFSET_MASK) == *host_offset;
+ 
+         if (offset_into_cluster(s, cluster_offset & L2E_OFFSET_MASK)) {
+-            qcow2_signal_corruption(bs, true, -1, -1, "Data cluster offset "
++            qcow2_signal_corruption(bs, true, -1, -1, "%s cluster offset "
+                                     "%#llx unaligned (guest offset: %#" PRIx64
+-                                    ")", cluster_offset & L2E_OFFSET_MASK,
++                                    ")", cluster_offset & QCOW_OFLAG_ZERO ?
++                                    "Preallocated zero" : "Data",
++                                    cluster_offset & L2E_OFFSET_MASK,
+                                     guest_offset);
+             ret = -EIO;
+             goto out;
+@@ -1252,15 +1302,17 @@ static int handle_copied(BlockDriverState *bs, uint64_t guest_offset,
+         }
+ 
+         /* We keep all QCOW_OFLAG_COPIED clusters */
+-        keep_clusters =
+-            count_contiguous_clusters(bs, nb_clusters, s->cluster_size,
+-                                      &l2_slice[l2_index],
+-                                      QCOW_OFLAG_COPIED | QCOW_OFLAG_ZERO);
++        keep_clusters = count_cow_clusters(bs, nb_clusters, l2_slice,
++                                           l2_index, false);
+         assert(keep_clusters <= nb_clusters);
+ 
+         *bytes = MIN(*bytes,
+                  keep_clusters * s->cluster_size
+                  - offset_into_cluster(s, guest_offset));
++        assert(*bytes != 0);
++
++        calculate_l2_meta(bs, cluster_offset & L2E_OFFSET_MASK, guest_offset,
++                          *bytes, l2_slice, m, true);
+ 
+         ret = 1;
+     } else {
+@@ -1361,12 +1413,10 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
+     BDRVQcow2State *s = bs->opaque;
+     int l2_index;
+     uint64_t *l2_slice;
+-    uint64_t entry;
+     uint64_t nb_clusters;
+     int ret;
+-    bool keep_old_clusters = false;
+ 
+-    uint64_t alloc_cluster_offset = INV_OFFSET;
++    uint64_t alloc_cluster_offset;
+ 
+     trace_qcow2_handle_alloc(qemu_coroutine_self(), guest_offset, *host_offset,
+                              *bytes);
+@@ -1389,67 +1439,31 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
+         return ret;
+     }
+ 
+-    entry = be64_to_cpu(l2_slice[l2_index]);
+-    nb_clusters = count_cow_clusters(bs, nb_clusters, l2_slice, l2_index);
++    nb_clusters = count_cow_clusters(bs, nb_clusters, l2_slice, l2_index, true);
+ 
+     /* This function is only called when there were no non-COW clusters, so if
+      * we can't find any unallocated or COW clusters either, something is
+      * wrong with our code. */
+     assert(nb_clusters > 0);
+ 
+-    if (qcow2_get_cluster_type(bs, entry) == QCOW2_CLUSTER_ZERO_ALLOC &&
+-        (entry & QCOW_OFLAG_COPIED) &&
+-        (*host_offset == INV_OFFSET ||
+-         start_of_cluster(s, *host_offset) == (entry & L2E_OFFSET_MASK)))
+-    {
+-        int preallocated_nb_clusters;
+-
+-        if (offset_into_cluster(s, entry & L2E_OFFSET_MASK)) {
+-            qcow2_signal_corruption(bs, true, -1, -1, "Preallocated zero "
+-                                    "cluster offset %#llx unaligned (guest "
+-                                    "offset: %#" PRIx64 ")",
+-                                    entry & L2E_OFFSET_MASK, guest_offset);
+-            ret = -EIO;
+-            goto fail;
+-        }
+-
+-        /* Try to reuse preallocated zero clusters; contiguous normal clusters
+-         * would be fine, too, but count_cow_clusters() above has limited
+-         * nb_clusters already to a range of COW clusters */
+-        preallocated_nb_clusters =
+-            count_contiguous_clusters(bs, nb_clusters, s->cluster_size,
+-                                      &l2_slice[l2_index], QCOW_OFLAG_COPIED);
+-        assert(preallocated_nb_clusters > 0);
+-
+-        nb_clusters = preallocated_nb_clusters;
+-        alloc_cluster_offset = entry & L2E_OFFSET_MASK;
+-
+-        /* We want to reuse these clusters, so qcow2_alloc_cluster_link_l2()
+-         * should not free them. */
+-        keep_old_clusters = true;
++    /* Allocate, if necessary at a given offset in the image file */
++    alloc_cluster_offset = *host_offset == INV_OFFSET ? INV_OFFSET :
++        start_of_cluster(s, *host_offset);
++    ret = do_alloc_cluster_offset(bs, guest_offset, &alloc_cluster_offset,
++                                  &nb_clusters);
++    if (ret < 0) {
++        goto out;
+     }
+ 
+-    qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+-
+-    if (alloc_cluster_offset == INV_OFFSET) {
+-        /* Allocate, if necessary at a given offset in the image file */
+-        alloc_cluster_offset = *host_offset == INV_OFFSET ? INV_OFFSET :
+-                               start_of_cluster(s, *host_offset);
+-        ret = do_alloc_cluster_offset(bs, guest_offset, &alloc_cluster_offset,
+-                                      &nb_clusters);
+-        if (ret < 0) {
+-            goto fail;
+-        }
+-
+-        /* Can't extend contiguous allocation */
+-        if (nb_clusters == 0) {
+-            *bytes = 0;
+-            return 0;
+-        }
+-
+-        assert(alloc_cluster_offset != INV_OFFSET);
++    /* Can't extend contiguous allocation */
++    if (nb_clusters == 0) {
++        *bytes = 0;
++        ret = 0;
++        goto out;
+     }
+ 
++    assert(alloc_cluster_offset != INV_OFFSET);
++
+     /*
+      * Save info needed for meta data update.
+      *
+@@ -1472,13 +1486,14 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
+     *bytes = MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offset));
+     assert(*bytes != 0);
+ 
+-    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes,
+-                      m, keep_old_clusters);
++    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes, l2_slice,
++                      m, false);
+ 
+-    return 1;
++    ret = 1;
+ 
+-fail:
+-    if (*m && (*m)->nb_clusters > 0) {
++out:
++    qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
++    if (ret < 0 && *m && (*m)->nb_clusters > 0) {
+         QLIST_REMOVE(*m, next_in_flight);
+     }
+     return ret;
 -- 
 2.20.1
 
