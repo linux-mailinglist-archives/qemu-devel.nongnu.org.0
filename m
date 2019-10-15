@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E858DD7E25
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:53:17 +0200 (CEST)
-Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656C7D7E36
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:55:49 +0200 (CEST)
+Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKR0W-0005tr-G3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54583)
+	id 1iKR2y-00083e-E9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iKQyy-0004vv-4N
+ (envelope-from <richard.henderson@linaro.org>) id 1iKQyy-0004wl-JM
  for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iKQyw-0003Pe-ME
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:39 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41319)
+ (envelope-from <richard.henderson@linaro.org>) id 1iKQyw-0003PV-Gj
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:40 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:35828)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iKQyv-0003Ou-Fz
+ id 1iKQyw-0003PH-AH
  for qemu-devel@nongnu.org; Tue, 15 Oct 2019 13:51:38 -0400
-Received: by mail-pg1-x542.google.com with SMTP id t3so12578660pga.8
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 10:51:37 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id p30so12592805pgl.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 10:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jZm1ZsAusgM2frHCYlMIA66EoSELmv6PfGCmmnUJUY4=;
- b=Hl0JVyqVkc6ajKwv/1OGmE4kOLFwr3pDupUnQexyyvSYES47UBhRF7uYQAym0nfjLh
- 2/VURwYTkcqHuiDp/lZH9LVhEFfTt1wAGa8FY78a9Tm6UuggoiEJy9bpYEOhEU5cVoQm
- DjRHXWvGJ7rHMt7MGgyhEzGygh0DPdNWQY46tcF3lXhJSJWCtw0EXPzuOA8sJOY2nGCb
- 6o8gjBRB5mu0Oy/2BlFL3wKpRG49sWf4VIESswByTh7nFye3gxrZwuFMxzK+D8SRppmH
- DaHqV1jB+8CrHzLwNQu4flbn+ZJWlsAxbaXGNSvgj+gPP5pJ2jKcj5BIdYP/hKNQdJi3
- QxJw==
+ bh=1C7c6L0AKcXy94kRypeBSB6XHbsCm+dRfwVNJ4dwo8Q=;
+ b=Gj+Y+3dAOGc9dHpOy9mhXsLqGcNMj5MIDrIoxzeR1GgxkfrjmeMlA0X897dskiv2ee
+ xrLxCmYtK2YwsYESQjAre+jDnLqp8k9nJ9N0t1qLZ7ak6StWqaXcGlyfGZoeNRtt7U2m
+ 7gJqa9ScHJxsD4KNYTobWED2saHsYVwogmfgEDKZiean4+RfEK1h6Y8ulDC2o9SZfskQ
+ FJJRHMP2lNlcH+jT1vkdCpTSE++ZQU+BCvGztqyJAR5NrtPZUunXgFEv2oTXQZDj3JP0
+ GlSLSFNk1pSq1vVQ/C6enhK8e2o1HzjbL0wu4KCgzAHttRhONvy1de0NhlI0JyzBrx19
+ pqVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jZm1ZsAusgM2frHCYlMIA66EoSELmv6PfGCmmnUJUY4=;
- b=RPzL0e0KmxH5MWKgspIGK3POxal9iMpXY792NNEtzugdxprzcN0LbAMR12st99B6Ni
- wfGzC0X8eDx95l1HABuEgtLRzhQZgKP0mDin+1gFXUNfzef38zrruEL7rmmxJw7yy0hU
- PunDTKNRDePhrLa1eIKTNCuDFwp4yhwxqisNjjOvWWo/adgVjLbAoOVF/GkZdjBF1aHr
- Yv7oYnbC5gad8SPJjCVgyj9Zz/j+5BgxSvogZXnZ0pzX5y7UrssoRXAjheX4+LPgtNDe
- s2DsNF48v6CMoNAsgaMWctnLmXt+9UPxiEwoKWhWB+oGKGeBttJC7waFJIUESmstxAcY
- lzsg==
-X-Gm-Message-State: APjAAAURm4TsIlueoX5oyKKW9ZUVqU8MBCz/frB3EboQgbM993jkbwl9
- VWYfwirUpmIU9SlT3q7x8C2igraANgw=
-X-Google-Smtp-Source: APXvYqy8cCizepWlMlihNZa5puEwoxPZev0oAp2iG2XCj3yvRbUbiGtPkkTctT+ZZajArkrDV7oyRg==
-X-Received: by 2002:a17:90a:868c:: with SMTP id
- p12mr45056672pjn.45.1571161895632; 
- Tue, 15 Oct 2019 10:51:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1C7c6L0AKcXy94kRypeBSB6XHbsCm+dRfwVNJ4dwo8Q=;
+ b=DFUgDkqZBcW1wPjadyMvc70ai6yHDTRMDUGIZClSmIU3yTHacTzyxefxBKtgCsJhSi
+ fcRmfT3/04SRUXBP8Lb+fUsMXN8naVF89lNizYaNBGscINx5QCj52GbYKKfQpGtjJPXk
+ WVJVvLI/GBgKeaOepOXhesKRCQ6fLKmCgai1xWS7d1ZPOZqgoniD0WQnA4+/E3ptMABu
+ 3NAgatttBDEB6Q//Nv5shvRRecl7Z4caasOuunMhxAs5mEWzYhgoTkCZfhMLrlBGoZ+F
+ CJYz+3qDPmvgdrdW11ntuvfRpS5jy1e3IzJ8TArH0Pl6+PWQ1LDiecXfguSiHqxghGuy
+ cD/Q==
+X-Gm-Message-State: APjAAAWRiVixb/fRhjoawhQzrDoXUPJR2Xmirao1PIR2qFo16tvEeBGJ
+ 1dRP1TQvxmbVIUZ7gwABhcWEpYxjChA=
+X-Google-Smtp-Source: APXvYqyB5BcjRmEAYh3iTjSbd2gDoDSUPazl7j1nWIqB6FKk719+Nm2N3+cm6jegnpbHhfkJJ9VEww==
+X-Received: by 2002:a17:90a:1b45:: with SMTP id
+ q63mr43578475pjq.106.1571161896902; 
+ Tue, 15 Oct 2019 10:51:36 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t68sm20867845pgt.61.2019.10.15.10.51.34
+ by smtp.gmail.com with ESMTPSA id t68sm20867845pgt.61.2019.10.15.10.51.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 10:51:34 -0700 (PDT)
+ Tue, 15 Oct 2019 10:51:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/3] Update capstone module
-Date: Tue, 15 Oct 2019 10:51:30 -0700
-Message-Id: <20191015175133.16598-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 1/3] capstone: Update to master
+Date: Tue, 15 Oct 2019 10:51:31 -0700
+Message-Id: <20191015175133.16598-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191015175133.16598-1-richard.henderson@linaro.org>
+References: <20191015175133.16598-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,34 +84,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tested vs centos7, fedora30, and bionic (with and without
-system capstone installed).
+Update to 418d36d695e0.  Choose this over the 4.0.1 tag because
+master now includes the s390x z13 vector opcodes.
 
-Changes for v3:
-  * Work around the various include directory nonsense.
-  * Re-add the s390 skipdata callback, as a separate patch.
+Acked-by: David Hildenbrand <david@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ Makefile  | 1 +
+ capstone  | 2 +-
+ configure | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-Changes for v2:
-  * Drop the installed directory change.  This does force a
-    different include change when building from git.
-  * Drop the s390 skipdata callback for now.
-
-
-r~
-
-
-Richard Henderson (3):
-  capstone: Update to master
-  capstone: Enable disassembly for s390x
-  capstone: Fix s390x skipdata
-
- Makefile           |  2 ++
- disas.c            | 40 ++++++++++++++++++++++++++++++++++++++++
- target/s390x/cpu.c |  4 ++++
- capstone           |  2 +-
- configure          |  2 +-
- 5 files changed, 48 insertions(+), 2 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index 30f0abfb42..8ce48e0342 100644
+--- a/Makefile
++++ b/Makefile
+@@ -498,6 +498,7 @@ dtc/%: .git-submodule-status
+ # Remove all the extra -Warning flags that QEMU uses that Capstone doesn't;
+ # no need to annoy QEMU developers with such things.
+ CAP_CFLAGS = $(patsubst -W%,,$(CFLAGS) $(QEMU_CFLAGS))
++CAP_CFLAGS += -I$(SRC_PATH)/capstone/include
+ CAP_CFLAGS += -DCAPSTONE_USE_SYS_DYN_MEM
+ CAP_CFLAGS += -DCAPSTONE_HAS_ARM
+ CAP_CFLAGS += -DCAPSTONE_HAS_ARM64
+diff --git a/capstone b/capstone
+index 22ead3e0bf..418d36d695 160000
+--- a/capstone
++++ b/capstone
+@@ -1 +1 @@
+-Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
++Subproject commit 418d36d695e075955674ace5a1191b495da50f84
+diff --git a/configure b/configure
+index 08ca4bcb46..f4f1860065 100755
+--- a/configure
++++ b/configure
+@@ -5008,7 +5008,7 @@ case "$capstone" in
+       git_submodules="${git_submodules} capstone"
+     fi
+     mkdir -p capstone
+-    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
++    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include/capstone"
+     if test "$mingw32" = "yes"; then
+       LIBCAPSTONE=capstone.lib
+     else
 -- 
 2.17.1
 
