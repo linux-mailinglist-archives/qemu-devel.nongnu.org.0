@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A4CD7972
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:11:08 +0200 (CEST)
-Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202C5D79BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:27:34 +0200 (CEST)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOTb-0000Pg-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44462)
+	id 1iKOjT-00057s-Vp
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKORA-0006yY-Qf
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:08:37 -0400
+ (envelope-from <berto@igalia.com>) id 1iKOgy-0002ku-7a
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:24:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKOR7-0005xs-ET
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:08:35 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42679)
+ (envelope-from <berto@igalia.com>) id 1iKOgw-0003fX-R2
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:24:56 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:47099)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKOR7-0005xe-7n
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:08:33 -0400
-Received: by mail-ot1-x344.google.com with SMTP id c10so17222417otd.9
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 08:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MzYo/CIcGV3aU6Kf1OQCSICiwmWdTBweMCA+KcylprU=;
- b=NYclxQmTl1IyDoZqqXfMdmVihjwEkpPVJw+gY/ha8app0F850AxAqAFEFB2Q0HkAoT
- 4xdsNeoHL8NToAr3OUHXENRbXmvmuTKozC1dRXHLI3galc1LeXmavfHM6YqUoXqj1VGy
- F08vnxs2vfLOzJQuea82ynGOCSJfrK0OXQ8Ywd0omOSy0kie6f2lvE20hFC0WuRR7wyI
- 1bghDEh2897zChqA5MH81TvbFsa2eW6bvJJt83MUS3ebjYx1HOg3ShOkvqOLEPo2YNrl
- CDgNlh01JXX5CnwgHG0OL6ngGEL/sco+pfH4xvAB7DdzOXfG+2i/myJD/wKTDgV0d88C
- YH/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MzYo/CIcGV3aU6Kf1OQCSICiwmWdTBweMCA+KcylprU=;
- b=DYE1DSwSS9n6GNTez0ZPwimEnfKY0VaahxXIviHMQdB8OMxbCtrrf8sE9f+JU+icLm
- JSbOKr6euUQJ6U31wv2CIWPKfSLvQtWIw91zE+dOOGbUL3yLknai4lnN1zBlwjXDDWnT
- 88he1jz4NWiGIRK6LmAIZkkkfc21TbhY/I6WxmKjLUnHMDNH4vEFm3ixQ6WOGnEcSGpA
- ZuGxUag96yFOuXF00CNv1CwF2SJYz5zJBvUIRjRTJ8xFyfJFzs4a82u8Sm/4iZaFc0sA
- 5Ff15aFnfi0oNiHWYAF4i0RZpLjLG+BHm6aijs/Qbl7Jl7bRyCFIT6u29AYDg2RUwfnH
- CaIg==
-X-Gm-Message-State: APjAAAU46s1UBOhPwoV4VYz838J+tqr+UB5R0sjuluXp/vY5SFvKhdLe
- 9A2pFQFOl0gcOOncL4sHL7jLUz91oM/3/mvljdndKQ==
-X-Google-Smtp-Source: APXvYqwMw8LqqyVcS5Jthlks2YJacOieatWyOomMlayWCEnto6yDAIpFp6+NmpvSMUs8yHlDHhYG8Cxp/2/m2OnKFto=
-X-Received: by 2002:a05:6830:ca:: with SMTP id
- x10mr2434112oto.221.1571152112080; 
- Tue, 15 Oct 2019 08:08:32 -0700 (PDT)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1iKOgw-0003Z7-Ct; Tue, 15 Oct 2019 11:24:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=8hTqzhXCwSm+pnn+u/HHCmoHotoRRBHUylfmlt5TL7Y=; 
+ b=B0OEIY5DHZpNmhFoZ8Q68Z5+5FnefWRcaPktAFNDPOFJE+7CH4n6pdL42MJactzJgZn0q8mfR1Kabe8/fJBDEpdCYOW62yJCybHVIkKVh0Ev+JNdymVn4ZZ6VUiaQ+dt1bTpZp/c48ZuyizfDh+0BtF+hx3yk9utQjsWbRmPTxTbTf2/L0nyUvAN0sQH+IUmMvoHLTVdTbHta5H0ouZ5+WE9NvX2BOGq08NxuvR40DlmcJ1SfNs2jPo7D5gDQDtnuzJFrB1zhSb/TDncKyBtr1Is6YeuDI0MaBR5YyZiwrcIfluo60SyJRETTj2rfWKnUHRtTixxBrLOOe+8bR/1fQ==;
+Received: from 82-181-115-92.bb.dnainternet.fi ([82.181.115.92]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1iKOgd-0003aN-W9; Tue, 15 Oct 2019 17:24:36 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1iKOfm-000615-GQ; Tue, 15 Oct 2019 18:23:42 +0300
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 01/23] qcow2: Add calculate_l2_meta()
+Date: Tue, 15 Oct 2019 18:23:12 +0300
+Message-Id: <9a83358cfa0bf36b6fd7d6bb207511edee0260bc.1571152571.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1571152571.git.berto@igalia.com>
+References: <cover.1571152571.git.berto@igalia.com>
 MIME-Version: 1.0
-References: <20191015140140.34748-1-zhengxiang9@huawei.com>
- <20191015140140.34748-3-zhengxiang9@huawei.com>
-In-Reply-To: <20191015140140.34748-3-zhengxiang9@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 16:08:20 +0100
-Message-ID: <CAFEAcA85gZUXnL+Qy=Wdg-MVbb1PqiKWCi72XvRnX8pZsgVr_A@mail.gmail.com>
-Subject: Re: [PATCH v19 2/5] docs: APEI GHES generation and CPER record
- description
-To: Xiang Zheng <zhengxiang9@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,102 +56,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Marcelo Tosatti <mtosatti@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>, gengdongjiu <gengdongjiu@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 at 15:02, Xiang Zheng <zhengxiang9@huawei.com> wrote:
->
-> From: Dongjiu Geng <gengdongjiu@huawei.com>
->
-> Add APEI/GHES detailed design document
->
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> ---
->  docs/specs/acpi_hest_ghes.rst | 94 +++++++++++++++++++++++++++++++++++++++++++
->  docs/specs/index.rst          |  1 +
->  2 files changed, 95 insertions(+)
->  create mode 100644 docs/specs/acpi_hest_ghes.rst
->
-> diff --git a/docs/specs/acpi_hest_ghes.rst b/docs/specs/acpi_hest_ghes.rst
-> new file mode 100644
-> index 0000000..905b6d1
-> --- /dev/null
-> +++ b/docs/specs/acpi_hest_ghes.rst
-> @@ -0,0 +1,94 @@
-> +APEI tables generating and CPER record
-> +======================================
-> +
-> +Copyright (c) 2019 HUAWEI TECHNOLOGIES CO., LTD.
-> +
-> +This work is licensed under the terms of the GNU GPL, version 2 or later.
-> +See the COPYING file in the top-level directory.
+handle_alloc() creates a QCowL2Meta structure in order to update the
+image metadata and perform the necessary copy-on-write operations.
 
-This puts the copyright/license statement into the HTML rendered
-docs seen by the user. We generally put them into an RST comment,
-so they're in the source .rst but not the rendered views, like this:
+This patch moves that code to a separate function so it can be used
+from other places.
 
-diff --git a/docs/specs/acpi_hest_ghes.rst b/docs/specs/acpi_hest_ghes.rst
-index 5b43e4b0da2..348825f9d3e 100644
---- a/docs/specs/acpi_hest_ghes.rst
-+++ b/docs/specs/acpi_hest_ghes.rst
-@@ -1,10 +1,11 @@
- APEI tables generating and CPER record
- ======================================
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block/qcow2-cluster.c | 76 +++++++++++++++++++++++++++++--------------
+ 1 file changed, 52 insertions(+), 24 deletions(-)
 
--Copyright (c) 2019 HUAWEI TECHNOLOGIES CO., LTD.
-+..
-+   Copyright (c) 2019 HUAWEI TECHNOLOGIES CO., LTD.
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 8d5fa1539c..fe2523ed66 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1019,6 +1019,55 @@ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
+                         QCOW2_DISCARD_NEVER);
+ }
+ 
++/*
++ * For a given write request, create a new QCowL2Meta structure and
++ * add it to @m.
++ *
++ * @host_offset points to the beginning of the first cluster.
++ *
++ * @guest_offset and @bytes indicate the offset and length of the
++ * request.
++ *
++ * If @keep_old is true it means that the clusters were already
++ * allocated and will be overwritten. If false then the clusters are
++ * new and we have to decrease the reference count of the old ones.
++ */
++static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offset,
++                              uint64_t guest_offset, uint64_t bytes,
++                              QCowL2Meta **m, bool keep_old)
++{
++    BDRVQcow2State *s = bs->opaque;
++    unsigned cow_start_from = 0;
++    unsigned cow_start_to = offset_into_cluster(s, guest_offset);
++    unsigned cow_end_from = cow_start_to + bytes;
++    unsigned cow_end_to = ROUND_UP(cow_end_from, s->cluster_size);
++    unsigned nb_clusters = size_to_clusters(s, cow_end_from);
++    QCowL2Meta *old_m = *m;
++
++    *m = g_malloc0(sizeof(**m));
++    **m = (QCowL2Meta) {
++        .next           = old_m,
++
++        .alloc_offset   = host_offset,
++        .offset         = start_of_cluster(s, guest_offset),
++        .nb_clusters    = nb_clusters,
++
++        .keep_old_clusters = keep_old,
++
++        .cow_start = {
++            .offset     = cow_start_from,
++            .nb_bytes   = cow_start_to - cow_start_from,
++        },
++        .cow_end = {
++            .offset     = cow_end_from,
++            .nb_bytes   = cow_end_to - cow_end_from,
++        },
++    };
++
++    qemu_co_queue_init(&(*m)->dependent_requests);
++    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
++}
++
+ /*
+  * Returns the number of contiguous clusters that can be used for an allocating
+  * write, but require COW to be performed (this includes yet unallocated space,
+@@ -1414,35 +1463,14 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
+     uint64_t requested_bytes = *bytes + offset_into_cluster(s, guest_offset);
+     int avail_bytes = MIN(INT_MAX, nb_clusters << s->cluster_bits);
+     int nb_bytes = MIN(requested_bytes, avail_bytes);
+-    QCowL2Meta *old_m = *m;
+-
+-    *m = g_malloc0(sizeof(**m));
+-
+-    **m = (QCowL2Meta) {
+-        .next           = old_m,
+-
+-        .alloc_offset   = alloc_cluster_offset,
+-        .offset         = start_of_cluster(s, guest_offset),
+-        .nb_clusters    = nb_clusters,
+-
+-        .keep_old_clusters  = keep_old_clusters,
+-
+-        .cow_start = {
+-            .offset     = 0,
+-            .nb_bytes   = offset_into_cluster(s, guest_offset),
+-        },
+-        .cow_end = {
+-            .offset     = nb_bytes,
+-            .nb_bytes   = avail_bytes - nb_bytes,
+-        },
+-    };
+-    qemu_co_queue_init(&(*m)->dependent_requests);
+-    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
+ 
+     *host_offset = alloc_cluster_offset + offset_into_cluster(s, guest_offset);
+     *bytes = MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offset));
+     assert(*bytes != 0);
+ 
++    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes,
++                      m, keep_old_clusters);
++
+     return 1;
+ 
+ fail:
+-- 
+2.20.1
 
--This work is licensed under the terms of the GNU GPL, version 2 or later.
--See the COPYING file in the top-level directory.
-+   This work is licensed under the terms of the GNU GPL, version 2 or later.
-+   See the COPYING file in the top-level directory.
-
-
-> +(9) When QEMU gets a SIGBUS from the kernel, QEMU formats the CPER right into
-> +    guest memory, and then injects platform specific interrupt (in case of
-> +    arm/virt machine it's Synchronous External Abort) as a notification which
-> +    is necessary for notifying the guest.
-> +
-> +(10) This notification (in virtual hardware) will be handled by the guest
-> +    kernel, guest APEI driver will read the CPER which is recorded by QEMU and
-> +    do the recovery.
-
-Sphinx thinks the indentation here is not syntactically valid:
-
-  SPHINX  docs/specs
-
-Warning, treated as error:
-/home/petmay01/linaro/qemu-from-laptop/qemu/docs/specs/acpi_hest_ghes.rst:93:Enumerated
-list ends without a blank line; unexpected unindent.
-Makefile:997: recipe for target 'docs/specs/index.html' failed
-
-That's because for an enumerated list all the lines in the paragraph need to
-start at the same column. Moving in the two following lines in the (10) item
-fixes this:
-
---- a/docs/specs/acpi_hest_ghes.rst
-+++ b/docs/specs/acpi_hest_ghes.rst
-@@ -90,5 +90,5 @@ Design Details
-     is necessary for notifying the guest.
-
- (10) This notification (in virtual hardware) will be handled by the guest
--    kernel, guest APEI driver will read the CPER which is recorded by QEMU and
--    do the recovery.
-+     kernel, guest APEI driver will read the CPER which is recorded by QEMU and
-+     do the recovery.
-
-thanks
--- PMM
 
