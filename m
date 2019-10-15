@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC42AD801A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:23:24 +0200 (CEST)
-Received: from localhost ([::1]:56940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2E7D806E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:39:54 +0200 (CEST)
+Received: from localhost ([::1]:57398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKSPj-00012g-G6
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38530)
+	id 1iKSfh-0002Ge-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:39:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40741)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iKSOV-0008Oz-QJ
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:22:08 -0400
+ (envelope-from <eblake@redhat.com>) id 1iKSb7-0005OC-Do
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:35:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iKSOU-0001qm-F9
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:22:07 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38283)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iKSOU-0001qR-59
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:22:06 -0400
-Received: by mail-pf1-x444.google.com with SMTP id h195so13094320pfe.5
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 12:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gS5DJOq4yokoePkYEH+TNptCCcMtGslOUl4OrY19GzE=;
- b=jjk/B7JI2lacPP56OmmhISHJyeKm6l7clzvrl52dqrhE+9QNL5jD7y/JULM45g0nAn
- xfJWBopM98j60NoDgWcMJd5aRZubyIh4Do4MQMRzr64rcwDQOb2U5XeQF5hHtJo42teM
- 5bwOXo0zLNLDwFoejFMc+AXefMpexY2pPkY4uUYdrsMKfq265B1QnKPlJ4JtgDOA0YUA
- 0Mb5ZMpPqLe2EuzYANgqAnI4M2F9ELeOUObfYv2VdzjotoGMrBy95+2cFmRDZk95jUgN
- wSqJIKldUdnOil1tboCBFiF+US+lgpCo9iaN+beNawc489AwgOI0/nUL28cMrKih0TiW
- hsRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gS5DJOq4yokoePkYEH+TNptCCcMtGslOUl4OrY19GzE=;
- b=VY2s053LxVHY6xlqMejiDiWPRycaaRQ7/3STUx/K0tDyWus4MdSVeUaHRy1q61YZFE
- 2xBPKF54pqvu95gdhhmoDbIL1v2YuZcCW3dJ0NlLFJe5YlnmtbEe8lWcfa3DIPBe4FWm
- l08tYql/0wKyuDOoKxFcOwsaxqL/ImktysaOXaRKAxPJQs4A/JCswXhnH0ypR1c/Al7Z
- A1PoTIHXk9ev07UriyKtv8zLIHt7HUhsJ+MsGWFdssYbfqWi19qQqD1r46ztLS22ucMq
- 0MafzkGr/2Z2Cxqz8Tf7Wn0ar/u333G4NnwukFug0GrYKy/5pKQHI2aepMwgeHN5bmqe
- VUYQ==
-X-Gm-Message-State: APjAAAUOffn+/+gSfEYEdBkKWd72IRrm3xvjn24zbwyTqhRICOtZQeu+
- z/dgRHpVQuenSSlZcCHqADkFrHR1e3k=
-X-Google-Smtp-Source: APXvYqzZ0gk5sAlJ7wyiVx55t8lpGzAaq2JLPVAd3BtI86039ViU0+6q7ZazHeSbTWgtMEV2YgjjHw==
-X-Received: by 2002:a63:d25:: with SMTP id c37mr40618972pgl.154.1571167324160; 
- Tue, 15 Oct 2019 12:22:04 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t68sm20993964pgt.61.2019.10.15.12.22.03
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Oct 2019 12:22:03 -0700 (PDT)
-Subject: Re: [PATCH v3 3/3] capstone: Add s390x skipdata callback
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20191015175133.16598-1-richard.henderson@linaro.org>
- <20191015175133.16598-4-richard.henderson@linaro.org>
- <b53900f9-4402-69bb-f6d6-56d6806cb335@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <deffe5c3-449a-32db-b2fa-804e8d74ebf3@linaro.org>
-Date: Tue, 15 Oct 2019 12:22:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <eblake@redhat.com>) id 1iKSb6-0006U2-EN
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:35:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40058)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iKSb2-0006SN-T6; Tue, 15 Oct 2019 15:35:05 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2625C2A09AD;
+ Tue, 15 Oct 2019 19:35:04 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A43B719C4F;
+ Tue, 15 Oct 2019 19:35:03 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] tests: More iotest 223 improvements
+Date: Tue, 15 Oct 2019 14:35:00 -0500
+Message-Id: <20191015193503.25591-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b53900f9-4402-69bb-f6d6-56d6806cb335@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 15 Oct 2019 19:35:04 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,46 +53,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/19 11:46 AM, Thomas Huth wrote:
->> +cap_skipdata_s390x_cb(const uint8_t *code, size_t code_size,
->> +                      size_t offset, void *user_data)
->> +{
->> +    size_t ilen;
->> +
->> +    /* See get_ilen() in target/s390x/internal.h.  */
->> +    switch (code[offset] >> 6) {
->> +    case 0:
->> +        ilen = 2;
->> +        break;
->> +    case 1:
->> +    case 2:
->> +        ilen = 4;
->> +        break;
->> +    default:
->> +        ilen = 6;
->> +        break;
->> +    }
->> +
->> +    return ilen;
->> +}
-> 
-> The kernel has also a nice function to calculate this:
-> 
-> static inline int insn_length(unsigned char code)
-> {
->         return ((((int) code + 64) >> 7) + 1) << 1;
-> }
-> 
-> ... but the switch-case is likely easier to read, so anyway:
+[subject line kept for continuity with v1, but now touches much more]
 
-Clever.
+Max suggested that instead of special-casing just 223 to trace QMP
+input as well output, that we should instead patch common.qemu to do
+it for all tests.  That in turn found that test 173 has been broken
+since v3.0.  Max also suggested that 223 use a for loop rather than
+massive code duplication, which does indeed look nicer.
 
-I don't mind swapping to the kernel version, so long as we convert the
-target/s390x/internal.h function as well.
+Eric Blake (3):
+  iotests: Fix 173
+  iotests: Include QMP input in .out files
+  tests: More iotest 223 improvements
 
+ tests/qemu-iotests/common.qemu |   9 +++
+ tests/qemu-iotests/085.out     |  26 +++++++++
+ tests/qemu-iotests/094.out     |   4 ++
+ tests/qemu-iotests/095.out     |   2 +
+ tests/qemu-iotests/109.out     |  88 +++++++++++++++++++++++++++++
+ tests/qemu-iotests/117.out     |   5 ++
+ tests/qemu-iotests/127.out     |   4 ++
+ tests/qemu-iotests/140.out     |   5 ++
+ tests/qemu-iotests/141.out     |  26 +++++++++
+ tests/qemu-iotests/143.out     |   3 +
+ tests/qemu-iotests/144.out     |   5 ++
+ tests/qemu-iotests/153.out     |  11 ++++
+ tests/qemu-iotests/156.out     |  11 ++++
+ tests/qemu-iotests/161.out     |   8 +++
+ tests/qemu-iotests/173         |   4 +-
+ tests/qemu-iotests/173.out     |  10 +++-
+ tests/qemu-iotests/182.out     |   8 +++
+ tests/qemu-iotests/183.out     |  11 ++++
+ tests/qemu-iotests/185.out     |  18 ++++++
+ tests/qemu-iotests/191.out     |   8 +++
+ tests/qemu-iotests/200.out     |   1 +
+ tests/qemu-iotests/223         |  16 +++++-
+ tests/qemu-iotests/223.out     | 100 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/229.out     |   3 +
+ tests/qemu-iotests/249.out     |   6 ++
+ 25 files changed, 387 insertions(+), 5 deletions(-)
 
-r~
+--=20
+2.21.0
+
 
