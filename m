@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F0BD7BCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:37:22 +0200 (CEST)
-Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC76D7C10
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:40:13 +0200 (CEST)
+Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKPp2-0000zG-MM
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41140)
+	id 1iKPrm-0004xV-TN
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41191)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPh6-0001QC-Us
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKPhG-0001Uj-Aa
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPh5-0004sQ-3e
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:31838)
+ (envelope-from <philmd@redhat.com>) id 1iKPhD-0004wq-TV
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53418)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPh4-0004rO-Tr
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:07 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPhC-0004vI-E6
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:29:15 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A2FDA18C8320;
- Tue, 15 Oct 2019 16:29:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7E8ED307D942;
+ Tue, 15 Oct 2019 16:29:12 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FCEF19C58;
- Tue, 15 Oct 2019 16:28:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21B2419C58;
+ Tue, 15 Oct 2019 16:29:05 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/32] piix4: rename some variables in realize function
-Date: Tue, 15 Oct 2019 18:26:41 +0200
-Message-Id: <20191015162705.28087-9-philmd@redhat.com>
+Subject: [PATCH 09/32] piix4: add Reset Control Register
+Date: Tue, 15 Oct 2019 18:26:42 +0200
+Message-Id: <20191015162705.28087-10-philmd@redhat.com>
 In-Reply-To: <20191015162705.28087-1-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Tue, 15 Oct 2019 16:29:05 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Tue, 15 Oct 2019 16:29:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,47 +73,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
 
-PIIX4 structure is now 's'
-PCI device is now 'pci_dev'
-DeviceState is now 'dev'
+The RCR I/O port (0xcf9) is used to generate a hard reset or a soft reset=
+.
 
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-Message-Id: <20171216090228.28505-6-hpoussin@reactos.org>
+Message-Id: <20171216090228.28505-7-hpoussin@reactos.org>
+[PMD: rebased, updated includes]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/isa/piix4.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ hw/isa/piix4.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 3294056cd5..4202243e41 100644
+index 4202243e41..6e2d9b9774 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -88,16 +88,17 @@ static const VMStateDescription vmstate_piix4 =3D {
+@@ -2,6 +2,7 @@
+  * QEMU PIIX4 PCI Bridge Emulation
+  *
+  * Copyright (c) 2006 Fabrice Bellard
++ * Copyright (c) 2018 Herv=C3=A9 Poussineau
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+  * of this software and associated documentation files (the "Software"),=
+ to deal
+@@ -29,11 +30,16 @@
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/reset.h"
++#include "sysemu/runstate.h"
+=20
+ PCIDevice *piix4_dev;
+=20
+ typedef struct PIIX4State {
+     PCIDevice dev;
++
++    /* Reset Control Register */
++    MemoryRegion rcr_mem;
++    uint8_t rcr;
+ } PIIX4State;
+=20
+ #define TYPE_PIIX4_PCI_DEVICE "PIIX4"
+@@ -88,6 +94,34 @@ static const VMStateDescription vmstate_piix4 =3D {
      }
  };
 =20
--static void piix4_realize(PCIDevice *dev, Error **errp)
-+static void piix4_realize(PCIDevice *pci_dev, Error **errp)
++static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
++                            unsigned int len)
++{
++    PIIX4State *s =3D opaque;
++
++    if (val & 4) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        return;
++    }
++    s->rcr =3D val & 2; /* keep System Reset type only */
++}
++
++static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int l=
+en)
++{
++    PIIX4State *s =3D opaque;
++    return s->rcr;
++}
++
++static const MemoryRegionOps piix4_rcr_ops =3D {
++    .read =3D piix4_rcr_read,
++    .write =3D piix4_rcr_write,
++    .endianness =3D DEVICE_LITTLE_ENDIAN,
++    .impl =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 1,
++    },
++};
++
+ static void piix4_realize(PCIDevice *pci_dev, Error **errp)
  {
--    PIIX4State *d =3D PIIX4_PCI_DEVICE(dev);
-+    DeviceState *dev =3D DEVICE(pci_dev);
-+    PIIX4State *s =3D DO_UPCAST(PIIX4State, dev, pci_dev);
-=20
--    if (!isa_bus_new(DEVICE(d), pci_address_space(dev),
--                     pci_address_space_io(dev), errp)) {
-+    if (!isa_bus_new(dev, pci_address_space(pci_dev),
-+                     pci_address_space_io(pci_dev), errp)) {
+     DeviceState *dev =3D DEVICE(pci_dev);
+@@ -97,6 +131,12 @@ static void piix4_realize(PCIDevice *pci_dev, Error *=
+*errp)
+                      pci_address_space_io(pci_dev), errp)) {
          return;
      }
--    piix4_dev =3D &d->dev;
--    qemu_register_reset(piix4_reset, d);
-+    piix4_dev =3D pci_dev;
-+    qemu_register_reset(piix4_reset, s);
++
++    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
++                          "reset-control", 1);
++    memory_region_add_subregion_overlap(pci_address_space_io(pci_dev), 0=
+xcf9,
++                                        &s->rcr_mem, 1);
++
+     piix4_dev =3D pci_dev;
+     qemu_register_reset(piix4_reset, s);
  }
-=20
- int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn)
 --=20
 2.21.0
 
