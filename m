@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF006D8063
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:37:24 +0200 (CEST)
-Received: from localhost ([::1]:57294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF8CD807C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 21:41:23 +0200 (CEST)
+Received: from localhost ([::1]:57504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKSdH-00073S-G2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40787)
+	id 1iKSh8-0003yk-Tc
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 15:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iKSbB-0005TL-60
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:35:14 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iKSdO-0008PC-Sf
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iKSb9-0006Va-LD
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:35:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52654)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iKSb6-0006Tj-HH; Tue, 15 Oct 2019 15:35:08 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B9C4C83F3C;
- Tue, 15 Oct 2019 19:35:07 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44D9919C4F;
- Tue, 15 Oct 2019 19:35:07 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] tests: More iotest 223 improvements
-Date: Tue, 15 Oct 2019 14:35:03 -0500
-Message-Id: <20191015193503.25591-4-eblake@redhat.com>
-In-Reply-To: <20191015193503.25591-1-eblake@redhat.com>
-References: <20191015193503.25591-1-eblake@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iKSdN-00079I-Iv
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:37:30 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39635)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iKSdN-00078v-Cu
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 15:37:29 -0400
+Received: by mail-pg1-x543.google.com with SMTP id p12so3414937pgn.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 12:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hiPPd3LEc/XLjd4HSUjTaDD4yp8TkzzEhOVfMtjD5PY=;
+ b=bpREdcojtocv26nF0QQHwizzSeLyfsqYsVpRgrZq7onYM19wFsRyfabl2ZWWax9FfQ
+ BPk81PQgGZoHnaz1MBwPwTUO+NChKp2wAX+JyFmTX4384kkCwEsOQq+CDTQnMvcmMmW1
+ DdG/t03L6v+0z2RH0LstUY09cKU6QKdqoZEocaaJIOTm7N8r8F2qXYzoPf7hTtMCiwBN
+ G/93YsmzeRjCL/MRXo72SKviPr25hZcu6pSbrH8WAiJbt+umvnlB7teyVtT8d13X3HiM
+ 6Sp2+5Oj+TKp4Kw/4qFmbY0S8NLhnu6U7OVMRZZJpRUZC1KXkluQaMOFYc9A6rZFyWWS
+ nwIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hiPPd3LEc/XLjd4HSUjTaDD4yp8TkzzEhOVfMtjD5PY=;
+ b=giSDOFHWv5wJ7ZbtjDd/oYNcpDyfd1A2mAWcpXM03f5UyHmp2Gj+hCtJAn4gry2A+7
+ tMyoRh8gytqeOlvEjKIqyCDwHoYt5keMTuLTxB2QVuXL9W41l7xPRgf6VLjkkagaLbV6
+ YCdcPsQfGJapR49R8DlhRajoXVTNMEQ+1++LlBe4PBmvrpPXST2MxwWJmo33j5yaVTSj
+ tcp309uE5xD9LFkBMsLZ5zAND3WrahFJum28YNURIxK5cXnU8g8snJcSwXmHCkgwpMEo
+ ghogsCigqwkzyfcSLKJWaqHJSMYmzM4nrsz2Rn5NgygMtlONx58aq9mJ8T0snt8xZT6K
+ tJsw==
+X-Gm-Message-State: APjAAAXPplYmrZSoWWb72T9Yopk+E5DHRdWfgrioD3ziC9zbYby2JK8+
+ GwEuxpHx9A/AeZY//kh2R0YqLw==
+X-Google-Smtp-Source: APXvYqw4OszVj/9MqqffuXeIFAjNpDNz3h+VRVeqEfGAz/bsaebkkapzeLNaLsmfnV2PaVleFvoLBA==
+X-Received: by 2002:a17:90a:cf97:: with SMTP id
+ i23mr218160pju.77.1571168247616; 
+ Tue, 15 Oct 2019 12:37:27 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id s36sm23192324pgk.84.2019.10.15.12.37.26
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 15 Oct 2019 12:37:26 -0700 (PDT)
+Subject: Re: [PATCH v5 53/55] plugins: add sparc64 instruction classification
+ table
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191014104948.4291-1-alex.bennee@linaro.org>
+ <20191014104948.4291-54-alex.bennee@linaro.org>
+ <3ce497fe-9dc1-5fa3-acf6-155ae16e0793@linaro.org> <87wod5ltai.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <70201b9b-54ee-c116-9e09-6b6d66a2cb94@linaro.org>
+Date: Tue, 15 Oct 2019 12:37:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 15 Oct 2019 19:35:07 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <87wod5ltai.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,184 +86,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: aaron@os.amperecomputing.com, cota@braap.org, qemu-devel@nongnu.org,
+ peter.puhov@futurewei.com, robert.foley@futurewei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run the core of the test twice, once without iothreads, and again
-with, for more coverage of both setups.
+On 10/15/19 12:09 PM, Alex Bennée wrote:
+> How similar are the sparc and sparc64 decodes? Is there a canonical
+> table you can point to?
 
-Suggested-by: Nir Soffer <nsoffer@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/223     | 16 ++++++-
- tests/qemu-iotests/223.out | 85 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 97 insertions(+), 4 deletions(-)
+sparc64 is a superset of sparc32.
 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index 2ba3d8124b4f..8b43ddb02b2c 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -117,10 +117,19 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabi=
-lities"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
-   "arguments":{"driver":"qcow2", "node-name":"n",
-     "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
--_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
--  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
-   "arguments":{"node":"n", "name":"b"}}' "return"
-+
-+for attempt in normal iothread; do
-+
-+echo
-+echo "=3D=3D=3D Set up NBD with $attempt access =3D=3D=3D"
-+echo
-+if [ $attempt =3D iothread ]; then
-+_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
-+  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
-+fi
-+
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
-   "arguments":{"device":"n"}}' "error" # Attempt add without server
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
-@@ -180,6 +189,9 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-r=
-emove",
-   "arguments":{"name":"n2"}}' "error" # Attempt duplicate clean
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-stop"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-stop"}' "error" # Ag=
-ain
-+
-+done
-+
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"quit"}' "return"
- wait=3Dyes _cleanup_qemu
+Appendix A of https://community.oracle.com/docs/DOC-1005258
 
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 8bfc5072ea9d..ed543047956f 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -28,10 +28,91 @@ wrote 2097152/2097152 bytes at offset 2097152
- {"return": {}}
- {"execute":"blockdev-add", "arguments":{"driver":"qcow2", "node-name":"n=
-", "file":{"driver":"file", "filename":"TEST_DIR/t.qcow2"}}}
- {"return": {}}
--{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iot=
-hread":"io0"}}
--{"return": {}}
- {"execute":"block-dirty-bitmap-disable", "arguments":{"node":"n", "name"=
-:"b"}}
- {"return": {}}
-+
-+=3D=3D=3D Set up NBD with normal access =3D=3D=3D
-+
-+{"execute":"nbd-server-add", "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data=
-":{"path":"TEST_DIR/nbd"}}}}
-+{"return": {}}
-+{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data=
-":{"path":"TEST_DIR/nbd1"}}}}
-+{"error": {"class": "GenericError", "desc": "NBD server already running"=
-}}
-+exports available: 0
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "bitmap":"b"}}
-+{"return": {}}
-+{"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
-+{"error": {"class": "GenericError", "desc": "Cannot find device=3Dnosuch=
- nor node_name=3Dnosuch"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server already has expo=
-rt named 'n'"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bi=
-tmap":"b2"}}
-+{"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompa=
-tible with readonly export"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bi=
-tmap":"b3"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap 'b3' is not found"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "wr=
-itable":true, "bitmap":"b2"}}
-+{"return": {}}
-+exports available: 2
-+ export: 'n'
-+  size:  4194304
-+  flags: 0x58f ( readonly flush fua df multi cache )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b
-+ export: 'n2'
-+  size:  4194304
-+  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b2
-+
-+=3D=3D=3D Contrast normal status to large granularity dirty-bitmap =3D=3D=
-=3D
-+
-+read 512/512 bytes at offset 512
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 524288
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 2097152/2097152 bytes at offset 2097152
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, =
-"offset": OFFSET},
-+{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": fa=
-lse, "offset": OFFSET},
-+{ "start": 1048576, "length": 3145728, "depth": 0, "zero": false, "data"=
-: true, "offset": OFFSET}]
-+[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false=
-},
-+{ "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": =
-true, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data"=
-: false}]
-+
-+=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D
-+
-+[{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "=
-offset": OFFSET},
-+{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false}=
-,
-+{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": t=
-rue, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data"=
-: false}]
-+
-+=3D=3D=3D End qemu NBD server =3D=3D=3D
-+
-+{"execute":"nbd-server-remove", "arguments":{"name":"n"}}
-+{"return": {}}
-+{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
-+{"return": {}}
-+{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
-+{"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
-+{"execute":"nbd-server-stop"}
-+{"return": {}}
-+{"execute":"nbd-server-stop"}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+
-+=3D=3D=3D Set up NBD with iothread access =3D=3D=3D
-+
-+{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iot=
-hread":"io0"}}
-+{"return": {}}
- {"execute":"nbd-server-add", "arguments":{"device":"n"}}
- {"error": {"class": "GenericError", "desc": "NBD server not running"}}
- {"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data=
-":{"path":"TEST_DIR/nbd"}}}}
---=20
-2.21.0
 
+r~
 
