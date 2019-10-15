@@ -2,51 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6925FD7E5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 20:04:27 +0200 (CEST)
-Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918F6D7EEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 20:27:19 +0200 (CEST)
+Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKRBK-0006BU-FU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 14:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56698)
+	id 1iKRXS-0004UL-Fx
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 14:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <diodesign@tuta.io>) id 1iKR9n-0005dk-O6
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:02:53 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKRR6-0005o9-5r
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <diodesign@tuta.io>) id 1iKR9m-0000PK-0c
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:02:51 -0400
-Received: from w4.tutanota.de ([81.3.6.165]:48380)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKRR4-0001T7-U9
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 14:20:43 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35014)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <diodesign@tuta.io>)
- id 1iKR9k-0000MW-Bd; Tue, 15 Oct 2019 14:02:49 -0400
-Received: from w2.tutanota.de (unknown [192.168.1.163])
- by w4.tutanota.de (Postfix) with ESMTP id 7313810601FE;
- Tue, 15 Oct 2019 18:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1571162565; 
- s=s1; d=tuta.io;
- h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=xTj0MPvOyNRMecjZAXuRAVBZspGbCA3DG/mtcIiviv4=;
- b=t5Xl+OUlebsBVyTHMT77bD2+wK1ewWUZrK5RyJHf7yg1UYq1NmwE77iN6Nwjk9Aj
- R0KwpETmWg48AjEaxCsnGb4tFyxeF2/nszYdLwcAct1OhdoO8rA6HKY8ZIoE1VoTU+q
- JIAYgh2OCrH/N51KrAoA7H46Uk+42wOJvhgL+1X6dg9Vf3J19Tb7SJFqtgcwsCzNHPX
- bERO1YJln7o2/8KlwCjEmfH46dKOwsap2eyCgHgddQiKWNw0YxlDMTI1LT23DjrdufB
- AlLJkq3pSTahTZmZUH4+6XDfYuv9CkbYeL5Lgf2Slys1UcqICt0G4oXkmauaKzDfzku
- ZcoHaTpBUA==
-Date: Tue, 15 Oct 2019 20:02:45 +0200 (CEST)
-From: Chris Williams <diodesign@tuta.io>
-To: Alistair Francis <alistair23@gmail.com>
-Message-ID: <LrF_XLH--3-1@tuta.io>
-In-Reply-To: <CAKmqyKNh-jgg-LWHp4RMM9vaaMNr7qHtNSVYs9OFXhvJ-+7RXA@mail.gmail.com>
-References: <LqVBb_I--3-1@tuta.io>
- <CAKmqyKNh-jgg-LWHp4RMM9vaaMNr7qHtNSVYs9OFXhvJ-+7RXA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] target/riscv/pmp: Fix bug preventing
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 81.3.6.165
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iKRR4-0001RG-MZ; Tue, 15 Oct 2019 14:20:42 -0400
+Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.2)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iKRQy-0003ry-5s; Tue, 15 Oct 2019 21:20:36 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH v3 0/5] qcow2: advanced compression options
+Date: Tue, 15 Oct 2019 21:20:20 +0300
+Message-Id: <1571163625-642312-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,104 +44,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu Riscv <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, dayeol@berkeley.edu,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>, Qemu Devel <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-Oct 11, 2019, 15:18 by alistair23@gmail.com:
+New enhancements for writing compressed data to QCOW2 image.
 
-> On Sun, Oct 6, 2019 at 1:32 AM Chris Williams <diodesign@tuta.io> wrote:
->
-> Also please use `git format-patch` to format the patch and then `git
-> send-email` to send the patch. There is a whole heap of detail here:
-> https://wiki.qemu.org/Contribute/SubmitAPatch <https://wiki.qemu.org/Cont=
-ribute/SubmitAPatch>
->
-OK, I will do in future. I read the page but failed to get it right. Thanks=
- for spotting my patch, and the advice, though.
+The preceding patches have been queued in the Max's block branch:
 
->> This fixes an issue that prevents a RISC-V CPU from executing instructio=
-ns
->> immediately from the base address of a PMP TOR region.
->>
->> When jumping to an instruction in a PMP TOR region, pmp_hart_has_privs()=
- is
->> called to validate the access. If this instruction is the very first wor=
-d of a
->> PMP TOR region, at address 0 relative to the start address of the region=
-, then
->> the access will fail. This is because pmp_hart_has_privs() is called wit=
-h size
->> 0 to perform this validation, causing this check...
->>
->> e =3D pmp_is_in_range(env, i, addr + size - 1);
->>
->> ... to fail, as (addr + size - 1) falls below the base address of the PM=
-P
->> region. Really, the access should succeed. For example, if I have a regi=
-on
->> spanning 0x80d96000 to 0x88d95fff and the CPU jumps to 0x80d96000, then:
->>
->> s =3D 0x80d96000
->> e =3D 0x80d95fff
->>
->> And the validation fails. The size check proposed below catches these ze=
-ro-size
->> instruction fetch access probes. The word alignment in pmpaddr{0-15} and
->> earlier instruction alignment checks should prevent the execution of
->> instructions over the upper boundary of the PMP region, though I'm happy=
- to give
->> this more attention if this is a concern.
->>
->
-> This seems like a similar issue to this patch as well:
-> https://lore.kernel.org/qemu-devel/20191007052813.25814-1-dayeol@berkeley=
-.edu/ <https://lore.kernel.org/qemu-devel/20191007052813.25814-1-dayeol@ber=
-keley.edu/>
->
-Yes, it appears Dayeol and I have encountered the same issue.
+Based-on: <20190916175324.18478-1-vsementsov@virtuozzo.com>
 
-> From that discussion:
->
-> "In general, size 0 means "unknown size".  In this case, the one tlb look=
-up is
-> going to be used by lots of instructions -- everything that fits on the p=
-age."
->
-> Richard's last comment seems like a better fix:
->
-> "You certainly could do
->
->  if (size =3D=3D 0) {
->  size =3D -(addr | TARGET_PAGE_MASK);
->  }
->
-> to assume that all bytes from addr to the end of the page are accessed.  =
-That
-> would avoid changing too much of the rest of the logic.
->
-> That said, this code will continue to not work for mis-aligned boundaries=
-."
->
-> So I don't think this is the correct solution. I'm not sure if Dayeol
-> is planning on sending a follow up version. If not feel free to send
-> it.
->
-I'm happy for Dayeol to submit a better patch, if necessary.=C2=A0
->> Signed-off-by: Chris Williams <diodesign@tuta.io <mailto:diodesign@tuta.=
-io>>
->>
->
-> It looks like this is a HTML patch, also ensure all patches are just
-> plain text, `git send-email` will do this.
->
-Yes, you're right: my webmail client isn't particularly neighborly with res=
-pect to Qemu's submission process.
+v2:
+    Instead of introducing multiple key options for many drivers, the
+    'compression' option has been introduced on generic block layer
+    as suggested by Roman Kagan. Discussed on the thread ID
+    <1570026166-748566-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-C.
+Andrey Shinkevich (5):
+  qcow2: Allow writing compressed data of multiple clusters
+  tests/qemu-iotests: add case to write compressed data of multiple
+    clusters
+  block: support compressed write for copy-on-read
+  block-stream: add compress option
+  tests/qemu-iotests: add case for block-stream compress
+
+ block.c                    |  12 ++++-
+ block/io.c                 |  23 +++++++---
+ block/qcow2.c              | 106 +++++++++++++++++++++++++++++++++------------
+ block/qcow2.h              |   1 +
+ block/stream.c             |  10 ++++-
+ block/trace-events         |   2 +-
+ blockdev.c                 |  16 ++++++-
+ include/block/block.h      |   1 +
+ include/block/block_int.h  |   2 +
+ qapi/block-core.json       |   6 ++-
+ qemu-options.hx            |   6 ++-
+ tests/qemu-iotests/030     |  51 +++++++++++++++++++++-
+ tests/qemu-iotests/030.out |   4 +-
+ tests/qemu-iotests/214     |  35 +++++++++++++++
+ tests/qemu-iotests/214.out |  15 +++++++
+ 15 files changed, 246 insertions(+), 44 deletions(-)
+
+-- 
+1.8.3.1
+
 
