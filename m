@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898EFD715E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 10:46:25 +0200 (CEST)
-Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B620FD7179
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 10:48:30 +0200 (CEST)
+Received: from localhost ([::1]:37694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKITH-0005qd-TU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 04:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60106)
+	id 1iKIVJ-0007mN-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 04:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iKIRy-0005Ad-Nq
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 04:45:07 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iKISs-00062f-E8
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 04:45:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iKIRx-0008Km-Hr
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 04:45:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48214)
+ (envelope-from <stefanha@redhat.com>) id 1iKISr-0000Nc-Cr
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 04:45:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32900)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iKIRu-0008Jt-Q8; Tue, 15 Oct 2019 04:44:59 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1iKISp-0000Mh-5C; Tue, 15 Oct 2019 04:45:55 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E32A830655F9;
- Tue, 15 Oct 2019 08:44:57 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-177.ams2.redhat.com
- [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B081960C80;
- Tue, 15 Oct 2019 08:44:44 +0000 (UTC)
-Date: Tue, 15 Oct 2019 10:44:43 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PULL 01/19] util/hbitmap: strict hbitmap_reset
-Message-ID: <20191015084443.GA4093@localhost.localdomain>
-References: <20191011212550.27269-1-jsnow@redhat.com>
- <20191011212550.27269-2-jsnow@redhat.com>
- <15c20480-0240-bdd2-2cc2-60c388022e86@redhat.com>
- <e403b26e-5775-a134-b23f-2fbc698dca25@redhat.com>
- <0642e0a5-4304-6e7a-318e-0251c9642f46@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 283087FDCD;
+ Tue, 15 Oct 2019 08:45:54 +0000 (UTC)
+Received: from localhost (ovpn-116-252.ams2.redhat.com [10.36.116.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8D8E1048128;
+ Tue, 15 Oct 2019 08:45:51 +0000 (UTC)
+Date: Tue, 15 Oct 2019 09:45:50 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 1/2] trace: add --group=all to tracing.txt
+Message-ID: <20191015084550.GA16745@stefanha-x1.localdomain>
+References: <20191014085709.26812-1-stefanha@redhat.com>
+ <20191014085709.26812-2-stefanha@redhat.com>
+ <b1cbc282-7ad2-e542-c573-3f5e115b5ab5@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
 Content-Disposition: inline
-In-Reply-To: <0642e0a5-4304-6e7a-318e-0251c9642f46@redhat.com>
+In-Reply-To: <b1cbc282-7ad2-e542-c573-3f5e115b5ab5@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 15 Oct 2019 08:44:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.27]); Tue, 15 Oct 2019 08:45:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -64,89 +61,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ Thomas Huth <thuth@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.10.2019 um 20:10 hat John Snow geschrieben:
->=20
->=20
-> On 10/11/19 7:18 PM, John Snow wrote:
-> >=20
-> >=20
-> > On 10/11/19 5:48 PM, Eric Blake wrote:
-> >> On 10/11/19 4:25 PM, John Snow wrote:
-> >>> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >>>
-> >>> hbitmap_reset has an unobvious property: it rounds requested region=
- up.
-> >>> It may provoke bugs, like in recently fixed write-blocking mode of
-> >>> mirror: user calls reset on unaligned region, not keeping in mind t=
-hat
-> >>> there are possible unrelated dirty bytes, covered by rounded-up reg=
-ion
-> >>> and information of this unrelated "dirtiness" will be lost.
-> >>>
-> >>> Make hbitmap_reset strict: assert that arguments are aligned, allow=
-ing
-> >>> only one exception when @start + @count =3D=3D hb->orig_size. It's =
-needed
-> >>> to comfort users of hbitmap_next_dirty_area, which cares about
-> >>> hb->orig_size.
-> >>>
-> >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.c=
-om>
-> >>> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> >>> Message-Id: <20190806152611.280389-1-vsementsov@virtuozzo.com>
-> >>> [Maintainer edit: Max's suggestions from on-list. --js]
-> >>> Signed-off-by: John Snow <jsnow@redhat.com>
-> >>> ---
-> >>> =A0 include/qemu/hbitmap.h | 5 +++++
-> >>> =A0 tests/test-hbitmap.c=A0=A0 | 2 +-
-> >>> =A0 util/hbitmap.c=A0=A0=A0=A0=A0=A0=A0=A0 | 4 ++++
-> >>> =A0 3 files changed, 10 insertions(+), 1 deletion(-)
-> >>>
-> >>
-> >>> +++ b/util/hbitmap.c
-> >>> @@ -476,6 +476,10 @@ void hbitmap_reset(HBitmap *hb, uint64_t start=
-,
-> >>> uint64_t count)
-> >>> =A0=A0=A0=A0=A0 /* Compute range in the last layer.=A0 */
-> >>> =A0=A0=A0=A0=A0 uint64_t first;
-> >>> =A0=A0=A0=A0=A0 uint64_t last =3D start + count - 1;
-> >>> +=A0=A0=A0 uint64_t gran =3D 1ULL << hb->granularity;
-> >>> +
-> >>> +=A0=A0=A0 assert(!(start & (gran - 1)));
-> >>> +=A0=A0=A0 assert(!(count & (gran - 1)) || (start + count =3D=3D hb=
-->orig_size));
-> >>
-> >> I know I'm replying a bit late (since this is now a pull request), b=
-ut
-> >> would it be worth using the dedicated macro:
-> >>
-> >> assert(QEMU_IS_ALIGNED(start, gran));
-> >> assert(QEMU_IS_ALIGNED(count, gran) || start + count =3D=3D hb->orig=
-_size);
-> >>
-> >> instead of open-coding it?=A0 (I would also drop the extra () around=
- the
-> >> right half of ||). If we want it, that would now be a followup patch=
-.
->=20
-> I've noticed that seasoned C programmers hate extra parentheses a lot.
-> I've noticed that I cannot remember operator precedence enough to ever
-> feel like this is actually an improvement.
->=20
-> Something about a nice weighted tree of ((expr1) || (expr2)) feels
-> soothing to my weary eyes. So, if it's not terribly important, I'd
-> prefer to leave it as-is.
 
-I don't mind the parentheses, but I do prefer QEMU_IS_ALIGNED() to the
-open-coded version. Would that be a viable compromise?
+--Qxx1br4bt0+wmkIi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kevin
+On Mon, Oct 14, 2019 at 11:08:25AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi Stefan,
+>=20
+> On 10/14/19 10:57 AM, Stefan Hajnoczi wrote:
+> > tracetool needs to know the group name ("all", "root", or a specific
+> > subdirectory).  Also remove the stdin redirection because tracetool.py
+> > needs the path to the trace-events file.  Update the documentation.
+> >=20
+> > Fixes: 2098c56a9bc5901e145fa5d4759f075808811685
+> >         ("trace: move setting of group name into Makefiles")
+> > Launchpad: https://bugs.launchpad.net/bugs/1844814
+>=20
+> Sorry I didn't noticed that earlier, but on https://wiki.qemu.org/Contrib=
+ute/SubmitAPatch#Write_a_meaningful_commit_message
+> we recommend using the 'Buglink' tag.
+> Not sure it's worth resending another pull request...
+
+Sure, it hasn't been merged yet so I can send a v2.
+
+Stefan
+
+--Qxx1br4bt0+wmkIi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2lhz0ACgkQnKSrs4Gr
+c8guxwf+LJgYtK8SN1UnLoEu7waEuV18LKp9Hv0JOGCjHXL0RKa0wjwAOAM44U51
+8OjkuVqsxJ5BzeM+9XG2m1HI0Wjxzfh+qOmiZbAov1NpdbHaIkpCl4cBWJ38S0HV
+76kTU92hJEQDTL8GTAsk8XHlFT8TATBMmhnAZtJ5oQeKFlbNU2OUHDjMJgS3bMUK
+vLc1yvDUmPnoZ8DpxvjQDsyzmVvbTh4M7NL2xdWXmEN+l6h6HIvPUYZGkb/d38Q1
+1esJCgdWDRLdxm7Pefip1SJx0ZSDxIhZanXvCQdQw2jJCbI4C+FuVvZh+U0ZtaRD
+QamOdo7J1+7fwXhdpJlMFPhDY74+zw==
+=H/tZ
+-----END PGP SIGNATURE-----
+
+--Qxx1br4bt0+wmkIi--
 
