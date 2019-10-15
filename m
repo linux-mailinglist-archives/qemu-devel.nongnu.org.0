@@ -2,64 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1887BD77CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 15:57:01 +0200 (CEST)
-Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CF3D77DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 16:00:41 +0200 (CEST)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKNJr-0003F2-Jf
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 09:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55401)
+	id 1iKNNP-0004j9-FK
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 10:00:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55935)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iKNIu-0002iL-F4
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:56:02 -0400
+ (envelope-from <eblake@redhat.com>) id 1iKNM2-0004D2-Dt
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:59:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iKNIt-0004x3-3l
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:56:00 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41686)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iKNIs-0004ws-UO
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:55:59 -0400
-Received: by mail-ot1-x343.google.com with SMTP id g13so16956564otp.8
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 06:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Eif0tSdjmj2Yq1mv1zEmYTveCsypKcSd8eRBDyEVPj8=;
- b=JxkaGmNKxNh7IOvXZQgpu8u58nZMhZclnvMnvN5QfmYHVPTecTZda5aiiHrAz0h7Du
- rBbsxsKMPMmxVCqCbRfCk8WTSONfZockZ/7OR0I6ZoCpARFz+x07WbISH5MikVN/gX0I
- ho6JkqrU/b4pAs7PRgD5WwDNDLxsIaaQVgQd3XJWNFmjPfD2wrFqwAsXoLnVwlnDQl6U
- puAr5Sr6xeI1mb2wz+qimBsKdSMqsPRUh9uuWYNAT0ycBVNjujHAt9jMWuQmAKvBZ/J9
- 6ZnvFGMh5roUxYM9eKKytBNwsoBemmfWPe+gNacCzNLb6sJZUAR1CdaKO9CehuAA4DgP
- 62rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Eif0tSdjmj2Yq1mv1zEmYTveCsypKcSd8eRBDyEVPj8=;
- b=rohqX7O7McvIAfz2TtURv/BFcnGE+Giwivt/EZHsEeN/wxDCKO/5NnTLIOy+9MJWM9
- UQEWXKcIiWsxaVKb+DJBpSS1UmQ6iyf4N2HGOnaeA2n4olcaryoUSvYo2Y3/ESb2B7Su
- aqN8Re078SbdESs5RtYzDvKBmHZCvUYfvEpM6MoP+ZuAF+hAWxK75q831vc9niLNCNAD
- wCq2LnpQ1WjoPLsoGduVMlwi2o8TbSsbUoK1fnE9RJ5ePsUxU6E4BfeI/W7uZZ6EJtnE
- KvFSqrtgAU+/Li1l3p8aR0k7yEmwZJBdB8BdhtKN1fcsEoUVv/5WRAF2zM0c2m8k3vDN
- s3ZQ==
-X-Gm-Message-State: APjAAAVWyfQ8d4J0QGt6O6OQwnXfN9G6x0XywGOdWaAQe6j3RMokuifT
- KKtS86zye9fPxiFbdBFGayRC0E7Oc9jPWPek7EAkWQ==
-X-Google-Smtp-Source: APXvYqyfQBFe/29CSk8PWk9XZHSm844LRGbsRaoFyuT1IqwspKonwrHRATabye/CcoNG2HRaVTzZsPmDPHQR8sbA2io=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr29309409otj.135.1571147757780; 
- Tue, 15 Oct 2019 06:55:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191015123854.12039-1-kwolf@redhat.com>
-In-Reply-To: <20191015123854.12039-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Oct 2019 14:55:43 +0100
-Message-ID: <CAFEAcA8vUcj2bQDno17ncH=zoDvW-9wrzaWo4pLyPTX_Ot=AAQ@mail.gmail.com>
+ (envelope-from <eblake@redhat.com>) id 1iKNM1-0005iO-Dr
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 09:59:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49384)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iKNLx-0005hY-9a; Tue, 15 Oct 2019 09:59:09 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 80649315C030;
+ Tue, 15 Oct 2019 13:59:07 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3649A60C5D;
+ Tue, 15 Oct 2019 13:59:06 +0000 (UTC)
 Subject: Re: [PATCH] doc: Describe missing generic -blockdev options
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20191015123854.12039-1-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <fbbf6bad-4434-4150-1053-a1b790d71a3c@redhat.com>
+Date: Tue, 15 Oct 2019 08:59:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
+MIME-Version: 1.0
+In-Reply-To: <20191015123854.12039-1-kwolf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 15 Oct 2019 13:59:07 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,39 +60,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 at 13:40, Kevin Wolf <kwolf@redhat.com> wrote:
->
+On 10/15/19 7:38 AM, Kevin Wolf wrote:
 > We added more generic options after introducing -blockdev and forgot to
 > update the documentation (man page and --help output) accordingly. Do
 > that now.
->
+> 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  qemu-options.hx | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 793d70ff93..9f6aa3dde3 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -849,7 +849,8 @@ ETEXI
->  DEF("blockdev", HAS_ARG, QEMU_OPTION_blockdev,
->      "-blockdev [driver=]driver[,node-name=N][,discard=ignore|unmap]\n"
->      "          [,cache.direct=on|off][,cache.no-flush=on|off]\n"
-> -    "          [,read-only=on|off][,detect-zeroes=on|off|unmap]\n"
-> +    "          [,read-only=on|off][,auto-read-only=on|off]\n"
-> +    "          [,force-share=on|off][,detect-zeroes=on|off|unmap]\n"
->      "          [,driver specific parameters...]\n"
->      "                configure a block backend\n", QEMU_ARCH_ALL)
->  STEXI
+>   qemu-options.hx | 19 ++++++++++++++++++-
+>   1 file changed, 18 insertions(+), 1 deletion(-)
+> 
+
 > @@ -885,6 +886,22 @@ name is not intended to be predictable and changes between QEMU invocations.
->  For the top level, an explicit node name must be specified.
->  @item read-only
->  Open the node read-only. Guest write attempts will fail.
+>   For the top level, an explicit node name must be specified.
+>   @item read-only
+>   Open the node read-only. Guest write attempts will fail.
 > +
 > +Note that some block drivers support only read-only access, either generally or
 > +in certain configurations. In this case, the default value
@@ -115,21 +90,16 @@ On Tue, 15 Oct 2019 at 13:40, Kevin Wolf <kwolf@redhat.com> wrote:
 > +read-only instead (and switch between the modes later), e.g. depending on
 > +whether the image file is writable or whether a writing user is attached to the
 > +node.
-> +@item force-share
-> +Override the image locking system of QEMU and force the node to allowing
-> +sharing all permissions with other uses.
 
-Grammar nit: "to allow sharing"; but maybe the phrasing could
-be clarified anyway -- I'm not entirely sure what 'sharing
-permissions" would be. The first part of the sentence suggests
-this option is "force the image file to be opened even if some
-other QEMU instance has it open already", but the second half
-soudns like "don't lock the image, so that some other use later
-is allowed to open it" ? Or is it both, or something else?
+Hard to read.  Maybe:
 
-> +
-> +Enabling @option{force-share=on} requires @option{read-only=on}.
+If @option{auto-read-only=on} is set, QEMU may fall back to read-only 
+usage even when @option{read-only=off} is requested, or even switch 
+between modes as needed, e.g. depending on whether the image file is 
+writable or whether a writing user is attached to the node.
 
-thanks
--- PMM
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
