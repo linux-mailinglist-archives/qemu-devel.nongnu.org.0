@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF32AD79E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:35:51 +0200 (CEST)
-Received: from localhost ([::1]:48844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8194D79F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 17:38:43 +0200 (CEST)
+Received: from localhost ([::1]:48926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKOrW-0005DU-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48388)
+	id 1iKOuI-00014M-A5
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 11:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iKOhI-0003G6-A8
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:17 -0400
+ (envelope-from <berto@igalia.com>) id 1iKOhK-0003LG-Ti
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iKOhG-0003ps-PX
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:16 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47093)
+ (envelope-from <berto@igalia.com>) id 1iKOhJ-0003ra-Pi
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 11:25:18 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:47181)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iKOhG-0003Z4-Ga; Tue, 15 Oct 2019 11:25:14 -0400
+ id 1iKOhJ-0003cD-Cu; Tue, 15 Oct 2019 11:25:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=kALB3wZJBo7sh2ZPgeIIj7Aso3rnUuxVKnq2S4x/FbY=; 
- b=lRc97TzctbWpFuLiImYu7mZ4x4Mn9Hl8SZGtrkaHvKGPiWxdw629mHKGFKsCmuBBqkRJCR9wCQbz7q+oQ6YkE7INxLo3lFKIgJK3nRAFbptehdTQIMPM6ZzmONeg4h+dbe9dPKDG9brBHj4Pvqpvc/+w0J4/nPAEG+NqlzTBI3XLYv0+EyOJKVmj9IhWOF1+hZBpr5mJo0IoLx2Ev00GyKEpYJbbRPkBo2WrTbjK3k5D0OnPuWFtQ1756kyyzfGKe4BafBg7EigvxF7NmKu5qpg75/g+YQ3HBNBypPuS/dGAMpkRPtbfKPs7WqTOx8ELUDxIUOnV9VlyEwWsquNg4A==;
+ bh=ALYCPxryLvhmZ8GEEyTrPtMyD7kVHTkvn2pb/zgUGkM=; 
+ b=jO14fM1zd5KrqiF+SeYOwlDFCeMY+cHial+dyNEDEiFSWanHgbuT9N8gOR0elwRXPE4HWCIKVhEaCTbefF2Mz3KE73UqAoMsZrv8g2lcNv/kUxBkjrwBO4wMbXRDdfF72+8IY1mIq75WUSYqcfskiLfCJL0KRgYHqd1DxWY2mGSHBd5nrx/cTQ21vjrTMYZIrOQMgbtDBic3ZG7aGafEPuyOXzeheK/3TjfFeV+RDiULNUFn8ZElSLg5YdJCw8TDeU3I38o78ra9KF3UZEVTCNEApFLBlmhJ/dFYQsmrUiaIxHoKZKzrJ72mO4D0OQCcXDYwa2QPA/MfLjEYJb0wjA==;
 Received: from 82-181-115-92.bb.dnainternet.fi ([82.181.115.92]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1iKOge-0003aY-0j; Tue, 15 Oct 2019 17:24:36 +0200
+ id 1iKOge-0003af-4H; Tue, 15 Oct 2019 17:24:36 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1iKOfm-00061V-Re; Tue, 15 Oct 2019 18:23:42 +0300
+ id 1iKOfn-00061p-28; Tue, 15 Oct 2019 18:23:43 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 11/23] qcow2: Add qcow2_get_subcluster_type()
-Date: Tue, 15 Oct 2019 18:23:22 +0300
-Message-Id: <574a36d3e22089745ea3d05503163ab5c93addf0.1571152571.git.berto@igalia.com>
+Subject: [RFC PATCH 18/23] qcow2: Add subcluster support to
+ expand_zero_clusters_in_l1()
+Date: Tue, 15 Oct 2019 18:23:29 +0300
+Message-Id: <0cb50763f0b1d32cc9e1be9b4eb77a6dc3f461d1.1571152571.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1571152571.git.berto@igalia.com>
 References: <cover.1571152571.git.berto@igalia.com>
@@ -62,136 +63,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function returns the type of an individual subcluster. If an
-image does not have subclusters then this returns the exact same value
-as qcow2_get_cluster_type().
-
-The information in standard and extended L2 entries is encoded in a
-slightly different way, but all existing QCow2ClusterType values are
-also valid for subclusters and have the same meanings (although they
-typically only apply to the requested subcluster).
-
-There are two important exceptions to this:
-
-  a) QCOW2_CLUSTER_COMPRESSED means that the whole cluster is
-     compressed. We do not support compression at the subcluster
-     level.
-
-  b) QCOW2_CLUSTER_UNALLOCATED means that the cluster is unallocated,
-     that is, the offset field of the L2 entry does not point to a
-     host cluster. All subclusters are obviously unallocated too but
-     any of them could be of type QCOW2_CLUSTER_ZERO_PLAIN.
-
-In addition to that, extended L2 entries allow one new scenario where
-the cluster is normally allocated but an individual subcluster is not.
-This is very different from (b) and because of that this patch adds a
-new value called QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER.
-
-As a last thing, this patch adds QCOW2_CLUSTER_INVALID to detect the
-cases where an L2 entry has a value that violates the spec. The caller
-is responsible for handling these situations.
-
-To prevent compatibility problems with images that have invalid values
-but are currently being read by QEMU without causing side effects,
-QCOW2_CLUSTER_INVALID is only returned for images with extended L2
-entries.
+Two changes are needed in order to add subcluster support to this
+function: deallocated clusters must have their bitmaps cleared, and
+expanded clusters must have all the "subcluster allocated" bits set.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.h | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ block/qcow2-cluster.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index d9fe883fe0..60e4bf963e 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -74,6 +74,15 @@
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index bf32447d18..dc72f0e595 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -2033,6 +2033,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+                         /* not backed; therefore we can simply deallocate the
+                          * cluster */
+                         set_l2_entry(s, l2_slice, j, 0);
++                        set_l2_bitmap(s, l2_slice, j, 0);
+                         l2_dirty = true;
+                         continue;
+                     }
+@@ -2099,6 +2100,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
+                 } else {
+                     set_l2_entry(s, l2_slice, j, offset);
+                 }
++                set_l2_bitmap(s, l2_slice, j, QCOW_L2_BITMAP_ALL_ALLOC);
+                 l2_dirty = true;
+             }
  
- #define QCOW_MAX_SUBCLUSTERS_PER_CLUSTER 32
- 
-+/* The subcluster X [0..31] reads as zeroes */
-+#define QCOW_OFLAG_SUB_ZERO(X)    ((1ULL << 63) >> (X))
-+/* The subcluster X [0..31] is allocated */
-+#define QCOW_OFLAG_SUB_ALLOC(X)   ((1ULL << 31) >> (X))
-+/* L2 entry bitmap with all "read as zeroes" bits set */
-+#define QCOW_L2_BITMAP_ALL_ZEROES 0xFFFFFFFF00000000ULL
-+/* L2 entry bitmap with all allocation bits set */
-+#define QCOW_L2_BITMAP_ALL_ALLOC  0x00000000FFFFFFFFULL
-+
- #define MIN_CLUSTER_BITS 9
- #define MAX_CLUSTER_BITS 21
- 
-@@ -435,10 +444,12 @@ typedef struct QCowL2Meta
- 
- typedef enum QCow2ClusterType {
-     QCOW2_CLUSTER_UNALLOCATED,
-+    QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER,
-     QCOW2_CLUSTER_ZERO_PLAIN,
-     QCOW2_CLUSTER_ZERO_ALLOC,
-     QCOW2_CLUSTER_NORMAL,
-     QCOW2_CLUSTER_COMPRESSED,
-+    QCOW2_CLUSTER_INVALID,
- } QCow2ClusterType;
- 
- typedef enum QCow2MetadataOverlap {
-@@ -618,6 +629,57 @@ static inline QCow2ClusterType qcow2_get_cluster_type(BlockDriverState *bs,
-     }
- }
- 
-+/* In an image without subsclusters this returns the same value as
-+ * qcow2_get_cluster_type() */
-+static inline int qcow2_get_subcluster_type(BlockDriverState *bs,
-+                                            uint64_t l2_entry,
-+                                            uint64_t l2_bitmap,
-+                                            unsigned sc_index)
-+{
-+    BDRVQcow2State *s = bs->opaque;
-+    QCow2ClusterType type = qcow2_get_cluster_type(bs, l2_entry);
-+    assert(sc_index < s->subclusters_per_cluster);
-+
-+    if (has_subclusters(s)) {
-+        bool sc_zero  = l2_bitmap & QCOW_OFLAG_SUB_ZERO(sc_index);
-+        bool sc_alloc = l2_bitmap & QCOW_OFLAG_SUB_ALLOC(sc_index);
-+        switch (type) {
-+        case QCOW2_CLUSTER_COMPRESSED:
-+            if (l2_bitmap != 0) {
-+                return QCOW2_CLUSTER_INVALID;
-+            }
-+            break;
-+        case QCOW2_CLUSTER_ZERO_PLAIN:
-+        case QCOW2_CLUSTER_ZERO_ALLOC:
-+            return QCOW2_CLUSTER_INVALID;
-+        case QCOW2_CLUSTER_NORMAL:
-+            if (!sc_zero && !sc_alloc) {
-+                return QCOW2_CLUSTER_UNALLOCATED_SUBCLUSTER;
-+            } else if (!sc_zero && sc_alloc) {
-+                return QCOW2_CLUSTER_NORMAL;
-+            } else if (sc_zero && !sc_alloc) {
-+                return QCOW2_CLUSTER_ZERO_ALLOC;
-+            } else { /* sc_zero && sc_alloc */
-+                return QCOW2_CLUSTER_INVALID;
-+            }
-+        case QCOW2_CLUSTER_UNALLOCATED:
-+            if (!sc_zero && !sc_alloc) {
-+                return QCOW2_CLUSTER_UNALLOCATED;
-+            } else if (!sc_zero && sc_alloc) {
-+                return QCOW2_CLUSTER_INVALID;
-+            } else if (sc_zero && !sc_alloc) {
-+                return QCOW2_CLUSTER_ZERO_PLAIN;
-+            } else { /* sc_zero && sc_alloc */
-+                return QCOW2_CLUSTER_INVALID;
-+            }
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
-+
-+    return type;
-+}
-+
- /* Check whether refcounts are eager or lazy */
- static inline bool qcow2_need_accurate_refcounts(BDRVQcow2State *s)
- {
 -- 
 2.20.1
 
