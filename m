@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D5CD7390
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:42:51 +0200 (CEST)
-Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28828D7394
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 12:43:56 +0200 (CEST)
+Received: from localhost ([::1]:40164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKKHy-0001ZP-87
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:42:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47674)
+	id 1iKKJ0-0002tT-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 06:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47704)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iKKEY-0007Nh-S3
+ (envelope-from <its@irrelevant.dk>) id 1iKKEZ-0007Om-I1
  for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iKKEX-0006Eq-HH
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:18 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:54784)
+ (envelope-from <its@irrelevant.dk>) id 1iKKEY-0006Fn-BB
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 06:39:19 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:54796)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iKKEU-0006B4-NN; Tue, 15 Oct 2019 06:39:14 -0400
+ id 1iKKEV-0006Bf-Lc; Tue, 15 Oct 2019 06:39:15 -0400
 Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 0B004BF80B;
+ by charlie.dont.surf (Postfix) with ESMTPSA id D2599BF879;
  Tue, 15 Oct 2019 10:39:13 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 04/20] nvme: populate the mandatory subnqn and ver fields
-Date: Tue, 15 Oct 2019 12:38:44 +0200
-Message-Id: <20191015103900.313928-5-its@irrelevant.dk>
+Subject: [PATCH v2 05/20] nvme: allow completion queues in the cmb
+Date: Tue, 15 Oct 2019 12:38:45 +0200
+Message-Id: <20191015103900.313928-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191015103900.313928-1-its@irrelevant.dk>
 References: <20191015103900.313928-1-its@irrelevant.dk>
@@ -54,65 +54,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Required for compliance with NVMe revision 1.2.1 or later. See NVM
-Express 1.2.1, Section 5.11 ("Identify command"), Figure 90 and Section
-7.9 ("NVMe Qualified Names").
+Allow completion queues in the controller memory buffer.
 
-This also bumps the supported version to 1.2.1.
+This also inlines the nvme_addr_{read,write} functions and adds an
+nvme_addr_is_cmb helper.
 
 Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 ---
- hw/block/nvme.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ hw/block/nvme.c | 38 +++++++++++++++++++++++++++++---------
+ 1 file changed, 29 insertions(+), 9 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 277700fdcc58..16f0fba10b08 100644
+index 16f0fba10b08..daa2367b0863 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -9,9 +9,9 @@
-  */
+@@ -52,14 +52,34 @@
 =20
- /**
-- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
-+ * Reference Specification: NVM Express 1.2.1
-  *
-- *  http://www.nvmexpress.org/resources/
-+ *   https://nvmexpress.org/resources/specifications/
-  */
+ static void nvme_process_sq(void *opaque);
 =20
- /**
-@@ -1366,6 +1366,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     id->ieee[0] =3D 0x00;
-     id->ieee[1] =3D 0x02;
-     id->ieee[2] =3D 0xb3;
-+    id->ver =3D cpu_to_le32(0x00010201);
-     id->oacs =3D cpu_to_le16(0);
-     id->frmw =3D 7 << 1;
-     id->lpa =3D 1 << 0;
-@@ -1373,6 +1374,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
- **errp)
-     id->cqes =3D (0x4 << 4) | 0x4;
-     id->nn =3D cpu_to_le32(n->num_namespaces);
-     id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
-);
+-static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size=
+)
++static inline bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
+ {
+-    if (n->cmbsz && addr >=3D n->ctrl_mem.addr &&
+-                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size=
+))) {
+-        memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+-    } else {
+-        pci_dma_read(&n->parent_obj, addr, buf, size);
++    hwaddr low =3D n->ctrl_mem.addr;
++    hwaddr hi  =3D n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
 +
-+    strcpy((char *) id->subnqn, "nqn.2019-08.org.qemu:");
-+    pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
++    return addr >=3D low && addr < hi;
++}
 +
-     id->psd[0].mp =3D cpu_to_le16(0x9c4);
-     id->psd[0].enlat =3D cpu_to_le32(0x10);
-     id->psd[0].exlat =3D cpu_to_le32(0x4);
-@@ -1387,7 +1392,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
++static inline void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf,
++    int size)
++{
++    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
++        memcpy(buf, (void *) &n->cmbuf[addr - n->ctrl_mem.addr], size);
++        return;
+     }
++
++    pci_dma_read(&n->parent_obj, addr, buf, size);
++}
++
++static inline void nvme_addr_write(NvmeCtrl *n, hwaddr addr, void *buf,
++    int size)
++{
++    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
++        memcpy((void *) &n->cmbuf[addr - n->ctrl_mem.addr], buf, size);
++        return;
++    }
++
++    pci_dma_write(&n->parent_obj, addr, buf, size);
+ }
+=20
+ static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
+@@ -281,6 +301,7 @@ static void nvme_post_cqes(void *opaque)
+=20
+     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+         NvmeSQueue *sq;
++        NvmeCqe *cqe =3D &req->cqe;
+         hwaddr addr;
+=20
+         if (nvme_cq_full(cq)) {
+@@ -294,8 +315,7 @@ static void nvme_post_cqes(void *opaque)
+         req->cqe.sq_head =3D cpu_to_le16(sq->head);
+         addr =3D cq->dma_addr + cq->tail * n->cqe_size;
+         nvme_inc_cq_tail(cq);
+-        pci_dma_write(&n->parent_obj, addr, (void *)&req->cqe,
+-            sizeof(req->cqe));
++        nvme_addr_write(n, addr, (void *) cqe, sizeof(*cqe));
+         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+     }
+     if (cq->tail !=3D cq->head) {
+@@ -1401,7 +1421,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
 **errp)
-     NVME_CAP_SET_CSS(n->bar.cap, 1);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+         NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
 =20
--    n->bar.vs =3D 0x00010200;
-+    n->bar.vs =3D 0x00010201;
-     n->bar.intmc =3D n->bar.intms =3D 0;
-=20
-     if (n->params.cmb_size_mb) {
+         NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
++        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 1);
+         NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+         NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+         NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
 --=20
 2.23.0
 
