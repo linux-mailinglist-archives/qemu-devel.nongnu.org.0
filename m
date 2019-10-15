@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAF1D825B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:44:50 +0200 (CEST)
-Received: from localhost ([::1]:60040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2120CD8257
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 23:42:23 +0200 (CEST)
+Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKUcb-0005RC-7W
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59835)
+	id 1iKUaD-0001kg-Sm
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 17:42:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iKUVw-0004rP-BX
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:37:57 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1iKUW7-0005Bl-TC
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iKUVv-0006gT-4p
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:37:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49928)
+ (envelope-from <ehabkost@redhat.com>) id 1iKUW6-0006iX-U1
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52580)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUVu-0006gL-Sf
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:37:55 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iKUW6-0006iN-OO
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 17:38:06 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0E44B3082231;
- Tue, 15 Oct 2019 21:37:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EF4113090FC3;
+ Tue, 15 Oct 2019 21:38:05 +0000 (UTC)
 Received: from localhost (ovpn-116-20.phx2.redhat.com [10.3.116.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F77F5D70D;
- Tue, 15 Oct 2019 21:37:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E57EB60C5D;
+ Tue, 15 Oct 2019 21:38:02 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
  qemu-devel@nongnu.org
-Subject: [PULL 03/18] numa: Introduce MachineClass::auto_enable_numa for
- implicit NUMA node
-Date: Tue, 15 Oct 2019 18:37:30 -0300
-Message-Id: <20191015213745.22174-4-ehabkost@redhat.com>
+Subject: [PULL 05/18] hw/isa/piix4: Convert reset handler to DeviceReset
+Date: Tue, 15 Oct 2019 18:37:32 -0300
+Message-Id: <20191015213745.22174-6-ehabkost@redhat.com>
 In-Reply-To: <20191015213745.22174-1-ehabkost@redhat.com>
 References: <20191015213745.22174-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 15 Oct 2019 21:37:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 15 Oct 2019 21:38:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,93 +60,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tao Xu <tao3.xu@intel.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Li Qiang <liq3ea@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tao Xu <tao3.xu@intel.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Add MachineClass::auto_enable_numa field. When it is true, a NUMA node
-is expected to be created implicitly.
+The PIIX4/ISA is a PCI device within the PIIX4 chipset, it will be reset
+when the PCI bus it stands on is reset.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Message-Id: <20190905083238.1799-1-tao3.xu@intel.com>
+Convert its reset handler into a proper Device reset method.
+
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191010131527.32513-3-philmd@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/boards.h |  1 +
- hw/core/numa.c      | 10 ++++++++--
- hw/ppc/spapr.c      |  9 +--------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ hw/isa/piix4.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index be18a5c032..de45087f34 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -228,6 +228,7 @@ struct MachineClass {
-     bool smbus_no_migration_support;
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-+    bool auto_enable_numa;
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 3294056cd5..890d999abf 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -28,7 +28,6 @@
+ #include "hw/isa/isa.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+-#include "sysemu/reset.h"
 =20
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-                                            DeviceState *dev);
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 4dfec5c95b..038c96d4ab 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -378,11 +378,17 @@ void numa_complete_configuration(MachineState *ms)
-      *   guest tries to use it with that drivers.
-      *
-      * Enable NUMA implicitly by adding a new NUMA node automatically.
-+     *
-+     * Or if MachineClass::auto_enable_numa is true and no NUMA nodes,
-+     * assume there is just one node with whole RAM.
-      */
--    if (ms->ram_slots > 0 && ms->numa_state->num_nodes =3D=3D 0 &&
--        mc->auto_enable_numa_with_memhp) {
-+    if (ms->numa_state->num_nodes =3D=3D 0 &&
-+        ((ms->ram_slots > 0 &&
-+        mc->auto_enable_numa_with_memhp) ||
-+        mc->auto_enable_numa)) {
-             NumaNodeOptions node =3D { };
-             parse_numa_node(ms, &node, &error_abort);
-+            numa_info[0].node_mem =3D ram_size;
+ PCIDevice *piix4_dev;
+=20
+@@ -40,9 +39,9 @@ typedef struct PIIX4State {
+ #define PIIX4_PCI_DEVICE(obj) \
+     OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)
+=20
+-static void piix4_reset(void *opaque)
++static void piix4_isa_reset(DeviceState *dev)
+ {
+-    PIIX4State *d =3D opaque;
++    PIIX4State *d =3D PIIX4_PCI_DEVICE(dev);
+     uint8_t *pci_conf =3D d->dev.config;
+=20
+     pci_conf[0x04] =3D 0x07; // master, memory and I/O
+@@ -97,7 +96,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         return;
      }
+     piix4_dev =3D &d->dev;
+-    qemu_register_reset(piix4_reset, d);
+ }
 =20
-     assert(max_numa_nodeid <=3D MAX_NODES);
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 514a17ae74..4eb97d3a9b 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -346,14 +346,6 @@ static int spapr_populate_memory(SpaprMachineState *=
-spapr, void *fdt)
-     hwaddr mem_start, node_size;
-     int i, nb_nodes =3D machine->numa_state->num_nodes;
-     NodeInfo *nodes =3D machine->numa_state->nodes;
--    NodeInfo ramnode;
--
--    /* No NUMA nodes, assume there is just one node with whole RAM */
--    if (!nb_nodes) {
--        nb_nodes =3D 1;
--        ramnode.node_mem =3D machine->ram_size;
--        nodes =3D &ramnode;
--    }
-=20
-     for (i =3D 0, mem_start =3D 0; i < nb_nodes; ++i) {
-         if (!nodes[i].node_mem) {
-@@ -4430,6 +4422,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-      */
-     mc->numa_mem_align_shift =3D 28;
-     mc->numa_mem_supported =3D true;
-+    mc->auto_enable_numa =3D true;
-=20
-     smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
-     smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
+ int piix4_init(PCIBus *bus, ISABus **isa_bus, int devfn)
+@@ -118,6 +116,7 @@ static void piix4_class_init(ObjectClass *klass, void=
+ *data)
+     k->vendor_id =3D PCI_VENDOR_ID_INTEL;
+     k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB_0;
+     k->class_id =3D PCI_CLASS_BRIDGE_ISA;
++    dc->reset =3D piix4_isa_reset;
+     dc->desc =3D "ISA bridge";
+     dc->vmsd =3D &vmstate_piix4;
+     /*
 --=20
 2.21.0
 
