@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F609D7CE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:05:20 +0200 (CEST)
-Received: from localhost ([::1]:53510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8848ED7C98
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 19:00:21 +0200 (CEST)
+Received: from localhost ([::1]:53242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKQG7-0005fi-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:05:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42526)
+	id 1iKQBI-0007i6-Cc
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 13:00:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iKPn0-0008D7-2p
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:35:15 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iKPn1-0008FH-AE
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:35:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iKPmy-0000FL-IW
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:35:13 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43984)
+ (envelope-from <richard.henderson@linaro.org>) id 1iKPmz-0000Ga-Rm
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:35:15 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40797)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iKPmy-0000En-D0
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:35:12 -0400
-Received: by mail-pg1-x541.google.com with SMTP id i32so12452809pgl.10
- for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 09:35:12 -0700 (PDT)
+ id 1iKPmz-0000Fo-MY
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:35:13 -0400
+Received: by mail-pf1-x441.google.com with SMTP id x127so12816432pfb.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Oct 2019 09:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=nG2MQUfKXLXTBAN0GTjwypjxy4v62hiX+t+7N4V/tlY=;
- b=MrbNyQOKu0lRjuiepV3ZsvSOZGjrtd509OrA78NZwrwagWfY44Q93qQx22mlumQChc
- ygPKc1ayqwLOJeb6j1N8MKiBPs6uyw6d2Gt7BgZddiGRv9NK0jZGut6x8qmKBj9GzOGd
- s1AyVKVKkq+OvpDGO2AcQEu0Y3djUISPshXeRv2CE2ECn2FMDZ4dR5fPLNx4JGKHylVI
- Mui1PANaVM112wNdj28XwE9oHVhbbTYv+9tNQRkm0IVdD8bNA7GhrdzHNF8euB7y7Sa6
- w6qskEMoadlUN6PXLcYELh0Jm2ZRbnyA6QCEXUwhjCBz6ajpGuPxTTIAQF/zTxWawXsl
- yutg==
+ bh=Z9j8volhtgefXr986PnBR9GXQR8t6Mv7RUHoAURHFm8=;
+ b=nj1pctCulV9XzosVS4Royndi5VtaskoPn9t4VdjMis/CyzTEtURqNjpJZd22x7ZYpm
+ WLYNEe5spgDEGTfxWf1gDIRqnF1u5qw1KKb/W+T/j4YS4cNnWOpedfXn7cpzKSfcFPNN
+ +Sjb/QdFyozo32/PHJDjJxA11DRbV4JT+sFVoC+UlK4HoYmleHgjnAdkNIDLl8zsUcfQ
+ h0vW2R4JMp0yh4djyTz+GSF/Z4kbwzriTJC9n+umFLa+tM6aH00aqsEV862DdVGhiC6J
+ jaXWBawM0qW8E2GzGn/kbCxsLaRA81/AKT4LD6+XEP4mrgesvzFbkMkkgGmAZAoCgW5B
+ qLJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=nG2MQUfKXLXTBAN0GTjwypjxy4v62hiX+t+7N4V/tlY=;
- b=raizETIkRbmyzcS8nYg9/3iSd/tiWUW1bn2mUJvECN5C1w23oIJyLcuc8RfRD3OGn3
- b8/CPo9LSuw30Qb92976uoNMrd20mLst2CdZgloQBfpwOmt64NH3ShOWyf0avasAKwmA
- nzzeSSz2UX0oo32btFIw/ABr1z7PWZNjyhgUJWuiVq2jcFXa7i5xqeol6ysjbaRO4m1a
- rEodTyfspmfg/78puJJLswhE0fXY48/UfyGOkX37r/ozse6XBYTHDfv2NorF4l5P/cTC
- olvkRF4ckWJXFMk+TEJP7gM1/cR7ljY10XWZscJJ7RdgGlvBNSfxP1JWaPd/OGHPA7pj
- 2R6Q==
-X-Gm-Message-State: APjAAAU8z1w8s+rVEHvjxBdztgxoMgZrXXt+dIpw0pJBLW0DtQ+AndRw
- l8SiTYpvGA7Pw0I9xc9Pf/djALnWnuE=
-X-Google-Smtp-Source: APXvYqzLlth/hZYOqANGKo7z1xa9prQJnxBb81m4tcTqlPl6wTTHcknhwUEi89cDnnbS3RlYiaYC5w==
-X-Received: by 2002:a65:5345:: with SMTP id w5mr31566979pgr.213.1571157310835; 
- Tue, 15 Oct 2019 09:35:10 -0700 (PDT)
+ bh=Z9j8volhtgefXr986PnBR9GXQR8t6Mv7RUHoAURHFm8=;
+ b=iPOe91QAX2iqBX1lrw+mO3CkCjj0SWtsqFlGGKCa+MdtO1wpMJ6G5kT2iwRJG1MDNN
+ mcTIoSvpONYLrJzUJBtycjAw3uo2Wu7aUEiWpLHM74lXoI3lxIKVxHz0d9Lw9y54ApAI
+ IKI5g4P3hlPMQ8nNmRu/F4MvarFd3fHsVCnWGsGKKWHSP9jSkRaV41AkUaqUjQ5/9eaQ
+ K2boR3UVf6+b6oLorzsMsZ141lVJ44sS/ekFH0cPH24mTi4JAzPr08VmIlMFpkAgU/XT
+ 0qWCmP3TUoND/9iSiWtJPTkLSzVoPgGy7MTpjP23bFYa/qAdNtawZIWw8uxxyLod4R5h
+ d1EQ==
+X-Gm-Message-State: APjAAAUxVhGs4V5AdiYd1vvFCtkKBQHhRHKzENo3aYb/kbzQ5ImjYnco
+ 32YLDNYWoTzyjr7/fQnNOMkjF4cZkDo=
+X-Google-Smtp-Source: APXvYqxkIeYn7eLe7ZWHcykV6S2alU5GzCLCwJhFOCLrbLgmfwdUW5N8tLr/k8ha/G3FoS7quW8B9A==
+X-Received: by 2002:a17:90a:9b86:: with SMTP id
+ g6mr43664202pjp.76.1571157312303; 
+ Tue, 15 Oct 2019 09:35:12 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id m22sm22011593pgj.29.2019.10.15.09.35.09
+ by smtp.gmail.com with ESMTPSA id m22sm22011593pgj.29.2019.10.15.09.35.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 09:35:10 -0700 (PDT)
+ Tue, 15 Oct 2019 09:35:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] tcg: Introduce target-specific page data for user-only
-Date: Tue, 15 Oct 2019 09:35:05 -0700
-Message-Id: <20191015163507.12153-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 2/3] target/arm: Add allocation tag storage for user mode
+Date: Tue, 15 Oct 2019 09:35:06 -0700
+Message-Id: <20191015163507.12153-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191015163507.12153-1-richard.henderson@linaro.org>
 References: <20191015163507.12153-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,154 +80,120 @@ Cc: elver@google.com, icb@rice.edu, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the same time, remember MAP_SHARED as PAGE_SHARED.  When mapping
-new pages, make sure that old target-specific page data is removed.
+Control this with x-tagged-pages, which is off by default.
+
+The limitation to non-shared pages is not part of a future kernel API,
+but a limitation of linux-user not being able to map virtual pages back
+to physical pages.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h    | 10 ++++++++--
- accel/tcg/translate-all.c | 28 ++++++++++++++++++++++++++++
- linux-user/mmap.c         |  8 +++++++-
- linux-user/syscall.c      |  4 ++--
- 4 files changed, 45 insertions(+), 5 deletions(-)
+v2: Add the x-tagged-pages cpu property
+---
+ target/arm/cpu.h        |  4 ++++
+ target/arm/cpu64.c      | 20 ++++++++++++++++++++
+ target/arm/mte_helper.c | 35 +++++++++++++++++++++++++++++++++--
+ 3 files changed, 57 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index d23ced1d12..034773e319 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -243,10 +243,14 @@ extern intptr_t qemu_host_page_mask;
- #define PAGE_WRITE_ORG 0x0010
- /* Invalidate the TLB entry immediately, helpful for s390x
-  * Low-Address-Protection. Used with PAGE_WRITE in tlb_set_page_with_attrs() */
--#define PAGE_WRITE_INV 0x0040
-+#define PAGE_WRITE_INV 0x0020
-+/* Page is mapped shared.  */
-+#define PAGE_SHARED    0x0040
-+/* For use with page_set_flags: page is being replaced; target_data cleared. */
-+#define PAGE_RESET     0x0080
- #if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
- /* FIXME: Code that sets/uses this is broken and needs to go away.  */
--#define PAGE_RESERVED  0x0020
-+#define PAGE_RESERVED  0x0100
- #endif
- /* Target-specific bits that will be used via page_get_flags().  */
- #define PAGE_TARGET_1  0x0080
-@@ -261,6 +265,8 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
- int page_get_flags(target_ulong address);
- void page_set_flags(target_ulong start, target_ulong end, int flags);
- int page_check_range(target_ulong start, target_ulong len, int flags);
-+void *page_get_target_data(target_ulong address);
-+void *page_alloc_target_data(target_ulong address, size_t size);
- #endif
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c3609ef9d5..272df43d3c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -912,6 +912,10 @@ struct ARMCPU {
+      */
+     bool cfgend;
  
- CPUArchState *cpu_copy(CPUArchState *env);
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 66d4bc4341..dbf08b55e2 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -110,6 +110,7 @@ typedef struct PageDesc {
-     unsigned int code_write_count;
- #else
-     unsigned long flags;
-+    void *target_data;
- #endif
- #ifndef CONFIG_USER_ONLY
-     QemuSpin lock;
-@@ -2513,6 +2514,7 @@ int page_get_flags(target_ulong address)
- void page_set_flags(target_ulong start, target_ulong end, int flags)
- {
-     target_ulong addr, len;
-+    bool reset_target_data;
++#ifdef CONFIG_USER_ONLY
++    bool tagged_pages;
++#endif
++
+     QLIST_HEAD(, ARMELChangeHook) pre_el_change_hooks;
+     QLIST_HEAD(, ARMELChangeHook) el_change_hooks;
  
-     /* This function should never be called with addresses outside the
-        guest address space.  If this assert fires, it probably indicates
-@@ -2529,6 +2531,8 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
-     if (flags & PAGE_WRITE) {
-         flags |= PAGE_WRITE_ORG;
-     }
-+    reset_target_data = !(flags & PAGE_VALID) || (flags & PAGE_RESET);
-+    flags &= ~PAGE_RESET;
- 
-     for (addr = start, len = end - start;
-          len != 0;
-@@ -2542,10 +2546,34 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
-             p->first_tb) {
-             tb_invalidate_phys_page(addr, 0);
-         }
-+        if (reset_target_data && p->target_data) {
-+            g_free(p->target_data);
-+            p->target_data = NULL;
-+        }
-         p->flags = flags;
-     }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index ac1e2dc2c4..4bf498f778 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -279,6 +279,20 @@ static void cpu_max_set_sve_vq(Object *obj, Visitor *v, const char *name,
+     error_propagate(errp, err);
  }
  
-+void *page_get_target_data(target_ulong address)
++#ifdef CONFIG_USER_ONLY
++static bool aarch64_cpu_get_tagged_pages(Object *obj, Error **errp)
 +{
-+    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
-+    return p ? p->target_data : NULL;
++    ARMCPU *cpu = ARM_CPU(obj);
++    return cpu->tagged_pages;
 +}
 +
-+void *page_alloc_target_data(target_ulong address, size_t size)
++static void aarch64_cpu_set_tagged_pages(Object *obj, bool val, Error **errp)
 +{
-+    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
-+    void *ret = NULL;
-+
-+    if (p) {
-+        ret = p->target_data;
-+        if (!ret && (p->flags & PAGE_VALID)) {
-+            p->target_data = ret = g_malloc0(size);
-+        }
-+    }
-+    return ret;
++    ARMCPU *cpu = ARM_CPU(obj);
++    cpu->tagged_pages = val;
 +}
++#endif
 +
- int page_check_range(target_ulong start, target_ulong len, int flags)
+ /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+  * otherwise, a CPU with as many features enabled as our emulation supports.
+  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+@@ -389,6 +403,12 @@ static void aarch64_max_initfn(Object *obj)
+          */
+         cpu->ctr = 0x80038003; /* 32 byte I and D cacheline size, VIPT icache */
+         cpu->dcz_blocksize = 7; /*  512 bytes */
++
++        object_property_add_bool(obj, "x-tagged-pages",
++                                 aarch64_cpu_get_tagged_pages,
++                                 aarch64_cpu_set_tagged_pages, NULL);
++        object_property_set_description(obj, "x-tagged-pages",
++            "Set on/off MemAttr Tagged for all pages", NULL);
+ #endif
+ 
+         cpu->sve_max_vq = ARM_MAX_VQ;
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 657383ba0e..797c6229ab 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -29,8 +29,39 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, uint64_t ptr,
+                                    bool write, uintptr_t ra)
  {
-     PageDesc *p;
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index c1bed290f6..75e0355ff7 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -626,6 +626,10 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-         }
-     }
-  the_end1:
-+    if ((flags & MAP_TYPE) == MAP_SHARED) {
-+        page_flags |= PAGE_SHARED;
+ #ifdef CONFIG_USER_ONLY
+-    /* Tag storage not implemented.  */
+-    return NULL;
++    ARMCPU *cpu = env_archcpu(env);
++    uint8_t *tags;
++    uintptr_t index;
++    int flags;
++
++    flags = page_get_flags(ptr);
++
++    if (!(flags & PAGE_VALID) || !(flags & (write ? PAGE_WRITE : PAGE_READ))) {
++        /* SIGSEGV */
++        env->exception.vaddress = ptr;
++        cpu_restore_state(CPU(cpu), ra, true);
++        raise_exception(env, EXCP_DATA_ABORT, 0, 1);
 +    }
-+    page_flags |= PAGE_RESET;
-     page_set_flags(start, start + len, page_flags);
-  the_end:
- #ifdef DEBUG_MMAP
-@@ -818,9 +822,11 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-         new_addr = -1;
-     } else {
-         new_addr = h2g(host_addr);
-+        /* FIXME: Move page flags (and target_data?) for each page.  */
-         prot = page_get_flags(old_addr);
-         page_set_flags(old_addr, old_addr + old_size, 0);
--        page_set_flags(new_addr, new_addr + new_size, prot | PAGE_VALID);
-+        page_set_flags(new_addr, new_addr + new_size,
-+                       prot | PAGE_VALID | PAGE_RESET);
-     }
-     tb_invalidate_phys_range(new_addr, new_addr + new_size);
-     mmap_unlock();
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e2af3c1494..52f50eca4b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -4061,8 +4061,8 @@ static inline abi_ulong do_shmat(CPUArchState *cpu_env,
-     raddr=h2g((unsigned long)host_raddr);
- 
-     page_set_flags(raddr, raddr + shm_info.shm_segsz,
--                   PAGE_VALID | PAGE_READ |
--                   ((shmflg & SHM_RDONLY)? 0 : PAGE_WRITE));
-+                   PAGE_VALID | PAGE_SHARED | PAGE_RESET | PAGE_READ |
-+                   (shmflg & SHM_RDONLY ? 0 : PAGE_WRITE));
- 
-     for (i = 0; i < N_SHM_REGIONS; i++) {
-         if (!shm_regions[i].in_use) {
++
++    if (!cpu->tagged_pages) {
++        /* Tag storage is disabled.  */
++        return NULL;
++    }
++    if (flags & PAGE_SHARED) {
++        /* There may be multiple mappings; pretend not implemented.  */
++        return NULL;
++    }
++
++    tags = page_get_target_data(ptr);
++    if (tags == NULL) {
++        size_t alloc_size = TARGET_PAGE_SIZE >> (LOG2_TAG_GRANULE + 1);
++        tags = page_alloc_target_data(ptr, alloc_size);
++        assert(tags != NULL);
++    }
++
++    index = extract32(ptr, LOG2_TAG_GRANULE + 1,
++                      TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
++    return tags + index;
+ #else
+     CPUState *cs = env_cpu(env);
+     uintptr_t index;
 -- 
 2.17.1
 
