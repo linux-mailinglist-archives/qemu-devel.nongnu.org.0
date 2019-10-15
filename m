@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C965ED7C50
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:50:53 +0200 (CEST)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B11BCD7C4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Oct 2019 18:50:39 +0200 (CEST)
+Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKQ27-0001Ms-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41926)
+	id 1iKQ1u-0000vb-AJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 12:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKPjt-0004bm-JP
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:04 -0400
+ (envelope-from <philmd@redhat.com>) id 1iKPkC-0004jw-Ct
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKPjs-0006w4-Ii
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:15124)
+ (envelope-from <philmd@redhat.com>) id 1iKPkA-00074L-JT
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41696)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPjs-0006vV-DI
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:00 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKPkA-00073L-1Q
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 12:32:18 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3628D316D8D1;
- Tue, 15 Oct 2019 16:31:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6BBA61DA2;
+ Tue, 15 Oct 2019 16:32:16 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25ED519C58;
- Tue, 15 Oct 2019 16:31:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0250A19C58;
+ Tue, 15 Oct 2019 16:31:59 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/32] hw/i386/pc: Remove kvm_i386.h include
-Date: Tue, 15 Oct 2019 18:26:57 +0200
-Message-Id: <20191015162705.28087-25-philmd@redhat.com>
+Subject: [PATCH 25/32] hw/pci-host/piix: Extract piix3_create()
+Date: Tue, 15 Oct 2019 18:26:58 +0200
+Message-Id: <20191015162705.28087-26-philmd@redhat.com>
 In-Reply-To: <20191015162705.28087-1-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 15 Oct 2019 16:31:59 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.71]); Tue, 15 Oct 2019 16:32:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -71,40 +71,86 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By extracting pc_gsi_create() and pc_i8259_create() we removed
-the access to "kvm_i386.h" from the machine code. We can now
-remove it.
+Extract the PIIX3 creation code from the i440fx_init() function.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/i386/pc_piix.c | 1 -
- hw/i386/pc_q35.c  | 1 -
- 2 files changed, 2 deletions(-)
+ hw/pci-host/piix.c | 51 ++++++++++++++++++++++++++++------------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 0a7193a3cc..5b35ff04c7 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -57,7 +57,6 @@
- #endif
- #include "migration/global_state.h"
- #include "migration/misc.h"
--#include "kvm_i386.h"
- #include "sysemu/numa.h"
+diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
+index 2f4cbcbfe9..3292703de7 100644
+--- a/hw/pci-host/piix.c
++++ b/hw/pci-host/piix.c
+@@ -331,6 +331,36 @@ static void i440fx_realize(PCIDevice *dev, Error **e=
+rrp)
+     }
+ }
 =20
- #define MAX_IDE_BUS 2
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index f4fb9a02ba..2e5d6821fb 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -36,7 +36,6 @@
- #include "hw/timer/mc146818rtc.h"
- #include "hw/xen/xen.h"
- #include "sysemu/kvm.h"
--#include "kvm_i386.h"
- #include "hw/kvm/clock.h"
- #include "hw/pci-host/q35.h"
- #include "hw/qdev-properties.h"
++static PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus)
++{
++    PIIX3State *piix3;
++    PCIDevice *pci_dev;
++
++    /*
++     * Xen supports additional interrupt routes from the PCI devices to
++     * the IOAPIC: the four pins of each PCI device on the bus are also
++     * connected to the IOAPIC directly.
++     * These additional routes can be discovered through ACPI.
++     */
++    if (xen_enabled()) {
++        pci_dev =3D pci_create_simple_multifunction(pci_bus, -1, true,
++                                                  TYPE_PIIX3_XEN_DEVICE)=
+;
++        piix3 =3D PIIX3_PCI_DEVICE(pci_dev);
++        pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
++                     piix3, XEN_PIIX_NUM_PIRQS);
++    } else {
++        pci_dev =3D pci_create_simple_multifunction(pci_bus, -1, true,
++                                                  TYPE_PIIX3_DEVICE);
++        piix3 =3D PIIX3_PCI_DEVICE(pci_dev);
++        pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
++                     piix3, PIIX_NUM_PIRQS);
++        pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
++    }
++    *isa_bus =3D ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
++
++    return piix3;
++}
++
+ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+                     PCII440FXState **pi440fx_state,
+                     int *piix3_devfn,
+@@ -400,27 +430,8 @@ PCIBus *i440fx_init(const char *host_type, const cha=
+r *pci_type,
+                  PAM_EXPAN_SIZE);
+     }
+=20
+-    /* Xen supports additional interrupt routes from the PCI devices to
+-     * the IOAPIC: the four pins of each PCI device on the bus are also
+-     * connected to the IOAPIC directly.
+-     * These additional routes can be discovered through ACPI. */
+-    if (xen_enabled()) {
+-        PCIDevice *pci_dev =3D pci_create_simple_multifunction(b,
+-                             -1, true, TYPE_PIIX3_XEN_DEVICE);
+-        piix3 =3D PIIX3_PCI_DEVICE(pci_dev);
+-        pci_bus_irqs(b, xen_piix3_set_irq, xen_pci_slot_get_pirq,
+-                piix3, XEN_PIIX_NUM_PIRQS);
+-    } else {
+-        PCIDevice *pci_dev =3D pci_create_simple_multifunction(b,
+-                             -1, true, TYPE_PIIX3_DEVICE);
+-        piix3 =3D PIIX3_PCI_DEVICE(pci_dev);
+-        pci_bus_irqs(b, piix3_set_irq, pci_slot_get_pirq, piix3,
+-                PIIX_NUM_PIRQS);
+-        pci_bus_set_route_irq_fn(b, piix3_route_intx_pin_to_irq);
+-    }
++    piix3 =3D piix3_create(b, isa_bus);
+     piix3->pic =3D pic;
+-    *isa_bus =3D ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+-
+     *piix3_devfn =3D piix3->dev.devfn;
+=20
+     ram_size =3D ram_size / 8 / 1024 / 1024;
 --=20
 2.21.0
 
