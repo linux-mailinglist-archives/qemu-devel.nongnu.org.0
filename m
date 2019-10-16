@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E63D8F73
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 13:31:14 +0200 (CEST)
-Received: from localhost ([::1]:41220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24F4D8FA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 13:35:31 +0200 (CEST)
+Received: from localhost ([::1]:41274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKhWL-0001Rb-6h
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 07:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1iKhaU-00058y-JI
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 07:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iKhQM-0006Bb-3z
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:25:02 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1iKhQU-0006LN-Kl
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:25:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iKhQL-0003pG-Af
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:25:02 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:44054)
+ (envelope-from <joel.stan@gmail.com>) id 1iKhQS-0003rF-Em
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:25:10 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:37870)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iKhQI-0003oQ-JE; Wed, 16 Oct 2019 07:24:58 -0400
-Received: by mail-qt1-x842.google.com with SMTP id u40so35454834qth.11;
- Wed, 16 Oct 2019 04:24:58 -0700 (PDT)
+ id 1iKhQP-0003qK-HD; Wed, 16 Oct 2019 07:25:05 -0400
+Received: by mail-qk1-x743.google.com with SMTP id u184so22373796qkd.4;
+ Wed, 16 Oct 2019 04:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=eH+1OsIsWYsvPFE4doGalrk7GlwE8kT2Ztu1aB99Yoo=;
- b=DoJ1Y9pQldeRYkhrgN/gM0B+noh/KN+pWnmVqFJ6bAnhrkiEwWUmg6Q3/igh3DXkAX
- cbdjoBno+iAx7mdiQiHpbNFAhNqgeRDsE5sF83DalUviqXsb5fXvwpU7NPslyIr63K+L
- V79jOpLm8MLX06EG4gGZln3cF/FPNigezkGt8=
+ bh=cP7wYXPS1LIP0QvJUqyPcWVisGTLgBxAvOkjcnJYZTw=;
+ b=U5PWcI3gn+bq9MQR5PUH10Pv8w+eFBRpCvZWKJRqFNHkmqXVHNlySUjTlyNdLHBN/K
+ QkZ2EVvb0CX8yYkHvvCM+qco487KaVCs1YPHly6G4VH2W8GNFULVUmdRhbzJW7sCYKPr
+ ivJnWNKxFDtbVRmDb/bndF3u0SVziYpFcyUx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=eH+1OsIsWYsvPFE4doGalrk7GlwE8kT2Ztu1aB99Yoo=;
- b=r3rxmZ1Tv8hwarJmnTk6BvOzvMuAm6XpcQ6a3SShJcBn5u8+hcvTuJSMSG3SDwGmn5
- 5nIxqxvINiuAdkKr+/6wRHfH5dc07spWV1caWQjzsZIYVYTVMLDr5veknpq/bEuiU1uZ
- 2JFN7WYff4f2RwigjYfiguq54PF9y7C3Rg6W3IQB+DHhHbkzqTiEXL8mDzCeL1CPCw/v
- 96CJ86Tcf5kBrm/D9+UcIsgPpnLlS0HTeQF0h6tOj5LGP2D/uU+wXxPghz+rfVvCSKrm
- ujXY0DUzlJXOea1V6iBXS67pSKHCAU/ln+jz2+Hco7bdSUHFpTW8/3eOlYeW5ga4Qdgd
- coaA==
-X-Gm-Message-State: APjAAAU56NkPG+iLaWbkMBxpfoPKIi1GxNGx3hNQKkH0QUmywKI/XWIN
- 2d2Ly6cIbA9QAGV9U+ENoh7pPnsCOmWhMrA2He8=
-X-Google-Smtp-Source: APXvYqwYH4Pn9W2ctoBKt8UED5fwlcasOC+ITY0bpESrbOnjKid4xeHXQHFfKuHyDOCeayIYje3yZsjmYkydErMtpGk=
-X-Received: by 2002:ac8:5347:: with SMTP id d7mr44263224qto.269.1571225097946; 
- Wed, 16 Oct 2019 04:24:57 -0700 (PDT)
+ bh=cP7wYXPS1LIP0QvJUqyPcWVisGTLgBxAvOkjcnJYZTw=;
+ b=X8ToXMid9+/Zi0vySLgcYWIVXjOHo421aFfuWheY4qOEZtKf4z8jqNwR+twYo9uqw5
+ 1iJd0dO9n8jTWX53mUCAxHYMGP/lX6hBcYNr9G5VWcdxS655Wk3NhCLrSqJPVA4hGbxE
+ 0NERGBkPWR4/RFP1FiVd6HRmctvlOac0EI3t5jx9ZMIzhLWb1cU43jBGNv1v0xmgz6jf
+ PtC3wMtIUZV4qDNUIhfjwMAxbG9ReesxOq1HM0iRt9NfGT/avpS3lXtWXLTg3joSheRV
+ FZLxnpjQr6kxzj3oFyHsVA1xlRYG3QvwQDWuXPnXnc744nx/Dp+3kVqXWiZVXr4IdsTL
+ gSPA==
+X-Gm-Message-State: APjAAAX7NgN5A/LVr2MbwD6TbM5JXS7jh8GeH5YyRZ8n0F3aI6G9Sw7z
+ jkshwGb83rBgrPA8xGDzFy305ZRgogxNuNS8cLo=
+X-Google-Smtp-Source: APXvYqwFlhb2tguRcC2g4H/W7nrH3ukEAKlxGnmqJGSfzQZcmXbyzMua+ISqyEYunlPHvmqZbvi4PrUmgsz5CaAowOU=
+X-Received: by 2002:a37:d87:: with SMTP id 129mr40610041qkn.414.1571225104884; 
+ Wed, 16 Oct 2019 04:25:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191016085035.12136-1-clg@kaod.org>
- <20191016085035.12136-6-clg@kaod.org>
-In-Reply-To: <20191016085035.12136-6-clg@kaod.org>
+ <20191016085035.12136-5-clg@kaod.org>
+In-Reply-To: <20191016085035.12136-5-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 16 Oct 2019 11:24:45 +0000
-Message-ID: <CACPK8XdoxaZjH=vCB5Vm-vv=bxLdJ1A9DknAUkiCzzsmBj+GNQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] aspeed/i2c: Add trace events
+Date: Wed, 16 Oct 2019 11:24:53 +0000
+Message-ID: <CACPK8XfVdYNy45mnVx_4Bq00iaFjC78w-F=omw1Db0wJ-FU7xA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] aspeed/i2c: Add support for DMA transfers
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::842
+X-Received-From: 2607:f8b0:4864:20::743
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,6 +78,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 16 Oct 2019 at 08:50, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The I2C controller of the Aspeed AST2500 and AST2600 SoCs supports DMA
+> transfers to and from DRAM.
+>
+> A pair of registers defines the buffer address and the length of the
+> DMA transfer. The address should be aligned on 4 bytes and the maximum
+> length should not exceed 4K. The receive or transmit DMA transfer can
+> then be initiated with specific bits in the Command/Status register of
+> the controller.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
