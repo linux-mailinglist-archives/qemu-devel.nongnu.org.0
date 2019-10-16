@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AD6D8F6C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 13:29:19 +0200 (CEST)
-Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45550D8F6B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 13:29:06 +0200 (CEST)
+Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKhUU-0000At-3m
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 07:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
+	id 1iKhUH-0008RR-1S
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 07:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iKhPt-0005mO-JX
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:24:34 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1iKhQ9-0005v1-HK
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:24:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iKhPs-0003av-Jv
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:24:33 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:36451)
+ (envelope-from <joel.stan@gmail.com>) id 1iKhQ8-0003kG-Lw
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:24:49 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:32833)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iKhPp-0003aI-UF; Wed, 16 Oct 2019 07:24:30 -0400
-Received: by mail-qk1-x743.google.com with SMTP id y189so22373863qkc.3;
- Wed, 16 Oct 2019 04:24:29 -0700 (PDT)
+ id 1iKhQ5-0003gg-PP; Wed, 16 Oct 2019 07:24:45 -0400
+Received: by mail-qt1-x844.google.com with SMTP id r5so35555085qtd.0;
+ Wed, 16 Oct 2019 04:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=X1wLTwckVbez8zZGtf0g/B6tnQebMFF5Z8kQian0sJ0=;
- b=Og8Qi/REf4WVbtAX5wfM9WUj60NfGQpjdYxg1Jgb+TUkXzMHPF0+PbZjAaByn6oqbZ
- 6ZfWIVMz4rQytOvNv033mFLrbVFLgzmT4J6a9mGQa6290GBHjFJWOm2ajIfLFJ4ZKkVo
- 6ZvG5HCYQvhgvF6nmlJWR7tEn+wc47YHcgxXI=
+ bh=cl/I+V8biwfMluFTh5F5IRiQu90LJCJeh5Z+3MiwiHQ=;
+ b=PGe0yM5Wi8/f8EcBmTdhs+ABdM4noPfe8zNXd2fOqvD6zbITDAabblpzHJ7EyEz5ZC
+ pj9JeQ+nRrKsXt11HdsJ9/Pu4paNcNdLBxjF4RlqzjYhqrAxiw/O5aHJY5doMxg41uKQ
+ UxZcnXO4MYVlrez18o421X+Yd/VJpflH9usNE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=X1wLTwckVbez8zZGtf0g/B6tnQebMFF5Z8kQian0sJ0=;
- b=r89fFxLrm4Zuj5CdLxfTP/uHKbaQ16ugLJa2mv4tPTPLyWFHbFD5Jo6mWtOJRq1Wmq
- B3TksDMEVjXATPPLB+n3Yu1rUshadvfvqxM/uaZWhQZ5hVDSc9DfFyl44JNZgotm16yi
- 4ScCFtejymo+O8b4Sha7g8QcOW5BHTaKFkh7KmyUw2H3kxQqLA+AcJf5rE/qkCIt4S+0
- I+YZRPbqGWTc2uZk0IlZDSnIHd2WU3iSpVonPmj2EWNmWi6PGuYis0SQgVJKYxcWBf+A
- 919f6aP4JiPpbVMPqvWJ08gpLFA+spin+Gjxq0dgHMhM28hDUWyeEYs9Lkv7F87xFKgj
- fs2g==
-X-Gm-Message-State: APjAAAUT5rFWRGzxhzEeqpdVejUNwlgJQ6L+bVW6hXRaIZ2ozonCzxt0
- aqfWZddvUu0tpZNPZJaNU+M4X9ThvGODx4rZ+d0=
-X-Google-Smtp-Source: APXvYqyLPnYcgTV5ro5VNgP9UWz/ueQwEUSXvQ3z3RKurwm/ysEnRagZ1Nk4pF6SoMw2T7ZKMgMp/7dPOmIoVFbLdFE=
-X-Received: by 2002:a37:4dca:: with SMTP id
- a193mr40163108qkb.292.1571225068768; 
- Wed, 16 Oct 2019 04:24:28 -0700 (PDT)
+ bh=cl/I+V8biwfMluFTh5F5IRiQu90LJCJeh5Z+3MiwiHQ=;
+ b=AUcq+Z+sb5qGxpjdltF3ZWdStHf4rn7omjSL3U8Euz6ACjOTsKjvtPVoGeZZ8AoHy7
+ Q+LNz/n7Xmp+/TWmnvKAA+dSfkziBNWaEYZUZhpYa+24qgSJFQBraqS37WRAffheV3Cq
+ 8XIBqNxqeWQNeDmcni+w+xlklB+9ih6xDnBkJ6pHnkPNRmM4E8zsqypAyJYLv9532G8Y
+ Be0Dy8VE+6wSyNtQSnWuc/AuB8l6UojziqjDqem7LGaC8R175FKot16dDyqy5g3TPW6N
+ lH6GKnXjy+3JAfGvYBM3PWBZqX1bXTRjGcQg5EZkFiBeB5/a3qfx/jAn6LRdKtyqS36y
+ AirQ==
+X-Gm-Message-State: APjAAAVS0Y+Pze/B+Bu9Z+FP0/3yeyDoIYk0lR0zKx1BUjE9zJCOmAqd
+ HkVEAlnuCl4MsCdpD2qrcIlO3CNU2/PKH1WNEFs=
+X-Google-Smtp-Source: APXvYqx+3dyNqUrxCkdxgV92FSgxjEcixisXpBnEWkYuK++IycJ6UkxmHyG2sKLkbO7r1z64rnFyPAqz97+M2IViAq8=
+X-Received: by 2002:ac8:5252:: with SMTP id y18mr44129384qtn.220.1571225084835; 
+ Wed, 16 Oct 2019 04:24:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191016085035.12136-1-clg@kaod.org>
- <20191016085035.12136-2-clg@kaod.org>
-In-Reply-To: <20191016085035.12136-2-clg@kaod.org>
+ <20191016085035.12136-3-clg@kaod.org>
+In-Reply-To: <20191016085035.12136-3-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 16 Oct 2019 11:24:16 +0000
-Message-ID: <CACPK8XdULytZOsapN=wmAqz5GDD-v89-eTi0byo1O9DtVm3y2Q@mail.gmail.com>
-Subject: Re: [PATCH 1/5] aspeed/i2c: Add support for pool buffer transfers
+Date: Wed, 16 Oct 2019 11:24:32 +0000
+Message-ID: <CACPK8XfbUmzu+swDuGm8jNLRUWysVqMEcox26QcEhY1xQDYg5w@mail.gmail.com>
+Subject: Re: [PATCH 2/5] aspeed/i2c: Check SRAM enablement on A2500
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::743
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,25 +79,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 16 Oct 2019 at 08:50, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The Aspeed I2C controller can operate in different transfer modes :
->
->   - Byte Buffer mode, using a dedicated register to transfer a
->     byte. This is what the model supports today.
->
->   - Pool Buffer mode, using an internal SRAM to transfer multiple
->     bytes in the same command sequence.
->
-> Each SoC has different SRAM characteristics. On the AST2400, 2048
-> bytes of SRAM are available at offset 0x800 of the controller AHB
-> window. The pool buffer can be configured from 1 to 256 bytes per bus.
->
-> On the AST2500, the SRAM is at offset 0x200 and the pool buffer is of
-> 16 bytes per bus.
->
-> On the AST2600, the SRAM is at offset 0xC00 and the pool buffer is of
-> 32 bytes per bus. It can be splitted in two for TX and RX but the
-> current model does not add support for it as it it unused by known
-> drivers.
+> The SRAM must be enabled before using the Buffer Pool mode or the DMA
+> mode. This is not required on other SoCs.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
