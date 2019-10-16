@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7DFD947C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 16:57:45 +0200 (CEST)
-Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD90D94A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 17:00:14 +0200 (CEST)
+Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKkkB-00025r-BR
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 10:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44947)
+	id 1iKkmb-00044q-R6
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 11:00:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sameid@google.com>) id 1iKkie-00017Q-JV
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:56:10 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iKkli-0003fO-1G
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:59:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sameid@google.com>) id 1iKkid-0001dy-5w
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:56:08 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:36946)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iKklg-00038G-Ge
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:59:17 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34954)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sameid@google.com>) id 1iKkic-0001dP-Vj
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:56:07 -0400
-Received: by mail-qk1-x742.google.com with SMTP id u184so23037642qkd.4
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 07:56:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iKklg-00037F-9b
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:59:16 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v8so28472039wrt.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 07:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=dfp8L3nouDYieNJVQrEwYO4HfGZQ1AqGijWA3X7v9BE=;
- b=QccqydRAfzyTca/0TzK//H1g578NI3aHdtnkySVqm4Mn3YouZEiKxpF/5al9XTeiy7
- 2tuMEXvxrj0MVZQGh3T2DfKm50rekd2tEuNTdgStW/lh7GOJsFf2qzQEHmK9FvWmyKby
- 71oEb774iuli5GLL3b0bsm55fMXPJNhd7xk0CqEOe5cWZR06wlzpcSz0BpVM2FfTl+8T
- 6iUKP70aw89GLimn1TU5D6N52GmF4KJV0zf20mMqsZQBbKK0vTIzfvZrdegTfjmvrfsv
- QC+sw7cOUhxnVD5yqdh/gP5mtzRtzcw+A3pO0jV5d8o6g7Gzi6J3darW7viGRBrQdylw
- Dqzg==
+ bh=sA+oyHzdAI0p+AuWqDLIRCrsZwVL2WF2HyFQpx/JGHs=;
+ b=PawlpDEuNAtzZO61kxQYOjeCcAuQVTy1kg0Bfl3swTGmoAkyNORMlN7ceEMb8dX8D+
+ Rl+ROhcBPo6iL52LQ2EfocFCo3U85hl1zh4rH2Ud5Apj7R6wjO2uKTT02+mRTUZBTEJD
+ ri6NFNomBtIIv/qiYQXR2lZ62KJzvxduk0Ua0FPQY/rOv84XsEHCyT5A+JNx4xsdkeIO
+ SvB3Y8eHfgLEDG5CPt2+GzH7frvJJeblo6Y3hNWCwM13e3HISprwRNamozgYQsUW2yXx
+ CN9xmUiUyIFC2nrCe25fkwh2W8N6E9nlhrzyf+/jQE/UwXKgEHRBYAt10fqN8/uJX7mP
+ W7Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dfp8L3nouDYieNJVQrEwYO4HfGZQ1AqGijWA3X7v9BE=;
- b=RpVxeFq+aaOWGBDmZO2ksmE+DtUqLToYrcUmjKIAgfxcNsWmJ2Dd98yOPDa7GViFfY
- /sp71S0WB1cGoVpoMbOOFWjWziqAvn2xI21DITKFtDtpA+PbTEGEqfGJfRFmXqTX94fO
- DqWER4aqslCOGOhntwX4NeaS+tRMIZo3bgHiVhk8ZejOHNwHENxFtkfiLBR14iYbN5I9
- 3oAHOdxE6rmRQbubaFAdME1MN4T8ExvvWgp5+OLOt2R5GqUsCix4eQHMzWPYgcc4mUe9
- UR43xE5ZOav77J/IcQpj78cSKcaxFdJay58bq8ozk6qEBOQmSSxpUilLFZYwbdyZGj63
- oAJg==
-X-Gm-Message-State: APjAAAVoHwvOMLVbFrSv0hpep3s89RTO40H5OzxGe2wqSnu5FAl3bMeo
- fc5nHTc3CYK1ecPEtQXqAk+WoBcD7otycHudzJDL8Q==
-X-Google-Smtp-Source: APXvYqzHMPRrxSaeWKEh9/Cem2c40WwsGCYVyBdTjiFzkExPw/7asuAkKOBbfyktrhYAVUIdyAR8bTVvh/pLhrv45p8=
-X-Received: by 2002:a37:93c4:: with SMTP id
- v187mr19634871qkd.490.1571237765718; 
- Wed, 16 Oct 2019 07:56:05 -0700 (PDT)
+ bh=sA+oyHzdAI0p+AuWqDLIRCrsZwVL2WF2HyFQpx/JGHs=;
+ b=E5ktwpaWzXRdApLUSyc2q5O2xsrbN9e2FUyXmnmio6IQzIlaJ2Weqhd7fVjar+6ec5
+ OKgKaWVW0+n9gUPFsoQ7GiZH0KPYF6qEzcf5tIKiynKPA9vwCTDVJz4FUc6eFLCm+pqx
+ cNYOS9Jv/H2XXZsYute5GOORpkAn8m3NLcyv2iotfZ6T5GNViJDRSjbssloOVqKTZc0l
+ py6Gtl9WOUfUYgJ44SczZ1MZywWUkjQauH1nThFUsRyX8VbWt6z/v8wVrpUQAoklSDP9
+ qC7Kh0lixHqXpljiipjoj7sa/r5ly8ieIhyYsGH8QHRxUDJu5foUTgQsCNvNYRhCr/Zg
+ NDBQ==
+X-Gm-Message-State: APjAAAXg156jXjlL+52RMGVV1BqSZa5AHME0S8HGHY/ySGGH/uIqLF9W
+ 3h172A4bLniAW+w5deTDIX3+3a5uE+7kdnn/QMI=
+X-Google-Smtp-Source: APXvYqw2Xp8ME6Ul3P/4Lf0IqKkpVxFjdJ8dNFiy51DXThg6Nlm4zDypCVfCnu4viXZPINmJxhml4Hh52nW9dF0UeLQ=
+X-Received: by 2002:a05:6000:18d:: with SMTP id
+ p13mr3065312wrx.396.1571237954086; 
+ Wed, 16 Oct 2019 07:59:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190925110639.100699-1-sameid@google.com>
- <20190925110639.100699-8-sameid@google.com>
- <ffff9a59-3cbf-8b04-f4e5-8a01dad8d381@redhat.com>
- <7dc7b14c-8e89-4851-6d05-d69b1bf36e3e@redhat.com>
- <92b719a7-3838-b019-cd51-5f5b2120a431@redhat.com>
- <1d863ce2-0e45-63e4-ceb2-d2eb2d9aa03a@redhat.com>
- <CAFr6bU=2B9JcmfJZ25BTYkhnw2V+YAghyAyK9YHto18KRptPAg@mail.gmail.com>
- <1dc0c7cd-cf9f-0c33-04f5-ed8d89119c9f@redhat.com>
- <CAFr6bUnsxhqBqHgRdw3dtv0rEvfCVn0oM4XD8Vb1xv_UGKvepg@mail.gmail.com>
- <CAFr6bUm53A+gBVBRr00XKDkt=GiJ5QSOEEXPFfuUJ2PcLeG04w@mail.gmail.com>
- <bf6ff260-f8ca-a593-dd3e-e78fa0551101@redhat.com>
- <eb3cc776-b8d9-f8da-269a-2fc0f8c21662@redhat.com>
-In-Reply-To: <eb3cc776-b8d9-f8da-269a-2fc0f8c21662@redhat.com>
-From: Sam Eiderman <sameid@google.com>
-Date: Wed, 16 Oct 2019 17:55:54 +0300
-Message-ID: <CAFr6bUkQZP7ks4odRBpKGOSrzwe2VWSD47JGBUx-DuwBVNOmiA@mail.gmail.com>
-Subject: Re: [SeaBIOS] Re: [PATCH v7 7/8] bootdevice: FW_CFG interface for
- LCHS values
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, 
- kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com, 
- seabios@seabios.org, kraxel@redhat.com
+References: <20191016101241.24405-1-slp@redhat.com>
+ <20191016101241.24405-4-slp@redhat.com>
+In-Reply-To: <20191016101241.24405-4-slp@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 16 Oct 2019 16:59:01 +0200
+Message-ID: <CAJ+F1CJjqrDJMSgyCOQT19nw2hGXTLpareYuSOuZy41xntXVJQ@mail.gmail.com>
+Subject: Re: [PATCH v10 03/15] hw/i386/pc: fix code style issues on functions
+ that will be moved out
+To: Sergio Lopez <slp@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,110 +76,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, groug@kaod.org,
+ QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Laszlo Ersek <lersek@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for the detailed comment Laszlo,
-
-Indeed my e-mail has changed and I only received replies to the
-commits where I added this new mail in the S-o-b section, should of
-added in all of them.
-
-So as you said it, the problem was actually in using qfw_cfg_get_u32
-which assumes the value is encoded LE and has an additional
-le32_to_cpu, should have used qfw_cfg_get directly like
-qfw_cfg_get_file does.
-
-Regarding qfw_cfg_get_file - I wrote this code when this function did
-not exist yet, I think it was added 6 months ago. In any case, I will
-use it instead.
-
-Thanks for this.
-
-I will resubmit this entire commit series:
-* I will only change code in the last commit (tests)
-* I will remove a comment which is now not true anymore
-* I will add my new email in S-o-b
-
-Sam
-
-
-On Wed, Oct 16, 2019 at 3:29 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Wed, Oct 16, 2019 at 12:13 PM Sergio Lopez <slp@redhat.com> wrote:
 >
-> On 10/16/19 2:14 PM, Laszlo Ersek wrote:
-> > Hi Sam,
-> >
-> > On 10/16/19 13:02, Sam Eiderman wrote:
-> >> Gentle Ping,
-> >>
-> >> Philippe, John?
-> >>
-> >> Just wondering if the series is okay, as Gerd pointed out this series
-> >> is a blocker for the corresponding changes in SeaBIOS for v 1.13
-> >
-> > The QEMU series is still not merged, due to a bug in the last patch
-> > (namely, the test case, "hd-geo-test: Add tests for lchs override").
-> >
-> > To my knowledge, SeaBIOS prefers to merge patches with the underlying
-> > QEMU patches merged first, so you'll likely have to fix that QEMU issue
-> > first.
-> >
-> > I explained the bug in the QEMU test case here:
-> >
-> >    http://mid.mail-archive.com/6b00dc74-7267-8ce8-3271-5db269edb1b7@red=
-hat.com
-> >    http://mid.mail-archive.com/700cd594-1446-e478-fb03-d2e6b862dc6c@red=
-hat.com
+> Fix code style issues detected by checkpatch.pl on functions that will
+> be moved out to x86.c.
 >
-> Yes, I was expecting a respin with find_fw_cfg_file() fixed per Laszlo
-> detailed review.
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+> ---
+>  hw/i386/pc.c | 53 ++++++++++++++++++++++++++++------------------------
+>  1 file changed, 29 insertions(+), 24 deletions(-)
 >
-> > (Alternative links to the same:
-> >
-> >    https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01790.html
-> >    https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg01793.html
-> > )
-> >
-> > I've never received feedback to those messages, and I think you must
-> > have missed them.
-> >
-> > FWIW, when I hit "Reply All" in that thread, you were on the "To:" list
-> > with:
-> >
-> >    Sam Eiderman <shmuel.eiderman@oracle.com>
-> >
-> > but here you are present with
-> >
-> >    Sam Eiderman <sameid@google.com>
-> >
-> > In addition, when I posted those messages, I got the following
-> > auto-response ("Undelivered Mail Returned to Sender"):
-> >
-> >> This is the mail system at host mx1.redhat.com.
-> >>
-> >> I'm sorry to have to inform you that your message could not
-> >> be delivered to one or more recipients. It's attached below.
-> >>
-> >> For further assistance, please send mail to postmaster.
-> >>
-> >> If you do so, please include this problem report. You can
-> >> delete your own text from the attached returned message.
-> >>
-> >>                     The mail system
-> >>
-> >> <shmuel.eiderman@oracle.com>: host
-> >> aserp2030.oracle.com[141.146.126.74] said:
-> >>      550 5.1.1 Unknown recipient address. (in reply to RCPT TO command=
-)
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index fd08c6704b..77e86bfc3d 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -866,7 +866,8 @@ static void handle_a20_line_change(void *opaque, int =
+irq, int level)
+>      x86_cpu_set_a20(cpu, level);
+>  }
 >
-> That explains it :)
+> -/* Calculates initial APIC ID for a specific CPU index
+> +/*
+> + * Calculates initial APIC ID for a specific CPU index
+>   *
+>   * Currently we need to be able to calculate the APIC ID from the CPU in=
+dex
+>   * alone (without requiring a CPU object), as the QEMU<->Seabios interfa=
+ces have
+> @@ -1039,7 +1040,7 @@ static void x86_load_linux(PCMachineState *pcms,
+>      const char *kernel_cmdline =3D machine->kernel_cmdline;
 >
-> >
-> > I didn't know your new address, so I could only hope you'd find my
-> > feedback on qemu-devel.
-> >
-> > Thanks
-> > Laszlo
-> >
+>      /* Align to 16 bytes as a paranoia measure */
+> -    cmdline_size =3D (strlen(kernel_cmdline)+16) & ~15;
+> +    cmdline_size =3D (strlen(kernel_cmdline) + 16) & ~15;
+>
+>      /* load the kernel header */
+>      f =3D fopen(kernel_filename, "rb");
+> @@ -1055,8 +1056,8 @@ static void x86_load_linux(PCMachineState *pcms,
+>  #if 0
+>      fprintf(stderr, "header magic: %#x\n", ldl_p(header+0x202));
+>  #endif
+> -    if (ldl_p(header+0x202) =3D=3D 0x53726448) {
+> -        protocol =3D lduw_p(header+0x206);
+> +    if (ldl_p(header + 0x202) =3D=3D 0x53726448) {
+> +        protocol =3D lduw_p(header + 0x206);
+>      } else {
+>          /*
+>           * This could be a multiboot kernel. If it is, let's stop treati=
+ng it
+> @@ -1158,7 +1159,7 @@ static void x86_load_linux(PCMachineState *pcms,
+>
+>      /* highest address for loading the initrd */
+>      if (protocol >=3D 0x20c &&
+> -        lduw_p(header+0x236) & XLF_CAN_BE_LOADED_ABOVE_4G) {
+> +        lduw_p(header + 0x236) & XLF_CAN_BE_LOADED_ABOVE_4G) {
+>          /*
+>           * Linux has supported initrd up to 4 GB for a very long time (2=
+007,
+>           * long before XLF_CAN_BE_LOADED_ABOVE_4G which was added in 201=
+3),
+> @@ -1177,7 +1178,7 @@ static void x86_load_linux(PCMachineState *pcms,
+>           */
+>          initrd_max =3D UINT32_MAX;
+>      } else if (protocol >=3D 0x203) {
+> -        initrd_max =3D ldl_p(header+0x22c);
+> +        initrd_max =3D ldl_p(header + 0x22c);
+>      } else {
+>          initrd_max =3D 0x37ffffff;
+>      }
+> @@ -1187,14 +1188,14 @@ static void x86_load_linux(PCMachineState *pcms,
+>      }
+>
+>      fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
+> -    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline)+1=
+);
+> +    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) +=
+ 1);
+>      fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
+>
+>      if (protocol >=3D 0x202) {
+> -        stl_p(header+0x228, cmdline_addr);
+> +        stl_p(header + 0x228, cmdline_addr);
+>      } else {
+> -        stw_p(header+0x20, 0xA33F);
+> -        stw_p(header+0x22, cmdline_addr-real_addr);
+> +        stw_p(header + 0x20, 0xA33F);
+> +        stw_p(header + 0x22, cmdline_addr - real_addr);
+>      }
+>
+>      /* handle vga=3D parameter */
+> @@ -1212,20 +1213,22 @@ static void x86_load_linux(PCMachineState *pcms,
+>          } else {
+>              video_mode =3D strtol(vmode, NULL, 0);
+>          }
+> -        stw_p(header+0x1fa, video_mode);
+> +        stw_p(header + 0x1fa, video_mode);
+>      }
+>
+>      /* loader type */
+> -    /* High nybble =3D B reserved for QEMU; low nybble is revision numbe=
+r.
+> -       If this code is substantially changed, you may want to consider
+> -       incrementing the revision. */
+> +    /*
+> +     * High nybble =3D B reserved for QEMU; low nybble is revision numbe=
+r.
+> +     * If this code is substantially changed, you may want to consider
+> +     * incrementing the revision.
+> +     */
+>      if (protocol >=3D 0x200) {
+>          header[0x210] =3D 0xB0;
+>      }
+>      /* heap */
+>      if (protocol >=3D 0x201) {
+> -        header[0x211] |=3D 0x80; /* CAN_USE_HEAP */
+> -        stw_p(header+0x224, cmdline_addr-real_addr-0x200);
+> +        header[0x211] |=3D 0x80; /* CAN_USE_HEAP */
+> +        stw_p(header + 0x224, cmdline_addr - real_addr - 0x200);
+>      }
+>
+>      /* load initrd */
+> @@ -1257,14 +1260,14 @@ static void x86_load_linux(PCMachineState *pcms,
+>              exit(1);
+>          }
+>
+> -        initrd_addr =3D (initrd_max-initrd_size) & ~4095;
+> +        initrd_addr =3D (initrd_max - initrd_size) & ~4095;
+>
+>          fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
+>          fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
+>          fw_cfg_add_bytes(fw_cfg, FW_CFG_INITRD_DATA, initrd_data, initrd=
+_size);
+>
+> -        stl_p(header+0x218, initrd_addr);
+> -        stl_p(header+0x21c, initrd_size);
+> +        stl_p(header + 0x218, initrd_addr);
+> +        stl_p(header + 0x21c, initrd_size);
+>      }
+>
+>      /* load kernel and setup */
+> @@ -1272,7 +1275,7 @@ static void x86_load_linux(PCMachineState *pcms,
+>      if (setup_size =3D=3D 0) {
+>          setup_size =3D 4;
+>      }
+> -    setup_size =3D (setup_size+1)*512;
+> +    setup_size =3D (setup_size + 1) * 512;
+>      if (setup_size > kernel_size) {
+>          fprintf(stderr, "qemu: invalid kernel header\n");
+>          exit(1);
+> @@ -1310,7 +1313,7 @@ static void x86_load_linux(PCMachineState *pcms,
+>          kernel_size =3D setup_data_offset + sizeof(struct setup_data) + =
+dtb_size;
+>          kernel =3D g_realloc(kernel, kernel_size);
+>
+> -        stq_p(header+0x250, prot_addr + setup_data_offset);
+> +        stq_p(header + 0x250, prot_addr + setup_data_offset);
+>
+>          setup_data =3D (struct setup_data *)(kernel + setup_data_offset)=
+;
+>          setup_data->next =3D 0;
+> @@ -1507,7 +1510,8 @@ void x86_cpus_init(PCMachineState *pcms)
+>
+>      x86_cpu_set_default_version(pcmc->default_cpu_version);
+>
+> -    /* Calculates the limit to CPU APIC ID values
+> +    /*
+> +     * Calculates the limit to CPU APIC ID values
+>       *
+>       * Limit for the APIC ID value, so that all
+>       * CPU APIC IDs are < pcms->apic_id_limit.
+> @@ -2709,7 +2713,7 @@ static const CPUArchIdList *x86_possible_cpu_arch_i=
+ds(MachineState *ms)
+>          /*
+>           * make sure that max_cpus hasn't changed since the first use, i=
+.e.
+>           * -smp hasn't been parsed after it
+> -        */
+> +         */
+>          assert(ms->possible_cpus->len =3D=3D max_cpus);
+>          return ms->possible_cpus;
+>      }
+> @@ -2722,7 +2726,8 @@ static const CPUArchIdList *x86_possible_cpu_arch_i=
+ds(MachineState *ms)
+>
+>          ms->possible_cpus->cpus[i].type =3D ms->cpu_type;
+>          ms->possible_cpus->cpus[i].vcpus_count =3D 1;
+> -        ms->possible_cpus->cpus[i].arch_id =3D x86_cpu_apic_id_from_inde=
+x(pcms, i);
+> +        ms->possible_cpus->cpus[i].arch_id =3D
+> +            x86_cpu_apic_id_from_index(pcms, i);
+>          x86_topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
+>                                   pcms->smp_dies, ms->smp.cores,
+>                                   ms->smp.threads, &topo);
+> --
+> 2.21.0
+>
+>
+
+
+--
+Marc-Andr=C3=A9 Lureau
 
