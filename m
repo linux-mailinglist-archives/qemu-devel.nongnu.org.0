@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24F4D8FA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 13:35:31 +0200 (CEST)
-Received: from localhost ([::1]:41274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445CFD8FA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 13:36:01 +0200 (CEST)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKhaU-00058y-JI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 07:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
+	id 1iKhay-0005ZH-5R
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 07:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iKhQU-0006LN-Kl
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:25:12 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1iKhU2-0000u3-RG
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:28:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iKhQS-0003rF-Em
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:25:10 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:37870)
+ (envelope-from <joel.stan@gmail.com>) id 1iKhU1-0005Nl-O9
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:28:50 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:43385)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iKhQP-0003qK-HD; Wed, 16 Oct 2019 07:25:05 -0400
-Received: by mail-qk1-x743.google.com with SMTP id u184so22373796qkd.4;
- Wed, 16 Oct 2019 04:25:05 -0700 (PDT)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>) id 1iKhU1-0005Nc-KW
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 07:28:49 -0400
+Received: by mail-qk1-x742.google.com with SMTP id h126so22347109qke.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 04:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=cP7wYXPS1LIP0QvJUqyPcWVisGTLgBxAvOkjcnJYZTw=;
- b=U5PWcI3gn+bq9MQR5PUH10Pv8w+eFBRpCvZWKJRqFNHkmqXVHNlySUjTlyNdLHBN/K
- QkZ2EVvb0CX8yYkHvvCM+qco487KaVCs1YPHly6G4VH2W8GNFULVUmdRhbzJW7sCYKPr
- ivJnWNKxFDtbVRmDb/bndF3u0SVziYpFcyUx0=
+ bh=xaRforC0EXfncRqtNGSugj/EAA2jG96cbud4zhgbw2w=;
+ b=RvcSop3qMTdIJSKWO7MMN/pO+nOOXUmS793WgQwmHhlmSJEUQfgad5pBm4DEyafkmp
+ UziPqtIdeRx3nIDFhvAL50u5zzGZYdCc+vgTAciPLBTeKY0nN35r7f3xoMQaD6WB0q5e
+ AE/0Gi0fxHFW0cWStkUHGVboFCrKMTmE6b8qw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=cP7wYXPS1LIP0QvJUqyPcWVisGTLgBxAvOkjcnJYZTw=;
- b=X8ToXMid9+/Zi0vySLgcYWIVXjOHo421aFfuWheY4qOEZtKf4z8jqNwR+twYo9uqw5
- 1iJd0dO9n8jTWX53mUCAxHYMGP/lX6hBcYNr9G5VWcdxS655Wk3NhCLrSqJPVA4hGbxE
- 0NERGBkPWR4/RFP1FiVd6HRmctvlOac0EI3t5jx9ZMIzhLWb1cU43jBGNv1v0xmgz6jf
- PtC3wMtIUZV4qDNUIhfjwMAxbG9ReesxOq1HM0iRt9NfGT/avpS3lXtWXLTg3joSheRV
- FZLxnpjQr6kxzj3oFyHsVA1xlRYG3QvwQDWuXPnXnc744nx/Dp+3kVqXWiZVXr4IdsTL
- gSPA==
-X-Gm-Message-State: APjAAAX7NgN5A/LVr2MbwD6TbM5JXS7jh8GeH5YyRZ8n0F3aI6G9Sw7z
- jkshwGb83rBgrPA8xGDzFy305ZRgogxNuNS8cLo=
-X-Google-Smtp-Source: APXvYqwFlhb2tguRcC2g4H/W7nrH3ukEAKlxGnmqJGSfzQZcmXbyzMua+ISqyEYunlPHvmqZbvi4PrUmgsz5CaAowOU=
-X-Received: by 2002:a37:d87:: with SMTP id 129mr40610041qkn.414.1571225104884; 
- Wed, 16 Oct 2019 04:25:04 -0700 (PDT)
+ bh=xaRforC0EXfncRqtNGSugj/EAA2jG96cbud4zhgbw2w=;
+ b=HPNEfiLoNmDPYKsJ86KytE8Hl9hTJZX41ZJMM8o05xpq20hdWkwmdzTwAxsk5sqiif
+ ytHjhnWTOlnngclUaK0RrgM9qTys0cWzB7jkUj1dG8xsILhNDQAuTdUAlkYz1OcYQ6dX
+ ikmn3EG1QvdHGzUCqUJ1CtZPhx1u6kEOrC4ct9pp/2pk7/Ds9F4AJJioRha/cObab8H3
+ bs5/oa823CT+1LB1WS6A7ue2v/BSnyO24Odr0TFsr1PKqKmHWK9ZTjn0GpTHteBFA+R2
+ 1Ajzg+InWx47yBsfx5ZwnD48LgWDIfQocyH9ezdDMNpnXGYrATkj0k3JzKf96Gu75w3E
+ 9S3g==
+X-Gm-Message-State: APjAAAUnCa/C4kyAMp03gEMM2wbZcdxaa1R0KJAkCs9pL/5LkFzAZmgh
+ eufIciXBLY+PYpKriHp3u3j5tCWByRG8Wxe1s9nuupEAiqE=
+X-Google-Smtp-Source: APXvYqym3jJmV/Ywh2PNFaEOdfHmmq9XwvrjEOfoJm5f6dpVITby2YN/tzkXEIGamOrdTR7LsR3xvZ1pYyv2xWKCw7g=
+X-Received: by 2002:a37:4dca:: with SMTP id
+ a193mr40179208qkb.292.1571225327304; 
+ Wed, 16 Oct 2019 04:28:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191016085035.12136-1-clg@kaod.org>
- <20191016085035.12136-5-clg@kaod.org>
-In-Reply-To: <20191016085035.12136-5-clg@kaod.org>
+References: <20191014160404.19553-1-peter.maydell@linaro.org>
+ <20191014160404.19553-60-peter.maydell@linaro.org>
+ <CAFEAcA-2EZnnrYViQUQK-mR0=JqR9mXNzfVNa_WR5HoCTJ+tag@mail.gmail.com>
+ <a888142d-7c9e-bc15-84d3-80bd01df1d11@kaod.org>
+ <CAFEAcA9uFL8JVwrcWMP63tZcFK7nWSZZnaUHj0ZC1Qh0BdKijg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9uFL8JVwrcWMP63tZcFK7nWSZZnaUHj0ZC1Qh0BdKijg@mail.gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 16 Oct 2019 11:24:53 +0000
-Message-ID: <CACPK8XfVdYNy45mnVx_4Bq00iaFjC78w-F=omw1Db0wJ-FU7xA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] aspeed/i2c: Add support for DMA transfers
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Date: Wed, 16 Oct 2019 11:28:35 +0000
+Message-ID: <CACPK8XdtaoFmVd1Lu7dj0KKBkeAt8AxbvuykZWpOgSWwp6iuxg@mail.gmail.com>
+Subject: Re: [PULL 59/68] aspeed: Add an AST2600 eval board
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::743
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,25 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Andrew Jeffery <andrew@aj.id.au>,
- Eddie James <eajames@linux.vnet.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Oct 2019 at 08:50, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Tue, 15 Oct 2019 at 17:55, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 >
-> The I2C controller of the Aspeed AST2500 and AST2600 SoCs supports DMA
-> transfers to and from DRAM.
+> On Tue, 15 Oct 2019 at 18:43, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> > On 15/10/2019 19:03, Peter Maydell wrote:
+> > > On Mon, 14 Oct 2019 at 17:05, Peter Maydell <peter.maydell@linaro.org=
+> wrote:
+> > > (armhf)pmaydell@mustang-maydell:~/qemu$
+> > > ./build/all-a32/arm-softmmu/qemu-system-arm -M ast2600-evb
+> > > qemu-system-arm: at most 2047 MB RAM can be simulated
+> > >
+> > > It's also a pretty rudely large amount of RAM to allocate
+> > > by default: it caused 'make check' to fail on my OSX
+> > > box, which is 64-bits but doesn't have huge swathes
+> > > of free RAM.
+> > >
+> > > I'm going to drop this patch from my queue and redo
+> > > the pullreq.
+> >
+> > ok. We do have such a board.
+> >
+> > What do you suggest ? We can lower the RAM to 1G for QEMU.
 >
-> A pair of registers defines the buffer address and the length of the
-> DMA transfer. The address should be aligned on 4 bytes and the maximum
-> length should not exceed 4K. The receive or transmit DMA transfer can
-> then be initiated with specific bits in the Command/Status register of
-> the controller.
+> 1GB is OK -- we have several machines that set default_ram_size to that.
 >
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> If we want to handle more generally boards which have a
+> larger ram size by default then we probably need to
+> work on the 'make check' infrastructure -- right now we
+> have a generic test that just checks "can we instantiate
+> every machine model", which is what's falling over.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+I hit this when bumping the RAM size for the powernv machine too. In
+that case it was a convenient size given the memory layout we have, so
+changing to be less than 2GB was not making the model less accurate.
+
+For the ast2600evb machine, the board actually has 2GB of RAM, and
+it's useful for guests to test in this environment. I'd not had any
+reports of it failing to launch due to a failed memory allocation,
+which I guess is indicative of the systems people who use the model
+have.
+
+Peter, did you have any thoughts on how to exclude such guests from
+testing in environments where memory is limited?
+
+Cheers,
+
+Joel
 
