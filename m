@@ -2,49 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9305D9414
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 16:40:07 +0200 (CEST)
-Received: from localhost ([::1]:43484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFE6D9410
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 16:39:52 +0200 (CEST)
+Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKkT8-0002K1-4c
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 10:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41787)
+	id 1iKkSs-0001tk-Pf
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 10:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iKkNh-0005ID-7W
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:34:31 -0400
+ (envelope-from <stefanb@linux.ibm.com>) id 1iKkQO-0008Ni-8k
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:37:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iKkNf-0000m4-HX
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:34:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42846)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1iKkNb-0000k0-HV; Wed, 16 Oct 2019 10:34:23 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AA32E18CB90C;
- Wed, 16 Oct 2019 14:34:22 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3761F19C68;
- Wed, 16 Oct 2019 14:34:21 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH v1 5/5] target/arm/cpu: Add the kvm-adjvtime CPU property
-Date: Wed, 16 Oct 2019 16:34:10 +0200
-Message-Id: <20191016143410.5023-6-drjones@redhat.com>
-In-Reply-To: <20191016143410.5023-1-drjones@redhat.com>
-References: <20191016143410.5023-1-drjones@redhat.com>
+ (envelope-from <stefanb@linux.ibm.com>) id 1iKkQM-0001fF-MV
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:37:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63954)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1iKkQM-0001Oj-Co
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 10:37:14 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9GEXTst071678; Wed, 16 Oct 2019 10:36:02 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vp3bsmv63-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Oct 2019 10:36:01 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x9GEZYtH079457;
+ Wed, 16 Oct 2019 10:36:01 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vp3bsmv4x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Oct 2019 10:36:01 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x9GEZJ7L025568;
+ Wed, 16 Oct 2019 14:35:59 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03dal.us.ibm.com with ESMTP id 2vk6f96g7f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Oct 2019 14:35:58 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9GEZv3G58917252
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Oct 2019 14:35:57 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78C4FC6057;
+ Wed, 16 Oct 2019 14:35:57 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 13370C6059;
+ Wed, 16 Oct 2019 14:35:56 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 16 Oct 2019 14:35:56 +0000 (GMT)
+Subject: Re: [RFC v5 086/126] TPM: introduce ERRP_AUTO_PROPAGATE
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-87-vsementsov@virtuozzo.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <0257a46f-afdd-bf8b-e5f4-c55daabb1102@linux.ibm.com>
+Date: Wed, 16 Oct 2019 10:35:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Wed, 16 Oct 2019 14:34:22 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <20191011160552.22907-87-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-MW
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-16_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910160126
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,234 +96,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- bijan.mottahedeh@oracle.com, maz@kernel.org
+Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm-adjvtime is a KVM specific CPU property and a first of its kind.
-To accommodate it we also add kvm_arm_add_vcpu_properties() and a
-KVM specific CPU properties description to the CPU features document.
+On 10/11/19 12:05 PM, Vladimir Sementsov-Ogievskiy wrote:
+> If we want to add some info to errp (by error_prepend() or
+> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+> Otherwise, this info will not be added when errp == &fatal_err
+> (the program will exit prior to the error_append_hint() or
+> error_prepend() call).  Fix such cases.
+>
+> If we want to check error after errp-function call, we need to
+> introduce local_err and than propagate it to errp. Instead, use
+> ERRP_AUTO_PROPAGATE macro, benefits are:
+> 1. No need of explicit error_propagate call
+> 2. No need of explicit local_err variable: use errp directly
+> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+>     &error_fatel, this means that we don't break error_abort
+>     (we'll abort on error_set, not on error_propagate)
+>
+> This commit (together with its neighbors) was generated by
+>
+> for f in $(git grep -l errp \*.[ch]); do \
+>      spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>      --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
+> done;
+>
+> then fix a bit of compilation problems: coccinelle for some reason
+> leaves several
+> f() {
+>      ...
+>      goto out;
+>      ...
+>      out:
+> }
+> patterns, with "out:" at function end.
+>
+> then
+> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+>
+> (auto-msg was a file with this commit message)
+>
+> Still, for backporting it may be more comfortable to use only the first
+> command and then do one huge commit.
+>
+> Reported-by: Kevin Wolf <kwolf@redhat.com>
+> Reported-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- docs/arm-cpu-features.rst | 27 ++++++++++++++++++++++++++-
- target/arm/cpu.c          |  2 ++
- target/arm/cpu64.c        |  1 +
- target/arm/kvm.c          | 27 +++++++++++++++++++++++++++
- target/arm/kvm_arm.h      | 11 +++++++++++
- target/arm/monitor.c      |  1 +
- tests/arm-cpu-features.c  |  4 ++++
- 7 files changed, 72 insertions(+), 1 deletion(-)
 
-diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-index 1b367e22e16e..5c317296845f 100644
---- a/docs/arm-cpu-features.rst
-+++ b/docs/arm-cpu-features.rst
-@@ -31,7 +31,9 @@ supporting the feature or only supporting the feature u=
-nder certain
- configurations.  For example, the `aarch64` CPU feature, which, when
- disabled, enables the optional AArch32 CPU feature, is only supported
- when using the KVM accelerator and when running on a host CPU type that
--supports the feature.
-+supports the feature.  While `aarch64` currently only works with KVM,
-+it could work with TCG.  CPU features that are specific to KVM are
-+prefixed with "kvm-" and are described in "KVM VCPU Features".
-=20
- CPU Feature Probing
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-@@ -171,6 +173,29 @@ disabling many SVE vector lengths would be quite ver=
-bose, the `sve<N>` CPU
- properties have special semantics (see "SVE CPU Property Parsing
- Semantics").
-=20
-+KVM VCPU Features
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+KVM VCPU features are CPU features that are specific to KVM, such as
-+paravirt features or features that enable CPU virtualization extensions.
-+The features' CPU properties are only available when KVM is enabled and =
-are
-+named with the prefix "kvm-".  KVM VCPU features may be probed, enabled,=
- and
-+disabled in the same way as other CPU features.  Below is the list of KV=
-M
-+VCPU features and their descriptions.
-+
-+  kvm-adjvtime             When enabled, each time the VM transitions ba=
-ck
-+                           to running state the VCPU's vitual counter is
-+                           updated to ensure stopped time is not counted=
-.
-+                           This avoids time jumps surprising guest OSes =
-and
-+                           applications, as long as they use the virtual
-+                           counter for timekeeping, but has the side eff=
-ect
-+                           of the virtual and physical counters divergin=
-g.
-+                           All timekeeping based on the virtual counter =
-will
-+                           appear to lag behind any timekeeping that doe=
-s
-+                           not subtract VM stopped time.  The guest may
-+                           resynchronize its virtual counter with other =
-time
-+                           sources as needed.
-+
- SVE CPU Properties
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0c4465880ddd..151771e12bc5 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2481,6 +2481,7 @@ static void arm_max_initfn(Object *obj)
-=20
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
-+        kvm_arm_add_vcpu_properties(obj);
-     } else {
-         cortex_a15_initfn(obj);
-=20
-@@ -2672,6 +2673,7 @@ static void arm_host_initfn(Object *obj)
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-     }
-+    kvm_arm_add_vcpu_properties(obj);
-     arm_cpu_post_init(obj);
- }
-=20
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 68baf0482ffa..c9a657a178ce 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -620,6 +620,7 @@ static void aarch64_max_initfn(Object *obj)
-=20
-     if (kvm_enabled()) {
-         kvm_arm_set_cpu_features_from_host(cpu);
-+        kvm_arm_add_vcpu_properties(obj);
-     } else {
-         uint64_t t;
-         uint32_t u;
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 373b868dc248..35160e8d0525 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -17,6 +17,8 @@
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "qom/object.h"
-+#include "qapi/error.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
- #include "sysemu/kvm_int.h"
-@@ -179,6 +181,31 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
-     env->features =3D arm_host_cpu_features.features;
- }
-=20
-+static bool kvm_adjvtime_get(Object *obj, Error **errp)
-+{
-+    return ARM_CPU(obj)->kvm_adjvtime;
-+}
-+
-+static void kvm_adjvtime_set(Object *obj, bool value, Error **errp)
-+{
-+    ARM_CPU(obj)->kvm_adjvtime =3D value;
-+}
-+
-+/* KVM VCPU properties should be prefixed with "kvm-". */
-+void kvm_arm_add_vcpu_properties(Object *obj)
-+{
-+    if (!kvm_enabled()) {
-+        return;
-+    }
-+
-+    object_property_add_bool(obj, "kvm-adjvtime", kvm_adjvtime_get,
-+                             kvm_adjvtime_set, &error_abort);
-+    object_property_set_description(obj, "kvm-adjvtime",
-+                                    "Set on to enable the adjustment of =
-"
-+                                    "the virtual counter. VM stopped tim=
-e "
-+                                    "will not be counted.", &error_abort=
-);
-+}
-+
- bool kvm_arm_pmu_supported(CPUState *cpu)
- {
-     KVMState *s =3D KVM_STATE(current_machine->accelerator);
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 3bb7e331aa06..a5429bfc0dbf 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -232,6 +232,15 @@ void kvm_arm_sve_get_vls(CPUState *cs, unsigned long=
- *map);
-  */
- void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
-=20
-+/**
-+ * void kvm_arm_add_vcpu_properties:
-+ * @obj: The CPU object to add the properties to
-+ *
-+ * Add all KVM specific CPU properties to the CPU object. These
-+ * are the CPU properties with "kvm-" prefixed names.
-+ */
-+void kvm_arm_add_vcpu_properties(Object *obj);
-+
- /**
-  * void kvm_arm_set_virtual_time:
-  * @cs: CPUState
-@@ -311,6 +320,8 @@ static inline void kvm_arm_set_cpu_features_from_host=
-(ARMCPU *cpu)
-     cpu->host_cpu_probe_failed =3D true;
- }
-=20
-+static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
-+
- static inline bool kvm_arm_aarch32_supported(CPUState *cs)
- {
-     return false;
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index fa054f8a369c..d9b2d94ac3fa 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -103,6 +103,7 @@ static const char *cpu_model_advertised_features[] =3D=
- {
-     "sve128", "sve256", "sve384", "sve512",
-     "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
-     "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
-+    "kvm-adjvtime",
-     NULL
- };
-=20
-diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-index ee444b04010f..c207a2bec9e9 100644
---- a/tests/arm-cpu-features.c
-+++ b/tests/arm-cpu-features.c
-@@ -417,6 +417,8 @@ static void test_query_cpu_model_expansion(const void=
- *data)
-     assert_has_feature_enabled(qts, "cortex-a15", "pmu");
-     assert_has_not_feature(qts, "cortex-a15", "aarch64");
-=20
-+    assert_has_not_feature(qts, "max", "kvm-adjvtime");
-+
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-         assert_has_feature_enabled(qts, "max", "aarch64");
-         assert_has_feature_enabled(qts, "max", "sve");
-@@ -445,6 +447,8 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-=20
-     assert_has_feature_enabled(qts, "host", "pmu");
-=20
-+    assert_has_feature_disabled(qts, "host", "kvm-adjvtime");
-+
-     if (g_str_equal(qtest_get_arch(), "aarch64")) {
-         bool kvm_supports_sve;
-         char max_name[8], name[8];
---=20
-2.21.0
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+
+
+> ---
+>   hw/tpm/tpm_util.c | 7 +++----
+>   tpm.c             | 7 +++----
+>   2 files changed, 6 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
+> index 62b091f0c0..b0657bbbf2 100644
+> --- a/hw/tpm/tpm_util.c
+> +++ b/hw/tpm/tpm_util.c
+> @@ -47,8 +47,8 @@ static void get_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+>   static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+>                       Error **errp)
+>   {
+> +    ERRP_AUTO_PROPAGATE();
+>       DeviceState *dev = DEVICE(obj);
+> -    Error *local_err = NULL;
+>       Property *prop = opaque;
+>       TPMBackend *s, **be = qdev_get_prop_ptr(dev, prop);
+>       char *str;
+> @@ -58,9 +58,8 @@ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+>           return;
+>       }
+>   
+> -    visit_type_str(v, name, &str, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> +    visit_type_str(v, name, &str, errp);
+> +    if (*errp) {
+>           return;
+>       }
+>   
+> diff --git a/tpm.c b/tpm.c
+> index 9c9e20bbb7..359ebb7f68 100644
+> --- a/tpm.c
+> +++ b/tpm.c
+> @@ -81,11 +81,11 @@ TPMBackend *qemu_find_tpm_be(const char *id)
+>   
+>   static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+>   {
+> +    ERRP_AUTO_PROPAGATE();
+>       const char *value;
+>       const char *id;
+>       const TPMBackendClass *be;
+>       TPMBackend *drv;
+> -    Error *local_err = NULL;
+>       int i;
+>   
+>       if (!QLIST_EMPTY(&tpm_backends)) {
+> @@ -116,9 +116,8 @@ static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+>       }
+>   
+>       /* validate backend specific opts */
+> -    qemu_opts_validate(opts, be->opts, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> +    qemu_opts_validate(opts, be->opts, errp);
+> +    if (*errp) {
+>           return 1;
+>       }
+>   
+
 
 
