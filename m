@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979E4D9773
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 18:32:50 +0200 (CEST)
-Received: from localhost ([::1]:45394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E13D9778
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 18:33:43 +0200 (CEST)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKmEC-0004Y0-QW
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 12:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34155)
+	id 1iKmF3-00056E-3p
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 12:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKmAj-0002Y9-A2
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:29:15 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKmAg-0002XI-0J
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:29:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKmAe-00083c-8S
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:29:11 -0400
-Received: from relay.sw.ru ([185.231.240.75]:51300)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iKmAe-00083t-CJ
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:29:09 -0400
+Received: from relay.sw.ru ([185.231.240.75]:51302)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iKmAe-00081O-1W; Wed, 16 Oct 2019 12:29:08 -0400
+ id 1iKmAe-00081P-3p; Wed, 16 Oct 2019 12:29:08 -0400
 Received: from [172.16.25.136] (helo=dhcp-172-16-25-136.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iKmAY-0002B1-V5; Wed, 16 Oct 2019 19:29:03 +0300
+ id 1iKmAZ-0002B1-2M; Wed, 16 Oct 2019 19:29:03 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v4 0/4] qcow2: advanced compression options
-Date: Wed, 16 Oct 2019 19:28:49 +0300
-Message-Id: <1571243333-882302-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v4 1/4] block: support compressed write at generic layer
+Date: Wed, 16 Oct 2019 19:28:50 +0300
+Message-Id: <1571243333-882302-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1571243333-882302-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1571243333-882302-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,39 +52,244 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New enhancements for writing compressed data to QCOW2 image.
+To inform the block layer about writing all the data compressed, we
+introduce the 'compress' command line option. Based on that option, the
+written data will be aligned by the cluster size at the generic layer.
 
-v4:
-    The 'compression' support at the block generic layer has been
-    accumulated in the separate patch 1/4. A little code refactoring
-    was made.
-v3:
-    Instead of introducing multiple key options for many drivers, the
-    'compression' option has been introduced at the block generic layer
-    as suggested by Roman Kagan. Discussed on the email thread with ID
-    <1570026166-748566-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ block.c                   | 20 +++++++++++++++++++-
+ block/io.c                | 14 ++++++++++----
+ block/qcow2.c             |  4 ++++
+ blockdev.c                |  9 ++++++++-
+ include/block/block.h     |  1 +
+ include/block/block_int.h |  2 ++
+ qapi/block-core.json      |  6 +++++-
+ qemu-options.hx           |  6 ++++--
+ 8 files changed, 53 insertions(+), 9 deletions(-)
 
-Andrey Shinkevich (4):
-  block: support compressed write at generic layer
-  qcow2: Allow writing compressed data of multiple clusters
-  tests/qemu-iotests: add case to write compressed data of multiple
-    clusters
-  tests/qemu-iotests: add case for block-stream compress
-
- block.c                    |  20 ++++++++-
- block/io.c                 |  14 ++++--
- block/qcow2.c              | 106 +++++++++++++++++++++++++++++++++------------
- blockdev.c                 |   9 +++-
- include/block/block.h      |   1 +
- include/block/block_int.h  |   2 +
- qapi/block-core.json       |   6 ++-
- qemu-options.hx            |   6 ++-
- tests/qemu-iotests/030     |  51 +++++++++++++++++++++-
- tests/qemu-iotests/030.out |   4 +-
- tests/qemu-iotests/214     |  35 +++++++++++++++
- tests/qemu-iotests/214.out |  15 +++++++
- 12 files changed, 230 insertions(+), 39 deletions(-)
-
+diff --git a/block.c b/block.c
+index 1946fc6..a674920 100644
+--- a/block.c
++++ b/block.c
+@@ -1418,6 +1418,11 @@ QemuOptsList bdrv_runtime_opts = {
+             .type = QEMU_OPT_BOOL,
+             .help = "always accept other writers (default: off)",
+         },
++        {
++            .name = BDRV_OPT_COMPRESS,
++            .type = QEMU_OPT_BOOL,
++            .help = "compress all writes to the image (default: off)",
++        },
+         { /* end of list */ }
+     },
+ };
+@@ -1545,6 +1550,14 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+     }
+     pstrcpy(bs->exact_filename, sizeof(bs->exact_filename), bs->filename);
+ 
++    if (bs->all_write_compressed && !drv->bdrv_co_pwritev_compressed_part) {
++        error_setg(errp, "Compression is not supported for the driver '%s'",
++                   drv->format_name);
++        bs->all_write_compressed = false;
++        ret = -ENOTSUP;
++        goto fail_opts;
++    }
++
+     /* Open the image, either directly or using a protocol */
+     open_flags = bdrv_open_flags(bs, bs->open_flags);
+     node_name = qemu_opt_get(opts, "node-name");
+@@ -2983,6 +2996,11 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+         flags &= ~BDRV_O_RDWR;
+     }
+ 
++    if (!g_strcmp0(qdict_get_try_str(options, BDRV_OPT_COMPRESS), "on") ||
++        qdict_get_try_bool(options, BDRV_OPT_COMPRESS, false)) {
++        bs->all_write_compressed = true;
++    }
++
+     if (flags & BDRV_O_SNAPSHOT) {
+         snapshot_options = qdict_new();
+         bdrv_temp_snapshot_options(&snapshot_flags, snapshot_options,
+@@ -3208,7 +3226,7 @@ static int bdrv_reset_options_allowed(BlockDriverState *bs,
+      * in bdrv_reopen_prepare() so they can be left out of @new_opts */
+     const char *const common_options[] = {
+         "node-name", "discard", "cache.direct", "cache.no-flush",
+-        "read-only", "auto-read-only", "detect-zeroes", NULL
++        "read-only", "auto-read-only", "detect-zeroes", "compress", NULL
+     };
+ 
+     for (e = qdict_first(bs->options); e; e = qdict_next(bs->options, e)) {
+diff --git a/block/io.c b/block/io.c
+index f0b86c1..3743a13 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1360,9 +1360,15 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
+                 /* This does not change the data on the disk, it is not
+                  * necessary to flush even in cache=writethrough mode.
+                  */
+-                ret = bdrv_driver_pwritev(bs, cluster_offset, pnum,
+-                                          &local_qiov, 0,
+-                                          BDRV_REQ_WRITE_UNCHANGED);
++                if (bs->all_write_compressed) {
++                    ret = bdrv_driver_pwritev_compressed(bs, cluster_offset,
++                                                         pnum, &local_qiov,
++                                                         qiov_offset);
++                } else {
++                    ret = bdrv_driver_pwritev(bs, cluster_offset, pnum,
++                                              &local_qiov, 0,
++                                              BDRV_REQ_WRITE_UNCHANGED);
++                }
+             }
+ 
+             if (ret < 0) {
+@@ -1954,7 +1960,7 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
+     } else if (flags & BDRV_REQ_ZERO_WRITE) {
+         bdrv_debug_event(bs, BLKDBG_PWRITEV_ZERO);
+         ret = bdrv_co_do_pwrite_zeroes(bs, offset, bytes, flags);
+-    } else if (flags & BDRV_REQ_WRITE_COMPRESSED) {
++    } else if (flags & BDRV_REQ_WRITE_COMPRESSED || bs->all_write_compressed) {
+         ret = bdrv_driver_pwritev_compressed(bs, offset, bytes,
+                                              qiov, qiov_offset);
+     } else if (bytes <= max_transfer) {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 7961c05..6b29e16 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1787,6 +1787,10 @@ static void qcow2_refresh_limits(BlockDriverState *bs, Error **errp)
+         /* Encryption works on a sector granularity */
+         bs->bl.request_alignment = qcrypto_block_get_sector_size(s->crypto);
+     }
++    if (bs->all_write_compressed) {
++        bs->bl.request_alignment = MAX(bs->bl.request_alignment,
++                                       s->cluster_size);
++    }
+     bs->bl.pwrite_zeroes_alignment = s->cluster_size;
+     bs->bl.pdiscard_alignment = s->cluster_size;
+ }
+diff --git a/blockdev.c b/blockdev.c
+index f89e48f..0c0b398 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -471,7 +471,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+     int bdrv_flags = 0;
+     int on_read_error, on_write_error;
+     bool account_invalid, account_failed;
+-    bool writethrough, read_only;
++    bool writethrough, read_only, compress;
+     BlockBackend *blk;
+     BlockDriverState *bs;
+     ThrottleConfig cfg;
+@@ -570,6 +570,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+     }
+ 
+     read_only = qemu_opt_get_bool(opts, BDRV_OPT_READ_ONLY, false);
++    compress = qemu_opt_get_bool(opts, BDRV_OPT_COMPRESS, false);
+ 
+     /* init */
+     if ((!file || !*file) && !qdict_size(bs_opts)) {
+@@ -595,6 +596,8 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+         qdict_set_default_str(bs_opts, BDRV_OPT_READ_ONLY,
+                               read_only ? "on" : "off");
+         qdict_set_default_str(bs_opts, BDRV_OPT_AUTO_READ_ONLY, "on");
++        qdict_set_default_str(bs_opts, BDRV_OPT_COMPRESS,
++                              compress ? "on" : "off");
+         assert((bdrv_flags & BDRV_O_CACHE_MASK) == 0);
+ 
+         if (runstate_check(RUN_STATE_INMIGRATE)) {
+@@ -4683,6 +4686,10 @@ QemuOptsList qemu_common_drive_opts = {
+             .name = BDRV_OPT_READ_ONLY,
+             .type = QEMU_OPT_BOOL,
+             .help = "open drive file as read-only",
++        },{
++            .name = BDRV_OPT_COMPRESS,
++            .type = QEMU_OPT_BOOL,
++            .help = "compress all writes to image",
+         },
+ 
+         THROTTLE_OPTS,
+diff --git a/include/block/block.h b/include/block/block.h
+index 792bb82..7e0a927 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -139,6 +139,7 @@ typedef struct HDGeometry {
+ #define BDRV_OPT_AUTO_READ_ONLY "auto-read-only"
+ #define BDRV_OPT_DISCARD        "discard"
+ #define BDRV_OPT_FORCE_SHARE    "force-share"
++#define BDRV_OPT_COMPRESS       "compress"
+ 
+ 
+ #define BDRV_SECTOR_BITS   9
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 05056b3..3fe8923 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -923,6 +923,8 @@ struct BlockDriverState {
+ 
+     /* BdrvChild links to this node may never be frozen */
+     bool never_freeze;
++    /* Compress all writes to the image */
++    bool all_write_compressed;
+ };
+ 
+ struct BlockBackendRootState {
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index f66553a..6c1684f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4014,6 +4014,9 @@
+ # @force-share:   force share all permission on added nodes.
+ #                 Requires read-only=true. (Since 2.10)
+ #
++# @compress:      compress all writes to the image (Since 4.2)
++#                 (default: false)
++#
+ # Remaining options are determined by the block driver.
+ #
+ # Since: 2.9
+@@ -4026,7 +4029,8 @@
+             '*read-only': 'bool',
+             '*auto-read-only': 'bool',
+             '*force-share': 'bool',
+-            '*detect-zeroes': 'BlockdevDetectZeroesOptions' },
++            '*detect-zeroes': 'BlockdevDetectZeroesOptions',
++            '*compress': 'bool' },
+   'discriminator': 'driver',
+   'data': {
+       'blkdebug':   'BlockdevOptionsBlkdebug',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 793d70f..1bfbf1a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -850,7 +850,7 @@ DEF("blockdev", HAS_ARG, QEMU_OPTION_blockdev,
+     "-blockdev [driver=]driver[,node-name=N][,discard=ignore|unmap]\n"
+     "          [,cache.direct=on|off][,cache.no-flush=on|off]\n"
+     "          [,read-only=on|off][,detect-zeroes=on|off|unmap]\n"
+-    "          [,driver specific parameters...]\n"
++    "          [,compress=on|off][,driver specific parameters...]\n"
+     "                configure a block backend\n", QEMU_ARCH_ALL)
+ STEXI
+ @item -blockdev @var{option}[,@var{option}[,@var{option}[,...]]]
+@@ -905,6 +905,8 @@ discard requests.
+ conversion of plain zero writes by the OS to driver specific optimized
+ zero write commands. You may even choose "unmap" if @var{discard} is set
+ to "unmap" to allow a zero write to be converted to an @code{unmap} operation.
++@item compress
++Compress all writes to the image.
+ @end table
+ 
+ @item Driver-specific options for @code{file}
+@@ -1026,7 +1028,7 @@ DEF("drive", HAS_ARG, QEMU_OPTION_drive,
+     "       [,cache=writethrough|writeback|none|directsync|unsafe][,format=f]\n"
+     "       [,snapshot=on|off][,rerror=ignore|stop|report]\n"
+     "       [,werror=ignore|stop|report|enospc][,id=name][,aio=threads|native]\n"
+-    "       [,readonly=on|off][,copy-on-read=on|off]\n"
++    "       [,readonly=on|off][,copy-on-read=on|off][,compress=on|off]\n"
+     "       [,discard=ignore|unmap][,detect-zeroes=on|off|unmap]\n"
+     "       [[,bps=b]|[[,bps_rd=r][,bps_wr=w]]]\n"
+     "       [[,iops=i]|[[,iops_rd=r][,iops_wr=w]]]\n"
 -- 
 1.8.3.1
 
