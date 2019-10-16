@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E56ED9B93
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 22:21:05 +0200 (CEST)
-Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531A5D9BE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 22:41:51 +0200 (CEST)
+Received: from localhost ([::1]:48060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKpn5-0005x2-W2
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 16:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39871)
+	id 1iKq7B-0008Fg-Tb
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 16:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iKpl8-0003gj-63
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 16:19:04 -0400
+ (envelope-from <armbru@redhat.com>) id 1iKq6C-0007oN-TU
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 16:40:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iKpl5-00076h-9L
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 16:19:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60880)
+ (envelope-from <armbru@redhat.com>) id 1iKq6A-0006vw-Ex
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 16:40:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36961)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iKpl5-00076I-0P
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 16:18:59 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iKq6A-0006vf-5Z
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 16:40:46 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A40698667D;
- Wed, 16 Oct 2019 20:18:57 +0000 (UTC)
-Received: from localhost (ovpn-116-53.ams2.redhat.com [10.36.116.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A9BC614C1;
- Wed, 16 Oct 2019 20:18:49 +0000 (UTC)
-Date: Wed, 16 Oct 2019 22:18:47 +0200
-From: Jens Freimann <jfreimann@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v3 10/10] vfio: unplug failover primary device before
- migration
-Message-ID: <20191016201847.izgvkxfoepci4w23@jenstp.localdomain>
-References: <20191011112015.11785-1-jfreimann@redhat.com>
- <20191011112015.11785-11-jfreimann@redhat.com>
- <20191015195212.27e0f944@x1.home>
+ by mx1.redhat.com (Postfix) with ESMTPS id D9562307BD27;
+ Wed, 16 Oct 2019 20:40:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A57960BF7;
+ Wed, 16 Oct 2019 20:40:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 673591138619; Wed, 16 Oct 2019 22:40:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v9 04/15] hw/i386/pc: replace use of strtol with
+ qemu_strtol in x86_load_linux()
+References: <20191015112346.45554-1-slp@redhat.com>
+ <20191015112346.45554-5-slp@redhat.com>
+ <b7baa2ab-210b-e7ef-399e-4dbbbc0ee0aa@redhat.com>
+Date: Wed, 16 Oct 2019 22:40:29 +0200
+In-Reply-To: <b7baa2ab-210b-e7ef-399e-4dbbbc0ee0aa@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 15 Oct 2019 13:36:09
+ +0200")
+Message-ID: <87wod4pgoy.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20191015195212.27e0f944@x1.home>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 16 Oct 2019 20:18:57 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Wed, 16 Oct 2019 20:40:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,151 +64,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, aadam@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, laine@redhat.com, ailan@redhat.com,
- parav@mellanox.com
+Cc: "Daniel P . Berrange" <berrange@redhat.com>, ehabkost@redhat.com,
+ Sergio Lopez <slp@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, imammedo@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ lersek@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 15, 2019 at 07:52:12PM -0600, Alex Williamson wrote:
->On Fri, 11 Oct 2019 13:20:15 +0200
->Jens Freimann <jfreimann@redhat.com> wrote:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Hi Sergio,
 >
->> As usual block all vfio-pci devices from being migrated, but make an
->> exception for failover primary devices. This is achieved by setting
->> unmigratable to 0 but also add a migration blocker for all vfio-pci
->> devices except failover primary devices. These will be unplugged before
->> migration happens by the migration handler of the corresponding
->> virtio-net standby device.
+> On 10/15/19 1:23 PM, Sergio Lopez wrote:
+>> Follow checkpatch.pl recommendation and replace the use of strtol with
+>> qemu_strtol in x86_load_linux().
+>
+> "with qemu_strtoui"
+>
 >>
->> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+>> Signed-off-by: Sergio Lopez <slp@redhat.com>
 >> ---
->>  hw/vfio/pci.c | 35 ++++++++++++++++++++++++++++++++++-
->>  hw/vfio/pci.h |  2 ++
->>  2 files changed, 36 insertions(+), 1 deletion(-)
+>>   hw/i386/pc.c | 9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
 >>
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index c5e6fe61cb..64cf8e07d9 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -40,6 +40,9 @@
->>  #include "pci.h"
->>  #include "trace.h"
->>  #include "qapi/error.h"
->> +#include "migration/blocker.h"
->> +#include "qemu/option.h"
->> +#include "qemu/option_int.h"
->>
->>  #define TYPE_VFIO_PCI "vfio-pci"
->>  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
->> @@ -2698,6 +2701,12 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
->>      vdev->req_enabled = false;
->>  }
->>
->> +static int has_net_failover_arg(void *opaque, const char *name,
->> +                           const char *value, Error **errp)
->> +{
->> +    return (strcmp(name, "net_failover_pair_id") == 0);
->> +}
->> +
->>  static void vfio_realize(PCIDevice *pdev, Error **errp)
->>  {
->>      VFIOPCIDevice *vdev = PCI_VFIO(pdev);
->> @@ -2710,6 +2719,20 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->>      int groupid;
->>      int i, ret;
->>      bool is_mdev;
->> +    uint16_t class_id;
->> +
->> +    if (qemu_opt_foreach(pdev->qdev.opts, has_net_failover_arg,
->> +                         (void *) pdev->qdev.opts, &err) == 0) {
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index 77e86bfc3d..c8608b8007 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -68,6 +68,7 @@
+>>   #include "qemu/config-file.h"
+>>   #include "qemu/error-report.h"
+>>   #include "qemu/option.h"
+>> +#include "qemu/cutils.h"
+>>   #include "hw/acpi/acpi.h"
+>>   #include "hw/acpi/cpu_hotplug.h"
+>>   #include "hw/boards.h"
+>> @@ -1202,6 +1203,7 @@ static void x86_load_linux(PCMachineState *pcms,
+>>       vmode =3D strstr(kernel_cmdline, "vga=3D");
+>>       if (vmode) {
+>>           unsigned int video_mode;
+>> +        int ret;
+>>           /* skip "vga=3D" */
+>>           vmode +=3D 4;
+>>           if (!strncmp(vmode, "normal", 6)) {
+>> @@ -1211,7 +1213,12 @@ static void x86_load_linux(PCMachineState *pcms,
+>>           } else if (!strncmp(vmode, "ask", 3)) {
+>>               video_mode =3D 0xfffd;
+>>           } else {
+>> -            video_mode =3D strtol(vmode, NULL, 0);
+>> +            ret =3D qemu_strtoui(vmode, NULL, 0, &video_mode);
+>> +            if (ret !=3D 0) {
+>> +                fprintf(stderr, "qemu: can't parse 'vga' parameter: %s\=
+n",
+>> +                        strerror(-ret));
 >
->Why do we need a qemu_opt_foreach here versus testing
->vdev->net_failover_pair_id as you do below or similar to how we test
->sysfsdev immediately below this chunk?
-
-We don't need it, I will change it and move it to where we check for
-the PCI class.
+> (Cc'ing Markus/Daniel just in case)
 >
->> +        error_setg(&vdev->migration_blocker,
->> +                "VFIO device doesn't support migration");
->> +        ret = migrate_add_blocker(vdev->migration_blocker, &err);
+> I'm wondering if using fprintf() is appropriate, thinking about
+> instantiating a machine via libvirt, is this error reported to the
+> user?
 >
->Where's the migrate_del_blocker()/error_free() for any other realize
->error or device removal?
+> I first thought about using error_report() instead:
 >
->> +        if (err) {
->> +            error_propagate(errp, err);
->> +            error_free(vdev->migration_blocker);
->> +        }
->
->As Connie noted, unclear if this aborts or continues without a
->migration blocker, which would be bad.
+>     error_report("qemu: can't parse 'vga' parameter: %s",
+>                  strerror(-ret));
 
-It aborts in my test. PCI realize propagates it further and eventually
-it leads to aborting qemu.
+Make that
 
-It looks like this now:
+     error_report("can't parse 'vga' parameter: %s", strerror(-ret));
 
-     if (!pdev->net_failover_pair_id) {
-          error_setg(&vdev->migration_blocker,
-                  "VFIO device doesn't support migration");
-          ret = migrate_add_blocker(vdev->migration_blocker, &err);
-          if (err) {
-              error_propagate(errp, err);
-          } else {
-              error_propagate(errp, vdev->migration_blocker);
-          }
-          goto error;
-      } else {
-          pdev->qdev.allow_unplug_during_migration = true;
-      }
+> But this API is meaningful when used in console/monitor. We can't get
+> here from the monitor,
 
->> +    } else {
->> +        pdev->qdev.allow_unplug_during_migration = true;
->> +    }
->>
->>      if (!vdev->vbasedev.sysfsdev) {
->>          if (!(~vdev->host.domain || ~vdev->host.bus ||
->> @@ -2812,6 +2835,14 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->>          goto error;
->>      }
->>
->> +    if (vdev->net_failover_pair_id != NULL) {
->> +        class_id = pci_get_word(pdev->config + PCI_CLASS_DEVICE);
->> +        if (class_id != PCI_CLASS_NETWORK_ETHERNET) {
->> +            error_setg(errp, "failover device is not an Ethernet device");
->> +            goto error;
->> +        }
->> +    }
->
->Not clear to me why we do this separate from setting up the migration
->blocker or why we use a different mechanism to test for the property.
+True, but error_report() should be used anyway, because (1) it makes
+intent more obvious, and (2) it uses a uniform, featureful error format.
 
-I'm moving this check to hw/pci/pci.c as you suggested.
+With the proposed fprintf(), we get
 
->> +
->>      /* vfio emulates a lot for us, but some bits need extra love */
->>      vdev->emulated_config_bits = g_malloc0(vdev->config_size);
->>
->> @@ -3110,6 +3141,8 @@ static Property vfio_pci_dev_properties[] = {
->>                              display, ON_OFF_AUTO_OFF),
->>      DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
->>      DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
->> +    DEFINE_PROP_STRING("net_failover_pair_id", VFIOPCIDevice,
->> +            net_failover_pair_id),
->
->Should this and the Ethernet class test be done in PCIDevice?  The
->migration aspect is the only thing unique to vfio since we don't
->otherwise support it, right?  For instance, I should be able to
->setup an emulated NIC with this failover pair id too, right?  Thanks,
+    qemu: can't parse 'vga' parameter: Numerical result out of range
 
-Yes, we can do it in PCIDevice. Using it with an emulated device.
-It wouldn't make sense for production but could make sense for
-testing purposes.
+With error_report():
 
-Thanks for the review!
+* we report the *actual* argv[0] instead of "qemu"
 
-regards,
-Jens
+* we obey -msg timestamp=3Don
+
+* if "[PATCHv2 1/2] util/qemu-error: add guest name helper with -msg
+  options" gets accepted, we obey -msg guest-name=3Don, too
+
+* we have a common way to point to the offending command line argument
+  or configuration file line (not worth doing here)
+
+Please use error_report().
+
+[...]
 
