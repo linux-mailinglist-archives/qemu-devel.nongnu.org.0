@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABE6D95D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 17:41:03 +0200 (CEST)
-Received: from localhost ([::1]:44650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83253D95F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 17:49:32 +0200 (CEST)
+Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKlQ6-0001QD-G0
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 11:41:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54183)
+	id 1iKlYJ-0006fh-81
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 11:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55818)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iKlP2-0000gq-Nt
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:39:57 -0400
+ (envelope-from <zhangckid@gmail.com>) id 1iKlWc-0005mz-DW
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:47:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iKlP1-0004Ng-CF
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:39:56 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38313)
+ (envelope-from <zhangckid@gmail.com>) id 1iKlWa-0000jg-Hl
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:47:46 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33129)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iKlP1-0004Mr-2F
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:39:55 -0400
-Received: by mail-pg1-x542.google.com with SMTP id w3so7605187pgt.5
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 08:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6YQ153NOOjUMl+pO/gDPGLBVsCywgtV0r9bpuBebW4Q=;
- b=MR+EhkwXXfX63TmC7yls0Q9us9u7s2EeGHgdQJJDwsRBGvsspcSVkE/YCtry0R2huq
- GVydMEqm/f5CBdaZhqhhHzY3qZhw4Po44u2orqcGo4JJLxsulk5O2OIo5xO/UIjL5mXx
- HmEhG9tO5Tm5veriH9UCh/zDbZBKmZwOlWQHSLVl96F8V5NYq6abUGsL3Ow4m36UU2oo
- D1gD4eAkyjTEDK12FekalYkgebzYvhHfoVII3Rq6sXk7TRzC215GFOBzRoPbc19QVS9L
- 5D/iasJPMLPbJMpZreu6DKM9Gd8bfAF/N/MHDDDjWq3BOC5RaS6h5/NxznWM6+ZVK5Vv
- kXGA==
+ (Exim 4.71) (envelope-from <zhangckid@gmail.com>) id 1iKlWa-0000hk-Bs
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:47:44 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b9so28675702wrs.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 08:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=Xb5v9ZJf0Np4qLVXzWMyMOn1cIToqMjUDmZphZ7zdy0=;
+ b=chNScY/DPFrsIjo0Rr+P8b4/gC3Faq9/D+XiQu2cFbM3zBkUY/hf+Z+cO2ZbIPqpc5
+ YBiBa2A8AUTMMMtBJLJtcuSC9luSCezN2VA5qtq5+eOMZE8d8+4gJRJ48aVQ433pFXxx
+ m0oGUA0UaLRZV+zbGdSQIA5k73DyKB/fyjt1RgbIJ3LDRIXYvkidvxSD7lLAGryz/2y1
+ 4Td4txjHCivMJbmRQrNIkcdCdfbx5omKXxQW6F0NJYOr0GbiL7lbBzASCqJ76XBMJ2cZ
+ A+nujuH6e+SrlSBLBywAD3B5WqIuRJKFE3Qdm2gfF+VHgU2zmpZEj3Y0xDm9pkaC2Ieu
+ 8BKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6YQ153NOOjUMl+pO/gDPGLBVsCywgtV0r9bpuBebW4Q=;
- b=geYzdXeGisFY9yCZ46yLegvG5UZeY9vppn5Mz1NM+a7oR9hvaCGwJiwXvsF6tbvBuo
- W5SMyA5ZmxvwA+Z2/PAeuRSznB3cM5IJiU6zvR/NPOt70HQbNy2Xb6mVa845B3YOVZkm
- +jUz1l//JZnWcze5auV9fi3ziXNh+u2Eis47q13DX8DEZ5XvoMmi9Y4F8IFaub961rFV
- mxVYld3P3IhTDrb36kNnqh0yarX5z0QqgpMSKTE9nhWSrfYU3PJs92f02idsy9vhiR5R
- ckcPlZm16RKJ092Gg1WH6Y6LKbki9KZz9xW+6fi6SiUtQ9Er97bJQhH4S1UV9f3zP8SW
- JERA==
-X-Gm-Message-State: APjAAAWWPpYKX5Vt+R6I0d4Cvpvcs3HzQ6lrxUkJtE050nN8LDgCZuAI
- rh39VWBIpGK1Byv+5fk7YrG5SA==
-X-Google-Smtp-Source: APXvYqx0V/r2P4EjH/htlrY4j8iCWKpIve6Y1Q3VxHoEdjQsM16Kc0TlKSFLMgV1GRLrpaAu83d+Dg==
-X-Received: by 2002:a65:500c:: with SMTP id f12mr15798271pgo.233.1571240393813; 
- Wed, 16 Oct 2019 08:39:53 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 2sm30815025pfa.43.2019.10.16.08.39.52
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 16 Oct 2019 08:39:53 -0700 (PDT)
-Subject: Re: [PATCH v2] target/arm/arch_dump: Add SVE notes
-To: Andrew Jones <drjones@redhat.com>
-References: <20191004120313.5347-1-drjones@redhat.com>
- <f23153f2-35be-f74d-ad7b-d9c324cba1cf@linaro.org>
- <20191010061600.pwhos4huazbsv6kn@kamzik.brq.redhat.com>
- <6451070f-9488-cc8f-2f4b-a7577e11f447@linaro.org>
- <20191016091314.cu76t3ovwofsfart@kamzik.brq.redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <f517a663-45ad-0ec0-785f-7540fc99acb5@linaro.org>
-Date: Wed, 16 Oct 2019 08:39:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=Xb5v9ZJf0Np4qLVXzWMyMOn1cIToqMjUDmZphZ7zdy0=;
+ b=FmcaQ2EpnVdlvx34/pDZjXCMj6CxZX10qxiM+/yZq0vFOwueu5fsQ7WwbEBdxflPbP
+ VIMI9AUjWtekUvNr6YTa8GfLP3wIpATgaxB1VNfi3db3tMtkjUJQDc9UYGedrP0fGnwZ
+ LR6wCTnB8HgQCAqVMRiXQ0yeRsse84X/z0R85L4s71Bo+8c8QeUjx4QHojSgItmFj16u
+ wwFB5XP7/etj+oN4eEBBFMngsln49leMtOC3JF0gampX9Rl1KGR/WiQvJ0c0pvwXqHfe
+ 3e4ZkkRZN+zviIWZWjnoXDN+6jDjhOVTTc8q16yAbYwLos4kyWLkWL9LykjxePnOf+XJ
+ 5L4w==
+X-Gm-Message-State: APjAAAWNtEeB1Z4yiva1KIvVzwadFmjRiIN46Wcgm34kBqN6SxFSTAyV
+ 47PasjOuCYoLVRz7YRnendMyAQ3lmdvkRAULYKXY5kcU
+X-Google-Smtp-Source: APXvYqzMAujs0ebseRGlsKkA+QGFIVHLIDI0+T6oSJQwKgUWcWGlPBtnxSvVPmQ50ymlKpStmsOgd+43wv/+4DALNwU=
+X-Received: by 2002:adf:e8c6:: with SMTP id k6mr3348042wrn.78.1571240861500;
+ Wed, 16 Oct 2019 08:47:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191016091314.cu76t3ovwofsfart@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191016112209.9024-1-chen.zhang@intel.com>
+ <157124010247.15388.11052477009886074916@37313f22b938>
+In-Reply-To: <157124010247.15388.11052477009886074916@37313f22b938>
+From: Zhang Chen <zhangckid@gmail.com>
+Date: Wed, 16 Oct 2019 23:40:53 +0800
+Message-ID: <CAK3tnv+QcXrGyOsb5LYN8MvL+t_K1vPGdB-V7p57QALbno1k8Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] Introduce Advanced Watch Dog module
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,150 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
- qemu-arm@nongnu.org, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/16/19 2:13 AM, Andrew Jones wrote:
-> On Thu, Oct 10, 2019 at 01:33:02PM -0400, Richard Henderson wrote:
->> Ah, I wonder if you changed things around with the ifdefs due to the pregs.
->> There's no trivial solution for those.  It'd be nice to share the bswapping
->> subroutine that you add in the SVE KVM patch set, and size the temporary array
->> using ARM_MAX_VQ.
-> 
-> How about something like this squashed in?
+On Wed, Oct 16, 2019 at 11:35 PM <no-reply@patchew.org> wrote:
+>
+> Patchew URL: https://patchew.org/QEMU/20191016112209.9024-1-chen.zhang@intel.com/
+>
+>
+>
+> Hi,
+>
+> This series failed the docker-quick@centos7 build test. Please find the testing commands and
+> their output below. If you have Docker installed, you can probably reproduce it
+> locally.
+>
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> make docker-image-centos7 V=1 NETWORK=1
+> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
+> === TEST SCRIPT END ===
+>
+> Clone of 'https://git.qemu.org/git/dtc.git' into submodule path 'dtc' failed
+> failed to update submodule dtc
+> Submodule 'dtc' (https://git.qemu.org/git/dtc.git) unregistered for path 'dtc'
+> make[1]: *** [/var/tmp/patchew-tester-tmp-2eq69u33/src/docker-src.2019-10-16-11.34.59.10123] Error 1
+> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-2eq69u33/src'
+> make: *** [docker-run-test-quick@centos7] Error 2
+>
 
-Looks good.
+It looks this problem dose not caused by my patch series?
 
+Thanks
+Zhang Chen
 
-r~
-
-
-> 
-> Thanks,
-> drew
-> 
-> diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-> index b02e398430b9..7c7fd23f4d94 100644
-> --- a/target/arm/arch_dump.c
-> +++ b/target/arm/arch_dump.c
-> @@ -182,6 +182,7 @@ static int aarch64_write_elf64_sve(WriteCoreDumpFunction f,
->      struct aarch64_note *note;
->      ARMCPU *cpu = env_archcpu(env);
->      uint32_t vq = sve_current_vq(env);
-> +    uint64_t tmp[ARM_MAX_VQ * 2], *r;
->      uint32_t fpr;
->      uint8_t *buf;
->      int ret, i;
-> @@ -198,31 +199,14 @@ static int aarch64_write_elf64_sve(WriteCoreDumpFunction f,
->      note->sve.flags = cpu_to_dump16(s, 1);
->  
->      for (i = 0; i < 32; ++i) {
-> -#ifdef HOST_WORDS_BIGENDIAN
-> -        uint64_t d[vq * 2];
-> -        int j;
-> -
-> -        for (j = 0; j < vq * 2; ++j) {
-> -            d[j] = bswap64(env->vfp.zregs[i].d[j]);
-> -        }
-> -#else
-> -        uint64_t *d = &env->vfp.zregs[i].d[0];
-> -#endif
-> -        memcpy(&buf[sve_zreg_offset(vq, i)], &d[0], vq * 16);
-> +        r = sve_bswap64(tmp, &env->vfp.zregs[i].d[0], vq * 2);
-> +        memcpy(&buf[sve_zreg_offset(vq, i)], r, vq * 16);
->      }
->  
->      for (i = 0; i < 17; ++i) {
-> -#ifdef HOST_WORDS_BIGENDIAN
-> -        uint64_t d[DIV_ROUND_UP(vq * 2, 8)];
-> -        int j;
-> -
-> -        for (j = 0; j < DIV_ROUND_UP(vq * 2, 8); ++j) {
-> -            d[j] = bswap64(env->vfp.pregs[i].p[j]);
-> -        }
-> -#else
-> -        uint64_t *d = &env->vfp.pregs[i].p[0];
-> -#endif
-> -        memcpy(&buf[sve_preg_offset(vq, i)], &d[0], vq * 16 / 8);
-> +        r = sve_bswap64(tmp, r = &env->vfp.pregs[i].p[0],
-> +                        DIV_ROUND_UP(vq * 2, 8));
-> +        memcpy(&buf[sve_preg_offset(vq, i)], r, vq * 16 / 8);
->      }
->  
->      fpr = cpu_to_dump32(s, vfp_get_fpsr(env));
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 5b9c3e4cd73d..b3092e5213e6 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -975,6 +975,31 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
->  void aarch64_sve_change_el(CPUARMState *env, int old_el,
->                             int new_el, bool el0_a64);
->  void aarch64_add_sve_properties(Object *obj);
-> +
-> +/*
-> + * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-> + * The byte at offset i from the start of the in-memory representation contains
-> + * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means the
-> + * lowest offsets are stored in the lowest memory addresses, then that nearly
-> + * matches QEMU's representation, which is to use an array of host-endian
-> + * uint64_t's, where the lower offsets are at the lower indices. To complete
-> + * the translation we just need to byte swap the uint64_t's on big-endian hosts.
-> + */
-> +static inline uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
-> +{
-> +#ifdef HOST_WORDS_BIGENDIAN
-> +    int i;
-> +
-> +    for (i = 0; i < nr; ++i) {
-> +        dst[i] = bswap64(src[i]);
-> +    }
-> +
-> +    return dst;
-> +#else
-> +    return src;
-> +#endif
-> +}
-> +
->  #else
->  static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
->  static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 876184b8fe4d..e2da756e65ed 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -876,30 +876,6 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
->      return 0;
->  }
->  
-> -/*
-> - * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-> - * The byte at offset i from the start of the in-memory representation contains
-> - * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means the
-> - * lowest offsets are stored in the lowest memory addresses, then that nearly
-> - * matches QEMU's representation, which is to use an array of host-endian
-> - * uint64_t's, where the lower offsets are at the lower indices. To complete
-> - * the translation we just need to byte swap the uint64_t's on big-endian hosts.
-> - */
-> -static uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
-> -{
-> -#ifdef HOST_WORDS_BIGENDIAN
-> -    int i;
-> -
-> -    for (i = 0; i < nr; ++i) {
-> -        dst[i] = bswap64(src[i]);
-> -    }
-> -
-> -    return dst;
-> -#else
-> -    return src;
-> -#endif
-> -}
-> -
->  /*
->   * KVM SVE registers come in slices where ZREGs have a slice size of 2048 bits
->   * and PREGS and the FFR have a slice size of 256 bits. However we simply hard
-> 
-
+> real    0m3.762s
+> user    0m2.349s
+>
+>
+> The full log is available at
+> http://patchew.org/logs/20191016112209.9024-1-chen.zhang@intel.com/testing.docker-quick@centos7/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
