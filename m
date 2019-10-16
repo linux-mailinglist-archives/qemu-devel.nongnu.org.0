@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9B3D8573
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 03:27:11 +0200 (CEST)
-Received: from localhost ([::1]:34835 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CA7D85A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 03:55:17 +0200 (CEST)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKY5m-0002Rh-Ra
-	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 21:27:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
+	id 1iKYWz-00037s-1R
+	for lists+qemu-devel@lfdr.de; Tue, 15 Oct 2019 21:55:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iKY4P-0001Go-NC
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 21:25:46 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1iKYVy-00021F-6H
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 21:54:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iKY4M-0003KI-9W
- for qemu-devel@nongnu.org; Tue, 15 Oct 2019 21:25:45 -0400
-Received: from mga17.intel.com ([192.55.52.151]:60588)
+ (envelope-from <alex.williamson@redhat.com>) id 1iKYVv-0003it-TL
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 21:54:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36316)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iKY4K-0003IK-JM; Tue, 15 Oct 2019 21:25:42 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2019 18:25:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,301,1566889200"; d="scan'208";a="208298945"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2019 18:25:33 -0700
-Date: Wed, 16 Oct 2019 09:25:18 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 2/2] core: replace getpagesize() with
- qemu_real_host_page_size
-Message-ID: <20191016012518.GB21912@richard>
-References: <20191013021145.16011-1-richardw.yang@linux.intel.com>
- <20191013021145.16011-3-richardw.yang@linux.intel.com>
- <20191013092841.GG4080@umbus.fritz.box>
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iKYVv-0003il-KG
+ for qemu-devel@nongnu.org; Tue, 15 Oct 2019 21:54:11 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C25C5C057E32;
+ Wed, 16 Oct 2019 01:54:10 +0000 (UTC)
+Received: from x1.home (ovpn-118-102.phx2.redhat.com [10.3.118.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42A9D5C21F;
+ Wed, 16 Oct 2019 01:54:01 +0000 (UTC)
+Date: Tue, 15 Oct 2019 19:52:12 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Subject: Re: [PATCH v3 10/10] vfio: unplug failover primary device before
+ migration
+Message-ID: <20191015195212.27e0f944@x1.home>
+In-Reply-To: <20191011112015.11785-11-jfreimann@redhat.com>
+References: <20191011112015.11785-1-jfreimann@redhat.com>
+ <20191011112015.11785-11-jfreimann@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191013092841.GG4080@umbus.fritz.box>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.151
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 16 Oct 2019 01:54:10 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,58 +60,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: fam@euphon.net, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, kraxel@redhat.com, den@openvz.org,
- qemu-block@nongnu.org, quintela@redhat.com, armbru@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, marcandre.lureau@redhat.com,
- ehabkost@redhat.com, sw@weilnetz.de, dgilbert@redhat.com,
- yuval.shaia@oracle.com, alex.williamson@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com, cohuck@redhat.com,
- qemu-s390x@nongnu.org, mreitz@redhat.com, qemu-ppc@nongnu.org,
- Wei Yang <richardw.yang@linux.intel.com>, imammedo@redhat.com
+Cc: ehabkost@redhat.com, mst@redhat.com, aadam@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, laine@redhat.com, ailan@redhat.com,
+ parav@mellanox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 13, 2019 at 08:28:41PM +1100, David Gibson wrote:
->On Sun, Oct 13, 2019 at 10:11:45AM +0800, Wei Yang wrote:
->> There are three page size in qemu:
->> 
->>   real host page size
->>   host page size
->>   target page size
->> 
->> All of them have dedicate variable to represent. For the last two, we
->> use the same form in the whole qemu project, while for the first one we
->> use two forms: qemu_real_host_page_size and getpagesize().
->> 
->> qemu_real_host_page_size is defined to be a replacement of
->> getpagesize(), so let it serve the role.
->> 
->> [Note] Not fully tested for some arch or device.
->> 
->> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->
->Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
->
->Although the chances of someone messing this up again are almost 100%.
->
+On Fri, 11 Oct 2019 13:20:15 +0200
+Jens Freimann <jfreimann@redhat.com> wrote:
 
-Hi, David
+> As usual block all vfio-pci devices from being migrated, but make an
+> exception for failover primary devices. This is achieved by setting
+> unmigratable to 0 but also add a migration blocker for all vfio-pci
+> devices except failover primary devices. These will be unplugged before
+> migration happens by the migration handler of the corresponding
+> virtio-net standby device.
+> 
+> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+> ---
+>  hw/vfio/pci.c | 35 ++++++++++++++++++++++++++++++++++-
+>  hw/vfio/pci.h |  2 ++
+>  2 files changed, 36 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index c5e6fe61cb..64cf8e07d9 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -40,6 +40,9 @@
+>  #include "pci.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "migration/blocker.h"
+> +#include "qemu/option.h"
+> +#include "qemu/option_int.h"
+>  
+>  #define TYPE_VFIO_PCI "vfio-pci"
+>  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+> @@ -2698,6 +2701,12 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>      vdev->req_enabled = false;
+>  }
+>  
+> +static int has_net_failover_arg(void *opaque, const char *name,
+> +                           const char *value, Error **errp)
+> +{
+> +    return (strcmp(name, "net_failover_pair_id") == 0);
+> +}
+> +
+>  static void vfio_realize(PCIDevice *pdev, Error **errp)
+>  {
+>      VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+> @@ -2710,6 +2719,20 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>      int groupid;
+>      int i, ret;
+>      bool is_mdev;
+> +    uint16_t class_id;
+> +
+> +    if (qemu_opt_foreach(pdev->qdev.opts, has_net_failover_arg,
+> +                         (void *) pdev->qdev.opts, &err) == 0) {
 
-I found put a check in checkpatch.pl may be a good way to prevent it.
+Why do we need a qemu_opt_foreach here versus testing
+vdev->net_failover_pair_id as you do below or similar to how we test
+sysfsdev immediately below this chunk?
 
-Just draft a patch, hope you would like it.
+> +        error_setg(&vdev->migration_blocker,
+> +                "VFIO device doesn't support migration");
+> +        ret = migrate_add_blocker(vdev->migration_blocker, &err);
 
->-- 
->David Gibson			| I'll have my music baroque, and my code
->david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
->				| _way_ _around_!
->http://www.ozlabs.org/~dgibson
+Where's the migrate_del_blocker()/error_free() for any other realize
+error or device removal?
 
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            error_free(vdev->migration_blocker);
+> +        }
 
+As Connie noted, unclear if this aborts or continues without a
+migration blocker, which would be bad.
 
--- 
-Wei Yang
-Help you, Help me
+> +    } else {
+> +        pdev->qdev.allow_unplug_during_migration = true;
+> +    }
+>  
+>      if (!vdev->vbasedev.sysfsdev) {
+>          if (!(~vdev->host.domain || ~vdev->host.bus ||
+> @@ -2812,6 +2835,14 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>          goto error;
+>      }
+>  
+> +    if (vdev->net_failover_pair_id != NULL) {
+> +        class_id = pci_get_word(pdev->config + PCI_CLASS_DEVICE);
+> +        if (class_id != PCI_CLASS_NETWORK_ETHERNET) {
+> +            error_setg(errp, "failover device is not an Ethernet device");
+> +            goto error;
+> +        }
+> +    }
+
+Not clear to me why we do this separate from setting up the migration
+blocker or why we use a different mechanism to test for the property.
+
+> +
+>      /* vfio emulates a lot for us, but some bits need extra love */
+>      vdev->emulated_config_bits = g_malloc0(vdev->config_size);
+>  
+> @@ -3110,6 +3141,8 @@ static Property vfio_pci_dev_properties[] = {
+>                              display, ON_OFF_AUTO_OFF),
+>      DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
+>      DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
+> +    DEFINE_PROP_STRING("net_failover_pair_id", VFIOPCIDevice,
+> +            net_failover_pair_id),
+
+Should this and the Ethernet class test be done in PCIDevice?  The
+migration aspect is the only thing unique to vfio since we don't
+otherwise support it, right?  For instance, I should be able to
+setup an emulated NIC with this failover pair id too, right?  Thanks,
+
+Alex
+
+>      DEFINE_PROP_UINT32("x-intx-mmap-timeout-ms", VFIOPCIDevice,
+>                         intx.mmap_timeout, 1100),
+>      DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
+> @@ -3152,7 +3185,7 @@ static Property vfio_pci_dev_properties[] = {
+>  
+>  static const VMStateDescription vfio_pci_vmstate = {
+>      .name = "vfio-pci",
+> -    .unmigratable = 1,
+> +    .unmigratable = 0,
+>  };
+>  
+>  static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> index 834a90d646..da4417071a 100644
+> --- a/hw/vfio/pci.h
+> +++ b/hw/vfio/pci.h
+> @@ -134,6 +134,7 @@ typedef struct VFIOPCIDevice {
+>      PCIHostDeviceAddress host;
+>      EventNotifier err_notifier;
+>      EventNotifier req_notifier;
+> +    char *net_failover_pair_id;
+>      int (*resetfn)(struct VFIOPCIDevice *);
+>      uint32_t vendor_id;
+>      uint32_t device_id;
+> @@ -168,6 +169,7 @@ typedef struct VFIOPCIDevice {
+>      bool no_vfio_ioeventfd;
+>      bool enable_ramfb;
+>      VFIODisplay *dpy;
+> +    Error *migration_blocker;
+>  } VFIOPCIDevice;
+>  
+>  uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len);
+
 
