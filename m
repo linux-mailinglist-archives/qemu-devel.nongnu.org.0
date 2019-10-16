@@ -2,57 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C764CD8E27
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 12:41:00 +0200 (CEST)
-Received: from localhost ([::1]:40732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B12DD8E45
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 12:46:06 +0200 (CEST)
+Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKgjj-0004H8-Sb
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 06:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35979)
+	id 1iKgof-0007zS-Cr
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 06:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iKga8-0006Rh-VM
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:31:09 -0400
+ (envelope-from <kraxel@redhat.com>) id 1iKgmy-00079w-7f
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:44:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iKga4-0006G4-3h
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:31:04 -0400
-Received: from mgwkm02.jp.fujitsu.com ([202.219.69.169]:46960)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1iKga2-0006FM-Aj
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:30:59 -0400
-Received: from kw-mxauth.gw.nic.fujitsu.com (unknown [192.168.231.132]) by
- mgwkm02.jp.fujitsu.com with smtp
- id 3866_5ffe_eb1f6e5b_66f1_425e_b0c7_02822bc8ecff;
- Wed, 16 Oct 2019 19:30:50 +0900
-Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
- (g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
- by kw-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 28D09AC00D2
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 19:30:49 +0900 (JST)
-Received: from G01JPEXCHKW17.g01.fujitsu.local
- (G01JPEXCHKW17.g01.fujitsu.local [10.0.194.56])
- by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id 3692E6925C7;
- Wed, 16 Oct 2019 19:30:48 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- G01JPEXCHKW17.g01.fujitsu.local (10.0.194.56) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 16 Oct 2019 19:30:48 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <virtio-fs@redhat.com>
-Subject: [PATCH 1/2] virtiofsd: Avoid process hang when doing xattr operation
- to FIFO
-Date: Wed, 16 Oct 2019 19:37:53 +0900
-Message-ID: <20191016103754.2047-2-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
-References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
+ (envelope-from <kraxel@redhat.com>) id 1iKgmv-00013y-RG
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:44:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59954)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iKgmv-00013f-Lr
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:44:17 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 29A27801682;
+ Wed, 16 Oct 2019 10:44:14 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
+ [10.36.116.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1A6D5D9E1;
+ Wed, 16 Oct 2019 10:44:13 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id EE3A417474; Wed, 16 Oct 2019 12:44:12 +0200 (CEST)
+Date: Wed, 16 Oct 2019 12:44:12 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: seabios@seabios.org
+Subject: 1.13 release?
+Message-ID: <20191016104412.ut3jxjwjf64qsjbk@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.219.69.169
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.67]); Wed, 16 Oct 2019 10:44:14 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,64 +58,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I see xfstest generic/062 causes process hang because of xattr operation to
-FIFO created by mknod. The problem is that virtiofsd opens any files
-with only O_RDWR or O_RDONLY flags for xattr operation, and therefore
-if a file is FIFO, open may not return.
+  Hi,
 
-Since O_NONBLOCK flag has no effect to regular files, add it to
-open flags to fix the problem.
+Almost a year since 1.12.0 was tagged (Nov 17th to be exact),
+time to plan the 1.13 release I think ...
 
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
----
- contrib/virtiofsd/passthrough_ll.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+How about freeze in a week or two, release by mid-november?
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-index 84b60d85bd..645324da58 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -2251,7 +2251,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
- 	}
- 
- 	sprintf(procname, "%i", inode->fd);
--	fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-+	fd = openat(lo->proc_self_fd, procname, O_RDONLY|O_NONBLOCK);
- 	if (fd < 0) {
- 		goto out_err;
- 	}
-@@ -2323,7 +2323,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
- 	}
- 
- 	sprintf(procname, "%i", inode->fd);
--	fd = openat(lo->proc_self_fd, procname, O_RDONLY);
-+	fd = openat(lo->proc_self_fd, procname, O_RDONLY|O_NONBLOCK);
- 	if (fd < 0) {
- 		goto out_err;
- 	}
-@@ -2397,7 +2397,7 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
- 	}
- 
- 	sprintf(procname, "%i", inode->fd);
--	fd = openat(lo->proc_self_fd, procname, O_RDWR);
-+	fd = openat(lo->proc_self_fd, procname, O_RDWR|O_NONBLOCK);
- 	if (fd < 0) {
- 		saverr = errno;
- 		goto out;
-@@ -2446,7 +2446,7 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name)
- 	}
- 
- 	sprintf(procname, "%i", inode->fd);
--	fd = openat(lo->proc_self_fd, procname, O_RDWR);
-+	fd = openat(lo->proc_self_fd, procname, O_RDWR|O_NONBLOCK);
- 	if (fd < 0) {
- 		saverr = errno;
- 		goto out;
--- 
-2.21.0
+Pending stuff I'm aware of is the disk geometry patch series.
+The corresponding qemu series is still waiting to be merged.
+There already was a pull request for it though, it only was
+dropped due to a regression showing up, so I think there is
+still a chance that it'll be merged shortly given that no
+objections where raised during review.
+
+Anything else which should be considered for 1.13?
+
+cheers,
+  Gerd
 
 
