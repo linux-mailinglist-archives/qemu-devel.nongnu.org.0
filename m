@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D18BD998F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 20:51:01 +0200 (CEST)
-Received: from localhost ([::1]:47080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6818D99A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 21:04:20 +0200 (CEST)
+Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKoNv-0005W1-L1
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 14:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
+	id 1iKoap-0002vI-7A
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 15:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iKoLv-00047y-R6
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 14:48:56 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1iKoZN-0001zn-S6
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 15:02:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iKoLu-0007t6-Ge
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 14:48:55 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39109)
+ (envelope-from <palmer@dabbelt.com>) id 1iKoZL-0006mq-MN
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 15:02:49 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:36943)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iKoLu-0007sr-AO
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 14:48:54 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r3so29283054wrj.6
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 11:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9O0u6YVnpLQOP4EQEFtWOx7TLcl52BTlsDdo8E+vhi8=;
- b=RlQ7HdLtVTteIEFY0VfyGtYZn+8pdCkHKlRdl8ioCoSYq2dJ+KagVsXcUVlBN9I54n
- Xut74oIfbD4nquykREkW1KT1cOTrvanOnPQMv6eXtQv0hw00OJsP6RYRHzTJHinltvot
- BfdQYyF7st/RrlZ3rekUzexziXTSMdBRU0v0W1LhUA+bYf2nxc+Q0PcxBa3hH/CB6yk3
- 2kyZ1QEmATtFmKDu4jO/d29CNfSkW4XWYRx41+NNLZCY6Z9nhqWnx0eJ7DsSnQrbhaox
- Y7xMLM2a8AoIb6NXq2rWBUgQCbGB2QVSo3GZfH78H+l1tteFaAX8Xzb4KTcQl+8Q7GoP
- laUg==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1iKoZH-0006io-Os
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 15:02:45 -0400
+Received: by mail-pg1-f193.google.com with SMTP id p1so14829733pgi.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 12:02:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9O0u6YVnpLQOP4EQEFtWOx7TLcl52BTlsDdo8E+vhi8=;
- b=J8F6EZSWVyLmvQkpCrAPEWKadezfyORQDQ+K7D44vKlIBbwxTIcwyUClD8P/4+lMsQ
- xifoQrLFb2xrUYUbdGAJPGs1g7LrTdWbpUmXUMCrlPmC43HP9hFzXKsxAcIii6XVaT3K
- 5bMOkZhHZ+z/dlilkNDRxU3cEFTVkRkp30tSOcLaR++cRxU1hDrcEtvlhgaVccZFIfLH
- jnNguZT3q+CbV6Ufv9dXE9ejB3mb3lmoBrJitJjvLXagWmFwpFqxXE+hXLGo53k8fGUC
- Ru5DgSBqhF0+psfHQzYCFmDTqEMOrmM2OmPWEXMUb8ivO6ZbyrMn8KPDl86fLrlXbHcH
- bGtg==
-X-Gm-Message-State: APjAAAUXUxQfXQ3/2JDhl3SEaIyMHsSbVryaqEDFDaIM2yxFn6zu8d/A
- p1IT81Wwd8TjYNvQGdIdzOo=
-X-Google-Smtp-Source: APXvYqw4+lAnSB+tJ2JHm9eyPV4yD6XWTcjxCo8O30ICOJGu99+dtZxuxs2M1e3nIiItngS2JXMUXQ==
-X-Received: by 2002:adf:8123:: with SMTP id 32mr4153100wrm.300.1571251733011; 
- Wed, 16 Oct 2019 11:48:53 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id s10sm18482015wrr.5.2019.10.16.11.48.51
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=VoUAelHoI5V1dDOgS0kCadoKVsKPF3UKMPiydVe91WA=;
+ b=mzAgwziSwRkLyJUNlzouNYBoy8A4agYsD2CLsfO4+Nj/lF5e63fwNP8Ajw1iiIJe96
+ 0qhz/eA+ZaRA6rJAQPiVavPTsK5idb4+jQf24njs+rbDOVSnG42vnr48XTg11xo11jy7
+ /OUpnCkyUSNrhNdm3Q6UrHlxx2U07dz5PWMhyUbkzuimv6ze6qW/HSCZD7wMAbcv4tBT
+ iT628rv8U+AlF8qYmXG6vjhItG3SkQ5sgYuZssluc9K4NaTaHo+rSWo4MB1ZbjRoNZXX
+ dvO7gv1Z+LgZUiN8/uLJWjakv8riF6lt7TgPtyRb14Px6ABMWgiwFJJ7r448JXtdZ2ah
+ dzJA==
+X-Gm-Message-State: APjAAAUFBcs56MSAO1NPb3DALu4pqAv9gwInFCgI+mUe9RDS4mOumRtw
+ 0aHie5Q1mZWdHfEd6MdtgovjxQ==
+X-Google-Smtp-Source: APXvYqzyn64nwbUQaFXJFN0zNxjeU3uva0H9KzIOUOJsapQy1O0csL+s73+oNNBZy0TUUaT5Sw3U7A==
+X-Received: by 2002:a17:90a:2ec1:: with SMTP id
+ h1mr6881400pjs.96.1571252559100; 
+ Wed, 16 Oct 2019 12:02:39 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id s36sm26596156pgk.84.2019.10.16.12.02.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Oct 2019 11:48:51 -0700 (PDT)
-Date: Wed, 16 Oct 2019 19:48:50 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [PATCH] checkpatch: sugguest to use qemu_real_host_page_size
- instead of getpagesize() or sysconf(_SC_PAGESIZE)
-Message-ID: <20191016184850.GB15027@stefanha-x1.localdomain>
-References: <20191016012432.22731-1-richardw.yang@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xXmbgvnjoT4axfJE"
-Content-Disposition: inline
-In-Reply-To: <20191016012432.22731-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+ Wed, 16 Oct 2019 12:02:38 -0700 (PDT)
+Date: Wed, 16 Oct 2019 12:02:38 -0700 (PDT)
+X-Google-Original-Date: Wed, 16 Oct 2019 09:36:47 PDT (-0700)
+Subject: Re: [PATCH v1 22/28] target/riscv: Allow specifying MMU stage
+In-Reply-To: <CAKmqyKOV0J3w3fPUF3CGAip=j_+D_M+7X9r+2TwEZwkapsQZMQ@mail.gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-8a742b0f-e79f-4da0-81fc-b91d184b6279@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.215.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,65 +67,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, philmd@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-riscv@nongnu.org, Anup Patel <Anup.Patel@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ Atish Patra <Atish.Patra@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 07 Oct 2019 11:05:33 PDT (-0700), alistair23@gmail.com wrote:
+> On Thu, Oct 3, 2019 at 8:53 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>>
+>> On Fri, 23 Aug 2019 16:38:47 PDT (-0700), Alistair Francis wrote:
+>> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> > ---
+>> >  target/riscv/cpu_helper.c | 39 ++++++++++++++++++++++++++++++---------
+>> >  1 file changed, 30 insertions(+), 9 deletions(-)
+>> >
+>> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> > index 098873c83e..9aa6906acd 100644
+>> > --- a/target/riscv/cpu_helper.c
+>> > +++ b/target/riscv/cpu_helper.c
+>> > @@ -318,10 +318,19 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+>> >   *
+>> >   * Adapted from Spike's mmu_t::translate and mmu_t::walk
+>> >   *
+>> > + * @env: CPURISCVState
+>> > + * @physical: This will be set to the calculated physical address
+>> > + * @prot: The returned protection attributes
+>> > + * @addr: The virtual address to be translated
+>> > + * @access_type: The type of MMU access
+>> > + * @mmu_idx: Indicates current privilege level
+>> > + * @first_stage: Are we in first stage translation?
+>> > + *               Second stage is used for hypervisor guest translation
+>> >   */
+>> >  static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+>> >                                  int *prot, target_ulong addr,
+>> > -                                int access_type, int mmu_idx)
+>> > +                                int access_type, int mmu_idx,
+>> > +                                bool first_stage)
+>> >  {
+>> >      /* NOTE: the env->pc value visible here will not be
+>> >       * correct, but the value visible to the exception handler
+>> > @@ -518,13 +527,23 @@ restart:
+>> >  }
+>> >
+>> >  static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+>> > -                                MMUAccessType access_type, bool pmp_violation)
+>> > +                                MMUAccessType access_type, bool pmp_violation,
+>> > +                                bool first_stage)
+>> >  {
+>> >      CPUState *cs = env_cpu(env);
+>> > -    int page_fault_exceptions =
+>> > -        (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+>> > -        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
+>> > -        !pmp_violation;
+>> > +    int page_fault_exceptions;
+>> > +    if (first_stage) {
+>> > +        page_fault_exceptions =
+>> > +            (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+>> > +            get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
+>> > +            !pmp_violation;
+>> > +            riscv_cpu_set_force_hs_excep(env, CLEAR_HS_EXCEP);
+>>
+>> It might just be email, but the indentation looks wrong here.
+>
+> Yep, fixed.
+>
+>>
+>> > +    } else {
+>> > +        page_fault_exceptions =
+>> > +            get_field(env->hgatp, HGATP_MODE) != VM_1_10_MBARE &&
+>> > +            !pmp_violation;
+>> > +            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
+>> > +    }
+>> >      switch (access_type) {
+>> >      case MMU_INST_FETCH:
+>> >          cs->exception_index = page_fault_exceptions ?
+>> > @@ -551,7 +570,8 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+>> >      int prot;
+>> >      int mmu_idx = cpu_mmu_index(&cpu->env, false);
+>> >
+>> > -    if (get_physical_address(&cpu->env, &phys_addr, &prot, addr, 0, mmu_idx)) {
+>> > +    if (get_physical_address(&cpu->env, &phys_addr, &prot, addr, 0, mmu_idx,
+>> > +                             true)) {
+>> >          return -1;
+>> >      }
+>> >      return phys_addr;
+>> > @@ -613,7 +633,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>> >      qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+>> >                    __func__, address, access_type, mmu_idx);
+>> >
+>> > -    ret = get_physical_address(env, &pa, &prot, address, access_type, mmu_idx);
+>> > +    ret = get_physical_address(env, &pa, &prot, address, access_type, mmu_idx,
+>> > +                               true);
+>> >
+>> >      if (mode == PRV_M && access_type != MMU_INST_FETCH) {
+>> >          if (get_field(*env->mstatus, MSTATUS_MPRV)) {
+>> > @@ -640,7 +661,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>> >      } else if (probe) {
+>> >          return false;
+>> >      } else {
+>> > -        raise_mmu_exception(env, address, access_type, pmp_violation);
+>> > +        raise_mmu_exception(env, address, access_type, pmp_violation, true);
+>> >          riscv_raise_exception(env, cs->exception_index, retaddr);
+>> >      }
+>> >  #else
+>>
+>> I don't think it makes sense to split off these two (23 and 24, that add the
+>> argument) out from the implementation.
+>
+> The goal was just to make it easier to review. If you want them
+> combined I can easily combine them.
 
---xXmbgvnjoT4axfJE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 16, 2019 at 09:24:32AM +0800, Wei Yang wrote:
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> CC: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  scripts/checkpatch.pl | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index aa9a354a0e..4b360ed310 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2915,6 +2915,12 @@ sub process {
->  		if ($line =3D~ /\bbzero\(/) {
->  			ERROR("use memset() instead of bzero()\n" . $herecurr);
->  		}
-> +		if ($line =3D~ /getpagesize\(\)/) {
-> +			ERROR("use qemu_real_host_page_size instead of getpagesize()\n" . $he=
-recurr);
-> +		}
-> +		if ($line =3D~ /sysconf\(_SC_PAGESIZE\)/) {
-> +			ERROR("use qemu_real_host_page_size instead of sysconf(_SC_PAGESIZE)\=
-n" . $herecurr);
-> +		}
->  		my $non_exit_glib_asserts =3D qr{g_assert_cmpstr|
->  						g_assert_cmpint|
->  						g_assert_cmpuint|
-
-Just wanted to say thank you for extending checkpatch.pl!  We don't do
-it enough but it's the best way to extend QEMU coding style because it's
-automated :).
-
-Stefan
-
---xXmbgvnjoT4axfJE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2nZhIACgkQnKSrs4Gr
-c8hmeAf8CSo3OvjNDawOcKgnMPT3pj0+rjz0dpzsu7OCy+UGIc217fHxv++/gMUw
-/Oca1ygSf5UBF3PV4OKTyU99iC/89hqKq2YGt8HCos0en/q9E3GTSdycU0TGA4HF
-apOqn4TXbroXVGVekw5ZPKonkyCAH6Z3tjoPTfPrBmYCcDSdCtyxkKxOaM28qHZc
-SVua/GrsioXzPLGpwSMn1c76nKmuhPmV+cFP58EvtriKyJMf/Qqc6rMgfe7V29ph
-E/gUymKFyAg9Bi0V40wiPcWOwL0icdhiFOVKxJBVvQYn1f2ctJ/IGt+3m2GNR/V3
-tpyNgGyHLmwcArW2RJCg4HeVO0+A0Q==
-=wC6W
------END PGP SIGNATURE-----
-
---xXmbgvnjoT4axfJE--
+It's making it harder to read on my end :)
 
