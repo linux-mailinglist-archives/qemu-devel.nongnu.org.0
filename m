@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C00D9853
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 19:11:15 +0200 (CEST)
-Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594BDD985F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 19:19:32 +0200 (CEST)
+Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKmpO-0007rs-7S
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 13:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42177)
+	id 1iKmxO-0005lf-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 13:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iKmnb-0005xy-UN
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iKmnb-0005xz-V4
  for qemu-devel@nongnu.org; Wed, 16 Oct 2019 13:09:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iKmna-0003UF-1Y
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iKmna-0003UG-1m
  for qemu-devel@nongnu.org; Wed, 16 Oct 2019 13:09:23 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52730)
+Received: from relay.sw.ru ([185.231.240.75]:52736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iKmnS-0003QI-9s; Wed, 16 Oct 2019 13:09:14 -0400
+ id 1iKmnS-0003QL-AI; Wed, 16 Oct 2019 13:09:14 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.2)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iKmnM-0002PI-T9; Wed, 16 Oct 2019 20:09:09 +0300
+ id 1iKmnN-0002PI-5C; Wed, 16 Oct 2019 20:09:09 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 5/6] block/block-copy: add memory limit
-Date: Wed, 16 Oct 2019 20:09:04 +0300
-Message-Id: <20191016170905.8325-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 6/6] block/block-copy: increase buffered copy request
+Date: Wed, 16 Oct 2019 20:09:05 +0300
+Message-Id: <20191016170905.8325-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191016170905.8325-1-vsementsov@virtuozzo.com>
 References: <20191016170905.8325-1-vsementsov@virtuozzo.com>
@@ -52,77 +52,122 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently total allocation for parallel requests to block-copy instance
-is unlimited. Let's limit it to 128 MiB.
-
-For now block-copy is used only in backup, so actually we limit total
-allocation for backup job.
+No reason to limit buffered copy to one cluster. Let's allow up to 1
+MiB.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block-copy.h | 3 +++
- block/block-copy.c         | 5 +++++
- 2 files changed, 8 insertions(+)
+ include/block/block-copy.h |  2 +-
+ block/block-copy.c         | 48 +++++++++++++++++++++++++-------------
+ 2 files changed, 33 insertions(+), 17 deletions(-)
 
 diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index e2e135ff1b..edcdf0072d 100644
+index edcdf0072d..0a161724d7 100644
 --- a/include/block/block-copy.h
 +++ b/include/block/block-copy.h
-@@ -16,6 +16,7 @@
- #define BLOCK_COPY_H
+@@ -38,7 +38,7 @@ typedef struct BlockCopyState {
+     BdrvDirtyBitmap *copy_bitmap;
+     int64_t cluster_size;
+     bool use_copy_range;
+-    int64_t copy_range_size;
++    int64_t copy_size;
+     uint64_t len;
+     QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
  
- #include "block/block.h"
-+#include "qemu/co-shared-resource.h"
- 
- typedef struct BlockCopyInFlightReq {
-     int64_t start_byte;
-@@ -69,6 +70,8 @@ typedef struct BlockCopyState {
-      */
-     ProgressResetCallbackFunc progress_reset_callback;
-     void *progress_opaque;
-+
-+    SharedResource *mem;
- } BlockCopyState;
- 
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
 diff --git a/block/block-copy.c b/block/block-copy.c
-index c21db48734..d5042e46fd 100644
+index d5042e46fd..74eb235972 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
 @@ -21,6 +21,7 @@
  #include "qemu/units.h"
  
  #define BLOCK_COPY_MAX_COPY_RANGE (16 * MiB)
-+#define BLOCK_COPY_MAX_MEM (128 * MiB)
++#define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+ #define BLOCK_COPY_MAX_MEM (128 * MiB)
  
  static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
-                                                        int64_t start,
-@@ -64,6 +65,7 @@ void block_copy_state_free(BlockCopyState *s)
-     }
+@@ -75,10 +76,8 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+ {
+     BlockCopyState *s;
+     BdrvDirtyBitmap *copy_bitmap;
+-
+-    /* Ignore BLOCK_COPY_MAX_COPY_RANGE if requested cluster_size is larger */
+     uint32_t max_transfer =
+-            MIN_NON_ZERO(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
++            MIN_NON_ZERO(INT_MAX,
+                          MIN_NON_ZERO(source->bs->bl.max_transfer,
+                                       target->bs->bl.max_transfer));
  
-     bdrv_release_dirty_bitmap(s->source->bs, s->copy_bitmap);
-+    shres_destroy(s->mem);
-     g_free(s);
- }
- 
-@@ -95,6 +97,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-         .cluster_size = cluster_size,
-         .len = bdrv_dirty_bitmap_size(copy_bitmap),
-         .write_flags = write_flags,
-+        .mem = shres_create(BLOCK_COPY_MAX_MEM),
+@@ -100,17 +99,28 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         .mem = shres_create(BLOCK_COPY_MAX_MEM),
      };
  
-     s->copy_range_size = QEMU_ALIGN_DOWN(max_transfer, cluster_size),
-@@ -313,7 +316,9 @@ int coroutine_fn block_copy(BlockCopyState *s,
+-    s->copy_range_size = QEMU_ALIGN_DOWN(max_transfer, cluster_size),
+-    /*
+-     * Set use_copy_range, consider the following:
+-     * 1. Compression is not supported for copy_range.
+-     * 2. copy_range does not respect max_transfer (it's a TODO), so we factor
+-     *    that in here. If max_transfer is smaller than the job->cluster_size,
+-     *    we do not use copy_range (in that case it's zero after aligning down
+-     *    above).
+-     */
+-    s->use_copy_range =
+-        !(write_flags & BDRV_REQ_WRITE_COMPRESSED) && s->copy_range_size > 0;
++    if (max_transfer < cluster_size) {
++        /*
++         * copy_range does not respect max_transfer. We don't want to bother
++         * with requests smaller than block-copy cluster size, so fallback to
++         * buffered copying (read and write respect max_transfer on their
++         * behalf).
++         */
++        s->use_copy_range = false;
++        s->copy_size = cluster_size;
++    } else if (write_flags & BDRV_REQ_WRITE_COMPRESSED) {
++        /* Compression is not supported for copy_range */
++        s->use_copy_range = false;
++        s->copy_size = MAX(cluster_size, BLOCK_COPY_MAX_BUFFER);
++    } else {
++        /*
++         * copy_range does not respect max_transfer (it's a TODO), so we factor
++         * that in here.
++         */
++        s->use_copy_range = true;
++        s->copy_size = MIN(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
++                           QEMU_ALIGN_DOWN(max_transfer, cluster_size));
++    }
  
-         bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+     QLIST_INIT(&s->inflight_reqs);
  
-+        co_get_from_shres(s->mem, chunk_end - start);
-         ret = block_copy_do_copy(s, start, chunk_end, error_is_read);
-+        co_put_to_shres(s->mem, chunk_end - start);
+@@ -156,12 +166,19 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
          if (ret < 0) {
-             bdrv_set_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
-             break;
+             trace_block_copy_copy_range_fail(s, start, ret);
+             s->use_copy_range = false;
++            s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+             /* Fallback to read+write with allocated buffer */
+         } else {
+             goto out;
+         }
+     }
+ 
++    /*
++     * In case of failed copy_range request above, we may proceed with buffered
++     * request larger than BLOCK_COPY_MAX_BUFFER. Still, further requests will
++     * be properly limited, so don't care too much.
++     */
++
+     bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
+ 
+     ret = bdrv_co_pread(s->source, start, nbytes, bounce_buffer, 0);
+@@ -290,8 +307,7 @@ int coroutine_fn block_copy(BlockCopyState *s,
+             continue; /* already copied */
+         }
+ 
+-        chunk_end = MIN(end, start + (s->use_copy_range ?
+-                                      s->copy_range_size : s->cluster_size));
++        chunk_end = MIN(end, start + s->copy_size);
+ 
+         next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, start,
+                                                 chunk_end - start);
 -- 
 2.21.0
 
