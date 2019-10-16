@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9954AD95E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 17:46:25 +0200 (CEST)
-Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B98D9685
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 18:10:12 +0200 (CEST)
+Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKlVH-0004VT-Tq
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 11:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55097)
+	id 1iKlsJ-000295-Le
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 12:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iKlSe-00039E-7w
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:43:41 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iKlkX-0003jT-Lt
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:02:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iKlSc-0006mA-UC
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:43:40 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34849)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iKlSb-0006lC-GW
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 11:43:38 -0400
-Received: by mail-pf1-x441.google.com with SMTP id 205so14989135pfw.2
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 08:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EA9zcpkFhFBVFdP9uD0atbtljeKL9cSU/AhS7aO0ASQ=;
- b=F3jbKYdCfCto85j60IRAK/pLt/1vYqBvIPfjI/SfnFh2LGuh9D+eJ87RPbPP0p7uBy
- 0F2w30euZUNDUQBTWRvP38AcDspsHgcV4N7Gx3AKrpWrGyOj5m6Xs/P55gjtJ4Dknq8+
- 1q+TNgFCwts5SBKhF1m7ARk57vAGBJC8sNxSH3jORDH4Td5js9ALmho2cqf5KisgJlmF
- DhtxyOeR8XBGP9QdJlJHAPFHKAGDVfR42QoxBIXv47MBS0K3Uj5pXwD4fj1k3KWtOefo
- DjE03li6ObAxMXMK0Ehkz4aZuqRzvZjeH7G+cceLwIzrIj8Rsx+3eMnagWgcgeFE7nx9
- K6JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EA9zcpkFhFBVFdP9uD0atbtljeKL9cSU/AhS7aO0ASQ=;
- b=oRw+0ZYZ2P1jY5dK5C9sFmxGV4fF9dnm1rXV29Wdreos8mQEeHkpXXWeXb+ucAqzBV
- LxMSlXv6gnSHh8SPixyM9O9qdP4KN/mVsaVBUmvwf+LMTBzZs4DUYhIwywUhIHThO1Ew
- mLCExcFV1Wx494tSY2N6Xd1FYxYUw9K4zwQkRj5ST/HXqdMMCxPMl47dUOnWh7BfufPo
- UAioiPUlF2y6VzRr7IznC7dFm9JcI5Xq9bBMRLOYNALynSW92sayz+1DRLm9PbGctOl2
- iRFvCrH1WoT5fAfZO50rv2ZupE9IwY2U5RUxE0KaMsh1zFGHmZhsO7aPodX/qHLRLKIt
- SDIQ==
-X-Gm-Message-State: APjAAAXMU1Ckcb9Fztc+wpzSzu7rwPby4wrKozYinoSETYoWjtSlHE5M
- nYesJ0UgiinfTlNkTZQysEGRH6cssA8=
-X-Google-Smtp-Source: APXvYqwOv99Yy+EPIZ/B5Y6mODRaFTJOJ3NFR4UGsCNZqnZ/ELQ9xX+Ogm/Md0DFlyVFzhikcoHfDw==
-X-Received: by 2002:a63:1e1f:: with SMTP id e31mr24363685pge.303.1571240615211; 
- Wed, 16 Oct 2019 08:43:35 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id c8sm30088162pfi.117.2019.10.16.08.43.34
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 16 Oct 2019 08:43:34 -0700 (PDT)
-Subject: Re: [PATCH] checkpatch: sugguest to use qemu_real_host_page_size
- instead of getpagesize() or sysconf(_SC_PAGESIZE)
-To: Wei Yang <richardw.yang@linux.intel.com>, pbonzini@redhat.com,
- philmd@redhat.com, thuth@redhat.com, eblake@redhat.com, berrange@redhat.com
-References: <20191016012432.22731-1-richardw.yang@linux.intel.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d45f4f13-cff1-9a17-6ce3-255dcca5503b@linaro.org>
-Date: Wed, 16 Oct 2019 08:43:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <stefanha@redhat.com>) id 1iKlkV-00085h-AC
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:02:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32652)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iKlkV-000840-4x
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:02:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 09C5FC0546D5
+ for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 16:02:05 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8571A601B7;
+ Wed, 16 Oct 2019 16:01:58 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] virtiofsd: add net and pid namespace sandboxing
+Date: Wed, 16 Oct 2019 17:01:55 +0100
+Message-Id: <20191016160157.12414-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191016012432.22731-1-richardw.yang@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Wed, 16 Oct 2019 16:02:05 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,21 +53,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/19 6:24 PM, Wei Yang wrote:
->  		if ($line =~ /\bbzero\(/) {
->  			ERROR("use memset() instead of bzero()\n" . $herecurr);
->  		}
-> +		if ($line =~ /getpagesize\(\)/) {
-> +			ERROR("use qemu_real_host_page_size instead of getpagesize()\n" . $herecurr);
-> +		}
-> +		if ($line =~ /sysconf\(_SC_PAGESIZE\)/) {
+These patches are based on gitlab.com/virtio-fs/qemu.git virtio-fs-dev.
 
-Use \b to match beginning of symbol like bzero did?
+virtiofsd is sandboxed so that it does not have access to the system in t=
+he
+event that the process is compromised.  At the moment we use seccomp and =
+mount
+namespaces to restrict the list of allowed syscalls and only give access =
+to the
+shared directory.
 
+This patch series enhances sandboxing by putting virtiofsd into an empty
+network and pid namespace.  If the process is compromised it will be unab=
+le to
+perform network activity, even to localhost services running on the host.=
+  It
+will also be unable to see other processes running on the system since it=
+ runs
+as pid 1 in a new pid namespace.
 
-r~
+These enhancements are inspired by the Crosvm virtio-fs device's jail
+configuration.
+
+Stefan Hajnoczi (2):
+  virtiofsd: move to an empty network namespace
+  virtiofsd: move to a new pid namespace
+
+ contrib/virtiofsd/passthrough_ll.c | 109 +++++++++++++++++++++++------
+ 1 file changed, 86 insertions(+), 23 deletions(-)
+
+--=20
+2.21.0
+
 
