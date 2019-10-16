@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E06FD97E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 18:51:15 +0200 (CEST)
-Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DFAD9809
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 18:59:59 +0200 (CEST)
+Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKmW2-0003Qj-2R
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 12:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36021)
+	id 1iKmeU-0001DA-5T
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 12:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iKmNC-00041S-7F
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:42:07 -0400
+ (envelope-from <david@redhat.com>) id 1iKmZ9-0006Bb-Q5
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:54:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iKmN9-00067y-9D
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:42:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34335)
+ (envelope-from <david@redhat.com>) id 1iKmZ7-0004se-DH
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:54:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:61699)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iKmN8-00067W-Vq
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 12:42:03 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iKmZ6-0004qQ-Ax; Wed, 16 Oct 2019 12:54:24 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C5ED281DF1
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 16:42:01 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id r21so1210133wme.5
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 09:42:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rn/NawSjrmNE4yneEf16tatrqHBeU4j8bvVjf+OJcAc=;
- b=DWsTh4ZvcBFxAVKoSu6HwivxzmN/HCJoJf7yFir8AM2JCXlR+9oo5ojb4HCy1Rw2Ej
- P2kMXCga7bMkWdRQRXKGAEcMXcBjH+RvIOpyUxQYCwsgar1JrFdm+6L4LJvNas1YQ3f3
- 1x6XmTyWr8Beul7M8X0LqlpzG8y+ymTntEh77JAKsAfakuR2ZzI70P5lR8s4vEccm2KV
- VhvOqLaMDKHgINImEqQyeUxB4Z0MoDbuXD1X3ByO3zWsLiBDUqrlujJwh78uq1o+uKcU
- o1Rm7ZDPUooC+NBAUwARXvbt9AQ/WxaIH6N0bi7NiMyn8ulCIyB1bLqIj5dIkG8cPQlH
- 8JBw==
-X-Gm-Message-State: APjAAAWyJwytg6inS0uE0ifvO3j6KeqbsohoZEbUc089HWULbgdg67rA
- duT/BN9B0sLgxqSsrr7ucXOlS3NcZOKxuoNqKE3iHEUTwDGGGrJrQY8XB5tFm7cG24f2C27Mr7u
- 7mI2ZuiMO1O5ufPU=
-X-Received: by 2002:a7b:c30f:: with SMTP id k15mr4002792wmj.161.1571244120549; 
- Wed, 16 Oct 2019 09:42:00 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzCkzYTievdOg4Tjg87+BhQ8KZzL757a999AGE7QfSfPumSh1l3/ziAYZsN/q4mUNFDwMkXAQ==
-X-Received: by 2002:a7b:c30f:: with SMTP id k15mr4002767wmj.161.1571244120294; 
- Wed, 16 Oct 2019 09:42:00 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id v11sm2990320wml.30.2019.10.16.09.41.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Oct 2019 09:41:59 -0700 (PDT)
-Subject: Re: [SeaBIOS] Re: [PATCH v7 7/8] bootdevice: FW_CFG interface for
- LCHS values
-To: Sam Eiderman <sameid@google.com>, John Snow <jsnow@redhat.com>
-References: <20190925110639.100699-1-sameid@google.com>
- <20190925110639.100699-8-sameid@google.com>
- <ffff9a59-3cbf-8b04-f4e5-8a01dad8d381@redhat.com>
- <7dc7b14c-8e89-4851-6d05-d69b1bf36e3e@redhat.com>
- <92b719a7-3838-b019-cd51-5f5b2120a431@redhat.com>
- <1d863ce2-0e45-63e4-ceb2-d2eb2d9aa03a@redhat.com>
- <CAFr6bU=2B9JcmfJZ25BTYkhnw2V+YAghyAyK9YHto18KRptPAg@mail.gmail.com>
- <1dc0c7cd-cf9f-0c33-04f5-ed8d89119c9f@redhat.com>
- <CAFr6bUnsxhqBqHgRdw3dtv0rEvfCVn0oM4XD8Vb1xv_UGKvepg@mail.gmail.com>
- <CAFr6bUm53A+gBVBRr00XKDkt=GiJ5QSOEEXPFfuUJ2PcLeG04w@mail.gmail.com>
- <bf6ff260-f8ca-a593-dd3e-e78fa0551101@redhat.com>
- <eb3cc776-b8d9-f8da-269a-2fc0f8c21662@redhat.com>
- <CAFr6bUkQZP7ks4odRBpKGOSrzwe2VWSD47JGBUx-DuwBVNOmiA@mail.gmail.com>
- <5a5f7f62-bc3c-f260-933f-2605d3c67b36@redhat.com>
- <CAFr6bUmKr4_9Jn=6rGAF162pNMMsnUFSQ6OHuBKNaW59sEzPJQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <597b8df4-f55a-2685-6798-53fbacc6ba2a@redhat.com>
-Date: Wed, 16 Oct 2019 18:41:58 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id E1EC369EE0;
+ Wed, 16 Oct 2019 16:54:21 +0000 (UTC)
+Received: from [10.36.116.53] (ovpn-116-53.ams2.redhat.com [10.36.116.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B47661001925;
+ Wed, 16 Oct 2019 16:54:20 +0000 (UTC)
+Subject: Re: [PATCH] s390x/cpumodel: Add missing visit_free
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20191016145434.7007-1-drjones@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <87efd813-8aa9-fb36-9c0c-6334ca000bfe@redhat.com>
+Date: Wed, 16 Oct 2019 18:54:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAFr6bUmKr4_9Jn=6rGAF162pNMMsnUFSQ6OHuBKNaW59sEzPJQ@mail.gmail.com>
+In-Reply-To: <20191016145434.7007-1-drjones@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Wed, 16 Oct 2019 16:54:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -95,60 +61,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, kraxel@redhat.com,
- Laszlo Ersek <lersek@redhat.com>
+Cc: pasic@linux.ibm.com, borntraeger@de.ibm.com, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/16/19 5:19 PM, Sam Eiderman wrote:
-> Sure!
+On 16.10.19 16:54, Andrew Jones wrote:
+> Beata Michalska noticed this missing visit_free() while reviewing
+> arm's implementation of qmp_query_cpu_model_expansion(), which is
+> modeled off this s390x implementation.
+
+Nice to see ARM support getting added.
+
 > 
-> Philippe withdrew his R-b on 7/8, as I explained 7/8 is fine (only
-> need to remove a bad comment) the problem was in the tests 8/8 -
-> should I include the original R/b?
-
-I withdrew it because John was preparing his pull request, and I needed 
-more time to review this again. But then Laszlo was quicker and figured 
-out the problem is in the other patch, so please keep my original R-b.
-
-Thanks to all 3 of you :)
-
-> I guess all other 1-6 are fine to add R/b...
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>   target/s390x/cpu_models.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> On Wed, Oct 16, 2019 at 6:07 PM John Snow <jsnow@redhat.com> wrote:
->>
->>
->>
->> On 10/16/19 10:55 AM, Sam Eiderman wrote:
->>> Thanks for the detailed comment Laszlo,
->>>
->>> Indeed my e-mail has changed and I only received replies to the
->>> commits where I added this new mail in the S-o-b section, should of
->>> added in all of them.
->>>
->>> So as you said it, the problem was actually in using qfw_cfg_get_u32
->>> which assumes the value is encoded LE and has an additional
->>> le32_to_cpu, should have used qfw_cfg_get directly like
->>> qfw_cfg_get_file does.
->>>
->>> Regarding qfw_cfg_get_file - I wrote this code when this function did
->>> not exist yet, I think it was added 6 months ago. In any case, I will
->>> use it instead.
->>>
->>> Thanks for this.
->>>
->>> I will resubmit this entire commit series:
->>> * I will only change code in the last commit (tests)
->>> * I will remove a comment which is now not true anymore
->>> * I will add my new email in S-o-b
->>>
->>> Sam
->>>
->>
->> Philippe gave me a verbal tut-tut for not including his review tags in
->> my last pull request; when you re-spin could you be so kind as to
->> include any that still apply?
->>
->> --js
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index 009afc38b92d..7e92fb2e156d 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -515,6 +515,7 @@ static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *info,
+>           visitor = qobject_input_visitor_new(info->props);
+>           visit_start_struct(visitor, NULL, NULL, 0, errp);
+>           if (*errp) {
+> +            visit_free(visitor);
+>               object_unref(obj);
+>               return;
+>           }
+> 
+
+Right, thanks
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+
+Thanks,
+
+David / dhildenb
 
