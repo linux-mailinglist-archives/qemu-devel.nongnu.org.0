@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C44D8DF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 12:33:43 +0200 (CEST)
-Received: from localhost ([::1]:40664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A62D8E2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Oct 2019 12:41:57 +0200 (CEST)
+Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKgcg-0007R9-0y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 06:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35980)
+	id 1iKgke-0005E9-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 16 Oct 2019 06:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iKga9-0006Ri-0L
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:31:06 -0400
+ (envelope-from <chouteau@adacore.com>) id 1iKgdu-0000Ew-6A
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:34:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iKga4-0006GA-4S
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:31:04 -0400
-Received: from mgwym04.jp.fujitsu.com ([211.128.242.43]:42843)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1iKga2-0006Fa-BQ
- for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:31:00 -0400
-Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
- mgwym04.jp.fujitsu.com with smtp
- id 5cc6_13a4_95c720a2_6587_411c_9454_ce4b7341e6f3;
- Wed, 16 Oct 2019 19:30:51 +0900
-Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
- (g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
- by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 9841AAC00C6
- for <qemu-devel@nongnu.org>; Wed, 16 Oct 2019 19:30:50 +0900 (JST)
-Received: from G01JPEXCHKW17.g01.fujitsu.local
- (G01JPEXCHKW17.g01.fujitsu.local [10.0.194.56])
- by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id 99DE93284C9;
- Wed, 16 Oct 2019 19:30:49 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- G01JPEXCHKW17.g01.fujitsu.local (10.0.194.56) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 16 Oct 2019 19:30:49 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <virtio-fs@redhat.com>
-Subject: [PATCH 2/2] virtiofsd: Allow setxattr operation to directry
-Date: Wed, 16 Oct 2019 19:37:54 +0900
-Message-ID: <20191016103754.2047-3-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
-References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
+ (envelope-from <chouteau@adacore.com>) id 1iKgdt-00074Q-0U
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:34:58 -0400
+Received: from mel.act-europe.fr ([194.98.77.210]:46977
+ helo=smtp.eu.adacore.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <chouteau@adacore.com>)
+ id 1iKgds-000749-RE
+ for qemu-devel@nongnu.org; Wed, 16 Oct 2019 06:34:56 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id D2B69814FA;
+ Wed, 16 Oct 2019 12:34:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
+Received: from smtp.eu.adacore.com ([127.0.0.1])
+ by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vRtHuprBph8c; Wed, 16 Oct 2019 12:34:54 +0200 (CEST)
+Received: from [192.168.0.24] (89-157-139-225.rev.numericable.fr
+ [89.157.139.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp.eu.adacore.com (Postfix) with ESMTPSA id 652CB8139B;
+ Wed, 16 Oct 2019 12:34:54 +0200 (CEST)
+Subject: Re: LEON3 networking
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Joshua Shaffer <joshua.shaffer@astrobotic.com>, qemu-devel@nongnu.org,
+ Jiri Gaisler <jiri@gaisler.se>, KONRAD Frederic
+ <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
+References: <CAPJW7GKLH3pkrGQQj_OaAy0UecUJttsHOJp35+CcpZvm9cM2WQ@mail.gmail.com>
+ <6bb8abb2-68f0-db85-1557-6e04839b5ea2@redhat.com>
+From: Fabien Chouteau <chouteau@adacore.com>
+Message-ID: <32c38984-e745-de6c-792e-09910b68cedd@adacore.com>
+Date: Wed, 16 Oct 2019 12:34:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 211.128.242.43
+In-Reply-To: <6bb8abb2-68f0-db85-1557-6e04839b5ea2@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 194.98.77.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,43 +67,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-setxattr to directry fails because lo_setxattr (and lo_remove_xattr)
-tries to open any file with O_RDWR even if it is a directory.
-Since O_RDONLY is enough for the operation, change O_RDWR flag to
-O_RDONLY to fix the problem.
+Hello people,
 
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
----
- contrib/virtiofsd/passthrough_ll.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 15/10/2019 18:57, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Joshua,
+>=20
+> On 10/15/19 3:17 PM, Joshua Shaffer wrote:
+>> Hello,
+>>
+>> I've been using the LEON3 port of qemu, and am wondering if anyone has=
+ touched the networking setup for such since the thread here: https://lis=
+ts.rtems.org/pipermail/users/2014-September/028224.html
+>=20
+> Thanks for sharing this!
+>=20
+> Good news, Jiri keeps rebasing his patch with the latest stable version=
+.
+> Bad news, he didn't not signed his work with a "Signed-off-by" tag so w=
+e can not take this as it into the mainstream repository, see https://wik=
+i.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off=
+-by:_line
+>=20
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-index 645324da58..1b439d58ed 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -2397,7 +2397,7 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
- 	}
- 
- 	sprintf(procname, "%i", inode->fd);
--	fd = openat(lo->proc_self_fd, procname, O_RDWR|O_NONBLOCK);
-+	fd = openat(lo->proc_self_fd, procname, O_RDONLY|O_NONBLOCK);
- 	if (fd < 0) {
- 		saverr = errno;
- 		goto out;
-@@ -2446,7 +2446,7 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name)
- 	}
- 
- 	sprintf(procname, "%i", inode->fd);
--	fd = openat(lo->proc_self_fd, procname, O_RDWR|O_NONBLOCK);
-+	fd = openat(lo->proc_self_fd, procname, O_RDONLY|O_NONBLOCK);
- 	if (fd < 0) {
- 		saverr = errno;
- 		goto out;
--- 
-2.21.0
+The Gaisler patches have been rewrote by my colleague Frederic (in CC) an=
+d they are now in mainstream.
+(see https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03869.html)
+
+But none of them are implementing network support, and I never heard of s=
+omeone working on network for leon3.
+
+Regards,
 
 
