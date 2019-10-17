@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD51DB290
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:39:58 +0200 (CEST)
-Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FEDDB262
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:31:29 +0200 (CEST)
+Received: from localhost ([::1]:52690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8of-0006o0-AO
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58481)
+	id 1iL8gR-0004nO-Qa
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:31:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iL7mm-0000Kc-QQ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:33:57 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL7uG-0001eR-El
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:41:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iL7ml-00042Y-QB
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:33:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46054)
+ (envelope-from <thuth@redhat.com>) id 1iL7uF-0005dK-9z
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:41:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:65127)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL7ml-00042J-Hm
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:33:55 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL7uF-0005dC-2J
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:41:39 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9A74D882F5;
- Thu, 17 Oct 2019 15:33:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 307B589F304;
+ Thu, 17 Oct 2019 15:41:38 +0000 (UTC)
 Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D255A60872;
- Thu, 17 Oct 2019 15:33:46 +0000 (UTC)
-Subject: Re: [PATCH 20/32] hw/i386/pc: Extract pc_gsi_create()
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6109600C4;
+ Thu, 17 Oct 2019 15:41:30 +0000 (UTC)
+Subject: Re: [PATCH 21/32] hw/i386/pc: Reduce gsi_handler scope
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-21-philmd@redhat.com>
+ <20191015162705.28087-22-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,17 +79,17 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <19560568-4f59-9ee4-92fd-2a6ef6a21a8e@redhat.com>
-Date: Thu, 17 Oct 2019 17:33:46 +0200
+Message-ID: <bf6f46fd-5573-4b44-5a43-6ec2b4bd65e1@redhat.com>
+Date: Thu, 17 Oct 2019 17:41:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191015162705.28087-21-philmd@redhat.com>
+In-Reply-To: <20191015162705.28087-22-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 17 Oct 2019 15:33:54 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.68]); Thu, 17 Oct 2019 15:41:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -120,20 +120,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 15/10/2019 18.26, Philippe Mathieu-Daud=C3=A9 wrote:
-> The GSI creation code is common to all PC machines, extract the
-> common code.
+> pc_gsi_create() is the single function that uses gsi_handler.
+> Make it a static variable.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/i386/pc.c         | 15 +++++++++++++++
->  hw/i386/pc_piix.c    |  9 +--------
->  hw/i386/pc_q35.c     |  9 +--------
->  include/hw/i386/pc.h |  2 ++
->  4 files changed, 19 insertions(+), 16 deletions(-)
+>  hw/i386/pc.c         | 2 +-
+>  include/hw/i386/pc.h | 2 --
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index a7597c6c44..59de0c8a1f 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
+>  };
+>  const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
+> =20
+> -void gsi_handler(void *opaque, int n, int level)
+> +static void gsi_handler(void *opaque, int n, int level)
+>  {
+>      GSIState *s =3D opaque;
+> =20
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index d0c6b9d469..75b44e156c 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -172,8 +172,6 @@ typedef struct GSIState {
+>      qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+>  } GSIState;
+> =20
+> -void gsi_handler(void *opaque, int n, int level);
+> -
+>  GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+> =20
+>  /* vmport.c */
+>=20
 
-Is this really needed for this series here, or should this and the
-following patches maybe rather be handled seperately?
-
-Anyway, it looks like a good modification, so:
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
