@@ -2,113 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412B2DB32C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:20:42 +0200 (CEST)
-Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBE3DB338
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:24:41 +0200 (CEST)
+Received: from localhost ([::1]:54276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9S4-0005bW-Pb
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40561)
+	id 1iL9Vw-0003bU-6x
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:24:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41301)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <felipe@nutanix.com>) id 1iL8ob-0008Qd-KA
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:39:56 -0400
+ (envelope-from <msys.mizuma@gmail.com>) id 1iL8sb-0006UM-SU
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:44:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <felipe@nutanix.com>) id 1iL8oZ-0003S6-Cz
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:39:52 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:3090)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iL8oZ-0003RX-6W
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:39:51 -0400
-Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x9HGU1ha025066; Thu, 17 Oct 2019 09:39:46 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=proofpoint20171006;
- bh=bp5DMnv0anlavCrigTezZ4G/B950mX6P/T8viMbFf1A=;
- b=pmPRWocCtpBDaMz+duYhStMfxKgxlOlxIX/geuEnNJGUkZY7iW9zTLJfiu4d/06jcY0X
- MxMr6iCBxkeYJa1AoqXMMzk+dFm/s92fzv2HXUJ3Q24bt1LZJ+Re6FsJmmd8uxDlztDX
- m7YnBazeGRQ3KH3+5Z1SwPr4tDibRWt7S85wDxF1/rJQoH7hYctFP2ge6sBsTCspyii+
- RvL4J5VLSHerVj4esNEWRkwEFiG6jF7elMYxijQ8PF8KGp7OU1YFdQn7XQDhtdogfgJx
- taYI6b3rnqTXV5uzClkOp+vu8W4fe2qPtMRt2U6jhtevUZEcNC1M1ePcB+RfQSaGQZSi CQ== 
-Received: from nam01-by2-obe.outbound.protection.outlook.com
- (mail-by2nam01lp2052.outbound.protection.outlook.com [104.47.34.52])
- by mx0b-002c1b01.pphosted.com with ESMTP id 2vke5ekh88-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Thu, 17 Oct 2019 09:39:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AQJZMIIvdcHUKE9M5fB1PCHBuCURw+eoJ9fzWIencpmsGrLdOM4jJNyXPjp4D9KeU0KBgEcC0CLLnJMY4b21HUsg4jeiMMNi2YjpmAOjfV/Ve/ZsnIeWaFY175ta+s02RpRkVQ/uBwDTnuswoCSBUdZmSVT/AX1tRMzN6XAMoquXJH7aglZ4m8WyVsnrpW3xhxNaGeoFSmxbqCNApVIXnc/7WBXS1ij20MtTinQZ3wc+pWPjTpbB7Ks/XhuL6OznwLLqgNELKYCw+WUSqJHoZO4AT+COPR7j2ruIdmSeqVraZhzuUdCUE9txGGVxVPiVhFaaIRjy8RGqaB8QMgGqcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bp5DMnv0anlavCrigTezZ4G/B950mX6P/T8viMbFf1A=;
- b=RdePpKPLK/ZwqesK3S7HcodfpXT91IJ/TxBbSZ0c1miWpAS0Yy/FIDnEPBa3DpHnwHxHhe/NNAeo7tq7R9MZmoHnKpuoU3olIgHjw6sGaMPe4InK/ufInm3JKnGgOXwrHBkvIVRpPKPxeUEfd7O5sxXgm+8qMN9opB0lZ7wYdmiOkcCOFqoUY/2SPv4S0xzgzECYKQwnyvXuzUxguH9bXd2L5gjAdTAnax8sNcqz2TO5o7j278rpblrzudUYSFVhAV5uFlG6YUaKtvEdvCKEIO8iGJq5zc61LVdj8WsnWtsTnf0t7obMGB65c1Y7eglbvPLByMbVNx2cdwPJBd5ksg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
- MWHPR02MB2797.namprd02.prod.outlook.com (10.175.49.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Thu, 17 Oct 2019 16:39:44 +0000
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::7ca0:95fd:4b35:3435]) by MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::7ca0:95fd:4b35:3435%6]) with mapi id 15.20.2347.023; Thu, 17 Oct 2019
- 16:39:44 +0000
-From: Felipe Franciosi <felipe@nutanix.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>, Alex Williamson
- <alex.williamson@redhat.com>, "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>, Felipe Franciosi <felipe@nutanix.com>
-Subject: [PATCH] vhost-user-scsi: implement handle_output
-Thread-Topic: [PATCH] vhost-user-scsi: implement handle_output
-Thread-Index: AQHVhQl71p+KRszYckq7k3pyTpDK5Q==
-Date: Thu, 17 Oct 2019 16:39:44 +0000
-Message-ID: <20191017163859.23184-1-felipe@nutanix.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR08CA0053.namprd08.prod.outlook.com
- (2603:10b6:a03:117::30) To MWHPR02MB2656.namprd02.prod.outlook.com
- (2603:10b6:300:45::14)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [62.254.189.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc49d3d8-cc3b-4c0c-143b-08d753209d60
-x-ms-traffictypediagnostic: MWHPR02MB2797:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR02MB2797F469091A67A5CC1E6D61D76D0@MWHPR02MB2797.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
-x-forefront-prvs: 01930B2BA8
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(39860400002)(376002)(366004)(346002)(136003)(199004)(189003)(2906002)(8936002)(25786009)(305945005)(110136005)(7736002)(478600001)(99286004)(6486002)(6436002)(6116002)(3846002)(81156014)(81166006)(316002)(6512007)(66556008)(8676002)(66446008)(64756008)(66476007)(66946007)(50226002)(14454004)(14444005)(486006)(256004)(86362001)(2616005)(476003)(1076003)(4326008)(66066001)(6506007)(386003)(5660300002)(52116002)(71200400001)(71190400001)(7049001)(36756003)(186003)(26005)(102836004)(64030200001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2797;
- H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xFLljhRSvh8cebUr/dB+LgFspCk/HD2LVHsicasUnWveol2SZRvNvecfKz8Gir1fNy3ixNM2LgX0f7GqgootQxKVpWDiFRv0aBQP00sjUgPWG4wAKQzH/qU/BfDyCzjDLmcBJpm1AxY0jxSAaE3ysAw9hPQTUZV5t7/feYTHME/rUnjJjpLJz2hXgyeVfpRx0vNfIJQcqnrhUwmdQNeWfOcO3EIPwMy6rm8qleECCqvRPuW06ec8o1RiCFw6EBcyWJ95R+VQH6eYHgqe4qkhQyumLehOaIYnHsm/YPRKS1dx7TwH5Ed2KS7cg8uWzdDcgEEwlT6QKWJUrfSs1YEjoyO1GPRodQo41OkZVVQVRrJSbgLDJkUCqTLGWcoZLF38YJ81DzwOYuWeot7M9mVhVEun+rnOeEOkKCfDZOZDa3I=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <msys.mizuma@gmail.com>) id 1iL8sa-0004Sc-Bu
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:44:01 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:45608)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <msys.mizuma@gmail.com>)
+ id 1iL8sa-0004SU-7G; Thu, 17 Oct 2019 12:44:00 -0400
+Received: by mail-qt1-x844.google.com with SMTP id c21so4473706qtj.12;
+ Thu, 17 Oct 2019 09:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=n6NIYVZUjz9PNQW0NObluyOoQCvfPyZ3656cjNtJRLE=;
+ b=f6fzzvTuo81OoIzKrwxmYhajdYkNQ6dDoWAvCdPPXvZLXjt502wqqfNQ2sT5XObTDe
+ ms1vlYupj67fFhxBe+LulvyjK0sSDg0yROzuMzaLGnybulMODqhYROzXhOtAkD+3detz
+ E/PNYnIdaWL72uyNKO7ejqrrrnwT52RHZZ8jhtQS3xe8CHeQqpZNALewDmWtizgZyACn
+ d2gmZyZT83tTvJR6pjUhlwlOZBajGcU9ukXF6wZjXraFBOcG+zsdN/+g1NneKzcMp7kv
+ UFBFWhpo6H56fNE4pGuE9eKEy+UPjiClP7HzmH6FaUsTAjVcZlx7ymYsYcqJh2anYZtk
+ DaTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=n6NIYVZUjz9PNQW0NObluyOoQCvfPyZ3656cjNtJRLE=;
+ b=SZGNBCCwgtem07WCbzR4xcJxd2MYBPRB7igGbWCvH1J+rY/jciFFzoBSPBZNUCms36
+ vGB7G0Bv2u9uB+3RC2ZH1abrFU3gV6HWSpyFpRFd8VlrRBEmqY/RUbATJKudU2x8YFBn
+ tP8QpL71GjKB0fNE6Z3aT/5IaxEHLp8rIBxLjdtl++Mg6hoIxnSNP9XUTpDpY3uBb7Gx
+ bn+zk2dq5/UdNtdz8+lJaKju6VA/Zirutwj0nKY1LS3ZWAS384GqYmIjuUFsDG9VNy+t
+ mdngM7McT6N3UHoBZcjK9W/9UWVrYBcG2FrI0yjXLxo2P3m4/EO7ThK74LWepUrsK3wE
+ pSnw==
+X-Gm-Message-State: APjAAAXRhza2afEkZzG20WPajiC4DpV3lPh/zcgYOOcH7CMlimt3KTP3
+ Rv/178B81NtOvRXgM2zWdA==
+X-Google-Smtp-Source: APXvYqwkzVZ40ZtgmYyDrxhkegarALSpYxOKmcSMMgoyVCq7nXRUsE3JfrS2ymW4st2wmfCTGNUMXQ==
+X-Received: by 2002:a05:6214:2ea:: with SMTP id
+ h10mr4770502qvu.113.1571330639619; 
+ Thu, 17 Oct 2019 09:43:59 -0700 (PDT)
+Received: from gabell (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id s42sm46517qtk.60.2019.10.17.09.43.58
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 17 Oct 2019 09:43:59 -0700 (PDT)
+Date: Thu, 17 Oct 2019 12:43:56 -0400
+From: Masayoshi Mizuma <msys.mizuma@gmail.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH v6 6/9] target/arm/kvm64: max cpu: Enable SVE when
+ available
+Message-ID: <20191017164356.w7syfwrvvbzc5els@gabell>
+References: <20191016085408.24360-1-drjones@redhat.com>
+ <20191016085408.24360-7-drjones@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc49d3d8-cc3b-4c0c-143b-08d753209d60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2019 16:39:44.3871 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mZjZg3Hjj53PgOsslrLy3JEepsGvXi2RYG9ssRrJBORKNPEUJ8/BFRXW1AWgwcmV9s21elhTf9cV/agcMmVwGel+hWubO0eiiJLQ87ZY/Zs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2797
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-17_05:2019-10-17,2019-10-17 signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.155.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191016085408.24360-7-drjones@redhat.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,40 +80,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, armbru@redhat.com, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, alex.bennee@linaro.org,
+ Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T3JpZ2luYWxseSwgdmhvc3QtdXNlci1zY3NpIGRpZCBub3QgaW1wbGVtZW50IGEgaGFuZGxlX291
-dHB1dCBjYWxsYmFjaw0KYXMgdGhhdCBkaWRuJ3Qgc2VlbSBuZWNlc3NhcnkuIFR1cm5zIG91dCBp
-dCBpcy4NCg0KRGVwZW5kaW5nIG9uIHdoaWNoIG90aGVyIGRldmljZXMgYXJlIHByZXNlbnRlZCB0
-byBhIFZNLCBTZWFCSU9TIG1heQ0KZGVjaWRlIHRvIG1hcCB2aG9zdC11c2VyLXNjc2kgZGV2aWNl
-cyBvbiB0aGUgNjQtYml0IHJhbmdlIG9mIHRoZSBhZGRyZXNzDQpzcGFjZS4gQXMgYSByZXN1bHQs
-IFNlYUJJT1Mgd2lsbCBraWNrIFZRcyB2aWEgdGhlIGNvbmZpZyBzcGFjZS4gVGhvc2UNCmxhbmQg
-b24gUWVtdSAobm90IHRoZSB2aG9zdCBiYWNrZW5kKSBhbmQgYXJlIG1pc3NlZCwgY2F1c2luZyB0
-aGUgVk0gbm90DQp0byBib290LiBUaGlzIGZpeGVzIHRoZSBpc3N1ZSBieSBnZXR0aW5nIFFlbXUg
-dG8gcG9zdCB0aGUgbm90aWZpY2F0aW9uLg0KDQpTaWduZWQtb2ZmLWJ5OiBGZWxpcGUgRnJhbmNp
-b3NpIDxmZWxpcGVAbnV0YW5peC5jb20+DQotLS0NCiBody9zY3NpL3Zob3N0LXVzZXItc2NzaS5j
-IHwgOSArKysrKy0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA0IGRlbGV0
-aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvaHcvc2NzaS92aG9zdC11c2VyLXNjc2kuYyBiL2h3L3Nj
-c2kvdmhvc3QtdXNlci1zY3NpLmMNCmluZGV4IDZhNmMxNWRkMzIuLjEzMjc4ZWQxNTEgMTAwNjQ0
-DQotLS0gYS9ody9zY3NpL3Zob3N0LXVzZXItc2NzaS5jDQorKysgYi9ody9zY3NpL3Zob3N0LXVz
-ZXItc2NzaS5jDQpAQCAtNjIsOCArNjIsOSBAQCBzdGF0aWMgdm9pZCB2aG9zdF91c2VyX3Njc2lf
-c2V0X3N0YXR1cyhWaXJ0SU9EZXZpY2UgKnZkZXYsIHVpbnQ4X3Qgc3RhdHVzKQ0KICAgICB9DQog
-fQ0KIA0KLXN0YXRpYyB2b2lkIHZob3N0X2R1bW15X2hhbmRsZV9vdXRwdXQoVmlydElPRGV2aWNl
-ICp2ZGV2LCBWaXJ0UXVldWUgKnZxKQ0KK3N0YXRpYyB2b2lkIHZob3N0X2hhbmRsZV9vdXRwdXQo
-VmlydElPRGV2aWNlICp2ZGV2LCBWaXJ0UXVldWUgKnZxKQ0KIHsNCisgICAgZXZlbnRfbm90aWZp
-ZXJfc2V0KHZpcnRpb19xdWV1ZV9nZXRfaG9zdF9ub3RpZmllcih2cSkpOw0KIH0NCiANCiBzdGF0
-aWMgdm9pZCB2aG9zdF91c2VyX3Njc2lfcmVhbGl6ZShEZXZpY2VTdGF0ZSAqZGV2LCBFcnJvciAq
-KmVycnApDQpAQCAtODAsOSArODEsOSBAQCBzdGF0aWMgdm9pZCB2aG9zdF91c2VyX3Njc2lfcmVh
-bGl6ZShEZXZpY2VTdGF0ZSAqZGV2LCBFcnJvciAqKmVycnApDQogICAgICAgICByZXR1cm47DQog
-ICAgIH0NCiANCi0gICAgdmlydGlvX3Njc2lfY29tbW9uX3JlYWxpemUoZGV2LCB2aG9zdF9kdW1t
-eV9oYW5kbGVfb3V0cHV0LA0KLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2aG9zdF9k
-dW1teV9oYW5kbGVfb3V0cHV0LA0KLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2aG9z
-dF9kdW1teV9oYW5kbGVfb3V0cHV0LCAmZXJyKTsNCisgICAgdmlydGlvX3Njc2lfY29tbW9uX3Jl
-YWxpemUoZGV2LCB2aG9zdF9oYW5kbGVfb3V0cHV0LA0KKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICB2aG9zdF9oYW5kbGVfb3V0cHV0LA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB2aG9zdF9oYW5kbGVfb3V0cHV0LCAmZXJyKTsNCiAgICAgaWYgKGVyciAhPSBOVUxMKSB7
-DQogICAgICAgICBlcnJvcl9wcm9wYWdhdGUoZXJycCwgZXJyKTsNCiAgICAgICAgIHJldHVybjsN
-Ci0tIA0KMi4yMC4xDQoNCg==
+On Wed, Oct 16, 2019 at 10:54:05AM +0200, Andrew Jones wrote:
+> Enable SVE in the KVM guest when the 'max' cpu type is configured
+> and KVM supports it. KVM SVE requires use of the new finalize
+> vcpu ioctl, so we add that now too. For starters SVE can only be
+> turned on or off, getting all vector lengths the host CPU supports
+> when on. We'll add the other SVE CPU properties in later patches.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+This patch works well on aarch64 with SVE machine, thanks!
+Please feel free to add:
+
+    Tested-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+
+- Masa
+
+> ---
+>  target/arm/cpu64.c       | 17 ++++++++++++++---
+>  target/arm/kvm.c         |  5 +++++
+>  target/arm/kvm64.c       | 20 +++++++++++++++++++-
+>  target/arm/kvm_arm.h     | 27 +++++++++++++++++++++++++++
+>  tests/arm-cpu-features.c |  1 +
+>  5 files changed, 66 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 34b0ba2cf6f7..a771a28daa56 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -493,6 +493,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
+>          return;
+>      }
+>  
+> +    if (value && kvm_enabled() && !kvm_arm_sve_supported(CPU(cpu))) {
+> +        error_setg(errp, "'sve' feature not supported by KVM on this host");
+> +        return;
+> +    }
+> +
+>      t = cpu->isar.id_aa64pfr0;
+>      t = FIELD_DP64(t, ID_AA64PFR0, SVE, value);
+>      cpu->isar.id_aa64pfr0 = t;
+> @@ -507,11 +512,16 @@ static void aarch64_max_initfn(Object *obj)
+>  {
+>      ARMCPU *cpu = ARM_CPU(obj);
+>      uint32_t vq;
+> +    uint64_t t;
+>  
+>      if (kvm_enabled()) {
+>          kvm_arm_set_cpu_features_from_host(cpu);
+> +        if (kvm_arm_sve_supported(CPU(cpu))) {
+> +            t = cpu->isar.id_aa64pfr0;
+> +            t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+> +            cpu->isar.id_aa64pfr0 = t;
+> +        }
+>      } else {
+> -        uint64_t t;
+>          uint32_t u;
+>          aarch64_a57_initfn(obj);
+>  
+> @@ -612,8 +622,6 @@ static void aarch64_max_initfn(Object *obj)
+>  
+>          object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
+>                              cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal);
+> -        object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+> -                            cpu_arm_set_sve, NULL, NULL, &error_fatal);
+>  
+>          for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
+>              char name[8];
+> @@ -622,6 +630,9 @@ static void aarch64_max_initfn(Object *obj)
+>                                  cpu_arm_set_sve_vq, NULL, NULL, &error_fatal);
+>          }
+>      }
+> +
+> +    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+> +                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
+>  }
+>  
+>  struct ARMCPUInfo {
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index b473c63edb1c..f07332bbda30 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -51,6 +51,11 @@ int kvm_arm_vcpu_init(CPUState *cs)
+>      return kvm_vcpu_ioctl(cs, KVM_ARM_VCPU_INIT, &init);
+>  }
+>  
+> +int kvm_arm_vcpu_finalize(CPUState *cs, int feature)
+> +{
+> +    return kvm_vcpu_ioctl(cs, KVM_ARM_VCPU_FINALIZE, &feature);
+> +}
+> +
+>  void kvm_arm_init_serror_injection(CPUState *cs)
+>  {
+>      cap_has_inject_serror_esr = kvm_check_extension(cs->kvm_state,
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index 4c0b11d105a4..850da1b5e6aa 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -602,6 +602,13 @@ bool kvm_arm_aarch32_supported(CPUState *cpu)
+>      return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
+>  }
+>  
+> +bool kvm_arm_sve_supported(CPUState *cpu)
+> +{
+> +    KVMState *s = KVM_STATE(current_machine->accelerator);
+> +
+> +    return kvm_check_extension(s, KVM_CAP_ARM_SVE);
+> +}
+> +
+>  #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+>  
+>  int kvm_arch_init_vcpu(CPUState *cs)
+> @@ -630,13 +637,17 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>          cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_EL1_32BIT;
+>      }
+>      if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PMU_V3)) {
+> -            cpu->has_pmu = false;
+> +        cpu->has_pmu = false;
+>      }
+>      if (cpu->has_pmu) {
+>          cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_PMU_V3;
+>      } else {
+>          unset_feature(&env->features, ARM_FEATURE_PMU);
+>      }
+> +    if (cpu_isar_feature(aa64_sve, cpu)) {
+> +        assert(kvm_arm_sve_supported(cs));
+> +        cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
+> +    }
+>  
+>      /* Do KVM_ARM_VCPU_INIT ioctl */
+>      ret = kvm_arm_vcpu_init(cs);
+> @@ -644,6 +655,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>          return ret;
+>      }
+>  
+> +    if (cpu_isar_feature(aa64_sve, cpu)) {
+> +        ret = kvm_arm_vcpu_finalize(cs, KVM_ARM_VCPU_SVE);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +    }
+> +
+>      /*
+>       * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+>       * Currently KVM has its own idea about MPIDR assignment, so we
+> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+> index b4e19457a094..7c12f1501a8b 100644
+> --- a/target/arm/kvm_arm.h
+> +++ b/target/arm/kvm_arm.h
+> @@ -27,6 +27,20 @@
+>   */
+>  int kvm_arm_vcpu_init(CPUState *cs);
+>  
+> +/**
+> + * kvm_arm_vcpu_finalize
+> + * @cs: CPUState
+> + * @feature: int
+> + *
+> + * Finalizes the configuration of the specified VCPU feature by
+> + * invoking the KVM_ARM_VCPU_FINALIZE ioctl. Features requiring
+> + * this are documented in the "KVM_ARM_VCPU_FINALIZE" section of
+> + * KVM's API documentation.
+> + *
+> + * Returns: 0 if success else < 0 error code
+> + */
+> +int kvm_arm_vcpu_finalize(CPUState *cs, int feature);
+> +
+>  /**
+>   * kvm_arm_register_device:
+>   * @mr: memory region for this device
+> @@ -225,6 +239,14 @@ bool kvm_arm_aarch32_supported(CPUState *cs);
+>   */
+>  bool kvm_arm_pmu_supported(CPUState *cs);
+>  
+> +/**
+> + * bool kvm_arm_sve_supported:
+> + * @cs: CPUState
+> + *
+> + * Returns true if the KVM VCPU can enable SVE and false otherwise.
+> + */
+> +bool kvm_arm_sve_supported(CPUState *cs);
+> +
+>  /**
+>   * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
+>   * IPA address space supported by KVM
+> @@ -276,6 +298,11 @@ static inline bool kvm_arm_pmu_supported(CPUState *cs)
+>      return false;
+>  }
+>  
+> +static inline bool kvm_arm_sve_supported(CPUState *cs)
+> +{
+> +    return false;
+> +}
+> +
+>  static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+>  {
+>      return -ENOENT;
+> diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+> index 0190148260dc..3c8ed85b5adb 100644
+> --- a/tests/arm-cpu-features.c
+> +++ b/tests/arm-cpu-features.c
+> @@ -391,6 +391,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>  
+>      if (g_str_equal(qtest_get_arch(), "aarch64")) {
+>          assert_has_feature(qts, "host", "aarch64");
+> +        assert_has_feature(qts, "max", "sve");
+>  
+>          assert_error(qts, "cortex-a15",
+>              "We cannot guarantee the CPU type 'cortex-a15' works "
+> -- 
+> 2.21.0
+> 
+> 
 
