@@ -2,62 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2FCDADC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:03:17 +0200 (CEST)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD3ADADDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:09:08 +0200 (CEST)
+Received: from localhost ([::1]:46868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5Qy-0007bT-W6
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:03:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59337)
+	id 1iL5Wd-000659-Id
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59902)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mszeredi@redhat.com>) id 1iL5P8-0007C4-Gt
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:01:27 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iL5S3-0000dH-RU
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mszeredi@redhat.com>) id 1iL5P7-0007I2-HM
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:01:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34718)
+ (envelope-from <kwolf@redhat.com>) id 1iL5Ry-0008ND-Bp
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52852)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mszeredi@redhat.com>) id 1iL5P7-0007Hi-CD
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:01:21 -0400
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1iL5Rn-0008Gq-Cy; Thu, 17 Oct 2019 09:04:07 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9398310F15
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 13:01:20 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id x13so3019392ioa.18
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:01:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zDw1M3KLzlJuy9gbpF+6dsUU1T17+FSCB9ygr/h9leM=;
- b=MAS3jcA3H7LC0qAfsY0QYX2d9r54rq1UVR7IJwOlvw490JfaQR/gSSwWVq+fyU0Rz7
- wrBoDNoNVSCNtogZcNzjYfo8jGmOZoTdIxN/6XHL+bhtwZ+hSu8beE2iiXlon9MM+7xg
- WIWo7zN5uHT29orghHGxN1efXzjDoc1/YFPRB7gUx2po4y0CHp5eiA3o31U/R1L62x3E
- G5HkBxE/+yv23kaqW0fMY/Mih6jTbF9mALG6FlkSge9EDJ9BNnuzQJppR8HpFKmOPyT5
- c5Z0dMlXVBoAUDYUhrvmMKHXtDemGSvgbPqVaGxEYAeBBObFe0czGZ5+k3yAV2StqMk1
- gV8Q==
-X-Gm-Message-State: APjAAAXRUYjljpI7VIdvIaTLvyeEOXrYV0FINv02UTQDWA2HJw6DzrUk
- uDS5xYmuyWQmkMt2JDEH5pgqHy38e79no7H8tIjduKVsrT++QKzwltYqSzUpIcZCIUZ052PEozi
- yTAFACvPPmWlHI6cOROV2NsVgKCGaSmY=
-X-Received: by 2002:a92:985d:: with SMTP id l90mr3739185ili.286.1571317279910; 
- Thu, 17 Oct 2019 06:01:19 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxjKX/UnHwA4GrzHj3OzKvu5+cp1Xz3UomB3RP6HZ+3nHRvwaGdbLSla3cYzXwDHYv4spksF5dznPc8ZYj/kAM=
-X-Received: by 2002:a92:985d:: with SMTP id l90mr3739166ili.286.1571317279752; 
- Thu, 17 Oct 2019 06:01:19 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id 670673082B6D;
+ Thu, 17 Oct 2019 13:04:06 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-117-24.ams2.redhat.com
+ [10.36.117.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1CAF410002A2;
+ Thu, 17 Oct 2019 13:04:01 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [RFC PATCH 00/18] Add qemu-storage-daemon
+Date: Thu, 17 Oct 2019 15:01:46 +0200
+Message-Id: <20191017130204.16131-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
- <20191017100528.GA24790@stefanha-x1.localdomain>
- <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
-In-Reply-To: <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
-From: Miklos Szeredi <mszeredi@redhat.com>
-Date: Thu, 17 Oct 2019 15:01:08 +0200
-Message-ID: <CAOssrKc7j5jvg9gSJdzOZOW8NWipWU+MKbonZ6Mv-1+TpENMxg@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Thu, 17 Oct 2019 13:04:06 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -72,20 +54,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 17, 2019 at 1:23 PM Miklos Szeredi <mszeredi@redhat.com> wrote:
+This series adds a new tool 'qemu-storage-daemon', which can be used to
+export and perform operations on block devices. There is some overlap
+between qemu-img/qemu-nbd and the new qemu-storage-daemon, but there are
+a few important differences:
 
-> I see why this is being done, and it's not easy to fix properly
-> without the ..at() versions of these syscalls.  One idea is to fork()
-> + fchdir(lo->proc_self_fd) + ..xattr().  Another related idea is to do
-> a unshare(CLONE_FS) after each thread's startup (will pthread library
+* The qemu-storage-daemon has QMP support. The command set is obviously
+  restricted compared to the system emulator because there is no guest,
+  but all of the block operations are present.
 
-Apparently Samba does this, so it should be safe.
+  This means that it can access advanced options or operations that the
+  qemu-img command line doesn't expose. For example, blockdev-create is
+  a lot more powerful than 'qemu-img create', and qemu-storage-daemon
+  allows to execute it without starting a guest.
 
-Thanks,
-Miklos
+  Compared to qemu-nbd it means that, for example, block jobs can now be
+  executed on the server side, and backing chains shared by multiple VMs
+  can be modified this way.
+
+* The existing tools all have a separately invented one-off syntax for
+  the job at hand, which usually comes with restrictions compared to the
+  system emulator. qemu-storage-daemon shares the same syntax with the
+  system emulator for most options and prefers QAPI based interfaces
+  where possible (such as --blockdev), so it should be easy to make use
+  of in libvirt.
+
+* While this series implements only NBD exports, the storage daemon is
+  intended to serve multiple protocols and its syntax reflects this. In
+  the past, we had proposals to add new one-off tools for exporting over
+  new protocols like FUSE or TCMU.
+
+  With a generic storage daemon, additional export methods have a home
+  without adding a new tool for each of them.
+
+I'm posting this as an RFC mainly for two reasons:
+
+1. The monitor integration, which could be argued to be a little hackish
+   (some generated QAPI source files are built from a separate QAPI
+   schema, but the per-module ones are taken from the system emulator)
+   and Markus will want to have a closer look there. But from the IRC
+   discussions we had, we seem to agree on the general approach here.
+
+2. I'm not completely sure if the command line syntax is the final
+   version that we want to support long-term. Many options directly use
+   QAPI visitors (--blockdev, --export, --nbd-server) and should be
+   fine. However, others use QemuOpts (--chardev, --monitor, --object).
+
+   This is the same as in the system emulator, so we wouldn't be adding
+   a new problem, but as there was talk about QAPIfying the command
+   line, and I wouldn't want later syntax changes or adding lots of
+   compatibility code to a new tool, I thought we should probably
+   discuss whether QAPIfying from the start would be an option.
+
+I would like to have something merged for 4.2, but I'm considering
+marking the whole tool as experimental and unstable ABI by requiring a
+command line option like --experimental for the tool to even start if we
+know that we want to change some things later.
+
+This series is based on:
+* [PATCH] blockdev: Use error_report() in hmp_commit()
+* [PATCH 0/7] qapi: Cleanups and test speedup
+
+Based-on: <20191015123932.12214-1-kwolf@redhat.com>
+Based-on: <20191001191514.11208-1-armbru@redhat.com>
+
+Kevin Wolf (18):
+  qemu-storage-daemon: Add barebone tool
+  qemu-storage-daemon: Add --object option
+  stubs: Add arch_type
+  stubs: Add blk_by_qdev_id()
+  qemu-storage-daemon: Add --blockdev option
+  qemu-storage-daemon: Add --nbd-server option
+  blockdev-nbd: Boxed argument type for nbd-server-add
+  qemu-storage-daemon: Add --export option
+  qemu-storage-daemon: Add main loop
+  qemu-storage-daemon: Add --chardev option
+  monitor: Move monitor option parsing to monitor/monitor.c
+  stubs: Update monitor stubs for qemu-storage-daemon
+  qapi: Create module 'monitor'
+  monitor: Create monitor/qmp-cmds-monitor.c
+  qapi: Support empty modules
+  qapi: Create 'pragma' module
+  monitor: Move qmp_query_qmp_schema to qmp-cmds-monitor.c
+  qemu-storage-daemon: Add --monitor option
+
+ qapi/block.json                          |  65 ++++-
+ qapi/misc.json                           | 212 ---------------
+ qapi/monitor.json                        | 218 +++++++++++++++
+ qapi/pragma.json                         |  24 ++
+ qapi/qapi-schema.json                    |  26 +-
+ storage-daemon/qapi/qapi-schema.json     |  15 ++
+ configure                                |   2 +-
+ include/block/nbd.h                      |   1 +
+ include/monitor/monitor.h                |   4 +
+ include/sysemu/arch_init.h               |   2 +
+ include/sysemu/sysemu.h                  |   1 -
+ monitor/monitor-internal.h               |   4 +
+ blockdev-nbd.c                           |  30 ++-
+ monitor/hmp-cmds.c                       |  22 +-
+ monitor/misc.c                           | 126 ---------
+ monitor/monitor.c                        |  52 ++++
+ monitor/qmp-cmds-monitor.c               | 169 ++++++++++++
+ monitor/qmp-cmds.c                       |  15 +-
+ monitor/qmp.c                            |   2 +-
+ qemu-storage-daemon.c                    | 326 +++++++++++++++++++++++
+ stubs/arch_type.c                        |   4 +
+ stubs/blk-by-qdev-id.c                   |   9 +
+ stubs/monitor-core.c                     |  21 ++
+ stubs/monitor.c                          |  15 +-
+ tests/qmp-test.c                         |   2 +-
+ ui/gtk.c                                 |   1 +
+ vl.c                                     |  45 +---
+ Makefile                                 |  34 +++
+ Makefile.objs                            |   9 +
+ block/Makefile.objs                      |   2 +-
+ monitor/Makefile.objs                    |   5 +-
+ qapi/Makefile.objs                       |   9 +-
+ qom/Makefile.objs                        |   1 +
+ scripts/qapi/gen.py                      |   5 +
+ scripts/qapi/schema.py                   |   9 +
+ storage-daemon/Makefile.objs             |   1 +
+ storage-daemon/qapi/Makefile.objs        |   1 +
+ stubs/Makefile.objs                      |   3 +
+ tests/qapi-schema/comments.out           |   2 +
+ tests/qapi-schema/doc-bad-section.out    |   2 +
+ tests/qapi-schema/doc-good.out           |   2 +
+ tests/qapi-schema/empty.out              |   2 +
+ tests/qapi-schema/event-case.out         |   2 +
+ tests/qapi-schema/include-repetition.out |   4 +
+ tests/qapi-schema/include-simple.out     |   3 +
+ tests/qapi-schema/indented-expr.out      |   2 +
+ tests/qapi-schema/qapi-schema-test.out   |   4 +
+ 47 files changed, 1052 insertions(+), 463 deletions(-)
+ create mode 100644 qapi/monitor.json
+ create mode 100644 qapi/pragma.json
+ create mode 100644 storage-daemon/qapi/qapi-schema.json
+ create mode 100644 monitor/qmp-cmds-monitor.c
+ create mode 100644 qemu-storage-daemon.c
+ create mode 100644 stubs/arch_type.c
+ create mode 100644 stubs/blk-by-qdev-id.c
+ create mode 100644 stubs/monitor-core.c
+ create mode 100644 storage-daemon/Makefile.objs
+ create mode 100644 storage-daemon/qapi/Makefile.objs
+
+--=20
+2.20.1
+
 
