@@ -2,87 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E2BDB121
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:30:49 +0200 (CEST)
-Received: from localhost ([::1]:51046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA8BDB133
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:36:32 +0200 (CEST)
+Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7jj-0004Bb-Ok
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49768)
+	id 1iL7pH-0002BV-0s
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iL6zL-0004Fh-O5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:42:53 -0400
+ (envelope-from <eblake@redhat.com>) id 1iL6zQ-0004Nh-CG
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:42:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iL6zK-00069G-3v
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:42:51 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9208
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iL6zJ-00068i-V9
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:42:50 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9HEgVS4074805
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:42:48 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vpsrk1tcg-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:42:47 -0400
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <clg@kaod.org>;
- Thu, 17 Oct 2019 15:42:45 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 17 Oct 2019 15:42:44 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9HEghX955181476
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Oct 2019 14:42:43 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A2014204C;
- Thu, 17 Oct 2019 14:42:43 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5B11F42042;
- Thu, 17 Oct 2019 14:42:43 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 17 Oct 2019 14:42:43 +0000 (GMT)
-Received: from yukon.tls.ibm.com (yukon.tls.ibm.com [9.101.4.25])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 19A792201F3;
- Thu, 17 Oct 2019 16:42:43 +0200 (CEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 2/2] spapr/xive: Set the OS CAM line at reset
-Date: Thu, 17 Oct 2019 16:42:41 +0200
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191017144241.12522-1-clg@kaod.org>
-References: <20191017144241.12522-1-clg@kaod.org>
+ (envelope-from <eblake@redhat.com>) id 1iL6zO-0006D0-Na
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:42:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58174)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iL6zL-00069Z-Bn; Thu, 17 Oct 2019 10:42:51 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8D41FC04D936;
+ Thu, 17 Oct 2019 14:42:50 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1ECDE60497;
+ Thu, 17 Oct 2019 14:42:50 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] iotests: Include QMP input in .out files
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20191015193503.25591-1-eblake@redhat.com>
+ <20191015193503.25591-3-eblake@redhat.com>
+ <0962fe1d-df21-0efb-818a-1afabdc4fcfe@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3d3ea98f-49db-8fc4-e0df-d99a9d7963d9@redhat.com>
+Date: Thu, 17 Oct 2019 09:42:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-x-cbid: 19101714-0020-0000-0000-00000379FCA1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19101714-0021-0000-0000-000021D02759
-Message-Id: <20191017144241.12522-3-clg@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-17_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910170133
+In-Reply-To: <0962fe1d-df21-0efb-818a-1afabdc4fcfe@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 17 Oct 2019 14:42:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x9HEgVS4074805
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,218 +62,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a Virtual Processor is scheduled to run on a HW thread, the
-hypervisor pushes its identifier in the OS CAM line. When running in
-TCG or kernel_irqchip=3Doff, QEMU needs to emulate the same behavior.
+On 10/17/19 7:59 AM, Max Reitz wrote:
+> On 15.10.19 21:35, Eric Blake wrote:
+>> We generally include relevant HMP input in .out files, by virtue of
+>> the fact that HMP echoes its input.  But QMP does not, so we have to
+>> explicitly inject it in the output stream, in order to make it easier
+>> to read .out files to see what behavior is being tested (especially
+>> true where the output file is a sequence of {'return': {}}).
+>>
+>> Suggested-by: Max Reitz <mreitz@redhat.com>
+>=20
+> That was actually not my intention. :-)
+>=20
+> I was thinking of a new parameter that enables this behavior and is
+> disabled by default so that existing tests don=E2=80=99t change.
+>=20
+> But then again I did see that you interpreted my suggestion in a
+> slightly different way, and thought this is probably better, actually.
 
-Introduce a 'os-cam' property which will be used to set the OS CAM
-line at reset and remove the spapr_xive_set_tctx_os_cam() calls which
-are done when the XIVE interrupt controller are activated.
+I'm glad you like how it turned out.  Now to fix the problems ;)
 
-This change also has the benefit to remove the use of CPU_FOREACH()
-which can be unsafe.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/ppc/spapr_xive.h |  1 -
- include/hw/ppc/xive.h       |  4 +++-
- hw/intc/spapr_xive.c        | 31 +++++--------------------------
- hw/intc/xive.c              | 22 +++++++++++++++++++++-
- hw/ppc/pnv.c                |  3 ++-
- 5 files changed, 31 insertions(+), 30 deletions(-)
+>> +++ b/tests/qemu-iotests/common.qemu
+>> @@ -123,6 +123,9 @@ _timed_wait_for()
+>>   # until either timeout, or a response.  If it is not set, or <=3D0,
+>>   # then the command is only sent once.
+>>   #
+>> +# If neither $silent nor $mismatch_only is set, and $cmd begins with =
+'{',
+>> +# echo the command before sending it the first time.
+>> +#
+>>   # If $qemu_error_no_exit is set, then even if the expected response
+>>   # is not seen, we will not exit.  $QEMU_STATUS[$1] will be set it -1=
+ in
+>>   # that case.
+>> @@ -152,6 +155,12 @@ _send_qemu_cmd()
+>>           shift $(($# - 2))
+>>       fi
+>>
+>> +    # Display QMP being sent, but not HMP (since HMP already echoes i=
+ts
+>> +    # input back to output); decide based on leading '{'
+>> +    if [ -z "$silent" ] && [ -z "$mismatch_only" ] &&
+>> +            [ "$cmd" !=3D "${cmd#{}" ]; then
+>=20
+> It=E2=80=99s a shame that this breaks syntax highlighting in (my) vim. =
+ (Also I
+> have to admit googling to understand ${cmd#{} wasn=E2=80=99t trivial.)
+>=20
+> Can I persuade you to use "${cmd#\{}" instead?  That seems to work for =
+me.
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index d84bd5c229f0..742b7e834f2a 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -57,7 +57,6 @@ typedef struct SpaprXive {
- void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
-=20
- void spapr_xive_hcall_init(SpaprMachineState *spapr);
--void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx);
- void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
- void spapr_xive_map_mmio(SpaprXive *xive);
-=20
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 99381639f50c..e273069c25a9 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -319,6 +319,7 @@ typedef struct XiveTCTX {
-     qemu_irq    os_output;
-=20
-     uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
-+    uint32_t    os_cam;
- } XiveTCTX;
-=20
- /*
-@@ -414,7 +415,8 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
-, uint64_t value,
- uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr offset, unsigned size)=
-;
-=20
- void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
--Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-+Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, uint32_t os_cam,
-+                         Error **errp);
- void xive_tctx_reset(XiveTCTX *tctx);
-=20
- static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
-dx)
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 0c3acf1a4192..71f138512a1c 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -205,21 +205,13 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, b=
-ool enable)
-     memory_region_set_enabled(&xive->end_source.esb_mmio, false);
- }
-=20
--/*
-- * When a Virtual Processor is scheduled to run on a HW thread, the
-- * hypervisor pushes its identifier in the OS CAM line. Emulate the
-- * same behavior under QEMU.
-- */
--void spapr_xive_set_tctx_os_cam(XiveTCTX *tctx)
-+static uint32_t spapr_xive_get_os_cam(PowerPCCPU *cpu)
- {
-     uint8_t  nvt_blk;
-     uint32_t nvt_idx;
--    uint32_t nvt_cam;
--
--    spapr_xive_cpu_to_nvt(POWERPC_CPU(tctx->cs), &nvt_blk, &nvt_idx);
-=20
--    nvt_cam =3D cpu_to_be32(TM_QW1W2_VO | xive_nvt_cam_line(nvt_blk, nvt=
-_idx));
--    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &nvt_cam, 4);
-+    spapr_xive_cpu_to_nvt(cpu, &nvt_blk, &nvt_idx);
-+    return xive_nvt_cam_line(nvt_blk, nvt_idx);
- }
-=20
- static void spapr_xive_end_reset(XiveEND *end)
-@@ -537,19 +529,14 @@ static int spapr_xive_cpu_intc_create(SpaprInterrup=
-tController *intc,
-     SpaprXive *xive =3D SPAPR_XIVE(intc);
-     Object *obj;
-     SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
-+    uint32_t os_cam =3D spapr_xive_get_os_cam(cpu);
-=20
--    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(xive), errp);
-+    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(xive), os_cam, err=
-p);
-     if (!obj) {
-         return -1;
-     }
-=20
-     spapr_cpu->tctx =3D XIVE_TCTX(obj);
--
--    /*
--     * (TCG) Early setting the OS CAM line for hotplugged CPUs as they
--     * don't beneficiate from the reset of the XIVE IRQ backend
--     */
--    spapr_xive_set_tctx_os_cam(spapr_cpu->tctx);
-     return 0;
- }
-=20
-@@ -650,14 +637,6 @@ static void spapr_xive_dt(SpaprInterruptController *=
-intc, uint32_t nr_servers,
- static int spapr_xive_activate(SpaprInterruptController *intc, Error **e=
-rrp)
- {
-     SpaprXive *xive =3D SPAPR_XIVE(intc);
--    CPUState *cs;
--
--    CPU_FOREACH(cs) {
--        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--
--        /* (TCG) Set the OS CAM line of the thread interrupt context. */
--        spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
--    }
-=20
-     if (kvm_enabled()) {
-         int rc =3D spapr_irq_init_kvm(kvmppc_xive_connect, intc, errp);
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 0ae3f9b1efe4..be4f2c974178 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -566,6 +566,18 @@ static void xive_tctx_reset_handler(void *dev)
-         ipb_to_pipr(tctx->regs[TM_QW1_OS + TM_IPB]);
-     tctx->regs[TM_QW3_HV_PHYS + TM_PIPR] =3D
-         ipb_to_pipr(tctx->regs[TM_QW3_HV_PHYS + TM_IPB]);
-+
-+    /*
-+     * (TCG) Set the OS CAM line of the thread interrupt context.
-+     *
-+     * When a Virtual Processor is scheduled to run on a HW thread,
-+     * the hypervisor pushes its identifier in the OS CAM line.
-+     * Emulate the same behavior under QEMU.
-+     */
-+    if (tctx->os_cam) {
-+        uint32_t qw1w2 =3D cpu_to_be32(TM_QW1W2_VO | tctx->os_cam);
-+        memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
-+    }
- }
-=20
- void xive_tctx_reset(XiveTCTX *tctx)
-@@ -667,11 +679,17 @@ static const VMStateDescription vmstate_xive_tctx =3D=
- {
-     },
- };
-=20
-+static Property  xive_tctx_properties[] =3D {
-+    DEFINE_PROP_UINT32("os-cam", XiveTCTX, os_cam, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void xive_tctx_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-     dc->desc =3D "XIVE Interrupt Thread Context";
-+    dc->props =3D xive_tctx_properties;
-     dc->realize =3D xive_tctx_realize;
-     dc->unrealize =3D xive_tctx_unrealize;
-     dc->vmsd =3D &vmstate_xive_tctx;
-@@ -689,7 +707,8 @@ static const TypeInfo xive_tctx_info =3D {
-     .class_init    =3D xive_tctx_class_init,
- };
-=20
--Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
-+Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, uint32_t os_cam,
-+                         Error **errp)
- {
-     Error *local_err =3D NULL;
-     Object *obj;
-@@ -698,6 +717,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrt=
-r, Error **errp)
-     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
-     object_unref(obj);
-     object_property_add_const_link(obj, "cpu", cpu, &error_abort);
-+    object_property_set_int(obj, os_cam, "os-cam", &local_err);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-         goto error;
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 7cf64b6d2533..99c06842573e 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -806,7 +806,8 @@ static void pnv_chip_power9_intc_create(PnvChip *chip=
-, PowerPCCPU *cpu,
-      * controller object is initialized afterwards. Hopefully, it's
-      * only used at runtime.
-      */
--    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(&chip9->xive), &lo=
-cal_err);
-+    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(&chip9->xive), 0,
-+                           &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
+Yes.  That, or "${cmd#'{'}" should also work.
+
+>=20
+>> diff --git a/tests/qemu-iotests/094.out b/tests/qemu-iotests/094.out
+>> index f3b9ecf22b73..f3e1a9ecf736 100644
+>> --- a/tests/qemu-iotests/094.out
+>> +++ b/tests/qemu-iotests/094.out
+>> @@ -1,16 +1,20 @@
+>>   QA output created by 094
+>>   Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
+>>   Formatting 'TEST_DIR/source.IMGFMT', fmt=3DIMGFMT size=3D67108864
+>> +{'execute': 'qmp_capabilities'}
+>>   {"return": {}}
+>> +{'execute': 'drive-mirror', 'arguments': {'device': 'src', 'target': =
+'nbd:127.0.0.1:10810', 'format': 'nbd', 'sync':'full', 'mode':'existing'}=
+}
+>=20
+> This reminds me that we need to fix nbd=E2=80=99s $TEST_IMG to not be f=
+ixed to
+> port 10810.  I get intermittent failures because of that.
+
+And I should therefore fix the filter to display it as something more=20
+stable (perhaps nbd:HOST:PORT).  But I also agree that the hard-coded=20
+value is pre-existing broken, so a separate patch here to improve it is=20
+warranted.
+
+>=20
+> [...]
+>=20
+>> diff --git a/tests/qemu-iotests/140.out b/tests/qemu-iotests/140.out
+>> index 67fe44a3e390..3857675f7ebd 100644
+>> --- a/tests/qemu-iotests/140.out
+>> +++ b/tests/qemu-iotests/140.out
+>> @@ -2,14 +2,19 @@ QA output created by 140
+>>   Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536
+>>   wrote 65536/65536 bytes at offset 0
+>>   64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>> +{ 'execute': 'qmp_capabilities' }
+>>   {"return": {}}
+>> +{ 'execute': 'nbd-server-start', 'arguments': { 'addr': { 'type': 'un=
+ix', 'data': { 'path': 'TEST_DIR/nbd' }}}}
+>=20
+> Hmmmmm, this conflicts with my SOCK_DIR series.  common.qemu would then
+> also need a SOCK_DIR filter.  Well, or 140 should filter it (and the
+> other tests that are concerned).  I=E2=80=99m not 100 % sure, but a SOC=
+K_DIR
+> filter in common.qemu probably can=E2=80=99t hurt.
+
+Agreed. I will rebase a v3 on top of your pending series.
+
+
+>> +++ b/tests/qemu-iotests/141.out
+>> @@ -2,82 +2,108 @@ QA output created by 141
+>>   Formatting 'TEST_DIR/b.IMGFMT', fmt=3DIMGFMT size=3D1048576
+>>   Formatting 'TEST_DIR/m.IMGFMT', fmt=3DIMGFMT size=3D1048576 backing_=
+file=3DTEST_DIR/b.IMGFMT
+>>   Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 backing_=
+file=3DTEST_DIR/m.IMGFMT
+>> +{'execute': 'qmp_capabilities'}
+>>   {"return": {}}
+>>
+>>   =3D=3D=3D Testing drive-backup =3D=3D=3D
+>>
+>> +{'execute': 'blockdev-add', 'arguments': { 'node-name': 'drv0', 'driv=
+er': 'qcow2', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.qcow2' =
+}}}
+>=20
+> 141 also supports qed, so this then results in a mismatch.  I suppose
+> common.qemu should filter the image format.
+>=20
+> (Same for 156, 161, and 229.)
+
+Yep, I'll have to improve the filtering.  I'll make sure I run -qed=20
+tests before posting v3.
+
+>=20
+> [...]
+>=20
+>> diff --git a/tests/qemu-iotests/156.out b/tests/qemu-iotests/156.out
+>> index 4c391a760371..d1865044f81a 100644
+>> --- a/tests/qemu-iotests/156.out
+>> +++ b/tests/qemu-iotests/156.out
+>> @@ -5,21 +5,27 @@ wrote 262144/262144 bytes at offset 0
+>>   256 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>>   wrote 196608/196608 bytes at offset 65536
+>>   192 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>> +{ 'execute': 'qmp_capabilities' }
+>>   {"return": {}}
+>>   Formatting 'TEST_DIR/t.IMGFMT.overlay', fmt=3DIMGFMT size=3D1048576 =
+backing_file=3DTEST_DIR/t.IMGFMT
+>> +{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'sour=
+ce', 'snapshot-file': 'TEST_DIR/t.qcow2.overlay', 'format': 'qcow2', 'mod=
+e': 'existing' } }
+>=20
+> Same here (as said above), although there=E2=80=99s also the fact to co=
+nsider
+> that 156 supports generic protocols.  I hope _filter_testdir handles
+> that, though.
+
+or _filter_imgfmt.  It should not be hard to turn on extra filters, such=20
+that this looks more like:
+
+'snapshot-file': 'TEST_DIR/t.IMGFMT.overlay', 'format': 'IMGFMT', ...
+
+
 --=20
-2.21.0
-
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
