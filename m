@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C42DBA0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 01:09:32 +0200 (CEST)
-Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C1ADBA6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 02:06:24 +0200 (CEST)
+Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLEtf-0004Uc-As
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 19:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41946)
+	id 1iLFmh-0004jT-Ad
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 20:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <casantos@redhat.com>) id 1iLEqb-0001Ep-1W
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 19:06:22 -0400
+ (envelope-from <alistair23@gmail.com>) id 1iLFlT-000478-D8
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 20:05:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <casantos@redhat.com>) id 1iLEqY-0007cl-Nj
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 19:06:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33438
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <casantos@redhat.com>) id 1iLEqW-0007ZK-Pm
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 19:06:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571353574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M4hcM/3ucfVcKSG4ieNbwTmsJORr8Gu7gNgR5xZwsKo=;
- b=Ps2T5BI6W/D7sdIbBLHsQrJ8bUqvo1YLpmzp7/Z+e+aciVPcWLdAmvhHfkvE8DEMmwsevb
- Tzijzp1e+sK67JzWg2+vDb3fkGnEblcIPCOQ76efBxr4El03xmqrQbBHGENJz+nV+NY6St
- ywfVsBY454arNyr6n/BhToRkI0cHGag=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-m6gEIKujM0mgwPy_7I1v1Q-1; Thu, 17 Oct 2019 19:06:12 -0400
-Received: by mail-il1-f199.google.com with SMTP id d15so993802iln.15
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 16:06:12 -0700 (PDT)
+ (envelope-from <alistair23@gmail.com>) id 1iLFlO-0007ZB-4s
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 20:05:06 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:35465)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iLFlN-0007Yc-N7; Thu, 17 Oct 2019 20:05:01 -0400
+Received: by mail-lj1-x241.google.com with SMTP id m7so4363883lji.2;
+ Thu, 17 Oct 2019 17:05:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jfsReMyQtklLgqDiJUlJtwJEYrv42gE31qbx0Xhhz4Q=;
+ b=agVF6TNrcN1AwHJ65Gz//fhlqgUu7RxMoFiLchi/pHh104XWbbbGzg8Gp6nclWfn1m
+ yj37uoXdxGFVTrg8/exQLoiBHADsRXxPyvSYcMS9T0+hZqnk8mN/QkF5QW2VcyNF8wIJ
+ gmMIZIqvkS/oweWZdfWqk77cPJlcFAjCwAjZySzdGSh+F/ZKq9FATMJThmyk0ydD0fJg
+ GzfHW0CLCYUaL2+8wzKbaJMSTgfkQAE9JKNUdwiBiPFu0i8ah4Kku/NjEc9T6CxVSG4I
+ lhrB2IjUYyk4D++nqR0+pYXNUzgQHXOopThJQYzXCIz295a2NjJgjtXuw3yq8yeYyzB5
+ 1jQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QLS/rsq5niySfU9MNSfF1ftES/1x1J+6G0ZgLJlvg1o=;
- b=pjvfWe17TwesIZHA8gL1fOEfTws4cKWsG2HKh39a9RnvlDqqtQUQf//LfHw9MfW+II
- QhWmftfTEwj2YLv0bYW5gnCSCZcysZKKjB8AjkXhE/eGb/DV1SeIIqv4HqKLVvEaxX9y
- sR/qy024Rb6VyYg+Wk3jvaf+Q9KTJ6Aj7i/ePPne88Pk1UOpc0N7+iFLJNtCcMKeBKMp
- i/4eK8ZrE4A8RXLd7AKEQYBu3VbAWJLmFttGWNo0d17gvNck5L+6ChFBALMt9q/7JJjL
- v9O0CfnQhROsWO85PGy7XUEt/6Wk6IVY0vg2Oz+J9eBPms+frSFzx6IaVHeV0ryPG1Ih
- NtFA==
-X-Gm-Message-State: APjAAAXlpznOEeaobTuTCtddUEYBhTyjl7JrKqZfgGJn7kbDOV/RGrm8
- xe8e2ACn2Q5a71ePsjZ3NbTQNaH09PB2r7aypnOhFLmzlle7wMERGhzipYDLN2AYhyFsf2tAtO1
- Qc1CwcM4BlhK7s/ym4l/VRKyMTphv0Qg=
-X-Received: by 2002:a92:98d8:: with SMTP id a85mr6492107ill.98.1571353571803; 
- Thu, 17 Oct 2019 16:06:11 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzJszAKD3Ug0MCS3O4Bqd8okmaqrjDT8/BLoLsijUaMLEzijOYnXoWom96Qpd9Q8XFEQ3ufiZ6xaLp58KGr8LU=
-X-Received: by 2002:a92:98d8:: with SMTP id a85mr6492082ill.98.1571353571522; 
- Thu, 17 Oct 2019 16:06:11 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jfsReMyQtklLgqDiJUlJtwJEYrv42gE31qbx0Xhhz4Q=;
+ b=IobSLeCM9nMIkoFlRGvK3CO+h1HDo5kugG5uTf+6/TLK4DgxJplARI9CcbV45af7Aw
+ aoMN8gF9Hg5pOtnXvzLcriZIP0kuzxE//atOs0vrYA6qA5pyfHPslk+VZvWhdcs/Ritz
+ s5vR122C+dP5He3eGz50WHOPgu+4UdQ3FsINfH1uVOCPDh1kq3J9CeT05lKEc3vIDbef
+ SQuaC+RWTvBaZ6vTbxLKqFfbkw30ErG0mVaLDuYnPaLwvxZbOQAMHRfnvwM31+tjzU6x
+ skjvvyAeay7VkLILTEXC6HghSAXjQsGp1ZZn9acrUkWHdqs9wBkGpzhVztNF1PiusoEU
+ JsVw==
+X-Gm-Message-State: APjAAAXh1SpyJd/GqKn5BoS3Ipj7LLV6SiHiEC66X/6xjSGxDxIFY0IX
+ uHjnfqZkjbeUuoLnNyZynjTzkIkZ6UmaLUxKGwI=
+X-Google-Smtp-Source: APXvYqz/hkj+XzpDo41d9Op+OQVTB8j0kxDPUVTZRC5wS6vllQ3v0MCjtiiGiAvkcz19YxN9CIeq8s3ST4wwbald0Pk=
+X-Received: by 2002:a2e:9890:: with SMTP id b16mr4274220ljj.4.1571357100012;
+ Thu, 17 Oct 2019 17:05:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191017123713.30192-1-casantos@redhat.com>
- <CAFEAcA9dMRBtDs6QSXGVv_bNhtu5wnGKLvMxr2YuoWM=yomGDg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9dMRBtDs6QSXGVv_bNhtu5wnGKLvMxr2YuoWM=yomGDg@mail.gmail.com>
-From: Carlos Santos <casantos@redhat.com>
-Date: Thu, 17 Oct 2019 20:06:00 -0300
-Message-ID: <CAC1VKkNr8jN_0qVLtX5-YVH1dgN0fGAvnVZJXUpa+UfG_34ooQ@mail.gmail.com>
-Subject: Re: [PATCH] util/cacheinfo: fix crash when compiling with uClibc
-To: Peter Maydell <peter.maydell@linaro.org>
-X-MC-Unique: m6gEIKujM0mgwPy_7I1v1Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+References: <20191017225800.6946-1-f4bug@amsat.org>
+ <20191017225800.6946-5-f4bug@amsat.org>
+In-Reply-To: <20191017225800.6946-5-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 17 Oct 2019 16:59:50 -0700
+Message-ID: <CAKmqyKM=W_9aT3=HRbxbX0rjrisc0bcTFKA1XVuJOX+b5ziBfw@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] hw/arm/bcm2835_peripherals: Use the SYS_timer
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,69 +73,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Rob Herring <robh@kernel.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Clement Deschamps <clement.deschamps@antfield.fr>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Pete Batard <pete@akeo.ie>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 17, 2019 at 9:47 AM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+On Thu, Oct 17, 2019 at 4:05 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> On Thu, 17 Oct 2019 at 13:39, <casantos@redhat.com> wrote:
-> >
-> > From: Carlos Santos <casantos@redhat.com>
-> >
-> > uClibc defines _SC_LEVEL1_ICACHE_LINESIZE and _SC_LEVEL1_DCACHE_LINESIZ=
-E
-> > but the corresponding sysconf calls returns -1, which is a valid result=
+> Connect the recently added SYS_timer.
+> Now U-Boot does not hang anymore polling a free running counter
+> stuck at 0.
+> This timer is also used by the Linux kernel thermal subsystem.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+> v2: Remove spurious error check (Alex)
+> ---
+>  hw/arm/bcm2835_peripherals.c         | 17 ++++++++++++++++-
+>  include/hw/arm/bcm2835_peripherals.h |  3 ++-
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+> index 70bf927a02..17207ae07e 100644
+> --- a/hw/arm/bcm2835_peripherals.c
+> +++ b/hw/arm/bcm2835_peripherals.c
+> @@ -58,6 +58,10 @@ static void bcm2835_peripherals_init(Object *obj)
+>      /* Interrupt Controller */
+>      sysbus_init_child_obj(obj, "ic", &s->ic, sizeof(s->ic), TYPE_BCM2835=
+_IC);
+>
+> +    /* SYS Timer */
+> +    sysbus_init_child_obj(obj, "systimer", &s->systmr, sizeof(s->systmr)=
 ,
-> > meaning that the limit is indeterminate.
-> >
-> > Handle this situation using the fallback values instead of crashing due
-> > to an assertion failure.
-> >
-> > Signed-off-by: Carlos Santos <casantos@redhat.com>
-> > ---
-> >  util/cacheinfo.c | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-> > index ea6f3e99bf..d94dc6adc8 100644
-> > --- a/util/cacheinfo.c
-> > +++ b/util/cacheinfo.c
-> > @@ -93,10 +93,16 @@ static void sys_cache_info(int *isize, int *dsize)
-> >  static void sys_cache_info(int *isize, int *dsize)
-> >  {
-> >  # ifdef _SC_LEVEL1_ICACHE_LINESIZE
-> > -    *isize =3D sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
-> > +    int tmp_isize =3D (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
+> +                          TYPE_BCM2835_SYSTIMER);
+> +
+>      /* UART0 */
+>      sysbus_init_child_obj(obj, "uart0", &s->uart0, sizeof(s->uart0),
+>                            TYPE_PL011);
+> @@ -171,6 +175,18 @@ static void bcm2835_peripherals_realize(DeviceState =
+*dev, Error **errp)
+>                  sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ic), 0));
+>      sysbus_pass_irq(SYS_BUS_DEVICE(s), SYS_BUS_DEVICE(&s->ic));
 >
-> Do we need the cast here ?
-
-It's there to remind the reader that a type coercion may occur, since
-sysconf() returns a long and isize is an int.
-
-> > +    if (tmp_isize > 0) {
-> > +        *isize =3D tmp_isize;
-> > +    }
-> >  # endif
-> >  # ifdef _SC_LEVEL1_DCACHE_LINESIZE
-> > -    *dsize =3D sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-> > +    int tmp_dsize =3D (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
-> > +    if (tmp_dsize > 0) {
-> > +        *dsize =3D tmp_dsize;
-> > +    }
-> >  # endif
-> >  }
-> >  #endif /* sys_cache_info */
-> > --
+> +    /* Sys Timer */
+> +    object_property_set_bool(OBJECT(&s->systmr), true, "realized", &err)=
+;
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    memory_region_add_subregion(&s->peri_mr, ST_OFFSET,
+> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systmr), 0));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 0,
+> +        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
+> +                               INTERRUPT_ARM_TIMER));
+> +
+>      /* UART0 */
+>      qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
+>      object_property_set_bool(OBJECT(&s->uart0), true, "realized", &err);
+> @@ -352,7 +368,6 @@ static void bcm2835_peripherals_realize(DeviceState *=
+dev, Error **errp)
+>      }
 >
-> thanks
-> -- PMM
-
---=20
-Carlos Santos
-Senior Software Maintenance Engineer
-Red Hat
-casantos@redhat.com    T: +55-11-3534-6186
-
+>      create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET=
+, 0x40);
+> -    create_unimp(s, &s->systmr, "bcm2835-systimer", ST_OFFSET, 0x20);
+>      create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000)=
+;
+>      create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+>      create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm283=
+5_peripherals.h
+> index be7ad9b499..7859281e11 100644
+> --- a/include/hw/arm/bcm2835_peripherals.h
+> +++ b/include/hw/arm/bcm2835_peripherals.h
+> @@ -24,6 +24,7 @@
+>  #include "hw/sd/sdhci.h"
+>  #include "hw/sd/bcm2835_sdhost.h"
+>  #include "hw/gpio/bcm2835_gpio.h"
+> +#include "hw/timer/bcm2835_systmr.h"
+>  #include "hw/misc/unimp.h"
+>
+>  #define TYPE_BCM2835_PERIPHERALS "bcm2835-peripherals"
+> @@ -39,7 +40,7 @@ typedef struct BCM2835PeripheralState {
+>      MemoryRegion ram_alias[4];
+>      qemu_irq irq, fiq;
+>
+> -    UnimplementedDeviceState systmr;
+> +    BCM2835SystemTimerState systmr;
+>      UnimplementedDeviceState armtmr;
+>      UnimplementedDeviceState cprman;
+>      UnimplementedDeviceState a2w;
+> --
+> 2.21.0
+>
+>
 
