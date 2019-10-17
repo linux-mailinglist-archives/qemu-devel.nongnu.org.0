@@ -2,53 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620CADB122
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:31:00 +0200 (CEST)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A2BDB13E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:39:26 +0200 (CEST)
+Received: from localhost ([::1]:51214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7jv-0004bK-8P
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:30:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50397)
+	id 1iL7s5-0005VD-1Q
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1iL72Q-0008IW-WF
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL72a-0008VY-Jj
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1iL72P-0007ab-Ia
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42078)
+ (envelope-from <philmd@redhat.com>) id 1iL72Y-0007dm-T0
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:12 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53970
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iL72P-0007Zh-CY
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:01 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B19781129
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 14:45:59 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5411B60852;
- Thu, 17 Oct 2019 14:45:54 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id DA8A22202E5; Thu, 17 Oct 2019 10:45:53 -0400 (EDT)
-Date: Thu, 17 Oct 2019 10:45:53 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 2/2] virtiofsd: move to a new pid namespace
-Message-ID: <20191017144553.GA12588@redhat.com>
-References: <20191016160157.12414-1-stefanha@redhat.com>
- <20191016160157.12414-3-stefanha@redhat.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL72Y-0007dQ-HO
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571323569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4ePLuvdpjiCrVsfMHqaKGaoDZ/EbnB1HE43qLtprzLU=;
+ b=GsmPpC/b1IxF286fs/H1GqUlYGPOcOTLHqfVsb5mBcqA9e5KZkwW+yKcmfy6xnD4suoaVX
+ V6h+fO90lK7+fcEXBsKao0qcbEgoFpNtZIBWZoH8As2Qv7EoXoDJxv6UmjVlvNX1HHdacq
+ pKwNbCvPVO6qBlYzjjIuCMBRXGHxWOQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-pUfIQZDBMjyd_NpUzv5N3Q-1; Thu, 17 Oct 2019 10:46:06 -0400
+Received: by mail-wr1-f71.google.com with SMTP id j2so1068023wrg.19
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:46:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dKjKISv6Eh/62IDaORUG/Ahz7/jSmijXvXZXmqrw8Qo=;
+ b=FFuTsUQ1+dEfzEHjuxVntSuX4ouQ0FTeLq2jF7QczkVAyRn14C7FGhdQ0a4j/fHrX0
+ L0CHqGOAPs9IsPVMWc1tRRiBHPt4YSgnVqBYexmamzFDhjuB9hWkCY7s/AYNq+pVFjGs
+ GTMlUgFM6vjWWS1Av1pG67ue542K7C7S+PnqrKonwF6mi9zssJFfX1aotAyWSdkEuONn
+ z195M23ZjDAtSjecx5B/vkTURC26940y4Iw09g4FpVLHXVed5T1EudXX8zqkim6Mod0f
+ HUj1TKzc7aGkwWNqCBPkMX31i4+AQSc2GJ8xhlGysuXsWeRYeKo/DsLWmv5W2LpG67aO
+ Nzpw==
+X-Gm-Message-State: APjAAAUt9b8z3EyEcH6LQlnS5VtYCt3pe05V6Xc47YjNvNgGxafrEJ8v
+ 78/TFgJxuPMLborZIzsi4XXSJDmreR3SY9VSekUql7yb0Ut5QwBbOSGuVlwyHEE1SHZG+9KF73t
+ BF5n/kYDU7JZl+sI=
+X-Received: by 2002:adf:ef0a:: with SMTP id e10mr3290163wro.234.1571323564978; 
+ Thu, 17 Oct 2019 07:46:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxl9BKLBVlXWDQ4HFQuWvt5Yg0IkvV54R92QwyDh6KzWvXku0gS+71OviymYpc2SrEt13NcOQ==
+X-Received: by 2002:adf:ef0a:: with SMTP id e10mr3290136wro.234.1571323564739; 
+ Thu, 17 Oct 2019 07:46:04 -0700 (PDT)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id u1sm2558055wru.90.2019.10.17.07.46.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 07:46:04 -0700 (PDT)
+Subject: Re: [PATCH 1/2] hw/timer/grlib_gptimer.c: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132351.4762-1-peter.maydell@linaro.org>
+ <20191017132351.4762-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4c6b7739-84c5-95b6-2af4-94f561b404c8@redhat.com>
+Date: Thu, 17 Oct 2019 16:46:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191016160157.12414-3-stefanha@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 17 Oct 2019 14:45:59 +0000 (UTC)
+In-Reply-To: <20191017132351.4762-2-peter.maydell@linaro.org>
+Content-Language: en-US
+X-MC-Unique: pUfIQZDBMjyd_NpUzv5N3Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,30 +92,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 16, 2019 at 05:01:57PM +0100, Stefan Hajnoczi wrote:
 
-[..]
-> +	/*
-> +	 * If the mounts have shared propagation then we want to opt out so our
-> +	 * mount changes don't affect the parent mount namespace.
-> +	 */
-> +	if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
-> +		fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
-> +		exit(1);
-> +	}
 
-So we will get mount propogation form parent but our mounts will not
-propagate back. Sounds reasonable.
+On 10/17/19 3:23 PM, Peter Maydell wrote:
+> Switch the grlib_gptimer code away from bottom-half based ptimers to
+> the new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/timer/grlib_gptimer.c | 28 ++++++++++++++++++++++++----
+>   1 file changed, 24 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
+> index bb09268ea14..7a9371c0e30 100644
+> --- a/hw/timer/grlib_gptimer.c
+> +++ b/hw/timer/grlib_gptimer.c
+> @@ -29,7 +29,6 @@
+>   #include "hw/irq.h"
+>   #include "hw/ptimer.h"
+>   #include "hw/qdev-properties.h"
+> -#include "qemu/main-loop.h"
+>   #include "qemu/module.h"
+>  =20
+>   #include "trace.h"
+> @@ -63,7 +62,6 @@ typedef struct GPTimer     GPTimer;
+>   typedef struct GPTimerUnit GPTimerUnit;
+>  =20
+>   struct GPTimer {
+> -    QEMUBH *bh;
+>       struct ptimer_state *ptimer;
+>  =20
+>       qemu_irq     irq;
+> @@ -93,6 +91,17 @@ struct GPTimerUnit {
+>       uint32_t config;
+>   };
+>  =20
+> +static void grlib_gptimer_tx_begin(GPTimer *timer)
+> +{
+> +    ptimer_transaction_begin(timer->ptimer);
+> +}
+> +
+> +static void grlib_gptimer_tx_commit(GPTimer *timer)
+> +{
+> +    ptimer_transaction_commit(timer->ptimer);
+> +}
+> +
+> +/* Must be called within grlib_gptimer_tx_begin/commit block */
+>   static void grlib_gptimer_enable(GPTimer *timer)
+>   {
+>       assert(timer !=3D NULL);
+> @@ -115,6 +124,7 @@ static void grlib_gptimer_enable(GPTimer *timer)
+>       ptimer_run(timer->ptimer, 1);
+>   }
+>  =20
+> +/* Must be called within grlib_gptimer_tx_begin/commit block */
+>   static void grlib_gptimer_restart(GPTimer *timer)
+>   {
+>       assert(timer !=3D NULL);
+> @@ -141,7 +151,9 @@ static void grlib_gptimer_set_scaler(GPTimerUnit *uni=
+t, uint32_t scaler)
+>       trace_grlib_gptimer_set_scaler(scaler, value);
+>  =20
+>       for (i =3D 0; i < unit->nr_timers; i++) {
+> +        ptimer_transaction_begin(unit->timers[i].ptimer);
+>           ptimer_set_freq(unit->timers[i].ptimer, value);
+> +        ptimer_transaction_commit(unit->timers[i].ptimer);
+>       }
+>   }
+>  =20
+> @@ -266,8 +278,10 @@ static void grlib_gptimer_write(void *opaque, hwaddr=
+ addr,
+>           switch (timer_addr) {
+>           case COUNTER_OFFSET:
+>               trace_grlib_gptimer_writel(id, addr, value);
+> +            grlib_gptimer_tx_begin(&unit->timers[id]);
+>               unit->timers[id].counter =3D value;
+>               grlib_gptimer_enable(&unit->timers[id]);
+> +            grlib_gptimer_tx_commit(&unit->timers[id]);
+>               return;
+>  =20
+>           case COUNTER_RELOAD_OFFSET:
+> @@ -291,6 +305,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr =
+addr,
+>               /* gptimer_restart calls gptimer_enable, so if "enable" and=
+ "load"
+>                  bits are present, we just have to call restart. */
+>  =20
+> +            grlib_gptimer_tx_begin(&unit->timers[id]);
+>               if (value & GPTIMER_LOAD) {
+>                   grlib_gptimer_restart(&unit->timers[id]);
+>               } else if (value & GPTIMER_ENABLE) {
+> @@ -301,6 +316,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr =
+addr,
+>               value &=3D ~(GPTIMER_LOAD & GPTIMER_DEBUG_HALT);
+>  =20
+>               unit->timers[id].config =3D value;
+> +            grlib_gptimer_tx_commit(&unit->timers[id]);
+>               return;
+>  =20
+>           default:
+> @@ -344,9 +360,11 @@ static void grlib_gptimer_reset(DeviceState *d)
+>           timer->counter =3D 0;
+>           timer->reload =3D 0;
+>           timer->config =3D 0;
+> +        ptimer_transaction_begin(timer->ptimer);
+>           ptimer_stop(timer->ptimer);
+>           ptimer_set_count(timer->ptimer, 0);
+>           ptimer_set_freq(timer->ptimer, unit->freq_hz);
+> +        ptimer_transaction_commit(timer->ptimer);
+>       }
+>   }
+>  =20
+> @@ -365,14 +383,16 @@ static void grlib_gptimer_realize(DeviceState *dev,=
+ Error **errp)
+>           GPTimer *timer =3D &unit->timers[i];
+>  =20
+>           timer->unit   =3D unit;
+> -        timer->bh     =3D qemu_bh_new(grlib_gptimer_hit, timer);
+> -        timer->ptimer =3D ptimer_init_with_bh(timer->bh, PTIMER_POLICY_D=
+EFAULT);
+> +        timer->ptimer =3D ptimer_init(grlib_gptimer_hit, timer,
+> +                                    PTIMER_POLICY_DEFAULT);
+>           timer->id     =3D i;
+>  =20
+>           /* One IRQ line for each timer */
+>           sysbus_init_irq(sbd, &timer->irq);
+>  =20
+> +        ptimer_transaction_begin(timer->ptimer);
+>           ptimer_set_freq(timer->ptimer, unit->freq_hz);
+> +        ptimer_transaction_commit(timer->ptimer);
+>       }
+>  =20
+>       memory_region_init_io(&unit->iomem, OBJECT(unit), &grlib_gptimer_op=
+s,
+>=20
 
-Can we take away CAP_SYS_ADMIN from virtiofsd? That way it will not be 
-able to do mount at all. 
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-I am wondering are we dependent on daemon having CAP_SYS_ADMIN. 
-
-Thanks
-Vivek
 
