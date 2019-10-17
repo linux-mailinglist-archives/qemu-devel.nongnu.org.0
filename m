@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0813ADB2B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:43:49 +0200 (CEST)
-Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD1BDB2BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:46:57 +0200 (CEST)
+Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8sN-0004cJ-Ip
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33071)
+	id 1iL8vQ-0000Fr-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iL84u-00083G-3i
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:52:40 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL85e-0000ZV-EZ
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:53:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iL84t-0000M9-5i
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:52:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42854)
+ (envelope-from <thuth@redhat.com>) id 1iL85d-0000oL-ID
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:53:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:17425)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iL84q-0000L4-Ve; Thu, 17 Oct 2019 11:52:37 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1iL85b-0000mH-A1; Thu, 17 Oct 2019 11:53:23 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E5CE89AFB3;
- Thu, 17 Oct 2019 15:52:36 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C7E6D3071D8D;
+ Thu, 17 Oct 2019 15:53:20 +0000 (UTC)
 Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC8860127;
- Thu, 17 Oct 2019 15:52:35 +0000 (UTC)
-Subject: Re: [PATCH v2 05/23] iotests: Let common.nbd create socket in
- $SOCK_DIR
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 319C1196B2;
+ Thu, 17 Oct 2019 15:53:20 +0000 (UTC)
+Subject: Re: [PATCH v2 13/23] iotests/192: Create socket in $SOCK_DIR
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20191017133155.5327-1-mreitz@redhat.com>
- <20191017133155.5327-6-mreitz@redhat.com>
+ <20191017133155.5327-14-mreitz@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -79,18 +78,18 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <5a473636-109b-1e24-fba7-7af1dafbfb4b@redhat.com>
-Date: Thu, 17 Oct 2019 17:52:34 +0200
+Message-ID: <53cf155a-dfbb-789d-6379-6a4cab136b26@redhat.com>
+Date: Thu, 17 Oct 2019 17:53:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017133155.5327-6-mreitz@redhat.com>
+In-Reply-To: <20191017133155.5327-14-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Thu, 17 Oct 2019 15:52:36 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Thu, 17 Oct 2019 15:53:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -110,10 +109,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17/10/2019 15.31, Max Reitz wrote:
-> In addition, drop the nbd_unix_socket assignment in 241 because it does
-> not really do anything.
-
-Right, common.nbd is included afterwards, so it gets overwritten.
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  tests/qemu-iotests/192     | 4 ++--
+>  tests/qemu-iotests/192.out | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
