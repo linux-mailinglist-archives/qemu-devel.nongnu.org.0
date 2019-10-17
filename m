@@ -2,85 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676ECDB10C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:25:33 +0200 (CEST)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475EBDB0F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:20:34 +0200 (CEST)
+Received: from localhost ([::1]:50742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7ee-0006bp-8y
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:25:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47993)
+	id 1iL7Zo-0006wf-Hc
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL6qS-0000yb-GH
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:33:41 -0400
+ (envelope-from <cohuck@redhat.com>) id 1iL6qu-0001WW-HR
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:34:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL6qR-0005gr-1x
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:33:40 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20863
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iL6qt-0005rJ-DX
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:34:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53078)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL6qQ-0005gO-R3
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:33:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571322817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0DN0b5UKbUanEX/TRvsJ4e4lLM4dURX19s46UiOAC/s=;
- b=P1cEHYG5/cNqFDyFo+GYpQNtwiqx9C1Gd8HIDvop65MP5Xz3qf2/6NhtmPXQ2uskQJBrXD
- u7fDtCsY7QN+ODaVh9hjSkScnZfmLi8sKu0pCd2MGcErJ8QWKSSTBZV3xyPeHG21h+Zp+a
- BKbz8O9/WUe/uKvcw0pTe36m0AI75r8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183--58yd14sN_qooLXVsA5yAQ-1; Thu, 17 Oct 2019 10:33:36 -0400
-Received: by mail-wr1-f72.google.com with SMTP id k4so1066593wru.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:33:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=brJm6Hpaai1XMyXMQedvlncKTY5kxTaja0y7tcfRAeE=;
- b=cgxPpPLN6mOgqJyykIRAmpaxeLAMjVs4YyhxHeWYF/jBZGjFfWUbHJFoQYW17rsNPO
- NhfV9JE5Cj0yTKyGP4gNHDD5MhTAlBh47dOjnxs2otLyDZSHi8XvAHB2fBEmYgjIgFLk
- ozjIcKFaykfW8RQiN7+51GD/lG+VUVUI8xwt0N15UznsqJaJMVKU6yNPrI/5fmkbYGSb
- svLWLEmEIj3LMoYP41YyLhzHpW7LR2cya0WWTub7nDJKz0M9ZUpi3vKICha/PV+ayVgF
- bWXXhXovFDuLTto7D+oKk2NBZsbP0PVTRH7un1+XQG9WmbgJ5xhJnxYe7DlE8oisMOG8
- U6KA==
-X-Gm-Message-State: APjAAAUpBd2oMsdhE1NeJhtRivOythE/n3zN2coICPqu2ttghA5qD7Hp
- hjpqCoFnLvyeS7Il68eLfjq4aM2tgILvAhT5nNrYFiA5OUiUy/1vuM0GVLkj1/fYP85aqjRX9KQ
- EPqdeCb2uPf0ZWTk=
-X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr3485973wrq.227.1571322815109; 
- Thu, 17 Oct 2019 07:33:35 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx4sU+jGXD0TSPzf+6vLvW7Nd6FtdJ31Ji9ZvfM0y+IsJRYySTfUIrpCeUOZXp5gSboXwIv8A==
-X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr3485940wrq.227.1571322814596; 
- Thu, 17 Oct 2019 07:33:34 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id f18sm2386846wrv.38.2019.10.17.07.33.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 07:33:34 -0700 (PDT)
-Subject: Re: [PATCH] hw/timer/arm_mptimer.c: Undo accidental rename of
- arm_mptimer_init()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20191017133331.5901-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b9263235-7786-2e24-943c-32626f00dd75@redhat.com>
-Date: Thu, 17 Oct 2019 16:33:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1iL6qt-0005qx-7Z; Thu, 17 Oct 2019 10:34:07 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C27F8307C64F;
+ Thu, 17 Oct 2019 14:34:05 +0000 (UTC)
+Received: from gondolin (dhcp-192-202.str.redhat.com [10.33.192.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6B4D600C4;
+ Thu, 17 Oct 2019 14:34:04 +0000 (UTC)
+Date: Thu, 17 Oct 2019 16:34:02 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] hw/s390x: Emit a warning if user tried to enable USB
+Message-ID: <20191017163402.43437191.cohuck@redhat.com>
+In-Reply-To: <20191017142123.1236-1-thuth@redhat.com>
+References: <20191017142123.1236-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20191017133331.5901-1-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: -58yd14sN_qooLXVsA5yAQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Thu, 17 Oct 2019 14:34:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,46 +57,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 3:33 PM, Peter Maydell wrote:
-> In commit b01422622b we did an automated rename of the ptimer_init()
-> function to ptimer_init_with_bh().  Unfortunately this caught the
-> unrelated arm_mptimer_init() function.  Undo that accidental
-> renaming.
->=20
-> Fixes: b01422622b7c7293196fdaf1dbb4f495af44ecf9
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Thu, 17 Oct 2019 16:21:23 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+> There is no USB on s390x, so running qemu-system-s390x with
+> "-machine ...,usb=on" is certainly wrong. Emit a warning to make
+> the users aware of their misconfiguration.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   hw/timer/arm_mptimer.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-> index fdf97d1800f..2bf11f788c3 100644
-> --- a/hw/timer/arm_mptimer.c
-> +++ b/hw/timer/arm_mptimer.c
-> @@ -237,7 +237,7 @@ static void arm_mptimer_reset(DeviceState *dev)
->       }
->   }
->  =20
-> -static void arm_mptimer_init_with_bh(Object *obj)
-> +static void arm_mptimer_init(Object *obj)
->   {
->       ARMMPTimerState *s =3D ARM_MPTIMER(obj);
->  =20
-> @@ -319,7 +319,7 @@ static const TypeInfo arm_mptimer_info =3D {
->       .name          =3D TYPE_ARM_MPTIMER,
->       .parent        =3D TYPE_SYS_BUS_DEVICE,
->       .instance_size =3D sizeof(ARMMPTimerState),
-> -    .instance_init =3D arm_mptimer_init_with_bh,
-> +    .instance_init =3D arm_mptimer_init,
->       .class_init    =3D arm_mptimer_class_init,
->   };
->  =20
->=20
+>  After a year or two, we could finally turn this into a hard error,
+>  but I think we should give the users some time to fix their command
+>  lines first, so I'm initially only emitting a warning here.
+> 
+>  hw/s390x/s390-virtio-ccw.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index d3edeef0ad..af8c4c0daf 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -243,6 +243,10 @@ static void ccw_init(MachineState *machine)
+>      VirtualCssBus *css_bus;
+>      DeviceState *dev;
+>  
+> +    if (machine->usb) {
+> +        warn_report("This machine does not support USB");
+
+I'm wondering if this is the only machine type not supporting usb...
+if not, how are others handling it?
+
+The usb parsing code in machine.c does not care if usb is even
+configured (CONFIG_USB). There's other stuff in there like
+igd-passthru, which seems to be x86 specific; probably historical
+reasons?
+
+> +    }
+> +
+>      s390_sclp_init();
+>      /* init memory + setup max page size. Required for the CPU model */
+>      s390_memory_init(machine->ram_size);
 
 
