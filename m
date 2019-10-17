@@ -2,77 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8389DB106
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:23:39 +0200 (CEST)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E180DDB10E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:26:08 +0200 (CEST)
+Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7cm-0003RF-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46941)
+	id 1iL7fD-0007cO-E6
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iL6jo-0001Be-Ij
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:26:49 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL6kv-0002DN-0f
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:27:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iL6jm-0000k1-EV
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:26:47 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34446)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iL6jm-0000jI-6m
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:26:46 -0400
-Received: by mail-pg1-x542.google.com with SMTP id k20so1476751pgi.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0JxDt+sne9dRK2zA48Vm/X13m/uQ5iE/uTgAh+B7Fuw=;
- b=LZ+ywjQVz45oobFxRapTJCi+Z48JiJt1X8+kehz26NlIS7C7BKocLxF2oXn7791Gpb
- Zodwu6DasPmrc11WJuCqjmcCV0Rtz+U2jxo8/2Bsqk6xTV+BOghtnEpzYC4pXzJGmZl5
- 8VWQ0Vw/aCtyBV5WPhdAPpGJd9Eo2NTSMDHTnHwti1VRD7dfZ+sFsUZ4dQ03lkpRayZW
- gXhgmbYVODRgxn+X8UNhYxsCJ+KFBcFHPLZv2yjtuU5qgvM6EyBYzEqwieEvBWYGHXuX
- v9pdUwd7SWb+g9ePctXJZ7BXlvFtrn5gyEoEgo9bTj0hF05iUiiZnEMyRw+wtcVA9ht1
- /hCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0JxDt+sne9dRK2zA48Vm/X13m/uQ5iE/uTgAh+B7Fuw=;
- b=UnemuCdveHZNcBs/FeoMHW/q9TTda8BiESIuSheh70IwV25AJrwJKnVD8XO0sMmO83
- 8/qbR8T379HVjQLJBozJ01nIijZgTMgw9h9mineAdfLclHygepjg7Z0S+1urxI6TwDiz
- xK9oa8l1eJk9kpfdDl6rxusI0PqyEwo65U3up1C1OlbguF1iYC0yvl1YzaifjK8CiP2i
- HjG6oLQ65ghVRebA6OaBqgPPvCGU1eZSD9wOPmYAqU5EUbjaUae6TBrjU0EEgtq77Jcd
- FWq21DqsVhYVYl0JZF5qZFm1M8x3dtvgTUyWs2LGOrbkRHmxibc6DbqColR6UVGsjDu2
- AtOw==
-X-Gm-Message-State: APjAAAX6DDczlvORRsUqMwfXJ9bNqFGe6Pn0MBOibpoKVLK6Y9pzzQGx
- 1JuH/fKb7m7Fy3HKJlNrEdhspQ==
-X-Google-Smtp-Source: APXvYqyUa84jn6J4b4iBUceDSWZt+vwe8/mz0UnZ+euJWPAhiTJxySbG6/w3YGb3Oa/P3xbMDk/ebA==
-X-Received: by 2002:a62:1bd3:: with SMTP id b202mr458464pfb.50.1571322404639; 
- Thu, 17 Oct 2019 07:26:44 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s10sm5732803pgn.9.2019.10.17.07.26.43
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 17 Oct 2019 07:26:43 -0700 (PDT)
-Subject: Re: [PATCH 1/8] hw/timer/puv3_ost.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
- <20191017132905.5604-2-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <thuth@redhat.com>) id 1iL6kt-0001Lu-95
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:27:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57778)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL6kt-0001LY-0P
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:27:55 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 30AE718B20E6
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 14:27:54 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72D98600C8;
+ Thu, 17 Oct 2019 14:27:45 +0000 (UTC)
+Subject: Re: [PATCH v2 6/7] libqos: make the virtio-pci BAR index configurable
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191011085611.4194-1-stefanha@redhat.com>
+ <20191011085611.4194-7-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <9a1b185f-c7a4-3eb0-cb66-8b352e74ff0e@linaro.org>
-Date: Thu, 17 Oct 2019 07:26:42 -0700
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <158c87c0-8773-6f10-6ab8-5b6f047592db@redhat.com>
+Date: Thu, 17 Oct 2019 16:27:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017132905.5604-2-peter.maydell@linaro.org>
+In-Reply-To: <20191011085611.4194-7-stefanha@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Thu, 17 Oct 2019 14:27:54 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,26 +104,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Magnus Damm <magnus.damm@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 6:28 AM, Peter Maydell wrote:
-> Switch the puv3_ost code away from bottom-half based ptimers to the
-> new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
+On 11/10/2019 10.56, Stefan Hajnoczi wrote:
+> The Legacy virtio-pci interface always uses BAR 0.  VIRTIO 1.0 may need
+> to use a different BAR index, so make it configurable.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  hw/timer/puv3_ost.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  tests/libqos/virtio-pci.h | 2 ++
+>  tests/libqos/virtio-pci.c | 3 ++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/libqos/virtio-pci.h b/tests/libqos/virtio-pci.h
+> index b620c30451..f2d53aa377 100644
+> --- a/tests/libqos/virtio-pci.h
+> +++ b/tests/libqos/virtio-pci.h
+> @@ -25,6 +25,8 @@ typedef struct QVirtioPCIDevice {
+>      uint16_t config_msix_entry;
+>      uint64_t config_msix_addr;
+>      uint32_t config_msix_data;
+> +
+> +    uint8_t bar_idx;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I think I'd rather make that an "int" instead of "uint8_t" ... but
+that's just my personal taste, so anyway:
 
-
-r~
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
