@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEBADB218
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:15:42 +0200 (CEST)
-Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41282DB1FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:10:32 +0200 (CEST)
+Received: from localhost ([::1]:52064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8RA-0003Hp-Iq
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
+	id 1iL8MA-0004ZA-JF
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL7S2-00084L-0j
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:12:31 -0400
+ (envelope-from <david@redhat.com>) id 1iL7YL-0006NV-DE
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL7S0-0002ca-9k
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:12:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42676)
+ (envelope-from <david@redhat.com>) id 1iL7YJ-0006Ur-VR
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59492)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7S0-0002bu-1s
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:12:28 -0400
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iL7YJ-0006Ua-MS
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:18:59 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0C995121D
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:12:27 +0000 (UTC)
-Received: by mail-wm1-f69.google.com with SMTP id f63so1196196wma.7
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:12:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6URh6sfF5SY+GjIiIeygv7Pue70RSRcvYor9Y98FLzs=;
- b=fYlcCazbxaPqQ8OLvuPjI+UTCaDSPn2sFjIm5rVNCq/3HxViQgJgejFgwyVl+Ku+Rs
- JXoOfiDWIHHMYszZZw5553c5tWA1iqRcpvgbO+njNGjSgZhix005uNUxLMoha3uNmyWt
- yh1TMlKgb1/e2dwCHAZU5LSLt6zKz4VBH43kMp5PsC36wk+RtSl7+ctznLukH8L72b80
- MYb5RUjBE4R4uHgSRh1HRqxdWbKQAzLZaKLHOM4ne95vSGEgMyENzYrYsflUzU4g0A/y
- pAHsUaeWyw0L5WN2kj0yy7mS2ZC3xCc1zGqXDgV1wgoHJYVckwnxcAf20fAh0djbUNfg
- 6e5Q==
-X-Gm-Message-State: APjAAAVB9x5b3gQk1sTwdC2QcZcHaMucP3CAMzHPU1vK9A3f+2O8o+NO
- riwaG841+QP9RGqNeaUoTyMCrBSLiwihr8V/zXdx3PXOJPHbfcSKYLcZOWZNRwPbHFjieyQiPd1
- XphwODMaNg0cLGkk=
-X-Received: by 2002:a5d:6506:: with SMTP id x6mr3498657wru.366.1571325145508; 
- Thu, 17 Oct 2019 08:12:25 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqySU6DS/RqeRVbBcOi9QO31rcYMYaBXaBuv0ezlv/Z4bgIg5NWR+I6f0LoIGcDuKW0FQqw/eg==
-X-Received: by 2002:a5d:6506:: with SMTP id x6mr3498623wru.366.1571325145314; 
- Thu, 17 Oct 2019 08:12:25 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id a3sm2711161wmj.35.2019.10.17.08.12.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:12:24 -0700 (PDT)
-Subject: Re: [PATCH 04/32] mc146818rtc: Move RTC_ISA_IRQ definition
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-5-philmd@redhat.com>
- <CAL1e-=jOiMe2--=ht0Wgwh0a_At=sDhUzX7EkNU86nPt230a-g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ff0603bb-ffef-ca67-6d0f-9e7a36abaa7f@redhat.com>
-Date: Thu, 17 Oct 2019 17:12:22 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id DE21218CB91B
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:18:58 +0000 (UTC)
+Received: from [10.36.117.42] (ovpn-117-42.ams2.redhat.com [10.36.117.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A30C60BE1;
+ Thu, 17 Oct 2019 15:18:57 +0000 (UTC)
+Subject: Re: Default CPU models on s390x and ppc64
+To: Jiri Denemark <jdenemar@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <dhildenb@redhat.com>, David Gibson <dgibson@redhat.com>
+References: <20191017151606.GA1880840@orkuz.int.mamuti.net>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <82ea23ea-be23-c374-3f10-65d8f6e79432@redhat.com>
+Date: Thu, 17 Oct 2019 17:18:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jOiMe2--=ht0Wgwh0a_At=sDhUzX7EkNU86nPt230a-g@mail.gmail.com>
+In-Reply-To: <20191017151606.GA1880840@orkuz.int.mamuti.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.63]); Thu, 17 Oct 2019 15:18:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -82,105 +61,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 5:02 PM, Aleksandar Markovic wrote:
->=20
->=20
-> On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com=20
-> <mailto:philmd@redhat.com>> wrote:
->=20
->     From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org <mailto:f4bug@am=
-sat.org>>
->=20
->     The ISA default number for the RTC devices is not related to its
->     registers neither. Move this definition to "hw/timer/mc146818rtc.h"=
-.
->=20
->     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     ---
->      =C2=A0include/hw/timer/mc146818rtc.h=C2=A0 =C2=A0 =C2=A0 | 2 ++
->      =C2=A0include/hw/timer/mc146818rtc_regs.h | 2 --
->      =C2=A0tests/rtc-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 1 +
->      =C2=A03 files changed, 3 insertions(+), 2 deletions(-)
->=20
->=20
-> Philippe, do this and related patches clash with your recent=20
-> reorganization of timers/rtcs?
+On 17.10.19 17:16, Jiri Denemark wrote:
+> Hi David and David,
+> 
+> I'm working on libvirt's support [1] for query-machines'
+> default-cpu-type, which is supposed to return the type of the default
+> CPU model that QEMU uses for each machine type. Rather than hard coding
+> the default in libvirt (which we currently do on x86), we ask QEMU for
+> the default CPU model and use it unless a user asks for a specific CPU
+> model explicitly.
+> 
+> We use query-cpu-definitions for translating the default CPU type to the
+> actual CPU model we need to pass to -cpu by looking up the CPU model
+> with matching typename.
+> 
+> However, all this seems to work only with TCG on both s390x and ppc64.
+> The issues I met with KVM on each architecture are described below.
+> 
+> On ppc64 the default CPU type reported by query-machines is
+> power*-powerpc64-cpu, while IIUC QEMU would effectively use -cpu host by
+> default. In fact -cpu power8 is mostly just a fancy alias to -cpu host
+> on a Power8 machine. But QEMU even rewrites typename of the current host
+> CPU model to host-powerpc64-cpu. Which means on a Power8 host the power8
+> CPU model would have typename=host-powerpc64-cpu while the default CPU
+> type would still use power8*-powerpc64-cpu. Thus we may just fail to
+> find any CPU model corresponding to the default CPU model.
+> 
+> And to make it even worse, the default CPU model changes with machine
+> type. E.g., pseries-3.1 uses power8_v2.0-powerpc64-cpu while pseries-4.2
+> uses power9_v2.0-powerpc64-cpu. However, starting QEMU with pseries-4.2
+> machine type and the reported default -cpu power9 fails on any
+> non-Power9 host. That said QEMU just lies about the default CPU model.
+> 
+> So for all combinations of (pseries-3.1, pseries-4.2) machine types and
+> (Power8, Power9) hosts, one will get the following mixed results:
+> 
+> - pseries-3.1 on Power8: no default CPU model will be detected, QEMU
+>    starts fine with it's own default
+> - pseries-4.2 on Power9: same as above
+> - pseries-3.1 on Power9: -cpu power8 (not sure if this works, though)
+> - pseries-4.2 on Power8: -cpu power9, QEMU doesn't start
+> 
+> 
+> This situation on s390x is not so complicated, but not really better.
+> The default CPU is said to be "qemu" for all machine types, which works
+> fine for TCG domains, but it doesn't work on KVM because QEMU complains
+> that some features requested in the CPU model are not available. In
+> other words the "qemu" CPU model is not runnable on KVM. This a bit
+> similar to what happens on x86_64, but QEMU just ignores missing
+> features and starts happily there.
 
-Indeed, but since big boring series take time to get merged, I prefer to=20
-have it reviewed already, then I'll rebase and fix conflicts on the one=20
-that isn't merged.
+The default model under KVM is "host", under TCG it's "qemu". We should 
+not use "qemu" under KVM, although it might work on some setups ...
 
-Thanks for reviewing the other patches!
+Where/how is this default model detected?
 
-> A.
->=20
->     diff --git a/include/hw/timer/mc146818rtc.h
->     b/include/hw/timer/mc146818rtc.h
->     index 0f1c886e5b..17761cf6d9 100644
->     --- a/include/hw/timer/mc146818rtc.h
->     +++ b/include/hw/timer/mc146818rtc.h
->     @@ -39,6 +39,8 @@ typedef struct RTCState {
->      =C2=A0 =C2=A0 =C2=A0QLIST_ENTRY(RTCState) link;
->      =C2=A0} RTCState;
->=20
->     +#define RTC_ISA_IRQ 8
->     +
->      =C2=A0ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq intercept_irq);
->      =C2=A0void rtc_set_memory(ISADevice *dev, int addr, int val);
->     diff --git a/include/hw/timer/mc146818rtc_regs.h
->     b/include/hw/timer/mc146818rtc_regs.h
->     index bfbb57e570..631f71cfd9 100644
->     --- a/include/hw/timer/mc146818rtc_regs.h
->     +++ b/include/hw/timer/mc146818rtc_regs.h
->     @@ -27,8 +27,6 @@
->=20
->      =C2=A0#include "qemu/timer.h"
->=20
->     -#define RTC_ISA_IRQ 8
->     -
->      =C2=A0#define RTC_SECONDS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A00
->      =C2=A0#define RTC_SECONDS_ALARM=C2=A0 =C2=A0 =C2=A0 =C2=A01
->      =C2=A0#define RTC_MINUTES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A02
->     diff --git a/tests/rtc-test.c b/tests/rtc-test.c
->     index 6309b0ef6c..18f895690f 100644
->     --- a/tests/rtc-test.c
->     +++ b/tests/rtc-test.c
->     @@ -15,6 +15,7 @@
->=20
->      =C2=A0#include "libqtest-single.h"
->      =C2=A0#include "qemu/timer.h"
->     +#include "hw/timer/mc146818rtc.h"
->      =C2=A0#include "hw/timer/mc146818rtc_regs.h"
->=20
->      =C2=A0#define UIP_HOLD_LENGTH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0(8 * NANOSECONDS_PER_SECOND / 32768)
->     --=20
->     2.21.0
->=20
->=20
+> 
+> 
+> So what do you suggest we should do? Currently I just restricted all the
+> default CPU model staff to TCG on both s390x and ppc64. So either we can
+> be happy with the current state or we need to come up with a solution
+> that would allow us to enable this even for KVM.
+> 
+> Thanks,
+> Jirka
+> 
+> [1] https://www.redhat.com/archives/libvir-list/2019-October/msg00872.html
+> 
+
+
+-- 
+
+Thanks,
+
+David / dhildenb
 
