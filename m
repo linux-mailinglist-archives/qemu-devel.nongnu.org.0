@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B91DAFBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:19:35 +0200 (CEST)
-Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E92DAFD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:22:30 +0200 (CEST)
+Received: from localhost ([::1]:49148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6cn-0006dR-97
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1iL6fc-0002D8-QN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frasse.iglesias@gmail.com>) id 1iL5vz-0005qb-V0
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:20 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5w9-0005ya-3v
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frasse.iglesias@gmail.com>) id 1iL5vy-0004Oh-VC
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:19 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34524)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5w7-0004RT-2b
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:28 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55272)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
- id 1iL5vy-0004OI-M3
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:18 -0400
-Received: by mail-lf1-x141.google.com with SMTP id r22so1929730lfm.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=IzhQdkcQs9Zcql1/wearVJz6DaXb8ZwMx/iDls1V7Bw=;
- b=mHw2TDzP+e1DFSKiDffLDlSOR+HJCTvfpCTLkdIaQZPdSWrJppV5oOYKiaMYYqiaV8
- 0S3WWOodXqG0jTYnw4LnGIhZ9nG+7q2ZYT2jA7AjxVbKB6twS8gkJDdLiwtcnPNjbquu
- KYJF1yL7jnGcjY37F+VTmnS4w1IKSRCEhoQSu8LyaJfF37rRKtoFVyQ0ApMK8bNSOH1U
- vLQ8RGp2gmJV4NoI5bf08X5Tgz7jTcYRaHm6Jfgb7dQfaVKowwjMYKisf/x4zvD9F6rz
- d9+Pe+iyuKfj+Rbv92r76V83NqrUQn1qBFHOK/apDlv7C6jaED25r+SqPsOlRslCXNvb
- ReaQ==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iL5w5-0004QI-Eu
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:26 -0400
+Received: by mail-wm1-x335.google.com with SMTP id p7so2596395wmp.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ESP6ykQOaykBHMJkZ60Hbuq+EhkqCSyBnm8ZbwocBec=;
+ b=lep+GBIxj8+7UQF/2cwrN4OrMr+pOC3QExg4ODk/n+lupFsdwYmPrYa6+DbeJ01Ib7
+ zwyPOv+ZBSu+WP9EcMyrt8FUuX2ff/TNQHDLhW9Q0YI3EkPHmJsQOD1w0lib0wikohrU
+ 4cXgHDG3oW880C+ZRQtzo2f2vAyxGPBgzn88sc4W5e5vDjl38mPbwaVY9vO5OsMxtrmf
+ p47tlkZj740/MmWdBqZaDUm9sk2Qs3m75lyZqHtvO04JZf0OY7R2rIxEYWLVHTEEQKVq
+ 0V4JidfMiKQ5g6Ztrq6XWKOEqrqDet8oTJXfuIDkqefpxiTX77Om4U573ojHmlMvVrLt
+ dSJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=IzhQdkcQs9Zcql1/wearVJz6DaXb8ZwMx/iDls1V7Bw=;
- b=cXZyPviD2acDzQc8++rPRUMkMB7aZRoFWVkkQY2ZJDzO89KycxqTszf6kJxldfu3hR
- o3zz41V5wdHlt9IMJSfdrgPEqUsp37g/fI5mR9/rlU2IkU6SzU2HPqUoskTpQFaxpxPu
- waMlZ/66FUFxeFfX6U6VIp3Lm6LmjiO7L5dnL/ft0OK/aTT8e+nyax6+b8N8K8dVPTsb
- wg0bk0Tlj5J/J0h/1qm2/vVcIs9GaxioYBfpQA1HpSQIOyH/elmcZvsdk+dwA/9nXWH5
- QwgR9tqqg5W2CReKuO9v5hGj1bRlxMKO7vop9AfApEx5tTssTK8VkF81qVIl5/b0fc02
- NsoA==
-X-Gm-Message-State: APjAAAXQIcN/hDZoPtS/9WKwCSCAe8G9JanInHEorhowff3lHBgceU0L
- 6qax8e9NhIRcIYOZFyaORRg=
-X-Google-Smtp-Source: APXvYqx4yCY2wdCqge4LIdEsSTazNUBEp7eKZ5ZWRMMl7QjtnZza/qG5DhVbK7ksH03fbNJJBfh8Fw==
-X-Received: by 2002:ac2:53b9:: with SMTP id j25mr2401828lfh.151.1571319316996; 
- Thu, 17 Oct 2019 06:35:16 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- a8sm1207945ljf.47.2019.10.17.06.35.16
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 17 Oct 2019 06:35:16 -0700 (PDT)
-Date: Thu, 17 Oct 2019 15:35:14 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [QEMU][PATCH v2] ssi: xilinx_spips: Skip update of cs and fifo
- releated to spips in gqspi
-Message-ID: <20191017133513.ul436a65y5m2vvrm@fralle-msi>
-References: <1571307474-16222-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ESP6ykQOaykBHMJkZ60Hbuq+EhkqCSyBnm8ZbwocBec=;
+ b=eI/7mUQE6DI04gtG7ONAMoopa+flVGDsPBGmcVz5Xu5ccengnhxjA/HEExvh382DQs
+ paJN7hvlN2kjzHxg6XJASZNIm9qEJL9Rj6zXZid+1K3m2MsHAP/tvlpdQSkCMGT0JhQd
+ vg7FAmlnNPm7oe2t5pmE6gLE4ydF0kbJwHppMIN4ICPXbZS+/6YzVS/lIjufKfvzVm9I
+ h2TWyBmy0hafXywhM1NlopKhv8YCKfhLG+g9qsAt7/iGEqMnOOIDlwSmNMINZW3unbZO
+ I7MQVR211Dc0iY5NMrOb10TjOaqIvy0fPqAevqEnt4j26lUgqXyMDHGNeYX6XIZvt3P9
+ ZV6A==
+X-Gm-Message-State: APjAAAWrUw4oXlahAZb3BLJCO1u7uIRqevV0wTKFD6hZDBTLQeaD66pm
+ FEOoHKBbMNO6pu3xsOdUfaTMZw==
+X-Google-Smtp-Source: APXvYqwiGHiQ7dIAUEPXKONXnvsVkr7cB4Q4oz1UlCPXyyqVTJ28YmMwk27gn7h0w4afOUmFhky1Ew==
+X-Received: by 2002:a05:600c:20ca:: with SMTP id
+ y10mr3140261wmm.168.1571319324191; 
+ Thu, 17 Oct 2019 06:35:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s12sm2188915wra.82.2019.10.17.06.35.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 06:35:21 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0C3BC1FFAA;
+ Thu, 17 Oct 2019 14:16:18 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v6 22/54] translator: add translator_ld{ub,sw,uw,l,q}
+Date: Thu, 17 Oct 2019 14:15:43 +0100
+Message-Id: <20191017131615.19660-23-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
+References: <20191017131615.19660-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1571307474-16222-1-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::141
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,57 +82,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org
+Cc: robert.foley@futurewei.com,
+ Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sai,
+From: "Emilio G. Cota" <cota@braap.org>
 
-On [2019 Oct 17] Thu 15:47:54, Sai Pavan Boddu wrote:
-> GQSPI handles chip selects and fifos in a different way compared to
-> spips. So skip update of cs and fifos related to spips in gqspi mode.
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
-> Changes for V2:
->     Just skip update of spips cs and fifos
->     Update commit message accordingly
-> 
->  hw/ssi/xilinx_spips.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-> index a309c71..27154b0 100644
-> --- a/hw/ssi/xilinx_spips.c
-> +++ b/hw/ssi/xilinx_spips.c
-> @@ -1022,6 +1022,13 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
->      }
->      s->regs[addr] = (s->regs[addr] & ~mask) | (value & mask);
->  no_reg_update:
-> +    /* In GQSPI mode skip update of CS and fifo's related to spips */
-> +    if (object_dynamic_cast(OBJECT(s), TYPE_XLNX_ZYNQMP_QSPIPS)) {
-> +        XlnxZynqMPQSPIPS *ss = XLNX_ZYNQMP_QSPIPS(s);
-> +        if (ARRAY_FIELD_EX32(ss->regs, GQSPI_SELECT, GENERIC_QSPI_EN)) {
-> +            return;
-> +        }
-> +    }
+We don't bother with replicating the fast path (tlb_hit) of the old
+cpu_ldst helpers as it has no measurable effect on performance. This
+probably indicates we should consider flattening the whole set of
+helpers but that is out of scope for this change.
 
-Above corrects the issue for the zynqmp but not for the other two models
-(below functions shouldn't be called when writing the mentioned config
-regs for them either), would it be ok for you to expand to the switch
-cases you had in v1 (into the switch in this function and return after
-updating the reg values)? (the correction will then spawn all three
-models)
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+[AJB: directly plumb into softmmu/user helpers]
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v4
+  - don't use the cpu_ldst helpers, plumb directly into the lower
+  level
+  - mark the CODE_ACCESS/SOFTMMU_CODE_ACCESS as deprecated
+v5
+  - expand commit message w.r.t. fast path.
+v6
+  - add do {} while (0)
+  - expand name/uname instead of adding aliases to cmmu/ldp
+  - use signed helper for user-mode
+---
+ include/exec/cpu_ldst.h   | 11 +++++++
+ include/exec/translator.h | 62 ++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 72 insertions(+), 1 deletion(-)
 
-Best regards,
-Francisco Iglesias
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 9151fdb042..fd499f7e2f 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -129,6 +129,11 @@ static inline void clear_helper_retaddr(void)
+ #include "exec/cpu_ldst_useronly_template.h"
+ #undef MEMSUFFIX
+ 
++/*
++ * Code access is deprecated in favour of translator_ld* functions
++ * (see translator.h). However there are still users that need to
++ * converted so for now these stay.
++ */
+ #define MEMSUFFIX _code
+ #define CODE_ACCESS
+ #define DATA_SIZE 1
+@@ -427,6 +432,12 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+ #undef CPU_MMU_INDEX
+ #undef MEMSUFFIX
+ 
++/*
++ * Code access is deprecated in favour of translator_ld* functions
++ * (see translator.h). However there are still users that need to
++ * converted so for now these stay.
++ */
++
+ #define CPU_MMU_INDEX (cpu_mmu_index(env, true))
+ #define MEMSUFFIX _code
+ #define SOFTMMU_CODE_ACCESS
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 180c51d509..f65d6b1a95 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -19,7 +19,10 @@
+  */
+ 
+ 
++#include "qemu/bswap.h"
+ #include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "exec/plugin-gen.h"
+ #include "tcg/tcg.h"
+ 
+ 
+@@ -142,4 +145,61 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+ 
+ void translator_loop_temp_check(DisasContextBase *db);
+ 
+-#endif /* EXEC__TRANSLATOR_H */
++/*
++ * Translator Load Functions
++ *
++ * These are intended to replace the old cpu_ld*_code functions and
++ * are mandatory for front-ends that have been migrated to the common
++ * translator_loop. These functions are only intended to be called
++ * from the translation stage and should not be called from helper
++ * functions. Those functions should be converted to encode the
++ * relevant information at translation time.
++ */
++
++#ifdef CONFIG_USER_ONLY
++
++#define DO_LOAD(type, name, uname, shift)        \
++    do {                                         \
++        set_helper_retaddr(1);                   \
++        ret = uname ## _p(g2h(pc));              \
++        clear_helper_retaddr();                  \
++    } while (0)
++
++#else
++
++#define DO_LOAD(type, name, uname, shift)                   \
++    do {                                                    \
++        int mmu_idx = cpu_mmu_index(env, true);             \
++        TCGMemOpIdx oi = make_memop_idx(shift, mmu_idx);    \
++        ret = helper_ret_ ## name ## _cmmu(env, pc, oi, 0); \
++    } while (0)
++
++#endif
++
++#define GEN_TRANSLATOR_LD(fullname, name, uname, type, shift, swap_fn)  \
++    static inline type                                                  \
++    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
++    {                                                                   \
++        type ret;                                                       \
++        DO_LOAD(type, name, uname, shift);                              \
++                                                                        \
++        if (do_swap) {                                                  \
++            ret = swap_fn(ret);                                         \
++        }                                                               \
++        plugin_insn_append(&ret, sizeof(ret));                          \
++        return ret;                                                     \
++    }                                                                   \
++                                                                        \
++    static inline type fullname(CPUArchState *env, abi_ptr pc)          \
++    {                                                                   \
++        return fullname ## _swap(env, pc, false);                       \
++    }
++
++GEN_TRANSLATOR_LD(translator_ldub, ldb, ldub, uint8_t, 0, /* no swap */ )
++GEN_TRANSLATOR_LD(translator_ldsw, ldw, ldsw, int16_t, 1, bswap16)
++GEN_TRANSLATOR_LD(translator_lduw, ldw, lduw, uint16_t, 1, bswap16)
++GEN_TRANSLATOR_LD(translator_ldl, ldl, ldl, uint32_t, 2, bswap32)
++GEN_TRANSLATOR_LD(translator_ldq, ldq, ldq, uint64_t, 3, bswap64)
++#undef GEN_TRANSLATOR_LD
++
++#endif  /* EXEC__TRANSLATOR_H */
+-- 
+2.20.1
 
->      xilinx_spips_update_cs_lines(s);
->      xilinx_spips_check_flush(s);
->      xilinx_spips_update_cs_lines(s);
-> -- 
-> 2.7.4
-> 
-> 
 
