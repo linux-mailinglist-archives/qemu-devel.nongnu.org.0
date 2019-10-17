@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62849DB966
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 23:59:34 +0200 (CEST)
-Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A50DB96B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 00:00:42 +0200 (CEST)
+Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLDnw-0002xq-Uq
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 17:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33027)
+	id 1iLDp2-00048P-VG
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 18:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iLDk9-0007m7-Cj
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:38 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iLDjS-0006mW-VN
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:54:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iLDk7-0002jM-Ub
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51794)
+ (envelope-from <jsnow@redhat.com>) id 1iLDjR-0002H3-RW
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:54:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51570)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iLDk5-0002hT-9o; Thu, 17 Oct 2019 17:55:33 -0400
+ id 1iLDjP-0002EF-LY; Thu, 17 Oct 2019 17:54:51 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6284FC0495A3;
- Thu, 17 Oct 2019 21:55:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CEB2D51EF6;
+ Thu, 17 Oct 2019 21:54:50 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-173.bos.redhat.com [10.18.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0980A5D9CA;
- Thu, 17 Oct 2019 21:55:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75DBC5D9DC;
+ Thu, 17 Oct 2019 21:54:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, jsnow@redhat.com,
  qemu-devel@nongnu.org
-Subject: [PULL v3 18/19] MAINTAINERS: Add Vladimir as a reviewer for bitmaps
-Date: Thu, 17 Oct 2019 17:54:35 -0400
-Message-Id: <20191017215436.14252-19-jsnow@redhat.com>
+Subject: [PULL v3 02/19] block: move bdrv_can_store_new_dirty_bitmap to
+ block/dirty-bitmap.c
+Date: Thu, 17 Oct 2019 17:54:19 -0400
+Message-Id: <20191017215436.14252-3-jsnow@redhat.com>
 In-Reply-To: <20191017215436.14252-1-jsnow@redhat.com>
 References: <20191017215436.14252-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Thu, 17 Oct 2019 21:55:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Thu, 17 Oct 2019 21:54:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -65,42 +66,89 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I already try to make sure all bitmaps patches have been reviewed by both
-Red Hat and Virtuozzo anyway, so this formalizes the arrangement.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Fam meanwhile is no longer as active, so I am removing him as a co-mainta=
-iner
-simply to reflect the current practice.
+block/dirty-bitmap.c seems to be more appropriate for it and
+bdrv_remove_persistent_dirty_bitmap already in it.
 
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-id: 20190920082543.23444-2-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20191005194448.16629-2-jsnow@redhat.com
 ---
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ block.c              | 22 ----------------------
+ block/dirty-bitmap.c | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe4dc51b08..250ce8e7a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1816,8 +1816,8 @@ F: qapi/transaction.json
- T: git https://repo.or.cz/qemu/armbru.git block-next
+diff --git a/block.c b/block.c
+index 1946fc6f57..d19a4781a3 100644
+--- a/block.c
++++ b/block.c
+@@ -6582,25 +6582,3 @@ void bdrv_del_child(BlockDriverState *parent_bs, B=
+drvChild *child, Error **errp)
 =20
- Dirty Bitmaps
--M: Fam Zheng <fam@euphon.net>
- M: John Snow <jsnow@redhat.com>
-+R: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
- L: qemu-block@nongnu.org
- S: Supported
- F: util/hbitmap.c
-@@ -1826,7 +1826,6 @@ F: include/qemu/hbitmap.h
- F: include/block/dirty-bitmap.h
- F: tests/test-hbitmap.c
- F: docs/interop/bitmaps.rst
--T: git https://github.com/famz/qemu.git bitmaps
- T: git https://github.com/jnsnow/qemu.git bitmaps
+     parent_bs->drv->bdrv_del_child(parent_bs, child, errp);
+ }
+-
+-bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *n=
+ame,
+-                                     uint32_t granularity, Error **errp)
+-{
+-    BlockDriver *drv =3D bs->drv;
+-
+-    if (!drv) {
+-        error_setg_errno(errp, ENOMEDIUM,
+-                         "Can't store persistent bitmaps to %s",
+-                         bdrv_get_device_or_node_name(bs));
+-        return false;
+-    }
+-
+-    if (!drv->bdrv_can_store_new_dirty_bitmap) {
+-        error_setg_errno(errp, ENOTSUP,
+-                         "Can't store persistent bitmaps to %s",
+-                         bdrv_get_device_or_node_name(bs));
+-        return false;
+-    }
+-
+-    return drv->bdrv_can_store_new_dirty_bitmap(bs, name, granularity, e=
+rrp);
+-}
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 134e0c9a0c..8f42015db9 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -464,6 +464,28 @@ void bdrv_remove_persistent_dirty_bitmap(BlockDriver=
+State *bs,
+     }
+ }
 =20
- Character device backends
++bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *n=
+ame,
++                                     uint32_t granularity, Error **errp)
++{
++    BlockDriver *drv =3D bs->drv;
++
++    if (!drv) {
++        error_setg_errno(errp, ENOMEDIUM,
++                         "Can't store persistent bitmaps to %s",
++                         bdrv_get_device_or_node_name(bs));
++        return false;
++    }
++
++    if (!drv->bdrv_can_store_new_dirty_bitmap) {
++        error_setg_errno(errp, ENOTSUP,
++                         "Can't store persistent bitmaps to %s",
++                         bdrv_get_device_or_node_name(bs));
++        return false;
++    }
++
++    return drv->bdrv_can_store_new_dirty_bitmap(bs, name, granularity, e=
+rrp);
++}
++
+ void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
+ {
+     bdrv_dirty_bitmap_lock(bitmap);
 --=20
 2.21.0
 
