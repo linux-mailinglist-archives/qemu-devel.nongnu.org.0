@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6802CDB34E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:31:05 +0200 (CEST)
-Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F199DB35B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:35:07 +0200 (CEST)
+Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9c8-0001bq-6K
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:31:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37772)
+	id 1iL9g2-0006Nk-KY
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL8Wg-00038Z-35
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:21:23 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL8qq-0003cS-1m
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:42:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL8We-0005oz-Pc
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:21:21 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39625)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL8ql-00044e-Rx
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:42:09 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41013)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL8We-0005oS-KJ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:21:20 -0400
-Received: by mail-ot1-x343.google.com with SMTP id s22so2397561otr.6
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=mdvV1MJ9vbmguRopOY7RzixX0dFrk6bLj+zB/Mf7OlI=;
- b=TiyN4x/mlQS1ut3OscYEOuG2MuDtmT0kkDZA+izAjyCOn84oJ37p5gznUdNBWWECXg
- wQIG2baUdh1Zg2q7TJBLTw1f49iyN07vRUXIbvC9RIfTrHRRC/u87cY4jw3pSObAyybI
- FRxAhH+QUxyT0wBccisPlvaBgU+aPrvC4+LUICMHT93jmS1MlY6wnUReN4WE3QMRj21x
- pq6N2kWr13GV5O6+UyjBVuWFi9AEKodB7n2h21TfKf+DpZxGchobNdWlKXp14+6BmIZJ
- LNzrz9gWSBU9CcVif2O3VUUcDtPU4dO7t8yiTGx7HTCUpIB2cMJFUA6siYIYS/IxiJ+q
- xEWw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iL8qk-000436-9V
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:42:07 -0400
+Received: by mail-ot1-x336.google.com with SMTP id g13so2445251otp.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ImJuusDGi4eR4FFrZ4o4A9dfQALm/qiGsIeX8RySX70=;
+ b=P1Jc7F57aRloPO67hH8E8EcT5KvpOLHFeGTZ4tFmjUHUCntCs4TXleKuu2TAYXphK6
+ Ngfv2yq4Co0HFssej1IVGUV7JhUOqhkFHwjBMbfqFivDTSnwX995vuRWu70krOlTAaTl
+ Zk4utvitS1AOo7dHi+8YApsiqFoJHqp6huUxgGDtybbeYNaf4p+zpo/UXOYE2sVhLUvM
+ CEpBYnP79yKr5v8UY6xpBDwcrYDLm9WSRfypFl7lGLJC/kA3RsYix4TZmkZw1L8edE0M
+ jB75Nm96xLfQPekLNHruMl7qVUGtSGWyVLUXSQsMcW8OfsTmjdVD5q7Ba2QqD1Biw2JS
+ v6hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=mdvV1MJ9vbmguRopOY7RzixX0dFrk6bLj+zB/Mf7OlI=;
- b=U+7KL3LmapUDBMJeVApfYr51Wo5v2O80OHmq4arO8t9bjITTwY7/LvVzthRseb5FuZ
- +p+Lx+Edr0EvOub8P5Y2Hcr2ded/o5+2nIyyyBdzyIzRghHOmsIwMsvO3c/XKbNrjpei
- Rny8yQOhll5/x7ZosxWKFpWka7AJHXcDZPH6TK26OxQ3dtfIUv9Sh99/BWxjUvfs8xOk
- uC8qra0K2UByL+N74FBBoHG+dsf8ZkDrQCFIDLXNjm6ETuZtmntZq8AFkUfM45NU9EQp
- H8k7ywjbmPv9UUEOkhH1SU4nO8S5X2/oX5OaQn1cl73b49+07hyfOmNGPLrkLsEweqLQ
- gODg==
-X-Gm-Message-State: APjAAAWYEwr330m5qooI8ti2GD6JVGc247uQgAOShT0SqVDKsg4sxWZN
- YB+V3b858zeFFv3r3O0Wod4kPUHm0yITgAzqLzI=
-X-Google-Smtp-Source: APXvYqxwl8OjwvMtj3/L18E83XJdrk+Ga7+vS3bhMSv/uc58naNDuhYqfQhgQIfEVzEDQ142A368k0axqE7nSwDGGeQ=
-X-Received: by 2002:a05:6830:452:: with SMTP id
- d18mr3850352otc.295.1571329279681; 
- Thu, 17 Oct 2019 09:21:19 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ImJuusDGi4eR4FFrZ4o4A9dfQALm/qiGsIeX8RySX70=;
+ b=QzqxxsIjAVUTcIUuYjeZ4G4GZ0U+1LH/59r9KeI7GRtMId3ukWtnXGaEaz/ptTxzSI
+ 68v6g+k2Xkph5P1ABbmMhRTZdmfpapqoaK4ch0gAFezX6oR1QdIv6WGREcZG1LjKWVTu
+ mXEPxUwJ0oWKGma7zovrp/rvyadCnH29Y7QIUR0gGQ1evCDwHKqSLUgmro4hNxozipcx
+ 3IcX2+9C9emmpSkIpfEq62UM8FzEO51+zHQ66CCAVo83yZMAZO9Gio604OWyyvyoriMC
+ Lr6v/s72Ai9Kb5iYcmKLmyLqQg1GpKTXJHdplWMHlIcL2UJ8YNZr82bbhbXzO6CiUwCi
+ pxzw==
+X-Gm-Message-State: APjAAAXNT8blZ9UCIOk2KuAL33CqTpgXnBVYxZ0ekGuDs39/7mtOL4Pu
+ EDsrG3eUEFSWUVRbgvJj6zytuYA9Ifr4wAtjQ0h/Sv9Vcj0=
+X-Google-Smtp-Source: APXvYqzHl6wyFTieJCowF9JuU1i4ho2TZoVn96b588uhp0aH4zJw78zcUrWqMqf6x5SuV+0D4zyZGCqDiQ0aBwD/6qw=
+X-Received: by 2002:a05:6830:ca:: with SMTP id
+ x10mr3638814oto.221.1571330521865; 
+ Thu, 17 Oct 2019 09:42:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 09:21:19
- -0700 (PDT)
-In-Reply-To: <8bcf9189-efbe-1575-7e57-fd7bdd202547@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-22-philmd@redhat.com>
- <CAL1e-=hLUDDqFiV8W1f2PFGYJMomvmZUXmjA55X7WEEYMykjHQ@mail.gmail.com>
- <8bcf9189-efbe-1575-7e57-fd7bdd202547@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 18:21:19 +0200
-Message-ID: <CAL1e-=g4nA1iCWYgoCSK4v53r+_dywkbf8_jfEVShrYyDDxZgg@mail.gmail.com>
-Subject: Re: [PATCH 21/32] hw/i386/pc: Reduce gsi_handler scope
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000008a8c0005951d9bf8"
+References: <CAFEAcA8fwM03PXzkMvLdOWAL0R1Mq8hLmt8O-+NFSri6oHun1w@mail.gmail.com>
+ <010553d9-9dc6-907f-fc74-4cd5614f4a0e@redhat.com>
+In-Reply-To: <010553d9-9dc6-907f-fc74-4cd5614f4a0e@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Oct 2019 17:41:50 +0100
+Message-ID: <CAFEAcA89CTV2jfv5chWH3fdCFS55CqMjqQ4MwFGwFumaqig6RA@mail.gmail.com>
+Subject: Re: iotest failure -- test possibly not using sufficiently unique
+ temp filename?
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,167 +76,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008a8c0005951d9bf8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thursday, October 17, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om>
-wrote:
-
-> On 10/17/19 5:16 PM, Aleksandar Markovic wrote:
+On Fri, 27 Sep 2019 at 17:44, Max Reitz <mreitz@redhat.com> wrote:
 >
->> On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com
->> <mailto:philmd@redhat.com>> wrote:
->>
->>     pc_gsi_create() is the single function that uses gsi_handler.
->>     Make it a static variable.
->>
->>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
->>     <mailto:philmd@redhat.com>>
->>     ---
->>       hw/i386/pc.c         | 2 +-
->>       include/hw/i386/pc.h | 2 --
->>       2 files changed, 1 insertion(+), 3 deletions(-)
->>
->>     diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->>     index a7597c6c44..59de0c8a1f 100644
->>     --- a/hw/i386/pc.c
->>     +++ b/hw/i386/pc.c
->>     @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
->>       };
->>       const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
->>
->>     -void gsi_handler(void *opaque, int n, int level)
->>     +static void gsi_handler(void *opaque, int n, int level)
->>       {
->>           GSIState *s =3D opaque;
->>
->>     diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->>     index d0c6b9d469..75b44e156c 100644
->>     --- a/include/hw/i386/pc.h
->>     +++ b/include/hw/i386/pc.h
->>     @@ -172,8 +172,6 @@ typedef struct GSIState {
->>           qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
->>       } GSIState;
->>
->>     -void gsi_handler(void *opaque, int n, int level);
->>     -
->>       GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
->>
->>
->> Philippe, this 2-line deletion seems not to belong to this patch. If
->> true, please place it in another or a separate patch.
->>
+> On 27.09.19 18:39, Peter Maydell wrote:
+> > Hi; I just saw this iotest failure (on an s390x box, as it happens):
+> >
+> >   TEST    iotest-qcow2: 130 [fail]
+> > QEMU          --
+> > "/home/linux1/qemu/build/all/tests/qemu-iotests/../../s390x-softmmu/qem=
+u-system-s390x"
+> > -nodefaults -display none -machine accel=3Dqtest
+> > QEMU_IMG      -- "/home/linux1/qemu/build/all/tests/qemu-iotests/../../=
+qemu-img"
+> > QEMU_IO       --
+> > "/home/linux1/qemu/build/all/tests/qemu-iotests/../../qemu-io"
+> > --cache writeback -f qcow2
+> > QEMU_NBD      -- "/home/linux1/qemu/build/all/tests/qemu-iotests/../../=
+qemu-nbd"
+> > IMGFMT        -- qcow2 (compat=3D1.1)
+> > IMGPROTO      -- file
+> > PLATFORM      -- Linux/s390x lxub05 4.15.0-58-generic
+> > TEST_DIR      -- /home/linux1/qemu/build/all/tests/qemu-iotests/scratch
+> > SOCKET_SCM_HELPER --
+> > /home/linux1/qemu/build/all/tests/qemu-iotests/socket_scm_helper
+> >
+> > --- /home/linux1/qemu/tests/qemu-iotests/130.out        2019-05-10
+> > 12:27:16.948075733 -0400
+> > +++ /home/linux1/qemu/build/all/tests/qemu-iotests/130.out.bad
+> > 2019-09-27 12:01:23.649722655 -0400
+> > @@ -18,20 +18,22 @@
+> >  QEMU X.Y.Z monitor - type 'help' for more information
+> >  (qemu) commit testdisk
+> >  (qemu)
+> > -image: TEST_DIR/t.IMGFMT
+> > -file format: IMGFMT
+> > -virtual size: 64 MiB (67108864 bytes)
+> > -backing file: TEST_DIR/t.IMGFMT.orig
+> > -backing file format: raw
+> > +qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared "wr=
+ite" lock
+> > +Is another process using the image [TEST_DIR/t.IMGFMT]?
+> >
+> >  =3D=3D=3D Marking image dirty (lazy refcounts) =3D=3D=3D
+> >
+> > +qemu-img: TEST_DIR/t.IMGFMT: Failed to get "write" lock
+> > +Is another process using the image [TEST_DIR/t.IMGFMT]?
+> >  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
+> > -wrote 4096/4096 bytes at offset 0
+> > -4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> > +qemu-io: can't open device
+> > /home/linux1/qemu/build/all/tests/qemu-iotests/scratch/t.qcow2: Failed
+> > to get "write" lock
+> > +Is another process using the image
+> > [/home/linux1/qemu/build/all/tests/qemu-iotests/scratch/t.qcow2]?
+> > +no file open, try 'help open'
+> >  image: TEST_DIR/t.IMGFMT
+> >  file format: IMGFMT
+> >  virtual size: 64 MiB (67108864 bytes)
+> > +backing file: TEST_DIR/t.IMGFMT.orig
+> > +backing file format: raw
+> >  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
+> > backing_file=3DTEST_DIR/t.IMGFMT.orig backing_fmt=3Draw
+> >  wrote 4096/4096 bytes at offset 0
+> >  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> >
+> >
+> >
+> > This looks suspiciously like the test isn't using a unique
+> > filename for its disk image: "qemu-iotests/scratch/t.qcow2"
+> > in the build directory, and so perhaps it has collided with
+> > another iotest ?
+> >
+> > If we run 'make check' with a -j<something> option do the
+> > iotests all get run serially anyway, or do they run in
+> > parallel against each other ?
 >
-> It does, this is the point of the change, make it static and remove its
-> declaration :)
+> As far as I know, all iotests are executed serially.  Anything else
+> would not work with the same scratch directory.
 >
+> The only thing I suspect is that some tool has been accidentally left
+> running by some previous test that still accesses its own image.  But I
+> don=E2=80=99t know.
 
+Just saw this one again with the same iotest 130 on the same
+s390 box; only difference is that the log this time around
+has the first part where qemu-img fails, but not the second part
+where qemu-io fails:
 
-OK, I see.
+--- /home/linux1/qemu/tests/qemu-iotests/130.out        2019-05-10
+12:27:16.948075733 -0400
++++ /home/linux1/qemu/build/all/tests/qemu-iotests/130.out.bad
+2019-10-17 11:56:43.450750873 -0400
+@@ -18,11 +18,8 @@
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) commit testdisk
+ (qemu)
+-image: TEST_DIR/t.IMGFMT
+-file format: IMGFMT
+-virtual size: 64 MiB (67108864 bytes)
+-backing file: TEST_DIR/t.IMGFMT.orig
+-backing file format: raw
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared "write"=
+ lock
++Is another process using the image [TEST_DIR/t.IMGFMT]?
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+ =3D=3D=3D Marking image dirty (lazy refcounts) =3D=3D=3D
 
---0000000000008a8c0005951d9bf8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On the host machine there don't seem to be any stray
+processes which might have held the file open, and
+indeed the file doesn't exist at all, so it got removed
+by some cleanup or other.
 
-<br><br>On Thursday, October 17, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a h=
-ref=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On 10/17/19 5:16 PM, Aleksandar Markovic wrote:<br=
->
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"ma=
-ilto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a> &lt;mailto:=
-<a href=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a=
->&gt;&gt; wrote:<br>
-<br>
-=C2=A0 =C2=A0 pc_gsi_create() is the single function that uses gsi_handler.=
-<br>
-=C2=A0 =C2=A0 Make it a static variable.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mai=
-lto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a><br>
-=C2=A0 =C2=A0 &lt;mailto:<a href=3D"mailto:philmd@redhat.com" target=3D"_bl=
-ank">philmd@redhat.com</a>&gt;&gt;<br>
-=C2=A0 =C2=A0 ---<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0hw/i386/pc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2=
- +-<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/i386/pc.h | 2 --<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A02 files changed, 1 insertion(+), 3 deletions(-)<b=
-r>
-<br>
-=C2=A0 =C2=A0 diff --git a/hw/i386/pc.c b/hw/i386/pc.c<br>
-=C2=A0 =C2=A0 index a7597c6c44..59de0c8a1f 100644<br>
-=C2=A0 =C2=A0 --- a/hw/i386/pc.c<br>
-=C2=A0 =C2=A0 +++ b/hw/i386/pc.c<br>
-=C2=A0 =C2=A0 @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0};<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(p=
-c_compat_1_4);<br>
-<br>
-=C2=A0 =C2=A0 -void gsi_handler(void *opaque, int n, int level)<br>
-=C2=A0 =C2=A0 +static void gsi_handler(void *opaque, int n, int level)<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0GSIState *s =3D opaque;<br>
-<br>
-=C2=A0 =C2=A0 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
-=C2=A0 =C2=A0 index d0c6b9d469..75b44e156c 100644<br>
-=C2=A0 =C2=A0 --- a/include/hw/i386/pc.h<br>
-=C2=A0 =C2=A0 +++ b/include/hw/i386/pc.h<br>
-=C2=A0 =C2=A0 @@ -172,8 +172,6 @@ typedef struct GSIState {<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0qemu_irq ioapic_irq[IOAPIC_NUM_PINS=
-];<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0} GSIState;<br>
-<br>
-=C2=A0 =C2=A0 -void gsi_handler(void *opaque, int n, int level);<br>
-=C2=A0 =C2=A0 -<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0GSIState *pc_gsi_create(qemu_irq **irqs, bool pci=
-_enabled);<br>
-<br>
-<br>
-Philippe, this 2-line deletion seems not to belong to this patch. If true, =
-please place it in another or a separate patch.<br>
-</blockquote>
-<br>
-It does, this is the point of the change, make it static and remove its dec=
-laration :)<br>
-</blockquote><div><br></div><div><br></div><div>OK, I see.</div><div><div i=
-d=3D"cvcmsg_16dbfeb33c93ed97" class=3D"yh  " style=3D"border-top-left-radiu=
-s:0px;border-top-right-radius:0px;margin-bottom:11px;overflow:visible"><div=
- class=3D"Vh" id=3D"cvcfullmsg_16dbfeb33c93ed97"><div id=3D"cvcmsgbod_16dbf=
-eb33c93ed97" class=3D"aj"><div class=3D"Ni"><div class=3D"ni pi " dir=3D"lt=
-r"><p dir=3D"ltr">Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:am=
-arkovic@wavecomp.com" target=3D"_blank">amarkovic@wavecomp.com</a>&gt;</p><=
-div style=3D"clear:both"></div></div><div style=3D"clear:both"></div><div><=
-div class=3D"M j T b hc Aj S" tabindex=3D"0"><div class=3D"V j hf"></div></=
-div></div><div style=3D"clear:both"></div></div></div></div></div><div id=
-=3D"cvcmsg_16dbfecd588da1f7" class=3D"yh" style=3D"margin-bottom:11px"><div=
- class=3D"Vh" id=3D"cvcfullmsg_16dbfecd588da1f7"><div class=3D"M j Zi Mi  "=
- tabindex=3D"0"><div id=3D"cvcreply_16dbfecd588da1f7" class=3D"M j T b hc x=
-h S  " tabindex=3D"0"><div class=3D"V j td"></div></div></div></div></div><=
-/div><div>=C2=A0</div>
-
---0000000000008a8c0005951d9bf8--
+thanks
+-- PMM
 
