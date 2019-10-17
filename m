@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B59DADDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:07:34 +0200 (CEST)
-Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1323FDADEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:09:54 +0200 (CEST)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5V6-0003z6-IB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59868)
+	id 1iL5XN-0007Tz-1j
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iL5S1-0000aI-D6
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:26 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iL5S0-0000ZQ-Ra
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iL5S0-0008OY-D3
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41118)
+ (envelope-from <kwolf@redhat.com>) id 1iL5Rz-0008Nu-Dk
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39872)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iL5Ru-0008Ks-EZ; Thu, 17 Oct 2019 09:04:14 -0400
+ id 1iL5Rw-0008Lb-AL; Thu, 17 Oct 2019 09:04:16 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B3D9F308429D;
- Thu, 17 Oct 2019 13:04:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 89F7C19D04A;
+ Thu, 17 Oct 2019 13:04:15 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-24.ams2.redhat.com
  [10.36.117.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 342B51001B11;
- Thu, 17 Oct 2019 13:04:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 097521001B11;
+ Thu, 17 Oct 2019 13:04:13 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 04/18] stubs: Add blk_by_qdev_id()
-Date: Thu, 17 Oct 2019 15:01:50 +0200
-Message-Id: <20191017130204.16131-5-kwolf@redhat.com>
+Subject: [RFC PATCH 05/18] qemu-storage-daemon: Add --blockdev option
+Date: Thu, 17 Oct 2019 15:01:51 +0200
+Message-Id: <20191017130204.16131-6-kwolf@redhat.com>
 In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
 References: <20191017130204.16131-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 17 Oct 2019 13:04:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 17 Oct 2019 13:04:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,44 +61,163 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-blockdev.c uses the blk_by_qdev_id() function, so before we can use the
-file in tools (i.e. outside of the system emulator), we need to add a
-stub for it. The function always returns an error.
+This adds a --blockdev option to the storage daemon that works the same
+as the -blockdev option of the system emulator.
+
+In order to be able to link with blockdev.o, we also need to change
+stream.o from common-obj to block-obj, which is where all other block
+jobs already are.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- stubs/blk-by-qdev-id.c | 9 +++++++++
- stubs/Makefile.objs    | 1 +
- 2 files changed, 10 insertions(+)
- create mode 100644 stubs/blk-by-qdev-id.c
+ qemu-storage-daemon.c | 29 +++++++++++++++++++++++++++++
+ Makefile              |  5 ++++-
+ Makefile.objs         |  7 +++++++
+ block/Makefile.objs   |  2 +-
+ 4 files changed, 41 insertions(+), 2 deletions(-)
 
-diff --git a/stubs/blk-by-qdev-id.c b/stubs/blk-by-qdev-id.c
-new file mode 100644
-index 0000000000..0b6160fefa
---- /dev/null
-+++ b/stubs/blk-by-qdev-id.c
-@@ -0,0 +1,9 @@
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "sysemu/block-backend.h"
+diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
+index 48d6af43a6..904e3c3a46 100644
+--- a/qemu-storage-daemon.c
++++ b/qemu-storage-daemon.c
+@@ -28,6 +28,10 @@
+ #include "crypto/init.h"
+=20
+ #include "qapi/error.h"
++#include "qapi/qapi-visit-block-core.h"
++#include "qapi/qapi-commands-block-core.h"
++#include "qapi/qobject-input-visitor.h"
 +
-+BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
-+{
-+    error_setg(errp, "qdev IDs/QOM paths exist only in the system emulat=
-or");
-+    return NULL;
-+}
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 9f4eb25e02..77fbf72576 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -1,5 +1,6 @@
- stub-obj-y +=3D arch_type.o
- stub-obj-y +=3D bdrv-next-monitor-owned.o
-+stub-obj-y +=3D blk-by-qdev-id.o
- stub-obj-y +=3D blk-commit-all.o
- stub-obj-y +=3D blockdev-close-all-bdrv-states.o
- stub-obj-y +=3D clock-warp.o
+ #include "qemu-common.h"
+ #include "qemu-version.h"
+ #include "qemu/config-file.h"
+@@ -53,6 +57,13 @@ static void help(void)
+ "                         specify tracing options\n"
+ "  -V, --version          output version information and exit\n"
+ "\n"
++"  --blockdev [driver=3D]<driver>[,node-name=3D<N>][,discard=3Dignore|un=
+map]\n"
++"             [,cache.direct=3Don|off][,cache.no-flush=3Don|off]\n"
++"             [,read-only=3Don|off][,auto-read-only=3Don|off]\n"
++"             [,force-share=3Don|off][,detect-zeroes=3Don|off|unmap]\n"
++"             [,driver specific parameters...]\n"
++"                         configure a block backend\n"
++"\n"
+ "  --object <properties>  define a QOM object such as 'secret' for\n"
+ "                         passwords and/or encryption keys\n"
+ "\n"
+@@ -62,6 +73,7 @@ QEMU_HELP_BOTTOM "\n",
+=20
+ enum {
+     OPTION_OBJECT =3D 256,
++    OPTION_BLOCKDEV,
+ };
+=20
+ static QemuOptsList qemu_object_opts =3D {
+@@ -82,6 +94,7 @@ static int process_options(int argc, char *argv[], Erro=
+r **errp)
+     static const struct option long_options[] =3D {
+         {"help", no_argument, 0, 'h'},
+         {"object", required_argument, 0, OPTION_OBJECT},
++        {"blockdev", required_argument, 0, OPTION_BLOCKDEV},
+         {"version", no_argument, 0, 'V'},
+         {"trace", required_argument, NULL, 'T'},
+         {0, 0, 0, 0}
+@@ -123,6 +136,22 @@ static int process_options(int argc, char *argv[], E=
+rror **errp)
+                 qemu_opts_del(opts);
+                 break;
+             }
++            break;
++        case OPTION_BLOCKDEV:
++            {
++                Visitor *v;
++                BlockdevOptions *options;
++
++                v =3D qobject_input_visitor_new_str(optarg, "driver",
++                                                  &error_fatal);
++
++                visit_type_BlockdevOptions(v, NULL, &options, &error_fat=
+al);
++                visit_free(v);
++
++                qmp_blockdev_add(options, &error_fatal);
++                qapi_free_BlockdevOptions(options);
++                break;
++            }
+         }
+     }
+     if (optind !=3D argc) {
+diff --git a/Makefile b/Makefile
+index 76338d0ab4..b913d4d736 100644
+--- a/Makefile
++++ b/Makefile
+@@ -432,6 +432,8 @@ dummy :=3D $(call unnest-vars,, \
+                 qga-vss-dll-obj-y \
+                 block-obj-y \
+                 block-obj-m \
++                storage-daemon-obj-y \
++                storage-daemon-obj-m \
+                 crypto-obj-y \
+                 crypto-user-obj-y \
+                 qom-obj-y \
+@@ -469,6 +471,7 @@ TARGET_DIRS_RULES :=3D $(foreach t, all clean install=
+, $(addsuffix /$(t), $(TARGET
+ SOFTMMU_ALL_RULES=3D$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
+ $(SOFTMMU_ALL_RULES): $(authz-obj-y)
+ $(SOFTMMU_ALL_RULES): $(block-obj-y)
++$(SOFTMMU_ALL_RULES): $(storage-daemon-obj-y)
+ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+@@ -558,7 +561,7 @@ qemu-img.o: qemu-img-cmds.h
+ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj=
+-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj=
+-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y=
+) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(blo=
+ck-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(blo=
+ck-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y=
+) $(COMMON_LDADDS)
+=20
+ qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+=20
+diff --git a/Makefile.objs b/Makefile.objs
+index abcbd89654..00fdf54500 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -37,6 +37,13 @@ qom-obj-y =3D qom/
+=20
+ io-obj-y =3D io/
+=20
++#######################################################################
++# storage-daemon-obj-y is code used by qemu-storage-daemon (these object=
+s are
++# used for system emulation, too, but specified separately there)
++
++storage-daemon-obj-y =3D block/
++storage-daemon-obj-y +=3D blockdev.o iothread.o
++
+ ######################################################################
+ # Target independent part of system emulation. The long term path is to
+ # suppress *all* target specific code in case of system emulation, i.e. =
+a
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index e394fe0b6c..d24fc93b7f 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -44,7 +44,7 @@ block-obj-y +=3D crypto.o
+ block-obj-y +=3D aio_task.o
+ block-obj-y +=3D backup-top.o
+=20
+-common-obj-y +=3D stream.o
++block-obj-y +=3D stream.o
+=20
+ nfs.o-libs         :=3D $(LIBNFS_LIBS)
+ iscsi.o-cflags     :=3D $(LIBISCSI_CFLAGS)
 --=20
 2.20.1
 
