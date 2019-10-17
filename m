@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD8DDAE33
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:24:28 +0200 (CEST)
-Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33791DAE5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:29:17 +0200 (CEST)
+Received: from localhost ([::1]:47606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5lT-00080A-8J
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
+	id 1iL5q7-0005fS-EN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iL5VD-0005RG-Qn
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:07:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iL5c9-0006B8-P1
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:14:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iL5VC-0001PJ-NM
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:07:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37896)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iL5VA-0001OQ-I7; Thu, 17 Oct 2019 09:07:36 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C9AAB89F306;
- Thu, 17 Oct 2019 13:07:35 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-3.ams2.redhat.com
- [10.36.117.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A88D5C1B5;
- Thu, 17 Oct 2019 13:07:31 +0000 (UTC)
-Subject: Re: [PATCH v2 3/3] tests: More iotest 223 improvements
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20191015193503.25591-1-eblake@redhat.com>
- <20191015193503.25591-4-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <66a09567-1aa2-898d-98dd-1dcbddd34d6e@redhat.com>
-Date: Thu, 17 Oct 2019 15:07:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <richard.henderson@linaro.org>) id 1iL5c8-0004DY-Hj
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:14:49 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44068)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iL5c8-0004D6-84
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:14:48 -0400
+Received: by mail-pf1-x444.google.com with SMTP id q21so1630566pfn.11
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Dn83gHvM3nMKtNzlv0os0mKG52vDYd0vFTRLtSbc8tY=;
+ b=eX1uVHA3jaBmqXzes+jfqXB1FC4NWiKJBWtmFAMMR68MX91YL8CiAkvwTMCa0mQ1hD
+ XENqOIE31JJotyXM29b75WUn4Mz3oYtDxDqL5MAOo0a/fYb2mH41vPqLY8sho/NeYbMH
+ zAX2zbQ+FXpweerkRbROJEPxh+9/N/i3yzyKKE1W6UCl/iQ8kedhDMrhB1dXMZP6yeTx
+ xuROqi1F7Y84zwFdXcQNGgG0jPDBc7lhNuz6+mZ1HxUcNfPjRVa0I5hA2GDCrHzIKED2
+ DauPeq5eDaYZWW6EYmmXVDmVQgcncZvTMhALVJA1JKFPL0cB9g4IyRyIOOt1PzqqaBe7
+ GQ+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Dn83gHvM3nMKtNzlv0os0mKG52vDYd0vFTRLtSbc8tY=;
+ b=MPEJ96j0wllLHEfbfWbcMJHSRXMOldiQpxWbxnFVGZadOh+i2teYyHgtLtOIU755MP
+ 5yLyIOQeD90wRKlIa+Da4o44TbgoHAX04Bcqt/xTqcOgNLBL2Sx3ljKSixQh4x6LexmV
+ HoB6zqG7/NHeokUFvb2ajvkT1ewK9jPvhfftfg2p/bcaXUKMCdwBTOGpbenmxBfx9ln7
+ 4gB3Fvymz/R+2t5R9rKE2HbX/jVpLY02Q+M0nsc1P+286FjO8hsxukw0/U4aCfo/fu3Z
+ OZsP8oOZfUug8ZgIgtWGC0E48a7GqNQIv5BL4qNSMPxVgT6aYen52khoo8sXRjLRZhNw
+ pVgQ==
+X-Gm-Message-State: APjAAAXhK7olCDVyGHeqkLG5lOYgBusQBGUtNiHnhPyrKolZJdGGiCDI
+ xCKaIBeQVHRg+ekSpBj+Tgkntw==
+X-Google-Smtp-Source: APXvYqyFVBKLN8ssbY651iHm6ykYQ+Fy9wy5/LzkKzwysXMTmg0UQkF75k3M0uWYf2EHSUc5jp2mUw==
+X-Received: by 2002:a17:90a:7142:: with SMTP id
+ g2mr4338757pjs.36.1571318086812; 
+ Thu, 17 Oct 2019 06:14:46 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id j126sm2804360pfb.186.2019.10.17.06.14.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Oct 2019 06:14:46 -0700 (PDT)
+Subject: Re: [PATCH v1] s390x/mmu: Remove duplicate check for MMU_DATA_STORE
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20191017121922.18840-1-david@redhat.com>
+ <5ad7023f-310b-eb7b-2e2e-b5cab073bb61@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <eed4302e-e84e-7e04-df41-62870263a985@linaro.org>
+Date: Thu, 17 Oct 2019 06:14:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191015193503.25591-4-eblake@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.68]); Thu, 17 Oct 2019 13:07:35 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <5ad7023f-310b-eb7b-2e2e-b5cab073bb61@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,53 +84,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz
-Content-Type: multipart/mixed; boundary="ZiWSMiG4GarTXG0k7uAaeXKqyMZrw06fB"
+On 10/17/19 5:20 AM, David Hildenbrand wrote:
+> On 17.10.19 14:19, David Hildenbrand wrote:
+>> No need to double-check if we have a write.
+>>
+>> Found by Coverity (CID: 1381016).
+> 
+> Copy and past error, it's 1406404.
+> 
+>>
+>> Fixes: 31b59419069e ("target/s390x: Return exception from mmu_translate_real")
+>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
 
---ZiWSMiG4GarTXG0k7uAaeXKqyMZrw06fB
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 15.10.19 21:35, Eric Blake wrote:
-> Run the core of the test twice, once without iothreads, and again
-> with, for more coverage of both setups.
->=20
-> Suggested-by: Nir Soffer <nsoffer@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  tests/qemu-iotests/223     | 16 ++++++-
->  tests/qemu-iotests/223.out | 85 +++++++++++++++++++++++++++++++++++++-=
-
->  2 files changed, 97 insertions(+), 4 deletions(-)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
---ZiWSMiG4GarTXG0k7uAaeXKqyMZrw06fB--
-
---RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2oZ5EACgkQ9AfbAGHV
-z0ClhwgAkCdQAfdxSZcnQKsqO+C37gNDtF8npU/FWTfUpkyo+Nw+ZkJi3Gd0CRV6
-dHEWFc6SNB5nlBsAP4+tD5sJqKBhT8Vm9CjU6VXCO1PwTGCAfhAO6Riy7HsqMTJQ
-TRrDcSVnKZrnnumtIp2OuOqHUkohzOkRvIzPreDVatzcLiJK01slLGZd10fZWWb/
-2lDbGUEVs5q10oeUk5ykPx6tdcT/WASn9QDWlNEurcLne/T4vTIals7A4xX+Jp2p
-D8/r/BY/krNdKbcUXJaBPHN9S8Qng0YMuSWXR1q+QKQJLfVdEAh7HSeoK7RirTSh
-uOpKlS3rMPramKtEfwukNwzXWULVsw==
-=2hLC
------END PGP SIGNATURE-----
-
---RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz--
+r~
 
