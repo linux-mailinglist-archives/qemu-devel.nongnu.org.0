@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4320DDAECA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:52:45 +0200 (CEST)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D71DAED4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:55:53 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6Cp-0008By-T4
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36181)
+	id 1iL6Fr-0003LY-Rc
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q8-0006rr-8C
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5q9-0006uX-IC
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q6-0002aW-TP
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:16 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36004)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5q8-0002aw-C3
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46360)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5q6-0002aG-NF
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:14 -0400
-Received: by mail-wm1-x344.google.com with SMTP id m18so2560082wmc.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:14 -0700 (PDT)
+ id 1iL5q8-0002aj-69
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id o18so2334776wrv.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4DYhYWIpkNTGZF6Z7QvCMAVE0Xe2dndRrS+aQ9kDVJU=;
- b=JpIAGpxLCgSwDtZrOYQwwXmH8wvqQi2nN93EWLtgdI5UoP7UBMUPa8kIFZ2UGfUnmp
- 4VqglKksv1TWYynkwZEtkhldoKdoYUFmbxa0884FEZZqGlYmYPiC2SyRu0lqQf33tKcZ
- 53tKg4Z2G7NIXkQ7gKMMvYYIjKjpWqS+dCSLvvGia/27cXaZj0yUPqSw3bbr2l6fRRkP
- b7DMdYgfWaEZFTLbR+He7Nqo/ExtFZIWy9RDON2lrjExvO6FtPIUPYOys3NQyksvMIdY
- YyBJ9qZAth4xBvjE4UAlSn3IT9zby/+XMUXnp7fNWApstG1f/CC8X0pFJr/3TinK6xb/
- DF5A==
+ bh=SpU9drP88hpdFB+pw5pxIm1RXJ3C2VinT/Xy4FHJ7Wk=;
+ b=hBG28tF6LSbUmdZZuNU9YDnVufo20hCdsETDpHe62o9zlBwnKUBkOxWN4F9jM7gq/q
+ j5U+7RNIUo0h909uOgb4TvjJjGWGb0YPscN3i6Vp6H78TyhKgHtO2BoMhHkrqJqR0ebv
+ MRB6TsoUdIZxu94cayaRxlJmzl9SsEZCCVsfN5W9ZFV+yjcMUsC0QCuaV/jdxKcqUBkK
+ 03pzpLTteBQhW6xbMXogfIm1+rtYbPVw+s1Te+WUNADcl0SiXHzfAFEkoYFm4MVqeJjN
+ HTwXA2GFMy4PNAQ2RW4KQ6pQKiQx/tO/NeI/Tmj5pbtrxVbwzq94g6jazxFfbtiTXVkE
+ tUWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4DYhYWIpkNTGZF6Z7QvCMAVE0Xe2dndRrS+aQ9kDVJU=;
- b=TJ85vTbW8Oe+dMOeUL4H+UG1EM6IviEIIzzLglpoDPm9mikDHmdWfQEe0A+ceRZWPF
- QLabFclQZVO0OrK4y4g7fCCPFvizHx665X+HTkDuMvfoBahoMhbbb8QZl5+CaoLLaydb
- wTCOB898elEESZAnfjZ0rCXba0EeJCmXmgpgYIlhaa3InsM7G5VIGsfusAKY+Cx2e0mT
- JUuo9ANW61UZ2C+M9ylqBATngq21OJAvSFpcY2yvkqZekYYeELB6zRt/Jy8oyupQd7OS
- h+7sLBONtHg2j3PTCjD3eVO+94g9bxmegHkcalcehgTyDUsvXsgFIyv8DNb9U/HR8Ohr
- pouQ==
-X-Gm-Message-State: APjAAAWbqzvvohYHrNoUwcUIXSCu1Hd7Rfe7mpmJFEOXuNiKUxY0zf5s
- pRQMkV1/9vBIswuhiBH6ehrzHlOKSjeN4A==
-X-Google-Smtp-Source: APXvYqwUWpWY0YO5ufLSjDlW6ZgD1ILOlVuJv+JSCRzkfbDNGMUnrnyhHZGAfi5zlrN0s0WR7o1OFA==
-X-Received: by 2002:a1c:2e4c:: with SMTP id u73mr2840343wmu.94.1571318953016; 
- Thu, 17 Oct 2019 06:29:13 -0700 (PDT)
+ bh=SpU9drP88hpdFB+pw5pxIm1RXJ3C2VinT/Xy4FHJ7Wk=;
+ b=F8ylH1UOR2Ss1TV8NwsbYwaY+9D+0oMFHos+9SPmA8KsKt4LwT9Heca9OBMg5baopE
+ n7kxCEj/xion1nVwHXBj4itK1VhBdwcR9IjihlipVfofsixIRwc3fS1Lm+I02lQbwMmT
+ V0qUWgFnjip2pk1U/hwkhohINtlcMXz18w4bMoKoZp3fnXJts7ESk0NHlXeysdLy6QTi
+ bBcpz3BDvU3BGB0W44IuRa5HHHE+PxBkZVaWd+pcdl5tEHpYWyolRqO8CUG5WKumtdGD
+ uOX8xR4qhRhjznipK9oK+nf+kbHhGnVmzYtcNnyT4fkGxIMBat80xj49wOA9g3MR2T8N
+ RRZQ==
+X-Gm-Message-State: APjAAAXVQHV6Me01sxJFNG/0frrDPJj6x40kdTD1qs1JLCUSWkln57kN
+ o5wz/7z392lou83khhiln6ebifkxc66rRg==
+X-Google-Smtp-Source: APXvYqwDLJ1+HjEgZRgfldmv5pCno2ASrX+uP4lLbBeHfwWjhdOm/EIeO1eK0qRDZR+Vx61+PI9b5g==
+X-Received: by 2002:adf:f511:: with SMTP id q17mr2997488wro.3.1571318954893;
+ Thu, 17 Oct 2019 06:29:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.11
+ by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:29:11 -0700 (PDT)
+ Thu, 17 Oct 2019 06:29:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] hw/watchdog/milkymist-sysctl.c: Switch to
- transaction-based ptimer API
-Date: Thu, 17 Oct 2019 14:29:01 +0100
-Message-Id: <20191017132905.5604-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/8] hw/timer/altera_timer.c: Switch to transaction-based
+ ptimer API
+Date: Thu, 17 Oct 2019 14:29:02 +0100
+Message-Id: <20191017132905.5604-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017132905.5604-1-peter.maydell@linaro.org>
 References: <20191017132905.5604-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,110 +85,89 @@ Cc: Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the milkymist-sysctl code away from bottom-half based
-ptimers to the new transaction-based ptimer API.  This just requires
-adding begin/commit calls around the various places that modify the
-ptimer state, and using the new ptimer_init() function to create the
-timer.
+Switch the altera_timer code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/milkymist-sysctl.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+ hw/timer/altera_timer.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/milkymist-sysctl.c b/hw/timer/milkymist-sysctl.c
-index 5193c038501..66f86541114 100644
---- a/hw/timer/milkymist-sysctl.c
-+++ b/hw/timer/milkymist-sysctl.c
-@@ -31,7 +31,6 @@
- #include "hw/ptimer.h"
- #include "hw/qdev-properties.h"
- #include "qemu/error-report.h"
+diff --git a/hw/timer/altera_timer.c b/hw/timer/altera_timer.c
+index ee32e0ec1ff..79fc381252d 100644
+--- a/hw/timer/altera_timer.c
++++ b/hw/timer/altera_timer.c
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
+ #include "qapi/error.h"
  
- enum {
-@@ -71,8 +70,6 @@ struct MilkymistSysctlState {
- 
-     MemoryRegion regs_region;
- 
--    QEMUBH *bh0;
--    QEMUBH *bh1;
-     ptimer_state *ptimer0;
-     ptimer_state *ptimer1;
- 
-@@ -161,14 +158,19 @@ static void sysctl_write(void *opaque, hwaddr addr, uint64_t value,
-         s->regs[addr] = value;
+@@ -53,7 +52,6 @@ typedef struct AlteraTimer {
+     MemoryRegion  mmio;
+     qemu_irq      irq;
+     uint32_t      freq_hz;
+-    QEMUBH       *bh;
+     ptimer_state *ptimer;
+     uint32_t      regs[R_MAX];
+ } AlteraTimer;
+@@ -105,6 +103,7 @@ static void timer_write(void *opaque, hwaddr addr,
          break;
-     case R_TIMER0_COMPARE:
-+        ptimer_transaction_begin(s->ptimer0);
-         ptimer_set_limit(s->ptimer0, value, 0);
-         s->regs[addr] = value;
-+        ptimer_transaction_commit(s->ptimer0);
-         break;
-     case R_TIMER1_COMPARE:
-+        ptimer_transaction_begin(s->ptimer1);
-         ptimer_set_limit(s->ptimer1, value, 0);
-         s->regs[addr] = value;
-+        ptimer_transaction_commit(s->ptimer1);
-         break;
-     case R_TIMER0_CONTROL:
-+        ptimer_transaction_begin(s->ptimer0);
-         s->regs[addr] = value;
-         if (s->regs[R_TIMER0_CONTROL] & CTRL_ENABLE) {
-             trace_milkymist_sysctl_start_timer0();
-@@ -179,8 +181,10 @@ static void sysctl_write(void *opaque, hwaddr addr, uint64_t value,
-             trace_milkymist_sysctl_stop_timer0();
-             ptimer_stop(s->ptimer0);
+ 
+     case R_CONTROL:
++        ptimer_transaction_begin(t->ptimer);
+         t->regs[R_CONTROL] = value & (CONTROL_ITO | CONTROL_CONT);
+         if ((value & CONTROL_START) &&
+             !(t->regs[R_STATUS] & STATUS_RUN)) {
+@@ -115,10 +114,12 @@ static void timer_write(void *opaque, hwaddr addr,
+             ptimer_stop(t->ptimer);
+             t->regs[R_STATUS] &= ~STATUS_RUN;
          }
-+        ptimer_transaction_commit(s->ptimer0);
++        ptimer_transaction_commit(t->ptimer);
          break;
-     case R_TIMER1_CONTROL:
-+        ptimer_transaction_begin(s->ptimer0);
-         s->regs[addr] = value;
-         if (s->regs[R_TIMER1_CONTROL] & CTRL_ENABLE) {
-             trace_milkymist_sysctl_start_timer1();
-@@ -191,6 +195,7 @@ static void sysctl_write(void *opaque, hwaddr addr, uint64_t value,
-             trace_milkymist_sysctl_stop_timer1();
-             ptimer_stop(s->ptimer1);
+ 
+     case R_PERIODL:
+     case R_PERIODH:
++        ptimer_transaction_begin(t->ptimer);
+         t->regs[addr] = value & 0xFFFF;
+         if (t->regs[R_STATUS] & STATUS_RUN) {
+             ptimer_stop(t->ptimer);
+@@ -126,6 +127,7 @@ static void timer_write(void *opaque, hwaddr addr,
          }
-+        ptimer_transaction_commit(s->ptimer0);
+         tvalue = (t->regs[R_PERIODH] << 16) | t->regs[R_PERIODL];
+         ptimer_set_limit(t->ptimer, tvalue + 1, 1);
++        ptimer_transaction_commit(t->ptimer);
          break;
-     case R_ICAP:
-         sysctl_icap_write(s, value);
-@@ -263,8 +268,12 @@ static void milkymist_sysctl_reset(DeviceState *d)
-         s->regs[i] = 0;
+ 
+     case R_SNAPL:
+@@ -183,9 +185,10 @@ static void altera_timer_realize(DeviceState *dev, Error **errp)
+         return;
      }
  
-+    ptimer_transaction_begin(s->ptimer0);
-     ptimer_stop(s->ptimer0);
-+    ptimer_transaction_commit(s->ptimer0);
-+    ptimer_transaction_begin(s->ptimer1);
-     ptimer_stop(s->ptimer1);
-+    ptimer_transaction_commit(s->ptimer1);
+-    t->bh = qemu_bh_new(timer_hit, t);
+-    t->ptimer = ptimer_init_with_bh(t->bh, PTIMER_POLICY_DEFAULT);
++    t->ptimer = ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
++    ptimer_transaction_begin(t->ptimer);
+     ptimer_set_freq(t->ptimer, t->freq_hz);
++    ptimer_transaction_commit(t->ptimer);
  
-     /* defaults */
-     s->regs[R_ICAP] = ICAP_READY;
-@@ -292,13 +301,15 @@ static void milkymist_sysctl_realize(DeviceState *dev, Error **errp)
+     memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
+                           TYPE_ALTERA_TIMER, R_MAX * sizeof(uint32_t));
+@@ -204,8 +207,10 @@ static void altera_timer_reset(DeviceState *dev)
  {
-     MilkymistSysctlState *s = MILKYMIST_SYSCTL(dev);
+     AlteraTimer *t = ALTERA_TIMER(dev);
  
--    s->bh0 = qemu_bh_new(timer0_hit, s);
--    s->bh1 = qemu_bh_new(timer1_hit, s);
--    s->ptimer0 = ptimer_init_with_bh(s->bh0, PTIMER_POLICY_DEFAULT);
--    s->ptimer1 = ptimer_init_with_bh(s->bh1, PTIMER_POLICY_DEFAULT);
-+    s->ptimer0 = ptimer_init(timer0_hit, s, PTIMER_POLICY_DEFAULT);
-+    s->ptimer1 = ptimer_init(timer1_hit, s, PTIMER_POLICY_DEFAULT);
- 
-+    ptimer_transaction_begin(s->ptimer0);
-     ptimer_set_freq(s->ptimer0, s->freq_hz);
-+    ptimer_transaction_commit(s->ptimer0);
-+    ptimer_transaction_begin(s->ptimer1);
-     ptimer_set_freq(s->ptimer1, s->freq_hz);
-+    ptimer_transaction_commit(s->ptimer1);
++    ptimer_transaction_begin(t->ptimer);
+     ptimer_stop(t->ptimer);
+     ptimer_set_limit(t->ptimer, 0xffffffff, 1);
++    ptimer_transaction_commit(t->ptimer);
+     memset(t->regs, 0, sizeof(t->regs));
  }
  
- static const VMStateDescription vmstate_milkymist_sysctl = {
 -- 
 2.20.1
 
