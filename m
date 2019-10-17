@@ -2,46 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2539DDAE2C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:21:51 +0200 (CEST)
-Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD8DDAE33
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:24:28 +0200 (CEST)
+Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5iv-0004IA-Is
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1iL5lT-00080A-8J
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iL5SU-0001K2-SE
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:52 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iL5VD-0005RG-Qn
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:07:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iL5ST-0000Bn-2J
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51782)
+ (envelope-from <mreitz@redhat.com>) id 1iL5VC-0001PJ-NM
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:07:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iL5SP-00009R-4D; Thu, 17 Oct 2019 09:04:45 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iL5VA-0001OQ-I7; Thu, 17 Oct 2019 09:07:36 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5C07310F2E84;
- Thu, 17 Oct 2019 13:04:44 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-24.ams2.redhat.com
- [10.36.117.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC1D01001B28;
- Thu, 17 Oct 2019 13:04:42 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [RFC PATCH 18/18] qemu-storage-daemon: Add --monitor option
-Date: Thu, 17 Oct 2019 15:02:04 +0200
-Message-Id: <20191017130204.16131-19-kwolf@redhat.com>
-In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
-References: <20191017130204.16131-1-kwolf@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id C9AAB89F306;
+ Thu, 17 Oct 2019 13:07:35 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-3.ams2.redhat.com
+ [10.36.117.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A88D5C1B5;
+ Thu, 17 Oct 2019 13:07:31 +0000 (UTC)
+Subject: Re: [PATCH v2 3/3] tests: More iotest 223 improvements
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20191015193503.25591-1-eblake@redhat.com>
+ <20191015193503.25591-4-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <66a09567-1aa2-898d-98dd-1dcbddd34d6e@redhat.com>
+Date: Thu, 17 Oct 2019 15:07:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20191015193503.25591-4-eblake@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.66]); Thu, 17 Oct 2019 13:04:44 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.68]); Thu, 17 Oct 2019 13:07:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -56,314 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, mreitz@redhat.com
+Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds and parses the --monitor option, so that a QMP monitor can be
-used in the storage daemon. The monitor offers commands defined in the
-QAPI schema at storage-daemon/qapi/qapi-schema.json.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz
+Content-Type: multipart/mixed; boundary="ZiWSMiG4GarTXG0k7uAaeXKqyMZrw06fB"
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- storage-daemon/qapi/qapi-schema.json | 15 ++++++++++++
- qemu-storage-daemon.c                | 34 ++++++++++++++++++++++++++++
- Makefile                             | 30 ++++++++++++++++++++++++
- Makefile.objs                        |  4 ++--
- monitor/Makefile.objs                |  2 ++
- qapi/Makefile.objs                   |  5 ++++
- qom/Makefile.objs                    |  1 +
- scripts/qapi/gen.py                  |  5 ++++
- storage-daemon/Makefile.objs         |  1 +
- storage-daemon/qapi/Makefile.objs    |  1 +
- 10 files changed, 96 insertions(+), 2 deletions(-)
- create mode 100644 storage-daemon/qapi/qapi-schema.json
- create mode 100644 storage-daemon/Makefile.objs
- create mode 100644 storage-daemon/qapi/Makefile.objs
+--ZiWSMiG4GarTXG0k7uAaeXKqyMZrw06fB
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/q=
-api-schema.json
-new file mode 100644
-index 0000000000..58c561ebea
---- /dev/null
-+++ b/storage-daemon/qapi/qapi-schema.json
-@@ -0,0 +1,15 @@
-+# -*- Mode: Python -*-
-+
-+{ 'include': '../../qapi/pragma.json' }
-+
-+{ 'include': '../../qapi/block.json' }
-+{ 'include': '../../qapi/block-core.json' }
-+{ 'include': '../../qapi/char.json' }
-+{ 'include': '../../qapi/common.json' }
-+{ 'include': '../../qapi/crypto.json' }
-+{ 'include': '../../qapi/introspect.json' }
-+{ 'include': '../../qapi/job.json' }
-+{ 'include': '../../qapi/monitor.json' }
-+{ 'include': '../../qapi/qom.json' }
-+{ 'include': '../../qapi/sockets.json' }
-+{ 'include': '../../qapi/transaction.json' }
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index 46e0a6ea56..4939e6b41f 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -28,12 +28,16 @@
- #include "block/nbd.h"
- #include "chardev/char.h"
- #include "crypto/init.h"
-+#include "monitor/monitor.h"
-+#include "monitor/monitor-internal.h"
-=20
- #include "qapi/error.h"
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-block-core.h"
-+#include "qapi/qapi-commands-monitor.h"
- #include "qapi/qapi-visit-block.h"
- #include "qapi/qapi-visit-block-core.h"
-+#include "qapi/qmp/qstring.h"
- #include "qapi/qobject-input-visitor.h"
-=20
- #include "qemu-common.h"
-@@ -46,6 +50,8 @@
- #include "qemu/option.h"
- #include "qom/object_interfaces.h"
-=20
-+#include "storage-daemon/qapi/qapi-commands.h"
-+
- #include "sysemu/runstate.h"
- #include "trace/control.h"
-=20
-@@ -58,6 +64,11 @@ void qemu_system_killed(int signal, pid_t pid)
-     exit_requested =3D true;
- }
-=20
-+void qmp_quit(Error **errp)
-+{
-+    exit_requested =3D true;
-+}
-+
- static void help(void)
- {
-     printf(
-@@ -101,6 +112,7 @@ enum {
-     OPTION_OBJECT =3D 256,
-     OPTION_BLOCKDEV,
-     OPTION_CHARDEV,
-+    OPTION_MONITOR,
-     OPTION_NBD_SERVER,
-     OPTION_EXPORT,
- };
-@@ -116,6 +128,17 @@ static QemuOptsList qemu_object_opts =3D {
-     },
- };
-=20
-+static void init_qmp_commands(void)
-+{
-+    qmp_init_marshal(&qmp_commands);
-+    qmp_register_command(&qmp_commands, "query-qmp-schema",
-+                         qmp_query_qmp_schema, QCO_ALLOW_PRECONFIG);
-+
-+    QTAILQ_INIT(&qmp_cap_negotiation_commands);
-+    qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilitie=
-s",
-+                         qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONF=
-IG);
-+}
-+
- static void init_export(BlockExport *export, Error **errp)
- {
-     switch (export->type) {
-@@ -138,6 +161,7 @@ static int process_options(int argc, char *argv[], Er=
-ror **errp)
-         {"object", required_argument, 0, OPTION_OBJECT},
-         {"blockdev", required_argument, 0, OPTION_BLOCKDEV},
-         {"chardev", required_argument, 0, OPTION_CHARDEV},
-+        {"monitor", required_argument, 0, OPTION_MONITOR},
-         {"nbd-server", required_argument, 0, OPTION_NBD_SERVER},
-         {"export", required_argument, 0, OPTION_EXPORT},
-         {"version", no_argument, 0, 'V'},
-@@ -208,6 +232,14 @@ static int process_options(int argc, char *argv[], E=
-rror **errp)
-                 qemu_opts_del(opts);
-                 break;
-             }
-+        case OPTION_MONITOR:
-+            {
-+                QemuOpts *opts =3D qemu_opts_parse(&qemu_mon_opts,
-+                                                 optarg, true, &error_fa=
-tal);
-+                monitor_init_opts(opts, false, &error_fatal);
-+                qemu_opts_del(opts);
-+                break;
-+            }
-         case OPTION_NBD_SERVER:
-             {
-                 Visitor *v;
-@@ -272,6 +304,8 @@ int main(int argc, char *argv[])
-     qemu_add_opts(&qemu_trace_opts);
-     qcrypto_init(&error_fatal);
-     bdrv_init();
-+    monitor_init_globals_core();
-+    init_qmp_commands();
-=20
-     if (qemu_init_main_loop(&local_err)) {
-         error_report_err(local_err);
-diff --git a/Makefile b/Makefile
-index 0e3e98582d..e367d2b28a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -121,7 +121,26 @@ GENERATED_QAPI_FILES +=3D $(QAPI_MODULES:%=3Dqapi/qa=
-pi-events-%.c)
- GENERATED_QAPI_FILES +=3D qapi/qapi-introspect.c qapi/qapi-introspect.h
- GENERATED_QAPI_FILES +=3D qapi/qapi-doc.texi
-=20
-+GENERATED_STORAGE_DAEMON_QAPI_FILES =3D storage-daemon/qapi/qapi-builtin=
--types.h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-builti=
-n-types.c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-builti=
-n-visit.h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-builti=
-n-visit.c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-comman=
-ds.h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-comman=
-ds.c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-emit-e=
-vents.h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-emit-e=
-vents.c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-events=
-.h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-events=
-.c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-intros=
-pect.h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-intros=
-pect.c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-types.=
-h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-types.=
-c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-visit.=
-h
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-visit.=
-c
-+GENERATED_STORAGE_DAEMON_QAPI_FILES +=3D storage-daemon/qapi/qapi-doc.te=
-xi
-+
- generated-files-y +=3D $(GENERATED_QAPI_FILES)
-+generated-files-y +=3D $(GENERATED_STORAGE_DAEMON_QAPI_FILES)
-=20
- generated-files-y +=3D trace/generated-tcg-tracers.h
-=20
-@@ -616,6 +635,17 @@ qapi-gen-timestamp: $(qapi-modules) $(qapi-py)
- 		"GEN","$(@:%-timestamp=3D%)")
- 	@>$@
-=20
-+qapi-modules-storage-daemon =3D \
-+	$(SRC_PATH)/storage-daemon/qapi/qapi-schema.json \
-+    $(QAPI_MODULES_STORAGE_DAEMON:%=3D$(SRC_PATH)/qapi/%.json)
-+
-+$(GENERATED_STORAGE_DAEMON_QAPI_FILES): storage-daemon/qapi/qapi-gen-tim=
-estamp ;
-+storage-daemon/qapi/qapi-gen-timestamp: $(qapi-modules-storage-daemon) $=
-(qapi-py)
-+	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
-+		-o "storage-daemon/qapi" -b $<, \
-+		"GEN","$(@:%-timestamp=3D%)")
-+	@>$@
-+
- QGALIB_GEN=3D$(addprefix qga/qapi-generated/, qga-qapi-types.h qga-qapi-=
-visit.h qga-qapi-commands.h)
- $(qga-obj-y): $(QGALIB_GEN)
-=20
-diff --git a/Makefile.objs b/Makefile.objs
-index b667d3f07b..d4e0daddee 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -41,8 +41,8 @@ io-obj-y =3D io/
- # storage-daemon-obj-y is code used by qemu-storage-daemon (these object=
-s are
- # used for system emulation, too, but specified separately there)
-=20
--storage-daemon-obj-y =3D block/
--storage-daemon-obj-y +=3D blockdev.o blockdev-nbd.o iothread.o
-+storage-daemon-obj-y =3D block/ monitor/ qapi/ qom/ storage-daemon/
-+storage-daemon-obj-y +=3D blockdev.o blockdev-nbd.o iothread.o job-qmp.o
- storage-daemon-obj-$(CONFIG_WIN32) +=3D os-win32.o
- storage-daemon-obj-$(CONFIG_POSIX) +=3D os-posix.o
-=20
-diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index 15eb6380c5..6e4ef60601 100644
---- a/monitor/Makefile.objs
-+++ b/monitor/Makefile.objs
-@@ -2,3 +2,5 @@ obj-y +=3D misc.o
- common-obj-y +=3D monitor.o qmp.o hmp.o
- common-obj-y +=3D qmp-cmds.o qmp-cmds-monitor.o
- common-obj-y +=3D hmp-cmds.o
-+
-+storage-daemon-obj-y +=3D monitor.o qmp.o qmp-cmds-monitor.o
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index 3e04e299ed..03d256f0a4 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -30,3 +30,8 @@ obj-y +=3D $(QAPI_TARGET_MODULES:%=3Dqapi-events-%.o)
- obj-y +=3D qapi-events.o
- obj-y +=3D $(QAPI_TARGET_MODULES:%=3Dqapi-commands-%.o)
- obj-y +=3D qapi-commands.o
-+
-+QAPI_MODULES_STORAGE_DAEMON =3D block block-core char common crypto intr=
-ospect
-+QAPI_MODULES_STORAGE_DAEMON +=3D job monitor qom sockets pragma transact=
-ion
-+
-+storage-daemon-obj-y +=3D $(QAPI_MODULES_STORAGE_DAEMON:%=3Dqapi-command=
-s-%.o)
-diff --git a/qom/Makefile.objs b/qom/Makefile.objs
-index f9d77350ac..1b45d104ba 100644
---- a/qom/Makefile.objs
-+++ b/qom/Makefile.objs
-@@ -2,3 +2,4 @@ qom-obj-y =3D object.o container.o qom-qobject.o
- qom-obj-y +=3D object_interfaces.o
-=20
- common-obj-$(CONFIG_SOFTMMU) +=3D qom-hmp-cmds.o qom-qmp-cmds.o
-+storage-daemon-obj-y +=3D qom-qmp-cmds.o
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 796c17c38a..c25634f673 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -44,6 +44,11 @@ class QAPIGen(object):
-         return ''
-=20
-     def write(self, output_dir):
-+        # Include paths starting with ../ are used to reuse modules of t=
-he main
-+        # schema in specialised schemas. Don't overwrite the files that =
-are
-+        # already generated for the main schema.
-+        if self.fname.startswith('../'):
-+            return
-         pathname =3D os.path.join(output_dir, self.fname)
-         dir =3D os.path.dirname(pathname)
-         if dir:
-diff --git a/storage-daemon/Makefile.objs b/storage-daemon/Makefile.objs
-new file mode 100644
-index 0000000000..cfe6beee52
---- /dev/null
-+++ b/storage-daemon/Makefile.objs
-@@ -0,0 +1 @@
-+storage-daemon-obj-y +=3D qapi/
-diff --git a/storage-daemon/qapi/Makefile.objs b/storage-daemon/qapi/Make=
-file.objs
-new file mode 100644
-index 0000000000..df8946bdae
---- /dev/null
-+++ b/storage-daemon/qapi/Makefile.objs
-@@ -0,0 +1 @@
-+storage-daemon-obj-y +=3D qapi-commands.o qapi-introspect.o
---=20
-2.20.1
+On 15.10.19 21:35, Eric Blake wrote:
+> Run the core of the test twice, once without iothreads, and again
+> with, for more coverage of both setups.
+>=20
+> Suggested-by: Nir Soffer <nsoffer@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  tests/qemu-iotests/223     | 16 ++++++-
+>  tests/qemu-iotests/223.out | 85 +++++++++++++++++++++++++++++++++++++-=
 
+>  2 files changed, 97 insertions(+), 4 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--ZiWSMiG4GarTXG0k7uAaeXKqyMZrw06fB--
+
+--RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2oZ5EACgkQ9AfbAGHV
+z0ClhwgAkCdQAfdxSZcnQKsqO+C37gNDtF8npU/FWTfUpkyo+Nw+ZkJi3Gd0CRV6
+dHEWFc6SNB5nlBsAP4+tD5sJqKBhT8Vm9CjU6VXCO1PwTGCAfhAO6Riy7HsqMTJQ
+TRrDcSVnKZrnnumtIp2OuOqHUkohzOkRvIzPreDVatzcLiJK01slLGZd10fZWWb/
+2lDbGUEVs5q10oeUk5ykPx6tdcT/WASn9QDWlNEurcLne/T4vTIals7A4xX+Jp2p
+D8/r/BY/krNdKbcUXJaBPHN9S8Qng0YMuSWXR1q+QKQJLfVdEAh7HSeoK7RirTSh
+uOpKlS3rMPramKtEfwukNwzXWULVsw==
+=2hLC
+-----END PGP SIGNATURE-----
+
+--RRWltwfXB3Q35xULjf9F2gxilCaE0OOvz--
 
