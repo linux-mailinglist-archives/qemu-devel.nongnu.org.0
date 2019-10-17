@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E13DDAA3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 12:48:04 +0200 (CEST)
-Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17E1DAAA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 12:57:46 +0200 (CEST)
+Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL3K6-00070l-SY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 06:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39310)
+	id 1iL3TV-0003bW-Gs
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 06:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iL3Ht-0005r0-68
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 06:45:46 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL3SS-00038O-Eh
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 06:56:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iL3Hs-0004X5-5f
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 06:45:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41202)
+ (envelope-from <philmd@redhat.com>) id 1iL3SQ-00022I-B2
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 06:56:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40526)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iL3Hr-0004WZ-Pd
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 06:45:44 -0400
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL3SQ-00021g-3I
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 06:56:38 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 93FE84E925
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:45:42 +0000 (UTC)
-Received: by mail-wm1-f71.google.com with SMTP id o8so956602wmc.2
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 03:45:42 -0700 (PDT)
+ by mx1.redhat.com (Postfix) with ESMTPS id A69A63CBE2
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:56:36 +0000 (UTC)
+Received: by mail-wm1-f69.google.com with SMTP id z205so961650wmb.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 03:56:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=gxLm2Wq78FkSxgC6/pRtf+KctOp43uz9i3yGV1/50H4=;
- b=L5SRgfgibzNGIYV/sir/9RupRsuqQ0UdPBVrJipMXwG7HhS040IV+6ZTwk99A8eIgr
- uY81hNj1CVfdCD7X+8nsGiQMt/RAR7aGVNpHqN0GFcTj0+pizTPvbEs6aort50OFhvO8
- r2Ary0OMbeQsle2PiQGR3MmXXteGKzht0vMaLieLd8wH7gdJn7pxmvvY/vw9yPXlxBdI
- 0OqtO4WfrFFI2H5md4j3YDKpxd/ggr5WRLcBiS+POsAyM0JBoMCFJRhpPafyp9LQ8Z1a
- C8KSAArkOI3PLdd0YvE9unV0WmYY++QZbpSj0wMYv9/6zY8ZFg4ss+dd+LSKoUf+GR0T
- nWeA==
-X-Gm-Message-State: APjAAAWrmbzY64mjdjZgE2IKqna7bYwTHr6vL42bHcnIHC1KAD6vla92
- 9PXo1ZtO8P04smTZmjUfh7DeeuLMZYROxud2ImECa9FEFlx7D9jFUNpVXzvUY65X2qYudo8TPHs
- MgtzfmHikeQq753c=
-X-Received: by 2002:a1c:2e94:: with SMTP id u142mr2364286wmu.69.1571309141370; 
- Thu, 17 Oct 2019 03:45:41 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxEBs2G4Kc7RFK5QQ3yZRQWCcCaE57xk/04ngRYLbnkRJ4XvUhQm0huDWYLCP+tBts3y4o/fg==
-X-Received: by 2002:a1c:2e94:: with SMTP id u142mr2364270wmu.69.1571309141138; 
- Thu, 17 Oct 2019 03:45:41 -0700 (PDT)
-Received: from dritchie.redhat.com (139.red-95-120-215.dynamicip.rima-tde.net.
- [95.120.215.139])
- by smtp.gmail.com with ESMTPSA id w17sm1867573wra.34.2019.10.17.03.45.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 03:45:39 -0700 (PDT)
-References: <20191016101241.24405-1-slp@redhat.com>
- <20191016101241.24405-14-slp@redhat.com>
- <d981516f-f23a-47f5-d825-a101fdaaf471@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wu5u7KI0XMs64BWGJ0e74lh478FbAVJbyhcQ98bW4RQ=;
+ b=uGPF6ZjQkxJpRizJO0/5f+D3jd0ITSp/i1cpIHN9J6fjLaA9K33Ch58jH1GMGBZEQw
+ RhHpNMW3iVoqlJT9BXFceio8HgjR/3p0iiw5TghPcG6ZVgdNIAk7lgWhJcSkJXI1rwDl
+ hUfsRQuW9qqWofBuTANSdBHk6htbu9Vq5+2Aoj6XmuddMKGKN29hqP8FIYhosGaPHXnq
+ kalyxfKT4lXOcMXO7ikW9wDySRw+/W8zXe6rOMVxsummDiCxdPWSgOEWb74YG7JHartB
+ 1uoLdeMw3dfeCGAAtbBzz3eDjBYikTWUzIC5bIvm1WBIOUM4ehS7fEDOcVHSW5SLJdWJ
+ B5rw==
+X-Gm-Message-State: APjAAAXEUcEyLQNdUCGzfVZgW1/yPvx7Ql4JTKosIqNa+7KTh4LQSxFn
+ 5AoMqGgnLsNd72WhWUcOGzunvBilRYoc8IdDtw6ZPxmDesGtgGmZe3PncIjtJFLrN8w7NE3mmYM
+ Iq71+vBtNoPMarv4=
+X-Received: by 2002:a7b:c773:: with SMTP id x19mr2247101wmk.157.1571309795418; 
+ Thu, 17 Oct 2019 03:56:35 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwHR8f8SQMXO1nEgnjev2E29jT9jApGgMj3PYJK5PXnAgs+EmF2Gdqw0H0hGPKqlBjWFMA0mA==
+X-Received: by 2002:a7b:c773:: with SMTP id x19mr2247077wmk.157.1571309795229; 
+ Thu, 17 Oct 2019 03:56:35 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id f83sm1882500wmf.43.2019.10.17.03.56.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 03:56:34 -0700 (PDT)
 Subject: Re: [PATCH v10 13/15] docs/microvm.rst: document the new microvm
  machine type
-In-reply-to: <d981516f-f23a-47f5-d825-a101fdaaf471@redhat.com>
-Date: Thu, 17 Oct 2019 12:45:36 +0200
-Message-ID: <87ftjrhcq7.fsf@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+References: <20191016101241.24405-1-slp@redhat.com>
+ <20191016101241.24405-14-slp@redhat.com>
+ <d981516f-f23a-47f5-d825-a101fdaaf471@redhat.com> <87ftjrhcq7.fsf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6e84a3fb-0ded-6302-af44-a1d70eea60fa@redhat.com>
+Date: Thu, 17 Oct 2019 12:56:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <87ftjrhcq7.fsf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -86,62 +89,45 @@ Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On 10/17/19 12:45 PM, Sergio Lopez wrote:
+>=20
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>=20
+>> Hi Sergio,
+>>
+>> On 10/16/19 12:12 PM, Sergio Lopez wrote:
+>>> +Supported devices
+>>> +-----------------
+>>> +
+>>> +The microvm machine type supports the following devices:
+>>> +
+>>> +- ISA bus
+>>> +- i8259 PIC (optional)
+>>> +- i8254 PIT (optional)
+>>> +- MC146818 RTC (optional)
+>>> +- One ISA serial port (optional)
+>>> +- LAPIC
+>>> +- IOAPIC (with kernel-irqchip=3Dsplit by default)
+>>> +- kvmclock (if using KVM)
+>>> +- fw_cfg
+>>> +- Up to eight virtio-mmio devices (configured by the user)
+>>
+>> If we have VirtIO devices, why not use virtio-serial instead of the
+>> one on the ISA bus?
+>=20
+> The serial port on the ISA bus is simpler, and thus is supported for
+> both SeaBIOS debugging and Linux's earlyprintk. This makes it *very*
+> convenient for debugging boot issues.
 
+"... but it's also compatible with SeaBIOS"
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+OK. Maybe we can add a comment such "These devices are the minimum=20
+required to run SeaBIOS" in the 'Supported devices' section.
 
-> Hi Sergio,
->
-> On 10/16/19 12:12 PM, Sergio Lopez wrote:
->> +Supported devices
->> +-----------------
->> +
->> +The microvm machine type supports the following devices:
->> +
->> +- ISA bus
->> +- i8259 PIC (optional)
->> +- i8254 PIT (optional)
->> +- MC146818 RTC (optional)
->> +- One ISA serial port (optional)
->> +- LAPIC
->> +- IOAPIC (with kernel-irqchip=3Dsplit by default)
->> +- kvmclock (if using KVM)
->> +- fw_cfg
->> +- Up to eight virtio-mmio devices (configured by the user)
->
-> If we have VirtIO devices, why not use virtio-serial instead of the
-> one on the ISA bus?
-
-The serial port on the ISA bus is simpler, and thus is supported for
-both SeaBIOS debugging and Linux's earlyprintk. This makes it *very*
-convenient for debugging boot issues.
-
-Also, as it's explained in the documentation, users that no longer need
-it can disable the device and just rely on virtio-console.
-
-Sergio.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl2oRlAACgkQ9GknjS8M
-AjX9mhAAmYfmZAbdZ9X3KQHWi0AdlFM3fhOnI+pK36Ctk/ydMfgA0MaCsee73Out
-WRY+dzNg8FwzPdeOAIIJk5tSwCVXK5iIEkDMAW/8EErTF/LR8OOCKPB1dRAGXy0v
-unocaNHeYOP8BVPbnwwGgyBVuVv7J21BbVf4wwQ/M/4tz6VJGahiTrGUhFWkaVZT
-aaaWMnrdaccn4u0q1/uR0llJnY8CLGPEKANV2zRvqNKUz/ehyUYrLtRdlcHAsBZU
-IRucEaHJk5OfPntoWNMjTEJRVj78Nfv3JUVSRScn3EBYR973gAdUXhFinCD1uEW3
-PSYDjqu9qJjq14UOHlh/TSiCaixjWHwGIcnYe42hcSj3kdvungA01xDkFrGlz6bj
-ST2xgGWmplu/B9cc55TdKM2vajjqCI4mY5Tnb9CJwtcri8hWLRQeSCB6Wl1BnpvL
-yMpOb5rWBm0oF34iFaxCYCgZ9H8CdvJQLagChzQsvRHPjGyYBDlHhQDEXLqXuTk7
-os3r1D7SygrvslcMM+nNSDeS+87tah28lXmvA4ClZ/Bm9tcdQ4dPcAW5qQ9MIAUf
-sQZMGw+WQ/6lRO8fnNoMlWsJgvwfFKFRqsT9r8qt9XGvW5SSGl3ziLpMVdTWn18l
-i7B//7p7PhtIeqZrc84udDw5SKz9bJAyUswDqv7SqFdjHKq2x/k=
-=gXeR
------END PGP SIGNATURE-----
---=-=-=--
+>=20
+> Also, as it's explained in the documentation, users that no longer need
+> it can disable the device and just rely on virtio-console.
+>=20
+> Sergio.
+>=20
 
