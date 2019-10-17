@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019E7DB167
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:46:21 +0200 (CEST)
-Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E50DB17E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:49:26 +0200 (CEST)
+Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7yl-0006Wm-G5
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
+	id 1iL81k-0001eb-U2
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iL7D3-000540-3Y
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:57:02 -0400
+ (envelope-from <berrange@redhat.com>) id 1iL7D6-00059m-Q0
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:57:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iL7D1-000377-R4
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:57:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:11231)
+ (envelope-from <berrange@redhat.com>) id 1iL7D5-00039E-En
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:57:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55528)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iL7D1-00036j-LW
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:56:59 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iL7D5-00038p-6X
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:57:03 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E512E18CB917
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 14:56:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7821A8553F
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 14:57:02 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-36.ams2.redhat.com
  [10.36.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 339AF1001B0B;
- Thu, 17 Oct 2019 14:56:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6024100194E;
+ Thu, 17 Oct 2019 14:57:01 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] tests: allow filtering crypto cipher benchmark tests
-Date: Thu, 17 Oct 2019 15:56:51 +0100
-Message-Id: <20191017145654.11371-2-berrange@redhat.com>
+Subject: [PATCH 4/4] crypto: add support for nettle's native XTS impl
+Date: Thu, 17 Oct 2019 15:56:54 +0100
+Message-Id: <20191017145654.11371-5-berrange@redhat.com>
 In-Reply-To: <20191017145654.11371-1-berrange@redhat.com>
 References: <20191017145654.11371-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 17 Oct 2019 14:56:58 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Thu, 17 Oct 2019 14:57:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,58 +61,119 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for specifying a cipher mode and chunk size as argv to
-filter which combinations are benchmarked. For example to only
-benchmark XTS mode with 512 byte chunks:
+Nettle 3.5.0 will add support for the XTS mode. Use this because long
+term we wish to delete QEMU's XTS impl to avoid carrying private crypto
+algorithm impls.
 
-  ./tests/benchmark-crypto-cipher xts 512
+Unfortunately this degrades nettle performance from 612 MB/s to 568 MB/s
+as nettle's XTS impl isn't so well optimized yet.
 
 Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tests/benchmark-crypto-cipher.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ configure              | 18 ++++++++++++++++++
+ crypto/cipher-nettle.c | 18 ++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/tests/benchmark-crypto-cipher.c b/tests/benchmark-crypto-cip=
-her.c
-index 67fdf8c31d..3ca31a2779 100644
---- a/tests/benchmark-crypto-cipher.c
-+++ b/tests/benchmark-crypto-cipher.c
-@@ -161,15 +161,26 @@ static void test_cipher_speed_xts_aes_256(const voi=
-d *opaque)
+diff --git a/configure b/configure
+index 98edb0ff44..6650c72348 100755
+--- a/configure
++++ b/configure
+@@ -471,6 +471,7 @@ gtk_gl=3D"no"
+ tls_priority=3D"NORMAL"
+ gnutls=3D""
+ nettle=3D""
++nettle_xts=3D"no"
+ gcrypt=3D""
+ gcrypt_hmac=3D"no"
+ gcrypt_xts=3D"no"
+@@ -2862,6 +2863,19 @@ if test "$nettle" !=3D "no"; then
+             pass=3D"yes"
+         fi
+     fi
++    if test "$pass" =3D "yes"
++    then
++        cat > $TMPC << EOF
++#include <nettle/xts.h>
++int main(void) {
++  return 0;
++}
++EOF
++        if compile_prog "$nettle_cflags" "$nettle_libs" ; then
++            nettle_xts=3Dyes
++            qemu_private_xts=3Dno
++        fi
++    fi
+     if test "$pass" =3D "no" && test "$nettle" =3D "yes"; then
+         feature_not_found "nettle" "Install nettle devel >=3D 2.7.1"
+     else
+@@ -6337,6 +6351,10 @@ then
+    echo "  XTS             $gcrypt_xts"
+ fi
+ echo "nettle            $nettle $(echo_version $nettle $nettle_version)"
++if test "$nettle" =3D "yes"
++then
++   echo "  XTS             $nettle_xts"
++fi
+ echo "libtasn1          $tasn1"
+ echo "PAM               $auth_pam"
+ echo "iconv support     $iconv"
+diff --git a/crypto/cipher-nettle.c b/crypto/cipher-nettle.c
+index d7411bb8ff..08794a9b10 100644
+--- a/crypto/cipher-nettle.c
++++ b/crypto/cipher-nettle.c
+@@ -19,7 +19,9 @@
+  */
 =20
- int main(int argc, char **argv)
- {
-+    char *alg =3D NULL;
-+    char *size =3D NULL;
-     g_test_init(&argc, &argv, NULL);
-     g_assert(qcrypto_init(NULL) =3D=3D 0);
+ #include "qemu/osdep.h"
++#ifdef CONFIG_QEMU_PRIVATE_XTS
+ #include "crypto/xts.h"
++#endif
+ #include "cipherpriv.h"
 =20
- #define ADD_TEST(mode, cipher, keysize, chunk)                          =
-\
--    g_test_add_data_func(                                               =
-\
-+    if ((!alg || g_str_equal(alg, #mode)) &&                            =
-\
-+        (!size || g_str_equal(size, #chunk)))                           =
-\
-+        g_test_add_data_func(                                           =
-\
-         "/crypto/cipher/" #mode "-" #cipher "-" #keysize "/chunk-" #chun=
-k, \
-         (void *)chunk,                                                  =
-\
-         test_cipher_speed_ ## mode ## _ ## cipher ## _ ## keysize)
+ #include <nettle/nettle-types.h>
+@@ -30,6 +32,9 @@
+ #include <nettle/serpent.h>
+ #include <nettle/twofish.h>
+ #include <nettle/ctr.h>
++#ifndef CONFIG_QEMU_PRIVATE_XTS
++#include <nettle/xts.h>
++#endif
 =20
-+    if (argc >=3D 2) {
-+        alg =3D argv[1];
-+    }
-+    if (argc >=3D 3) {
-+        size =3D argv[2];
-+    }
-+
- #define ADD_TESTS(chunk)                        \
-     do {                                        \
-         ADD_TEST(ecb, aes, 128, chunk);         \
+ typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
+                                                size_t length,
+@@ -626,9 +631,15 @@ qcrypto_nettle_cipher_encrypt(QCryptoCipher *cipher,
+         break;
+=20
+     case QCRYPTO_CIPHER_MODE_XTS:
++#ifdef CONFIG_QEMU_PRIVATE_XTS
+         xts_encrypt(ctx->ctx, ctx->ctx_tweak,
+                     ctx->alg_encrypt_wrapper, ctx->alg_encrypt_wrapper,
+                     ctx->iv, len, out, in);
++#else
++        xts_encrypt_message(ctx->ctx, ctx->ctx_tweak,
++                            ctx->alg_encrypt_native,
++                            ctx->iv, len, out, in);
++#endif
+         break;
+=20
+     case QCRYPTO_CIPHER_MODE_CTR:
+@@ -673,9 +684,16 @@ qcrypto_nettle_cipher_decrypt(QCryptoCipher *cipher,
+         break;
+=20
+     case QCRYPTO_CIPHER_MODE_XTS:
++#ifdef CONFIG_QEMU_PRIVATE_XTS
+         xts_decrypt(ctx->ctx, ctx->ctx_tweak,
+                     ctx->alg_encrypt_wrapper, ctx->alg_decrypt_wrapper,
+                     ctx->iv, len, out, in);
++#else
++        xts_decrypt_message(ctx->ctx, ctx->ctx_tweak,
++                            ctx->alg_encrypt_native,
++                            ctx->alg_decrypt_native,
++                            ctx->iv, len, out, in);
++#endif
+         break;
+     case QCRYPTO_CIPHER_MODE_CTR:
+         ctr_crypt(ctx->ctx, ctx->alg_encrypt_native,
 --=20
 2.21.0
 
