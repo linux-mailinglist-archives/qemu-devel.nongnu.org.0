@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42C5DB324
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:18:40 +0200 (CEST)
-Received: from localhost ([::1]:54120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01757DB331
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:21:56 +0200 (CEST)
+Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9Q7-0003jx-DG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42737)
+	id 1iL9TG-00004u-EY
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iL91N-0001R5-Fo
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:53:06 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL8MZ-0006jK-T7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iL91M-0006gs-Hi
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:53:05 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46468)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL8MY-0000ZK-FA
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:55 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:37253)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iL91M-0006ga-BK; Thu, 17 Oct 2019 12:53:04 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o18so3139020wrv.13;
- Thu, 17 Oct 2019 09:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KQeT1DkCT64ITk+vuTTSbwBhjZrtonMbDVqJGwi3dbY=;
- b=lU+Kioq4ig5Ep79BvqHNOeGG4QcQu8sDdrww3nIIX/yJ5mj6+6MnOigZYVUU3oOeP0
- so4cbVMiXRsddADWM0zrjc/7ElMke68NFrTdD47ShgXrdWOUhWzUPw0HYMSA2Tgg9Tuw
- F4f9zB4MH3KNFBIs1S4zCN/A6PV0eg2TF9XgzFKb6k4jQ4nteLjQQMaRTHUZ2ko8xMTo
- e92/zTzdfuiio0Q8XI9HRVzRDaFhBXdYyEjqstyNoNbBYnO24F1FczaG3zgr3/rro2Ci
- JYjuDuDTsmsCwVq057T8UI9u9rNRJEmoOc5d5+M94M2963SHIvWhD9QGhqtvy1Ki1vkM
- UgaQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iL8MY-0000Z5-9k
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:54 -0400
+Received: by mail-ot1-x341.google.com with SMTP id k32so2379882otc.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4pccs28A3obC2PWpJv9i2yXkR50++8k8gHsTRlSoNyc=;
+ b=M5F13e/Ba5j7krASuoq9b7V05tAPKAFi9XrieCcxg8qLSCU5SGpuinWIHK1PCamkS9
+ lPssevGyx10h0H2/dzgstftdAm5iTwYEoKT3UfeWoqQs2FkVvAvgoQ6OZp5ZtFFvL/Ot
+ YRdZcFuBLytZ1KHytcTAbPL+payZgvNS+qIlhXOFpUsy++2UP8ims0kDfk7qr0rphyOF
+ bay4DbvyK9+0hE5qbOZfWFEj5loqY3dxo5tdAbLVr3nWLmwfBKKtHF8ezCy1fiV/3m6X
+ wKXpAx3gRd+rOG8P88sWfyykptJ9FSHxNQh6D3BEJOnr+7eDxGGLPDv1hLUJ2aYNGvUG
+ iy4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KQeT1DkCT64ITk+vuTTSbwBhjZrtonMbDVqJGwi3dbY=;
- b=ilyCIoR/FsEj467nnuugqXjlliSwTQeVSs19HmqfM2Fdnn2cw/kxQM3vqN95QFdzvu
- YJVuyC5IDt8Sj/bbPsar8st3WSWZV8foPU+O44u6RUbzalpgnBXh8fM0l2vxwrWAIuA+
- OKpv+kNpTBScsWdJxgvlMFeM7vPppGq32l0D97IZzf+Fe+5PcOvdv2mEQxiP/IIdsku9
- +c04ylL4nAv5RJqQxhGEmC1jYVwCylurVNsnMH0QSehBLFpWT91eOBjhKIECJ81ybqsW
- j+eWTFCxvirk+kNfoFG1qNQd4D6nyucU6RHau7RGq0gDOZc1v7HT7QB4cb+N7i2PSrJu
- BDiw==
-X-Gm-Message-State: APjAAAUJOrLv0rXkg7LEHzMqDfSucMp8pGRxX8Qs8aRWxIra4ibKGPkF
- 88ei80gDWOIorkFXUcnD7WN/KUAwPaM=
-X-Google-Smtp-Source: APXvYqwgDkqdzP7ilQb7bLZzKCHzwACTuShyO9/ltzXs6C3kwuiY5rto0iJ4Ef+YLcU0bqHWvLYiyQ==
-X-Received: by 2002:adf:b1c6:: with SMTP id r6mr4073062wra.48.1571331183138;
- Thu, 17 Oct 2019 09:53:03 -0700 (PDT)
-Received: from x1w.redhat.com (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id w22sm2557363wmc.16.2019.10.17.09.53.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 09:53:02 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 9/9] .travis.yml: Let the avocado job run the 40p tests
-Date: Thu, 17 Oct 2019 18:52:39 +0200
-Message-Id: <20191017165239.30159-10-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191017165239.30159-1-f4bug@amsat.org>
-References: <20191017165239.30159-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4pccs28A3obC2PWpJv9i2yXkR50++8k8gHsTRlSoNyc=;
+ b=hLB6pBzjgH2Y1IDaG2AOyqLoHUkUsJ9R0eELYFKfG8YPRKtMDDfJbESPG5gTPwIa2y
+ XdpCq48uSZIgRYCVrk39dviy87LwR2we71bG+0R5jtmY+3TDFrIXKPtDMQ5eV+wfYOIR
+ t78yu0ycplCjyxMsII8fjvcvi+6QrKIZD9S0Hzp8pfUNMSst23sanNc07/4pkl7ytIPa
+ AXGo2iHaji/a3OUXCIacBL+pOTCYlpB5lPor5A9PuZ3nenTS2dnH8VWJM4EXoe3l6wJN
+ 0+flTfieXbL5lJMvCIVQETiE8eixvz8Rw1QKV6cz14HGNtwT6yDOpOPLYvBNbV/K4eBB
+ FnaQ==
+X-Gm-Message-State: APjAAAUrj8soXIqDb2wN9E8jACkbr4/6mOVEC5e7TZyXHfK+ImvP6qrT
+ GUD5Brbsz5GT2mt4V93MD77tWZA+WWRIc0JN5nQ7aA==
+X-Google-Smtp-Source: APXvYqwPS8ytHPWS3QyoObXLeAL6Jcq68wu+BEHpTLqkufeyRfo/7bQBJHE+Wdj+oy6Byh5TgZIOqgrZrzb8p49CCRI=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr3787149otg.91.1571328653377;
+ Thu, 17 Oct 2019 09:10:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ <20191017132905.5604-6-peter.maydell@linaro.org>
+ <18066f84-ea56-20c3-6e43-58978f8569bb@redhat.com>
+In-Reply-To: <18066f84-ea56-20c3-6e43-58978f8569bb@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Oct 2019 17:10:40 +0100
+Message-ID: <CAFEAcA-CFGt3vXnrvtbXF-GOJmx=34GdbrhnNHyPnHAnguKtuw@mail.gmail.com>
+Subject: Re: [PATCH 5/8] hw/timer/altera_timer.c: Switch to transaction-based
+ ptimer API
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +76,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <huth@tuxfamily.org>, Magnus Damm <magnus.damm@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Michael Walle <michael@walle.cc>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 17 Oct 2019 at 17:09, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 10/17/19 3:29 PM, Peter Maydell wrote:
+> > -    t->bh =3D qemu_bh_new(timer_hit, t);
+> > -    t->ptimer =3D ptimer_init_with_bh(t->bh, PTIMER_POLICY_DEFAULT);
+> > +    t->ptimer =3D ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
+> > +    ptimer_transaction_begin(t->ptimer);
+> >       ptimer_set_freq(t->ptimer, t->freq_hz);
+> > +    ptimer_transaction_commit(t->ptimer);
+>
+> This looks odd because timers are not running at this point (REALIZE),
+> but if we don't protect it, ptimer_set_freq() will trigger the assertion.
 
-diff --git a/.travis.yml b/.travis.yml
-index d0b9e099b9..69a37f7387 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -267,7 +267,7 @@ matrix:
- 
-     # Acceptance (Functional) tests
-     - env:
--        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc64-softmmu,m68k-softmmu"
-+        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu"
-         - TEST_CMD="make check-acceptance"
-       after_failure:
-         - cat tests/results/latest/job.log
--- 
-2.21.0
+Yep. The same pattern is used in several of the other ptimer
+users where a fixed frequency or period is set immediately after
+init.
 
+thanks
+-- PMM
 
