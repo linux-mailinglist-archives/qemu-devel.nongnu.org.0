@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01757DB331
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:21:56 +0200 (CEST)
-Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22F8DB33A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:25:14 +0200 (CEST)
+Received: from localhost ([::1]:54294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9TG-00004u-EY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36223)
+	id 1iL9WT-0004LR-Jl
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL8MZ-0006jK-T7
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:56 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL8P0-00023a-7x
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:13:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL8MY-0000ZK-FA
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:55 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:37253)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL8Oy-0001R4-9R
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:13:26 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38925)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL8MY-0000Z5-9k
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:54 -0400
-Received: by mail-ot1-x341.google.com with SMTP id k32so2379882otc.4
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:10:54 -0700 (PDT)
+ id 1iL8Oy-0001QN-39
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:13:24 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id s22so2374511otr.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:13:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4pccs28A3obC2PWpJv9i2yXkR50++8k8gHsTRlSoNyc=;
- b=M5F13e/Ba5j7krASuoq9b7V05tAPKAFi9XrieCcxg8qLSCU5SGpuinWIHK1PCamkS9
- lPssevGyx10h0H2/dzgstftdAm5iTwYEoKT3UfeWoqQs2FkVvAvgoQ6OZp5ZtFFvL/Ot
- YRdZcFuBLytZ1KHytcTAbPL+payZgvNS+qIlhXOFpUsy++2UP8ims0kDfk7qr0rphyOF
- bay4DbvyK9+0hE5qbOZfWFEj5loqY3dxo5tdAbLVr3nWLmwfBKKtHF8ezCy1fiV/3m6X
- wKXpAx3gRd+rOG8P88sWfyykptJ9FSHxNQh6D3BEJOnr+7eDxGGLPDv1hLUJ2aYNGvUG
- iy4w==
+ :cc; bh=ULGX1Pw0oU0K+1vmNUVb8VFsgvzKvU/ec8B90seQ/cQ=;
+ b=xzpils4xsulwztPOEwAPFmJi5x96TP6E6YT0wXTwPW06R1YSb4xSbH5/n5N33LEMi4
+ l7yC2oj1BZmn1xmhL6lXfvfxdUqp+gwt/dFVu1YuPck2KQ+ob0oWdji1yoiHfv1986Bt
+ B81ADXDpx5A7iqORWmSmSwytGyGXLyBUc1sGd//n/ihAI4pUukgc/dWhVAgdOIaPa2fN
+ cQs25yZff92Gi4M6IZggHTOACAeBPEzDWp6C+sO6RFlH/bvOIgRmlunoIfMOerkb8KfW
+ amkH+qeenG29hORl/bnz28jiiP7JOyNo6J9NWD4959Nc4CzZUdb9BbvSGOqjY9VXbXNg
+ k0qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4pccs28A3obC2PWpJv9i2yXkR50++8k8gHsTRlSoNyc=;
- b=hLB6pBzjgH2Y1IDaG2AOyqLoHUkUsJ9R0eELYFKfG8YPRKtMDDfJbESPG5gTPwIa2y
- XdpCq48uSZIgRYCVrk39dviy87LwR2we71bG+0R5jtmY+3TDFrIXKPtDMQ5eV+wfYOIR
- t78yu0ycplCjyxMsII8fjvcvi+6QrKIZD9S0Hzp8pfUNMSst23sanNc07/4pkl7ytIPa
- AXGo2iHaji/a3OUXCIacBL+pOTCYlpB5lPor5A9PuZ3nenTS2dnH8VWJM4EXoe3l6wJN
- 0+flTfieXbL5lJMvCIVQETiE8eixvz8Rw1QKV6cz14HGNtwT6yDOpOPLYvBNbV/K4eBB
- FnaQ==
-X-Gm-Message-State: APjAAAUrj8soXIqDb2wN9E8jACkbr4/6mOVEC5e7TZyXHfK+ImvP6qrT
- GUD5Brbsz5GT2mt4V93MD77tWZA+WWRIc0JN5nQ7aA==
-X-Google-Smtp-Source: APXvYqwPS8ytHPWS3QyoObXLeAL6Jcq68wu+BEHpTLqkufeyRfo/7bQBJHE+Wdj+oy6Byh5TgZIOqgrZrzb8p49CCRI=
-X-Received: by 2002:a9d:30c1:: with SMTP id r1mr3787149otg.91.1571328653377;
- Thu, 17 Oct 2019 09:10:53 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=ULGX1Pw0oU0K+1vmNUVb8VFsgvzKvU/ec8B90seQ/cQ=;
+ b=RF2wzgfJVvNlHOWjq2lV0L1hFuAGGXvwP3TWS2dPud3R9WEBBCP/mpS4VK92aC+cFb
+ NKTYez9GN9via5mqXC61tyirRZ045UlZoUWD/rfAjC6uPck2C9pmRFaOqPWAC0v7sVxx
+ KZJvzmtSp2rz5Fgqktdw8L4aIQ83iD3S0M781dI4r19bA13/YsJ23no9YTM87Zln6meb
+ gCz/NFoAoQPPhr8BZEqM0rc6KaGxHsk/YFBHxYQ+ufjMwje34SzQwBN3pLQ2stXcFu8S
+ 9v2KyJlLu01ZxAmnK+VTzEYJR5P6nZsHzCWiQ8cQHw9C69yli1kOcGZIvrfq+oWjr+n7
+ 1J7g==
+X-Gm-Message-State: APjAAAWuk1g/o+scG1rRnNqYW7Cyir4FBiFaYqqiwxVR6G7FprD/3Lk9
+ GjzEPAvHx/FjIpboknMlwClyJHMhQjW+j3c1rRoqGuMbkVU=
+X-Google-Smtp-Source: APXvYqwuwA9uUCSNFBfLocasJQ3cAnaofaYkAmhWWYnDSm/JcOVc3UxUiP0O81EW1CCaUtR/Eka/hhH2jUMcmb103f0=
+X-Received: by 2002:a9d:708e:: with SMTP id l14mr3757501otj.135.1571328801844; 
+ Thu, 17 Oct 2019 09:13:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
- <20191017132905.5604-6-peter.maydell@linaro.org>
- <18066f84-ea56-20c3-6e43-58978f8569bb@redhat.com>
-In-Reply-To: <18066f84-ea56-20c3-6e43-58978f8569bb@redhat.com>
+References: <20191017151606.GA1880840@orkuz.int.mamuti.net>
+ <82ea23ea-be23-c374-3f10-65d8f6e79432@redhat.com>
+In-Reply-To: <82ea23ea-be23-c374-3f10-65d8f6e79432@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 17:10:40 +0100
-Message-ID: <CAFEAcA-CFGt3vXnrvtbXF-GOJmx=34GdbrhnNHyPnHAnguKtuw@mail.gmail.com>
-Subject: Re: [PATCH 5/8] hw/timer/altera_timer.c: Switch to transaction-based
- ptimer API
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Thu, 17 Oct 2019 17:13:10 +0100
+Message-ID: <CAFEAcA-pkD_LCh++TWoO77=Bu9mYe7HOkaeyCXjLopAmqhpi-g@mail.gmail.com>
+Subject: Re: Default CPU models on s390x and ppc64
+To: David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,30 +72,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Magnus Damm <magnus.damm@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Michael Walle <michael@walle.cc>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: David Gibson <dgibson@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
+ David Hildenbrand <dhildenb@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Oct 2019 at 17:09, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 10/17/19 3:29 PM, Peter Maydell wrote:
-> > -    t->bh =3D qemu_bh_new(timer_hit, t);
-> > -    t->ptimer =3D ptimer_init_with_bh(t->bh, PTIMER_POLICY_DEFAULT);
-> > +    t->ptimer =3D ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
-> > +    ptimer_transaction_begin(t->ptimer);
-> >       ptimer_set_freq(t->ptimer, t->freq_hz);
-> > +    ptimer_transaction_commit(t->ptimer);
->
-> This looks odd because timers are not running at this point (REALIZE),
-> but if we don't protect it, ptimer_set_freq() will trigger the assertion.
+On Thu, 17 Oct 2019 at 17:09, David Hildenbrand <david@redhat.com> wrote:
+> The default model under KVM is "host", under TCG it's "qemu". We should
+> not use "qemu" under KVM, although it might work on some setups ...
 
-Yep. The same pattern is used in several of the other ptimer
-users where a fixed frequency or period is set immediately after
-init.
+Possibly a tangent, but on Arm the approach we used to deal
+with "'-cpu host' only works for kvm" was to define a "-cpu max"
+meaning "best thing you can give me", which is an alias for
+-cpu host with KVM and an alias for a CPU with all the extra
+features we have emulation support under TCG. Then users can
+use '-cpu max' and have something that generally will DTRT
+regardless of accelerator.
 
 thanks
 -- PMM
