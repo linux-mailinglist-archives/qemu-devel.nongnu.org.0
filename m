@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23DADB1EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:08:24 +0200 (CEST)
-Received: from localhost ([::1]:52006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09FFDB1E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:07:28 +0200 (CEST)
+Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8K7-0001xq-Ei
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55632)
+	id 1iL8JD-0000HE-FQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jdenemar@redhat.com>) id 1iL7Va-0003bW-OQ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:12 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL7Vs-0003qD-Nb
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jdenemar@redhat.com>) id 1iL7VZ-0004zb-CY
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35180)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jdenemar@redhat.com>) id 1iL7VZ-0004yo-3z
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:09 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A6A2A300CB2C
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:16:07 +0000 (UTC)
-Received: from virval.usersys.redhat.com (unknown [10.43.2.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D57560BAE;
- Thu, 17 Oct 2019 15:16:07 +0000 (UTC)
-Received: by virval.usersys.redhat.com (Postfix, from userid 500)
- id 2947C101CE9; Thu, 17 Oct 2019 17:16:06 +0200 (CEST)
-Date: Thu, 17 Oct 2019 17:16:06 +0200
-From: Jiri Denemark <jdenemar@redhat.com>
-To: qemu-devel@nongnu.org, David Hildenbrand <dhildenb@redhat.com>,
- David Gibson <dgibson@redhat.com>
-Subject: Default CPU models on s390x and ppc64
-Message-ID: <20191017151606.GA1880840@orkuz.int.mamuti.net>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL7Vn-00056Y-Mq
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:28 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34228)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iL7Vn-00056P-ID
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:23 -0400
+Received: by mail-oi1-x242.google.com with SMTP id 83so2493437oii.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=AyW8NM6SJoGlUUn/caesoONpoZFYdqbED9wtAipUY7Q=;
+ b=LRnSB184BsuH9LrV/bwFshWgP2XeAAUH44yEASK7+n3o/THTEY8W/7incOAx2V/GjU
+ 4qAt8d6oUwfPefR0gITGLKjTUnalbjKED/56rYlVo6ycBjq6hjHhUa/goMJotZYS5+aj
+ 5ro9nrjVMhogoJRPwY7aldvdb3Urf6a/FhANETyOinuxiHUWPyVzMVrlr6ugVGvlmee+
+ F+3hNk3jPQwtGPVYnLIa2bxL+0wUglY3oCxCrR0qpL6NLAJLK4ZR6m1gKYdnA7t33j/Q
+ HFwx8SfyzL+uZkBRotKzVJm+frxNfdbPd25QlLy0q0Enf1ELYAe7aLyOeilLrwrRlJPB
+ mIZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=AyW8NM6SJoGlUUn/caesoONpoZFYdqbED9wtAipUY7Q=;
+ b=DWKvHhM/G78+Okj0n8AS9j1ECSNjcKubfWn+1a5EVyXam9EFZ8MTMewU6q7UzfJll1
+ eTZ1QrGOkZcSRQqDMR7bQl1ffpcwKzRtq2kG92YEbNweolwLfsx6bjJS7ZHyl9ARg5QS
+ dEEddmOAXvpjzq2AdjuYPjQ/5coQ8KKlNhfuTtDy+ks7UFj0Hkoy6IdJW2Y3F+u6h/4r
+ yNvEwwnHK4ZHBaoVzpGtkiCGcw9jgYItxMhm3eekiQTq3mL9Ei39L40RCqSEE/X78tmN
+ oONjt+GOpn8dhfVr7yUeciLbj6vNtEhC9/BHQU6l+SDIf/euCvrd2P60X2g+L183QeMy
+ fOXg==
+X-Gm-Message-State: APjAAAVMPFyivYt1B/ZzKsbRtpDpMafJ0ZEcBnhr712cfSTXBojY1nhs
+ W1FF4cUeHmIq+dRTt2I0ufztfK9dcm6URMKLIq4=
+X-Google-Smtp-Source: APXvYqw07qJjPokcVhwk/D87QvKmD4UjYp48DXnEdjIzgiiW8ZjoAHftG/wPAwoPFRE9z8BKjwAVnW0sE6vYehgJDDk=
+X-Received: by 2002:aca:4e56:: with SMTP id c83mr3701878oib.53.1571325382899; 
+ Thu, 17 Oct 2019 08:16:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 17 Oct 2019 15:16:07 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 08:16:22
+ -0700 (PDT)
+In-Reply-To: <20191015162705.28087-22-philmd@redhat.com>
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-22-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 17 Oct 2019 17:16:22 +0200
+Message-ID: <CAL1e-=hLUDDqFiV8W1f2PFGYJMomvmZUXmjA55X7WEEYMykjHQ@mail.gmail.com>
+Subject: Re: [PATCH 21/32] hw/i386/pc: Reduce gsi_handler scope
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000463b3505951cb36b"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,66 +74,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David and David,
+--000000000000463b3505951cb36b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm working on libvirt's support [1] for query-machines'
-default-cpu-type, which is supposed to return the type of the default
-CPU model that QEMU uses for each machine type. Rather than hard coding
-the default in libvirt (which we currently do on x86), we ask QEMU for
-the default CPU model and use it unless a user asks for a specific CPU
-model explicitly.
+On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>
+wrote:
 
-We use query-cpu-definitions for translating the default CPU type to the
-actual CPU model we need to pass to -cpu by looking up the CPU model
-with matching typename.
+> pc_gsi_create() is the single function that uses gsi_handler.
+> Make it a static variable.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/i386/pc.c         | 2 +-
+>  include/hw/i386/pc.h | 2 --
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index a7597c6c44..59de0c8a1f 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
+>  };
+>  const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
+>
+> -void gsi_handler(void *opaque, int n, int level)
+> +static void gsi_handler(void *opaque, int n, int level)
+>  {
+>      GSIState *s =3D opaque;
+>
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index d0c6b9d469..75b44e156c 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -172,8 +172,6 @@ typedef struct GSIState {
+>      qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+>  } GSIState;
+>
+> -void gsi_handler(void *opaque, int n, int level);
+> -
+>  GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+>
+>
+Philippe, this 2-line deletion seems not to belong to this patch. If true,
+please place it in another or a separate patch.
 
-However, all this seems to work only with TCG on both s390x and ppc64.
-The issues I met with KVM on each architecture are described below.
-
-On ppc64 the default CPU type reported by query-machines is
-power*-powerpc64-cpu, while IIUC QEMU would effectively use -cpu host by
-default. In fact -cpu power8 is mostly just a fancy alias to -cpu host
-on a Power8 machine. But QEMU even rewrites typename of the current host
-CPU model to host-powerpc64-cpu. Which means on a Power8 host the power8
-CPU model would have typename=host-powerpc64-cpu while the default CPU
-type would still use power8*-powerpc64-cpu. Thus we may just fail to
-find any CPU model corresponding to the default CPU model.
-
-And to make it even worse, the default CPU model changes with machine
-type. E.g., pseries-3.1 uses power8_v2.0-powerpc64-cpu while pseries-4.2
-uses power9_v2.0-powerpc64-cpu. However, starting QEMU with pseries-4.2
-machine type and the reported default -cpu power9 fails on any
-non-Power9 host. That said QEMU just lies about the default CPU model.
-
-So for all combinations of (pseries-3.1, pseries-4.2) machine types and
-(Power8, Power9) hosts, one will get the following mixed results:
-
-- pseries-3.1 on Power8: no default CPU model will be detected, QEMU
-  starts fine with it's own default
-- pseries-4.2 on Power9: same as above
-- pseries-3.1 on Power9: -cpu power8 (not sure if this works, though)
-- pseries-4.2 on Power8: -cpu power9, QEMU doesn't start
-
-
-This situation on s390x is not so complicated, but not really better.
-The default CPU is said to be "qemu" for all machine types, which works
-fine for TCG domains, but it doesn't work on KVM because QEMU complains
-that some features requested in the CPU model are not available. In
-other words the "qemu" CPU model is not runnable on KVM. This a bit
-similar to what happens on x86_64, but QEMU just ignores missing
-features and starts happily there.
+A.
 
 
-So what do you suggest we should do? Currently I just restricted all the
-default CPU model staff to TCG on both s390x and ppc64. So either we can
-be happy with the current state or we need to come up with a solution
-that would allow us to enable this even for KVM.
 
-Thanks,
-Jirka
+>  /* vmport.c */
+> --
+> 2.21.0
+>
+>
+>
 
-[1] https://www.redhat.com/archives/libvir-list/2019-October/msg00872.html
+--000000000000463b3505951cb36b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
+ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">pc_gsi_create() is the single function that uses gs=
+i_handler.<br>
+Make it a static variable.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/i386/pc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A0include/hw/i386/pc.h | 2 --<br>
+=C2=A02 files changed, 1 insertion(+), 3 deletions(-)<br>
+<br>
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c<br>
+index a7597c6c44..59de0c8a1f 100644<br>
+--- a/hw/i386/pc.c<br>
++++ b/hw/i386/pc.c<br>
+@@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {<br>
+=C2=A0};<br>
+=C2=A0const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);<br>
+<br>
+-void gsi_handler(void *opaque, int n, int level)<br>
++static void gsi_handler(void *opaque, int n, int level)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0GSIState *s =3D opaque;<br>
+<br>
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
+index d0c6b9d469..75b44e156c 100644<br>
+--- a/include/hw/i386/pc.h<br>
++++ b/include/hw/i386/pc.h<br>
+@@ -172,8 +172,6 @@ typedef struct GSIState {<br>
+=C2=A0 =C2=A0 =C2=A0qemu_irq ioapic_irq[IOAPIC_NUM_PINS];<br>
+=C2=A0} GSIState;<br>
+<br>
+-void gsi_handler(void *opaque, int n, int level);<br>
+-<br>
+=C2=A0GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);<br>
+<br></blockquote><div><br></div><div>Philippe, this 2-line deletion seems n=
+ot to belong to this patch. If true, please place it in another or a separa=
+te patch.</div><div><br></div><div>A.</div><div><br></div><div>=C2=A0</div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+=C2=A0/* vmport.c */<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote>
+
+--000000000000463b3505951cb36b--
 
