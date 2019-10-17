@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BF4DAF26
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:06:55 +0200 (CEST)
-Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2606DAF3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:09:34 +0200 (CEST)
+Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6QX-0007mJ-ST
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36115)
+	id 1iL6T7-0003H7-FF
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q3-0006i3-81
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5qB-0006wt-00
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q2-0002Ya-0Q
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:11 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54153)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5q9-0002bJ-JY
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:18 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54154)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5q1-0002YN-Qr
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:09 -0400
-Received: by mail-wm1-x343.google.com with SMTP id i16so2577612wmd.3
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:09 -0700 (PDT)
+ id 1iL5q9-0002b2-DT
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:17 -0400
+Received: by mail-wm1-x342.google.com with SMTP id i16so2578195wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e2Ij4RQysVJcdo+i7dvWapjtIXrPIwRATrfBcMlAk+I=;
- b=lRqagTtBFoxIc0/CA2ni0W+tWpGc03zj4lnjzYXwmZIFfPoTGUm8FFp06jsLNojK/Q
- yRHK6ku3OZbhF6slx4KWmzBUfV6nCybuJja64uhSI08wFFgdGbgJfJUZgPQEcsKmoIVf
- va+rqB4fve1TjOL5F4rvMJIupVfof+hbCd8f+5e8AR+bTuxrTvEv40+PsCO6efrMuOXC
- x+mLy5PsTShOIsGL8Iadq67hq9eU2UtFFzMknfEmbnQnPgQTcYqqiauxd+3g1glptDTy
- tPSXH+S6WpqeY26qx0mtGlKS36raKvz1fRYoapdAcrC/Rz+CyklEVuvdsEqBBdIMF6R3
- daPA==
+ bh=2N8pR3XdK7iKpoiyLDAZ/80MgScv3T2YbJfwoAS7T38=;
+ b=NHrxN4ioR+UGwIodzrq4Q4bE5jd3WLM9j/tFdWUn7w7jSSGGOhRTIi+KB+M9NfV0TK
+ VUX4n4uDJx0gN2RJLqd/f/avEYfmAsfUZUHPf8HV8H02nkkeMQFTDO4w4D8hwLOYLBM1
+ PTcMMcetfvPiKah0vYctn5+jt7l+TR07iI4U2JYjtYBq9JG8mNEwrFFfNCXoh6aR1zs6
+ LeNvDApEGTJ2pD5oi4B//IDRgQhfmdRQi0fG6O+RG3nA1VEVOjPEMG1U9UX/knowXAoZ
+ iq/+EanqLW7Xwz7eH6jmhsVf5uuPGc1Ttd3k+etUG16wLKpUpzkM5gpqzWA3i30UMV+U
+ rhsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e2Ij4RQysVJcdo+i7dvWapjtIXrPIwRATrfBcMlAk+I=;
- b=ulijadOVMq12mu1LOuW/eoUVkQpNKisIl1liKyosFk1MTR+g1tbPlQVJAYKZN3vijR
- AD6J42zhir+1PzrB9U/KRyyLR5/utWhUcQDaefssomWRn301L39wkYbDZ2hJr6HmmcVi
- QdBOJnavn4JcWK1Qv678DPvGDmLs408VE5p7dfoUb8spxYZ6UEoNgNqFkcjB1rzqHowL
- a8mhNJ5wxl0U/xDwS73YVp9GHlTtRwV6aXSFVd8+FSGNovRXhrZtYXAIO5IrpTp/jtmi
- FzspkJdtdh3gVFU68LZh5R5gPSuiATDhpYtgFQlLRGJmFTUgK+vch+fF4LNzjlB6YNBL
- kuSg==
-X-Gm-Message-State: APjAAAUOydS7kyEqAXPVUwm03oHrkKlKdibg95cPH/a2nFStsK8rq3k+
- AYdQ88v7Ls88qh9lAJgM6LEqNS4dKsw0Gw==
-X-Google-Smtp-Source: APXvYqxaiNtqgJ4gau3o63qLFSQ0iE4D9wukDchX0Z3Vp8GHDCOmECJfBTppXJX9jTp6YzlBWQeHjA==
-X-Received: by 2002:a1c:5408:: with SMTP id i8mr2908630wmb.149.1571318948583; 
- Thu, 17 Oct 2019 06:29:08 -0700 (PDT)
+ bh=2N8pR3XdK7iKpoiyLDAZ/80MgScv3T2YbJfwoAS7T38=;
+ b=O4DZzZ9EYmx6zGWD0kA7HM8DcLiGHMfqihF7PRxGDYYVdgHFcol4X+SXLfjOT/lxtk
+ 3XIo/vDJ13TkpVGlsGCHP4msOSlJE20n7XUs5/mteVDJnMnN1NIlywoy7NTbVC2IPo0p
+ pekAPbYROPgR2cgJz9r2c20rLVoE5OeUPDUOS4RH0QY0FqymygO0hw82APedTPA0Oh6N
+ t5CqO24nOvwiUKumZW3CQVxSVa38zdJEUkuCnsynWQ3KVpcSJPTgjZz62gaZCK7jFJW1
+ sTmSQLu+K73RGK50+H4TuvwYpqtwbbDuyWY58v6ALRGIEGxVG2Q1c4cCmTT1hWjvauIS
+ 1M9Q==
+X-Gm-Message-State: APjAAAUVRItTlHHCgw8PitkK3HKmMT6IDNV/IcV3aqUv3Vg9NEaMccZ9
+ OgjPosLLpI9Tkn7oyAbm5rG4W60M90q0ew==
+X-Google-Smtp-Source: APXvYqzg1Ju/Mu4oFYfopvv3nG8pPgQyOkVTlx7/vfzrmYOZL208SgGQy3VnEuS2XZqtS8CsYVqqkg==
+X-Received: by 2002:a1c:41c1:: with SMTP id o184mr2875500wma.57.1571318956178; 
+ Thu, 17 Oct 2019 06:29:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.07
+ by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:29:08 -0700 (PDT)
+ Thu, 17 Oct 2019 06:29:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] hw/timer/puv3_ost.c: Switch to transaction-based ptimer
- API
-Date: Thu, 17 Oct 2019 14:28:58 +0100
-Message-Id: <20191017132905.5604-2-peter.maydell@linaro.org>
+Subject: [PATCH 6/8] hw/watchdog/etraxfs_timer.c: Switch to transaction-based
+ ptimer API
+Date: Thu, 17 Oct 2019 14:29:03 +0100
+Message-Id: <20191017132905.5604-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017132905.5604-1-peter.maydell@linaro.org>
 References: <20191017132905.5604-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,65 +85,102 @@ Cc: Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the puv3_ost code away from bottom-half based ptimers to the
-new transaction-based ptimer API.  This just requires adding
+Switch the etraxfs_timer code away from bottom-half based ptimers to
+the new transaction-based ptimer API.  This just requires adding
 begin/commit calls around the various places that modify the ptimer
 state, and using the new ptimer_init() function to create the timer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/puv3_ost.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/timer/etraxfs_timer.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
-index 0898da5ce97..697519593bb 100644
---- a/hw/timer/puv3_ost.c
-+++ b/hw/timer/puv3_ost.c
-@@ -13,7 +13,6 @@
+diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
+index ab27fe1895b..afe3d30a8ea 100644
+--- a/hw/timer/etraxfs_timer.c
++++ b/hw/timer/etraxfs_timer.c
+@@ -26,7 +26,6 @@
  #include "hw/sysbus.h"
- #include "hw/irq.h"
- #include "hw/ptimer.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
 -#include "qemu/main-loop.h"
  #include "qemu/module.h"
- 
- #undef DEBUG_PUV3
-@@ -27,7 +26,6 @@ typedef struct PUV3OSTState {
-     SysBusDevice parent_obj;
- 
-     MemoryRegion iomem;
--    QEMUBH *bh;
+ #include "qemu/timer.h"
+ #include "hw/irq.h"
+@@ -59,9 +58,6 @@ typedef struct ETRAXTimerState {
      qemu_irq irq;
-     ptimer_state *ptimer;
+     qemu_irq nmi;
  
-@@ -68,6 +66,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
-     DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
-     switch (offset) {
-     case 0x00: /* Match Register 0 */
-+        ptimer_transaction_begin(s->ptimer);
-         s->reg_OSMR0 = value;
-         if (s->reg_OSMR0 > s->reg_OSCR) {
-             ptimer_set_count(s->ptimer, s->reg_OSMR0 - s->reg_OSCR);
-@@ -76,6 +75,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
-                     (0xffffffff - s->reg_OSCR));
-         }
-         ptimer_run(s->ptimer, 2);
-+        ptimer_transaction_commit(s->ptimer);
-         break;
-     case 0x14: /* Status Register */
-         assert(value == 0);
-@@ -128,9 +128,10 @@ static void puv3_ost_realize(DeviceState *dev, Error **errp)
+-    QEMUBH *bh_t0;
+-    QEMUBH *bh_t1;
+-    QEMUBH *bh_wd;
+     ptimer_state *ptimer_t0;
+     ptimer_state *ptimer_t1;
+     ptimer_state *ptimer_wd;
+@@ -155,6 +151,7 @@ static void update_ctrl(ETRAXTimerState *t, int tnum)
+     }
  
-     sysbus_init_irq(sbd, &s->irq);
+     D(printf ("freq_hz=%d div=%d\n", freq_hz, div));
++    ptimer_transaction_begin(timer);
+     ptimer_set_freq(timer, freq_hz);
+     ptimer_set_limit(timer, div, 0);
  
--    s->bh = qemu_bh_new(puv3_ost_tick, s);
--    s->ptimer = ptimer_init_with_bh(s->bh, PTIMER_POLICY_DEFAULT);
-+    s->ptimer = ptimer_init(puv3_ost_tick, s, PTIMER_POLICY_DEFAULT);
-+    ptimer_transaction_begin(s->ptimer);
-     ptimer_set_freq(s->ptimer, 50 * 1000 * 1000);
-+    ptimer_transaction_commit(s->ptimer);
+@@ -176,6 +173,7 @@ static void update_ctrl(ETRAXTimerState *t, int tnum)
+             abort();
+             break;
+     }
++    ptimer_transaction_commit(timer);
+ }
  
-     memory_region_init_io(&s->iomem, OBJECT(s), &puv3_ost_ops, s, "puv3_ost",
-             PUV3_REGS_OFFSET);
+ static void timer_update_irq(ETRAXTimerState *t)
+@@ -240,6 +238,7 @@ static inline void timer_watchdog_update(ETRAXTimerState *t, uint32_t value)
+ 
+     t->wd_hits = 0;
+ 
++    ptimer_transaction_begin(t->ptimer_wd);
+     ptimer_set_freq(t->ptimer_wd, 760);
+     if (wd_cnt == 0)
+         wd_cnt = 256;
+@@ -250,6 +249,7 @@ static inline void timer_watchdog_update(ETRAXTimerState *t, uint32_t value)
+         ptimer_stop(t->ptimer_wd);
+ 
+     t->rw_wd_ctrl = value;
++    ptimer_transaction_commit(t->ptimer_wd);
+ }
+ 
+ static void
+@@ -311,9 +311,15 @@ static void etraxfs_timer_reset(void *opaque)
+ {
+     ETRAXTimerState *t = opaque;
+ 
++    ptimer_transaction_begin(t->ptimer_t0);
+     ptimer_stop(t->ptimer_t0);
++    ptimer_transaction_commit(t->ptimer_t0);
++    ptimer_transaction_begin(t->ptimer_t1);
+     ptimer_stop(t->ptimer_t1);
++    ptimer_transaction_commit(t->ptimer_t1);
++    ptimer_transaction_begin(t->ptimer_wd);
+     ptimer_stop(t->ptimer_wd);
++    ptimer_transaction_commit(t->ptimer_wd);
+     t->rw_wd_ctrl = 0;
+     t->r_intr = 0;
+     t->rw_intr_mask = 0;
+@@ -325,12 +331,9 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
+     ETRAXTimerState *t = ETRAX_TIMER(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+ 
+-    t->bh_t0 = qemu_bh_new(timer0_hit, t);
+-    t->bh_t1 = qemu_bh_new(timer1_hit, t);
+-    t->bh_wd = qemu_bh_new(watchdog_hit, t);
+-    t->ptimer_t0 = ptimer_init_with_bh(t->bh_t0, PTIMER_POLICY_DEFAULT);
+-    t->ptimer_t1 = ptimer_init_with_bh(t->bh_t1, PTIMER_POLICY_DEFAULT);
+-    t->ptimer_wd = ptimer_init_with_bh(t->bh_wd, PTIMER_POLICY_DEFAULT);
++    t->ptimer_t0 = ptimer_init(timer0_hit, t, PTIMER_POLICY_DEFAULT);
++    t->ptimer_t1 = ptimer_init(timer1_hit, t, PTIMER_POLICY_DEFAULT);
++    t->ptimer_wd = ptimer_init(watchdog_hit, t, PTIMER_POLICY_DEFAULT);
+ 
+     sysbus_init_irq(sbd, &t->irq);
+     sysbus_init_irq(sbd, &t->nmi);
 -- 
 2.20.1
 
