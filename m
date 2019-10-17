@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03844DAE92
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:38:52 +0200 (CEST)
-Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369A2DAE81
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:35:21 +0200 (CEST)
+Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5zO-0008TN-Nr
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35517)
+	id 1iL5vz-0004Ux-J2
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5mS-0002DM-Od
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5kz-00008k-LE
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:24:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5mR-0001GP-9K
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:28 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37759)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5ky-0000vp-34
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:23:57 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45387)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL5mR-0001Fo-2c
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:27 -0400
-Received: by mail-wr1-x431.google.com with SMTP id p14so2359312wro.4
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:25:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iL5kx-0000vg-T7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:23:56 -0400
+Received: by mail-wr1-x443.google.com with SMTP id r5so2317383wrm.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:23:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Shj2sUFHREFoNKEY0G4KRrT2p/DDO+h1POzPYyb7/oY=;
- b=T0asdU8/UtNNPnhq+7KesM5zKbF1Mp9KNB00J3msfMlctmw75FDJ9OfF2hHs4090M7
- mowtYq/TnPhB89E8I4t6/1paq+00pMnLVA8WCUzBDh05ILD1Zcx6H4nh5ak1hCzCDKRU
- nD7lVp+a22NnZT6UGZukmJjA6UN17bggu2CYPbQ12R1/qbcZVcRF60YMv7I66ngU+Eua
- WTOcDqNjJ/IrRF2hkXQnGiKRUdfLeG33p78YmlFAMwVaXap21FUrZeLBZrkU3WkurQRv
- Qc3gINfsvf4zs651MD98gkHU2pg14pefvMvbvOG+7/zd3O1EZk0h5W0cc6G6yeM4k4PT
- YO8Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DhRE11UdLxath7raVb3JsISvnWGqrCeOZshNI/mC17A=;
+ b=Z/gXzscf3NU2uqXCfryyqNgKXN3y/Kuv6Znv4szHo9zmC7kaGLXOi9AyGbYzEZkrVu
+ Ht7rWr4LOnHjSnHrDE8LUPMG6hcGurkoyytxFVRau9UvekCsEbQjsWeOkT1jlmxM4NC1
+ NQg3mbT08RgNo22XoNAytDAtgAy4wAEJGwacq1ejtfH+swuzVUYcwgwdz17ggALZgCF6
+ XCipbSU4BEgYrUk19x3yjMTC4ntD3bHAQXBEhIuGhTeJ8hUJ4snJDl/8FBv8ytTVhPWr
+ Saqhopz7d9cwUkEdpiGsXBoY0LkwzfRNyUV2jXoSTQ5fK+6TNOO0VDP29xyHIgBr6Pr7
+ ixQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Shj2sUFHREFoNKEY0G4KRrT2p/DDO+h1POzPYyb7/oY=;
- b=f/qzgZvLb+Adsr6jyKmrdw2HonI+Yn1JfvWiH49xPn/hkHJnKHAXGAgUIQFNIRua29
- NEgHXJvGhbnRWjaoUbsSJbnT/RLcRw46649WVYzdw+6RrIM4k/hNdGqpq4SPIjSzLaJR
- GhWKkkGvZZLWGF+fa3fu2hZYvhyZDOP7RRb6qt12naOi7Ta9uCtbEeRfrT12A6oWTZil
- +p0N6yABAEup4OP55wDUYdgvkI/warwveD509ETJJcuAG40cC55ywBrKtin4Pwe65U2V
- If43ga1Epsv2JQMeKc5yhtjVobjIJOuQyjI/3RvBNkmyGcdNsxDi3/i3NRkb6JSM5Tva
- 9K6Q==
-X-Gm-Message-State: APjAAAVZCGhpIAsecBKlzVbVOSihOKvRNFr+Sl5rnU/a7+7E6LJJyxGr
- p/vA+QSHc8SEqBAAOZIYuzVjXw==
-X-Google-Smtp-Source: APXvYqx3+Y/XpQEAU35PWKo+SVpo0RhAzvrisyAebpLdcInhtng81lOMlWA/ZMJvBGP4IcTrUjy4lg==
-X-Received: by 2002:a5d:46d2:: with SMTP id g18mr2924439wrs.245.1571318725828; 
- Thu, 17 Oct 2019 06:25:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g11sm2202766wmh.45.2019.10.17.06.25.22
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DhRE11UdLxath7raVb3JsISvnWGqrCeOZshNI/mC17A=;
+ b=fJnH6PaNwbM6EoGgrHNGtR6crnPvoeX67PSuz5qM3wm4MXIQtKR5bPL8BQbGeG3zoP
+ LR7CZKsIEkN/a85kBNhHhIXEc0cWg/gVGFP149OCBqlKYytVNBtaK3p6MVnKK5GsJ7XX
+ 1qe11XTh9dOMPgo+ENhxMoIwmN4hrAJ4MECNQJ7UA2U8upF2oZBL44TacUNQmaif5y6T
+ pE6G3uzMjzF+7DnC9JtySCb12mOgpYcxx/g0Cnik3Lo9UryQKFJvfK+0SEK+OKs1vh2p
+ Mo8+Lu0gR0FtPtFxjv7ZihY30lzrLAXrTEEFjOONck/eFz11Z55V707pwXuKD77JFAO8
+ QzRw==
+X-Gm-Message-State: APjAAAVb3Ah1845p60vf+iX5L0VJiFhxLELAA1iMt1JF2Naf6dkI03bE
+ FpK5REFKbRmrYFxhn2hHuhnDATdfoJukpQ==
+X-Google-Smtp-Source: APXvYqxuR3/P+MtYF5fa1ixHU32vrMW4Z5RmwFQKQIbeNb0g0SSgt7GUFWtvnEFTL6kk+cSBU+wFHA==
+X-Received: by 2002:adf:828c:: with SMTP id 12mr3042041wrc.40.1571318634255;
+ Thu, 17 Oct 2019 06:23:54 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id z9sm2270302wrp.26.2019.10.17.06.23.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:25:22 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 566E31FFC5;
- Thu, 17 Oct 2019 14:16:20 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Thu, 17 Oct 2019 06:23:53 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 47/54] tests/tcg: enable plugin testing
-Date: Thu, 17 Oct 2019 14:16:08 +0100
-Message-Id: <20191017131615.19660-48-alex.bennee@linaro.org>
+Subject: [PATCH 0/2] Convert sparc devices to new ptimer API
+Date: Thu, 17 Oct 2019 14:23:49 +0100
+Message-Id: <20191017132351.4762-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
-References: <20191017131615.19660-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,177 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- robert.foley@futurewei.com, Richard Henderson <richard.henderson@linaro.org>,
- peter.puhov@futurewei.com, aaron@os.amperecomputing.com, cota@braap.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If CONFIG_PLUGINS is enabled then lets enable testing for all our TCG
-targets. This is a simple smoke test that ensure we don't crash or
-otherwise barf out by running each plugin against each test.
+This patchset converts the devices used by sparc machines to the new
+ptimer API.
 
-There is a minor knock on effect for additional runners which need
-specialised QEMU_OPTS which will also need to declare a plugin version
-of the runner. If this gets onerous we might need to add another
-helper.
+Currently the ptimer design uses a QEMU bottom-half as its mechanism
+for calling back into the device model using the ptimer when the
+timer has expired.  Unfortunately this design is fatally flawed,
+because it means that there is a lag between the ptimer updating its
+own state and the device callback function updating device state, and
+guest accesses to device registers between the two can return
+inconsistent device state. This was reported as a bug in a specific
+timer device but it's a problem with the generic ptimer code:
+https://bugs.launchpad.net/qemu/+bug/1777777
 
-Checking the results of the plugins is left for a later exercise.
+The updates to the individual ptimer devices are straightforward:
+we need to add begin/commit calls around the various places that
+modify the ptimer state, and use the new ptimer_init() function
+to create the timer.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
-v5
-  - fix for the latest changes to check-tcg
-  - extend timeout for plugin tests
-  - add special runner for semihosting with plugin
-  - fix naming of test in call output
-  - add special plugin aware runners for semihosting
-v6
-  - outs -d plugin output support
+Testing has been 'make check', and a quick smoke test of a sparc
+linux boot image I had lying around, which obviously doesn't
+exercise the devices very much, so more specific testing would
+be appreciated. I'm happy for these patches to go in via the
+sparc tree if you want, or I can collect them up with the other
+ptimer-related changes I'm sending for other archs.
 
-squash! tests/tcg: enable plugin testing
----
- tests/Makefile.include                | 11 +++++++-
- tests/tcg/Makefile.target             | 37 +++++++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.target     |  6 +++++
- tests/tcg/arm/Makefile.softmmu-target |  1 +
- tests/tcg/arm/Makefile.target         |  6 +++++
- 5 files changed, 60 insertions(+), 1 deletion(-)
+thanks
+--PMM
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3543451ed3..646a704e65 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1052,6 +1052,15 @@ check-softfloat:
- 		"SKIPPED for non-TCG builds")
- endif
- 
-+# Plugins
-+ifeq ($(CONFIG_PLUGIN),y)
-+.PHONY: plugins
-+plugins:
-+	$(call quiet-command,\
-+		$(MAKE) $(SUBDIR_MAKEFLAGS) -C tests/plugin V="$(V)", \
-+		"BUILD", "plugins")
-+endif
-+
- # Per guest TCG tests
- 
- BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
-@@ -1062,7 +1071,7 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
- $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
- 	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
- 
--build-tcg-tests-%:
-+build-tcg-tests-%: $(if $(CONFIG_PLUGIN),plugins)
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
- 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
- 		SRC_PATH=$(SRC_PATH) \
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 9664613002..3c7421a356 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -123,11 +123,39 @@ all: $(TESTS) $(EXTRA_TESTS)
- #
- 
- RUN_TESTS=$(patsubst %,run-%, $(TESTS))
-+
-+# If plugins exist also include those in the tests
-+ifeq ($(CONFIG_PLUGIN),y)
-+PLUGIN_DIR=../../plugin
-+VPATH+=$(PLUGIN_DIR)
-+PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
-+
-+# We need to ensure expand the run-plugin-TEST-with-PLUGIN
-+# pre-requistes manually here as we can't use stems to handle it. We
-+# also add some special helpers the run-plugin- rules can use bellow.
-+
-+$(foreach p,$(PLUGINS), \
-+	$(foreach t,$(TESTS),\
-+		$(eval run-plugin-$(t)-with-$(p): $t $p) \
-+		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=30) \
-+		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
-+endif
-+
-+strip-plugin = $(wordlist 1, 1, $(subst -with-, ,$1))
-+extract-plugin = $(wordlist 2, 2, $(subst -with-, ,$1))
-+
- RUN_TESTS+=$(EXTRA_RUNS)
- 
- ifdef CONFIG_USER_ONLY
- run-%: %
- 	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
-+
-+run-plugin-%:
-+	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
-+		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		-d plugin -D $*.pout \
-+		 $(call strip-plugin,$<), \
-+	"$* on $(TARGET_NAME)")
- else
- run-%: %
- 	$(call run-test, $<, \
-@@ -135,6 +163,15 @@ run-%: %
- 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
- 	   	  $(QEMU_OPTS) $<, \
- 	  "$< on $(TARGET_NAME)")
-+
-+run-plugin-%:
-+	$(call run-test, $@, \
-+	  $(QEMU) -monitor none -display none \
-+		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
-+	   	  -plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+	    	  -d plugin -D $*.pout \
-+	   	  $(QEMU_OPTS) $(call strip-plugin,$<), \
-+	  "$* on $(TARGET_NAME)")
- endif
- 
- gdb-%: %
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index 509f1afa93..96d2321045 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -26,4 +26,10 @@ AARCH64_TESTS += semihosting
- run-semihosting: semihosting
- 	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
- 
-+run-plugin-semihosting-with-%:
-+	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
-+		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		 $(call strip-plugin,$<) 2> $<.err, \
-+		"$< on $(TARGET_NAME) with $*")
-+
- TESTS += $(AARCH64_TESTS)
-diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
-index 231e9a57b4..3fe237ba39 100644
---- a/tests/tcg/arm/Makefile.softmmu-target
-+++ b/tests/tcg/arm/Makefile.softmmu-target
-@@ -23,3 +23,4 @@ LDFLAGS+=-nostdlib -N -static
- test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0
- 
- run-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
-+run-plugin-test-armv6m-undef-%: QEMU_OPTS+=-semihosting -M microbit -kernel
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 3ddff85240..0765f37ff0 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -34,6 +34,12 @@ ARM_TESTS += semihosting
- run-semihosting: semihosting
- 	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
- 
-+run-plugin-semihosting-with-%:
-+	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
-+		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		 $(call strip-plugin,$<) 2> $<.err, \
-+		"$< on $(TARGET_NAME) with $*")
-+
- TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
+
+Peter Maydell (2):
+  hw/timer/grlib_gptimer.c: Switch to transaction-based ptimer API
+  hw/timer/slavio_timer.c: Switch to transaction-based ptimer API
+
+ hw/timer/grlib_gptimer.c | 28 ++++++++++++++++++++++++----
+ hw/timer/slavio_timer.c  | 20 ++++++++++++++++----
+ 2 files changed, 40 insertions(+), 8 deletions(-)
+
 -- 
 2.20.1
 
