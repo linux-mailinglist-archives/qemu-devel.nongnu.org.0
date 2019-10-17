@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A02DB091
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:59:17 +0200 (CEST)
-Received: from localhost ([::1]:50039 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0686DDB08C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:56:26 +0200 (CEST)
+Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7FE-00070n-BL
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40692)
+	id 1iL7CS-0002kH-G6
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL6Cy-0001DY-EJ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:52:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL6Ep-0003u2-G3
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:54:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL6Cx-0003bv-9v
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:52:52 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:43216)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL6Eo-00040I-7a
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:54:47 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42629)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL6Cx-0003bf-4v
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:52:51 -0400
-Received: by mail-io1-xd43.google.com with SMTP id v2so3041653iob.10
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:52:50 -0700 (PDT)
+ id 1iL6Eo-000408-38
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:54:46 -0400
+Received: by mail-io1-xd43.google.com with SMTP id n197so3058347iod.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uzmzeT75q6GrysHpt6IsCt+3SSYXxdWeTTt0ulqtTCE=;
- b=d33dv7uMRoF/x4JheT6Bz/WTfgonMOK8G7DrOlSIcZQBFoxP30rwCxaYA/0rioIaIB
- SwQ0s5advmV/rwVejJR4zinIahpwXzOeYobUwgAJsqxT7UxYB0FQ/aug57pxPjiW2B9R
- gTMD1yrHfyU662FkA60zhrY3fdGPFb3mMMYXdUpsAq/j7/HuZep0K1ItSgz9+G9BxTX/
- E9zexmPmOTUdUZwvoV4+3o3Z+pEYbMWBJwgAlJq7jOWj6dipPJE4ld8/YlSazHbuEjIH
- 0m8+2JgbSHFAKVWtrwhhIe15feqmgTlMWngUy7a2xkOxqEnPJ3PJbSbQZBOJD3D5whLj
- se1w==
+ :cc:content-transfer-encoding;
+ bh=IX1tG7Jw/XnjQLIGLFO1DNvERo7K99yeCr4zuiNJ0l8=;
+ b=E+QdpjK+mwsXOh5Q+wX7L3eXaC2nKtqQ5FiwJw6RF9YIX/FLhGUhoTYEPMrHrAIF+p
+ 37KlnnrFPnB+bvAj+WheNq0YaoBbI50rCVoSa7BdJwSuH93iQOc3abPt00F2+TPgcy7J
+ 6gPJYRVoX1yV1OOCz0A5XCsXyoZYhcA5eSalm1EPwGACQ4SGJo77N74mBrdl8lYqo7hf
+ 3AysTukaiav3Fdm8qRPYmeHTjS0fphMJOlC1MPz3AB3YQfWXw2yn4+INmMJnasGotqNp
+ xtOi7p74kHgw4UPrXhGEwLY4o2t9w5ePEcJ2Vb2xo8IRnmDa61sSwlPLk0MsbEfmxjPT
+ us+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uzmzeT75q6GrysHpt6IsCt+3SSYXxdWeTTt0ulqtTCE=;
- b=bEfpptkQpmew429S6eE6xxKzg54AbrkoBE+uZjN9UAOe98OP76AbyUdTeOeNNaALyF
- c7ZVDHSItWI1lS8vsA67rFLLYS+gBRyji9N49JVYArOVGybHQiB25xG9wjqpFyMdCK4C
- 53KC7Bzk/Avr7qPx2F33e9QoyhFvLlmfsMJ5uwfSdhxJbJICTGwnKyHOLiwb9tNiyZuP
- sIycVgLD4d8RpvwG6t0LFGHJoC2hFrhJB1FQ1vc2/xl0CkX9jehEYT1N4iRi/k0yJSC1
- Ha4JNogJ+vV2XHWO9byQxtyISqyTSWMvzliAKvAigBp5L17DplGkPmS6cDkvlCO1qLeR
- aZ7g==
-X-Gm-Message-State: APjAAAU9LpqJuASRQqmxgrQAu5Ua+PiL7FzwGyjCQsNrzKfx8MFQxdXA
- TA8CJssIW6SU4uAwZ0wBgdE3kfodSA6BxCQFIo9p9LjJpDA=
-X-Google-Smtp-Source: APXvYqxoYhisjt74CC4cV2ntL/mFbk3+bq6WkFLcoePpsLmgWPPB4bXe6W0hgLgg3mRJq6tblCBSppd7njWEGuBERzY=
-X-Received: by 2002:a6b:f209:: with SMTP id q9mr2949268ioh.246.1571320370148; 
- Thu, 17 Oct 2019 06:52:50 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IX1tG7Jw/XnjQLIGLFO1DNvERo7K99yeCr4zuiNJ0l8=;
+ b=oqIeNB+lk/xHThXmldXH+7bJ0+lZwA9b5jMPf23xvhAUx6LS8Jmzqz841YRWtWxY1N
+ 46I/819ONXRJ0m3crv44uMc4cqSWJnfG1pt5CxMF6tpm3QK+ykVH5SmQVWh/quQrUAhL
+ Ae4TNKXWCLySEh92MK3+uq5J/P0gepXa/03zHRtBTSeACa2HjErQuvZBuuY8ubeAwMdn
+ kVxPkpJHHcIX1EaeWv3r9X4ZDKau5BunME7O0Gudv+fhxNETnYzV+OjES40xpxVsr6k7
+ /uexsx/LJh2rVl/1cVGYjV+tQ6rpUdApldE1fZZSsGeTFUL2sryI9mf/xF0bKcws4Pbo
+ E4tw==
+X-Gm-Message-State: APjAAAWTF3+jobXilbaP7JHY4koXJZVbf1WWhsh9uC4chiclw0nB/NnK
+ 7OdvFvFLryTQufaJ6XxnwDI7aqkYE4C2c9Ve0d+o/Q==
+X-Google-Smtp-Source: APXvYqxSaa6u5SOgB1shCtNtCkfPMrC4MmCDcO56RHZ73jqOKS6gH2m/adhrIfxHkcNbh7VTPk8mncD6NTx38qjxV7Q=
+X-Received: by 2002:a6b:6405:: with SMTP id t5mr2939472iog.93.1571320485481;
+ Thu, 17 Oct 2019 06:54:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190912183058.17947-1-richard.henderson@linaro.org>
- <eec68864-79ae-3f05-0903-0d0b1c0cbdaa@linaro.org>
-In-Reply-To: <eec68864-79ae-3f05-0903-0d0b1c0cbdaa@linaro.org>
+References: <20191016090745.15334-1-clg@kaod.org>
+ <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
+In-Reply-To: <CACPK8XdT0_JCxzfxd4dCafK0Ae9+18ZWcusuXV+d4eEmwwBnkA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 14:52:39 +0100
-Message-ID: <CAFEAcA_3MxUaKihUeEsjBXhctaofw5o3m5T6YdqXddBF71bABw@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Fix sign-extension for SMLAL*
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 17 Oct 2019 14:54:34 +0100
+Message-ID: <CAFEAcA_6yxaanT2N6Twos_FxjJNgvVKShwgq=pR4fqmcZUsQFA@mail.gmail.com>
+Subject: Re: [PATCH] aspeed: Add an AST2600 eval board
+To: Joel Stanley <joel@jms.id.au>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::d43
@@ -72,22 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 at 00:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 17 Oct 2019 at 07:33, Joel Stanley <joel@jms.id.au> wrote:
 >
-> Ping.
->
-> On 9/12/19 11:30 AM, Richard Henderson wrote:
-> > The 32-bit product should be sign-extended, not zero-extended.
+> On Wed, 16 Oct 2019 at 09:08, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 > >
-> > Fixes: ea96b374641b
-> > Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > Define the board with 1 GiB of RAM but some boards can have up to 2
+> > GiB.
+> >
+> > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> > Reviewed-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >
+> >  Changes since AST2600 patchset:
+> >
+> >  - lowered the RAM size to 1 GiB as it was breaking the tests on some
+> >    hosts.
+>
+> Peter,
+>
+> After chatting with C=C3=A9dric I agree we should merge this patch.
+>
+> As it turns out the EVBs have differing amounts of RAM; his has 1GB
+> while mine has 2GB. So we are not being inaccurate by setting 1GB as
+> the default here.
+
+That's convenient, means we don't have to figure out how to
+special-case the test infrastructure for it :-)
 
 
 
