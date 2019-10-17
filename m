@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831CBDB2F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:05:32 +0200 (CEST)
-Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4AFDB302
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:08:54 +0200 (CEST)
+Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9DO-0006FJ-RS
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33688)
+	id 1iL9Gf-000230-9l
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iL88G-0004PA-0o
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:56:08 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL8BV-0000jt-So
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iL88D-0001qv-Ue
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:56:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38226)
+ (envelope-from <philmd@redhat.com>) id 1iL8BU-0003wT-QK
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:29 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29047
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iL88B-0001pz-CY; Thu, 17 Oct 2019 11:56:03 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9CBEB3071D8C;
- Thu, 17 Oct 2019 15:56:02 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D5E2B19C70;
- Thu, 17 Oct 2019 15:56:01 +0000 (UTC)
-Subject: Re: [PATCH v2 16/23] iotests/205: Create socket in $SOCK_DIR
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20191017133155.5327-1-mreitz@redhat.com>
- <20191017133155.5327-17-mreitz@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat
-Message-ID: <63e11f1f-5abe-60cd-6bf2-c4aeaaebaa7f@redhat.com>
-Date: Thu, 17 Oct 2019 17:56:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL8BU-0003wE-F5
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571327967;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MgxfXQKkr5equlzC/PknHrgeF9deydhlD5fX1KLxo8M=;
+ b=fyveBE4dxcu52nRjswQ5Fq5mK0S6NOvokQQqweL5uHCd/W+1UGmOIJ1b6pNtqaNcPeipOH
+ ls8hLO58pvVS7gWXGYcpTinJ2ndggb+CNqhya2o8DZfg+sEgqHyyJDgb7wYEJFxWO44jMU
+ YagmUhijnvvU/HHz3h4xy7zguFfg8qM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-8_nOJM5WMy26RFKbLaIYyA-1; Thu, 17 Oct 2019 11:59:24 -0400
+Received: by mail-wr1-f71.google.com with SMTP id j14so898867wrm.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:59:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QJD8ZXrBCv+J8I/XlzghMfZwnqBkfjod0u7K3OlOY28=;
+ b=a+WivWgSrO6a4xOyMZnRJinpc8bUahTlDnq7kE/Ko4v0Bduq4Cyf3XH5NEYL1oS7IF
+ BG2Z+mErIdYQyW4mpy95Z3wCHfVagZfK8TctRZmg0VpfKIm3QVJnJ5MVoSCsYl/1RIWv
+ xBUruUtE4JCJmqTL3+ASmOsMJy3aY+cCRDBIyoMcdM5+RxGwDyspvJfoSKpFEtoc+XRU
+ iuf6ACwXMKYUv0MaHtzYXa5mu12TGOoykQwQ8w7NFGxEhPperBsSFjWjJxTHBCvgvGT9
+ IzfTneakcB0yEuQT6H8c1cT5zy7C/79IZRmVwMQgBIdL7KJBI4kgX0ntluCeeqTx+yir
+ thPw==
+X-Gm-Message-State: APjAAAXm7fu5ZvlQuN8tBOObvPAF3KSsZgZfyzFwDV1nZC3/pkziYCRp
+ vI6ONprd1yPvo5b1H32iRDVceJM75LbQgArOEJIiWqlpAGe1jzTbuBV22PxkMEhBevN27RWS3tz
+ D4AgSvTGXsXX+Neo=
+X-Received: by 2002:a5d:44c8:: with SMTP id z8mr3696568wrr.66.1571327963307;
+ Thu, 17 Oct 2019 08:59:23 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyAvCfHknIrVs8Z5IX8WkSWQMhZIeqprJZEza06xPdIYR5RdkQhDcFukQcqoDew1hf1kYyZUA==
+X-Received: by 2002:a5d:44c8:: with SMTP id z8mr3696542wrr.66.1571327963097;
+ Thu, 17 Oct 2019 08:59:23 -0700 (PDT)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id v20sm2296849wml.26.2019.10.17.08.59.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 08:59:22 -0700 (PDT)
+Subject: Re: [PATCH 1/8] hw/timer/puv3_ost.c: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ <20191017132905.5604-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2808edfa-a837-de78-487f-0ae15c13d797@redhat.com>
+Date: Thu, 17 Oct 2019 17:59:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191017133155.5327-17-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191017132905.5604-2-peter.maydell@linaro.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 17 Oct 2019 15:56:02 +0000 (UTC)
+X-MC-Unique: 8_nOJM5WMy26RFKbLaIYyA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,29 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Magnus Damm <magnus.damm@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/10/2019 15.31, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+On 10/17/19 3:28 PM, Peter Maydell wrote:
+> Switch the puv3_ost code away from bottom-half based ptimers to the
+> new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  tests/qemu-iotests/205 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/205 b/tests/qemu-iotests/205
-> index 76f6c5fa2b..4bb2c21e8b 100755
-> --- a/tests/qemu-iotests/205
-> +++ b/tests/qemu-iotests/205
-> @@ -24,7 +24,7 @@ import iotests
->  import time
->  from iotests import qemu_img_create, qemu_io, filter_qemu_io, QemuIoInteractive
->  
-> -nbd_sock = os.path.join(iotests.test_dir, 'nbd_sock')
-> +nbd_sock = os.path.join(iotests.sock_dir, 'nbd_sock')
->  nbd_uri = 'nbd+unix:///exp?socket=' + nbd_sock
->  disk = os.path.join(iotests.test_dir, 'disk')
+>   hw/timer/puv3_ost.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
+> index 0898da5ce97..697519593bb 100644
+> --- a/hw/timer/puv3_ost.c
+> +++ b/hw/timer/puv3_ost.c
+> @@ -13,7 +13,6 @@
+>   #include "hw/sysbus.h"
+>   #include "hw/irq.h"
+>   #include "hw/ptimer.h"
+> -#include "qemu/main-loop.h"
+>   #include "qemu/module.h"
+>  =20
+>   #undef DEBUG_PUV3
+> @@ -27,7 +26,6 @@ typedef struct PUV3OSTState {
+>       SysBusDevice parent_obj;
+>  =20
+>       MemoryRegion iomem;
+> -    QEMUBH *bh;
+>       qemu_irq irq;
+>       ptimer_state *ptimer;
+>  =20
+> @@ -68,6 +66,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
+>       DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+>       switch (offset) {
+>       case 0x00: /* Match Register 0 */
+> +        ptimer_transaction_begin(s->ptimer);
+>           s->reg_OSMR0 =3D value;
+>           if (s->reg_OSMR0 > s->reg_OSCR) {
+>               ptimer_set_count(s->ptimer, s->reg_OSMR0 - s->reg_OSCR);
+> @@ -76,6 +75,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
+>                       (0xffffffff - s->reg_OSCR));
+>           }
+>           ptimer_run(s->ptimer, 2);
+> +        ptimer_transaction_commit(s->ptimer);
+>           break;
+>       case 0x14: /* Status Register */
+>           assert(value =3D=3D 0);
+> @@ -128,9 +128,10 @@ static void puv3_ost_realize(DeviceState *dev, Error=
+ **errp)
+>  =20
+>       sysbus_init_irq(sbd, &s->irq);
+>  =20
+> -    s->bh =3D qemu_bh_new(puv3_ost_tick, s);
+> -    s->ptimer =3D ptimer_init_with_bh(s->bh, PTIMER_POLICY_DEFAULT);
+> +    s->ptimer =3D ptimer_init(puv3_ost_tick, s, PTIMER_POLICY_DEFAULT);
+> +    ptimer_transaction_begin(s->ptimer);
+>       ptimer_set_freq(s->ptimer, 50 * 1000 * 1000);
+> +    ptimer_transaction_commit(s->ptimer);
+>  =20
+>       memory_region_init_io(&s->iomem, OBJECT(s), &puv3_ost_ops, s, "puv3=
+_ost",
+>               PUV3_REGS_OFFSET);
+>=20
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
 
