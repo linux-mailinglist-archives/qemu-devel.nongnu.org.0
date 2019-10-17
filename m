@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C62DB204
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:11:30 +0200 (CEST)
-Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5BADB22B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:19:58 +0200 (CEST)
+Received: from localhost ([::1]:52294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8N6-0006OC-Ph
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56866)
+	id 1iL8VI-00084Z-TB
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL7dh-0006a4-ON
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:24:34 -0400
+ (envelope-from <vgoyal@redhat.com>) id 1iL7ed-0008CG-FD
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL7dg-0000nc-MK
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:24:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48144)
+ (envelope-from <vgoyal@redhat.com>) id 1iL7eb-0001Ce-Tz
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56804)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7dg-0000n6-EU
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:24:32 -0400
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iL7eb-0001Aq-ON
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:29 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 896033E2AF
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:24:31 +0000 (UTC)
-Received: by mail-wr1-f69.google.com with SMTP id 7so1136945wrl.2
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:24:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IS/vtS+qEHcMK9d+rcriOqJkkt4vsA+YTxXci4TyB6U=;
- b=RdexYmYPDmjJsrSJQM7bHoKlattPtTWEqOhi3iaE0hOw6KADlmIybEohV3XchpPeYF
- edoRjjkc/JkY+nDBnDB5E7Etp4cEjVlNXji+vMwiCxtSTH2y8nbMxkLWexNGTIVQ7V+A
- sv4xX4V3ynzR0PGhEMd4xFh6WxY7aUGKb0uNslVlqQ0L7XBrG+90DsTKWC3bfnY4l/yQ
- IrsYaVe4IdIdLLs0Eyy+1pNME2owpBXyDYjfOFIz3xIOpQMOQZBtfrre6+9zDkhP1iX+
- 1t3/eZTRkWhyrqZp48Y2xwAH3OpWWURb/72ED0oNj2ZDYc9Z7Q1au3pADkDyNMhFldAv
- u3kQ==
-X-Gm-Message-State: APjAAAVB8qSwrLXxLSHem5sH5OssdfalhflPsdjSyfDQs+8t6QKkWYjU
- eja4FSBQQZd66w57VAUk8svZDUksYlErv8PihorTpuXN050g6UyJf59jIB2LLIcFXeQ8HkX92Fa
- ECKLoHqNxdeKkVLQ=
-X-Received: by 2002:adf:8567:: with SMTP id 94mr591057wrh.65.1571325870249;
- Thu, 17 Oct 2019 08:24:30 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzhFPVbKfUp3tx76jtZI8VakBCjX11WPTy7buNDPK/URMAYlqlnKm68uUiP2gvOXliZrShARw==
-X-Received: by 2002:adf:8567:: with SMTP id 94mr591040wrh.65.1571325870084;
- Thu, 17 Oct 2019 08:24:30 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id a71sm2433307wme.11.2019.10.17.08.24.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:24:29 -0700 (PDT)
-Subject: Re: [PATCH 2/3] hw/timer/xilinx_timer.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191017132122.4402-1-peter.maydell@linaro.org>
- <20191017132122.4402-3-peter.maydell@linaro.org>
- <cabcec27-c6a7-6ea7-e933-589f2385c137@redhat.com>
- <CAFEAcA9dRMu_hauo_PuJyWh03+-Y9ogWmKSBfzu_6GhYCrnDAQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <57a5d309-97a5-75ce-dade-504557071fc4@redhat.com>
-Date: Thu, 17 Oct 2019 17:24:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mx1.redhat.com (Postfix) with ESMTPS id 0602B30832C0
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:25:29 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.18.25.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69D8619C7F;
+ Thu, 17 Oct 2019 15:25:23 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 0031A2202E5; Thu, 17 Oct 2019 11:25:22 -0400 (EDT)
+Date: Thu, 17 Oct 2019 11:25:22 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
+Message-ID: <20191017152522.GB12588@redhat.com>
+References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
+ <20191017100528.GA24790@stefanha-x1.localdomain>
+ <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9dRMu_hauo_PuJyWh03+-Y9ogWmKSBfzu_6GhYCrnDAQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 17 Oct 2019 15:25:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -84,42 +61,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 5:03 PM, Peter Maydell wrote:
-> On Thu, 17 Oct 2019 at 15:57, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com> wrote:
->>
->> Hi Peter,
->>
->> On 10/17/19 3:21 PM, Peter Maydell wrote:
->>> +/* Must be called inside ptimer transaction block */
->>>    static void timer_enable(struct xlx_timer *xt)
->>>    {
->>>        uint64_t count;
->>> @@ -174,8 +173,11 @@ timer_write(void *opaque, hwaddr addr,
->>>                    value &=3D ~TCSR_TINT;
->>>
->>>                xt->regs[addr] =3D value & 0x7ff;
->>> -            if (value & TCSR_ENT)
->>> +            if (value & TCSR_ENT) {
->>> +                ptimer_transaction_begin(xt->ptimer);
->>>                    timer_enable(xt);
->>> +                ptimer_transaction_commit(xt->ptimer);
->>
->> Why not move these inside timer_enable()?
->=20
-> Because timer_enable() is called from the callback
-> function timer_hit(). Since callback functions are called
-> from within a begin/commit block, if we called begin
-> again in timer_enable() it would assert().
+On Thu, Oct 17, 2019 at 01:23:57PM +0200, Miklos Szeredi wrote:
+> On Thu, Oct 17, 2019 at 12:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > On Wed, Oct 16, 2019 at 07:37:52PM +0900, Misono Tomohiro wrote:
+> > > Hello,
+> > >
+> > > I test xattr operation on virtiofs using xfstest generic/062
+> > > (with -o xattr option and XFS backend) and see some problems.
+> > >
+> > > These patches fixes the two of the problems.
+> > >
+> > > The remaining problems are:
+> > >  1. we cannot xattr to block device created by mknod
+> > >     which does not have actual device (since open in virtiofsd fails)
+> > >  2. we cannot xattr to symbolic link
+> > >
+> > > I don't think 1 is a big problem but can we fix 2?
+> >
+> > Sorry, I don't know the answer.  Maybe it would be necessary to add a
+> > new O_SYMLINK open flag to open(2) so that fgetxattr()/fsetxattr()
+> > operations can be performed.  A kernel change like that would take some
+> > time to get accepted upstream and shipped by distros, but it might be
+> > the only way since the current syscall interface doesn't seem to offer a
+> > way to do this.
+> 
+> The real problem is that open() on a non-regular, non-directory file
+> may have side effects (unless O_PATH is used).  These patches try to
+> paper over that, but the fact is: opening special files from a file
+> server is forbidden.
+> 
+> I see why this is being done, and it's not easy to fix properly
+> without the ..at() versions of these syscalls.  One idea is to fork()
+> + fchdir(lo->proc_self_fd) + ..xattr().  Another related idea is to do
+> a unshare(CLONE_FS) after each thread's startup (will pthread library
+> balk?  I don't know) so that it's safe to do fchdir(lo->proc_self_fd)
+> + ...xattr() + fchdir(lo->root_fd).
 
-Yes, now I understood the point of this new API ;)
+Hi Miklos,
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Trying to understand your proposal. So if we want to do an ..xattr()
+operation on a special file (and we don't have _at() variants), how
+will fchdir() help. Are you suggesting fchdir() to parent and then
+do something special.
+
+Can you please elaborate your proposal a bit more. I think I have
+missed the core idea completely.
+
+I understand that you want to do unshare(CLONE_FS) to make sure one thrad's
+fchdir() does not impact other thread. But did not understand that how
+fchdir() alone is enough to do getxattr()/setxattr() on special file.
+
+Thanks
+Vivek
 
