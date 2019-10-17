@@ -2,71 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76C0DB226
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:18:21 +0200 (CEST)
-Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D970DDB243
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:24:54 +0200 (CEST)
+Received: from localhost ([::1]:52534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8Tk-0005sH-D9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58029)
+	id 1iL8a4-0006ph-Q8
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL7kb-0006qq-B5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:31:42 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL7WX-0004Qi-NI
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:17:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL7kZ-00039C-Vv
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:31:40 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37934)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL7kY-00038A-4Y
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:31:39 -0400
-Received: by mail-oi1-x243.google.com with SMTP id k10so213546oij.5
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:31:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xHyu7q76oXBH+bqG3LCms0OKv75afsZTrsNgh3msjhE=;
- b=dhS+osuFNug2fmWCW6jQP7VmUJHYvQC8DfJjDL2+K0+k/KdNOWvjWXiTKugPSJP2tv
- 1vR6zG9YO3Ht2Bk4Hk8SxdwOBaFHK+XBPGSeOUKROpGfBbMQap6Cm0OUZW/aK6ZaR9zL
- IVtBqcYeZz1XdsvumhffPTcl6UXZ383JJvVZWMvomN3uKF4vJMXi45+z/o5uxCZ1AHe3
- OgJPZ79+4IKFpuGuor9I5rscYUa4kitagrmUIi6Y+JuPX6fEl9EY9BioOp4vxZBITdgh
- rkRuv71hai32f3Eaxdr1fwkmP0jViPZCir+MgmqXakV++XW5cjv2ATdcDTDrZ3RjUwW7
- 4+Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xHyu7q76oXBH+bqG3LCms0OKv75afsZTrsNgh3msjhE=;
- b=EzNClfsnNd8VoyxK/jGuA5OQvSbfHOrFVwdz5q61M3uEtLhZRAO4e8KYDVuB2Qaj/J
- gfxJZhBdY0PN40ifN6Fn+o1qj/DRHNLWcETIJQwEKwEF96Axlz4J4pCTpTNQWlm6lRZI
- iGCY0UZtQ/DH7P5xCnFJQRg92Oo7VBbWEg/Dk22l1WbNO1eYux7VhhHoZ6lPExIBH5Dr
- jBCGbZ76h8pygy/Ggk+uxXyGdfuPP9lzNGohq0K9JPF8oYwlcv3SGfZR4SM1ex8U20MN
- 1m/mkLF8dVgWHE6ReXnGFR4Htq7lF5WOTlVhTJxeKzLweauqwKuS6hS53jZvwauYPztM
- RxJw==
-X-Gm-Message-State: APjAAAVPHb5RQK37rF7TS3enVdfYciw86VL0ZRuf+GVLhKWvH1V1Byu4
- MUsZ79QNtwHp7eNqQsZZya/ADtMR+Hcy/R3fenJp3lgOScw=
-X-Google-Smtp-Source: APXvYqypckVWw88iyrCbdespuXPi9MJxWZlQrsYv92WPiuxTjvJNGVw0DlWGs3+B3D6mci76yLFoVjnUU3JHAsbqZY8=
-X-Received: by 2002:aca:49c2:: with SMTP id w185mr3793559oia.163.1571326297144; 
- Thu, 17 Oct 2019 08:31:37 -0700 (PDT)
+ (envelope-from <thuth@redhat.com>) id 1iL7WW-0005RV-QD
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:17:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52530)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL7WW-0005RI-Hz
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:17:08 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9348718C4287;
+ Thu, 17 Oct 2019 15:17:07 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F44A5C1D8;
+ Thu, 17 Oct 2019 15:16:57 +0000 (UTC)
+Subject: Re: [PATCH 11/32] Revert "irq: introduce qemu_irq_proxy()"
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-12-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <3b703346-8b42-bab8-4697-7101f5a41420@redhat.com>
+Date: Thu, 17 Oct 2019 17:16:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191017132351.4762-1-peter.maydell@linaro.org>
- <20191017132351.4762-3-peter.maydell@linaro.org>
- <2210f783-1159-1263-dfff-3bd84111e2f5@redhat.com>
- <CAFEAcA_jYjN=pQ719kbrRGXF2f8uDg_uj1r_dO0320qqB1Nppg@mail.gmail.com>
- <f1ada0bb-4d8c-69cc-df00-3f69c3891718@redhat.com>
-In-Reply-To: <f1ada0bb-4d8c-69cc-df00-3f69c3891718@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 16:31:25 +0100
-Message-ID: <CAFEAcA91ixLzO9+Y29ezvPWeqQ9aYHm8cxestn1yLKNLo8=OLw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/timer/slavio_timer.c: Switch to transaction-based
- ptimer API
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191015162705.28087-12-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Thu, 17 Oct 2019 15:17:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,45 +105,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Oct 2019 at 16:22, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> On 10/17/19 5:00 PM, Peter Maydell wrote:
-> > ...because the commit should come after we have finished
-> > updating the timer state (t->run in this case), because
-> > the trigger callback slavio_timer_irq() otherwise sees
-> > inconsistent half-updated state if commit() calls it.
+On 15/10/2019 18.26, Philippe Mathieu-Daud=C3=A9 wrote:
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>=20
+> This function isn't used anymore.
+>=20
+> This reverts commit 22ec3283efba9ba0792790da786d6776d83f2a92.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/core/irq.c    | 14 --------------
+>  include/hw/irq.h |  5 -----
+>  2 files changed, 19 deletions(-)
 >
-> Oh, slavio_timer_irq() calls slavio_timer_get_out() which accesses the
-> ptimer... OK I missed that.
->
-> Whew we need to be extra cautious with this API...
-
-Yes. If the callback function is a trivial "just update
-the interrupt register bit and set an irq line" one, like
-about half the ptimer users, then it doesn't matter too
-much where the commit call goes, but for those users who
-do more complicated work in the timer callback it gets
-a little trickier (and I didn't realise this wrinkle until
-about halfway through doing the API conversion work).
-It doesn't much matter where the begin call goes (an odd
-asymmetry), but the commit call is effectively a "voluntarily
-yield control to the callback function" and so its placement
-can be important.
-
-> If possible I'd rather see the patch removing the NULL check previous to
-> this one, anyway:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Thanks; I'll add the NULL-check cleanup in v2. Coverity will
-probably complain otherwise.
-
-thanks
--- PMM
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
