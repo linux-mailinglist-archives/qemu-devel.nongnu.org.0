@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8153BDB210
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:13:49 +0200 (CEST)
-Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C62DB204
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:11:30 +0200 (CEST)
+Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8PM-00011a-6l
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56682)
+	id 1iL8N6-0006OC-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL7cC-0003qq-E5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:23:01 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL7dh-0006a4-ON
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:24:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL7cB-0000L3-7O
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:23:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37616
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iL7dg-0000nc-MK
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:24:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48144)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7cA-0000Kb-Sw
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:22:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571325777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RAlyzMek75JaE3w6t6cVdFW7pX4b/3qGpoKyRsKQyqM=;
- b=VCO54puETunMn1BY5gWeOkfzNnWRQWiVjHQDuVTOmAOiADUXCrb8guwT5yt1QOVzLG4nzz
- FRF+HIMrEHR3+7Et2XpiCxJX669RXPLirRduvkuJmMIbq3aNx6Uv+Ag+W9i0FL/ir2Iytz
- zjWpQQc5kWqImofUzohKPqDzhmivEo4=
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7dg-0000n6-EU
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:24:32 -0400
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-odIqJXnLPNy6-4dywTqGww-1; Thu, 17 Oct 2019 11:22:55 -0400
-Received: by mail-wr1-f69.google.com with SMTP id s9so1109516wrw.23
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:22:55 -0700 (PDT)
+ [209.85.221.69])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 896033E2AF
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:24:31 +0000 (UTC)
+Received: by mail-wr1-f69.google.com with SMTP id 7so1136945wrl.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:24:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0+eHbN6RPRVuck2GdGDf/GQlIKqhVxnGZhHroDpXgkY=;
- b=ODFlJDOu+27L/E31n5plcm35y0czj4NUfEp4LdSIb/fQAiw8gStAN3pwbqM3iDlcYa
- 6lHYGZNGgKFQaDqHsMhuS3VX5T55NrrO27JiztMB9DAuL6k15RzHD8aP4bK0RmxiRIip
- m9Ub4EYyEF7UmSYTxKbGYa81g33URLqsFqA5qBGo+wzOnWFhbJr3AzvnowlixkPr2duR
- l5TpV8ysrA6i3/rFQnOnRM7sTZ5rLkJdqAGh+ZozT39lM+w0gq0Ca8LliaNqB0Gvwr/1
- 7BOC8FsKo/SSK+XFhVTYfFXZcQ+Ok8srXW3d9sTLPPbxO4GGAJnDYe/SH2y/NnIyg39/
- 6WSg==
-X-Gm-Message-State: APjAAAX0BcMtlRnZ1V+cpxnu/HgOVFurPEsAUG5c0q1wkHkoCiQTbOSy
- 9heZE+az6hdxsR6jE+D+mGF+IYh2D9ee5Ss3AmKQd8c38TIVGBWM14If7pSs64XDAsyBqcB4SZX
- VEH+lIZ1Lb6SbM9E=
-X-Received: by 2002:a5d:42c2:: with SMTP id t2mr3369332wrr.251.1571325774682; 
- Thu, 17 Oct 2019 08:22:54 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqz7BfYUCGGDgmReMM7e3Fcx/3iRF02BqbG6DHi7QIV4ZC4gnw+MvUZpE1yjrLjM2p7agSrXlw==
-X-Received: by 2002:a5d:42c2:: with SMTP id t2mr3369313wrr.251.1571325774458; 
- Thu, 17 Oct 2019 08:22:54 -0700 (PDT)
+ bh=IS/vtS+qEHcMK9d+rcriOqJkkt4vsA+YTxXci4TyB6U=;
+ b=RdexYmYPDmjJsrSJQM7bHoKlattPtTWEqOhi3iaE0hOw6KADlmIybEohV3XchpPeYF
+ edoRjjkc/JkY+nDBnDB5E7Etp4cEjVlNXji+vMwiCxtSTH2y8nbMxkLWexNGTIVQ7V+A
+ sv4xX4V3ynzR0PGhEMd4xFh6WxY7aUGKb0uNslVlqQ0L7XBrG+90DsTKWC3bfnY4l/yQ
+ IrsYaVe4IdIdLLs0Eyy+1pNME2owpBXyDYjfOFIz3xIOpQMOQZBtfrre6+9zDkhP1iX+
+ 1t3/eZTRkWhyrqZp48Y2xwAH3OpWWURb/72ED0oNj2ZDYc9Z7Q1au3pADkDyNMhFldAv
+ u3kQ==
+X-Gm-Message-State: APjAAAVB8qSwrLXxLSHem5sH5OssdfalhflPsdjSyfDQs+8t6QKkWYjU
+ eja4FSBQQZd66w57VAUk8svZDUksYlErv8PihorTpuXN050g6UyJf59jIB2LLIcFXeQ8HkX92Fa
+ ECKLoHqNxdeKkVLQ=
+X-Received: by 2002:adf:8567:: with SMTP id 94mr591057wrh.65.1571325870249;
+ Thu, 17 Oct 2019 08:24:30 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzhFPVbKfUp3tx76jtZI8VakBCjX11WPTy7buNDPK/URMAYlqlnKm68uUiP2gvOXliZrShARw==
+X-Received: by 2002:adf:8567:: with SMTP id 94mr591040wrh.65.1571325870084;
+ Thu, 17 Oct 2019 08:24:30 -0700 (PDT)
 Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
  [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id x129sm3258807wmg.8.2019.10.17.08.22.53
+ by smtp.gmail.com with ESMTPSA id a71sm2433307wme.11.2019.10.17.08.24.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:22:53 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hw/timer/slavio_timer.c: Switch to transaction-based
+ Thu, 17 Oct 2019 08:24:29 -0700 (PDT)
+Subject: Re: [PATCH 2/3] hw/timer/xilinx_timer.c: Switch to transaction-based
  ptimer API
 To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191017132351.4762-1-peter.maydell@linaro.org>
- <20191017132351.4762-3-peter.maydell@linaro.org>
- <2210f783-1159-1263-dfff-3bd84111e2f5@redhat.com>
- <CAFEAcA_jYjN=pQ719kbrRGXF2f8uDg_uj1r_dO0320qqB1Nppg@mail.gmail.com>
+References: <20191017132122.4402-1-peter.maydell@linaro.org>
+ <20191017132122.4402-3-peter.maydell@linaro.org>
+ <cabcec27-c6a7-6ea7-e933-589f2385c137@redhat.com>
+ <CAFEAcA9dRMu_hauo_PuJyWh03+-Y9ogWmKSBfzu_6GhYCrnDAQ@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f1ada0bb-4d8c-69cc-df00-3f69c3891718@redhat.com>
-Date: Thu, 17 Oct 2019 17:22:52 +0200
+Message-ID: <57a5d309-97a5-75ce-dade-504557071fc4@redhat.com>
+Date: Thu, 17 Oct 2019 17:24:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_jYjN=pQ719kbrRGXF2f8uDg_uj1r_dO0320qqB1Nppg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9dRMu_hauo_PuJyWh03+-Y9ogWmKSBfzu_6GhYCrnDAQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MC-Unique: odIqJXnLPNy6-4dywTqGww-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,114 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>
+Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 5:00 PM, Peter Maydell wrote:
-> On Thu, 17 Oct 2019 at 15:54, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
+On 10/17/19 5:03 PM, Peter Maydell wrote:
+> On Thu, 17 Oct 2019 at 15:57, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com> wrote:
 >>
 >> Hi Peter,
 >>
->> On 10/17/19 3:23 PM, Peter Maydell wrote:
->>> Switch the slavio_timer code away from bottom-half based ptimers to
->>> the new transaction-based ptimer API.  This just requires adding
->>> begin/commit calls around the various places that modify the ptimer
->>> state, and using the new ptimer_init() function to create the timer.
+>> On 10/17/19 3:21 PM, Peter Maydell wrote:
+>>> +/* Must be called inside ptimer transaction block */
+>>>    static void timer_enable(struct xlx_timer *xt)
+>>>    {
+>>>        uint64_t count;
+>>> @@ -174,8 +173,11 @@ timer_write(void *opaque, hwaddr addr,
+>>>                    value &=3D ~TCSR_TINT;
 >>>
->>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>    hw/timer/slavio_timer.c | 20 ++++++++++++++++----
->>>    1 file changed, 16 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
->>> index 692d213897d..0e2efe6fe89 100644
->>> --- a/hw/timer/slavio_timer.c
->>> +++ b/hw/timer/slavio_timer.c
->>> @@ -30,7 +30,6 @@
->>>    #include "hw/sysbus.h"
->>>    #include "migration/vmstate.h"
->>>    #include "trace.h"
->>> -#include "qemu/main-loop.h"
->>>    #include "qemu/module.h"
->>>
->>>    /*
->>> @@ -213,6 +212,7 @@ static void slavio_timer_mem_writel(void *opaque, h=
-waddr addr,
->>>        saddr =3D addr >> 2;
->>>        switch (saddr) {
->>>        case TIMER_LIMIT:
->>> +        ptimer_transaction_begin(t->timer);
->>>            if (slavio_timer_is_user(tc)) {
->>>                uint64_t count;
+>>>                xt->regs[addr] =3D value & 0x7ff;
+>>> -            if (value & TCSR_ENT)
+>>> +            if (value & TCSR_ENT) {
+>>> +                ptimer_transaction_begin(xt->ptimer);
+>>>                    timer_enable(xt);
+>>> +                ptimer_transaction_commit(xt->ptimer);
 >>
->>
->> This part is odd since there is a check on t->timer !=3D NULL later, and
->> ptimer_transaction_commit() can't take NULL.
+>> Why not move these inside timer_enable()?
 >=20
-> Hmm, I hadn't noticed that. I think the bug is the check
-> for NULL, though, beacuse the slavio_timer_init() function
-> always initializes all the timer pointers, so there's
-> no situation where the pointer can be non-NULL as far
-> as I can see. So I think I'd rather fix this by removing
-> the NULL pointer check...
+> Because timer_enable() is called from the callback
+> function timer_hit(). Since callback functions are called
+> from within a begin/commit block, if we called begin
+> again in timer_enable() it would assert().
 
-Yes, you are correct.
+Yes, now I understood the point of this new API ;)
 
->>> @@ -255,13 +258,16 @@ static void slavio_timer_mem_writel(void *opaque,=
- hwaddr addr,
->>>        case TIMER_COUNTER_NORST:
->>>            // set limit without resetting counter
->>>            t->limit =3D val & TIMER_MAX_COUNT32;
->>> +        ptimer_transaction_begin(t->timer);
->>>            if (t->limit =3D=3D 0) { /* free-run */
->>>                ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(TIMER_MAX_CO=
-UNT32), 0);
->>>            } else {
->>>                ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 0=
-);
->>>            }
->>> +        ptimer_transaction_commit(t->timer);
->>>            break;
->>>        case TIMER_STATUS:
->>> +        ptimer_transaction_begin(t->timer);
->>>            if (slavio_timer_is_user(tc)) {
->>
->> I'd move the begin() here.
->=20
-> This would be awkward because then it won't neatly nest with
-> the commit call unless you add an extra if() for the
-> commit or otherwise rearrange/duplicate code...
->=20
->>>                // start/stop user counter
->>>                if (val & 1) {
->>> @@ -273,6 +279,7 @@ static void slavio_timer_mem_writel(void *opaque, h=
-waddr addr,
->>>                }
->>>            }
->>>            t->run =3D val & 1;
->>> +        ptimer_transaction_commit(t->timer);
->=20
-> ...because the commit should come after we have finished
-> updating the timer state (t->run in this case), because
-> the trigger callback slavio_timer_irq() otherwise sees
-> inconsistent half-updated state if commit() calls it.
-
-Oh, slavio_timer_irq() calls slavio_timer_get_out() which accesses the=20
-ptimer... OK I missed that.
-
-Whew we need to be extra cautious with this API...
-
-If possible I'd rather see the patch removing the NULL check previous to=20
-this one, anyway:
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Thanks,
-
-Phil.
-
 
