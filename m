@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322A9DAED6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:56:06 +0200 (CEST)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07E7DAEC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:51:47 +0200 (CEST)
+Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6G5-0003mI-0M
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1iL6Bu-0006fZ-9b
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5id-00053N-LK
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:21:32 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL5mH-0001vQ-86
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5ic-0000Pp-F8
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:21:31 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55474)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5ic-0000PD-79
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:21:30 -0400
-Received: by mail-wm1-x342.google.com with SMTP id a6so2535214wma.5
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KWHu+m1O+EERA4S9NNTm+FIYK5BZF9JX07P8U3F6Cyk=;
- b=iuGkR5zCFL4filGYWyr6lIL6j5aQJ/Bxt6aRGY5pOq+xT7IEWp8369nt/MTC1yiN7h
- AZi6Sl8AsceN6aONXZ2s9fXrqRLyDVvmkXD0/Qtck7e07xwjTSylbb87zArPWTsiakUv
- T8BGsgJ2ILhHgqC/MQSyveu3o/i3NZQem/3jU9SCgBaJRNC2mwNVISy37Vv1ZJ7OSrjH
- kX5bDe2FXD2QmhTIzTfxQQUBcqalUpdri0pTxo7VwNgPqFugSBm5HNelZAgJIoxPaLR0
- INMp3EZDvG7LDpUF4n+jG+lxAUGtnc5o4SzOz66wfiqAqyrXdWqoj0MXiVlahB31ohOm
- 9t1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KWHu+m1O+EERA4S9NNTm+FIYK5BZF9JX07P8U3F6Cyk=;
- b=S9O9YohQbHTKacbFGRyIn7VLAhAJREz971coMYn+AZF7bAmQGSfEh295JuFb8XFRAb
- 1ZKqtXbycbOzs3HtFTokv4Ef4CsySSUMkotmWFj1o6xsw3mYA+Bm+Z2I8Smcj9/G+sx3
- +ExD8KHUiCr/f1/rROrWf/OJkUgkWawnDsw2aTGi4ep5EH1t+uzcbWSpdcHUhUVWoQqr
- 8eK08UDQyzPDmmtqcuP563/uwCto4n6hNEixlyq+UeThjGvTvLiK86YLDOyu3BdaeWKN
- VOQhoYIvLFcUR+HdxhRSj9B+T+V2JuYRF3njaFuYXu5ju0g7mfaR7uYBAyiDPf8wVjre
- NUzQ==
-X-Gm-Message-State: APjAAAU/3Ncgoa4pkRzN+owFGoyYAhmgdPYcoQJh+ZjZcEqT02dMxJ+2
- lJQypj/X0U1MDTinJL5WihIxgM00d3+m9w==
-X-Google-Smtp-Source: APXvYqyO68O8sT8SfsWQwNqGoXsIoG9yk6awNeiYKx/xMQU4OcRBgfNCTH6ZtIqi3UJRicKuI28peQ==
-X-Received: by 2002:a7b:c011:: with SMTP id c17mr2959378wmb.95.1571318488967; 
- Thu, 17 Oct 2019 06:21:28 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e9sm11543164wme.3.2019.10.17.06.21.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:21:28 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/dma/xilinx_axidma.c: Switch to transaction-based
- ptimer API
-Date: Thu, 17 Oct 2019 14:21:22 +0100
-Message-Id: <20191017132122.4402-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191017132122.4402-1-peter.maydell@linaro.org>
-References: <20191017132122.4402-1-peter.maydell@linaro.org>
+ (envelope-from <thuth@redhat.com>) id 1iL5mE-0001Co-4g
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48499)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL5mC-00019y-6z
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:12 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 73FB959465
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 13:25:10 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E331D600CC;
+ Thu, 17 Oct 2019 13:25:04 +0000 (UTC)
+Subject: Re: [PATCH v2 4/7] libqos: add MSI-X callbacks to QVirtioPCIDevice
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20191011085611.4194-1-stefanha@redhat.com>
+ <20191011085611.4194-5-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <d5ffe89a-480f-e7d7-94b5-636dbedba646@redhat.com>
+Date: Thu, 17 Oct 2019 15:25:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+In-Reply-To: <20191011085611.4194-5-stefanha@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Thu, 17 Oct 2019 13:25:10 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,73 +104,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the xilinx_axidma code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
+On 11/10/2019 10.56, Stefan Hajnoczi wrote:
+> The MSI-X vectors are programmed differently in the VIRTIO 1.0 and
+> Legacy interfaces.  Introduce callbacks so different implementations can
+> be used depending on the interface version.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tests/libqos/virtio-pci.h | 12 ++++++++++++
+>  tests/libqos/virtio-pci.c | 37 ++++++++++++++++++++++++++++---------
+>  2 files changed, 40 insertions(+), 9 deletions(-)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/dma/xilinx_axidma.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index e035d1f7504..fb3a978e282 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -31,7 +31,6 @@
- #include "hw/ptimer.h"
- #include "hw/qdev-properties.h"
- #include "qemu/log.h"
--#include "qemu/main-loop.h"
- #include "qemu/module.h"
- 
- #include "hw/stream.h"
-@@ -104,7 +103,6 @@ enum {
- };
- 
- struct Stream {
--    QEMUBH *bh;
-     ptimer_state *ptimer;
-     qemu_irq irq;
- 
-@@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
-     unsigned int comp_delay;
- 
-     /* Start the delayed timer.  */
-+    ptimer_transaction_begin(s->ptimer);
-     comp_delay = s->regs[R_DMACR] >> 24;
-     if (comp_delay) {
-         ptimer_stop(s->ptimer);
-@@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
-         s->regs[R_DMASR] |= DMASR_IOC_IRQ;
-         stream_reload_complete_cnt(s);
-     }
-+    ptimer_transaction_commit(s->ptimer);
- }
- 
- static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
-@@ -551,9 +551,10 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
-         struct Stream *st = &s->streams[i];
- 
-         st->nr = i;
--        st->bh = qemu_bh_new(timer_hit, st);
--        st->ptimer = ptimer_init_with_bh(st->bh, PTIMER_POLICY_DEFAULT);
-+        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-+        ptimer_transaction_begin(st->ptimer);
-         ptimer_set_freq(st->ptimer, s->freqhz);
-+        ptimer_transaction_commit(st->ptimer);
-     }
-     return;
- 
--- 
-2.20.1
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
