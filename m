@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD8ADAD64
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 14:52:24 +0200 (CEST)
-Received: from localhost ([::1]:46439 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 242CBDAD65
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 14:52:30 +0200 (CEST)
+Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5GR-00019Q-4B
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 08:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58156)
+	id 1iL5GX-0001Cz-6m
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 08:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iL5FL-0000Ny-Ll
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:51:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1iL5FO-0000O4-12
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:51:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iL5FK-0003l2-6c
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:51:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38016)
+ (envelope-from <bounces@canonical.com>) id 1iL5FM-0003m7-Mx
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:51:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38132)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iL5FK-0003kC-0d
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:51:14 -0400
+ id 1iL5FM-0003lq-HU
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:51:16 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iL5FI-0005TJ-EY
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 12:51:12 +0000
+ id 1iL5FL-0005Xe-Dz
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 12:51:15 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6C4162E802D
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 12:51:12 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 610B32E80C9
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 12:51:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Oct 2019 12:34:00 -0000
+Date: Thu, 17 Oct 2019 12:37:54 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1838569@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -48,7 +48,7 @@ X-Launchpad-Bug-Reporter: Bjoern Teipel (bjoern-teipel)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <156460681322.6584.3709701644111615718.malonedeb@soybean.canonical.com>
-Message-Id: <157131564016.22358.3211420100953453665.malone@wampee.canonical.com>
+Message-Id: <157131587498.25877.3140779889400408895.malone@chaenomeles.canonical.com>
 Subject: [Bug 1838569] Re: virtio-balloon change breaks post 4.0 upgrade
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -56,7 +56,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="186023fa645d8be19d403a76064f0643f510db2f";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2698608843db9ab5defe3502f9237c5aedb38791
+X-Launchpad-Hash: e116767c43dcf0b8403000348a5a9adedb45a322
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -74,26 +74,10 @@ Reply-To: Bug 1838569 <1838569@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> I'd bet on this being the one fixed by
-> 2bbadb08ce272d65e1f78621002008b07d1e0f03
-
-But wasn't the breakage this fixes only added in qemu 4.0?
-He reports his change is from qemu 2.10 to 2.11.
-
-Unfortunately 2bbadb08 doesn't have a "fixes" line, maybe Ubuntu has
-something backported that makes the Ubuntu 2.11 being affected by it.
-I checked the Delta but there was nothing related backported that I
-could identify.
-
-But I agree, that first of all this should be a new bug instead of
-reviving the old one here.
-
-P.S. this will race as I sent the same via mail :-/, but I need to
-extend.
-
-I have now realized that the later report (comment #4) is about
-Openstack Train which at least on Ubuntu would come with qemu 4.0 - and
-since 2bbadb08 was released only with 4.1 that would be an open issue.
+I forked that new discussion into https://bugs.launchpad.net/ubuntu/+source=
+/qemu/+bug/1848497
+Please follow there and leave this bug here to the originally reported erro=
+r signature.
 
 -- =
 
