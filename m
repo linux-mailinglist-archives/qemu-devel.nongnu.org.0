@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52431DB129
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:32:56 +0200 (CEST)
-Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F15DB13D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:39:24 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7lm-0005kr-Pp
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49153)
+	id 1iL7s3-0005c3-IA
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL6xF-0001YS-Et
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:40:43 -0400
+ (envelope-from <clg@kaod.org>) id 1iL6zZ-0004dy-LV
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:43:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL6xD-0003dk-04
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:40:41 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39591)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL6xC-0003ch-Od
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:40:38 -0400
-Received: by mail-oi1-x243.google.com with SMTP id w144so2354456oia.6
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=VYPoO4lbG3w9123BzjywTooFiwratbQnQMk1YHCAfFg=;
- b=L4P9MbXXPZlhCVd2ShUi3KdqyqOiINQFPVPrs9pQQHao8TjQ0k2NLA0QNqy+XCqdax
- GWotbzYsn6DpTczgGt5BAJrH+NDpaxNo8bj6IdcZpV/G4mBSg9qW8Vh5BluzpYFaykgP
- RdL7QzjYVRcbfErGSDkilbxtbJ2gSYzK7vs9hLSygPSki8skgYa988QFgvJ3udxHSh0A
- +eGc128m9F1nOTysaTY+beqBf89F87F0JB6BPYMlx2GFHW2DwpUwZBD6LCpxpST4kc5X
- xTg646HwwA4WTlYXRbC5CnTz5jyGv+Vzqn0g4tKvLZ5zjRp6/5mAe/oN6phTy96CLcez
- uEsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=VYPoO4lbG3w9123BzjywTooFiwratbQnQMk1YHCAfFg=;
- b=iNGPmb++WX/VX96nOHuXo69TVJIqksLwN1G7Yg0rZM4xjyd2Tai9wj9A+Oo/9a7OYo
- p7Uh494dVpiX8jB/z3mo+sOUEvWRia8kvID3icADXahWmCROUWfe1uOg+d3Ki5JtqWr0
- B4TUX3pRL4DNec/xhvcQ6tioIbMh7hS5MBZswqEM87LrKJ09ckrrCdXAA+2QjL6Dzo3n
- ppRS5GpHL0vr8L1EylXRVYdrexVPTrZMCMKbLoRuuQdQkUn7sd2BPMTBTcHJpUvFsXXm
- MITEqVgxciNnEgctlCSaUCbJ/Q4w7q2C1HyI7n5aT2lglsqlFP2CGSvxQ/BBl1sX3+Sy
- RrTA==
-X-Gm-Message-State: APjAAAXIV9mMjRNuMlK5zskn1EK/YMJdXl/M/zE+p+e2QvGnHBixB1hD
- bxahl+bWPRnhmh6OynViE+vRFSsa6yl5ksF3AF4=
-X-Google-Smtp-Source: APXvYqya7jpeioPRUMfUfXO90agCqNqUea1QleFQ8y+GhvYfsqvGu3iame1a6tGKQEablQwzOYg3HlCUynuiMnqcgyM=
-X-Received: by 2002:aca:62d5:: with SMTP id w204mr3533524oib.136.1571323238033; 
- Thu, 17 Oct 2019 07:40:38 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1iL6zY-0006Hq-2D
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:43:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58914)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iL6zX-0006HK-RI
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:43:04 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9HEgvUk067382
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:43:01 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vps54ub6j-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:43:01 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <clg@kaod.org>;
+ Thu, 17 Oct 2019 15:42:46 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 17 Oct 2019 15:42:44 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9HEgh6D54526138
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Oct 2019 14:42:43 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5F458AE057;
+ Thu, 17 Oct 2019 14:42:43 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 40B4EAE056;
+ Thu, 17 Oct 2019 14:42:43 +0000 (GMT)
+Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Oct 2019 14:42:43 +0000 (GMT)
+Received: from yukon.tls.ibm.com (yukon.tls.ibm.com [9.101.4.25])
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 05C1D22010B;
+ Thu, 17 Oct 2019 16:42:43 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH 1/2] spapr: Introduce a interrupt presenter reset handler
+Date: Thu, 17 Oct 2019 16:42:40 +0200
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191017144241.12522-1-clg@kaod.org>
+References: <20191017144241.12522-1-clg@kaod.org>
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:40:37
- -0700 (PDT)
-In-Reply-To: <20191015162705.28087-2-philmd@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-2-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 16:40:37 +0200
-Message-ID: <CAL1e-=gSGV2RJUG9gcAVduxrZ53cxS58YujyHgYhJOt39Y_ZeQ@mail.gmail.com>
-Subject: Re: [PATCH 01/32] hw/i386: Remove obsolete
- LoadStateHandler::load_state_old handlers
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006e378905951c33e3"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+x-cbid: 19101714-0016-0000-0000-000002B8F9CE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101714-0017-0000-0000-0000331A233B
+Message-Id: <20191017144241.12522-2-clg@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-17_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=978 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910170133
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id x9HEgvUk067382
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,645 +94,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006e378905951c33e3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The interrupt presenters are not reseted today. Extend the sPAPR IRQ
+backend with a new cpu_intc_reset() handler which will be called by
+the CPU reset handler.
 
-On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m>
-wrote:
+spapr_realize_vcpu() is modified to call the CPU reset only after the
+the intc presenter has been created.
 
-> These devices implemented their load_state_old() handler 10 years
-> ago, previous to QEMU v0.12.
-> Since commit cc425b5ddf removed the pc-0.10 and pc-0.11 machines,
-> we can drop this code.
->
-> Note: the mips_r4k machine started to use the i8254 device just
-> after QEMU v0.5.0, but the MIPS machine types are not versioned,
-> so there is no migration compatibility issue removing this handler.
->
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/acpi/piix4.c         | 40 ---------------------------------
->  hw/intc/apic_common.c   | 49 -----------------------------------------
->  hw/pci-host/piix.c      | 25 ---------------------
->  hw/timer/i8254_common.c | 40 ---------------------------------
->  4 files changed, 154 deletions(-)
->
->
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/spapr_irq.h |  4 ++++
+ include/hw/ppc/xics.h      |  1 +
+ include/hw/ppc/xive.h      |  1 +
+ hw/intc/spapr_xive.c       |  8 ++++++++
+ hw/intc/xics.c             |  5 +++++
+ hw/intc/xics_spapr.c       |  8 ++++++++
+ hw/intc/xive.c             | 11 ++++++++---
+ hw/ppc/spapr_cpu_core.c    |  8 ++++++--
+ hw/ppc/spapr_irq.c         | 21 +++++++++++++++++++++
+ 9 files changed, 62 insertions(+), 5 deletions(-)
 
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index 5e150a667902..78327496c102 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -52,6 +52,8 @@ typedef struct SpaprInterruptControllerClass {
+      */
+     int (*cpu_intc_create)(SpaprInterruptController *intc,
+                             PowerPCCPU *cpu, Error **errp);
++    int (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU *cp=
+u,
++                          Error **errp);
+     int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
+                      Error **errp);
+     void (*free_irq)(SpaprInterruptController *intc, int irq);
+@@ -68,6 +70,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *sp=
+apr);
+=20
+ int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+                               PowerPCCPU *cpu, Error **errp);
++int spapr_irq_cpu_intc_reset(SpaprMachineState *spapr,
++                             PowerPCCPU *cpu, Error **errp);
+ void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
+ void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+                   void *fdt, uint32_t phandle);
+diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+index 1e6a9300eb2b..602173c12250 100644
+--- a/include/hw/ppc/xics.h
++++ b/include/hw/ppc/xics.h
+@@ -161,6 +161,7 @@ void icp_set_mfrr(ICPState *icp, uint8_t mfrr);
+ uint32_t icp_accept(ICPState *ss);
+ uint32_t icp_ipoll(ICPState *ss, uint32_t *mfrr);
+ void icp_eoi(ICPState *icp, uint32_t xirr);
++void icp_reset(ICPState *icp);
+=20
+ void ics_write_xive(ICSState *ics, int nr, int server,
+                     uint8_t priority, uint8_t saved_priority);
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index fd3319bd3202..99381639f50c 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -415,6 +415,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
+set, unsigned size);
+=20
+ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
++void xive_tctx_reset(XiveTCTX *tctx);
+=20
+ static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
+ {
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index ba32d2cc5b0f..0c3acf1a4192 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -553,6 +553,13 @@ static int spapr_xive_cpu_intc_create(SpaprInterrupt=
+Controller *intc,
+     return 0;
+ }
+=20
++static int spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
++                                     PowerPCCPU *cpu, Error **errp)
++{
++    xive_tctx_reset(spapr_cpu_state(cpu)->tctx);
++    return 0;
++}
++
+ static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
+int val)
+ {
+     SpaprXive *xive =3D SPAPR_XIVE(intc);
+@@ -697,6 +704,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     sicc->activate =3D spapr_xive_activate;
+     sicc->deactivate =3D spapr_xive_deactivate;
+     sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
++    sicc->cpu_intc_reset =3D spapr_xive_cpu_intc_reset;
+     sicc->claim_irq =3D spapr_xive_claim_irq;
+     sicc->free_irq =3D spapr_xive_free_irq;
+     sicc->set_irq =3D spapr_xive_set_irq;
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index b5ac408f7b74..652771d6a5a5 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -295,6 +295,11 @@ static void icp_reset_handler(void *dev)
+     }
+ }
+=20
++void icp_reset(ICPState *icp)
++{
++    icp_reset_handler(icp);
++}
++
+ static void icp_realize(DeviceState *dev, Error **errp)
+ {
+     ICPState *icp =3D ICP(dev);
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 4f64b9a9fc66..c0b2a576effe 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -346,6 +346,13 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
+Controller *intc,
+     return 0;
+ }
+=20
++static int xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
++                                     PowerPCCPU *cpu, Error **errp)
++{
++    icp_reset(spapr_cpu_state(cpu)->icp);
++    return 0;
++}
++
+ static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
+                                 bool lsi, Error **errp)
+ {
+@@ -433,6 +440,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
+void *data)
+     sicc->activate =3D xics_spapr_activate;
+     sicc->deactivate =3D xics_spapr_deactivate;
+     sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
++    sicc->cpu_intc_reset =3D xics_spapr_cpu_intc_reset;
+     sicc->claim_irq =3D xics_spapr_claim_irq;
+     sicc->free_irq =3D xics_spapr_free_irq;
+     sicc->set_irq =3D xics_spapr_set_irq;
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index d420c6571e14..0ae3f9b1efe4 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -547,7 +547,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor=
+ *mon)
+     }
+ }
+=20
+-static void xive_tctx_reset(void *dev)
++static void xive_tctx_reset_handler(void *dev)
+ {
+     XiveTCTX *tctx =3D XIVE_TCTX(dev);
+=20
+@@ -568,6 +568,11 @@ static void xive_tctx_reset(void *dev)
+         ipb_to_pipr(tctx->regs[TM_QW3_HV_PHYS + TM_IPB]);
+ }
+=20
++void xive_tctx_reset(XiveTCTX *tctx)
++{
++    xive_tctx_reset_handler(tctx);
++}
++
+ static void xive_tctx_realize(DeviceState *dev, Error **errp)
+ {
+     XiveTCTX *tctx =3D XIVE_TCTX(dev);
+@@ -608,12 +613,12 @@ static void xive_tctx_realize(DeviceState *dev, Err=
+or **errp)
+         }
+     }
+=20
+-    qemu_register_reset(xive_tctx_reset, dev);
++    qemu_register_reset(xive_tctx_reset_handler, dev);
+ }
+=20
+ static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
+ {
+-    qemu_unregister_reset(xive_tctx_reset, dev);
++    qemu_unregister_reset(xive_tctx_reset_handler, dev);
+ }
+=20
+ static int vmstate_xive_tctx_pre_save(void *opaque)
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 3e4302c7d596..416aa75e5fba 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -33,6 +33,7 @@ static void spapr_cpu_reset(void *opaque)
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+     SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+     target_ulong lpcr;
++    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+=20
+     cpu_reset(cs);
+=20
+@@ -77,9 +78,11 @@ static void spapr_cpu_reset(void *opaque)
+     spapr_cpu->dtl_addr =3D 0;
+     spapr_cpu->dtl_size =3D 0;
+=20
+-    spapr_caps_cpu_apply(SPAPR_MACHINE(qdev_get_machine()), cpu);
++    spapr_caps_cpu_apply(spapr, cpu);
+=20
+     kvm_check_mmu(cpu, &error_fatal);
++
++    spapr_irq_cpu_intc_reset(spapr, cpu, &error_fatal);
+ }
+=20
+ void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target=
+_ulong r3)
+@@ -235,12 +238,13 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+     kvmppc_set_papr(cpu);
+=20
+     qemu_register_reset(spapr_cpu_reset, cpu);
+-    spapr_cpu_reset(cpu);
+=20
+     if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
+         goto error_unregister;
+     }
+=20
++    spapr_cpu_reset(cpu);
++
+     if (!sc->pre_3_0_migration) {
+         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+                          cpu->machine_data);
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index bb91c61fa000..5d2b64029cd5 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -220,6 +220,27 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spa=
+pr,
+     return 0;
+ }
+=20
++int spapr_irq_cpu_intc_reset(SpaprMachineState *spapr,
++                             PowerPCCPU *cpu, Error **errp)
++{
++    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
++    int i;
++    int rc;
++
++    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
++        SpaprInterruptController *intc =3D intcs[i];
++        if (intc) {
++            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
+(intc);
++            rc =3D sicc->cpu_intc_reset(intc, cpu, errp);
++            if (rc < 0) {
++                return rc;
++            }
++        }
++    }
++
++    return 0;
++}
++
+ static void spapr_set_irq(void *opaque, int irq, int level)
+ {
+     SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
+--=20
+2.21.0
 
-
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 5742c3df87..1d29d438c7 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -42,7 +42,6 @@
->  #include "hw/acpi/memory_hotplug.h"
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/xen/xen.h"
-> -#include "migration/qemu-file-types.h"
->  #include "migration/vmstate.h"
->  #include "hw/core/cpu.h"
->  #include "trace.h"
-> @@ -205,43 +204,6 @@ static const VMStateDescription vmstate_pci_status =
-=3D {
->      }
->  };
->
-> -static int acpi_load_old(QEMUFile *f, void *opaque, int version_id)
-> -{
-> -    PIIX4PMState *s =3D opaque;
-> -    int ret, i;
-> -    uint16_t temp;
-> -
-> -    ret =3D pci_device_load(PCI_DEVICE(s), f);
-> -    if (ret < 0) {
-> -        return ret;
-> -    }
-> -    qemu_get_be16s(f, &s->ar.pm1.evt.sts);
-> -    qemu_get_be16s(f, &s->ar.pm1.evt.en);
-> -    qemu_get_be16s(f, &s->ar.pm1.cnt.cnt);
-> -
-> -    ret =3D vmstate_load_state(f, &vmstate_apm, &s->apm, 1);
-> -    if (ret) {
-> -        return ret;
-> -    }
-> -
-> -    timer_get(f, s->ar.tmr.timer);
-> -    qemu_get_sbe64s(f, &s->ar.tmr.overflow_time);
-> -
-> -    qemu_get_be16s(f, (uint16_t *)s->ar.gpe.sts);
-> -    for (i =3D 0; i < 3; i++) {
-> -        qemu_get_be16s(f, &temp);
-> -    }
-> -
-> -    qemu_get_be16s(f, (uint16_t *)s->ar.gpe.en);
-> -    for (i =3D 0; i < 3; i++) {
-> -        qemu_get_be16s(f, &temp);
-> -    }
-> -
-> -    ret =3D vmstate_load_state(f, &vmstate_pci_status,
-> -        &s->acpi_pci_hotplug.acpi_pcihp_pci_status[ACPI_PCIHP_BSEL_DEFAU=
-LT],
-> 1);
-> -    return ret;
-> -}
-> -
->  static bool vmstate_test_use_acpi_pci_hotplug(void *opaque, int
-> version_id)
->  {
->      PIIX4PMState *s =3D opaque;
-> @@ -313,8 +275,6 @@ static const VMStateDescription vmstate_acpi =3D {
->      .name =3D "piix4_pm",
->      .version_id =3D 3,
->      .minimum_version_id =3D 3,
-> -    .minimum_version_id_old =3D 1,
-> -    .load_state_old =3D acpi_load_old,
->      .post_load =3D vmstate_acpi_post_load,
->      .fields =3D (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(parent_obj, PIIX4PMState),
-> diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-> index aafd8e0e33..375cb6abe9 100644
-> --- a/hw/intc/apic_common.c
-> +++ b/hw/intc/apic_common.c
-> @@ -31,7 +31,6 @@
->  #include "sysemu/kvm.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/sysbus.h"
-> -#include "migration/qemu-file-types.h"
->  #include "migration/vmstate.h"
->
->  static int apic_irq_delivered;
-> @@ -262,52 +261,6 @@ static void apic_reset_common(DeviceState *dev)
->      apic_init_reset(dev);
->  }
->
-> -/* This function is only used for old state version 1 and 2 */
-> -static int apic_load_old(QEMUFile *f, void *opaque, int version_id)
-> -{
-> -    APICCommonState *s =3D opaque;
-> -    APICCommonClass *info =3D APIC_COMMON_GET_CLASS(s);
-> -    int i;
-> -
-> -    if (version_id > 2) {
-> -        return -EINVAL;
-> -    }
-> -
-> -    /* XXX: what if the base changes? (registered memory regions) */
-> -    qemu_get_be32s(f, &s->apicbase);
-> -    qemu_get_8s(f, &s->id);
-> -    qemu_get_8s(f, &s->arb_id);
-> -    qemu_get_8s(f, &s->tpr);
-> -    qemu_get_be32s(f, &s->spurious_vec);
-> -    qemu_get_8s(f, &s->log_dest);
-> -    qemu_get_8s(f, &s->dest_mode);
-> -    for (i =3D 0; i < 8; i++) {
-> -        qemu_get_be32s(f, &s->isr[i]);
-> -        qemu_get_be32s(f, &s->tmr[i]);
-> -        qemu_get_be32s(f, &s->irr[i]);
-> -    }
-> -    for (i =3D 0; i < APIC_LVT_NB; i++) {
-> -        qemu_get_be32s(f, &s->lvt[i]);
-> -    }
-> -    qemu_get_be32s(f, &s->esr);
-> -    qemu_get_be32s(f, &s->icr[0]);
-> -    qemu_get_be32s(f, &s->icr[1]);
-> -    qemu_get_be32s(f, &s->divide_conf);
-> -    s->count_shift =3D qemu_get_be32(f);
-> -    qemu_get_be32s(f, &s->initial_count);
-> -    s->initial_count_load_time =3D qemu_get_be64(f);
-> -    s->next_time =3D qemu_get_be64(f);
-> -
-> -    if (version_id >=3D 2) {
-> -        s->timer_expiry =3D qemu_get_be64(f);
-> -    }
-> -
-> -    if (info->post_load) {
-> -        info->post_load(s);
-> -    }
-> -    return 0;
-> -}
-> -
->  static const VMStateDescription vmstate_apic_common;
->
->  static void apic_common_realize(DeviceState *dev, Error **errp)
-> @@ -408,8 +361,6 @@ static const VMStateDescription vmstate_apic_common =
-=3D {
->      .name =3D "apic",
->      .version_id =3D 3,
->      .minimum_version_id =3D 3,
-> -    .minimum_version_id_old =3D 1,
-> -    .load_state_old =3D apic_load_old,
->      .pre_load =3D apic_pre_load,
->      .pre_save =3D apic_dispatch_pre_save,
->      .post_load =3D apic_dispatch_post_load,
-> diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
-> index 135c645535..2f4cbcbfe9 100644
-> --- a/hw/pci-host/piix.c
-> +++ b/hw/pci-host/piix.c
-> @@ -33,7 +33,6 @@
->  #include "qapi/error.h"
->  #include "qemu/range.h"
->  #include "hw/xen/xen.h"
-> -#include "migration/qemu-file-types.h"
->  #include "migration/vmstate.h"
->  #include "hw/pci-host/pam.h"
->  #include "sysemu/reset.h"
-> @@ -174,28 +173,6 @@ static void i440fx_write_config(PCIDevice *dev,
->      }
->  }
->
-> -static int i440fx_load_old(QEMUFile* f, void *opaque, int version_id)
-> -{
-> -    PCII440FXState *d =3D opaque;
-> -    PCIDevice *pd =3D PCI_DEVICE(d);
-> -    int ret, i;
-> -    uint8_t smm_enabled;
-> -
-> -    ret =3D pci_device_load(pd, f);
-> -    if (ret < 0)
-> -        return ret;
-> -    i440fx_update_memory_mappings(d);
-> -    qemu_get_8s(f, &smm_enabled);
-> -
-> -    if (version_id =3D=3D 2) {
-> -        for (i =3D 0; i < PIIX_NUM_PIRQS; i++) {
-> -            qemu_get_be32(f); /* dummy load for compatibility */
-> -        }
-> -    }
-> -
-> -    return 0;
-> -}
-> -
->  static int i440fx_post_load(void *opaque, int version_id)
->  {
->      PCII440FXState *d =3D opaque;
-> @@ -208,8 +185,6 @@ static const VMStateDescription vmstate_i440fx =3D {
->      .name =3D "I440FX",
->      .version_id =3D 3,
->      .minimum_version_id =3D 3,
-> -    .minimum_version_id_old =3D 1,
-> -    .load_state_old =3D i440fx_load_old,
->      .post_load =3D i440fx_post_load,
->      .fields =3D (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(parent_obj, PCII440FXState),
-> diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c
-> index 57bf10cc94..050875b497 100644
-> --- a/hw/timer/i8254_common.c
-> +++ b/hw/timer/i8254_common.c
-> @@ -29,7 +29,6 @@
->  #include "qemu/timer.h"
->  #include "hw/timer/i8254.h"
->  #include "hw/timer/i8254_internal.h"
-> -#include "migration/qemu-file-types.h"
->  #include "migration/vmstate.h"
->
->  /* val must be 0 or 1 */
-> @@ -202,43 +201,6 @@ static const VMStateDescription vmstate_pit_channel =
-=3D
-> {
->      }
->  };
->
-> -static int pit_load_old(QEMUFile *f, void *opaque, int version_id)
-> -{
-> -    PITCommonState *pit =3D opaque;
-> -    PITCommonClass *c =3D PIT_COMMON_GET_CLASS(pit);
-> -    PITChannelState *s;
-> -    int i;
-> -
-> -    if (version_id !=3D 1) {
-> -        return -EINVAL;
-> -    }
-> -
-> -    for (i =3D 0; i < 3; i++) {
-> -        s =3D &pit->channels[i];
-> -        s->count =3D qemu_get_be32(f);
-> -        qemu_get_be16s(f, &s->latched_count);
-> -        qemu_get_8s(f, &s->count_latched);
-> -        qemu_get_8s(f, &s->status_latched);
-> -        qemu_get_8s(f, &s->status);
-> -        qemu_get_8s(f, &s->read_state);
-> -        qemu_get_8s(f, &s->write_state);
-> -        qemu_get_8s(f, &s->write_latch);
-> -        qemu_get_8s(f, &s->rw_mode);
-> -        qemu_get_8s(f, &s->mode);
-> -        qemu_get_8s(f, &s->bcd);
-> -        qemu_get_8s(f, &s->gate);
-> -        s->count_load_time =3D qemu_get_be64(f);
-> -        s->irq_disabled =3D 0;
-> -        if (i =3D=3D 0) {
-> -            s->next_transition_time =3D qemu_get_be64(f);
-> -        }
-> -    }
-> -    if (c->post_load) {
-> -        c->post_load(pit);
-> -    }
-> -    return 0;
-> -}
-> -
->  static int pit_dispatch_pre_save(void *opaque)
->  {
->      PITCommonState *s =3D opaque;
-> @@ -266,8 +228,6 @@ static const VMStateDescription vmstate_pit_common =
-=3D {
->      .name =3D "i8254",
->      .version_id =3D 3,
->      .minimum_version_id =3D 2,
-> -    .minimum_version_id_old =3D 1,
-> -    .load_state_old =3D pit_load_old,
->      .pre_save =3D pit_dispatch_pre_save,
->      .post_load =3D pit_dispatch_post_load,
->      .fields =3D (VMStateField[]) {
-> --
-> 2.21.0
->
->
->
-
---0000000000006e378905951c33e3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
-ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">These devices implemented their load_state_old() ha=
-ndler 10 years<br>
-ago, previous to QEMU v0.12.<br>
-Since commit cc425b5ddf removed the pc-0.10 and pc-0.11 machines,<br>
-we can drop this code.<br>
-<br>
-Note: the mips_r4k machine started to use the i8254 device just<br>
-after QEMU v0.5.0, but the MIPS machine types are not versioned,<br>
-so there is no migration compatibility issue removing this handler.<br>
-<br>
-Suggested-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org"=
->peter.maydell@linaro.org</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
-hat.com">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/acpi/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 40 ---------------=
----------------<wbr>---<br>
-=C2=A0hw/intc/apic_common.c=C2=A0 =C2=A0| 49 ------------------------------=
-<wbr>-----------<br>
-=C2=A0hw/pci-host/piix.c=C2=A0 =C2=A0 =C2=A0 | 25 ---------------------<br>
-=C2=A0hw/timer/i8254_common.c | 40 ------------------------------<wbr>---<b=
-r>
-=C2=A04 files changed, 154 deletions(-)<br>
-<br></blockquote><div><br></div><div><div id=3D"cvcmsg_16dbfeb33c93ed97" cl=
-ass=3D"yh  " style=3D"border-top-left-radius:0px;border-top-right-radius:0p=
-x;margin-bottom:11px;overflow:visible"><div class=3D"Vh" id=3D"cvcfullmsg_1=
-6dbfeb33c93ed97"><div id=3D"cvcmsgbod_16dbfeb33c93ed97" class=3D"aj"><div c=
-lass=3D"Ni"><div class=3D"ni pi " dir=3D"ltr"><p dir=3D"ltr">Reviewed-by: A=
-leksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.com" target=3D"=
-_blank">amarkovic@wavecomp.com</a>&gt;</p><div style=3D"clear:both"></div><=
-/div><div style=3D"clear:both"></div><div><div class=3D"M j T b hc Aj S" ta=
-bindex=3D"0"><div class=3D"V j hf"></div></div></div><div style=3D"clear:bo=
-th"></div></div></div></div></div><div id=3D"cvcmsg_16dbfecd588da1f7" class=
-=3D"yh" style=3D"margin-bottom:11px"><div class=3D"Vh" id=3D"cvcfullmsg_16d=
-bfecd588da1f7"><div class=3D"M j Zi Mi  " tabindex=3D"0"><div id=3D"cvcrepl=
-y_16dbfecd588da1f7" class=3D"M j T b hc xh S  " tabindex=3D"0"><div class=
-=3D"V j td"></div></div></div></div></div></div><div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c<br>
-index 5742c3df87..1d29d438c7 100644<br>
---- a/hw/acpi/piix4.c<br>
-+++ b/hw/acpi/piix4.c<br>
-@@ -42,7 +42,6 @@<br>
-=C2=A0#include &quot;hw/acpi/memory_hotplug.h&quot;<br>
-=C2=A0#include &quot;hw/acpi/acpi_dev_interface.h&quot;<br>
-=C2=A0#include &quot;hw/xen/xen.h&quot;<br>
--#include &quot;migration/qemu-file-types.h&quot;<br>
-=C2=A0#include &quot;migration/vmstate.h&quot;<br>
-=C2=A0#include &quot;hw/core/cpu.h&quot;<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-@@ -205,43 +204,6 @@ static const VMStateDescription vmstate_pci_status =3D=
- {<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0};<br>
-<br>
--static int acpi_load_old(QEMUFile *f, void *opaque, int version_id)<br>
--{<br>
--=C2=A0 =C2=A0 PIIX4PMState *s =3D opaque;<br>
--=C2=A0 =C2=A0 int ret, i;<br>
--=C2=A0 =C2=A0 uint16_t temp;<br>
--<br>
--=C2=A0 =C2=A0 ret =3D pci_device_load(PCI_DEVICE(s), f);<br>
--=C2=A0 =C2=A0 if (ret &lt; 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;ar.pm1.evt.sts);<br>
--=C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;ar.pm1.evt.en);<br>
--=C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;ar.pm1.cnt.cnt);<br>
--<br>
--=C2=A0 =C2=A0 ret =3D vmstate_load_state(f, &amp;vmstate_apm, &amp;s-&gt;a=
-pm, 1);<br>
--=C2=A0 =C2=A0 if (ret) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 timer_get(f, s-&gt;ar.tmr.timer);<br>
--=C2=A0 =C2=A0 qemu_get_sbe64s(f, &amp;s-&gt;ar.tmr.overflow_time);<br>
--<br>
--=C2=A0 =C2=A0 qemu_get_be16s(f, (uint16_t *)s-&gt;ar.gpe.sts);<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be16s(f, &amp;temp);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 qemu_get_be16s(f, (uint16_t *)s-&gt;ar.gpe.en);<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be16s(f, &amp;temp);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 ret =3D vmstate_load_state(f, &amp;vmstate_pci_status,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;acpi_pci_hotplug.acpi_<wbr>pcihp_pc=
-i_status[ACPI_PCIHP_<wbr>BSEL_DEFAULT], 1);<br>
--=C2=A0 =C2=A0 return ret;<br>
--}<br>
--<br>
-=C2=A0static bool vmstate_test_use_acpi_pci_<wbr>hotplug(void *opaque, int =
-version_id)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0PIIX4PMState *s =3D opaque;<br>
-@@ -313,8 +275,6 @@ static const VMStateDescription vmstate_acpi =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name =3D &quot;piix4_pm&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
-=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 3,<br>
--=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
--=C2=A0 =C2=A0 .load_state_old =3D acpi_load_old,<br>
-=C2=A0 =C2=A0 =C2=A0.post_load =3D vmstate_acpi_post_load,<br>
-=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_PCI_DEVICE(parent_obj, PIIX4PMSta=
-te),<br>
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c<br>
-index aafd8e0e33..375cb6abe9 100644<br>
---- a/hw/intc/apic_common.c<br>
-+++ b/hw/intc/apic_common.c<br>
-@@ -31,7 +31,6 @@<br>
-=C2=A0#include &quot;sysemu/kvm.h&quot;<br>
-=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
-=C2=A0#include &quot;hw/sysbus.h&quot;<br>
--#include &quot;migration/qemu-file-types.h&quot;<br>
-=C2=A0#include &quot;migration/vmstate.h&quot;<br>
-<br>
-=C2=A0static int apic_irq_delivered;<br>
-@@ -262,52 +261,6 @@ static void apic_reset_common(DeviceState *dev)<br>
-=C2=A0 =C2=A0 =C2=A0apic_init_reset(dev);<br>
-=C2=A0}<br>
-<br>
--/* This function is only used for old state version 1 and 2 */<br>
--static int apic_load_old(QEMUFile *f, void *opaque, int version_id)<br>
--{<br>
--=C2=A0 =C2=A0 APICCommonState *s =3D opaque;<br>
--=C2=A0 =C2=A0 APICCommonClass *info =3D APIC_COMMON_GET_CLASS(s);<br>
--=C2=A0 =C2=A0 int i;<br>
--<br>
--=C2=A0 =C2=A0 if (version_id &gt; 2) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 /* XXX: what if the base changes? (registered memory regions=
-) */<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;apicbase);<br>
--=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;id);<br>
--=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;arb_id);<br>
--=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;tpr);<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;spurious_vec);<br>
--=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;log_dest);<br>
--=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;dest_mode);<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt; 8; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;isr[i]);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;tmr[i]);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;irr[i]);<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt; APIC_LVT_NB; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;lvt[i]);<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;esr);<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;icr[0]);<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;icr[1]);<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;divide_conf);<br>
--=C2=A0 =C2=A0 s-&gt;count_shift =3D qemu_get_be32(f);<br>
--=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;initial_count);<br>
--=C2=A0 =C2=A0 s-&gt;initial_count_load_time =3D qemu_get_be64(f);<br>
--=C2=A0 =C2=A0 s-&gt;next_time =3D qemu_get_be64(f);<br>
--<br>
--=C2=A0 =C2=A0 if (version_id &gt;=3D 2) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;timer_expiry =3D qemu_get_be64(f);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 if (info-&gt;post_load) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;post_load(s);<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 return 0;<br>
--}<br>
--<br>
-=C2=A0static const VMStateDescription vmstate_apic_common;<br>
-<br>
-=C2=A0static void apic_common_realize(<wbr>DeviceState *dev, Error **errp)<=
-br>
-@@ -408,8 +361,6 @@ static const VMStateDescription vmstate_apic_common =3D=
- {<br>
-=C2=A0 =C2=A0 =C2=A0.name =3D &quot;apic&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
-=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 3,<br>
--=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
--=C2=A0 =C2=A0 .load_state_old =3D apic_load_old,<br>
-=C2=A0 =C2=A0 =C2=A0.pre_load =3D apic_pre_load,<br>
-=C2=A0 =C2=A0 =C2=A0.pre_save =3D apic_dispatch_pre_save,<br>
-=C2=A0 =C2=A0 =C2=A0.post_load =3D apic_dispatch_post_load,<br>
-diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c<br>
-index 135c645535..2f4cbcbfe9 100644<br>
---- a/hw/pci-host/piix.c<br>
-+++ b/hw/pci-host/piix.c<br>
-@@ -33,7 +33,6 @@<br>
-=C2=A0#include &quot;qapi/error.h&quot;<br>
-=C2=A0#include &quot;qemu/range.h&quot;<br>
-=C2=A0#include &quot;hw/xen/xen.h&quot;<br>
--#include &quot;migration/qemu-file-types.h&quot;<br>
-=C2=A0#include &quot;migration/vmstate.h&quot;<br>
-=C2=A0#include &quot;hw/pci-host/pam.h&quot;<br>
-=C2=A0#include &quot;sysemu/reset.h&quot;<br>
-@@ -174,28 +173,6 @@ static void i440fx_write_config(PCIDevice *dev,<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
--static int i440fx_load_old(QEMUFile* f, void *opaque, int version_id)<br>
--{<br>
--=C2=A0 =C2=A0 PCII440FXState *d =3D opaque;<br>
--=C2=A0 =C2=A0 PCIDevice *pd =3D PCI_DEVICE(d);<br>
--=C2=A0 =C2=A0 int ret, i;<br>
--=C2=A0 =C2=A0 uint8_t smm_enabled;<br>
--<br>
--=C2=A0 =C2=A0 ret =3D pci_device_load(pd, f);<br>
--=C2=A0 =C2=A0 if (ret &lt; 0)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
--=C2=A0 =C2=A0 i440fx_update_memory_mappings(<wbr>d);<br>
--=C2=A0 =C2=A0 qemu_get_8s(f, &amp;smm_enabled);<br>
--<br>
--=C2=A0 =C2=A0 if (version_id =3D=3D 2) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; PIIX_NUM_PIRQS; i++) {<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32(f); /* dummy load =
-for compatibility */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 return 0;<br>
--}<br>
--<br>
-=C2=A0static int i440fx_post_load(void *opaque, int version_id)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0PCII440FXState *d =3D opaque;<br>
-@@ -208,8 +185,6 @@ static const VMStateDescription vmstate_i440fx =3D {<br=
->
-=C2=A0 =C2=A0 =C2=A0.name =3D &quot;I440FX&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
-=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 3,<br>
--=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
--=C2=A0 =C2=A0 .load_state_old =3D i440fx_load_old,<br>
-=C2=A0 =C2=A0 =C2=A0.post_load =3D i440fx_post_load,<br>
-=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_PCI_DEVICE(parent_obj, PCII440FXS=
-tate),<br>
-diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c<br>
-index 57bf10cc94..050875b497 100644<br>
---- a/hw/timer/i8254_common.c<br>
-+++ b/hw/timer/i8254_common.c<br>
-@@ -29,7 +29,6 @@<br>
-=C2=A0#include &quot;qemu/timer.h&quot;<br>
-=C2=A0#include &quot;hw/timer/i8254.h&quot;<br>
-=C2=A0#include &quot;hw/timer/i8254_internal.h&quot;<br>
--#include &quot;migration/qemu-file-types.h&quot;<br>
-=C2=A0#include &quot;migration/vmstate.h&quot;<br>
-<br>
-=C2=A0/* val must be 0 or 1 */<br>
-@@ -202,43 +201,6 @@ static const VMStateDescription vmstate_pit_channel =
-=3D {<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0};<br>
-<br>
--static int pit_load_old(QEMUFile *f, void *opaque, int version_id)<br>
--{<br>
--=C2=A0 =C2=A0 PITCommonState *pit =3D opaque;<br>
--=C2=A0 =C2=A0 PITCommonClass *c =3D PIT_COMMON_GET_CLASS(pit);<br>
--=C2=A0 =C2=A0 PITChannelState *s;<br>
--=C2=A0 =C2=A0 int i;<br>
--<br>
--=C2=A0 =C2=A0 if (version_id !=3D 1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s =3D &amp;pit-&gt;channels[i];<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;count =3D qemu_get_be32(f);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;latched_count);<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;count_latched);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;status_latched);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;status);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;read_state);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;write_state);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;write_latch);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;rw_mode);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;mode);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;bcd);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;gate);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;count_load_time =3D qemu_get_be64(f);<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;irq_disabled =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;next_transition_time =3D q=
-emu_get_be64(f);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 if (c-&gt;post_load) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;post_load(pit);<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 return 0;<br>
--}<br>
--<br>
-=C2=A0static int pit_dispatch_pre_save(void *opaque)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0PITCommonState *s =3D opaque;<br>
-@@ -266,8 +228,6 @@ static const VMStateDescription vmstate_pit_common =3D =
-{<br>
-=C2=A0 =C2=A0 =C2=A0.name =3D &quot;i8254&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
-=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 2,<br>
--=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
--=C2=A0 =C2=A0 .load_state_old =3D pit_load_old,<br>
-=C2=A0 =C2=A0 =C2=A0.pre_save =3D pit_dispatch_pre_save,<br>
-=C2=A0 =C2=A0 =C2=A0.post_load =3D pit_dispatch_post_load,<br>
-=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote>
-
---0000000000006e378905951c33e3--
 
