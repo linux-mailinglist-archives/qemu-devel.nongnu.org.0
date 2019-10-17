@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2498DAE16
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:18:31 +0200 (CEST)
-Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF10DADFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:13:56 +0200 (CEST)
+Received: from localhost ([::1]:46930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5fi-0000h3-3Q
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60201)
+	id 1iL5bG-0003e3-ON
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iL5SQ-0001CC-Ga
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:48 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iL5SN-00017L-HR
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iL5SK-00007N-OE
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41380)
+ (envelope-from <kwolf@redhat.com>) id 1iL5SI-00006g-4g
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46078)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iL5SC-0008Vn-RO; Thu, 17 Oct 2019 09:04:33 -0400
+ id 1iL5SE-00004r-Nf; Thu, 17 Oct 2019 09:04:34 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 207D63078468;
- Thu, 17 Oct 2019 13:04:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F0459307D976;
+ Thu, 17 Oct 2019 13:04:33 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-24.ams2.redhat.com
  [10.36.117.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9285D1001B28;
- Thu, 17 Oct 2019 13:04:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B8CE1001B11;
+ Thu, 17 Oct 2019 13:04:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 14/18] monitor: Create monitor/qmp-cmds-monitor.c
-Date: Thu, 17 Oct 2019 15:02:00 +0200
-Message-Id: <20191017130204.16131-15-kwolf@redhat.com>
+Subject: [RFC PATCH 15/18] qapi: Support empty modules
+Date: Thu, 17 Oct 2019 15:02:01 +0200
+Message-Id: <20191017130204.16131-16-kwolf@redhat.com>
 In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
 References: <20191017130204.16131-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 17 Oct 2019 13:04:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 17 Oct 2019 13:04:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,375 +61,181 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move all of the QMP commands handlers to implement the 'monitor' module
-(qapi/monitor.json) that can be shared between the system emulator and
-the storage daemon to a new file monitor/qmp-cmds-monitor.c.
+If you added an include file that doesn't contain any definitions, no
+source files would be generated for it. However, in other source files,
+you would still get an #include for the header files of the empty
+module.
+
+The intended behaviour is that empty source files are created for empty
+modules. This patch makes QAPISchema keep a list of all modules
+(including empty ones) and modifies visit() to first visit all modules
+in that list.
+
+Some test reference outputs need to be updated due to the additional
+visitor calls.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- monitor/misc.c             | 110 --------------------------
- monitor/qmp-cmds-monitor.c | 153 +++++++++++++++++++++++++++++++++++++
- monitor/qmp-cmds.c         |  14 ----
- monitor/Makefile.objs      |   3 +-
- 4 files changed, 155 insertions(+), 125 deletions(-)
- create mode 100644 monitor/qmp-cmds-monitor.c
+ scripts/qapi/schema.py                   | 9 +++++++++
+ tests/qapi-schema/comments.out           | 2 ++
+ tests/qapi-schema/doc-bad-section.out    | 2 ++
+ tests/qapi-schema/doc-good.out           | 2 ++
+ tests/qapi-schema/empty.out              | 2 ++
+ tests/qapi-schema/event-case.out         | 2 ++
+ tests/qapi-schema/include-repetition.out | 4 ++++
+ tests/qapi-schema/include-simple.out     | 3 +++
+ tests/qapi-schema/indented-expr.out      | 2 ++
+ tests/qapi-schema/qapi-schema-test.out   | 4 ++++
+ 10 files changed, 32 insertions(+)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index aef16f6cfb..95c87df09b 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -67,7 +67,6 @@
- #include "qemu/thread.h"
- #include "block/qapi.h"
- #include "qapi/qapi-commands.h"
--#include "qapi/qapi-emit-events.h"
- #include "qapi/error.h"
- #include "qapi/qmp-event.h"
- #include "qapi/qapi-introspect.h"
-@@ -230,58 +229,6 @@ static void hmp_info_help(Monitor *mon, const QDict =
-*qdict)
-     help_cmd(mon, "info");
- }
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 38041098bd..e1b034d67d 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -749,6 +749,7 @@ class QAPISchema(object):
+         self.docs =3D parser.docs
+         self._entity_list =3D []
+         self._entity_dict =3D {}
++        self._modules =3D [os.path.basename(fname)]
+         self._predefining =3D True
+         self._def_predefineds()
+         self._predefining =3D False
+@@ -800,6 +801,8 @@ class QAPISchema(object):
+             main_info =3D main_info.parent
+         fname =3D os.path.relpath(include, os.path.dirname(main_info.fna=
+me))
+         self._def_entity(QAPISchemaInclude(fname, info))
++        if fname not in self._modules:
++            self._modules.append(fname)
 =20
--static void query_commands_cb(QmpCommand *cmd, void *opaque)
--{
--    CommandInfoList *info, **list =3D opaque;
--
--    if (!cmd->enabled) {
--        return;
--    }
--
--    info =3D g_malloc0(sizeof(*info));
--    info->value =3D g_malloc0(sizeof(*info->value));
--    info->value->name =3D g_strdup(cmd->name);
--    info->next =3D *list;
--    *list =3D info;
--}
--
--CommandInfoList *qmp_query_commands(Error **errp)
--{
--    CommandInfoList *list =3D NULL;
--    MonitorQMP *mon;
--
--    assert(monitor_is_qmp(cur_mon));
--    mon =3D container_of(cur_mon, MonitorQMP, common);
--
--    qmp_for_each_command(mon->commands, query_commands_cb, &list);
--
--    return list;
--}
--
--EventInfoList *qmp_query_events(Error **errp)
--{
--    /*
--     * TODO This deprecated command is the only user of
--     * QAPIEvent_str() and QAPIEvent_lookup[].  When the command goes,
--     * they should go, too.
--     */
--    EventInfoList *info, *ev_list =3D NULL;
--    QAPIEvent e;
--
--    for (e =3D 0 ; e < QAPI_EVENT__MAX ; e++) {
--        const char *event_name =3D QAPIEvent_str(e);
--        assert(event_name !=3D NULL);
--        info =3D g_malloc0(sizeof(*info));
--        info->value =3D g_malloc0(sizeof(*info->value));
--        info->value->name =3D g_strdup(event_name);
--
--        info->next =3D ev_list;
--        ev_list =3D info;
--    }
--
--    return ev_list;
--}
--
- /*
-  * Minor hack: generated marshalling suppressed for this command
-  * ('gen': false in the schema) so we can parse the JSON string
-@@ -320,63 +267,6 @@ static void monitor_init_qmp_commands(void)
-                          qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONF=
-IG);
- }
-=20
--/*
-- * Accept QMP capabilities in @list for @mon.
-- * On success, set mon->qmp.capab[], and return true.
-- * On error, set @errp, and return false.
-- */
--static bool qmp_caps_accept(MonitorQMP *mon, QMPCapabilityList *list,
--                            Error **errp)
--{
--    GString *unavailable =3D NULL;
--    bool capab[QMP_CAPABILITY__MAX];
--
--    memset(capab, 0, sizeof(capab));
--
--    for (; list; list =3D list->next) {
--        if (!mon->capab_offered[list->value]) {
--            if (!unavailable) {
--                unavailable =3D g_string_new(QMPCapability_str(list->val=
-ue));
--            } else {
--                g_string_append_printf(unavailable, ", %s",
--                                      QMPCapability_str(list->value));
--            }
--        }
--        capab[list->value] =3D true;
--    }
--
--    if (unavailable) {
--        error_setg(errp, "Capability %s not available", unavailable->str=
-);
--        g_string_free(unavailable, true);
--        return false;
--    }
--
--    memcpy(mon->capab, capab, sizeof(capab));
--    return true;
--}
--
--void qmp_qmp_capabilities(bool has_enable, QMPCapabilityList *enable,
--                          Error **errp)
--{
--    MonitorQMP *mon;
--
--    assert(monitor_is_qmp(cur_mon));
--    mon =3D container_of(cur_mon, MonitorQMP, common);
--
--    if (mon->commands =3D=3D &qmp_commands) {
--        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
--                  "Capabilities negotiation is already complete, command=
- "
--                  "ignored");
--        return;
--    }
--
--    if (!qmp_caps_accept(mon, enable, errp)) {
--        return;
--    }
--
--    mon->commands =3D &qmp_commands;
--}
--
- /* Set the current CPU defined by the user. Callers must hold BQL. */
- int monitor_set_cpu(int cpu_index)
- {
-diff --git a/monitor/qmp-cmds-monitor.c b/monitor/qmp-cmds-monitor.c
-new file mode 100644
-index 0000000000..acebfd3716
---- /dev/null
-+++ b/monitor/qmp-cmds-monitor.c
-@@ -0,0 +1,153 @@
-+/*
-+ * QMP commands related to the monitor (common functions for sysemu and =
-tools)
-+ *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-+ * of this software and associated documentation files (the "Software"),=
- to deal
-+ * in the Software without restriction, including without limitation the=
- rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be includ=
-ed in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-+ * THE SOFTWARE.
-+ */
+     def _def_builtin_type(self, name, json_type, c_type):
+         self._def_entity(QAPISchemaBuiltinType(name, json_type, c_type))
+@@ -1033,6 +1036,12 @@ class QAPISchema(object):
+         visitor.visit_begin(self)
+         module =3D None
+         visitor.visit_module(module)
 +
-+#include "qemu/osdep.h"
++        # Make sure that all modules are visited, even if they contain n=
+o
++        # entities
++        for module in self._modules:
++            visitor.visit_module(module)
 +
-+#include "monitor-internal.h"
-+#include "qemu-version.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-monitor.h"
-+#include "qapi/qapi-emit-events.h"
-+
-+/*
-+ * Accept QMP capabilities in @list for @mon.
-+ * On success, set mon->qmp.capab[], and return true.
-+ * On error, set @errp, and return false.
-+ */
-+static bool qmp_caps_accept(MonitorQMP *mon, QMPCapabilityList *list,
-+                            Error **errp)
-+{
-+    GString *unavailable =3D NULL;
-+    bool capab[QMP_CAPABILITY__MAX];
-+
-+    memset(capab, 0, sizeof(capab));
-+
-+    for (; list; list =3D list->next) {
-+        if (!mon->capab_offered[list->value]) {
-+            if (!unavailable) {
-+                unavailable =3D g_string_new(QMPCapability_str(list->val=
-ue));
-+            } else {
-+                g_string_append_printf(unavailable, ", %s",
-+                                      QMPCapability_str(list->value));
-+            }
-+        }
-+        capab[list->value] =3D true;
-+    }
-+
-+    if (unavailable) {
-+        error_setg(errp, "Capability %s not available", unavailable->str=
-);
-+        g_string_free(unavailable, true);
-+        return false;
-+    }
-+
-+    memcpy(mon->capab, capab, sizeof(capab));
-+    return true;
-+}
-+
-+void qmp_qmp_capabilities(bool has_enable, QMPCapabilityList *enable,
-+                          Error **errp)
-+{
-+    MonitorQMP *mon;
-+
-+    assert(monitor_is_qmp(cur_mon));
-+    mon =3D container_of(cur_mon, MonitorQMP, common);
-+
-+    if (mon->commands =3D=3D &qmp_commands) {
-+        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+                  "Capabilities negotiation is already complete, command=
- "
-+                  "ignored");
-+        return;
-+    }
-+
-+    if (!qmp_caps_accept(mon, enable, errp)) {
-+        return;
-+    }
-+
-+    mon->commands =3D &qmp_commands;
-+}
-+
-+VersionInfo *qmp_query_version(Error **errp)
-+{
-+    VersionInfo *info =3D g_new0(VersionInfo, 1);
-+
-+    info->qemu =3D g_new0(VersionTriple, 1);
-+    info->qemu->major =3D QEMU_VERSION_MAJOR;
-+    info->qemu->minor =3D QEMU_VERSION_MINOR;
-+    info->qemu->micro =3D QEMU_VERSION_MICRO;
-+    info->package =3D g_strdup(QEMU_PKGVERSION);
-+
-+    return info;
-+}
-+
-+static void query_commands_cb(QmpCommand *cmd, void *opaque)
-+{
-+    CommandInfoList *info, **list =3D opaque;
-+
-+    if (!cmd->enabled) {
-+        return;
-+    }
-+
-+    info =3D g_malloc0(sizeof(*info));
-+    info->value =3D g_malloc0(sizeof(*info->value));
-+    info->value->name =3D g_strdup(cmd->name);
-+    info->next =3D *list;
-+    *list =3D info;
-+}
-+
-+CommandInfoList *qmp_query_commands(Error **errp)
-+{
-+    CommandInfoList *list =3D NULL;
-+    MonitorQMP *mon;
-+
-+    assert(monitor_is_qmp(cur_mon));
-+    mon =3D container_of(cur_mon, MonitorQMP, common);
-+
-+    qmp_for_each_command(mon->commands, query_commands_cb, &list);
-+
-+    return list;
-+}
-+
-+EventInfoList *qmp_query_events(Error **errp)
-+{
-+    /*
-+     * TODO This deprecated command is the only user of
-+     * QAPIEvent_str() and QAPIEvent_lookup[].  When the command goes,
-+     * they should go, too.
-+     */
-+    EventInfoList *info, *ev_list =3D NULL;
-+    QAPIEvent e;
-+
-+    for (e =3D 0 ; e < QAPI_EVENT__MAX ; e++) {
-+        const char *event_name =3D QAPIEvent_str(e);
-+        assert(event_name !=3D NULL);
-+        info =3D g_malloc0(sizeof(*info));
-+        info->value =3D g_malloc0(sizeof(*info->value));
-+        info->value->name =3D g_strdup(event_name);
-+
-+        info->next =3D ev_list;
-+        ev_list =3D info;
-+    }
-+
-+    return ev_list;
-+}
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index b40a9b74de..22a3375194 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -15,7 +15,6 @@
-=20
- #include "qemu/osdep.h"
- #include "qemu-common.h"
--#include "qemu-version.h"
- #include "qemu/cutils.h"
- #include "qemu/option.h"
- #include "monitor/monitor.h"
-@@ -52,19 +51,6 @@ NameInfo *qmp_query_name(Error **errp)
-     return info;
- }
-=20
--VersionInfo *qmp_query_version(Error **errp)
--{
--    VersionInfo *info =3D g_new0(VersionInfo, 1);
--
--    info->qemu =3D g_new0(VersionTriple, 1);
--    info->qemu->major =3D QEMU_VERSION_MAJOR;
--    info->qemu->minor =3D QEMU_VERSION_MINOR;
--    info->qemu->micro =3D QEMU_VERSION_MICRO;
--    info->package =3D g_strdup(QEMU_PKGVERSION);
--
--    return info;
--}
--
- KvmInfo *qmp_query_kvm(Error **errp)
- {
-     KvmInfo *info =3D g_malloc0(sizeof(*info));
-diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index e91a8581cd..15eb6380c5 100644
---- a/monitor/Makefile.objs
-+++ b/monitor/Makefile.objs
-@@ -1,3 +1,4 @@
- obj-y +=3D misc.o
- common-obj-y +=3D monitor.o qmp.o hmp.o
--common-obj-y +=3D qmp-cmds.o hmp-cmds.o
-+common-obj-y +=3D qmp-cmds.o qmp-cmds-monitor.o
-+common-obj-y +=3D hmp-cmds.o
+         for entity in self._entity_list:
+             if visitor.visit_needed(entity):
+                 if entity.module !=3D module:
+diff --git a/tests/qapi-schema/comments.out b/tests/qapi-schema/comments.=
+out
+index 273f0f54e1..fa7e95d1cc 100644
+--- a/tests/qapi-schema/comments.out
++++ b/tests/qapi-schema/comments.out
+@@ -1,4 +1,6 @@
+ module None
++module comments.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/doc-bad-section.out b/tests/qapi-schema/do=
+c-bad-section.out
+index 367e2a1c3e..331237cfbe 100644
+--- a/tests/qapi-schema/doc-bad-section.out
++++ b/tests/qapi-schema/doc-bad-section.out
+@@ -1,4 +1,6 @@
+ module None
++module doc-bad-section.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
+out
+index d3bca343eb..8f3577bb21 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -1,4 +1,6 @@
+ module None
++module doc-good.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/empty.out b/tests/qapi-schema/empty.out
+index 5b53d00702..3671cbbe59 100644
+--- a/tests/qapi-schema/empty.out
++++ b/tests/qapi-schema/empty.out
+@@ -1,4 +1,6 @@
+ module None
++module empty.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/event-case.out b/tests/qapi-schema/event-c=
+ase.out
+index ec8a1406e4..2b2d8548e9 100644
+--- a/tests/qapi-schema/event-case.out
++++ b/tests/qapi-schema/event-case.out
+@@ -1,4 +1,6 @@
+ module None
++module event-case.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/include-repetition.out b/tests/qapi-schema=
+/include-repetition.out
+index 5423983239..ebaac1813d 100644
+--- a/tests/qapi-schema/include-repetition.out
++++ b/tests/qapi-schema/include-repetition.out
+@@ -1,4 +1,8 @@
+ module None
++module include-repetition.json
++module comments.json
++module include-repetition-sub.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/include-simple.out b/tests/qapi-schema/inc=
+lude-simple.out
+index 061f81e509..dea51f9738 100644
+--- a/tests/qapi-schema/include-simple.out
++++ b/tests/qapi-schema/include-simple.out
+@@ -1,4 +1,7 @@
+ module None
++module include-simple.json
++module include-simple-sub.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/indented-expr.out b/tests/qapi-schema/inde=
+nted-expr.out
+index bffdf6756d..d4cffb9c1b 100644
+--- a/tests/qapi-schema/indented-expr.out
++++ b/tests/qapi-schema/indented-expr.out
+@@ -1,4 +1,6 @@
+ module None
++module indented-expr.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
+api-schema-test.out
+index 98031da96f..93c944a2fb 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -1,4 +1,8 @@
+ module None
++module qapi-schema-test.json
++module include/sub-module.json
++module sub-sub-module.json
++module None
+ object q_empty
+ enum QType
+     prefix QTYPE
 --=20
 2.20.1
 
