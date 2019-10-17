@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB595DAE17
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:18:41 +0200 (CEST)
-Received: from localhost ([::1]:47158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8C4DADF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:12:14 +0200 (CEST)
+Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5fs-0000vn-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60049)
+	id 1iL5Zc-0001R1-Rn
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iL5SB-0000o3-HN
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:36 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iL5SD-0000qy-CW
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iL5SA-0008UU-9L
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53636)
+ (envelope-from <kwolf@redhat.com>) id 1iL5S8-0008TN-9n
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59546)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iL5S3-0008Q0-LT; Thu, 17 Oct 2019 09:04:23 -0400
+ id 1iL5S5-0008RL-Ez; Thu, 17 Oct 2019 09:04:25 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DFC9FC0546D5;
- Thu, 17 Oct 2019 13:04:22 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B7DDF18C4287;
+ Thu, 17 Oct 2019 13:04:24 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-24.ams2.redhat.com
  [10.36.117.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5ED4D1001938;
- Thu, 17 Oct 2019 13:04:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 374AA10098FB;
+ Thu, 17 Oct 2019 13:04:23 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 09/18] qemu-storage-daemon: Add main loop
-Date: Thu, 17 Oct 2019 15:01:55 +0200
-Message-Id: <20191017130204.16131-10-kwolf@redhat.com>
+Subject: [RFC PATCH 10/18] qemu-storage-daemon: Add --chardev option
+Date: Thu, 17 Oct 2019 15:01:56 +0200
+Message-Id: <20191017130204.16131-11-kwolf@redhat.com>
 In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
 References: <20191017130204.16131-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 17 Oct 2019 13:04:22 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Thu, 17 Oct 2019 13:04:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,75 +61,102 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of exiting after processing all command line options, start a
-main loop and keep processing events until exit is requested with a
-signal (e.g. SIGINT).
-
-Now qemu-storage-daemon can be used as an alternative for qemu-nbd that
-provides a few features that were previously only available from QMP,
-such as access to options only available with -blockdev and the socket
-types 'vsock' and 'fd'.
+This adds a --chardev option to the storage daemon that works the same
+as the -chardev option of the system emulator.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-storage-daemon.c | 13 +++++++++++++
- Makefile.objs         |  2 ++
- 2 files changed, 15 insertions(+)
+ qemu-storage-daemon.c | 19 +++++++++++++++++++
+ Makefile              |  2 +-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index 9e5f474fd0..099388f645 100644
+index 099388f645..46e0a6ea56 100644
 --- a/qemu-storage-daemon.c
 +++ b/qemu-storage-daemon.c
-@@ -45,10 +45,18 @@
- #include "qemu/option.h"
- #include "qom/object_interfaces.h"
+@@ -26,6 +26,7 @@
 =20
-+#include "sysemu/runstate.h"
- #include "trace/control.h"
+ #include "block/block.h"
+ #include "block/nbd.h"
++#include "chardev/char.h"
+ #include "crypto/init.h"
 =20
- #include <getopt.h>
+ #include "qapi/error.h"
+@@ -75,6 +76,9 @@ static void help(void)
+ "             [,driver specific parameters...]\n"
+ "                         configure a block backend\n"
+ "\n"
++"  --chardev <options>    configure a character device backend\n"
++"                         (see the qemu(1) man page for possible options=
+)\n"
++"\n"
+ "  --export [type=3D]nbd,device=3D<node-name>[,name=3D<export-name>]\n"
+ "           [,writable=3Don|off][,bitmap=3D<name>]\n"
+ "                         export the specified block node over NBD\n"
+@@ -96,10 +100,13 @@ QEMU_HELP_BOTTOM "\n",
+ enum {
+     OPTION_OBJECT =3D 256,
+     OPTION_BLOCKDEV,
++    OPTION_CHARDEV,
+     OPTION_NBD_SERVER,
+     OPTION_EXPORT,
+ };
 =20
-+static bool exit_requested =3D false;
++extern QemuOptsList qemu_chardev_opts;
 +
-+void qemu_system_killed(int signal, pid_t pid)
-+{
-+    exit_requested =3D true;
-+}
-+
- static void help(void)
- {
-     printf(
-@@ -238,6 +246,7 @@ int main(int argc, char *argv[])
+ static QemuOptsList qemu_object_opts =3D {
+     .name =3D "object",
+     .implied_opt_name =3D "qom-type",
+@@ -130,6 +137,7 @@ static int process_options(int argc, char *argv[], Er=
+ror **errp)
+         {"help", no_argument, 0, 'h'},
+         {"object", required_argument, 0, OPTION_OBJECT},
+         {"blockdev", required_argument, 0, OPTION_BLOCKDEV},
++        {"chardev", required_argument, 0, OPTION_CHARDEV},
+         {"nbd-server", required_argument, 0, OPTION_NBD_SERVER},
+         {"export", required_argument, 0, OPTION_EXPORT},
+         {"version", no_argument, 0, 'V'},
+@@ -189,6 +197,17 @@ static int process_options(int argc, char *argv[], E=
+rror **errp)
+                 qapi_free_BlockdevOptions(options);
+                 break;
+             }
++        case OPTION_CHARDEV:
++            {
++                QemuOpts *opts =3D qemu_opts_parse(&qemu_chardev_opts,
++                                                 optarg, true, &error_fa=
+tal);
++                if (!qemu_chr_new_from_opts(opts, NULL, &error_fatal)) {
++                    /* No error, but NULL returned means help was printe=
+d */
++                    exit(EXIT_SUCCESS);
++                }
++                qemu_opts_del(opts);
++                break;
++            }
+         case OPTION_NBD_SERVER:
+             {
+                 Visitor *v;
+diff --git a/Makefile b/Makefile
+index b913d4d736..0e3e98582d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -561,7 +561,7 @@ qemu-img.o: qemu-img-cmds.h
+ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj=
+-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj=
+-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y=
+) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(blo=
+ck-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(storage-daemon-obj-y=
+) $(COMMON_LDADDS)
++qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(blo=
+ck-obj-y) $(crypto-obj-y) $(chardev-obj-y) $(io-obj-y) $(qom-obj-y) $(sto=
+rage-daemon-obj-y) $(COMMON_LDADDS)
 =20
-     error_init(argv[0]);
-     qemu_init_exec_dir(argv[0]);
-+    os_setup_signal_handling();
+ qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
 =20
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_TRACE);
-@@ -256,5 +265,9 @@ int main(int argc, char *argv[])
-         return EXIT_FAILURE;
-     }
-=20
-+    while (!exit_requested) {
-+        main_loop_wait(false);
-+    }
-+
-     return EXIT_SUCCESS;
- }
-diff --git a/Makefile.objs b/Makefile.objs
-index cc262e445f..b667d3f07b 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -43,6 +43,8 @@ io-obj-y =3D io/
-=20
- storage-daemon-obj-y =3D block/
- storage-daemon-obj-y +=3D blockdev.o blockdev-nbd.o iothread.o
-+storage-daemon-obj-$(CONFIG_WIN32) +=3D os-win32.o
-+storage-daemon-obj-$(CONFIG_POSIX) +=3D os-posix.o
-=20
- ######################################################################
- # Target independent part of system emulation. The long term path is to
 --=20
 2.20.1
 
