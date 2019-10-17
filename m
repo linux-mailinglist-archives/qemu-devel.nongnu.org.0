@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666AFDB98F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 00:13:02 +0200 (CEST)
-Received: from localhost ([::1]:33008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE1FDB995
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 00:14:51 +0200 (CEST)
+Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLE0z-0003F5-2d
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 18:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33020)
+	id 1iLE2k-00059z-BQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 18:14:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iLDk8-0007ky-IB
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:37 -0400
+ (envelope-from <jsnow@redhat.com>) id 1iLDkP-0007zL-Dk
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iLDk7-0002in-2t
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42406)
+ (envelope-from <jsnow@redhat.com>) id 1iLDkN-0002pc-B2
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51896)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iLDk2-0002gk-Mw; Thu, 17 Oct 2019 17:55:30 -0400
+ id 1iLDkH-0002o1-BC; Thu, 17 Oct 2019 17:55:45 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DBC753C928;
- Thu, 17 Oct 2019 21:55:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D78B336961;
+ Thu, 17 Oct 2019 21:55:43 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-173.bos.redhat.com [10.18.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82DB75D9CA;
- Thu, 17 Oct 2019 21:55:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 851905D9CA;
+ Thu, 17 Oct 2019 21:55:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, jsnow@redhat.com,
  qemu-devel@nongnu.org
-Subject: [PULL v3 17/19] qcow2-bitmap: move bitmap reopen-rw code to
- qcow2_reopen_commit
-Date: Thu, 17 Oct 2019 17:54:34 -0400
-Message-Id: <20191017215436.14252-18-jsnow@redhat.com>
+Subject: [PULL v3 19/19] dirty-bitmaps: remove deprecated autoload parameter
+Date: Thu, 17 Oct 2019 17:54:36 -0400
+Message-Id: <20191017215436.14252-20-jsnow@redhat.com>
 In-Reply-To: <20191017215436.14252-1-jsnow@redhat.com>
 References: <20191017215436.14252-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 17 Oct 2019 21:55:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Thu, 17 Oct 2019 21:55:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -66,136 +65,124 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This parameter has been deprecated since 2.12.0 and is eligible for
+removal. Remove this parameter as it is actually completely ignored;
+let's not give false hope.
 
-The only reason I can imagine for this strange code at the very-end of
-bdrv_reopen_commit is the fact that bs->read_only updated after
-calling drv->bdrv_reopen_commit in bdrv_reopen_commit. And in the same
-time, prior to previous commit, qcow2_reopen_bitmaps_rw did a wrong
-check for being writable, when actually it only need writable file
-child not self.
-
-So, as it's fixed, let's move things to correct place.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Acked-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190927122355.7344-10-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 20191002232411.29968-1-jsnow@redhat.com
 ---
- include/block/block_int.h |  6 ------
- block.c                   | 19 -------------------
- block/qcow2.c             | 15 ++++++++++++++-
- 3 files changed, 14 insertions(+), 26 deletions(-)
+ qemu-deprecated.texi | 20 +++++++++++++++-----
+ qapi/block-core.json |  6 +-----
+ blockdev.c           |  6 ------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 32fb493cbb..ca4ccac4c1 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -547,12 +547,6 @@ struct BlockDriver {
-                              uint64_t parent_perm, uint64_t parent_share=
-d,
-                              uint64_t *nperm, uint64_t *nshared);
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 01245e0b1c..7239e0959d 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -149,11 +149,6 @@ QEMU 4.1 has three options, please migrate to one of=
+ these three:
 =20
--    /**
--     * Bitmaps should be marked as 'IN_USE' in the image on reopening im=
-age
--     * as rw. This handler should realize it. It also should unset reado=
-nly
--     * field of BlockDirtyBitmap's in case of success.
--     */
--    int (*bdrv_reopen_bitmaps_rw)(BlockDriverState *bs, Error **errp);
-     bool (*bdrv_co_can_store_new_dirty_bitmap)(BlockDriverState *bs,
-                                                const char *name,
-                                                uint32_t granularity,
-diff --git a/block.c b/block.c
-index cf312258a9..dad5a3d8e0 100644
---- a/block.c
-+++ b/block.c
-@@ -3935,16 +3935,12 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_s=
-tate)
-     BlockDriver *drv;
-     BlockDriverState *bs;
-     BdrvChild *child;
--    bool old_can_write, new_can_write;
+ @section QEMU Machine Protocol (QMP) commands
 =20
-     assert(reopen_state !=3D NULL);
-     bs =3D reopen_state->bs;
-     drv =3D bs->drv;
-     assert(drv !=3D NULL);
-=20
--    old_can_write =3D
--        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE=
-);
+-@subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
 -
-     /* If there are any driver level actions to take */
-     if (drv->bdrv_reopen_commit) {
-         drv->bdrv_reopen_commit(reopen_state);
-@@ -3988,21 +3984,6 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_st=
-ate)
+-"autoload" parameter is now ignored. All bitmaps are automatically loade=
+d
+-from qcow2 images.
+-
+ @subsection query-block result field dirty-bitmaps[i].status (since 4.0)
+=20
+ The ``status'' field of the ``BlockDirtyInfo'' structure, returned by
+@@ -356,3 +351,18 @@ existing CPU models.  Management software that needs=
+ runnability
+ guarantees must resolve the CPU model aliases using te
+ ``alias-of'' field returned by the ``query-cpu-definitions'' QMP
+ command.
++
++
++@node Recently removed features
++@appendix Recently removed features
++
++What follows is a record of recently removed, formerly deprecated
++features that serves as a record for users who have encountered
++trouble after a recent upgrade.
++
++@section QEMU Machine Protocol (QMP) commands
++
++@subsection block-dirty-bitmap-add "autoload" parameter (since 4.2.0)
++
++The "autoload" parameter has been ignored since 2.12.0. All bitmaps
++are automatically loaded from qcow2 images.
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index f66553aac7..b274aef713 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2052,10 +2052,6 @@
+ #              Qcow2 disks support persistent bitmaps. Default is false =
+for
+ #              block-dirty-bitmap-add. (Since: 2.10)
+ #
+-# @autoload: ignored and deprecated since 2.12.
+-#            Currently, all dirty tracking bitmaps are loaded from Qcow2=
+ on
+-#            open.
+-#
+ # @disabled: the bitmap is created in the disabled state, which means th=
+at
+ #            it will not track drive changes. The bitmap may be enabled =
+with
+ #            block-dirty-bitmap-enable. Default is false. (Since: 4.0)
+@@ -2064,7 +2060,7 @@
+ ##
+ { 'struct': 'BlockDirtyBitmapAdd',
+   'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
+-            '*persistent': 'bool', '*autoload': 'bool', '*disabled': 'bo=
+ol' } }
++            '*persistent': 'bool', '*disabled': 'bool' } }
+=20
+ ##
+ # @BlockDirtyBitmapMergeSource:
+diff --git a/blockdev.c b/blockdev.c
+index d77e809623..03c7cd7651 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1966,7 +1966,6 @@ static void block_dirty_bitmap_add_prepare(BlkActio=
+nState *common,
+     qmp_block_dirty_bitmap_add(action->node, action->name,
+                                action->has_granularity, action->granular=
+ity,
+                                action->has_persistent, action->persisten=
+t,
+-                               action->has_autoload, action->autoload,
+                                action->has_disabled, action->disabled,
+                                &local_err);
+=20
+@@ -2858,7 +2857,6 @@ out:
+ void qmp_block_dirty_bitmap_add(const char *node, const char *name,
+                                 bool has_granularity, uint32_t granulari=
+ty,
+                                 bool has_persistent, bool persistent,
+-                                bool has_autoload, bool autoload,
+                                 bool has_disabled, bool disabled,
+                                 Error **errp)
+ {
+@@ -2890,10 +2888,6 @@ void qmp_block_dirty_bitmap_add(const char *node, =
+const char *name,
+         persistent =3D false;
      }
 =20
-     bdrv_refresh_limits(bs, NULL);
--
--    new_can_write =3D
--        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE=
-);
--    if (!old_can_write && new_can_write && drv->bdrv_reopen_bitmaps_rw) =
-{
--        Error *local_err =3D NULL;
--        if (drv->bdrv_reopen_bitmaps_rw(bs, &local_err) < 0) {
--            /* This is not fatal, bitmaps just left read-only, so all fo=
-llowing
--             * writes will fail. User can remove read-only bitmaps to un=
-block
--             * writes.
--             */
--            error_reportf_err(local_err,
--                              "%s: Failed to make dirty bitmaps writable=
-: ",
--                              bdrv_get_node_name(bs));
--        }
+-    if (has_autoload) {
+-        warn_report("Autoload option is deprecated and its value is igno=
+red");
 -    }
- }
-=20
- /*
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 53a025703e..8b05933565 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1835,6 +1835,20 @@ fail:
- static void qcow2_reopen_commit(BDRVReopenState *state)
- {
-     qcow2_update_options_commit(state->bs, state->opaque);
-+    if (state->flags & BDRV_O_RDWR) {
-+        Error *local_err =3D NULL;
-+
-+        if (qcow2_reopen_bitmaps_rw(state->bs, &local_err) < 0) {
-+            /*
-+             * This is not fatal, bitmaps just left read-only, so all fo=
-llowing
-+             * writes will fail. User can remove read-only bitmaps to un=
-block
-+             * writes or retry reopen.
-+             */
-+            error_reportf_err(local_err,
-+                              "%s: Failed to make dirty bitmaps writable=
-: ",
-+                              bdrv_get_node_name(state->bs));
-+        }
-+    }
-     g_free(state->opaque);
- }
-=20
-@@ -5406,7 +5420,6 @@ BlockDriver bdrv_qcow2 =3D {
-     .bdrv_detach_aio_context  =3D qcow2_detach_aio_context,
-     .bdrv_attach_aio_context  =3D qcow2_attach_aio_context,
-=20
--    .bdrv_reopen_bitmaps_rw =3D qcow2_reopen_bitmaps_rw,
-     .bdrv_co_can_store_new_dirty_bitmap =3D qcow2_co_can_store_new_dirty=
-_bitmap,
-     .bdrv_co_remove_persistent_dirty_bitmap =3D
-             qcow2_co_remove_persistent_dirty_bitmap,
+-
+     if (!has_disabled) {
+         disabled =3D false;
+     }
 --=20
 2.21.0
 
