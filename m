@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A95EDB260
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:30:38 +0200 (CEST)
-Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1014CDB284
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:36:52 +0200 (CEST)
+Received: from localhost ([::1]:52804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8fc-00040Q-Vu
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57784)
+	id 1iL8le-0002s0-L4
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iL7iz-0004wv-Sk
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:30:04 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL7ku-0006xX-LB
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:32:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iL7iw-0002Xm-Sc
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:30:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59650)
+ (envelope-from <philmd@redhat.com>) id 1iL7ks-0003Pg-AT
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:31:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45618)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1iL7iw-0002XW-MZ; Thu, 17 Oct 2019 11:29:58 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7kr-0003NB-6K
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:31:57 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B1C2DC058CBD;
- Thu, 17 Oct 2019 15:29:57 +0000 (UTC)
-Received: from gondolin (dhcp-192-202.str.redhat.com [10.33.192.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3B6C60BE1;
- Thu, 17 Oct 2019 15:29:56 +0000 (UTC)
-Date: Thu, 17 Oct 2019 17:29:54 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] hw/s390x: Emit a warning if user tried to enable USB
-Message-ID: <20191017172954.4e9712de.cohuck@redhat.com>
-In-Reply-To: <2e689f2b-9bed-e40e-c761-6f38efaae635@redhat.com>
-References: <20191017142123.1236-1-thuth@redhat.com>
- <20191017163402.43437191.cohuck@redhat.com>
- <2e689f2b-9bed-e40e-c761-6f38efaae635@redhat.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id 3C43073A6E
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:31:56 +0000 (UTC)
+Received: by mail-wm1-f71.google.com with SMTP id q9so1321226wmj.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:31:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2F49FEDc7LzFngXJgzRZqW78fRDnmjAzCNR79FZigrE=;
+ b=kt4xNv/CUxkrsl834O100881BfrBgep/uKogCH/pCXFAnN0lkKwNAnpZpjQ1yLosde
+ QJxWV3zuD+SjKFjI0G7h7wwBkVcySS2lFwdrCnME+Frj7RLcE3EMoIYNxY0xlqcQe+Kv
+ eKayxpiTIDUKQL4esrmg+uwT5VLdkDZ3dtCkdgtRUlDO9dATjmVUsEDyNpcWFbsTFXAu
+ yAyLKPOICs3aKLDb5sikJj8qXqocw3vNN8YaGdI5ukKlTwLEcUWxXtHIRE3wZLiaMUGM
+ m+eRt/bYVqgmHRZ/rOQLyqiiNM+Wf/3ODeiRQzIfIofIz759BIdiexUIa0nWInOt+1cv
+ IM7g==
+X-Gm-Message-State: APjAAAWJgAorBuvGFOBJnUuomhigq4fESClvKhAvLvGv+Xo4/GDFbHYy
+ IeAy8ZwzDKyxWgoDMxuRrSVW9RjLDHQ/sAxMT84MQiKOl54GJb04YVSc/u6Lx/POIiXJHCNlezA
+ jD7LuncVB81l1T3A=
+X-Received: by 2002:a5d:4644:: with SMTP id j4mr2879861wrs.355.1571326312493; 
+ Thu, 17 Oct 2019 08:31:52 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwoIjP3X5/5M57pPiqoVb4QqAFAlZi3TJe2flVh04t5Rg9ZUsN3ciAgDSe7HR76Hc+W9yzeqA==
+X-Received: by 2002:a5d:4644:: with SMTP id j4mr2879827wrs.355.1571326312297; 
+ Thu, 17 Oct 2019 08:31:52 -0700 (PDT)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id g1sm2872055wrv.68.2019.10.17.08.31.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 08:31:51 -0700 (PDT)
+Subject: Re: [PATCH 02/32] hw/i386/pc: Move kvm_i8259_init() declaration to
+ sysemu/kvm.h
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-3-philmd@redhat.com>
+ <1e8c724b-8846-255a-eace-6bf135471566@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1e1bffc6-a7cc-5beb-3f9f-da8e644c8d4b@redhat.com>
+Date: Thu, 17 Oct 2019 17:31:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 17 Oct 2019 15:29:57 +0000 (UTC)
+In-Reply-To: <1e8c724b-8846-255a-eace-6bf135471566@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -59,68 +83,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Oct 2019 16:40:56 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+On 10/17/19 5:04 PM, Thomas Huth wrote:
+> On 15/10/2019 18.26, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Move the KVM-related call to "sysemu/kvm.h".
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   include/hw/i386/pc.h | 1 -
+>>   include/sysemu/kvm.h | 1 +
+>>   2 files changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+>> index 6df4f4b6fb..09e74e7764 100644
+>> --- a/include/hw/i386/pc.h
+>> +++ b/include/hw/i386/pc.h
+>> @@ -158,7 +158,6 @@ typedef struct PCMachineClass {
+>>  =20
+>>   extern DeviceState *isa_pic;
+>>   qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq);
+>> -qemu_irq *kvm_i8259_init(ISABus *bus);
+>>   int pic_read_irq(DeviceState *d);
+>>   int pic_get_output(DeviceState *d);
+>>  =20
+>> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+>> index 9d143282bc..da8aa9f5a8 100644
+>> --- a/include/sysemu/kvm.h
+>> +++ b/include/sysemu/kvm.h
+>> @@ -513,6 +513,7 @@ void kvm_irqchip_set_qemuirq_gsi(KVMState *s, qemu=
+_irq irq, int gsi);
+>>   void kvm_pc_gsi_handler(void *opaque, int n, int level);
+>>   void kvm_pc_setup_irq_routing(bool pci_enabled);
+>>   void kvm_init_irq_routing(KVMState *s);
+>> +qemu_irq *kvm_i8259_init(ISABus *bus);
+>=20
+> Why? The function is defined in hw/i386/kvm/ - so moving its prototype
+> to a generic header sounds wrong to me.
 
-> On 17/10/2019 16.34, Cornelia Huck wrote:
-> > On Thu, 17 Oct 2019 16:21:23 +0200
-> > Thomas Huth <thuth@redhat.com> wrote:
-> >   
-> >> There is no USB on s390x, so running qemu-system-s390x with
-> >> "-machine ...,usb=on" is certainly wrong. Emit a warning to make
-> >> the users aware of their misconfiguration.
-> >>
-> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> >> ---
-> >>  After a year or two, we could finally turn this into a hard error,
-> >>  but I think we should give the users some time to fix their command
-> >>  lines first, so I'm initially only emitting a warning here.
-> >>
-> >>  hw/s390x/s390-virtio-ccw.c | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> >> index d3edeef0ad..af8c4c0daf 100644
-> >> --- a/hw/s390x/s390-virtio-ccw.c
-> >> +++ b/hw/s390x/s390-virtio-ccw.c
-> >> @@ -243,6 +243,10 @@ static void ccw_init(MachineState *machine)
-> >>      VirtualCssBus *css_bus;
-> >>      DeviceState *dev;
-> >>  
-> >> +    if (machine->usb) {
-> >> +        warn_report("This machine does not support USB");  
-> > 
-> > I'm wondering if this is the only machine type not supporting usb...
-> > if not, how are others handling it?  
-> 
-> I think most machines are silently ignoring it, like we did on s390x
-> until now, too.
+This function is declared when compiling without KVM, and is available=20
+on the Alpha/HPPA/MIPS which don't have it.
 
-I'm wondering how many options we have that do nothing when configured
-:)
-
-> 
-> > The usb parsing code in machine.c does not care if usb is even
-> > configured (CONFIG_USB).  
-> 
-> machine.c is common code, so you can not use CONFIG_USB there.
-
-Hm, yes.
-
-> 
-> > There's other stuff in there like
-> > igd-passthru, which seems to be x86 specific; probably historical
-> > reasons?  
-> 
-> IMHO igd-passthru should be moved to the xen machine, which seems to be
-> the only user.
-
-OTOH, I can currently specify igd-passthru=on on any machine, which
-would break if we moved it. Not that it makes any sense...
+You'd rather move the kvm_pc_* declarations to hw/i386/kvm/?
 
