@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C48DB028
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:35:17 +0200 (CEST)
-Received: from localhost ([::1]:49416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CAFDB03B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:39:55 +0200 (CEST)
+Received: from localhost ([::1]:49476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6s0-0001f7-Br
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37180)
+	id 1iL6wU-0007Jy-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iL5tg-0002yD-KV
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iL5ti-00030V-45
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iL5tf-0003l6-A9
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43824)
+ (envelope-from <mreitz@redhat.com>) id 1iL5th-0003ld-1H
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49664)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iL5tc-0003ho-R7; Thu, 17 Oct 2019 09:32:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iL5te-0003ke-Su; Thu, 17 Oct 2019 09:32:55 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1518B305ABF2;
- Thu, 17 Oct 2019 13:32:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E37110DCCA3;
+ Thu, 17 Oct 2019 13:32:54 +0000 (UTC)
 Received: from localhost (ovpn-117-3.ams2.redhat.com [10.36.117.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B0ECF60852;
- Thu, 17 Oct 2019 13:32:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3EBC5D9DC;
+ Thu, 17 Oct 2019 13:32:53 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 22/23] iotests/267: Create socket in $SOCK_DIR
-Date: Thu, 17 Oct 2019 15:31:54 +0200
-Message-Id: <20191017133155.5327-23-mreitz@redhat.com>
+Subject: [PATCH v2 23/23] iotests: Drop TEST_DIR filter from _filter_nbd
+Date: Thu, 17 Oct 2019 15:31:55 +0200
+Message-Id: <20191017133155.5327-24-mreitz@redhat.com>
 In-Reply-To: <20191017133155.5327-1-mreitz@redhat.com>
 References: <20191017133155.5327-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 17 Oct 2019 13:32:52 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Thu, 17 Oct 2019 13:32:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -60,53 +60,28 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Sockets should be placed into $SOCK_DIR instead of $TEST_DIR, so remove
+the $TEST_DIR filter from _filter_nbd.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/267     | 4 ++--
- tests/qemu-iotests/267.out | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/common.filter | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
-index d37a67c012..170e173c0a 100755
---- a/tests/qemu-iotests/267
-+++ b/tests/qemu-iotests/267
-@@ -29,7 +29,7 @@ status=3D1	# failure is the default!
- _cleanup()
- {
-     _cleanup_test_img
--    rm -f "$TEST_DIR/nbd"
-+    rm -f "$SOCK_DIR/nbd"
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
+.filter
+index 0ee6042524..f870e00e44 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -221,7 +221,6 @@ _filter_nbd()
+     # Filter out the TCP port number since this changes between runs.
+     $SED -e '/nbd\/.*\.c:/d' \
+         -e 's#127\.0\.0\.1:[0-9]*#127.0.0.1:PORT#g' \
+-        -e "s#?socket=3D$TEST_DIR#?socket=3DTEST_DIR#g" \
+         -e "s#?socket=3D$SOCK_DIR#?socket=3DSOCK_DIR#g" \
+         -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
  }
- trap "_cleanup; exit \$status" 0 1 2 3 15
-=20
-@@ -143,7 +143,7 @@ echo
-=20
- IMGOPTS=3D"backing_file=3D$TEST_IMG.base" _make_test_img $size
- cat <<EOF |
--nbd_server_start unix:$TEST_DIR/nbd
-+nbd_server_start unix:$SOCK_DIR/nbd
- nbd_server_add -w backing-fmt
- savevm snap0
- info snapshots
-diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
-index 9d812e3c72..8dddb4baa4 100644
---- a/tests/qemu-iotests/267.out
-+++ b/tests/qemu-iotests/267.out
-@@ -161,7 +161,7 @@ Internal snapshots on backing file:
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
-le=3DTEST_DIR/t.IMGFMT.base
- Testing: -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT.base,node-=
-name=3Dbacking-file -blockdev driver=3DIMGFMT,file=3Dbacking-file,node-na=
-me=3Dbacking-fmt -blockdev driver=3Dfile,filename=3DTEST_DIR/t.IMGFMT,nod=
-e-name=3Dfile -blockdev driver=3DIMGFMT,file=3Dfile,backing=3Dbacking-fmt=
-,node-name=3Dfmt
- QEMU X.Y.Z monitor - type 'help' for more information
--(qemu) nbd_server_start unix:TEST_DIR/nbd
-+(qemu) nbd_server_start unix:SOCK_DIR/nbd
- (qemu) nbd_server_add -w backing-fmt
- (qemu) savevm snap0
- (qemu) info snapshots
 --=20
 2.21.0
 
