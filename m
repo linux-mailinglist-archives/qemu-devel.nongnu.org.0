@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D25DAE8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:37:54 +0200 (CEST)
-Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03844DAE92
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:38:52 +0200 (CEST)
+Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5yS-0007Nn-MB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1iL5zO-0008TN-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5dm-00089i-PD
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:32 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5mS-0002DM-Od
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5dl-0005Ux-AL
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:30 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39324)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5mR-0001GP-9K
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:28 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37759)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL5dk-0005UM-MC
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:29 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r3so2319449wrj.6
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:28 -0700 (PDT)
+ id 1iL5mR-0001Fo-2c
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:27 -0400
+Received: by mail-wr1-x431.google.com with SMTP id p14so2359312wro.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=etDCqYHg2LYQtZa+T5XCKHLqmFEuamg260f6vcRF/Qs=;
- b=dSi9RR/FAGfahfUx6d4zyjw8bGdRDSXq3te/ysoRb208aIloKC9qhn98xhhuTPVYgi
- RGedQoImgYAVvdFeTtGCE/tKLCHQCkTmZuAV0RMxg3Bcu0Qff4aUSBmePb2EC2F9HR9E
- 1Ei5VLvKMifhV3xzkjU6Kx5hAcXl4i+cnp0eOAAfsCAMu2Z2UwsUgpp6KfDBcrQr6Lf2
- QCJeQBUk1BRKo22B0IdFY4otpsCY9tuQAj3E3A3z2C03M81S8OsyzCitZNdvZqOfZzvj
- Q0V88vkrv5zNKELfrGYBn0lIapNCmx0IisKMeRJ7cag3Q0mfiPqndRB2OAxksLCRFpxB
- zerg==
+ bh=Shj2sUFHREFoNKEY0G4KRrT2p/DDO+h1POzPYyb7/oY=;
+ b=T0asdU8/UtNNPnhq+7KesM5zKbF1Mp9KNB00J3msfMlctmw75FDJ9OfF2hHs4090M7
+ mowtYq/TnPhB89E8I4t6/1paq+00pMnLVA8WCUzBDh05ILD1Zcx6H4nh5ak1hCzCDKRU
+ nD7lVp+a22NnZT6UGZukmJjA6UN17bggu2CYPbQ12R1/qbcZVcRF60YMv7I66ngU+Eua
+ WTOcDqNjJ/IrRF2hkXQnGiKRUdfLeG33p78YmlFAMwVaXap21FUrZeLBZrkU3WkurQRv
+ Qc3gINfsvf4zs651MD98gkHU2pg14pefvMvbvOG+7/zd3O1EZk0h5W0cc6G6yeM4k4PT
+ YO8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=etDCqYHg2LYQtZa+T5XCKHLqmFEuamg260f6vcRF/Qs=;
- b=rsVcXhrEjsFnrTJGL7QxlBxXRh/IiUuz/yAokWNGy5jIE7JSnewu3/eqz9iv03vagu
- k6x94Ksb5zFdNAkRIbuhrNiw5HTRSoz8uL3ZlcrfilZzHIYjIGtM3rKwQym+tDzoL1VV
- +GTMBO6Q/JBPmBsXyZxI4XjlCXiCwQltWk5IRI7XpuCokXXNJg4gsBIAI9Ya1JZg9hNa
- ihco3c+WfIgqNp3Ha9hN7d9jZB/LxRQM3ruxid+/T9QuTpW/mYplbfDTg/iHtdraLR2b
- h1nE30tJVxP09ORIfYmPO58nqE3z9wdM6g4i+JRrawrs43rdYiUlAJpuGFBK5cA25R9/
- RiMA==
-X-Gm-Message-State: APjAAAWhsyu64r1eN52/hjXA1otVUF5DfYNOx2Zar9DF/YkbWmfLrHg5
- GXIz05cvuXDY240fkTtPwhSJtw==
-X-Google-Smtp-Source: APXvYqzGNWXeHk5xFNGpY3Ug4R7A1ikQ6mt0fRZsauicPjaJQmAifqmPZnjpJKJmFSsV8H09iNcbPQ==
-X-Received: by 2002:a05:6000:11c5:: with SMTP id
- i5mr2956100wrx.303.1571318187541; 
- Thu, 17 Oct 2019 06:16:27 -0700 (PDT)
+ bh=Shj2sUFHREFoNKEY0G4KRrT2p/DDO+h1POzPYyb7/oY=;
+ b=f/qzgZvLb+Adsr6jyKmrdw2HonI+Yn1JfvWiH49xPn/hkHJnKHAXGAgUIQFNIRua29
+ NEgHXJvGhbnRWjaoUbsSJbnT/RLcRw46649WVYzdw+6RrIM4k/hNdGqpq4SPIjSzLaJR
+ GhWKkkGvZZLWGF+fa3fu2hZYvhyZDOP7RRb6qt12naOi7Ta9uCtbEeRfrT12A6oWTZil
+ +p0N6yABAEup4OP55wDUYdgvkI/warwveD509ETJJcuAG40cC55ywBrKtin4Pwe65U2V
+ If43ga1Epsv2JQMeKc5yhtjVobjIJOuQyjI/3RvBNkmyGcdNsxDi3/i3NRkb6JSM5Tva
+ 9K6Q==
+X-Gm-Message-State: APjAAAVZCGhpIAsecBKlzVbVOSihOKvRNFr+Sl5rnU/a7+7E6LJJyxGr
+ p/vA+QSHc8SEqBAAOZIYuzVjXw==
+X-Google-Smtp-Source: APXvYqx3+Y/XpQEAU35PWKo+SVpo0RhAzvrisyAebpLdcInhtng81lOMlWA/ZMJvBGP4IcTrUjy4lg==
+X-Received: by 2002:a5d:46d2:: with SMTP id g18mr2924439wrs.245.1571318725828; 
+ Thu, 17 Oct 2019 06:25:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v11sm1984454wml.30.2019.10.17.06.16.21
+ by smtp.gmail.com with ESMTPSA id g11sm2202766wmh.45.2019.10.17.06.25.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:16:26 -0700 (PDT)
+ Thu, 17 Oct 2019 06:25:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB24B1FFA5;
- Thu, 17 Oct 2019 14:16:17 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 566E31FFC5;
+ Thu, 17 Oct 2019 14:16:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 19/54] *-user: plugin syscalls
-Date: Thu, 17 Oct 2019 14:15:40 +0100
-Message-Id: <20191017131615.19660-20-alex.bennee@linaro.org>
+Subject: [PATCH  v6 47/54] tests/tcg: enable plugin testing
+Date: Thu, 17 Oct 2019 14:16:08 +0100
+Message-Id: <20191017131615.19660-48-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,183 +81,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@futurewei.com, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, peter.puhov@futurewei.com,
- aaron@os.amperecomputing.com, cota@braap.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ robert.foley@futurewei.com, Richard Henderson <richard.henderson@linaro.org>,
+ peter.puhov@futurewei.com, aaron@os.amperecomputing.com, cota@braap.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+If CONFIG_PLUGINS is enabled then lets enable testing for all our TCG
+targets. This is a simple smoke test that ensure we don't crash or
+otherwise barf out by running each plugin against each test.
 
-To avoid too much duplication add a wrapper that the existing trace
-and the new plugin calls can live in. We could move the -strace code
-here as well but that is left for a future series as the code is
-subtly different between the bsd and linux.
+There is a minor knock on effect for additional runners which need
+specialised QEMU_OPTS which will also need to declare a plugin version
+of the runner. If this gets onerous we might need to add another
+helper.
 
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-[AJB: wrap in syscall-trace.h, expand commit msg]
+Checking the results of the plugins is left for a later exercise.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/syscall.c           | 21 +++++++++++++------
- include/user/syscall-trace.h | 40 ++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c         |  7 ++++---
- 3 files changed, 59 insertions(+), 9 deletions(-)
- create mode 100644 include/user/syscall-trace.h
+v5
+  - fix for the latest changes to check-tcg
+  - extend timeout for plugin tests
+  - add special runner for semihosting with plugin
+  - fix naming of test in call output
+  - add special plugin aware runners for semihosting
+v6
+  - outs -d plugin output support
 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 84a983a9a1..0d45b654bb 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -26,6 +26,7 @@
+squash! tests/tcg: enable plugin testing
+---
+ tests/Makefile.include                | 11 +++++++-
+ tests/tcg/Makefile.target             | 37 +++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target     |  6 +++++
+ tests/tcg/arm/Makefile.softmmu-target |  1 +
+ tests/tcg/arm/Makefile.target         |  6 +++++
+ 5 files changed, 60 insertions(+), 1 deletion(-)
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 3543451ed3..646a704e65 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -1052,6 +1052,15 @@ check-softfloat:
+ 		"SKIPPED for non-TCG builds")
+ endif
  
- #include "qemu.h"
- #include "qemu-common.h"
-+#include "user/syscall-trace.h"
++# Plugins
++ifeq ($(CONFIG_PLUGIN),y)
++.PHONY: plugins
++plugins:
++	$(call quiet-command,\
++		$(MAKE) $(SUBDIR_MAKEFLAGS) -C tests/plugin V="$(V)", \
++		"BUILD", "plugins")
++endif
++
+ # Per guest TCG tests
  
- //#define DEBUG
+ BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
+@@ -1062,7 +1071,7 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
+ $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
+ 	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
  
-@@ -322,7 +323,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef DEBUG
-     gemu_log("freebsd syscall %d\n", num);
- #endif
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-+    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-     if(do_strace)
-         print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
+-build-tcg-tests-%:
++build-tcg-tests-%: $(if $(CONFIG_PLUGIN),plugins)
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
+ 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
+ 		SRC_PATH=$(SRC_PATH) \
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 9664613002..3c7421a356 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -123,11 +123,39 @@ all: $(TESTS) $(EXTRA_TESTS)
+ #
  
-@@ -403,7 +405,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     if (do_strace)
-         print_freebsd_syscall_ret(num, ret);
--    trace_guest_user_syscall_ret(cpu, num, ret);
+ RUN_TESTS=$(patsubst %,run-%, $(TESTS))
 +
-+    record_syscall_return(cpu, num, ret);
-     return ret;
-  efault:
-     ret = -TARGET_EFAULT;
-@@ -421,7 +424,9 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef DEBUG
-     gemu_log("netbsd syscall %d\n", num);
- #endif
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++# If plugins exist also include those in the tests
++ifeq ($(CONFIG_PLUGIN),y)
++PLUGIN_DIR=../../plugin
++VPATH+=$(PLUGIN_DIR)
++PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
 +
-+    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++# We need to ensure expand the run-plugin-TEST-with-PLUGIN
++# pre-requistes manually here as we can't use stems to handle it. We
++# also add some special helpers the run-plugin- rules can use bellow.
 +
-     if(do_strace)
-         print_netbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
++$(foreach p,$(PLUGINS), \
++	$(foreach t,$(TESTS),\
++		$(eval run-plugin-$(t)-with-$(p): $t $p) \
++		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=30) \
++		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
++endif
++
++strip-plugin = $(wordlist 1, 1, $(subst -with-, ,$1))
++extract-plugin = $(wordlist 2, 2, $(subst -with-, ,$1))
++
+ RUN_TESTS+=$(EXTRA_RUNS)
  
-@@ -479,7 +484,8 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     if (do_strace)
-         print_netbsd_syscall_ret(num, ret);
--    trace_guest_user_syscall_ret(cpu, num, ret);
+ ifdef CONFIG_USER_ONLY
+ run-%: %
+ 	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
 +
-+    record_syscall_return(cpu, num, ret);
-     return ret;
-  efault:
-     ret = -TARGET_EFAULT;
-@@ -497,7 +503,9 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef DEBUG
-     gemu_log("openbsd syscall %d\n", num);
- #endif
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
++run-plugin-%:
++	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
++		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++		-d plugin -D $*.pout \
++		 $(call strip-plugin,$<), \
++	"$* on $(TARGET_NAME)")
+ else
+ run-%: %
+ 	$(call run-test, $<, \
+@@ -135,6 +163,15 @@ run-%: %
+ 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
+ 	   	  $(QEMU_OPTS) $<, \
+ 	  "$< on $(TARGET_NAME)")
 +
-+    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-     if(do_strace)
-         print_openbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
++run-plugin-%:
++	$(call run-test, $@, \
++	  $(QEMU) -monitor none -display none \
++		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
++	   	  -plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++	    	  -d plugin -D $*.pout \
++	   	  $(QEMU_OPTS) $(call strip-plugin,$<), \
++	  "$* on $(TARGET_NAME)")
+ endif
  
-@@ -555,7 +563,8 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     if (do_strace)
-         print_openbsd_syscall_ret(num, ret);
--    trace_guest_user_syscall_ret(cpu, num, ret);
-+
-+    record_syscall_return(cpu, num, ret);
-     return ret;
-  efault:
-     ret = -TARGET_EFAULT;
-diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
-new file mode 100644
-index 0000000000..9e60473643
---- /dev/null
-+++ b/include/user/syscall-trace.h
-@@ -0,0 +1,40 @@
-+/*
-+ * Common System Call Tracing Wrappers for *-user
-+ *
-+ * Copyright (c) 2019 Linaro
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef _SYSCALL_TRACE_H_
-+#define _SYSCALL_TRACE_H_
-+
-+/*
-+ * These helpers just provide a common place for the various
-+ * subsystems that want to track syscalls to put their hooks in. We
-+ * could potentially unify the -strace code here as well.
-+ */
-+
-+static inline void record_syscall_start(void *cpu, int num,
-+                                        abi_long arg1, abi_long arg2,
-+                                        abi_long arg3, abi_long arg4,
-+                                        abi_long arg5, abi_long arg6,
-+                                        abi_long arg7, abi_long arg8)
-+{
-+    trace_guest_user_syscall(cpu, num,
-+                             arg1, arg2, arg3, arg4,
-+                             arg5, arg6, arg7, arg8);
-+    qemu_plugin_vcpu_syscall(cpu, num,
-+                             arg1, arg2, arg3, arg4,
-+                             arg5, arg6, arg7, arg8);
-+}
-+
-+static inline void record_syscall_return(void *cpu, int num, abi_long ret)
-+{
-+    trace_guest_user_syscall_ret(cpu, num, ret);
-+    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
-+}
-+
-+
-+#endif /* _SYSCALL_TRACE_H_ */
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e2af3c1494..77e87a959f 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -112,6 +112,7 @@
+ gdb-%: %
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 509f1afa93..96d2321045 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -26,4 +26,10 @@ AARCH64_TESTS += semihosting
+ run-semihosting: semihosting
+ 	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
  
- #include "qemu.h"
- #include "qemu/guest-random.h"
-+#include "user/syscall-trace.h"
- #include "qapi/error.h"
- #include "fd-trans.h"
++run-plugin-semihosting-with-%:
++	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
++		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++		 $(call strip-plugin,$<) 2> $<.err, \
++		"$< on $(TARGET_NAME) with $*")
++
+ TESTS += $(AARCH64_TESTS)
+diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
+index 231e9a57b4..3fe237ba39 100644
+--- a/tests/tcg/arm/Makefile.softmmu-target
++++ b/tests/tcg/arm/Makefile.softmmu-target
+@@ -23,3 +23,4 @@ LDFLAGS+=-nostdlib -N -static
+ test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0
  
-@@ -11981,8 +11982,8 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-     }
- #endif
+ run-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
++run-plugin-test-armv6m-undef-%: QEMU_OPTS+=-semihosting -M microbit -kernel
+diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
+index 3ddff85240..0765f37ff0 100644
+--- a/tests/tcg/arm/Makefile.target
++++ b/tests/tcg/arm/Makefile.target
+@@ -34,6 +34,12 @@ ARM_TESTS += semihosting
+ run-semihosting: semihosting
+ 	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
  
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4,
--                             arg5, arg6, arg7, arg8);
-+    record_syscall_start(cpu, num, arg1,
-+                         arg2, arg3, arg4, arg5, arg6, arg7, arg8);
++run-plugin-semihosting-with-%:
++	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
++		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
++		 $(call strip-plugin,$<) 2> $<.err, \
++		"$< on $(TARGET_NAME) with $*")
++
+ TESTS += $(ARM_TESTS)
  
-     if (unlikely(do_strace)) {
-         print_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
-@@ -11994,6 +11995,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-                           arg5, arg6, arg7, arg8);
-     }
- 
--    trace_guest_user_syscall_ret(cpu, num, ret);
-+    record_syscall_return(cpu, num, ret);
-     return ret;
- }
+ # On ARM Linux only supports 4k pages
 -- 
 2.20.1
 
