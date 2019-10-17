@@ -2,57 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AA0DAB3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 13:30:20 +0200 (CEST)
-Received: from localhost ([::1]:44271 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AABEDDAB44
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 13:33:41 +0200 (CEST)
+Received: from localhost ([::1]:44370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL3z1-0002MW-3h
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 07:30:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46769)
+	id 1iL42G-000597-NP
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 07:33:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47321)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iL3xD-0000ZL-SF
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:28:29 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iL40t-0004UB-MI
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:32:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iL3xC-0007VO-41
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:28:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34128)
+ (envelope-from <mreitz@redhat.com>) id 1iL40s-0008Sg-Li
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:32:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34095)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iL3xB-0007V8-Py
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:28:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iL40q-0008S0-Ak; Thu, 17 Oct 2019 07:32:12 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AFE1C3078468;
- Thu, 17 Oct 2019 11:28:24 +0000 (UTC)
-Received: from [10.36.117.42] (ovpn-117-42.ams2.redhat.com [10.36.117.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0393C5D9CA;
- Thu, 17 Oct 2019 11:28:22 +0000 (UTC)
-Subject: Re: [Bug 1847232] [NEW] qemu TCG in s390x mode issue with calculating
- HASH
-From: David Hildenbrand <david@redhat.com>
-To: Ivan Warren <ivan@vmfacility.fr>, Cornelia Huck <cohuck@redhat.com>,
- Bug 1847232 <1847232@bugs.launchpad.net>
-References: <157053356610.22354.6751604707489617887.malonedeb@gac.canonical.com>
- <20191008141135.11f5a065.cohuck@redhat.com>
- <61ce859f-0817-0eba-7eb8-2c16b3e73889@redhat.com>
- <7a661e58-72df-94bc-4712-f306ce5ee7c6@vmfacility.fr>
- <8ada8acb-d2ce-a09d-6c9a-b758360edcb2@redhat.com>
- <4115ee76-8f74-cce2-348b-44752cd402ed@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <d5147fcd-ff24-160a-ee00-59482538f502@redhat.com>
-Date: Thu, 17 Oct 2019 13:28:22 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id 781622A09AA;
+ Thu, 17 Oct 2019 11:32:11 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-3.ams2.redhat.com
+ [10.36.117.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B358600C4;
+ Thu, 17 Oct 2019 11:32:09 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] iotests: Fix 173
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20191015193503.25591-1-eblake@redhat.com>
+ <20191015193503.25591-2-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1c7014e3-055a-a15b-5c8a-48e3a7e99aaa@redhat.com>
+Date: Thu, 17 Oct 2019 13:32:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <4115ee76-8f74-cce2-348b-44752cd402ed@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20191015193503.25591-2-eblake@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="BVx1nme8ptos2xMxnPppn5uxE1g6uZCTz"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 17 Oct 2019 11:28:24 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.38]); Thu, 17 Oct 2019 11:32:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -67,159 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.10.19 12:22, David Hildenbrand wrote:
-> On 14.10.19 11:53, David Hildenbrand wrote:
->> On 08.10.19 16:11, Ivan Warren wrote:
->>>
->>> On 10/8/2019 3:35 PM, David Hildenbrand wrote:
->>>> On 08.10.19 14:11, Cornelia Huck wrote:
->>>>> On Tue, 08 Oct 2019 11:19:25 -0000
->>>>> Ivan Warren via <qemu-devel@nongnu.org> wrote:
->>>>>
->>>>>> Public bug reported:
->>>>>>
->>>>>> When using go on s390x on Debian x64 (buster) (host) and debian s3=
-90x
->>>>>> (sid) (guest) I run into the following problem :
->>>>>>
->>>>>> The following occurs while trying to build a custom project :
->>>>>>
->>>>>> go: github.com/FactomProject/basen@v0.0.0-20150613233007-fe3947df7=
-16e:
->>>>>> Get
->>>>>> https://proxy.golang.org/github.com/%21factom%21project/basen/@v/v=
-0.0.0-20150613233007-fe3947df716e.mod:
->>>>>> local error: tls: bad record MAC
->>>>>>
->>>>>> Doing a git bisect I find that this problem only occurs on and aft=
-er
->>>>>> commit 08ef92d556c584c7faf594ff3af46df456276e1b
->>>>>>
->>>>>> Before that commit, all works fine. Past this commit, build always
->>>>>> fails.
->>>>> What version are you using? Current master?
->>>>>
->>>>> Can you please share your command line?
->>>>>
->>>>>> Without any proof, It looks like a hash calculation bug related to=
- using
->>>>>> z/Arch vector facilities...
->>>>> Not an unreasonable guess, cc:ing David in case he has seen that be=
-fore.
->>>>>
->>>> Can you reproduce with "-cpu qemu,vx=3Doff" added to the QEMU comman=
-d
->>>> line? Could be some fallout from vector instruction support. Current=
-ly
->>>> ill, will have a look when I'm feeling better.
->>>
->>> Reposted with a reply all... (sorry for the duplicates)
->>>
->>> So it does !
->>>
->>>
->>> My qemu command line is now (forget the odd funny networking things..=
-)
->>>
->>> qemu-system-s390x \
->>>     =C2=A0=C2=A0=C2=A0 -drive
->>> file=3DDEB002.IMG.NEW,discard=3Dunmap,cache=3Dwriteback,id=3Ddrive-0,=
-if=3Dnone \
->>>     =C2=A0=C2=A0=C2=A0 -device virtio-scsi-ccw,id=3Dvirtio-scsi-0 \
->>>     =C2=A0=C2=A0=C2=A0 -device scsi-hd,id=3Dscsi-hd-0,drive=3Ddrive-0=
- \
->>>     =C2=A0=C2=A0=C2=A0 -m 8G \
->>>     =C2=A0=C2=A0=C2=A0 -net nic,macaddr=3D52:54:00:00:00:02 \
->>>     =C2=A0=C2=A0=C2=A0 -net tap,ifname=3Dtaparm,script=3Dno \
->>>     =C2=A0=C2=A0=C2=A0 -nographic -accel tcg,thread=3Dmulti \
->>>     =C2=A0=C2=A0=C2=A0 -monitor unix:ms,server,nowait \
->>>     =C2=A0=C2=A0=C2=A0 -cpu qemu,vx=3Doff \=C2=A0 ##### THAT WAS ADDE=
-D as instructed - without it
->>> everything goes kaput !
->>>     =C2=A0=C2=A0=C2=A0 -smp 12
->>>
->>> And using the latest bleeding edge qemu from github, my build works (=
-the
->>> problem goes away).
->>>
->>> So the z/Arch vector instructions may have a glitch is a venue to
->>> consider.. Probably one that couldn't be screened through conventiona=
-l
->>> methods.
->>>
->>> I'm not that versed into z/Arch vector instruction, but if there
->>> anything I can help with, I will !
->>
->> I'll have to reproduce, can you outline the steps needed to trigger
->> this? (never had to build a go project before #luckyme ( ;) )). It loo=
-ks
->> like https://github.com/FactomProject/basen is getting pulled in from
->> some other project?
->>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--BVx1nme8ptos2xMxnPppn5uxE1g6uZCTz
+Content-Type: multipart/mixed; boundary="OFyi71kmiQqhwLndjKn4uEEvqJjjdbBKT"
+
+--OFyi71kmiQqhwLndjKn4uEEvqJjjdbBKT
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 15.10.19 21:35, Eric Blake wrote:
+> This test has been broken since 3.0.  It used TEST_IMG to influence
+> the name of a file created during _make_test_img, but commit 655ae6bb
+> changed things so that the wrong file name is being created, which
+> then caused _launch_qemu to fail.  In the meantime, the set of events
+> issued for the actions of the test has increased.
 >=20
-> I just tried with Fedora 31 Nightly using "go get"
+> Why haven't we noticed the failure? Because the test rarely gets run:
+> './check -qcow2 173' is insufficient (that defaults to using file proto=
+col)
+> './check -nfs 173' is insufficient (that defaults to using raw format)
+> so the test is only run with:
+> ./check -qcow2 -nfs 173
 >=20
-> [root@f31 ~]# go get -v -d github.com/FactomProject/factom
-> github.com/FactomProject/factom (download)
-> github.com/FactomProject/btcutil (download)
-> github.com/FactomProject/ed25519 (download)
-> github.com/FactomProject/go-bip32 (download)
-> github.com/FactomProject/btcutilecc (download)
-> package golang.org/x/crypto/ripemd160: unrecognized import path "golang=
-.org/x/crypto/ripemd160" (https fetch: Get https://golang.org/x/crypto/ri=
-pemd160?go-get=3D1: local error: tls: bad record MAC)
-> github.com/FactomProject/go-bip39 (download)
-> package golang.org/x/crypto/pbkdf2: unrecognized import path "golang.or=
-g/x/crypto/pbkdf2" (https fetch: Get https://golang.org/x/crypto/pbkdf2?g=
-o-get=3D1: local error: tls: bad record MAC)
-> github.com/FactomProject/go-bip44 (download)
-> github.com/FactomProject/netki-go-partner-client (download)
-> github.com/FactomProject/go-simplejson (download)
+> Note that we already have a number of other problems with -nfs:
+> ./check -nfs (fails 18/30)
+> ./check -qcow2 -nfs (fails 45/76 after this patch)
+> and it's not on my priority list to fix those.  Rather, I found this
+> because of my next patch's work on tests using _send_qemu_cmd.
 >=20
-> With vx=3Doff:
->=20
-> [root@f31 ~]# go get -v -d github.com/FactomProject/factom
-> github.com/FactomProject/factom (download)
-> github.com/FactomProject/btcutil (download)
-> github.com/FactomProject/ed25519 (download)
-> github.com/FactomProject/go-bip32 (download)
-> github.com/FactomProject/basen (download)
-> github.com/FactomProject/btcutilecc (download)
-> get "golang.org/x/crypto/ripemd160": found meta tag get.metaImport{Pref=
-ix:"golang.org/x/crypto", VCS:"git", RepoRoot:"https://go.googlesource.co=
-m/crypto"} at //golang.org/x/crypto/ripemd160?go-get=3D1
-> get "golang.org/x/crypto/ripemd160": verifying non-authoritative meta t=
-ag
-> golang.org/x/crypto (download)
-> github.com/FactomProject/go-bip39 (download)
-> github.com/FactomProject/go-bip44 (download)
-> github.com/FactomProject/netki-go-partner-client (download)
-> github.com/FactomProject/go-simplejson (download)
->=20
->=20
-> That should be sufficient to identify the instruction. Might take some =
-time, though. E.g.,
-> the HASH calculation in the kernel works just fine.
->=20
+> Fixes: 655ae6b
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  tests/qemu-iotests/173     | 4 ++--
+>  tests/qemu-iotests/173.out | 6 +++++-
+>  2 files changed, 7 insertions(+), 3 deletions(-)
 
-By now I am pretty sure the code that gets triggered is
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-src/vendor/golang.org/x/crypto/poly1305/sum_s390x.s
 
-in the go repository.
+--OFyi71kmiQqhwLndjKn4uEEvqJjjdbBKT--
 
-I started writing unit tests for all involved vector instructions, no=20
-luck so far. Could also be some side-effect/BUG of another instruction.
+--BVx1nme8ptos2xMxnPppn5uxE1g6uZCTz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Will let you know once I know more :)
+-----BEGIN PGP SIGNATURE-----
 
---=20
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2oUTgACgkQ9AfbAGHV
+z0BMjQf/cAAgGoPCouEmslP2sr56PrXkXufH9ABwrnO9RqkGIsF7FMBXpl0uxdjp
+d7udeOqlWpNB1KezGsGBlMgVQcUFNywprtyrb8RVgFq+Gg9Aoi4WlsopIyVVW53Y
+e0tNSkoNo1kLn25bqtoSbjFkgBlIAV+T7nwUS2B07WOMaqFwmwCt+biwK7mFYDrZ
++PbmR+7i+SmSyNCqe5NSRxELg9O3WG3VoxhskSi+DKZ2ZQP734Cgy67K7LVkrFKV
+AO2KuP5lRWIH3KXZzXYzs+QkR+VRytl3t+HHSjr4qsHl/15JbwXcf0SAfF3rc1pA
+FHpc4Ppj/zs2sPHJiCqC/VHe7ARQ0A==
+=wTRe
+-----END PGP SIGNATURE-----
 
-Thanks,
-
-David / dhildenb
+--BVx1nme8ptos2xMxnPppn5uxE1g6uZCTz--
 
