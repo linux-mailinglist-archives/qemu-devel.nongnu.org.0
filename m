@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B97FDB3A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:44:43 +0200 (CEST)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B47DB4C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:50:30 +0200 (CEST)
+Received: from localhost ([::1]:55164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9pK-0001H1-0Z
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
+	id 1iL9uu-0007XR-QE
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49096)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1iL9nA-0008E0-PC
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:42:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL9OQ-00031P-5j
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:16:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1iL9n9-0003MM-MO
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:42:28 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:47017)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL9OO-0000YZ-Pw
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:16:53 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43841)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1iL9n9-0003MG-HQ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:42:27 -0400
-Received: by mail-qk1-x742.google.com with SMTP id e66so2628570qkf.13
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=iS3jBKlKNmJcUQrVHSpndb/mI7IBZoOqYkVGxAz9lYw=;
- b=GSKuQwRbTe1OmxzIcESB8RA5gpEr7lw8j+ZyVSdxFWR3swp32c0yvBoVnAXTqi0/3x
- hn9DGhnrWbX0lHKN2CiRRkwI8c3wJzakmUMLOGi1oRHNjSVqTW9ldEXIpV5HLSzcIp/D
- OXBfAM6yQ2DWb69NdGCDYG4BBW4LzT4ZafHW6jta8hSfzJAM/H9ikdfwxBI65Q86N8yz
- vjwmwBPaBaH+YS1klL87KK4mWOrIvwFH/VmKdl8qZ6S2QNIvzry7uFFGEpz+lwjT2rFb
- a4tefjeCe8duIhp1YN+J4wM9F4mHkzc1gc1K/TQm9GbymLvy6B/Hp11kup7f5G7Br0vX
- 7xzQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iL9OO-0000YB-Kg
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:16:52 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t84so2790855oih.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6YhmWavSrlu1JmiNk3PYpaZv4PGpg/NSa3msm0VHYBA=;
+ b=GlagUohE0Yfoi+UGzrA0t/N2WqhKlsqviIrxwRF2bDZYqV+DyH/0gdi8VWEGcQwxYz
+ q+cXsS/EiKvPqAzgf2wdn6HZGQ1jbnfv9oHKwgvOwMNPflQIIToQX6tVATJIG4X/tXk9
+ s/pixIc7AqtHYlCkVUjIuBMIH4q1+4pOYsV+CwjtIUEI+KTg8e6UR+BQamAUCxZGIFbj
+ CUGPvbhtLxhKAjyv0YyXYTRFSaWdtHjFDsRcYu+87h1g6fUwSE5rvshlAKZc9iCRHmVZ
+ VIkstnVG4ujMVINMc8xjlwZyZfNuWBSRlOgGxRguAGyPx1k29FDlaGddL7kcrxXhNt5k
+ jfLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=iS3jBKlKNmJcUQrVHSpndb/mI7IBZoOqYkVGxAz9lYw=;
- b=sA2H1tYdqBZy3sQ2ZyNod3VntG9yfqg/+BzAHWj72NVfaCQN5I/3wH5NtbnsX7XbLZ
- DqcefrZhuU/ZygWoNAMvlrXEGA6WQfUGj7inqFJbMz8qGPOstnJNxgBeqFvCsIDZ4VY5
- rtI+eL/vNVvyn7Tuz9rEG/KIFBJxlot6Gdh9LMCDDbjpyNQ0yZRBy2i1uq/kzLTNbAOG
- ULYRye5dZM6Rk9rXiOk26bQ3Em64wwBRdVpU15ws2zjrJLVFqn8v5Qe13H5svgciuad3
- C9CjlllKzL7EDS8Xa0vCr5miUDNErs2RJoOxEmPvlZi4smT3zS6hLnsbchtK8seAWjIu
- AkYQ==
-X-Gm-Message-State: APjAAAV0hxFzPUPsvkm2vkzpQk5qQB2o92FJgTuVNUWMy0B9y9S/sUb3
- yzmspDOfWrXOFnoykCGLKv8=
-X-Google-Smtp-Source: APXvYqymeSiH5J31BykyxYP3IzriVwvLe/d0AQ6xISNM6IfoxZCCD0ViG/RMk9AWulr5OiO9hQH6Yg==
-X-Received: by 2002:a37:4e81:: with SMTP id c123mr4271755qkb.468.1571334146667; 
- Thu, 17 Oct 2019 10:42:26 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c7:d25e:a983:2b3:2523:a41?
- ([2804:431:c7c7:d25e:a983:2b3:2523:a41])
- by smtp.gmail.com with ESMTPSA id d55sm1736383qta.41.2019.10.17.10.42.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 10:42:26 -0700 (PDT)
-Subject: Re: [PATCH v7 0/4] delete created files when
- block_crypto_co_create_opts_luks fails
-To: qemu-devel@nongnu.org
-References: <20190903135708.21624-1-danielhb413@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <78ca8ffb-79d2-2747-7463-541514d728a9@gmail.com>
-Date: Thu, 17 Oct 2019 14:42:23 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6YhmWavSrlu1JmiNk3PYpaZv4PGpg/NSa3msm0VHYBA=;
+ b=nCRKq8F81IvbY3aYYvVw9uOvri/n8WlbOUDMVajdsnT1u0gxJXP2nIjOrR/TM1eLaD
+ YtSd2oLCmkJ8VOFDtHrfkya+9KCVVlBNDgtyR44RK7iw2BAfKzZnHOvJ5gLsre606uO7
+ //dZKlaXB/vpcDKv4K5O46gHfdHMfqDj7y1ZTMsWDYRmpnyxQuNJXoH0c4JmKP9tH3z2
+ e8WZRsKb8+GQY2Cw/NJY/8XunP76/wyVxvIcG3sRN43iCbHKZYicjk+bt+5VLGOFRKPm
+ nsWDUGabFU5/bhiYk5gu579BpN+PaUa3LV3Qi7lrWjumKYSjOMnVy6xT0wPSjXU3GbUQ
+ 6YnQ==
+X-Gm-Message-State: APjAAAUFYyXL5y5P7hlMfIC3AFNVUwR6hNWAySUKBmpMtdGTiZrJNalT
+ 8U2NMPIEA6yf4YFl27fBGXwE3+A+36wb4LVShhpRuw==
+X-Google-Smtp-Source: APXvYqyS+jLkC5WpifN1f9ZyNVK47/WvFI/SezubUnihKhen0PpuR6Ou+oXXAsvyDgW1IIhZdiUB8CswF9FU85Fe7+0=
+X-Received: by 2002:aca:2b08:: with SMTP id i8mr3992523oik.146.1571332611426; 
+ Thu, 17 Oct 2019 10:16:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190903135708.21624-1-danielhb413@gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------5428001F4F0EDF247F777096"
-Content-Language: en-US
+References: <20191013222544.3679-1-richard.henderson@linaro.org>
+ <3df6b52a-45d4-5e33-437a-a57f5a17e008@linaro.org>
+In-Reply-To: <3df6b52a-45d4-5e33-437a-a57f5a17e008@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Oct 2019 18:16:39 +0100
+Message-ID: <CAFEAcA_yKpOG1RuJgOb=-E23vxxV1kvnNF8h9gaPp0Nv36oZZA@mail.gmail.com>
+Subject: Re: [PULL 00/23] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,93 +72,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------5428001F4F0EDF247F777096
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Ping
-
-On 9/3/19 10:57 AM, Daniel Henrique Barboza wrote:
-> Changes from previous version 6 [1]:
+On Thu, 17 Oct 2019 at 15:55, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> - bdrv_delete_file() now uses BlockDriverState as a parameter rather
-> than a filename string.
+> On 10/13/19 3:25 PM, Richard Henderson wrote:
+> > The following changes since commit 9e5319ca52a5b9e84d55ad9c36e2c0b317a122bb:
+> >
+> >   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-10-04 18:32:34 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/rth7680/qemu.git tags/pull-tcg-20191013
 >
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00139.html
 >
-> Daniel Henrique Barboza (4):
->    block: introducing 'bdrv_co_delete_file' interface
->    block.c: adding bdrv_delete_file
->    crypto.c: cleanup created file when block_crypto_co_create_opts_luks
->      fails
->    qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
->
->   block.c                    | 73 ++++++++++++++++++++++++++++++++++++++
->   block/crypto.c             | 22 ++++++++++++
->   block/file-posix.c         | 28 +++++++++++++++
->   include/block/block.h      |  1 +
->   include/block/block_int.h  |  6 ++++
->   tests/qemu-iotests/259     | 67 ++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/259.out | 11 ++++++
->   tests/qemu-iotests/group   |  1 +
->   8 files changed, 209 insertions(+)
->   create mode 100755 tests/qemu-iotests/259
->   create mode 100644 tests/qemu-iotests/259.out
->
+> I have regenerated the pull with the same tag, including
+> the r-b and t-b that Aleksandar requested.
 
 
---------------5428001F4F0EDF247F777096
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Applied, thanks.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <font size="+1">Ping</font><br>
-    <br>
-    <div class="moz-cite-prefix">On 9/3/19 10:57 AM, Daniel Henrique
-      Barboza wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20190903135708.21624-1-danielhb413@gmail.com">
-      <pre class="moz-quote-pre" wrap="">Changes from previous version 6 [1]:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-- bdrv_delete_file() now uses BlockDriverState as a parameter rather
-than a filename string.
-
-[1] <a class="moz-txt-link-freetext" href="https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00139.html">https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00139.html</a>
-
-Daniel Henrique Barboza (4):
-  block: introducing 'bdrv_co_delete_file' interface
-  block.c: adding bdrv_delete_file
-  crypto.c: cleanup created file when block_crypto_co_create_opts_luks
-    fails
-  qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
-
- block.c                    | 73 ++++++++++++++++++++++++++++++++++++++
- block/crypto.c             | 22 ++++++++++++
- block/file-posix.c         | 28 +++++++++++++++
- include/block/block.h      |  1 +
- include/block/block_int.h  |  6 ++++
- tests/qemu-iotests/259     | 67 ++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/259.out | 11 ++++++
- tests/qemu-iotests/group   |  1 +
- 8 files changed, 209 insertions(+)
- create mode 100755 tests/qemu-iotests/259
- create mode 100644 tests/qemu-iotests/259.out
-
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------5428001F4F0EDF247F777096--
+-- PMM
 
