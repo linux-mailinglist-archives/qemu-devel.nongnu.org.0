@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E91DB6FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 21:10:38 +0200 (CEST)
-Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A04DB74A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 21:16:09 +0200 (CEST)
+Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLBAT-0006Kq-2N
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 15:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35199)
+	id 1iLBFo-0003om-5a
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 15:16:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLAs6-0001Eh-4l
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLAs9-0001KI-8p
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLAs0-0000up-FV
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:36 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40766)
+ (envelope-from <richard.henderson@linaro.org>) id 1iLAs6-0000xG-IV
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:41 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLAru-0000tS-QG
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:28 -0400
-Received: by mail-pl1-x641.google.com with SMTP id d22so1556809pll.7
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:51:26 -0700 (PDT)
+ id 1iLAs6-0000uv-AV
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:38 -0400
+Received: by mail-pf1-x442.google.com with SMTP id 205so2222924pfw.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v4LDoKiCDj8UEOXKdxGeWLogI6gqriKirwE9ruJcfe0=;
- b=kkvgoGShiDYFdnVG69AeK6rYe+drgSTZVX8QhFqP9Bp90hOTywYxJ6GoZxFnuFCd8u
- t9GHqpK6jtFaHAfOQHeG35azMcz5T5DIrTBXnnBreWyDuW02x4Lykz7Ke4/BoYahZt54
- iKBWSC+72w+uxFwV9H8vqmMqq/SS+wR2png+abaID3KD8AkMK8ZURPBu3oIZC6FTBw0T
- /rIv2avFBe8jDa7Wa59f/ucyIhsRBQDjh0Sdr9Bp/ojSQPyagxsj3Y97A7SEaOBvzmnz
- 2g8K7wpc1zqRwRK9zxVzA1dHbA9388EHYWORDBMZWNkL1+vXoJVuhaA6IvmrE2If3rZ9
- m+Jg==
+ bh=ksJ29EsO4EC0RqRT/ptTGb/nh233vty3hFHL48/i7gI=;
+ b=SXGvP0/aPjZW/oFXhMmNuaGEV4bjpX608aNzrFC7TlEbbPFSMI+wQvU2E9jV+yZ0p7
+ bT97NzOr3Ug0rEjwUpks4DPJ7tY1o3aJ/Mhk7ZC14H83DlPlp746ASUct0VTAJapvoyk
+ YOZWsmExontfuIlIAfIBYT+Q47+Cbe/2vbngw8UOh0NrTZHGAm6ffCwA3qWNWvSrh6Jk
+ y4pnQzMfN5AeBdaZCsdfvjaalInsT46V3Ytc+vF4q/KK2Ok3bFsQnao9YlB7Be86WdqO
+ pQKSpBhgAjSk8buNzny9vp3j6zd8yAJKmgzY8LVLUfWQjWZfzE/cOrl+QiiXsb7HUY6T
+ Sk0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v4LDoKiCDj8UEOXKdxGeWLogI6gqriKirwE9ruJcfe0=;
- b=gowRkH4Xcls7w5XnsAvuaxwFCEKM8nHSbSyFk1vQNh210wFfRusosiJZrJ+8SESV/i
- d5kch++W8/jpWtDytC/GEe1sGa9rt5lJMZ7+j2xcZSq2MDIDbiO3a7zwmvXPnTZitfJf
- 9+RffSKE4wuLJmoOs7/iFQpthQ37D7VFMFHr6o4mohUi+r0Kk2Jhn4pxh6gl9e4d1kJy
- 7h5hXhtci/Tb8cRpzdPWd9Mj7moUxZIOqDIeXDTiAEmDRLoxfcYAg3x3Xw4lnooe8noq
- GdE48MmB5iqSKB5JwT5ttButtlwNY0hOPNtq7nNSZ0WBwNQdlOAFU8vro0ssJHuiJC1N
- Sczg==
-X-Gm-Message-State: APjAAAWxzkDPfGb6hhv2mTIeXelVfJYgZiWJjyE1AQAaubX7V+A9RCll
- jYmpje5Ph8UAfxx+GZjnaiWMjMiyIZQ=
-X-Google-Smtp-Source: APXvYqxFCeY/tUIroNCz+/JHoLW2e18i1UL4NQ6hGq7yqLg2Ml/+vzSEXAvEsublLdBAhugCZhodIA==
-X-Received: by 2002:a17:902:820f:: with SMTP id
- x15mr5640663pln.288.1571338285472; 
- Thu, 17 Oct 2019 11:51:25 -0700 (PDT)
+ bh=ksJ29EsO4EC0RqRT/ptTGb/nh233vty3hFHL48/i7gI=;
+ b=njgjkxcK1Red/snr3D0l7LclxpfRuhekX998+XQweiCQ7oiMS8ZnUJOBbC7k6Ea/OO
+ tsbbic/IbzsqUK6DW96/wA6OcQqu7tFYJy8JVgY1UsHF9v9yJ6sNjLXpfA5kKvGTgEmW
+ pcFfAxN75EuDXekr4mo0K6ZbMLrupgkycWCEpJ3LHZUjMtwt18JgilkLO9iyG4HUw3Fe
+ CT1ycEr/NTs0E+PEWFwbvulVYv/iYVsTA4xWcM2ZGA7zeaufJLBV2KE/lIns9iRRbvhS
+ k2gBDQuv0kwyPuwn0xkeOsHO7ZgT6E/j1dJnRmRfBigYhOg/qlD/vfpFJAIwXJN058CV
+ CVLg==
+X-Gm-Message-State: APjAAAXv5B1BGN5V9z14G84Oihe2N+GmCTTbF0rcV01e9hubIPQ5lWm2
+ FdQ+H55OYe4PMQTS+K951y79qIS9hM0=
+X-Google-Smtp-Source: APXvYqzMceDlRpvsJEwCkdP374QUGo9yYaeCLs1YjcTYWnSJ/8c8sOVy6/XmWcLGpdjVkK6eUoD/oA==
+X-Received: by 2002:a65:400b:: with SMTP id f11mr5791836pgp.57.1571338291875; 
+ Thu, 17 Oct 2019 11:51:31 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s97sm5009256pjc.4.2019.10.17.11.51.24
+ by smtp.gmail.com with ESMTPSA id s97sm5009256pjc.4.2019.10.17.11.51.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 11:51:24 -0700 (PDT)
+ Thu, 17 Oct 2019 11:51:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 10/20] target/arm: Simplify set of PSTATE_SS in
- cpu_get_tb_cpu_state
-Date: Thu, 17 Oct 2019 11:51:00 -0700
-Message-Id: <20191017185110.539-11-richard.henderson@linaro.org>
+Subject: [PATCH v7 15/20] target/arm: Add HELPER(rebuild_hflags_{a32, a64,
+ m32})
+Date: Thu, 17 Oct 2019 11:51:05 -0700
+Message-Id: <20191017185110.539-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191017185110.539-1-richard.henderson@linaro.org>
 References: <20191017185110.539-1-richard.henderson@linaro.org>
@@ -69,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,68 +84,66 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hoist the variable load for PSTATE into the existing test vs is_a64.
+This functions are given the mode and el state of the cpu
+and writes the computed value to env->hflags.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ target/arm/helper.h |  4 ++++
+ target/arm/helper.c | 24 ++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 1fb2cb5a77..3d4ec267a2 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -90,6 +90,10 @@ DEF_HELPER_4(msr_banked, void, env, i32, i32, i32)
+ DEF_HELPER_2(get_user_reg, i32, env, i32)
+ DEF_HELPER_3(set_user_reg, void, env, i32, i32)
+ 
++DEF_HELPER_FLAGS_2(rebuild_hflags_m32, TCG_CALL_NO_RWG, void, env, int)
++DEF_HELPER_FLAGS_2(rebuild_hflags_a32, TCG_CALL_NO_RWG, void, env, int)
++DEF_HELPER_FLAGS_2(rebuild_hflags_a64, TCG_CALL_NO_RWG, void, env, int)
++
+ DEF_HELPER_1(vfp_get_fpscr, i32, env)
+ DEF_HELPER_2(vfp_set_fpscr, void, env, i32)
+ 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e2a62cf19a..398e5f5d6d 100644
+index 37424e3d4d..b2d701cf00 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11197,7 +11197,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-     ARMMMUIdx mmu_idx = arm_mmu_idx(env);
-     int current_el = arm_current_el(env);
-     int fp_el = fp_exception_el(env, current_el);
--    uint32_t flags;
-+    uint32_t flags, pstate_for_ss;
+@@ -11220,6 +11220,30 @@ void arm_rebuild_hflags(CPUARMState *env)
+     env->hflags = rebuild_hflags_internal(env);
+ }
  
-     if (is_a64(env)) {
-         *pc = env->pc;
-@@ -11205,6 +11205,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-         if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-             flags = FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
-         }
-+        pstate_for_ss = env->pstate;
-     } else {
-         *pc = env->regs[15];
- 
-@@ -11257,9 +11258,11 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-             || arm_el_is_aa64(env, 1) || arm_feature(env, ARM_FEATURE_M)) {
-             flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
-         }
-+        pstate_for_ss = env->uncached_cpsr;
-     }
- 
--    /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
-+    /*
-+     * The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
-      * states defined in the ARM ARM for software singlestep:
-      *  SS_ACTIVE   PSTATE.SS   State
-      *     0            x       Inactive (the TB flag for SS is always 0)
-@@ -11267,16 +11270,9 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-      *     1            1       Active-not-pending
-      * SS_ACTIVE is set in hflags; PSTATE_SS is computed every TB.
-      */
--    if (FIELD_EX32(flags, TBFLAG_ANY, SS_ACTIVE)) {
--        if (is_a64(env)) {
--            if (env->pstate & PSTATE_SS) {
--                flags = FIELD_DP32(flags, TBFLAG_ANY, PSTATE_SS, 1);
--            }
--        } else {
--            if (env->uncached_cpsr & PSTATE_SS) {
--                flags = FIELD_DP32(flags, TBFLAG_ANY, PSTATE_SS, 1);
--            }
--        }
-+    if (FIELD_EX32(flags, TBFLAG_ANY, SS_ACTIVE) &&
-+        (pstate_for_ss & PSTATE_SS)) {
-+        flags = FIELD_DP32(flags, TBFLAG_ANY, PSTATE_SS, 1);
-     }
- 
-     *pflags = flags;
++void HELPER(rebuild_hflags_m32)(CPUARMState *env, int el)
++{
++    int fp_el = fp_exception_el(env, el);
++    ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, el);
++
++    env->hflags = rebuild_hflags_m32(env, fp_el, mmu_idx);
++}
++
++void HELPER(rebuild_hflags_a32)(CPUARMState *env, int el)
++{
++    int fp_el = fp_exception_el(env, el);
++    ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, el);
++
++    env->hflags = rebuild_hflags_a32(env, fp_el, mmu_idx);
++}
++
++void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
++{
++    int fp_el = fp_exception_el(env, el);
++    ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, el);
++
++    env->hflags = rebuild_hflags_a64(env, el, fp_el, mmu_idx);
++}
++
+ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+                           target_ulong *cs_base, uint32_t *pflags)
+ {
 -- 
 2.17.1
 
