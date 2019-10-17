@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31BEDB044
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:41:08 +0200 (CEST)
-Received: from localhost ([::1]:49504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A26DB051
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:44:35 +0200 (CEST)
+Received: from localhost ([::1]:49582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6xf-0000tx-HE
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41247)
+	id 1iL710-0005Jh-El
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL6FW-0004eP-3k
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:32 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5wB-0005zP-4N
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL6FV-0004Eu-4d
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:30 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53227)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5w9-0004SH-2V
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45501)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL6FU-0004Dy-TN
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:29 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id r19so2681803wmh.2
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:55:26 -0700 (PDT)
+ id 1iL5w7-0004Qy-2Q
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:28 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r5so2365609wrm.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QzZsouR7Din5HPLemL+hHL1mAITvyQ7Z5IcL4PnrG6E=;
- b=vrniwuoS5TL4OPYX1T0kwBjzLcJO2AKiy6Jm+2WlRhODld79Y4uQJ5I+LAU//tIOw1
- /R1TmXSp6Nw8qOEyXu1va6mFN8MT61sJrQ37Bn/IyRN5x4Y6xudlEtPD6MDA/eIcFzEi
- 3XSagviyLN94Nr5TV2+X7wCu5ZRaWHhSTy9WmQqCWNhGb/IcKWc34VQfIA0cwW4859j0
- I+z05wJS4xdBy+wTGQISKTdLpGv59h4Uj3mb9sTm/3cRk09T494+cY5tXKekHrcIHZGD
- XXK818EAskRQqL6og+Z125aXp5ur++Hi9+cgJ9Qknmy22fqwl9cebYiSvMgN1Z1K/BVB
- 1OjQ==
+ bh=wXzF3UTyYexiGoLPILzFIA+g87jBMrJCBXwgiVbZAdU=;
+ b=Xx9cw4yu1TSSeSMg8VZlvM353VSsXYztlUJMW5eYaIusRFClRVHACQt23jC7UjXfQF
+ OgIVA37dqY8NFY7FcQRUtdRHsil4FZFgOHXrTrM0Fhvfb5CqyYmI86TcWP9PNSDhn+Xv
+ EVZwNxPJQUuo9bSy68nPXw3sr2v0ZuUyYx8hxIjndHXXnmgiO7Vm5d91jEEf26Nvoyov
+ GnhHbGI9K3turwctXPPfmUWvfwAWA0VVuyIwQYF4G12iy4CwMTlHAyazjvoXTt/WjtbN
+ TwqdHTa7ax9ZEtiTL2GI6Vas+nIC3DwjLEWUYrpyCe4Hdyi77JwBe02ota69OGmn03lN
+ mW2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QzZsouR7Din5HPLemL+hHL1mAITvyQ7Z5IcL4PnrG6E=;
- b=VHunjzdrged3vuFGJR429jVJXqMhBYL5vn0eRtLtwNmDXAgooy1nhaslP4z3l1D2iD
- Jo4oGerEdUNNo8cYIA8v/0GVxHMcCOqN85kLu2LLU2j2ji9+lYlGkz+r/3uZ0inrnFAE
- oHhnY2acxLTG6x3vP6LRgwiEvQGiQPLvhJuvgUujsuG/P1AKR7H6pdOO8e/CY5Wn70xX
- 4FV4nyxKkEOcj4WdEFoY1/SuYj5zZtc4DODtqS+gzMDaMDyTRH7chKXPP2k+DU/P4oqS
- HV++vu7KjI9gNblHe+k6zS9r8VXhmPkhPXfNyJL7wbEkRwhW45CUBEnMofsd6kskOG3V
- 9Pwg==
-X-Gm-Message-State: APjAAAUqz9SGSpSl9P8N0tmJ0aYlIv2Xl9VGD9xCrtHrm7naP9ced9AY
- cXs8rUrQ5KV0NtNQuj3iGeXHWQ==
-X-Google-Smtp-Source: APXvYqx1ARJJccZnz8duKOvKdxuhk4T+NA/tQwu+QMvR/HBIF4SQ+abaU6nR0FE6PiKTj8Shxek/og==
-X-Received: by 2002:a7b:c387:: with SMTP id s7mr2823247wmj.110.1571320525600; 
- Thu, 17 Oct 2019 06:55:25 -0700 (PDT)
+ bh=wXzF3UTyYexiGoLPILzFIA+g87jBMrJCBXwgiVbZAdU=;
+ b=LeaYGGZp4/AHWW2x2q4UsqoN1D0+LCYTbJZuz6Azf3c5suYZozDeq1RNFS5bGT8lgc
+ 5YgftKZcd74yqZKTMbKokB8mJpKeNlU1yQRCPgcIDyR+FXMNX5ndVf7whmWLesg/B7UT
+ NSpf9NhrqqjmwF0HDR+l0v50Zox5dUBFyb3pw93vDtIiOhnY20vXOdqrU4UeB6Hkvwey
+ 3s7r/Pp8/pGlZoxtBQpe2kRWIyTlRCePrihX5XHA6Iz1p6eXoCWyt3dZM071V8USVTaj
+ SYQYcbSwFaH+9rkesuDbH/g2nYbgfJvSlCQv2PV8isw8FpSJ+Cs6Fuh9TBaw7XeO7NpG
+ 5DAA==
+X-Gm-Message-State: APjAAAXfBYl9/DJmT3Hlso5zON3QjPtt/FHd5mlotLNEGP/DzisveM7S
+ UE4P0435D4x91e5ek0de/vICkw==
+X-Google-Smtp-Source: APXvYqzNxcTKtf5dRVM9IAkZCZbZySGiOaAbpb/wC2yg6LnyvMBFYcVCYSGj/bgJ7vdtyecu3qZLlw==
+X-Received: by 2002:a5d:68c7:: with SMTP id p7mr3056653wrw.156.1571319324766; 
+ Thu, 17 Oct 2019 06:35:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u2sm1998056wml.44.2019.10.17.06.55.22
+ by smtp.gmail.com with ESMTPSA id d11sm2248332wrf.80.2019.10.17.06.35.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:55:24 -0700 (PDT)
+ Thu, 17 Oct 2019 06:35:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27DF11FF91;
+ by zen.linaroharston (Postfix) with ESMTP id A87761FFBF;
  Thu, 17 Oct 2019 14:16:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 35/54] configure: add --enable-plugins
-Date: Thu, 17 Oct 2019 14:15:56 +0100
-Message-Id: <20191017131615.19660-36-alex.bennee@linaro.org>
+Subject: [PATCH  v6 40/54] vl: support -plugin option
+Date: Thu, 17 Oct 2019 14:16:01 +0100
+Message-Id: <20191017131615.19660-41-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,72 +84,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Llu=C3=ADs=20Vilanova?= <vilanova@ac.upc.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the basic boilerplate feature enable option for the build.
-We shall expand it later.
+From: Lluís Vilanova <vilanova@ac.upc.edu>
 
-[AJB: split from larger patch]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Lluís Vilanova <vilanova@ac.upc.edu>
+[ cota: s/instrument/plugin ]
+Signed-off-by: Emilio G. Cota <cota@braap.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ qemu-options.hx | 17 +++++++++++++++++
+ vl.c            | 11 +++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/configure b/configure
-index 412b1e13af..65cfd6c403 100755
---- a/configure
-+++ b/configure
-@@ -497,6 +497,7 @@ libxml2=""
- debug_mutex="no"
- libpmem=""
- default_devices="yes"
-+plugins="no"
- 
- supported_cpu="no"
- supported_os="no"
-@@ -1524,6 +1525,10 @@ for opt do
-   ;;
-   --disable-xkbcommon) xkbcommon=no
-   ;;
-+  --enable-plugins) plugins="yes"
-+  ;;
-+  --disable-plugins) plugins="no"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1705,6 +1710,8 @@ Advanced options (experts only):
-   --enable-profiler        profiler support
-   --enable-debug-stack-usage
-                            track the maximum stack usage of stacks created by qemu_alloc_stack
-+  --enable-plugins
-+                           enable plugins via shared library loading
- 
- Optional features, enabled with --enable-FEATURE and
- disabled with --disable-FEATURE, default is enabled if available:
-@@ -6432,6 +6439,7 @@ echo "capstone          $capstone"
- echo "libpmem support   $libpmem"
- echo "libudev           $libudev"
- echo "default devices   $default_devices"
-+echo "plugin support    $plugins"
- 
- if test "$supported_cpu" = "no"; then
-     echo
-@@ -7259,6 +7267,11 @@ if test "$sheepdog" = "yes" ; then
-   echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
- fi
- 
-+if test "$plugins" = "yes" ; then
-+    echo "CONFIG_PLUGIN=y" >> $config_host_mak
-+    LIBS="-ldl $LIBS"
-+fi
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 793d70ff93..37f13689e7 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4166,6 +4166,23 @@ HXCOMM HX does not support conditional compilation of text.
+ @findex -trace
+ @include qemu-option-trace.texi
+ ETEXI
++DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
++    "-plugin [file=]<file>[,arg=<string>]\n"
++    "                load a plugin\n",
++    QEMU_ARCH_ALL)
++STEXI
++@item -plugin file=@var{file}[,arg=@var{string}]
++@findex -plugin
 +
- if test "$tcg_interpreter" = "yes"; then
-   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
- elif test "$ARCH" = "sparc64" ; then
++Load a plugin.
++
++@table @option
++@item file=@var{file}
++Load the given plugin from a shared library file.
++@item arg=@var{string}
++Argument string passed to the plugin. (Can be given multiple times.)
++@end table
++ETEXI
+ 
+ HXCOMM Internal use
+ DEF("qtest", HAS_ARG, QEMU_OPTION_qtest, "", QEMU_ARCH_ALL)
+diff --git a/vl.c b/vl.c
+index 4489cfb2bb..8b1b4133e4 100644
+--- a/vl.c
++++ b/vl.c
+@@ -110,6 +110,7 @@ int main(int argc, char **argv)
+ 
+ #include "trace-root.h"
+ #include "trace/control.h"
++#include "qemu/plugin.h"
+ #include "qemu/queue.h"
+ #include "sysemu/arch_init.h"
+ 
+@@ -2854,6 +2855,7 @@ int main(int argc, char **argv, char **envp)
+     bool list_data_dirs = false;
+     char *dir, **dirs;
+     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
++    QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+ 
+     os_set_line_buffering();
+ 
+@@ -2884,6 +2886,7 @@ int main(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_global_opts);
+     qemu_add_opts(&qemu_mon_opts);
+     qemu_add_opts(&qemu_trace_opts);
++    qemu_plugin_add_opts();
+     qemu_add_opts(&qemu_option_rom_opts);
+     qemu_add_opts(&qemu_machine_opts);
+     qemu_add_opts(&qemu_accel_opts);
+@@ -3678,6 +3681,9 @@ int main(int argc, char **argv, char **envp)
+                 g_free(trace_file);
+                 trace_file = trace_opt_parse(optarg);
+                 break;
++            case QEMU_OPTION_plugin:
++                qemu_plugin_opt_parse(optarg, &plugin_list);
++                break;
+             case QEMU_OPTION_readconfig:
+                 {
+                     int ret = qemu_read_config_file(optarg);
+@@ -3991,6 +3997,11 @@ int main(int argc, char **argv, char **envp)
+                                machine_class->default_machine_opts, 0);
+     }
+ 
++    /* process plugin before CPUs are created, but once -smp has been parsed */
++    if (qemu_plugin_load_list(&plugin_list)) {
++        exit(1);
++    }
++
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       default_driver_check, NULL, NULL);
+     qemu_opts_foreach(qemu_find_opts("global"),
 -- 
 2.20.1
 
