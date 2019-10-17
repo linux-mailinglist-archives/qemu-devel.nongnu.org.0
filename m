@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09FFDB1E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:07:28 +0200 (CEST)
-Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E47DB208
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:11:59 +0200 (CEST)
+Received: from localhost ([::1]:52098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8JD-0000HE-FQ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55677)
+	id 1iL8Na-00073w-3z
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL7Vs-0003qD-Nb
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL7MM-0000Po-1n
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:06:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL7Vn-00056Y-Mq
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:28 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34228)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL7MF-0008DC-QD
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:06:37 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35731)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL7Vn-00056P-ID
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:16:23 -0400
-Received: by mail-oi1-x242.google.com with SMTP id 83so2493437oii.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=AyW8NM6SJoGlUUn/caesoONpoZFYdqbED9wtAipUY7Q=;
- b=LRnSB184BsuH9LrV/bwFshWgP2XeAAUH44yEASK7+n3o/THTEY8W/7incOAx2V/GjU
- 4qAt8d6oUwfPefR0gITGLKjTUnalbjKED/56rYlVo6ycBjq6hjHhUa/goMJotZYS5+aj
- 5ro9nrjVMhogoJRPwY7aldvdb3Urf6a/FhANETyOinuxiHUWPyVzMVrlr6ugVGvlmee+
- F+3hNk3jPQwtGPVYnLIa2bxL+0wUglY3oCxCrR0qpL6NLAJLK4ZR6m1gKYdnA7t33j/Q
- HFwx8SfyzL+uZkBRotKzVJm+frxNfdbPd25QlLy0q0Enf1ELYAe7aLyOeilLrwrRlJPB
- mIZA==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iL7MF-0008Cd-M0
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:06:31 -0400
+Received: by mail-ot1-x344.google.com with SMTP id z6so2193857otb.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=fNuiZxDXxKW4b1rxU5MwVhy7UslYOkpsYFLTQrIrZh4=;
+ b=cNcKwAxhUgNDOJvCTtgAtWQA3K+GQsbTih5kA8Nc/NPKcXN9yn76d8w7pyn4U4ZR8j
+ by8ZQjjZ9TE8VFnKMCwrbnXlWO+atjUVoWlj56UvE2pcuyvkyUpKfsJP1gG90jLR7LoX
+ 6pf6R0TxSJGMXZcZ1U0SV7EwrotSxkT1KSTco+fODHwBoUSAIENrN8mk7LIJToSEq5m4
+ YjLRb1skeHGFuTpHMrPwCJ74KtX1dNZwHAXYZx7DOnzWYMbSdOLsurRlF4mFJmDtxXxq
+ eGndFYEQgnVEAAW0OVt1WZFHabtRBSnzHt41/KJG0yKs5pfLBbpJ4eUpDbAHh6cqTpXP
+ yp7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=AyW8NM6SJoGlUUn/caesoONpoZFYdqbED9wtAipUY7Q=;
- b=DWKvHhM/G78+Okj0n8AS9j1ECSNjcKubfWn+1a5EVyXam9EFZ8MTMewU6q7UzfJll1
- eTZ1QrGOkZcSRQqDMR7bQl1ffpcwKzRtq2kG92YEbNweolwLfsx6bjJS7ZHyl9ARg5QS
- dEEddmOAXvpjzq2AdjuYPjQ/5coQ8KKlNhfuTtDy+ks7UFj0Hkoy6IdJW2Y3F+u6h/4r
- yNvEwwnHK4ZHBaoVzpGtkiCGcw9jgYItxMhm3eekiQTq3mL9Ei39L40RCqSEE/X78tmN
- oONjt+GOpn8dhfVr7yUeciLbj6vNtEhC9/BHQU6l+SDIf/euCvrd2P60X2g+L183QeMy
- fOXg==
-X-Gm-Message-State: APjAAAVMPFyivYt1B/ZzKsbRtpDpMafJ0ZEcBnhr712cfSTXBojY1nhs
- W1FF4cUeHmIq+dRTt2I0ufztfK9dcm6URMKLIq4=
-X-Google-Smtp-Source: APXvYqw07qJjPokcVhwk/D87QvKmD4UjYp48DXnEdjIzgiiW8ZjoAHftG/wPAwoPFRE9z8BKjwAVnW0sE6vYehgJDDk=
-X-Received: by 2002:aca:4e56:: with SMTP id c83mr3701878oib.53.1571325382899; 
- Thu, 17 Oct 2019 08:16:22 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fNuiZxDXxKW4b1rxU5MwVhy7UslYOkpsYFLTQrIrZh4=;
+ b=KmLlpQ0RlW58roMAUVxWX8TdMdp+m4S+2STpW3aqa1Xox97hbPHgB6+oTIZhmvl6zc
+ bk8LC/uKAhbgzdSinObTwyydFL7nbGjlDJCkMLLvceQLeV4Y/xYyEK5IlMnFz6nFyKo9
+ 0+uL3ukASD9HotAVO86LUDoyTvUNUMUeOImNEEsXA8rQ7X0dr7XVeEEpF0t7xVI8Vpz4
+ DR/HLqLx0Pzs1nqQRAhRpmkvmd3TZBsjxdbi1WXPSgf5izvWlsUyYIFkYTukfEXcvVwe
+ hdDDIP9jUl6xlPpf50fZRFCTpnIZdwgjDYWuJC4yp4H5XnWVU+mIfx5okgPYVUoDcbdH
+ u3iQ==
+X-Gm-Message-State: APjAAAVX61gG92XlKSSW9STlIRQhjgvQZEPw0SCvwijPQxrZXuk0WDkF
+ 6PtGUu9a+C+um9xrJStSYvjyjq+brYeQ//oyijiF0g==
+X-Google-Smtp-Source: APXvYqyNFqn0sFI+yjtXobDaL5PEcPhhpURwvVCojvljibhuKZ1pbHBPLmU1jQzH6h4dLYEVhK6eTd5EEmkSdIaBgPU=
+X-Received: by 2002:a9d:30c1:: with SMTP id r1mr3507111otg.91.1571324790733;
+ Thu, 17 Oct 2019 08:06:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 08:16:22
- -0700 (PDT)
-In-Reply-To: <20191015162705.28087-22-philmd@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-22-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 17:16:22 +0200
-Message-ID: <CAL1e-=hLUDDqFiV8W1f2PFGYJMomvmZUXmjA55X7WEEYMykjHQ@mail.gmail.com>
-Subject: Re: [PATCH 21/32] hw/i386/pc: Reduce gsi_handler scope
+References: <20191017132122.4402-1-peter.maydell@linaro.org>
+ <20191017132122.4402-4-peter.maydell@linaro.org>
+ <d9e7dd55-01e5-d852-bbab-84f5209abb6f@redhat.com>
+In-Reply-To: <d9e7dd55-01e5-d852-bbab-84f5209abb6f@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Oct 2019 16:06:19 +0100
+Message-ID: <CAFEAcA_zz=SYwD=iDgwVZcvPF4seZW9qdvfGKfmK_UaaUDF7Vg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] hw/dma/xilinx_axidma.c: Switch to transaction-based
+ ptimer API
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000463b3505951cb36b"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,133 +76,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000463b3505951cb36b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 17 Oct 2019 at 16:01, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> Hi Peter,
+>
+> On 10/17/19 3:21 PM, Peter Maydell wrote:
+> > Switch the xilinx_axidma code away from bottom-half based ptimers to
+> > the new transaction-based ptimer API.  This just requires adding
+> > begin/commit calls around the various places that modify the ptimer
+> > state, and using the new ptimer_init() function to create the timer.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >   hw/dma/xilinx_axidma.c | 9 +++++----
+> >   1 file changed, 5 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+> > index e035d1f7504..fb3a978e282 100644
+> > --- a/hw/dma/xilinx_axidma.c
+> > +++ b/hw/dma/xilinx_axidma.c
+> > @@ -31,7 +31,6 @@
+> >   #include "hw/ptimer.h"
+> >   #include "hw/qdev-properties.h"
+> >   #include "qemu/log.h"
+> > -#include "qemu/main-loop.h"
+> >   #include "qemu/module.h"
+> >
+> >   #include "hw/stream.h"
+> > @@ -104,7 +103,6 @@ enum {
+> >   };
+> >
+> >   struct Stream {
+> > -    QEMUBH *bh;
+> >       ptimer_state *ptimer;
+> >       qemu_irq irq;
+> >
+> > @@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
+> >       unsigned int comp_delay;
+> >
+> >       /* Start the delayed timer.  */
+> > +    ptimer_transaction_begin(s->ptimer);
+> >       comp_delay =3D s->regs[R_DMACR] >> 24;
+> >       if (comp_delay) {
+> >           ptimer_stop(s->ptimer);
+> > @@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
+> >           s->regs[R_DMASR] |=3D DMASR_IOC_IRQ;
+> >           stream_reload_complete_cnt(s);
+> >       }
+> > +    ptimer_transaction_commit(s->ptimer);
+>
+> I'd restrict the transaction here within the if() statement:
+>
+> -- >8 --
+> @@ -244,9 +244,11 @@ static void stream_complete(struct Stream *s)
+>       /* Start the delayed timer.  */
+>       comp_delay =3D s->regs[R_DMACR] >> 24;
+>       if (comp_delay) {
+> +        ptimer_transaction_begin(s->ptimer);
+>           ptimer_stop(s->ptimer);
+>           ptimer_set_count(s->ptimer, comp_delay);
+>           ptimer_run(s->ptimer, 1);
+> +        ptimer_transaction_commit(s->ptimer);
+>       }
+>
+>       s->complete_cnt--;
 
-On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m>
-wrote:
+The timer_hit callback function itself writes to
+s->complete_cnt, so we don't want to allow it to
+be called (via the commit()) before stream_complete()
+is done with changing that state.
 
-> pc_gsi_create() is the single function that uses gsi_handler.
-> Make it a static variable.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/i386/pc.c         | 2 +-
->  include/hw/i386/pc.h | 2 --
->  2 files changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a7597c6c44..59de0c8a1f 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
->  };
->  const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
->
-> -void gsi_handler(void *opaque, int n, int level)
-> +static void gsi_handler(void *opaque, int n, int level)
->  {
->      GSIState *s =3D opaque;
->
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index d0c6b9d469..75b44e156c 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -172,8 +172,6 @@ typedef struct GSIState {
->      qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
->  } GSIState;
->
-> -void gsi_handler(void *opaque, int n, int level);
-> -
->  GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
->
->
-Philippe, this 2-line deletion seems not to belong to this patch. If true,
-please place it in another or a separate patch.
-
-A.
-
-
-
->  /* vmport.c */
-> --
-> 2.21.0
->
->
->
-
---000000000000463b3505951cb36b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
-ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">pc_gsi_create() is the single function that uses gs=
-i_handler.<br>
-Make it a static variable.<br>
-<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
-hat.com">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/i386/pc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A0include/hw/i386/pc.h | 2 --<br>
-=C2=A02 files changed, 1 insertion(+), 3 deletions(-)<br>
-<br>
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c<br>
-index a7597c6c44..59de0c8a1f 100644<br>
---- a/hw/i386/pc.c<br>
-+++ b/hw/i386/pc.c<br>
-@@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {<br>
-=C2=A0};<br>
-=C2=A0const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);<br>
-<br>
--void gsi_handler(void *opaque, int n, int level)<br>
-+static void gsi_handler(void *opaque, int n, int level)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0GSIState *s =3D opaque;<br>
-<br>
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
-index d0c6b9d469..75b44e156c 100644<br>
---- a/include/hw/i386/pc.h<br>
-+++ b/include/hw/i386/pc.h<br>
-@@ -172,8 +172,6 @@ typedef struct GSIState {<br>
-=C2=A0 =C2=A0 =C2=A0qemu_irq ioapic_irq[IOAPIC_NUM_PINS];<br>
-=C2=A0} GSIState;<br>
-<br>
--void gsi_handler(void *opaque, int n, int level);<br>
--<br>
-=C2=A0GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);<br>
-<br></blockquote><div><br></div><div>Philippe, this 2-line deletion seems n=
-ot to belong to this patch. If true, please place it in another or a separa=
-te patch.</div><div><br></div><div>A.</div><div><br></div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0/* vmport.c */<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote>
-
---000000000000463b3505951cb36b--
+thanks
+-- PMM
 
