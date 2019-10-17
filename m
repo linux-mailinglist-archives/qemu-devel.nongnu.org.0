@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF10DADFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:13:56 +0200 (CEST)
-Received: from localhost ([::1]:46930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA0ADAE02
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:15:05 +0200 (CEST)
+Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5bG-0003e3-ON
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60151)
+	id 1iL5cO-0005HU-FJ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60196)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iL5SN-00017L-HR
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:44 -0400
+ (envelope-from <kwolf@redhat.com>) id 1iL5SP-0001BJ-R2
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iL5SI-00006g-4g
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46078)
+ (envelope-from <kwolf@redhat.com>) id 1iL5SO-00009K-FN
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:04:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46114)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iL5SE-00004r-Nf; Thu, 17 Oct 2019 09:04:34 -0400
+ id 1iL5SL-00007T-DL; Thu, 17 Oct 2019 09:04:41 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F0459307D976;
- Thu, 17 Oct 2019 13:04:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A7E1A307D976;
+ Thu, 17 Oct 2019 13:04:40 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-24.ams2.redhat.com
  [10.36.117.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B8CE1001B11;
- Thu, 17 Oct 2019 13:04:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4457D1001B11;
+ Thu, 17 Oct 2019 13:04:34 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 15/18] qapi: Support empty modules
-Date: Thu, 17 Oct 2019 15:02:01 +0200
-Message-Id: <20191017130204.16131-16-kwolf@redhat.com>
+Subject: [RFC PATCH 16/18] qapi: Create 'pragma' module
+Date: Thu, 17 Oct 2019 15:02:02 +0200
+Message-Id: <20191017130204.16131-17-kwolf@redhat.com>
 In-Reply-To: <20191017130204.16131-1-kwolf@redhat.com>
 References: <20191017130204.16131-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 17 Oct 2019 13:04:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Thu, 17 Oct 2019 13:04:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -61,181 +61,109 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you added an include file that doesn't contain any definitions, no
-source files would be generated for it. However, in other source files,
-you would still get an #include for the header files of the empty
-module.
-
-The intended behaviour is that empty source files are created for empty
-modules. This patch makes QAPISchema keep a list of all modules
-(including empty ones) and modifies visit() to first visit all modules
-in that list.
-
-Some test reference outputs need to be updated due to the additional
-visitor calls.
+We want to share the whitelists between the system emulator schema and
+the storage daemon schema, so move all the pragmas from the main schema
+file into a separate file that can be included from both.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- scripts/qapi/schema.py                   | 9 +++++++++
- tests/qapi-schema/comments.out           | 2 ++
- tests/qapi-schema/doc-bad-section.out    | 2 ++
- tests/qapi-schema/doc-good.out           | 2 ++
- tests/qapi-schema/empty.out              | 2 ++
- tests/qapi-schema/event-case.out         | 2 ++
- tests/qapi-schema/include-repetition.out | 4 ++++
- tests/qapi-schema/include-simple.out     | 3 +++
- tests/qapi-schema/indented-expr.out      | 2 ++
- tests/qapi-schema/qapi-schema-test.out   | 4 ++++
- 10 files changed, 32 insertions(+)
+ qapi/pragma.json      | 24 ++++++++++++++++++++++++
+ qapi/qapi-schema.json | 25 +------------------------
+ qapi/Makefile.objs    |  2 +-
+ 3 files changed, 26 insertions(+), 25 deletions(-)
+ create mode 100644 qapi/pragma.json
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 38041098bd..e1b034d67d 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -749,6 +749,7 @@ class QAPISchema(object):
-         self.docs =3D parser.docs
-         self._entity_list =3D []
-         self._entity_dict =3D {}
-+        self._modules =3D [os.path.basename(fname)]
-         self._predefining =3D True
-         self._def_predefineds()
-         self._predefining =3D False
-@@ -800,6 +801,8 @@ class QAPISchema(object):
-             main_info =3D main_info.parent
-         fname =3D os.path.relpath(include, os.path.dirname(main_info.fna=
-me))
-         self._def_entity(QAPISchemaInclude(fname, info))
-+        if fname not in self._modules:
-+            self._modules.append(fname)
+diff --git a/qapi/pragma.json b/qapi/pragma.json
+new file mode 100644
+index 0000000000..cffae27666
+--- /dev/null
++++ b/qapi/pragma.json
+@@ -0,0 +1,24 @@
++{ 'pragma': { 'doc-required': true } }
++
++# Whitelists to permit QAPI rule violations; think twice before you
++# add to them!
++{ 'pragma': {
++    # Commands allowed to return a non-dictionary:
++    'returns-whitelist': [
++        'human-monitor-command',
++        'qom-get',
++        'query-migrate-cache-size',
++        'query-tpm-models',
++        'query-tpm-types',
++        'ringbuf-read' ],
++    'name-case-whitelist': [
++        'ACPISlotType',             # DIMM, visible through query-acpi-o=
+spm-status
++        'CpuInfoMIPS',              # PC, visible through query-cpu
++        'CpuInfoTricore',           # PC, visible through query-cpu
++        'BlockdevVmdkSubformat',    # all members, to match VMDK spec sp=
+ellings
++        'BlockdevVmdkAdapterType',  # legacyESX, to match VMDK spec spel=
+lings
++        'QapiErrorClass',           # all members, visible through error=
+s
++        'UuidInfo',                 # UUID, visible through query-uuid
++        'X86CPURegister32',         # all members, visible indirectly th=
+rough qom-get
++        'CpuInfo'                   # CPU, visible through query-cpu
++    ] } }
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index be90422ffe..85b4048535 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -49,30 +49,7 @@
+ #
+ ##
 =20
-     def _def_builtin_type(self, name, json_type, c_type):
-         self._def_entity(QAPISchemaBuiltinType(name, json_type, c_type))
-@@ -1033,6 +1036,12 @@ class QAPISchema(object):
-         visitor.visit_begin(self)
-         module =3D None
-         visitor.visit_module(module)
-+
-+        # Make sure that all modules are visited, even if they contain n=
-o
-+        # entities
-+        for module in self._modules:
-+            visitor.visit_module(module)
-+
-         for entity in self._entity_list:
-             if visitor.visit_needed(entity):
-                 if entity.module !=3D module:
-diff --git a/tests/qapi-schema/comments.out b/tests/qapi-schema/comments.=
-out
-index 273f0f54e1..fa7e95d1cc 100644
---- a/tests/qapi-schema/comments.out
-+++ b/tests/qapi-schema/comments.out
-@@ -1,4 +1,6 @@
- module None
-+module comments.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/doc-bad-section.out b/tests/qapi-schema/do=
-c-bad-section.out
-index 367e2a1c3e..331237cfbe 100644
---- a/tests/qapi-schema/doc-bad-section.out
-+++ b/tests/qapi-schema/doc-bad-section.out
-@@ -1,4 +1,6 @@
- module None
-+module doc-bad-section.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
-out
-index d3bca343eb..8f3577bb21 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -1,4 +1,6 @@
- module None
-+module doc-good.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/empty.out b/tests/qapi-schema/empty.out
-index 5b53d00702..3671cbbe59 100644
---- a/tests/qapi-schema/empty.out
-+++ b/tests/qapi-schema/empty.out
-@@ -1,4 +1,6 @@
- module None
-+module empty.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/event-case.out b/tests/qapi-schema/event-c=
-ase.out
-index ec8a1406e4..2b2d8548e9 100644
---- a/tests/qapi-schema/event-case.out
-+++ b/tests/qapi-schema/event-case.out
-@@ -1,4 +1,6 @@
- module None
-+module event-case.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/include-repetition.out b/tests/qapi-schema=
-/include-repetition.out
-index 5423983239..ebaac1813d 100644
---- a/tests/qapi-schema/include-repetition.out
-+++ b/tests/qapi-schema/include-repetition.out
-@@ -1,4 +1,8 @@
- module None
-+module include-repetition.json
-+module comments.json
-+module include-repetition-sub.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/include-simple.out b/tests/qapi-schema/inc=
-lude-simple.out
-index 061f81e509..dea51f9738 100644
---- a/tests/qapi-schema/include-simple.out
-+++ b/tests/qapi-schema/include-simple.out
-@@ -1,4 +1,7 @@
- module None
-+module include-simple.json
-+module include-simple-sub.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/indented-expr.out b/tests/qapi-schema/inde=
-nted-expr.out
-index bffdf6756d..d4cffb9c1b 100644
---- a/tests/qapi-schema/indented-expr.out
-+++ b/tests/qapi-schema/indented-expr.out
-@@ -1,4 +1,6 @@
- module None
-+module indented-expr.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
-api-schema-test.out
-index 98031da96f..93c944a2fb 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -1,4 +1,8 @@
- module None
-+module qapi-schema-test.json
-+module include/sub-module.json
-+module sub-sub-module.json
-+module None
- object q_empty
- enum QType
-     prefix QTYPE
+-{ 'pragma': { 'doc-required': true } }
+-
+-# Whitelists to permit QAPI rule violations; think twice before you
+-# add to them!
+-{ 'pragma': {
+-    # Commands allowed to return a non-dictionary:
+-    'returns-whitelist': [
+-        'human-monitor-command',
+-        'qom-get',
+-        'query-migrate-cache-size',
+-        'query-tpm-models',
+-        'query-tpm-types',
+-        'ringbuf-read' ],
+-    'name-case-whitelist': [
+-        'ACPISlotType',             # DIMM, visible through query-acpi-o=
+spm-status
+-        'CpuInfoMIPS',              # PC, visible through query-cpu
+-        'CpuInfoTricore',           # PC, visible through query-cpu
+-        'BlockdevVmdkSubformat',    # all members, to match VMDK spec sp=
+ellings
+-        'BlockdevVmdkAdapterType',  # legacyESX, to match VMDK spec spel=
+lings
+-        'QapiErrorClass',           # all members, visible through error=
+s
+-        'UuidInfo',                 # UUID, visible through query-uuid
+-        'X86CPURegister32',         # all members, visible indirectly th=
+rough qom-get
+-        'CpuInfo'                   # CPU, visible through query-cpu
+-    ] } }
++{ 'include': 'pragma.json' }
+=20
+ # Documentation generated with qapi-gen.py is in source order, with
+ # included sub-schemas inserted at the first include directive
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 519b6f1a8e..3e04e299ed 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -7,7 +7,7 @@ util-obj-y +=3D qapi-util.o
+=20
+ QAPI_COMMON_MODULES =3D audio authz block-core block char common crypto
+ QAPI_COMMON_MODULES +=3D dump error introspect job machine migration mis=
+c monitor
+-QAPI_COMMON_MODULES +=3D net qdev qom rdma rocker run-state sockets tpm
++QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state socke=
+ts tpm
+ QAPI_COMMON_MODULES +=3D trace transaction ui
+ QAPI_TARGET_MODULES =3D machine-target misc-target
+ QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
 --=20
 2.20.1
 
