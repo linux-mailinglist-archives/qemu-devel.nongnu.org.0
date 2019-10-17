@@ -2,68 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16696DB103
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:23:22 +0200 (CEST)
-Received: from localhost ([::1]:50830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA2FDB10F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:26:11 +0200 (CEST)
+Received: from localhost ([::1]:50915 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7cV-00033h-JM
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49956)
+	id 1iL7fG-0007gk-2Z
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL6zu-0005DE-34
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:43:27 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1iL72H-00086P-C8
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:45:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL6zs-0006Q0-NY
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:43:25 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45935)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL6zs-0006Pf-Hm
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:43:24 -0400
-Received: by mail-oi1-x241.google.com with SMTP id o205so2328948oib.12
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=jhYyEoWc80v0cXKGF4xnB9nyWjXKx6TF8OV3aNOz9qI=;
- b=pUPOVrw+uusHp27rflzA/hwpUQ4nyQOIuu+7hJBv1ozgYVT3LUp9eJvfJ7puokj39i
- NrMsKOYfzUqfSpqTiFwJ1uovuGPjmCCeXjNR74dOHYQAnM488wZXFDFwJwzhhIhMg9r6
- r7j5PWpfwUS0Nf1e4wq/C4OnyUxjzCrUq1JycK8nESIiRWE14kNUSTHO0QdiMoP4oCdW
- 0ekvxn5L1tujnescqsNjU1gkQtoX8K1BtkfqUukvS4dOxKfm3FPNxcJC0MozSRiLtbgW
- V1fdoZMesK6suEzuqWXT+bIDBZX+jyPMRvF5bfhL5GscSvso+HdeA/uIDVzEsjubmc/d
- P+9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=jhYyEoWc80v0cXKGF4xnB9nyWjXKx6TF8OV3aNOz9qI=;
- b=NhM29r7AcYQ+nRMxU5hzYlIMvL2HGycT8+CiFFk9N8jj+Vdhc6eHaZiNnBm3O3AbL2
- /yW5Wz3fO/ASvdJtphPCYw9I/X7AZlKW2X3iHyWrAB55aKzLz6s99IVxKOZ7whY4PoWs
- tywiAUcCh7ivX2lrXmytCrmlZlotGMs4KXftx7XZ4Z3/KWAhuEvf4/gf7lyIfw1y6+ev
- 64CIfoqnsmnQuLcmFbg3y9ikxTM6golPHfykmVNIGlEnXmQMWDl9TCvqxYBSihvpiEbT
- wcu9eFRTLXXJ0wLstxieWC7+YLZJHkCWNSotFFExT0HNAN0UC6frmfjG06l3Ax9HnJEo
- MuvQ==
-X-Gm-Message-State: APjAAAWupdWYzzq7syQMCw/AQpl/pWPpvyXXE1aHzOny/m8/putC/QWH
- u9yoBtj614+tFE6Wd4aYvN7Gp1edy8ZbhPRt3/0=
-X-Google-Smtp-Source: APXvYqzberLXObt7P5i4KFNdsg+8EHVGx5o7pI5lJzjmTtciE0umi9YhsRZ9hqL1fxPkFCHs9Z/RziecnQmSI+PmC74=
-X-Received: by 2002:aca:4e56:: with SMTP id c83mr3556181oib.53.1571323403635; 
- Thu, 17 Oct 2019 07:43:23 -0700 (PDT)
+ (envelope-from <borntraeger@de.ibm.com>) id 1iL72F-0007Vi-Qu
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:45:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36580
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1iL72F-0007VI-MB
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:45:51 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9HEgZcn059570
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:45:50 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2vps6dbask-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:45:50 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Thu, 17 Oct 2019 15:45:48 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 17 Oct 2019 15:45:45 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9HEjirs32768150
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Oct 2019 14:45:44 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6DF5342045;
+ Thu, 17 Oct 2019 14:45:44 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EB4B4204D;
+ Thu, 17 Oct 2019 14:45:44 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.44])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Oct 2019 14:45:44 +0000 (GMT)
+Subject: Re: [PATCH] hw/s390x: Emit a warning if user tried to enable USB
+To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-s390x@nongnu.org
+References: <20191017142123.1236-1-thuth@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ syiRa+UVlsKmx1hsEg==
+Date: Thu, 17 Oct 2019 16:45:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:43:22
- -0700 (PDT)
-In-Reply-To: <20191015162705.28087-16-philmd@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-16-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 16:43:22 +0200
-Message-ID: <CAL1e-=jA5Cc--eRrNoSUwnZbKtOzjzN9_XQewanfwaUk10HpYA@mail.gmail.com>
-Subject: Re: [PATCH 15/32] piix4: add a i8254 pit controller as specified in
- datasheet
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004d11f705951c3d8b"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <20191017142123.1236-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19101714-0008-0000-0000-00000322F916
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101714-0009-0000-0000-00004A4217C6
+Message-Id: <c35a910b-4a61-331b-e0b7-3dfc6f0b256f@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-17_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910170133
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,211 +138,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004d11f705951c3d8b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m>
-wrote:
 
-> From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
->
-> Remove i8254 instanciated in malta board, to not have it twice.
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-> Message-Id: <20171216090228.28505-10-hpoussin@reactos.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 17.10.19 16:21, Thomas Huth wrote:
+> There is no USB on s390x, so running qemu-system-s390x with
+> "-machine ...,usb=on" is certainly wrong. Emit a warning to make
+> the users aware of their misconfiguration.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  hw/isa/piix4.c       | 4 ++++
->  hw/mips/mips_malta.c | 4 ----
->  2 files changed, 4 insertions(+), 4 deletions(-)
->
->
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+>  After a year or two, we could finally turn this into a hard error,
+>  but I think we should give the users some time to fix their command
+>  lines first, so I'm initially only emitting a warning here.
+
+I think a warn message is ok, but we should never make  this a hard
+error.
+
+I am pretty sure that there are some tools in the wild that create xmls
+or qemu commands lines cross-platform and deploy those  dynamically.
+These tools have probably been fixed to work good enough with s390x
+but nobody with qemu clue has ever looked at these command lines. And
+I am pretty sure that no user will actually see the command like nor
+the error message.
+
+So this warning will stay unnoticed until we make this a hard error. And
+then we have broken a previously working setup.
+
+In other words, I appreciate the willingness to detect mis-uses but I 
+fear that we will never be able to assume that everything is fixed.
 
 
 
-> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 1bc91b590c..0b0a0ecab1 100644
-> --- a/hw/isa/piix4.c
-> +++ b/hw/isa/piix4.c
-> @@ -30,6 +30,7 @@
->  #include "hw/isa/isa.h"
->  #include "hw/sysbus.h"
->  #include "hw/dma/i8257.h"
-> +#include "hw/timer/i8254.h"
->  #include "migration/vmstate.h"
->  #include "sysemu/reset.h"
->  #include "sysemu/runstate.h"
-> @@ -165,6 +166,9 @@ static void piix4_realize(PCIDevice *pci_dev, Error
-> **errp)
->      /* initialize ISA irqs */
->      isa_bus_irqs(isa_bus, s->isa);
->
-> +    /* initialize pit */
-> +    i8254_pit_init(isa_bus, 0x40, 0, NULL);
+> 
+>  hw/s390x/s390-virtio-ccw.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index d3edeef0ad..af8c4c0daf 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -243,6 +243,10 @@ static void ccw_init(MachineState *machine)
+>      VirtualCssBus *css_bus;
+>      DeviceState *dev;
+>  
+> +    if (machine->usb) {
+> +        warn_report("This machine does not support USB");
+> +    }
 > +
->      /* DMA */
->      i8257_dma_init(isa_bus, 0);
->
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index df247177ca..16d7a0e785 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -45,7 +45,6 @@
->  #include "hw/loader.h"
->  #include "elf.h"
->  #include "hw/timer/mc146818rtc.h"
-> -#include "hw/timer/i8254.h"
->  #include "exec/address-spaces.h"
->  #include "hw/sysbus.h"             /* SysBusDevice */
->  #include "qemu/host-utils.h"
-> @@ -99,8 +98,6 @@ typedef struct {
->      qemu_irq i8259[16];
->  } MaltaState;
->
-> -static ISADevice *pit;
-> -
->  static struct _loaderparams {
->      int ram_size, ram_low_size;
->      const char *kernel_filename;
-> @@ -1428,7 +1425,6 @@ void mips_malta_init(MachineState *machine)
->      pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
->      smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
->                            isa_get_irq(NULL, 9), NULL, 0, NULL);
-> -    pit =3D i8254_pit_init(isa_bus, 0x40, 0, NULL);
->      mc146818_rtc_init(isa_bus, 2000, NULL);
->
->      /* generate SPD EEPROM data */
-> --
-> 2.21.0
->
->
->
+>      s390_sclp_init();
+>      /* init memory + setup max page size. Required for the CPU model */
+>      s390_memory_init(machine->ram_size);
+> 
 
---0000000000004d11f705951c3d8b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
-ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">From: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:h=
-poussin@reactos.org">hpoussin@reactos.org</a>&gt;<br>
-<br>
-Remove i8254 instanciated in malta board, to not have it twice.<br>
-<br>
-Acked-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redh=
-at.com</a>&gt;<br>
-Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini=
-@redhat.com</a>&gt;<br>
-Signed-off-by: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:hpoussin@reactos=
-.org">hpoussin@reactos.org</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20171216090228.28505-10-hpoussin@reactos.=
-org">20171216090228.28505-10-hpoussin@reactos.org</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
-hat.com">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++++<br>
-=C2=A0hw/mips/mips_malta.c | 4 ----<br>
-=C2=A02 files changed, 4 insertions(+), 4 deletions(-)<br>
-<br></blockquote><div><br></div><div><div id=3D"cvcmsg_16dbfeb33c93ed97" cl=
-ass=3D"yh  " style=3D"border-top-left-radius:0px;border-top-right-radius:0p=
-x;margin-bottom:11px;overflow:visible"><div class=3D"Vh" id=3D"cvcfullmsg_1=
-6dbfeb33c93ed97"><div id=3D"cvcmsgbod_16dbfeb33c93ed97" class=3D"aj"><div c=
-lass=3D"Ni"><div class=3D"ni pi " dir=3D"ltr"><p dir=3D"ltr">Reviewed-by: A=
-leksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.com" target=3D"=
-_blank">amarkovic@wavecomp.com</a>&gt;</p><div style=3D"clear:both"></div><=
-/div><div style=3D"clear:both"></div><div><div class=3D"M j T b hc Aj S" ta=
-bindex=3D"0"><div class=3D"V j hf"></div></div></div><div style=3D"clear:bo=
-th"></div></div></div></div></div><div id=3D"cvcmsg_16dbfecd588da1f7" class=
-=3D"yh" style=3D"margin-bottom:11px"><div class=3D"Vh" id=3D"cvcfullmsg_16d=
-bfecd588da1f7"><div class=3D"M j Zi Mi  " tabindex=3D"0"><div id=3D"cvcrepl=
-y_16dbfecd588da1f7" class=3D"M j T b hc xh S  " tabindex=3D"0"><div class=
-=3D"V j td"></div></div></div></div></div></div><div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c<br>
-index 1bc91b590c..0b0a0ecab1 100644<br>
---- a/hw/isa/piix4.c<br>
-+++ b/hw/isa/piix4.c<br>
-@@ -30,6 +30,7 @@<br>
-=C2=A0#include &quot;hw/isa/isa.h&quot;<br>
-=C2=A0#include &quot;hw/sysbus.h&quot;<br>
-=C2=A0#include &quot;hw/dma/i8257.h&quot;<br>
-+#include &quot;hw/timer/i8254.h&quot;<br>
-=C2=A0#include &quot;migration/vmstate.h&quot;<br>
-=C2=A0#include &quot;sysemu/reset.h&quot;<br>
-=C2=A0#include &quot;sysemu/runstate.h&quot;<br>
-@@ -165,6 +166,9 @@ static void piix4_realize(PCIDevice *pci_dev, Error **e=
-rrp)<br>
-=C2=A0 =C2=A0 =C2=A0/* initialize ISA irqs */<br>
-=C2=A0 =C2=A0 =C2=A0isa_bus_irqs(isa_bus, s-&gt;isa);<br>
-<br>
-+=C2=A0 =C2=A0 /* initialize pit */<br>
-+=C2=A0 =C2=A0 i8254_pit_init(isa_bus, 0x40, 0, NULL);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* DMA */<br>
-=C2=A0 =C2=A0 =C2=A0i8257_dma_init(isa_bus, 0);<br>
-<br>
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
-index df247177ca..16d7a0e785 100644<br>
---- a/hw/mips/mips_malta.c<br>
-+++ b/hw/mips/mips_malta.c<br>
-@@ -45,7 +45,6 @@<br>
-=C2=A0#include &quot;hw/loader.h&quot;<br>
-=C2=A0#include &quot;elf.h&quot;<br>
-=C2=A0#include &quot;hw/timer/mc146818rtc.h&quot;<br>
--#include &quot;hw/timer/i8254.h&quot;<br>
-=C2=A0#include &quot;exec/address-spaces.h&quot;<br>
-=C2=A0#include &quot;hw/sysbus.h&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0/* SysBusDevice */<br>
-=C2=A0#include &quot;qemu/host-utils.h&quot;<br>
-@@ -99,8 +98,6 @@ typedef struct {<br>
-=C2=A0 =C2=A0 =C2=A0qemu_irq i8259[16];<br>
-=C2=A0} MaltaState;<br>
-<br>
--static ISADevice *pit;<br>
--<br>
-=C2=A0static struct _loaderparams {<br>
-=C2=A0 =C2=A0 =C2=A0int ram_size, ram_low_size;<br>
-=C2=A0 =C2=A0 =C2=A0const char *kernel_filename;<br>
-@@ -1428,7 +1425,6 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0pci_create_simple(pci_bus, piix4_devfn + 2, &quot;piix4=
--usb-uhci&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x110=
-0,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0isa_get_irq(NULL, 9), NULL, 0, NULL);<br>
--=C2=A0 =C2=A0 pit =3D i8254_pit_init(isa_bus, 0x40, 0, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0mc146818_rtc_init(isa_bus, 2000, NULL);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* generate SPD EEPROM data */<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote>
-
---0000000000004d11f705951c3d8b--
 
