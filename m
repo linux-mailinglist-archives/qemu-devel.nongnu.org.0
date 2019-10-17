@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A2BDB13E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:39:26 +0200 (CEST)
-Received: from localhost ([::1]:51214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68847DB12C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:34:41 +0200 (CEST)
+Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7s5-0005VD-1Q
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50410)
+	id 1iL7nT-0008Cm-Ry
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL72a-0008VY-Jj
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:14 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL73u-0001Ve-6r
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:47:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL72Y-0007dm-T0
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53970
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL72Y-0007dQ-HO
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571323569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4ePLuvdpjiCrVsfMHqaKGaoDZ/EbnB1HE43qLtprzLU=;
- b=GsmPpC/b1IxF286fs/H1GqUlYGPOcOTLHqfVsb5mBcqA9e5KZkwW+yKcmfy6xnD4suoaVX
- V6h+fO90lK7+fcEXBsKao0qcbEgoFpNtZIBWZoH8As2Qv7EoXoDJxv6UmjVlvNX1HHdacq
- pKwNbCvPVO6qBlYzjjIuCMBRXGHxWOQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-pUfIQZDBMjyd_NpUzv5N3Q-1; Thu, 17 Oct 2019 10:46:06 -0400
-Received: by mail-wr1-f71.google.com with SMTP id j2so1068023wrg.19
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:46:05 -0700 (PDT)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL73s-00082k-5z
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:47:34 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45971)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iL73r-00082Z-W7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:47:32 -0400
+Received: by mail-oi1-x241.google.com with SMTP id o205so2341704oib.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=EzzEwr9FQVQQWPxcF80oRuOq7A13UZrLWdbTGNDLsQI=;
+ b=I3kFa4mQVyx9cakEkuuVnEjW+zknXAn5uU9pfD5J4LPFgIyxk+NCmgJMIOopPOVltV
+ xrC5gfP8+w9KqfZS/YlsPhmnupxsDxZ9B3GRLiSPFmMZSBSFFj0Nb3IrBjWLKbw0T93o
+ D/dDUo3dkeZDV2wVnijqzvBMeSo5gJxBgunmMGRLtdDaxlG+EpeNobWdjr1iPyYVs/ce
+ JcmbguDrPS2CNM6lw+rzARYWuFGf0LqqK1qULuUzLldZc4LfmPRRlng74CB4hA262CaU
+ M+nxlRE++iMVnm9D8Cq22Xj3IdZXCmMyWFZBjEmF12JNu6xoFLwpEYbMM+7HFtBYP9Ew
+ +1pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dKjKISv6Eh/62IDaORUG/Ahz7/jSmijXvXZXmqrw8Qo=;
- b=FFuTsUQ1+dEfzEHjuxVntSuX4ouQ0FTeLq2jF7QczkVAyRn14C7FGhdQ0a4j/fHrX0
- L0CHqGOAPs9IsPVMWc1tRRiBHPt4YSgnVqBYexmamzFDhjuB9hWkCY7s/AYNq+pVFjGs
- GTMlUgFM6vjWWS1Av1pG67ue542K7C7S+PnqrKonwF6mi9zssJFfX1aotAyWSdkEuONn
- z195M23ZjDAtSjecx5B/vkTURC26940y4Iw09g4FpVLHXVed5T1EudXX8zqkim6Mod0f
- HUj1TKzc7aGkwWNqCBPkMX31i4+AQSc2GJ8xhlGysuXsWeRYeKo/DsLWmv5W2LpG67aO
- Nzpw==
-X-Gm-Message-State: APjAAAUt9b8z3EyEcH6LQlnS5VtYCt3pe05V6Xc47YjNvNgGxafrEJ8v
- 78/TFgJxuPMLborZIzsi4XXSJDmreR3SY9VSekUql7yb0Ut5QwBbOSGuVlwyHEE1SHZG+9KF73t
- BF5n/kYDU7JZl+sI=
-X-Received: by 2002:adf:ef0a:: with SMTP id e10mr3290163wro.234.1571323564978; 
- Thu, 17 Oct 2019 07:46:04 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxl9BKLBVlXWDQ4HFQuWvt5Yg0IkvV54R92QwyDh6KzWvXku0gS+71OviymYpc2SrEt13NcOQ==
-X-Received: by 2002:adf:ef0a:: with SMTP id e10mr3290136wro.234.1571323564739; 
- Thu, 17 Oct 2019 07:46:04 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id u1sm2558055wru.90.2019.10.17.07.46.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 07:46:04 -0700 (PDT)
-Subject: Re: [PATCH 1/2] hw/timer/grlib_gptimer.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191017132351.4762-1-peter.maydell@linaro.org>
- <20191017132351.4762-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4c6b7739-84c5-95b6-2af4-94f561b404c8@redhat.com>
-Date: Thu, 17 Oct 2019 16:46:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=EzzEwr9FQVQQWPxcF80oRuOq7A13UZrLWdbTGNDLsQI=;
+ b=AggEQdwDT1uMCeALolYvOa/ud4nV9Ihs5F2BALG4spGFpIcmmlhfYt6U/yq97Zxduz
+ 3zFuYXbRdBpQqPD2mS1i5LeFoJnFn5PoC0iOzfe4VhBaIZfBUHeVMPLfV7YptEEVCWhV
+ uxFP5pPGTtN8CK4Uh3EAl0obpjo1AtJCdruFtkr2Eay/sx5n3kPCfxPEd5e5oUS0+efO
+ 6ZfN4QrRBuXVR/hl5oU+VSLBeQSW/wn93DpLyzFpdXD0/K+8MAqBfUovfgRfRfg6DBXM
+ BE3L4A7j2mye1/K2Rk8UJZfTM7Mua9HivrnMMF35pzFdRJKvxffFyVQb8OMyn6dTsPCu
+ fnng==
+X-Gm-Message-State: APjAAAX9EsMNU4d/vxLJoaLSEsZPurgE65ge9cF8qV6elvJVgaGHDXVZ
+ 9Z0jtslNEtaIx1XrG2gwa3EgP0E4naeJ2onQVf8=
+X-Google-Smtp-Source: APXvYqwSdE8G2wWLz4cypVP6rw4ZrgSMSmoShd4nguDWg5TFoNi6YWVRbEVL2kFXt9Wlwh1muuDyL24IxtmP5S3/hQk=
+X-Received: by 2002:aca:62d5:: with SMTP id w204mr3561597oib.136.1571323651309; 
+ Thu, 17 Oct 2019 07:47:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191017132351.4762-2-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: pUfIQZDBMjyd_NpUzv5N3Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:47:30
+ -0700 (PDT)
+In-Reply-To: <20191015162705.28087-20-philmd@redhat.com>
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-20-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 17 Oct 2019 16:47:30 +0200
+Message-ID: <CAL1e-=ghBWM7XP8Q8Wpe3_iz0sr7zEcXVA=ZzexCpXc_Chz13Q@mail.gmail.com>
+Subject: Re: [PATCH 19/32] hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000010443805951c4c4c"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,149 +74,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000010443805951c4c4c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>
+wrote:
 
-On 10/17/19 3:23 PM, Peter Maydell wrote:
-> Switch the grlib_gptimer code away from bottom-half based ptimers to
-> the new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
->=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> Now that we properly refactored the piix4_create() function, let's
+> move it to hw/isa/piix4.c where it belongs, so it can be reused
+> on other places.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   hw/timer/grlib_gptimer.c | 28 ++++++++++++++++++++++++----
->   1 file changed, 24 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
-> index bb09268ea14..7a9371c0e30 100644
-> --- a/hw/timer/grlib_gptimer.c
-> +++ b/hw/timer/grlib_gptimer.c
-> @@ -29,7 +29,6 @@
->   #include "hw/irq.h"
->   #include "hw/ptimer.h"
->   #include "hw/qdev-properties.h"
-> -#include "qemu/main-loop.h"
->   #include "qemu/module.h"
->  =20
->   #include "trace.h"
-> @@ -63,7 +62,6 @@ typedef struct GPTimer     GPTimer;
->   typedef struct GPTimerUnit GPTimerUnit;
->  =20
->   struct GPTimer {
-> -    QEMUBH *bh;
->       struct ptimer_state *ptimer;
->  =20
->       qemu_irq     irq;
-> @@ -93,6 +91,17 @@ struct GPTimerUnit {
->       uint32_t config;
->   };
->  =20
-> +static void grlib_gptimer_tx_begin(GPTimer *timer)
-> +{
-> +    ptimer_transaction_begin(timer->ptimer);
-> +}
-> +
-> +static void grlib_gptimer_tx_commit(GPTimer *timer)
-> +{
-> +    ptimer_transaction_commit(timer->ptimer);
-> +}
-> +
-> +/* Must be called within grlib_gptimer_tx_begin/commit block */
->   static void grlib_gptimer_enable(GPTimer *timer)
->   {
->       assert(timer !=3D NULL);
-> @@ -115,6 +124,7 @@ static void grlib_gptimer_enable(GPTimer *timer)
->       ptimer_run(timer->ptimer, 1);
->   }
->  =20
-> +/* Must be called within grlib_gptimer_tx_begin/commit block */
->   static void grlib_gptimer_restart(GPTimer *timer)
->   {
->       assert(timer !=3D NULL);
-> @@ -141,7 +151,9 @@ static void grlib_gptimer_set_scaler(GPTimerUnit *uni=
-t, uint32_t scaler)
->       trace_grlib_gptimer_set_scaler(scaler, value);
->  =20
->       for (i =3D 0; i < unit->nr_timers; i++) {
-> +        ptimer_transaction_begin(unit->timers[i].ptimer);
->           ptimer_set_freq(unit->timers[i].ptimer, value);
-> +        ptimer_transaction_commit(unit->timers[i].ptimer);
->       }
->   }
->  =20
-> @@ -266,8 +278,10 @@ static void grlib_gptimer_write(void *opaque, hwaddr=
- addr,
->           switch (timer_addr) {
->           case COUNTER_OFFSET:
->               trace_grlib_gptimer_writel(id, addr, value);
-> +            grlib_gptimer_tx_begin(&unit->timers[id]);
->               unit->timers[id].counter =3D value;
->               grlib_gptimer_enable(&unit->timers[id]);
-> +            grlib_gptimer_tx_commit(&unit->timers[id]);
->               return;
->  =20
->           case COUNTER_RELOAD_OFFSET:
-> @@ -291,6 +305,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr =
-addr,
->               /* gptimer_restart calls gptimer_enable, so if "enable" and=
- "load"
->                  bits are present, we just have to call restart. */
->  =20
-> +            grlib_gptimer_tx_begin(&unit->timers[id]);
->               if (value & GPTIMER_LOAD) {
->                   grlib_gptimer_restart(&unit->timers[id]);
->               } else if (value & GPTIMER_ENABLE) {
-> @@ -301,6 +316,7 @@ static void grlib_gptimer_write(void *opaque, hwaddr =
-addr,
->               value &=3D ~(GPTIMER_LOAD & GPTIMER_DEBUG_HALT);
->  =20
->               unit->timers[id].config =3D value;
-> +            grlib_gptimer_tx_commit(&unit->timers[id]);
->               return;
->  =20
->           default:
-> @@ -344,9 +360,11 @@ static void grlib_gptimer_reset(DeviceState *d)
->           timer->counter =3D 0;
->           timer->reload =3D 0;
->           timer->config =3D 0;
-> +        ptimer_transaction_begin(timer->ptimer);
->           ptimer_stop(timer->ptimer);
->           ptimer_set_count(timer->ptimer, 0);
->           ptimer_set_freq(timer->ptimer, unit->freq_hz);
-> +        ptimer_transaction_commit(timer->ptimer);
->       }
->   }
->  =20
-> @@ -365,14 +383,16 @@ static void grlib_gptimer_realize(DeviceState *dev,=
- Error **errp)
->           GPTimer *timer =3D &unit->timers[i];
->  =20
->           timer->unit   =3D unit;
-> -        timer->bh     =3D qemu_bh_new(grlib_gptimer_hit, timer);
-> -        timer->ptimer =3D ptimer_init_with_bh(timer->bh, PTIMER_POLICY_D=
-EFAULT);
-> +        timer->ptimer =3D ptimer_init(grlib_gptimer_hit, timer,
-> +                                    PTIMER_POLICY_DEFAULT);
->           timer->id     =3D i;
->  =20
->           /* One IRQ line for each timer */
->           sysbus_init_irq(sbd, &timer->irq);
->  =20
-> +        ptimer_transaction_begin(timer->ptimer);
->           ptimer_set_freq(timer->ptimer, unit->freq_hz);
-> +        ptimer_transaction_commit(timer->ptimer);
->       }
->  =20
->       memory_region_init_io(&unit->iomem, OBJECT(unit), &grlib_gptimer_op=
-s,
->=20
+>  hw/isa/piix4.c                | 30 ++++++++++++++++++++++++++++++
+>  hw/mips/gt64xxx_pci.c         |  1 +
+>  hw/mips/mips_malta.c          | 28 ----------------------------
+>  include/hw/i386/pc.h          |  2 --
+>  include/hw/southbridge/piix.h |  6 ++++++
+>  5 files changed, 37 insertions(+), 30 deletions(-)
+>
+>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 9f554747af..d90899e122 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -27,12 +27,14 @@
+>  #include "qapi/error.h"
+>  #include "hw/irq.h"
+>  #include "hw/i386/pc.h"
+> +#include "hw/southbridge/piix.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/isa/isa.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/dma/i8257.h"
+>  #include "hw/timer/i8254.h"
+>  #include "hw/timer/mc146818rtc.h"
+> +#include "hw/ide.h"
+>  #include "migration/vmstate.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+> @@ -234,3 +236,31 @@ static void piix4_register_types(void)
+>  }
+>
+>  type_init(piix4_register_types)
+> +
+> +DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
+> +                          I2CBus **smbus, size_t ide_buses)
+> +{
+> +    size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;
+> +    DriveInfo **hd;
+> +    PCIDevice *pci;
+> +    DeviceState *dev;
+> +
+> +    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> +                                          true, TYPE_PIIX4_PCI_DEVICE);
+> +    dev =3D DEVICE(pci);
+> +    if (isa_bus) {
+> +        *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> +    }
+> +
+> +    hd =3D g_new(DriveInfo *, ide_drives);
+> +    ide_drive_get(hd, ide_drives);
+> +    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
+> +    g_free(hd);
+> +    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
+> +    if (smbus) {
+> +        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
+> +                               isa_get_irq(NULL, 9), NULL, 0, NULL);
+> +   }
+> +
+> +    return dev;
+> +}
+> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+> index f325bd6c1c..c277398c0d 100644
+> --- a/hw/mips/gt64xxx_pci.c
+> +++ b/hw/mips/gt64xxx_pci.c
+> @@ -28,6 +28,7 @@
+>  #include "hw/mips/mips.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_host.h"
+> +#include "hw/southbridge/piix.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/i386/pc.h"
+>  #include "hw/irq.h"
+> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+> index 0d4312840b..477a4725c0 100644
+> --- a/hw/mips/mips_malta.c
+> +++ b/hw/mips/mips_malta.c
+> @@ -1210,34 +1210,6 @@ static void mips_create_cpu(MachineState *ms,
+> MaltaState *s,
+>      }
+>  }
+>
+> -static DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
+> -                                 I2CBus **smbus, size_t ide_buses)
+> -{
+> -    const size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;
+> -    DriveInfo **hd;
+> -    PCIDevice *pci;
+> -    DeviceState *dev;
+> -
+> -    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
+> -                                          true, TYPE_PIIX4_PCI_DEVICE);
+> -    dev =3D DEVICE(pci);
+> -    if (isa_bus) {
+> -        *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+> -    }
+> -
+> -    hd =3D g_new(DriveInfo *, ide_drives);
+> -    ide_drive_get(hd, ide_drives);
+> -    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
+> -    g_free(hd);
+> -    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
+> -    if (smbus) {
+> -        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
+> -                               isa_get_irq(NULL, 9), NULL, 0, NULL);
+> -   }
+> -
+> -    return dev;
+> -}
+> -
+>  static
+>  void mips_malta_init(MachineState *machine)
+>  {
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index c671c9fd2a..b63fc7631e 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -274,8 +274,6 @@ PCIBus *i440fx_init(const char *host_type, const char
+> *pci_type,
+>                      MemoryRegion *ram_memory);
+>
+>  PCIBus *find_i440fx(void);
+> -/* piix4.c */
+> -extern PCIDevice *piix4_dev;
+>
+>  /* pc_sysfw.c */
+>  void pc_system_flash_create(PCMachineState *pcms);
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.=
+h
+> index b8ce26fec4..add352456b 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -2,6 +2,7 @@
+>   * QEMU PIIX South Bridge Emulation
+>   *
+>   * Copyright (c) 2006 Fabrice Bellard
+> + * Copyright (c) 2018 Herv=C3=A9 Poussineau
+>   *
+>   * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+>   * See the COPYING file in the top-level directory.
+> @@ -17,4 +18,9 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t
+> smb_io_base,
+>                        qemu_irq sci_irq, qemu_irq smi_irq,
+>                        int smm_enabled, DeviceState **piix4_pm);
+>
+> +extern PCIDevice *piix4_dev;
+> +
+> +DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
+> +                          I2CBus **smbus, size_t ide_buses);
+> +
+>  #endif
+> --
+> 2.21.0
+>
+>
+>
+
+--00000000000010443805951c4c4c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
+ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"ma=
+ilto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>
+<br>
+Now that we properly refactored the piix4_create() function, let&#39;s<br>
+move it to hw/isa/piix4.c where it belongs, so it can be reused<br>
+on other places.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ | 30 ++++++++++++++++++++++++++++++<br>
+=C2=A0hw/mips/gt64xxx_pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br=
+>
+=C2=A0hw/mips/mips_malta.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 28 ---------=
+-------------------<br>
+=C2=A0include/hw/i386/pc.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 --<b=
+r>
+=C2=A0include/hw/southbridge/piix.h |=C2=A0 6 ++++++<br>
+=C2=A05 files changed, 37 insertions(+), 30 deletions(-)<br>
+<br></blockquote><div><br></div><div><div id=3D"cvcmsg_16dbfeb33c93ed97" cl=
+ass=3D"yh  " style=3D"border-top-left-radius:0px;border-top-right-radius:0p=
+x;margin-bottom:11px;overflow:visible"><div class=3D"Vh" id=3D"cvcfullmsg_1=
+6dbfeb33c93ed97"><div id=3D"cvcmsgbod_16dbfeb33c93ed97" class=3D"aj"><div c=
+lass=3D"Ni"><div class=3D"ni pi " dir=3D"ltr"><p dir=3D"ltr">Reviewed-by: A=
+leksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.com" target=3D"=
+_blank">amarkovic@wavecomp.com</a>&gt;</p><div style=3D"clear:both"></div><=
+/div><div style=3D"clear:both"></div><div><div class=3D"M j T b hc Aj S" ta=
+bindex=3D"0"><div class=3D"V j hf"></div></div></div><div style=3D"clear:bo=
+th"></div></div></div></div></div><div id=3D"cvcmsg_16dbfecd588da1f7" class=
+=3D"yh" style=3D"margin-bottom:11px"><div class=3D"Vh" id=3D"cvcfullmsg_16d=
+bfecd588da1f7"><div class=3D"M j Zi Mi  " tabindex=3D"0"><div id=3D"cvcrepl=
+y_16dbfecd588da1f7" class=3D"M j T b hc xh S  " tabindex=3D"0"><div class=
+=3D"V j td"></div></div></div></div></div></div><div><br></div><div>=C2=A0<=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c<br>
+index 9f554747af..d90899e122 100644<br>
+--- a/hw/isa/piix4.c<br>
++++ b/hw/isa/piix4.c<br>
+@@ -27,12 +27,14 @@<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;hw/irq.h&quot;<br>
+=C2=A0#include &quot;hw/i386/pc.h&quot;<br>
++#include &quot;hw/southbridge/piix.h&quot;<br>
+=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
+=C2=A0#include &quot;hw/isa/isa.h&quot;<br>
+=C2=A0#include &quot;hw/sysbus.h&quot;<br>
+=C2=A0#include &quot;hw/dma/i8257.h&quot;<br>
+=C2=A0#include &quot;hw/timer/i8254.h&quot;<br>
+=C2=A0#include &quot;hw/timer/mc146818rtc.h&quot;<br>
++#include &quot;hw/ide.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+=C2=A0#include &quot;sysemu/reset.h&quot;<br>
+=C2=A0#include &quot;sysemu/runstate.h&quot;<br>
+@@ -234,3 +236,31 @@ static void piix4_register_types(void)<br>
+=C2=A0}<br>
+<br>
+=C2=A0type_init(piix4_register_<wbr>types)<br>
++<br>
++DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 I2CBus **smbus, size_t ide_buses)<br>
++{<br>
++=C2=A0 =C2=A0 size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;<br>
++=C2=A0 =C2=A0 DriveInfo **hd;<br>
++=C2=A0 =C2=A0 PCIDevice *pci;<br>
++=C2=A0 =C2=A0 DeviceState *dev;<br>
++<br>
++=C2=A0 =C2=A0 pci =3D pci_create_simple_<wbr>multifunction(pci_bus, PCI_DE=
+VFN(10, 0),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
+rue, TYPE_PIIX4_PCI_DEVICE);<br>
++=C2=A0 =C2=A0 dev =3D DEVICE(pci);<br>
++=C2=A0 =C2=A0 if (isa_bus) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *isa_bus =3D ISA_BUS(qdev_get_child_bus(<wbr>d=
+ev, &quot;isa.0&quot;));<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 hd =3D g_new(DriveInfo *, ide_drives);<br>
++=C2=A0 =C2=A0 ide_drive_get(hd, ide_drives);<br>
++=C2=A0 =C2=A0 pci_piix4_ide_init(pci_bus, hd, pci-&gt;devfn + 1);<br>
++=C2=A0 =C2=A0 g_free(hd);<br>
++=C2=A0 =C2=A0 pci_create_simple(pci_bus, pci-&gt;devfn + 2, &quot;piix4-us=
+b-uhci&quot;);<br>
++=C2=A0 =C2=A0 if (smbus) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *smbus =3D piix4_pm_init(pci_bus, pci-&gt;devf=
+n + 3, 0x1100,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0isa_get_irq(NULL, 9), NULL, 0, NULL);=
+<br>
++=C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 return dev;<br>
++}<br>
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c<br>
+index f325bd6c1c..c277398c0d 100644<br>
+--- a/hw/mips/gt64xxx_pci.c<br>
++++ b/hw/mips/gt64xxx_pci.c<br>
+@@ -28,6 +28,7 @@<br>
+=C2=A0#include &quot;hw/mips/mips.h&quot;<br>
+=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
+=C2=A0#include &quot;hw/pci/pci_host.h&quot;<br>
++#include &quot;hw/southbridge/piix.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+=C2=A0#include &quot;hw/i386/pc.h&quot;<br>
+=C2=A0#include &quot;hw/irq.h&quot;<br>
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
+index 0d4312840b..477a4725c0 100644<br>
+--- a/hw/mips/mips_malta.c<br>
++++ b/hw/mips/mips_malta.c<br>
+@@ -1210,34 +1210,6 @@ static void mips_create_cpu(MachineState *ms, MaltaS=
+tate *s,<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-static DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I2CBus **smbus, size_t ide_bus=
+es)<br>
+-{<br>
+-=C2=A0 =C2=A0 const size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;<br>
+-=C2=A0 =C2=A0 DriveInfo **hd;<br>
+-=C2=A0 =C2=A0 PCIDevice *pci;<br>
+-=C2=A0 =C2=A0 DeviceState *dev;<br>
+-<br>
+-=C2=A0 =C2=A0 pci =3D pci_create_simple_<wbr>multifunction(pci_bus, PCI_DE=
+VFN(10, 0),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
+rue, TYPE_PIIX4_PCI_DEVICE);<br>
+-=C2=A0 =C2=A0 dev =3D DEVICE(pci);<br>
+-=C2=A0 =C2=A0 if (isa_bus) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 *isa_bus =3D ISA_BUS(qdev_get_child_bus(<wbr>d=
+ev, &quot;isa.0&quot;));<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 hd =3D g_new(DriveInfo *, ide_drives);<br>
+-=C2=A0 =C2=A0 ide_drive_get(hd, ide_drives);<br>
+-=C2=A0 =C2=A0 pci_piix4_ide_init(pci_bus, hd, pci-&gt;devfn + 1);<br>
+-=C2=A0 =C2=A0 g_free(hd);<br>
+-=C2=A0 =C2=A0 pci_create_simple(pci_bus, pci-&gt;devfn + 2, &quot;piix4-us=
+b-uhci&quot;);<br>
+-=C2=A0 =C2=A0 if (smbus) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 *smbus =3D piix4_pm_init(pci_bus, pci-&gt;devf=
+n + 3, 0x1100,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0isa_get_irq(NULL, 9), NULL, 0, NULL);=
+<br>
+-=C2=A0 =C2=A0}<br>
+-<br>
+-=C2=A0 =C2=A0 return dev;<br>
+-}<br>
+-<br>
+=C2=A0static<br>
+=C2=A0void mips_malta_init(MachineState *machine)<br>
+=C2=A0{<br>
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
+index c671c9fd2a..b63fc7631e 100644<br>
+--- a/include/hw/i386/pc.h<br>
++++ b/include/hw/i386/pc.h<br>
+@@ -274,8 +274,6 @@ PCIBus *i440fx_init(const char *host_type, const char *=
+pci_type,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0MemoryRegion *ram_memory);<br>
+<br>
+=C2=A0PCIBus *find_i440fx(void);<br>
+-/* piix4.c */<br>
+-extern PCIDevice *piix4_dev;<br>
+<br>
+=C2=A0/* pc_sysfw.c */<br>
+=C2=A0void pc_system_flash_create(<wbr>PCMachineState *pcms);<br>
+diff --git a/include/hw/southbridge/piix.<wbr>h b/include/hw/southbridge/pi=
+ix.<wbr>h<br>
+index b8ce26fec4..add352456b 100644<br>
+--- a/include/hw/southbridge/piix.<wbr>h<br>
++++ b/include/hw/southbridge/piix.<wbr>h<br>
+@@ -2,6 +2,7 @@<br>
+=C2=A0 * QEMU PIIX South Bridge Emulation<br>
+=C2=A0 *<br>
+=C2=A0 * Copyright (c) 2006 Fabrice Bellard<br>
++ * Copyright (c) 2018 Herv=C3=A9 Poussineau<br>
+=C2=A0 *<br>
+=C2=A0 * This work is licensed under the terms of the GNU GPL, version 2 or=
+ later.<br>
+=C2=A0 * See the COPYING file in the top-level directory.<br>
+@@ -17,4 +18,9 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t sm=
+b_io_base,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qemu_irq sci_irq, qemu_irq smi_irq,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0int smm_enabled, DeviceState **piix4_pm);<br>
+<br>
++extern PCIDevice *piix4_dev;<br>
++<br>
++DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 I2CBus **smbus, size_t ide_buses);<br>
++<br>
+=C2=A0#endif<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote>
+
+--00000000000010443805951c4c4c--
 
