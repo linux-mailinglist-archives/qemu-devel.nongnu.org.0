@@ -2,105 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626DCDB35D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:36:06 +0200 (CEST)
-Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7CBDB35F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:37:39 +0200 (CEST)
+Received: from localhost ([::1]:54698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9gz-0007tI-7b
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42376)
+	id 1iL9iU-00027C-BI
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iL8ze-00077S-9d
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:51:19 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iL91B-00017a-2U
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:52:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iL8zc-0006KA-RB
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:51:18 -0400
-Received: from mail-eopbgr40108.outbound.protection.outlook.com
- ([40.107.4.108]:14222 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iL8zY-0006Ig-Gn; Thu, 17 Oct 2019 12:51:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BmopGbvfSqbpczQHORj9m2RJdnjHaXkNNCh9Jz7XZzOYDL+SOn6ZbD+8pVxLW0ZmGgiyWzreLmcOYil4Ip6OaUoQnSsdU/lh/HJI7TgDvXsp5ubRun+amUafT/DIn50bYdY2FYkBBG6gmP1Z+geK1IeUoJN3kKS/e5r4CbyH6UuN//l2M54Cg2Ci3vqm+2Ps38NmEOwYC7UUFwREdroSnA4PuKChFmLsw+I7QPCJx3gDVSNvQKO9Lqp4uAey14QY8RFNEosl7+Xwn/EDqsvNRlOL6rqVmJiyLWjbJFka6dCcBFVt5hFkO6D4w/KeovbGS+ri0h/rQgoBkNo5y1S4TA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6rgsoqfcFy6We4cvbfXubPBjRdLVnKJ/1hZC/XXyyjE=;
- b=TL5CCugV/diM1c2W0ilH5gXnVdrTYDhBA1pBhCJ5ZAJPYsj5/zW3PdNnVZv6BVFYyKBcCGv1rEx9uwkpW0B0hB+rB29SzePLYtlIfHmeSObqXZHSvwxhM48C4MY51OJtcH1in/Oj1wTIr320QpVj9WzNH0goux8uC68MCR67j4YusCPUG9CKW4nJtAmHf0TXhqYKGt9RXz4/nNgAYatg377b+lx5cCyxrAXuArTYhqw1hOnBjRYBXUo7aW2J/pybheaYOgFslDen5NV/EIlj7iDhP9SuTCwyP6QqwX8EvNn68zaqv5HY4hXWMGJqaQMDkkh+0bWHuUga9dSsfESKbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6rgsoqfcFy6We4cvbfXubPBjRdLVnKJ/1hZC/XXyyjE=;
- b=rq3CcpLnlg4/vCDF4vNWoIdG457OknDJvW4eXJ3FgZP/Czjmz1klikKWNMiXy0gPF4aSCASF50LhyKTj71KCjvKmsO8wVkvUX0hSB8ZPWPsxfqzl9J+rYZUqgq3+PaGxk0OvA+i4ZXyJr8L19iZTQeS108jGTr5keRDOMGaPBbQ=
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com (20.179.35.83) by
- AM0PR08MB3011.eurprd08.prod.outlook.com (52.134.125.15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.21; Thu, 17 Oct 2019 16:51:10 +0000
-Received: from AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c]) by AM0PR08MB4435.eurprd08.prod.outlook.com
- ([fe80::4461:dd32:b358:110c%7]) with mapi id 15.20.2347.023; Thu, 17 Oct 2019
- 16:51:10 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH v4 2/4] qcow2: Allow writing compressed data of multiple
- clusters
-Thread-Topic: [PATCH v4 2/4] qcow2: Allow writing compressed data of multiple
- clusters
-Thread-Index: AQHVhD7X7bd10FNYMEW8AMuIkCQTY6dfDaaA
-Date: Thu, 17 Oct 2019 16:51:10 +0000
-Message-ID: <19ac5edf-31d0-2646-33f7-d0a63d38e697@virtuozzo.com>
-References: <1571243333-882302-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1571243333-882302-3-git-send-email-andrey.shinkevich@virtuozzo.com>
-In-Reply-To: <1571243333-882302-3-git-send-email-andrey.shinkevich@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0199.eurprd05.prod.outlook.com
- (2603:10a6:3:f9::23) To AM0PR08MB4435.eurprd08.prod.outlook.com
- (2603:10a6:208:144::19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191017195107528
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2ee813df-4a66-4236-620b-08d753223630
-x-ms-traffictypediagnostic: AM0PR08MB3011:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR08MB3011A2429D9453C322C37D4DC16D0@AM0PR08MB3011.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:454;
-x-forefront-prvs: 01930B2BA8
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(396003)(136003)(366004)(376002)(39850400004)(199004)(189003)(6246003)(71190400001)(66946007)(71200400001)(36756003)(66446008)(54906003)(110136005)(316002)(2501003)(66476007)(66556008)(64756008)(107886003)(6506007)(76176011)(102836004)(26005)(14454004)(7736002)(52116002)(186003)(386003)(6512007)(305945005)(81166006)(66066001)(14444005)(4326008)(5660300002)(478600001)(2616005)(31686004)(3846002)(2906002)(229853002)(81156014)(8676002)(31696002)(256004)(25786009)(6116002)(476003)(11346002)(99286004)(2201001)(446003)(486006)(6486002)(6436002)(86362001)(8936002)(21314003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3011;
- H:AM0PR08MB4435.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7sKj54a3O9p2ZUx8D5eBSl1v6zbPFbreA6IvL8N1qwHwMjxiO9HV8YkRKBNu1/JKPrmwU/P7+YH6tjsgSscnp3yF1A2DSYPlo/y/FSzP5NMfScfUdp+Xcw7EfMHtljeKUMg+6BgaJE4x673duOuRHrWOkLCE3OxaDNkKks/3wL4IO473odbwtkwz/1RXoldQrkXtmfBTXANLptEZx8klO0/PLbr1MogNKDu6UfGNynC7S6hg8QncdbkGIq9YWBavlhcvI5K4BxTHruaOxfWkzXDzrnFt2qAoK2s31BuPabnvluvSGBS738hWFdgMdhFv5aeigFEchBea0AsW1S9/+o/ZecTsn9k6MAvRrrxaxsk295y/bZM39gkpYY9Uj14dkGB5KStdRTyW++Xot9jNiIwR+SlZP4Wy0+gnCh/ngZQ=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AD38787B654FE742B77B050DCDD4A3C7@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iL919-0006aY-8t
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:52:52 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45535)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iL919-0006a9-1i; Thu, 17 Oct 2019 12:52:51 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r5so3143282wrm.12;
+ Thu, 17 Oct 2019 09:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lRZXRUlp7wZ+Lo2v+5O7rUObPFoqCZggqml9lEdRP5k=;
+ b=JoRjSHqtQSNd0fv/x2i+EbhPEnTJEA5zoBmxfXVXAXiaFHjS5C8wwaGT/TdW0Mbn40
+ uNpxNF+qy9lUg1zZkmcPobwUZ0pmYAtfyqTzhkzlFufo1wyxvCGD+f/Fgw2DRbvIAxpa
+ G/d3u1aJkjfO2stL/RxbpvT4qrrCqP+9L/AoTkyg0y/IX26IAt2pXFB6NtLUM8Twxjt1
+ 5zT1sUQLLGi/FZvsiSk5iEpLimpY7FMlP1uootZlDwUz1eFY5udAgbQ1JN3vGDjKOtYr
+ GnxahV8tX9A+nhCOtnLN+Gig3UiFbxRkbxSI9BHUHoO0NpoaLu7jAImqWl9b3AdYZBNs
+ 5EGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=lRZXRUlp7wZ+Lo2v+5O7rUObPFoqCZggqml9lEdRP5k=;
+ b=PhPplVfSW8rFdwO/NscZWS3oLcmlDMCHnVa9bh/17Sf83kRb4YEiSTJ6urcqISMf4e
+ h27RjPcC6jb0jfX6fu2o2EVlisFzkO0uZuOgGnN1OJjn+1xkB8rkVHjkJqUOjoPiZ/6h
+ DzrP6j61Wr84dVMPkVQUmjbZgVgq3vKmjG+r50OMOtw3vZvwL/Vi3fJEgwb0Wwo9dJPK
+ 7AshDsQv7pTT2RNx0O2mbWMzkSZ0zgrh5zdAImaQAtHkfod8HH6br85PAw5/bj5udgUq
+ iXyBqjZFq7RDPeEQ08o1f0f58gzKn10rMDmNJg0JaEjn3eYVHlGCgqa0JKKNo5vTCjof
+ Misg==
+X-Gm-Message-State: APjAAAWISyebzlDiRUdM05ZhPrNGuXWHRLijX4P9bAnbNzPjfQ/OIlZg
+ PgKLafEGFODdBf/ZM81BX41F3Dejzms=
+X-Google-Smtp-Source: APXvYqyK75HOsZxzyqMMGrxmu+rlPdSuKPxW5C5AST652f8Xt+WlPw3xopfzzedXaWL8DSRQrIrjwg==
+X-Received: by 2002:a05:6000:1283:: with SMTP id
+ f3mr3707402wrx.370.1571331169525; 
+ Thu, 17 Oct 2019 09:52:49 -0700 (PDT)
+Received: from x1w.redhat.com (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id w22sm2557363wmc.16.2019.10.17.09.52.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 09:52:48 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 1/9] Acceptance tests: refactor wait_for_console_pattern
+Date: Thu, 17 Oct 2019 18:52:31 +0200
+Message-Id: <20191017165239.30159-2-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191017165239.30159-1-f4bug@amsat.org>
+References: <20191017165239.30159-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ee813df-4a66-4236-620b-08d753223630
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2019 16:51:10.0757 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TSdmFzTRj8FvP+r5c0SZevspCcSkLxcNTAsW7mTI+hiEf0bqfU6uvNQnRTOEWDhLPkpA4Lx19J+Dcqo6c+4qgQswhTgvaicKTDm7ZNrstXI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3011
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.108
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,116 +82,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
- Denis Lunev <den@virtuozzo.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTYuMTAuMjAxOSAxOToyOCwgQW5kcmV5IFNoaW5rZXZpY2ggd3JvdGU6DQo+IFFFTVUgY3VycmVu
-dGx5IHN1cHBvcnRzIHdyaXRpbmcgY29tcHJlc3NlZCBkYXRhIG9mIHRoZSBzaXplIGVxdWFsIHRv
-DQo+IG9uZSBjbHVzdGVyLiBUaGlzIHBhdGNoIGFsbG93cyB3cml0aW5nIFFDT1cyIGNvbXByZXNz
-ZWQgZGF0YSB0aGF0DQo+IGV4Y2VlZCBvbmUgY2x1c3Rlci4gTm93LCB3ZSBzcGxpdCBidWZmZXJl
-ZCBkYXRhIGludG8gc2VwYXJhdGUgY2x1c3RlcnMNCj4gYW5kIHdyaXRlIHRoZW0gY29tcHJlc3Nl
-ZCB1c2luZyB0aGUgZXhpc3RpbmcgZnVuY3Rpb25hbGl0eS4NCj4gDQo+IFN1Z2dlc3RlZC1ieTog
-UGF2ZWwgQnV0c3lraW4gPHBidXRzeWtpbkB2aXJ0dW96em8uY29tPg0KPiBTaWduZWQtb2ZmLWJ5
-OiBBbmRyZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5rZXZpY2hAdmlydHVvenpvLmNvbT4NCj4g
-LS0tDQo+ICAgYmxvY2svcWNvdzIuYyB8IDEwMiArKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDc1IGlu
-c2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL3Fj
-b3cyLmMgYi9ibG9jay9xY293Mi5jDQo+IGluZGV4IDZiMjllMTYuLjlhODVkNzMgMTAwNjQ0DQo+
-IC0tLSBhL2Jsb2NrL3Fjb3cyLmMNCj4gKysrIGIvYmxvY2svcWNvdzIuYw0KPiBAQCAtNDE1Niwx
-MCArNDE1Niw4IEBAIGZhaWw6DQo+ICAgICAgIHJldHVybiByZXQ7DQo+ICAgfQ0KPiAgIA0KPiAt
-LyogWFhYOiBwdXQgY29tcHJlc3NlZCBzZWN0b3JzIGZpcnN0LCB0aGVuIGFsbCB0aGUgY2x1c3Rl
-ciBhbGlnbmVkDQo+IC0gICB0YWJsZXMgdG8gYXZvaWQgbG9zaW5nIGJ5dGVzIGluIGFsaWdubWVu
-dCAqLw0KPiAgIHN0YXRpYyBjb3JvdXRpbmVfZm4gaW50DQo+IC1xY293Ml9jb19wd3JpdGV2X2Nv
-bXByZXNzZWRfcGFydChCbG9ja0RyaXZlclN0YXRlICpicywNCj4gK3Fjb3cyX2NvX3B3cml0ZXZf
-Y29tcHJlc3NlZF90YXNrKEJsb2NrRHJpdmVyU3RhdGUgKmJzLA0KPiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IG9mZnNldCwgdWludDY0X3QgYnl0ZXMsDQo+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUUVNVUlPVmVjdG9yICpxaW92LCBzaXpl
-X3QgcWlvdl9vZmZzZXQpDQo+ICAgew0KPiBAQCAtNDE2OSwzMiArNDE2NywxMSBAQCBxY293Ml9j
-b19wd3JpdGV2X2NvbXByZXNzZWRfcGFydChCbG9ja0RyaXZlclN0YXRlICpicywNCj4gICAgICAg
-dWludDhfdCAqYnVmLCAqb3V0X2J1ZjsNCj4gICAgICAgdWludDY0X3QgY2x1c3Rlcl9vZmZzZXQ7
-DQo+ICAgDQo+IC0gICAgaWYgKGhhc19kYXRhX2ZpbGUoYnMpKSB7DQo+IC0gICAgICAgIHJldHVy
-biAtRU5PVFNVUDsNCj4gLSAgICB9DQo+IC0NCj4gLSAgICBpZiAoYnl0ZXMgPT0gMCkgew0KPiAt
-ICAgICAgICAvKiBhbGlnbiBlbmQgb2YgZmlsZSB0byBhIHNlY3RvciBib3VuZGFyeSB0byBlYXNl
-IHJlYWRpbmcgd2l0aA0KPiAtICAgICAgICAgICBzZWN0b3IgYmFzZWQgSS9PcyAqLw0KPiAtICAg
-ICAgICBpbnQ2NF90IGxlbiA9IGJkcnZfZ2V0bGVuZ3RoKGJzLT5maWxlLT5icyk7DQo+IC0gICAg
-ICAgIGlmIChsZW4gPCAwKSB7DQo+IC0gICAgICAgICAgICByZXR1cm4gbGVuOw0KPiAtICAgICAg
-ICB9DQo+IC0gICAgICAgIHJldHVybiBiZHJ2X2NvX3RydW5jYXRlKGJzLT5maWxlLCBsZW4sIFBS
-RUFMTE9DX01PREVfT0ZGLCBOVUxMKTsNCj4gLSAgICB9DQo+IC0NCj4gLSAgICBpZiAob2Zmc2V0
-X2ludG9fY2x1c3RlcihzLCBvZmZzZXQpKSB7DQo+IC0gICAgICAgIHJldHVybiAtRUlOVkFMOw0K
-PiAtICAgIH0NCj4gKyAgICBhc3NlcnQoYnl0ZXMgPT0gcy0+Y2x1c3Rlcl9zaXplIHx8IChieXRl
-cyA8IHMtPmNsdXN0ZXJfc2l6ZSAmJg0KPiArICAgICAgICAgICAob2Zmc2V0ICsgYnl0ZXMgPT0g
-YnMtPnRvdGFsX3NlY3RvcnMgPDwgQkRSVl9TRUNUT1JfQklUUykpKTsNCj4gICANCj4gICAgICAg
-YnVmID0gcWVtdV9ibG9ja2FsaWduKGJzLCBzLT5jbHVzdGVyX3NpemUpOw0KPiAtICAgIGlmIChi
-eXRlcyAhPSBzLT5jbHVzdGVyX3NpemUpIHsNCj4gLSAgICAgICAgaWYgKGJ5dGVzID4gcy0+Y2x1
-c3Rlcl9zaXplIHx8DQo+IC0gICAgICAgICAgICBvZmZzZXQgKyBieXRlcyAhPSBicy0+dG90YWxf
-c2VjdG9ycyA8PCBCRFJWX1NFQ1RPUl9CSVRTKQ0KPiAtICAgICAgICB7DQo+IC0gICAgICAgICAg
-ICBxZW11X3ZmcmVlKGJ1Zik7DQo+IC0gICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCj4gLSAg
-ICAgICAgfQ0KPiArICAgIGlmIChieXRlcyA8IHMtPmNsdXN0ZXJfc2l6ZSkgew0KPiAgICAgICAg
-ICAgLyogWmVyby1wYWQgbGFzdCB3cml0ZSBpZiBpbWFnZSBzaXplIGlzIG5vdCBjbHVzdGVyIGFs
-aWduZWQgKi8NCj4gICAgICAgICAgIG1lbXNldChidWYgKyBieXRlcywgMCwgcy0+Y2x1c3Rlcl9z
-aXplIC0gYnl0ZXMpOw0KPiAgICAgICB9DQo+IEBAIC00MjQzLDYgKzQyMjAsNzcgQEAgZmFpbDoN
-Cj4gICAgICAgcmV0dXJuIHJldDsNCj4gICB9DQo+ICAgDQo+ICtzdGF0aWMgY29yb3V0aW5lX2Zu
-IGludCBxY293Ml9jb19wd3JpdGV2X2NvbXByZXNzZWRfdGFza19lbnRyeShBaW9UYXNrICp0YXNr
-KQ0KPiArew0KPiArICAgIFFjb3cyQWlvVGFzayAqdCA9IGNvbnRhaW5lcl9vZih0YXNrLCBRY293
-MkFpb1Rhc2ssIHRhc2spOw0KPiArDQo+ICsgICAgYXNzZXJ0KCF0LT5jbHVzdGVyX3R5cGUgJiYg
-IXQtPmwybWV0YSk7DQo+ICsNCj4gKyAgICByZXR1cm4gcWNvdzJfY29fcHdyaXRldl9jb21wcmVz
-c2VkX3Rhc2sodC0+YnMsIHQtPm9mZnNldCwgdC0+Ynl0ZXMsIHQtPnFpb3YsDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHQtPnFpb3Zfb2Zmc2V0KTsNCj4g
-K30NCj4gKw0KPiArLyoNCj4gKyAqIFhYWDogcHV0IGNvbXByZXNzZWQgc2VjdG9ycyBmaXJzdCwg
-dGhlbiBhbGwgdGhlIGNsdXN0ZXIgYWxpZ25lZA0KPiArICAgdGFibGVzIHRvIGF2b2lkIGxvc2lu
-ZyBieXRlcyBpbiBhbGlnbm1lbnQNCg0KbWlzc2VkIGFzdGVyaXNrDQoNCj4gKyAqLw0KPiArc3Rh
-dGljIGNvcm91dGluZV9mbiBpbnQNCj4gK3Fjb3cyX2NvX3B3cml0ZXZfY29tcHJlc3NlZF9wYXJ0
-KEJsb2NrRHJpdmVyU3RhdGUgKmJzLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgdWludDY0X3Qgb2Zmc2V0LCB1aW50NjRfdCBieXRlcywNCj4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIFFFTVVJT1ZlY3RvciAqcWlvdiwgc2l6ZV90IHFpb3Zfb2Zmc2V0KQ0K
-PiArew0KPiArICAgIEJEUlZRY293MlN0YXRlICpzID0gYnMtPm9wYXF1ZTsNCj4gKyAgICBBaW9U
-YXNrUG9vbCAqYWlvID0gTlVMTDsNCj4gKyAgICBpbnQgcmV0Ow0KPiArDQo+ICsgICAgaWYgKGhh
-c19kYXRhX2ZpbGUoYnMpKSB7DQo+ICsgICAgICAgIHJldHVybiAtRU5PVFNVUDsNCj4gKyAgICB9
-DQo+ICsNCj4gKyAgICBpZiAoYnl0ZXMgPT0gMCkgew0KPiArICAgICAgICAvKg0KPiArICAgICAg
-ICAgKiBhbGlnbiBlbmQgb2YgZmlsZSB0byBhIHNlY3RvciBib3VuZGFyeSB0byBlYXNlIHJlYWRp
-bmcgd2l0aA0KPiArICAgICAgICAgKiBzZWN0b3IgYmFzZWQgSS9Pcw0KPiArICAgICAgICAgKi8N
-Cj4gKyAgICAgICAgaW50NjRfdCBsZW4gPSBiZHJ2X2dldGxlbmd0aChicy0+ZmlsZS0+YnMpOw0K
-PiArICAgICAgICBpZiAobGVuIDwgMCkgew0KPiArICAgICAgICAgICAgcmV0dXJuIGxlbjsNCj4g
-KyAgICAgICAgfQ0KPiArICAgICAgICByZXR1cm4gYmRydl9jb190cnVuY2F0ZShicy0+ZmlsZSwg
-bGVuLCBQUkVBTExPQ19NT0RFX09GRiwgTlVMTCk7DQo+ICsgICAgfQ0KPiArDQo+ICsgICAgaWYg
-KG9mZnNldF9pbnRvX2NsdXN0ZXIocywgb2Zmc2V0KSkgew0KPiArICAgICAgICByZXR1cm4gLUVJ
-TlZBTDsNCj4gKyAgICB9DQo+ICsNCj4gKyAgICB3aGlsZSAoYnl0ZXMgJiYgYWlvX3Rhc2tfcG9v
-bF9zdGF0dXMoYWlvKSA9PSAwKSB7DQo+ICsgICAgICAgIHVpbnQzMl90IGNodW5rX3NpemUgPSBN
-SU4oYnl0ZXMsIHMtPmNsdXN0ZXJfc2l6ZSk7DQoNCkhtbS4gY2x1c3Rlcl9zaXplIGlzIGludC4g
-Ynl0ZXMgaXMgdWludDY0X3QuIHFjb3cyX2FkZF90YXNrIGFyZ3VtZW50IHR5cGUNCmlzIHVpbnQ2
-NF90LiBJIHRoaW5rIGJldHRlciB0byBjaG9vc2UgZnJvbSB0aGVzZSB0eXBlcy4uIEFiZCwgSSdk
-IHByZWZlciB0bw0KdXNlIHVpbnQ2NF90IGZvciBjaHVua19zaXplLi4gQnV0LCB1aW50MzJfdCBz
-aG91bGQgd29yayB0b28sIG9mIGNvdXJzZS4NCg0KPiArDQo+ICsgICAgICAgIGlmICghYWlvICYm
-IGNodW5rX3NpemUgIT0gYnl0ZXMpIHsNCj4gKyAgICAgICAgICAgIGFpbyA9IGFpb190YXNrX3Bv
-b2xfbmV3KFFDT1cyX01BWF9XT1JLRVJTKTsNCj4gKyAgICAgICAgfQ0KPiArDQo+ICsgICAgICAg
-IHJldCA9IHFjb3cyX2FkZF90YXNrKGJzLCBhaW8sIHFjb3cyX2NvX3B3cml0ZXZfY29tcHJlc3Nl
-ZF90YXNrX2VudHJ5LA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwLCAwLCBvZmZz
-ZXQsIGNodW5rX3NpemUsIHFpb3YsIHFpb3Zfb2Zmc2V0LCBOVUxMKTsNCj4gKyAgICAgICAgaWYg
-KHJldCA8IDApIHsNCj4gKyAgICAgICAgICAgIGJyZWFrOw0KPiArICAgICAgICB9DQo+ICsgICAg
-ICAgIHFpb3Zfb2Zmc2V0ICs9IGNodW5rX3NpemU7DQo+ICsgICAgICAgIG9mZnNldCArPSBjaHVu
-a19zaXplOw0KPiArICAgICAgICBieXRlcyAtPSBjaHVua19zaXplOw0KPiArICAgIH0NCj4gKw0K
-PiArICAgIGlmIChhaW8pIHsNCj4gKyAgICAgICAgYWlvX3Rhc2tfcG9vbF93YWl0X2FsbChhaW8p
-Ow0KPiArICAgICAgICBpZiAocmV0ID09IDApIHsNCj4gKyAgICAgICAgICAgIHJldCA9IGFpb190
-YXNrX3Bvb2xfc3RhdHVzKGFpbyk7DQo+ICsgICAgICAgIH0NCj4gKyAgICAgICAgZ19mcmVlKGFp
-byk7DQo+ICsgICAgfQ0KPiArDQo+ICsgICAgcmV0dXJuIHJldDsNCj4gK30NCj4gKw0KPiAgIHN0
-YXRpYyBpbnQgY29yb3V0aW5lX2ZuDQo+ICAgcWNvdzJfY29fcHJlYWR2X2NvbXByZXNzZWQoQmxv
-Y2tEcml2ZXJTdGF0ZSAqYnMsDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDY0
-X3QgZmlsZV9jbHVzdGVyX29mZnNldCwNCj4gDQoNCg0KV2l0aCBhc3RlcmlzayBpbiBjb21tZW50
-IGZpeGVkLCBhbmQgb3B0aW9uYWxseSBjaHVua19zaXplIHR5cGUgY2hhbmdlZCB0byB1aW50NjRf
-dDoNCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRz
-b3ZAdmlydHVvenpvLmNvbT4NCg0KQWxzbywgSSdkIHByZWZlciB0aGlzIHBhdGNoIHRvIGdvIGZp
-cnN0LCBvdGhlcndpc2Ugd2UgYWRkZWQgaW4gcHJldmlvdXMgcGF0Y2ggYW4NCm9wdGlvbiB3aGlj
-aCBkb2Vzbid0IHdvcmsgZm9yIHJlcXVlc3RzIGxhcmdlciB0aGFuIG9uZSBjbHVzdGVyLg0KDQpP
-ciwgb3RoZXJ3aXNlLCB5b3UgY2FuIGluIHByZXZpb3VzIHBhdGNoIHNldCBtYXhfdHJhbnNmZXIg
-dG8gb25lIGNsdXN0ZXIgaW4gY2FzZQ0Kb2YgYWxsX3dyaXRlc19jb21wcmVzc2VkLCBhbmQgaW4g
-dGhpcyBwYXRjaCBkcm9wIHRoaXMgcmVzdHJpY3Rpb24uDQoNCihOb3RlLCB0aGF0IHRoaXMgcGF0
-Y2ggaXMgbmVlZGVkOiBpZiB3ZSBqdXN0IHNldCBtYXhfdHJhbnNmZXIgdG8gb25lIGNsdXN0ZXIg
-aW5zdGVhZA0KZm9yIGFsbF93cml0ZXNfY29tcHJlc3NlZCBjYXNlLCB3ZSdsbCBtaXNzIGJlbmVm
-aXRzIG9mIGFpb190YXNrX3Bvb2wgYW5kIHdpbGwgbm90DQpjb21wcmVzcyBjbHVzdGVycyBpbiBw
-YXJhbGxlbCB0aHJlYWRzIGZvciBvbmUgcmVxdWVzdCkuDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0K
-VmxhZGltaXINCg==
+From: Cleber Rosa <crosa@redhat.com>
+
+The same utility method is already present in two different test
+files, so let's consolidate it into a single utility function.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20190916164011.7653-1-crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+[PMD: rebased fixing conflicts in linux_ssh_mips_malta.py]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/acceptance/avocado_qemu/__init__.py | 26 +++++++++++++
+ tests/acceptance/boot_linux_console.py    | 47 +++++++----------------
+ tests/acceptance/linux_ssh_mips_malta.py  | 18 ++-------
+ 3 files changed, 42 insertions(+), 49 deletions(-)
+
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index bd41e0443c..a0fe16e47f 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -8,6 +8,7 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later.  See the COPYING file in the top-level directory.
+ 
++import logging
+ import os
+ import sys
+ import uuid
+@@ -53,6 +54,31 @@ def pick_default_qemu_bin(arch=None):
+         return qemu_bin_from_src_dir_path
+ 
+ 
++def wait_for_console_pattern(test, success_message,
++                             failure_message='Kernel panic - not syncing'):
++    """
++    Waits for messages to appear on the console, while logging the content
++
++    :param test: an Avocado test containing a VM that will have its console
++                 read and probed for a success or failure message
++    :type test: :class:`avocado_qemu.Test`
++    :param success_message: if this message appears, test succeeds
++    :param failure_message: if this message appears, test fails
++    """
++    console = test.vm.console_socket.makefile()
++    console_logger = logging.getLogger('console')
++    while True:
++        msg = console.readline().strip()
++        if not msg:
++            continue
++        console_logger.debug(msg)
++        if success_message in msg:
++            break
++        if failure_message in msg:
++            fail = 'Failure message found in console: %s' % failure_message
++            test.fail(fail)
++
++
+ class Test(avocado.Test):
+     def setUp(self):
+         self._vms = {}
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 8a9a314ab4..9ff2213874 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -9,12 +9,12 @@
+ # later.  See the COPYING file in the top-level directory.
+ 
+ import os
+-import logging
+ import lzma
+ import gzip
+ import shutil
+ 
+ from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
+ from avocado.utils import archive
+ 
+@@ -29,31 +29,10 @@ class BootLinuxConsole(Test):
+ 
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+ 
+-    def wait_for_console_pattern(self, success_message,
+-                                 failure_message='Kernel panic - not syncing'):
+-        """
+-        Waits for messages to appear on the console, while logging the content
+-
+-        :param success_message: if this message appears, test succeeds
+-        :param failure_message: if this message appears, test fails
+-        """
+-        console = self.vm.console_socket.makefile()
+-        console_logger = logging.getLogger('console')
+-        while True:
+-            msg = console.readline().strip()
+-            if not msg:
+-                continue
+-            console_logger.debug(msg)
+-            if success_message in msg:
+-                break
+-            if failure_message in msg:
+-                fail = 'Failure message found in console: %s' % failure_message
+-                self.fail(fail)
+-
+     def exec_command_and_wait_for_pattern(self, command, success_message):
+         command += '\n'
+         self.vm.console_socket.sendall(command.encode())
+-        self.wait_for_console_pattern(success_message)
++        wait_for_console_pattern(self, success_message)
+ 
+     def extract_from_deb(self, deb, path):
+         """
+@@ -89,7 +68,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_mips_malta(self):
+         """
+@@ -112,7 +91,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_mips64el_malta(self):
+         """
+@@ -145,7 +124,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_mips_malta_cpio(self):
+         """
+@@ -181,7 +160,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line,
+                          '-no-reboot')
+         self.vm.launch()
+-        self.wait_for_console_pattern('Boot successful.')
++        wait_for_console_pattern(self, 'Boot successful.')
+ 
+         self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
+                                                'BogoMIPS')
+@@ -208,7 +187,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_mips_malta32el_nanomips_4k(self):
+         """
+@@ -266,7 +245,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_arm_virt(self):
+         """
+@@ -287,7 +266,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_arm_emcraft_sf2(self):
+         """
+@@ -314,7 +293,7 @@ class BootLinuxConsole(Test):
+                          '-drive', 'file=' + spi_path + ',if=mtd,format=raw',
+                          '-no-reboot')
+         self.vm.launch()
+-        self.wait_for_console_pattern('init started: BusyBox')
++        wait_for_console_pattern(self, 'init started: BusyBox')
+ 
+     def test_s390x_s390_ccw_virtio(self):
+         """
+@@ -335,7 +314,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_alpha_clipper(self):
+         """
+@@ -357,7 +336,7 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+ 
+     def test_ppc64_pseries(self):
+         """
+@@ -377,4 +356,4 @@ class BootLinuxConsole(Test):
+                          '-append', kernel_command_line)
+         self.vm.launch()
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern)
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+index 25a1df5098..ffbb06f846 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -13,6 +13,7 @@ import time
+ 
+ from avocado import skipUnless
+ from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
+ from avocado.utils import archive
+ from avocado.utils import ssh
+@@ -40,19 +41,6 @@ class LinuxSSH(Test):
+     def setUp(self):
+         super(LinuxSSH, self).setUp()
+ 
+-    def wait_for_console_pattern(self, success_message,
+-                                 failure_message='Oops'):
+-        console = self.vm.console_socket.makefile()
+-        console_logger = logging.getLogger('console')
+-        while True:
+-            msg = console.readline()
+-            console_logger.debug(msg.strip())
+-            if success_message in msg:
+-                break
+-            if failure_message in msg:
+-                fail = 'Failure message found in console: %s' % failure_message
+-                self.fail(fail)
+-
+     def get_portfwd(self):
+         res = self.vm.command('human-monitor-command',
+                               command_line='info usernet')
+@@ -109,7 +97,7 @@ class LinuxSSH(Test):
+ 
+         self.log.info('VM launched, waiting for sshd')
+         console_pattern = 'Starting OpenBSD Secure Shell server: sshd'
+-        self.wait_for_console_pattern(console_pattern)
++        wait_for_console_pattern(self, console_pattern, 'Oops')
+         self.log.info('sshd ready')
+ 
+         self.ssh_connect('root', 'root')
+@@ -117,7 +105,7 @@ class LinuxSSH(Test):
+     def shutdown_via_ssh(self):
+         self.ssh_command('poweroff')
+         self.ssh_disconnect_vm()
+-        self.wait_for_console_pattern('Power down')
++        wait_for_console_pattern(self, 'Power down', 'Oops')
+ 
+     def ssh_command_output_contains(self, cmd, exp):
+         stdout, _ = self.ssh_command(cmd)
+-- 
+2.21.0
+
 
