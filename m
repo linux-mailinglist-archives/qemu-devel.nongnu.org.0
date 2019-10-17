@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569AADB348
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:28:35 +0200 (CEST)
-Received: from localhost ([::1]:54356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6802CDB34E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:31:05 +0200 (CEST)
+Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9Zh-00083Y-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50197)
+	id 1iL9c8-0001bq-6K
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL9Ww-00069D-Ie
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:25:44 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL8Wg-00038Z-35
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:21:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL9Wu-00063U-KL
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:25:42 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33009)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL8We-0005oz-Pc
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:21:21 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39625)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL9Wt-000631-UH
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 13:25:40 -0400
-Received: by mail-oi1-x241.google.com with SMTP id a15so2878812oic.0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 10:25:39 -0700 (PDT)
+ id 1iL8We-0005oS-KJ
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:21:20 -0400
+Received: by mail-ot1-x343.google.com with SMTP id s22so2397561otr.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=SP0zhS/GNj3RBt0DRPnnWgzxP1Z38uHjslG4W3YzD24=;
- b=Vnz+8hQWYdyIfgbNP+HuALfqXsgdoHCLc86c7iOdFCAjHFiC11+YcTRUWOe8dCKG/9
- 8XG1NELYoVf2k6UD6wi9j+sQn8zO7+gO2heCHtQ8PVM2xOfRYizCfqByqKwjWr1F7IV2
- 7GzLkrlnuah//hGYGEOZqW4dScrFDde9x2Heq7XvUT9hz3yyz3mR1R1O2Y3WlUUYy1Ry
- obeMcU/aiWpMFUq4yvaaZLQvT4VLHmtcrbrJZ5KvjXWIi7R9lBFSvO6pG3uCUpOQ+ZFd
- Nyj7ZRCnnWwFZ4gNvEGL8qLCHFnzXSBBfeF/f+xOKNfOYL5o5YnBl5+8SfVSmitGmQRU
- oqRg==
+ :cc; bh=mdvV1MJ9vbmguRopOY7RzixX0dFrk6bLj+zB/Mf7OlI=;
+ b=TiyN4x/mlQS1ut3OscYEOuG2MuDtmT0kkDZA+izAjyCOn84oJ37p5gznUdNBWWECXg
+ wQIG2baUdh1Zg2q7TJBLTw1f49iyN07vRUXIbvC9RIfTrHRRC/u87cY4jw3pSObAyybI
+ FRxAhH+QUxyT0wBccisPlvaBgU+aPrvC4+LUICMHT93jmS1MlY6wnUReN4WE3QMRj21x
+ pq6N2kWr13GV5O6+UyjBVuWFi9AEKodB7n2h21TfKf+DpZxGchobNdWlKXp14+6BmIZJ
+ LNzrz9gWSBU9CcVif2O3VUUcDtPU4dO7t8yiTGx7HTCUpIB2cMJFUA6siYIYS/IxiJ+q
+ xEWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=SP0zhS/GNj3RBt0DRPnnWgzxP1Z38uHjslG4W3YzD24=;
- b=cwcahxPuazWPmTUgEkh8ZvtJao0V0U9GpBblpmmA5vSD7/ryb2PKZscQMlxrAaUTSz
- /Mbq05I0h1DdJjRDa1itUqTdOWwpFOBE5lMJCT5tdUHf1qIG+jar43B70ahk1Ddy+jdn
- ntJOegMmdR6TJIoGqNWJJ0RyYoNmTODsdO5FMRLxrRAE8MD5vARyA/OjAm3ohMUj4Pmy
- aprwyKaImgoYblDBw2m4uHW/6Fgf4BUe76rWJg1GG9VtWBhdh2HdugjPWUQtEdSyh49G
- yNUUbqILAVL/bCWpQzRKyVaVlib1xTlnia8UqZRxjy00qny2lcWMSkU0Q+1YYCFT9nAY
- UFgA==
-X-Gm-Message-State: APjAAAV66pXVCC28DFYi6POJLQjVMTnzeb5zh551EGHAv0fGdZ14KS3O
- 6MMgjQxgX0MOGwuflDNg3Q6WIzwMxP5fM8sq+3I=
-X-Google-Smtp-Source: APXvYqxJDxen9Gpcg1Q4tIq1IsyHwG2oWrg1JaqBAhZXxYSK0y/Fk41CVJ6qYgPAvs/gGQKYt5/9uDLV4paYWhsaNBY=
-X-Received: by 2002:aca:62d5:: with SMTP id w204mr4221833oib.136.1571333138711; 
- Thu, 17 Oct 2019 10:25:38 -0700 (PDT)
+ bh=mdvV1MJ9vbmguRopOY7RzixX0dFrk6bLj+zB/Mf7OlI=;
+ b=U+7KL3LmapUDBMJeVApfYr51Wo5v2O80OHmq4arO8t9bjITTwY7/LvVzthRseb5FuZ
+ +p+Lx+Edr0EvOub8P5Y2Hcr2ded/o5+2nIyyyBdzyIzRghHOmsIwMsvO3c/XKbNrjpei
+ Rny8yQOhll5/x7ZosxWKFpWka7AJHXcDZPH6TK26OxQ3dtfIUv9Sh99/BWxjUvfs8xOk
+ uC8qra0K2UByL+N74FBBoHG+dsf8ZkDrQCFIDLXNjm6ETuZtmntZq8AFkUfM45NU9EQp
+ H8k7ywjbmPv9UUEOkhH1SU4nO8S5X2/oX5OaQn1cl73b49+07hyfOmNGPLrkLsEweqLQ
+ gODg==
+X-Gm-Message-State: APjAAAWYEwr330m5qooI8ti2GD6JVGc247uQgAOShT0SqVDKsg4sxWZN
+ YB+V3b858zeFFv3r3O0Wod4kPUHm0yITgAzqLzI=
+X-Google-Smtp-Source: APXvYqxwl8OjwvMtj3/L18E83XJdrk+Ga7+vS3bhMSv/uc58naNDuhYqfQhgQIfEVzEDQ142A368k0axqE7nSwDGGeQ=
+X-Received: by 2002:a05:6830:452:: with SMTP id
+ d18mr3850352otc.295.1571329279681; 
+ Thu, 17 Oct 2019 09:21:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 10:25:37
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 09:21:19
  -0700 (PDT)
-In-Reply-To: <20191014161843.84845-5-mrolnik@gmail.com>
-References: <20191014161843.84845-1-mrolnik@gmail.com>
- <20191014161843.84845-5-mrolnik@gmail.com>
+In-Reply-To: <8bcf9189-efbe-1575-7e57-fd7bdd202547@redhat.com>
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-22-philmd@redhat.com>
+ <CAL1e-=hLUDDqFiV8W1f2PFGYJMomvmZUXmjA55X7WEEYMykjHQ@mail.gmail.com>
+ <8bcf9189-efbe-1575-7e57-fd7bdd202547@redhat.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 19:25:37 +0200
-Message-ID: <CAL1e-=g9ER4tuqEL2ubqb7oAbatcVR8x+A0LAydSwBJEnk9_ow@mail.gmail.com>
-Subject: Re: [PATCH v32 04/13] target/avr: Add instruction translation -
- Registers definition
-To: Michael Rolnik <mrolnik@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000008e87ac05951e8191"
+Date: Thu, 17 Oct 2019 18:21:19 +0200
+Message-ID: <CAL1e-=g4nA1iCWYgoCSK4v53r+_dywkbf8_jfEVShrYyDDxZgg@mail.gmail.com>
+Subject: Re: [PATCH 21/32] hw/i386/pc: Reduce gsi_handler scope
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008a8c0005951d9bf8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,367 +77,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008e87ac05951e8191
+--0000000000008a8c0005951d9bf8
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Monday, October 14, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+On Thursday, October 17, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
 
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> ---
->  target/avr/translate.c | 132 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 target/avr/translate.c
+> On 10/17/19 5:16 PM, Aleksandar Markovic wrote:
 >
-> diff --git a/target/avr/translate.c b/target/avr/translate.c
-> new file mode 100644
-> index 0000000000..53c9892a60
-> --- /dev/null
-> +++ b/target/avr/translate.c
-> @@ -0,0 +1,132 @@
-> +/*
-> + * QEMU AVR CPU
-> + *
-> + * Copyright (c) 2019 Michael Rolnik
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see
-> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/qemu-print.h"
-> +#include "tcg/tcg.h"
-> +#include "cpu.h"
-> +#include "exec/exec-all.h"
-> +#include "disas/disas.h"
-> +#include "tcg-op.h"
-> +#include "exec/cpu_ldst.h"
-> +#include "exec/helper-proto.h"
-> +#include "exec/helper-gen.h"
-> +#include "exec/log.h"
-> +#include "exec/gdbstub.h"
-> +#include "exec/translator.h"
-> +#include "exec/gen-icount.h"
-> +
-> +/*
-> + *  Define if you want a BREAK instruction translated to a breakpoint
-> + *  Active debugging connection is assumed
-> + *  This is for
-> + *  https://github.com/seharris/qemu-avr-tests/tree/master/
-> instruction-tests
-> + *  tests
-> + */
-> +#undef BREAKPOINT_ON_BREAK
-> +
-> +static TCGv cpu_pc;
-> +
-> +static TCGv cpu_Cf;
-> +static TCGv cpu_Zf;
-> +static TCGv cpu_Nf;
-> +static TCGv cpu_Vf;
-> +static TCGv cpu_Sf;
-> +static TCGv cpu_Hf;
-> +static TCGv cpu_Tf;
-> +static TCGv cpu_If;
-> +
-
-
-Hello, Michael,
-
-Is there any particular reason or motivation beyond modelling status
-register flags as TCGv variables?
-
-A.
-
-
-
-
-> +static TCGv cpu_rampD;
-> +static TCGv cpu_rampX;
-> +static TCGv cpu_rampY;
-> +static TCGv cpu_rampZ;
-> +
-> +static TCGv cpu_r[NO_CPU_REGISTERS];
-> +static TCGv cpu_eind;
-> +static TCGv cpu_sp;
-> +
-> +static TCGv cpu_skip;
-> +
-> +static const char reg_names[NO_CPU_REGISTERS][8] = {
-> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
-> +    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
-> +    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
-> +    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
-> +};
-> +#define REG(x) (cpu_r[x])
-> +
-> +enum {
-> +    DISAS_EXIT   = DISAS_TARGET_0,  /* We want return to the cpu main
-> loop.  */
-> +    DISAS_LOOKUP = DISAS_TARGET_1,  /* We have a variable condition
-> exit.  */
-> +    DISAS_CHAIN  = DISAS_TARGET_2,  /* We have a single condition exit.
-> */
-> +};
-> +
-> +typedef struct DisasContext DisasContext;
-> +
-> +/* This is the state at translation time. */
-> +struct DisasContext {
-> +    TranslationBlock *tb;
-> +
-> +    CPUAVRState *env;
-> +    CPUState *cs;
-> +
-> +    target_long npc;
-> +    uint32_t opcode;
-> +
-> +    /* Routine used to access memory */
-> +    int memidx;
-> +    int bstate;
-> +    int singlestep;
-> +
-> +    TCGv skip_var0;
-> +    TCGv skip_var1;
-> +    TCGCond skip_cond;
-> +    bool free_skip_var0;
-> +};
-> +
-> +static int to_A(DisasContext *ctx, int indx) { return 16 + (indx % 16); }
-> +static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }
-> +static int to_C(DisasContext *ctx, int indx) { return 24 + (indx % 4) *
-> 2; }
-> +static int to_D(DisasContext *ctx, int indx) { return (indx % 16) * 2; }
-> +
-> +static uint16_t next_word(DisasContext *ctx)
-> +{
-> +    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
-> +}
-> +
-> +static int append_16(DisasContext *ctx, int x)
-> +{
-> +    return x << 16 | next_word(ctx);
-> +}
-> +
-> +
-> +static bool avr_have_feature(DisasContext *ctx, int feature)
-> +{
-> +    if (!avr_feature(ctx->env, feature)) {
-> +        gen_helper_unsupported(cpu_env);
-> +        ctx->bstate = DISAS_NORETURN;
-> +        return false;
-> +    }
-> +    return true;
-> +}
-> +
-> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
-> +#include "decode_insn.inc.c"
-> +
-> --
-> 2.17.2 (Apple Git-113)
+>> On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com
+>> <mailto:philmd@redhat.com>> wrote:
+>>
+>>     pc_gsi_create() is the single function that uses gsi_handler.
+>>     Make it a static variable.
+>>
+>>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
+>>     <mailto:philmd@redhat.com>>
+>>     ---
+>>       hw/i386/pc.c         | 2 +-
+>>       include/hw/i386/pc.h | 2 --
+>>       2 files changed, 1 insertion(+), 3 deletions(-)
+>>
+>>     diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>>     index a7597c6c44..59de0c8a1f 100644
+>>     --- a/hw/i386/pc.c
+>>     +++ b/hw/i386/pc.c
+>>     @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
+>>       };
+>>       const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
+>>
+>>     -void gsi_handler(void *opaque, int n, int level)
+>>     +static void gsi_handler(void *opaque, int n, int level)
+>>       {
+>>           GSIState *s =3D opaque;
+>>
+>>     diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+>>     index d0c6b9d469..75b44e156c 100644
+>>     --- a/include/hw/i386/pc.h
+>>     +++ b/include/hw/i386/pc.h
+>>     @@ -172,8 +172,6 @@ typedef struct GSIState {
+>>           qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
+>>       } GSIState;
+>>
+>>     -void gsi_handler(void *opaque, int n, int level);
+>>     -
+>>       GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+>>
+>>
+>> Philippe, this 2-line deletion seems not to belong to this patch. If
+>> true, please place it in another or a separate patch.
+>>
 >
+> It does, this is the point of the change, make it static and remove its
+> declaration :)
 >
 
---0000000000008e87ac05951e8191
+
+OK, I see.
+
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+
+--0000000000008a8c0005951d9bf8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Monday, October 14, 2019, Michael Rolnik &lt;<a href=3D"mailto:m=
-rolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail=
-.com">mrolnik@gmail.com</a>&gt;<br>
----<br>
-=C2=A0target/avr/translate.c | 132 ++++++++++++++++++++++++++++++<wbr>+++++=
-++++++<br>
-=C2=A01 file changed, 132 insertions(+)<br>
-=C2=A0create mode 100644 target/avr/translate.c<br>
+<br><br>On Thursday, October 17, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a h=
+ref=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">On 10/17/19 5:16 PM, Aleksandar Markovic wrote:<br=
+>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"ma=
+ilto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a> &lt;mailto:=
+<a href=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a=
+>&gt;&gt; wrote:<br>
 <br>
-diff --git a/target/avr/translate.c b/target/avr/translate.c<br>
-new file mode 100644<br>
-index 0000000000..53c9892a60<br>
---- /dev/null<br>
-+++ b/target/avr/translate.c<br>
-@@ -0,0 +1,132 @@<br>
-+/*<br>
-+ * QEMU AVR CPU<br>
-+ *<br>
-+ * Copyright (c) 2019 Michael Rolnik<br>
-+ *<br>
-+ * This library is free software; you can redistribute it and/or<br>
-+ * modify it under the terms of the GNU Lesser General Public<br>
-+ * License as published by the Free Software Foundation; either<br>
-+ * version 2.1 of the License, or (at your option) any later version.<br>
-+ *<br>
-+ * This library is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
-br>
-+ * Lesser General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU Lesser General Public<br>
-+ * License along with this library; if not, see<br>
-+ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" target=3D"_bl=
-ank">http://www.gnu.org/licenses/<wbr>lgpl-2.1.html</a>&gt;<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu/qemu-print.h&quot;<br>
-+#include &quot;tcg/tcg.h&quot;<br>
-+#include &quot;cpu.h&quot;<br>
-+#include &quot;exec/exec-all.h&quot;<br>
-+#include &quot;disas/disas.h&quot;<br>
-+#include &quot;tcg-op.h&quot;<br>
-+#include &quot;exec/cpu_ldst.h&quot;<br>
-+#include &quot;exec/helper-proto.h&quot;<br>
-+#include &quot;exec/helper-gen.h&quot;<br>
-+#include &quot;exec/log.h&quot;<br>
-+#include &quot;exec/gdbstub.h&quot;<br>
-+#include &quot;exec/translator.h&quot;<br>
-+#include &quot;exec/gen-icount.h&quot;<br>
-+<br>
-+/*<br>
-+ *=C2=A0 Define if you want a BREAK instruction translated to a breakpoint=
+=C2=A0 =C2=A0 pc_gsi_create() is the single function that uses gsi_handler.=
 <br>
-+ *=C2=A0 Active debugging connection is assumed<br>
-+ *=C2=A0 This is for<br>
-+ *=C2=A0 <a href=3D"https://github.com/seharris/qemu-avr-tests/tree/master=
-/instruction-tests" target=3D"_blank">https://github.com/seharris/<wbr>qemu=
--avr-tests/tree/master/<wbr>instruction-tests</a><br>
-+ *=C2=A0 tests<br>
-+ */<br>
-+#undef BREAKPOINT_ON_BREAK<br>
-+<br>
-+static TCGv cpu_pc;<br>
-+<br>
-+static TCGv cpu_Cf;<br>
-+static TCGv cpu_Zf;<br>
-+static TCGv cpu_Nf;<br>
-+static TCGv cpu_Vf;<br>
-+static TCGv cpu_Sf;<br>
-+static TCGv cpu_Hf;<br>
-+static TCGv cpu_Tf;<br>
-+static TCGv cpu_If;<br>
-+</blockquote><div><br></div><div>Hello, Michael,</div><div><br></div><div>=
-Is there any particular reason or motivation beyond modelling status regist=
-er flags as TCGv variables?</div><div><br></div><div>A.</div><div><br></div=
-><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-+static TCGv cpu_rampD;<br>
-+static TCGv cpu_rampX;<br>
-+static TCGv cpu_rampY;<br>
-+static TCGv cpu_rampZ;<br>
-+<br>
-+static TCGv cpu_r[NO_CPU_REGISTERS];<br>
-+static TCGv cpu_eind;<br>
-+static TCGv cpu_sp;<br>
-+<br>
-+static TCGv cpu_skip;<br>
-+<br>
-+static const char reg_names[NO_CPU_REGISTERS][8] =3D {<br>
-+=C2=A0 =C2=A0 &quot;r0&quot;,=C2=A0 &quot;r1&quot;,=C2=A0 &quot;r2&quot;,=
-=C2=A0 &quot;r3&quot;,=C2=A0 &quot;r4&quot;,=C2=A0 &quot;r5&quot;,=C2=A0 &q=
-uot;r6&quot;,=C2=A0 &quot;r7&quot;,<br>
-+=C2=A0 =C2=A0 &quot;r8&quot;,=C2=A0 &quot;r9&quot;,=C2=A0 &quot;r10&quot;,=
- &quot;r11&quot;, &quot;r12&quot;, &quot;r13&quot;, &quot;r14&quot;, &quot;=
-r15&quot;,<br>
-+=C2=A0 =C2=A0 &quot;r16&quot;, &quot;r17&quot;, &quot;r18&quot;, &quot;r19=
-&quot;, &quot;r20&quot;, &quot;r21&quot;, &quot;r22&quot;, &quot;r23&quot;,=
+=C2=A0 =C2=A0 Make it a static variable.<br>
 <br>
-+=C2=A0 =C2=A0 &quot;r24&quot;, &quot;r25&quot;, &quot;r26&quot;, &quot;r27=
-&quot;, &quot;r28&quot;, &quot;r29&quot;, &quot;r30&quot;, &quot;r31&quot;,=
-<br>
-+};<br>
-+#define REG(x) (cpu_r[x])<br>
-+<br>
-+enum {<br>
-+=C2=A0 =C2=A0 DISAS_EXIT=C2=A0 =C2=A0=3D DISAS_TARGET_0,=C2=A0 /* We want =
-return to the cpu main loop.=C2=A0 */<br>
-+=C2=A0 =C2=A0 DISAS_LOOKUP =3D DISAS_TARGET_1,=C2=A0 /* We have a variable=
- condition exit.=C2=A0 */<br>
-+=C2=A0 =C2=A0 DISAS_CHAIN=C2=A0 =3D DISAS_TARGET_2,=C2=A0 /* We have a sin=
-gle condition exit.=C2=A0 */<br>
-+};<br>
-+<br>
-+typedef struct DisasContext DisasContext;<br>
-+<br>
-+/* This is the state at translation time. */<br>
-+struct DisasContext {<br>
-+=C2=A0 =C2=A0 TranslationBlock *tb;<br>
-+<br>
-+=C2=A0 =C2=A0 CPUAVRState *env;<br>
-+=C2=A0 =C2=A0 CPUState *cs;<br>
-+<br>
-+=C2=A0 =C2=A0 target_long npc;<br>
-+=C2=A0 =C2=A0 uint32_t opcode;<br>
-+<br>
-+=C2=A0 =C2=A0 /* Routine used to access memory */<br>
-+=C2=A0 =C2=A0 int memidx;<br>
-+=C2=A0 =C2=A0 int bstate;<br>
-+=C2=A0 =C2=A0 int singlestep;<br>
-+<br>
-+=C2=A0 =C2=A0 TCGv skip_var0;<br>
-+=C2=A0 =C2=A0 TCGv skip_var1;<br>
-+=C2=A0 =C2=A0 TCGCond skip_cond;<br>
-+=C2=A0 =C2=A0 bool free_skip_var0;<br>
-+};<br>
-+<br>
-+static int to_A(DisasContext *ctx, int indx) { return 16 + (indx % 16); }<=
-br>
-+static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }<b=
+=C2=A0 =C2=A0 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mai=
+lto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a><br>
+=C2=A0 =C2=A0 &lt;mailto:<a href=3D"mailto:philmd@redhat.com" target=3D"_bl=
+ank">philmd@redhat.com</a>&gt;&gt;<br>
+=C2=A0 =C2=A0 ---<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0hw/i386/pc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2=
+ +-<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/i386/pc.h | 2 --<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A02 files changed, 1 insertion(+), 3 deletions(-)<b=
 r>
-+static int to_C(DisasContext *ctx, int indx) { return 24 + (indx % 4) * 2;=
- }<br>
-+static int to_D(DisasContext *ctx, int indx) { return (indx % 16) * 2; }<b=
-r>
-+<br>
-+static uint16_t next_word(DisasContext *ctx)<br>
-+{<br>
-+=C2=A0 =C2=A0 return cpu_lduw_code(ctx-&gt;env, ctx-&gt;npc++ * 2);<br>
-+}<br>
-+<br>
-+static int append_16(DisasContext *ctx, int x)<br>
-+{<br>
-+=C2=A0 =C2=A0 return x &lt;&lt; 16 | next_word(ctx);<br>
-+}<br>
-+<br>
-+<br>
-+static bool avr_have_feature(DisasContext *ctx, int feature)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (!avr_feature(ctx-&gt;env, feature)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_helper_unsupported(cpu_<wbr>env);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;bstate =3D DISAS_NORETURN;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return true;<br>
-+}<br>
-+<br>
-+static bool decode_insn(DisasContext *ctx, uint16_t insn);<br>
-+#include &quot;decode_insn.inc.c&quot;<br>
-+<br>
--- <br>
-2.17.2 (Apple Git-113)<br>
 <br>
+=C2=A0 =C2=A0 diff --git a/hw/i386/pc.c b/hw/i386/pc.c<br>
+=C2=A0 =C2=A0 index a7597c6c44..59de0c8a1f 100644<br>
+=C2=A0 =C2=A0 --- a/hw/i386/pc.c<br>
+=C2=A0 =C2=A0 +++ b/hw/i386/pc.c<br>
+=C2=A0 =C2=A0 @@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0};<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(p=
+c_compat_1_4);<br>
+<br>
+=C2=A0 =C2=A0 -void gsi_handler(void *opaque, int n, int level)<br>
+=C2=A0 =C2=A0 +static void gsi_handler(void *opaque, int n, int level)<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0GSIState *s =3D opaque;<br>
+<br>
+=C2=A0 =C2=A0 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
+=C2=A0 =C2=A0 index d0c6b9d469..75b44e156c 100644<br>
+=C2=A0 =C2=A0 --- a/include/hw/i386/pc.h<br>
+=C2=A0 =C2=A0 +++ b/include/hw/i386/pc.h<br>
+=C2=A0 =C2=A0 @@ -172,8 +172,6 @@ typedef struct GSIState {<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0qemu_irq ioapic_irq[IOAPIC_NUM_PINS=
+];<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0} GSIState;<br>
+<br>
+=C2=A0 =C2=A0 -void gsi_handler(void *opaque, int n, int level);<br>
+=C2=A0 =C2=A0 -<br>
+=C2=A0 =C2=A0 =C2=A0=C2=A0GSIState *pc_gsi_create(qemu_irq **irqs, bool pci=
+_enabled);<br>
+<br>
+<br>
+Philippe, this 2-line deletion seems not to belong to this patch. If true, =
+please place it in another or a separate patch.<br>
 </blockquote>
+<br>
+It does, this is the point of the change, make it static and remove its dec=
+laration :)<br>
+</blockquote><div><br></div><div><br></div><div>OK, I see.</div><div><div i=
+d=3D"cvcmsg_16dbfeb33c93ed97" class=3D"yh  " style=3D"border-top-left-radiu=
+s:0px;border-top-right-radius:0px;margin-bottom:11px;overflow:visible"><div=
+ class=3D"Vh" id=3D"cvcfullmsg_16dbfeb33c93ed97"><div id=3D"cvcmsgbod_16dbf=
+eb33c93ed97" class=3D"aj"><div class=3D"Ni"><div class=3D"ni pi " dir=3D"lt=
+r"><p dir=3D"ltr">Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:am=
+arkovic@wavecomp.com" target=3D"_blank">amarkovic@wavecomp.com</a>&gt;</p><=
+div style=3D"clear:both"></div></div><div style=3D"clear:both"></div><div><=
+div class=3D"M j T b hc Aj S" tabindex=3D"0"><div class=3D"V j hf"></div></=
+div></div><div style=3D"clear:both"></div></div></div></div></div><div id=
+=3D"cvcmsg_16dbfecd588da1f7" class=3D"yh" style=3D"margin-bottom:11px"><div=
+ class=3D"Vh" id=3D"cvcfullmsg_16dbfecd588da1f7"><div class=3D"M j Zi Mi  "=
+ tabindex=3D"0"><div id=3D"cvcreply_16dbfecd588da1f7" class=3D"M j T b hc x=
+h S  " tabindex=3D"0"><div class=3D"V j td"></div></div></div></div></div><=
+/div><div>=C2=A0</div>
 
---0000000000008e87ac05951e8191--
+--0000000000008a8c0005951d9bf8--
 
