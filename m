@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F199DB35B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:35:07 +0200 (CEST)
-Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB05DDB35E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:37:12 +0200 (CEST)
+Received: from localhost ([::1]:54666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9g2-0006Nk-KY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40937)
+	id 1iL9i4-0001M6-0F
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL8qq-0003cS-1m
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:42:13 -0400
+ (envelope-from <msys.mizuma@gmail.com>) id 1iL8sP-0006BD-8G
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:43:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL8ql-00044e-Rx
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:42:09 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41013)
+ (envelope-from <msys.mizuma@gmail.com>) id 1iL8sL-0004Nc-MO
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:43:49 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:36644)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL8qk-000436-9V
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:42:07 -0400
-Received: by mail-ot1-x336.google.com with SMTP id g13so2445251otp.8
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ImJuusDGi4eR4FFrZ4o4A9dfQALm/qiGsIeX8RySX70=;
- b=P1Jc7F57aRloPO67hH8E8EcT5KvpOLHFeGTZ4tFmjUHUCntCs4TXleKuu2TAYXphK6
- Ngfv2yq4Co0HFssej1IVGUV7JhUOqhkFHwjBMbfqFivDTSnwX995vuRWu70krOlTAaTl
- Zk4utvitS1AOo7dHi+8YApsiqFoJHqp6huUxgGDtybbeYNaf4p+zpo/UXOYE2sVhLUvM
- CEpBYnP79yKr5v8UY6xpBDwcrYDLm9WSRfypFl7lGLJC/kA3RsYix4TZmkZw1L8edE0M
- jB75Nm96xLfQPekLNHruMl7qVUGtSGWyVLUXSQsMcW8OfsTmjdVD5q7Ba2QqD1Biw2JS
- v6hg==
+ (Exim 4.71) (envelope-from <msys.mizuma@gmail.com>)
+ id 1iL8sL-0004NJ-5N; Thu, 17 Oct 2019 12:43:45 -0400
+Received: by mail-qt1-x844.google.com with SMTP id o12so4557478qtf.3;
+ Thu, 17 Oct 2019 09:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=f9WdxtYPXe3N6CGzF+mqfEtRreH6S0emXJdS3OnAjJ8=;
+ b=IyrYFVG9CerazNG4ah4dCWnzyMUhQftCN5CdqQK+xDvLZfS3VagJMHA9zu6tT95n7a
+ ngC62Ma/BO+qVQLegcOYObKvSIf0rl3C1HD+II9ZN4o4z4WfUr/cVRVyrL5apTrH75eD
+ rCeD0RoZHP19mVyQ/ltAwtrkqoJPRcgQGoWKsVNGHx3JeOiMctSTocE0Dj+ekiXzwAH4
+ Lt/Cj1JqoLRrq7XXwLOLHjT0Bf+Gr9XDQOqarsWrZ6Xk7eLIKAlfC5lKWi4PZqv9+60Q
+ EVv4omgcRtszNb3KAR5KuqWjAvLY3gMpfp898RElKcxgmLB+JEBB/s6AB1W+JjiVUTO1
+ /VYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ImJuusDGi4eR4FFrZ4o4A9dfQALm/qiGsIeX8RySX70=;
- b=QzqxxsIjAVUTcIUuYjeZ4G4GZ0U+1LH/59r9KeI7GRtMId3ukWtnXGaEaz/ptTxzSI
- 68v6g+k2Xkph5P1ABbmMhRTZdmfpapqoaK4ch0gAFezX6oR1QdIv6WGREcZG1LjKWVTu
- mXEPxUwJ0oWKGma7zovrp/rvyadCnH29Y7QIUR0gGQ1evCDwHKqSLUgmro4hNxozipcx
- 3IcX2+9C9emmpSkIpfEq62UM8FzEO51+zHQ66CCAVo83yZMAZO9Gio604OWyyvyoriMC
- Lr6v/s72Ai9Kb5iYcmKLmyLqQg1GpKTXJHdplWMHlIcL2UJ8YNZr82bbhbXzO6CiUwCi
- pxzw==
-X-Gm-Message-State: APjAAAXNT8blZ9UCIOk2KuAL33CqTpgXnBVYxZ0ekGuDs39/7mtOL4Pu
- EDsrG3eUEFSWUVRbgvJj6zytuYA9Ifr4wAtjQ0h/Sv9Vcj0=
-X-Google-Smtp-Source: APXvYqzHl6wyFTieJCowF9JuU1i4ho2TZoVn96b588uhp0aH4zJw78zcUrWqMqf6x5SuV+0D4zyZGCqDiQ0aBwD/6qw=
-X-Received: by 2002:a05:6830:ca:: with SMTP id
- x10mr3638814oto.221.1571330521865; 
- Thu, 17 Oct 2019 09:42:01 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=f9WdxtYPXe3N6CGzF+mqfEtRreH6S0emXJdS3OnAjJ8=;
+ b=ldW+M10PSVCe+u6Ke/VzCkgh/IG2UV3Mh4rKbfLPdgBfE7h7u9PabADF/aaQlGIhe5
+ RIwxlUoLi27oa3XqukXt2jrqqMJoxUMzSy56mFu6ijZsHHWXNjSSlmBIOTTiyTIlyWaU
+ Av7Xn5L8nwSWo6lemnUMAMFNeLJBfmRtQC5dcUW28kyf+uQRfDecepB1HupbUUJxeTgY
+ gk1tBFEsIzxZw+EFiQKaoizGyXbDtDv1ChLyWGn8/woww0aFvnc2/vrqDuYJTC/aSW+X
+ JWCs91C7p4PbCXRkoYZPHuiRh6XoPuCtaxca2jj5zQc/bzO4Nl6p8/gbi61XyInjvK5d
+ UE6Q==
+X-Gm-Message-State: APjAAAVV5Jjw7wHlIcgh72lO7pvpKjZ93CEw0XkA3rMIONJZrPMGV+Wl
+ DovjoN6wVvD9QHjUz4T4wQ==
+X-Google-Smtp-Source: APXvYqxrmDMtN6WdBhKTB7oLzU0N6JOY5GZKNS3gysKhXBmdzIzCehlM+mpu/Z3r5/r/wUU19GjD6A==
+X-Received: by 2002:aed:3641:: with SMTP id e59mr4936888qtb.115.1571330624576; 
+ Thu, 17 Oct 2019 09:43:44 -0700 (PDT)
+Received: from gabell (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id c23sm547148qte.66.2019.10.17.09.43.43
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 17 Oct 2019 09:43:44 -0700 (PDT)
+Date: Thu, 17 Oct 2019 12:43:41 -0400
+From: Masayoshi Mizuma <msys.mizuma@gmail.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH v6 5/9] target/arm/kvm64: Add kvm_arch_get/put_sve
+Message-ID: <20191017164340.izip2kbax7gaoa76@gabell>
+References: <20191016085408.24360-1-drjones@redhat.com>
+ <20191016085408.24360-6-drjones@redhat.com>
 MIME-Version: 1.0
-References: <CAFEAcA8fwM03PXzkMvLdOWAL0R1Mq8hLmt8O-+NFSri6oHun1w@mail.gmail.com>
- <010553d9-9dc6-907f-fc74-4cd5614f4a0e@redhat.com>
-In-Reply-To: <010553d9-9dc6-907f-fc74-4cd5614f4a0e@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 17:41:50 +0100
-Message-ID: <CAFEAcA89CTV2jfv5chWH3fdCFS55CqMjqQ4MwFGwFumaqig6RA@mail.gmail.com>
-Subject: Re: iotest failure -- test possibly not using sufficiently unique
- temp filename?
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191016085408.24360-6-drjones@redhat.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::336
+X-Received-From: 2607:f8b0:4864:20::844
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,122 +78,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, armbru@redhat.com, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, alex.bennee@linaro.org,
+ Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Sep 2019 at 17:44, Max Reitz <mreitz@redhat.com> wrote:
->
-> On 27.09.19 18:39, Peter Maydell wrote:
-> > Hi; I just saw this iotest failure (on an s390x box, as it happens):
-> >
-> >   TEST    iotest-qcow2: 130 [fail]
-> > QEMU          --
-> > "/home/linux1/qemu/build/all/tests/qemu-iotests/../../s390x-softmmu/qem=
-u-system-s390x"
-> > -nodefaults -display none -machine accel=3Dqtest
-> > QEMU_IMG      -- "/home/linux1/qemu/build/all/tests/qemu-iotests/../../=
-qemu-img"
-> > QEMU_IO       --
-> > "/home/linux1/qemu/build/all/tests/qemu-iotests/../../qemu-io"
-> > --cache writeback -f qcow2
-> > QEMU_NBD      -- "/home/linux1/qemu/build/all/tests/qemu-iotests/../../=
-qemu-nbd"
-> > IMGFMT        -- qcow2 (compat=3D1.1)
-> > IMGPROTO      -- file
-> > PLATFORM      -- Linux/s390x lxub05 4.15.0-58-generic
-> > TEST_DIR      -- /home/linux1/qemu/build/all/tests/qemu-iotests/scratch
-> > SOCKET_SCM_HELPER --
-> > /home/linux1/qemu/build/all/tests/qemu-iotests/socket_scm_helper
-> >
-> > --- /home/linux1/qemu/tests/qemu-iotests/130.out        2019-05-10
-> > 12:27:16.948075733 -0400
-> > +++ /home/linux1/qemu/build/all/tests/qemu-iotests/130.out.bad
-> > 2019-09-27 12:01:23.649722655 -0400
-> > @@ -18,20 +18,22 @@
-> >  QEMU X.Y.Z monitor - type 'help' for more information
-> >  (qemu) commit testdisk
-> >  (qemu)
-> > -image: TEST_DIR/t.IMGFMT
-> > -file format: IMGFMT
-> > -virtual size: 64 MiB (67108864 bytes)
-> > -backing file: TEST_DIR/t.IMGFMT.orig
-> > -backing file format: raw
-> > +qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared "wr=
-ite" lock
-> > +Is another process using the image [TEST_DIR/t.IMGFMT]?
-> >
-> >  =3D=3D=3D Marking image dirty (lazy refcounts) =3D=3D=3D
-> >
-> > +qemu-img: TEST_DIR/t.IMGFMT: Failed to get "write" lock
-> > +Is another process using the image [TEST_DIR/t.IMGFMT]?
-> >  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-> > -wrote 4096/4096 bytes at offset 0
-> > -4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> > +qemu-io: can't open device
-> > /home/linux1/qemu/build/all/tests/qemu-iotests/scratch/t.qcow2: Failed
-> > to get "write" lock
-> > +Is another process using the image
-> > [/home/linux1/qemu/build/all/tests/qemu-iotests/scratch/t.qcow2]?
-> > +no file open, try 'help open'
-> >  image: TEST_DIR/t.IMGFMT
-> >  file format: IMGFMT
-> >  virtual size: 64 MiB (67108864 bytes)
-> > +backing file: TEST_DIR/t.IMGFMT.orig
-> > +backing file format: raw
-> >  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-> > backing_file=3DTEST_DIR/t.IMGFMT.orig backing_fmt=3Draw
-> >  wrote 4096/4096 bytes at offset 0
-> >  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> >
-> >
-> >
-> > This looks suspiciously like the test isn't using a unique
-> > filename for its disk image: "qemu-iotests/scratch/t.qcow2"
-> > in the build directory, and so perhaps it has collided with
-> > another iotest ?
-> >
-> > If we run 'make check' with a -j<something> option do the
-> > iotests all get run serially anyway, or do they run in
-> > parallel against each other ?
->
-> As far as I know, all iotests are executed serially.  Anything else
-> would not work with the same scratch directory.
->
-> The only thing I suspect is that some tool has been accidentally left
-> running by some previous test that still accesses its own image.  But I
-> don=E2=80=99t know.
+On Wed, Oct 16, 2019 at 10:54:04AM +0200, Andrew Jones wrote:
+> These are the SVE equivalents to kvm_arch_get/put_fpsimd. Note, the
+> swabbing is different than it is for fpsmid because the vector format
+> is a little-endian stream of words.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-Just saw this one again with the same iotest 130 on the same
-s390 box; only difference is that the log this time around
-has the first part where qemu-img fails, but not the second part
-where qemu-io fails:
+This patch works well on aarch64 with SVE machine, thanks!
+Please feel free to add:
 
---- /home/linux1/qemu/tests/qemu-iotests/130.out        2019-05-10
-12:27:16.948075733 -0400
-+++ /home/linux1/qemu/build/all/tests/qemu-iotests/130.out.bad
-2019-10-17 11:56:43.450750873 -0400
-@@ -18,11 +18,8 @@
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) commit testdisk
- (qemu)
--image: TEST_DIR/t.IMGFMT
--file format: IMGFMT
--virtual size: 64 MiB (67108864 bytes)
--backing file: TEST_DIR/t.IMGFMT.orig
--backing file format: raw
-+qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Failed to get shared "write"=
- lock
-+Is another process using the image [TEST_DIR/t.IMGFMT]?
+    Tested-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 
- =3D=3D=3D Marking image dirty (lazy refcounts) =3D=3D=3D
+- Masa
 
-On the host machine there don't seem to be any stray
-processes which might have held the file open, and
-indeed the file doesn't exist at all, so it got removed
-by some cleanup or other.
-
-thanks
--- PMM
+> ---
+>  target/arm/kvm64.c | 183 ++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 155 insertions(+), 28 deletions(-)
+> 
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index 28f6db57d5ee..4c0b11d105a4 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -671,11 +671,12 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+>  bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx)
+>  {
+>      /* Return true if the regidx is a register we should synchronize
+> -     * via the cpreg_tuples array (ie is not a core reg we sync by
+> -     * hand in kvm_arch_get/put_registers())
+> +     * via the cpreg_tuples array (ie is not a core or sve reg that
+> +     * we sync by hand in kvm_arch_get/put_registers())
+>       */
+>      switch (regidx & KVM_REG_ARM_COPROC_MASK) {
+>      case KVM_REG_ARM_CORE:
+> +    case KVM_REG_ARM64_SVE:
+>          return false;
+>      default:
+>          return true;
+> @@ -721,10 +722,8 @@ int kvm_arm_cpreg_level(uint64_t regidx)
+>  
+>  static int kvm_arch_put_fpsimd(CPUState *cs)
+>  {
+> -    ARMCPU *cpu = ARM_CPU(cs);
+> -    CPUARMState *env = &cpu->env;
+> +    CPUARMState *env = &ARM_CPU(cs)->env;
+>      struct kvm_one_reg reg;
+> -    uint32_t fpr;
+>      int i, ret;
+>  
+>      for (i = 0; i < 32; i++) {
+> @@ -742,17 +741,73 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
+>          }
+>      }
+>  
+> -    reg.addr = (uintptr_t)(&fpr);
+> -    fpr = vfp_get_fpsr(env);
+> -    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
+> -    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> -    if (ret) {
+> -        return ret;
+> +    return 0;
+> +}
+> +
+> +/*
+> + * SVE registers are encoded in KVM's memory in an endianness-invariant format.
+> + * The byte at offset i from the start of the in-memory representation contains
+> + * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means the
+> + * lowest offsets are stored in the lowest memory addresses, then that nearly
+> + * matches QEMU's representation, which is to use an array of host-endian
+> + * uint64_t's, where the lower offsets are at the lower indices. To complete
+> + * the translation we just need to byte swap the uint64_t's on big-endian hosts.
+> + */
+> +static uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
+> +{
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +    int i;
+> +
+> +    for (i = 0; i < nr; ++i) {
+> +        dst[i] = bswap64(src[i]);
+> +    }
+> +
+> +    return dst;
+> +#else
+> +    return src;
+> +#endif
+> +}
+> +
+> +/*
+> + * KVM SVE registers come in slices where ZREGs have a slice size of 2048 bits
+> + * and PREGS and the FFR have a slice size of 256 bits. However we simply hard
+> + * code the slice index to zero for now as it's unlikely we'll need more than
+> + * one slice for quite some time.
+> + */
+> +static int kvm_arch_put_sve(CPUState *cs)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +    uint64_t tmp[ARM_MAX_VQ * 2];
+> +    uint64_t *r;
+> +    struct kvm_one_reg reg;
+> +    int n, ret;
+> +
+> +    for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; ++n) {
+> +        r = sve_bswap64(tmp, &env->vfp.zregs[n].d[0], cpu->sve_max_vq * 2);
+> +        reg.addr = (uintptr_t)r;
+> +        reg.id = KVM_REG_ARM64_SVE_ZREG(n, 0);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; ++n) {
+> +        r = sve_bswap64(tmp, r = &env->vfp.pregs[n].p[0],
+> +                        DIV_ROUND_UP(cpu->sve_max_vq * 2, 8));
+> +        reg.addr = (uintptr_t)r;
+> +        reg.id = KVM_REG_ARM64_SVE_PREG(n, 0);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+>      }
+>  
+> -    reg.addr = (uintptr_t)(&fpr);
+> -    fpr = vfp_get_fpcr(env);
+> -    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
+> +    r = sve_bswap64(tmp, &env->vfp.pregs[FFR_PRED_NUM].p[0],
+> +                    DIV_ROUND_UP(cpu->sve_max_vq * 2, 8));
+> +    reg.addr = (uintptr_t)r;
+> +    reg.id = KVM_REG_ARM64_SVE_FFR(0);
+>      ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+>      if (ret) {
+>          return ret;
+> @@ -765,6 +820,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+>  {
+>      struct kvm_one_reg reg;
+>      uint64_t val;
+> +    uint32_t fpr;
+>      int i, ret;
+>      unsigned int el;
+>  
+> @@ -855,7 +911,27 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+>          }
+>      }
+>  
+> -    ret = kvm_arch_put_fpsimd(cs);
+> +    if (cpu_isar_feature(aa64_sve, cpu)) {
+> +        ret = kvm_arch_put_sve(cs);
+> +    } else {
+> +        ret = kvm_arch_put_fpsimd(cs);
+> +    }
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    reg.addr = (uintptr_t)(&fpr);
+> +    fpr = vfp_get_fpsr(env);
+> +    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
+> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    reg.addr = (uintptr_t)(&fpr);
+> +    fpr = vfp_get_fpcr(env);
+> +    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
+> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+>      if (ret) {
+>          return ret;
+>      }
+> @@ -878,10 +954,8 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+>  
+>  static int kvm_arch_get_fpsimd(CPUState *cs)
+>  {
+> -    ARMCPU *cpu = ARM_CPU(cs);
+> -    CPUARMState *env = &cpu->env;
+> +    CPUARMState *env = &ARM_CPU(cs)->env;
+>      struct kvm_one_reg reg;
+> -    uint32_t fpr;
+>      int i, ret;
+>  
+>      for (i = 0; i < 32; i++) {
+> @@ -899,21 +973,53 @@ static int kvm_arch_get_fpsimd(CPUState *cs)
+>          }
+>      }
+>  
+> -    reg.addr = (uintptr_t)(&fpr);
+> -    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
+> -    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> -    if (ret) {
+> -        return ret;
+> +    return 0;
+> +}
+> +
+> +/*
+> + * KVM SVE registers come in slices where ZREGs have a slice size of 2048 bits
+> + * and PREGS and the FFR have a slice size of 256 bits. However we simply hard
+> + * code the slice index to zero for now as it's unlikely we'll need more than
+> + * one slice for quite some time.
+> + */
+> +static int kvm_arch_get_sve(CPUState *cs)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +    struct kvm_one_reg reg;
+> +    uint64_t *r;
+> +    int n, ret;
+> +
+> +    for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; ++n) {
+> +        r = &env->vfp.zregs[n].d[0];
+> +        reg.addr = (uintptr_t)r;
+> +        reg.id = KVM_REG_ARM64_SVE_ZREG(n, 0);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        sve_bswap64(r, r, cpu->sve_max_vq * 2);
+> +    }
+> +
+> +    for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; ++n) {
+> +        r = &env->vfp.pregs[n].p[0];
+> +        reg.addr = (uintptr_t)r;
+> +        reg.id = KVM_REG_ARM64_SVE_PREG(n, 0);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        sve_bswap64(r, r, DIV_ROUND_UP(cpu->sve_max_vq * 2, 8));
+>      }
+> -    vfp_set_fpsr(env, fpr);
+>  
+> -    reg.addr = (uintptr_t)(&fpr);
+> -    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
+> +    r = &env->vfp.pregs[FFR_PRED_NUM].p[0];
+> +    reg.addr = (uintptr_t)r;
+> +    reg.id = KVM_REG_ARM64_SVE_FFR(0);
+>      ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+>      if (ret) {
+>          return ret;
+>      }
+> -    vfp_set_fpcr(env, fpr);
+> +    sve_bswap64(r, r, DIV_ROUND_UP(cpu->sve_max_vq * 2, 8));
+>  
+>      return 0;
+>  }
+> @@ -923,6 +1029,7 @@ int kvm_arch_get_registers(CPUState *cs)
+>      struct kvm_one_reg reg;
+>      uint64_t val;
+>      unsigned int el;
+> +    uint32_t fpr;
+>      int i, ret;
+>  
+>      ARMCPU *cpu = ARM_CPU(cs);
+> @@ -1012,10 +1119,30 @@ int kvm_arch_get_registers(CPUState *cs)
+>          env->spsr = env->banked_spsr[i];
+>      }
+>  
+> -    ret = kvm_arch_get_fpsimd(cs);
+> +    if (cpu_isar_feature(aa64_sve, cpu)) {
+> +        ret = kvm_arch_get_sve(cs);
+> +    } else {
+> +        ret = kvm_arch_get_fpsimd(cs);
+> +    }
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    reg.addr = (uintptr_t)(&fpr);
+> +    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpsr);
+> +    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    vfp_set_fpsr(env, fpr);
+> +
+> +    reg.addr = (uintptr_t)(&fpr);
+> +    reg.id = AARCH64_SIMD_CTRL_REG(fp_regs.fpcr);
+> +    ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+>      if (ret) {
+>          return ret;
+>      }
+> +    vfp_set_fpcr(env, fpr);
+>  
+>      ret = kvm_get_vcpu_events(cpu);
+>      if (ret) {
+> -- 
+> 2.21.0
+> 
+> 
 
