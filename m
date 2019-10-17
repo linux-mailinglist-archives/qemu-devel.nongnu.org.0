@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96EEDAC6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 14:37:00 +0200 (CEST)
-Received: from localhost ([::1]:46102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1340DAC71
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 14:39:47 +0200 (CEST)
+Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL51X-0006Wq-QB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 08:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56077)
+	id 1iL54E-00021X-Uz
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 08:39:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <basil@daynix.com>) id 1iL4zT-00048Q-49
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:34:52 -0400
+ (envelope-from <casantos@redhat.com>) id 1iL522-00088P-58
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <basil@daynix.com>) id 1iL4zP-0005w2-U7
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:34:51 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41380)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <basil@daynix.com>) id 1iL4zP-0005vI-HV
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:34:47 -0400
-Received: by mail-wr1-x435.google.com with SMTP id p4so2147072wrm.8
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 05:34:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=dOmlIbeNYpXo5dapN5KerUVR+VrVNCpDMxLHYss3XE4=;
- b=kFH12W7CrlD7DPl7HWa7Ejs8H03bfrqZhkGZ/m7Ht91+1AnCC4N/dGkLsOMDs6n5UI
- 14NQoCXulgIIgBxTP4lUM3rtuwxnVR1N94niWr6GSs/UuUIHYYQYiiQS0JaUErTPHFhn
- sbxTj/jnrKz8pNV2BMweKPSlV3NxMFO62Md41NCWfXnJBGQwCXsCKEx0dfFIUkaFs5rb
- pO8e2yJbM93jJ1bqEwRMKC0Iphq0FXgL4244yP1R1lNlD+DlyCqx0ujhIw8kw2/6z1V1
- 2XdlJYEoPAtLDnnwJlhG7Vwt3eXymTMIsuGwxbLz33shUgsHu0dPOA9+tG95/4hACDN9
- O3Ng==
+ (envelope-from <casantos@redhat.com>) id 1iL51z-00070M-OU
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:37:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:17309)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <casantos@redhat.com>) id 1iL51z-0006zo-J1
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 08:37:27 -0400
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BDABE83F45
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 12:37:25 +0000 (UTC)
+Received: by mail-qk1-f197.google.com with SMTP id s28so1988811qkm.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 05:37:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=dOmlIbeNYpXo5dapN5KerUVR+VrVNCpDMxLHYss3XE4=;
- b=ian9SiKxd+cgVc4HrnGxf434TdTbJ16LYHfBZ73Kfjl0O4zLNGepA+3TT7jalNi3hQ
- DRpcB5e0NSMtcJfLm7S2m0/3LQuu/sfQKLuhqs/eCw+rwqpghuBKxWqs9VQpRVmtqXTG
- Fz8zl8YCzN+SHEE5ha4p/myBHJQVU/aSe2Ggq7F7v0VE18iY0fI/8IraTNUHOriyOdvg
- N4WVmcQ8iL6WkfBv5xf/cZJQNtNHui7BY0+ooPJ8POYwN1q1jadK4eBqi7SZQ0AlPQSD
- ZbVQEnpBrLnWd3jJ4JelyF6L+GG+3brb+4kmIhcBWG3Cmjnvp4gKDsLPcI5nhMqR7M0d
- KIww==
-X-Gm-Message-State: APjAAAX4OJBykr7IDV6+GJ8KgF91VTFTbbtQZ8X7nJmnycjTnWDiFJP1
- 94riLhIk88jZXPDrNHszNMdmBFbG80w=
-X-Google-Smtp-Source: APXvYqxhG0qrluqwzam9sizHTVQFLLKy+OjJ7YS/ZnX+N/XnCMsZNruYpqqejsQKieE4aaWbkXxufw==
-X-Received: by 2002:adf:db0e:: with SMTP id s14mr2962662wri.341.1571315684740; 
- Thu, 17 Oct 2019 05:34:44 -0700 (PDT)
-Received: from bark.daynix ([141.226.163.173])
- by smtp.gmail.com with ESMTPSA id r2sm2077576wrm.3.2019.10.17.05.34.43
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 17 Oct 2019 05:34:44 -0700 (PDT)
-From: Basil Salman <basil@daynix.com>
-To: qemu-devel@nongnu.org,
-	Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: [PATCH 1/1] qga: Add "guest-get-memory-block-info" to blacklist
-Date: Thu, 17 Oct 2019 15:34:38 +0300
-Message-Id: <20191017123438.87703-2-basil@daynix.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20191017123438.87703-1-basil@daynix.com>
-References: <20191017123438.87703-1-basil@daynix.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::435
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=k4bv22+6vrvmE7LRTGqHXn7bDo6l5gcFE05UN7e9g8Y=;
+ b=cB3GgIsP6UCR3H4bQ0FQmDrv2KYzFNzKSmWtSnRXJ3xRQKTGtk5K3bWr1nYv6Q70OJ
+ 6mKa1kyMx/fCu46ftAELeaOrJ5iAeYIcJ4ZCUzIQRdB/EOJQn7F1H0ghVtUNomlvRNlc
+ pPRko05gbOkJpNCXskMc7kO+SObe4vfkfpG9EwqTVGfI3SwyivV/RT3SscJB4CS0cf3f
+ OWpjLlLcc92aOFIDjnmECQrkShS1ksBxP+7lnMZ/n2mh32dtvrGvrpVHwVSCUaYByM25
+ 7SgTWie1JHg+0+tyukIrot80nXHD20Bmqeb8Iiahodwp1sJpryiV+OLQNybNFCIO/D80
+ Tiiw==
+X-Gm-Message-State: APjAAAWIbzBYPA+bgD+4phEAa2a6OLzcCAZmu98vLhcLhbCExwNPhUum
+ 6babNJ5GXE54bY9K6Sf5qgrYlrjUnIRC5bpucQx94IPzaFh7z4fWLOh/H4DINJ6eq/kmxADQC+2
+ 56W54oaUytE1VaFc=
+X-Received: by 2002:aed:3c67:: with SMTP id u36mr3513798qte.142.1571315844976; 
+ Thu, 17 Oct 2019 05:37:24 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzRB4JleuNeb5TiK5uWS7hNhdSBS9cabcD1YUM1fTN1XoCG33nKqOhsnPYti0t2pRJZ75rABw==
+X-Received: by 2002:aed:3c67:: with SMTP id u36mr3513778qte.142.1571315844725; 
+ Thu, 17 Oct 2019 05:37:24 -0700 (PDT)
+Received: from casantos.remote.csb ([177.18.44.193])
+ by smtp.gmail.com with ESMTPSA id g31sm1242159qte.78.2019.10.17.05.37.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 05:37:24 -0700 (PDT)
+From: casantos@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] util/cacheinfo: fix crash when compiling with uClibc
+Date: Thu, 17 Oct 2019 09:37:13 -0300
+Message-Id: <20191017123713.30192-1-casantos@redhat.com>
+X-Mailer: git-send-email 2.18.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,53 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>
+Cc: Carlos Santos <casantos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Basil Salman <bsalman@redhat.com>
+From: Carlos Santos <casantos@redhat.com>
 
-Memory block commands are only supported for linux with sysfs,
-"guest-get-memory-block-info" was not in blacklist for other
-cases.
+uClibc defines _SC_LEVEL1_ICACHE_LINESIZE and _SC_LEVEL1_DCACHE_LINESIZE
+but the corresponding sysconf calls returns -1, which is a valid result,
+meaning that the limit is indeterminate.
 
-Reported on:
-https://bugzilla.redhat.com/show_bug.cgi?id=1751431
+Handle this situation using the fallback values instead of crashing due
+to an assertion failure.
 
-Signed-off-by: Basil Salman <bsalman@redhat.com>
+Signed-off-by: Carlos Santos <casantos@redhat.com>
 ---
- qga/commands-posix.c | 3 ++-
- qga/commands-win32.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ util/cacheinfo.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index dfc05f5b8a..1c1a165dae 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2730,7 +2730,8 @@ GList *ga_command_blacklist_init(GList *blacklist)
-             "guest-suspend-hybrid", "guest-network-get-interfaces",
-             "guest-get-vcpus", "guest-set-vcpus",
-             "guest-get-memory-blocks", "guest-set-memory-blocks",
--            "guest-get-memory-block-size", NULL};
-+            "guest-get-memory-block-size", "guest-get-memory-block-info",
-+            NULL};
-         char **p = (char **)list;
- 
-         while (*p) {
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 6b67f16faf..1c9ec9c094 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -1894,7 +1894,7 @@ GList *ga_command_blacklist_init(GList *blacklist)
-         "guest-suspend-hybrid",
-         "guest-set-vcpus",
-         "guest-get-memory-blocks", "guest-set-memory-blocks",
--        "guest-get-memory-block-size",
-+        "guest-get-memory-block-size", "guest-get-memory-block-info",
-         NULL};
-     char **p = (char **)list_unsupported;
- 
+diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+index ea6f3e99bf..d94dc6adc8 100644
+--- a/util/cacheinfo.c
++++ b/util/cacheinfo.c
+@@ -93,10 +93,16 @@ static void sys_cache_info(int *isize, int *dsize)
+ static void sys_cache_info(int *isize, int *dsize)
+ {
+ # ifdef _SC_LEVEL1_ICACHE_LINESIZE
+-    *isize = sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
++    int tmp_isize = (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
++    if (tmp_isize > 0) {
++        *isize = tmp_isize;
++    }
+ # endif
+ # ifdef _SC_LEVEL1_DCACHE_LINESIZE
+-    *dsize = sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
++    int tmp_dsize = (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
++    if (tmp_dsize > 0) {
++        *dsize = tmp_dsize;
++    }
+ # endif
+ }
+ #endif /* sys_cache_info */
 -- 
-2.17.2
+2.18.1
 
 
