@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490B4DB725
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 21:14:45 +0200 (CEST)
-Received: from localhost ([::1]:57544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C655EDB753
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 21:17:45 +0200 (CEST)
+Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLBES-0002fm-Cc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 15:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35399)
+	id 1iLBHM-0004xV-RJ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 15:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLAs9-0001Kg-IC
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:42 -0400
+ (envelope-from <mrolnik@gmail.com>) id 1iLBFw-0004Jf-SA
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 15:16:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLAs7-0000yB-DC
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:41 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41965)
+ (envelope-from <mrolnik@gmail.com>) id 1iLBFv-0006B7-Di
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 15:16:16 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:45738)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLAs7-0000xU-6j
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:39 -0400
-Received: by mail-pg1-x544.google.com with SMTP id t3so1856230pga.8
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:51:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eUg5dM9Fl5udLxVDhP9VJ17zdeIkUx+G/V/inFv6c0s=;
- b=plktUL/OsfHIGQTbgv0X3YO7e7GgHsi4/sTMO3i0hTBtLAFWayLFBBXrCg2KCOYB4e
- IVwa5buvG7B7V6ahOYA8IAekltI8cezmKCEPuoX6J4tBr/Jh2Hdaoe9wKDzJYo6tQIZ4
- nrN8TZtLgdTiBBpxz7M/7p3xn8qxfQ0alezjVwoCQoj2xW1PCRdMkyfJnt5xEEnMK3jY
- F44+AnTW71P+aLuzaYE9wFZwuqlVUl8D6/cVDF/xUvGFKK2iHLclAJJSpH9TfYl7lGt4
- k3rkHNGwLYWmJasTco8OyFMlnmYnCr5f+DqO6mbFD7PKh0SW0iaWHV0Z//ejOYZ3jryp
- s/9g==
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iLBFv-0006Ax-7E
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 15:16:15 -0400
+Received: by mail-qk1-x742.google.com with SMTP id z67so2917736qkb.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 12:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q/if/YzVY0vrpW+AaFUeX3Dxm+8GTftMrVh2HO2eTrM=;
+ b=rF9yOofit9Y9booGKtBG3FMMwpyhe083yCIymAbazeJgdCOHF3g8NWnp5K5VqLInvD
+ j4Wj2xOk1erxttsLl5uDU+pJEWpGMrkGaYG2kkjBeLAHJecLZuB6HIA/pbuO8pRTv3a9
+ snrdXSJUhFMkOhCjr3FigFwfRRbXqw5/3RmEYo245OmzlXc/0KqB6outcL1+hSMQtR9w
+ WM4Yw9j1mkfC15NyLZEUPz8PqMq1meJ5oSnimYmykJTxEGSU5PCiP4Jb91l3ylO4dbKj
+ toJUloLMoEXk349ekQ1LSZpE0cqFko6FODhyx4U/W69UY5QPJtdN9MwmhnVhVaiF20SZ
+ 81sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eUg5dM9Fl5udLxVDhP9VJ17zdeIkUx+G/V/inFv6c0s=;
- b=Ky/qx8gO0NlSdSou4PuGQwyU7Kmb8FB39l2y4zZgYeq190c7L+wYBYhmUprLiZHPTe
- lg6n37ZBP0W9vJRpWYhRh3npnN7/i1TA07lX0vbXYThxo5RCmDMQaTIW4hUz0JuwtaA4
- KZTmND0PWB474jD/MfiDksRzBhnXdz6tNRJWBDrH7Tazypgqgo4dUdcaOhvilqYJ7EAW
- OFDwfk7bWCaze/3JYfqMlBbrGpz/nv2QpAAUkkrQl5GgqNg64dJnTf3pFbT3ld62t2x6
- IHGyzeIDxaFi3ZMk4V7VhXVa+uu1KJwl3po3A4tqvXmaIgJI/k1K2fKhbuG31b8/qXzn
- WzFA==
-X-Gm-Message-State: APjAAAVOFUT6gyQhS3+cPYfMw+RJfXh3puShzILb7TCJ7BnRCn/tx8su
- hZdaLmn+f/6uA6eLJY87vCrkLmt00yM=
-X-Google-Smtp-Source: APXvYqwgAZSqu8+zKDyQqKZ4EZcAxIaznyaMZwruY0Tp85QjPtBRmaecT1I6mZxcdIUDTIDYNkiIqw==
-X-Received: by 2002:a63:e20c:: with SMTP id q12mr5659220pgh.275.1571338297696; 
- Thu, 17 Oct 2019 11:51:37 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s97sm5009256pjc.4.2019.10.17.11.51.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 11:51:37 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 19/20] target/arm: Rebuild hflags for M-profile.
-Date: Thu, 17 Oct 2019 11:51:09 -0700
-Message-Id: <20191017185110.539-20-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191017185110.539-1-richard.henderson@linaro.org>
-References: <20191017185110.539-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q/if/YzVY0vrpW+AaFUeX3Dxm+8GTftMrVh2HO2eTrM=;
+ b=WzbII6+qKaXMSmSFu57dirQldEeb4kfXph7jOoriWEpStlBM/NpCU+D3W33dJNYcx1
+ ubnXm38vHmM8KxJoFYT03rxTH3u8DybPfrLTdlKic2Xh+flq7JEGagX4NnZYEV2c3WP/
+ FUANonCjr8zLKTgmYgAgLWjRc0FH/1czqYXpT5bx2RRP0ei5vM85bwPRLzy3PtO0aJX5
+ AnhcHOIG8YyrYacYFpN6n55a2tys/KwY0FzDrLVeKPSYn0PgVCDWAFxSEQHtkteX39p1
+ YVW9KdATihPO6e4afu31q2dtRRDuRjRircHa2x6VUA/I5ByTAaK8Py4JLVex5IXh6/Fn
+ VL6w==
+X-Gm-Message-State: APjAAAWkWNu/8i9Y7YNUSUJFzUc3GKjYFsAG/mBfnsT9y0j/YnHzD4XK
+ ZO+q753rtmfkM1Qd1RBTlq2e53RDPS9heb3u96s=
+X-Google-Smtp-Source: APXvYqz/gsiyyeL5K5iQ/FU+YnLeC3+ReP786husyAKRYDtYNzYB/NTOfslW4eDqGHxyZoP2X08div4Fxlhes2Wx054=
+X-Received: by 2002:a37:4a91:: with SMTP id x139mr5013910qka.103.1571339773749; 
+ Thu, 17 Oct 2019 12:16:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20191014161843.84845-1-mrolnik@gmail.com>
+ <20191014161843.84845-5-mrolnik@gmail.com>
+ <CAL1e-=g9ER4tuqEL2ubqb7oAbatcVR8x+A0LAydSwBJEnk9_ow@mail.gmail.com>
+In-Reply-To: <CAL1e-=g9ER4tuqEL2ubqb7oAbatcVR8x+A0LAydSwBJEnk9_ow@mail.gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Thu, 17 Oct 2019 22:15:22 +0300
+Message-ID: <CAK4993gm=8tVXyprjHPMiNZuKZRkx0iDYnXh76cQfMwUayqcWQ@mail.gmail.com>
+Subject: Re: [PATCH v32 04/13] target/avr: Add instruction translation -
+ Registers definition
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::742
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,110 +73,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue setting, but not relying upon, env->hflags.
+On Thu, Oct 17, 2019 at 8:25 PM Aleksandar Markovic
+<aleksandar.m.mail@gmail.com> wrote:
+>
+>
+>
+> On Monday, October 14, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+>>
+>> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+>> ---
+>>  target/avr/translate.c | 132 +++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 132 insertions(+)
+>>  create mode 100644 target/avr/translate.c
+>>
+>> diff --git a/target/avr/translate.c b/target/avr/translate.c
+>> new file mode 100644
+>> index 0000000000..53c9892a60
+>> --- /dev/null
+>> +++ b/target/avr/translate.c
+>> @@ -0,0 +1,132 @@
+>> +/*
+>> + * QEMU AVR CPU
+>> + *
+>> + * Copyright (c) 2019 Michael Rolnik
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2.1 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qemu/qemu-print.h"
+>> +#include "tcg/tcg.h"
+>> +#include "cpu.h"
+>> +#include "exec/exec-all.h"
+>> +#include "disas/disas.h"
+>> +#include "tcg-op.h"
+>> +#include "exec/cpu_ldst.h"
+>> +#include "exec/helper-proto.h"
+>> +#include "exec/helper-gen.h"
+>> +#include "exec/log.h"
+>> +#include "exec/gdbstub.h"
+>> +#include "exec/translator.h"
+>> +#include "exec/gen-icount.h"
+>> +
+>> +/*
+>> + *  Define if you want a BREAK instruction translated to a breakpoint
+>> + *  Active debugging connection is assumed
+>> + *  This is for
+>> + *  https://github.com/seharris/qemu-avr-tests/tree/master/instruction-tests
+>> + *  tests
+>> + */
+>> +#undef BREAKPOINT_ON_BREAK
+>> +
+>> +static TCGv cpu_pc;
+>> +
+>> +static TCGv cpu_Cf;
+>> +static TCGv cpu_Zf;
+>> +static TCGv cpu_Nf;
+>> +static TCGv cpu_Vf;
+>> +static TCGv cpu_Sf;
+>> +static TCGv cpu_Hf;
+>> +static TCGv cpu_Tf;
+>> +static TCGv cpu_If;
+>> +
+>
+>
+> Hello, Michael,
+>
+> Is there any particular reason or motivation beyond modelling status register flags as TCGv variables?
+I think it's easier this way as I don't need to convert flag values to
+bits or bits to flag values.
+>
+> A.
+>
+>
+>
+>>
+>> +static TCGv cpu_rampD;
+>> +static TCGv cpu_rampX;
+>> +static TCGv cpu_rampY;
+>> +static TCGv cpu_rampZ;
+>> +
+>> +static TCGv cpu_r[NO_CPU_REGISTERS];
+>> +static TCGv cpu_eind;
+>> +static TCGv cpu_sp;
+>> +
+>> +static TCGv cpu_skip;
+>> +
+>> +static const char reg_names[NO_CPU_REGISTERS][8] = {
+>> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+>> +    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
+>> +    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+>> +    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+>> +};
+>> +#define REG(x) (cpu_r[x])
+>> +
+>> +enum {
+>> +    DISAS_EXIT   = DISAS_TARGET_0,  /* We want return to the cpu main loop.  */
+>> +    DISAS_LOOKUP = DISAS_TARGET_1,  /* We have a variable condition exit.  */
+>> +    DISAS_CHAIN  = DISAS_TARGET_2,  /* We have a single condition exit.  */
+>> +};
+>> +
+>> +typedef struct DisasContext DisasContext;
+>> +
+>> +/* This is the state at translation time. */
+>> +struct DisasContext {
+>> +    TranslationBlock *tb;
+>> +
+>> +    CPUAVRState *env;
+>> +    CPUState *cs;
+>> +
+>> +    target_long npc;
+>> +    uint32_t opcode;
+>> +
+>> +    /* Routine used to access memory */
+>> +    int memidx;
+>> +    int bstate;
+>> +    int singlestep;
+>> +
+>> +    TCGv skip_var0;
+>> +    TCGv skip_var1;
+>> +    TCGCond skip_cond;
+>> +    bool free_skip_var0;
+>> +};
+>> +
+>> +static int to_A(DisasContext *ctx, int indx) { return 16 + (indx % 16); }
+>> +static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }
+>> +static int to_C(DisasContext *ctx, int indx) { return 24 + (indx % 4) * 2; }
+>> +static int to_D(DisasContext *ctx, int indx) { return (indx % 16) * 2; }
+>> +
+>> +static uint16_t next_word(DisasContext *ctx)
+>> +{
+>> +    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
+>> +}
+>> +
+>> +static int append_16(DisasContext *ctx, int x)
+>> +{
+>> +    return x << 16 | next_word(ctx);
+>> +}
+>> +
+>> +
+>> +static bool avr_have_feature(DisasContext *ctx, int feature)
+>> +{
+>> +    if (!avr_feature(ctx->env, feature)) {
+>> +        gen_helper_unsupported(cpu_env);
+>> +        ctx->bstate = DISAS_NORETURN;
+>> +        return false;
+>> +    }
+>> +    return true;
+>> +}
+>> +
+>> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
+>> +#include "decode_insn.inc.c"
+>> +
+>> --
+>> 2.17.2 (Apple Git-113)
+>>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v7: Add rebuilds for v7m_msr and nvic_writel to v7m.ccr.
----
- hw/intc/armv7m_nvic.c  | 1 +
- target/arm/m_helper.c  | 6 ++++++
- target/arm/translate.c | 5 ++++-
- 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 8e93e51e81..a3993e7b72 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -1604,6 +1604,7 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
-         }
- 
-         cpu->env.v7m.ccr[attrs.secure] = value;
-+        arm_rebuild_hflags(&cpu->env);
-         break;
-     case 0xd24: /* System Handler Control and State (SHCSR) */
-         if (!arm_feature(&cpu->env, ARM_FEATURE_V7)) {
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 27cd2f3f96..f2512e448e 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -494,6 +494,7 @@ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-     switch_v7m_security_state(env, dest & 1);
-     env->thumb = 1;
-     env->regs[15] = dest & ~1;
-+    arm_rebuild_hflags(env);
- }
- 
- void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-@@ -555,6 +556,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-     switch_v7m_security_state(env, 0);
-     env->thumb = 1;
-     env->regs[15] = dest;
-+    arm_rebuild_hflags(env);
- }
- 
- static uint32_t *get_v7m_sp_ptr(CPUARMState *env, bool secure, bool threadmode,
-@@ -895,6 +897,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-     env->regs[14] = lr;
-     env->regs[15] = addr & 0xfffffffe;
-     env->thumb = addr & 1;
-+    arm_rebuild_hflags(env);
- }
- 
- static void v7m_update_fpccr(CPUARMState *env, uint32_t frameptr,
-@@ -1765,6 +1768,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
- 
-     /* Otherwise, we have a successful exception exit. */
-     arm_clear_exclusive(env);
-+    arm_rebuild_hflags(env);
-     qemu_log_mask(CPU_LOG_INT, "...successful exception return\n");
- }
- 
-@@ -1837,6 +1841,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-     xpsr_write(env, 0, XPSR_IT);
-     env->thumb = newpc & 1;
-     env->regs[15] = newpc & ~1;
-+    arm_rebuild_hflags(env);
- 
-     qemu_log_mask(CPU_LOG_INT, "...function return successful\n");
-     return true;
-@@ -1959,6 +1964,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-     switch_v7m_security_state(env, true);
-     xpsr_write(env, 0, XPSR_IT);
-     env->regs[15] += 4;
-+    arm_rebuild_hflags(env);
-     return true;
- 
- gen_invep:
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index cb47cd9744..b3720cd59b 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8325,7 +8325,7 @@ static bool trans_MRS_v7m(DisasContext *s, arg_MRS_v7m *a)
- 
- static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
- {
--    TCGv_i32 addr, reg;
-+    TCGv_i32 addr, reg, el;
- 
-     if (!arm_dc_feature(s, ARM_FEATURE_M)) {
-         return false;
-@@ -8335,6 +8335,9 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
-     gen_helper_v7m_msr(cpu_env, addr, reg);
-     tcg_temp_free_i32(addr);
-     tcg_temp_free_i32(reg);
-+    el = tcg_const_i32(s->current_el);
-+    gen_helper_rebuild_hflags_m32(cpu_env, el);
-+    tcg_temp_free_i32(el);
-     gen_lookup_tb(s);
-     return true;
- }
 -- 
-2.17.1
-
+Best Regards,
+Michael Rolnik
 
