@@ -2,53 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE2FDB323
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:18:25 +0200 (CEST)
-Received: from localhost ([::1]:54084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD6DDB30B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:13:27 +0200 (CEST)
+Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9Ps-0003am-AK
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36101)
+	id 1iL9L3-0005lO-NK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iL8Lg-0005I9-QM
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:01 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iL8b0-0000zk-EN
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:25:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iL8Lf-0000Am-Jc
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54912)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iL8Lf-0000AS-BM
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:09:59 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 96BB43090FED;
- Thu, 17 Oct 2019 16:09:58 +0000 (UTC)
-Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18216194B6;
- Thu, 17 Oct 2019 16:09:54 +0000 (UTC)
-Date: Thu, 17 Oct 2019 17:09:53 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
-Message-ID: <20191017160953.GC1266@stefanha-x1.localdomain>
-References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
- <20191017100528.GA24790@stefanha-x1.localdomain>
- <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1iL8az-00087K-9l
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:25:50 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43719)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iL8ay-00086W-MF
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:25:48 -0400
+Received: by mail-pf1-x441.google.com with SMTP id a2so1967961pfo.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:25:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=smULLT7TyxlhzX4ZtJnRUwU2qmeieBXZe/LElz40Lyg=;
+ b=x1h462zt10sUkZCVm1tdai+8qg6p067K6XaqU/3ua38NzApnIt/2Llv0inkto2S8Uk
+ 5v855v0lQjBURhX9smhZPGqRMU/M+0FX5PtFRbfm03gLefMGm80ix2yOKILT10cFqbLH
+ +Vm01CiITICDvt5k9wyKyF696YhASgF51t0Ril41Z8xMLS4FnebVV5svIhSKQFMivP4N
+ oTDHVqDkwt806kz9vCGgp2qDdGAANHbMDuY8ibR3rJhEM1JA4biby4VWNaqSGpBa2XU1
+ I3mHOab7WjABzui+tom+QLrrEtei0rzqleLmngs7LxK8YJ5P2FXvcaMSSvyzTXCpIUSR
+ sz3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=smULLT7TyxlhzX4ZtJnRUwU2qmeieBXZe/LElz40Lyg=;
+ b=bxNmrRe5xOpkyk+teYPlyWhbbZ/UBdoLU0UPqXjb0ejALOTaGfMsg7uh0qjXy2nG2v
+ MSJGAUuiz7umydGxYyTkBEUjaHR/ILFOsfGRZMMlaa6vHRy+Mtm9355WjPLneAGHyCtN
+ /QjBRp5/jdpNi9fLugcSONEeaiJ2sW5pdx62f9Gux22rMQrwpNxoam2L67+Kdr/QsJku
+ yXFVAx0vOQPTasVm174bQwQ3Vd2Ke0Z1MZAj3EALUkCt5zVJUP7R6PxCfl/mrNR94fWn
+ V17teDI3sxy+IXRVc3vhxNqjIPO4CFnGu0VHXKwSADXCROzpCHccxVNXXDy4CnHun8om
+ Doww==
+X-Gm-Message-State: APjAAAUAhlQygdDnEdbh6PvzOc9RQKCzWD4w03wYomLRiNK8ieK9rw3F
+ rLsTrrusW6z8TceZ7A5TY+lYaA==
+X-Google-Smtp-Source: APXvYqyGU7phO/JdgXNL7kv5/jCPM9fGF3ZcFD3Y7Ns8sX8Hfg9elL2A5i5bRJ8n9Af4SiGpzp6eJw==
+X-Received: by 2002:aa7:93de:: with SMTP id y30mr1174157pff.27.1571329547121; 
+ Thu, 17 Oct 2019 09:25:47 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id t125sm4394149pfc.80.2019.10.17.09.25.46
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Oct 2019 09:25:46 -0700 (PDT)
+Subject: Re: [PATCH v6 00/20] target/arm: Reduce overhead of
+ cpu_get_tb_cpu_state
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191011155546.14342-1-richard.henderson@linaro.org>
+ <CAFEAcA_fmQKOk8k=Mo7MvuKvAq9Zb90xtQ0RdaxyMdLGZUwY0Q@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <a130df8a-5804-09a6-966c-2760b50a84c2@linaro.org>
+Date: Thu, 17 Oct 2019 09:25:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
-Content-Disposition: inline
-In-Reply-To: <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 17 Oct 2019 16:09:58 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+In-Reply-To: <CAFEAcA_fmQKOk8k=Mo7MvuKvAq9Zb90xtQ0RdaxyMdLGZUwY0Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,76 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
- qemu-devel@nongnu.org
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/17/19 8:26 AM, Peter Maydell wrote:
+> Don't we also need to do something to rebuild the hflags
+> for M-profile writes to the memory mapped system registers?
+> For instance rebuild_hflags_m32() bakes in state which
+> cares about env->v7m.ccr, which is set via nvic_writel(),
+> but I don't see anything whereby the write to the NVIC
+> register triggers a rebuild of the hflags value. Maybe I
+> missed it?
 
---zCKi3GIZzVBPywwA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+How do you end the TB after nvic_writel(), so that the new behaviour can be
+noticed right now?  We can call arm_rebuild_hflags() within nvic_writel(), but
+it still needs to be recognized somehow.  I would expect to place one rebuild
+in the place you end the TB...
 
-On Thu, Oct 17, 2019 at 01:23:57PM +0200, Miklos Szeredi wrote:
-> On Thu, Oct 17, 2019 at 12:05 PM Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >
-> > On Wed, Oct 16, 2019 at 07:37:52PM +0900, Misono Tomohiro wrote:
-> > > Hello,
-> > >
-> > > I test xattr operation on virtiofs using xfstest generic/062
-> > > (with -o xattr option and XFS backend) and see some problems.
-> > >
-> > > These patches fixes the two of the problems.
-> > >
-> > > The remaining problems are:
-> > >  1. we cannot xattr to block device created by mknod
-> > >     which does not have actual device (since open in virtiofsd fails)
-> > >  2. we cannot xattr to symbolic link
-> > >
-> > > I don't think 1 is a big problem but can we fix 2?
-> >
-> > Sorry, I don't know the answer.  Maybe it would be necessary to add a
-> > new O_SYMLINK open flag to open(2) so that fgetxattr()/fsetxattr()
-> > operations can be performed.  A kernel change like that would take some
-> > time to get accepted upstream and shipped by distros, but it might be
-> > the only way since the current syscall interface doesn't seem to offer a
-> > way to do this.
->=20
-> The real problem is that open() on a non-regular, non-directory file
-> may have side effects (unless O_PATH is used).  These patches try to
-> paper over that, but the fact is: opening special files from a file
-> server is forbidden.
->=20
-> I see why this is being done, and it's not easy to fix properly
-> without the ..at() versions of these syscalls.  One idea is to fork()
-> + fchdir(lo->proc_self_fd) + ..xattr().  Another related idea is to do
-> a unshare(CLONE_FS) after each thread's startup (will pthread library
-> balk?  I don't know) so that it's safe to do fchdir(lo->proc_self_fd)
-> + ...xattr() + fchdir(lo->root_fd).
 
-Looking at the f*xattr() code in the kernel, it doesn't really care
-about the file descriptor, it wants the inode instead.  So the O_SYMLINK
-idea I mentioned could also be called O_XATTR and be similar to O_PATH,
-except that only f*xattr() calls are allowed on this file descriptor.
-
-Stefan
-
---zCKi3GIZzVBPywwA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2oklEACgkQnKSrs4Gr
-c8iiaAgAhKZnZLjRSpcFf1nJFWVOr+mJG0FqTEaivYCCOF73tUkhrRdfYz2J45Km
-kkOJen8ZDZuNZPFl+y9WVn1OH7qtHHzYpNKXbmhyEa1FB1nPStM5+AGs5qNHIQgf
-sXpFoQ56an1JyXg1IBqsH9V0blNVbH1vwlSsy7IkTXSNNFLz314CinvYe1RcfaWe
-1EGL15xV8pEw1Zw5rHmhNx4c/E4HOcI5vBz9FwO/HGI9Z/Dui/bAyatb/Ko54YAS
-lWObKy1P4ugUmz5COJzX/utS0SBEeidbjWhr81qs4p42fQYrDYZj/JsG2U/Ys8+H
-t6XaGP9hT3Hoghq0e39FkATwyF72TQ==
-=qReH
------END PGP SIGNATURE-----
-
---zCKi3GIZzVBPywwA--
+r~
 
