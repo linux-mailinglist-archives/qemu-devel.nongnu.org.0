@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0488DB986
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 00:10:45 +0200 (CEST)
-Received: from localhost ([::1]:32908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666AFDB98F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 00:13:02 +0200 (CEST)
+Received: from localhost ([::1]:33008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLDyc-0000P8-SE
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 18:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33010)
+	id 1iLE0z-0003F5-2d
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 18:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iLDk7-0007jk-MP
+ (envelope-from <jsnow@redhat.com>) id 1iLDk8-0007ky-IB
  for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iLDk6-0002iW-An
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38624)
+ (envelope-from <jsnow@redhat.com>) id 1iLDk7-0002in-2t
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 17:55:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42406)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1iLDk2-0002g6-60; Thu, 17 Oct 2019 17:55:30 -0400
+ id 1iLDk2-0002gk-Mw; Thu, 17 Oct 2019 17:55:30 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5FF9C9981A;
- Thu, 17 Oct 2019 21:55:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DBC753C928;
+ Thu, 17 Oct 2019 21:55:29 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-173.bos.redhat.com [10.18.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 080925D9CA;
- Thu, 17 Oct 2019 21:55:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82DB75D9CA;
+ Thu, 17 Oct 2019 21:55:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, jsnow@redhat.com,
  qemu-devel@nongnu.org
-Subject: [PULL v3 16/19] block/qcow2-bitmap: fix and improve
- qcow2_reopen_bitmaps_rw
-Date: Thu, 17 Oct 2019 17:54:33 -0400
-Message-Id: <20191017215436.14252-17-jsnow@redhat.com>
+Subject: [PULL v3 17/19] qcow2-bitmap: move bitmap reopen-rw code to
+ qcow2_reopen_commit
+Date: Thu, 17 Oct 2019 17:54:34 -0400
+Message-Id: <20191017215436.14252-18-jsnow@redhat.com>
 In-Reply-To: <20191017215436.14252-1-jsnow@redhat.com>
 References: <20191017215436.14252-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 17 Oct 2019 21:55:28 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Thu, 17 Oct 2019 21:55:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -68,155 +68,134 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-- Correct check for write access to file child, and in correct place
-  (only if we want to write).
-- Support reopen rw -> rw (which will be used in following commit),
-  for example, !bdrv_dirty_bitmap_readonly() is not a corruption if
-  bitmap is marked IN_USE in the image.
-- Consider unexpected bitmap as a corruption and check other
-  combinations of in-image and in-RAM bitmaps.
+The only reason I can imagine for this strange code at the very-end of
+bdrv_reopen_commit is the fact that bs->read_only updated after
+calling drv->bdrv_reopen_commit in bdrv_reopen_commit. And in the same
+time, prior to previous commit, qcow2_reopen_bitmaps_rw did a wrong
+check for being writable, when actually it only need writable file
+child not self.
+
+So, as it's fixed, let's move things to correct place.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190927122355.7344-9-vsementsov@virtuozzo.com
+Reviewed-by: John Snow <jsnow@redhat.com>
+Acked-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190927122355.7344-10-vsementsov@virtuozzo.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- block/qcow2-bitmap.c | 77 +++++++++++++++++++++++++++++++++-----------
- 1 file changed, 58 insertions(+), 19 deletions(-)
+ include/block/block_int.h |  6 ------
+ block.c                   | 19 -------------------
+ block/qcow2.c             | 15 ++++++++++++++-
+ 3 files changed, 14 insertions(+), 26 deletions(-)
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index f7dfb40256..98294a7696 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1108,18 +1108,14 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs,=
- Error **errp)
-     Qcow2BitmapList *bm_list;
-     Qcow2Bitmap *bm;
-     GSList *ro_dirty_bitmaps =3D NULL;
--    int ret =3D 0;
-+    int ret =3D -EINVAL;
-+    bool need_header_update =3D false;
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 32fb493cbb..ca4ccac4c1 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -547,12 +547,6 @@ struct BlockDriver {
+                              uint64_t parent_perm, uint64_t parent_share=
+d,
+                              uint64_t *nperm, uint64_t *nshared);
 =20
-     if (s->nb_bitmaps =3D=3D 0) {
-         /* No bitmaps - nothing to do */
-         return 0;
-     }
+-    /**
+-     * Bitmaps should be marked as 'IN_USE' in the image on reopening im=
+age
+-     * as rw. This handler should realize it. It also should unset reado=
+nly
+-     * field of BlockDirtyBitmap's in case of success.
+-     */
+-    int (*bdrv_reopen_bitmaps_rw)(BlockDriverState *bs, Error **errp);
+     bool (*bdrv_co_can_store_new_dirty_bitmap)(BlockDriverState *bs,
+                                                const char *name,
+                                                uint32_t granularity,
+diff --git a/block.c b/block.c
+index cf312258a9..dad5a3d8e0 100644
+--- a/block.c
++++ b/block.c
+@@ -3935,16 +3935,12 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_s=
+tate)
+     BlockDriver *drv;
+     BlockDriverState *bs;
+     BdrvChild *child;
+-    bool old_can_write, new_can_write;
 =20
--    if (!can_write(bs)) {
--        error_setg(errp, "Can't write to the image on reopening bitmaps =
-rw");
--        return -EINVAL;
--    }
+     assert(reopen_state !=3D NULL);
+     bs =3D reopen_state->bs;
+     drv =3D bs->drv;
+     assert(drv !=3D NULL);
+=20
+-    old_can_write =3D
+-        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE=
+);
 -
-     bm_list =3D bitmap_list_load(bs, s->bitmap_directory_offset,
-                                s->bitmap_directory_size, errp);
-     if (bm_list =3D=3D NULL) {
-@@ -1128,32 +1124,75 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs,=
- Error **errp)
+     /* If there are any driver level actions to take */
+     if (drv->bdrv_reopen_commit) {
+         drv->bdrv_reopen_commit(reopen_state);
+@@ -3988,21 +3984,6 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_st=
+ate)
+     }
 =20
-     QSIMPLEQ_FOREACH(bm, bm_list, entry) {
-         BdrvDirtyBitmap *bitmap =3D bdrv_find_dirty_bitmap(bs, bm->name)=
-;
--        if (bitmap =3D=3D NULL) {
--            continue;
+     bdrv_refresh_limits(bs, NULL);
+-
+-    new_can_write =3D
+-        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE=
+);
+-    if (!old_can_write && new_can_write && drv->bdrv_reopen_bitmaps_rw) =
+{
+-        Error *local_err =3D NULL;
+-        if (drv->bdrv_reopen_bitmaps_rw(bs, &local_err) < 0) {
+-            /* This is not fatal, bitmaps just left read-only, so all fo=
+llowing
+-             * writes will fail. User can remove read-only bitmaps to un=
+block
+-             * writes.
+-             */
+-            error_reportf_err(local_err,
+-                              "%s: Failed to make dirty bitmaps writable=
+: ",
+-                              bdrv_get_node_name(bs));
 -        }
+-    }
+ }
 =20
--        if (!bdrv_dirty_bitmap_readonly(bitmap)) {
--            error_setg(errp, "Bitmap %s was loaded prior to rw-reopen, b=
-ut was "
--                       "not marked as readonly. This is a bug, something=
- went "
--                       "wrong. All of the bitmaps may be corrupted", bm-=
->name);
--            ret =3D -EINVAL;
-+        if (!bitmap) {
-+            error_setg(errp, "Unexpected bitmap '%s' in image '%s'",
-+                       bm->name, bs->filename);
-             goto out;
-         }
-=20
--        bm->flags |=3D BME_FLAG_IN_USE;
--        ro_dirty_bitmaps =3D g_slist_append(ro_dirty_bitmaps, bitmap);
-+        if (!(bm->flags & BME_FLAG_IN_USE)) {
-+            if (!bdrv_dirty_bitmap_readonly(bitmap)) {
-+                error_setg(errp, "Corruption: bitmap '%s' is not marked =
-IN_USE "
-+                           "in the image '%s' and not marked readonly in=
- RAM",
-+                           bm->name, bs->filename);
-+                goto out;
-+            }
-+            if (bdrv_dirty_bitmap_inconsistent(bitmap)) {
-+                error_setg(errp, "Corruption: bitmap '%s' is inconsisten=
-t but "
-+                           "is not marked IN_USE in the image '%s'", bm-=
->name,
-+                           bs->filename);
-+                goto out;
-+            }
+ /*
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 53a025703e..8b05933565 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1835,6 +1835,20 @@ fail:
+ static void qcow2_reopen_commit(BDRVReopenState *state)
+ {
+     qcow2_update_options_commit(state->bs, state->opaque);
++    if (state->flags & BDRV_O_RDWR) {
++        Error *local_err =3D NULL;
 +
-+            bm->flags |=3D BME_FLAG_IN_USE;
-+            need_header_update =3D true;
-+        } else {
++        if (qcow2_reopen_bitmaps_rw(state->bs, &local_err) < 0) {
 +            /*
-+             * What if flags already has BME_FLAG_IN_USE ?
-+             *
-+             * 1. if we are reopening RW -> RW it's OK, of course.
-+             * 2. if we are reopening RO -> RW:
-+             *   2.1 if @bitmap is inconsistent, it's OK. It means that =
-it was
-+             *       inconsistent (IN_USE) when we loaded it
-+             *   2.2 if @bitmap is not inconsistent. This seems to be im=
-possible
-+             *       and implies third party interaction. Let's error-ou=
-t for
-+             *       safety.
++             * This is not fatal, bitmaps just left read-only, so all fo=
+llowing
++             * writes will fail. User can remove read-only bitmaps to un=
+block
++             * writes or retry reopen.
 +             */
-+            if (bdrv_dirty_bitmap_readonly(bitmap) &&
-+                !bdrv_dirty_bitmap_inconsistent(bitmap))
-+            {
-+                error_setg(errp, "Corruption: bitmap '%s' is marked IN_U=
-SE "
-+                           "in the image '%s' but it is readonly and "
-+                           "consistent in RAM",
-+                           bm->name, bs->filename);
-+                goto out;
-+            }
++            error_reportf_err(local_err,
++                              "%s: Failed to make dirty bitmaps writable=
+: ",
++                              bdrv_get_node_name(state->bs));
 +        }
-+
-+        if (bdrv_dirty_bitmap_readonly(bitmap)) {
-+            ro_dirty_bitmaps =3D g_slist_append(ro_dirty_bitmaps, bitmap=
-);
-+        }
-     }
++    }
+     g_free(state->opaque);
+ }
 =20
--    if (ro_dirty_bitmaps !=3D NULL) {
-+    if (need_header_update) {
-+        if (!can_write(bs->file->bs) || !(bs->file->perm & BLK_PERM_WRIT=
-E)) {
-+            error_setg(errp, "Failed to reopen bitmaps rw: no write acce=
-ss "
-+                       "the protocol file");
-+            goto out;
-+        }
-+
-         /* in_use flags must be updated */
-         ret =3D update_ext_header_and_dir_in_place(bs, bm_list);
-         if (ret < 0) {
--            error_setg_errno(errp, -ret, "Can't update bitmap directory"=
-);
-+            error_setg_errno(errp, -ret, "Cannot update bitmap directory=
-");
-             goto out;
-         }
--        g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-     }
+@@ -5406,7 +5420,6 @@ BlockDriver bdrv_qcow2 =3D {
+     .bdrv_detach_aio_context  =3D qcow2_detach_aio_context,
+     .bdrv_attach_aio_context  =3D qcow2_attach_aio_context,
 =20
-+    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-+    ret =3D 0;
-+
- out:
-     g_slist_free(ro_dirty_bitmaps);
-     bitmap_list_free(bm_list);
+-    .bdrv_reopen_bitmaps_rw =3D qcow2_reopen_bitmaps_rw,
+     .bdrv_co_can_store_new_dirty_bitmap =3D qcow2_co_can_store_new_dirty=
+_bitmap,
+     .bdrv_co_remove_persistent_dirty_bitmap =3D
+             qcow2_co_remove_persistent_dirty_bitmap,
 --=20
 2.21.0
 
