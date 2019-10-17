@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972F1DAF8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:14:48 +0200 (CEST)
-Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B91DAFBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:19:35 +0200 (CEST)
+Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6YB-0001BC-8r
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
+	id 1iL6cn-0006dR-97
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5uP-0003XE-B9
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:33:43 -0400
+ (envelope-from <frasse.iglesias@gmail.com>) id 1iL5vz-0005qb-V0
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5uM-00042I-34
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:33:40 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51674)
+ (envelope-from <frasse.iglesias@gmail.com>) id 1iL5vy-0004Oh-VC
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:19 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34524)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5uJ-00041l-8q
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:33:36 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 7so2615124wme.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FQ/H1UToQ0yQenkMqC8Bhi/SSkQ/gTM/lhOzcdKaVnQ=;
- b=gP9ZxiW4J+8v67ocp0R9PcMzYhhr0ftaInx8VwZvo0sUtcaQbM9jPJEibW3E7KZ05a
- QH8eb3bgZvR+chh9ZAW5Tdldewq3PLKtFEiVB9IWptAufzc0JuVHKY8St4TUTDe/kETM
- T+APKcGUtjryN1Mlte1rWVhy/V7Vlvh48TEcRBzid36t+N/hGQVfjNl6o+J/jatChzzs
- CJlJbbNJ06BCH8oKD5pwYya0H385xM6Fnwj1e0xGBNh4nZrz63xp32pTudPym9mWLen0
- 6IbrbRDIRJzjdh7f4gOW+VL5HdJbIgIPMyNwdI7DqDcYTSasJC7C7aUqWv6NJHADWeT5
- qGLw==
+ (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1iL5vy-0004OI-M3
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:18 -0400
+Received: by mail-lf1-x141.google.com with SMTP id r22so1929730lfm.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=IzhQdkcQs9Zcql1/wearVJz6DaXb8ZwMx/iDls1V7Bw=;
+ b=mHw2TDzP+e1DFSKiDffLDlSOR+HJCTvfpCTLkdIaQZPdSWrJppV5oOYKiaMYYqiaV8
+ 0S3WWOodXqG0jTYnw4LnGIhZ9nG+7q2ZYT2jA7AjxVbKB6twS8gkJDdLiwtcnPNjbquu
+ KYJF1yL7jnGcjY37F+VTmnS4w1IKSRCEhoQSu8LyaJfF37rRKtoFVyQ0ApMK8bNSOH1U
+ vLQ8RGp2gmJV4NoI5bf08X5Tgz7jTcYRaHm6Jfgb7dQfaVKowwjMYKisf/x4zvD9F6rz
+ d9+Pe+iyuKfj+Rbv92r76V83NqrUQn1qBFHOK/apDlv7C6jaED25r+SqPsOlRslCXNvb
+ ReaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FQ/H1UToQ0yQenkMqC8Bhi/SSkQ/gTM/lhOzcdKaVnQ=;
- b=RxSfSgxj3V8mCiqK3+vdr/zGXtFVxbLMA47m0a+C6sP7ySFDDyo7SZspcwT+ykkCTv
- AEHO0Fa8OofgADBGaV7+WP9UWWxoEAgOeV4eJ8absI9IQwbpnHA3N0Xe2ngmSUcJEbEd
- VBmELUKN+rIMh4mUcpZZMpRUTL0L3iBEeCssJWKdMN+hpNC5w/zAv5TbnxEZU8Mm73sd
- fKrClDZR+YzHjPnJLUMcMOtDko9rbCqieaafeeEi8r6iX9AWNUCIhIzJRONlgys+djoB
- PCVYn2eYj+YSN3FjPYiJ2hkb+M67FgwI4hZG4zHp4SwG09aaBDjvlRuAEF9IwVPvgtIv
- 8VKA==
-X-Gm-Message-State: APjAAAXjmnylEL/pByiaNWybInHTWyDSL/SsNCKZxSZE9ED2vZsaO1Va
- iDNPdhLziVuemAUcHa3s2cjYWQ==
-X-Google-Smtp-Source: APXvYqwZynsI9zSBcXvgUMTXPPYUkBu78ukeIjHloEJVDm3wtLknrCCwa90YAUTfyAojm0kSzGtJaQ==
-X-Received: by 2002:a7b:cc01:: with SMTP id f1mr3117397wmh.113.1571319213561; 
- Thu, 17 Oct 2019 06:33:33 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o22sm2530991wra.96.2019.10.17.06.33.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:33:32 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/timer/arm_mptimer.c: Undo accidental rename of
- arm_mptimer_init()
-Date: Thu, 17 Oct 2019 14:33:31 +0100
-Message-Id: <20191017133331.5901-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IzhQdkcQs9Zcql1/wearVJz6DaXb8ZwMx/iDls1V7Bw=;
+ b=cXZyPviD2acDzQc8++rPRUMkMB7aZRoFWVkkQY2ZJDzO89KycxqTszf6kJxldfu3hR
+ o3zz41V5wdHlt9IMJSfdrgPEqUsp37g/fI5mR9/rlU2IkU6SzU2HPqUoskTpQFaxpxPu
+ waMlZ/66FUFxeFfX6U6VIp3Lm6LmjiO7L5dnL/ft0OK/aTT8e+nyax6+b8N8K8dVPTsb
+ wg0bk0Tlj5J/J0h/1qm2/vVcIs9GaxioYBfpQA1HpSQIOyH/elmcZvsdk+dwA/9nXWH5
+ QwgR9tqqg5W2CReKuO9v5hGj1bRlxMKO7vop9AfApEx5tTssTK8VkF81qVIl5/b0fc02
+ NsoA==
+X-Gm-Message-State: APjAAAXQIcN/hDZoPtS/9WKwCSCAe8G9JanInHEorhowff3lHBgceU0L
+ 6qax8e9NhIRcIYOZFyaORRg=
+X-Google-Smtp-Source: APXvYqx4yCY2wdCqge4LIdEsSTazNUBEp7eKZ5ZWRMMl7QjtnZza/qG5DhVbK7ksH03fbNJJBfh8Fw==
+X-Received: by 2002:ac2:53b9:: with SMTP id j25mr2401828lfh.151.1571319316996; 
+ Thu, 17 Oct 2019 06:35:16 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ a8sm1207945ljf.47.2019.10.17.06.35.16
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 17 Oct 2019 06:35:16 -0700 (PDT)
+Date: Thu, 17 Oct 2019 15:35:14 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [QEMU][PATCH v2] ssi: xilinx_spips: Skip update of cs and fifo
+ releated to spips in gqspi
+Message-ID: <20191017133513.ul436a65y5m2vvrm@fralle-msi>
+References: <1571307474-16222-1-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1571307474-16222-1-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::141
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,43 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: edgar.iglesias@xilinx.com, Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit b01422622b we did an automated rename of the ptimer_init()
-function to ptimer_init_with_bh().  Unfortunately this caught the
-unrelated arm_mptimer_init() function.  Undo that accidental
-renaming.
+Hi Sai,
 
-Fixes: b01422622b7c7293196fdaf1dbb4f495af44ecf9
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/arm_mptimer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On [2019 Oct 17] Thu 15:47:54, Sai Pavan Boddu wrote:
+> GQSPI handles chip selects and fifos in a different way compared to
+> spips. So skip update of cs and fifos related to spips in gqspi mode.
+> 
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> ---
+> Changes for V2:
+>     Just skip update of spips cs and fifos
+>     Update commit message accordingly
+> 
+>  hw/ssi/xilinx_spips.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+> index a309c71..27154b0 100644
+> --- a/hw/ssi/xilinx_spips.c
+> +++ b/hw/ssi/xilinx_spips.c
+> @@ -1022,6 +1022,13 @@ static void xilinx_spips_write(void *opaque, hwaddr addr,
+>      }
+>      s->regs[addr] = (s->regs[addr] & ~mask) | (value & mask);
+>  no_reg_update:
+> +    /* In GQSPI mode skip update of CS and fifo's related to spips */
+> +    if (object_dynamic_cast(OBJECT(s), TYPE_XLNX_ZYNQMP_QSPIPS)) {
+> +        XlnxZynqMPQSPIPS *ss = XLNX_ZYNQMP_QSPIPS(s);
+> +        if (ARRAY_FIELD_EX32(ss->regs, GQSPI_SELECT, GENERIC_QSPI_EN)) {
+> +            return;
+> +        }
+> +    }
 
-diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-index fdf97d1800f..2bf11f788c3 100644
---- a/hw/timer/arm_mptimer.c
-+++ b/hw/timer/arm_mptimer.c
-@@ -237,7 +237,7 @@ static void arm_mptimer_reset(DeviceState *dev)
-     }
- }
- 
--static void arm_mptimer_init_with_bh(Object *obj)
-+static void arm_mptimer_init(Object *obj)
- {
-     ARMMPTimerState *s = ARM_MPTIMER(obj);
- 
-@@ -319,7 +319,7 @@ static const TypeInfo arm_mptimer_info = {
-     .name          = TYPE_ARM_MPTIMER,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(ARMMPTimerState),
--    .instance_init = arm_mptimer_init_with_bh,
-+    .instance_init = arm_mptimer_init,
-     .class_init    = arm_mptimer_class_init,
- };
- 
--- 
-2.20.1
+Above corrects the issue for the zynqmp but not for the other two models
+(below functions shouldn't be called when writing the mentioned config
+regs for them either), would it be ok for you to expand to the switch
+cases you had in v1 (into the switch in this function and return after
+updating the reg values)? (the correction will then spawn all three
+models)
 
+Best regards,
+Francisco Iglesias
+
+>      xilinx_spips_update_cs_lines(s);
+>      xilinx_spips_check_flush(s);
+>      xilinx_spips_update_cs_lines(s);
+> -- 
+> 2.7.4
+> 
+> 
 
