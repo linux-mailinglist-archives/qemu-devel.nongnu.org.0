@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E6DDB0C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:08:32 +0200 (CEST)
-Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC6EDB0CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:11:05 +0200 (CEST)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7OA-0001pV-H4
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:08:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47437)
+	id 1iL7Im-0002bS-4M
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL6nU-0005fI-Si
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:30:37 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL6FW-0004eM-0e
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL6nT-0003NI-GH
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:30:36 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46402)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL6FV-0004Ek-4p
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:29 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34097)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL6nT-0003MP-AM
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:30:35 -0400
-Received: by mail-ot1-x341.google.com with SMTP id 89so2022952oth.13
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:30:34 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iL6FU-0004DO-TL
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:29 -0400
+Received: by mail-wr1-x444.google.com with SMTP id j11so2495942wrp.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9zFqbX1Trp+6JVLcAAM9mbHykBac0O8F4pvk15u1K10=;
- b=BAqReE4KMz98xenQ9ptl7wTFO4o8VFR13UZVQEBFGgoRlRwEovRfF+Jh2ptTEMGFn/
- zTkIK/t9nJeiRppBJHrOM54VWBKsEtqJdt/nS5aBrnGlb9Nu05XEPUYGeb9F858Vr1N2
- M0IyJZ9/iKbdoW8duOssd4XkhsWE26tdWH24Se+sfeHzJPW3N8DBh2F+fs579xO5FAMw
- LeYteDfKRXmha2YZnJn/0NbQLg+q6BcCHqk2CxmeWtnlHMjALSoYTtxSZ8xSv6Iwa7aK
- gLQeVF0LXtRQmvPKirSWvdSHA/FtnCrGIRLd909Nezb2y+w1WAjaEplYa/TdXnxxJZJT
- PQsg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xLFSa4w57TB2L7dDfU1OySLvcjk7v8MeCLcxQIOKNAo=;
+ b=R2XK7l+mPtMzL95A2TVWSs1cW4l2QzKCHOwOxCebxn4hjLFEdrPlry1ckhfJSolyYm
+ l1f5OnIRSANA2KmKZJcV7GPGXwuK4G2awQYLRul3wVpDUYQlNXxIIUzpg/aramXpSb/I
+ 4m400j0TZHyLZ7n2RDMLoklGs6WdZiZS091wnBMoRFn0Rxy3K1Q1YDyuOS/YQCMz3gDb
+ dZ6k/HGkbb+mDnK7TeptVRnxH9Q5SyvQBcxUgb0oujNaxXKbv2mgHvBCnqaud4RwWeDK
+ 1ftuAV+RmD5KSfCWO0Py7MCsXp6IDJD1guIS91HvLyYCAPfV3rxJIUwkDMMebJfhOB+x
+ XeHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9zFqbX1Trp+6JVLcAAM9mbHykBac0O8F4pvk15u1K10=;
- b=qqR9+bES3pdUr4pbf5cIMj3WHHnlRrGCFAyG8Up4LqP1qmqeOTrXXBDSfsfvfsXNFT
- ezreg+rviKBurJQxNt1YtA3XZFPd8a954Gl0xCCpuxVA2FFwhkQvbNk664sddavA8t3E
- GB9ADCsfFnnupTBtT8lMl4eFJpZpP5hbFTxoZwHfzgCyhNcT1OJY62MhvRKuEwulLqeu
- ZrNKjiGGbXx9N957E5bl0DJzj3q4vHn7CiIEDtI51G8D7TrhiRJMUTbFe2A3xPkfDnI0
- Ry8Cz1X9m4jj9haXe7axPpshXIMbqwtIcROw8lsO2XyNXC9kCwbOLjPc62o+em71Do7J
- VaLw==
-X-Gm-Message-State: APjAAAX7pwSgMMlL5Q0wBpCF/m7wH772V+cM4VSIceYjSitbr3D4VtAP
- +kTjSuH8tbEg9vR0JP2fi4ImP45eZ4wPdY+LL7mylw==
-X-Google-Smtp-Source: APXvYqzy7u1ldQm0JP2rhU8LYqSf04qyFx6ERE4lHoNO6pcjymKtjZ+6l2w8yTvve8yCly7Y7cIJiIiuUrSSDlKeeO4=
-X-Received: by 2002:a9d:30c1:: with SMTP id r1mr3359342otg.91.1571322633748;
- Thu, 17 Oct 2019 07:30:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xLFSa4w57TB2L7dDfU1OySLvcjk7v8MeCLcxQIOKNAo=;
+ b=d+w+lSwr3b/Y/MBzP1vG48WqsswTX/7b4nuIZrl0oKkvDVO7HjHKBBwAYKaX0RJOty
+ rJGrls82SoUUngRsG3UXXIVzhyV0g1VSgB5WuqQEYoh4cIBiTMY0RvLOc0+6ZVzlJKZ/
+ t5OcozLqMMraA1exbCSBgKUTXLC+lhRm5QnNxWZOsF8SUsjYPTh1CuWwoOHhNJR//qXx
+ oUBJ9UC58htXoP4c22cNiSwzslp3h3L+HTai67xCktSkz1pea8uwUIgAqulfDi+aLH95
+ k6/cUZDGLbhqsTkGmyyaqmbeqE4zntGwbbeKwSR+xFxw5kWM/SS8k5qlaId8Qjh25m4Y
+ uhMg==
+X-Gm-Message-State: APjAAAVS0a6aBjbCGxGk6kVpLn2jgE/bWmtxHq5QqSgd3PIuLJkWDXDq
+ t4Ol28H3eicDLIvxwJ4RqCHkLg==
+X-Google-Smtp-Source: APXvYqwQRkEc3ODAynNl2lmWHeWt/Fqqyra/UTG2LUgi7b6DmAwRPDcAFztghKLtCfRs8/uNCOjx0Q==
+X-Received: by 2002:adf:f805:: with SMTP id s5mr1541773wrp.329.1571320522323; 
+ Thu, 17 Oct 2019 06:55:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u1sm2362922wru.90.2019.10.17.06.55.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 06:55:21 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8868A1FFB1;
+ Thu, 17 Oct 2019 14:16:18 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v6 28/54] target/m68k: fetch code with translator_ld
+Date: Thu, 17 Oct 2019 14:15:49 +0100
+Message-Id: <20191017131615.19660-29-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
+References: <20191017131615.19660-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20191014150133.14318-1-ehabkost@redhat.com>
-In-Reply-To: <20191014150133.14318-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 15:30:22 +0100
-Message-ID: <CAFEAcA-FRU_WTh8zWLZJKVxoMWLQHYDTpzh8OiwgS465yR_BUQ@mail.gmail.com>
-Subject: Re: [PATCH] sphinx: Use separate doctree directories for different
- builders
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,29 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: robert.foley@futurewei.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Oct 2019 at 16:01, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> sphinx-build is buggy when multiple processes are using the same
-> doctree directory in parallel.  See the 3-year-old Sphinx bug
-> report at: https://github.com/sphinx-doc/sphinx/issues/2946
->
-> Instead of avoiding parallel builds or adding some kind of
-> locking, I'm using the simplest solution: just using a different
-> doctree cache for each builder.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
->  Makefile | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+From: "Emilio G. Cota" <cota@braap.org>
 
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/m68k/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to master as a buildfix, thanks.
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 24c1dd3408..fcdb7bc8e4 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -384,7 +384,7 @@ static TCGv gen_ldst(DisasContext *s, int opsize, TCGv addr, TCGv val,
+ static inline uint16_t read_im16(CPUM68KState *env, DisasContext *s)
+ {
+     uint16_t im;
+-    im = cpu_lduw_code(env, s->pc);
++    im = translator_lduw(env, s->pc);
+     s->pc += 2;
+     return im;
+ }
+-- 
+2.20.1
 
--- PMM
 
