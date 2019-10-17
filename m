@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D546EDB0A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:01:01 +0200 (CEST)
-Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CE4DB0B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:04:52 +0200 (CEST)
+Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7Gu-0000PE-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
+	id 1iL7Kc-0005Th-5y
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iL6au-0005SI-R5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:17:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iL6ea-000267-Qo
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:21:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iL6at-0003ns-SJ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:17:36 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39859)
+ (envelope-from <richard.henderson@linaro.org>) id 1iL6eZ-0006IJ-NL
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:21:24 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:37855)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iL6at-0003nI-NR
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:17:35 -0400
-Received: by mail-pf1-x443.google.com with SMTP id v4so1754260pff.6
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:17:35 -0700 (PDT)
+ id 1iL6eZ-0006HU-Ha
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:21:23 -0400
+Received: by mail-pl1-x641.google.com with SMTP id u20so1215994plq.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9yQ/BR5AE5KRDQdD7zvq4OVNk5mn+Sha2hM/Ld11IEQ=;
- b=jeITxR165kEiv1EC13+7t2DXybNHzq/I18N2PH3vo18ewiNr0tI4+tKOqHa0/0K2n/
- WtvLCHAb1ZjwwgdtQKH1F5FUWq2xplUQqW9/E8BRK7BxwacBb72Pps83rpbpM0jfHJlE
- B9koNwI/s/cvqi/+1JqTMw75P+B6HaH7EflXybkVvPDHiS6ezmL6s4NE+yQCdntJZ/j4
- hAKQpC8kCNq7p2PHtSiG97DQacbAOFy+55+ZUWugOJGYrctqmGU5x4+9V4p5USgHrzFw
- VdUYGerPpjlVqhJl59XXkKjZ4q/vbKRlQ3SCra18UpVTw8XjWKgSGhZ9n5DJU6WvLrwu
- kVow==
+ bh=0Ny8ptDe1Il4jv1PYAJAx6wDVarWEIuSVEOQY+rzNH4=;
+ b=CdE3w/5o3mL7OM/9dZuwExqWvpQSBM+yG8Xoc0fiN3QAXcN3xmIsOIjd3Hp0r7g9+4
+ liLuXwtiGigqGX/Rovs2P7jhnQHxnpK+6gObLQI24PxOgZNA/RZPnMPqtMSh7AoXcbbr
+ 8h18tGWvVtWN7DfT6r1SMlxwpmqpzSZK8RqcT4wEJu7rku2P6zfoI2zk6mDFz7svtX+u
+ YSXZRkoinH+Ui4ZkQQafa+Ge+zgdbGOonqln1arzh0vWLHdiGiVW4g/gFFm5dEe9CwE3
+ fDFn1uJyBLjgN5UtnLU5sWQsvZovQasQkqcnUsjs4iNF3mS7Kcz1JJO+rZGntI94koH8
+ MhIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9yQ/BR5AE5KRDQdD7zvq4OVNk5mn+Sha2hM/Ld11IEQ=;
- b=iNf+bZzQ+gkqXUbSuMuvO80GEGm2jNdu3qDENpOXS5f0Rw7vhSteNnlTwo5VlI/o5x
- /Ir6+Ti2qDnLv3wTG8PYXEZVEcjrBsQyelAtC1NpNvkWk76hdDwXPH90KAAyclPze4EC
- q80PqQMp45OJbmzHLoPRIBYAJ/j1iCan9o3lUE5ogqvKLosMhV8f7k+5LJh0ZA6kp8X9
- Ju76Iph5TXRPVNeafONk6kuV7G2soVYKAG5CK9spSN9G1ogpYOWAw5p+bnPapvluxLjw
- BX2IL4te3yxxy9LbEnVDRnLQHECbRGixZjubrraosb7HCdBX7dqcjxQJerk1NEq/8cAI
- 5W9A==
-X-Gm-Message-State: APjAAAXUu8TjxHtBWHn2LqHigOxQB8XGAZlXY5eIXY5i4Lj7GxdYBQR4
- Aojzh0DWlktT8H61dylzVfyGrHYF7/8=
-X-Google-Smtp-Source: APXvYqzEg4hh+ApAlihEe3aBE+4ocmiEWuV0PfNvSO+QKvBBUu86j1o5Aa9MKxRYK2ODQBhUXNPP1A==
-X-Received: by 2002:a17:90a:bf09:: with SMTP id c9mr4765148pjs.9.1571321854439; 
- Thu, 17 Oct 2019 07:17:34 -0700 (PDT)
+ bh=0Ny8ptDe1Il4jv1PYAJAx6wDVarWEIuSVEOQY+rzNH4=;
+ b=deC3QRvW2lKCWl8u6pAfce6rso82EFhtkaag8FIvrb3f+9QfDAoqOcjbFdispogHeG
+ XUWqnpJ07/YO7gXgDdh73HjqthdEVuxFsEPG58mbIvP+BrWpDCcswoGXsyoOUY/U/+Z3
+ R+nJb1WYtqIXRol1ARQw8QnpyaE9zFkCfZ8G8GR68ENb73/y1WBSJXsUgFEcYkb7hvh3
+ q1sGF3Jwt5ByFrGPB5FilUTDfyPHDICP/UyxxlmI7utVwbaFRuCMk2LdcRcwjfgVveWy
+ /FHsdflRaZ27oLxzSmOJZBKH9+ILV3fMY65MilQq3BDbyiHOQwziPd9Kowh1f+5hD/Lg
+ CAhw==
+X-Gm-Message-State: APjAAAWis1vfbnYZ1tfyJA9pq+ouEG05rwd2Pm+Dvi4nIv+fPh/DzGFH
+ aGTMxueHszkSvJp1kMZmuPXqxw==
+X-Google-Smtp-Source: APXvYqy4hlXWvjGbBZECVo/PWWG1945xQy8CAPl70/xxOP4kLdm3iARVSn4RL44PBNe2KzFj/1az7g==
+X-Received: by 2002:a17:902:9a44:: with SMTP id
+ x4mr4333466plv.127.1571322082038; 
+ Thu, 17 Oct 2019 07:21:22 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s191sm2543454pgc.94.2019.10.17.07.17.33
+ by smtp.gmail.com with ESMTPSA id b4sm2543370pju.16.2019.10.17.07.21.20
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 17 Oct 2019 07:17:33 -0700 (PDT)
-Subject: Re: [PATCH] hw/timer/arm_mptimer.c: Undo accidental rename of
- arm_mptimer_init()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20191017133331.5901-1-peter.maydell@linaro.org>
+ Thu, 17 Oct 2019 07:21:21 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/timer/slavio_timer.c: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132351.4762-1-peter.maydell@linaro.org>
+ <20191017132351.4762-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <6491b350-7fa3-4877-c8e3-d0e633d1bf2f@linaro.org>
-Date: Thu, 17 Oct 2019 07:17:32 -0700
+Message-ID: <4a099f60-8a6f-2b3c-5a6b-80b86620e66f@linaro.org>
+Date: Thu, 17 Oct 2019 07:21:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017133331.5901-1-peter.maydell@linaro.org>
+In-Reply-To: <20191017132351.4762-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,20 +85,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 6:33 AM, Peter Maydell wrote:
-> In commit b01422622b we did an automated rename of the ptimer_init()
-> function to ptimer_init_with_bh().  Unfortunately this caught the
-> unrelated arm_mptimer_init() function.  Undo that accidental
-> renaming.
+On 10/17/19 6:23 AM, Peter Maydell wrote:
+> Switch the slavio_timer code away from bottom-half based ptimers to
+> the new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
 > 
-> Fixes: b01422622b7c7293196fdaf1dbb4f495af44ecf9
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/timer/arm_mptimer.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/timer/slavio_timer.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
