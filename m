@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDA3DB04B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:42:44 +0200 (CEST)
-Received: from localhost ([::1]:49524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008EDDB05E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:47:32 +0200 (CEST)
+Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6zD-0002ag-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
+	id 1iL73q-0008RX-Ab
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:47:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <S.E.Harris@kent.ac.uk>) id 1iL5uW-0003f8-EE
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:33:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5wF-00063N-6X
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <S.E.Harris@kent.ac.uk>) id 1iL5uU-000446-VB
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:33:48 -0400
-Received: from mx4.kent.ac.uk ([129.12.21.35]:37000)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1iL5uU-00043g-PY
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:33:46 -0400
-Received: from mx5.kent.ac.uk ([129.12.21.36])
- by mx4.kent.ac.uk with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.92.3) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1iL5W0-0007Xb-FI; Thu, 17 Oct 2019 14:08:28 +0100
-Received: from 250.8.90.146.dyn.plus.net ([146.90.8.250] helo=cadance.lan)
- by mx5.kent.ac.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.92.3) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1iL5W0-0005do-6e; Thu, 17 Oct 2019 14:08:28 +0100
-Date: Thu, 17 Oct 2019 14:11:59 +0100
-From: Sarah Harris <S.E.Harris@kent.ac.uk>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v1 8/8] target/avr: Register AVR support
- with the rest of QEMU, the build system, and the MAINTAINERS file
-Message-Id: <20191017141159.435deb1f636578eb7f65f8b9@kent.ac.uk>
-In-Reply-To: <6dfd36cf-9d2f-d74a-2c8e-4b283973e8f7@redhat.com>
-References: <20190504083638.13380-1-S.E.Harris@kent.ac.uk>
- <20190504083638.13380-9-S.E.Harris@kent.ac.uk>
- <c05b4876-c55e-fd82-46d0-83be1b128cee@linaro.org>
- <CAK4993h0yCqpjBFzPy7GHt3kbSK43nLD6EXh4WFd_STHu15DTA@mail.gmail.com>
- <20190510121732.de0aa4075bcf6962a7414054@kent.ac.uk>
- <6dfd36cf-9d2f-d74a-2c8e-4b283973e8f7@redhat.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-X-Kent-Spam-Score: -1.0
-X-Kent-Spam-Bar: -
-X-Kent-Spam-Report: No, tests=ALL_TRUSTED=-1,TVD_RCVD_IP=0.001
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 129.12.21.35
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5wD-0004XC-3T
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:34 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34366)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iL5wB-0004S9-21
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:35:33 -0400
+Received: by mail-wm1-x343.google.com with SMTP id y135so7060002wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s/Kxt0sJmOqiRHlmaA5zdwUg0XEvdkyMNiTJ70WsIM0=;
+ b=F9PAL/5DGoW202thTWt9PWQxH2Va6V+qW3obqzm+cyizfruo8mxHofOSPKLN3O4JVV
+ o2Bhjq1knxePZW2mcPuJB89gxWzQ6ZLINNQh+JfoElCH8yXwzD3IY5mcXrQ7f7QUbUr4
+ /slst1r/o8Pb9AaAdsJQQUsA7eR3NzbLK4nGa1aYH0uLFxCRSr3soHIsThhDOD+KlfRw
+ +m7BUTOdLO4bRWmrfmwNrV/ksxEpa9g66tLUO+VV8Hn/awtasfu6X7fEQHSllRXGUu8Z
+ TphT5UJzYytFVT3WGEcSO7SpFHIpvkrbI0ES0mWiqs4W4gxypJHEp69L7+2flq+KOphF
+ 7Lcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s/Kxt0sJmOqiRHlmaA5zdwUg0XEvdkyMNiTJ70WsIM0=;
+ b=irwYclXUVoih2XWc7djLbDyLutTGYup7ZosAmVlcg2Ofq/UE52z2iHM4aZkRa3IT8o
+ PBtJAHob1dU2i+SJc0sUOdg7ouDOdQet5zX4KmJuGzRe8RKhIkbrfKzmP9kyrFMjhmdy
+ Hst3TXjBXHmu3sKGaE0PKtDfIOA7nzVAldBgB4HAnRy9roSC1igfTB114CrGYb5/uYkp
+ rAyZZZXnRfR/vLwsHe4fZYb7/+Vjr4WK8RuVRwj27QUng4gb8ReeIBoBAIKh0abPUhzI
+ 0/OhpUP47wDtsPUcHutiUqp4PhLWqhY2UQx/VO01dD2VcwUmN6Po65qMQQDLbrJEWn3k
+ fEfQ==
+X-Gm-Message-State: APjAAAVAlGh94/Aut3H/lZ197v209gE7NONZExnhbM+5+LLXBdpra0lW
+ nOyV/pCJAgvvdd/eRPOJzKyw9Q==
+X-Google-Smtp-Source: APXvYqx4JGfHif4/2AcaGYvtdAnhy+zOLYAgLl7sz280vt5bVVW3Fpv/Mh3XV4x0ZzcJ/N3QLfEfBg==
+X-Received: by 2002:a05:600c:305:: with SMTP id
+ q5mr2876832wmd.67.1571319328436; 
+ Thu, 17 Oct 2019 06:35:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g185sm2319343wme.10.2019.10.17.06.35.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 06:35:25 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C8E0D1FFB5;
+ Thu, 17 Oct 2019 14:16:18 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v6 31/54] target/sparc: fetch code with translator_ld
+Date: Thu, 17 Oct 2019 14:15:52 +0100
+Message-Id: <20191017131615.19660-32-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
+References: <20191017131615.19660-1-alex.bennee@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,91 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
- E.J.C.Robbins@kent.ac.uk, A.M.King@kent.ac.uk
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ robert.foley@futurewei.com, Richard Henderson <richard.henderson@linaro.org>,
+ peter.puhov@futurewei.com, aaron@os.amperecomputing.com, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+From: "Emilio G. Cota" <cota@braap.org>
 
-I've checked and yes, I can make time to review patches.
-This is part of my current paid work, so when my contract eventually ends I=
- will likely have to step down as reviewer.
-I'll have notice of that happening some time before, so I can pass that alo=
-ng when it comes.
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/sparc/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This message comes from my work email so the details should be correct, i.e=
-. Sarah Harris <S.E.Harris@kent.ac.uk>
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index c68bf4a2e4..edc23a7c40 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -5884,7 +5884,7 @@ static void sparc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     CPUSPARCState *env = cs->env_ptr;
+     unsigned int insn;
+ 
+-    insn = cpu_ldl_code(env, dc->pc);
++    insn = translator_ldl(env, dc->pc);
+     dc->base.pc_next += 4;
+     disas_sparc_insn(dc, insn);
+ 
+-- 
+2.20.1
 
-Kind regards,
-Sarah Harris
-
-On Sat, 12 Oct 2019 09:31:07 +0200
-Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
-
-> Hi Sarah,
->=20
-> On 5/10/19 1:17 PM, Sarah Harris wrote:
-> > Hi Richard,
-> >=20
-> > Having discussed with my colleagues, we don't have the resources to mai=
-ntain this.
-> > If you wanted to take up Michael's offer then I'm happy to respond to q=
-ueries and provide minor fixes.
-> > Otherwise, we will make our repository publicly available in the near f=
-uture for anyone who wants to use it.
->=20
-> Would you agree to be listed as reviewer for AVR (Michael being the=20
-> maintainer)?
->=20
->    M: Mail patches to: FullName <address@domain>
->       Maintainers are looking after a certain area and must be CCed on
->       patches. They are considered the main contact point.
->    R: Designated reviewer: FullName <address@domain>
->       These reviewers should be CCed on patches.
->       Reviewers are familiar with the subject matter and provide feedback
->       even though they are not maintainers.
->=20
-> > Kind regards,
-> > Sarah Harris
-> >=20
-> > On Sun, 5 May 2019 09:10:00 -0700
-> > Michael Rolnik <mrolnik@gmail.com> wrote:
-> >=20
-> >> Hi Richard.
-> >>
-> >> I can maintain it
-> >>
-> >> Sent from my cell phone, please ignore typos
-> >>
-> >> On Sun, May 5, 2019, 8:57 AM Richard Henderson <richard.henderson@lina=
-ro.org>
-> >> wrote:
-> >>
-> >>> On 5/4/19 1:36 AM, Sarah Harris wrote:
-> >>>> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
-> >>> ...
-> >>>>
-> >>>> +AVR
-> >>>> +M: Michael Rolnik <mrolnik@gmail.com>
-> >>>> +S: Odd Fixes
-> >>>> +F: target-avr/
-> >>>> +F: hw/avr/
-> >>>> +
-> >>>
-> >>> This is not how things work.  Michael wasn't up to maintaining the co=
-de 2
-> >>> years
-> >>> ago; that's why it was never committed.
-> >>>
-> >>> You would need to maintain this yourself, and for more than "Odd Fixe=
-s".
-> >>>
-> >>>
-> >>> r~
-> >>>
-> >=20
->=20
 
