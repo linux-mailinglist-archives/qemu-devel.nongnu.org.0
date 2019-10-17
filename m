@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9593DB1C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:02:36 +0200 (CEST)
-Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D0ADB1E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:05:38 +0200 (CEST)
+Received: from localhost ([::1]:51926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8EV-0002f9-Cd
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54462)
+	id 1iL8HR-0006DV-65
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL7OH-0003N2-SA
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:08:38 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iL7OQ-0003Rk-6S
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:08:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL7OF-0000YB-Gg
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:08:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53896)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7OF-0000Xi-8h
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:08:35 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7610A2A09C4
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:08:33 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id s19so1200017wmj.0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:08:33 -0700 (PDT)
+ (envelope-from <richard.henderson@linaro.org>) id 1iL7OP-0000bz-7D
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:08:46 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36255)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iL7ON-0000Zs-2N
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:08:43 -0400
+Received: by mail-pl1-x643.google.com with SMTP id j11so1273461plk.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WuWWW6xE1Pchpzf03ss/4tR08raHU2zu6kAU1PPJn+g=;
+ b=IPjUnpxtPTMDKnE9JfNxoDQ9o/5ikDLdcubrExns+kUBCpxiPRVv3uDj/fV2IxYU+J
+ 8ULKFjJKrC19+cNOkzDlSgn2s+duW4PERXOeHer5fA0HshugTfbz0yu2WXosoxKCPrS6
+ B/0J6aUK/gRoTweAeELj2YAfBM9DJ71pZ7Lb/TnqAlMqoUnhbcu9F8OYvAcLJShb5hfr
+ Rd6ausN+sbvEj2jeJ0Bn1Gax0dVPziE6oQneGVaU4b/PfmRlWbk6XE06I8QNgyGYoKvy
+ efeZPbewiNrFM3rK/Uw5HBPTA1ZQYmgrnCYlBOosHwhdxB++rQCPaf9/eySvJZcJiRgB
+ yqNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dnAgdv88fqpkJJVSXS9vM0PplR+Kvi9HfVjwm6f845g=;
- b=ScReFZaIgRDPMCc4uQBq4foV+zwgK78+AoRvi8EYjkLwvMlqc7t7P+Z2Oid0/wzZqk
- rx2IBR1P1yEcDoozRAYbo23dQHZdTsqNVAWUWL3Dw+9zFyk6HoEWoYWozz/TlG1E2RYe
- zvMB1hPedlMOLnPzckCaEYj7irreZD4yKzwENZhKPyuvXydY27jDdMjWmRCakQC9DrZ+
- o9m29jkSjsPnzuw5Ebw4T/t+j4rGf0dKFaXjbvOsvvX6ZpPHI5BRFPYj7/fAe+cFS3VF
- y4FbpI+wejgiyCFUz+uVPsfWYAX79SykVg4solkpzSenYcZd8VPAVCiI1CCrvGbynoNC
- Gq4w==
-X-Gm-Message-State: APjAAAXQgATua7OsfgIWVQTmtMGALl6ZB7hU4RiICGldD8kytFcD0KrC
- 9ZvhyHyImJnuKX2NOm5d9T2gvVkLIa8lplV56Wpw9ufCMMQD5yot12+lne1rYlnbKaF8iW7Qw/B
- 9y3GC05JXq47JFyc=
-X-Received: by 2002:a5d:4286:: with SMTP id k6mr3362930wrq.192.1571324909978; 
- Thu, 17 Oct 2019 08:08:29 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxg9IEqKvkzKtsyM3a9kmP0NDMBLbPPViQWW70uNvm8bLhPKRJHIGoGgBAFy5C9Rn1A0gAHNw==
-X-Received: by 2002:a5d:4286:: with SMTP id k6mr3362889wrq.192.1571324909771; 
- Thu, 17 Oct 2019 08:08:29 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id t6sm3551777wmf.8.2019.10.17.08.08.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:08:29 -0700 (PDT)
-Subject: Re: [PATCH 02/32] hw/i386/pc: Move kvm_i8259_init() declaration to
- sysemu/kvm.h
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-3-philmd@redhat.com>
- <CAL1e-=iC9hR-jqTSu9c6KtgiNWFwftnTMq9W87NWFPb37hjCoA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <46708b3d-fcef-f65c-d929-73d7c8e3f877@redhat.com>
-Date: Thu, 17 Oct 2019 17:08:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=WuWWW6xE1Pchpzf03ss/4tR08raHU2zu6kAU1PPJn+g=;
+ b=btViQW1JOjB1oO6TOF5EawEW0v/Dmcvh7WUM6/KQ6yY9H9K3gqLyfTh+tOR3QFZtri
+ 3Gr4ga09mnxh2JjAq9oUhu4/EERATo98SsSoFOyv1tzlf0yKz7sQWHpJ16ppE4zmi6Jy
+ 2QCPlFlzfHmgUSUi0D2Mgy0y6X8wLxzSMLMHEv/hE6qS7KQz8XAcDzFt76Y/R5iFLGks
+ eHUW+L29G2CiJVMDw6BKUB48TzihHax6TdJ4/ekKR0nviIb4PMR/w9lLXzsadxg8HoBF
+ yplgqMM5UqaAYR0hgYfbDsiAP7NdqF1WlHY/UlBn/ZthKwpc8nJ+DDB88j7b8YCvWbUm
+ 44Yg==
+X-Gm-Message-State: APjAAAW8VrFiCmSZRqZo+sQJLUXmJPZkMoaDO6Zphz6wY5ezNnAYbEXU
+ 6ZWlJvaOqesuonH388V3S3Bbg7Ch2/M=
+X-Google-Smtp-Source: APXvYqxp8Ipy0jNZCR4dwyWWJ0fHYPDfryf3zwG4XoVpM+QKJVYxyz1ar3Oq2MLUSp3Dj25f1SEnqg==
+X-Received: by 2002:a17:902:bd06:: with SMTP id
+ p6mr4227172pls.120.1571324921421; 
+ Thu, 17 Oct 2019 08:08:41 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id m13sm3426495pgi.22.2019.10.17.08.08.40
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Oct 2019 08:08:40 -0700 (PDT)
+Subject: Re: [PATCH 8/8] hw/m68k/mcf5208.c: Switch to transaction-based ptimer
+ API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ <20191017132905.5604-9-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <a136af24-103d-8490-3f26-9093a684fca7@linaro.org>
+Date: Thu, 17 Oct 2019 08:08:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=iC9hR-jqTSu9c6KtgiNWFwftnTMq9W87NWFPb37hjCoA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191017132905.5604-9-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,90 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Magnus Damm <magnus.damm@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/17/19 6:29 AM, Peter Maydell wrote:
+> Switch the mcf5208 code away from bottom-half based ptimers to
+> the new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/m68k/mcf5208.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-On 10/17/19 4:57 PM, Aleksandar Markovic wrote:
->=20
->=20
-> On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com=20
-> <mailto:philmd@redhat.com>> wrote:
->=20
->     Move the KVM-related call to "sysemu/kvm.h".
-
-Maybe s/call/function declaration/
-
->=20
->     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     ---
->      =C2=A0include/hw/i386/pc.h | 1 -
->      =C2=A0include/sysemu/kvm.h | 1 +
->      =C2=A02 files changed, 1 insertion(+), 1 deletion(-)
->=20
->=20
-> Is there any other similar case in our code base?
-
-These look appropriate:
-
-include/hw/ppc/openpic_kvm.h:5:int kvm_openpic_connect_vcpu(DeviceState=20
-*d, CPUState *cs);
-include/hw/timer/i8254.h:67:static inline ISADevice *kvm_pit_init(ISABus=20
-*bus, int base)
-hw/intc/vgic_common.h:25: * kvm_arm_gic_set_irq - Send an IRQ to the=20
-in-kernel vGIC
-hw/intc/vgic_common.h:33:void kvm_arm_gic_set_irq(uint32_t num_irq, int=20
-irq, int level);
-
-although kvm_pit_init() is probably borderline.
-
->=20
-> A.
->=20
->     diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->     index 6df4f4b6fb..09e74e7764 100644
->     --- a/include/hw/i386/pc.h
->     +++ b/include/hw/i386/pc.h
->     @@ -158,7 +158,6 @@ typedef struct PCMachineClass {
->=20
->      =C2=A0extern DeviceState *isa_pic;
->      =C2=A0qemu_irq *i8259_init(ISABus *bus, qemu_irq parent_irq);
->     -qemu_irq *kvm_i8259_init(ISABus *bus);
->      =C2=A0int pic_read_irq(DeviceState *d);
->      =C2=A0int pic_get_output(DeviceState *d);
->=20
->     diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
->     index 9d143282bc..da8aa9f5a8 100644
->     --- a/include/sysemu/kvm.h
->     +++ b/include/sysemu/kvm.h
->     @@ -513,6 +513,7 @@ void kvm_irqchip_set_qemuirq_gsi(KVMState *s,
->     qemu_irq irq, int gsi);
->      =C2=A0void kvm_pc_gsi_handler(void *opaque, int n, int level);
->      =C2=A0void kvm_pc_setup_irq_routing(bool pci_enabled);
->      =C2=A0void kvm_init_irq_routing(KVMState *s);
->     +qemu_irq *kvm_i8259_init(ISABus *bus);
->=20
->      =C2=A0/**
->      =C2=A0 * kvm_arch_irqchip_create:
->     --=20
->     2.21.0
->=20
->=20
+r~
 
