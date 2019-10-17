@@ -2,49 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7233ADAAC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 13:03:46 +0200 (CEST)
-Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7714FDAAC9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 13:06:14 +0200 (CEST)
+Received: from localhost ([::1]:43782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL3ZI-0005ak-Q4
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 07:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
+	id 1iL3bh-0008Il-Iz
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 07:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iL3Wr-0004nJ-Jh
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:01:15 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL3Xf-0005IA-R8
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:02:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iL3Wm-0004Kl-6o
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:01:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49386)
+ (envelope-from <thuth@redhat.com>) id 1iL3Xe-0004Xl-G1
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:02:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45036)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iL3Wl-0004KP-Uf
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:01:08 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <thuth@redhat.com>)
+ id 1iL3Xe-0004XY-8H; Thu, 17 Oct 2019 07:02:02 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 21A0D7FDC9;
- Thu, 17 Oct 2019 11:01:07 +0000 (UTC)
-Received: from redhat.com (ovpn-112-36.ams2.redhat.com [10.36.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 668881001E75;
- Thu, 17 Oct 2019 11:00:53 +0000 (UTC)
-Date: Thu, 17 Oct 2019 12:00:51 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH v10 13/15] docs/microvm.rst: document the new microvm
- machine type
-Message-ID: <20191017110051.GH31072@redhat.com>
-References: <20191016101241.24405-1-slp@redhat.com>
- <20191016101241.24405-14-slp@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 66C213090FD6;
+ Thu, 17 Oct 2019 11:02:01 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08A9F19C69;
+ Thu, 17 Oct 2019 11:01:56 +0000 (UTC)
+Subject: Re: s390x/qemu-user: TODO /home/dhildenb/git/qemu/tcg/tci.c:859:
+ tcg_qemu_tb_exec()
+To: David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Stefan Weil <sw@weilnetz.de>
+References: <60a0d510-b693-0ed7-560f-e70904d9574d@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <9925b761-6d9b-2361-1697-a8a726b2ef21@redhat.com>
+Date: Thu, 17 Oct 2019 13:01:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <60a0d510-b693-0ed7-560f-e70904d9574d@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191016101241.24405-14-slp@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 17 Oct 2019 11:01:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Thu, 17 Oct 2019 11:02:01 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -59,146 +106,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: ehabkost@redhat.com, mst@redhat.com, philmd@redhat.com, groug@kaod.org,
- qemu-devel@nongnu.org, kraxel@redhat.com, imammedo@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net, lersek@redhat.com, sgarzare@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 16, 2019 at 12:12:40PM +0200, Sergio Lopez wrote:
-> Document the new microvm machine type.
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  docs/microvm.rst | 98 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 98 insertions(+)
->  create mode 100644 docs/microvm.rst
-> 
-> diff --git a/docs/microvm.rst b/docs/microvm.rst
-> new file mode 100644
-> index 0000000000..0aab55576c
-> --- /dev/null
-> +++ b/docs/microvm.rst
-> @@ -0,0 +1,98 @@
-> +====================
-> +microvm Machine Type
-> +====================
-> +
-> +``microvm`` is a machine type inspired by ``Firecracker`` and
-> +constructed after its machine model.
-> +
-> +It's a minimalist machine type without ``PCI`` nor ``ACPI`` support,
-> +designed for short-lived guests. microvm also establishes a baseline
-> +for benchmarking and optimizing both QEMU and guest operating systems,
-> +since it is optimized for both boot time and footprint.
+On 17/10/2019 12.02, David Hildenbrand wrote:
+> Hi,
+>=20
+> I'm currently trying to run Fedora 31 under qemu-user
+> (https://github.com/fedora-cloud/docker-brew-fedora/tree/8a81f67271e959=
+dfc8f8a888b161bbd540b7a83b/s390x)
+> in order to debug=C2=A0 a vector instruction issue.
+>=20
+> Strangely, when trying to chroot into above rootfs and running
+> /bin/bash, I get
+>=20
+> t460s: ~/f31=C2=A0 $ sudo chroot . ./qemu-s390x=C2=A0 /bin/bash
+> TODO /home/dhildenb/git/qemu/tcg/tci.c:859: tcg_qemu_tb_exec()
+> /home/dhildenb/git/qemu/tcg/tci.c:859: tcg fatal error
+> Aborted
 
-I'm wondering about live migration support across QEMU versions.
+That's likely the issue which might be fixed by Stefan's patch here:
 
-IIUC, this is not intended to be a versioned machined type, so
-live migration won't be supportable across QEMU versions.
+https://patchwork.ozlabs.org/patch/1083601/
 
-Given that its for short lived guests, this shouldn't be an
-issue, but it might be worth saying something explicit here
-about migration to avoid any risk of misunderstanding.
+... unfortunately, this has never been merged into master. Stefan, any
+chance that you could finally get this upstream?
 
-> +
-> +
-> +Supported devices
-> +-----------------
-> +
-> +The microvm machine type supports the following devices:
-> +
-> +- ISA bus
-> +- i8259 PIC (optional)
-> +- i8254 PIT (optional)
-> +- MC146818 RTC (optional)
-> +- One ISA serial port (optional)
-> +- LAPIC
-> +- IOAPIC (with kernel-irqchip=split by default)
-> +- kvmclock (if using KVM)
-> +- fw_cfg
-> +- Up to eight virtio-mmio devices (configured by the user)
-> +
-> +
-> +Using the microvm machine type
-> +------------------------------
-> +
-> +Machine-specific options
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +It supports the following machine-specific options:
-> +
-> +- microvm.x-option-roms=bool (Set off to disable loading option ROMs)
-> +- microvm.pit=OnOffAuto (Enable i8254 PIT)
-> +- microvm.isa-serial=bool (Set off to disable the instantiation an ISA serial port)
-> +- microvm.pic=OnOffAuto (Enable i8259 PIC)
-> +- microvm.rtc=OnOffAuto (Enable MC146818 RTC)
-> +- microvm.auto-kernel-cmdline=bool (Set off to disable adding virtio-mmio devices to the kernel cmdline)
-> +
-> +
-> +Boot options
-> +~~~~~~~~~~~~
-> +
-> +By default, microvm uses ``qboot`` as its BIOS, to obtain better boot
-> +times, but it's also compatible with ``SeaBIOS``.
-> +
-> +As no current FW is able to boot from a block device using
-> +``virtio-mmio`` as its transport, a microvm-based VM needs to be run
-> +using a host-side kernel and, optionally, an initrd image.
-> +
-> +
-> +Running a microvm-based VM
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +By default, microvm aims for maximum compatibility, enabling both
-> +legacy and non-legacy devices. In this example, a VM is created
-> +without passing any additional machine-specific option, using the
-> +legacy ``ISA serial`` device as console::
-> +
-> +  $ qemu-system-x86_64 -M microvm \
-> +     -enable-kvm -cpu host -m 512m -smp 2 \
-> +     -kernel vmlinux -append "earlyprintk=ttyS0 console=ttyS0 root=/dev/vda" \
-> +     -nodefaults -no-user-config -nographic \
-> +     -serial stdio \
-> +     -drive id=test,file=test.img,format=raw,if=none \
-> +     -device virtio-blk-device,drive=test \
-> +     -netdev tap,id=tap0,script=no,downscript=no \
-> +     -device virtio-net-device,netdev=tap0
-> +
-> +While the example above works, you might be interested in reducing the
-> +footprint further by disabling some legacy devices. If you're using
-> +``KVM``, you can disable the ``RTC``, making the Guest rely on
-> +``kvmclock`` exclusively. Additionally, if your host's CPUs have the
-> +``TSC_DEADLINE`` feature, you can also disable both the i8259 PIC and
-> +the i8254 PIT (make sure you're also emulating a CPU with such feature
-> +in the guest).
-> +
-> +This is an example of a VM with all optional legacy features
-> +disabled::
-> +
-> +  $ qemu-system-x86_64 \
-> +     -M microvm,x-option-roms=off,pit=off,pic=off,isa-serial=off,rtc=off \
-> +     -enable-kvm -cpu host -m 512m -smp 2 \
-> +     -kernel vmlinux -append "console=hvc0 root=/dev/vda" \
-> +     -nodefaults -no-user-config -nographic \
-> +     -chardev stdio,id=virtiocon0,server \
-> +     -device virtio-serial-device \
-> +     -device virtconsole,chardev=virtiocon0 \
-> +     -drive id=test,file=test.img,format=raw,if=none \
-> +     -device virtio-blk-device,drive=test \
-> +     -netdev tap,id=tap0,script=no,downscript=no \
-> +     -device virtio-net-device,netdev=tap0
-> -- 
-> 2.21.0
-> 
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ Thomas
 
