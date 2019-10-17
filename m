@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4A2DB2B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:45:08 +0200 (CEST)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD88DB2A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:41:50 +0200 (CEST)
+Received: from localhost ([::1]:52886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8te-0006Vh-NH
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:45:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34169)
+	id 1iL8qT-0001Md-80
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iL8Aj-0007kU-Ff
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:58:42 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL8B3-0008JP-KW
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iL8Ai-0003g1-H5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:58:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52928)
+ (envelope-from <thuth@redhat.com>) id 1iL8B2-0003p4-HG
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58804)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1iL8Ag-0003eU-Dt; Thu, 17 Oct 2019 11:58:38 -0400
+ id 1iL8B0-0003mH-BO; Thu, 17 Oct 2019 11:58:58 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 999F5307CDE7;
- Thu, 17 Oct 2019 15:58:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 97B4FAB965;
+ Thu, 17 Oct 2019 15:58:57 +0000 (UTC)
 Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 018C919C70;
- Thu, 17 Oct 2019 15:58:36 +0000 (UTC)
-Subject: Re: [PATCH v2 22/23] iotests/267: Create socket in $SOCK_DIR
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D36E319C70;
+ Thu, 17 Oct 2019 15:58:56 +0000 (UTC)
+Subject: Re: [PATCH v2 23/23] iotests: Drop TEST_DIR filter from _filter_nbd
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20191017133155.5327-1-mreitz@redhat.com>
- <20191017133155.5327-23-mreitz@redhat.com>
+ <20191017133155.5327-24-mreitz@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
@@ -78,18 +78,18 @@ Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
  IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
  yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
 Organization: Red Hat
-Message-ID: <115325a7-9bad-38f5-c39f-2f80a8ebac86@redhat.com>
-Date: Thu, 17 Oct 2019 17:58:36 +0200
+Message-ID: <9ebb381a-abf7-0bbf-ab92-272a586060fb@redhat.com>
+Date: Thu, 17 Oct 2019 17:58:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017133155.5327-23-mreitz@redhat.com>
+In-Reply-To: <20191017133155.5327-24-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 17 Oct 2019 15:58:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Thu, 17 Oct 2019 15:58:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -109,12 +109,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17/10/2019 15.31, Max Reitz wrote:
+> Sockets should be placed into $SOCK_DIR instead of $TEST_DIR, so remove
+> the $TEST_DIR filter from _filter_nbd.
+> 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->  tests/qemu-iotests/267     | 4 ++--
->  tests/qemu-iotests/267.out | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  tests/qemu-iotests/common.filter | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+> index 0ee6042524..f870e00e44 100644
+> --- a/tests/qemu-iotests/common.filter
+> +++ b/tests/qemu-iotests/common.filter
+> @@ -221,7 +221,6 @@ _filter_nbd()
+>      # Filter out the TCP port number since this changes between runs.
+>      $SED -e '/nbd\/.*\.c:/d' \
+>          -e 's#127\.0\.0\.1:[0-9]*#127.0.0.1:PORT#g' \
+> -        -e "s#?socket=$TEST_DIR#?socket=TEST_DIR#g" \
+>          -e "s#?socket=$SOCK_DIR#?socket=SOCK_DIR#g" \
+>          -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
+>  }
+> 
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
