@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE45DB01E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:31:33 +0200 (CEST)
-Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B03DB032
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:38:13 +0200 (CEST)
+Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6oO-0005S5-HT
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
+	id 1iL6uq-0005JY-6H
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iL5tX-0002kH-8C
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:48 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iL5tZ-0002oj-Vw
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iL5tW-0003dK-7w
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49086)
+ (envelope-from <mreitz@redhat.com>) id 1iL5tZ-0003eo-01
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53082)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iL5tS-0003aK-Jn; Thu, 17 Oct 2019 09:32:42 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iL5tW-0003dC-Ma; Thu, 17 Oct 2019 09:32:46 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6592018CB912;
- Thu, 17 Oct 2019 13:32:41 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E6A3E7FDE5;
+ Thu, 17 Oct 2019 13:32:45 +0000 (UTC)
 Received: from localhost (ovpn-117-3.ams2.redhat.com [10.36.117.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 043B560872;
- Thu, 17 Oct 2019 13:32:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E5155D9DC;
+ Thu, 17 Oct 2019 13:32:45 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 17/23] iotests/208: Create socket in $SOCK_DIR
-Date: Thu, 17 Oct 2019 15:31:49 +0200
-Message-Id: <20191017133155.5327-18-mreitz@redhat.com>
+Subject: [PATCH v2 19/23] iotests/222: Create socket in $SOCK_DIR
+Date: Thu, 17 Oct 2019 15:31:51 +0200
+Message-Id: <20191017133155.5327-20-mreitz@redhat.com>
 In-Reply-To: <20191017133155.5327-1-mreitz@redhat.com>
 References: <20191017133155.5327-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 17 Oct 2019 13:32:41 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Thu, 17 Oct 2019 13:32:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,23 +63,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/208 | 2 +-
+ tests/qemu-iotests/222 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/208 b/tests/qemu-iotests/208
-index 1e202388dc..546eb1de3e 100755
---- a/tests/qemu-iotests/208
-+++ b/tests/qemu-iotests/208
-@@ -26,7 +26,7 @@ iotests.verify_image_format(supported_fmts=3D['generic'=
-])
+diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
+index 0ead56d574..3f9f934ad8 100644
+--- a/tests/qemu-iotests/222
++++ b/tests/qemu-iotests/222
+@@ -48,7 +48,7 @@ remainder =3D [("0xd5", "0x108000",  "32k"), # Right-en=
+d of partial-left [1]
 =20
- with iotests.FilePath('disk.img') as disk_img_path, \
-      iotests.FilePath('disk-snapshot.img') as disk_snapshot_img_path, \
+ with iotests.FilePath('base.img') as base_img_path, \
+      iotests.FilePath('fleece.img') as fleece_img_path, \
 -     iotests.FilePath('nbd.sock') as nbd_sock_path, \
 +     iotests.FilePath('nbd.sock', iotests.sock_dir) as nbd_sock_path, \
       iotests.VM() as vm:
 =20
-     img_size =3D '10M'
+     log('--- Setting up images ---')
 --=20
 2.21.0
 
