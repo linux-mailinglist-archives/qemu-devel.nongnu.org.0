@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C30DB699
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 20:55:41 +0200 (CEST)
-Received: from localhost ([::1]:56994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D491DB6B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 21:00:48 +0200 (CEST)
+Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLAw0-00055R-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 14:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
+	id 1iLB0w-0002Co-LZ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 15:00:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLAs9-0001KN-B8
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLAro-00014m-Cj
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLAs6-0000xB-IH
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:41 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43868)
+ (envelope-from <richard.henderson@linaro.org>) id 1iLArn-0000qo-0d
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:20 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:36345)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLAs6-0000vO-Af
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:38 -0400
-Received: by mail-pf1-x444.google.com with SMTP id a2so2205646pfo.10
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:51:36 -0700 (PDT)
+ id 1iLArm-0000qN-RV
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:18 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 23so1869079pgk.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:51:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0mb3YwiZncjKHxGhu+AsTIpQEFeyLEnUoSMmhup1oAE=;
- b=IiuVEfLf5+TKjAGIxfM3Cl2hkN4WSbjcY4rplM0tp+pBS4sNEcM6FffTkXxmpT8DV1
- u7iLsMVR0fk1nsdpjsCuDmv6cdF7jEAZxHerfu/MMXM1I9Fx034cS6YxeVYiGNx6vuj5
- KEbqabNhtejIbwEObLto6LcqpAb/VGWrYWkYMngEU5RDnFmi5rFBBcw3urzEi+Tka1Ux
- JiR3EdUM/iqu7OzvjjhuVZt7w+JDb1qUX5qPSCHtwDbMVVmLAXRSJJXjmoknuCihTSpM
- Ksj+lqBa4/66Jl6ZCvjVdxghw08WsaPizSNppxzUR9paT/RnxtYwsFBfvEdZ3GxlQpDr
- CkBQ==
+ bh=wk2rFtSmeyIzF6QnNFgZDZnR49h41R/PQfqDCLolPT8=;
+ b=LWqvcsHxCL65vPcrjAt9j3r+wBkdpmSzYoL2h9szRSUzTBmvhxItK3wEP1Y3hiDrZ4
+ Ri2X3uv8zNDoQBF2wYvWWRjDdEm8z2loF8BG5+8wncW2TBgsth+x+JLUT7bi79woGQKX
+ qKcnyd1AA+vgf733RPz+rTVtAT1Xso3cMWQX+746L518nQJs60I6w4ypj8k/g8+cRS/C
+ dO7VJJQjLbJVJTW2PbLqORcHgmDHeRtD3GGZCQpmiY+4za32dOlg1J621ljLKQNBcy+R
+ +nf3DLxCK4HbhTC6HUxLQYm//M2nXNnGuf0JTnDBGhbW2HKw/PgJRowZ8KR+dpjfKEXJ
+ gNkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0mb3YwiZncjKHxGhu+AsTIpQEFeyLEnUoSMmhup1oAE=;
- b=RvIRILy7qNEz2cweTNHGADM0Lfd68qUJf+idpxCjMU00KLqi/R4zn7omiP1+LIC38v
- F2GkcIp9SGFRU38oMZelMXx50BoXF0tOOPDqsbTiUjktMhl0ZZF9YzVDVaO0IMfYFRM7
- tJ3GvOBNylXcw2px6fDUk49IPuuKJ3/0uhOUaj9ckwiWe41YuMVH0JcyO9Hx3AVzdPEV
- +G3jJJo/H7GFLAR/ZA5Rw1pjTk+G7KUqlFiaEoCYLbwMzQrlJjk++Hc1bY28vw9aRXOa
- loU6vfy/EtX/LyPnqdlzk6k1Sp9/Urk2SlznFF57eGCvRPEc6xtxFE0HO8O+mZHHlEJ8
- fi1Q==
-X-Gm-Message-State: APjAAAUQIxwL599JQq8+UbJzA3CL+UtdbitXDX7aNHP7Exioj0gUI0E4
- en/t+PqAzp/ITP/jq/aCjoBi/NOgjgw=
-X-Google-Smtp-Source: APXvYqx66ph7U2UYu8SUiBiy4DYdU1kPjIN72m49yFNCxjPfPCXUgI6uExHb9lgPXaohFaIM8+qADg==
-X-Received: by 2002:a17:90a:c405:: with SMTP id i5mr6407369pjt.9.1571338294787; 
- Thu, 17 Oct 2019 11:51:34 -0700 (PDT)
+ bh=wk2rFtSmeyIzF6QnNFgZDZnR49h41R/PQfqDCLolPT8=;
+ b=ZoINyZs9iVFggOk7F+NAmjjKS/Innwxt2ZZKfyWXxeY2PeSvEIbxZDuj6LLZE0Q7bk
+ No446jn5rORvr73NeV6k4RCmVJHCh3OBhQjCTJYqV1wqhw+ZfEW3SVHjSMVZTUGNHTdh
+ z8qfwrlhsroXWGYDTKL+eK4vg9GLopKjtYd0By3OWSHttlUZvjzddjqlgNcDjJeeKlMN
+ BPm4PjO3wnaoAZ5DHXVaOwMtuJoOJxGV+Ceva9XctKD4H+lVShNYtuqkR3iJYOc5h8rS
+ eiuW4LcMVRo5RLcSRhfEYDYKezB4U9xZ/0QciuohGpoyj+A9suGakX3OkdP8ERoDc9JG
+ fpvw==
+X-Gm-Message-State: APjAAAVbp3h/4xKVfuuAvdr8hGOQ227fGFJK51ZVM92E7bkcIIQDRNJF
+ KQ3XtM4km11YuTvnnzJ0y2kTvCrW0N4=
+X-Google-Smtp-Source: APXvYqyQDeMqLHxb9SSEJcEumuUKVLfJr0DEnKt+Q/TjXDr4T19kZXCs9p+Wy3UTXWGatLMZO69Rgg==
+X-Received: by 2002:a17:90a:b292:: with SMTP id
+ c18mr6168103pjr.4.1571338277438; 
+ Thu, 17 Oct 2019 11:51:17 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s97sm5009256pjc.4.2019.10.17.11.51.33
+ by smtp.gmail.com with ESMTPSA id s97sm5009256pjc.4.2019.10.17.11.51.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 11:51:33 -0700 (PDT)
+ Thu, 17 Oct 2019 11:51:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/20] target/arm: Rebuild hflags at MSR writes
-Date: Thu, 17 Oct 2019 11:51:07 -0700
-Message-Id: <20191017185110.539-18-richard.henderson@linaro.org>
+Subject: [PATCH v7 04/20] target/arm: Split arm_cpu_data_is_big_endian
+Date: Thu, 17 Oct 2019 11:50:54 -0700
+Message-Id: <20191017185110.539-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191017185110.539-1-richard.henderson@linaro.org>
 References: <20191017185110.539-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,88 +84,126 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue setting, but not relying upon, env->hflags.
+Set TBFLAG_ANY.BE_DATA in rebuild_hflags_common_32 and
+rebuild_hflags_a64 instead of rebuild_hflags_common, where we do
+not need to re-test is_a64() nor re-compute the various inputs.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 13 +++++++++++--
- target/arm/translate.c     | 28 +++++++++++++++++++++++-----
- 2 files changed, 34 insertions(+), 7 deletions(-)
+ target/arm/cpu.h    | 49 +++++++++++++++++++++++++++------------------
+ target/arm/helper.c | 16 +++++++++++----
+ 2 files changed, 42 insertions(+), 23 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 2d6cd09634..d4bebbe629 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1789,8 +1789,17 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-     if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
-         /* I/O operations must end the TB here (whether read or write) */
-         s->base.is_jmp = DISAS_UPDATE;
--    } else if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
--        /* We default to ending the TB on a coprocessor register write,
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index ad79a6153b..4d961474ce 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3108,33 +3108,44 @@ static inline uint64_t arm_sctlr(CPUARMState *env, int el)
+     }
+ }
+ 
++static inline bool arm_cpu_data_is_big_endian_a32(CPUARMState *env,
++                                                  bool sctlr_b)
++{
++#ifdef CONFIG_USER_ONLY
++    /*
++     * In system mode, BE32 is modelled in line with the
++     * architecture (as word-invariant big-endianness), where loads
++     * and stores are done little endian but from addresses which
++     * are adjusted by XORing with the appropriate constant. So the
++     * endianness to use for the raw data access is not affected by
++     * SCTLR.B.
++     * In user mode, however, we model BE32 as byte-invariant
++     * big-endianness (because user-only code cannot tell the
++     * difference), and so we need to use a data access endianness
++     * that depends on SCTLR.B.
++     */
++    if (sctlr_b) {
++        return true;
 +    }
-+    if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
-+        /*
-+         * A write to any coprocessor regiser that ends a TB
-+         * must rebuild the hflags for the next TB.
-+         */
-+        TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
-+        gen_helper_rebuild_hflags_a64(cpu_env, tcg_el);
-+        tcg_temp_free_i32(tcg_el);
-+        /*
-+         * We default to ending the TB on a coprocessor register write,
-          * but allow this to be suppressed by the register definition
-          * (usually only necessary to work around guest bugs).
-          */
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 698c594e8c..cb47cd9744 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -6890,6 +6890,8 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
-     ri = get_arm_cp_reginfo(s->cp_regs,
-             ENCODE_CP_REG(cpnum, is64, s->ns, crn, crm, opc1, opc2));
-     if (ri) {
-+        bool need_exit_tb;
++#endif
++    /* In 32bit endianness is determined by looking at CPSR's E bit */
++    return env->uncached_cpsr & CPSR_E;
++}
 +
-         /* Check access permissions */
-         if (!cp_access_ok(s->current_el, ri, isread)) {
-             return 1;
-@@ -7068,14 +7070,30 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
-             }
-         }
++static inline bool arm_cpu_data_is_big_endian_a64(int el, uint64_t sctlr)
++{
++    return sctlr & (el ? SCTLR_EE : SCTLR_E0E);
++}
  
--        if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
--            /* I/O operations must end the TB here (whether read or write) */
--            gen_lookup_tb(s);
--        } else if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
--            /* We default to ending the TB on a coprocessor register write,
-+        /* I/O operations must end the TB here (whether read or write) */
-+        need_exit_tb = ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) &&
-+                        (ri->type & ARM_CP_IO));
+ /* Return true if the processor is in big-endian mode. */
+ static inline bool arm_cpu_data_is_big_endian(CPUARMState *env)
+ {
+-    /* In 32bit endianness is determined by looking at CPSR's E bit */
+     if (!is_a64(env)) {
+-        return
+-#ifdef CONFIG_USER_ONLY
+-            /* In system mode, BE32 is modelled in line with the
+-             * architecture (as word-invariant big-endianness), where loads
+-             * and stores are done little endian but from addresses which
+-             * are adjusted by XORing with the appropriate constant. So the
+-             * endianness to use for the raw data access is not affected by
+-             * SCTLR.B.
+-             * In user mode, however, we model BE32 as byte-invariant
+-             * big-endianness (because user-only code cannot tell the
+-             * difference), and so we need to use a data access endianness
+-             * that depends on SCTLR.B.
+-             */
+-            arm_sctlr_b(env) ||
+-#endif
+-                ((env->uncached_cpsr & CPSR_E) ? 1 : 0);
++        return arm_cpu_data_is_big_endian_a32(env, arm_sctlr_b(env));
+     } else {
+         int cur_el = arm_current_el(env);
+         uint64_t sctlr = arm_sctlr(env, cur_el);
+-
+-        return (sctlr & (cur_el ? SCTLR_EE : SCTLR_E0E)) != 0;
++        return arm_cpu_data_is_big_endian_a64(cur_el, sctlr);
+     }
+ }
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index f05d042474..4c65476d93 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11061,9 +11061,6 @@ static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
+     flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX,
+                        arm_to_core_mmu_idx(mmu_idx));
+ 
+-    if (arm_cpu_data_is_big_endian(env)) {
+-        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
+-    }
+     if (arm_singlestep_active(env)) {
+         flags = FIELD_DP32(flags, TBFLAG_ANY, SS_ACTIVE, 1);
+     }
+@@ -11073,7 +11070,14 @@ static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
+ static uint32_t rebuild_hflags_common_32(CPUARMState *env, int fp_el,
+                                          ARMMMUIdx mmu_idx, uint32_t flags)
+ {
+-    flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, arm_sctlr_b(env));
++    bool sctlr_b = arm_sctlr_b(env);
 +
-+        if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
-+            /*
-+             * A write to any coprocessor regiser that ends a TB
-+             * must rebuild the hflags for the next TB.
-+             */
-+            TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
-+            if (arm_dc_feature(s, ARM_FEATURE_M)) {
-+                gen_helper_rebuild_hflags_m32(cpu_env, tcg_el);
-+            } else {
-+                gen_helper_rebuild_hflags_a32(cpu_env, tcg_el);
-+            }
-+            tcg_temp_free_i32(tcg_el);
-+            /*
-+             * We default to ending the TB on a coprocessor register write,
-              * but allow this to be suppressed by the register definition
-              * (usually only necessary to work around guest bugs).
-              */
-+            need_exit_tb = true;
-+        }
-+        if (need_exit_tb) {
-             gen_lookup_tb(s);
-         }
++    if (sctlr_b) {
++        flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, 1);
++    }
++    if (arm_cpu_data_is_big_endian_a32(env, sctlr_b)) {
++        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
++    }
+     flags = FIELD_DP32(flags, TBFLAG_A32, NS, !access_secure_reg(env));
  
+     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
+@@ -11122,6 +11126,10 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+ 
+     sctlr = arm_sctlr(env, el);
+ 
++    if (arm_cpu_data_is_big_endian_a64(el, sctlr)) {
++        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
++    }
++
+     if (cpu_isar_feature(aa64_pauth, env_archcpu(env))) {
+         /*
+          * In order to save space in flags, we record only whether
 -- 
 2.17.1
 
