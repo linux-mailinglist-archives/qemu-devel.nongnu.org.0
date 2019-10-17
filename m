@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1633CDAF40
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:10:41 +0200 (CEST)
-Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB46DAF4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:12:32 +0200 (CEST)
+Received: from localhost ([::1]:48860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6UB-0004Nn-Si
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
+	id 1iL6Vz-00076M-1k
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5qC-0006yj-0y
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:21 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iL5sr-00022W-Cl
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5qA-0002bf-Rr
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:19 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40220)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5qA-0002bR-Lp
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id o28so2360387wro.7
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e4PVQeNvPwVNwMTizB+ixtPW1GcJ8H+hxCE9Nf1uwZo=;
- b=LTVhSUmrGS1xl2gvrwdHQT+Vc74+4ZtJZ2uW6PT0tio9svC/AvljbsMEgxUigWt5xo
- hEfOogmKO6LHQHk1b8IusKuQAlPuxgGODuzODc0bmt2fO69+UhUdbTEx7zsUA0Zq04R1
- P+D+TEMxAHp23GA1h7nL/XWbVXWVCvrS0FQjMSFavGnG0a9ga13SuMerFJ6b4IUGIVmh
- iTEu4n/mdWHuKRbzhTbzffXfb75ghkqtmvNV1WdhwP6dNVaDUuFomYmZK/aE2xYB5w78
- 767FbU220DPKaeR7PPgSjj343ED5/4mOxbvV9hbE2buZrOA2WMX7e4wE/AO0U3vBUbzs
- 8tlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=e4PVQeNvPwVNwMTizB+ixtPW1GcJ8H+hxCE9Nf1uwZo=;
- b=NcusD80xm4rFqWZgisvJdgTMMOQX+wa3IAfN6PljNHx/j2rWG2vATK177E27AFWGOj
- YjAvUbgJHQTCl28AWU3D9JbhOydjAUx+ThUh8q+aW9VYso0Ss+Hw6+6/GdhH9qgSsZSi
- O9SGO7dLAza+aEk08hBOl3t43byndEWiYZe0lrfHYgJoTqmw+5U/lqUJCX1WAkETeHag
- 5yCvUSDN9FXwlqgcFAUjqgBlXWUjKRtoceAVTxjmzAtUn4JZKI/I8vywNGC6ZSc91L7s
- Ffd+NDLJ8nTwKYCoasQzhnw/NoougyLFzE9QTP6zgD1xjgV9qH/chuzxQgQ+Vsu5HIEE
- 68sA==
-X-Gm-Message-State: APjAAAW7UMOaYGue6BZXolUW6NCvRqmeI9DTcQdhe5DxXx+3/TlfQ8G2
- Qbesd1AxjdW1rJ9DTVAnEdtt62ScjoqFkA==
-X-Google-Smtp-Source: APXvYqySbyErgi/VC+oOJh5Xvc69EdqLxup8G4GDDjm51/4bU3jUxj9vdGVFZORPhPU4EA6Q8mrryw==
-X-Received: by 2002:adf:e7c9:: with SMTP id e9mr2996023wrn.261.1571318957465; 
- Thu, 17 Oct 2019 06:29:17 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:29:16 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/8] hw/m68k/mcf5206.c: Switch to transaction-based ptimer API
-Date: Thu, 17 Oct 2019 14:29:04 +0100
-Message-Id: <20191017132905.5604-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191017132905.5604-1-peter.maydell@linaro.org>
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iL5sq-0003Fj-5j
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:12512)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iL5sn-0003Es-K3; Thu, 17 Oct 2019 09:32:01 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BDC5C30917AF;
+ Thu, 17 Oct 2019 13:32:00 +0000 (UTC)
+Received: from localhost (ovpn-117-3.ams2.redhat.com [10.36.117.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 36ECC19C70;
+ Thu, 17 Oct 2019 13:31:59 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 01/23] iotests: Introduce $SOCK_DIR
+Date: Thu, 17 Oct 2019 15:31:33 +0200
+Message-Id: <20191017133155.5327-2-mreitz@redhat.com>
+In-Reply-To: <20191017133155.5327-1-mreitz@redhat.com>
+References: <20191017133155.5327-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Thu, 17 Oct 2019 13:32:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,75 +55,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Magnus Damm <magnus.damm@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the mcf5206 code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
+Unix sockets generally have a maximum path length.  Depending on your
+$TEST_DIR, it may be exceeded and then all tests that create and use
+Unix sockets there may fail.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Circumvent this by adding a new scratch directory specifically for
+Unix socket files.  It defaults to a temporary directory (mktemp -d)
+that is completely removed after the iotests are done.
+
+(By default, mktemp -d creates a /tmp/tmp.XXXXXXXXXX directory, which
+should be short enough for our use cases.)
+
+Use mkdir -p to create the directory (because it seems right), and do
+the same for $TEST_DIR (because there is no reason for that to be
+created in any different way).
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/m68k/mcf5206.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/check | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index a49096367cb..c05401e0e50 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -8,7 +8,6 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
--#include "qemu/main-loop.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/irq.h"
-@@ -57,6 +56,7 @@ static void m5206_timer_recalibrate(m5206_timer_state *s)
-     int prescale;
-     int mode;
- 
-+    ptimer_transaction_begin(s->timer);
-     ptimer_stop(s->timer);
- 
-     if ((s->tmr & TMR_RST) == 0)
-@@ -78,6 +78,7 @@ static void m5206_timer_recalibrate(m5206_timer_state *s)
-     ptimer_set_limit(s->timer, s->trr, 0);
- 
-     ptimer_run(s->timer, 0);
-+    ptimer_transaction_commit(s->timer);
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 588c453a94..71fe38834e 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -97,6 +97,7 @@ IMGFMT        -- $FULL_IMGFMT_DETAILS
+ IMGPROTO      -- $IMGPROTO
+ PLATFORM      -- $FULL_HOST_DETAILS
+ TEST_DIR      -- $TEST_DIR
++SOCK_DIR      -- $SOCK_DIR
+ SOCKET_SCM_HELPER -- $SOCKET_SCM_HELPER
+=20
+ EOF
+@@ -116,10 +117,14 @@ set_prog_path()
+ if [ -z "$TEST_DIR" ]; then
+         TEST_DIR=3D$PWD/scratch
+ fi
++mkdir -p "$TEST_DIR" || _init_error 'Failed to create TEST_DIR'
+=20
+-if [ ! -e "$TEST_DIR" ]; then
+-        mkdir "$TEST_DIR"
++tmp_sock_dir=3Dfalse
++if [ -z "$SOCK_DIR" ]; then
++    SOCK_DIR=3D$(mktemp -d)
++    tmp_sock_dir=3Dtrue
+ fi
++mkdir -p "$SOCK_DIR" || _init_error 'Failed to create SOCK_DIR'
+=20
+ diff=3D"diff -u"
+ verbose=3Dfalse
+@@ -534,6 +539,7 @@ if [ -z "$SAMPLE_IMG_DIR" ]; then
+ fi
+=20
+ export TEST_DIR
++export SOCK_DIR
+ export SAMPLE_IMG_DIR
+=20
+ if [ -s $tmp.list ]
+@@ -716,6 +722,11 @@ END        { if (NR > 0) {
+     rm -f "${TEST_DIR}"/*.out "${TEST_DIR}"/*.err "${TEST_DIR}"/*.time
+     rm -f "${TEST_DIR}"/check.pid "${TEST_DIR}"/check.sts
+     rm -f $tmp.*
++
++    if $tmp_sock_dir
++    then
++        rm -rf "$SOCK_DIR"
++    fi
  }
- 
- static void m5206_timer_trigger(void *opaque)
-@@ -123,7 +124,9 @@ static void m5206_timer_write(m5206_timer_state *s, uint32_t addr, uint32_t val)
-         s->tcr = val;
-         break;
-     case 0xc:
-+        ptimer_transaction_begin(s->timer);
-         ptimer_set_count(s->timer, val);
-+        ptimer_transaction_commit(s->timer);
-         break;
-     case 0x11:
-         s->ter &= ~val;
-@@ -137,11 +140,9 @@ static void m5206_timer_write(m5206_timer_state *s, uint32_t addr, uint32_t val)
- static m5206_timer_state *m5206_timer_init(qemu_irq irq)
- {
-     m5206_timer_state *s;
--    QEMUBH *bh;
- 
-     s = g_new0(m5206_timer_state, 1);
--    bh = qemu_bh_new(m5206_timer_trigger, s);
--    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
-+    s->timer = ptimer_init(m5206_timer_trigger, s, PTIMER_POLICY_DEFAULT);
-     s->irq = irq;
-     m5206_timer_reset(s);
-     return s;
--- 
-2.20.1
+=20
+ trap "_wrapup; exit \$status" 0 1 2 3 15
+--=20
+2.21.0
 
 
