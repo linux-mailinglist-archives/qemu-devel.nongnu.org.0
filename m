@@ -2,85 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9941BDB2D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:53:27 +0200 (CEST)
-Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5D1DB2EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:00:03 +0200 (CEST)
+Received: from localhost ([::1]:53540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL91i-0000Dt-8d
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36211)
+	id 1iL985-0000UM-Hv
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:00:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL8MX-0006ep-2x
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:57 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL8Tt-0007PN-7W
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:18:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL8MW-0000XF-1A
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:52 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33569
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iL8Tr-0003P2-TG
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:18:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54292)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL8MV-0000Wt-UK
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571328651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RepJ903D10eNe417LxnOmR8HtEzoIAHRfe/KqpSXijA=;
- b=bRBSJnlehjKTI2/c23yYmX2usuwpRjQ7XR1THp735HPnJWUlZrpJI9ru2ufX9yNgLeX/tQ
- vHzrZ3hPEGhabgBpjOvppnLmlJ9bgFPMMohOc55ExIxtKTFR/3VtIH4GqGg/0+mTaHgy2Q
- Tbt9Q7c96yct2SjK4ImDqFjErSdUOYg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-lZwk3Dp8P6mZWvPiDdKEDA-1; Thu, 17 Oct 2019 12:10:47 -0400
-Received: by mail-wr1-f69.google.com with SMTP id e25so596162wra.9
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:10:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CvQc/NEnvbXnTc/qr03QQindo2pV2kgowwbGYhaOFzk=;
- b=XtmZnINz6r+PfYT8rntQnz2RyB+BdOHCWO5gFGT3vfNhSFpnVp8GkeJZ7QJr3aLCLb
- qu6IbY/ueNrr1EhGr4CGE1LUYZdjpmS5gAmKzUcW95rhu+td1ITSR6jtZFSOsSV78O6Y
- 7nXlgVwGO4LIF/5O3Wd2XcEKg9j3kMqRz9kIMA7mGkn2frRR+f5E3g7KMXnNtfEd1VqD
- jYKSkPE/v5YUt2wrmV7yYiQPp1AhIBwCpyx1yJ6RivRvFtvDosbtE3kp9A8VJZpxTW6E
- 1GleyAaELQsPDNDC2o9VUWxMQvPwDvxaRLzYINVS2OLJQfarM6+nUBQBMqfPhib45ujv
- M1bA==
-X-Gm-Message-State: APjAAAUoDxu6jWvHWcNzgtlXfEo4waKNr/s3gedcELUO1Cb6KD5sL8W7
- GY4jXUnXKv/5I59Lwh/C3vO5G5YeOoYV55+p6cjDTYfcJATVi3O1bhVvuR45gmKRkDXYbVkOcUi
- os2o9N1zXhv4ePW0=
-X-Received: by 2002:a1c:7c0a:: with SMTP id x10mr3656388wmc.48.1571328646601; 
- Thu, 17 Oct 2019 09:10:46 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyceWUH1/UgnMLP803Z3VPEixGq0Jwy6ZMGNM+QXh4YIrEPrii0nKg4fijd4viTIUHsbQi0+w==
-X-Received: by 2002:a1c:7c0a:: with SMTP id x10mr3656359wmc.48.1571328646438; 
- Thu, 17 Oct 2019 09:10:46 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id d193sm3248211wmd.0.2019.10.17.09.10.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 09:10:45 -0700 (PDT)
-Subject: Re: [PATCH 3/8] hw/timer/lm32_timer: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
- <20191017132905.5604-4-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <128a3f39-4460-6407-21ed-4b3e957f327f@redhat.com>
-Date: Thu, 17 Oct 2019 18:10:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL8Tr-0003NQ-Ke
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:18:27 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3D902307F5ED
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 16:18:25 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D67960605;
+ Thu, 17 Oct 2019 16:18:19 +0000 (UTC)
+Subject: Re: [PATCH v2 7/7] libqos: add VIRTIO PCI 1.0 support
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20191011085611.4194-1-stefanha@redhat.com>
+ <20191011085611.4194-8-stefanha@redhat.com>
+ <e7821640-de44-5e65-b9c1-2534dc676690@redhat.com>
+ <20191017160735.GB1266@stefanha-x1.localdomain>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat
+Message-ID: <d803e58f-f0cc-b13b-6041-682497c6fe2f@redhat.com>
+Date: Thu, 17 Oct 2019 18:18:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017132905.5604-4-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: lZwk3Dp8P6mZWvPiDdKEDA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191017160735.GB1266@stefanha-x1.localdomain>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="cvpdHe8r5HSf6XnSjMzJ8D0uUM3CjPKgX"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Thu, 17 Oct 2019 16:18:25 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,24 +106,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Magnus Damm <magnus.damm@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 3:29 PM, Peter Maydell wrote:
-> Switch the lm32_timer code away from bottom-half based ptimers to the
-> new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the ytimer.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cvpdHe8r5HSf6XnSjMzJ8D0uUM3CjPKgX
+Content-Type: multipart/mixed; boundary="bBlQtQpg1J4G0ykrldUVMLFLHi6gVmpeB";
+ protected-headers="v1"
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <d803e58f-f0cc-b13b-6041-682497c6fe2f@redhat.com>
+Subject: Re: [PATCH v2 7/7] libqos: add VIRTIO PCI 1.0 support
+References: <20191011085611.4194-1-stefanha@redhat.com>
+ <20191011085611.4194-8-stefanha@redhat.com>
+ <e7821640-de44-5e65-b9c1-2534dc676690@redhat.com>
+ <20191017160735.GB1266@stefanha-x1.localdomain>
+In-Reply-To: <20191017160735.GB1266@stefanha-x1.localdomain>
+
+--bBlQtQpg1J4G0ykrldUVMLFLHi6gVmpeB
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 17/10/2019 18.07, Stefan Hajnoczi wrote:
+> On Thu, Oct 17, 2019 at 04:52:54PM +0200, Thomas Huth wrote:
+>> On 11/10/2019 10.56, Stefan Hajnoczi wrote:
+>>> Implement the VIRTIO 1.0 virtio-pci interface.  The main change here =
+is
+>>> that the register layout is no longer a fixed layout in BAR 0.  Inste=
+ad
+>>> we have to iterate of PCI Capabilities to find descriptions of where
+>>> various registers are located.  The vring registers are also more
+>>> fine-grained, allowing for more flexible vring layouts, but we don't
+>>> take advantage of that.
+>>>
+>>> Note that test cases do not negotiate VIRTIO_F_VERSION_1 yet and are
+>>> therefore not running in VIRTIO 1.0 mode.
+>>>
+>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>>  tests/Makefile.include           |   1 +
+>>>  tests/libqos/virtio-pci-modern.h |  17 ++
+>>>  tests/libqos/virtio-pci.h        |  10 +
+>>>  tests/libqos/virtio-pci-modern.c | 412 +++++++++++++++++++++++++++++=
+++
+>>>  tests/libqos/virtio-pci.c        |   6 +-
+>>>  5 files changed, 445 insertions(+), 1 deletion(-)
+>>>  create mode 100644 tests/libqos/virtio-pci-modern.h
+>>>  create mode 100644 tests/libqos/virtio-pci-modern.c
+>> [...]
+>>> +static bool probe_device_type(QVirtioPCIDevice *dev)
+>>> +{
+>>> +    uint16_t vendor_id;
+>>> +    uint16_t device_id;
+>>> +
+>>> +    /* "Drivers MUST match devices with the PCI Vendor ID 0x1AF4" */=
+
+>>> +    vendor_id =3D qpci_config_readw(dev->pdev, PCI_VENDOR_ID);
+>>> +    if (vendor_id !=3D 0x1af4) {
+>>> +        return false;
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * "Any PCI device with ... PCI Device ID 0x1000 through 0x107F =
+inclusive
+>>> +     * is a virtio device"
+>>> +     */
+>>> +    device_id =3D qpci_config_readw(dev->pdev, PCI_DEVICE_ID);
+>>> +    if (device_id < 0x1000 || device_id > 0x107f) {
+>>> +        return false;
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * "Devices MAY utilize a Transitional PCI Device ID range, 0x10=
+00 to
+>>> +     * 0x103F depending on the device type"
+>>> +     */
+>>> +    if (device_id < 0x1040) {
+>>> +        /*
+>>> +         * "Transitional devices MUST have the PCI Subsystem Device =
+ID matching
+>>> +         * the Virtio Device ID"
+>>> +         */
+>>> +        dev->vdev.device_type =3D qpci_config_readw(dev->pdev, PCI_S=
+UBSYSTEM_ID);
+>>
+>> Shouldn't you return "false" here in case the device_type is 0 ? Which=
+
+>> likely means that it is a legacy or broken device ...?
 >=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/timer/lm32_timer.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
+> The real decision whether to use this PCI device or not happens in
+> probe_device_layout().  If it's broken or a legacy device then that
+> function will fail.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Ok, fair.
 
+I've added the patches to my qtest-next branch:
+
+https://gitlab.com/huth/qemu/tree/qtest-next
+
+ Thomas
+
+
+
+
+--bBlQtQpg1J4G0ykrldUVMLFLHi6gVmpeB--
+
+--cvpdHe8r5HSf6XnSjMzJ8D0uUM3CjPKgX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJ7iIR+7gJQEY8+q5LtnXdP5wLbUFAl2olEoACgkQLtnXdP5w
+LbWiMA//YSBgvFMwejxpKsfQS9z4S3GyFMi6Q9l+DOKC3RG7vkl46fEmRm/U31j8
+OZGwQKvPQiHF0fgiW2MjKpyGn9MOnHUvrupuFOC4cfNxBUxR2lnfJY3J6hO8s671
+5RO8dkgBSpulVnueaVH+njxXAuQvpgmH0hY8FY0FTWNWx3BJUSiIbTX7OmuqTNki
+USXQZPWIWIBx7PJzTIXwASJNiUTemAFuUOK3ikaocGSOs/vOsZJGJsMiYJZ0hrd6
+c8B3Q3u5nFh6tyqfKTXx0hu/2yNS+XlvrPu0Sn/cF5yiOz20g9dAY+/6oQh3cwgJ
+S0SYaF0UB+Dgrn7tJENdvRG3C5y6Qixhs8q5Miw/rt6+1P2E4x+hz8bbQGi81n8D
+nGSxAEwmYAYQVcgw28wKwdQWoYst+EMdjIPKnYvLaaK5HIFKw7m7Za9a8m+J7EZW
+fYNkMCa/zWz7+caSM8HonoWRQWqRX3ZzNOGCUTH+X4LbCwZTIL7PE0ml7QU0wJ6A
+mLsiZ2/9jDewvHbC5gsYUk3VEsWveqM2mPRHlvwm6ttF/PLN7KGGISFN2j8go4uJ
+N02TqwBrIwqsd7t3J5uroeN49bVKfrw+lnTDTo6+v8lBHTjlcFlBbeAoXfEg6RDH
+eFqIlF3KacbbPDtRW9xQIBYaXL/qGqaPNOdYrraFRfbYdiV1DLc=
+=AMK+
+-----END PGP SIGNATURE-----
+
+--cvpdHe8r5HSf6XnSjMzJ8D0uUM3CjPKgX--
 
