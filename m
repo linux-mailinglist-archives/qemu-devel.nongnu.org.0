@@ -2,85 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4AFDB302
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:08:54 +0200 (CEST)
-Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3CCDB2EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:01:54 +0200 (CEST)
+Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9Gf-000230-9l
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1iL99s-0002A6-H4
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL8BV-0000jt-So
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:31 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iL8NZ-000089-30
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:11:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL8BU-0003wT-QK
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:29 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29047
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1iL8NY-0000sp-1Y
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:11:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43170)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL8BU-0003wE-F5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:59:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571327967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MgxfXQKkr5equlzC/PknHrgeF9deydhlD5fX1KLxo8M=;
- b=fyveBE4dxcu52nRjswQ5Fq5mK0S6NOvokQQqweL5uHCd/W+1UGmOIJ1b6pNtqaNcPeipOH
- ls8hLO58pvVS7gWXGYcpTinJ2ndggb+CNqhya2o8DZfg+sEgqHyyJDgb7wYEJFxWO44jMU
- YagmUhijnvvU/HHz3h4xy7zguFfg8qM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-8_nOJM5WMy26RFKbLaIYyA-1; Thu, 17 Oct 2019 11:59:24 -0400
-Received: by mail-wr1-f71.google.com with SMTP id j14so898867wrm.6
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:59:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QJD8ZXrBCv+J8I/XlzghMfZwnqBkfjod0u7K3OlOY28=;
- b=a+WivWgSrO6a4xOyMZnRJinpc8bUahTlDnq7kE/Ko4v0Bduq4Cyf3XH5NEYL1oS7IF
- BG2Z+mErIdYQyW4mpy95Z3wCHfVagZfK8TctRZmg0VpfKIm3QVJnJ5MVoSCsYl/1RIWv
- xBUruUtE4JCJmqTL3+ASmOsMJy3aY+cCRDBIyoMcdM5+RxGwDyspvJfoSKpFEtoc+XRU
- iuf6ACwXMKYUv0MaHtzYXa5mu12TGOoykQwQ8w7NFGxEhPperBsSFjWjJxTHBCvgvGT9
- IzfTneakcB0yEuQT6H8c1cT5zy7C/79IZRmVwMQgBIdL7KJBI4kgX0ntluCeeqTx+yir
- thPw==
-X-Gm-Message-State: APjAAAXm7fu5ZvlQuN8tBOObvPAF3KSsZgZfyzFwDV1nZC3/pkziYCRp
- vI6ONprd1yPvo5b1H32iRDVceJM75LbQgArOEJIiWqlpAGe1jzTbuBV22PxkMEhBevN27RWS3tz
- D4AgSvTGXsXX+Neo=
-X-Received: by 2002:a5d:44c8:: with SMTP id z8mr3696568wrr.66.1571327963307;
- Thu, 17 Oct 2019 08:59:23 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyAvCfHknIrVs8Z5IX8WkSWQMhZIeqprJZEza06xPdIYR5RdkQhDcFukQcqoDew1hf1kYyZUA==
-X-Received: by 2002:a5d:44c8:: with SMTP id z8mr3696542wrr.66.1571327963097;
- Thu, 17 Oct 2019 08:59:23 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id v20sm2296849wml.26.2019.10.17.08.59.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:59:22 -0700 (PDT)
-Subject: Re: [PATCH 1/8] hw/timer/puv3_ost.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
- <20191017132905.5604-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2808edfa-a837-de78-487f-0ae15c13d797@redhat.com>
-Date: Thu, 17 Oct 2019 17:59:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iL8NX-0000sP-SF
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:11:55 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E9EDA30089BA
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 16:11:54 +0000 (UTC)
+Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99CF919D70;
+ Thu, 17 Oct 2019 16:11:51 +0000 (UTC)
+Date: Thu, 17 Oct 2019 17:11:50 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 2/2] virtiofsd: move to a new pid namespace
+Message-ID: <20191017161150.GD1266@stefanha-x1.localdomain>
+References: <20191016160157.12414-1-stefanha@redhat.com>
+ <20191016160157.12414-3-stefanha@redhat.com>
+ <20191017144553.GA12588@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191017132905.5604-2-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: 8_nOJM5WMy26RFKbLaIYyA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
+Content-Disposition: inline
+In-Reply-To: <20191017144553.GA12588@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 17 Oct 2019 16:11:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,77 +60,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Magnus Damm <magnus.damm@gmail.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 3:28 PM, Peter Maydell wrote:
-> Switch the puv3_ost code away from bottom-half based ptimers to the
-> new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
->=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/timer/puv3_ost.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
-> index 0898da5ce97..697519593bb 100644
-> --- a/hw/timer/puv3_ost.c
-> +++ b/hw/timer/puv3_ost.c
-> @@ -13,7 +13,6 @@
->   #include "hw/sysbus.h"
->   #include "hw/irq.h"
->   #include "hw/ptimer.h"
-> -#include "qemu/main-loop.h"
->   #include "qemu/module.h"
->  =20
->   #undef DEBUG_PUV3
-> @@ -27,7 +26,6 @@ typedef struct PUV3OSTState {
->       SysBusDevice parent_obj;
->  =20
->       MemoryRegion iomem;
-> -    QEMUBH *bh;
->       qemu_irq irq;
->       ptimer_state *ptimer;
->  =20
-> @@ -68,6 +66,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
->       DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
->       switch (offset) {
->       case 0x00: /* Match Register 0 */
-> +        ptimer_transaction_begin(s->ptimer);
->           s->reg_OSMR0 =3D value;
->           if (s->reg_OSMR0 > s->reg_OSCR) {
->               ptimer_set_count(s->ptimer, s->reg_OSMR0 - s->reg_OSCR);
-> @@ -76,6 +75,7 @@ static void puv3_ost_write(void *opaque, hwaddr offset,
->                       (0xffffffff - s->reg_OSCR));
->           }
->           ptimer_run(s->ptimer, 2);
-> +        ptimer_transaction_commit(s->ptimer);
->           break;
->       case 0x14: /* Status Register */
->           assert(value =3D=3D 0);
-> @@ -128,9 +128,10 @@ static void puv3_ost_realize(DeviceState *dev, Error=
- **errp)
->  =20
->       sysbus_init_irq(sbd, &s->irq);
->  =20
-> -    s->bh =3D qemu_bh_new(puv3_ost_tick, s);
-> -    s->ptimer =3D ptimer_init_with_bh(s->bh, PTIMER_POLICY_DEFAULT);
-> +    s->ptimer =3D ptimer_init(puv3_ost_tick, s, PTIMER_POLICY_DEFAULT);
-> +    ptimer_transaction_begin(s->ptimer);
->       ptimer_set_freq(s->ptimer, 50 * 1000 * 1000);
-> +    ptimer_transaction_commit(s->ptimer);
->  =20
->       memory_region_init_io(&s->iomem, OBJECT(s), &puv3_ost_ops, s, "puv3=
-_ost",
->               PUV3_REGS_OFFSET);
->=20
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+--ylS2wUBXLOxYXZFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Oct 17, 2019 at 10:45:53AM -0400, Vivek Goyal wrote:
+> On Wed, Oct 16, 2019 at 05:01:57PM +0100, Stefan Hajnoczi wrote:
+>=20
+> [..]
+> > +	/*
+> > +	 * If the mounts have shared propagation then we want to opt out so o=
+ur
+> > +	 * mount changes don't affect the parent mount namespace.
+> > +	 */
+> > +	if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
+> > +		fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
+> > +		exit(1);
+> > +	}
+>=20
+> So we will get mount propogation form parent but our mounts will not
+> propagate back. Sounds reasonable.
+>=20
+> Can we take away CAP_SYS_ADMIN from virtiofsd? That way it will not be=20
+> able to do mount at all.=20
+>=20
+> I am wondering are we dependent on daemon having CAP_SYS_ADMIN.=20
+
+I don't know the answer.  Additional patches to reduce the capability
+set as much as possible would be great, but are a separate task.
+
+Stefan
+
+--ylS2wUBXLOxYXZFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2oksYACgkQnKSrs4Gr
+c8gRPAf/WjlSHNmLI310xJzO+cYRNz6NrPw79qoYflQ98baGOpkUsQ2rKn7pT76M
+g/aPiAYEWwydbnlQvcOoPuVjWVVn7eDuhyUza5ezu6iT5DEqmCVIk284sClJdWXv
+CRpPxOeRc1wkJwkIE2qyAKCfjt/gKy5cXfQ56vudM64YKOxoyN31xNUlvk9i+R5i
+M90QW4jpqb0rTlV7S4C/I6JVI2NGYy/uqm7qWIJ7umst+/G9Mi91JjQ+3zOK9yd6
+TI2Wj+Eguv672sIGHLgmzdLgo0NI1fEL2jOmu4crijOfYEwJ2MpwZtZYeP6UN6zR
+h93HcxFa7H2DRSU/CqRicj1rIQrhIg==
+=pNX6
+-----END PGP SIGNATURE-----
+
+--ylS2wUBXLOxYXZFQ--
 
