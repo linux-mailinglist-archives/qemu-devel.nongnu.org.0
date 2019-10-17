@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B5BDB11E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:30:17 +0200 (CEST)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52431DB129
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:32:56 +0200 (CEST)
+Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7jE-0003XR-41
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50449)
+	id 1iL7lm-0005kr-Pp
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL72r-0000Jh-HS
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:30 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL6xF-0001YS-Et
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:40:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL72p-0007jN-Uo
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:29 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43292)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL6xD-0003dk-04
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:40:41 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39591)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL72p-0007iz-PO
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:46:27 -0400
-Received: by mail-oi1-x244.google.com with SMTP id t84so2343849oih.10
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:46:27 -0700 (PDT)
+ id 1iL6xC-0003ch-Od
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:40:38 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w144so2354456oia.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=bajkATidccafyipZ4lq0ynE1Naf8M8ZKNKlT1UKXdmw=;
- b=j/+HfKY9qh5qec2aOeUg4d4f7/9XxtRn+mHtFFuMr7XhW6yrXcz4RvdipUiyrGpLC6
- tU88+5xNiDMvPERoRf79hLvF+5cN0SytlErxHpDlYBVvtBrVYtpTAskfcT1eSE+453hm
- XTXWYxaoQRRU6f4IEf9WtFSXlR0g9TgepKViVg2Sgrztx+SreSDK6/f+RGyiElmQYTft
- 0iWrqXJPbgSC/gLT6CFsxRWE6/20gMUW1bq/Fyw/aDGJIshFziCpOpKY2FQU9wqNDrYJ
- c0YOtCSx3/FMhhK9UltSJEhXfks0pMaadChbLePeNi7OYyIxY+cenV4N/UTsUsWlXGyZ
- pyWg==
+ :cc; bh=VYPoO4lbG3w9123BzjywTooFiwratbQnQMk1YHCAfFg=;
+ b=L4P9MbXXPZlhCVd2ShUi3KdqyqOiINQFPVPrs9pQQHao8TjQ0k2NLA0QNqy+XCqdax
+ GWotbzYsn6DpTczgGt5BAJrH+NDpaxNo8bj6IdcZpV/G4mBSg9qW8Vh5BluzpYFaykgP
+ RdL7QzjYVRcbfErGSDkilbxtbJ2gSYzK7vs9hLSygPSki8skgYa988QFgvJ3udxHSh0A
+ +eGc128m9F1nOTysaTY+beqBf89F87F0JB6BPYMlx2GFHW2DwpUwZBD6LCpxpST4kc5X
+ xTg646HwwA4WTlYXRbC5CnTz5jyGv+Vzqn0g4tKvLZ5zjRp6/5mAe/oN6phTy96CLcez
+ uEsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=bajkATidccafyipZ4lq0ynE1Naf8M8ZKNKlT1UKXdmw=;
- b=Ta1tsCl59LiH4SJGhtdXgkMO/WdePZoNrT3SvBPgAH47WA3rCbDbDfSObYJZyVlLtq
- +Mxx2KE0D6fOysuYIP8E1ijHZgpPHy6V2GXMJ9wKkZJr1Z4EDt62zOuyeizQU4omnnCD
- FR+X59UcOzfNJPOZfrIKnttA/+RNeUJVfTpx9T9kKwHWqhZwboVi0e6i1ti9Z6Wb6vr2
- VDQ80nvklsosMbJcxXhbKaLCKk7aTKSqlDPnGinNXAyiblL0HH8DkrlB7qT+x1Zn54Xi
- gUFrEtLyHuzZjCpNvmCNTokOZ9PiLSrMPiT+jGZMviMtdiS7DfUMdwq3DXsm3LC5DxYC
- F9HQ==
-X-Gm-Message-State: APjAAAXDTVT7U3o4Vrqk6sV2nO8/LYy8Hq3YdT3L7Kj0I1C4s19dO63F
- /xtTdGkHtgEmw35BB5lmD2nh5R+UGOPlJlnob6Q=
-X-Google-Smtp-Source: APXvYqxeiRwknMSCqcxadDxS+bU5XBfQ5Z/gnWNqt/tiC34SYyeNnjwvTvEZUgXTxaNY6JEXxXGs3Pzr0EjXQSZarJw=
-X-Received: by 2002:aca:4e56:: with SMTP id c83mr3569017oib.53.1571323587175; 
- Thu, 17 Oct 2019 07:46:27 -0700 (PDT)
+ bh=VYPoO4lbG3w9123BzjywTooFiwratbQnQMk1YHCAfFg=;
+ b=iNGPmb++WX/VX96nOHuXo69TVJIqksLwN1G7Yg0rZM4xjyd2Tai9wj9A+Oo/9a7OYo
+ p7Uh494dVpiX8jB/z3mo+sOUEvWRia8kvID3icADXahWmCROUWfe1uOg+d3Ki5JtqWr0
+ B4TUX3pRL4DNec/xhvcQ6tioIbMh7hS5MBZswqEM87LrKJ09ckrrCdXAA+2QjL6Dzo3n
+ ppRS5GpHL0vr8L1EylXRVYdrexVPTrZMCMKbLoRuuQdQkUn7sd2BPMTBTcHJpUvFsXXm
+ MITEqVgxciNnEgctlCSaUCbJ/Q4w7q2C1HyI7n5aT2lglsqlFP2CGSvxQ/BBl1sX3+Sy
+ RrTA==
+X-Gm-Message-State: APjAAAXIV9mMjRNuMlK5zskn1EK/YMJdXl/M/zE+p+e2QvGnHBixB1hD
+ bxahl+bWPRnhmh6OynViE+vRFSsa6yl5ksF3AF4=
+X-Google-Smtp-Source: APXvYqya7jpeioPRUMfUfXO90agCqNqUea1QleFQ8y+GhvYfsqvGu3iame1a6tGKQEablQwzOYg3HlCUynuiMnqcgyM=
+X-Received: by 2002:aca:62d5:: with SMTP id w204mr3533524oib.136.1571323238033; 
+ Thu, 17 Oct 2019 07:40:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:46:25
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:40:37
  -0700 (PDT)
-In-Reply-To: <20191015162705.28087-19-philmd@redhat.com>
+In-Reply-To: <20191015162705.28087-2-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-19-philmd@redhat.com>
+ <20191015162705.28087-2-philmd@redhat.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 16:46:25 +0200
-Message-ID: <CAL1e-=izLYnL_gdq3MaAkU6e9=3Dd-MVd8HTyzT1zR3-UadK-w@mail.gmail.com>
-Subject: Re: [PATCH 18/32] hw/mips/mips_malta: Extract the PIIX4 creation code
- as piix4_create()
+Date: Thu, 17 Oct 2019 16:40:37 +0200
+Message-ID: <CAL1e-=gSGV2RJUG9gcAVduxrZ53cxS58YujyHgYhJOt39Y_ZeQ@mail.gmail.com>
+Subject: Re: [PATCH 01/32] hw/i386: Remove obsolete
+ LoadStateHandler::load_state_old handlers
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003da91c05951c4808"
+Content-Type: multipart/alternative; boundary="0000000000006e378905951c33e3"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,7 +75,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Stefano Stabellini <sstabellini@kernel.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
@@ -92,7 +93,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003da91c05951c4808
+--0000000000006e378905951c33e3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -100,126 +101,327 @@ On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
 m>
 wrote:
 
-> The Malta board instantiate a PIIX4 chipset doing various
-> calls. Refactor all those related calls into a single
-> function: piix4_create().
+> These devices implemented their load_state_old() handler 10 years
+> ago, previous to QEMU v0.12.
+> Since commit cc425b5ddf removed the pc-0.10 and pc-0.11 machines,
+> we can drop this code.
 >
+> Note: the mips_r4k machine started to use the i8254 device just
+> after QEMU v0.5.0, but the MIPS machine types are not versioned,
+> so there is no migration compatibility issue removing this handler.
+>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/mips/mips_malta.c | 47 +++++++++++++++++++++++++++-----------------
->  1 file changed, 29 insertions(+), 18 deletions(-)
+>  hw/acpi/piix4.c         | 40 ---------------------------------
+>  hw/intc/apic_common.c   | 49 -----------------------------------------
+>  hw/pci-host/piix.c      | 25 ---------------------
+>  hw/timer/i8254_common.c | 40 ---------------------------------
+>  4 files changed, 154 deletions(-)
 >
 >
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 
 
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 774bb810f6..0d4312840b 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1210,6 +1210,34 @@ static void mips_create_cpu(MachineState *ms,
-> MaltaState *s,
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 5742c3df87..1d29d438c7 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -42,7 +42,6 @@
+>  #include "hw/acpi/memory_hotplug.h"
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/xen/xen.h"
+> -#include "migration/qemu-file-types.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/core/cpu.h"
+>  #include "trace.h"
+> @@ -205,43 +204,6 @@ static const VMStateDescription vmstate_pci_status =
+=3D {
+>      }
+>  };
+>
+> -static int acpi_load_old(QEMUFile *f, void *opaque, int version_id)
+> -{
+> -    PIIX4PMState *s =3D opaque;
+> -    int ret, i;
+> -    uint16_t temp;
+> -
+> -    ret =3D pci_device_load(PCI_DEVICE(s), f);
+> -    if (ret < 0) {
+> -        return ret;
+> -    }
+> -    qemu_get_be16s(f, &s->ar.pm1.evt.sts);
+> -    qemu_get_be16s(f, &s->ar.pm1.evt.en);
+> -    qemu_get_be16s(f, &s->ar.pm1.cnt.cnt);
+> -
+> -    ret =3D vmstate_load_state(f, &vmstate_apm, &s->apm, 1);
+> -    if (ret) {
+> -        return ret;
+> -    }
+> -
+> -    timer_get(f, s->ar.tmr.timer);
+> -    qemu_get_sbe64s(f, &s->ar.tmr.overflow_time);
+> -
+> -    qemu_get_be16s(f, (uint16_t *)s->ar.gpe.sts);
+> -    for (i =3D 0; i < 3; i++) {
+> -        qemu_get_be16s(f, &temp);
+> -    }
+> -
+> -    qemu_get_be16s(f, (uint16_t *)s->ar.gpe.en);
+> -    for (i =3D 0; i < 3; i++) {
+> -        qemu_get_be16s(f, &temp);
+> -    }
+> -
+> -    ret =3D vmstate_load_state(f, &vmstate_pci_status,
+> -        &s->acpi_pci_hotplug.acpi_pcihp_pci_status[ACPI_PCIHP_BSEL_DEFAU=
+LT],
+> 1);
+> -    return ret;
+> -}
+> -
+>  static bool vmstate_test_use_acpi_pci_hotplug(void *opaque, int
+> version_id)
+>  {
+>      PIIX4PMState *s =3D opaque;
+> @@ -313,8 +275,6 @@ static const VMStateDescription vmstate_acpi =3D {
+>      .name =3D "piix4_pm",
+>      .version_id =3D 3,
+>      .minimum_version_id =3D 3,
+> -    .minimum_version_id_old =3D 1,
+> -    .load_state_old =3D acpi_load_old,
+>      .post_load =3D vmstate_acpi_post_load,
+>      .fields =3D (VMStateField[]) {
+>          VMSTATE_PCI_DEVICE(parent_obj, PIIX4PMState),
+> diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
+> index aafd8e0e33..375cb6abe9 100644
+> --- a/hw/intc/apic_common.c
+> +++ b/hw/intc/apic_common.c
+> @@ -31,7 +31,6 @@
+>  #include "sysemu/kvm.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/sysbus.h"
+> -#include "migration/qemu-file-types.h"
+>  #include "migration/vmstate.h"
+>
+>  static int apic_irq_delivered;
+> @@ -262,52 +261,6 @@ static void apic_reset_common(DeviceState *dev)
+>      apic_init_reset(dev);
+>  }
+>
+> -/* This function is only used for old state version 1 and 2 */
+> -static int apic_load_old(QEMUFile *f, void *opaque, int version_id)
+> -{
+> -    APICCommonState *s =3D opaque;
+> -    APICCommonClass *info =3D APIC_COMMON_GET_CLASS(s);
+> -    int i;
+> -
+> -    if (version_id > 2) {
+> -        return -EINVAL;
+> -    }
+> -
+> -    /* XXX: what if the base changes? (registered memory regions) */
+> -    qemu_get_be32s(f, &s->apicbase);
+> -    qemu_get_8s(f, &s->id);
+> -    qemu_get_8s(f, &s->arb_id);
+> -    qemu_get_8s(f, &s->tpr);
+> -    qemu_get_be32s(f, &s->spurious_vec);
+> -    qemu_get_8s(f, &s->log_dest);
+> -    qemu_get_8s(f, &s->dest_mode);
+> -    for (i =3D 0; i < 8; i++) {
+> -        qemu_get_be32s(f, &s->isr[i]);
+> -        qemu_get_be32s(f, &s->tmr[i]);
+> -        qemu_get_be32s(f, &s->irr[i]);
+> -    }
+> -    for (i =3D 0; i < APIC_LVT_NB; i++) {
+> -        qemu_get_be32s(f, &s->lvt[i]);
+> -    }
+> -    qemu_get_be32s(f, &s->esr);
+> -    qemu_get_be32s(f, &s->icr[0]);
+> -    qemu_get_be32s(f, &s->icr[1]);
+> -    qemu_get_be32s(f, &s->divide_conf);
+> -    s->count_shift =3D qemu_get_be32(f);
+> -    qemu_get_be32s(f, &s->initial_count);
+> -    s->initial_count_load_time =3D qemu_get_be64(f);
+> -    s->next_time =3D qemu_get_be64(f);
+> -
+> -    if (version_id >=3D 2) {
+> -        s->timer_expiry =3D qemu_get_be64(f);
+> -    }
+> -
+> -    if (info->post_load) {
+> -        info->post_load(s);
+> -    }
+> -    return 0;
+> -}
+> -
+>  static const VMStateDescription vmstate_apic_common;
+>
+>  static void apic_common_realize(DeviceState *dev, Error **errp)
+> @@ -408,8 +361,6 @@ static const VMStateDescription vmstate_apic_common =
+=3D {
+>      .name =3D "apic",
+>      .version_id =3D 3,
+>      .minimum_version_id =3D 3,
+> -    .minimum_version_id_old =3D 1,
+> -    .load_state_old =3D apic_load_old,
+>      .pre_load =3D apic_pre_load,
+>      .pre_save =3D apic_dispatch_pre_save,
+>      .post_load =3D apic_dispatch_post_load,
+> diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
+> index 135c645535..2f4cbcbfe9 100644
+> --- a/hw/pci-host/piix.c
+> +++ b/hw/pci-host/piix.c
+> @@ -33,7 +33,6 @@
+>  #include "qapi/error.h"
+>  #include "qemu/range.h"
+>  #include "hw/xen/xen.h"
+> -#include "migration/qemu-file-types.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/pci-host/pam.h"
+>  #include "sysemu/reset.h"
+> @@ -174,28 +173,6 @@ static void i440fx_write_config(PCIDevice *dev,
 >      }
 >  }
 >
-> +static DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
-> +                                 I2CBus **smbus, size_t ide_buses)
-> +{
-> +    const size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;
-> +    DriveInfo **hd;
-> +    PCIDevice *pci;
-> +    DeviceState *dev;
-> +
-> +    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
-> +                                          true, TYPE_PIIX4_PCI_DEVICE);
-> +    dev =3D DEVICE(pci);
-> +    if (isa_bus) {
-> +        *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-> +    }
-> +
-> +    hd =3D g_new(DriveInfo *, ide_drives);
-> +    ide_drive_get(hd, ide_drives);
-> +    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-> +    g_free(hd);
-> +    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
-> +    if (smbus) {
-> +        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
-> +                               isa_get_irq(NULL, 9), NULL, 0, NULL);
-> +   }
-> +
-> +    return dev;
-> +}
-> +
->  static
->  void mips_malta_init(MachineState *machine)
+> -static int i440fx_load_old(QEMUFile* f, void *opaque, int version_id)
+> -{
+> -    PCII440FXState *d =3D opaque;
+> -    PCIDevice *pd =3D PCI_DEVICE(d);
+> -    int ret, i;
+> -    uint8_t smm_enabled;
+> -
+> -    ret =3D pci_device_load(pd, f);
+> -    if (ret < 0)
+> -        return ret;
+> -    i440fx_update_memory_mappings(d);
+> -    qemu_get_8s(f, &smm_enabled);
+> -
+> -    if (version_id =3D=3D 2) {
+> -        for (i =3D 0; i < PIIX_NUM_PIRQS; i++) {
+> -            qemu_get_be32(f); /* dummy load for compatibility */
+> -        }
+> -    }
+> -
+> -    return 0;
+> -}
+> -
+>  static int i440fx_post_load(void *opaque, int version_id)
 >  {
-> @@ -1231,12 +1259,8 @@ void mips_malta_init(MachineState *machine)
->      PCIBus *pci_bus;
->      ISABus *isa_bus;
->      qemu_irq cbus_irq, i8259_irq;
-> -    PCIDevice *pci;
-> -    int piix4_devfn;
->      I2CBus *smbus;
->      DriveInfo *dinfo;
-> -    const size_t ide_drives =3D MAX_IDE_BUS * MAX_IDE_DEVS;
-> -    DriveInfo **hd;
->      int fl_idx =3D 0;
->      int be;
+>      PCII440FXState *d =3D opaque;
+> @@ -208,8 +185,6 @@ static const VMStateDescription vmstate_i440fx =3D {
+>      .name =3D "I440FX",
+>      .version_id =3D 3,
+>      .minimum_version_id =3D 3,
+> -    .minimum_version_id_old =3D 1,
+> -    .load_state_old =3D i440fx_load_old,
+>      .post_load =3D i440fx_post_load,
+>      .fields =3D (VMStateField[]) {
+>          VMSTATE_PCI_DEVICE(parent_obj, PCII440FXState),
+> diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c
+> index 57bf10cc94..050875b497 100644
+> --- a/hw/timer/i8254_common.c
+> +++ b/hw/timer/i8254_common.c
+> @@ -29,7 +29,6 @@
+>  #include "qemu/timer.h"
+>  #include "hw/timer/i8254.h"
+>  #include "hw/timer/i8254_internal.h"
+> -#include "migration/qemu-file-types.h"
+>  #include "migration/vmstate.h"
 >
-> @@ -1407,14 +1431,7 @@ void mips_malta_init(MachineState *machine)
->      pci_bus =3D gt64120_register(s->i8259);
->
->      /* Southbridge */
-> -    hd =3D g_new(DriveInfo *, ide_drives);
-> -    ide_drive_get(hd, ide_drives);
-> -
-> -    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
-> -                                          true, TYPE_PIIX4_PCI_DEVICE);
-> -    dev =3D DEVICE(pci);
-> -    isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-> -    piix4_devfn =3D pci->devfn;
-> +    dev =3D piix4_create(pci_bus, &isa_bus, &smbus, MAX_IDE_BUS);
->
->      /* Interrupt controller */
->      qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-> @@ -1422,12 +1439,6 @@ void mips_malta_init(MachineState *machine)
->          s->i8259[i] =3D qdev_get_gpio_in_named(dev, "isa", i);
+>  /* val must be 0 or 1 */
+> @@ -202,43 +201,6 @@ static const VMStateDescription vmstate_pit_channel =
+=3D
+> {
 >      }
+>  };
 >
-> -    pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);
-> -    g_free(hd);
-> -    pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
-> -    smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
-> -                          isa_get_irq(NULL, 9), NULL, 0, NULL);
+> -static int pit_load_old(QEMUFile *f, void *opaque, int version_id)
+> -{
+> -    PITCommonState *pit =3D opaque;
+> -    PITCommonClass *c =3D PIT_COMMON_GET_CLASS(pit);
+> -    PITChannelState *s;
+> -    int i;
 > -
->      /* generate SPD EEPROM data */
->      generate_eeprom_spd(&smbus_eeprom_buf[0 * 256], ram_size);
->      generate_eeprom_serial(&smbus_eeprom_buf[6 * 256]);
+> -    if (version_id !=3D 1) {
+> -        return -EINVAL;
+> -    }
+> -
+> -    for (i =3D 0; i < 3; i++) {
+> -        s =3D &pit->channels[i];
+> -        s->count =3D qemu_get_be32(f);
+> -        qemu_get_be16s(f, &s->latched_count);
+> -        qemu_get_8s(f, &s->count_latched);
+> -        qemu_get_8s(f, &s->status_latched);
+> -        qemu_get_8s(f, &s->status);
+> -        qemu_get_8s(f, &s->read_state);
+> -        qemu_get_8s(f, &s->write_state);
+> -        qemu_get_8s(f, &s->write_latch);
+> -        qemu_get_8s(f, &s->rw_mode);
+> -        qemu_get_8s(f, &s->mode);
+> -        qemu_get_8s(f, &s->bcd);
+> -        qemu_get_8s(f, &s->gate);
+> -        s->count_load_time =3D qemu_get_be64(f);
+> -        s->irq_disabled =3D 0;
+> -        if (i =3D=3D 0) {
+> -            s->next_transition_time =3D qemu_get_be64(f);
+> -        }
+> -    }
+> -    if (c->post_load) {
+> -        c->post_load(pit);
+> -    }
+> -    return 0;
+> -}
+> -
+>  static int pit_dispatch_pre_save(void *opaque)
+>  {
+>      PITCommonState *s =3D opaque;
+> @@ -266,8 +228,6 @@ static const VMStateDescription vmstate_pit_common =
+=3D {
+>      .name =3D "i8254",
+>      .version_id =3D 3,
+>      .minimum_version_id =3D 2,
+> -    .minimum_version_id_old =3D 1,
+> -    .load_state_old =3D pit_load_old,
+>      .pre_save =3D pit_dispatch_pre_save,
+>      .post_load =3D pit_dispatch_post_load,
+>      .fields =3D (VMStateField[]) {
 > --
 > 2.21.0
 >
 >
 >
 
---0000000000003da91c05951c4808
+--0000000000006e378905951c33e3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
 ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
 uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">The Malta board instantiate a PIIX4 chipset doing v=
-arious<br>
-calls. Refactor all those related calls into a single<br>
-function: piix4_create().<br>
+solid;padding-left:1ex">These devices implemented their load_state_old() ha=
+ndler 10 years<br>
+ago, previous to QEMU v0.12.<br>
+Since commit cc425b5ddf removed the pc-0.10 and pc-0.11 machines,<br>
+we can drop this code.<br>
 <br>
+Note: the mips_r4k machine started to use the i8254 device just<br>
+after QEMU v0.5.0, but the MIPS machine types are not versioned,<br>
+so there is no migration compatibility issue removing this handler.<br>
+<br>
+Suggested-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org"=
+>peter.maydell@linaro.org</a>&gt;<br>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
 hat.com">philmd@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0hw/mips/mips_malta.c | 47 +++++++++++++++++++++++++++---<wbr>--------=
-------<br>
-=C2=A01 file changed, 29 insertions(+), 18 deletions(-)<br>
+=C2=A0hw/acpi/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 40 ---------------=
+---------------<wbr>---<br>
+=C2=A0hw/intc/apic_common.c=C2=A0 =C2=A0| 49 ------------------------------=
+<wbr>-----------<br>
+=C2=A0hw/pci-host/piix.c=C2=A0 =C2=A0 =C2=A0 | 25 ---------------------<br>
+=C2=A0hw/timer/i8254_common.c | 40 ------------------------------<wbr>---<b=
+r>
+=C2=A04 files changed, 154 deletions(-)<br>
 <br></blockquote><div><br></div><div><div id=3D"cvcmsg_16dbfeb33c93ed97" cl=
 ass=3D"yh  " style=3D"border-top-left-radius:0px;border-top-right-radius:0p=
 x;margin-bottom:11px;overflow:visible"><div class=3D"Vh" id=3D"cvcfullmsg_1=
@@ -236,115 +438,282 @@ y_16dbfecd588da1f7" class=3D"M j T b hc xh S  " tabindex=3D"0"><div class=
 =3D"V j td"></div></div></div></div></div></div><div><br></div><div>=C2=A0<=
 /div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
 ft:1px #ccc solid;padding-left:1ex">
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
-index 774bb810f6..0d4312840b 100644<br>
---- a/hw/mips/mips_malta.c<br>
-+++ b/hw/mips/mips_malta.c<br>
-@@ -1210,6 +1210,34 @@ static void mips_create_cpu(MachineState *ms, MaltaS=
-tate *s,<br>
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c<br>
+index 5742c3df87..1d29d438c7 100644<br>
+--- a/hw/acpi/piix4.c<br>
++++ b/hw/acpi/piix4.c<br>
+@@ -42,7 +42,6 @@<br>
+=C2=A0#include &quot;hw/acpi/memory_hotplug.h&quot;<br>
+=C2=A0#include &quot;hw/acpi/acpi_dev_interface.h&quot;<br>
+=C2=A0#include &quot;hw/xen/xen.h&quot;<br>
+-#include &quot;migration/qemu-file-types.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+=C2=A0#include &quot;hw/core/cpu.h&quot;<br>
+=C2=A0#include &quot;trace.h&quot;<br>
+@@ -205,43 +204,6 @@ static const VMStateDescription vmstate_pci_status =3D=
+ {<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0};<br>
+<br>
+-static int acpi_load_old(QEMUFile *f, void *opaque, int version_id)<br>
+-{<br>
+-=C2=A0 =C2=A0 PIIX4PMState *s =3D opaque;<br>
+-=C2=A0 =C2=A0 int ret, i;<br>
+-=C2=A0 =C2=A0 uint16_t temp;<br>
+-<br>
+-=C2=A0 =C2=A0 ret =3D pci_device_load(PCI_DEVICE(s), f);<br>
+-=C2=A0 =C2=A0 if (ret &lt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;ar.pm1.evt.sts);<br>
+-=C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;ar.pm1.evt.en);<br>
+-=C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;ar.pm1.cnt.cnt);<br>
+-<br>
+-=C2=A0 =C2=A0 ret =3D vmstate_load_state(f, &amp;vmstate_apm, &amp;s-&gt;a=
+pm, 1);<br>
+-=C2=A0 =C2=A0 if (ret) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 timer_get(f, s-&gt;ar.tmr.timer);<br>
+-=C2=A0 =C2=A0 qemu_get_sbe64s(f, &amp;s-&gt;ar.tmr.overflow_time);<br>
+-<br>
+-=C2=A0 =C2=A0 qemu_get_be16s(f, (uint16_t *)s-&gt;ar.gpe.sts);<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be16s(f, &amp;temp);<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 qemu_get_be16s(f, (uint16_t *)s-&gt;ar.gpe.en);<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be16s(f, &amp;temp);<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 ret =3D vmstate_load_state(f, &amp;vmstate_pci_status,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;acpi_pci_hotplug.acpi_<wbr>pcihp_pc=
+i_status[ACPI_PCIHP_<wbr>BSEL_DEFAULT], 1);<br>
+-=C2=A0 =C2=A0 return ret;<br>
+-}<br>
+-<br>
+=C2=A0static bool vmstate_test_use_acpi_pci_<wbr>hotplug(void *opaque, int =
+version_id)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0PIIX4PMState *s =3D opaque;<br>
+@@ -313,8 +275,6 @@ static const VMStateDescription vmstate_acpi =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name =3D &quot;piix4_pm&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
+=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 3,<br>
+-=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
+-=C2=A0 =C2=A0 .load_state_old =3D acpi_load_old,<br>
+=C2=A0 =C2=A0 =C2=A0.post_load =3D vmstate_acpi_post_load,<br>
+=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_PCI_DEVICE(parent_obj, PIIX4PMSta=
+te),<br>
+diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c<br>
+index aafd8e0e33..375cb6abe9 100644<br>
+--- a/hw/intc/apic_common.c<br>
++++ b/hw/intc/apic_common.c<br>
+@@ -31,7 +31,6 @@<br>
+=C2=A0#include &quot;sysemu/kvm.h&quot;<br>
+=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
+=C2=A0#include &quot;hw/sysbus.h&quot;<br>
+-#include &quot;migration/qemu-file-types.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+<br>
+=C2=A0static int apic_irq_delivered;<br>
+@@ -262,52 +261,6 @@ static void apic_reset_common(DeviceState *dev)<br>
+=C2=A0 =C2=A0 =C2=A0apic_init_reset(dev);<br>
+=C2=A0}<br>
+<br>
+-/* This function is only used for old state version 1 and 2 */<br>
+-static int apic_load_old(QEMUFile *f, void *opaque, int version_id)<br>
+-{<br>
+-=C2=A0 =C2=A0 APICCommonState *s =3D opaque;<br>
+-=C2=A0 =C2=A0 APICCommonClass *info =3D APIC_COMMON_GET_CLASS(s);<br>
+-=C2=A0 =C2=A0 int i;<br>
+-<br>
+-=C2=A0 =C2=A0 if (version_id &gt; 2) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 /* XXX: what if the base changes? (registered memory regions=
+) */<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;apicbase);<br>
+-=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;id);<br>
+-=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;arb_id);<br>
+-=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;tpr);<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;spurious_vec);<br>
+-=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;log_dest);<br>
+-=C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;dest_mode);<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; 8; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;isr[i]);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;tmr[i]);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;irr[i]);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; APIC_LVT_NB; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;lvt[i]);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;esr);<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;icr[0]);<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;icr[1]);<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;divide_conf);<br>
+-=C2=A0 =C2=A0 s-&gt;count_shift =3D qemu_get_be32(f);<br>
+-=C2=A0 =C2=A0 qemu_get_be32s(f, &amp;s-&gt;initial_count);<br>
+-=C2=A0 =C2=A0 s-&gt;initial_count_load_time =3D qemu_get_be64(f);<br>
+-=C2=A0 =C2=A0 s-&gt;next_time =3D qemu_get_be64(f);<br>
+-<br>
+-=C2=A0 =C2=A0 if (version_id &gt;=3D 2) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;timer_expiry =3D qemu_get_be64(f);<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 if (info-&gt;post_load) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;post_load(s);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 return 0;<br>
+-}<br>
+-<br>
+=C2=A0static const VMStateDescription vmstate_apic_common;<br>
+<br>
+=C2=A0static void apic_common_realize(<wbr>DeviceState *dev, Error **errp)<=
+br>
+@@ -408,8 +361,6 @@ static const VMStateDescription vmstate_apic_common =3D=
+ {<br>
+=C2=A0 =C2=A0 =C2=A0.name =3D &quot;apic&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
+=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 3,<br>
+-=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
+-=C2=A0 =C2=A0 .load_state_old =3D apic_load_old,<br>
+=C2=A0 =C2=A0 =C2=A0.pre_load =3D apic_pre_load,<br>
+=C2=A0 =C2=A0 =C2=A0.pre_save =3D apic_dispatch_pre_save,<br>
+=C2=A0 =C2=A0 =C2=A0.post_load =3D apic_dispatch_post_load,<br>
+diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c<br>
+index 135c645535..2f4cbcbfe9 100644<br>
+--- a/hw/pci-host/piix.c<br>
++++ b/hw/pci-host/piix.c<br>
+@@ -33,7 +33,6 @@<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;qemu/range.h&quot;<br>
+=C2=A0#include &quot;hw/xen/xen.h&quot;<br>
+-#include &quot;migration/qemu-file-types.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+=C2=A0#include &quot;hw/pci-host/pam.h&quot;<br>
+=C2=A0#include &quot;sysemu/reset.h&quot;<br>
+@@ -174,28 +173,6 @@ static void i440fx_write_config(PCIDevice *dev,<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
 =C2=A0}<br>
 <br>
-+static DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I2CBus **smbus, size_t ide_bus=
-es)<br>
-+{<br>
-+=C2=A0 =C2=A0 const size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;<br>
-+=C2=A0 =C2=A0 DriveInfo **hd;<br>
-+=C2=A0 =C2=A0 PCIDevice *pci;<br>
-+=C2=A0 =C2=A0 DeviceState *dev;<br>
-+<br>
-+=C2=A0 =C2=A0 pci =3D pci_create_simple_<wbr>multifunction(pci_bus, PCI_DE=
-VFN(10, 0),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
-rue, TYPE_PIIX4_PCI_DEVICE);<br>
-+=C2=A0 =C2=A0 dev =3D DEVICE(pci);<br>
-+=C2=A0 =C2=A0 if (isa_bus) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *isa_bus =3D ISA_BUS(qdev_get_child_bus(<wbr>d=
-ev, &quot;isa.0&quot;));<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 hd =3D g_new(DriveInfo *, ide_drives);<br>
-+=C2=A0 =C2=A0 ide_drive_get(hd, ide_drives);<br>
-+=C2=A0 =C2=A0 pci_piix4_ide_init(pci_bus, hd, pci-&gt;devfn + 1);<br>
-+=C2=A0 =C2=A0 g_free(hd);<br>
-+=C2=A0 =C2=A0 pci_create_simple(pci_bus, pci-&gt;devfn + 2, &quot;piix4-us=
-b-uhci&quot;);<br>
-+=C2=A0 =C2=A0 if (smbus) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *smbus =3D piix4_pm_init(pci_bus, pci-&gt;devf=
-n + 3, 0x1100,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0isa_get_irq(NULL, 9), NULL, 0, NULL);=
-<br>
-+=C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 return dev;<br>
-+}<br>
-+<br>
-=C2=A0static<br>
-=C2=A0void mips_malta_init(MachineState *machine)<br>
-=C2=A0{<br>
-@@ -1231,12 +1259,8 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0PCIBus *pci_bus;<br>
-=C2=A0 =C2=A0 =C2=A0ISABus *isa_bus;<br>
-=C2=A0 =C2=A0 =C2=A0qemu_irq cbus_irq, i8259_irq;<br>
--=C2=A0 =C2=A0 PCIDevice *pci;<br>
--=C2=A0 =C2=A0 int piix4_devfn;<br>
-=C2=A0 =C2=A0 =C2=A0I2CBus *smbus;<br>
-=C2=A0 =C2=A0 =C2=A0DriveInfo *dinfo;<br>
--=C2=A0 =C2=A0 const size_t ide_drives =3D MAX_IDE_BUS * MAX_IDE_DEVS;<br>
--=C2=A0 =C2=A0 DriveInfo **hd;<br>
-=C2=A0 =C2=A0 =C2=A0int fl_idx =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0int be;<br>
-<br>
-@@ -1407,14 +1431,7 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0pci_bus =3D gt64120_register(s-&gt;i8259);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Southbridge */<br>
--=C2=A0 =C2=A0 hd =3D g_new(DriveInfo *, ide_drives);<br>
--=C2=A0 =C2=A0 ide_drive_get(hd, ide_drives);<br>
+-static int i440fx_load_old(QEMUFile* f, void *opaque, int version_id)<br>
+-{<br>
+-=C2=A0 =C2=A0 PCII440FXState *d =3D opaque;<br>
+-=C2=A0 =C2=A0 PCIDevice *pd =3D PCI_DEVICE(d);<br>
+-=C2=A0 =C2=A0 int ret, i;<br>
+-=C2=A0 =C2=A0 uint8_t smm_enabled;<br>
 -<br>
--=C2=A0 =C2=A0 pci =3D pci_create_simple_<wbr>multifunction(pci_bus, PCI_DE=
-VFN(10, 0),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
-rue, TYPE_PIIX4_PCI_DEVICE);<br>
--=C2=A0 =C2=A0 dev =3D DEVICE(pci);<br>
--=C2=A0 =C2=A0 isa_bus =3D ISA_BUS(qdev_get_child_bus(<wbr>dev, &quot;isa.0=
-&quot;));<br>
--=C2=A0 =C2=A0 piix4_devfn =3D pci-&gt;devfn;<br>
-+=C2=A0 =C2=A0 dev =3D piix4_create(pci_bus, &amp;isa_bus, &amp;smbus, MAX_=
-IDE_BUS);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Interrupt controller */<br>
-=C2=A0 =C2=A0 =C2=A0qdev_connect_gpio_out_named(<wbr>dev, &quot;intr&quot;,=
- 0, i8259_irq);<br>
-@@ -1422,12 +1439,6 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;i8259[i] =3D qdev_get_gpio_in_named=
-(dev, &quot;isa&quot;, i);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);<br>
--=C2=A0 =C2=A0 g_free(hd);<br>
--=C2=A0 =C2=A0 pci_create_simple(pci_bus, piix4_devfn + 2, &quot;piix4-usb-=
-uhci&quot;);<br>
--=C2=A0 =C2=A0 smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,<br=
+-=C2=A0 =C2=A0 ret =3D pci_device_load(pd, f);<br>
+-=C2=A0 =C2=A0 if (ret &lt; 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+-=C2=A0 =C2=A0 i440fx_update_memory_mappings(<wbr>d);<br>
+-=C2=A0 =C2=A0 qemu_get_8s(f, &amp;smm_enabled);<br>
+-<br>
+-=C2=A0 =C2=A0 if (version_id =3D=3D 2) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; PIIX_NUM_PIRQS; i++) {<br=
 >
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 isa_get_irq(NULL, 9), NULL, 0, NULL);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be32(f); /* dummy load =
+for compatibility */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 }<br>
 -<br>
-=C2=A0 =C2=A0 =C2=A0/* generate SPD EEPROM data */<br>
-=C2=A0 =C2=A0 =C2=A0generate_eeprom_spd(&amp;smbus_<wbr>eeprom_buf[0 * 256]=
-, ram_size);<br>
-=C2=A0 =C2=A0 =C2=A0generate_eeprom_serial(&amp;smbus_<wbr>eeprom_buf[6 * 2=
-56]);<br>
+-=C2=A0 =C2=A0 return 0;<br>
+-}<br>
+-<br>
+=C2=A0static int i440fx_post_load(void *opaque, int version_id)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0PCII440FXState *d =3D opaque;<br>
+@@ -208,8 +185,6 @@ static const VMStateDescription vmstate_i440fx =3D {<br=
+>
+=C2=A0 =C2=A0 =C2=A0.name =3D &quot;I440FX&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
+=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 3,<br>
+-=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
+-=C2=A0 =C2=A0 .load_state_old =3D i440fx_load_old,<br>
+=C2=A0 =C2=A0 =C2=A0.post_load =3D i440fx_post_load,<br>
+=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_PCI_DEVICE(parent_obj, PCII440FXS=
+tate),<br>
+diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c<br>
+index 57bf10cc94..050875b497 100644<br>
+--- a/hw/timer/i8254_common.c<br>
++++ b/hw/timer/i8254_common.c<br>
+@@ -29,7 +29,6 @@<br>
+=C2=A0#include &quot;qemu/timer.h&quot;<br>
+=C2=A0#include &quot;hw/timer/i8254.h&quot;<br>
+=C2=A0#include &quot;hw/timer/i8254_internal.h&quot;<br>
+-#include &quot;migration/qemu-file-types.h&quot;<br>
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+<br>
+=C2=A0/* val must be 0 or 1 */<br>
+@@ -202,43 +201,6 @@ static const VMStateDescription vmstate_pit_channel =
+=3D {<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0};<br>
+<br>
+-static int pit_load_old(QEMUFile *f, void *opaque, int version_id)<br>
+-{<br>
+-=C2=A0 =C2=A0 PITCommonState *pit =3D opaque;<br>
+-=C2=A0 =C2=A0 PITCommonClass *c =3D PIT_COMMON_GET_CLASS(pit);<br>
+-=C2=A0 =C2=A0 PITChannelState *s;<br>
+-=C2=A0 =C2=A0 int i;<br>
+-<br>
+-=C2=A0 =C2=A0 if (version_id !=3D 1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s =3D &amp;pit-&gt;channels[i];<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;count =3D qemu_get_be32(f);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_be16s(f, &amp;s-&gt;latched_count);<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;count_latched);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;status_latched);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;status);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;read_state);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;write_state);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;write_latch);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;rw_mode);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;mode);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;bcd);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_get_8s(f, &amp;s-&gt;gate);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;count_load_time =3D qemu_get_be64(f);<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;irq_disabled =3D 0;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (i =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;next_transition_time =3D q=
+emu_get_be64(f);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (c-&gt;post_load) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;post_load(pit);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 return 0;<br>
+-}<br>
+-<br>
+=C2=A0static int pit_dispatch_pre_save(void *opaque)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0PITCommonState *s =3D opaque;<br>
+@@ -266,8 +228,6 @@ static const VMStateDescription vmstate_pit_common =3D =
+{<br>
+=C2=A0 =C2=A0 =C2=A0.name =3D &quot;i8254&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.version_id =3D 3,<br>
+=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 2,<br>
+-=C2=A0 =C2=A0 .minimum_version_id_old =3D 1,<br>
+-=C2=A0 =C2=A0 .load_state_old =3D pit_load_old,<br>
+=C2=A0 =C2=A0 =C2=A0.pre_save =3D pit_dispatch_pre_save,<br>
+=C2=A0 =C2=A0 =C2=A0.post_load =3D pit_dispatch_post_load,<br>
+=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
 -- <br>
 2.21.0<br>
 <br>
 <br>
 </blockquote>
 
---0000000000003da91c05951c4808--
+--0000000000006e378905951c33e3--
 
