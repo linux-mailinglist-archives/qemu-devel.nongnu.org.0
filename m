@@ -2,51 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41282DB1FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:10:32 +0200 (CEST)
-Received: from localhost ([::1]:52064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A531BDB20D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:12:45 +0200 (CEST)
+Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8MA-0004ZA-JF
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:10:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
+	id 1iL8OK-0008VT-2u
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56066)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iL7YL-0006NV-DE
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:02 -0400
+ (envelope-from <thuth@redhat.com>) id 1iL7Yb-0006lK-Je
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iL7YJ-0006Ur-VR
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59492)
+ (envelope-from <thuth@redhat.com>) id 1iL7YZ-0006XG-Kb
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iL7YJ-0006Ua-MS
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:18:59 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iL7YZ-0006XA-Cs
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:19:15 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE21218CB91B
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:18:58 +0000 (UTC)
-Received: from [10.36.117.42] (ovpn-117-42.ams2.redhat.com [10.36.117.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A30C60BE1;
- Thu, 17 Oct 2019 15:18:57 +0000 (UTC)
-Subject: Re: Default CPU models on s390x and ppc64
-To: Jiri Denemark <jdenemar@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <dhildenb@redhat.com>, David Gibson <dgibson@redhat.com>
-References: <20191017151606.GA1880840@orkuz.int.mamuti.net>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <82ea23ea-be23-c374-3f10-65d8f6e79432@redhat.com>
-Date: Thu, 17 Oct 2019 17:18:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mx1.redhat.com (Postfix) with ESMTPS id 7CA6D300BEB1;
+ Thu, 17 Oct 2019 15:19:14 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D69860BE1;
+ Thu, 17 Oct 2019 15:19:11 +0000 (UTC)
+Subject: Re: [PATCH 14/32] piix4: add a i8257 dma controller as specified in
+ datasheet
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-15-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFH7eUwBEACzyOXKU+5Pcs6wNpKzrlJwzRl3VGZt95VCdb+FgoU9g11m7FWcOafrVRwU
+ yYkTm9+7zBUc0sW5AuPGR/dp3pSLX/yFWsA/UB4nJsHqgDvDU7BImSeiTrnpMOTXb7Arw2a2
+ 4CflIyFqjCpfDM4MuTmzTjXq4Uov1giGE9X6viNo1pxyEpd7PanlKNnf4PqEQp06X4IgUacW
+ tSGj6Gcns1bCuHV8OPWLkf4hkRnu8hdL6i60Yxz4E6TqlrpxsfYwLXgEeswPHOA6Mn4Cso9O
+ 0lewVYfFfsmokfAVMKWzOl1Sr0KGI5T9CpmRfAiSHpthhHWnECcJFwl72NTi6kUcUzG4se81
+ O6n9d/kTj7pzTmBdfwuOZ0YUSqcqs0W+l1NcASSYZQaDoD3/SLk+nqVeCBB4OnYOGhgmIHNW
+ 0CwMRO/GK+20alxzk//V9GmIM2ACElbfF8+Uug3pqiHkVnKqM7W9/S1NH2qmxB6zMiJUHlTH
+ gnVeZX0dgH27mzstcF786uPcdEqS0KJuxh2kk5IvUSL3Qn3ZgmgdxBMyCPciD/1cb7/Ahazr
+ 3ThHQXSHXkH/aDXdfLsKVuwDzHLVSkdSnZdt5HHh75/NFHxwaTlydgfHmFFwodK8y/TjyiGZ
+ zg2Kje38xnz8zKn9iesFBCcONXS7txENTzX0z80WKBhK+XSFJwARAQABtB5UaG9tYXMgSHV0
+ aCA8dGh1dGhAcmVkaGF0LmNvbT6JAjgEEwECACIFAlVgX6oCGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAAoJEC7Z13T+cC21EbIP/ii9cvT2HHGbFRl8HqGT6+7Wkb+XLMqJBMAIGiQK
+ QIP3xk1HPTsLfVG0ao4hy/oYkGNOP8+ubLnZen6Yq3zAFiMhQ44lvgigDYJo3Ve59gfe99KX
+ EbtB+X95ODARkq0McR6OAsPNJ7gpEUzfkQUUJTXRDQXfG/FX303Gvk+YU0spm2tsIKPl6AmV
+ 1CegDljzjycyfJbk418MQmMu2T82kjrkEofUO2a24ed3VGC0/Uz//XCR2ZTo+vBoBUQl41BD
+ eFFtoCSrzo3yPFS+w5fkH9NT8ChdpSlbNS32NhYQhJtr9zjWyFRf0Zk+T/1P7ECn6gTEkp5k
+ ofFIA4MFBc/fXbaDRtBmPB0N9pqTFApIUI4vuFPPO0JDrII9dLwZ6lO9EKiwuVlvr1wwzsgq
+ zJTPBU3qHaUO4d/8G+gD7AL/6T4zi8Jo/GmjBsnYaTzbm94lf0CjXjsOX3seMhaE6WAZOQQG
+ tZHAO1kAPWpaxne+wtgMKthyPLNwelLf+xzGvrIKvLX6QuLoWMnWldu22z2ICVnLQChlR9d6
+ WW8QFEpo/FK7omuS8KvvopFcOOdlbFMM8Y/8vBgVMSsK6fsYUhruny/PahprPbYGiNIhKqz7
+ UvgyZVl4pBFjTaz/SbimTk210vIlkDyy1WuS8Zsn0htv4+jQPgo9rqFE4mipJjy/iboDuQIN
+ BFH7eUwBEAC2nzfUeeI8dv0C4qrfCPze6NkryUflEut9WwHhfXCLjtvCjnoGqFelH/PE9NF4
+ 4VPSCdvD1SSmFVzu6T9qWdcwMSaC+e7G/z0/AhBfqTeosAF5XvKQlAb9ZPkdDr7YN0a1XDfa
+ +NgA+JZB4ROyBZFFAwNHT+HCnyzy0v9Sh3BgJJwfpXHH2l3LfncvV8rgFv0bvdr70U+On2XH
+ 5bApOyW1WpIG5KPJlDdzcQTyptOJ1dnEHfwnABEfzI3dNf63rlxsGouX/NFRRRNqkdClQR3K
+ gCwciaXfZ7ir7fF0u1N2UuLsWA8Ei1JrNypk+MRxhbvdQC4tyZCZ8mVDk+QOK6pyK2f4rMf/
+ WmqxNTtAVmNuZIwnJdjRMMSs4W4w6N/bRvpqtykSqx7VXcgqtv6eqoDZrNuhGbekQA0sAnCJ
+ VPArerAZGArm63o39me/bRUQeQVSxEBmg66yshF9HkcUPGVeC4B0TPwz+HFcVhheo6hoJjLq
+ knFOPLRj+0h+ZL+D0GenyqD3CyuyeTT5dGcNU9qT74bdSr20k/CklvI7S9yoQje8BeQAHtdV
+ cvO8XCLrpGuw9SgOS7OP5oI26a0548M4KldAY+kqX6XVphEw3/6U1KTf7WxW5zYLTtadjISB
+ X9xsRWSU+Yqs3C7oN5TIPSoj9tXMoxZkCIHWvnqGwZ7JhwARAQABiQIfBBgBAgAJBQJR+3lM
+ AhsMAAoJEC7Z13T+cC21hPAQAIsBL9MdGpdEpvXs9CYrBkd6tS9mbaSWj6XBDfA1AEdQkBOn
+ ZH1Qt7HJesk+qNSnLv6+jP4VwqK5AFMrKJ6IjE7jqgzGxtcZnvSjeDGPF1h2CKZQPpTw890k
+ fy18AvgFHkVk2Oylyexw3aOBsXg6ukN44vIFqPoc+YSU0+0QIdYJp/XFsgWxnFIMYwDpxSHS
+ 5fdDxUjsk3UBHZx+IhFjs2siVZi5wnHIqM7eK9abr2cK2weInTBwXwqVWjsXZ4tq5+jQrwDK
+ cvxIcwXdUTLGxc4/Z/VRH1PZSvfQxdxMGmNTGaXVNfdFZjm4fz0mz+OUi6AHC4CZpwnsliGV
+ ODqwX8Y1zic9viSTbKS01ZNp175POyWViUk9qisPZB7ypfSIVSEULrL347qY/hm9ahhqmn17
+ Ng255syASv3ehvX7iwWDfzXbA0/TVaqwa1YIkec+/8miicV0zMP9siRcYQkyTqSzaTFBBmqD
+ oiT+z+/E59qj/EKfyce3sbC9XLjXv3mHMrq1tKX4G7IJGnS989E/fg6crv6NHae9Ckm7+lSs
+ IQu4bBP2GxiRQ+NV3iV/KU3ebMRzqIC//DCOxzQNFNJAKldPe/bKZMCxEqtVoRkuJtNdp/5a
+ yXFZ6TfE1hGKrDBYAm4vrnZ4CXFSBDllL59cFFOJCkn4Xboj/aVxxJxF30bn
+Organization: Red Hat
+Message-ID: <85d719ca-f394-6c6d-1d25-d2fc099b0a8f@redhat.com>
+Date: Thu, 17 Oct 2019 17:19:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191017151606.GA1880840@orkuz.int.mamuti.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191015162705.28087-15-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.63]); Thu, 17 Oct 2019 15:18:58 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Thu, 17 Oct 2019 15:19:14 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,81 +106,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.10.19 17:16, Jiri Denemark wrote:
-> Hi David and David,
-> 
-> I'm working on libvirt's support [1] for query-machines'
-> default-cpu-type, which is supposed to return the type of the default
-> CPU model that QEMU uses for each machine type. Rather than hard coding
-> the default in libvirt (which we currently do on x86), we ask QEMU for
-> the default CPU model and use it unless a user asks for a specific CPU
-> model explicitly.
-> 
-> We use query-cpu-definitions for translating the default CPU type to the
-> actual CPU model we need to pass to -cpu by looking up the CPU model
-> with matching typename.
-> 
-> However, all this seems to work only with TCG on both s390x and ppc64.
-> The issues I met with KVM on each architecture are described below.
-> 
-> On ppc64 the default CPU type reported by query-machines is
-> power*-powerpc64-cpu, while IIUC QEMU would effectively use -cpu host by
-> default. In fact -cpu power8 is mostly just a fancy alias to -cpu host
-> on a Power8 machine. But QEMU even rewrites typename of the current host
-> CPU model to host-powerpc64-cpu. Which means on a Power8 host the power8
-> CPU model would have typename=host-powerpc64-cpu while the default CPU
-> type would still use power8*-powerpc64-cpu. Thus we may just fail to
-> find any CPU model corresponding to the default CPU model.
-> 
-> And to make it even worse, the default CPU model changes with machine
-> type. E.g., pseries-3.1 uses power8_v2.0-powerpc64-cpu while pseries-4.2
-> uses power9_v2.0-powerpc64-cpu. However, starting QEMU with pseries-4.2
-> machine type and the reported default -cpu power9 fails on any
-> non-Power9 host. That said QEMU just lies about the default CPU model.
-> 
-> So for all combinations of (pseries-3.1, pseries-4.2) machine types and
-> (Power8, Power9) hosts, one will get the following mixed results:
-> 
-> - pseries-3.1 on Power8: no default CPU model will be detected, QEMU
->    starts fine with it's own default
-> - pseries-4.2 on Power9: same as above
-> - pseries-3.1 on Power9: -cpu power8 (not sure if this works, though)
-> - pseries-4.2 on Power8: -cpu power9, QEMU doesn't start
-> 
-> 
-> This situation on s390x is not so complicated, but not really better.
-> The default CPU is said to be "qemu" for all machine types, which works
-> fine for TCG domains, but it doesn't work on KVM because QEMU complains
-> that some features requested in the CPU model are not available. In
-> other words the "qemu" CPU model is not runnable on KVM. This a bit
-> similar to what happens on x86_64, but QEMU just ignores missing
-> features and starts happily there.
+On 15/10/2019 18.26, Philippe Mathieu-Daud=C3=A9 wrote:
+>=20
+> Remove i8257 instanciated in malta board, to not have it twice.
 
-The default model under KVM is "host", under TCG it's "qemu". We should 
-not use "qemu" under KVM, although it might work on some setups ...
+s/instanciated/instantiated/
 
-Where/how is this default model detected?
-
-> 
-> 
-> So what do you suggest we should do? Currently I just restricted all the
-> default CPU model staff to TCG on both s390x and ppc64. So either we can
-> be happy with the current state or we need to come up with a solution
-> that would allow us to enable this even for KVM.
-> 
-> Thanks,
-> Jirka
-> 
-> [1] https://www.redhat.com/archives/libvir-list/2019-October/msg00872.html
-> 
-
-
--- 
-
-Thanks,
-
-David / dhildenb
+ Thomas
 
