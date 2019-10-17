@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28152DB38B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:39:16 +0200 (CEST)
-Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2E7DB356
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:33:23 +0200 (CEST)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9k3-00049W-5x
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:39:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42659)
+	id 1iL9eL-0003uQ-Lo
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iL91I-0001JU-HC
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:53:01 -0400
+ id 1iL91L-0001OW-RD
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:53:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iL91H-0006eW-AQ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:53:00 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38620)
+ id 1iL91K-0006gA-K7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:53:03 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40325)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iL91H-0006eJ-4O; Thu, 17 Oct 2019 12:52:59 -0400
-Received: by mail-wr1-x444.google.com with SMTP id o15so2742305wru.5;
- Thu, 17 Oct 2019 09:52:59 -0700 (PDT)
+ id 1iL91K-0006fu-Dj; Thu, 17 Oct 2019 12:53:02 -0400
+Received: by mail-wr1-x441.google.com with SMTP id o28so3163852wro.7;
+ Thu, 17 Oct 2019 09:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0CG2FzQa4cGE4e9qhNAZwZAlRFWE+HE6jkMUue3YYdc=;
- b=fvvG2D+1VddywUfDPUSOVDKV7H4AXZDbY28I64NyJGYrr5+xHUTpnNdW+GnVJqumsx
- dG6OWnokpH6X6nOsPf+z8OTUdY31bBrMI0aIwPkOMmjeqUpsgk2dpP8QuQ9ZknJf2F4A
- zopeiCuwillomMywK2EQJC8Q/NZ1OID+0oJoAU4/J73TnsTAS+m48hIiskejfVqejO6I
- 77UV8YQfU2jvSlraFSzKyJt+jDAcESfR/MhgAW5sT5hDXT0zgpwSbCEmwoGRtJVzjR/l
- TpCaHxBZJntmWd9fg0vm05aI55dQzeIX5UxHZarvbKhiRCvZNjug9uhPlvklrwMi0xLE
- iHjQ==
+ bh=uoKHrShfOPAUn47GW20hABBgh2KN1hcOeK5Wq7+CL6M=;
+ b=gOhgq8GP5sYQEnSW9WK3rcpCFNDQEysr0bZf+j33qQ9INcqOoJ05Hbx3usMGHTxNY3
+ 5f5/j02S3fp1D9KysZTFY1/BQXxjEh8K3tKaOHptqa9v6LzPSxYICaYrRA0o1QVKz54A
+ 4WGdg2J8ctbGopmI3ApETFld5hSmZOrt9WUOmT2ms3rtKWRQF9I4ywSzucMyXN+Z/wwj
+ iBzmLBPX88OHr1x2JBCJPMBcJzVMA9PdEWB1Qfj1cAmhbrJHGGaVo8VBS84zof3+Sl0s
+ dskA98hxBTLMnHXAwZgWMBSnsu1MF37Q53DK+kjYdbJMqlr+epqdfFgJ8clYR/Qrbs9p
+ fQpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0CG2FzQa4cGE4e9qhNAZwZAlRFWE+HE6jkMUue3YYdc=;
- b=ngpCNii53Xu5qIZyN1JaizUSUYM6yd0dAQwNargu6q4KZxbblo2NvpmmQ9TS5dT8JN
- syIIC9P4ojGbwnto75Whd/kPxRrqNi+64KP/JZgiwf828T1qJC2KU0Zc4boXyjpCuos9
- 0wTD7lO8RiWHl4Iae0SLge472NSVwcfYslURF07MUFz4Nt+NczCWzxjniwC2PhYaGm0+
- /DxZAcI42AY7nF2fVRUK9er1I+YEpnJ7UxBAMhOQFKyWu2byfNeESolkKmGoaWwTYX5L
- UgnuE9yPv7zm+SvNgYbyrZjiSoKlwbz5JkeJIECSb2wX3pJcmbUOOjgfWeyXOSCWK7gZ
- 94Qw==
-X-Gm-Message-State: APjAAAUunBSBlblwvCAzuIBbYqUBRl1vstbNbsgvYnfgvV7+eJLUqtZx
- NK8EC2w0az6eqMbe4mvqNr1Ugyw2/Wg=
-X-Google-Smtp-Source: APXvYqwP0vqdsDFcN7nTROxIvCv2Gdqje/P2b3/oJlRLQF4R7mut5/fYPJts7B4SXojxh9EbAW4ypw==
-X-Received: by 2002:a05:6000:149:: with SMTP id r9mr141670wrx.90.1571331177797; 
- Thu, 17 Oct 2019 09:52:57 -0700 (PDT)
+ bh=uoKHrShfOPAUn47GW20hABBgh2KN1hcOeK5Wq7+CL6M=;
+ b=hqzLhs1BOKVEopNqz8U5xdV8E6f8TnevDNz0UaVIlhqeXgqenqhOybY2UDtvJi9bi1
+ EfEXZqze9osQqQ2atp9Dh3goYt7fND8OvT9FHuzk+GDE7h4kZHIlH3j4K+PlO2prsSx8
+ PgOUsMcicWgJbJuoEeKAAsk6rbQtVxVAItm4iXWLe9o9SVZdz+BESyAsjCFfLFBm3Cap
+ k7bLyw+POMFXUF2Fv6zRarIyy/XdOH0iUUKHduhyB1kWc3Tv6npevF2l+UpSRbj5xg99
+ 4w9nIlqAzd0JdaNKuv4hqArNxYag5DMji08S7QabgNkT4s/CnnHN00HGQsaqti8cQlHk
+ nP7A==
+X-Gm-Message-State: APjAAAXRyYac0SlDk4WI5LLofZR1e7fN0zYwA3vriQRx9izK+f/490ru
+ CugbtyogTYjuZqzZL0XrEl4uI7ajjI0=
+X-Google-Smtp-Source: APXvYqwFMjkMxlqMJHq5vRSpIZ2CTxLrz/6a18DkzbUwXN7ZZEjDtoBlaGtf3DiFOYmq6yvkeGKjOg==
+X-Received: by 2002:a5d:6246:: with SMTP id m6mr4084034wrv.262.1571331181223; 
+ Thu, 17 Oct 2019 09:53:01 -0700 (PDT)
 Received: from x1w.redhat.com (243.red-88-26-246.staticip.rima-tde.net.
  [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id w22sm2557363wmc.16.2019.10.17.09.52.56
+ by smtp.gmail.com with ESMTPSA id w22sm2557363wmc.16.2019.10.17.09.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 09:52:57 -0700 (PDT)
+ Thu, 17 Oct 2019 09:53:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/9] tests/acceptance: Test Open Firmware on the PReP/40p
-Date: Thu, 17 Oct 2019 18:52:36 +0200
-Message-Id: <20191017165239.30159-7-f4bug@amsat.org>
+Subject: [PATCH v3 8/9] tests/acceptance: Test Sandalfoot initrd on the
+ PReP/40p
+Date: Thu, 17 Oct 2019 18:52:38 +0200
+Message-Id: <20191017165239.30159-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191017165239.30159-1-f4bug@amsat.org>
 References: <20191017165239.30159-1-f4bug@amsat.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,48 +95,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 User case from:
-https://tyom.blogspot.com/2019/04/aixprep-under-qemu-how-to.html
+https://mail.coreboot.org/pipermail/openbios/2018-May/010360.html
+
+Sandalfoot info:
+http://www.juneau-lug.org/sandalfoot.php
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3: use avocado_qemu.wait_for_console_pattern (Cleber)
+v3:
+- use avocado_qemu.wait_for_console_pattern (Cleber)
+- use exec_command_and_wait_for_pattern
 ---
- tests/acceptance/ppc_prep_40p.py | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ tests/acceptance/ppc_prep_40p.py | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-index 2978416b02..7b8d0e55a9 100644
+index 0ebedd16c8..d022fe5ab0 100644
 --- a/tests/acceptance/ppc_prep_40p.py
 +++ b/tests/acceptance/ppc_prep_40p.py
-@@ -41,3 +41,24 @@ class IbmPrep40pMachine(Test):
-         os_banner = 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST 2007'
-         wait_for_console_pattern(self, os_banner)
-         wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
+@@ -10,6 +10,7 @@ import logging
+ 
+ from avocado import skipIf
+ from avocado_qemu import Test
++from avocado_qemu import exec_command_and_wait_for_pattern
+ from avocado_qemu import wait_for_console_pattern
+ 
+ 
+@@ -94,3 +95,32 @@ class IbmPrep40pMachine(Test):
+ 
+         self.vm.launch()
+         wait_for_console_pattern(self, 'NetBSD/prep BOOT, Revision 1.9')
 +
-+    def test_openfirmware(self):
++    def test_sandalfoot_busybox(self):
 +        """
 +        :avocado: tags=arch:ppc
 +        :avocado: tags=machine:40p
 +        """
-+        bios_url = ('https://github.com/artyom-tarasenko/openfirmware/'
-+                    'releases/download/40p-20190413/q40pofw-serial.rom')
-+        bios_hash = '880c80172ea5b2247c0ac2a8bf36bbe385192c72'
-+        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
++        drive_url = ('http://www.juneau-lug.org/zImage.initrd.sandalfoot')
++        drive_hash = 'dacacfc4085ea51d34d99ef70e972b849e2c6949'
++        drive_path = self.fetch_asset(drive_url, asset_hash=drive_hash)
 +
 +        self.vm.set_machine('40p')
 +        self.vm.set_console()
-+        self.vm.add_args('-bios', bios_path)
++        self.vm.add_args('-cdrom', drive_path,
++                         '-boot', 'd')
 +
 +        self.vm.launch()
-+        wait_for_console_pattern(self, 'QEMU PReP/40p')
-+        fw_banner = 'Open Firmware, built  April 13, 2019 09:29:23'
-+        wait_for_console_pattern(self, fw_banner)
-+        prompt_msg = 'Type any key to interrupt automatic startup'
-+        wait_for_console_pattern(self, prompt_msg)
++        wait_for_console_pattern(self, 'Now booting the kernel')
++
++        msg = 'Please press Enter to activate this console.'
++        wait_for_console_pattern(self, msg)
++
++        version = 'BusyBox v0.60.0 (2001.08.19-09:26+0000) Built-in shell (ash)'
++        exec_command_and_wait_for_pattern(self, '', version)
++
++        uname = 'Linux ppc 2.4.18 #5 Wed May 21 23:50:43 AKDT 2003 ppc unknown'
++        exec_command_and_wait_for_pattern(self, 'uname -a', uname)
++
++        cpu = 'PReP IBM 6015/7020 (Sandalfoot/Sandalbow)'
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo', cpu)
 -- 
 2.21.0
 
