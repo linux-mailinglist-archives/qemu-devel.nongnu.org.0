@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1D9DAE6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:30:40 +0200 (CEST)
-Received: from localhost ([::1]:47690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A3ADAE7D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:34:28 +0200 (CEST)
+Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5rT-0007Zf-2j
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
+	id 1iL5v9-00039f-9M
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33893)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5dd-0007xP-O8
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:23 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5dg-00080w-AA
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5db-0005JP-PW
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:21 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50704)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5de-0005Nk-0Q
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:24 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39320)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL5db-0005IJ-Da
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:19 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 5so2548996wmg.0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:18 -0700 (PDT)
+ id 1iL5dd-0005La-Od
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:21 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r3so2319014wrj.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a4dWIW5LEOLBgiLOgrzeQr7rIOmAcI8X6J+me77emQI=;
- b=gjOb/sqv3dYr8RnLJvf1pQKbCZaF/5gWxD8qatwLLh2x4PRgygMGso0+9XaQPvLllr
- Zet0wEkj6Gl5Hm8gJgYwXd+jQAgSsonOV4Kakj5klTCMwPrjFowF5QzULqcLJ+Uf6Oiw
- ixxStmAkGsTVcMSskbdKJt45Uwba2qrxABo16qENOf5q7RFxU41gLWW+aB1ndoh2tBG6
- ItnVUHPAjYS+XdM5N5ZECM7RT4vm8IQDqsLrQ1jqjwdXTlRAF7mxJKai/uzmMkQMVXjR
- eUi+mxS0dkgiO2SaVd0CGVkh5wmPAZSmiwFk4CHCUvZuVcO+VqrzwKY6/lHTSy0CDWB7
- TSLQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jxSf2lbuW5KJiixqzN79rCXNmB+////wViO7YEre93M=;
+ b=iMdfdwj8gkyW/+HononaJbEEZ844boMUIfSaBU0o+Hs6IpV/1Qw5AQtjb+RHxL2Mwp
+ 6JUpKc2d49MaO3iG2DZ2FbWmyfZr5AoiTinDEe3Dh/NzdynaO8rs5RtbZs3dLni9Vrzl
+ GTKHGKAl31nHY4NtzKK6qQmmC4hfVQyYbE5MHfY071NC8F3TQ61qRX7/au4BWG0iXMTR
+ 6GA5uRPXgHi3gFrASmpSRf/EEApTR4tYi/MixBbVeUAGXv++mShBd8G+/5GUs4w+Fy6m
+ JfQluUT8CWgeXpX2xlP6ojx/xzdlndYQRi2doEMpTxhbQJ0jnv/7IOcanQE2Iu9Wfn0M
+ eUVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a4dWIW5LEOLBgiLOgrzeQr7rIOmAcI8X6J+me77emQI=;
- b=nIc+zWeq8aO1nK4jYU0eZFX6YM2EWDgnTgksAjb4nPuAYvQXYHY3CHc7keCrxJJarA
- 7z5bCWJLwMheE71EJdlEVaSY9z3TTj4cVX+ukMC14Mbl94FNE070ePwF/aJsAlpNGE5/
- 3F2UhXu+P48dbdK6VTm+74C3GZKwlmoMcZNwPpkxTQUktVrgt6HwxMkeu3drcajEeQh1
- 0weGzhSZu0zpB82HSE6kR35Sm3mgQz41agGp29t4tN6/vSL9pNYpPtAy8sH5eRkIOP3V
- rDvZdIEPdp6GrkOkF2YefuyHkJo1HVTa4PTluFVMo+7lVllXokFv2aoCvVFbCXOMbhzC
- JE8g==
-X-Gm-Message-State: APjAAAXMoVlpbOelkxza1++D8/ltuQbaucoQJq5fucGTy1gwYEIz7Mqa
- A3QhTW1+8nxxIn/9Y/kBQcrdEQ==
-X-Google-Smtp-Source: APXvYqxUBb/efBlyN1DTrudgS5G2ig340QyWgeaOkVfDnG3z9sc0DD8UI78F/PtKPZstKtNCWZ9HXA==
-X-Received: by 2002:a7b:cb8a:: with SMTP id m10mr2678295wmi.132.1571318177527; 
- Thu, 17 Oct 2019 06:16:17 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jxSf2lbuW5KJiixqzN79rCXNmB+////wViO7YEre93M=;
+ b=AiKNsuNoNoKcwNw9oa2y0xccJQVoOJ+BUHN+O24YDrKbvipmFoza5VNqcYZxau7wFP
+ WklAxH6C0llMpVLh+O3ABm5DZC8jxSrvcPJx+jsXJ+D5tl/RHHBXRrU/jGZieJVfZ/WQ
+ BP43LG2PCuWW0XViDGH/2ZG1qgnBi93QC98wPxLZeUwiwUFpjDi9JLZQPUYwyOnHTXAT
+ IAcfGAcBhGluPboZYUUhHadV3rZfyY/VmDBUyhUlfK1QmArsxXcxrKip69ZdRz9akMVE
+ tFvRpw8IfDwHxVdaIBA6DtnrtETr06AiNCmyhlV/lP/FjHAWPYXhZowZdiUh1QKvEmPJ
+ SG9Q==
+X-Gm-Message-State: APjAAAVsA7RbOTtHsSETSKeG8/i1sho9EKqL184IAizchLRCyT9vSwM5
+ pSDlR5IWjf/JTgyFV2S4h8hBB1BjzMQ=
+X-Google-Smtp-Source: APXvYqx75Ou8WK0mqFKGZj89hO0bRIrbe6f6jAeBvpodlAnHTYq1UUvoyvppfXkoJ8dde1dCxPyNLA==
+X-Received: by 2002:a5d:50c9:: with SMTP id f9mr2925736wrt.36.1571318180439;
+ Thu, 17 Oct 2019 06:16:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r65sm2215110wmr.9.2019.10.17.06.16.16
+ by smtp.gmail.com with ESMTPSA id g17sm2158196wrq.58.2019.10.17.06.16.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:16:16 -0700 (PDT)
+ Thu, 17 Oct 2019 06:16:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BD0EF1FF87;
- Thu, 17 Oct 2019 14:16:15 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 5A9EA1FF93;
+ Thu, 17 Oct 2019 14:16:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 4.2 v6 00/54] Support for TCG plugins
-Date: Thu, 17 Oct 2019 14:15:21 +0100
-Message-Id: <20191017131615.19660-1-alex.bennee@linaro.org>
+Subject: [PATCH  v6 06/54] plugin: add user-facing API
+Date: Thu, 17 Oct 2019 14:15:27 +0100
+Message-Id: <20191017131615.19660-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
+References: <20191017131615.19660-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,233 +81,392 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- robert.foley@futurewei.com, peter.puhov@futurewei.com
+Cc: robert.foley@futurewei.com,
+ Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: "Emilio G. Cota" <cota@braap.org>
 
-This is the latest iteration of the TCG plugins series. From the documentation:
+Add the API first to ease review.
 
-  QEMU TCG plugins provide a way for users to run experiments taking
-  advantage of the total system control emulation can have over a guest.
-  It provides a mechanism for plugins to subscribe to events during
-  translation and execution and optionally callback into the plugin
-  during these events. TCG plugins are unable to change the system state
-  only monitor it passively. However they can do this down to an
-  individual instruction granularity including potentially subscribing
-  to all load and store operations.
-
-This is mostly a adding signoffs and some patch re-organisation and
-splitting. For reference the longer notes about what API tweaks didn't
-make it into this iteration can be found in the previous series:
-
-  Subject: [PATCH for 4.2 v5 00/55] Support for TCG plugins
-  Date: Mon, 14 Oct 2019 11:48:53 +0100
-  Message-Id: <20191014104948.4291-1-alex.bennee@linaro.org>
-
-Changes of note:
-
-  - now use gmodule to load symbols instead of dlsym
-  - re-jigged translator_ld to avoid creating more alias functions
-  - moved configure change to final place
-  - moved additional API bits to before examples
-  - merged api changes to examples into final single commit versions
-  - tweaked hwaddr API to talk of device_offset
-
-Most of the checkpatch formatting complaints I think are overly picky
-given the attempt to make table look nice or not wrap for the sake of
-going one character over. I've included a checkpatch patch to stop
-bothering me about (foo, /* empty */) comments. As ever there are more
-details bellow the ---
-
-Only a few more un-reviewed patches before I can send the PR:
-
-   02 - trace add mmu_index to mem_info
-   37 - plugin expand the plugin_init function to include
-   39 - plugin add qemu_plugin_outs helper
-   54 - scripts chec.pl don t complain about foo em
-
-
-Alex Bennée (20):
-  trace: add mmu_index to mem_info
-  docs/devel: add plugins.rst design document
-  plugin: add implementation of the api
-  plugins: implement helpers for resolving hwaddr
-  configure: add --enable-plugins
-  plugin: expand the plugin_init function to include an info block
-  plugin: add qemu_plugin_insn_disas helper
-  plugin: add qemu_plugin_outs helper
-  tests/tcg/Makefile.target: fix path to config-host.mak
-  tests/tcg: set QEMU_OPTS for all cris runs
-  tests/tcg: move "virtual" tests to EXTRA_TESTS
-  tests/tcg: drop test-i386-fprem from TESTS when not SLOW
-  tests/tcg: enable plugin testing
-  tests/plugin: add a hotblocks plugin
-  tests/plugin: add instruction execution breakdown
-  tests/plugin: add hotpages to analyse memory access patterns
-  accel/stubs: reduce headers from tcg-stub
-  include/exec: wrap cpu_ldst.h in CONFIG_TCG
-  .travis.yml: add --enable-plugins tests
-  scripts/checkpatch.pl: don't complain about (foo, /* empty */)
-
-Emilio G. Cota (32):
-  trace: expand mem_info:size_shift to 4 bits
-  cpu: introduce cpu_in_exclusive_context()
-  translate-all: use cpu_in_exclusive_work_context() in tb_flush
-  plugin: add user-facing API
-  plugin: add core code
-  queue: add QTAILQ_REMOVE_SEVERAL
-  cputlb: document get_page_addr_code
-  cputlb: introduce get_page_addr_code_hostp
-  tcg: add tcg_gen_st_ptr
-  plugin-gen: add module for TCG-related code
-  atomic_template: add inline trace/plugin helpers
-  tcg: let plugins instrument virtual memory accesses
-  translate-all: notify plugin code of tb_flush
-  *-user: notify plugin of exit
-  *-user: plugin syscalls
-  cpu: hook plugin vcpu events
-  plugin-gen: add plugin_insn_append
-  translator: add translator_ld{ub,sw,uw,l,q}
-  target/arm: fetch code with translator_ld
-  target/ppc: fetch code with translator_ld
-  target/sh4: fetch code with translator_ld
-  target/i386: fetch code with translator_ld
-  target/hppa: fetch code with translator_ld
-  target/m68k: fetch code with translator_ld
-  target/alpha: fetch code with translator_ld
-  target/riscv: fetch code with translator_ld
-  target/sparc: fetch code with translator_ld
-  target/xtensa: fetch code with translator_ld
-  target/openrisc: fetch code with translator_ld
-  translator: inject instrumentation from plugins
-  plugin: add API symbols to qemu-plugins.symbols
-  tests/plugin: add sample plugins
-
-Lluís Vilanova (2):
-  vl: support -plugin option
-  linux-user: support -plugin option
-
- .travis.yml                               |  15 +
- Makefile                                  |  16 +-
- Makefile.target                           |   2 +
- accel/stubs/tcg-stub.c                    |   1 -
- accel/tcg/Makefile.objs                   |   1 +
- accel/tcg/atomic_common.inc.c             |  54 ++
- accel/tcg/atomic_template.h               |  94 ++-
- accel/tcg/cpu-exec.c                      |   8 +-
- accel/tcg/cputlb.c                        |  60 +-
- accel/tcg/plugin-gen.c                    | 932 ++++++++++++++++++++++
- accel/tcg/plugin-helpers.h                |   5 +
- accel/tcg/translate-all.c                 |  15 +-
- accel/tcg/translator.c                    |  20 +
- accel/tcg/user-exec.c                     |   3 +
- bsd-user/syscall.c                        |  24 +-
- configure                                 |  89 +++
- cpus-common.c                             |   4 +
- cpus.c                                    |  10 +
- disas.c                                   | 110 +++
- docs/devel/index.rst                      |   1 +
- docs/devel/plugins.rst                    | 112 +++
- exec.c                                    |   2 +
- hw/core/cpu.c                             |   2 +
- include/disas/disas.h                     |   2 +
- include/exec/cpu-defs.h                   |   1 +
- include/exec/cpu_ldst.h                   |  11 +
- include/exec/cpu_ldst_template.h          |  37 +-
- include/exec/cpu_ldst_useronly_template.h |  32 +-
- include/exec/exec-all.h                   |  64 +-
- include/exec/helper-gen.h                 |   1 +
- include/exec/helper-proto.h               |   1 +
- include/exec/helper-tcg.h                 |   1 +
- include/exec/plugin-gen.h                 |  71 ++
- include/exec/translator.h                 |  62 +-
- include/hw/core/cpu.h                     |  19 +
- include/qemu/log.h                        |   1 +
- include/qemu/plugin-memory.h              |  40 +
- include/qemu/plugin.h                     | 255 ++++++
- include/qemu/qemu-plugin.h                | 393 +++++++++
- include/qemu/queue.h                      |  10 +
- include/user/syscall-trace.h              |  40 +
- linux-user/exit.c                         |   1 +
- linux-user/main.c                         |  18 +
- linux-user/syscall.c                      |   7 +-
- plugins/.gitignore                        |   2 +
- plugins/Makefile.objs                     |  21 +
- plugins/api.c                             | 341 ++++++++
- plugins/core.c                            | 502 ++++++++++++
- plugins/loader.c                          | 377 +++++++++
- plugins/plugin.h                          |  97 +++
- plugins/qemu-plugins.symbols              |  40 +
- qemu-options.hx                           |  17 +
- scripts/checkpatch.pl                     |   2 +-
- scripts/tracetool/transform.py            |   1 +
- target/alpha/translate.c                  |   2 +-
- target/arm/arm_ldst.h                     |  15 +-
- target/hppa/translate.c                   |   2 +-
- target/i386/translate.c                   |  10 +-
- target/m68k/translate.c                   |   2 +-
- target/openrisc/translate.c               |   2 +-
- target/ppc/translate.c                    |   8 +-
- target/riscv/translate.c                  |   2 +-
- target/sh4/translate.c                    |   4 +-
- target/sparc/translate.c                  |   2 +-
- target/xtensa/translate.c                 |   4 +-
- tcg/tcg-op.c                              |  40 +-
- tcg/tcg-op.h                              |  16 +
- tcg/tcg-opc.h                             |   3 +
- tcg/tcg.c                                 |  22 +
- tcg/tcg.h                                 |  21 +
- tests/Makefile.include                    |  11 +-
- tests/plugin/Makefile                     |  31 +
- tests/plugin/bb.c                         |  64 ++
- tests/plugin/empty.c                      |  30 +
- tests/plugin/hotblocks.c                  | 143 ++++
- tests/plugin/hotpages.c                   | 191 +++++
- tests/plugin/howvec.c                     | 352 ++++++++
- tests/plugin/insn.c                       |  61 ++
- tests/plugin/mem.c                        |  97 +++
- tests/tcg/Makefile.target                 |  43 +-
- tests/tcg/aarch64/Makefile.softmmu-target |   2 +-
- tests/tcg/aarch64/Makefile.target         |   6 +
- tests/tcg/arm/Makefile.softmmu-target     |   1 +
- tests/tcg/arm/Makefile.target             |   6 +
- tests/tcg/cris/Makefile.target            |   2 +-
- tests/tcg/i386/Makefile.target            |  11 +-
- trace-events                              |   8 +-
- trace/mem-internal.h                      |  39 +-
- trace/mem.h                               |   7 +-
- util/log.c                                |   3 +
- vl.c                                      |  11 +
- 91 files changed, 5159 insertions(+), 162 deletions(-)
- create mode 100644 accel/tcg/atomic_common.inc.c
- create mode 100644 accel/tcg/plugin-gen.c
- create mode 100644 accel/tcg/plugin-helpers.h
- create mode 100644 docs/devel/plugins.rst
- create mode 100644 include/exec/plugin-gen.h
- create mode 100644 include/qemu/plugin-memory.h
- create mode 100644 include/qemu/plugin.h
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v3
+  - merge in changes to plugin install/reset/uninstall
+  - split api file
+v4
+  - s/is/it/
+  - more docstrings
+  - remove qemu_plugin_register_vcpu_mem_haddr_cb and related bits
+  - add qemu_plugin_get_hwaddr and related bits
+  - drop vcpu_index from tb_trans_cb_t
+---
+ include/qemu/qemu-plugin.h | 351 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 351 insertions(+)
  create mode 100644 include/qemu/qemu-plugin.h
- create mode 100644 include/user/syscall-trace.h
- create mode 100644 plugins/.gitignore
- create mode 100644 plugins/Makefile.objs
- create mode 100644 plugins/api.c
- create mode 100644 plugins/core.c
- create mode 100644 plugins/loader.c
- create mode 100644 plugins/plugin.h
- create mode 100644 plugins/qemu-plugins.symbols
- create mode 100644 tests/plugin/Makefile
- create mode 100644 tests/plugin/bb.c
- create mode 100644 tests/plugin/empty.c
- create mode 100644 tests/plugin/hotblocks.c
- create mode 100644 tests/plugin/hotpages.c
- create mode 100644 tests/plugin/howvec.c
- create mode 100644 tests/plugin/insn.c
- create mode 100644 tests/plugin/mem.c
 
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+new file mode 100644
+index 0000000000..d9c1ca3b4c
+--- /dev/null
++++ b/include/qemu/qemu-plugin.h
+@@ -0,0 +1,351 @@
++/*
++ * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
++ * Copyright (C) 2019, Linaro
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#ifndef QEMU_PLUGIN_API_H
++#define QEMU_PLUGIN_API_H
++
++#include <inttypes.h>
++#include <stdbool.h>
++
++/*
++ * For best performance, build the plugin with -fvisibility=hidden so that
++ * QEMU_PLUGIN_LOCAL is implicit. Then, just mark qemu_plugin_install with
++ * QEMU_PLUGIN_EXPORT. For more info, see
++ *   https://gcc.gnu.org/wiki/Visibility
++ */
++#if defined _WIN32 || defined __CYGWIN__
++  #ifdef BUILDING_DLL
++    #define QEMU_PLUGIN_EXPORT __declspec(dllexport)
++  #else
++    #define QEMU_PLUGIN_EXPORT __declspec(dllimport)
++  #endif
++  #define QEMU_PLUGIN_LOCAL
++#else
++  #if __GNUC__ >= 4
++    #define QEMU_PLUGIN_EXPORT __attribute__((visibility("default")))
++    #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
++  #else
++    #define QEMU_PLUGIN_EXPORT
++    #define QEMU_PLUGIN_LOCAL
++  #endif
++#endif
++
++typedef uint64_t qemu_plugin_id_t;
++
++/**
++ * qemu_plugin_install() - Install a plugin
++ * @id: this plugin's opaque ID
++ * @argc: number of arguments
++ * @argv: array of arguments (@argc elements)
++ *
++ * All plugins must export this symbol.
++ *
++ * Note: Calling qemu_plugin_uninstall() from this function is a bug. To raise
++ * an error during install, return !0.
++ *
++ * Note: @argv remains valid throughout the lifetime of the loaded plugin.
++ */
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv);
++
++/*
++ * Prototypes for the various callback styles we will be registering
++ * in the following functions.
++ */
++typedef void (*qemu_plugin_simple_cb_t)(qemu_plugin_id_t id);
++
++typedef void (*qemu_plugin_udata_cb_t)(qemu_plugin_id_t id, void *userdata);
++
++typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
++                                             unsigned int vcpu_index);
++
++typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
++                                            void *userdata);
++
++/**
++ * qemu_plugin_uninstall() - Uninstall a plugin
++ * @id: this plugin's opaque ID
++ * @cb: callback to be called once the plugin has been removed
++ *
++ * Do NOT assume that the plugin has been uninstalled once this function
++ * returns. Plugins are uninstalled asynchronously, and therefore the given
++ * plugin receives callbacks until @cb is called.
++ *
++ * Note: Calling this function from qemu_plugin_install() is a bug.
++ */
++void qemu_plugin_uninstall(qemu_plugin_id_t id, qemu_plugin_simple_cb_t cb);
++
++/**
++ * qemu_plugin_reset() - Reset a plugin
++ * @id: this plugin's opaque ID
++ * @cb: callback to be called once the plugin has been reset
++ *
++ * Unregisters all callbacks for the plugin given by @id.
++ *
++ * Do NOT assume that the plugin has been reset once this function returns.
++ * Plugins are reset asynchronously, and therefore the given plugin receives
++ * callbacks until @cb is called.
++ */
++void qemu_plugin_reset(qemu_plugin_id_t id, qemu_plugin_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_init_cb() - register a vCPU initialization callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU is initialized.
++ *
++ * See also: qemu_plugin_register_vcpu_exit_cb()
++ */
++void qemu_plugin_register_vcpu_init_cb(qemu_plugin_id_t id,
++                                       qemu_plugin_vcpu_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_exit_cb() - register a vCPU exit callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU exits.
++ *
++ * See also: qemu_plugin_register_vcpu_init_cb()
++ */
++void qemu_plugin_register_vcpu_exit_cb(qemu_plugin_id_t id,
++                                       qemu_plugin_vcpu_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_idle_cb() - register a vCPU idle callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU idles.
++ */
++void qemu_plugin_register_vcpu_idle_cb(qemu_plugin_id_t id,
++                                       qemu_plugin_vcpu_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_resume_cb() - register a vCPU resume callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU resumes execution.
++ */
++void qemu_plugin_register_vcpu_resume_cb(qemu_plugin_id_t id,
++                                         qemu_plugin_vcpu_simple_cb_t cb);
++
++/*
++ * Opaque types that the plugin is given during the translation and
++ * instrumentation phase.
++ */
++struct qemu_plugin_tb;
++struct qemu_plugin_insn;
++
++enum qemu_plugin_cb_flags {
++    QEMU_PLUGIN_CB_NO_REGS, /* callback does not access the CPU's regs */
++    QEMU_PLUGIN_CB_R_REGS,  /* callback reads the CPU's regs */
++    QEMU_PLUGIN_CB_RW_REGS, /* callback reads and writes the CPU's regs */
++};
++
++enum qemu_plugin_mem_rw {
++    QEMU_PLUGIN_MEM_R = 1,
++    QEMU_PLUGIN_MEM_W,
++    QEMU_PLUGIN_MEM_RW,
++};
++
++/**
++ * qemu_plugin_register_vcpu_tb_trans_cb() - register a translate cb
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a translation occurs. The @cb
++ * function is passed an opaque qemu_plugin_type which it can query
++ * for additional information including the list of translated
++ * instructions. At this point the plugin can register further
++ * callbacks to be triggered when the block or individual instruction
++ * executes.
++ */
++typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
++                                               struct qemu_plugin_tb *tb);
++
++void qemu_plugin_register_vcpu_tb_trans_cb(qemu_plugin_id_t id,
++                                           qemu_plugin_vcpu_tb_trans_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_tb_trans_exec_cb() - register execution callback
++ * @tb: the opaque qemu_plugin_tb handle for the translation
++ * @cb: callback function
++ * @flags: does the plugin read or write the CPU's registers?
++ * @userdata: any plugin data to pass to the @cb?
++ *
++ * The @cb function is called every time a translated unit executes.
++ */
++void qemu_plugin_register_vcpu_tb_exec_cb(struct qemu_plugin_tb *tb,
++                                          qemu_plugin_vcpu_udata_cb_t cb,
++                                          enum qemu_plugin_cb_flags flags,
++                                          void *userdata);
++
++enum qemu_plugin_op {
++    QEMU_PLUGIN_INLINE_ADD_U64,
++};
++
++/**
++ * qemu_plugin_register_vcpu_tb_trans_exec_inline() - execution inline op
++ * @tb: the opaque qemu_plugin_tb handle for the translation
++ * @op: the type of qemu_plugin_op (e.g. ADD_U64)
++ * @ptr: the target memory location for the op
++ * @imm: the op data (e.g. 1)
++ *
++ * Insert an inline op to every time a translated unit executes.
++ * Useful if you just want to increment a single counter somewhere in
++ * memory.
++ */
++void qemu_plugin_register_vcpu_tb_exec_inline(struct qemu_plugin_tb *tb,
++                                              enum qemu_plugin_op op,
++                                              void *ptr, uint64_t imm);
++
++/**
++ * qemu_plugin_register_vcpu_insn_exec_cb() - register insn execution cb
++ * @insn: the opaque qemu_plugin_insn handle for an instruction
++ * @cb: callback function
++ * @flags: does the plugin read or write the CPU's registers?
++ * @userdata: any plugin data to pass to the @cb?
++ *
++ * The @cb function is called every time an instruction is executed
++ */
++void qemu_plugin_register_vcpu_insn_exec_cb(struct qemu_plugin_insn *insn,
++                                            qemu_plugin_vcpu_udata_cb_t cb,
++                                            enum qemu_plugin_cb_flags flags,
++                                            void *userdata);
++
++/**
++ * qemu_plugin_register_vcpu_insn_exec_inline() - insn execution inline op
++ * @insn: the opaque qemu_plugin_insn handle for an instruction
++ * @cb: callback function
++ * @op: the type of qemu_plugin_op (e.g. ADD_U64)
++ * @ptr: the target memory location for the op
++ * @imm: the op data (e.g. 1)
++ *
++ * Insert an inline op to every time an instruction executes. Useful
++ * if you just want to increment a single counter somewhere in memory.
++ */
++void qemu_plugin_register_vcpu_insn_exec_inline(struct qemu_plugin_insn *insn,
++                                                enum qemu_plugin_op op,
++                                                void *ptr, uint64_t imm);
++
++/*
++ * Helpers to query information about the instructions in a block
++ */
++size_t qemu_plugin_tb_n_insns(const struct qemu_plugin_tb *tb);
++
++uint64_t qemu_plugin_tb_vaddr(const struct qemu_plugin_tb *tb);
++
++struct qemu_plugin_insn *
++qemu_plugin_tb_get_insn(const struct qemu_plugin_tb *tb, size_t idx);
++
++const void *qemu_plugin_insn_data(const struct qemu_plugin_insn *insn);
++
++size_t qemu_plugin_insn_size(const struct qemu_plugin_insn *insn);
++
++uint64_t qemu_plugin_insn_vaddr(const struct qemu_plugin_insn *insn);
++void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
++
++/*
++ * Memory Instrumentation
++ *
++ * The anonymous qemu_plugin_meminfo_t and qemu_plugin_hwaddr types
++ * can be used in queries to QEMU to get more information about a
++ * given memory access.
++ */
++typedef uint32_t qemu_plugin_meminfo_t;
++struct qemu_plugin_hwaddr;
++
++/* meminfo queries */
++unsigned int qemu_plugin_mem_size_shift(qemu_plugin_meminfo_t info);
++bool qemu_plugin_mem_is_sign_extended(qemu_plugin_meminfo_t info);
++bool qemu_plugin_mem_is_big_endian(qemu_plugin_meminfo_t info);
++bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info);
++
++/*
++ * qemu_plugin_get_hwaddr():
++ * @vaddr: the virtual address of the memory operation
++ *
++ * For system emulation returns a qemu_plugin_hwaddr handle to query
++ * details about the actual physical address backing the virtual
++ * address. For linux-user guests it just returns NULL.
++ *
++ * This handle is *only* valid for the duration of the callback. Any
++ * information about the handle should be recovered before the
++ * callback returns.
++ */
++struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
++                                                  uint64_t vaddr);
++
++bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr);
++uint64_t qemu_plugin_hwaddr_to_raddr(const struct qemu_plugin_hwaddr *haddr);
++
++typedef void
++(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
++                             qemu_plugin_meminfo_t info, uint64_t vaddr,
++                             void *userdata);
++
++void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
++                                      qemu_plugin_vcpu_mem_cb_t cb,
++                                      enum qemu_plugin_cb_flags flags,
++                                      enum qemu_plugin_mem_rw rw,
++                                      void *userdata);
++
++void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *insn,
++                                          enum qemu_plugin_mem_rw rw,
++                                          enum qemu_plugin_op op, void *ptr,
++                                          uint64_t imm);
++
++
++
++typedef void
++(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_index,
++                                 int64_t num, uint64_t a1, uint64_t a2,
++                                 uint64_t a3, uint64_t a4, uint64_t a5,
++                                 uint64_t a6, uint64_t a7, uint64_t a8);
++
++void qemu_plugin_register_vcpu_syscall_cb(qemu_plugin_id_t id,
++                                          qemu_plugin_vcpu_syscall_cb_t cb);
++
++typedef void
++(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_idx,
++                                     int64_t num, int64_t ret);
++
++void
++qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
++                                         qemu_plugin_vcpu_syscall_ret_cb_t cb);
++
++
++/**
++ * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called once for each existing vCPU.
++ *
++ * See also: qemu_plugin_register_vcpu_init_cb()
++ */
++void qemu_plugin_vcpu_for_each(qemu_plugin_id_t id,
++                               qemu_plugin_vcpu_simple_cb_t cb);
++
++void qemu_plugin_register_flush_cb(qemu_plugin_id_t id,
++                                   qemu_plugin_simple_cb_t cb);
++
++void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
++                                    qemu_plugin_udata_cb_t cb, void *userdata);
++
++/* returns -1 in user-mode */
++int qemu_plugin_n_vcpus(void);
++
++/* returns -1 in user-mode */
++int qemu_plugin_n_max_vcpus(void);
++
++#endif /* QEMU_PLUGIN_API_H */
 -- 
 2.20.1
 
