@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AC0DB1A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:58:52 +0200 (CEST)
-Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE632DB18E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:52:56 +0200 (CEST)
+Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8At-0006hV-BH
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
+	id 1iL859-00076M-7b
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53103)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL7HT-0002YY-Eo
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:36 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL7I3-0003B9-Px
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:02:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL7HS-0005TO-67
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58796)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7HR-0005So-Tb
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:34 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A6CD42BFDD
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:01:32 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id a15so1107725wrr.0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:01:32 -0700 (PDT)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL7Hy-0005mc-MN
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:02:11 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36111)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iL7Hy-0005m3-EE
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:02:06 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 67so2171283oto.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=V3T+1azaMg8NUc9PO9jV2L5D2pl3K6geSnd7GbRgO0g=;
+ b=F+eHOyXVsh6t3wEA1YUsddrsm4eQb+ddP7zJw0ik0Huxs6jvW27NTdvxsBJAlP2Xc5
+ 4Yywje6GYOLulBwneOK5sGa3pUZfS3ofECu72/bi94jzshCh6c63qh4D/dHAGWCzhLgd
+ i9C/01ybPe5To80K9XV0doMtquTGURapEagG0yn2FQo8izUlBGLdVo40tOW72npraeof
+ 5IBtfBRT87gAflNX+zf0yJ4z+3HGb7sXVh3BF6/IAQuj8p09/W4mwp7BA8MWAH32XLT/
+ w0NOTTZHY8pyD5nvhMMWP+NwSj7vvBziMKe5bOrmSh6kTIUmR/QO86C1jjibCcT+2HC2
+ Mrww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xiOnFR8zeJSyvv//++lhxYz9K3RkXaCChwBO1zVkPGg=;
- b=gzW6UlihitBTqDL6waqfvw6NqgrO/oPCQm4CyteGNWkax+FOLyJ0jP5PowVKOIH8MN
- VseRfy6tWrIW+Y5eVxPftS8XpIbIuiEnM0KQUl2NcUBlFpWNgwuNkLSOguhwNzim4CqO
- c9r/a/hIbIY7f8IozUfDQaoERwXhCanhFiMUkiWoZvgxnFyhEMSxWbvaqPObzkmZelg5
- hMnKFDXoIZgzMROLELSDHMLeb329fcB2Pq/GqV+KSsQvqrS4h4jtsXA2zPSgTaDmmr2h
- YvR1ABTlePK5qi7N8IKPi+PdE9j3XfzeVizh3zG2Z7pSqTjtdcgRfCtp44B1XsFm7PLM
- TQQA==
-X-Gm-Message-State: APjAAAXfdquoCDw294vg0dAEIDEj2xFLvoqc1Ybstx237KfrQx7MTUVC
- Doc+gXTolejv+T+9aZBvkN15u92qxAD6I52hZcHE3iN/sT4/ipGBxN/Zg6tR0/DEs6PX8zpP/DZ
- TMJYCZDpYt203gPg=
-X-Received: by 2002:a5d:43c3:: with SMTP id v3mr2405937wrr.41.1571324491305;
- Thu, 17 Oct 2019 08:01:31 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxA6d2Hy6pdi7bRZ5QA97IcbCVTsGGAEZIPU66MiL6mlVfpOXVUxeXl8KiZ3J1x7rvUraCTTA==
-X-Received: by 2002:a5d:43c3:: with SMTP id v3mr2405905wrr.41.1571324491113;
- Thu, 17 Oct 2019 08:01:31 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id 3sm2325311wmo.22.2019.10.17.08.01.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:01:30 -0700 (PDT)
-Subject: Re: [PATCH 3/3] hw/dma/xilinx_axidma.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191017132122.4402-1-peter.maydell@linaro.org>
- <20191017132122.4402-4-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d9e7dd55-01e5-d852-bbab-84f5209abb6f@redhat.com>
-Date: Thu, 17 Oct 2019 17:01:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=V3T+1azaMg8NUc9PO9jV2L5D2pl3K6geSnd7GbRgO0g=;
+ b=kKr/vg6pCtmTabvW1cmCLcf+/UDdvEh2bScJqtDBOQLd7WxdSUFFFAVdIzm6vw90OJ
+ MrvjeB7j5g7AN/11zOX3Fw2l+nDrFazBj02ljQdfzQLU5EHBh+zaOhZFNNnNNcQOdNy2
+ flODxHFYucDiq1lmZhxDbDI8howclTD2Qs7YqGb7gBVK4oJp2082nrEH6sd/Iup0bioJ
+ rsLdKdouty/InqPkgenAjmDvtfz2dJY+pTbyU74YdpfnBVJl0Ldsn1a89YqwB74vxJdF
+ bFm2ZX1qrApQk1V6E9YHVlZlNHp6AmHYkjURE00s3SuD44nwSoqBk1TEzcyE/PZRY4ex
+ v3PQ==
+X-Gm-Message-State: APjAAAWhJutodLdQoKQjyYyEWT5TfzRcdo1XtnIqnZcM83G6Nd998c15
+ 9o+UdLm4UnM93QI5fMOP5g2T37CmSMRcsDJ1kkA=
+X-Google-Smtp-Source: APXvYqyrU9aaOe5JLw52+PJAGLKf5ISS7fmybl6MLdyj3TO5lWzr8SBUelK5f5TBnqVykPQUzg2Iv3XF60Pcze4mF9s=
+X-Received: by 2002:a9d:684c:: with SMTP id c12mr3506598oto.341.1571324525196; 
+ Thu, 17 Oct 2019 08:02:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191017132122.4402-4-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 08:02:02
+ -0700 (PDT)
+In-Reply-To: <20191015162705.28087-5-philmd@redhat.com>
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-5-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 17 Oct 2019 17:02:02 +0200
+Message-ID: <CAL1e-=jOiMe2--=ht0Wgwh0a_At=sDhUzX7EkNU86nPt230a-g@mail.gmail.com>
+Subject: Re: [PATCH 04/32] mc146818rtc: Move RTC_ISA_IRQ definition
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000026bad505951c80e1"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,92 +74,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+--00000000000026bad505951c80e1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/17/19 3:21 PM, Peter Maydell wrote:
-> Switch the xilinx_axidma code away from bottom-half based ptimers to
-> the new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>
+wrote:
+
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> The ISA default number for the RTC devices is not related to its
+> registers neither. Move this definition to "hw/timer/mc146818rtc.h".
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   hw/dma/xilinx_axidma.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-> index e035d1f7504..fb3a978e282 100644
-> --- a/hw/dma/xilinx_axidma.c
-> +++ b/hw/dma/xilinx_axidma.c
-> @@ -31,7 +31,6 @@
->   #include "hw/ptimer.h"
->   #include "hw/qdev-properties.h"
->   #include "qemu/log.h"
-> -#include "qemu/main-loop.h"
->   #include "qemu/module.h"
->   
->   #include "hw/stream.h"
-> @@ -104,7 +103,6 @@ enum {
->   };
->   
->   struct Stream {
-> -    QEMUBH *bh;
->       ptimer_state *ptimer;
->       qemu_irq irq;
->   
-> @@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
->       unsigned int comp_delay;
->   
->       /* Start the delayed timer.  */
-> +    ptimer_transaction_begin(s->ptimer);
->       comp_delay = s->regs[R_DMACR] >> 24;
->       if (comp_delay) {
->           ptimer_stop(s->ptimer);
-> @@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
->           s->regs[R_DMASR] |= DMASR_IOC_IRQ;
->           stream_reload_complete_cnt(s);
->       }
-> +    ptimer_transaction_commit(s->ptimer);
+>  include/hw/timer/mc146818rtc.h      | 2 ++
+>  include/hw/timer/mc146818rtc_regs.h | 2 --
+>  tests/rtc-test.c                    | 1 +
+>  3 files changed, 3 insertions(+), 2 deletions(-)
+>
+>
+Philippe, do this and related patches clash with your recent reorganization
+of timers/rtcs?
 
-I'd restrict the transaction here within the if() statement:
+A.
 
--- >8 --
-@@ -244,9 +244,11 @@ static void stream_complete(struct Stream *s)
-      /* Start the delayed timer.  */
-      comp_delay = s->regs[R_DMACR] >> 24;
-      if (comp_delay) {
-+        ptimer_transaction_begin(s->ptimer);
-          ptimer_stop(s->ptimer);
-          ptimer_set_count(s->ptimer, comp_delay);
-          ptimer_run(s->ptimer, 1);
-+        ptimer_transaction_commit(s->ptimer);
-      }
 
-      s->complete_cnt--;
----
 
->   }
->   
->   static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
-> @@ -551,9 +551,10 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
->           struct Stream *st = &s->streams[i];
->   
->           st->nr = i;
-> -        st->bh = qemu_bh_new(timer_hit, st);
-> -        st->ptimer = ptimer_init_with_bh(st->bh, PTIMER_POLICY_DEFAULT);
-> +        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
-> +        ptimer_transaction_begin(st->ptimer);
->           ptimer_set_freq(st->ptimer, s->freqhz);
-> +        ptimer_transaction_commit(st->ptimer);
->       }
->       return;
->   
-> 
+> diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/
+> mc146818rtc.h
+> index 0f1c886e5b..17761cf6d9 100644
+> --- a/include/hw/timer/mc146818rtc.h
+> +++ b/include/hw/timer/mc146818rtc.h
+> @@ -39,6 +39,8 @@ typedef struct RTCState {
+>      QLIST_ENTRY(RTCState) link;
+>  } RTCState;
+>
+> +#define RTC_ISA_IRQ 8
+> +
+>  ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+>                               qemu_irq intercept_irq);
+>  void rtc_set_memory(ISADevice *dev, int addr, int val);
+> diff --git a/include/hw/timer/mc146818rtc_regs.h b/include/hw/timer/
+> mc146818rtc_regs.h
+> index bfbb57e570..631f71cfd9 100644
+> --- a/include/hw/timer/mc146818rtc_regs.h
+> +++ b/include/hw/timer/mc146818rtc_regs.h
+> @@ -27,8 +27,6 @@
+>
+>  #include "qemu/timer.h"
+>
+> -#define RTC_ISA_IRQ 8
+> -
+>  #define RTC_SECONDS             0
+>  #define RTC_SECONDS_ALARM       1
+>  #define RTC_MINUTES             2
+> diff --git a/tests/rtc-test.c b/tests/rtc-test.c
+> index 6309b0ef6c..18f895690f 100644
+> --- a/tests/rtc-test.c
+> +++ b/tests/rtc-test.c
+> @@ -15,6 +15,7 @@
+>
+>  #include "libqtest-single.h"
+>  #include "qemu/timer.h"
+> +#include "hw/timer/mc146818rtc.h"
+>  #include "hw/timer/mc146818rtc_regs.h"
+>
+>  #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
+> --
+> 2.21.0
+>
+>
+>
+
+--00000000000026bad505951c80e1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
+ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"ma=
+ilto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>
+<br>
+The ISA default number for the RTC devices is not related to its<br>
+registers neither. Move this definition to &quot;hw/timer/mc146818rtc.h&quo=
+t;.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0include/hw/timer/mc146818rtc.h=C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
+=C2=A0include/hw/timer/mc146818rtc_<wbr>regs.h | 2 --<br>
+=C2=A0tests/rtc-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 1 +<br>
+=C2=A03 files changed, 3 insertions(+), 2 deletions(-)<br>
+<br></blockquote><div><br></div><div>Philippe, do this and related patches =
+clash with your recent reorganization of timers/rtcs?</div><div><br></div><=
+div>A.</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+diff --git a/include/hw/timer/<wbr>mc146818rtc.h b/include/hw/timer/<wbr>mc=
+146818rtc.h<br>
+index 0f1c886e5b..17761cf6d9 100644<br>
+--- a/include/hw/timer/<wbr>mc146818rtc.h<br>
++++ b/include/hw/timer/<wbr>mc146818rtc.h<br>
+@@ -39,6 +39,8 @@ typedef struct RTCState {<br>
+=C2=A0 =C2=A0 =C2=A0QLIST_ENTRY(RTCState) link;<br>
+=C2=A0} RTCState;<br>
+<br>
++#define RTC_ISA_IRQ 8<br>
++<br>
+=C2=A0ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq intercept_irq);<br>
+=C2=A0void rtc_set_memory(ISADevice *dev, int addr, int val);<br>
+diff --git a/include/hw/timer/<wbr>mc146818rtc_regs.h b/include/hw/timer/<w=
+br>mc146818rtc_regs.h<br>
+index bfbb57e570..631f71cfd9 100644<br>
+--- a/include/hw/timer/<wbr>mc146818rtc_regs.h<br>
++++ b/include/hw/timer/<wbr>mc146818rtc_regs.h<br>
+@@ -27,8 +27,6 @@<br>
+<br>
+=C2=A0#include &quot;qemu/timer.h&quot;<br>
+<br>
+-#define RTC_ISA_IRQ 8<br>
+-<br>
+=C2=A0#define RTC_SECONDS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00<=
+br>
+=C2=A0#define RTC_SECONDS_ALARM=C2=A0 =C2=A0 =C2=A0 =C2=A01<br>
+=C2=A0#define RTC_MINUTES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02<=
+br>
+diff --git a/tests/rtc-test.c b/tests/rtc-test.c<br>
+index 6309b0ef6c..18f895690f 100644<br>
+--- a/tests/rtc-test.c<br>
++++ b/tests/rtc-test.c<br>
+@@ -15,6 +15,7 @@<br>
+<br>
+=C2=A0#include &quot;libqtest-single.h&quot;<br>
+=C2=A0#include &quot;qemu/timer.h&quot;<br>
++#include &quot;hw/timer/mc146818rtc.h&quot;<br>
+=C2=A0#include &quot;hw/timer/mc146818rtc_regs.h&quot;<br>
+<br>
+=C2=A0#define UIP_HOLD_LENGTH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(8 * =
+NANOSECONDS_PER_SECOND / 32768)<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote>
+
+--00000000000026bad505951c80e1--
 
