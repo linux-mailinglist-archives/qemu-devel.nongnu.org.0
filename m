@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5BADB22B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:19:58 +0200 (CEST)
-Received: from localhost ([::1]:52294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75305DB214
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:14:30 +0200 (CEST)
+Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8VI-00084Z-TB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57016)
+	id 1iL8Q1-00021N-0x
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57055)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1iL7ed-0008CG-FD
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:32 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL7ez-0000C1-UZ
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1iL7eb-0001Ce-Tz
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56804)
+ (envelope-from <philmd@redhat.com>) id 1iL7ey-0001Ni-Pz
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34612)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iL7eb-0001Aq-ON
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:29 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7ey-0001NR-IS
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:52 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0602B30832C0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:25:29 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69D8619C7F;
- Thu, 17 Oct 2019 15:25:23 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 0031A2202E5; Thu, 17 Oct 2019 11:25:22 -0400 (EDT)
-Date: Thu, 17 Oct 2019 11:25:22 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
-Message-ID: <20191017152522.GB12588@redhat.com>
-References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
- <20191017100528.GA24790@stefanha-x1.localdomain>
- <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 8B4E72A09A0
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:25:51 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id a15so1141885wrr.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:25:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kc89g+xjnJFjyDrAPHC023QzxGX9+hkBzdICbIM0Jdw=;
+ b=qAAKj673GOcws6t7hwBjfoKLT60US1CY/ZakZwa1y0S86Jss8KBbYKQbZrSL+MKcuL
+ JgoHlz2PFcpyNHZeObqxgoNMTtcf4TSb9Xn1TI7cGzgnyoMw+TgyjnqB2Fta1lJa4ed/
+ gQWi1XZul8nqnMXKC0o5xQKiHOxDayz2irvdFYyHGpkEiP3i12Wnisv3zqbmJ7m8HWvn
+ jlN2JzPXNfwSwqg5JbUpv+NQZ/ME0fhHYxICsSlTwRy7Vfrucw9DktIskBubgnr4LMQX
+ qoGv664UBGwV4MyeUoMSS8g6/STVSjMfD8/hOasaEESQVhHvSc17E0xluQ3YH+mWdtdw
+ +2Vw==
+X-Gm-Message-State: APjAAAVwt6C0KV8d90A9j7jbiPYyJnC2rqWoJNTWXLckFd43pqehBQZ+
+ 65Eax/7uuOcu3Xkr8aVURpiNkm96oEGvYcp+AHr7RpfshBWx2LrmLcXAnO2hp94g+BSWXOSoyot
+ Ok+Nn4Z1XaG3YRcg=
+X-Received: by 2002:a7b:c251:: with SMTP id b17mr3401108wmj.133.1571325950282; 
+ Thu, 17 Oct 2019 08:25:50 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwaw9rvAXZBb429WL9YBWcKXv9Aj0xSOyNvKgX8lDTKmsBTAfCL/N+AvGlrYsw9TgLA7mMiew==
+X-Received: by 2002:a7b:c251:: with SMTP id b17mr3401082wmj.133.1571325949944; 
+ Thu, 17 Oct 2019 08:25:49 -0700 (PDT)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id t83sm3835914wmt.18.2019.10.17.08.25.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 08:25:49 -0700 (PDT)
+Subject: Re: [PATCH 3/3] hw/dma/xilinx_axidma.c: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191017132122.4402-1-peter.maydell@linaro.org>
+ <20191017132122.4402-4-peter.maydell@linaro.org>
+ <d9e7dd55-01e5-d852-bbab-84f5209abb6f@redhat.com>
+ <CAFEAcA_zz=SYwD=iDgwVZcvPF4seZW9qdvfGKfmK_UaaUDF7Vg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e87fb5b4-9c97-fe6d-af4f-8fef1bc0bced@redhat.com>
+Date: Thu, 17 Oct 2019 17:25:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 17 Oct 2019 15:25:29 +0000 (UTC)
+In-Reply-To: <CAFEAcA_zz=SYwD=iDgwVZcvPF4seZW9qdvfGKfmK_UaaUDF7Vg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -61,62 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 17, 2019 at 01:23:57PM +0200, Miklos Szeredi wrote:
-> On Thu, Oct 17, 2019 at 12:05 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > On Wed, Oct 16, 2019 at 07:37:52PM +0900, Misono Tomohiro wrote:
-> > > Hello,
-> > >
-> > > I test xattr operation on virtiofs using xfstest generic/062
-> > > (with -o xattr option and XFS backend) and see some problems.
-> > >
-> > > These patches fixes the two of the problems.
-> > >
-> > > The remaining problems are:
-> > >  1. we cannot xattr to block device created by mknod
-> > >     which does not have actual device (since open in virtiofsd fails)
-> > >  2. we cannot xattr to symbolic link
-> > >
-> > > I don't think 1 is a big problem but can we fix 2?
-> >
-> > Sorry, I don't know the answer.  Maybe it would be necessary to add a
-> > new O_SYMLINK open flag to open(2) so that fgetxattr()/fsetxattr()
-> > operations can be performed.  A kernel change like that would take some
-> > time to get accepted upstream and shipped by distros, but it might be
-> > the only way since the current syscall interface doesn't seem to offer a
-> > way to do this.
-> 
-> The real problem is that open() on a non-regular, non-directory file
-> may have side effects (unless O_PATH is used).  These patches try to
-> paper over that, but the fact is: opening special files from a file
-> server is forbidden.
-> 
-> I see why this is being done, and it's not easy to fix properly
-> without the ..at() versions of these syscalls.  One idea is to fork()
-> + fchdir(lo->proc_self_fd) + ..xattr().  Another related idea is to do
-> a unshare(CLONE_FS) after each thread's startup (will pthread library
-> balk?  I don't know) so that it's safe to do fchdir(lo->proc_self_fd)
-> + ...xattr() + fchdir(lo->root_fd).
+On 10/17/19 5:06 PM, Peter Maydell wrote:
+> On Thu, 17 Oct 2019 at 16:01, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com> wrote:
+>>
+>> Hi Peter,
+>>
+>> On 10/17/19 3:21 PM, Peter Maydell wrote:
+>>> Switch the xilinx_axidma code away from bottom-half based ptimers to
+>>> the new transaction-based ptimer API.  This just requires adding
+>>> begin/commit calls around the various places that modify the ptimer
+>>> state, and using the new ptimer_init() function to create the timer.
+>>>
+>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>>> ---
+>>>    hw/dma/xilinx_axidma.c | 9 +++++----
+>>>    1 file changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+>>> index e035d1f7504..fb3a978e282 100644
+>>> --- a/hw/dma/xilinx_axidma.c
+>>> +++ b/hw/dma/xilinx_axidma.c
+>>> @@ -31,7 +31,6 @@
+>>>    #include "hw/ptimer.h"
+>>>    #include "hw/qdev-properties.h"
+>>>    #include "qemu/log.h"
+>>> -#include "qemu/main-loop.h"
+>>>    #include "qemu/module.h"
+>>>
+>>>    #include "hw/stream.h"
+>>> @@ -104,7 +103,6 @@ enum {
+>>>    };
+>>>
+>>>    struct Stream {
+>>> -    QEMUBH *bh;
+>>>        ptimer_state *ptimer;
+>>>        qemu_irq irq;
+>>>
+>>> @@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
+>>>        unsigned int comp_delay;
+>>>
+>>>        /* Start the delayed timer.  */
+>>> +    ptimer_transaction_begin(s->ptimer);
+>>>        comp_delay =3D s->regs[R_DMACR] >> 24;
+>>>        if (comp_delay) {
+>>>            ptimer_stop(s->ptimer);
+>>> @@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
+>>>            s->regs[R_DMASR] |=3D DMASR_IOC_IRQ;
+>>>            stream_reload_complete_cnt(s);
+>>>        }
+>>> +    ptimer_transaction_commit(s->ptimer);
+>>
+>> I'd restrict the transaction here within the if() statement:
+>>
+>> -- >8 --
+>> @@ -244,9 +244,11 @@ static void stream_complete(struct Stream *s)
+>>        /* Start the delayed timer.  */
+>>        comp_delay =3D s->regs[R_DMACR] >> 24;
+>>        if (comp_delay) {
+>> +        ptimer_transaction_begin(s->ptimer);
+>>            ptimer_stop(s->ptimer);
+>>            ptimer_set_count(s->ptimer, comp_delay);
+>>            ptimer_run(s->ptimer, 1);
+>> +        ptimer_transaction_commit(s->ptimer);
+>>        }
+>>
+>>        s->complete_cnt--;
+>=20
+> The timer_hit callback function itself writes to
+> s->complete_cnt, so we don't want to allow it to
+> be called (via the commit()) before stream_complete()
+> is done with changing that state.
 
-Hi Miklos,
+Indeed we have timer_hit() -> stream_reload_complete_cnt() which uses=20
+s->complete_cnt.
 
-Trying to understand your proposal. So if we want to do an ..xattr()
-operation on a special file (and we don't have _at() variants), how
-will fchdir() help. Are you suggesting fchdir() to parent and then
-do something special.
-
-Can you please elaborate your proposal a bit more. I think I have
-missed the core idea completely.
-
-I understand that you want to do unshare(CLONE_FS) to make sure one thrad's
-fchdir() does not impact other thread. But did not understand that how
-fchdir() alone is enough to do getxattr()/setxattr() on special file.
-
-Thanks
-Vivek
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
