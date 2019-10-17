@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80484DAEAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:44:18 +0200 (CEST)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B53CDAEC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:50:11 +0200 (CEST)
+Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL64f-0007Zp-EH
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36119)
+	id 1iL6AL-0004Lf-FQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:50:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q3-0006iV-Dy
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5q4-0006kC-KI
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q1-0002YP-6G
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:11 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34326)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL5q3-0002Yv-8s
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:12 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35188)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5q0-0002Y3-W7
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:09 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y135so7047655wmc.1
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:08 -0700 (PDT)
+ id 1iL5q3-0002Yf-0w
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:11 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l10so1956012wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nyhhqAl7Z9TETz1bn0jRLKleGGKQCC3sDu2+swR1V/Q=;
- b=IOXaLxnFPFP114/5iBdVo9nM8yQ6CF8C5XkHTeF4X+P2HaOkY8YEujVpM1B9nK3CFO
- t3RG6t6aBif2BCt95EH10WeVZA90Pdvk+67NSFh4UIO6Zh1mJ8CI4cpIWZ36BUMpvIk8
- Ps5DWiSATCkuNu3u9pMKrQEpDjjpu3JEKy935dTB+3FnBmERR4PwLoYkuoXs370gqbrj
- q1JcwggXF5iVsn6LXbWuK1BKUEMjRtbRW7sLSYHUK9dxYxVoRRmCr38hdKwDSM7PG7LI
- txJn7YDR63Ow/2l+RHguZFTWm+vo9uN/M2WQ0noW+pYATgEQAPsPzIIC7DW+EPwF9g0V
- uQ/w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RWVTerfEod6JXDvGIgZLZLZ8haab8EF7a9UHu0kP8E4=;
+ b=nlX+7BwnOVlP9bSMi4KyJebzYiG0AttIkkNxSNDhCSjlvTjxMTJU+bexd0wrlVV8dL
+ tqW49D3goLsYDeowHkpsyROgx9xcX031V71WjYVG+sbZdyUWN7htoO8nH3gJXNTu45fK
+ b66ejqnUGaptU8+gwjLLjjUybd6Pah1wVwmB8R5H+C7MOFr7gM9df/AMR97BIbPE3qRA
+ kYJgmGnYVuL14p3r9OT5j6ezDgQfp+3XqacuFkqFAkdBE8x8Z0jcglHk/U7S9R8QB0e5
+ +sweVqrqmfeeKGvyN9SSXjQXXaaa1sWqGv1yaTS8h/Zps64JQEMghgSZCAKLL0sRADn0
+ M9iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nyhhqAl7Z9TETz1bn0jRLKleGGKQCC3sDu2+swR1V/Q=;
- b=KDr5hTOaQ8p0Tz+oMJB9SjtA9jKXlnFGnWc+XK9h3oJmpy86jcnYsJCSY0+8q6LADa
- bie9yd6ner86ojpwC+5O+QHUijZQjJHO0HU2Vtvu8klEslOE47/NS1Kah7zcDcdRrwwx
- RwO/JxmHrt/XpO7P3dkyoKvshxZazAHyOaidoT4ZFD7O8aIAI2VDDR//txTH9NFM9r7p
- axkvyXwnVt2FiWMfC/eCuRfNI6QRuCd/K33Ktx3tcr5qIT3m6b5sDA6v5INVuS7tfQS/
- auZi322wA1xKqVRTV0G8cJ2pAUeJxjAdNpgawE59TYQ35bF6vysvf8DtjHE6bd/i8W7f
- uA+Q==
-X-Gm-Message-State: APjAAAUr06eJl6vLRPGSa586Go78rTpJoV00Xx3M6knGoyhdABX9q3Wa
- dE46wKR+S264tBbhQDFXKYA0+LGSq7bFyQ==
-X-Google-Smtp-Source: APXvYqw1ZuqLx7pyT1T96ajKzMA9S1mSs0WG+97qVqxXtxWd/SlgQmsqOHSG6ipoA6N5vlLbFdHwdA==
-X-Received: by 2002:a7b:c40c:: with SMTP id k12mr2908563wmi.100.1571318947449; 
- Thu, 17 Oct 2019 06:29:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RWVTerfEod6JXDvGIgZLZLZ8haab8EF7a9UHu0kP8E4=;
+ b=PefnBsY0vgo+JXXCreAiql3SYQwK14F1mjmYsQX0FQZIbXVGThdyNScs2s/f3UTl7i
+ ffjnuiwe6aGHewPgwYdnrkH35aE+3jpjaqUk0TCCywa/hv+yETvMU9NNuYn1QcEBZsx6
+ 8JPMWKEycAXSNQqGYMZUyCcls0vYBiEkfOiYKORfYqUnMqdGu6bOuyJHbwcubFs6g0ep
+ l1XLB4BRZVJuT59X7BUpYRYOxL/i615nMZ/bl5mKc3YF72djvenOTdKfaK2ohcmf4dQY
+ r3pibGP4V0nkNRQ/sKhp0F4mP1l8pP408ODgSGakSNXfhiRe9waG5Xt9uXq4/YgJDXll
+ pmJg==
+X-Gm-Message-State: APjAAAVOnFoEchRp5MCHS7WB4SDZ8j4Lh1to9xP8M6UPXBHrWuupptiC
+ N14ZyxGgqrOChf245Hugs3XxA389z9YbkQ==
+X-Google-Smtp-Source: APXvYqyrg/bE85X54K/4huwJB3M+qUmf8E4QIpDwzEU6HbD/iv3quxvMnW3T2l60Rb/eFBRTH7dpVw==
+X-Received: by 2002:adf:fc49:: with SMTP id e9mr2926563wrs.172.1571318949692; 
+ Thu, 17 Oct 2019 06:29:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.06
+ by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:29:06 -0700 (PDT)
+ Thu, 17 Oct 2019 06:29:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] Convert misc-arch devices to new ptimer API
-Date: Thu, 17 Oct 2019 14:28:57 +0100
-Message-Id: <20191017132905.5604-1-peter.maydell@linaro.org>
+Subject: [PATCH 2/8] hw/timer/sh_timer: Switch to transaction-based ptimer API
+Date: Thu, 17 Oct 2019 14:28:59 +0100
+Message-Id: <20191017132905.5604-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191017132905.5604-1-peter.maydell@linaro.org>
+References: <20191017132905.5604-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,79 +84,88 @@ Cc: Thomas Huth <huth@tuxfamily.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset converts the devices used by the miscellaneous minor
-architecture machines to the new ptimer API. More specifically:
+Switch the sh_timer code away from bottom-half based ptimers to the
+new transaction-based ptimer API.  This just requires adding
+begin/commit calls around the various places that modify the ptimer
+state, and using the new ptimer_init() function to create the timer.
 
-cris:
- hw/timer/etraxfs_timer.c
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/timer/sh_timer.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-lm32:
- hw/timer/lm32_timer.c
- hw/timer/milkymist-sysctl.c
-
-nios2:
- hw/timer/altera_timer.c
-
-sh4:
- hw/timer/sh_timer.c
-
-unicore32:
- hw/timer/puv3_ost.c
-
-m68k:
- hw/m68k/mcf5206.c
- hw/m68k/mcf5208.c
-
-Currently the ptimer design uses a QEMU bottom-half as its mechanism
-for calling back into the device model using the ptimer when the
-timer has expired.  Unfortunately this design is fatally flawed,
-because it means that there is a lag between the ptimer updating its
-own state and the device callback function updating device state, and
-guest accesses to device registers between the two can return
-inconsistent device state. This was reported as a bug in a specific
-timer device but it's a problem with the generic ptimer code:
-https://bugs.launchpad.net/qemu/+bug/1777777
-
-The updates to the individual ptimer devices are straightforward:
-we need to add begin/commit calls around the various places that
-modify the ptimer state, and use the new ptimer_init() function
-to create the timer.
-
-Testing I have done:
- * 'make check'
- * running a milkymist system image I had lying around
- * running an sh4 system image
-
-This doesn't exercise the devices very much, so more specific testing
-would be appreciated. I plan to collect these patches up and
-get them into the tree with other ptimer-related changes (probably
-via target-arm just for convenience) unless anybody would specifically
-like to take a patch via some other tree.
-
-thanks
---PMM
-
-
-Peter Maydell (8):
-  hw/timer/puv3_ost.c: Switch to transaction-based ptimer API
-  hw/timer/sh_timer: Switch to transaction-based ptimer API
-  hw/timer/lm32_timer: Switch to transaction-based ptimer API
-  hw/watchdog/milkymist-sysctl.c: Switch to transaction-based ptimer API
-  hw/timer/altera_timer.c: Switch to transaction-based ptimer API
-  hw/watchdog/etraxfs_timer.c: Switch to transaction-based ptimer API
-  hw/m68k/mcf5206.c: Switch to transaction-based ptimer API
-  hw/m68k/mcf5208.c: Switch to transaction-based ptimer API
-
- hw/m68k/mcf5206.c           |  9 +++++----
- hw/m68k/mcf5208.c           |  9 +++++----
- hw/timer/altera_timer.c     | 13 +++++++++----
- hw/timer/etraxfs_timer.c    | 23 +++++++++++++----------
- hw/timer/lm32_timer.c       | 13 +++++++++----
- hw/timer/milkymist-sysctl.c | 25 ++++++++++++++++++-------
- hw/timer/puv3_ost.c         |  9 +++++----
- hw/timer/sh_timer.c         | 13 +++++++++----
- 8 files changed, 73 insertions(+), 41 deletions(-)
-
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index 48a81b4dc79..13c4051808f 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -13,7 +13,6 @@
+ #include "hw/irq.h"
+ #include "hw/sh4/sh.h"
+ #include "qemu/timer.h"
+-#include "qemu/main-loop.h"
+ #include "hw/ptimer.h"
+ 
+ //#define DEBUG_TIMER
+@@ -91,13 +90,18 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+     switch (offset >> 2) {
+     case OFFSET_TCOR:
+         s->tcor = value;
++        ptimer_transaction_begin(s->timer);
+         ptimer_set_limit(s->timer, s->tcor, 0);
++        ptimer_transaction_commit(s->timer);
+         break;
+     case OFFSET_TCNT:
+         s->tcnt = value;
++        ptimer_transaction_begin(s->timer);
+         ptimer_set_count(s->timer, s->tcnt);
++        ptimer_transaction_commit(s->timer);
+         break;
+     case OFFSET_TCR:
++        ptimer_transaction_begin(s->timer);
+         if (s->enabled) {
+             /* Pause the timer if it is running.  This may cause some
+                inaccuracy dure to rounding, but avoids a whole lot of other
+@@ -148,6 +152,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             /* Restart the timer if still enabled.  */
+             ptimer_run(s->timer, 0);
+         }
++        ptimer_transaction_commit(s->timer);
+         break;
+     case OFFSET_TCPR:
+         if (s->feat & TIMER_FEAT_CAPT) {
+@@ -168,12 +173,14 @@ static void sh_timer_start_stop(void *opaque, int enable)
+     printf("sh_timer_start_stop %d (%d)\n", enable, s->enabled);
+ #endif
+ 
++    ptimer_transaction_begin(s->timer);
+     if (s->enabled && !enable) {
+         ptimer_stop(s->timer);
+     }
+     if (!s->enabled && enable) {
+         ptimer_run(s->timer, 0);
+     }
++    ptimer_transaction_commit(s->timer);
+     s->enabled = !!enable;
+ 
+ #ifdef DEBUG_TIMER
+@@ -191,7 +198,6 @@ static void sh_timer_tick(void *opaque)
+ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
+ {
+     sh_timer_state *s;
+-    QEMUBH *bh;
+ 
+     s = (sh_timer_state *)g_malloc0(sizeof(sh_timer_state));
+     s->freq = freq;
+@@ -203,8 +209,7 @@ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
+     s->enabled = 0;
+     s->irq = irq;
+ 
+-    bh = qemu_bh_new(sh_timer_tick, s);
+-    s->timer = ptimer_init_with_bh(bh, PTIMER_POLICY_DEFAULT);
++    s->timer = ptimer_init(sh_timer_tick, s, PTIMER_POLICY_DEFAULT);
+ 
+     sh_timer_write(s, OFFSET_TCOR >> 2, s->tcor);
+     sh_timer_write(s, OFFSET_TCNT >> 2, s->tcnt);
 -- 
 2.20.1
 
