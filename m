@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D677DAE80
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:35:11 +0200 (CEST)
-Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B5ADAE91
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:38:39 +0200 (CEST)
+Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5vp-0004D1-No
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33944)
+	id 1iL5zC-0008Dl-0T
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:38:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5dj-00084v-9v
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:28 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5dj-000864-U6
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5di-0005TI-1M
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:26 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44360)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5di-0005TT-KS
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:27 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54842)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL5dh-0005Sg-RS
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:25 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z9so2295786wrl.11
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:25 -0700 (PDT)
+ id 1iL5di-0005T8-Dp
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:26 -0400
+Received: by mail-wm1-x342.google.com with SMTP id p7so2527895wmp.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4u0DAyRPQyWfOOgltou2F/pxj6T1sopcMhD6CsKad8c=;
- b=ANtwZlKjptqrzZntw/imIkxEzMzWSUisY7EV1BEnF/0uwTl3dTLWAGKKv6osJnjR9p
- xqmMvanFuHpDEwIOatSLKhsrSljVKFvXy0a2g5SWOtLIvfTVUpwkQceNVcPnoMO5OE2t
- h6grn74EVcYUcMwwqWrKj7LtjMCrADy0huaTdlrcq2ycir9rL2r5fGyDgGqSVaKe5VsX
- YdQqwRQkOeocY/mngB6BcE7LhPCEzaExQm+OGJndQlj39VWLyxXpCsXjZXs5b2styBTn
- 02/zEvKa7EWMTiRM+WjUnJ2X9QlS1IZG1HQX0ZVUlh9/I+WECQB8k62DZf3q9loCvfa2
- ZQ5Q==
+ bh=K+1mXE6c26sJ05xL/OiaWYUlLkihUxvX+Cms6fDNZy0=;
+ b=skQ4kprBFAkH6oRF0+0aDe5wxPbSBlRhVDQnJ4CzGC3oW6HSeOiMVPpC8nm24LTfR3
+ sbLuQRbOsNSMVF7leDmgObEZvCNoYQx/EMfsWS8k4UguHuLbZe5sNVH9187uYMd9y7Tg
+ yB79vjBUa4jIwfsCLDtUPa//vYzI3Ec1axACdQMe+w82KVElgBWyPljirDvYjqF4dIxK
+ H88uEPHQu+xi9h9Q1z8RXum+YvSHDD0FWoSm5hfSsaJvhtwYXL9pKmLI5Zop5n9rbH5b
+ srfwn2aBbfUzmG5E8mjLUK0L354M93sPId/SIOvIvlK0ghWUF7yK8BGkwkud57/rftqd
+ TQAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4u0DAyRPQyWfOOgltou2F/pxj6T1sopcMhD6CsKad8c=;
- b=srIFb4Nzck6x3RMMLO0jDUkiKt76a8Dc+2ZNhWq9XwnFU0U+gdJrbrruYV+ai6w+aO
- tueyoojdhNL2JyuSkarYV1J+4vdHvaxxIb1Jf2Ooz5aU1WgouDrhJhKo0kXnKduxHY2+
- 00zFQv5m8iLbGAhQ1qTRdtUZfVvEEajoA4Txwoy6jNxy+V/tVlmTco0K2j2fsbhRkI7c
- sLKGlP4w+xml1H2q0FcFffhT8mVSAIT+xKO1doUtgDg2k26vqCyoq5THHe4zC61yI8Yp
- ErZX1P+JyElZxvinaLuwiCOT6fjXWQ9cL1+qkvHvT21MKFpzjq5vPJcRQ3fbqJ/BuYKD
- pXDg==
-X-Gm-Message-State: APjAAAW99f/qTzuFDmpr85z8sClBBde385FkYVMfqfBew6pRMzSXwGO2
- YYB/Rg7pNqJvSyhzmDDxvSrWzA==
-X-Google-Smtp-Source: APXvYqwaXW1we6RMVa24dBTBgzuUKnhgZTXc4u9seJQGGfI3/2QkcdN6CnLKrzGAgIyirCRcpagKIg==
-X-Received: by 2002:adf:da4a:: with SMTP id r10mr3131057wrl.356.1571318184632; 
- Thu, 17 Oct 2019 06:16:24 -0700 (PDT)
+ bh=K+1mXE6c26sJ05xL/OiaWYUlLkihUxvX+Cms6fDNZy0=;
+ b=F9+6GWWAs9D4ayNL8x/SCj9EeDKLEt58SH9bwj4hJg9ZRi9ZwB/bhpebD8a3r/Y47X
+ CUxmciX48ycRG2nDjraYhrm95Pk/JS2kIezkkNSDPLx3Fcts5qcEtbZmiKxfgh8YpFBz
+ punspXyeGDi1xGTDFqQAweWsNeN6ggqNvew8s+d+UvnzUjTvyGdd/cTJxqJv7l+0NjIF
+ 3H/aCQg6tk1TzYajybV59o4Ky49Up8lTb8HuTzyRTDehP90Mqu10UN4lF4OrHtm/29d/
+ ZL8bZeiczWwWBd7sIQOSZ29Cfcr6MJdq23bg/Ze05ivF3BzKEZiEdbL7fEc5relVBndE
+ 5Rew==
+X-Gm-Message-State: APjAAAWHVO5U/99WipeMrmU5XtuJck8/9obROnT5qZbZLfozdFI9/5u3
+ l1NeZ75mE9HlLtKsTcSk91Gsuw==
+X-Google-Smtp-Source: APXvYqxUUxKo4xiOVqDOZa2eSoFnlHlu5frMuvLn02t9T3hFisu6UMv5ev7UVJtTuq8UbPNpTniaCQ==
+X-Received: by 2002:a05:600c:29a:: with SMTP id
+ 26mr3060695wmk.127.1571318185259; 
+ Thu, 17 Oct 2019 06:16:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a13sm2245583wrf.73.2019.10.17.06.16.18
+ by smtp.gmail.com with ESMTPSA id u26sm2387029wrd.87.2019.10.17.06.16.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Oct 2019 06:16:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AD7061FF99;
+ by zen.linaroharston (Postfix) with ESMTP id C2A261FF9A;
  Thu, 17 Oct 2019 14:16:16 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 09/54] queue: add QTAILQ_REMOVE_SEVERAL
-Date: Thu, 17 Oct 2019 14:15:30 +0100
-Message-Id: <20191017131615.19660-10-alex.bennee@linaro.org>
+Subject: [PATCH  v6 10/54] cputlb: document get_page_addr_code
+Date: Thu, 17 Oct 2019 14:15:31 +0100
+Message-Id: <20191017131615.19660-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,44 +85,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-This is faster than removing elements one by one.
-
-Will gain a user soon.
-
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/queue.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/exec/exec-all.h | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/queue.h b/include/qemu/queue.h
-index 73bf4a984d..4764d93ea3 100644
---- a/include/qemu/queue.h
-+++ b/include/qemu/queue.h
-@@ -420,6 +420,16 @@ union {                                                                 \
-         (elm)->field.tqe_circ.tql_prev = NULL;                          \
- } while (/*CONSTCOND*/0)
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 04795c49bf..e4206cb173 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -504,7 +504,15 @@ void mmap_lock(void);
+ void mmap_unlock(void);
+ bool have_mmap_lock(void);
  
-+/* remove @left, @right and all elements in between from @head */
-+#define QTAILQ_REMOVE_SEVERAL(head, left, right, field) do {            \
-+        if (((right)->field.tqe_next) != NULL)                          \
-+            (right)->field.tqe_next->field.tqe_circ.tql_prev =          \
-+                (left)->field.tqe_circ.tql_prev;                        \
-+        else                                                            \
-+            (head)->tqh_circ.tql_prev = (left)->field.tqe_circ.tql_prev; \
-+        (left)->field.tqe_circ.tql_prev->tql_next = (right)->field.tqe_next; \
-+    } while (/*CONSTCOND*/0)
-+
- #define QTAILQ_FOREACH(var, head, field)                                \
-         for ((var) = ((head)->tqh_first);                               \
-                 (var);                                                  \
+-static inline tb_page_addr_t get_page_addr_code(CPUArchState *env1, target_ulong addr)
++/**
++ * get_page_addr_code() - user-mode version
++ * @env: CPUArchState
++ * @addr: guest virtual address of guest code
++ *
++ * Returns @addr.
++ */
++static inline tb_page_addr_t get_page_addr_code(CPUArchState *env,
++                                                target_ulong addr)
+ {
+     return addr;
+ }
+@@ -512,8 +520,18 @@ static inline tb_page_addr_t get_page_addr_code(CPUArchState *env1, target_ulong
+ static inline void mmap_lock(void) {}
+ static inline void mmap_unlock(void) {}
+ 
+-/* cputlb.c */
+-tb_page_addr_t get_page_addr_code(CPUArchState *env1, target_ulong addr);
++/**
++ * get_page_addr_code() - full-system version
++ * @env: CPUArchState
++ * @addr: guest virtual address of guest code
++ *
++ * If we cannot translate and execute from the entire RAM page, or if
++ * the region is not backed by RAM, returns -1. Otherwise, returns the
++ * ram_addr_t corresponding to the guest code at @addr.
++ *
++ * Note: this function can trigger an exception.
++ */
++tb_page_addr_t get_page_addr_code(CPUArchState *env, target_ulong addr);
+ 
+ void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1, ram_addr_t length);
+ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr);
 -- 
 2.20.1
 
