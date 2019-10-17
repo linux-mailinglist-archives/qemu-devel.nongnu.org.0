@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC748DAF68
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:13:43 +0200 (CEST)
-Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A65DAF3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:10:34 +0200 (CEST)
+Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6X8-0008HA-GM
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35591)
+	id 1iL6U4-0004GR-JI
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:10:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5mX-0002Kb-0o
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:34 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5mR-0001Gl-Tr
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5mV-0002Hv-Jk
  for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:32 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42511)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5mU-0001I3-Ck
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:31 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41611)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL5mR-0001GK-Nn
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:27 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n14so2340110wrw.9
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:25:27 -0700 (PDT)
+ id 1iL5mU-0001HT-6U
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:25:30 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p4so2344300wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bu4rKDpgnn8IvteRUio5V7sQbtET4I/Wc2TO4RaQ0LI=;
- b=xS0FBr6WVWAXfKPrZTybwn6uwFc1uQOgEnOCcU5ItblD3IOLAPKxgR6W/0qDov2+ri
- E+KJlCX273ZyMeVG47PpLFIJpJfK6lNodhuNIGUMHKyQQZ34JJBqHyUFOmR+DQa/AI9/
- syWkjPqRL45V4/JrxE1sXYje0JPF4yOT9HOpp758En8JTVV0Ts7+5MwCAO45cDLBsG3s
- MDt3vnij7mhQHRif8ZgRH8ktWO5qYjbrEvkRINKqJepgGPZZ2QOOgjoixPOKcJRoKhfD
- Z1qWHO/8i1qzJV6ABatwGDN8jc07gHwLeUURT+lKCyzojt8Zi/rMEnKW5KpsHsTd1zry
- JCVw==
+ bh=coCttQh1DJ7CtKBy6WU9Qj5nCrM3kKgVRgB552jvYCY=;
+ b=gTC/wLzqjCaPyNsmujQWYX6qTv2sonKaQAn7gL9XcAzvz1lb4UtYLF7etsv3JgiYkr
+ 5Y02mFxVwxpIgC/kYuYBgPo4uRBCvSIrvjGW2VDJSH2H5mCHHIRf/1+tSHpF7INqM8z7
+ vKhEJccpj3ro3y8cn7VfE9sfpsoAgfmDxuhPnnzfm1Mxekr73cYgBfv4d/FKWsn3uQdf
+ BEynaCYg1qNotyx8zUTGgqozuk9WIua0SQwP/NFN+zQCimozZBJ5GBTrpQS8j4WIq2mA
+ hgTjLcFOxeoYph5C31s5NJotxBpveNT8UNzeZ9oTmuPfBMr0/t5kQ4vXLCgVHzHLGVPT
+ RS/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bu4rKDpgnn8IvteRUio5V7sQbtET4I/Wc2TO4RaQ0LI=;
- b=jPqCMUkRy1ZVxYlBATGY/c2ibblNwrNpR68owvP+1ZLVSs4FdrBZMSyD6Zp4YAo0YQ
- 2I7XSQ23uRC3fDG1qXPGdbJZVU129d40cQsfwl4muHWOgJr2FB8YrY/tcb3mzDaJKPfp
- 2gPjwu46ifZGGdHtt6DeiFrjkPeUKu742h4CWnbZllhV2o9UzfHjofDZ0uzPE1lUP8Wu
- o1Mk9kAS1wqNDdfXFoYAWC5Q5xGAXo4ZV8wfeigvPpBsgCnymzIkPzww00kHd8ZYPJMe
- jzEZi3ZIhbGWWgaWRYk7PrUE0+4i+2WfV7/jLUSnI3/yC558uEk8y6vNZ1RP8hWFODZc
- S8zQ==
-X-Gm-Message-State: APjAAAW8g6WwAosY9rG7zNs5rAnTJFdjSh6u14LSIWYTyrIcBnQBLR4d
- OGQ+ebLhbeGVkA+Vc08Xb9l5/w==
-X-Google-Smtp-Source: APXvYqw0s3QwZeOFr8osfdzdaFX5ISZlhcnJB6UxOwbYzSkVJzk1ubKkkOHmE7lWa99/ul51RcSKXA==
-X-Received: by 2002:adf:a48c:: with SMTP id g12mr2887150wrb.212.1571318726654; 
- Thu, 17 Oct 2019 06:25:26 -0700 (PDT)
+ bh=coCttQh1DJ7CtKBy6WU9Qj5nCrM3kKgVRgB552jvYCY=;
+ b=E8m4AdzFk1HgsfWQ+GUAC4Ed6tHQcb6ujT3yHetroXI9fNf76P6tYOlhn5FBTcZz8u
+ T3HWJ3KzVkKysqoxeOajBr/ljQXoojt9MmpoFXC1f0I/JVQvtYh+iBbutuKp6IX7Us7f
+ JLHj7S/lpawln0YER0qeKwVbzm6g4rzJpa4XaAPQ/StqJUgg8mBWUBe6OtmaVOSmnFw3
+ 6PeacVDw3rBNLhunnMBjyKlu+zvApJGPm3Tf3rq+gNlhb4b9u/FvDHu6CHi4WzbFqvE4
+ FyfiJEFIULe5yHLbEGSEHlnIcHfd88FhZv1aLInsrOrlYruG46DIR83LA0k7Qenk5We/
+ VRvA==
+X-Gm-Message-State: APjAAAXIdFZLJ2u7Rwti/Np8pvKCn7rNZRFM09FD5VraFS0TopfgfvRy
+ TH0zmL96zlAoCZiDNGF13a0NuZo6og4=
+X-Google-Smtp-Source: APXvYqxvcOKiZwJO93sXF4aP7SYlKrHnEKfRV8nRiV3MQ5ryrsZiq10s1aczyf+ggdIaBgqCO1iVnA==
+X-Received: by 2002:a5d:544b:: with SMTP id w11mr1484484wrv.205.1571318729110; 
+ Thu, 17 Oct 2019 06:25:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y19sm2096038wmi.13.2019.10.17.06.25.23
+ by smtp.gmail.com with ESMTPSA id z1sm2115475wrn.57.2019.10.17.06.25.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Oct 2019 06:25:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E1D31FFAF;
- Thu, 17 Oct 2019 14:16:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 142581FFBA;
+ Thu, 17 Oct 2019 14:16:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 26/54] target/i386: fetch code with translator_ld
-Date: Thu, 17 Oct 2019 14:15:47 +0100
-Message-Id: <20191017131615.19660-27-alex.bennee@linaro.org>
+Subject: [PATCH  v6 34/54] translator: inject instrumentation from plugins
+Date: Thu, 17 Oct 2019 14:15:55 +0100
+Message-Id: <20191017131615.19660-35-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,7 +81,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, robert.foley@futurewei.com,
+Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -93,50 +93,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Emilio G. Cota" <cota@braap.org>
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/translate.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+v4
+  - note we can't inject instrumentation if ! DISAS_NEXT
+---
+ accel/tcg/translator.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 868b0acafe..77e932d827 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -1925,28 +1925,28 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 70c66c538c..f977682be7 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -16,6 +16,7 @@
+ #include "exec/gen-icount.h"
+ #include "exec/log.h"
+ #include "exec/translator.h"
++#include "exec/plugin-gen.h"
  
- static inline uint8_t x86_ldub_code(CPUX86State *env, DisasContext *s)
+ /* Pairs with tcg_clear_temp_count.
+    To be called by #TranslatorOps.{translate_insn,tb_stop} if
+@@ -34,6 +35,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+                      CPUState *cpu, TranslationBlock *tb, int max_insns)
  {
--    return cpu_ldub_code(env, advance_pc(env, s, 1));
-+    return translator_ldub(env, advance_pc(env, s, 1));
- }
+     int bp_insn = 0;
++    bool plugin_enabled;
  
- static inline int16_t x86_ldsw_code(CPUX86State *env, DisasContext *s)
- {
--    return cpu_ldsw_code(env, advance_pc(env, s, 2));
-+    return translator_ldsw(env, advance_pc(env, s, 2));
- }
+     /* Initialize DisasContext */
+     db->tb = tb;
+@@ -55,11 +57,17 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     ops->tb_start(db, cpu);
+     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
  
- static inline uint16_t x86_lduw_code(CPUX86State *env, DisasContext *s)
- {
--    return cpu_lduw_code(env, advance_pc(env, s, 2));
-+    return translator_lduw(env, advance_pc(env, s, 2));
- }
++    plugin_enabled = plugin_gen_tb_start(cpu, tb);
++
+     while (true) {
+         db->num_insns++;
+         ops->insn_start(db, cpu);
+         tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
  
- static inline uint32_t x86_ldl_code(CPUX86State *env, DisasContext *s)
- {
--    return cpu_ldl_code(env, advance_pc(env, s, 4));
-+    return translator_ldl(env, advance_pc(env, s, 4));
- }
++        if (plugin_enabled) {
++            plugin_gen_insn_start(cpu, db);
++        }
++
+         /* Pass breakpoint hits to target for further processing */
+         if (!db->singlestep_enabled
+             && unlikely(!QTAILQ_EMPTY(&cpu->breakpoints))) {
+@@ -99,6 +107,14 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+             break;
+         }
  
- #ifdef TARGET_X86_64
- static inline uint64_t x86_ldq_code(CPUX86State *env, DisasContext *s)
- {
--    return cpu_ldq_code(env, advance_pc(env, s, 8));
-+    return translator_ldq(env, advance_pc(env, s, 8));
- }
- #endif
++        /*
++         * We can't instrument after instructions that change control
++         * flow although this only really affects post-load operations.
++         */
++        if (plugin_enabled) {
++            plugin_gen_insn_end();
++        }
++
+         /* Stop translation if the output buffer is full,
+            or we have executed all of the allowed instructions.  */
+         if (tcg_op_buf_full() || db->num_insns >= db->max_insns) {
+@@ -111,6 +127,10 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     ops->tb_stop(db, cpu);
+     gen_tb_end(db->tb, db->num_insns - bp_insn);
  
++    if (plugin_enabled) {
++        plugin_gen_tb_end(cpu);
++    }
++
+     /* The disas_log hook may use these values rather than recompute.  */
+     db->tb->size = db->pc_next - db->pc_first;
+     db->tb->icount = db->num_insns;
 -- 
 2.20.1
 
