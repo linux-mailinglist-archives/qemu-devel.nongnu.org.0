@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62ABDB0A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:01:45 +0200 (CEST)
-Received: from localhost ([::1]:50111 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422D7DB0B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:05:24 +0200 (CEST)
+Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7Hc-00011T-32
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41251)
+	id 1iL7L8-0006Co-OW
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL6FW-0004eQ-58
+ (envelope-from <alex.bennee@linaro.org>) id 1iL6FW-0004eR-FY
  for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL6FV-0004Ew-4p
+ (envelope-from <alex.bennee@linaro.org>) id 1iL6FV-0004ER-0B
  for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:30 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36041)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41293)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL6FU-0004Dg-Ta
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:29 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w18so1909863wrt.3
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:55:24 -0700 (PDT)
+ id 1iL6FU-0004Dm-8R
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:55:28 -0400
+Received: by mail-wr1-x433.google.com with SMTP id p4so2465158wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X0Zojohlrp9hFXtLnwWUFyqJ6AI3VRmKHspf1lmW8O0=;
- b=YAkTgFK8cdQ4XRc7ABRysChOsklvrvrjaWLHy2ocyi9fUsZxjmV/S7J9VEa/AVTYXo
- k1hdzuOj5UC40sXLDJdLbpr9pybP8+1WTKrcYrhcpdT9ZBPHflDILpyL7tWuOq7ALQk8
- aQyenGGtQuqjI4I04g3Lo2nUrjfmyJYwY8kns2llX8g6T35NNTyYy1LKUrJ62PI/XKVX
- G5KceYoOkuWoF/H/Y5QQ2wkR0/91BaTqa5p77HszLxJFqatu8E3/xLCCG+05pgxzVOq2
- wE+QzL4KQrnC0XLbnetumR4Hu1SOqGYRmLiWH1UzQIxbAE5iRlHqoPe8Nhhpp6cNDOHe
- 9ePg==
+ bh=IUolK1djo1mG/qeP/V3N37e2P0JzDbNnrEogdbMOcvc=;
+ b=IjE/7y0OXIQ2X3aDICESxenZsSZW9mEVtQskugt3rIxDOMEPFSwNEmuRwJ/UVqIFhq
+ BaDLMmeKK6MEH8KUvSJfbcTr6UtU7ncZjojdpAkXeaYZGfUvdQVsqLN24H+Jfjt5Mfgo
+ IgKgWOzqfDpcNCM+HNEyl/C3fXAQVRUrWmDwC2BNNoW+FkgLYoQasZJjS2Pk6GW6uZ/P
+ aEmSVDaL0s3YkEN45ypPfclXbQYwBJ46YXNE+YmhhWpfhUg9fEYsH2JiZnHucq7eg0r3
+ z7s+YyoyVcCrCgIa084pqZaHLx3eNgeojEvg+ArjgI065pyDFDrDExjPbSXQnPd3YYAl
+ Fiaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X0Zojohlrp9hFXtLnwWUFyqJ6AI3VRmKHspf1lmW8O0=;
- b=uaE1cTyvQWR5jiFbQrtF8hebGMCoLTDjxoBC+qCVYY77TDUZ8Xq2SCYTzpL1XJ5/MF
- RnLVHaVf/jmuoZq/KkeEH6nLvfUXqzpQb6lkXF48yMWKh07Yb2UGeq9koh19DYuSkKOg
- 4Ee7DvJvlMeoFWMqdHpFJSJWB8igC4L2j0XaAk8Relo5On5jwnW0CZ3XbYdlEGjkvow+
- ftLzftAYS0tYB9XI0v2cUrYyydiCxuDALKmCzMa8bjIbK/4g+sOKhzR10mYM9lqEIdRe
- CUoQiHVJp9nA5wkWdrRh97yZ0lQ7DbOddi+NtlxhxKy9466FBM6I8tVVjHOOejFgS6xO
- +Tfg==
-X-Gm-Message-State: APjAAAX8ANV8XQ+0tR9jmpX2Vm+FDdlKXVw3Rlly542WwNhrAODrW6Nl
- WZtBkVcVVEFf7wmRGbbdpIkfig==
-X-Google-Smtp-Source: APXvYqwcNgSP/5/Gg1Rn4SePio61klSnyFtQORMsrnSAepF3PCzPenuOpOtnuAULabuVWKs6rMi+tQ==
-X-Received: by 2002:a5d:44c5:: with SMTP id z5mr3036840wrr.252.1571320523468; 
- Thu, 17 Oct 2019 06:55:23 -0700 (PDT)
+ bh=IUolK1djo1mG/qeP/V3N37e2P0JzDbNnrEogdbMOcvc=;
+ b=aN+c99eizyrUiI8Mnh3/SxPd6JOTEnmVEUdN4G5RMPko7PdBiEoQSmD8xnXc2c8M8L
+ /4iaKjAgxMMsv8/RaS39yUDZLH2K/CyYBAVgAp89lXMYeXHSxb70OoxFq/K1Jv4ifOU+
+ b6ucMU+EvK5WH+NXUuN8qny3FYxD0XLmXopCWWyrD7PZAOWlpcz/l0X//lGEU3I1mhw0
+ jD3Q66zPGpkRlOo8ka4QXkiTkc6pje80LORbxWpPhJy+1aXNqED71utD4cbfI0iV6KXS
+ RxydQXVyxn8nGKrCS+4L4Lrkn57Coqv6aYcvYO2gzqqPEzmv7U8K4CZx6CWaeLevUJbg
+ eiHA==
+X-Gm-Message-State: APjAAAVN93wkcEjSvc+IUw9dX+yi25fqg3G0tmHfcwIHR6i3OeicBr6F
+ Z/dHINEmKW/U5xG38vUFVjWCMA==
+X-Google-Smtp-Source: APXvYqwf6iKAl/iK5RpUAK/RmahqUKXtj8+q0Q1m4K/xyGWptrg3eYbN+y12iSGHl7QFv0Ru+DDzzA==
+X-Received: by 2002:a5d:5052:: with SMTP id h18mr3343591wrt.143.1571320524084; 
+ Thu, 17 Oct 2019 06:55:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t203sm2701881wmf.42.2019.10.17.06.55.21
+ by smtp.gmail.com with ESMTPSA id f143sm4398695wme.40.2019.10.17.06.55.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Oct 2019 06:55:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7321E1FF8F;
- Thu, 17 Oct 2019 14:16:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 74DD31FFBD;
+ Thu, 17 Oct 2019 14:16:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 27/54] target/hppa: fetch code with translator_ld
-Date: Thu, 17 Oct 2019 14:15:48 +0100
-Message-Id: <20191017131615.19660-28-alex.bennee@linaro.org>
+Subject: [PATCH  v6 38/54] plugin: add qemu_plugin_insn_disas helper
+Date: Thu, 17 Oct 2019 14:15:59 +0100
+Message-Id: <20191017131615.19660-39-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +84,234 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+Give the plugins access to the QEMU dissasembler so they don't have to
+re-invent the wheel. We generate a warning when there are spare bytes
+in the decode buffer. This is usually due to the front end loading in
+more bytes than decoded.
 
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- target/hppa/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index c1b2822f60..2f8d407a82 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -4221,7 +4221,7 @@ static void hppa_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     {
-         /* Always fetch the insn, even if nullified, so that we check
-            the page permissions for execute.  */
--        uint32_t insn = cpu_ldl_code(env, ctx->base.pc_next);
-+        uint32_t insn = translator_ldl(env, ctx->base.pc_next);
+---
+v5
+  - fix plugin_printf to use vprintf with va
+  - use __thread storage for string
+  - only decode single instruction for bfd case
+  - don't assert, warn_report when we have spare bytes in insn buffer
+v6
+  - checkpatch fixes
+---
+ disas.c                      | 110 +++++++++++++++++++++++++++++++++++
+ include/disas/disas.h        |   2 +
+ include/qemu/qemu-plugin.h   |   9 +++
+ plugins/api.c                |   9 ++-
+ plugins/qemu-plugins.symbols |   1 +
+ 5 files changed, 130 insertions(+), 1 deletion(-)
+
+diff --git a/disas.c b/disas.c
+index 3e2bfa572b..3937da6157 100644
+--- a/disas.c
++++ b/disas.c
+@@ -418,6 +418,7 @@ static bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+ # define cap_disas_target(i, p, s)  false
+ # define cap_disas_host(i, p, s)  false
+ # define cap_disas_monitor(i, p, c)  false
++# define cap_disas_plugin(i, p, c) false
+ #endif /* CONFIG_CAPSTONE */
  
-         /* Set up the IA queue for the next insn.
-            This will be overwritten by a branch.  */
+ /* Disassemble this for me please... (debugging).  */
+@@ -475,6 +476,115 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     }
+ }
+ 
++static __thread GString plugin_disas_output;
++
++static int plugin_printf(FILE *stream, const char *fmt, ...)
++{
++    va_list va;
++    GString *s = &plugin_disas_output;
++    int initial_len = s->len;
++
++    va_start(va, fmt);
++    g_string_append_vprintf(s, fmt, va);
++    va_end(va);
++
++    return s->len - initial_len;
++}
++
++static void plugin_print_address(bfd_vma addr, struct disassemble_info *info)
++{
++    /* does nothing */
++}
++
++
++#ifdef CONFIG_CAPSTONE
++/* Disassemble a single instruction directly into plugin output */
++static
++bool cap_disas_plugin(disassemble_info *info, uint64_t pc, size_t size)
++{
++    uint8_t cap_buf[1024];
++    csh handle;
++    cs_insn *insn;
++    size_t csize = 0;
++    int count;
++    GString *s = &plugin_disas_output;
++
++    if (cap_disas_start(info, &handle) != CS_ERR_OK) {
++        return false;
++    }
++    insn = cap_insn;
++
++    size_t tsize = MIN(sizeof(cap_buf) - csize, size);
++    const uint8_t *cbuf = cap_buf;
++    target_read_memory(pc, cap_buf, tsize, info);
++
++    count = cs_disasm(handle, cbuf, size, 0, 1, &insn);
++
++    if (count) {
++        g_string_printf(s, "%s %s", insn->mnemonic, insn->op_str);
++    } else {
++        g_string_printf(s, "cs_disasm failed");
++    }
++
++    cs_close(&handle);
++    return true;
++}
++#endif
++
++/*
++ * We should only be dissembling one instruction at a time here. If
++ * there is left over it usually indicates the front end has read more
++ * bytes than it needed.
++ */
++char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++    int count;
++    CPUDebug s;
++    GString *ds = g_string_set_size(&plugin_disas_output, 0);
++
++    g_assert(ds == &plugin_disas_output);
++
++    INIT_DISASSEMBLE_INFO(s.info, NULL, plugin_printf);
++
++    s.cpu = cpu;
++    s.info.read_memory_func = target_read_memory;
++    s.info.buffer_vma = addr;
++    s.info.buffer_length = size;
++    s.info.print_address_func = plugin_print_address;
++    s.info.cap_arch = -1;
++    s.info.cap_mode = 0;
++    s.info.cap_insn_unit = 4;
++    s.info.cap_insn_split = 4;
++
++#ifdef TARGET_WORDS_BIGENDIAN
++    s.info.endian = BFD_ENDIAN_BIG;
++#else
++    s.info.endian = BFD_ENDIAN_LITTLE;
++#endif
++
++    if (cc->disas_set_info) {
++        cc->disas_set_info(cpu, &s.info);
++    }
++
++    if (s.info.cap_arch >= 0 && cap_disas_plugin(&s.info, addr, size)) {
++        return g_strdup(ds->str);
++    }
++
++    if (s.info.print_insn == NULL) {
++        s.info.print_insn = print_insn_od_target;
++    }
++
++    count = s.info.print_insn(addr, &s.info);
++
++    /* The decoder probably read more than it needed it's not critical */
++    if (count < size) {
++        warn_report("%s: %zu bytes left over", __func__, size - count);
++    }
++
++    return g_strdup(ds->str);
++}
++
+ /* Disassemble this for me please... (debugging). */
+ void disas(FILE *out, void *code, unsigned long size)
+ {
+diff --git a/include/disas/disas.h b/include/disas/disas.h
+index ba47e9197c..36c33f6f19 100644
+--- a/include/disas/disas.h
++++ b/include/disas/disas.h
+@@ -14,6 +14,8 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+ void monitor_disas(Monitor *mon, CPUState *cpu,
+                    target_ulong pc, int nb_insn, int is_physical);
+ 
++char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size);
++
+ /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+ const char *lookup_symbol(target_ulong orig_addr);
+ #endif
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 784f1dfc3d..ddf267fbfe 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -351,6 +351,15 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
+                                          qemu_plugin_vcpu_syscall_ret_cb_t cb);
+ 
+ 
++/**
++ * qemu_plugin_insn_disas() - return disassembly string for instruction
++ * @insn: instruction reference
++ *
++ * Returns an allocated string containing the disassembly
++ */
++
++char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
++
+ /**
+  * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
+  * @id: plugin ID
+diff --git a/plugins/api.c b/plugins/api.c
+index 33dac8e790..5adc4d25a1 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -39,7 +39,8 @@
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "tcg/tcg.h"
+-#include "trace/mem-internal.h" /* mem_info macros */
++#include "exec/exec-all.h"
++#include "disas/disas.h"
+ #include "plugin.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "qemu/plugin-memory.h"
+@@ -212,6 +213,12 @@ void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn)
+     return insn->haddr;
+ }
+ 
++char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
++{
++    CPUState *cpu = current_cpu;
++    return plugin_disas(cpu, insn->vaddr, insn->data->len);
++}
++
+ /*
+  * The memory queries allow the plugin to query information about a
+  * memory access.
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 40c0d1abd2..267ec381b4 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -25,6 +25,7 @@
+   qemu_plugin_insn_size;
+   qemu_plugin_insn_vaddr;
+   qemu_plugin_insn_haddr;
++  qemu_plugin_insn_disas;
+   qemu_plugin_mem_size_shift;
+   qemu_plugin_mem_is_sign_extended;
+   qemu_plugin_mem_is_big_endian;
 -- 
 2.20.1
 
