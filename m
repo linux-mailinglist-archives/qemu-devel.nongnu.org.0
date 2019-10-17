@@ -2,53 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3C8DB2E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:58:16 +0200 (CEST)
-Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9941BDB2D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:53:27 +0200 (CEST)
+Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL96N-00070L-27
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35749)
+	id 1iL91i-0000Dt-8d
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iL8JT-00025W-P5
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:07:44 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL8MX-0006ep-2x
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iL8JR-0007eI-G7
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:07:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37448)
+ (envelope-from <philmd@redhat.com>) id 1iL8MW-0000XF-1A
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:52 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33569
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iL8JR-0007dX-82
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:07:41 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8629081DE0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 16:07:39 +0000 (UTC)
-Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DC42600C4;
- Thu, 17 Oct 2019 16:07:36 +0000 (UTC)
-Date: Thu, 17 Oct 2019 17:07:35 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 7/7] libqos: add VIRTIO PCI 1.0 support
-Message-ID: <20191017160735.GB1266@stefanha-x1.localdomain>
-References: <20191011085611.4194-1-stefanha@redhat.com>
- <20191011085611.4194-8-stefanha@redhat.com>
- <e7821640-de44-5e65-b9c1-2534dc676690@redhat.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL8MV-0000Wt-UK
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1571328651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RepJ903D10eNe417LxnOmR8HtEzoIAHRfe/KqpSXijA=;
+ b=bRBSJnlehjKTI2/c23yYmX2usuwpRjQ7XR1THp735HPnJWUlZrpJI9ru2ufX9yNgLeX/tQ
+ vHzrZ3hPEGhabgBpjOvppnLmlJ9bgFPMMohOc55ExIxtKTFR/3VtIH4GqGg/0+mTaHgy2Q
+ Tbt9Q7c96yct2SjK4ImDqFjErSdUOYg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-lZwk3Dp8P6mZWvPiDdKEDA-1; Thu, 17 Oct 2019 12:10:47 -0400
+Received: by mail-wr1-f69.google.com with SMTP id e25so596162wra.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:10:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CvQc/NEnvbXnTc/qr03QQindo2pV2kgowwbGYhaOFzk=;
+ b=XtmZnINz6r+PfYT8rntQnz2RyB+BdOHCWO5gFGT3vfNhSFpnVp8GkeJZ7QJr3aLCLb
+ qu6IbY/ueNrr1EhGr4CGE1LUYZdjpmS5gAmKzUcW95rhu+td1ITSR6jtZFSOsSV78O6Y
+ 7nXlgVwGO4LIF/5O3Wd2XcEKg9j3kMqRz9kIMA7mGkn2frRR+f5E3g7KMXnNtfEd1VqD
+ jYKSkPE/v5YUt2wrmV7yYiQPp1AhIBwCpyx1yJ6RivRvFtvDosbtE3kp9A8VJZpxTW6E
+ 1GleyAaELQsPDNDC2o9VUWxMQvPwDvxaRLzYINVS2OLJQfarM6+nUBQBMqfPhib45ujv
+ M1bA==
+X-Gm-Message-State: APjAAAUoDxu6jWvHWcNzgtlXfEo4waKNr/s3gedcELUO1Cb6KD5sL8W7
+ GY4jXUnXKv/5I59Lwh/C3vO5G5YeOoYV55+p6cjDTYfcJATVi3O1bhVvuR45gmKRkDXYbVkOcUi
+ os2o9N1zXhv4ePW0=
+X-Received: by 2002:a1c:7c0a:: with SMTP id x10mr3656388wmc.48.1571328646601; 
+ Thu, 17 Oct 2019 09:10:46 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyceWUH1/UgnMLP803Z3VPEixGq0Jwy6ZMGNM+QXh4YIrEPrii0nKg4fijd4viTIUHsbQi0+w==
+X-Received: by 2002:a1c:7c0a:: with SMTP id x10mr3656359wmc.48.1571328646438; 
+ Thu, 17 Oct 2019 09:10:46 -0700 (PDT)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id d193sm3248211wmd.0.2019.10.17.09.10.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 09:10:45 -0700 (PDT)
+Subject: Re: [PATCH 3/8] hw/timer/lm32_timer: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ <20191017132905.5604-4-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <128a3f39-4460-6407-21ed-4b3e957f327f@redhat.com>
+Date: Thu, 17 Oct 2019 18:10:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
-Content-Disposition: inline
-In-Reply-To: <e7821640-de44-5e65-b9c1-2534dc676690@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 17 Oct 2019 16:07:39 +0000 (UTC)
+In-Reply-To: <20191017132905.5604-4-peter.maydell@linaro.org>
+Content-Language: en-US
+X-MC-Unique: lZwk3Dp8P6mZWvPiDdKEDA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,98 +92,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Magnus Damm <magnus.damm@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---bCsyhTFzCvuiizWE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 17, 2019 at 04:52:54PM +0200, Thomas Huth wrote:
-> On 11/10/2019 10.56, Stefan Hajnoczi wrote:
-> > Implement the VIRTIO 1.0 virtio-pci interface.  The main change here is
-> > that the register layout is no longer a fixed layout in BAR 0.  Instead
-> > we have to iterate of PCI Capabilities to find descriptions of where
-> > various registers are located.  The vring registers are also more
-> > fine-grained, allowing for more flexible vring layouts, but we don't
-> > take advantage of that.
-> >=20
-> > Note that test cases do not negotiate VIRTIO_F_VERSION_1 yet and are
-> > therefore not running in VIRTIO 1.0 mode.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  tests/Makefile.include           |   1 +
-> >  tests/libqos/virtio-pci-modern.h |  17 ++
-> >  tests/libqos/virtio-pci.h        |  10 +
-> >  tests/libqos/virtio-pci-modern.c | 412 +++++++++++++++++++++++++++++++
-> >  tests/libqos/virtio-pci.c        |   6 +-
-> >  5 files changed, 445 insertions(+), 1 deletion(-)
-> >  create mode 100644 tests/libqos/virtio-pci-modern.h
-> >  create mode 100644 tests/libqos/virtio-pci-modern.c
-> [...]
-> > +static bool probe_device_type(QVirtioPCIDevice *dev)
-> > +{
-> > +    uint16_t vendor_id;
-> > +    uint16_t device_id;
-> > +
-> > +    /* "Drivers MUST match devices with the PCI Vendor ID 0x1AF4" */
-> > +    vendor_id =3D qpci_config_readw(dev->pdev, PCI_VENDOR_ID);
-> > +    if (vendor_id !=3D 0x1af4) {
-> > +        return false;
-> > +    }
-> > +
-> > +    /*
-> > +     * "Any PCI device with ... PCI Device ID 0x1000 through 0x107F in=
-clusive
-> > +     * is a virtio device"
-> > +     */
-> > +    device_id =3D qpci_config_readw(dev->pdev, PCI_DEVICE_ID);
-> > +    if (device_id < 0x1000 || device_id > 0x107f) {
-> > +        return false;
-> > +    }
-> > +
-> > +    /*
-> > +     * "Devices MAY utilize a Transitional PCI Device ID range, 0x1000=
- to
-> > +     * 0x103F depending on the device type"
-> > +     */
-> > +    if (device_id < 0x1040) {
-> > +        /*
-> > +         * "Transitional devices MUST have the PCI Subsystem Device ID=
- matching
-> > +         * the Virtio Device ID"
-> > +         */
-> > +        dev->vdev.device_type =3D qpci_config_readw(dev->pdev, PCI_SUB=
-SYSTEM_ID);
+On 10/17/19 3:29 PM, Peter Maydell wrote:
+> Switch the lm32_timer code away from bottom-half based ptimers to the
+> new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the ytimer.
 >=20
-> Shouldn't you return "false" here in case the device_type is 0 ? Which
-> likely means that it is a legacy or broken device ...?
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/timer/lm32_timer.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
 
-The real decision whether to use this PCI device or not happens in
-probe_device_layout().  If it's broken or a legacy device then that
-function will fail.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Stefan
-
---bCsyhTFzCvuiizWE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2okccACgkQnKSrs4Gr
-c8jEGAf+Ma7nNS+KvXyutmlXsX5EpM9t/dRWZcvIhdphv31dB1/3oxMLynnB9ggZ
-vqdJ5/Bc9Ay3EptH8QxxJVm/yGMTXp5iu3zvsTHZuCs3xfgfCdCmIHpyeSHis0fl
-R4sqUAvfXd4zgMxotmre1HzohCT33DCP+H/L09KVVV4F9DUS8AKWCti6tAdKOsGn
-rFKku0gHTIXbLdEn1YsdZpgcmhvxw+eb0PKnnf8NzsrES87lc0EuPnQPF4TMoUOe
-Bmp9x0i2AUqjLCSsAdT2x7oo+SHgKfUwu/5t3ZaY7s9pihwkg+sd3xri1pnqTEjv
-tEOa+pR8hKXBz4RnVl/W9T/CydI/cQ==
-=1ahQ
------END PGP SIGNATURE-----
-
---bCsyhTFzCvuiizWE--
 
