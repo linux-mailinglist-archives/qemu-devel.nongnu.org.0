@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAF1DA953
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 11:53:33 +0200 (CEST)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46465DA957
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 11:53:43 +0200 (CEST)
+Received: from localhost ([::1]:40988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL2TH-0004pW-Im
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 05:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54351)
+	id 1iL2TW-0005Hs-AA
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 05:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54441)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL2Rq-00045q-1R
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 05:51:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL2S9-0004RQ-Bj
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 05:52:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL2Ro-0005RQ-Cp
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 05:51:57 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:42904)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL2Ro-0005Qp-6y
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 05:51:56 -0400
-Received: by mail-oi1-x231.google.com with SMTP id i185so1597313oif.9
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 02:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=2DZMTNhuY6bZVod6dcL5n/43rTrIL7Z2A8hzh+el0Ww=;
- b=QvC+Ifn199XeRdGQO3UktqcNkfbSZY42d1XEmLXa+gqpemSaI9LnLQjcB5fsCOTpmF
- L+eEYWVXXj+asjFhBqo2IDmRNXy2B33yg4pXs9mzBCT4SeUgSnf5A+1R2m9gOjHEALaC
- upHKL6Kd3vC6T6CUcECzq2iiL5Sjh8JG6vnq6niPjw12+KWmAxtNjwzSB3p33KwK9mdr
- gp+W48T+Et8UHBRX2h3llKY1KSbwg4n8TGaphudBJuIoPdAlkvrgpBPxTGmx3MVmXrPx
- Udk8Uz+Q+llA0wlM2VoGaLlT4C4rhCHPV7UiM+MMvu05016Q4Po2yl5hVndoim30Rkn/
- Wm/Q==
+ (envelope-from <philmd@redhat.com>) id 1iL2S7-0005fY-N7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 05:52:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38628)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL2S7-0005eX-Gz
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 05:52:15 -0400
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 195D7368DA
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:52:14 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id j2so660511wrg.19
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 02:52:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=2DZMTNhuY6bZVod6dcL5n/43rTrIL7Z2A8hzh+el0Ww=;
- b=FaupPV7hcQwuuh7lvdataWYwBIIy8kYxgON/YCvein8/93291nheors/F4wYF/K4lX
- 8cGliejlLBh8ztBhFeTnF0ILBQsVF1pO2cGGXESA+FZnDYdjpWQ6e79NYIwjIbGI3qus
- N5Kbi8hR9xpFTJn7RUtBirlgbiG7iK0EOj/tStCY1Ml6NHrrvQL02HByyp0iRG3Gu9WT
- D2zqD9z1C+Mff6f907rEKSY//Q8khKZzSBvxk6Nj9SlT0p7f1UKyNX/GFH93F8IIsr1E
- ma9LbsPcBRHPpvmcn6fZuBb+F+2M7eHM1bAlkstcA0BiTBq7fXVZGUspKM9/7coHtYc0
- HDGg==
-X-Gm-Message-State: APjAAAXpNofyJYS/FLP1geTILnd/cABDtP6ejvpTvD1JqIbHrGOUNjbF
- Fy0yVUTQm2GyCckGjnvMt62qS7XpKO2LbQtD4VQ2/A==
-X-Google-Smtp-Source: APXvYqyyT2KAO5HWl+Wb0E/N/VLvFGGhZdqwEbV5EP2K7gcop24sOL7F5cRLBbJj1P+pv53DZb52B2E5ShJxfySVVtw=
-X-Received: by 2002:a05:6808:9:: with SMTP id u9mr2424622oic.98.1571305914975; 
- Thu, 17 Oct 2019 02:51:54 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RplGin3fGtgMXDdqQRrbU9VfWvpGsxgt51JrIMmknc4=;
+ b=Yv4NIoqtGJmhaDTKQCP9PEdF9cVl2P8tJ2InzgS6+HGLyvX8FKvm+105DDo1PYUmgZ
+ rQzyz4Wnoag1tE8MMwo0vAFEQZQrT4k/g/qAbVNJXtyKpwsjAKa/CK7myaJFLR6rD9UL
+ q2nlEBOfMvVRs5PaGkMvsysXTDs1zN9xDR1CLznTuHCoFzxP1C8qos/VhZB7VTujoV39
+ zoASN5LSReyH74aHMjGfqP5Co3ZArvyADfpDNvmri6Mo0pL6Mup+cNexMl5ZtaM6UjGW
+ dZ9A/Cn4BveGs4zChLLky8PfKDpimedH+kfSWON8XKDeyx3JfNIIZssipYMd1QBLTtjR
+ tEWg==
+X-Gm-Message-State: APjAAAWuI3xsPo3m0cfo7wgQA+eO8/ljt6TybngDPDRU0n3Y2MezdZfs
+ Y3TvFSXJPOEtNfufYlGX0j0G37iRzAkySXmvK3DBNa2udxQ+FVtOkw1fLYRi6A6CsOGZs5rRKq4
+ joWtGBHynuBs6byU=
+X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr2083127wmc.104.1571305932795; 
+ Thu, 17 Oct 2019 02:52:12 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx4lNF+hUnLEbW/xifhdNOwd+1tDH4M+XaEiPru0tuVYqxpvt6OwHv4qMifTT2b6WyLkfoSyA==
+X-Received: by 2002:a1c:7ed7:: with SMTP id z206mr2083101wmc.104.1571305932600; 
+ Thu, 17 Oct 2019 02:52:12 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
+ [88.21.201.14])
+ by smtp.gmail.com with ESMTPSA id g185sm1769014wme.10.2019.10.17.02.52.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 02:52:12 -0700 (PDT)
+Subject: Re: [PATCH v10 13/15] docs/microvm.rst: document the new microvm
+ machine type
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
+References: <20191016101241.24405-1-slp@redhat.com>
+ <20191016101241.24405-14-slp@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d981516f-f23a-47f5-d825-a101fdaaf471@redhat.com>
+Date: Thu, 17 Oct 2019 11:52:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 10:51:43 +0100
-Message-ID: <CAFEAcA-jutAw2KFBDX9v=Q7LQ8_Mj0AHB79wi74hoW6J81fbhw@mail.gmail.com>
-Subject: iotest 260 failure (linux host): "OSError: AF_UNIX path too long"
-To: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>, 
- Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::231
+In-Reply-To: <20191016101241.24405-14-slp@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,142 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: ehabkost@redhat.com, mst@redhat.com, groug@kaod.org, kraxel@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, sgarzare@redhat.com,
+ lersek@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I just got this iotest 260 failure processing an
-unrelated merge on my x86-64 Ubuntu box. I assume
-it's an intermittent (have just kicked off a retry) but
-post the backtrace in case it's of interest:
+Hi Sergio,
 
+On 10/16/19 12:12 PM, Sergio Lopez wrote:
+> +Supported devices
+> +-----------------
+> +
+> +The microvm machine type supports the following devices:
+> +
+> +- ISA bus
+> +- i8259 PIC (optional)
+> +- i8254 PIT (optional)
+> +- MC146818 RTC (optional)
+> +- One ISA serial port (optional)
+> +- LAPIC
+> +- IOAPIC (with kernel-irqchip=split by default)
+> +- kvmclock (if using KVM)
+> +- fw_cfg
+> +- Up to eight virtio-mmio devices (configured by the user)
 
-  TEST    iotest-qcow2: 260 [fail]
-QEMU          --
-"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../x86_64-softmmu/qemu-system-x86_64"
--nodefaults -display none -machine accel=qtest
-QEMU_IMG      --
-"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-img"
-QEMU_IO       --
-"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-io"
- --cache writeback -f qcow2
-QEMU_NBD      --
-"/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/../../qemu-nbd"
-IMGFMT        -- qcow2 (compat=1.1)
-IMGPROTO      -- file
-PLATFORM      -- Linux/x86_64 e104462 4.15.0-60-generic
-TEST_DIR      --
-/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/scratch
-SOCKET_SCM_HELPER --
-/home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/socket_scm_helper
-
---- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/260.out
- 2019-10-15 19:38:40.208504628 +0100
-+++ /home/petmay01/linaro/qemu-for-merges/build/alldbg/tests/qemu-iotests/260.out.bad
-  2019-10-15 20:01:22.658839136 +0100
-@@ -1,52 +1,19 @@
-
- Testcase non-persistent without restart
-
--{"execute": "block-dirty-bitmap-add", "arguments": {"name":
-"bitmap0", "node": "drive0", "persistent": false}}
--{"return": {}}
--initial bitmap: name=bitmap0 dirty-clusters=1
--{"execute": "blockdev-snapshot-sync", "arguments": {"device":
-"drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
--{"return": {}}
--check that no bitmaps are in snapshot: not found
--{"execute": "block-commit", "arguments": {"device": "drive0", "top":
-"TEST_DIR/PID-top"}}
--{"return": {}}
--{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed":
-0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp":
-{"microseconds": "USECS", "seconds": "SECS"}}
--{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
--{"return": {}}
--{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed":
-0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp":
-{"microseconds": "USECS", "seconds": "SECS"}}
--check bitmap after commit: name=bitmap0 dirty-clusters=2
--check updated bitmap: name=bitmap0 dirty-clusters=3
--
--Testcase persistent without restart
--
--{"execute": "block-dirty-bitmap-add", "arguments": {"name":
-"bitmap0", "node": "drive0", "persistent": true}}
--{"return": {}}
--initial bitmap: name=bitmap0 dirty-clusters=1
--{"execute": "blockdev-snapshot-sync", "arguments": {"device":
-"drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
--{"return": {}}
--check that no bitmaps are in snapshot: not found
--{"execute": "block-commit", "arguments": {"device": "drive0", "top":
-"TEST_DIR/PID-top"}}
--{"return": {}}
--{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed":
-0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp":
-{"microseconds": "USECS", "seconds": "SECS"}}
--{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
--{"return": {}}
--{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed":
-0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp":
-{"microseconds": "USECS", "seconds": "SECS"}}
--check bitmap after commit: name=bitmap0 dirty-clusters=2
--check updated bitmap: name=bitmap0 dirty-clusters=3
--
--Testcase persistent with restart
--
--{"execute": "block-dirty-bitmap-add", "arguments": {"name":
-"bitmap0", "node": "drive0", "persistent": true}}
--{"return": {}}
--initial bitmap: name=bitmap0 dirty-clusters=1
--{"execute": "blockdev-snapshot-sync", "arguments": {"device":
-"drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
--{"return": {}}
--check that no bitmaps are in snapshot: not found
--... Restart ...
--{"execute": "block-commit", "arguments": {"device": "drive0", "top":
-"TEST_DIR/PID-top"}}
--{"return": {}}
--{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed":
-0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp":
-{"microseconds": "USECS", "seconds": "SECS"}}
--{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
--{"return": {}}
--{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed":
-0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp":
-{"microseconds": "USECS", "seconds": "SECS"}}
--check bitmap after commit: name=bitmap0 dirty-clusters=2
--check updated bitmap: name=bitmap0 dirty-clusters=3
-+Traceback (most recent call last):
-+  File "260", line 87, in <module>
-+    test(persistent=False, restart=False)
-+  File "260", line 48, in test
-+    vm.launch()
-+  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/../../python/qemu/machine.py",
-line 294, in launch
-+    self._launch()
-+  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/../../python/qemu/machine.py",
-line 311, in _launch
-+    self._pre_launch()
-+  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/../../python/qemu/qtest.py",
-line 103, in _pre_launch
-+    super(QEMUQtestMachine, self)._pre_launch()
-+  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/../../python/qemu/machine.py",
-line 262, in _pre_launch
-+    server=True)
-+  File "/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/../../python/qemu/qmp.py",
-line 60, in __init__
-+    self.__sock.bind(self.__address)
-+OSError: AF_UNIX path too long
-  TEST    iotest-qcow2: 265
-  TEST    iotest-qcow2: 267
-  TEST    iotest-qcow2: 268
-Not run: 220
-Failures: 260
-Failed 1 of 109 iotests
-
-
-
-thanks
--- PMM
+If we have VirtIO devices, why not use virtio-serial instead of the one 
+on the ISA bus?
 
