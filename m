@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3CCDB2EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:01:54 +0200 (CEST)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FD0DB2F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:04:50 +0200 (CEST)
+Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL99s-0002A6-H4
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:01:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36342)
+	id 1iL9Cj-0005aV-4l
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:04:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iL8NZ-000089-30
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:11:58 -0400
+ (envelope-from <eblake@redhat.com>) id 1iL8QW-000445-Jm
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:15:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iL8NY-0000sp-1Y
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:11:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43170)
+ (envelope-from <eblake@redhat.com>) id 1iL8QV-00023O-M3
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:15:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60902)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iL8NX-0000sP-SF
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:11:55 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iL8QV-000236-G7; Thu, 17 Oct 2019 12:14:59 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E9EDA30089BA
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 16:11:54 +0000 (UTC)
-Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99CF919D70;
- Thu, 17 Oct 2019 16:11:51 +0000 (UTC)
-Date: Thu, 17 Oct 2019 17:11:50 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 2/2] virtiofsd: move to a new pid namespace
-Message-ID: <20191017161150.GD1266@stefanha-x1.localdomain>
-References: <20191016160157.12414-1-stefanha@redhat.com>
- <20191016160157.12414-3-stefanha@redhat.com>
- <20191017144553.GA12588@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id B4CDD30842A9;
+ Thu, 17 Oct 2019 16:14:58 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 311185D6C8;
+ Thu, 17 Oct 2019 16:14:58 +0000 (UTC)
+Subject: Re: [PATCH] hw/s390x: Emit a warning if user tried to enable USB
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-s390x@nongnu.org
+References: <20191017142123.1236-1-thuth@redhat.com>
+ <c35a910b-4a61-331b-e0b7-3dfc6f0b256f@de.ibm.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3f32cfc0-3d32-3648-3b58-900d1f9f1331@redhat.com>
+Date: Thu, 17 Oct 2019 11:14:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
-Content-Disposition: inline
-In-Reply-To: <20191017144553.GA12588@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <c35a910b-4a61-331b-e0b7-3dfc6f0b256f@de.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 17 Oct 2019 16:11:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Thu, 17 Oct 2019 16:14:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -60,57 +63,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/17/19 9:45 AM, Christian Borntraeger wrote:
+> 
+> 
+> On 17.10.19 16:21, Thomas Huth wrote:
+>> There is no USB on s390x, so running qemu-system-s390x with
+>> "-machine ...,usb=on" is certainly wrong. Emit a warning to make
+>> the users aware of their misconfiguration.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   After a year or two, we could finally turn this into a hard error,
+>>   but I think we should give the users some time to fix their command
+>>   lines first, so I'm initially only emitting a warning here.
+> 
+> I think a warn message is ok, but we should never make  this a hard
+> error.
+> 
+> I am pretty sure that there are some tools in the wild that create xmls
+> or qemu commands lines cross-platform and deploy those  dynamically.
+> These tools have probably been fixed to work good enough with s390x
+> but nobody with qemu clue has ever looked at these command lines. And
+> I am pretty sure that no user will actually see the command like nor
+> the error message.
+> 
+> So this warning will stay unnoticed until we make this a hard error. And
+> then we have broken a previously working setup.
+> 
+> In other words, I appreciate the willingness to detect mis-uses but I
+> fear that we will never be able to assume that everything is fixed.
 
---ylS2wUBXLOxYXZFQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's what the deprecation process is for. This patch is incomplete 
+unless it also touches qemu-deprecated.texi.
 
-On Thu, Oct 17, 2019 at 10:45:53AM -0400, Vivek Goyal wrote:
-> On Wed, Oct 16, 2019 at 05:01:57PM +0100, Stefan Hajnoczi wrote:
->=20
-> [..]
-> > +	/*
-> > +	 * If the mounts have shared propagation then we want to opt out so o=
-ur
-> > +	 * mount changes don't affect the parent mount namespace.
-> > +	 */
-> > +	if (mount(NULL, "/", NULL, MS_REC|MS_SLAVE, NULL) < 0) {
-> > +		fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
-> > +		exit(1);
-> > +	}
->=20
-> So we will get mount propogation form parent but our mounts will not
-> propagate back. Sounds reasonable.
->=20
-> Can we take away CAP_SYS_ADMIN from virtiofsd? That way it will not be=20
-> able to do mount at all.=20
->=20
-> I am wondering are we dependent on daemon having CAP_SYS_ADMIN.=20
-
-I don't know the answer.  Additional patches to reduce the capability
-set as much as possible would be great, but are a separate task.
-
-Stefan
-
---ylS2wUBXLOxYXZFQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2oksYACgkQnKSrs4Gr
-c8gRPAf/WjlSHNmLI310xJzO+cYRNz6NrPw79qoYflQ98baGOpkUsQ2rKn7pT76M
-g/aPiAYEWwydbnlQvcOoPuVjWVVn7eDuhyUza5ezu6iT5DEqmCVIk284sClJdWXv
-CRpPxOeRc1wkJwkIE2qyAKCfjt/gKy5cXfQ56vudM64YKOxoyN31xNUlvk9i+R5i
-M90QW4jpqb0rTlV7S4C/I6JVI2NGYy/uqm7qWIJ7umst+/G9Mi91JjQ+3zOK9yd6
-TI2Wj+Eguv672sIGHLgmzdLgo0NI1fEL2jOmu4crijOfYEwJ2MpwZtZYeP6UN6zR
-h93HcxFa7H2DRSU/CqRicj1rIQrhIg==
-=pNX6
------END PGP SIGNATURE-----
-
---ylS2wUBXLOxYXZFQ--
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
