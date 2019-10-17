@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A58CDB14E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:42:42 +0200 (CEST)
-Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3ABDB151
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:43:00 +0200 (CEST)
+Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7vE-0001c5-UI
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50305)
+	id 1iL7vX-00023z-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL71o-0007db-I0
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:45:25 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL74s-0002hZ-UC
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:48:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL71n-0007IQ-3r
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:45:24 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43279)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iL74r-0008H5-Hr
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:48:34 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45440)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iL71m-0007Hz-Ug
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:45:23 -0400
-Received: by mail-oi1-x241.google.com with SMTP id t84so2340270oih.10
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:45:22 -0700 (PDT)
+ id 1iL74r-0008Gp-Ct
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:48:33 -0400
+Received: by mail-ot1-x344.google.com with SMTP id 41so2091028oti.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=NVOIQm4H/O0Cx5VJa3R22BQF2d1DAtNSsVKXlEKnY1o=;
- b=IPBRNTmt1Tgx1L2hARo2oYLM8u5khR4Zw3KmCLU3i4xVkScVO2orpzAe2+p2vVGD94
- n6JmwpAe8G7SuKvmIWX4T/io377hyec3VdgEwpormFgGgjnuIVJW0mCls2AmX7z0CZkB
- LXn4VIbhT7y7S5rNmofuHK6iNukXM79WYQQt4N++BrlQ/9NdAxZpIr41oCvHqWANh8YA
- QPphVSfVA/sPS0jZTOSKbZNMp6srZ6GM7uAYIEoQCnyUdWfwrHEASxaemkki5UuI67jr
- 6Lu2SEew4GZTvcgYDX1SyHnMYE6en7WyldX7Dk6KooT6oI6r3XNef/427aKhKMHHtLYy
- /aoQ==
+ :cc; bh=BZXCpUhCfREGP5Y5KkAXoKF3LwyNMJ+QHt0WBiLCltg=;
+ b=DM1Q7iKuNZzLcB9ccnA0BEgRoM0jR0JeBYu/RzjrNvLEVJwMDPOPigJI+cdh+rmUQ+
+ uOKjuweWXQu4CoHoIa401FbZaI/L4IBYYOzdQinEHqW5Y6wA3yKN+SNrY92F19slIX/w
+ ozzdo1VH42qrWXz0OJJe4oowNNJRnEnsEF3V6CCr1UnvcpPIsT9bRLTvyp8iTOZf+z7n
+ u1RWk8OVERQdTBRSUCqU434UIQo4GqtSZdOaGDegv2u52Zt9XiP19h1pulR0F3HSEozX
+ 8tbJQzjcADbpE2ZEPhLIOIEzVDt6aX2P42RuyNk6CTyVh3gP0NFjf0pSRHv3/5XOgt7v
+ QM6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=NVOIQm4H/O0Cx5VJa3R22BQF2d1DAtNSsVKXlEKnY1o=;
- b=tLNyKQt/gpC54DQL5SIu4TrN59Y7h8xFufJ2I6qoUBObz43Uol9RAYCAmM/y99Xteb
- 9Xnt3QT/Iks/+vPjF3xi438Gcj1CrG0li8+7bZcS+jEghYzkAaI+Ldpzw1NDcPTyBk0F
- HyLsBxxHCbFbgm/RFoBa3IEK52Y2FvnmQtPs/Q32f/IIV4rKfn2yzb5LZaeIG/jd0pFQ
- XXjtcqtqxeB/5YikqqtF+s2Wkw++zNpjmD6tm1Ac/JQZBxMaIpliZ0hH6cW5wo/ZVWvp
- SJKnWiY/eFX9wpfoTEWXMtdxtVgVK1c93lkKjxzn0NVmIFCzZDQjBANN53sMyzrPLKco
- gvcA==
-X-Gm-Message-State: APjAAAXjPmjVA2YjF4AISHNZpM4YuUVyKOxfZed63rtWfQVk5H9/0Iw3
- FbYpgTCw5WrjKfe2YsImMzeQeiBjyM725ISiCu4=
-X-Google-Smtp-Source: APXvYqxxPmqsoiYCMSa9/sz4vxEvLCM1pfKYNicVq8B751PVe8aOK0zLkgvBQELFeXhyUSAv+IQ58H0JDp/WyDdwHSE=
-X-Received: by 2002:aca:62d5:: with SMTP id w204mr3552201oib.136.1571323522344; 
- Thu, 17 Oct 2019 07:45:22 -0700 (PDT)
+ bh=BZXCpUhCfREGP5Y5KkAXoKF3LwyNMJ+QHt0WBiLCltg=;
+ b=CdspXezJ0+bk4+Rd0pu+n3isLgGTeFUpFv1O1TR5moUvqp/5ZnL1nQbVldqG9fpeZO
+ lSF4AdOfDUYpEYE1rGnu/ehu8umFymhxNnhtZxUwJNbG2ClgkJl6s6+th5si11hTcUlx
+ r7rgSdKbg58m7dbq+s/al8ZenWGBMZQgyhXyLiIQ0WO59TTuiaANLEq5ktemGUS7QbiN
+ yGzhBqkNxWJ3b49zkKjq5AfymXvEGrqthCXvjH0xeiG/d8KsjwywMjSxPtYVusi9Iq/T
+ ePaf5bjESr4FcCGbzhEoXVDGmH+qhMNaXYG3ub2M+Wfo48XhgzdY9ZmG2Ad3U9cr0xRp
+ 7s+A==
+X-Gm-Message-State: APjAAAVOH9+rB7VJMROIQnpX/E8qR/CuaF3D6viNwgFgSUKNiLOUJXh9
+ rLM1cgnykdueGgLEB5ywlazNVpRlTnwvRK5OJ/k=
+X-Google-Smtp-Source: APXvYqxMK/K/YzvdlRI8mVs2l2zzJzC7DdEch6aYxQvfdnwiXmrxc5nb5dJg+6YuO8cex9dM1ylTiHKHI+A4RyJWauo=
+X-Received: by 2002:a9d:5914:: with SMTP id t20mr3311879oth.306.1571323712558; 
+ Thu, 17 Oct 2019 07:48:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:45:21
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Thu, 17 Oct 2019 07:48:32
  -0700 (PDT)
-In-Reply-To: <20191015162705.28087-18-philmd@redhat.com>
+In-Reply-To: <20191015162705.28087-13-philmd@redhat.com>
 References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-18-philmd@redhat.com>
+ <20191015162705.28087-13-philmd@redhat.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 17 Oct 2019 16:45:21 +0200
-Message-ID: <CAL1e-=hQ2jG-CwR9bWb1YprNfL4MviWh6xn08oh0ucpEDjRm4A@mail.gmail.com>
-Subject: Re: [PATCH 17/32] hw/mips/mips_malta: Create IDE hard drive array
- dynamically
+Date: Thu, 17 Oct 2019 16:48:32 +0200
+Message-ID: <CAL1e-=h4AAo13+J8z2rfq6VeTgqE=ZekMRigJZ7eGAYdRCGSWA@mail.gmail.com>
+Subject: Re: [PATCH 12/32] piix4: rename PIIX4 object to piix4-isa
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000606b4005951c4431"
+Content-Type: multipart/alternative; boundary="000000000000b6d98905951c4f3a"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,6 +80,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
@@ -92,7 +92,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000606b4005951c4431
+--000000000000b6d98905951c4f3a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -100,74 +100,100 @@ On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
 m>
 wrote:
 
-> In the next commit we'll refactor the PIIX4 code out of
-> mips_malta_init(). As a preliminary step, add the 'ide_drives'
-> variable and create the drive array dynamically.
+> From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
 >
+> Other piix4 parts are already named piix4-ide and piix4-usb-uhci.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> Message-Id: <20171216090228.28505-15-hpoussin@reactos.org>
+> [PMD: rebased]
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/mips/mips_malta.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  hw/isa/piix4.c       | 1 -
+>  hw/mips/mips_malta.c | 2 +-
+>  include/hw/isa/isa.h | 2 ++
+>  3 files changed, 3 insertions(+), 2 deletions(-)
 >
 >
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 1cfc51335a..c3a2bd0d70 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -45,7 +45,6 @@ typedef struct PIIX4State {
+>      uint8_t rcr;
+>  } PIIX4State;
+>
+> -#define TYPE_PIIX4_PCI_DEVICE "PIIX4"
+>  #define PIIX4_PCI_DEVICE(obj) \
+>      OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)
+>
 > diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 528c34a1c3..774bb810f6 100644
+> index 7d25ab6c23..e499b7a6bb 100644
 > --- a/hw/mips/mips_malta.c
 > +++ b/hw/mips/mips_malta.c
-> @@ -1235,7 +1235,8 @@ void mips_malta_init(MachineState *machine)
->      int piix4_devfn;
->      I2CBus *smbus;
->      DriveInfo *dinfo;
-> -    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-> +    const size_t ide_drives =3D MAX_IDE_BUS * MAX_IDE_DEVS;
-> +    DriveInfo **hd;
->      int fl_idx =3D 0;
->      int be;
->
-> @@ -1406,7 +1407,8 @@ void mips_malta_init(MachineState *machine)
->      pci_bus =3D gt64120_register(s->i8259);
->
->      /* Southbridge */
-> -    ide_drive_get(hd, ARRAY_SIZE(hd));
-> +    hd =3D g_new(DriveInfo *, ide_drives);
-> +    ide_drive_get(hd, ide_drives);
+> @@ -1414,7 +1414,7 @@ void mips_malta_init(MachineState *machine)
+>      ide_drive_get(hd, ARRAY_SIZE(hd));
 >
 >      pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
->                                            true, TYPE_PIIX4_PCI_DEVICE);
-> @@ -1421,6 +1423,7 @@ void mips_malta_init(MachineState *machine)
->      }
+> -                                          true, "PIIX4");
+> +                                          true, TYPE_PIIX4_PCI_DEVICE);
+>      dev =3D DEVICE(pci);
+>      isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+>      piix4_devfn =3D pci->devfn;
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index 018ada4f6f..79f703fd6c 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -147,4 +147,6 @@ static inline ISABus *isa_bus_from_device(ISADevice *=
+d)
+>      return ISA_BUS(qdev_get_parent_bus(DEVICE(d)));
+>  }
 >
->      pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);
-> +    g_free(hd);
->      pci_create_simple(pci_bus, piix4_devfn + 2, "piix4-usb-uhci");
->      smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x1100,
->                            isa_get_irq(NULL, 9), NULL, 0, NULL);
+> +#define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+> +
+>  #endif
 > --
 > 2.21.0
 >
 >
 >
 
---000000000000606b4005951c4431
+--000000000000b6d98905951c4f3a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
 ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
 uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">In the next commit we&#39;ll refactor the PIIX4 cod=
-e out of<br>
-mips_malta_init(). As a preliminary step, add the &#39;ide_drives&#39;<br>
-variable and create the drive array dynamically.<br>
+solid;padding-left:1ex">From: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:h=
+poussin@reactos.org">hpoussin@reactos.org</a>&gt;<br>
 <br>
+Other piix4 parts are already named piix4-ide and piix4-usb-uhci.<br>
+<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org">f4bug@amsat.org</a>&gt;<br>
+Acked-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redh=
+at.com</a>&gt;<br>
+Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini=
+@redhat.com</a>&gt;<br>
+Signed-off-by: Herv=C3=A9 Poussineau &lt;<a href=3D"mailto:hpoussin@reactos=
+.org">hpoussin@reactos.org</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20171216090228.28505-15-hpoussin@reactos.=
+org">20171216090228.28505-15-hpoussin@reactos.org</a>&gt;<br>
+[PMD: rebased]<br>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
 hat.com">philmd@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0hw/mips/mips_malta.c | 7 +++++--<br>
-=C2=A01 file changed, 5 insertions(+), 2 deletions(-)<br>
+=C2=A0hw/isa/piix4.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
+=C2=A0hw/mips/mips_malta.c | 2 +-<br>
+=C2=A0include/hw/isa/isa.h | 2 ++<br>
+=C2=A03 files changed, 3 insertions(+), 2 deletions(-)<br>
 <br></blockquote><div><br></div><div><div id=3D"cvcmsg_16dbfeb33c93ed97" cl=
 ass=3D"yh  " style=3D"border-top-left-radius:0px;border-top-right-radius:0p=
 x;margin-bottom:11px;overflow:visible"><div class=3D"Vh" id=3D"cvcfullmsg_1=
@@ -184,49 +210,56 @@ y_16dbfecd588da1f7" class=3D"M j T b hc xh S  " tabindex=3D"0"><div class=
 =3D"V j td"></div></div></div></div></div></div><div>=C2=A0</div><blockquot=
 e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
 id;padding-left:1ex">
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c<br>
+index 1cfc51335a..c3a2bd0d70 100644<br>
+--- a/hw/isa/piix4.c<br>
++++ b/hw/isa/piix4.c<br>
+@@ -45,7 +45,6 @@ typedef struct PIIX4State {<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t rcr;<br>
+=C2=A0} PIIX4State;<br>
+<br>
+-#define TYPE_PIIX4_PCI_DEVICE &quot;PIIX4&quot;<br>
+=C2=A0#define PIIX4_PCI_DEVICE(obj) \<br>
+=C2=A0 =C2=A0 =C2=A0OBJECT_CHECK(PIIX4State, (obj), TYPE_PIIX4_PCI_DEVICE)<=
+br>
+<br>
 diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
-index 528c34a1c3..774bb810f6 100644<br>
+index 7d25ab6c23..e499b7a6bb 100644<br>
 --- a/hw/mips/mips_malta.c<br>
 +++ b/hw/mips/mips_malta.c<br>
-@@ -1235,7 +1235,8 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0int piix4_devfn;<br>
-=C2=A0 =C2=A0 =C2=A0I2CBus *smbus;<br>
-=C2=A0 =C2=A0 =C2=A0DriveInfo *dinfo;<br>
--=C2=A0 =C2=A0 DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];<br>
-+=C2=A0 =C2=A0 const size_t ide_drives =3D MAX_IDE_BUS * MAX_IDE_DEVS;<br>
-+=C2=A0 =C2=A0 DriveInfo **hd;<br>
-=C2=A0 =C2=A0 =C2=A0int fl_idx =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0int be;<br>
-<br>
-@@ -1406,7 +1407,8 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0pci_bus =3D gt64120_register(s-&gt;i8259);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Southbridge */<br>
--=C2=A0 =C2=A0 ide_drive_get(hd, ARRAY_SIZE(hd));<br>
-+=C2=A0 =C2=A0 hd =3D g_new(DriveInfo *, ide_drives);<br>
-+=C2=A0 =C2=A0 ide_drive_get(hd, ide_drives);<br>
+@@ -1414,7 +1414,7 @@ void mips_malta_init(MachineState *machine)<br>
+=C2=A0 =C2=A0 =C2=A0ide_drive_get(hd, ARRAY_SIZE(hd));<br>
 <br>
 =C2=A0 =C2=A0 =C2=A0pci =3D pci_create_simple_<wbr>multifunction(pci_bus, P=
 CI_DEVFN(10, 0),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0true, TYPE_PIIX4_PCI_DEVICE);<br>
-@@ -1421,6 +1423,7 @@ void mips_malta_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
+rue, &quot;PIIX4&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t=
+rue, TYPE_PIIX4_PCI_DEVICE);<br>
+=C2=A0 =C2=A0 =C2=A0dev =3D DEVICE(pci);<br>
+=C2=A0 =C2=A0 =C2=A0isa_bus =3D ISA_BUS(qdev_get_child_bus(<wbr>dev, &quot;=
+isa.0&quot;));<br>
+=C2=A0 =C2=A0 =C2=A0piix4_devfn =3D pci-&gt;devfn;<br>
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h<br>
+index 018ada4f6f..79f703fd6c 100644<br>
+--- a/include/hw/isa/isa.h<br>
++++ b/include/hw/isa/isa.h<br>
+@@ -147,4 +147,6 @@ static inline ISABus *isa_bus_from_device(ISADevice *d)=
 <br>
-=C2=A0 =C2=A0 =C2=A0pci_piix4_ide_init(pci_bus, hd, piix4_devfn + 1);<br>
-+=C2=A0 =C2=A0 g_free(hd);<br>
-=C2=A0 =C2=A0 =C2=A0pci_create_simple(pci_bus, piix4_devfn + 2, &quot;piix4=
--usb-uhci&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0smbus =3D piix4_pm_init(pci_bus, piix4_devfn + 3, 0x110=
-0,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0isa_get_irq(NULL, 9), NULL, 0, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0return ISA_BUS(qdev_get_parent_bus(<wbr>DEVICE(d)));<br=
+>
+=C2=A0}<br>
+<br>
++#define TYPE_PIIX4_PCI_DEVICE &quot;piix4-isa&quot;<br>
++<br>
+=C2=A0#endif<br>
 -- <br>
 2.21.0<br>
 <br>
 <br>
 </blockquote>
 
---000000000000606b4005951c4431--
+--000000000000b6d98905951c4f3a--
 
