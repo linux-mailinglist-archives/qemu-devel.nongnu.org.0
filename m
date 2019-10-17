@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2606DAF3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:09:34 +0200 (CEST)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D71DAEF8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 16:01:04 +0200 (CEST)
+Received: from localhost ([::1]:48644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL6T7-0003H7-FF
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:09:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36208)
+	id 1iL6Kt-0002OX-HN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 10:01:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5qB-0006wt-00
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iL5t3-0002LU-NM
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL5q9-0002bJ-JY
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:18 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54154)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL5q9-0002b2-DT
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:29:17 -0400
-Received: by mail-wm1-x342.google.com with SMTP id i16so2578195wmd.3
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2N8pR3XdK7iKpoiyLDAZ/80MgScv3T2YbJfwoAS7T38=;
- b=NHrxN4ioR+UGwIodzrq4Q4bE5jd3WLM9j/tFdWUn7w7jSSGGOhRTIi+KB+M9NfV0TK
- VUX4n4uDJx0gN2RJLqd/f/avEYfmAsfUZUHPf8HV8H02nkkeMQFTDO4w4D8hwLOYLBM1
- PTcMMcetfvPiKah0vYctn5+jt7l+TR07iI4U2JYjtYBq9JG8mNEwrFFfNCXoh6aR1zs6
- LeNvDApEGTJ2pD5oi4B//IDRgQhfmdRQi0fG6O+RG3nA1VEVOjPEMG1U9UX/knowXAoZ
- iq/+EanqLW7Xwz7eH6jmhsVf5uuPGc1Ttd3k+etUG16wLKpUpzkM5gpqzWA3i30UMV+U
- rhsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2N8pR3XdK7iKpoiyLDAZ/80MgScv3T2YbJfwoAS7T38=;
- b=O4DZzZ9EYmx6zGWD0kA7HM8DcLiGHMfqihF7PRxGDYYVdgHFcol4X+SXLfjOT/lxtk
- 3XIo/vDJ13TkpVGlsGCHP4msOSlJE20n7XUs5/mteVDJnMnN1NIlywoy7NTbVC2IPo0p
- pekAPbYROPgR2cgJz9r2c20rLVoE5OeUPDUOS4RH0QY0FqymygO0hw82APedTPA0Oh6N
- t5CqO24nOvwiUKumZW3CQVxSVa38zdJEUkuCnsynWQ3KVpcSJPTgjZz62gaZCK7jFJW1
- sTmSQLu+K73RGK50+H4TuvwYpqtwbbDuyWY58v6ALRGIEGxVG2Q1c4cCmTT1hWjvauIS
- 1M9Q==
-X-Gm-Message-State: APjAAAUVRItTlHHCgw8PitkK3HKmMT6IDNV/IcV3aqUv3Vg9NEaMccZ9
- OgjPosLLpI9Tkn7oyAbm5rG4W60M90q0ew==
-X-Google-Smtp-Source: APXvYqzg1Ju/Mu4oFYfopvv3nG8pPgQyOkVTlx7/vfzrmYOZL208SgGQy3VnEuS2XZqtS8CsYVqqkg==
-X-Received: by 2002:a1c:41c1:: with SMTP id o184mr2875500wma.57.1571318956178; 
- Thu, 17 Oct 2019 06:29:16 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n15sm2703392wrw.47.2019.10.17.06.29.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:29:15 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] hw/watchdog/etraxfs_timer.c: Switch to transaction-based
- ptimer API
-Date: Thu, 17 Oct 2019 14:29:03 +0100
-Message-Id: <20191017132905.5604-7-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191017132905.5604-1-peter.maydell@linaro.org>
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iL5t2-0003L6-JO
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:32:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44232)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iL5sw-0003Hq-EH; Thu, 17 Oct 2019 09:32:10 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A974E30860BE;
+ Thu, 17 Oct 2019 13:32:09 +0000 (UTC)
+Received: from localhost (ovpn-117-3.ams2.redhat.com [10.36.117.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 19555194BE;
+ Thu, 17 Oct 2019 13:32:08 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 04/23] iotests: Filter $SOCK_DIR
+Date: Thu, 17 Oct 2019 15:31:36 +0200
+Message-Id: <20191017133155.5327-5-mreitz@redhat.com>
+In-Reply-To: <20191017133155.5327-1-mreitz@redhat.com>
+References: <20191017133155.5327-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 17 Oct 2019 13:32:09 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,110 +55,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Magnus Damm <magnus.damm@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the etraxfs_timer code away from bottom-half based ptimers to
-the new transaction-based ptimer API.  This just requires adding
-begin/commit calls around the various places that modify the ptimer
-state, and using the new ptimer_init() function to create the timer.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- hw/timer/etraxfs_timer.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/common.filter | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index ab27fe1895b..afe3d30a8ea 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -26,7 +26,6 @@
- #include "hw/sysbus.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
--#include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/irq.h"
-@@ -59,9 +58,6 @@ typedef struct ETRAXTimerState {
-     qemu_irq irq;
-     qemu_irq nmi;
- 
--    QEMUBH *bh_t0;
--    QEMUBH *bh_t1;
--    QEMUBH *bh_wd;
-     ptimer_state *ptimer_t0;
-     ptimer_state *ptimer_t1;
-     ptimer_state *ptimer_wd;
-@@ -155,6 +151,7 @@ static void update_ctrl(ETRAXTimerState *t, int tnum)
-     }
- 
-     D(printf ("freq_hz=%d div=%d\n", freq_hz, div));
-+    ptimer_transaction_begin(timer);
-     ptimer_set_freq(timer, freq_hz);
-     ptimer_set_limit(timer, div, 0);
- 
-@@ -176,6 +173,7 @@ static void update_ctrl(ETRAXTimerState *t, int tnum)
-             abort();
-             break;
-     }
-+    ptimer_transaction_commit(timer);
- }
- 
- static void timer_update_irq(ETRAXTimerState *t)
-@@ -240,6 +238,7 @@ static inline void timer_watchdog_update(ETRAXTimerState *t, uint32_t value)
- 
-     t->wd_hits = 0;
- 
-+    ptimer_transaction_begin(t->ptimer_wd);
-     ptimer_set_freq(t->ptimer_wd, 760);
-     if (wd_cnt == 0)
-         wd_cnt = 256;
-@@ -250,6 +249,7 @@ static inline void timer_watchdog_update(ETRAXTimerState *t, uint32_t value)
-         ptimer_stop(t->ptimer_wd);
- 
-     t->rw_wd_ctrl = value;
-+    ptimer_transaction_commit(t->ptimer_wd);
- }
- 
- static void
-@@ -311,9 +311,15 @@ static void etraxfs_timer_reset(void *opaque)
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common=
+.filter
+index 9f418b4881..0ee6042524 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -43,7 +43,8 @@ _filter_qom_path()
+ # replace occurrences of the actual TEST_DIR value with TEST_DIR
+ _filter_testdir()
  {
-     ETRAXTimerState *t = opaque;
- 
-+    ptimer_transaction_begin(t->ptimer_t0);
-     ptimer_stop(t->ptimer_t0);
-+    ptimer_transaction_commit(t->ptimer_t0);
-+    ptimer_transaction_begin(t->ptimer_t1);
-     ptimer_stop(t->ptimer_t1);
-+    ptimer_transaction_commit(t->ptimer_t1);
-+    ptimer_transaction_begin(t->ptimer_wd);
-     ptimer_stop(t->ptimer_wd);
-+    ptimer_transaction_commit(t->ptimer_wd);
-     t->rw_wd_ctrl = 0;
-     t->r_intr = 0;
-     t->rw_intr_mask = 0;
-@@ -325,12 +331,9 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
-     ETRAXTimerState *t = ETRAX_TIMER(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
- 
--    t->bh_t0 = qemu_bh_new(timer0_hit, t);
--    t->bh_t1 = qemu_bh_new(timer1_hit, t);
--    t->bh_wd = qemu_bh_new(watchdog_hit, t);
--    t->ptimer_t0 = ptimer_init_with_bh(t->bh_t0, PTIMER_POLICY_DEFAULT);
--    t->ptimer_t1 = ptimer_init_with_bh(t->bh_t1, PTIMER_POLICY_DEFAULT);
--    t->ptimer_wd = ptimer_init_with_bh(t->bh_wd, PTIMER_POLICY_DEFAULT);
-+    t->ptimer_t0 = ptimer_init(timer0_hit, t, PTIMER_POLICY_DEFAULT);
-+    t->ptimer_t1 = ptimer_init(timer1_hit, t, PTIMER_POLICY_DEFAULT);
-+    t->ptimer_wd = ptimer_init(watchdog_hit, t, PTIMER_POLICY_DEFAULT);
- 
-     sysbus_init_irq(sbd, &t->irq);
-     sysbus_init_irq(sbd, &t->nmi);
--- 
-2.20.1
+-    $SED -e "s#$TEST_DIR/#TEST_DIR/#g"
++    $SED -e "s#$TEST_DIR/#TEST_DIR/#g" \
++         -e "s#$SOCK_DIR/#SOCK_DIR/#g"
+ }
+=20
+ # replace occurrences of the actual IMGFMT value with IMGFMT
+@@ -124,6 +125,7 @@ _filter_img_create()
+     $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
+         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+         -e "s#$TEST_DIR#TEST_DIR#g" \
++        -e "s#$SOCK_DIR#SOCK_DIR#g" \
+         -e "s#$IMGFMT#IMGFMT#g" \
+         -e 's#nbd:127.0.0.1:10810#TEST_DIR/t.IMGFMT#g' \
+         -e "s# encryption=3Doff##g" \
+@@ -160,6 +162,7 @@ _filter_img_info()
+     $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
+         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+         -e "s#$TEST_DIR#TEST_DIR#g" \
++        -e "s#$SOCK_DIR#SOCK_DIR#g" \
+         -e "s#$IMGFMT#IMGFMT#g" \
+         -e 's#nbd://127.0.0.1:10810$#TEST_DIR/t.IMGFMT#g' \
+         -e 's#json.*vdisk-id.*vxhs"}}#TEST_DIR/t.IMGFMT#' \
+@@ -219,6 +222,7 @@ _filter_nbd()
+     $SED -e '/nbd\/.*\.c:/d' \
+         -e 's#127\.0\.0\.1:[0-9]*#127.0.0.1:PORT#g' \
+         -e "s#?socket=3D$TEST_DIR#?socket=3DTEST_DIR#g" \
++        -e "s#?socket=3D$SOCK_DIR#?socket=3DSOCK_DIR#g" \
+         -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
+ }
+=20
+--=20
+2.21.0
 
 
