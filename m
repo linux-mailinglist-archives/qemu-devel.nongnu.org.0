@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BEFDB5BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 20:19:48 +0200 (CEST)
-Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553E4DB696
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 20:53:50 +0200 (CEST)
+Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLANH-0005J5-Cj
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 14:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58505)
+	id 1iLAuC-0003Bh-Ue
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 14:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLALs-0004Mz-KK
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:18:21 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLArk-000125-4L
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLALp-0005fW-L7
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:18:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49062)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLALp-0005fE-Dn
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:18:17 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 67F7D793F4
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 18:18:16 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id s19so1406806wmj.0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:18:16 -0700 (PDT)
+ (envelope-from <richard.henderson@linaro.org>) id 1iLAri-0000oK-Ox
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:15 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:41127)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iLAri-0000nx-Gp
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 14:51:14 -0400
+Received: by mail-pf1-x432.google.com with SMTP id q7so2206578pfh.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 11:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1nvchNn+VWtn/WVfmFkMyvJoEKsssvYDkhUOA8bdyeU=;
+ b=pjFbZYsHERgxd0UTphjzgIl1XGCwLM9sm0zge6jhrNA5FoAbgAIAGlgXOPacrBR7VZ
+ a7+LXPT9k/9cXBjB9rCUMN2itliSMl2+Sz3haIPLBT7KOd+2pxylbPfw+tUY8cTSBeK+
+ W0a6DeoKFq3LFJWolQzQt+Qr3CZFKp0OmdXYYF1knCNWgtEw9GRlaawrVLKVEFudiLSt
+ 6EC2O6LNl5GnpWwQDA0TMwoUbWyssKm189E+qG9nC70d1zE8cYNXWKd9A8MVsdDLtsyI
+ b04B8wZthi7cJUapq/NsNF3nDtD1u75iWGxKQZnccxt2IrTV+KXnxrEwbQMENM9ahcvZ
+ dd1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lpaVTB+bx8+jb/25p56LYk1n43CdvhdtwjXOqCPtJIU=;
- b=I9NWtKZkdBUAPQIQNt+/c7rPuz1eh+fRVZxE5Ecbt4NuSUY8Odz5RR2bDX7+nKq24R
- D2OYO5PiHgAPcwr3x14LiwpMb5tgAWY0spdxK1XswBeuF9qXEHpsM7MLMuB84VqvNp1y
- MxhxjcqvJT4S1Rzu2GIm81+UgYmnp+nfoNewQuXs+lZ4L2NhkRseTNR8y1qVVALlRf4/
- Vy9H8h4TAbphrKx907TgtVNB/92058vOIVMYfFdHtf9EpSxdwDAHL11lXLrHPpoNjWU2
- gJzqL52j6VzVdTKaK4+/KbbGr+32kV3Iq8YnLufHUGTM7w5lAbDkvUfHdKt5y4DF22rl
- OtJg==
-X-Gm-Message-State: APjAAAU7JMZ+Xa2ld0J16VySqt3iMX69Y/rdYsaCzFxhtESXEcz5qRX6
- 85Yj4GtLR3eSuSkX0Cio5xM81BMdVTiC75kt33vPawkClWpXsI/SmwZ2+BzxYxBHKe2s2no7/aa
- BeJpNxk050P89WOQ=
-X-Received: by 2002:a5d:51c3:: with SMTP id n3mr4258998wrv.5.1571336294638;
- Thu, 17 Oct 2019 11:18:14 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzmzo7VJ1Hp4a9B97yebAfvbgQbOJlzNcARidQ+450EHvCXnOthVkd4+Nv5hyVGUsuFbQxXMQ==
-X-Received: by 2002:a5d:51c3:: with SMTP id n3mr4258980wrv.5.1571336294341;
- Thu, 17 Oct 2019 11:18:14 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id j1sm3967644wrg.24.2019.10.17.11.18.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 11:18:13 -0700 (PDT)
-Subject: Re: [PATCH] hw/s390x: Emit a warning if user tried to enable USB
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20191017142123.1236-1-thuth@redhat.com>
- <20191017163402.43437191.cohuck@redhat.com>
- <2e689f2b-9bed-e40e-c761-6f38efaae635@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <181d44b3-3333-91a3-0003-d312e8ab4805@redhat.com>
-Date: Thu, 17 Oct 2019 20:18:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=1nvchNn+VWtn/WVfmFkMyvJoEKsssvYDkhUOA8bdyeU=;
+ b=ARP/fSzsGTwtEYOv2yZhkMPzPZa1GUIsXWktRkUrb3/ZaUizE2qvvNh8fh7Ds4FUo3
+ yoX8ebNrca6XIs8/Sqy6LedQRISXACdyIDQwUlT1K3VRIzraOtAobmFw+cQC2ssUexNT
+ ltAkOqCzlxkz5BwVA9byJU3vI9qN2vk0PncP/VwXLOmGsi+5h/hH+7YjJftuSjKTlnmK
+ +ZHejfa4QVx3wr3CKcMmcSf36nsQi/KMpxU0AyrORArEk99OCPaJMTDpC4xis4YtWFI0
+ Y5XCFciK7qDmUz7CrMp7Ics6lcIVfVRy62vCYhrJn2mGK+VQLX8ROLvlGx1nV17pV2MR
+ TTGA==
+X-Gm-Message-State: APjAAAUB0nvtm3OyekO0ffwLgWEaV4v24QL5GpbA5PATIz3dhEseaqtr
+ TQ/B+qhCoD32O1eNtzPnZ/juXyFLWxk=
+X-Google-Smtp-Source: APXvYqyNZjO93ppqdwJElqZ1A7NvGR517UUtoIcTS1W9GhXxrQUO+y8OXKSpGUNFg4rjUXW9Q0TE3g==
+X-Received: by 2002:aa7:9f9b:: with SMTP id z27mr1826642pfr.65.1571338272750; 
+ Thu, 17 Oct 2019 11:51:12 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id s97sm5009256pjc.4.2019.10.17.11.51.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Oct 2019 11:51:11 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/20] target/arm: Reduce overhead of cpu_get_tb_cpu_state
+Date: Thu, 17 Oct 2019 11:50:50 -0700
+Message-Id: <20191017185110.539-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <2e689f2b-9bed-e40e-c761-6f38efaae635@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,121 +77,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 4:40 PM, Thomas Huth wrote:
-> On 17/10/2019 16.34, Cornelia Huck wrote:
->> On Thu, 17 Oct 2019 16:21:23 +0200
->> Thomas Huth <thuth@redhat.com> wrote:
->>
->>> There is no USB on s390x, so running qemu-system-s390x with
->>> "-machine ...,usb=on" is certainly wrong. Emit a warning to make
->>> the users aware of their misconfiguration.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   After a year or two, we could finally turn this into a hard error,
->>>   but I think we should give the users some time to fix their command
->>>   lines first, so I'm initially only emitting a warning here.
->>>
->>>   hw/s390x/s390-virtio-ccw.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->>> index d3edeef0ad..af8c4c0daf 100644
->>> --- a/hw/s390x/s390-virtio-ccw.c
->>> +++ b/hw/s390x/s390-virtio-ccw.c
->>> @@ -243,6 +243,10 @@ static void ccw_init(MachineState *machine)
->>>       VirtualCssBus *css_bus;
->>>       DeviceState *dev;
->>>   
->>> +    if (machine->usb) {
->>> +        warn_report("This machine does not support USB");
->>
->> I'm wondering if this is the only machine type not supporting usb...
->> if not, how are others handling it?
-> 
-> I think most machines are silently ignoring it, like we did on s390x
-> until now, too.
-> 
->> The usb parsing code in machine.c does not care if usb is even
->> configured (CONFIG_USB).
-> 
-> machine.c is common code, so you can not use CONFIG_USB there.
+Changes since v6:
+  * Regen hflags in two more places for m-profile (patch 19).
 
-We already have:
+Changes since v5:
+  * Fix the debug assertion ifdef in the final patch.
+  * Add more calls to arm_rebuild_hflags: CPSR and M-profile
+    These become two new patches, 18 & 19.
+  * Update some comments per review. (Alex)
 
-bool target_words_bigendian(void)
-{
-#if defined(TARGET_WORDS_BIGENDIAN)
-     return true;
-#else
-     return false;
-#endif
-}
+Changes since v4:
+  * Split patch 1 into 15 smaller patches.
+  * Cache the new DEBUG_TARGET_EL field.
+  * Split out m-profile hflags separately from a-profile 32-bit.
+  * Move around non-cached tb flags as well, avoiding repetitive
+    checks for m-profile or other mutually exclusive conditions.
 
-What about something such:
+  I haven't officially re-run the performance test quoted in the
+  last patch, but I have eyeballed "perf top", and have dug into
+  the compiled code a bit, which resulted in a few of the new
+  cleanup patches (e.g. cs_base, arm_mmu_idx_el, and
+  arm_cpu_data_is_big_endian).
+...
 
--- >8 --
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3bf8..0c45ab042b 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -986,7 +986,7 @@ static void machine_finalize(Object *obj)
 
-  bool machine_usb(MachineState *machine)
-  {
--    return machine->usb;
-+    return machine_has_usb() && machine->usb;
-  }
+r~
 
-  bool machine_kernel_irqchip_allowed(MachineState *machine)
-diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index 303ac084a0..ac545cdd2e 100644
---- a/hw/usb/Makefile.objs
-+++ b/hw/usb/Makefile.objs
-@@ -1,6 +1,7 @@
-  # usb subsystem core
-  common-obj-y += core.o combined-packet.o bus.o libhw.o
-  common-obj-$(CONFIG_USB) += desc.o desc-msos.o
-+obj-y += machine.o
 
-  # usb host adapters
-  common-obj-$(CONFIG_USB_UHCI) += hcd-uhci.o
-diff --git a/hw/usb/machine.c b/hw/usb/machine.c
-new file mode 100644
-index 0000000000..5381928479
---- /dev/null
-+++ b/hw/usb/machine.c
-@@ -0,0 +1,12 @@
-+#include "qemu/osdep.h"
-+#include "hw/boards.h"
-+#include "config-devices.h"
-+
-+bool machine_has_usb(void)
-+{
-+#if defined(CONFIG_USB)
-+    return true;
-+#else
-+    return false;
-+#endif
-+}
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index be18a5c032..e4518b73b1 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -63,6 +63,7 @@ extern MachineState *current_machine;
+Richard Henderson (20):
+  target/arm: Split out rebuild_hflags_common
+  target/arm: Split out rebuild_hflags_a64
+  target/arm: Split out rebuild_hflags_common_32
+  target/arm: Split arm_cpu_data_is_big_endian
+  target/arm: Split out rebuild_hflags_m32
+  target/arm: Reduce tests vs M-profile in cpu_get_tb_cpu_state
+  target/arm: Split out rebuild_hflags_a32
+  target/arm: Split out rebuild_hflags_aprofile
+  target/arm: Hoist XSCALE_CPAR, VECLEN, VECSTRIDE in
+    cpu_get_tb_cpu_state
+  target/arm: Simplify set of PSTATE_SS in cpu_get_tb_cpu_state
+  target/arm: Hoist computation of TBFLAG_A32.VFPEN
+  target/arm: Add arm_rebuild_hflags
+  target/arm: Split out arm_mmu_idx_el
+  target/arm: Hoist store to cs_base in cpu_get_tb_cpu_state
+  target/arm: Add HELPER(rebuild_hflags_{a32,a64,m32})
+  target/arm: Rebuild hflags at EL changes
+  target/arm: Rebuild hflags at MSR writes
+  target/arm: Rebuild hflags at CPSR writes
+  target/arm: Rebuild hflags for M-profile.
+  target/arm: Rely on hflags correct in cpu_get_tb_cpu_state
 
-  void machine_run_board_init(MachineState *machine);
-  bool machine_usb(MachineState *machine);
-+bool machine_has_usb(void); /* or target_has_usb()? */
-  bool machine_kernel_irqchip_allowed(MachineState *machine);
-  bool machine_kernel_irqchip_required(MachineState *machine);
-  bool machine_kernel_irqchip_split(MachineState *machine);
+ target/arm/cpu.h           |  84 +++++---
+ target/arm/helper.h        |   4 +
+ target/arm/internals.h     |   9 +
+ hw/intc/armv7m_nvic.c      |   1 +
+ linux-user/syscall.c       |   1 +
+ target/arm/cpu.c           |   1 +
+ target/arm/helper-a64.c    |   3 +
+ target/arm/helper.c        | 383 ++++++++++++++++++++++++-------------
+ target/arm/m_helper.c      |   6 +
+ target/arm/machine.c       |   1 +
+ target/arm/op_helper.c     |   4 +
+ target/arm/translate-a64.c |  13 +-
+ target/arm/translate.c     |  33 +++-
+ 13 files changed, 368 insertions(+), 175 deletions(-)
 
----
+-- 
+2.17.1
+
 
