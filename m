@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75305DB214
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:14:30 +0200 (CEST)
-Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5346BDB223
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 18:17:51 +0200 (CEST)
+Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL8Q1-00021N-0x
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57055)
+	id 1iL8TG-0005Ex-41
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 12:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57269)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL7ez-0000C1-UZ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL7g0-0001Kx-Tf
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:26:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL7ey-0001Ni-Pz
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34612)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7ey-0001NR-IS
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:25:52 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B4E72A09A0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:25:51 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id a15so1141885wrr.0
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:25:51 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL7fx-0001g9-Iq
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:26:55 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42457)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iL7ft-0001e2-82
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:26:49 -0400
+Received: by mail-oi1-x242.google.com with SMTP id i185so2480372oif.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:26:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RElcEQnbjI0ueX4jJU1Vkz21ksOtQkwNshLlIkIneTc=;
+ b=ix2IHurVnPwWGrrF/0rNoYy0+2v9EjPCDbL1sGRALa4eHAibcEtn8UbEf+LeLYm9+x
+ zUIm6ekjDXFt+2jMESoWKt4ul71NTZptw092D97EazHhizlU/B3r4P+LT8VEjNJxUBTp
+ AU9DxofxODPjw9rE6syE9zSmOV/KhuZbo9wRmBjsPohV+H2huXLDIl1rO13A3P3x+VN1
+ Z/VDZ97g7EVm+WxcAFrSQ93wAUCj+l3iWcv5ksjR+AUKoGkepsewJJIrk6pS+QT3skBd
+ pKApKbZIFbCxpuym5xd/8xLhyTyZC1vN/uxFXNA2gFOPGppRyuOX/Kpo73CKuXHCKs20
+ qLCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kc89g+xjnJFjyDrAPHC023QzxGX9+hkBzdICbIM0Jdw=;
- b=qAAKj673GOcws6t7hwBjfoKLT60US1CY/ZakZwa1y0S86Jss8KBbYKQbZrSL+MKcuL
- JgoHlz2PFcpyNHZeObqxgoNMTtcf4TSb9Xn1TI7cGzgnyoMw+TgyjnqB2Fta1lJa4ed/
- gQWi1XZul8nqnMXKC0o5xQKiHOxDayz2irvdFYyHGpkEiP3i12Wnisv3zqbmJ7m8HWvn
- jlN2JzPXNfwSwqg5JbUpv+NQZ/ME0fhHYxICsSlTwRy7Vfrucw9DktIskBubgnr4LMQX
- qoGv664UBGwV4MyeUoMSS8g6/STVSjMfD8/hOasaEESQVhHvSc17E0xluQ3YH+mWdtdw
- +2Vw==
-X-Gm-Message-State: APjAAAVwt6C0KV8d90A9j7jbiPYyJnC2rqWoJNTWXLckFd43pqehBQZ+
- 65Eax/7uuOcu3Xkr8aVURpiNkm96oEGvYcp+AHr7RpfshBWx2LrmLcXAnO2hp94g+BSWXOSoyot
- Ok+Nn4Z1XaG3YRcg=
-X-Received: by 2002:a7b:c251:: with SMTP id b17mr3401108wmj.133.1571325950282; 
- Thu, 17 Oct 2019 08:25:50 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwaw9rvAXZBb429WL9YBWcKXv9Aj0xSOyNvKgX8lDTKmsBTAfCL/N+AvGlrYsw9TgLA7mMiew==
-X-Received: by 2002:a7b:c251:: with SMTP id b17mr3401082wmj.133.1571325949944; 
- Thu, 17 Oct 2019 08:25:49 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id t83sm3835914wmt.18.2019.10.17.08.25.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 08:25:49 -0700 (PDT)
-Subject: Re: [PATCH 3/3] hw/dma/xilinx_axidma.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191017132122.4402-1-peter.maydell@linaro.org>
- <20191017132122.4402-4-peter.maydell@linaro.org>
- <d9e7dd55-01e5-d852-bbab-84f5209abb6f@redhat.com>
- <CAFEAcA_zz=SYwD=iDgwVZcvPF4seZW9qdvfGKfmK_UaaUDF7Vg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e87fb5b4-9c97-fe6d-af4f-8fef1bc0bced@redhat.com>
-Date: Thu, 17 Oct 2019 17:25:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RElcEQnbjI0ueX4jJU1Vkz21ksOtQkwNshLlIkIneTc=;
+ b=o2bwbIKUvZWXl5l8+4N9k75HUiIVHpOTvQ6cuanlXhwCOpDF3gs+IzS/H0xBChEdpA
+ V8O9MDsnaYF4jKVCHCWjSD3GZa6tEqfT52+WbH9gU1k2lz3qNv3Wd5PfYSSVT3vnlHmq
+ sYSFXEdjpk9YgWXXC/pVnz2BVGfUDpGKSVHKJXYk0ItRDZTLkJMQcYviYCuMU8cBuGQO
+ QLAA09MfS4tan27Q5lcZy04RTL3Z2aUgdSbrlajyfAb+6SZIAH1TkueXmtL574elPREv
+ jJF5w+Me9ho5b7Iip5Oo24hQv8FHwfjxhmz2kmDEWdzncYXGFa4ZNmK2xNvcBGtEAUIt
+ ZmAg==
+X-Gm-Message-State: APjAAAVQIzVE2BoCLuR2ZzOgle943Vpqfy+VYApguRhFbUkhcckubxkJ
+ dAOQP2qZKmWae6Kc6/SV9UBGZup3OzMbnjuWs+TsNA==
+X-Google-Smtp-Source: APXvYqzsW/exCzt/L7Qy9hZJh8SProUq8umB3HFWxMYZe1cGwxmP0MtXLfjQh1aouzW/HW0D9mSHjG4H+tkOmBloWTE=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr3587184oia.48.1571326006505; 
+ Thu, 17 Oct 2019 08:26:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_zz=SYwD=iDgwVZcvPF4seZW9qdvfGKfmK_UaaUDF7Vg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191011155546.14342-1-richard.henderson@linaro.org>
+In-Reply-To: <20191011155546.14342-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Oct 2019 16:26:35 +0100
+Message-ID: <CAFEAcA_fmQKOk8k=Mo7MvuKvAq9Zb90xtQ0RdaxyMdLGZUwY0Q@mail.gmail.com>
+Subject: Re: [PATCH v6 00/20] target/arm: Reduce overhead of
+ cpu_get_tb_cpu_state
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,87 +72,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 5:06 PM, Peter Maydell wrote:
-> On Thu, 17 Oct 2019 at 16:01, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com> wrote:
->>
->> Hi Peter,
->>
->> On 10/17/19 3:21 PM, Peter Maydell wrote:
->>> Switch the xilinx_axidma code away from bottom-half based ptimers to
->>> the new transaction-based ptimer API.  This just requires adding
->>> begin/commit calls around the various places that modify the ptimer
->>> state, and using the new ptimer_init() function to create the timer.
->>>
->>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>    hw/dma/xilinx_axidma.c | 9 +++++----
->>>    1 file changed, 5 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
->>> index e035d1f7504..fb3a978e282 100644
->>> --- a/hw/dma/xilinx_axidma.c
->>> +++ b/hw/dma/xilinx_axidma.c
->>> @@ -31,7 +31,6 @@
->>>    #include "hw/ptimer.h"
->>>    #include "hw/qdev-properties.h"
->>>    #include "qemu/log.h"
->>> -#include "qemu/main-loop.h"
->>>    #include "qemu/module.h"
->>>
->>>    #include "hw/stream.h"
->>> @@ -104,7 +103,6 @@ enum {
->>>    };
->>>
->>>    struct Stream {
->>> -    QEMUBH *bh;
->>>        ptimer_state *ptimer;
->>>        qemu_irq irq;
->>>
->>> @@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
->>>        unsigned int comp_delay;
->>>
->>>        /* Start the delayed timer.  */
->>> +    ptimer_transaction_begin(s->ptimer);
->>>        comp_delay =3D s->regs[R_DMACR] >> 24;
->>>        if (comp_delay) {
->>>            ptimer_stop(s->ptimer);
->>> @@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
->>>            s->regs[R_DMASR] |=3D DMASR_IOC_IRQ;
->>>            stream_reload_complete_cnt(s);
->>>        }
->>> +    ptimer_transaction_commit(s->ptimer);
->>
->> I'd restrict the transaction here within the if() statement:
->>
->> -- >8 --
->> @@ -244,9 +244,11 @@ static void stream_complete(struct Stream *s)
->>        /* Start the delayed timer.  */
->>        comp_delay =3D s->regs[R_DMACR] >> 24;
->>        if (comp_delay) {
->> +        ptimer_transaction_begin(s->ptimer);
->>            ptimer_stop(s->ptimer);
->>            ptimer_set_count(s->ptimer, comp_delay);
->>            ptimer_run(s->ptimer, 1);
->> +        ptimer_transaction_commit(s->ptimer);
->>        }
->>
->>        s->complete_cnt--;
->=20
-> The timer_hit callback function itself writes to
-> s->complete_cnt, so we don't want to allow it to
-> be called (via the commit()) before stream_complete()
-> is done with changing that state.
+On Fri, 11 Oct 2019 at 16:55, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> Richard Henderson (20):
+>   target/arm: Split out rebuild_hflags_common
+>   target/arm: Split out rebuild_hflags_a64
+>   target/arm: Split out rebuild_hflags_common_32
+>   target/arm: Split arm_cpu_data_is_big_endian
+>   target/arm: Split out rebuild_hflags_m32
+>   target/arm: Reduce tests vs M-profile in cpu_get_tb_cpu_state
+>   target/arm: Split out rebuild_hflags_a32
+>   target/arm: Split out rebuild_hflags_aprofile
+>   target/arm: Hoist XSCALE_CPAR, VECLEN, VECSTRIDE in
+>     cpu_get_tb_cpu_state
+>   target/arm: Simplify set of PSTATE_SS in cpu_get_tb_cpu_state
+>   target/arm: Hoist computation of TBFLAG_A32.VFPEN
+>   target/arm: Add arm_rebuild_hflags
+>   target/arm: Split out arm_mmu_idx_el
+>   target/arm: Hoist store to cs_base in cpu_get_tb_cpu_state
+>   target/arm: Add HELPER(rebuild_hflags_{a32,a64,m32})
+>   target/arm: Rebuild hflags at EL changes
+>   target/arm: Rebuild hflags at MSR writes
+>   target/arm: Rebuild hflags at CPSR writes
+>   target/arm: Rebuild hflags for M-profile.
+>   target/arm: Rely on hflags correct in cpu_get_tb_cpu_state
 
-Indeed we have timer_hit() -> stream_reload_complete_cnt() which uses=20
-s->complete_cnt.
+Don't we also need to do something to rebuild the hflags
+for M-profile writes to the memory mapped system registers?
+For instance rebuild_hflags_m32() bakes in state which
+cares about env->v7m.ccr, which is set via nvic_writel(),
+but I don't see anything whereby the write to the NVIC
+register triggers a rebuild of the hflags value. Maybe I
+missed it?
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+thanks
+-- PMM
 
