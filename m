@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59768DAE35
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:25:40 +0200 (CEST)
-Received: from localhost ([::1]:47392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55504DAE5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 15:29:50 +0200 (CEST)
+Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL5md-000118-5O
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33877)
+	id 1iL5qe-0006W0-Tv
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 09:29:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5df-00080P-SU
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5dm-00089n-R7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iL5de-0005PC-OX
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:23 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35617)
+ (envelope-from <alex.bennee@linaro.org>) id 1iL5dl-0005VP-O6
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:30 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55433)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iL5de-0005NS-Ij
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:22 -0400
-Received: by mail-wr1-x431.google.com with SMTP id l10so1903837wrb.2
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:22 -0700 (PDT)
+ id 1iL5dl-0005Uo-Hv
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 09:16:29 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a6so2518117wma.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 06:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eKrMpcgiWZC+DVZc7vkQy9WeCAb7Sz4gQtueyAwrb/8=;
- b=v5xN3JkuIt3wd6wuymwE0JqYIExwsxOuaFlP8UbfenSQRQlq7nm5pKzNCAWfSHg0iP
- P5f6UOXqVGD0f6/3mx5gVKJ8HzKoDQ7xTIj2WInqLRug/7jM9c2mfhcFedT8X72G9nEj
- XhfinKMtEc4aQlfS7J49ZpV6N+c3vg4Qez+p60LTzFp+2up3pUqBePdWzp9AAhHGGirQ
- lpLS8tC+wij/+qbgoi7RlIJ2Ut3zABqgRAfEMCgSaJG37ZVXBQCpXwjJgrUz2+W4WGO9
- wXrxCeyX186iYd5IkreeA/oQ+AuUe+ERqLYf+KZ2bqvdcfdTNPtWWHYJrBQUzeuFQ5wG
- WNzA==
+ bh=t6U3oBlc6u1UdxE1uAu8xMOurpvpIFfvpufH8BjBIdw=;
+ b=FNlWDAB+eSG4X+dD6IMQrw4QZ9OrnDkuhOJyxyFk4H1+DT2B6LZSbYBrq/k5E2IW4G
+ mmp2PvfMCRhvL64CX4xqqAvvWYwqXlRToGPrr1skOD2XOURQpVZyK6LZsI6NfDzn0tlZ
+ ruNRp3DWjs2DSmUjE2hZoHBn01YZeYCNK0HdfizIHNY8rJ/brhM+6BSGyUWaXn/lK+FG
+ /qBHCUzkfBY6LzmeiaaMGjJCuODT0vu4u0Z8gXG09Ah0917f00cjsmcFL+9klhiTR0r5
+ tsfNNS/GGsWUTCdNTfRdLzuQDshFWKBvtkRXhdpdgb/LR+G3UcCpYxvEOoSPYzZibQzi
+ yfzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eKrMpcgiWZC+DVZc7vkQy9WeCAb7Sz4gQtueyAwrb/8=;
- b=SsZ8awDeqWOLC14HfnctaEuMkA+Z6eBc4I8dK8DOnpg/H9zDCYAr3oPlUIw6cZc3Sv
- GBDtlKoS1rFLEcvEvP1Vvlo8lkIgfSGOFwql/1qtFvX5Mxpp9XdNOPJteDGoUgi8bBfx
- rv3qyQ16gHn4Wjfb5aTxXVVbQQv+PdOGlVrWsAJ81vvVO42QqZHiafwKEOnC7iOrJQCi
- 2re9MafutsXfdBns1u3tXVyHilPYww0pUWJE+HZtk/TZn134C5ReKVRGTUCCioyabylm
- Os+zayNjZg2QRfZ3UuSa5eV7NuLCuEy85SGqi542Aq5i3jsDfyoQf46VcpKUCz+lLfon
- wU4A==
-X-Gm-Message-State: APjAAAWeU+3mQvUX3siPEnk+yXIyI8T8F1skTzqzbQ5zKAayt5wpOCWX
- iZvbKVSfkB0IWpF/pQsVzXJ0fyFx+sc=
-X-Google-Smtp-Source: APXvYqxTU+TcFxdnz+Z8i3jLUf1hYb1KSG7sVBB8OFNC9HTKLLWAUE/yXZz3jeWOVkH5Hq+4vUoUkg==
-X-Received: by 2002:adf:ef0f:: with SMTP id e15mr3146256wro.312.1571318181446; 
- Thu, 17 Oct 2019 06:16:21 -0700 (PDT)
+ bh=t6U3oBlc6u1UdxE1uAu8xMOurpvpIFfvpufH8BjBIdw=;
+ b=BB9QC5w8x+FMR9Pi9KPd/wspJeX1Omr/lsD6bDpKnFW8jVzWs3Lm78+vGcsyfaCRQb
+ uDbJyF2yE/DhDnoYf7JzVTiPD3jnkPiU4T7jdeNP0hlMz2bJ3SFOC9SjCuioCXXEy8qU
+ 7bSb13P+K5woH/Nad/TsHjfupTdox3GJgpOGC3XWO3BSKc1Pb/A0vpYcN1iUy2JlpYh1
+ J5qjVS2ugDfIZ5KPo1vjRtkmoKeJxJ47EWuw4kcvJkjZ3E1NHNFzW0w0yJ3t0BCJPB4s
+ M7XP052LXLRwKAheN2NnVF88e6Akk3FA+aU67F44PQaJ6Hn9CQkbdgQ0CD3zM0NmKmZr
+ I/HQ==
+X-Gm-Message-State: APjAAAVq6CvxpbU2e7IVb/XdBBYEqcN4cEbtMJpmOy/zgvQz+yiinrr/
+ Q1RpQ2SA8bQFZXpTLqEaqKBf0d7b6uM=
+X-Google-Smtp-Source: APXvYqyCz/TAbJtkF7w8mLE8QGn1miTqK1/c66pfZfczCQdspSlGncqvxLlMOELn4Pt6/g/UFVofcQ==
+X-Received: by 2002:a7b:cf28:: with SMTP id m8mr3075893wmg.161.1571318188466; 
+ Thu, 17 Oct 2019 06:16:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q14sm2681495wre.27.2019.10.17.06.16.19
+ by smtp.gmail.com with ESMTPSA id u1sm2020353wmc.38.2019.10.17.06.16.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Oct 2019 06:16:21 -0700 (PDT)
+ Thu, 17 Oct 2019 06:16:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EEDD81FF9C;
- Thu, 17 Oct 2019 14:16:16 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id E802B1FFA9;
+ Thu, 17 Oct 2019 14:16:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 12/54] tcg: add tcg_gen_st_ptr
-Date: Thu, 17 Oct 2019 14:15:33 +0100
-Message-Id: <20191017131615.19660-13-alex.bennee@linaro.org>
+Subject: [PATCH  v6 21/54] plugin-gen: add plugin_insn_append
+Date: Thu, 17 Oct 2019 14:15:42 +0100
+Message-Id: <20191017131615.19660-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191017131615.19660-1-alex.bennee@linaro.org>
 References: <20191017131615.19660-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,38 +84,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: robert.foley@futurewei.com,
  Richard Henderson <richard.henderson@linaro.org>, peter.puhov@futurewei.com,
  aaron@os.amperecomputing.com, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Will gain a user soon.
+By adding it to plugin-gen's header file, we can export is as
+an inline, since tcg.h is included in the header (we need tcg_ctx).
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+[AJB: use g_byte_array]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-op.h | 5 +++++
- 1 file changed, 5 insertions(+)
+v3
+  - use g_byte_array
+---
+ include/exec/plugin-gen.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/tcg/tcg-op.h b/tcg/tcg-op.h
-index e9cf172762..7c778f96f3 100644
---- a/tcg/tcg-op.h
-+++ b/tcg/tcg-op.h
-@@ -1249,6 +1249,11 @@ static inline void tcg_gen_ld_ptr(TCGv_ptr r, TCGv_ptr a, intptr_t o)
-     glue(tcg_gen_ld_,PTR)((NAT)r, a, o);
- }
+diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
+index de519883b1..4834a9e2f4 100644
+--- a/include/exec/plugin-gen.h
++++ b/include/exec/plugin-gen.h
+@@ -27,6 +27,17 @@ void plugin_gen_insn_end(void);
+ void plugin_gen_disable_mem_helpers(void);
+ void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info);
  
-+static inline void tcg_gen_st_ptr(TCGv_ptr r, TCGv_ptr a, intptr_t o)
++static inline void plugin_insn_append(const void *from, size_t size)
 +{
-+    glue(tcg_gen_st_, PTR)((NAT)r, a, o);
++    struct qemu_plugin_insn *insn = tcg_ctx->plugin_insn;
++
++    if (insn == NULL) {
++        return;
++    }
++
++    insn->data = g_byte_array_append(insn->data, from, size);
 +}
 +
- static inline void tcg_gen_discard_ptr(TCGv_ptr a)
- {
-     glue(tcg_gen_discard_,PTR)((NAT)a);
+ #else /* !CONFIG_PLUGIN */
+ 
+ static inline
+@@ -51,6 +62,9 @@ static inline void plugin_gen_disable_mem_helpers(void)
+ static inline void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info)
+ { }
+ 
++static inline void plugin_insn_append(const void *from, size_t size)
++{ }
++
+ #endif /* CONFIG_PLUGIN */
+ 
+ #endif /* QEMU_PLUGIN_GEN_H */
 -- 
 2.20.1
 
