@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7D9DAAC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 13:05:21 +0200 (CEST)
-Received: from localhost ([::1]:43776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1988DAADE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 13:08:56 +0200 (CEST)
+Received: from localhost ([::1]:43882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL3aq-0007CL-I1
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 07:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42825)
+	id 1iL3eK-0002Qs-2U
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 07:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL3Xp-0005PB-V2
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:02:15 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iL3cy-0001di-4D
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:07:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL3Xo-0004bx-4y
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:02:13 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38486)
+ (envelope-from <peter.maydell@linaro.org>) id 1iL3cu-0006UZ-W7
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:07:31 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:33092)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL3Xn-0004bR-MN
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:02:11 -0400
-Received: by mail-ot1-x341.google.com with SMTP id e11so1503210otl.5
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 04:02:11 -0700 (PDT)
+ id 1iL3cu-0006UB-Mz
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 07:07:28 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id 60so1540682otu.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 04:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wy6z/9IYH6VJTvm+8SyXRWMlDA5S6JAqstIePYsS06s=;
- b=EwViSre+XwgvgxTsb0S00DXGOeg6dSCLWdSBPW9r5mhmUvPB7r1LEwhFgs0V5b6SrW
- IieM+aTfw8FXDUbwz2mVZMtV7XkOajniZMgX+XxeikO6tnouqnNEtcnuwMOrglvkbW9U
- sQa1fmvbX5FbGFwSMdp9FfQ+cCWQNtg6JZwxsPcAV3m18QZePBNNvaQtiNIMiGXhlEV+
- aM7d3iCV14AjA/Yshn0+I42v8scLR4XFwyYa2nhw4n6KIGpMysgURfG9rF2ZOu4mhy1I
- eYN0JHsLqsWMqzQl0/FBCbY28boNgQN3OjOFfIsXpBynJNTEPPahqBlfngJYbbWm5cNy
- CeWA==
+ :cc; bh=yflYfJZdpSKhQehPVlDVeDVRRiv3m808csZYgjO5bms=;
+ b=jr5HsdGrRrfJSB06fD2yUiUNHRD32B2WOTwUe03U9NrEwv2e21XcUHWoUBh8K0tA8N
+ 733CdLwsDC7Kyx15+CSFgMr/eB504AuGKCPGOD5ASW2u9W/o8rLq3DO1KiGTtWMH1K8G
+ dn+dgauq05MVwKZMNA2DHxM+Ku6R7NIVgvddEMOmoYEAfAL9Y2QQs1ova86tCyNgS1on
+ ACVCrdICn5eSZvFThNa7lxaPRDpUnfRgD1g7uI8XkYsp3Bjcgqx3+Ih0f5h3ZMOFk32/
+ sI8M3nNmd1GL/HDhkkBoE30CHgqXve71GJmT4ZEw7sUQ9FTTTsKt1JIqX4vNe/XhZyjp
+ G8wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wy6z/9IYH6VJTvm+8SyXRWMlDA5S6JAqstIePYsS06s=;
- b=FTBxpjs4a4w22N/2w/wJOwlDBZqsT8hguJWH9X/4o1y5N4NZHigprmFc6nJ9Y5npYU
- EO32fSUmPbxtbGXw6C2X9Rv7DnP1vZqZEQVMpVCLY4s4hpIcQki1FJDP/+ZdIWzskuZ0
- mMtamJGHmUjJFk3euuRh0BLLi7LqicxVc4EeMY3Yy7w+UlGE5L/nZjqJ4EAsfK5HRCDd
- /BNE4J1gALKGAu5H42s1z12MH6WAmWRejj03ArvPXM01IwGVWxwACVbovehZKKJRaABf
- t89QRXaQ+uIe/P4ywWT1CbQwu6MTaV754KJkHW3hiSAjgmuzqYq+fzmZUoHmDhpESnQ0
- Sixg==
-X-Gm-Message-State: APjAAAX0ePloN7XnPcSNtC+Yuc4KV2hZpCK7hGSVBF7s74c4sDlLbT6F
- VH1Wq8IE+CYqIHbXWmlEyKnfS1/v/OXjgasi6n1BjQ==
-X-Google-Smtp-Source: APXvYqzTnnqSlScS7C7jtqGJgjmOZ1/xfrxa1tn73U4CeRujNmUmC7xRinDsGDPOBXr+XKCebM+/zHrl81QR3kzf0sg=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr2495082otj.135.1571310130468; 
- Thu, 17 Oct 2019 04:02:10 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=yflYfJZdpSKhQehPVlDVeDVRRiv3m808csZYgjO5bms=;
+ b=jdBq65ERtfGOUB5N14qt1nNwnE4JJqnZGnPZZRXJdGfEdIYmSY9DEBM3wvU+d8fU1p
+ D08v6URvXlytlZ0srsjmydv+cikbYhJgSWVZbjVETgRP+kvsOaT2tC+H2+vpez2nnRYT
+ mBloCFwD5rOqiIQoq2vMP7SKW67z7b0ThFu9G9L7rznfcmV4QpD9Tq1qHmYliy1Inzll
+ fg8pAvXu8MoQfql2isiDy9z8Gm1TdC/csTDAprirDBxeQPsToa2KMNkDuj2K8YdxYarV
+ 8sNi0D0BNvlYqWXlbMeECMjIz3+blE0DBonW4Ym4AARm+e5VtRKQwEYTRscr45MeOU2b
+ AQ2A==
+X-Gm-Message-State: APjAAAWlVeu+c4mt8n+PGQgaMtbx9tq1keAsSmu8R4OBOY+aw9+jnPMp
+ jOFZ39L/rBbkhFZkC88slH7W6LnOXiZBFhAiMHAB1A==
+X-Google-Smtp-Source: APXvYqw/WcprTWHR98a2x8irlreUGYTyOvmQDHbvyg8qac4fIHWaDqtBb8x4BEsy6NcNGEEZ2TAP44ID3V1cBtI/pHw=
+X-Received: by 2002:a05:6830:4c1:: with SMTP id
+ s1mr2615801otd.232.1571310447420; 
+ Thu, 17 Oct 2019 04:07:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFEAcA-jutAw2KFBDX9v=Q7LQ8_Mj0AHB79wi74hoW6J81fbhw@mail.gmail.com>
- <71badd7c-a9f0-ef91-5477-623389aa52fd@redhat.com>
- <CAFEAcA-0aYLbEoWf_ZeTxoLdKNaeFESyiuHi5KYG9kdUWaAJtg@mail.gmail.com>
- <1b52f4fb-c8e7-ecbd-9db4-32e7e9c5f1b5@redhat.com>
-In-Reply-To: <1b52f4fb-c8e7-ecbd-9db4-32e7e9c5f1b5@redhat.com>
+References: <20191014192909.16044-1-jsnow@redhat.com>
+In-Reply-To: <20191014192909.16044-1-jsnow@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 12:01:59 +0100
-Message-ID: <CAFEAcA8xi5DLiErOfjm4PeGmtV15886ERY=6K7YSMq5onoMnMw@mail.gmail.com>
-Subject: Re: iotest 260 failure (linux host): "OSError: AF_UNIX path too long"
-To: Max Reitz <mreitz@redhat.com>
+Date: Thu, 17 Oct 2019 12:07:16 +0100
+Message-ID: <CAFEAcA91Yr3g5V9GdV5FbctQjQG5MiCgf7mk-MnsYmdx+63TYg@mail.gmail.com>
+Subject: Re: [PULL v2 00/19] Bitmaps patches
+To: John Snow <jsnow@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,35 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Libvirt <libvir-list@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Oct 2019 at 11:20, Max Reitz <mreitz@redhat.com> wrote:
+On Mon, 14 Oct 2019 at 20:29, John Snow <jsnow@redhat.com> wrote:
 >
-> On 17.10.19 12:04, Peter Maydell wrote:
-> > On Thu, 17 Oct 2019 at 10:53, Max Reitz <mreitz@redhat.com> wrote:
-> >>
-> >> On 17.10.19 11:51, Peter Maydell wrote:
-> >>> I just got this iotest 260 failure processing an
-> >>> unrelated merge on my x86-64 Ubuntu box. I assume
-> >>> it's an intermittent (have just kicked off a retry) but
-> >>> post the backtrace in case it's of interest:
-> >>
-> >> I hope it=E2=80=99s intermittent, although I presume it might not be.
-> >
-> > It has indeed failed again. Is there some way to get the
-> > build to pick a shorter test directory name, or to get
-> > 'make check' to skip the iotests, so I can proceed with
-> > testing until that fix lands?
+> The following changes since commit c760cb77e511eb05094df67c1b30029a952efa35:
 >
-> Yes, you can set the $TEST_DIR environment variable to a shorter scratch
-> path.
+>   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20191011a' into staging (2019-10-14 16:09:52 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/jnsnow/qemu.git tags/bitmaps-pull-request
+>
+> for you to fetch changes up to b2ca29ee390743c42a6062d44ee3b10fb51f9fa6:
+>
+>   dirty-bitmaps: remove deprecated autoload parameter (2019-10-14 15:28:17 -0400)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> ----------------------------------------------------------------
 
-Thanks, that works. It turns out that it wasn't "an unrelated
-merge", I was confused. It's a merge that adds iotest 260,
-which is why I hadn't seen the failure before.
+Hi; this pullreq fails on some hosts on the newly added iotest 260
+with an "AF_UNIX path too long" error:
+https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg04063.html
 
+Max tells me that this is a known problem (a fix is in the works)
+but that for the moment we've chosen not to add any python based
+tests to the 'auto' group, so that this AF_UNIX issue doesn't
+affect "make check". Could you respin the pullreq with the
+new iotest(s?) not in the 'auto' group, please?
+
+thanks
 -- PMM
 
