@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4D2DB19C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:56:04 +0200 (CEST)
-Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AC0DB1A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:58:52 +0200 (CEST)
+Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL88B-0002yk-20
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52850)
+	id 1iL8At-0006hV-BH
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iL7Gr-0001tq-QZ
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:02 -0400
+ (envelope-from <philmd@redhat.com>) id 1iL7HT-0002YY-Eo
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iL7Gq-00057w-BO
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:00:57 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46167)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iL7Gq-000579-5w
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:00:56 -0400
-Received: by mail-oi1-x243.google.com with SMTP id k25so2380290oiw.13
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:00:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IsaDImg1iWjxY0xe9YeJsmhuk7gmS80rLExZgryFhNk=;
- b=vZ7NZrWdNbRdqSRGTdUaMesaRfDG9i7A2MP5GUlVlsc5rdo5AiDGRAGhBEPNAYwDdJ
- TRZujaCKBISbunl+KFNY/esEPybQMV0kjCnfSzh7vDrhqbNkjpiw6sm3D5GdHJTqevhB
- 0z1vaOKqTPZtNtCEkxlpY8NRig3LKv3QvCqkqVJBO2OxK3iAP1ttBqfQ+vuq3I6eAdT8
- IwY+HMJcsjUKaFh0nqL1yOpu6qveZWIhs4O6NqxT8nktWyoSzHbfxV4Sk0yVOgruW2gR
- 4PW0Pfx2cbl/8hGARMKz+uin+6mYeXXpFcTHGI/zcqdKQ4AsUflav3RaHYyIAp/uEauV
- 1IHw==
+ (envelope-from <philmd@redhat.com>) id 1iL7HS-0005TO-67
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58796)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL7HR-0005So-Tb
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 11:01:34 -0400
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A6CD42BFDD
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 15:01:32 +0000 (UTC)
+Received: by mail-wr1-f70.google.com with SMTP id a15so1107725wrr.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 08:01:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IsaDImg1iWjxY0xe9YeJsmhuk7gmS80rLExZgryFhNk=;
- b=M/BGXXnSUR7ylLnYZVyUcFaLv2CuBTU092h9YoT2sTqoueruZlmRUyFsk70bMq0ake
- 19yMcv95k9/MkaDy6uBfDcW9eavRauWA+6yVRR4mksin4u47NHKGrII6GOJVrre49/wp
- vheFF2WQndx2HJgI4/EJWBl0iZZO7Ix+9r2v1KJykrBvxd/Ha8wALMrnB8dSBg7zmtnV
- 8W6Kw6+5IKF6vos+alUSs8S6B5DcgKTvErYdwbYY5ZLQSKWSQ7dqRnjwMpONwNKu9XEf
- uLfCeXHxpbmOseh/bgOI5pzF1PlH9F9cHVWTeea/dw3szwE+eZk66ByapXxmybY7hqoO
- 6NGw==
-X-Gm-Message-State: APjAAAUGLPfJ9nBPllrK/rsbm+lyfhDTydzI8OskrCmJ1fxfHHTeqokf
- A0C7qsBAepepsWXEYUqbGndleMiIVecgGytqelCZt6ObtEo=
-X-Google-Smtp-Source: APXvYqx8JLmvXJ5k87dBM1jD7PlQy6Yu3WYzxJFN8zB3gGFJP4rNdmgROXXhsO2QOYVYqUpHSNynPoZ+pVueYmv1LNE=
-X-Received: by 2002:a54:4e83:: with SMTP id c3mr3654746oiy.170.1571324455212; 
- Thu, 17 Oct 2019 08:00:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191017132351.4762-1-peter.maydell@linaro.org>
- <20191017132351.4762-3-peter.maydell@linaro.org>
- <2210f783-1159-1263-dfff-3bd84111e2f5@redhat.com>
-In-Reply-To: <2210f783-1159-1263-dfff-3bd84111e2f5@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Oct 2019 16:00:43 +0100
-Message-ID: <CAFEAcA_jYjN=pQ719kbrRGXF2f8uDg_uj1r_dO0320qqB1Nppg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/timer/slavio_timer.c: Switch to transaction-based
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xiOnFR8zeJSyvv//++lhxYz9K3RkXaCChwBO1zVkPGg=;
+ b=gzW6UlihitBTqDL6waqfvw6NqgrO/oPCQm4CyteGNWkax+FOLyJ0jP5PowVKOIH8MN
+ VseRfy6tWrIW+Y5eVxPftS8XpIbIuiEnM0KQUl2NcUBlFpWNgwuNkLSOguhwNzim4CqO
+ c9r/a/hIbIY7f8IozUfDQaoERwXhCanhFiMUkiWoZvgxnFyhEMSxWbvaqPObzkmZelg5
+ hMnKFDXoIZgzMROLELSDHMLeb329fcB2Pq/GqV+KSsQvqrS4h4jtsXA2zPSgTaDmmr2h
+ YvR1ABTlePK5qi7N8IKPi+PdE9j3XfzeVizh3zG2Z7pSqTjtdcgRfCtp44B1XsFm7PLM
+ TQQA==
+X-Gm-Message-State: APjAAAXfdquoCDw294vg0dAEIDEj2xFLvoqc1Ybstx237KfrQx7MTUVC
+ Doc+gXTolejv+T+9aZBvkN15u92qxAD6I52hZcHE3iN/sT4/ipGBxN/Zg6tR0/DEs6PX8zpP/DZ
+ TMJYCZDpYt203gPg=
+X-Received: by 2002:a5d:43c3:: with SMTP id v3mr2405937wrr.41.1571324491305;
+ Thu, 17 Oct 2019 08:01:31 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqxA6d2Hy6pdi7bRZ5QA97IcbCVTsGGAEZIPU66MiL6mlVfpOXVUxeXl8KiZ3J1x7rvUraCTTA==
+X-Received: by 2002:a5d:43c3:: with SMTP id v3mr2405905wrr.41.1571324491113;
+ Thu, 17 Oct 2019 08:01:31 -0700 (PDT)
+Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
+ [88.26.246.243])
+ by smtp.gmail.com with ESMTPSA id 3sm2325311wmo.22.2019.10.17.08.01.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Oct 2019 08:01:30 -0700 (PDT)
+Subject: Re: [PATCH 3/3] hw/dma/xilinx_axidma.c: Switch to transaction-based
  ptimer API
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132122.4402-1-peter.maydell@linaro.org>
+ <20191017132122.4402-4-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d9e7dd55-01e5-d852-bbab-84f5209abb6f@redhat.com>
+Date: Thu, 17 Oct 2019 17:01:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191017132122.4402-4-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,101 +82,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>
+Cc: Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Oct 2019 at 15:54, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Hi Peter,
->
-> On 10/17/19 3:23 PM, Peter Maydell wrote:
-> > Switch the slavio_timer code away from bottom-half based ptimers to
-> > the new transaction-based ptimer API.  This just requires adding
-> > begin/commit calls around the various places that modify the ptimer
-> > state, and using the new ptimer_init() function to create the timer.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >   hw/timer/slavio_timer.c | 20 ++++++++++++++++----
-> >   1 file changed, 16 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-> > index 692d213897d..0e2efe6fe89 100644
-> > --- a/hw/timer/slavio_timer.c
-> > +++ b/hw/timer/slavio_timer.c
-> > @@ -30,7 +30,6 @@
-> >   #include "hw/sysbus.h"
-> >   #include "migration/vmstate.h"
-> >   #include "trace.h"
-> > -#include "qemu/main-loop.h"
-> >   #include "qemu/module.h"
-> >
-> >   /*
-> > @@ -213,6 +212,7 @@ static void slavio_timer_mem_writel(void *opaque, h=
-waddr addr,
-> >       saddr =3D addr >> 2;
-> >       switch (saddr) {
-> >       case TIMER_LIMIT:
-> > +        ptimer_transaction_begin(t->timer);
-> >           if (slavio_timer_is_user(tc)) {
-> >               uint64_t count;
->
->
-> This part is odd since there is a check on t->timer !=3D NULL later, and
-> ptimer_transaction_commit() can't take NULL.
+Hi Peter,
 
-Hmm, I hadn't noticed that. I think the bug is the check
-for NULL, though, beacuse the slavio_timer_init() function
-always initializes all the timer pointers, so there's
-no situation where the pointer can be non-NULL as far
-as I can see. So I think I'd rather fix this by removing
-the NULL pointer check...
+On 10/17/19 3:21 PM, Peter Maydell wrote:
+> Switch the xilinx_axidma code away from bottom-half based ptimers to
+> the new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/dma/xilinx_axidma.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+> index e035d1f7504..fb3a978e282 100644
+> --- a/hw/dma/xilinx_axidma.c
+> +++ b/hw/dma/xilinx_axidma.c
+> @@ -31,7 +31,6 @@
+>   #include "hw/ptimer.h"
+>   #include "hw/qdev-properties.h"
+>   #include "qemu/log.h"
+> -#include "qemu/main-loop.h"
+>   #include "qemu/module.h"
+>   
+>   #include "hw/stream.h"
+> @@ -104,7 +103,6 @@ enum {
+>   };
+>   
+>   struct Stream {
+> -    QEMUBH *bh;
+>       ptimer_state *ptimer;
+>       qemu_irq irq;
+>   
+> @@ -242,6 +240,7 @@ static void stream_complete(struct Stream *s)
+>       unsigned int comp_delay;
+>   
+>       /* Start the delayed timer.  */
+> +    ptimer_transaction_begin(s->ptimer);
+>       comp_delay = s->regs[R_DMACR] >> 24;
+>       if (comp_delay) {
+>           ptimer_stop(s->ptimer);
+> @@ -255,6 +254,7 @@ static void stream_complete(struct Stream *s)
+>           s->regs[R_DMASR] |= DMASR_IOC_IRQ;
+>           stream_reload_complete_cnt(s);
+>       }
+> +    ptimer_transaction_commit(s->ptimer);
 
+I'd restrict the transaction here within the if() statement:
 
-> > @@ -255,13 +258,16 @@ static void slavio_timer_mem_writel(void *opaque,=
- hwaddr addr,
-> >       case TIMER_COUNTER_NORST:
-> >           // set limit without resetting counter
-> >           t->limit =3D val & TIMER_MAX_COUNT32;
-> > +        ptimer_transaction_begin(t->timer);
-> >           if (t->limit =3D=3D 0) { /* free-run */
-> >               ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(TIMER_MAX_COU=
-NT32), 0);
-> >           } else {
-> >               ptimer_set_limit(t->timer, LIMIT_TO_PERIODS(t->limit), 0)=
-;
-> >           }
-> > +        ptimer_transaction_commit(t->timer);
-> >           break;
-> >       case TIMER_STATUS:
-> > +        ptimer_transaction_begin(t->timer);
-> >           if (slavio_timer_is_user(tc)) {
->
-> I'd move the begin() here.
+-- >8 --
+@@ -244,9 +244,11 @@ static void stream_complete(struct Stream *s)
+      /* Start the delayed timer.  */
+      comp_delay = s->regs[R_DMACR] >> 24;
+      if (comp_delay) {
++        ptimer_transaction_begin(s->ptimer);
+          ptimer_stop(s->ptimer);
+          ptimer_set_count(s->ptimer, comp_delay);
+          ptimer_run(s->ptimer, 1);
++        ptimer_transaction_commit(s->ptimer);
+      }
 
-This would be awkward because then it won't neatly nest with
-the commit call unless you add an extra if() for the
-commit or otherwise rearrange/duplicate code...
+      s->complete_cnt--;
+---
 
-> >               // start/stop user counter
-> >               if (val & 1) {
-> > @@ -273,6 +279,7 @@ static void slavio_timer_mem_writel(void *opaque, h=
-waddr addr,
-> >               }
-> >           }
-> >           t->run =3D val & 1;
-> > +        ptimer_transaction_commit(t->timer);
-
-...because the commit should come after we have finished
-updating the timer state (t->run in this case), because
-the trigger callback slavio_timer_irq() otherwise sees
-inconsistent half-updated state if commit() calls it.
-
-thanks
--- PMM
+>   }
+>   
+>   static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
+> @@ -551,9 +551,10 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
+>           struct Stream *st = &s->streams[i];
+>   
+>           st->nr = i;
+> -        st->bh = qemu_bh_new(timer_hit, st);
+> -        st->ptimer = ptimer_init_with_bh(st->bh, PTIMER_POLICY_DEFAULT);
+> +        st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
+> +        ptimer_transaction_begin(st->ptimer);
+>           ptimer_set_freq(st->ptimer, s->freqhz);
+> +        ptimer_transaction_commit(st->ptimer);
+>       }
+>       return;
+>   
+> 
 
