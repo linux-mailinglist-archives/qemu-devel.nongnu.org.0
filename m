@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2407DA530
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B9ADA531
 	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 07:44:52 +0200 (CEST)
-Received: from localhost ([::1]:35492 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKyah-0002tO-Mc
+	id 1iKyah-0002uQ-Nf
 	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 01:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44351)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iKyYO-00016J-Ij
+ (envelope-from <dgibson@ozlabs.org>) id 1iKyYO-00016G-CB
  for qemu-devel@nongnu.org; Thu, 17 Oct 2019 01:42:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iKyYN-0005Id-AJ
+ (envelope-from <dgibson@ozlabs.org>) id 1iKyYN-0005IW-3V
  for qemu-devel@nongnu.org; Thu, 17 Oct 2019 01:42:28 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:58097)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54863 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iKyYM-0005HW-Uu; Thu, 17 Oct 2019 01:42:27 -0400
+ id 1iKyYL-0005Ha-RY; Thu, 17 Oct 2019 01:42:27 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46tyjT2l0wz9sP3; Thu, 17 Oct 2019 16:42:21 +1100 (AEDT)
+ id 46tyjT3yNPz9sPJ; Thu, 17 Oct 2019 16:42:21 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571290941;
- bh=rWmaGmDQ7uW9xS+FOC3GrRVstZWojEkMY+gYFGPZ/fs=;
+ bh=QVOoj/fHM/SytkR+SlnuYQR1WMMdt0CVDGRkSbKA0Rw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ewjnCdGFcdEy6vO+rc6ctov5yU3cevDOY+tA0u1YT7cEBYjkRXfSnzMUyabwSN7AJ
- kE3X2fYkGYxESh45Jhh9AynbWS9PSH/+fywTyiRTE4rqPa4ItLq/VUwd7pkGgcJkcM
- y1MgaNOLiH7548+uux63MDnIImDmGJgx6zFMRAmU=
+ b=cEEtCLpUXt9CyZGSqklfXtk3nek7VPdZNHoyv9ehKYcP+e7OR09L1+KA0XD20S9Ie
+ sqX1I2LEHEs0OafzKr0O1gY46ZVQUiVwLbX01pHfh9L5vA2D0R8ujVL7XJXtCDgL1E
+ 6/lyAEyW5HBkC1rp4oS+MNVhreYgbhJd6NXQGWk8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: alex.williamson@redhat.com,
 	clg@kaod.org,
 	groug@kaod.org
-Subject: [RFC 1/5] kvm: Introduce KVM irqchip change notifier
-Date: Thu, 17 Oct 2019 16:42:14 +1100
-Message-Id: <20191017054218.8876-2-david@gibson.dropbear.id.au>
+Subject: [RFC 2/5] vfio/pci: Split vfio_intx_update()
+Date: Thu, 17 Oct 2019 16:42:15 +1100
+Message-Id: <20191017054218.8876-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191017054218.8876-1-david@gibson.dropbear.id.au>
 References: <20191017054218.8876-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,125 +60,100 @@ Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Awareness of an in kernel irqchip is usually local to the machine and its
-top-level interrupt controller.  However, in a few cases other things nee=
-d
-to know about it.  In particular vfio devices need this in order to
-accelerate interrupt delivery.
-
-If interrupt routing is changed, such devices may need to readjust their
-connection to the KVM irqchip.  pci_bus_fire_intx_routing_notifier() exis=
-ts
-to do just this.
-
-However, for the pseries machine type we have a situation where the routi=
-ng
-remains constant but the top-level irq chip itself is changed.  This occu=
-rs
-because of PAPR feature negotiation which allows the guest to decide
-between the older XICS and newer XIVE irq chip models (both of which are
-paravirtualized).
-
-To allow devices like vfio to adjust to this change, introduce a new
-notifier for the purpose kvm_irqchip_change_notify().
+This splits the vfio_intx_update() function into one part doing the actua=
+l
+reconnection with the KVM irqchip (vfio_intx_update(), now taking an
+argument with the new routing) and vfio_intx_routing_notifier() which
+handles calls to the pci device intx routing notifier and calling
+vfio_intx_update() when necessary.  This will make adding support for the
+irqchip change notifier easier.
 
 Cc: Alex Williamson <alex.williamson@redhat.com>
 Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- accel/kvm/kvm-all.c    | 18 ++++++++++++++++++
- accel/stubs/kvm-stub.c | 12 ++++++++++++
- include/sysemu/kvm.h   |  5 +++++
- 3 files changed, 35 insertions(+)
+ hw/vfio/pci.c | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index d2d96d73e8..44df1908dd 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -149,6 +149,9 @@ static const KVMCapabilityInfo kvm_required_capabilit=
-es[] =3D {
-     KVM_CAP_LAST_INFO
- };
-=20
-+static NotifierList kvm_irqchip_change_notifiers =3D
-+    NOTIFIER_LIST_INITIALIZER(kvm_irqchip_change_notifiers);
-+
- #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
- #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
-=20
-@@ -1396,6 +1399,21 @@ void kvm_irqchip_release_virq(KVMState *s, int vir=
-q)
-     trace_kvm_irqchip_release_virq(virq);
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 12fac39804..529ad13908 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -215,30 +215,18 @@ static void vfio_intx_disable_kvm(VFIOPCIDevice *vd=
+ev)
+ #endif
  }
 =20
-+void kvm_irqchip_add_change_notifier(Notifier *n)
-+{
-+    notifier_list_add(&kvm_irqchip_change_notifiers, n);
-+}
-+
-+void kvm_irqchip_remove_change_notifier(Notifier *n)
-+{
-+    notifier_remove(n);
-+}
-+
-+void kvm_irqchip_change_notify(void)
-+{
-+    notifier_list_notify(&kvm_irqchip_change_notifiers, NULL);
-+}
-+
- static unsigned int kvm_hash_msi(uint32_t data)
+-static void vfio_intx_update(PCIDevice *pdev)
++static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
  {
-     /* This is optimized for IA32 MSI layout. However, no other arch sha=
-ll
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 6feb66ed80..82f118d2df 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -138,6 +138,18 @@ void kvm_irqchip_commit_routes(KVMState *s)
- {
+-    VFIOPCIDevice *vdev =3D PCI_VFIO(pdev);
+-    PCIINTxRoute route;
+     Error *err =3D NULL;
+=20
+-    if (vdev->interrupt !=3D VFIO_INT_INTx) {
+-        return;
+-    }
+-
+-    route =3D pci_device_route_intx_to_irq(&vdev->pdev, vdev->intx.pin);
+-
+-    if (!pci_intx_route_changed(&vdev->intx.route, &route)) {
+-        return; /* Nothing changed */
+-    }
+-
+     trace_vfio_intx_update(vdev->vbasedev.name,
+-                           vdev->intx.route.irq, route.irq);
++                           vdev->intx.route.irq, route->irq);
+=20
+     vfio_intx_disable_kvm(vdev);
+=20
+-    vdev->intx.route =3D route;
++    vdev->intx.route =3D *route;
+=20
+-    if (route.mode !=3D PCI_INTX_ENABLED) {
++    if (route->mode !=3D PCI_INTX_ENABLED) {
+         return;
+     }
+=20
+@@ -251,6 +239,22 @@ static void vfio_intx_update(PCIDevice *pdev)
+     vfio_intx_eoi(&vdev->vbasedev);
  }
 =20
-+void kvm_irqchip_add_change_notifier(Notifier *n)
++static void vfio_intx_routing_notifier(PCIDevice *pdev)
 +{
++    VFIOPCIDevice *vdev =3D PCI_VFIO(pdev);
++    PCIINTxRoute route;
++
++    if (vdev->interrupt !=3D VFIO_INT_INTx) {
++        return;
++    }
++
++    route =3D pci_device_route_intx_to_irq(&vdev->pdev, vdev->intx.pin);
++
++    if (pci_intx_route_changed(&vdev->intx.route, &route)) {
++        vfio_intx_update(vdev, &route);
++    }
 +}
 +
-+void kvm_irqchip_remove_change_notifier(Notifier *n)
-+{
-+}
-+
-+void kvm_irqchip_change_notify(void)
-+{
-+}
-+
- int kvm_irqchip_add_adapter_route(KVMState *s, AdapterInfo *adapter)
+ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
  {
-     return -ENOSYS;
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 9d143282bc..9fe233b9bf 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -201,6 +201,7 @@ typedef struct KVMCapabilityInfo {
- struct KVMState;
- typedef struct KVMState KVMState;
- extern KVMState *kvm_state;
-+typedef struct Notifier Notifier;
-=20
- /* external API */
-=20
-@@ -401,6 +402,10 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg=
-);
-=20
- void kvm_irqchip_add_irq_route(KVMState *s, int gsi, int irqchip, int pi=
-n);
-=20
-+void kvm_irqchip_add_change_notifier(Notifier *n);
-+void kvm_irqchip_remove_change_notifier(Notifier *n);
-+void kvm_irqchip_change_notify(void);
-+
- void kvm_get_apic_state(DeviceState *d, struct kvm_lapic_state *kapic);
-=20
- struct kvm_guest_debug;
+     uint8_t pin =3D vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN,=
+ 1);
+@@ -2954,7 +2958,8 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
+rrp)
+     if (vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN, 1)) {
+         vdev->intx.mmap_timer =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
+                                                   vfio_intx_mmap_enable,=
+ vdev);
+-        pci_device_set_intx_routing_notifier(&vdev->pdev, vfio_intx_upda=
+te);
++        pci_device_set_intx_routing_notifier(&vdev->pdev,
++                                             vfio_intx_routing_notifier)=
+;
+         ret =3D vfio_intx_enable(vdev, errp);
+         if (ret) {
+             goto out_teardown;
 --=20
 2.21.0
 
