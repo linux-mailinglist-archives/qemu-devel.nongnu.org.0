@@ -2,47 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25F8DB0FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:21:06 +0200 (CEST)
-Received: from localhost ([::1]:50754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8389DB106
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 17:23:39 +0200 (CEST)
+Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL7aL-0007px-B9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:21:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46114)
+	id 1iL7cm-0003RF-Vg
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 11:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mkysel@tachyum.com>) id 1iL6fu-00043X-U9
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:22:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iL6jo-0001Be-Ij
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:26:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mkysel@tachyum.com>) id 1iL6ft-0007AB-KM
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:22:46 -0400
-Received: from mail.tachyum.com ([66.160.133.170]:48396)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mkysel@tachyum.com>) id 1iL6ft-00079W-Ew
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:22:45 -0400
-Received: from THQ-IP-EX1.tachyum.com (relayhost.tachyum.com [10.7.1.6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.tachyum.com (Postfix) with ESMTPS id 86B1F11F;
- Thu, 17 Oct 2019 07:25:48 -0700 (PDT)
-Received: from tachyum-sk-server.tachyum.com (10.7.241.13) by
- THQ-IP-EX1.tachyum.com (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1779.2; Thu, 17
- Oct 2019 07:22:41 -0700
-From: Matus Kysel <mkysel@tachyum.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2] Added hardfloat conversion from float32 to float64
-Date: Thu, 17 Oct 2019 16:21:33 +0200
-Message-ID: <20191017142133.59439-1-mkysel@tachyum.com>
-X-Mailer: git-send-email 2.17.1
+ (envelope-from <richard.henderson@linaro.org>) id 1iL6jm-0000k1-EV
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:26:47 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34446)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iL6jm-0000jI-6m
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 10:26:46 -0400
+Received: by mail-pg1-x542.google.com with SMTP id k20so1476751pgi.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 07:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0JxDt+sne9dRK2zA48Vm/X13m/uQ5iE/uTgAh+B7Fuw=;
+ b=LZ+ywjQVz45oobFxRapTJCi+Z48JiJt1X8+kehz26NlIS7C7BKocLxF2oXn7791Gpb
+ Zodwu6DasPmrc11WJuCqjmcCV0Rtz+U2jxo8/2Bsqk6xTV+BOghtnEpzYC4pXzJGmZl5
+ 8VWQ0Vw/aCtyBV5WPhdAPpGJd9Eo2NTSMDHTnHwti1VRD7dfZ+sFsUZ4dQ03lkpRayZW
+ gXhgmbYVODRgxn+X8UNhYxsCJ+KFBcFHPLZv2yjtuU5qgvM6EyBYzEqwieEvBWYGHXuX
+ v9pdUwd7SWb+g9ePctXJZ7BXlvFtrn5gyEoEgo9bTj0hF05iUiiZnEMyRw+wtcVA9ht1
+ /hCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0JxDt+sne9dRK2zA48Vm/X13m/uQ5iE/uTgAh+B7Fuw=;
+ b=UnemuCdveHZNcBs/FeoMHW/q9TTda8BiESIuSheh70IwV25AJrwJKnVD8XO0sMmO83
+ 8/qbR8T379HVjQLJBozJ01nIijZgTMgw9h9mineAdfLclHygepjg7Z0S+1urxI6TwDiz
+ xK9oa8l1eJk9kpfdDl6rxusI0PqyEwo65U3up1C1OlbguF1iYC0yvl1YzaifjK8CiP2i
+ HjG6oLQ65ghVRebA6OaBqgPPvCGU1eZSD9wOPmYAqU5EUbjaUae6TBrjU0EEgtq77Jcd
+ FWq21DqsVhYVYl0JZF5qZFm1M8x3dtvgTUyWs2LGOrbkRHmxibc6DbqColR6UVGsjDu2
+ AtOw==
+X-Gm-Message-State: APjAAAX6DDczlvORRsUqMwfXJ9bNqFGe6Pn0MBOibpoKVLK6Y9pzzQGx
+ 1JuH/fKb7m7Fy3HKJlNrEdhspQ==
+X-Google-Smtp-Source: APXvYqyUa84jn6J4b4iBUceDSWZt+vwe8/mz0UnZ+euJWPAhiTJxySbG6/w3YGb3Oa/P3xbMDk/ebA==
+X-Received: by 2002:a62:1bd3:: with SMTP id b202mr458464pfb.50.1571322404639; 
+ Thu, 17 Oct 2019 07:26:44 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id s10sm5732803pgn.9.2019.10.17.07.26.43
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Oct 2019 07:26:43 -0700 (PDT)
+Subject: Re: [PATCH 1/8] hw/timer/puv3_ost.c: Switch to transaction-based
+ ptimer API
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20191017132905.5604-1-peter.maydell@linaro.org>
+ <20191017132905.5604-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <9a1b185f-c7a4-3eb0-cb66-8b352e74ff0e@linaro.org>
+Date: Thu, 17 Oct 2019 07:26:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.7.241.13]
-X-ClientProxiedBy: THQ-IP-EX1.tachyum.com (10.7.1.6) To THQ-IP-EX1.tachyum.com
- (10.7.1.6)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 66.160.133.170
+In-Reply-To: <20191017132905.5604-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,61 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Matus Kysel <mkysel@tachyum.com>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Magnus Damm <magnus.damm@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reintroduce float32_to_float64 that was removed here:
-https://lists.gnu.org/archive/html/qemu-devel/2018-04/msg00455.html
+On 10/17/19 6:28 AM, Peter Maydell wrote:
+> Switch the puv3_ost code away from bottom-half based ptimers to the
+> new transaction-based ptimer API.  This just requires adding
+> begin/commit calls around the various places that modify the ptimer
+> state, and using the new ptimer_init() function to create the timer.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/timer/puv3_ost.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 
- - nbench test it not actually calling this function at all
- - SPECS 2006 significat number of tests impoved their runtime, just
-   few of them showed small slowdown
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Matus Kysel <mkysel@tachyum.com>
----
- fpu/softfloat.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 0638c9f4e0..4bc7c38668 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -1920,13 +1920,30 @@ float16 float32_to_float16(float32 a, bool ieee, float_status *s)
-     return float16a_round_pack_canonical(pr, s, fmt16);
- }
- 
--float64 float32_to_float64(float32 a, float_status *s)
-+static float64 QEMU_SOFTFLOAT_ATTR
-+soft_float32_to_float64(float32 a, float_status * s)
- {
-     FloatParts p = float32_unpack_canonical(a, s);
-     FloatParts pr = float_to_float(p, &float64_params, s);
-     return float64_round_pack_canonical(pr, s);
- }
- 
-+float64 float32_to_float64(float32 a, float_status * status)
-+{
-+    if (likely(float32_is_normal(a))) {
-+        union_float32 uf;
-+        union_float64 ud;
-+        uf.s = a;
-+        ud.h = uf.h;
-+        return ud.s;
-+
-+    } else if (float32_is_zero(a)) {
-+        return float64_set_sign(float64_zero, float32_is_neg(a));
-+    } else {
-+        return soft_float32_to_float64(a, status);
-+    }
-+}
-+
- float16 float64_to_float16(float64 a, bool ieee, float_status *s)
- {
-     const FloatFmt *fmt16 = ieee ? &float16_params : &float16_params_ahp;
--- 
-2.17.1
-
+r~
 
