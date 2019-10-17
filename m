@@ -2,85 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83682DB31C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:15:20 +0200 (CEST)
-Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE2FDB323
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 19:18:25 +0200 (CEST)
+Received: from localhost ([::1]:54084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iL9Mt-0008Jo-63
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35984)
+	id 1iL9Ps-0003am-AK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 13:18:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iL8L6-0004Nl-7b
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:09:25 -0400
+ (envelope-from <stefanha@redhat.com>) id 1iL8Lg-0005I9-QM
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iL8L5-0008MW-2I
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:09:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57986
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1iL8Lf-0000Am-Jc
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:10:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54912)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iL8L4-0008MF-Sj
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:09:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1571328562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mIutrH/raJ1eyTbN5e6diEdzpBNPfF3TVuqifTnXoVs=;
- b=GoOr9F7l/dvtoDiACLAABhXY/rP0Y4OCIuniLUbTciBudR4UN8I+ip/M90t0DYyhI3UTiD
- jUQWlvszThxAFfqS9lFGxsqtBukuqZ87nppZuiT6J262worveArGWSc4Z3oUKZhoswDioV
- 1yolYflz8f4fNDg6ErEaSmLvX963ruI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-rS5EqSpxN36fBo-TCO9QaA-1; Thu, 17 Oct 2019 12:09:20 -0400
-Received: by mail-wr1-f69.google.com with SMTP id j7so1186714wrx.14
- for <qemu-devel@nongnu.org>; Thu, 17 Oct 2019 09:09:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=So1ll89itO5GgMtOn6m9wOnB7YmoBS+AbnuqBLwhNG8=;
- b=P07xokGVUWJ2V2RgpFw2kaJu6YqtpFkpmSrma/iFb0DW17jcI7nJ/IQxcjpmtlHpbG
- MNhyIOJOUcgUa8cLFRjvipkQFskOjCyjeaPzWD+uyRoAYLVzNAlIcGbUWh0SCdGQ+FX4
- NYCfyx8UPEoLlAQs8eZSIFzIWF5XH/1EiR1Ww7o1/q7w14W9YQiZUdlJ5jij/hsNpJWU
- UMBRmAmAje+T1XKtKEDvgQ4b6L+sA1wYatPP4ECWCLCV4oHrr2BlnkacraZJdBVzljv/
- 3wz4vk0ij5O31m9p6JY1ifJGd0FEgewEHAuIOZ22lIhIfMbLtOoW+hNEZjIT6Nv4bXOl
- fwuQ==
-X-Gm-Message-State: APjAAAWhf3mxModxx+Do+yL7LdH3Sz3vNKEGidEGejxiamymtDUPIdB6
- YSlBcruKjBFNCfjqAHZtEnUKWbPgADKMeg+0WqKZD2mu5+jsDY9GhBsYXjQMaZT2BDdisI3c+li
- pejjrcPbcpiMuA80=
-X-Received: by 2002:a1c:2306:: with SMTP id j6mr3692897wmj.96.1571328559176;
- Thu, 17 Oct 2019 09:09:19 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqwLsyQWSusOhr5GaNNVi9u/VjPv8j4AGnhkFwmOawu6net6b7XaG3Fzl+zTBobi9Kspu8wgnQ==
-X-Received: by 2002:a1c:2306:: with SMTP id j6mr3692865wmj.96.1571328558915;
- Thu, 17 Oct 2019 09:09:18 -0700 (PDT)
-Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
- [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id m18sm3007994wrg.97.2019.10.17.09.09.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Oct 2019 09:09:18 -0700 (PDT)
-Subject: Re: [PATCH 5/8] hw/timer/altera_timer.c: Switch to transaction-based
- ptimer API
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20191017132905.5604-1-peter.maydell@linaro.org>
- <20191017132905.5604-6-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <18066f84-ea56-20c3-6e43-58978f8569bb@redhat.com>
-Date: Thu, 17 Oct 2019 18:09:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iL8Lf-0000AS-BM
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 12:09:59 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 96BB43090FED;
+ Thu, 17 Oct 2019 16:09:58 +0000 (UTC)
+Received: from localhost (ovpn-117-215.ams2.redhat.com [10.36.117.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18216194B6;
+ Thu, 17 Oct 2019 16:09:54 +0000 (UTC)
+Date: Thu, 17 Oct 2019 17:09:53 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
+Message-ID: <20191017160953.GC1266@stefanha-x1.localdomain>
+References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
+ <20191017100528.GA24790@stefanha-x1.localdomain>
+ <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191017132905.5604-6-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: rS5EqSpxN36fBo-TCO9QaA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
+Content-Disposition: inline
+In-Reply-To: <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Thu, 17 Oct 2019 16:09:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,104 +60,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Michael Walle <michael@walle.cc>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Magnus Damm <magnus.damm@gmail.com>
+Cc: virtio-fs@redhat.com, Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/19 3:29 PM, Peter Maydell wrote:
-> Switch the altera_timer code away from bottom-half based ptimers to
-> the new transaction-based ptimer API.  This just requires adding
-> begin/commit calls around the various places that modify the ptimer
-> state, and using the new ptimer_init() function to create the timer.
+
+--zCKi3GIZzVBPywwA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Oct 17, 2019 at 01:23:57PM +0200, Miklos Szeredi wrote:
+> On Thu, Oct 17, 2019 at 12:05 PM Stefan Hajnoczi <stefanha@redhat.com> wr=
+ote:
+> >
+> > On Wed, Oct 16, 2019 at 07:37:52PM +0900, Misono Tomohiro wrote:
+> > > Hello,
+> > >
+> > > I test xattr operation on virtiofs using xfstest generic/062
+> > > (with -o xattr option and XFS backend) and see some problems.
+> > >
+> > > These patches fixes the two of the problems.
+> > >
+> > > The remaining problems are:
+> > >  1. we cannot xattr to block device created by mknod
+> > >     which does not have actual device (since open in virtiofsd fails)
+> > >  2. we cannot xattr to symbolic link
+> > >
+> > > I don't think 1 is a big problem but can we fix 2?
+> >
+> > Sorry, I don't know the answer.  Maybe it would be necessary to add a
+> > new O_SYMLINK open flag to open(2) so that fgetxattr()/fsetxattr()
+> > operations can be performed.  A kernel change like that would take some
+> > time to get accepted upstream and shipped by distros, but it might be
+> > the only way since the current syscall interface doesn't seem to offer a
+> > way to do this.
 >=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/timer/altera_timer.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
+> The real problem is that open() on a non-regular, non-directory file
+> may have side effects (unless O_PATH is used).  These patches try to
+> paper over that, but the fact is: opening special files from a file
+> server is forbidden.
 >=20
-> diff --git a/hw/timer/altera_timer.c b/hw/timer/altera_timer.c
-> index ee32e0ec1ff..79fc381252d 100644
-> --- a/hw/timer/altera_timer.c
-> +++ b/hw/timer/altera_timer.c
-> @@ -19,7 +19,6 @@
->    */
->  =20
->   #include "qemu/osdep.h"
-> -#include "qemu/main-loop.h"
->   #include "qemu/module.h"
->   #include "qapi/error.h"
->  =20
-> @@ -53,7 +52,6 @@ typedef struct AlteraTimer {
->       MemoryRegion  mmio;
->       qemu_irq      irq;
->       uint32_t      freq_hz;
-> -    QEMUBH       *bh;
->       ptimer_state *ptimer;
->       uint32_t      regs[R_MAX];
->   } AlteraTimer;
-> @@ -105,6 +103,7 @@ static void timer_write(void *opaque, hwaddr addr,
->           break;
->  =20
->       case R_CONTROL:
-> +        ptimer_transaction_begin(t->ptimer);
->           t->regs[R_CONTROL] =3D value & (CONTROL_ITO | CONTROL_CONT);
->           if ((value & CONTROL_START) &&
->               !(t->regs[R_STATUS] & STATUS_RUN)) {
-> @@ -115,10 +114,12 @@ static void timer_write(void *opaque, hwaddr addr,
->               ptimer_stop(t->ptimer);
->               t->regs[R_STATUS] &=3D ~STATUS_RUN;
->           }
-> +        ptimer_transaction_commit(t->ptimer);
->           break;
->  =20
->       case R_PERIODL:
->       case R_PERIODH:
-> +        ptimer_transaction_begin(t->ptimer);
->           t->regs[addr] =3D value & 0xFFFF;
->           if (t->regs[R_STATUS] & STATUS_RUN) {
->               ptimer_stop(t->ptimer);
-> @@ -126,6 +127,7 @@ static void timer_write(void *opaque, hwaddr addr,
->           }
->           tvalue =3D (t->regs[R_PERIODH] << 16) | t->regs[R_PERIODL];
->           ptimer_set_limit(t->ptimer, tvalue + 1, 1);
-> +        ptimer_transaction_commit(t->ptimer);
->           break;
->  =20
->       case R_SNAPL:
-> @@ -183,9 +185,10 @@ static void altera_timer_realize(DeviceState *dev, E=
-rror **errp)
->           return;
->       }
->  =20
-> -    t->bh =3D qemu_bh_new(timer_hit, t);
-> -    t->ptimer =3D ptimer_init_with_bh(t->bh, PTIMER_POLICY_DEFAULT);
-> +    t->ptimer =3D ptimer_init(timer_hit, t, PTIMER_POLICY_DEFAULT);
-> +    ptimer_transaction_begin(t->ptimer);
->       ptimer_set_freq(t->ptimer, t->freq_hz);
-> +    ptimer_transaction_commit(t->ptimer);
+> I see why this is being done, and it's not easy to fix properly
+> without the ..at() versions of these syscalls.  One idea is to fork()
+> + fchdir(lo->proc_self_fd) + ..xattr().  Another related idea is to do
+> a unshare(CLONE_FS) after each thread's startup (will pthread library
+> balk?  I don't know) so that it's safe to do fchdir(lo->proc_self_fd)
+> + ...xattr() + fchdir(lo->root_fd).
 
-This looks odd because timers are not running at this point (REALIZE),
-but if we don't protect it, ptimer_set_freq() will trigger the assertion.
+Looking at the f*xattr() code in the kernel, it doesn't really care
+about the file descriptor, it wants the inode instead.  So the O_SYMLINK
+idea I mentioned could also be called O_XATTR and be similar to O_PATH,
+except that only f*xattr() calls are allowed on this file descriptor.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Stefan
 
->  =20
->       memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
->                             TYPE_ALTERA_TIMER, R_MAX * sizeof(uint32_t));
-> @@ -204,8 +207,10 @@ static void altera_timer_reset(DeviceState *dev)
->   {
->       AlteraTimer *t =3D ALTERA_TIMER(dev);
->  =20
-> +    ptimer_transaction_begin(t->ptimer);
->       ptimer_stop(t->ptimer);
->       ptimer_set_limit(t->ptimer, 0xffffffff, 1);
-> +    ptimer_transaction_commit(t->ptimer);
->       memset(t->regs, 0, sizeof(t->regs));
->   }
->  =20
->=20
+--zCKi3GIZzVBPywwA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl2oklEACgkQnKSrs4Gr
+c8iiaAgAhKZnZLjRSpcFf1nJFWVOr+mJG0FqTEaivYCCOF73tUkhrRdfYz2J45Km
+kkOJen8ZDZuNZPFl+y9WVn1OH7qtHHzYpNKXbmhyEa1FB1nPStM5+AGs5qNHIQgf
+sXpFoQ56an1JyXg1IBqsH9V0blNVbH1vwlSsy7IkTXSNNFLz314CinvYe1RcfaWe
+1EGL15xV8pEw1Zw5rHmhNx4c/E4HOcI5vBz9FwO/HGI9Z/Dui/bAyatb/Ko54YAS
+lWObKy1P4ugUmz5COJzX/utS0SBEeidbjWhr81qs4p42fQYrDYZj/JsG2U/Ys8+H
+t6XaGP9hT3Hoghq0e39FkATwyF72TQ==
+=qReH
+-----END PGP SIGNATURE-----
+
+--zCKi3GIZzVBPywwA--
 
