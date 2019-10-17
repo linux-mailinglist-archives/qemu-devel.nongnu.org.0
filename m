@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E0FDA52F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 07:44:50 +0200 (CEST)
-Received: from localhost ([::1]:35490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613E2DA534
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Oct 2019 07:47:19 +0200 (CEST)
+Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iKyaf-0002pR-2z
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 01:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44353)
+	id 1iKyd4-0005zk-Ad
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 01:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iKyYO-00016K-Ok
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 01:42:30 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iKyYQ-00016k-IQ
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 01:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iKyYN-0005Iq-Hc
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 01:42:28 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52041)
+ (envelope-from <dgibson@ozlabs.org>) id 1iKyYP-0005Jd-JT
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 01:42:30 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41887 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iKyYN-0005HZ-61; Thu, 17 Oct 2019 01:42:27 -0400
+ id 1iKyYP-0005Ik-8L; Thu, 17 Oct 2019 01:42:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 46tyjT5GT8z9sPV; Thu, 17 Oct 2019 16:42:21 +1100 (AEDT)
+ id 46tyjT6m1bz9sPc; Thu, 17 Oct 2019 16:42:21 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1571290941;
- bh=3vh+L/Wvc64AgJedFt6SujDhRBXr/JOzBL3DIiBl6Bs=;
+ bh=mGl9erpGvqOrf7exLX2jon0zItJbqLirNCGx+VikJ1Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Xfh9aFlAI/rRN9893ONcEPpEkpB180jIUz9qQGTLhqvEZWNl+sVH8FzkN8bTpGhei
- Q4sOFXJIP93iavCBis5oGKGEDO7q3DLd2EGt+kuibMW7TkxVfLOMeCAkEtkHBsT/3T
- 2/zcGTQ3zUvSKCzxX8j3oP72buxJwTK6PeMMV8NE=
+ b=d5nB3dZDlhZ2E1yiltlu72vEEnyFQTnFOMKueOq5If+DHT610AyiIbx0xp6GywPVq
+ Nw0biffJMmE99WBz9ZmvmJocd/aMljYjUcCciVF9ETpHJbZv8xbpOH6NxgSSVoXizq
+ oV/cU57lGpwD5J5yTZYnXbH748sl/lMvtbUATjEo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: alex.williamson@redhat.com,
 	clg@kaod.org,
 	groug@kaod.org
-Subject: [RFC 3/5] vfio/pci: Respond to KVM irqchip change notifier
-Date: Thu, 17 Oct 2019 16:42:16 +1100
-Message-Id: <20191017054218.8876-4-david@gibson.dropbear.id.au>
+Subject: [RFC 4/5] spapr: Handle irq backend changes with VFIO PCI devices
+Date: Thu, 17 Oct 2019 16:42:17 +1100
+Message-Id: <20191017054218.8876-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191017054218.8876-1-david@gibson.dropbear.id.au>
 References: <20191017054218.8876-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,89 +60,44 @@ Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VFIO PCI devices already respond to the pci intx routing notifier, in ord=
-er
-to update kernel irqchip mappings when routing is updated.  However this
-won't handle the case where the irqchip itself is replaced by a different
-model while retaining the same routing.  This case can happen on
-the pseries machine type due to PAPR feature negotiation.
+pseries machine type can have one of two different interrupt controllers =
+in
+use depending on feature negotiation with the guest.  Usually this is
+invisible to devices, because they route to a common set of qemu_irqs whi=
+ch
+in turn dispatch to the correct back end.
 
-To handle that case, add a handler for the irqchip change notifier, which
-does much the same thing as the routing notifier, but is unconditional,
-rather than being a no-op when the routing hasn't changed.
+VFIO passthrough devices, however, wire themselves up directly to the KVM
+irqchip for performance, which means they are affected by this change in
+interrupt controller.  To get them to adjust correctly for the change in
+irqchip, we need to fire the kvm irqchip change notifier.
 
 Cc: Alex Williamson <alex.williamson@redhat.com>
 Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/vfio/pci.c | 12 ++++++++++++
- hw/vfio/pci.h |  2 ++
- 2 files changed, 14 insertions(+)
+ hw/ppc/spapr_irq.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 529ad13908..6aa806baff 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -255,6 +255,14 @@ static void vfio_intx_routing_notifier(PCIDevice *pd=
-ev)
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 234d1073e5..45544b8976 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -480,6 +480,12 @@ static void set_active_intc(SpaprMachineState *spapr=
+,
      }
+=20
+     spapr->active_intc =3D new_intc;
++
++    /*
++     * We've changed the kernel irqchip, let VFIO devices know they
++     * need to readjust.
++     */
++    kvm_irqchip_change_notify();
  }
 =20
-+static void vfio_irqchip_change(Notifier *notify, void *data)
-+{
-+    VFIOPCIDevice *vdev =3D container_of(notify, VFIOPCIDevice,
-+                                       irqchip_change_notifier);
-+
-+    vfio_intx_update(vdev, &vdev->intx.route);
-+}
-+
- static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
- {
-     uint8_t pin =3D vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN,=
- 1);
-@@ -2960,6 +2968,8 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
-rrp)
-                                                   vfio_intx_mmap_enable,=
- vdev);
-         pci_device_set_intx_routing_notifier(&vdev->pdev,
-                                              vfio_intx_routing_notifier)=
-;
-+        vdev->irqchip_change_notifier.notify =3D vfio_irqchip_change;
-+        kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
-         ret =3D vfio_intx_enable(vdev, errp);
-         if (ret) {
-             goto out_teardown;
-@@ -3009,6 +3019,7 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
-rrp)
-=20
- out_teardown:
-     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-+    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
-     vfio_teardown_msi(vdev);
-     vfio_bars_exit(vdev);
- error:
-@@ -3042,6 +3053,7 @@ static void vfio_exitfn(PCIDevice *pdev)
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-+    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
-     vfio_disable_interrupts(vdev);
-     if (vdev->intx.mmap_timer) {
-         timer_free(vdev->intx.mmap_timer);
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 834a90d646..11324f28ce 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -168,6 +168,8 @@ typedef struct VFIOPCIDevice {
-     bool no_vfio_ioeventfd;
-     bool enable_ramfb;
-     VFIODisplay *dpy;
-+
-+    Notifier irqchip_change_notifier;
- } VFIOPCIDevice;
-=20
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len);
+ void spapr_irq_update_active_intc(SpaprMachineState *spapr)
 --=20
 2.21.0
 
