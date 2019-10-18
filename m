@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48FFDCD90
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:09:47 +0200 (CEST)
-Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFE2DCD44
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:04:37 +0200 (CEST)
+Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWh8-0007V9-QE
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:09:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59571)
+	id 1iLWc8-0000Ru-2g
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWJE-0006zr-5M
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:06 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLWNx-0003C1-Jk
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:49:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWJC-0005hx-Uo
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:03 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:45361)
+ (envelope-from <peter.maydell@linaro.org>) id 1iLWNv-0008Lb-O0
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:49:57 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39352)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLWJC-0005hQ-NR
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:02 -0400
-Received: by mail-pf1-x441.google.com with SMTP id y72so4303689pfb.12
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:45:02 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLWNv-0008L9-J5
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:49:55 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w144so5930110oia.6
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xYzA79nlkAAXT+tYBTRBvIlOCILLFnnuEHFTBSl+bu8=;
- b=vSIDsLNqsnrQQPJVv21MsXEaz4hVN60xT3imyizOIAuCOBHlxzIpfVSEN7ngciqPVv
- HCRNpEGWxcfpAC30lbz6eEB94vkXTh/Bzeg+sIPc039kJeTPyPRcZKngAujNtbIaHMuw
- Xex2OQfPcj8wyGm21ub2exiE7HoeZ3mDNUuzceF+sm+Qbhn/SiJvbDhTGlutN85l7KiE
- 8DPYmi75i9pXbnqMF2WhnzipDr2fOnDriz4518pbZ310JKLW3Crao8XBtqbT+hwDu35u
- i1GphTsBa2aDA8fPOMONO66ombvkYAdmVTC+Sjpo7cJVYIoiRpvffZmbaCRgNjmzytB0
- JF7w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=t9JSSZ7mwTT1oJwnIM2VnYSftc3uh2yp3vWCQW+otEU=;
+ b=ksh5nXr5KIJwWCMOaTGnQX6dpDR6/F3hwjB8zeNgUG6GY7KMwaHU0vnrUoe1dqTlNl
+ RYSiK3mOys6DlgBT4SFdgoUyY7J8ZG1/BxqWlq4KrP4rLKNQ2xxV8ktAsDw6Pi4QMIUu
+ xDnWTR/jjhf18Z5rJM5juClezN3a3e0A2ugGcWUu/yfXt0TjyUip2HYXEFdeJp+XzT7U
+ ebcK0PjJfxBO8ji2wzfAjtojZaKlfWw8JsUXenJVxE3QKvgl4b6Q2DS9s31JO+oM/Z4A
+ GAe9ZD+bzJyBpcjgvrLdhZu0ypWstH1DS5s+tK9rprAimHgrvghSomVpsvbGul7EAXP5
+ oFGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xYzA79nlkAAXT+tYBTRBvIlOCILLFnnuEHFTBSl+bu8=;
- b=MbRoz7R0laPnVo/k40jSVTvE4W1m2cqnRgzsWqwwECc8smD+TM7qyZFGe39UIrhLkg
- pwQcYhPcJ5aUeUwmaU4tZL3y4XnDsWWUbSHmMe0e+FBWU8o7siEhFsAm5p9mpwiqR+3g
- OJxD7KTffrETQK1fIgM/wOvYS8i/TSAW0MwrRKxCplEJTnoz9lNg94O5VLK3EpJ39BTi
- 9Lswo/Y1OHSL1HoIU6LZUhQyOht1pRWjFYP1fkfFVH4ZUFF2KHLCQspeOoKaysWch/W5
- dcPU1sPPrFyZSCJzbOuxAhiNAMTchexucynghM7Il5Tr2Y0YSXu8mFUydoJODfVEHYRl
- Fx1g==
-X-Gm-Message-State: APjAAAWZdIYoqHh/WVtnwMLWzLRL6XIEgrLz27Wg4yUbxHRXD4LhWbbb
- ptAmsDLDv8gBsOtpP2uvtyN6w6YqlxI=
-X-Google-Smtp-Source: APXvYqynyLdcscgIG5Yxy2j2jsrMtHtCcKuyvCnVHwQu3YvRskmWbfiqLGfUNkoZA46dpHbYk4oUBQ==
-X-Received: by 2002:a65:5a81:: with SMTP id c1mr11210178pgt.245.1571420700036; 
- Fri, 18 Oct 2019 10:45:00 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 10:44:59 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 22/22] target/arm: Rely on hflags correct in
- cpu_get_tb_cpu_state
-Date: Fri, 18 Oct 2019 10:44:31 -0700
-Message-Id: <20191018174431.1784-23-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191018174431.1784-1-richard.henderson@linaro.org>
-References: <20191018174431.1784-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t9JSSZ7mwTT1oJwnIM2VnYSftc3uh2yp3vWCQW+otEU=;
+ b=WhpKBhLqKpd0nEIqvCAmN0GJvLbZQiYZvwmnBxD+51FymqxPpMUZLCkg8sItr6A2O2
+ t2soVgLRXE5sqG5Ftk5h8xRcWnBRSleFJ2D/PNkZ8CIssmiO7QRrzHAxO3xkg7s5/1Wy
+ kvgtugXKoWJLyIjzh1Jx1CFxc3QRzg3VofzdvmBzPX0Ca0irZoBeBNnwN6FiEjiGv6L+
+ TLK7S1VmSmQhJCESSxue2Zbv7V6aVDufkYcud/Egp/9DLxjQIRPfwN8lcRpNryBXbZO6
+ TapJufqHHAmh93YgYkURBUCPJR0YgTVyIJueEXwH0NFWD4Oou40esrUIFUt1X11YWGz5
+ ECSA==
+X-Gm-Message-State: APjAAAW2n7YN9LWXonwxYSpKCwwsrcYHY1yGISFVjS+D/kVJUTNDzwds
+ BgP088vreIWZpiX3urLjYS7OG1wIIGRrnlqYIog7/g==
+X-Google-Smtp-Source: APXvYqwqk9zb8w6DRZAWMkx7/NqxMqMy8YOtW/ptQsjv6Guy/j/8zRBANqpyoIW0Jcs0Lm1l/B6cNrz89AfkBPY9it0=
+X-Received: by 2002:aca:2b08:: with SMTP id i8mr8652601oik.146.1571420994719; 
+ Fri, 18 Oct 2019 10:49:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
+ <20191018154212.13458-6-marcandre.lureau@redhat.com>
+In-Reply-To: <20191018154212.13458-6-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 18:49:43 +0100
+Message-ID: <CAFEAcA9dqtx8P1K3+ZiVYeM1i-UOeJmYRb2Yq91GNnj-QHe7rQ@mail.gmail.com>
+Subject: Re: [PATCH 05/14] dp8393x: replace PROP_PTR with PROP_LINK
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,84 +74,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the payoff.
+On Fri, 18 Oct 2019 at 16:42, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  hw/mips/mips_jazz.c | 3 ++-
+>  hw/net/dp8393x.c    | 7 +++----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+> index 8d010a0b6e..878925a963 100644
+> --- a/hw/mips/mips_jazz.c
+> +++ b/hw/mips/mips_jazz.c
+> @@ -284,7 +284,8 @@ static void mips_jazz_init(MachineState *machine,
+>              dev =3D qdev_create(NULL, "dp8393x");
+>              qdev_set_nic_properties(dev, nd);
+>              qdev_prop_set_uint8(dev, "it_shift", 2);
+> -            qdev_prop_set_ptr(dev, "dma_mr", rc4030_dma_mr);
+> +            object_property_set_link(OBJECT(dev), OBJECT(rc4030_dma_mr),
+> +                                     "dma_mr", &error_abort);
+>              qdev_init_nofail(dev);
+>              sysbus =3D SYS_BUS_DEVICE(dev);
+>              sysbus_mmio_map(sysbus, 0, 0x80001000);
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index a5678e11fa..946c7a8f64 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -173,7 +173,7 @@ typedef struct dp8393xState {
+>      int loopback_packet;
+>
+>      /* Memory access */
+> -    void *dma_mr;
+> +    MemoryRegion *dma_mr;
+>      AddressSpace as;
+>  } dp8393xState;
+>
+> @@ -922,7 +922,8 @@ static const VMStateDescription vmstate_dp8393x =3D {
+>
+>  static Property dp8393x_properties[] =3D {
+>      DEFINE_NIC_PROPERTIES(dp8393xState, conf),
+> -    DEFINE_PROP_PTR("dma_mr", dp8393xState, dma_mr),
+> +    DEFINE_PROP_LINK("dma_mr", dp8393xState, dma_mr,
+> +                     TYPE_MEMORY_REGION, MemoryRegion *),
+>      DEFINE_PROP_UINT8("it_shift", dp8393xState, it_shift, 0),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
 
-From perf record -g data of ubuntu 18 boot and shutdown:
+Link property is the correct way to pass a MemoryRegion to
+a device for DMA purposes, so this is a good cleanup.
 
-BEFORE:
+> @@ -936,8 +937,6 @@ static void dp8393x_class_init(ObjectClass *klass, vo=
+id *data)
+>      dc->reset =3D dp8393x_reset;
+>      dc->vmsd =3D &vmstate_dp8393x;
+>      dc->props =3D dp8393x_properties;
+> -    /* Reason: dma_mr property can't be set */
+> -    dc->user_creatable =3D false;
+>  }
 
--   23.02%     2.82%  qemu-system-aar  [.] helper_lookup_tb_ptr
-   - 20.22% helper_lookup_tb_ptr
-      + 10.05% tb_htable_lookup
-      - 9.13% cpu_get_tb_cpu_state
-           3.20% aa64_va_parameters_both
-           0.55% fp_exception_el
+Sidenote: as a sysbus device, this remains non-usercreatable
+even though we can drop the specific flag here.
 
--   11.66%     4.74%  qemu-system-aar  [.] cpu_get_tb_cpu_state
-   - 6.96% cpu_get_tb_cpu_state
-        3.63% aa64_va_parameters_both
-        0.60% fp_exception_el
-        0.53% sve_exception_el
 
-AFTER:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
--   16.40%     3.40%  qemu-system-aar  [.] helper_lookup_tb_ptr
-   - 13.03% helper_lookup_tb_ptr
-      + 11.19% tb_htable_lookup
-        0.55% cpu_get_tb_cpu_state
-
-     0.98%     0.71%  qemu-system-aar  [.] cpu_get_tb_cpu_state
-
-     0.87%     0.24%  qemu-system-aar  [.] rebuild_hflags_a64
-
-Before, helper_lookup_tb_ptr is the second hottest function in the
-application, consuming almost a quarter of the runtime.  Within the
-entire execution, cpu_get_tb_cpu_state consumes about 12%.
-
-After, helper_lookup_tb_ptr has dropped to the fourth hottest function,
-with consumption dropping to a sixth of the runtime.  Within the
-entire execution, cpu_get_tb_cpu_state has dropped below 1%, and the
-supporting function to rebuild hflags also consumes about 1%.
-
-Assertions are retained for --enable-debug-tcg.
-
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v2: Retain asserts for future debugging.
----
- target/arm/helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c55783e540..63815fc4cf 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11259,12 +11259,15 @@ void HELPER(rebuild_hflags_a64)(CPUARMState *env, int el)
- void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                           target_ulong *cs_base, uint32_t *pflags)
- {
--    uint32_t flags, pstate_for_ss;
-+    uint32_t flags = env->hflags;
-+    uint32_t pstate_for_ss;
- 
-     *cs_base = 0;
--    flags = rebuild_hflags_internal(env);
-+#ifdef CONFIG_DEBUG_TCG
-+    assert(flags == rebuild_hflags_internal(env));
-+#endif
- 
--    if (is_a64(env)) {
-+    if (FIELD_EX32(flags, TBFLAG_ANY, AARCH64_STATE)) {
-         *pc = env->pc;
-         if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-             flags = FIELD_DP32(flags, TBFLAG_A64, BTYPE, env->btype);
--- 
-2.17.1
-
+thanks
+-- PMM
 
