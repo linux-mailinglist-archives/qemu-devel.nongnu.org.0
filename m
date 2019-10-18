@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B6FDCD2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:59:09 +0200 (CEST)
-Received: from localhost ([::1]:44456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BF5DCD0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:52:28 +0200 (CEST)
+Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWWp-0004KE-Pv
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59145)
+	id 1iLWQM-0005De-If
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWIu-0006Su-AU
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWIu-0006T7-Aq
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWIr-0005OV-Mu
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWIr-0005PE-Uh
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:44 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45045)
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42902)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLWIp-0005MN-Lg
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:40 -0400
-Received: by mail-pf1-x443.google.com with SMTP id q21so4303166pfn.11
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:44:38 -0700 (PDT)
+ id 1iLWIr-0005Ng-PI
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:41 -0400
+Received: by mail-pf1-x442.google.com with SMTP id q12so4311301pff.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wk2rFtSmeyIzF6QnNFgZDZnR49h41R/PQfqDCLolPT8=;
- b=pan73PhXQV5z7gdX5CbXBk0Q7XbJeIfWLw5XQZxD1KJU6n0g+opRjZLEB0F1X7qa/K
- N0RwSUbCterjFa2wjt//ev4aC7x0heMSEIswoDQcxozmjtWy26NttRiR60HsWgrWoT/4
- 70JHBQg75hYuCGs1vXemUd4v2R0Mzs32ZGzjaX6cXLqXZGlHupex3O/71JX10niXWCxt
- 0X2jmhxxuu1xYo0IoUxcCTsMHQIE1FzDA1rVk189BCoFsetkECAg9yH8xZpRHmlQjZcX
- Qd3dcV0uxSlCgQc9/RPDpdDfqOsjyQID+6e1DeApnHxBTZoBvADOvfzyqgnwp/grMV9H
- F6Lg==
+ bh=O5qTDR4/yunqOnDsae4ZjoUIG4TsLVXzaOK/t5hnYkI=;
+ b=a/O1FjpnSDTBNHQcZsOznehraztcF4C6rwZ0hMgYS0GxM0Q9Uv47pb7bArYiHwVrfM
+ egAxl6bcj0Bc42hadAgWZBDyFGB3rQTNYK9rIiw5YbmA+nOgYpI8jn0PCU4ksoAitWzl
+ LdoePutqQzeq72tt69Lsa0r4mllzQ5boORY8Jor9ZbL0MN8wlvT395OOnWriGRBl0f2B
+ cPJaHEKQp5kRTlCYWra4qFZrPqWwEVEkcOxAVpOWfK5lWKKtcOoYHmBJ9Bp+pdLkSKgS
+ oe9bnAZq15bf06y6YCp0Ec16BX0hZKrrtE++caHrXv2AUBYJ4ay6MAu1M9jPsD8u27iz
+ BDLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wk2rFtSmeyIzF6QnNFgZDZnR49h41R/PQfqDCLolPT8=;
- b=HHYzv6xo76RapPpISdkOPLYT4XFWLkdY844SEE+4HMUPPLXzD2fbBWU30ptZFd6ljc
- DS3GEjpUvGv1YBOXIHVtY0Fek75JAwHPClvKIGluaEDAJ40jHjTDhxtN7wrdBqEmiIuQ
- u4JbAWpv1S/0GsBPb8/qRfUfr5LrpUUYlxOJ6PIVcaJJSlvf3P2VeFF1w8lKotcKaH8S
- yo0YTU1xOx96qVdNQF+27DWm3w+TSS8SUCiArDN5+4tE1d44IZc9uxv2rRjRTPAAVElb
- 0MRpcgHV5YqaFTXlYMo2RkfZ37i/5X5oGwEoboTDLF0nqRroAhmGQxuuHsWnTJ+EeXMM
- JIvQ==
-X-Gm-Message-State: APjAAAWmPVYv/bzxLJoXVXb5Y5tVwoa9ssvdrY0L55IkexTFPOpcb+c6
- 3NAlIsb7DM0bosObqj00wk9eP/5iL/8=
-X-Google-Smtp-Source: APXvYqwOQL3oNNTbkIk2QS9IEKoG9MkhOjm6qduvUIuxr21Dp8+6GX5oWfa96jzl3RfWBwr37jRXaA==
-X-Received: by 2002:aa7:9156:: with SMTP id 22mr8171150pfi.246.1571420677165; 
- Fri, 18 Oct 2019 10:44:37 -0700 (PDT)
+ bh=O5qTDR4/yunqOnDsae4ZjoUIG4TsLVXzaOK/t5hnYkI=;
+ b=cGgcpIB5tKurg40aNrSz0+sHqNFCeieYfu7RSug8bP3lJLNfAj+NkSzIbqEBjLgyar
+ nlrUK2EUZd7AU4uT1gfSzc/yCH1jla+xP7fXylNiK5GASCSFIqFvWhKCZm+5Ql8sxb4H
+ M26g8/AgIkrf6CX+4MpDn8TSJ6KjQ18aTaAw31ZwxZQ1rjOFDEVzCj6boYA/GxogvMbU
+ Mq/gY2njltdhwYe9ZvEg1apLFvI7+rIi7bNM5z5NMA/kwrVj610GMLZhT3m6NIv/dXw9
+ JhJnlXBKp/P585tOnx0FUflSIjO/FP656cBXVB7CssHcjxTAQ98/zBMO1MoXO9K1DC+J
+ kHLQ==
+X-Gm-Message-State: APjAAAX3FUEtpF1oqH/X1oesqXMM14Y4diVVfdG1CDKRVgE7AQ6f/sY1
+ gYgyaVkCckUWjbUzx5brPfCPNY4qKig=
+X-Google-Smtp-Source: APXvYqw4DDetWHJk0AKxMja5lHldRP/1vbsNWG3YISsrohV7ldYOD3LCuyqoF1bmYaQXscyfYv2/5w==
+X-Received: by 2002:aa7:8691:: with SMTP id d17mr8194090pfo.152.1571420679438; 
+ Fri, 18 Oct 2019 10:44:39 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.35
+ by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 10:44:36 -0700 (PDT)
+ Fri, 18 Oct 2019 10:44:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 04/22] target/arm: Split arm_cpu_data_is_big_endian
-Date: Fri, 18 Oct 2019 10:44:13 -0700
-Message-Id: <20191018174431.1784-5-richard.henderson@linaro.org>
+Subject: [PATCH v8 06/22] target/arm: Reduce tests vs M-profile in
+ cpu_get_tb_cpu_state
+Date: Fri, 18 Oct 2019 10:44:15 -0700
+Message-Id: <20191018174431.1784-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191018174431.1784-1-richard.henderson@linaro.org>
 References: <20191018174431.1784-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,126 +84,82 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set TBFLAG_ANY.BE_DATA in rebuild_hflags_common_32 and
-rebuild_hflags_a64 instead of rebuild_hflags_common, where we do
-not need to re-test is_a64() nor re-compute the various inputs.
+Hoist the computation of some TBFLAG_A32 bits that only apply to
+M-profile under a single test for ARM_FEATURE_M.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h    | 49 +++++++++++++++++++++++++++------------------
- target/arm/helper.c | 16 +++++++++++----
- 2 files changed, 42 insertions(+), 23 deletions(-)
+ target/arm/helper.c | 49 +++++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ad79a6153b..4d961474ce 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3108,33 +3108,44 @@ static inline uint64_t arm_sctlr(CPUARMState *env, int el)
-     }
- }
- 
-+static inline bool arm_cpu_data_is_big_endian_a32(CPUARMState *env,
-+                                                  bool sctlr_b)
-+{
-+#ifdef CONFIG_USER_ONLY
-+    /*
-+     * In system mode, BE32 is modelled in line with the
-+     * architecture (as word-invariant big-endianness), where loads
-+     * and stores are done little endian but from addresses which
-+     * are adjusted by XORing with the appropriate constant. So the
-+     * endianness to use for the raw data access is not affected by
-+     * SCTLR.B.
-+     * In user mode, however, we model BE32 as byte-invariant
-+     * big-endianness (because user-only code cannot tell the
-+     * difference), and so we need to use a data access endianness
-+     * that depends on SCTLR.B.
-+     */
-+    if (sctlr_b) {
-+        return true;
-+    }
-+#endif
-+    /* In 32bit endianness is determined by looking at CPSR's E bit */
-+    return env->uncached_cpsr & CPSR_E;
-+}
-+
-+static inline bool arm_cpu_data_is_big_endian_a64(int el, uint64_t sctlr)
-+{
-+    return sctlr & (el ? SCTLR_EE : SCTLR_E0E);
-+}
- 
- /* Return true if the processor is in big-endian mode. */
- static inline bool arm_cpu_data_is_big_endian(CPUARMState *env)
- {
--    /* In 32bit endianness is determined by looking at CPSR's E bit */
-     if (!is_a64(env)) {
--        return
--#ifdef CONFIG_USER_ONLY
--            /* In system mode, BE32 is modelled in line with the
--             * architecture (as word-invariant big-endianness), where loads
--             * and stores are done little endian but from addresses which
--             * are adjusted by XORing with the appropriate constant. So the
--             * endianness to use for the raw data access is not affected by
--             * SCTLR.B.
--             * In user mode, however, we model BE32 as byte-invariant
--             * big-endianness (because user-only code cannot tell the
--             * difference), and so we need to use a data access endianness
--             * that depends on SCTLR.B.
--             */
--            arm_sctlr_b(env) ||
--#endif
--                ((env->uncached_cpsr & CPSR_E) ? 1 : 0);
-+        return arm_cpu_data_is_big_endian_a32(env, arm_sctlr_b(env));
-     } else {
-         int cur_el = arm_current_el(env);
-         uint64_t sctlr = arm_sctlr(env, cur_el);
--
--        return (sctlr & (cur_el ? SCTLR_EE : SCTLR_E0E)) != 0;
-+        return arm_cpu_data_is_big_endian_a64(cur_el, sctlr);
-     }
- }
- 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f05d042474..4c65476d93 100644
+index d4303420da..296a4b2232 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11061,9 +11061,6 @@ static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
-     flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX,
-                        arm_to_core_mmu_idx(mmu_idx));
+@@ -11194,6 +11194,29 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
  
--    if (arm_cpu_data_is_big_endian(env)) {
--        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
--    }
-     if (arm_singlestep_active(env)) {
-         flags = FIELD_DP32(flags, TBFLAG_ANY, SS_ACTIVE, 1);
+         if (arm_feature(env, ARM_FEATURE_M)) {
+             flags = rebuild_hflags_m32(env, fp_el, mmu_idx);
++
++            if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
++                FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S)
++                != env->v7m.secure) {
++                flags = FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1);
++            }
++
++            if ((env->v7m.fpccr[env->v7m.secure] & R_V7M_FPCCR_ASPEN_MASK) &&
++                (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK) ||
++                 (env->v7m.secure &&
++                  !(env->v7m.control[M_REG_S] & R_V7M_CONTROL_SFPA_MASK)))) {
++                /*
++                 * ASPEN is set, but FPCA/SFPA indicate that there is no
++                 * active FP context; we must create a new FP context before
++                 * executing any FP insn.
++                 */
++                flags = FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED, 1);
++            }
++
++            bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
++            if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
++                flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
++            }
+         } else {
+             flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
+         }
+@@ -11233,32 +11256,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+         }
      }
-@@ -11073,7 +11070,14 @@ static uint32_t rebuild_hflags_common(CPUARMState *env, int fp_el,
- static uint32_t rebuild_hflags_common_32(CPUARMState *env, int fp_el,
-                                          ARMMMUIdx mmu_idx, uint32_t flags)
- {
--    flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, arm_sctlr_b(env));
-+    bool sctlr_b = arm_sctlr_b(env);
-+
-+    if (sctlr_b) {
-+        flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, 1);
-+    }
-+    if (arm_cpu_data_is_big_endian_a32(env, sctlr_b)) {
-+        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
-+    }
-     flags = FIELD_DP32(flags, TBFLAG_A32, NS, !access_secure_reg(env));
  
-     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
-@@ -11122,6 +11126,10 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+-    if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
+-        FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S) != env->v7m.secure) {
+-        flags = FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1);
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_M) &&
+-        (env->v7m.fpccr[env->v7m.secure] & R_V7M_FPCCR_ASPEN_MASK) &&
+-        (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK) ||
+-         (env->v7m.secure &&
+-          !(env->v7m.control[M_REG_S] & R_V7M_CONTROL_SFPA_MASK)))) {
+-        /*
+-         * ASPEN is set, but FPCA/SFPA indicate that there is no active
+-         * FP context; we must create a new FP context before executing
+-         * any FP insn.
+-         */
+-        flags = FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED, 1);
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_M)) {
+-        bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
+-
+-        if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
+-            flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
+-        }
+-    }
+-
+     if (!arm_feature(env, ARM_FEATURE_M)) {
+         int target_el = arm_debug_target_el(env);
  
-     sctlr = arm_sctlr(env, el);
- 
-+    if (arm_cpu_data_is_big_endian_a64(el, sctlr)) {
-+        flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
-+    }
-+
-     if (cpu_isar_feature(aa64_pauth, env_archcpu(env))) {
-         /*
-          * In order to save space in flags, we record only whether
 -- 
 2.17.1
 
