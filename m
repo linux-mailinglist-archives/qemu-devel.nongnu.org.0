@@ -2,70 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1497DCEC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:54:59 +0200 (CEST)
-Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A084BDCECB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:57:13 +0200 (CEST)
+Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLXOs-0003Bn-Qv
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39826)
+	id 1iLXR2-0005Ys-GO
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmer@sifive.com>) id 1iLXMq-000277-3k
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:52:54 -0400
+ (envelope-from <laurent@vivier.eu>) id 1iLXPA-0004LR-D7
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:55:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@sifive.com>) id 1iLXMn-0004hB-Q3
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:52:51 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42109)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@sifive.com>) id 1iLXMn-0004gd-KG
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:52:49 -0400
-Received: by mail-pl1-x642.google.com with SMTP id g9so1957029plj.9
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 11:52:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=W4Q0p1F6snvYjb87ZNe382tMj7ucDM+3QvJeNbsWbhw=;
- b=N7Z6REbQX44f8ZWrrVsgVVI7LqCYO0wcf6LSfWN8j0okpr9uP5R1vA81F09n0zzS4H
- bCG4Nxl5EHzfrufWR6UB1Rtcv7DY90lHbbyxwKnaCdnczP2LRieW0KJn9uNjGs3Cn/IL
- C7TdEc+t44PF03xe2SSVr9EMM7CCmSwI3lKjAPpGwpvUg14DrpSVZVQd4ruEFOzrqzFt
- 43goQsUc+ikKwt3d1fS337y0+t+zqQcZVtoxSh19wsL15xEjFgJetbVRNVQPcgGHb35G
- pQ7z3PZlkFR2wfBrZx/ze5hSpnEsUKIdqt3zTSL2U3qmRA3E6cEbX2v4t+/lgiJYfkOl
- tR4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=W4Q0p1F6snvYjb87ZNe382tMj7ucDM+3QvJeNbsWbhw=;
- b=f7YOkbCc61g81cPc2a3NUOEpTmH/g7KzhOmPz+vgXHwFdE9V8EIT0vGhjb3Yp8KLa9
- raitfpAiBh6kHO6kXRJQQInD7rW6sTYm336UQMouQ9EA0pXlp0X7OA0MGGcFKixxavB5
- FZHH7POs/UqfbSGPySxg90slQv6AnjvxBBzsGxfcnu6UL+r4cuWomD0ipk5DzGuZM4Pn
- pMlB5+TzB7zrHfRa9Xo+Y8SvTVQvwe0kHchAPFJDW5jVv5k3hlWp6YUKH5C4fDW1nxVP
- u7vY/301pdXEg/h3V+oP6g3UWHSwfyDEVTm+xRrsMRHTVGCDRR47XJBJ2pawnrbK8CuB
- Xcxg==
-X-Gm-Message-State: APjAAAUFVcAixIBwIm4xBl1eIMAomtd34xaFQtgenisVc2AifZmaK0Vu
- l18Mshi7+DPQTm/ZeMnNnwqUaw==
-X-Google-Smtp-Source: APXvYqx3ZIKFccun5sB0Si0er8w0Os/S5tIyjXyDxb/gT2jYElJpvhQsPpTaZPoKRSoAZKRn2zt8+w==
-X-Received: by 2002:a17:902:8d84:: with SMTP id
- v4mr11645507plo.220.1571424768583; 
- Fri, 18 Oct 2019 11:52:48 -0700 (PDT)
-Received: from localhost ([152.179.112.46])
- by smtp.gmail.com with ESMTPSA id v9sm6893015pfe.109.2019.10.18.11.52.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 11:52:47 -0700 (PDT)
-Date: Fri, 18 Oct 2019 11:52:47 -0700 (PDT)
-X-Google-Original-Date: Fri, 18 Oct 2019 11:51:08 PDT (-0700)
-Subject: Re: [PATCH v3 2/2] riscv: virt: Use Goldfish RTC device
-In-Reply-To: <20191015083459.76959-3-anup.patel@wdc.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Anup Patel <Anup.Patel@wdc.com>
-Message-ID: <mhng-b8dad426-0e7a-4e79-9a2f-b0e6eaf42cdb@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (envelope-from <laurent@vivier.eu>) id 1iLXP9-0005Wj-80
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:55:16 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:41713)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iLXP8-0005UX-TB
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:55:15 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N3sye-1hvNc90TMO-00zoXa; Fri, 18 Oct 2019 20:54:57 +0200
+Subject: Re: [PATCH] Fix unsigned integer underflow in fd-trans.c
+To: Shu-Chun Weng <scw@google.com>
+References: <20191018001920.178283-1-scw@google.com>
+ <4b34aa24-8669-7713-84f3-07e9e8400734@vivier.eu>
+ <CAF3nBxicPpCjTN1M581bbxqT6y7KupG4GW4-4m0v0JkiHR8Yww@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5d5afd35-36e0-bd44-ab40-3be8e2a50680@vivier.eu>
+Date: Fri, 18 Oct 2019 20:54:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
+MIME-Version: 1.0
+In-Reply-To: <CAF3nBxicPpCjTN1M581bbxqT6y7KupG4GW4-4m0v0JkiHR8Yww@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Provags-ID: V03:K1:3rjGqBs7xG78YwB+bQaytU40Kior7o3t+lSxDStG3u95AtD4O0Y
+ 14sLTZOSghGYQYthGYaUw226DdEYuuRDRd+wbs3OXom8JKT33+FeAX8kFfCZLTvn51RuUOk
+ 3lRNRLCVn+vS1t5M5Kg+FCAS00NoKNbkOTaGMfNqj0WY0Rd0TbAgKKe4l7Boh2K4KbcFBpo
+ 9+OJYC8zSU5fcWTQTbfgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5e6efaLGI4o=:oJPqb3P4xp0TvFR+6gGnLE
+ Dk2wAucpVLKd0XfSZp6uF91ykDiYoLbYMoa7BzxRYygxvQvh2fOQid3w5lVxd7lU/A3cr38WW
+ fy1qaigdbDjVQVXRFbdzjWiUPRvgP/EI/Y7bwLDvgFx73MKC6Mxlvgxcm1HrzqO1N7wYFbOb9
+ WLNF1uDWyTyXk0D/OIwcekP/N142mI8ovmsmpgt5pR4C/+svI/RpPKkVZEwgmhPMe12Ss8SGD
+ Cj0SWgvXBAC7j0gUKkp7cdYJMGLRsGANDQCKiVAy6hGh6j6kgzN1UMx0p3RMN9oSjtcDXLp6B
+ eR6ZjC6xk8kutlCR7kMeX+2NrsgmdEonrg3tirBHHzvzpL0u7dQSaZmLVZN1JuL1Xdo47l64c
+ RwebdJwYGAcI9DuRqb+EMmVMJ1S2s72FBYw6Xp+0+S6Y0kBV8f7eIjNiOVxe9VGtr4JF0G3jK
+ PfF6BJpO7t1j0sc4PIZMOo746XU3aFu9HOoi+KIHBY1OXZcClDzLYCza6u/CnUUKFP1e58fme
+ ZOYrYTUAfr3H+HpVFha0KqonS0YIx3/QHPk6q0Mex/sEvp+BHeekvNhdY2nPEaRj8K6WgWnxh
+ 5/75lEQQXs86Zgjr+QWGHsugAbg4wnf/0Hj7RJOnlAfcP7xs1mgA5lECo1cXRxiC3K2nON2J+
+ P2CoeWc+X95wKU74kV6/B4LFia/teSQ2kKXfAE1RMsZZWibJ1xH/OqMC6zqJwkUM58xEEh9Ap
+ EB1u7J7Oc717vXVx/paRaOJCizyd1PP9b630JhM37vs53mR9jkZ9a5W0Qevr5yD+Cq0ulWdaH
+ 50lCVm0rYi5bhGpjq3/tGxs+5yjzXnV3Y+B7t6hmBlQudllUPL0CeWJ6XoO5G1B1nwWzIRyb9
+ uoP6unNZyN0iF0FPVwCaaQ1dF0xyaHRKcCK/hv6qg=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,109 +112,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- sagark@eecs.berkeley.edu, anup@brainfault.org, Anup Patel <Anup.Patel@wdc.com>,
- qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Oct 2019 01:35:42 PDT (-0700), Anup Patel wrote:
-> We extend QEMU RISC-V virt machine by adding Goldfish RTC device
-> to it. This will allow Guest Linux to sync it's local date/time
-> with Host date/time via RTC device.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> ---
->  hw/riscv/Kconfig        |  1 +
->  hw/riscv/virt.c         | 15 +++++++++++++++
->  include/hw/riscv/virt.h |  2 ++
->  3 files changed, 18 insertions(+)
->
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index fb19b2df3a..b33753c780 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -34,6 +34,7 @@ config RISCV_VIRT
->      select PCI
->      select HART
->      select SERIAL
-> +    select GOLDFISH_RTC
->      select VIRTIO_MMIO
->      select PCI_EXPRESS_GENERIC_BRIDGE
->      select SIFIVE
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index d36f5625ec..95c42ab993 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -57,6 +57,7 @@ static const struct MemmapEntry {
->      [VIRT_DEBUG] =       {        0x0,         0x100 },
->      [VIRT_MROM] =        {     0x1000,       0x11000 },
->      [VIRT_TEST] =        {   0x100000,        0x1000 },
-> +    [VIRT_RTC] =         {   0x101000,        0x1000 },
->      [VIRT_CLINT] =       {  0x2000000,       0x10000 },
->      [VIRT_PLIC] =        {  0xc000000,     0x4000000 },
->      [VIRT_UART0] =       { 0x10000000,         0x100 },
-> @@ -310,6 +311,17 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
->      qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
->      qemu_fdt_setprop_cell(fdt, nodename, "interrupts", UART0_IRQ);
->  
-> +    nodename = g_strdup_printf("/rtc@%lx",
-> +        (long)memmap[VIRT_RTC].base);
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-> +        "google,goldfish-rtc");
-> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> +        0x0, memmap[VIRT_RTC].base,
-> +        0x0, memmap[VIRT_RTC].size);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", RTC_IRQ);
-> +
->      qemu_fdt_add_subnode(fdt, "/chosen");
->      qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
->      if (cmdline) {
-> @@ -496,6 +508,9 @@ static void riscv_virt_board_init(MachineState *machine)
->          0, qdev_get_gpio_in(DEVICE(s->plic), UART0_IRQ), 399193,
->          serial_hd(0), DEVICE_LITTLE_ENDIAN);
->  
-> +    sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
-> +        qdev_get_gpio_in(DEVICE(s->plic), RTC_IRQ));
-> +
->      g_free(plic_hart_config);
->  }
->  
-> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> index 6e5fbe5d3b..e6423258d3 100644
-> --- a/include/hw/riscv/virt.h
-> +++ b/include/hw/riscv/virt.h
-> @@ -37,6 +37,7 @@ enum {
->      VIRT_DEBUG,
->      VIRT_MROM,
->      VIRT_TEST,
-> +    VIRT_RTC,
->      VIRT_CLINT,
->      VIRT_PLIC,
->      VIRT_UART0,
-> @@ -49,6 +50,7 @@ enum {
->  
->  enum {
->      UART0_IRQ = 10,
-> +    RTC_IRQ = 11,
->      VIRTIO_IRQ = 1, /* 1 to 8 */
->      VIRTIO_COUNT = 8,
->      PCIE_IRQ = 0x20, /* 32 to 35 */
+Le 18/10/2019 à 20:27, Shu-Chun Weng a écrit :
+> (Re-sending to the list because I forgot to turn off HTML before and
+> it was bounced.)
+> 
+> That does prevent the integer underflow, but it also changes the
+> behavior and I don't think the new behavior is desirable.
+> 
+> If the extra payload has a smaller alignment than the header, it makes
+> sense for the user program to generate a nlmsg_len that is not a
+> multiple of the alignment. When it's the last entry, the new condition
+> will it because NLMSG_ALIGN pushes the aligned length over `len`, yet
+> the single entry processing function won't actually read beyond the
+> buffer as long as it's bounded by nlmsg_len.
 
-This is a wacky enum, but it's already there.  I'm going to assume this patch 
-will get merged and then fix it later.
+Yes, you're right.
 
-> -- 
-> 2.17.1
+So I think your patch is correct.
 
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
-Acked-by: Palmer Dabbelt <palmer@sifive.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-I think it's easier to just keep this with the goldfish implementation.  I'm 
-assuming that will go in through a different tree, as per my comments on that 
-patch.
+Thanks,
+Laurent
+
 
