@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C33DCD6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:08:07 +0200 (CEST)
-Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275A9DCD9D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:11:23 +0200 (CEST)
+Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWfV-0005GP-TV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60704)
+	id 1iLWig-0001EO-5N
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iLWWB-0004yv-Ga
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:58:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWJ5-0006mG-0k
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iLWWA-0005aF-6u
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:58:27 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35279)
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWJ4-0005aY-3z
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:54 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36178)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iLWWA-0005Zj-0A
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:58:26 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l10so6766149wrb.2
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:58:25 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iLWJ2-0005Wz-C7
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:54 -0400
+Received: by mail-pg1-x542.google.com with SMTP id 23so3765086pgk.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=lKt53I7f/6CmozSTncyZXV9A7UBvRK9P650MPucCeC4=;
- b=VrjTkilRff11h+nF8Ta7+TeZ09YtwLrwM07VorzQD/ncWmu54qP9UPy1bS/mj9mFAp
- HEhtNKwOwox+/Qv+9NIo763jBhc4H+2dFBRGppyFMQ5/FtGxXhCHxjLtkH03TbecxmtZ
- Y9b7Q3sMSBUfYq9XZ4XQfyiPzmI8qxbKUGOKCj0T3unyVszx8sCwr4Raq6Uy4Py+GQr8
- coYJKUIImHRLpnumjcgAvl6pkmOglo5FkDvl4q09ojZPO/ZnH6D9Sa8jGsJJ838d78OR
- ZVTrJU/C0erkQNDn+O1UWDKbhvqaijr2DkLfAFRih9qWKLTl5Klq+Dnj+iS0eQcKb+S8
- VOhw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bIwXZuVFcex8c2gsnRtwJL32LXPTCWgJCQzC/Gsa6O8=;
+ b=SNMbParSoCGF7WYBp3B8k5/vpmixY7ksuS18lVNemz2GZPYdU1q4SLEZ3ccNRRRfmo
+ pqgShOKXVlAxY94DrdCeiqMAxvUOZpUPf4F0BDFvqEDSDP9KS5EcqUn9sRioOFpdnRyl
+ ytbmSy2RJONilmLS3nU5rmxUn/7dPyt86YaMZqT4ggKNerRCXGkKiTuUI4OX52VE1N9v
+ RVdAaJeEr+OHeET0kRH4F8VuqTn/Y73EPVL/NsVy+afUAyLrjvEf3m5yG7YLt9mzxTAT
+ dVLWRMHVzmrzd3htQCSqon1g0C3jaXzxPCZ42vTOcOj7r4G5zV0wGIStZnUAHnHMYW1p
+ fRLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=lKt53I7f/6CmozSTncyZXV9A7UBvRK9P650MPucCeC4=;
- b=kPdT4N6KHyCDBPw3HsmAONNIvRFYGmCJq/E4vME/oHFuXohlxI6VcmEpo4WRkEikvZ
- 7AJDgVAc2N/Caq/7yGC3tmelLCzMSB5tJLyp9conA1naj5bxwM5f7U2dau10yRedAAMk
- PBm3LTWYobRmXyp6k7P1AjzHMtxnEU4YRN+v8hcsYqHGHZP32vUJuPiJ2G1duYteCou9
- HJICx1x0GMSsB+j7Xr7nThOjFqAZGtYAvUKa4LiAJmBTNz2yScd8RmqF/LUf05QSHUCr
- skmpD48o6iXfVXHEY/WL0mEvL+owNfCjhzCe7PLgJfEVDs9T5rINWN3B9rCLjWeZMsB+
- 7KJw==
-X-Gm-Message-State: APjAAAWvQuArVU/wFSdG10WEbkb8bwYvpuGGAQw7gNMRrAWBFwoYELEJ
- ORqkJ2kyd+7NkC4CD8D8RWuWzg==
-X-Google-Smtp-Source: APXvYqxC/6hQ1ihONVT4MwfAtZnbSHG2BSdEJxErkUBrgNbxlaghlnfTOu168SE6HO8LPck42J8nDg==
-X-Received: by 2002:adf:e5cc:: with SMTP id a12mr9157997wrn.258.1571421504665; 
- Fri, 18 Oct 2019 10:58:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p68sm3167756wme.0.2019.10.18.10.58.23
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bIwXZuVFcex8c2gsnRtwJL32LXPTCWgJCQzC/Gsa6O8=;
+ b=i4iEGftzR3J1P6iGXvavAPE61zrcLpK4u0JnofVz+h92ia2zobxwDbGbwKQr4eswpI
+ ZooNeytALL1Ha5vTImtirliDGHOn1bYAphYe93HA4IIqIUQC/PFW5A2ydOC45yzISwBx
+ 9OjFqzsfrQNWoI1D39eGSaRr2+sRR2Yg9KkzZMlXkXC5bETIH5U2R/xDS43q0C0WnPfM
+ qFTejlJDfFwMQZ8bDFCqXWJQF/A8rbQrGGs/m+kA8chZjagLlLVXlQH0cQkF6E5ewkxq
+ UEUD4/LSVaCwt8xavywKs/Pbf1nwWgIBDj9kxvZ+DWqNgk8tHS/dP5KymzaXD3iH5oXt
+ dcrw==
+X-Gm-Message-State: APjAAAV9RHeXtQVjYqah0NJcuNq+8VJvJjZDr+nW9JsGU9i0MuHPTmqB
+ Ta++j+MdznDBiXDRi++Smc5Acwkv5Mk=
+X-Google-Smtp-Source: APXvYqxdBMJQXqfViC5XJeYTkwi0lH4byylV6XM3ASAzGFTdov3hCRGgDC+GYFsnN/9qaHO9Ir6JJw==
+X-Received: by 2002:a17:90a:86c2:: with SMTP id
+ y2mr12391573pjv.105.1571420689679; 
+ Fri, 18 Oct 2019 10:44:49 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 10:58:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 567891FF87;
- Fri, 18 Oct 2019 18:58:23 +0100 (BST)
-References: <20191017044232.27601-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH 0/4] target/arm vector improvements
-In-reply-to: <20191017044232.27601-1-richard.henderson@linaro.org>
-Date: Fri, 18 Oct 2019 18:58:23 +0100
-Message-ID: <87sgnqndfk.fsf@linaro.org>
+ Fri, 18 Oct 2019 10:44:48 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 14/22] target/arm: Hoist store to cs_base in
+ cpu_get_tb_cpu_state
+Date: Fri, 18 Oct 2019 10:44:23 -0700
+Message-Id: <20191018174431.1784-15-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191018174431.1784-1-richard.henderson@linaro.org>
+References: <20191018174431.1784-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,71 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+By performing this store early, we avoid having to save and restore
+the register holding the address around any function calls.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> The first patch has been seen before.
->
->   https://patchwork.ozlabs.org/patch/1115039/
->
-> It had a bug and I didn't fix it right away and then forgot.
-> Fixed now; I had mixed up the operand ordering for aarch32.
->
-> The next 3 are something that I noticed while doing other stuff.
->
-> In particular, pmull is used heavily during https transfers.
-> While cloning a repository, the old code peaks at 27% of the
-> total runtime, as measured by perf top.  The new code does
-> not quite reach 3% repeating the same clone.
->
-> In addition, the new helper functions are in the form that
-> will be required for the implementation of SVE2.
->
-> The comment in patch 2 about ARMv8.4-DIT is perhaps a stretch,
-> but re-reading the pmull instruction description in the current
-> ARM ARM brought it to mind.
->
-> Since TCG is officially not in the security domain, it's
-> probably not a bug to just claim to support DIT without
-> actually doing anything to ensure the algorithms used are in
-> fact timing independent of the data.
->
-> On the other hand, I expect the bit distribution of stuff
-> going through these sort of hashing algorithms to approach
-> 50% 1's and 0's, so I also don't think we gain anything on
-> average to terminate the loop early.
->
-> Thoughts on DIT specifically?
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 3f7d3f257d..37424e3d4d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11225,6 +11225,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+ {
+     uint32_t flags, pstate_for_ss;
+ 
++    *cs_base = 0;
+     flags = rebuild_hflags_internal(env);
+ 
+     if (is_a64(env)) {
+@@ -11298,7 +11299,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+     }
+ 
+     *pflags = flags;
+-    *cs_base = 0;
+ }
+ 
+ #ifdef TARGET_AARCH64
+-- 
+2.17.1
 
-It would be an interesting academic exercise to see if someone could
-exploit the JIT from the guest but as you say not a security domain
-so....
-
->
->
-> r~
->
->
-> Richard Henderson (4):
->   target/arm: Vectorize USHL and SSHL
->   target/arm: Convert PMUL.8 to gvec
->   target/arm: Convert PMULL.64 to gvec
->   target/arm: Convert PMULL.8 to gvec
->
->  target/arm/helper-sve.h    |   2 +
->  target/arm/helper.h        |  21 ++-
->  target/arm/translate.h     |   6 +
->  target/arm/neon_helper.c   | 117 -------------
->  target/arm/translate-a64.c |  83 ++++-----
->  target/arm/translate.c     | 350 ++++++++++++++++++++++++++++++++-----
->  target/arm/vec_helper.c    | 211 ++++++++++++++++++++++
->  7 files changed, 562 insertions(+), 228 deletions(-)
-
-
---
-Alex Benn=C3=A9e
 
