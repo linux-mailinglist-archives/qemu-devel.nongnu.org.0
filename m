@@ -2,105 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A084BDCECB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:57:13 +0200 (CEST)
-Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854AEDCECD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:57:33 +0200 (CEST)
+Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLXR2-0005Ys-GO
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40195)
+	id 1iLXRM-00063k-Dy
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iLXPA-0004LR-D7
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:55:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLXPx-0004lm-1v
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:56:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iLXP9-0005Wj-80
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:55:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:41713)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iLXP8-0005UX-TB
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:55:15 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N3sye-1hvNc90TMO-00zoXa; Fri, 18 Oct 2019 20:54:57 +0200
-Subject: Re: [PATCH] Fix unsigned integer underflow in fd-trans.c
-To: Shu-Chun Weng <scw@google.com>
-References: <20191018001920.178283-1-scw@google.com>
- <4b34aa24-8669-7713-84f3-07e9e8400734@vivier.eu>
- <CAF3nBxicPpCjTN1M581bbxqT6y7KupG4GW4-4m0v0JkiHR8Yww@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
- WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
- SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
- UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
- Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
- JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
- q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
- RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
- 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
- LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
- dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
- CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
- ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
- HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
- rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
- jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
- NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
- WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
- lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
- BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
- gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
- +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
- rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
- 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
- wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
- ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
- d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
- 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
- tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
- inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
- 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
- VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
- US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
- w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
- FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
- hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
- ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
- ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
- OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
- JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
- ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <5d5afd35-36e0-bd44-ab40-3be8e2a50680@vivier.eu>
-Date: Fri, 18 Oct 2019 20:54:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <richard.henderson@linaro.org>) id 1iLXPw-0005rb-5b
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:56:04 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46146)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iLXPv-0005qo-Lt
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:56:03 -0400
+Received: by mail-pf1-x443.google.com with SMTP id q5so4405513pfg.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 11:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZUUbV8ymRLgABLYM8MHvxuL10t9ty/qU6QeRlIeHBzQ=;
+ b=CB24nTpdfhzvz7D1UQld8Ty5JDERuDhvaWKsohwclB0nPn7TUMl0g91/0cl0YW5x4Q
+ TtppS3gAXth3Vgi3GtGkRJ3V1qBydP3Uh65t2O1+msnYIJdysCDQ4JGBxrMQC9ZtGzQV
+ +cS0I4463UiH9QiO8msLzlhkm8GlyPDEObrqjkzVy1JiLWhbGlojg2qAS7gC8icmDaWq
+ DuBRQqKeNQ6UMZ+f69t9+Em3RTW1iFImgetueLDst/LpIx3Xl/+m4dWXyg/+nRWbmW0u
+ oAtv6VLCqngoPP4UO/e5DcxNsPpfrFqVGS/sqmwzA+zu+HO/yCv13v/Wd9MWw3H/KwT/
+ Q8jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZUUbV8ymRLgABLYM8MHvxuL10t9ty/qU6QeRlIeHBzQ=;
+ b=DaUJ+IvF+uaBBy523qfLcasKukV0yzlVGhP/tGyfYWNlMpBRXDbXeHjfFQv7RB4HTg
+ +ZGRtfbh3pnMzO+M464tNe/IDDb+URgKJdy49jmEqIzOigxii25To5OVOPNNj0DOe+RU
+ tri9C3CtH+2+HK5tYCbj0p5wtr0oZoixpHGeaVxH9WjNboyEyPnoaIPrPtRndgoYummz
+ TCzMgGt010rivCYFOKL7YVBQEQEEFDoiKqDpR4i3xhYC0p4dDXbvM/vFdbcshi/b97KK
+ UHZt9mZCPTRbcv45iDvhMNfH/68uPOU7s0AEz/UKWjZ3x40p4+q1Okf6AEQ/YywksqM2
+ aliQ==
+X-Gm-Message-State: APjAAAUTWk1Sb20tGPbaIaYSGpq40agTU5LgSu6CSGX9V8OiUVmPuuL2
+ Re/OD9ZC2U8hk4WHiEmVdfJ7Pw==
+X-Google-Smtp-Source: APXvYqxPd8j3Pzm4f3UBlYrduKDM3DO15ScHbSBh8jJeS4HndQ5ERLAQHZ/thGtJK2scVY9mZujf/w==
+X-Received: by 2002:a17:90a:b30d:: with SMTP id
+ d13mr12989170pjr.49.1571424962171; 
+ Fri, 18 Oct 2019 11:56:02 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id z20sm8975321pfj.156.2019.10.18.11.56.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 18 Oct 2019 11:56:01 -0700 (PDT)
+Subject: Re: [PATCH v1 6/6] s390x/tcg: Fix VECTOR SUBTRACT WITH BORROW COMPUTE
+ BORROW INDICATION
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20191018161044.6983-1-david@redhat.com>
+ <20191018161044.6983-7-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <2761c05e-3189-244d-3fd5-b7090f94796a@linaro.org>
+Date: Fri, 18 Oct 2019 11:55:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAF3nBxicPpCjTN1M581bbxqT6y7KupG4GW4-4m0v0JkiHR8Yww@mail.gmail.com>
+In-Reply-To: <20191018161044.6983-7-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3rjGqBs7xG78YwB+bQaytU40Kior7o3t+lSxDStG3u95AtD4O0Y
- 14sLTZOSghGYQYthGYaUw226DdEYuuRDRd+wbs3OXom8JKT33+FeAX8kFfCZLTvn51RuUOk
- 3lRNRLCVn+vS1t5M5Kg+FCAS00NoKNbkOTaGMfNqj0WY0Rd0TbAgKKe4l7Boh2K4KbcFBpo
- 9+OJYC8zSU5fcWTQTbfgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5e6efaLGI4o=:oJPqb3P4xp0TvFR+6gGnLE
- Dk2wAucpVLKd0XfSZp6uF91ykDiYoLbYMoa7BzxRYygxvQvh2fOQid3w5lVxd7lU/A3cr38WW
- fy1qaigdbDjVQVXRFbdzjWiUPRvgP/EI/Y7bwLDvgFx73MKC6Mxlvgxcm1HrzqO1N7wYFbOb9
- WLNF1uDWyTyXk0D/OIwcekP/N142mI8ovmsmpgt5pR4C/+svI/RpPKkVZEwgmhPMe12Ss8SGD
- Cj0SWgvXBAC7j0gUKkp7cdYJMGLRsGANDQCKiVAy6hGh6j6kgzN1UMx0p3RMN9oSjtcDXLp6B
- eR6ZjC6xk8kutlCR7kMeX+2NrsgmdEonrg3tirBHHzvzpL0u7dQSaZmLVZN1JuL1Xdo47l64c
- RwebdJwYGAcI9DuRqb+EMmVMJ1S2s72FBYw6Xp+0+S6Y0kBV8f7eIjNiOVxe9VGtr4JF0G3jK
- PfF6BJpO7t1j0sc4PIZMOo746XU3aFu9HOoi+KIHBY1OXZcClDzLYCza6u/CnUUKFP1e58fme
- ZOYrYTUAfr3H+HpVFha0KqonS0YIx3/QHPk6q0Mex/sEvp+BHeekvNhdY2nPEaRj8K6WgWnxh
- 5/75lEQQXs86Zgjr+QWGHsugAbg4wnf/0Hj7RJOnlAfcP7xs1mgA5lECo1cXRxiC3K2nON2J+
- P2CoeWc+X95wKU74kV6/B4LFia/teSQ2kKXfAE1RMsZZWibJ1xH/OqMC6zqJwkUM58xEEh9Ap
- EB1u7J7Oc717vXVx/paRaOJCizyd1PP9b630JhM37vs53mR9jkZ9a5W0Qevr5yD+Cq0ulWdaH
- 50lCVm0rYi5bhGpjq3/tGxs+5yjzXnV3Y+B7t6hmBlQudllUPL0CeWJ6XoO5G1B1nwWzIRyb9
- uoP6unNZyN0iF0FPVwCaaQ1dF0xyaHRKcCK/hv6qg=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.134
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,31 +85,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/10/2019 à 20:27, Shu-Chun Weng a écrit :
-> (Re-sending to the list because I forgot to turn off HTML before and
-> it was bounced.)
-> 
-> That does prevent the integer underflow, but it also changes the
-> behavior and I don't think the new behavior is desirable.
-> 
-> If the extra payload has a smaller alignment than the header, it makes
-> sense for the user program to generate a nlmsg_len that is not a
-> multiple of the alignment. When it's the last entry, the new condition
-> will it because NLMSG_ALIGN pushes the aligned length over `len`, yet
-> the single entry processing function won't actually read beyond the
-> buffer as long as it's bounded by nlmsg_len.
+On 10/18/19 9:10 AM, David Hildenbrand wrote:
+> +    /* Isolate the carry to the next doubleword */
+>      tcg_gen_andi_i64(dl, th, 1);
 
-Yes, you're right.
+You can remove this now, since the only possible results are 0/1; it was only
+our subtract implementation that produced -1/0.
 
-So I think your patch is correct.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-Thanks,
-Laurent
-
+r~
 
