@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692C2DC6F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:08:38 +0200 (CEST)
-Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023B6DC6B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:01:13 +0200 (CEST)
+Received: from localhost ([::1]:40476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLSvl-0001lA-CF
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56346)
+	id 1iLSoZ-0008QA-NR
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:01:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56520)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iLSkh-0005iH-Kx
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:57:14 -0400
+ (envelope-from <jdenemar@redhat.com>) id 1iLSlw-0006m5-Bc
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:58:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iLSkf-0000si-UX
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:57:11 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:45073)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iLSkf-0000sS-N5
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:57:09 -0400
-Received: by mail-qt1-x842.google.com with SMTP id c21so9130871qtj.12
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 06:57:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NF/5uJpTFqhNwKWsh3dEURXwJuWYCWEZnkkvzvb9Src=;
- b=jJ41IO2vsBt5quS7zX2N11BjoZaMvFXaLn1UGtaReZDVfdVKaQMcFyHN9HRefWeONL
- QnO0KWygwQnzvi7XjKuFMJ18Xsqa4onO1YnVWbgToDyuy/e2X1Wocdm9c8wZIARuWC+g
- XXM2wM5ABQ/b+Y9dOMD4agLprGBN+rg+VhyQcDsihDm9qeSX1Ii2VgaTIFs93JDkPAP0
- Iwhz1lu09XF0bXtLKkhyCxKZfNtod8Swv+95btpwlRn4YbPLsMzvEEJYGoraMbKyOkXS
- qV4v4iG2fzUHYgqMYkF6KWI+Lif34RNE3+qe9QG/sT8riQHjO3/RlnY99VXhtTkuuufM
- UMdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NF/5uJpTFqhNwKWsh3dEURXwJuWYCWEZnkkvzvb9Src=;
- b=ET253g5wf8QkZ2WqTmyegw5s2sdxKVfkQOb3IV44OESd5m2A1/LwxTrWgkNPQwmuRq
- FFQzbVLa1drYUMuYzIPSO8utfQrbNS9zPw7V+DD79avF5mCob5RTdorw08bGmMsg/Yoq
- PBo5zhijxzanJh6Np5t8bcm1mnd9IO1vvESRH8eSWI4JcmWSzc00u+xHbclNFSJkAB3R
- XranMNAyK6J32N478Gc8LszNoKT1H6J77mX8P3g1CNg7CDp7M8AxESohioxLHENhrWNw
- w33Qi+PuT6RgqnBnboN9WcC7GqWkg1e3dKYedREpwAONilya+5GY/D7U8ZdRWuZ2Et1q
- Dh+A==
-X-Gm-Message-State: APjAAAU+JQq+e5GUDOBK84QhAxhQhoeQoIjh86Vy7baE7E8xZRmcAmI8
- nj3y+8icnNizwO/RtlXzwzcNyycsB08L/IzQLsU=
-X-Google-Smtp-Source: APXvYqwinHBgK5jCFnvCLrGS+1+yt4iMjtyVMd/vdTuh2youdepjB4vMsQ8hrN/CakAm8hbOtUTqnWHEromF/jAss4I=
-X-Received: by 2002:ac8:3f66:: with SMTP id w35mr9899510qtk.382.1571407028370; 
- Fri, 18 Oct 2019 06:57:08 -0700 (PDT)
+ (envelope-from <jdenemar@redhat.com>) id 1iLSlu-0001Le-0G
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:58:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42327)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jdenemar@redhat.com>) id 1iLSlr-0001KM-SD
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:58:25 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D7CF118C4299
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 13:58:22 +0000 (UTC)
+Received: from virval.usersys.redhat.com (unknown [10.43.2.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 967A864045;
+ Fri, 18 Oct 2019 13:58:22 +0000 (UTC)
+Received: by virval.usersys.redhat.com (Postfix, from userid 500)
+ id 4BC97101CE9; Fri, 18 Oct 2019 15:58:21 +0200 (CEST)
+Date: Fri, 18 Oct 2019 15:58:21 +0200
+From: Jiri Denemark <jdenemar@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: Default CPU models on s390x and ppc64
+Message-ID: <20191018135821.GR4204@orkuz.int.mamuti.net>
+References: <20191017151606.GA1880840@orkuz.int.mamuti.net>
+ <82ea23ea-be23-c374-3f10-65d8f6e79432@redhat.com>
+ <3c2d2d20-682e-ab4f-ced4-c7f48473dd24@redhat.com>
+ <9083f32c-68db-cc28-e0ea-7fafd014be9b@redhat.com>
 MIME-Version: 1.0
-References: <20191014161843.84845-1-mrolnik@gmail.com>
- <20191014161843.84845-5-mrolnik@gmail.com>
- <CAL1e-=g9ER4tuqEL2ubqb7oAbatcVR8x+A0LAydSwBJEnk9_ow@mail.gmail.com>
- <CAK4993gm=8tVXyprjHPMiNZuKZRkx0iDYnXh76cQfMwUayqcWQ@mail.gmail.com>
- <CAL1e-=hGJQqVnvAu=ZJRV-AdoAWpkSvdf5ex=b7EwkodUGKpUg@mail.gmail.com>
- <CAK4993jaqFrzcmAyz7neJoq5cQgnB_o35dZhdh9_uVyOfKGG-Q@mail.gmail.com>
- <CAL1e-=ixhb1z8h9f6DrNAuEn69pPaV2qvvd=BvVnFKCdW+XMwg@mail.gmail.com>
- <CAK4993h6p2ZHx7a_JZhP_GE21UjfDmBJoSoBSPSo0pDwRmyK=Q@mail.gmail.com>
- <CAL1e-=gjP5CJ5x-e9MCw5T2-y41KuWD=CiSVecCFB1StsP5nFw@mail.gmail.com>
-In-Reply-To: <CAL1e-=gjP5CJ5x-e9MCw5T2-y41KuWD=CiSVecCFB1StsP5nFw@mail.gmail.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Fri, 18 Oct 2019 16:56:15 +0300
-Message-ID: <CAK4993j44GK=zyuGbo86Li=7Gt2BrwWuzdLe3rggnOtMPR7f2Q@mail.gmail.com>
-Subject: Re: [PATCH v32 04/13] target/avr: Add instruction translation -
- Registers definition
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::842
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9083f32c-68db-cc28-e0ea-7fafd014be9b@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 18 Oct 2019 13:58:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,250 +62,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: David Gibson <dgibson@redhat.com>, David Hildenbrand <dhildenb@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 18, 2019 at 4:23 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
->
->
->
-> On Friday, October 18, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
->>
->>
->>
->> On Fri, Oct 18, 2019 at 11:52 AM Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
->>>
->>>
->>>
->>> On Thursday, October 17, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
->>>>
->>>> On Thu, Oct 17, 2019 at 11:17 PM Aleksandar Markovic
->>>> <aleksandar.m.mail@gmail.com> wrote:
->>>> >>
->>>> >>
->>>> >> >> +static TCGv cpu_Cf;
->>>> >> >> +static TCGv cpu_Zf;
->>>> >> >> +static TCGv cpu_Nf;
->>>> >> >> +static TCGv cpu_Vf;
->>>> >> >> +static TCGv cpu_Sf;
->>>> >> >> +static TCGv cpu_Hf;
->>>> >> >> +static TCGv cpu_Tf;
->>>> >> >> +static TCGv cpu_If;
->>>> >> >> +
->>>> >> >
->>>> >> >
->>>> >> > Hello, Michael,
->>>> >> >
->>>> >> > Is there any particular reason or motivation beyond modelling status register flags as TCGv variables?
->>>> >>
->>>> >>
->>>> >>
->>>> >> I think it's easier this way as I don't need to convert flag values to
->>>> >> bits or bits to flag values.
->>>> >
->>>> >
->>>> > Ok. But, how do you map 0/1 flag value to the value of a TCGv variable and vice versa? In other words, what value or values (out of 2^32 vales) of a TCGv variable mean the flag is 1? And the same question for 0.
->>>> >
->>>> > Is 0110000111000010100 one or zero?
->>>> >
->>>> > Besides, in such arrangement, how do you display the 8-bit status register in gdb, if at all?
->>>>
->>>> each flag register is either 0 or 1,....
->>>>
->>>>
->>>>
->>>
->>> Michael,
->>>
->>> If this is true, why is there a special handling of two flags in the following code:
->>>
->>>
->>> static inline uint8_t cpu_get_sreg(CPUAVRState *env)
->>> {
->>> uint8_t sreg;
->>> sreg = (env->sregC & 0x01) << 0
->>> | (env->sregZ == 0 ? 1 : 0) << 1
->>> | (env->sregN) << 2
->>> | (env->sregV) << 3
->>> | (env->sregS) << 4
->>> | (env->sregH) << 5
->>> | (env->sregT) << 6
->>> | (env->sregI) << 7;
->>> return sreg;
->>> }
->>> static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
->>> {
->>> env->sregC = (sreg >> 0) & 0x01;
->>> env->sregZ = (sreg >> 1) & 0x01 ? 0 : 1;
->>> env->sregN = (sreg >> 2) & 0x01;
->>> env->sregV = (sreg >> 3) & 0x01;
->>> env->sregS = (sreg >> 4) & 0x01;
->>> env->sregH = (sreg >> 5) & 0x01;
->>> env->sregT = (sreg >> 6) & 0x01;
->>> env->sregI = (sreg >> 7) & 0x01;
->>> }
->>>  ?
->>>
->> Aleksandar,
->>
->> If I understand your question correctly cpu_get_sreg assembles SREG value to be presented by GDB, and cpu_set_sreg sets flags values when GDB modifies SREG.
->>
->> Michael
->
->
->
-> Why is handling of sregC and sregZ flags different than handling of other flags? This contradicts your previos statement that 1 (in TCGv) means 1 (flag), and 0 (in TCGv) means 0 (flag)?
->
->
-> Whatever is the explanation, ot should be included, in my opinion, in code comments.
->
-> Please, Michael, let's first clarify the issue from the question above.
->
-> Thanks, Aleksandar
->
->
-there is a comment here
-https://github.com/michaelrolnik/qemu-avr/blob/master/target/avr/cpu.h#L122-L129
->
->
->
->>>
->>> Thanks,
->>> A.
->>>>
->>>>
->>>>  they are calculated here
->>>> 1. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L146-L148
->>>> 2. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L166
->>>> 3. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L185-L187
->>>> 4. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L205
->>>> 5. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L214-L215
->>>> 6. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/translate.c#L222-L223
->>>> The COU itself never uses SREG at all, only the flags.
->>>>
->>>> As for the GDB it's get assembled/disassembled here
->>>> 1. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/cpu.h#L219-L243
->>>> 2. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/gdbstub.c#L35-L37
->>>> 3. https://github.com/michaelrolnik/qemu-avr/blob/avr-v32/target/avr/gdbstub.c#L66-L68
->>>>
->>>> >
->>>> > A.
->>>> >
->>>> >>
->>>> >> >
->>>> >> > A.
->>>> >> >
->>>> >> >
->>>> >> >
->>>> >> >>
->>>> >> >> +static TCGv cpu_rampD;
->>>> >> >> +static TCGv cpu_rampX;
->>>> >> >> +static TCGv cpu_rampY;
->>>> >> >> +static TCGv cpu_rampZ;
->>>> >> >> +
->>>> >> >> +static TCGv cpu_r[NO_CPU_REGISTERS];
->>>> >> >> +static TCGv cpu_eind;
->>>> >> >> +static TCGv cpu_sp;
->>>> >> >> +
->>>> >> >> +static TCGv cpu_skip;
->>>> >> >> +
->>>> >> >> +static const char reg_names[NO_CPU_REGISTERS][8] = {
->>>> >> >> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
->>>> >> >> +    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
->>>> >> >> +    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
->>>> >> >> +    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
->>>> >> >> +};
->>>> >> >> +#define REG(x) (cpu_r[x])
->>>> >> >> +
->>>> >> >> +enum {
->>>> >> >> +    DISAS_EXIT   = DISAS_TARGET_0,  /* We want return to the cpu main loop.  */
->>>> >> >> +    DISAS_LOOKUP = DISAS_TARGET_1,  /* We have a variable condition exit.  */
->>>> >> >> +    DISAS_CHAIN  = DISAS_TARGET_2,  /* We have a single condition exit.  */
->>>> >> >> +};
->>>> >> >> +
->>>> >> >> +typedef struct DisasContext DisasContext;
->>>> >> >> +
->>>> >> >> +/* This is the state at translation time. */
->>>> >> >> +struct DisasContext {
->>>> >> >> +    TranslationBlock *tb;
->>>> >> >> +
->>>> >> >> +    CPUAVRState *env;
->>>> >> >> +    CPUState *cs;
->>>> >> >> +
->>>> >> >> +    target_long npc;
->>>> >> >> +    uint32_t opcode;
->>>> >> >> +
->>>> >> >> +    /* Routine used to access memory */
->>>> >> >> +    int memidx;
->>>> >> >> +    int bstate;
->>>> >> >> +    int singlestep;
->>>> >> >> +
->>>> >> >> +    TCGv skip_var0;
->>>> >> >> +    TCGv skip_var1;
->>>> >> >> +    TCGCond skip_cond;
->>>> >> >> +    bool free_skip_var0;
->>>> >> >> +};
->>>> >> >> +
->>>> >> >> +static int to_A(DisasContext *ctx, int indx) { return 16 + (indx % 16); }
->>>> >> >> +static int to_B(DisasContext *ctx, int indx) { return 16 + (indx % 8); }
->>>> >> >> +static int to_C(DisasContext *ctx, int indx) { return 24 + (indx % 4) * 2; }
->>>> >> >> +static int to_D(DisasContext *ctx, int indx) { return (indx % 16) * 2; }
->>>> >> >> +
->>>> >> >> +static uint16_t next_word(DisasContext *ctx)
->>>> >> >> +{
->>>> >> >> +    return cpu_lduw_code(ctx->env, ctx->npc++ * 2);
->>>> >> >> +}
->>>> >> >> +
->>>> >> >> +static int append_16(DisasContext *ctx, int x)
->>>> >> >> +{
->>>> >> >> +    return x << 16 | next_word(ctx);
->>>> >> >> +}
->>>> >> >> +
->>>> >> >> +
->>>> >> >> +static bool avr_have_feature(DisasContext *ctx, int feature)
->>>> >> >> +{
->>>> >> >> +    if (!avr_feature(ctx->env, feature)) {
->>>> >> >> +        gen_helper_unsupported(cpu_env);
->>>> >> >> +        ctx->bstate = DISAS_NORETURN;
->>>> >> >> +        return false;
->>>> >> >> +    }
->>>> >> >> +    return true;
->>>> >> >> +}
->>>> >> >> +
->>>> >> >> +static bool decode_insn(DisasContext *ctx, uint16_t insn);
->>>> >> >> +#include "decode_insn.inc.c"
->>>> >> >> +
->>>> >> >> --
->>>> >> >> 2.17.2 (Apple Git-113)
->>>> >> >>
->>>> >>
->>>> >>
->>>> >> --
->>>> >> Best Regards,
->>>> >> Michael Rolnik
->>>>
->>>>
->>>>
->>>> --
->>>> Best Regards,
->>>> Michael Rolnik
->>
->>
->>
->> --
->> Best Regards,
->> Michael Rolnik
+On Thu, Oct 17, 2019 at 17:35:30 +0200, David Hildenbrand wrote:
+> On 17.10.19 17:31, David Hildenbrand wrote:
+> > On 17.10.19 17:18, David Hildenbrand wrote:
+> >> On 17.10.19 17:16, Jiri Denemark wrote:
+> >>> Hi David and David,
+> >>>
+> >>> I'm working on libvirt's support [1] for query-machines'
+> >>> default-cpu-type, which is supposed to return the type of the default
+> >>> CPU model that QEMU uses for each machine type. Rather than hard coding
+> >>> the default in libvirt (which we currently do on x86), we ask QEMU for
+> >>> the default CPU model and use it unless a user asks for a specific CPU
+> >>> model explicitly.
+> >>>
+...
+> >>> This situation on s390x is not so complicated, but not really better.
+> >>> The default CPU is said to be "qemu" for all machine types, which works
+> >>> fine for TCG domains, but it doesn't work on KVM because QEMU complains
+> >>> that some features requested in the CPU model are not available. In
+> >>> other words the "qemu" CPU model is not runnable on KVM. This a bit
+> >>> similar to what happens on x86_64, but QEMU just ignores missing
+> >>> features and starts happily there.
+> >>
+> >> The default model under KVM is "host", under TCG it's "qemu". We should
+> >> not use "qemu" under KVM, although it might work on some setups ...
+> >>
+> >> Where/how is this default model detected?
 
+All this is about probing QEMU capabilities so that we can tell users
+what to expect and let them change the default. E.g., qemu64 default CPU
+model on x86_64 is never the right one to be used with KVM. By making
+the default CPU model visible in the domain XML even before the domain
+gets started, we help users detect such suboptimal configurations.
 
+> > 
+> > ... target/s390x/kvm.c:kvm_arch_init()
+> > 
+> > MachineClass *mc = MACHINE_GET_CLASS(ms);
+> > 
+> > mc->default_cpu_type = S390_CPU_TYPE_NAME("host");
+> > 
+> > 
+> > I think the call order should make sure that "host" is set after "qemu"
+> > is set. I'll go ahead and verify that.kvm_arch_init(
+> > 
+> 
+> configure_accelerator(current_machine, argv[0]) -> kvm_arch_init()
+> 
+> is called after
+> 
+> current_machine = MACHINE(object_new(object_class_get_name(
+> 		  OBJECT_CLASS(machine_class))));
+> 
+> and therefore after the .class_init function of the machine was called.
+> 
+> I don't see how the default cpu model could not be "host" if qemu was 
+> started with "--enable-kvm"
 
--- 
-Best Regards,
-Michael Rolnik
+I guess the problem could be that QEMU capabilities probing in libvirt
+is done with -machine none. We first probe with KVM enabled and then for
+a few specific commands reprobe with TCG only. We could do it with
+query-machines too to get different default CPU models depending on the
+accelerator, but it wouldn't actually help.
+
+The full command line used for capabilities probing is
+
+    qemu-system-s390x \
+        -S \
+        -no-user-config \
+        -nodefaults \
+        -nographic \
+        -machine none,accel=kvm:tcg \
+        -qmp unix:/tmp/qmp-ivG4UN/qmp.monitor,server,nowait \
+        -pidfile /tmp/qmp-ivG4UN/qmp.pid \
+        -daemonize
+
+One of the command we send is
+
+    {"execute":"query-kvm","id":"libvirt-5"}
+
+and the reply is
+
+    {"return": {"enabled": true, "present": true}, "id": "libvirt-5"}
+
+Which means KVM is usable and enabled, but still query-machines returns
+
+    {
+      "return": [
+        {
+          "hotpluggable-cpus": true,
+          "name": "s390-ccw-virtio-4.0",
+          "numa-mem-supported": false,
+          "default-cpu-type": "qemu-s390x-cpu",
+          "cpu-max": 248,
+          "deprecated": false
+        },
+        {
+          "hotpluggable-cpus": true,
+          "name": "s390-ccw-virtio-3.1",
+          "numa-mem-supported": false,
+          "default-cpu-type": "qemu-s390x-cpu",
+          "cpu-max": 248,
+          "deprecated": false
+        },
+        ...
+      ]
+    }
+
+So it seems the code is run during the machine initialization and thus
+it doesn't affect what query-machines returns with -machine none.
+
+Jirka
 
