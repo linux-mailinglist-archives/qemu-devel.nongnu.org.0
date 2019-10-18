@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED1FDC328
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 12:56:36 +0200 (CEST)
-Received: from localhost ([::1]:37864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1C3DC34F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 12:59:26 +0200 (CEST)
+Received: from localhost ([::1]:37908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLPvv-00064U-DU
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 06:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57440)
+	id 1iLPyf-0000yM-97
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 06:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57513)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iLPt9-0004FN-GV
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:53:44 -0400
+ (envelope-from <slp@redhat.com>) id 1iLPtP-0004fw-9n
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:54:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iLPt7-0000do-Sl
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:53:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59970)
+ (envelope-from <slp@redhat.com>) id 1iLPtN-0000ph-P6
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:53:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58758)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iLPt7-0000dQ-KY
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:53:41 -0400
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iLPtN-0000on-Gg
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:53:57 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D47282B91;
- Fri, 18 Oct 2019 10:53:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B470281106;
+ Fri, 18 Oct 2019 10:53:56 +0000 (UTC)
 Received: from dritchie.redhat.com (unknown [10.33.36.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BADB5D713;
- Fri, 18 Oct 2019 10:53:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37F6C5D713;
+ Fri, 18 Oct 2019 10:53:41 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 02/15] hw/i386/pc: rename functions shared with non-PC
- machines
-Date: Fri, 18 Oct 2019 12:53:02 +0200
-Message-Id: <20191018105315.27511-3-slp@redhat.com>
+Subject: [PATCH v11 03/15] hw/i386/pc: fix code style issues on functions that
+ will be moved out
+Date: Fri, 18 Oct 2019 12:53:03 +0200
+Message-Id: <20191018105315.27511-4-slp@redhat.com>
 In-Reply-To: <20191018105315.27511-1-slp@redhat.com>
 References: <20191018105315.27511-1-slp@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.71]); Fri, 18 Oct 2019 10:53:40 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 18 Oct 2019 10:53:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,229 +58,205 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: berrange@redhat.com, ehabkost@redhat.com, Sergio Lopez <slp@redhat.com>,
- mst@redhat.com, lersek@redhat.com, groug@kaod.org, marcandre.lureau@gmail.com,
- kraxel@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
+ mst@redhat.com, lersek@redhat.com, groug@kaod.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ marcandre.lureau@gmail.com, kraxel@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com, sgarzare@redhat.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following functions are named *pc* but are not PC-machine specific
-but generic to the X86 architecture, rename them:
-
-  load_linux                 -> x86_load_linux
-  pc_new_cpu                 -> x86_new_cpu
-  pc_cpus_init               -> x86_cpus_init
-  pc_cpu_index_to_props      -> x86_cpu_index_to_props
-  pc_get_default_cpu_node_id -> x86_get_default_cpu_node_id
-  pc_possible_cpu_arch_ids   -> x86_possible_cpu_arch_ids
-  old_pc_system_rom_init     -> x86_system_rom_init
+Fix code style issues detected by checkpatch.pl on functions that will
+be moved out to x86.c.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/hw/i386/pc.h |  2 +-
- hw/i386/pc.c         | 28 ++++++++++++++--------------
- hw/i386/pc_piix.c    |  2 +-
- hw/i386/pc_q35.c     |  2 +-
- hw/i386/pc_sysfw.c   |  6 +++---
- 5 files changed, 20 insertions(+), 20 deletions(-)
+ hw/i386/pc.c | 53 ++++++++++++++++++++++++++++------------------------
+ 1 file changed, 29 insertions(+), 24 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 6df4f4b6fb..d12f42e9e5 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -195,7 +195,7 @@ bool pc_machine_is_smm_enabled(PCMachineState *pcms);
- void pc_register_ferr_irq(qemu_irq irq);
- void pc_acpi_smi_interrupt(void *opaque, int irq, int level);
-=20
--void pc_cpus_init(PCMachineState *pcms);
-+void x86_cpus_init(PCMachineState *pcms);
- void pc_hot_add_cpu(MachineState *ms, const int64_t id, Error **errp);
- void pc_smp_parse(MachineState *ms, QemuOpts *opts);
-=20
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index bcda50efcc..fd08c6704b 100644
+index fd08c6704b..77e86bfc3d 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -1019,8 +1019,8 @@ static bool load_elfboot(const char *kernel_filenam=
-e,
-     return true;
+@@ -866,7 +866,8 @@ static void handle_a20_line_change(void *opaque, int =
+irq, int level)
+     x86_cpu_set_a20(cpu, level);
  }
 =20
--static void load_linux(PCMachineState *pcms,
--                       FWCfgState *fw_cfg)
-+static void x86_load_linux(PCMachineState *pcms,
-+                           FWCfgState *fw_cfg)
- {
-     uint16_t protocol;
-     int setup_size, kernel_size, cmdline_size;
-@@ -1374,7 +1374,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, i=
-nt level)
-     }
- }
+-/* Calculates initial APIC ID for a specific CPU index
++/*
++ * Calculates initial APIC ID for a specific CPU index
+  *
+  * Currently we need to be able to calculate the APIC ID from the CPU in=
+dex
+  * alone (without requiring a CPU object), as the QEMU<->Seabios interfa=
+ces have
+@@ -1039,7 +1040,7 @@ static void x86_load_linux(PCMachineState *pcms,
+     const char *kernel_cmdline =3D machine->kernel_cmdline;
 =20
--static void pc_new_cpu(PCMachineState *pcms, int64_t apic_id, Error **er=
-rp)
-+static void x86_cpu_new(PCMachineState *pcms, int64_t apic_id, Error **e=
-rrp)
- {
-     Object *cpu =3D NULL;
-     Error *local_err =3D NULL;
-@@ -1490,14 +1490,14 @@ void pc_hot_add_cpu(MachineState *ms, const int64=
-_t id, Error **errp)
-         return;
-     }
+     /* Align to 16 bytes as a paranoia measure */
+-    cmdline_size =3D (strlen(kernel_cmdline)+16) & ~15;
++    cmdline_size =3D (strlen(kernel_cmdline) + 16) & ~15;
 =20
--    pc_new_cpu(PC_MACHINE(ms), apic_id, &local_err);
-+    x86_cpu_new(PC_MACHINE(ms), apic_id, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
- }
-=20
--void pc_cpus_init(PCMachineState *pcms)
-+void x86_cpus_init(PCMachineState *pcms)
- {
-     int i;
-     const CPUArchIdList *possible_cpus;
-@@ -1518,7 +1518,7 @@ void pc_cpus_init(PCMachineState *pcms)
-                                                      ms->smp.max_cpus - =
-1) + 1;
-     possible_cpus =3D mc->possible_cpu_arch_ids(ms);
-     for (i =3D 0; i < ms->smp.cpus; i++) {
--        pc_new_cpu(pcms, possible_cpus->cpus[i].arch_id, &error_fatal);
-+        x86_cpu_new(pcms, possible_cpus->cpus[i].arch_id, &error_fatal);
-     }
- }
-=20
-@@ -1621,7 +1621,7 @@ void xen_load_linux(PCMachineState *pcms)
-     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
-     rom_set_fw(fw_cfg);
-=20
--    load_linux(pcms, fw_cfg);
-+    x86_load_linux(pcms, fw_cfg);
-     for (i =3D 0; i < nb_option_roms; i++) {
-         assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
-                !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
-@@ -1756,7 +1756,7 @@ void pc_memory_init(PCMachineState *pcms,
-     }
-=20
-     if (linux_boot) {
--        load_linux(pcms, fw_cfg);
-+        x86_load_linux(pcms, fw_cfg);
-     }
-=20
-     for (i =3D 0; i < nb_option_roms; i++) {
-@@ -2678,7 +2678,7 @@ static void pc_machine_wakeup(MachineState *machine=
-)
- }
-=20
- static CpuInstanceProperties
--pc_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
-+x86_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
- {
-     MachineClass *mc =3D MACHINE_GET_CLASS(ms);
-     const CPUArchIdList *possible_cpus =3D mc->possible_cpu_arch_ids(ms)=
-;
-@@ -2687,7 +2687,7 @@ pc_cpu_index_to_props(MachineState *ms, unsigned cp=
-u_index)
-     return possible_cpus->cpus[cpu_index].props;
- }
-=20
--static int64_t pc_get_default_cpu_node_id(const MachineState *ms, int id=
-x)
-+static int64_t x86_get_default_cpu_node_id(const MachineState *ms, int i=
-dx)
- {
-    X86CPUTopoInfo topo;
-    PCMachineState *pcms =3D PC_MACHINE(ms);
-@@ -2699,7 +2699,7 @@ static int64_t pc_get_default_cpu_node_id(const Mac=
-hineState *ms, int idx)
-    return topo.pkg_id % ms->numa_state->num_nodes;
- }
-=20
--static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
-+static const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
- {
-     PCMachineState *pcms =3D PC_MACHINE(ms);
-     int i;
-@@ -2801,9 +2801,9 @@ static void pc_machine_class_init(ObjectClass *oc, =
-void *data)
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler =3D pc_get_hotplug_handler;
-     mc->hotplug_allowed =3D pc_hotplug_allowed;
--    mc->cpu_index_to_instance_props =3D pc_cpu_index_to_props;
--    mc->get_default_cpu_node_id =3D pc_get_default_cpu_node_id;
--    mc->possible_cpu_arch_ids =3D pc_possible_cpu_arch_ids;
-+    mc->cpu_index_to_instance_props =3D x86_cpu_index_to_props;
-+    mc->get_default_cpu_node_id =3D x86_get_default_cpu_node_id;
-+    mc->possible_cpu_arch_ids =3D x86_possible_cpu_arch_ids;
-     mc->auto_enable_numa_with_memhp =3D true;
-     mc->has_hotpluggable_cpus =3D true;
-     mc->default_boot_order =3D "cad";
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 6824b72124..de09e076cd 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -152,7 +152,7 @@ static void pc_init1(MachineState *machine,
-         }
-     }
-=20
--    pc_cpus_init(pcms);
-+    x86_cpus_init(pcms);
-=20
-     if (kvm_enabled() && pcmc->kvmclock_enabled) {
-         kvmclock_create();
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 8fad20f314..894989b64e 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -179,7 +179,7 @@ static void pc_q35_init(MachineState *machine)
-         xen_hvm_init(pcms, &ram_memory);
-     }
-=20
--    pc_cpus_init(pcms);
-+    x86_cpus_init(pcms);
-=20
-     kvmclock_create();
-=20
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index a9983f0bfb..28cb1f63c9 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -211,7 +211,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
-     }
- }
-=20
--static void old_pc_system_rom_init(MemoryRegion *rom_memory, bool isapc_=
-ram_fw)
-+static void x86_bios_rom_init(MemoryRegion *rom_memory, bool isapc_ram_f=
-w)
- {
-     char *filename;
-     MemoryRegion *bios, *isa_bios;
-@@ -272,7 +272,7 @@ void pc_system_firmware_init(PCMachineState *pcms,
-     BlockBackend *pflash_blk[ARRAY_SIZE(pcms->flash)];
-=20
-     if (!pcmc->pci_enabled) {
--        old_pc_system_rom_init(rom_memory, true);
-+        x86_bios_rom_init(rom_memory, true);
-         return;
-     }
-=20
-@@ -293,7 +293,7 @@ void pc_system_firmware_init(PCMachineState *pcms,
-=20
-     if (!pflash_blk[0]) {
-         /* Machine property pflash0 not set, use ROM mode */
--        old_pc_system_rom_init(rom_memory, false);
-+        x86_bios_rom_init(rom_memory, false);
+     /* load the kernel header */
+     f =3D fopen(kernel_filename, "rb");
+@@ -1055,8 +1056,8 @@ static void x86_load_linux(PCMachineState *pcms,
+ #if 0
+     fprintf(stderr, "header magic: %#x\n", ldl_p(header+0x202));
+ #endif
+-    if (ldl_p(header+0x202) =3D=3D 0x53726448) {
+-        protocol =3D lduw_p(header+0x206);
++    if (ldl_p(header + 0x202) =3D=3D 0x53726448) {
++        protocol =3D lduw_p(header + 0x206);
      } else {
-         if (kvm_enabled() && !kvm_readonly_mem_enabled()) {
-             /*
+         /*
+          * This could be a multiboot kernel. If it is, let's stop treati=
+ng it
+@@ -1158,7 +1159,7 @@ static void x86_load_linux(PCMachineState *pcms,
+=20
+     /* highest address for loading the initrd */
+     if (protocol >=3D 0x20c &&
+-        lduw_p(header+0x236) & XLF_CAN_BE_LOADED_ABOVE_4G) {
++        lduw_p(header + 0x236) & XLF_CAN_BE_LOADED_ABOVE_4G) {
+         /*
+          * Linux has supported initrd up to 4 GB for a very long time (2=
+007,
+          * long before XLF_CAN_BE_LOADED_ABOVE_4G which was added in 201=
+3),
+@@ -1177,7 +1178,7 @@ static void x86_load_linux(PCMachineState *pcms,
+          */
+         initrd_max =3D UINT32_MAX;
+     } else if (protocol >=3D 0x203) {
+-        initrd_max =3D ldl_p(header+0x22c);
++        initrd_max =3D ldl_p(header + 0x22c);
+     } else {
+         initrd_max =3D 0x37ffffff;
+     }
+@@ -1187,14 +1188,14 @@ static void x86_load_linux(PCMachineState *pcms,
+     }
+=20
+     fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline)+1=
+);
++    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) +=
+ 1);
+     fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
+=20
+     if (protocol >=3D 0x202) {
+-        stl_p(header+0x228, cmdline_addr);
++        stl_p(header + 0x228, cmdline_addr);
+     } else {
+-        stw_p(header+0x20, 0xA33F);
+-        stw_p(header+0x22, cmdline_addr-real_addr);
++        stw_p(header + 0x20, 0xA33F);
++        stw_p(header + 0x22, cmdline_addr - real_addr);
+     }
+=20
+     /* handle vga=3D parameter */
+@@ -1212,20 +1213,22 @@ static void x86_load_linux(PCMachineState *pcms,
+         } else {
+             video_mode =3D strtol(vmode, NULL, 0);
+         }
+-        stw_p(header+0x1fa, video_mode);
++        stw_p(header + 0x1fa, video_mode);
+     }
+=20
+     /* loader type */
+-    /* High nybble =3D B reserved for QEMU; low nybble is revision numbe=
+r.
+-       If this code is substantially changed, you may want to consider
+-       incrementing the revision. */
++    /*
++     * High nybble =3D B reserved for QEMU; low nybble is revision numbe=
+r.
++     * If this code is substantially changed, you may want to consider
++     * incrementing the revision.
++     */
+     if (protocol >=3D 0x200) {
+         header[0x210] =3D 0xB0;
+     }
+     /* heap */
+     if (protocol >=3D 0x201) {
+-        header[0x211] |=3D 0x80;	/* CAN_USE_HEAP */
+-        stw_p(header+0x224, cmdline_addr-real_addr-0x200);
++        header[0x211] |=3D 0x80; /* CAN_USE_HEAP */
++        stw_p(header + 0x224, cmdline_addr - real_addr - 0x200);
+     }
+=20
+     /* load initrd */
+@@ -1257,14 +1260,14 @@ static void x86_load_linux(PCMachineState *pcms,
+             exit(1);
+         }
+=20
+-        initrd_addr =3D (initrd_max-initrd_size) & ~4095;
++        initrd_addr =3D (initrd_max - initrd_size) & ~4095;
+=20
+         fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
+         fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
+         fw_cfg_add_bytes(fw_cfg, FW_CFG_INITRD_DATA, initrd_data, initrd=
+_size);
+=20
+-        stl_p(header+0x218, initrd_addr);
+-        stl_p(header+0x21c, initrd_size);
++        stl_p(header + 0x218, initrd_addr);
++        stl_p(header + 0x21c, initrd_size);
+     }
+=20
+     /* load kernel and setup */
+@@ -1272,7 +1275,7 @@ static void x86_load_linux(PCMachineState *pcms,
+     if (setup_size =3D=3D 0) {
+         setup_size =3D 4;
+     }
+-    setup_size =3D (setup_size+1)*512;
++    setup_size =3D (setup_size + 1) * 512;
+     if (setup_size > kernel_size) {
+         fprintf(stderr, "qemu: invalid kernel header\n");
+         exit(1);
+@@ -1310,7 +1313,7 @@ static void x86_load_linux(PCMachineState *pcms,
+         kernel_size =3D setup_data_offset + sizeof(struct setup_data) + =
+dtb_size;
+         kernel =3D g_realloc(kernel, kernel_size);
+=20
+-        stq_p(header+0x250, prot_addr + setup_data_offset);
++        stq_p(header + 0x250, prot_addr + setup_data_offset);
+=20
+         setup_data =3D (struct setup_data *)(kernel + setup_data_offset)=
+;
+         setup_data->next =3D 0;
+@@ -1507,7 +1510,8 @@ void x86_cpus_init(PCMachineState *pcms)
+=20
+     x86_cpu_set_default_version(pcmc->default_cpu_version);
+=20
+-    /* Calculates the limit to CPU APIC ID values
++    /*
++     * Calculates the limit to CPU APIC ID values
+      *
+      * Limit for the APIC ID value, so that all
+      * CPU APIC IDs are < pcms->apic_id_limit.
+@@ -2709,7 +2713,7 @@ static const CPUArchIdList *x86_possible_cpu_arch_i=
+ds(MachineState *ms)
+         /*
+          * make sure that max_cpus hasn't changed since the first use, i=
+.e.
+          * -smp hasn't been parsed after it
+-        */
++         */
+         assert(ms->possible_cpus->len =3D=3D max_cpus);
+         return ms->possible_cpus;
+     }
+@@ -2722,7 +2726,8 @@ static const CPUArchIdList *x86_possible_cpu_arch_i=
+ds(MachineState *ms)
+=20
+         ms->possible_cpus->cpus[i].type =3D ms->cpu_type;
+         ms->possible_cpus->cpus[i].vcpus_count =3D 1;
+-        ms->possible_cpus->cpus[i].arch_id =3D x86_cpu_apic_id_from_inde=
+x(pcms, i);
++        ms->possible_cpus->cpus[i].arch_id =3D
++            x86_cpu_apic_id_from_index(pcms, i);
+         x86_topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
+                                  pcms->smp_dies, ms->smp.cores,
+                                  ms->smp.threads, &topo);
 --=20
 2.21.0
 
