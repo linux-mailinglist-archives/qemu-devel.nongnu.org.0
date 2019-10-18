@@ -2,48 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FB0DC0CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:23:28 +0200 (CEST)
-Received: from localhost ([::1]:36968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B26DC0D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:24:57 +0200 (CEST)
+Received: from localhost ([::1]:36988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLOTn-0002IC-6J
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
+	id 1iLOVE-0004a1-SH
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1iLOSE-0000p1-II
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:21:52 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLOU2-0003Uo-4d
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:23:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1iLOSC-000334-He
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:21:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57780)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1iLOSC-00032Z-8m
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:21:48 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3D90989B00B;
- Fri, 18 Oct 2019 09:21:46 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-245.ams2.redhat.com [10.36.116.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CE575D713;
- Fri, 18 Oct 2019 09:21:38 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, quintela@redhat.com
-Subject: [PATCH v4] migration: Support QLIST migration
-Date: Fri, 18 Oct 2019 11:21:36 +0200
-Message-Id: <20191018092136.26581-1-eric.auger@redhat.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLOU0-0003cQ-59
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:23:42 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42642)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iLOTz-0003c8-UL
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:23:40 -0400
+Received: by mail-oi1-x242.google.com with SMTP id i185so4628558oif.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 02:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=OKGB+MkRVS7wvgh4rljnpig1hDXNULrGSU4z+vvx9Ho=;
+ b=Rg+JTgFfD8OR0S2/GX0lWB5FQ2BJzRwx6Bf4aSPoW8wg9mWnT5ngaOKPLiZfpOLJVv
+ Gg+GJHpqAS4/CYQXeQatTvRR892EUOTBgkXjA0ri5wkpcqTz7iG9rbXK+34eQB7CI7Gu
+ Hndvk5uR92sdqzM0oXjTMYh61oOWV7jGgZAPucd+sDVBr/GNZp2FnBiQzFH1KaRkzABr
+ w+BLR2TCQJd7RcUzo/gmo3g6I2A7e/viFeoTFNcr4Nxzshxmx9xG9zXPM17E3M8lXw6j
+ fSBZQ7zkE24BSxRqsqevZO/FY3UpO3H5eQnqMeUkDpL3u883QyPQ3240tnp/6DA7eZDP
+ 42sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=OKGB+MkRVS7wvgh4rljnpig1hDXNULrGSU4z+vvx9Ho=;
+ b=lrFDi7n4vk9hmrQsPuWjXkXtF+4KZToNTnmlcnZDeUaAuSoE7tI89RGmMQ7R8qKpSb
+ +jnCnKzWK+hYKokgqUML3AzDIz3tTjf5IkWlzXF76KVo/RViGyDsWg9ylGyNWgoFs3Hg
+ s2rET+BcAc7jMSjwcUeWakV3S0zi2WGkZwSnN/BlgBujovtE15UTgO7jbU6LNy/6GyPw
+ BgCeKnTiuPFlnCxi8M2Nd0avpPYNxvE6/B5bV9MeDs42bHzmwtueo4T/q6SMMASwuhjf
+ m2pRQdArwrIGG13cYJKRRfEDebjZNFvBQNFot03KoCo6t8YR8zEZmRbmwxVoaku++6wD
+ usiQ==
+X-Gm-Message-State: APjAAAW+v7h37e1uM9EVGhyVetq+MJidK4CaDxFZI4gbQMwU7h6llwMt
+ 3VEV6v3YBo8YaOyo5vE09gK4WgjB6XzBrtvfoOBk9w==
+X-Google-Smtp-Source: APXvYqwUYp+aXPA4J8xTl0epqKbsbPzmfWcprgUa0oLR/MZUZiElYcdhX054sxieqq89ow7aIj7FjITRBXUDKBiQb8E=
+X-Received: by 2002:aca:4d12:: with SMTP id a18mr6833514oib.79.1571390619085; 
+ Fri, 18 Oct 2019 02:23:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.67]); Fri, 18 Oct 2019 09:21:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 18 Oct 2019 02:23:38
+ -0700 (PDT)
+In-Reply-To: <20191015162705.28087-28-philmd@redhat.com>
+References: <20191015162705.28087-1-philmd@redhat.com>
+ <20191015162705.28087-28-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 18 Oct 2019 11:23:38 +0200
+Message-ID: <CAL1e-=iGAUoPedsfRuyM7+5bNhXmBw0fmk0U3_f0UB-Zx_Am9w@mail.gmail.com>
+Subject: Re: [PATCH 27/32] hw/pci-host/piix: Define and use the PIIX IRQ Route
+ Control Registers
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a7711205952be3c5"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,435 +75,352 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support QLIST migration using the same principle as QTAILQ:
-94869d5c52 ("migration: migrate QTAILQ").
+--000000000000a7711205952be3c5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The VMSTATE_QLIST_V macro has the same proto as VMSTATE_QTAILQ_V.
-The change mainly resides in QLIST RAW macros: QLIST_RAW_INSERT_HEAD
-and QLIST_RAW_REVERSE.
+On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>
+wrote:
 
-Tests also are provided.
+> The IRQ Route Control registers definitions belong to the PIIX
+> chipset. We were only defining the 'A' register. Define the other
+> B, C and D registers, and use them.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/i386/xen/xen-hvm.c         | 5 +++--
+>  hw/mips/gt64xxx_pci.c         | 4 ++--
+>  hw/pci-host/piix.c            | 9 ++++-----
+>  include/hw/southbridge/piix.h | 6 ++++++
+>  4 files changed, 15 insertions(+), 9 deletions(-)
+>
+>
+The register from the patch 27/32 doesn't have prefix and the registers
+ftom this patch do - inconsistency?
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+In any case:
 
----
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-v3 -> v4:
-- replace QLIST_RAW_INSERT_TAIL by QLIST_RAW_INSERT_HEAD and
-  QLIST_RAW_REVERSE as suggested by Juan
----
- include/migration/vmstate.h |  21 ++++++
- include/qemu/queue.h        |  40 +++++++++++
- migration/trace-events      |   5 ++
- migration/vmstate-types.c   |  70 +++++++++++++++++++
- tests/test-vmstate.c        | 133 ++++++++++++++++++++++++++++++++++++
- 5 files changed, 269 insertions(+)
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index b9ee563aa4..ea2f1f4749 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -225,6 +225,7 @@ extern const VMStateInfo vmstate_info_tmp;
- extern const VMStateInfo vmstate_info_bitmap;
- extern const VMStateInfo vmstate_info_qtailq;
- extern const VMStateInfo vmstate_info_gtree;
-+extern const VMStateInfo vmstate_info_qlist;
-=20
- #define type_check_2darray(t1,t2,n,m) ((t1(*)[n][m])0 - (t2*)0)
- /*
-@@ -794,6 +795,26 @@ extern const VMStateInfo vmstate_info_gtree;
-     .offset       =3D offsetof(_state, _field),                         =
-         \
- }
-=20
-+/*
-+ * For migrating a QLIST
-+ * Target QLIST needs be properly initialized.
-+ * _type: type of QLIST element
-+ * _next: name of QLIST_ENTRY entry field in QLIST element
-+ * _vmsd: VMSD for QLIST element
-+ * size: size of QLIST element
-+ * start: offset of QLIST_ENTRY in QTAILQ element
-+ */
-+#define VMSTATE_QLIST_V(_field, _state, _version, _vmsd, _type, _next)  =
-\
-+{                                                                       =
- \
-+    .name         =3D (stringify(_field)),                              =
-   \
-+    .version_id   =3D (_version),                                       =
-   \
-+    .vmsd         =3D &(_vmsd),                                         =
-   \
-+    .size         =3D sizeof(_type),                                    =
-   \
-+    .info         =3D &vmstate_info_qlist,                              =
-   \
-+    .offset       =3D offsetof(_state, _field),                         =
-   \
-+    .start        =3D offsetof(_type, _next),                           =
-   \
-+}
-+
- /* _f : field name
-    _f_n : num of elements field_name
-    _n : num of elements
-diff --git a/include/qemu/queue.h b/include/qemu/queue.h
-index 73bf4a984d..cd8ad4f386 100644
---- a/include/qemu/queue.h
-+++ b/include/qemu/queue.h
-@@ -491,4 +491,44 @@ union {                                             =
-                    \
-         QTAILQ_RAW_TQH_CIRC(head)->tql_prev =3D QTAILQ_RAW_TQE_CIRC(elm,=
- entry);  \
- } while (/*CONSTCOND*/0)
-=20
-+#define QLIST_RAW_FIRST(head)                                           =
-       \
-+        field_at_offset(head, 0, void *)
-+
-+#define QLIST_RAW_NEXT(elm, entry)                                      =
-       \
-+        field_at_offset(elm, entry, void *)
-+
-+#define QLIST_RAW_PREVIOUS(elm, entry)                                  =
-       \
-+        field_at_offset(elm, entry + sizeof(void *), void *)
-+
-+#define QLIST_RAW_FOREACH(elm, head, entry)                             =
-       \
-+        for ((elm) =3D *QLIST_RAW_FIRST(head);                          =
-         \
-+             (elm);                                                     =
-       \
-+             (elm) =3D *QLIST_RAW_NEXT(elm, entry))
-+
-+#define QLIST_RAW_INSERT_HEAD(head, elm, entry) do {                    =
-       \
-+        void *first =3D *QLIST_RAW_FIRST(head);                         =
-         \
-+        *QLIST_RAW_FIRST(head) =3D elm;                                 =
-         \
-+        *QLIST_RAW_PREVIOUS(elm, entry) =3D head;                       =
-         \
-+        if (first) {                                                    =
-       \
-+            *QLIST_RAW_PREVIOUS(first, entry) =3D first;                =
-         \
-+            *QLIST_RAW_NEXT(elm, entry) =3D first;                      =
-         \
-+        } else {                                                        =
-       \
-+            *QLIST_RAW_NEXT(elm, entry) =3D NULL;                       =
-         \
-+        }                                                               =
-       \
-+} while (0)
-+
-+#define QLIST_RAW_REVERSE(head, elm, entry) do {                        =
-       \
-+        void *iter =3D *QLIST_RAW_FIRST(head), *prev =3D NULL, *next;   =
-           \
-+        while (iter)                                                    =
-       \
-+            {                                                           =
-       \
-+                next =3D *QLIST_RAW_NEXT(iter, entry);                  =
-         \
-+                *QLIST_RAW_PREVIOUS(iter, entry) =3D next;              =
-         \
-+                *QLIST_RAW_NEXT(iter, entry) =3D prev;                  =
-         \
-+                prev =3D iter;                                          =
-         \
-+                iter =3D next;                                          =
-         \
-+        }                                                               =
-       \
-+        *QLIST_RAW_FIRST(head) =3D prev;                                =
-         \
-+        *QLIST_RAW_PREVIOUS(prev, entry) =3D head;                      =
-         \
-+} while (0)
-+
- #endif /* QEMU_SYS_QUEUE_H */
-diff --git a/migration/trace-events b/migration/trace-events
-index 6dee7b5389..e0a33cffca 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -76,6 +76,11 @@ get_gtree_end(const char *field_name, const char *key_=
-vmsd_name, const char *val
- put_gtree(const char *field_name, const char *key_vmsd_name, const char =
-*val_vmsd_name, uint32_t nnodes) "%s(%s/%s) nnodes=3D%d"
- put_gtree_end(const char *field_name, const char *key_vmsd_name, const c=
-har *val_vmsd_name, int ret) "%s(%s/%s) %d"
-=20
-+get_qlist(const char *field_name, const char *vmsd_name, int version_id)=
- "%s(%s v%d)"
-+get_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
-+put_qlist(const char *field_name, const char *vmsd_name, int version_id)=
- "%s(%s v%d)"
-+put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
-+
- # qemu-file.c
- qemu_file_fclose(void) ""
-=20
-diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
-index 7236cf92bc..1eee36773a 100644
---- a/migration/vmstate-types.c
-+++ b/migration/vmstate-types.c
-@@ -843,3 +843,73 @@ const VMStateInfo vmstate_info_gtree =3D {
-     .get  =3D get_gtree,
-     .put  =3D put_gtree,
- };
-+
-+static int put_qlist(QEMUFile *f, void *pv, size_t unused_size,
-+                     const VMStateField *field, QJSON *vmdesc)
-+{
-+    const VMStateDescription *vmsd =3D field->vmsd;
-+    /* offset of the QTAILQ entry in a QTAILQ element*/
-+    size_t entry_offset =3D field->start;
-+    void *elm;
-+    int ret;
-+
-+    trace_put_qlist(field->name, vmsd->name, vmsd->version_id);
-+    QLIST_RAW_FOREACH(elm, pv, entry_offset) {
-+        qemu_put_byte(f, true);
-+        ret =3D vmstate_save_state(f, vmsd, elm, vmdesc);
-+        if (ret) {
-+            error_report("%s: failed to save %s (%d)", field->name,
-+                         vmsd->name, ret);
-+            return ret;
-+        }
-+    }
-+    qemu_put_byte(f, false);
-+    trace_put_qlist_end(field->name, vmsd->name);
-+
-+    return 0;
-+}
-+
-+static int get_qlist(QEMUFile *f, void *pv, size_t unused_size,
-+                     const VMStateField *field)
-+{
-+    int ret =3D 0;
-+    const VMStateDescription *vmsd =3D field->vmsd;
-+    /* size of a QLIST element */
-+    size_t size =3D field->size;
-+    /* offset of the QLIST entry in a QLIST element */
-+    size_t entry_offset =3D field->start;
-+    int version_id =3D field->version_id;
-+    void *elm;
-+
-+    trace_get_qlist(field->name, vmsd->name, vmsd->version_id);
-+    if (version_id > vmsd->version_id) {
-+        error_report("%s %s",  vmsd->name, "too new");
-+        return -EINVAL;
-+    }
-+    if (version_id < vmsd->minimum_version_id) {
-+        error_report("%s %s",  vmsd->name, "too old");
-+        return -EINVAL;
-+    }
-+
-+    while (qemu_get_byte(f)) {
-+        elm =3D g_malloc(size);
-+        ret =3D vmstate_load_state(f, vmsd, elm, version_id);
-+        if (ret) {
-+            error_report("%s: failed to load %s (%d)", field->name,
-+                         vmsd->name, ret);
-+            g_free(elm);
-+            return ret;
-+        }
-+        QLIST_RAW_INSERT_HEAD(pv, elm, entry_offset);
-+    }
-+    QLIST_RAW_REVERSE(pv, elm, entry_offset);
-+    trace_get_qlist_end(field->name, vmsd->name);
-+
-+    return ret;
-+}
-+
-+const VMStateInfo vmstate_info_qlist =3D {
-+    .name =3D "qlist",
-+    .get  =3D get_qlist,
-+    .put  =3D put_qlist,
-+};
-diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
-index 1e5be1d4ff..22161bb34f 100644
---- a/tests/test-vmstate.c
-+++ b/tests/test-vmstate.c
-@@ -926,6 +926,28 @@ static const VMStateDescription vmstate_domain =3D {
-     }
- };
-=20
-+/* test QLIST Migration */
-+
-+typedef struct TestQListElement {
-+    uint32_t  id;
-+    QLIST_ENTRY(TestQListElement) next;
-+} TestQListElement;
-+
-+typedef struct TestQListContainer {
-+    uint32_t  id;
-+    QLIST_HEAD(, TestQListElement) list;
-+} TestQListContainer;
-+
-+static const VMStateDescription vmstate_qlist_element =3D {
-+    .name =3D "test/queue list",
-+    .version_id =3D 1,
-+    .minimum_version_id =3D 1,
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32(id, TestQListElement),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_iommu =3D {
-     .name =3D "iommu",
-     .version_id =3D 1,
-@@ -939,6 +961,18 @@ static const VMStateDescription vmstate_iommu =3D {
-     }
- };
-=20
-+static const VMStateDescription vmstate_container =3D {
-+    .name =3D "test/container/qlist",
-+    .version_id =3D 1,
-+    .minimum_version_id =3D 1,
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32(id, TestQListContainer),
-+        VMSTATE_QLIST_V(list, TestQListContainer, 1, vmstate_qlist_eleme=
-nt,
-+                        TestQListElement, next),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- uint8_t first_domain_dump[] =3D {
-     /* id */
-     0x00, 0x0, 0x0, 0x6,
-@@ -1229,6 +1263,103 @@ static void test_gtree_load_iommu(void)
-     qemu_fclose(fload);
- }
-=20
-+static uint8_t qlist_dump[] =3D {
-+    0x00, 0x00, 0x00, 0x01, /* container id */
-+    0x1, /* start of a */
-+    0x00, 0x00, 0x00, 0x0a,
-+    0x1, /* start of b */
-+    0x00, 0x00, 0x0b, 0x00,
-+    0x1, /* start of c */
-+    0x00, 0x0c, 0x00, 0x00,
-+    0x1, /* start of d */
-+    0x0d, 0x00, 0x00, 0x00,
-+    0x0, /* end of list */
-+    QEMU_VM_EOF, /* just to ensure we won't get EOF reported prematurely=
- */
-+};
-+
-+static TestQListContainer *alloc_container(void)
-+{
-+    TestQListElement *a =3D g_malloc(sizeof(TestQListElement));
-+    TestQListElement *b =3D g_malloc(sizeof(TestQListElement));
-+    TestQListElement *c =3D g_malloc(sizeof(TestQListElement));
-+    TestQListElement *d =3D g_malloc(sizeof(TestQListElement));
-+    TestQListContainer *container =3D g_malloc(sizeof(TestQListContainer=
-));
-+
-+    a->id =3D 0x0a;
-+    b->id =3D 0x0b00;
-+    c->id =3D 0xc0000;
-+    d->id =3D 0xd000000;
-+    container->id =3D 1;
-+
-+    QLIST_INIT(&container->list);
-+    QLIST_INSERT_HEAD(&container->list, d, next);
-+    QLIST_INSERT_HEAD(&container->list, c, next);
-+    QLIST_INSERT_HEAD(&container->list, b, next);
-+    QLIST_INSERT_HEAD(&container->list, a, next);
-+    return container;
-+}
-+
-+static void free_container(TestQListContainer *container)
-+{
-+    TestQListElement *iter, *tmp;
-+
-+    QLIST_FOREACH_SAFE(iter, &container->list, next, tmp) {
-+        QLIST_REMOVE(iter, next);
-+        g_free(iter);
-+    }
-+    g_free(container);
-+}
-+
-+static void compare_containers(TestQListContainer *c1, TestQListContaine=
-r *c2)
-+{
-+    TestQListElement *first_item_c1, *first_item_c2;
-+
-+    while (!QLIST_EMPTY(&c1->list)) {
-+        first_item_c1 =3D QLIST_FIRST(&c1->list);
-+        first_item_c2 =3D QLIST_FIRST(&c2->list);
-+        assert(first_item_c2);
-+        assert(first_item_c1->id =3D=3D first_item_c2->id);
-+        QLIST_REMOVE(first_item_c1, next);
-+        QLIST_REMOVE(first_item_c2, next);
-+        g_free(first_item_c1);
-+        g_free(first_item_c2);
-+    }
-+    assert(QLIST_EMPTY(&c2->list));
-+}
-+
-+static void test_save_qlist(void)
-+{
-+    TestQListContainer *container =3D alloc_container();
-+
-+    save_vmstate(&vmstate_container, container);
-+    compare_vmstate(qlist_dump, sizeof(qlist_dump));
-+    free_container(container);
-+}
-+
-+static void test_load_qlist(void)
-+{
-+    QEMUFile *fsave, *fload;
-+    TestQListContainer *orig_container =3D alloc_container();
-+    TestQListContainer *dest_container =3D g_malloc0(sizeof(TestQListCon=
-tainer));
-+    char eof;
-+
-+    QLIST_INIT(&dest_container->list);
-+
-+    fsave =3D open_test_file(true);
-+    qemu_put_buffer(fsave, qlist_dump, sizeof(qlist_dump));
-+    g_assert(!qemu_file_get_error(fsave));
-+    qemu_fclose(fsave);
-+
-+    fload =3D open_test_file(false);
-+    vmstate_load_state(fload, &vmstate_container, dest_container, 1);
-+    eof =3D qemu_get_byte(fload);
-+    g_assert(!qemu_file_get_error(fload));
-+    g_assert_cmpint(eof, =3D=3D, QEMU_VM_EOF);
-+    compare_containers(orig_container, dest_container);
-+    free_container(orig_container);
-+    free_container(dest_container);
-+}
-+
- typedef struct TmpTestStruct {
-     TestStruct *parent;
-     int64_t diff;
-@@ -1353,6 +1484,8 @@ int main(int argc, char **argv)
-     g_test_add_func("/vmstate/gtree/load/loaddomain", test_gtree_load_do=
-main);
-     g_test_add_func("/vmstate/gtree/save/saveiommu", test_gtree_save_iom=
-mu);
-     g_test_add_func("/vmstate/gtree/load/loadiommu", test_gtree_load_iom=
-mu);
-+    g_test_add_func("/vmstate/qlist/save/saveqlist", test_save_qlist);
-+    g_test_add_func("/vmstate/qlist/load/loadqlist", test_load_qlist);
-     g_test_add_func("/vmstate/tmp_struct", test_tmp_struct);
-     g_test_run();
-=20
---=20
-2.20.1
 
+> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+> index 6b5e5bb7f5..4ce2fb9c89 100644
+> --- a/hw/i386/xen/xen-hvm.c
+> +++ b/hw/i386/xen/xen-hvm.c
+> @@ -14,6 +14,7 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_host.h"
+>  #include "hw/i386/pc.h"
+> +#include "hw/southbridge/piix.h"
+>  #include "hw/irq.h"
+>  #include "hw/hw.h"
+>  #include "hw/i386/apic-msidef.h"
+> @@ -156,8 +157,8 @@ void xen_piix_pci_write_config_client(uint32_t
+> address, uint32_t val, int len)
+>              v =3D 0;
+>          }
+>          v &=3D 0xf;
+> -        if (((address + i) >=3D 0x60) && ((address + i) <=3D 0x63)) {
+> -            xen_set_pci_link_route(xen_domid, address + i - 0x60, v);
+> +        if (((address + i) >=3D PIIX_PIRQCA) && ((address + i) <=3D
+> PIIX_PIRQCD)) {
+> +            xen_set_pci_link_route(xen_domid, address + i - PIIX_PIRQCA,
+> v);
+>          }
+>      }
+>  }
+> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+> index c277398c0d..5cab9c1ee1 100644
+> --- a/hw/mips/gt64xxx_pci.c
+> +++ b/hw/mips/gt64xxx_pci.c
+> @@ -1013,12 +1013,12 @@ static void gt64120_pci_set_irq(void *opaque, int
+> irq_num, int level)
+>
+>      /* now we change the pic irq level according to the piix irq mapping=
+s
+> */
+>      /* XXX: optimize */
+> -    pic_irq =3D piix4_dev->config[0x60 + irq_num];
+> +    pic_irq =3D piix4_dev->config[PIIX_PIRQCA + irq_num];
+>      if (pic_irq < 16) {
+>          /* The pic level is the logical OR of all the PCI irqs mapped to
+> it. */
+>          pic_level =3D 0;
+>          for (i =3D 0; i < 4; i++) {
+> -            if (pic_irq =3D=3D piix4_dev->config[0x60 + i]) {
+> +            if (pic_irq =3D=3D piix4_dev->config[PIIX_PIRQCA + i]) {
+>                  pic_level |=3D pci_irq_levels[i];
+>              }
+>          }
+> diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
+> index 3770575c1a..a450fc726e 100644
+> --- a/hw/pci-host/piix.c
+> +++ b/hw/pci-host/piix.c
+> @@ -61,7 +61,6 @@ typedef struct I440FXState {
+>  #define PIIX_NUM_PIC_IRQS       16      /* i8259 * 2 */
+>  #define PIIX_NUM_PIRQS          4ULL    /* PIRQ[A-D] */
+>  #define XEN_PIIX_NUM_PIRQS      128ULL
+> -#define PIIX_PIRQC              0x60
+>
+>  typedef struct PIIX3State {
+>      PCIDevice dev;
+> @@ -468,7 +467,7 @@ static void piix3_set_irq_level_internal(PIIX3State
+> *piix3, int pirq, int level)
+>      int pic_irq;
+>      uint64_t mask;
+>
+> -    pic_irq =3D piix3->dev.config[PIIX_PIRQC + pirq];
+> +    pic_irq =3D piix3->dev.config[PIIX_PIRQCA + pirq];
+>      if (pic_irq >=3D PIIX_NUM_PIC_IRQS) {
+>          return;
+>      }
+> @@ -482,7 +481,7 @@ static void piix3_set_irq_level(PIIX3State *piix3, in=
+t
+> pirq, int level)
+>  {
+>      int pic_irq;
+>
+> -    pic_irq =3D piix3->dev.config[PIIX_PIRQC + pirq];
+> +    pic_irq =3D piix3->dev.config[PIIX_PIRQCA + pirq];
+>      if (pic_irq >=3D PIIX_NUM_PIC_IRQS) {
+>          return;
+>      }
+> @@ -501,7 +500,7 @@ static void piix3_set_irq(void *opaque, int pirq, int
+> level)
+>  static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
+>  {
+>      PIIX3State *piix3 =3D opaque;
+> -    int irq =3D piix3->dev.config[PIIX_PIRQC + pin];
+> +    int irq =3D piix3->dev.config[PIIX_PIRQCA + pin];
+>      PCIINTxRoute route;
+>
+>      if (irq < PIIX_NUM_PIC_IRQS) {
+> @@ -530,7 +529,7 @@ static void piix3_write_config(PCIDevice *dev,
+>                                 uint32_t address, uint32_t val, int len)
+>  {
+>      pci_default_write_config(dev, address, val, len);
+> -    if (ranges_overlap(address, len, PIIX_PIRQC, 4)) {
+> +    if (ranges_overlap(address, len, PIIX_PIRQCA, 4)) {
+>          PIIX3State *piix3 =3D PIIX3_PCI_DEVICE(dev);
+>          int pic_irq;
+>
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.=
+h
+> index 79ebe0089b..9c92c37a4d 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -18,6 +18,12 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t
+> smb_io_base,
+>                        qemu_irq sci_irq, qemu_irq smi_irq,
+>                        int smm_enabled, DeviceState **piix4_pm);
+>
+> +/* PIRQRC[A:D]: PIRQx Route Control Registers */
+> +#define PIIX_PIRQCA 0x60
+> +#define PIIX_PIRQCB 0x61
+> +#define PIIX_PIRQCC 0x62
+> +#define PIIX_PIRQCD 0x63
+> +
+>  /*
+>   * Reset Control Register: PCI-accessible ISA-Compatible Register at
+> address
+>   * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0,
+> 8086:7000).
+> --
+> 2.21.0
+>
+>
+>
+
+--000000000000a7711205952be3c5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
+ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">The IRQ Route Control registers definitions belong =
+to the PIIX<br>
+chipset. We were only defining the &#39;A&#39; register. Define the other<b=
+r>
+B, C and D registers, and use them.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/i386/xen/xen-hvm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 5 +++--<br>
+=C2=A0hw/mips/gt64xxx_pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
+=C2=A0hw/pci-host/piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 9 ++++-=
+----<br>
+=C2=A0include/hw/southbridge/piix.h | 6 ++++++<br>
+=C2=A04 files changed, 15 insertions(+), 9 deletions(-)<br>
+<br></blockquote><div><br></div><div>The register from the patch 27/32 does=
+n&#39;t have prefix and the registers ftom this patch do - inconsistency?</=
+div><div><br></div><div>In any case:</div><div><br></div><div><span style=
+=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px">Revi=
+ewed-by: Aleksandar Markovic &lt;</span><a href=3D"mailto:amarkovic@wavecom=
+p.com" target=3D"_blank" style=3D"font-size:14px;line-height:22.12000083923=
+34px">amarkovic@wavecomp.com</a><span style=3D"color:rgb(34,34,34);font-siz=
+e:14px;line-height:22.1200008392334px">&gt;</span><br></div><div><br></div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c<br>
+index 6b5e5bb7f5..4ce2fb9c89 100644<br>
+--- a/hw/i386/xen/xen-hvm.c<br>
++++ b/hw/i386/xen/xen-hvm.c<br>
+@@ -14,6 +14,7 @@<br>
+=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
+=C2=A0#include &quot;hw/pci/pci_host.h&quot;<br>
+=C2=A0#include &quot;hw/i386/pc.h&quot;<br>
++#include &quot;hw/southbridge/piix.h&quot;<br>
+=C2=A0#include &quot;hw/irq.h&quot;<br>
+=C2=A0#include &quot;hw/hw.h&quot;<br>
+=C2=A0#include &quot;hw/i386/apic-msidef.h&quot;<br>
+@@ -156,8 +157,8 @@ void xen_piix_pci_write_config_<wbr>client(uint32_t add=
+ress, uint32_t val, int len)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v &amp;=3D 0xf;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (((address + i) &gt;=3D 0x60) &amp;&amp; ((=
+address + i) &lt;=3D 0x63)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xen_set_pci_link_route(xen_<wbr>=
+domid, address + i - 0x60, v);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (((address + i) &gt;=3D PIIX_PIRQCA) &amp;&=
+amp; ((address + i) &lt;=3D PIIX_PIRQCD)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xen_set_pci_link_route(xen_<wbr>=
+domid, address + i - PIIX_PIRQCA, v);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c<br>
+index c277398c0d..5cab9c1ee1 100644<br>
+--- a/hw/mips/gt64xxx_pci.c<br>
++++ b/hw/mips/gt64xxx_pci.c<br>
+@@ -1013,12 +1013,12 @@ static void gt64120_pci_set_irq(void *opaque, int i=
+rq_num, int level)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* now we change the pic irq level according to the pii=
+x irq mappings */<br>
+=C2=A0 =C2=A0 =C2=A0/* XXX: optimize */<br>
+-=C2=A0 =C2=A0 pic_irq =3D piix4_dev-&gt;config[0x60 + irq_num];<br>
++=C2=A0 =C2=A0 pic_irq =3D piix4_dev-&gt;config[PIIX_PIRQCA + irq_num];<br>
+=C2=A0 =C2=A0 =C2=A0if (pic_irq &lt; 16) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* The pic level is the logical OR of all=
+ the PCI irqs mapped to it. */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pic_level =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 4; i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pic_irq =3D=3D piix4_dev-&gt=
+;config[0x60 + i]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pic_irq =3D=3D piix4_dev-&gt=
+;config[PIIX_PIRQCA + i]) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pic_level |=
+=3D pci_irq_levels[i];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c<br>
+index 3770575c1a..a450fc726e 100644<br>
+--- a/hw/pci-host/piix.c<br>
++++ b/hw/pci-host/piix.c<br>
+@@ -61,7 +61,6 @@ typedef struct I440FXState {<br>
+=C2=A0#define PIIX_NUM_PIC_IRQS=C2=A0 =C2=A0 =C2=A0 =C2=A016=C2=A0 =C2=A0 =
+=C2=A0 /* i8259 * 2 */<br>
+=C2=A0#define PIIX_NUM_PIRQS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4ULL=C2=A0 =
+=C2=A0 /* PIRQ[A-D] */<br>
+=C2=A0#define XEN_PIIX_NUM_PIRQS=C2=A0 =C2=A0 =C2=A0 128ULL<br>
+-#define PIIX_PIRQC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x60<br=
+>
+<br>
+=C2=A0typedef struct PIIX3State {<br>
+=C2=A0 =C2=A0 =C2=A0PCIDevice dev;<br>
+@@ -468,7 +467,7 @@ static void piix3_set_irq_level_internal(<wbr>PIIX3Stat=
+e *piix3, int pirq, int level)<br>
+=C2=A0 =C2=A0 =C2=A0int pic_irq;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t mask;<br>
+<br>
+-=C2=A0 =C2=A0 pic_irq =3D piix3-&gt;dev.config[PIIX_PIRQC + pirq];<br>
++=C2=A0 =C2=A0 pic_irq =3D piix3-&gt;dev.config[PIIX_PIRQCA + pirq];<br>
+=C2=A0 =C2=A0 =C2=A0if (pic_irq &gt;=3D PIIX_NUM_PIC_IRQS) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+@@ -482,7 +481,7 @@ static void piix3_set_irq_level(PIIX3State *piix3, int =
+pirq, int level)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int pic_irq;<br>
+<br>
+-=C2=A0 =C2=A0 pic_irq =3D piix3-&gt;dev.config[PIIX_PIRQC + pirq];<br>
++=C2=A0 =C2=A0 pic_irq =3D piix3-&gt;dev.config[PIIX_PIRQCA + pirq];<br>
+=C2=A0 =C2=A0 =C2=A0if (pic_irq &gt;=3D PIIX_NUM_PIC_IRQS) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+@@ -501,7 +500,7 @@ static void piix3_set_irq(void *opaque, int pirq, int l=
+evel)<br>
+=C2=A0static PCIINTxRoute piix3_route_intx_pin_to_irq(<wbr>void *opaque, in=
+t pin)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0PIIX3State *piix3 =3D opaque;<br>
+-=C2=A0 =C2=A0 int irq =3D piix3-&gt;dev.config[PIIX_PIRQC + pin];<br>
++=C2=A0 =C2=A0 int irq =3D piix3-&gt;dev.config[PIIX_PIRQCA + pin];<br>
+=C2=A0 =C2=A0 =C2=A0PCIINTxRoute route;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (irq &lt; PIIX_NUM_PIC_IRQS) {<br>
+@@ -530,7 +529,7 @@ static void piix3_write_config(PCIDevice *dev,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t address, uint32_t val, int =
+len)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0pci_default_write_config(dev, address, val, len);<br>
+-=C2=A0 =C2=A0 if (ranges_overlap(address, len, PIIX_PIRQC, 4)) {<br>
++=C2=A0 =C2=A0 if (ranges_overlap(address, len, PIIX_PIRQCA, 4)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PIIX3State *piix3 =3D PIIX3_PCI_DEVICE(de=
+v);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int pic_irq;<br>
+<br>
+diff --git a/include/hw/southbridge/piix.<wbr>h b/include/hw/southbridge/pi=
+ix.<wbr>h<br>
+index 79ebe0089b..9c92c37a4d 100644<br>
+--- a/include/hw/southbridge/piix.<wbr>h<br>
++++ b/include/hw/southbridge/piix.<wbr>h<br>
+@@ -18,6 +18,12 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t s=
+mb_io_base,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qemu_irq sci_irq, qemu_irq smi_irq,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0int smm_enabled, DeviceState **piix4_pm);<br>
+<br>
++/* PIRQRC[A:D]: PIRQx Route Control Registers */<br>
++#define PIIX_PIRQCA 0x60<br>
++#define PIIX_PIRQCB 0x61<br>
++#define PIIX_PIRQCC 0x62<br>
++#define PIIX_PIRQCD 0x63<br>
++<br>
+=C2=A0/*<br>
+=C2=A0 * Reset Control Register: PCI-accessible ISA-Compatible Register at =
+address<br>
+=C2=A0 * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0, 8086:=
+7000).<br>
+-- <br>
+2.21.0<br>
+<br>
+<br>
+</blockquote>
+
+--000000000000a7711205952be3c5--
 
