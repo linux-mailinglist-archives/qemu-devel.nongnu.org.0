@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC16DCEBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:53:42 +0200 (CEST)
-Received: from localhost ([::1]:45158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1424DCECC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:57:19 +0200 (CEST)
+Received: from localhost ([::1]:45266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLXNc-0001Xp-K1
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38389)
+	id 1iLXR8-0005eg-GN
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1iLXGx-0008Sq-9g
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:46:48 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLXMp-000272-Uk
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:52:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1iLXGw-0001zg-11
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:46:47 -0400
-Received: from mout.web.de ([212.227.15.4]:35129)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
- id 1iLXGv-0001xu-Jh; Fri, 18 Oct 2019 14:46:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1571424388;
- bh=9czTDDpKPA4uzAwvfli8wXLz0Uo2kLx2fFVUmSRI9ug=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=FH+WV4ejt0DzB7yxcnwIaaL01yzF0jc4l4ZimKEuqDF67zTE+p1COCuO3mgGnEGFA
- jo3qiE+mFAYCL+eZuZLUgloD3Wie30VIbyLnNWbPJyvdCm0vP/f7sIrWq8XSVkjeU8
- TEwk0URtI9rAo93qqp77uXQfA7TS4KYnOs3FBKvA=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.121]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MhlP1-1ihLgF1tIZ-00MrMP; Fri, 18
- Oct 2019 20:46:28 +0200
-Date: Fri, 18 Oct 2019 20:46:26 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v6 1/4] block/replication.c: Ignore requests after failover
-Message-ID: <20191018204626.0559de89@luklap>
-In-Reply-To: <596a6f07850002a09461f317afa75f3e0c9bb784.1570280098.git.lukasstraub2@web.de>
-References: <cover.1570280098.git.lukasstraub2@web.de>
- <596a6f07850002a09461f317afa75f3e0c9bb784.1570280098.git.lukasstraub2@web.de>
+ (envelope-from <richard.henderson@linaro.org>) id 1iLXMn-0004gr-F2
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:52:51 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45936)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iLXMn-0004g4-5G
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:52:49 -0400
+Received: by mail-pf1-x443.google.com with SMTP id y72so4402317pfb.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 11:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oTQ4y+ThlrWd/7Ox/7y1BuZvuF3RUt7kNzxcufjgRik=;
+ b=OSTT44YuMhNovw+OCnXgKf1Qw859Pf2kp9oCs+g6h6sIXn4hZ2Rzqch1fbhunV8uub
+ uptxTEgpZ+v/Uj6cxCvV8Kd6X41p3nwo7agIsJFWT8UCwaMhpcnaAZcrYEk0UUwdI76H
+ wTRSprfh2H+SHBJr+6hamj9v4JZtyCu75KAJ1Xuy5zSa8r3UbDZRhj5ge6OBSxgSE1VS
+ J3S/VVV+jWg62Or4Y1HnR5BYGwE2kTzUopX81le29X0iKMkSzuqGdimrXotYXhfHQuPx
+ ZYIvO7djkUD1+IaEv21kfLZq6YyuXKYmyT6DX699Zwsq3GXkAzSiWEmiNt30Cy8lCLz+
+ 1xFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oTQ4y+ThlrWd/7Ox/7y1BuZvuF3RUt7kNzxcufjgRik=;
+ b=eq8GZaHzccQzaUapH/CWIe/Lc3McXY65MIPt4/D2+Sa8OvhkFZVZDt6NDy1t9sFFsV
+ t4Dw9pfFv2lGe0AksU3IXx+tvsuBEbG9EToOLNYTiib5whzrFFN2UhH3tU8crDO7RiC0
+ xSf498PTM0DmK1CdvsgBUe3USjJW74apOXE4ykpXBYeWXqivOy+oqM6HnEj58t7NMUO4
+ jDS3D88kP4/TBhujQsT72b1cEqR42Qr1xoVgo4Jj0F+MJ1phgQvapC1ptxFW+Woowk7/
+ NlkceZO+bmwp+tDCMIiLnVpj0bPSjIxcD29rgYGgZCFYpbyuhF/Km2BpAu0qTz5DsdI2
+ wnlw==
+X-Gm-Message-State: APjAAAUBnkb3vTmuMtUZC2lK8kFw+TziF7FU3LOiUtJuhsz/Mrh9FFpG
+ vRD6sUTlJ6YDHL4pzntM19A9Sg==
+X-Google-Smtp-Source: APXvYqy0rFeVJkwis3E7hUBf/TBBL/VOAsaHcqJaWwDK4p5u1igHjcVwCmg3nu/sInkhaEDsVCHiTA==
+X-Received: by 2002:a62:38d5:: with SMTP id f204mr8564645pfa.100.1571424766913; 
+ Fri, 18 Oct 2019 11:52:46 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id c11sm9674085pfj.114.2019.10.18.11.52.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 18 Oct 2019 11:52:46 -0700 (PDT)
+Subject: Re: [PATCH v1 4/6] s390x/tcg: Fix VECTOR SUBTRACT COMPUTE BORROW
+ INDICATION
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20191018161044.6983-1-david@redhat.com>
+ <20191018161044.6983-5-david@redhat.com>
+ <d12a5c30-1953-7586-97d4-883131ac0b40@redhat.com>
+ <be613a08-a62e-c10d-5c5d-8b334e8f0985@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <567b4675-6d94-8255-d3f7-0edf1e4928f9@linaro.org>
+Date: Fri, 18 Oct 2019 11:52:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BnykwpK8Qd+HSNsiTODqg7pLGS9tZ/Z75Jk9VKRp54MQIM8GZ5o
- +qPy8hdtPsMQzAG1jNppV76WnB/aQaBcFyDwX1w8eTw5GwalVMMylQsCpBmfovGwWUxOjE1
- C3X6FEVOhWNsRjrru4jz7Q50RPktyE+yJMGDPcg6tCKGBcZ5pSQ9jXFCuEz0cWhn8xSzccA
- hbtf/gOXkBG9VW/MeUU5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u5mUe8UGvBs=:cQ1FePVGBEvEFMnsqLom4c
- 7Ylskjwfv8cAcdB26uCSdcUfJkZ9jm7E8PAyXc9YA0I1izqk+WOO5KrIguuL9gVapw9n8KvbF
- ULNeoChMKyb1udTZkWTtUAU4Zeo9Iq0ebZUrkmOjmyvXJIahyQkpAFui+LFLWs1cw7T+Lbt7E
- dhCMa18N3HLEcgqDkywbOPxXtqxvbF9wl1rjnrAC7ZRgpDDndwACJNhZ+88TjPmYdh6bClY0M
- KSPd3lkRkjmcszDo7/kYuIZaUBYGJUFzELZisLZ8esZbEslEuti5bAnWmJlMkmzVkIf0N+R2x
- gW+bLTn54n8L34S5hx4OLEgXDSomskAaPyJQ04gjZVmWRBwKXmhU+tt4+M0CWWv1j4rDaxVe0
- 8IVcsMvnsuyDXVCwpYFdQMCH6JxG6SUSrm/ouENsCexpSctwHQeS39oNAftXOo8a+RfBJXvqh
- j7pGAouJAvRgDjH/cmwTm7az04kLs5x4DJJgBqzwEcV4y6/wO+llIuz052jSx17DF617mtF4g
- g1/s0mlC/QuxaIdnN7c1YiR4XkjT/1F5j/OhogdM2872qagaxNRCp7yyGqgcYME/V2AOslzg6
- MwXBjJcYKZ9bKdl1FCHMRFUhTY+nBnUgeTtMHM2p75Sy3/g9RdFKm5veWE0miizZW23zCTvcF
- TcLTq8QXAVa6F9BdpGuH43m678bY5QZPITeHxEs6Zw3SBzejiJRe/bAwp8d4psALr240woM31
- p+ZezeNGEjolEJH+NEMZS0KrDWHYrSzRe2KED4n48L9QtrdRPmE2kXRkH8RTqSnDU606BPaC7
- e9jwq8eCpYcdnggXLH82NFEOoMQwN1uzg/ViMCQ54VtBZLOSyJ0Li2Z/Ucl/QmpXIZwS+MoDH
- gjjW+vLIBtUHMVXMX3wnuzKf3+BsLyhcv6GPYwQO+ckWIThImq5OaKd8jljQqFhorfjlCov+p
- 4lBDFo4gGBE7WRYYXhnVOUKAPOQF1VA7XHdCIcdRDsB6oVJ5WQHOE+NDNN45S2ZG8U7urr1zc
- 17VuGX3A9bVjHTQJhKBP40ETkAR/lBW1H8g3PvQM8v+CZW8JGT9rgyVkSkMTSKaDMyw9KjB4C
- MWFfoz9v44D7PGRbkiQEUruKpxdNoNxCLxQh6ApHlWKXbz6SNwl/oTvKbAm2iz7iqioXho3jm
- GymW4x3YA9Nm79OnbiR+4rbgbT4jDf59hS8Jh2RU7WDum8B30FILZ97WxXr5nVAwUtFFGTgb+
- 52ERxfVToT1HsssFf4IgKqlzOeAUfQynvY2h4I73w7DkAt45nK/7XunKQ8kM=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.15.4
+In-Reply-To: <be613a08-a62e-c10d-5c5d-8b334e8f0985@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,120 +86,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Xie Changlong <xiechanglong.d@gmail.com>
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 5 Oct 2019 15:05:23 +0200
-Lukas Straub <lukasstraub2@web.de> wrote:
+On 10/18/19 11:18 AM, David Hildenbrand wrote:
+> On 18.10.19 19:41, David Hildenbrand wrote:
+>> On 18.10.19 18:10, David Hildenbrand wrote:
+>>> Looks like my idea of what a "borrow" is was wrong. We are dealing with
+>>> unsigned numbers. A subtraction is simply an addition with the bitwise
+>>> complement. If we get a carry during the addition, that's the borrow.
+>>> "The operands are treated as unsigned binary integers."
+>>>
+>>> This is nice, as we can reuse the VECTOR ADD COMPUTE CARRY functions
+>>> and avoid helpers, all we have to do is compute the bitwise complement.
+>>>
+>>> Fixes: 1ee2d7ba72f6 ("s390x/tcg: Implement VECTOR SUBTRACT COMPUTE BORROW
+>>> INDICATION")
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>> ---
+>>>    target/s390x/helper.h           |  2 --
+>>>    target/s390x/translate_vx.inc.c | 45 ++++++++++++++++++++++++---------
+>>>    target/s390x/vec_int_helper.c   | 16 ------------
+>>>    3 files changed, 33 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+>>> index 56e8149866..ca1e08100a 100644
+>>> --- a/target/s390x/helper.h
+>>> +++ b/target/s390x/helper.h
+>>> @@ -207,8 +207,6 @@ DEF_HELPER_FLAGS_4(gvec_verim16, TCG_CALL_NO_RWG, void,
+>>> ptr, cptr, cptr, i32)
+>>>    DEF_HELPER_FLAGS_4(gvec_vsl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+>>>    DEF_HELPER_FLAGS_4(gvec_vsra, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+>>>    DEF_HELPER_FLAGS_4(gvec_vsrl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+>>> -DEF_HELPER_FLAGS_4(gvec_vscbi8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+>>> -DEF_HELPER_FLAGS_4(gvec_vscbi16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+>>>    DEF_HELPER_4(gvec_vtm, void, ptr, cptr, env, i32)
+>>>       /* === Vector String Instructions === */
+>>> diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
+>>> index 5ce7bfb0af..40bcc1604e 100644
+>>> --- a/target/s390x/translate_vx.inc.c
+>>> +++ b/target/s390x/translate_vx.inc.c
+>>> @@ -2130,14 +2130,40 @@ static DisasJumpType op_vs(DisasContext *s, DisasOps
+>>> *o)
+>>>        return DISAS_NEXT;
+>>>    }
+>>>    +static void gen_scbi8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+>>> +{
+>>> +    TCGv_i64 t = tcg_temp_new_i64();
+>>> +
+>>> +    tcg_gen_not_i64(t, b);
+>>> +    gen_acc(d, a, t, ES_8);
+>>> +    tcg_temp_free_i64(t);
+>>> +}
+>>
+>> BTW, I would have thought that we need the 2nd complement in all these
+>> cases. However, the description of the other functions confused me
+>> (VECTOR SUBTRACT WITH BORROW INDICATION) - add bitwise complement and
+>> add the borrow.
+>>
+>> This passes my test cases (that are verified against real HW), but I am
+>> not sure if I check all the corner cases.
+>>
+>> @Richard, do you have any idea how to do it the right way for this
+>> instruction?
+>>
+> 
+> My impression was right. A simple "0-0" test makes this visible. The other two
+> fixes seem to be correct, though.
 
-> After failover the Secondary side of replication shouldn't change state,=
- because
-> it now functions as our primary disk.
->
-> In replication_start, replication_do_checkpoint, replication_stop, ignor=
-e
-> the request if current state is BLOCK_REPLICATION_DONE (sucessful failov=
-er) or
-> BLOCK_REPLICATION_FAILOVER (failover in progres i.e. currently merging a=
-ctive
-> and hidden images into the base image).
->
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-> ---
->  block/replication.c | 38 +++++++++++++++++++++++++++++++++++---
->  1 file changed, 35 insertions(+), 3 deletions(-)
->
-> diff --git a/block/replication.c b/block/replication.c
-> index 3d4dedddfc..97cc65c0cf 100644
-> --- a/block/replication.c
-> +++ b/block/replication.c
-> @@ -454,6 +454,17 @@ static void replication_start(ReplicationState *rs,=
- ReplicationMode mode,
->      aio_context_acquire(aio_context);
->      s =3D bs->opaque;
->
-> +    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-> +        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-> +        /*
-> +         * This case happens when a secondary is promoted to primary.
-> +         * Ignore the request because the secondary side of replication
-> +         * doesn't have to do anything anymore.
-> +         */
-> +        aio_context_release(aio_context);
-> +        return;
-> +    }
-> +
->      if (s->stage !=3D BLOCK_REPLICATION_NONE) {
->          error_setg(errp, "Block replication is running or done");
->          aio_context_release(aio_context);
-> @@ -529,8 +540,7 @@ static void replication_start(ReplicationState *rs, =
-ReplicationMode mode,
->                     "Block device is in use by internal backup job");
->
->          top_bs =3D bdrv_lookup_bs(s->top_id, s->top_id, NULL);
-> -        if (!top_bs || !bdrv_is_root_node(top_bs) ||
-> -            !check_top_bs(top_bs, bs)) {
-> +        if (!top_bs || !check_top_bs(top_bs, bs)) {
->              error_setg(errp, "No top_bs or it is invalid");
->              reopen_backing_file(bs, false, NULL);
->              aio_context_release(aio_context);
-> @@ -577,6 +587,17 @@ static void replication_do_checkpoint(ReplicationSt=
-ate *rs, Error **errp)
->      aio_context_acquire(aio_context);
->      s =3D bs->opaque;
->
-> +    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-> +        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-> +        /*
-> +         * This case happens when a secondary was promoted to primary.
-> +         * Ignore the request because the secondary side of replication
-> +         * doesn't have to do anything anymore.
-> +         */
-> +        aio_context_release(aio_context);
-> +        return;
-> +    }
-> +
->      if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
->          secondary_do_checkpoint(s, errp);
->      }
-> @@ -593,7 +614,7 @@ static void replication_get_error(ReplicationState *=
-rs, Error **errp)
->      aio_context_acquire(aio_context);
->      s =3D bs->opaque;
->
-> -    if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
-> +    if (s->stage =3D=3D BLOCK_REPLICATION_NONE) {
->          error_setg(errp, "Block replication is not running");
->          aio_context_release(aio_context);
->          return;
-> @@ -635,6 +656,17 @@ static void replication_stop(ReplicationState *rs, =
-bool failover, Error **errp)
->      aio_context_acquire(aio_context);
->      s =3D bs->opaque;
->
-> +    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-> +        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-> +        /*
-> +         * This case happens when a secondary was promoted to primary.
-> +         * Ignore the request because the secondary side of replication
-> +         * doesn't have to do anything anymore.
-> +         */
-> +        aio_context_release(aio_context);
-> +        return;
-> +    }
-> +
->      if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
->          error_setg(errp, "Block replication is not running");
->          aio_context_release(aio_context);
+Your description seems to indicate that you want carry output, which is
+!borrow.  ARM represents things this way, but I didn't recall it for S390.
 
-Hello Everyone,
-Could the block people have a look at this patch?
+If you want to implement sub r,x,y with add r,x,~y, you also have to add one --
+often times with the carry-in.  But since we don't have a carry-in here, I
+wonder if it isn't easier to invert your result:
 
-Regards,
-Lukas Straub
+     tcg_gen_sub2_i64(tl, th, al, zero, bl, zero);
+     tcg_gen_andi_i64(th, th, 1);
+     tcg_gen_sub2_i64(tl, th, ah, zero, th, zero);
+     tcg_gen_sub2_i64(tl, th, tl, th, bh, zero);
+-    tcg_gen_andi_i64(dl, th, 1);
++    /* "invert" the result: -1 -> 0; 0 -> 1 */
++    tcg_gen_addi_i64(dl, th, 1);
+
+
+r~
 
