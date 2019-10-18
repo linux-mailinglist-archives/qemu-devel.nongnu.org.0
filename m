@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4756ADCDDC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:21:56 +0200 (CEST)
-Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516D1DCDF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:28:51 +0200 (CEST)
+Received: from localhost ([::1]:44946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWst-0004SD-5M
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:21:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35004)
+	id 1iLWza-0001VV-AY
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <scw@google.com>) id 1iLWpc-0000Bi-Iy
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:34 -0400
+ (envelope-from <scw@google.com>) id 1iLWyE-00011I-0n
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:27:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <scw@google.com>) id 1iLWpb-00027o-0p
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:32 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:46697)
+ (envelope-from <scw@google.com>) id 1iLWyC-0007RI-S9
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:27:25 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33437)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <scw@google.com>) id 1iLWpa-000278-Ns
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:30 -0400
-Received: by mail-il1-x142.google.com with SMTP id c4so6343106ilq.13
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 11:18:30 -0700 (PDT)
+ (Exim 4.71) (envelope-from <scw@google.com>) id 1iLWyC-0007Qs-JC
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:27:24 -0400
+Received: by mail-io1-xd44.google.com with SMTP id z19so8623121ior.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 11:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FFV0qKILGS0j7VnpDDRVnKl6Se2W9ztNu9K1JZXXVME=;
- b=MrIbPaDzgRGu99YuTZhxl7Vsxn8p3g9pGQVz3bnGls0VtMXOfCYCS+N2b6gFl71gSz
- GX4wJCgVHIesOks3o4yHvgmQf3NBb2iTCODUJ9axyefAsSnSvgoALNatg8V6Py2QiOSV
- hLyB9AgPPpI0mlNpMo9SUOQRdzI+5pctBPxs9JZ4Xle6oQIfBj3t6AY3bgsxa+ZJR/dW
- TEZxP2PJMmcK2XpaS3XpvxmPBByPQwPvkdQ1kVybT0RYOMDgL/WP+dLie/X23VYV0kFh
- Q05mCdSGIvYkmTGRfovMscOnFcNRYpxzpBsug421NJmCXtjayo5M0OFXDfy3bB2VKwzq
- 8+Eg==
+ :cc; bh=UkyVTQ/ReoYbIt1oZXb9JLgmG64XBFzbwvBM60gj0hE=;
+ b=oIH4/0sbfoZRCBxaF8A5q09Pe/M1RQd7ytRQU2TSfSNzqZGg83TMGaimwjFcORTwRe
+ FhSRt37rQE+Dnnp/i42mNsK+M5fieL9PBcRfa4UY0426OpQ3lsdWacH3ZhDmoYZSb+ZU
+ g6wUl5ucmS/8RONBparcLcfXtlHAxyC6NptQYNTFmKPd48JrVN2siTK1lgvNwboKn11+
+ LCff0dNWN+F0SaeBsZgBG+ns8WZDYC+E3aaDUim/6LVWGNk95DuNaysKebnO9YLJd+MM
+ orTfvjE+XRlQdikfdPhRUYtC62sfFIj8NoIuCFnBXrq1jXVqBOph/tX5aoav2aNIt6l+
+ +xPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FFV0qKILGS0j7VnpDDRVnKl6Se2W9ztNu9K1JZXXVME=;
- b=fS42RinA1p6gppl1e7qmsHbNOnq7o4DsAAgPtJYj+VYcwtM5gHnSEJP8dqwkCKBVI7
- zBZTC7QDUoFLQvJNdwDA6F+8mjKDgf+w5vUAHyarCX+/3Ixnlybof5BrCRFGrVW1Z5x5
- jMFzcYdGOLWwYYr7wNGcQGSMYe4dNfvczMoFbKp4NACXfVCkolRwCyWP3vTdi5yEU6ab
- 4oHQTR/Ho+8+No/PxXPIbenblb9jUANyVjFw80zDElaHu+S+T7FMphpraZ5zWFjsHftV
- iraNlWYwl1+vHPcSpw1USnxJncb8VSBj0Tw1lsmHOOQPSCrSi7IQGxPMfoJw9Vom5PmG
- 79fg==
-X-Gm-Message-State: APjAAAUCv+qzwDjegWYr7miGRxmFttJqcG3VC4bC+QtDnc7PuusjhaAP
- w3/q8E3OmeotJof8Z7oU9tYI4/7h7fgyBR1g++5v7w==
-X-Google-Smtp-Source: APXvYqzCHleDdVZCFzzAslmmUdFCEmiSssHVxY6NAVs0EIp6142lehGDHbawQsYfA7bWSRDbQxAKhFZCi6+us9mDF30=
-X-Received: by 2002:a92:5b98:: with SMTP id c24mr11277313ilg.158.1571422709062; 
- Fri, 18 Oct 2019 11:18:29 -0700 (PDT)
+ bh=UkyVTQ/ReoYbIt1oZXb9JLgmG64XBFzbwvBM60gj0hE=;
+ b=g6PKnAXws3IYGVbI7Z820wJQETVwTkd4Ho3j8Lnm+zxQfu+hQ0Ub5i9Ybnan+PRTNY
+ sM+3LrUb0dHjbA8MbBLeCDdeRxBsNSqSf026TPDBMnGzUnDxb/7yOeWAa1lGDTGwkrrQ
+ nFytk8SDNrzBvQtjfwO0+0V+pp9kO/OW0oQxIDuXoC73YyhZmZ4tWV1XPhT1gUpeUQee
+ IllyLJTTr7LrL+fsGPE7eNmb7Yf01fS7nacHZ6f2lw/vv5MiCXrzm7yarbipD5FQioON
+ 4aNCA+V8xpyhcAxOk1tv37nU7c3C7b14cuQokAaWxjc7CNz8+zQuxjuiQ3i3tzRlseGT
+ o1sg==
+X-Gm-Message-State: APjAAAWZN9XbQ9yL9GEt90z5Nv+DJyg1HXezIPpF6dTg+IuykOLz0Y9A
+ BEaf7n4SMuNfZL0bZc24OjtGe/gDhjVBhMNicsEAQw==
+X-Google-Smtp-Source: APXvYqx7T0kj3QMeXSjGqAWQpd+g0y1LVXlOZIyURy3qhsDqBvy+8JB+zfIz3qbwoybVInXB3NveKP2B6nJWRlnTc2Q=
+X-Received: by 2002:a02:4447:: with SMTP id o68mr10362159jaa.137.1571423243025; 
+ Fri, 18 Oct 2019 11:27:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191018001920.178283-1-scw@google.com>
  <4b34aa24-8669-7713-84f3-07e9e8400734@vivier.eu>
 In-Reply-To: <4b34aa24-8669-7713-84f3-07e9e8400734@vivier.eu>
 From: Shu-Chun Weng <scw@google.com>
-Date: Fri, 18 Oct 2019 11:18:16 -0700
-Message-ID: <CAF3nBxgzHkpkG9rBwHygw_RTT91-ai5At+my31dNpay1nbKbww@mail.gmail.com>
+Date: Fri, 18 Oct 2019 11:27:11 -0700
+Message-ID: <CAF3nBxicPpCjTN1M581bbxqT6y7KupG4GW4-4m0v0JkiHR8Yww@mail.gmail.com>
 Subject: Re: [PATCH] Fix unsigned integer underflow in fd-trans.c
 To: Laurent Vivier <laurent@vivier.eu>
 Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000068f8520595335c5c"
+ micalg=sha-256; boundary="0000000000003c327b0595337c90"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::142
+X-Received-From: 2607:f8b0:4864:20::d44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,34 +76,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000068f8520595335c5c
-Content-Type: multipart/alternative; boundary="0000000000005e202d0595335c39"
-
---0000000000005e202d0595335c39
+--0000000000003c327b0595337c90
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-That does prevent the integer underflow, but it also changes the behavior
-and I don't think the new behavior is desirable.
+(Re-sending to the list because I forgot to turn off HTML before and
+it was bounced.)
+
+That does prevent the integer underflow, but it also changes the
+behavior and I don't think the new behavior is desirable.
 
 If the extra payload has a smaller alignment than the header, it makes
-sense for the user program to generate a nlmsg_len that is not a multiple
-of the alignment. When it's the last entry, the new condition will it
-because NLMSG_ALIGN pushes the aligned length over `len`, yet the single
-entry processing function won't actually read beyond the buffer as long as
-it's bounded by nlmsg_len.
+sense for the user program to generate a nlmsg_len that is not a
+multiple of the alignment. When it's the last entry, the new condition
+will it because NLMSG_ALIGN pushes the aligned length over `len`, yet
+the single entry processing function won't actually read beyond the
+buffer as long as it's bounded by nlmsg_len.
 
 Shu-Chun
 
-On Fri, Oct 18, 2019 at 12:26 AM Laurent Vivier <laurent@vivier.eu> wrote:
 
+On Fri, Oct 18, 2019 at 12:26 AM Laurent Vivier <laurent@vivier.eu> wrote:
+>
 > Le 18/10/2019 =C3=A0 02:19, Shu-Chun Weng a =C3=A9crit :
-> > In any of these `*_for_each_*` functions, the last entry in the buffer
-> (so the
+> > In any of these `*_for_each_*` functions, the last entry in the buffer =
+(so the
 > > "remaining length in the buffer" `len` is equal to the length of the
 > > entry `nlmsg_len`/`nla_len`/etc) has size that is not a multiple of the
-> > alignment, the aligned lengths `*_ALIGN(*_len)` will be greater than
-> `len`.
+> > alignment, the aligned lengths `*_ALIGN(*_len)` will be greater than `l=
+en`.
 > > Since `len` is unsigned (`size_t`), it underflows and the loop will rea=
 d
 > > pass the buffer.
@@ -121,25 +122,23 @@ d
 > > --- a/linux-user/fd-trans.c
 > > +++ b/linux-user/fd-trans.c
 > > @@ -279,6 +279,7 @@ static abi_long host_to_target_for_each_nlmsg(struc=
-t
-> nlmsghdr *nlh,
+t nlmsghdr *nlh,
 > >                                                         (struct nlmsghd=
-r
-> *))
+r *))
 > >  {
 > >      uint32_t nlmsg_len;
 > > +    uint32_t aligned_nlmsg_len;
 > >      abi_long ret;
 > >
 > >      while (len > sizeof(struct nlmsghdr)) {
-> > @@ -312,8 +313,13 @@ static abi_long
-> host_to_target_for_each_nlmsg(struct nlmsghdr *nlh,
+> > @@ -312,8 +313,13 @@ static abi_long host_to_target_for_each_nlmsg(stru=
+ct nlmsghdr *nlh,
 > >              break;
 > >          }
 > >          tswap_nlmsghdr(nlh);
 > > -        len -=3D NLMSG_ALIGN(nlmsg_len);
-> > -        nlh =3D (struct nlmsghdr *)(((char*)nlh) +
-> NLMSG_ALIGN(nlmsg_len));
+> > -        nlh =3D (struct nlmsghdr *)(((char*)nlh) + NLMSG_ALIGN(nlmsg_l=
+en));
 > > +
 > > +        aligned_nlmsg_len =3D NLMSG_ALIGN(nlmsg_len);
 > > +        if (aligned_nlmsg_len >=3D len) {
@@ -169,113 +168,8 @@ r
 > Thanks,
 > Laurent
 >
->
 
---0000000000005e202d0595335c39
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">That does prevent the integer underflow, but it also chang=
-es the behavior and I don&#39;t think the new behavior is desirable.<div><b=
-r></div><div>If the extra payload has a smaller alignment than the header, =
-it makes sense for the user program to generate a nlmsg_len that is not a m=
-ultiple of the alignment. When it&#39;s the last entry, the new condition w=
-ill it because NLMSG_ALIGN pushes the aligned length over `len`, yet the si=
-ngle entry processing function won&#39;t actually read beyond the buffer as=
- long as it&#39;s bounded by nlmsg_len.</div><div><br></div><div>Shu-Chun</=
-div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Fri, Oct 18, 2019 at 12:26 AM Laurent Vivier &lt;<a href=3D"mailto:l=
-aurent@vivier.eu">laurent@vivier.eu</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">Le 18/10/2019 =C3=A0 02:19, Shu-Chun Wen=
-g a =C3=A9crit=C2=A0:<br>
-&gt; In any of these `*_for_each_*` functions, the last entry in the buffer=
- (so the<br>
-&gt; &quot;remaining length in the buffer&quot; `len` is equal to the lengt=
-h of the<br>
-&gt; entry `nlmsg_len`/`nla_len`/etc) has size that is not a multiple of th=
-e<br>
-&gt; alignment, the aligned lengths `*_ALIGN(*_len)` will be greater than `=
-len`.<br>
-&gt; Since `len` is unsigned (`size_t`), it underflows and the loop will re=
-ad<br>
-&gt; pass the buffer.<br>
-&gt; <br>
-&gt; This may manifest as random EINVAL or EOPNOTSUPP error on IO or networ=
-k<br>
-&gt; system calls.<br>
-&gt; <br>
-&gt; Signed-off-by: Shu-Chun Weng &lt;<a href=3D"mailto:scw@google.com" tar=
-get=3D"_blank">scw@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 linux-user/fd-trans.c | 51 +++++++++++++++++++++++++++++++++----=
-------<br>
-&gt;=C2=A0 1 file changed, 40 insertions(+), 11 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c<br>
-&gt; index 60077ce531..9b92386abf 100644<br>
-&gt; --- a/linux-user/fd-trans.c<br>
-&gt; +++ b/linux-user/fd-trans.c<br>
-&gt; @@ -279,6 +279,7 @@ static abi_long host_to_target_for_each_nlmsg(stru=
-ct nlmsghdr *nlh,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(struct nlmsghdr=
- *))<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint32_t nlmsg_len;<br>
-&gt; +=C2=A0 =C2=A0 uint32_t aligned_nlmsg_len;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 abi_long ret;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 while (len &gt; sizeof(struct nlmsghdr)) {<br>
-&gt; @@ -312,8 +313,13 @@ static abi_long host_to_target_for_each_nlmsg(str=
-uct nlmsghdr *nlh,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tswap_nlmsghdr(nlh);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D NLMSG_ALIGN(nlmsg_len);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 nlh =3D (struct nlmsghdr *)(((char*)nlh) =
-+ NLMSG_ALIGN(nlmsg_len));<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 aligned_nlmsg_len =3D NLMSG_ALIGN(nlmsg_l=
-en);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (aligned_nlmsg_len &gt;=3D len) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D aligned_nlmsg_len;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 nlh =3D (struct nlmsghdr *)(((char*)nlh) =
-+ aligned_nlmsg_len);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;=C2=A0 }<br>
-<br>
-Nice catch.<br>
-<br>
-But the first &quot;if&quot; in the loop is already here for that, we only =
-need to<br>
-fix it with something like that in all the for_each functions:<br>
-<br>
-@@ -285,7 +285,7 @@ static abi_long host_to_target_for_each_nlmsg(struct<br=
->
-nlmsghdr *nlh,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nlmsg_len =3D nlh-&gt;nlmsg_len;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (nlmsg_len &lt; sizeof(struct nlmsghdr=
-) ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nlmsg_len &gt; len) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NLMSG_ALIGN(nlmsg_len) &gt; len)=
- {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-Thanks,<br>
-Laurent<br>
-<br>
-</blockquote></div>
-
---0000000000005e202d0595335c39--
-
---00000000000068f8520595335c5c
+--0000000000003c327b0595337c90
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -357,14 +251,14 @@ c1QHUFb5IqDCzX2UAqBLmfZJRa+8BPAZKjyD3RrpuwX+2ptujIn670+XIo/UO7cHDUzBsjZ6pERm
 PZLnD/+z8h9Qiwp0Ne+EneB9imS8VsVbrPnvl2x6XBfMweYJqOOhCbKlj+dpVffF/fRZyNDZ0hIn
 NftycTTwJfqZMYICXjCCAloCAQEwXDBMMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2ln
 biBudi1zYTEiMCAGA1UEAxMZR2xvYmFsU2lnbiBIViBTL01JTUUgQ0EgMQIMU4qW9RNCoAsDIBzT
-MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC2WbOeDknIq4emd3scr8Aa8gH0jUq2
-Oyz0QUqL7tedqTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xOTEw
-MTgxODE4MjlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBFjALBglg
+MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBln5scNITxb9mlcwzbCtG5tJb02aXH
+uhEXExURxUP7VzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xOTEw
+MTgxODI3MjNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBFjALBglg
 hkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzALBglghkgBZQME
-AgEwDQYJKoZIhvcNAQEBBQAEggEASD3L0OK2kb37ligMSH3gtRBh3MHdV/xxH1J9caBfb3d1MuqF
-iDDQ9as28kc7oYHU9KGV/aa5Eq3P3JYwdr/YeZkHNXCwQBXI6tHm7NH8WeAM+8dBXKaR1mfLdI1Y
-d4BmthspIRABPtaYw5m0aDDXiTT71C8fekBmwmqDG/kpwUScEK/PgKb2Bs+Ss+A10+TrgfUW3TdV
-5sGW+NwSkb6D/G8VAcBnkFomer8vl5knHX7CrdujPpSQIQtmBxLtTcEVntMOXmDUbY4KWYE6UoMJ
-/SsfS1n6imdOeZ6Q9KmPvZqB+Nv3CiPXlF0wZ6ZHFdN23gQxgzpABBB1CzCiiLPpXQ==
---00000000000068f8520595335c5c--
+AgEwDQYJKoZIhvcNAQEBBQAEggEALbbLSKj9bcRNdkDdL1pEP1x7jwPr6qS2eGeZ46dQXRNsSuyG
+CXyWJyBv7zTYc/pVS5S8Ftrj60Bwtbs5QrKCTVsqbl4pxyQZiKDndPgGmGSyZKtrddMHUxETReoQ
+20JGogPPEW60AIaokHVTpmAXV/hMfFwDmArh9/PEgKci4py9mJNaE5AYdsoZwoF17BQBeAC2P+Nj
+uG9R+wXCGTWdJqeUhlatgr8wkHU8i9wI3n5Cduc4MJBP0K5xlHh8Ui9i106ICqYLX8CDkbTaZ11R
+BpGxX72797Ech5p7KOp5Nm2V0V1hOwPeIaUUJyaLKrr6Pgu/VzJMkgC/3YPkHi8/7A==
+--0000000000003c327b0595337c90--
 
