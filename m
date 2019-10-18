@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F98EDC85F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:24:48 +0200 (CEST)
-Received: from localhost ([::1]:41732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DEADC851
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:21:24 +0200 (CEST)
+Received: from localhost ([::1]:41698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLU7T-0001ts-1D
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39187)
+	id 1iLU4B-00075E-NV
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39302)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iLTrE-0006nY-MT
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:08:03 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1iLTrN-0006rc-GS
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:08:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iLTrD-0000Ju-4R
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:08:00 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:38718)
+ (envelope-from <damien.hedde@greensocs.com>) id 1iLTrL-0000NJ-7Z
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:08:09 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iLTr9-0000G7-4u; Fri, 18 Oct 2019 11:07:55 -0400
+ id 1iLTr9-0000Gh-SQ; Fri, 18 Oct 2019 11:07:56 -0400
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 99A8E96F57;
- Fri, 18 Oct 2019 15:07:53 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 468AE96F58;
+ Fri, 18 Oct 2019 15:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1571411274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RqBxcWOE3GUk9NOvDWwY7MRG2couRRZlrwQCMsx9cb8=;
- b=K+BEr3S4fPz3+bqUh8rvo/LlgeBgDXJWbAL2F34zlmCe/tfuU70xY46CfbwiHCYR526AQW
- X8WpjL/Nhp2Na70OQCniAfLMIn0t0mlf0Y7wCFlN/nzkrvVS+nUAOQatXOgfeW1G88IHQz
- n5GqnSgHfirY0ckPaf7LMpImztCueoY=
+ bh=yFxNQUn0McvG51PcnwkNfFvA5jqi890S+3wkjQHe+/8=;
+ b=27URdIHB6TSPjT8Qy6JOi2I08BboVxzVYJGprrFePLapYv9BFMvkWojvhWdBJ2T6o3WFUp
+ +7Q/DRvHThrctze5Y7aGbRb6pQkAzNdljCUNzqsCKTkKPB2VSCDkEZ9VxIsdH3y7G7PKXw
+ BNf/naAJjj9Gozu8eeqPbu3Vp4wlmbk=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/13] hw/core: deprecate old reset functions and introduce
- new ones
-Date: Fri, 18 Oct 2019 17:06:25 +0200
-Message-Id: <20191018150630.31099-9-damien.hedde@greensocs.com>
+Subject: [PATCH v5 09/13] docs/devel/reset.txt: add doc about Resettable
+ interface
+Date: Fri, 18 Oct 2019 17:06:26 +0200
+Message-Id: <20191018150630.31099-10-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191018150630.31099-1-damien.hedde@greensocs.com>
 References: <20191018150630.31099-1-damien.hedde@greensocs.com>
@@ -50,14 +50,14 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RqBxcWOE3GUk9NOvDWwY7MRG2couRRZlrwQCMsx9cb8=;
- b=Y3rATdAWJGXlgMiQg6iq0xdgiAsrgs/zyRhnX1e/XFoqFzjPIU/tCRUUDh03ox4nu7l0r/
- jOUcfnFqEf0pfquEOu94y0wwkPYNYmu4WTNQaCLZWb2q8qswzRzxqlvXAcV1PpA18g3cIX
- jksywxxs5VfW8OE26roXqJbhW57RYMk=
+ bh=yFxNQUn0McvG51PcnwkNfFvA5jqi890S+3wkjQHe+/8=;
+ b=RaebG4Im9q8cYBr+akqghOzWHOoPMhiP2DUHcU8XcD+j4V2X+rng0SRKk13Yfc37Pn/2z/
+ R2P/GGqEPlKCyxHXeRCjJHR2gtY3OhgiIGFgkSJ8Kfs8HYbcsJdtwfSo5ADf+uK4AY8tsd
+ MM3EjqavCq7NvZK9erXyndS3dJ46yNE=
 ARC-Seal: i=1; s=mail; d=greensocs.com; t=1571411274; a=rsa-sha256; cv=none;
- b=VFXiwxs2wZt0y1qBLHG37/xc2o0HrHCMhFU3jE9NMo8IDB/kJaLShZniac8usop1xwSkBo
- zj+eIw8mGH1bLkmMgehjPEJ7v1XUB7Cyg/oC686my9pQnTOI5nDlq4+j9gZCXWZ40vYb9R
- R+rp3leK4H+t1LLe06LYjxOg4v/ty0I=
+ b=UW9bKS3pFbvSHy+154rpVSeiLl53JB22b+rRTaCk/4Km7/0NI8v1JHofsPpbWqSqSBJ9ZG
+ hUIZeDIPwGlvyqyaKk5eFQN3tHlFiVhuACWAwMl38a0+oUheOeovmICerqWP4MDyqraBST
+ MEaYJ1eOZErPHC9i1Ay2kwDEtJCCUG8=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -84,182 +84,389 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Deprecate device_legacy_reset(), qdev_reset_all() and
-qbus_reset_all() to be replaced by new functions
-device_cold_reset() and bus_cold_reset() which uses resettable API.
-
-Also introduce resettable_cold_reset_fn() which may be used as a
-replacement for qdev_reset_all_fn and qbus_reset_all_fn().
-
-Following patches will be needed to look at legacy reset call sites
-and switch to resettable api. The legacy functions will be removed
-when unused.
-
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
 
-I've removed the general helpers
-+ device_reset(DeviceState *dev, ResetType type)
-+ bus_reset(BusState *dev, ResetType type)
-because with several reset types, all devices and buses will not
-implement all of them. I think it is preferable to define a
-type-specific helper every time it is needed for base classes
-implementing the reset type (eg a device_pci_reset(PciDev*) for the
-pci reset type if add that).
-
-So device_reset()/bus_reset() symbol names are not taken anymore. I
-don't have a strong opinion of what names should have the
-device_cold_reset() and bus_cold_reset() function added in this
-patch. It could be device/bus_hard_reset() (the current
-qbus_reset_all() comment mention we do a "hard" reset) or simply
-device/bus_reset() or anything else.
-What do you think ? Any better idea ? It should be consistent with
-the reset type name but we can change it also if cold is not what we
-want.
-
-Note that if we don't settle for device/bus_reset(). We can drop
-the first patch that renames device_reset() to device_legacy_reset()
+Should I add an entry into index.rst ?
 ---
- hw/core/bus.c           |  5 +++++
- hw/core/qdev.c          |  5 +++++
- hw/core/resettable.c    |  5 +++++
- include/hw/qdev-core.h  | 27 +++++++++++++++++++++++++++
- include/hw/resettable.h |  9 +++++++++
- 5 files changed, 51 insertions(+)
+ docs/devel/reset.rst | 282 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 282 insertions(+)
+ create mode 100644 docs/devel/reset.rst
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 7c05e80db8..5f9e261bb2 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -68,6 +68,11 @@ int qbus_walk_children(BusState *bus,
-     return 0;
- }
-=20
-+void bus_cold_reset(BusState *bus)
-+{
-+    resettable_reset(OBJECT(bus), RESET_TYPE_COLD);
-+}
+diff --git a/docs/devel/reset.rst b/docs/devel/reset.rst
+new file mode 100644
+index 0000000000..a562720f55
+--- /dev/null
++++ b/docs/devel/reset.rst
+@@ -0,0 +1,282 @@
 +
- bool bus_is_in_reset(BusState *bus)
- {
-     return resettable_is_in_reset(OBJECT(bus));
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index c5d107ea4e..3e6600ce76 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -335,6 +335,11 @@ void qbus_reset_all_fn(void *opaque)
-     qbus_reset_all(bus);
- }
-=20
-+void device_cold_reset(DeviceState *dev)
-+{
-+    resettable_reset(OBJECT(dev), RESET_TYPE_COLD);
-+}
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Reset in QEMU: the Resettable interface
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
- bool device_is_in_reset(DeviceState *dev)
- {
-     return resettable_is_in_reset(OBJECT(dev));
-diff --git a/hw/core/resettable.c b/hw/core/resettable.c
-index 60d4285fcc..3d3200bdbc 100644
---- a/hw/core/resettable.c
-+++ b/hw/core/resettable.c
-@@ -252,6 +252,11 @@ void resettable_change_parent(Object *obj, Object *n=
-ewp, Object *oldp)
-     }
- }
-=20
-+void resettable_cold_reset_fn(void *opaque)
-+{
-+    resettable_reset((Object *) opaque, RESET_TYPE_COLD);
-+}
++The reset of qemu objects is handled using the resettable interface decl=
+ared
++in ``include/hw/resettable.h``.
 +
- void resettable_class_set_parent_phases(ResettableClass *rc,
-                                         ResettableEnterPhase enter,
-                                         ResettableHoldPhase hold,
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 2e3346600e..1e88cb2f6a 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -386,6 +386,13 @@ int qdev_walk_children(DeviceState *dev,
-                        qdev_walkerfn *post_devfn, qbus_walkerfn *post_bu=
-sfn,
-                        void *opaque);
-=20
-+/**
-+ * @qdev_reset_all:
-+ * Reset @dev. See @qbus_reset_all() for more details.
-+ *
-+ * Note: This function is deprecated and will be removed when it becomes=
- unused.
-+ * Please use device_cold_reset() now.
-+ */
- void qdev_reset_all(DeviceState *dev);
- void qdev_reset_all_fn(void *opaque);
-=20
-@@ -398,10 +405,28 @@ void qdev_reset_all_fn(void *opaque);
-  * hard reset means that qbus_reset_all will reset all state of the devi=
-ce.
-  * For PCI devices, for example, this will include the base address regi=
-sters
-  * or configuration space.
-+ *
-+ * Note: This function is deprecated and will be removed when it becomes=
- unused.
-+ * Please use bus_cold_reset() now.
-  */
- void qbus_reset_all(BusState *bus);
- void qbus_reset_all_fn(void *opaque);
-=20
-+/**
-+ * device_cold_reset:
-+ * Reset device @dev and perform a recursive processing using the resett=
-able
-+ * interface. It triggers a RESET_TYPE_COLD.
-+ */
-+void device_cold_reset(DeviceState *dev);
-+
-+/**
-+ * bus_cold_reset:
-+ *
-+ * Reset bus @bus and perform a recursive processing using the resettabl=
++This interface allows to group objects (on a tree basis) and to reset th=
 e
-+ * interface. It triggers a RESET_TYPE_COLD.
-+ */
-+void bus_cold_reset(BusState *bus);
++whole group consistently. Each individual member object does not have to=
+ care
++about others; in particular problems of order (which object is reset fir=
+st)
++are addressed.
 +
- /**
-  * device_is_in_reset:
-  * Return true if the device @dev is currently being reset.
-@@ -432,6 +457,8 @@ void qdev_machine_init(void);
-  * device_legacy_reset:
-  *
-  * Reset a single device (by calling the reset method).
-+ * Note: This function is deprecated and will be removed when it becomes=
- unused.
-+ * Please use device_cold_reset() now.
-  */
- void device_legacy_reset(DeviceState *dev);
-=20
-diff --git a/include/hw/resettable.h b/include/hw/resettable.h
-index f6d379669f..6a9e17344e 100644
---- a/include/hw/resettable.h
-+++ b/include/hw/resettable.h
-@@ -198,6 +198,15 @@ bool resettable_is_in_reset(Object *obj);
-  */
- void resettable_change_parent(Object *obj, Object *newp, Object *oldp);
-=20
-+/**
-+ * resettable_cold_reset_fn:
-+ * Helper to call resettable_reset((Object *) opaque, RESET_TYPE_COLD).
-+ *
-+ * This function is typically useful to register a reset handler with
-+ * qemu_register_reset.
-+ */
-+void resettable_cold_reset_fn(void *opaque);
++As of now DeviceClass and BusClass implement this interface.
 +
- /**
-  * resettable_class_set_parent_phases:
-  *
++
++Triggering reset
++----------------
++
++This section documents the APIs which "users" of a resettable object sho=
+uld use
++to control it. All resettable control functions must be called while hol=
+ding
++the iothread lock.
++
++You can apply a reset to an object using ``resettable_assert_reset()``. =
+You need
++to call ``resettable_release_reset()`` to release the object from reset.=
+ To
++instantly reset an object, without keeping it in reset state, just call
++``resettable_reset()``. These functions function takes two parameters: a=
+ pointer
++to the object to reset and a reset type.
++
++Several types of reset will be supported. For now only cold reset is def=
+ined,
++others may be added later. The Resettable interface handles reset types =
+with an
++enum:
++
++``RESET_TYPE_COLD``
++  Cold reset is supported by every resettable object. In QEMU, it means =
+we reset
++  to the initial state corresponding to the start of QEMU; this might di=
+ffers
++  from what is a read hardware cold reset. It differs from other reset (=
+like
++  warm or bus resets) which may keep certain parts untouched.
++
++Calling ``resettable_reset()`` is equivalent to calling
++``resettable_assert_reset()`` then ``resettable_release_reset()``. It is
++possible to interleave multiple calls to these three functions. There ma=
+y
++be several reset sources/controllers of a given object. The interface ha=
+ndles
++everything and the different reset controllers do not need to know anyth=
+ing
++about each others. The object will leave reset state only when each othe=
+r
++controllers end their reset operation. This point is handled internally =
+by
++maintaining a count of reset; it is crucial to call
++``resettable_release_reset()`` one time and only one time per
++``resettable_assert_reset()`` call.
++
++For now migration of a device or bus in reset is not supported. Care mus=
+t be
++taken not to delayed ``resettable_release_reset()`` from its
++``resettable_assert_reset()`` counterpart.
++
++Note that, since resettable is an interface, the API takes simple Object=
+ as
++parameter. Still, it is a programming error to call a resettable functio=
+n on a
++non-resettable object and it will trigger a run time assert error. Since=
+ most
++call to resettable interface are done through base class functions, such=
+ an
++error is not likely to happen.
++
++For Devices and Buses, the following helper functions exists:
++
++- ``device_cold_reset()``
++- ``bus_cold_reset()``
++
++These are simple wrappers around resettable_reset() function; they only =
+cast the
++Device or Bus into an Object and pass the cold reset type. When possible
++prefer to use these functions instead ``resettable_reset()``.
++
++Device and bus functions co-exist because there can be semantic differen=
+ces
++between resetting a bus and resetting the controller bridge which owns i=
+t.
++For example, considering a SCSI controller. Resetting the controller put=
+s all
++its registers back to what reset state was as well as reset everything o=
+n the
++SCSI bus. Whereas resetting just the SCSI bus only resets everything tha=
+t's on
++it but not the controller.
++
++
++Multi-phase mechanism
++---------------------
++
++This section documents the internals of the resettable interface.
++
++The resettable interface uses a multi-phase system to relieve objects an=
+d
++machines from reset ordering problems. To address this, the reset operat=
+ion
++of an object is split into three well defined phases.
++
++When resetting a several objects (for example the whole machine at simul=
+ation
++startup), all first phases of all objects are executed, then all second =
+phases
++and then all third phases.
++
++The three phases are:
++
++1. The **enter** phase is executed when the object enters reset. It rese=
+t only
++   local state of the object; it must not do anything that has a side-ef=
+fect
++   on other objects, such as raising or lowering a qemu_irq line or read=
+ing or
++   writing guest memory.
++
++2. The **hold** phase is executed for entry into reset, once every objec=
+t in the
++   group which is being reset has had its *enter* phase executed. At thi=
+s point
++   devices can do actions that affect other objects.
++
++3. The **exit** phase is executed when the object leaves the reset state=
+.
++   Actions affecting other objects are permitted.
++
++As said in previous section, the interface maintains a count of reset. T=
+his
++count is used to ensure phases are executed only when required. *enter* =
+and
++*hold* phases are executed only when asserting reset for the first time
++(if an object is already in reset state when calling
++``resettable_assert_reset()`` or ``resettable_reset()``, they are not
++executed).
++The *exit* phase is executed only when the last reset operation ends. Th=
+erefore
++the object has not to care how many reset controllers it has and how man=
+y of
++them have started a reset.
++
++
++Handling reset in a resettable object
++-----------------------------------------
++
++This section documents the APIs that an implementation of a resettable o=
+bject
++must provide and what functions it has access to. It is intended for peo=
+ple
++who want to implement or convert a class which has the resettable interf=
+ace;
++for example when specializing an existing device or bus.
++
++Methods to implement
++....................
++
++Three methods should be defined or left empty. Each method corresponds t=
+o a
++phase of the reset; they are name ``phases.enter()``, ``phases.hold()`` =
+and
++``phases.exit()``. They all take the object as parameter. The *enter* me=
+thod
++also take the reset type as second parameter.
++
++When extending an existing class, these methods may need to be extended =
+too.
++The ``resettable_class_set_parent_phases()`` class function may be used =
+to
++backup mother class methods.
++
++Here follows an example to implement reset for a Device which set an IO =
+while
++in reset.
++
++::
++
++    static void mydev_reset_enter(Object *obj, ResetType type)
++    {
++        MyDevClass *myclass =3D MYDEV_GET_CLASS(obj);
++        MyDevState *mydev =3D MYDEV(obj);
++        /* initialize local state only */
++        mydev->var =3D 0;
++        /* call mother class enter phase */
++        if (myclass->parent_phases.enter) {
++            myclass->parent_phases.enter(obj, type);
++        }
++    }
++
++    static void mydev_reset_hold(Object *obj)
++    {
++        MyDevClass *myclass =3D MYDEV_GET_CLASS(obj);
++        MyDevState *mydev =3D MYDEV(obj);
++        /* set an IO */
++        qemu_set_irq(mydev->irq, 1);
++        /* call mother class hold phase */
++        if (myclass->parent_phases.hold) {
++            myclass->parent_phases.hold(obj);
++        }
++    }
++
++    static void mydev_reset_exit(Object *obj)
++    {
++        MyDevClass *myclass =3D MYDEV_GET_CLASS(obj);
++        MyDevState *mydev =3D MYDEV(obj);
++        /* clear an IO */
++        qemu_set_irq(mydev->irq, 0);
++        /* call mother class exit phase */
++        if (myclass->parent_phases.exit) {
++            myclass->parent_phases.exit(obj);
++        }
++    }
++
++    typedef struct MyDevClass {
++        MyMotherClass mother_class;
++        /* to store eventual parent reset methods */
++        ResettablePhases parent_phases;
++    } MyDevClass;
++
++    static void mydev_class_init(ObjectClass *class, void *data)
++    {
++        MyDevClass *myclass =3D MYDEV_CLASS(class);
++        ResettableClass *rc =3D RESETTABLE_CLASS(class);
++        resettable_class_set_parent_reset_phases(rc,
++                                                 mydev_reset_enter,
++                                                 mydev_reset_hold,
++                                                 mydev_reset_exit,
++                                                 &myclass->parent_phases=
+);
++    }
++
++In the above example, we override the three phases. It is possible to ov=
+erride
++only part of them by passing NULL instead of a function pointer to
++``resettable_class_set_parent_reset_phases()``. For example, the followi=
+ng will
++only override the *enter* phase and leave *hold* and *exit* untouched::
++
++    resettable_class_set_parent_reset_phases(rc, mydev_reset_enter,
++                                             NULL, NULL,
++                                             &myclass->parent_phases);
++
++
++Polling the reset state
++.......................
++
++Resettable interface provide the ``resettable_is_in_reset()`` function.
++This function tells if the object parameter is currently under reset.
++
++An object is under reset from the beginning of the *init* phase to the e=
+nd of
++*exit* phase. During all three phases, the function will return that the=
+ object
++is in reset.
++
++This function may be used if behavior has to be adapted when receiving e=
+xternal
++interaction while in reset state. Note that until migration of the reset=
+ state
++is supported, an object should not be left in reset. So apart from being
++currently executing one of a reset phase, the only cases when this
++function should return true is if an external interaction is made during=
+ *hold*
++or *exit* phase of another object in the same reset group.
++
++Helpers ``device_is_in_reset()`` and ``bus_is_in_reset()`` are also prov=
+ided
++for devices and buses and should be preferred.
++
++
++Base class handling of reset
++----------------------------
++
++This section documents parts of the reset mechanism that you only need t=
+o know
++about if you are extending it to work with a new base class other than
++DeviceClass or BusClass, or maintaining the existing code in those class=
+es. Most
++people can ignore it.
++
++Methods to implement
++....................
++
++There are two other methods that need to exist in a class implementing t=
+he
++interface: ``get_state()`` and ``child_foreach()``.
++
++``get_state()`` is simple. *resettable* is an interface and, as a conseq=
+uence,
++does not have any class state structure. But in order to factorize the c=
+ode, we
++need one. This method must return a pointer to ``ResettableState`` struc=
+ture.
++The structure must be allocated by the base class; preferably it should =
+be
++located inside the object instance structure.
++
++``child_foreach()`` is more complex. It should execute the given callbac=
+k on
++every reset child of the given resettable object. All children must be
++resettable too. Additional parameters (a reset type and an opaque pointe=
+r) must
++be passed to the callback too.
++
++In ``DeviceClass`` and ``BusClass`` the ``ResettableState`` is located
++``DeviceState`` and ``BusState`` structure. ``child_foreach()`` is imple=
+mented
++to follow the bus hierarchy; for a bus, it calls the function on every c=
+hild
++device; for a device, it calls the function on every bus child. When we =
+reset
++the main system bus, we reset the whole machine bus tree.
++
++Changing a resettable parent
++............................
++
++One thing so should be taken care of by the base class is handling reset
++hierarchy changes.
++
++The reset hierarchy is supposed to be static and built during machine cr=
+eation.
++But there are actually some exceptions. To cope with this, the resettabl=
+e API
++provides ``resettable_change_parent()``. This function allows to set, up=
+date or
++remove the parent of a resettable object after machine creation is done.=
+ As
++parameters, it takes the object being moved, the old parent if any and t=
+he new
++parent if any.
++
++This function can be used at anytime when not in a reset operation. Duri=
+ng
++a reset operation it must be used only in *hold* phase. Using it in *ent=
+er* or
++*exit* phase is an error.
++Also it should not be used during machine creation, although it is harml=
+ess to
++do so: the function is a no-op as long as old and new parent are NULL or=
+ not
++in reset.
++
++There is currently 2 cases where this function is used:
++
++1. *device hotplug*; it means a new device is introduced on a live bus.
++
++2. *hot bus change*; it means an existing live device is added, moved or
++   removed in the bus hiearchy. At the moment, it occurs only in the ras=
+pi
++   machines for chaning the sdbus used by sd card.
 --=20
 2.23.0
 
