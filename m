@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E43DCD2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:59:30 +0200 (CEST)
-Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64515DCD45
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:04:38 +0200 (CEST)
+Received: from localhost ([::1]:44554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWXB-0005C0-7j
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59667)
+	id 1iLWc9-0000SL-8n
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iLWJx-0007oo-BY
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:50 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWIw-0006Y9-Py
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iLWJw-0006BE-0j
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:49 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33049)
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWIu-0005RZ-EF
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:46 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42904)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iLWJv-0006Ai-RF
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:47 -0400
-Received: by mail-oi1-x241.google.com with SMTP id a15so5946004oic.0
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:45:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iLWIu-0005Pq-6Y
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:44 -0400
+Received: by mail-pf1-x444.google.com with SMTP id q12so4311358pff.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JlLGVu1MR8+UuiAegXarHtWa4HEkEy/RYhkYzFlbvXY=;
- b=d6+xbfA4BTcsTB+G9upJ0mng5T7huBF/hE4ymA12v3gaiRriGX38SbImNuGQA8vv7a
- N6dB42JtJdad9uA0lJ+xZP2vh2AKxcL7VoeNQmkX9rZHGfA7uZl9gZBhw70wWGEPTx3v
- rt7Zp13UkrEwYjZHyuwe24GmPWK+d62u5x7wlTT93ovwvNhAXC80YXe6YmBryJ09lGeM
- YkJxPGOpNtVHr1Nl/22zDbcRjVokhulN75DiWexSabVUgfE4mTC2/uPrZ+b84Y7GibiI
- Q5Yn5Kw76MNATA8Xbk/P8k2TyzVWwdWMItlLR5N5qWW1ss4Z90xTRrSrglPxmp94trjF
- fHTg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EExBny+oAa/2RvpDTj0xViQxKJSM6o83jutlTagIpwU=;
+ b=jqqk+gJiZ9YrCR3dy0o3Lgiw7Z6ZqhF1P8W+cy4NtzomqpZ8PrM4mz/jL6j2JhgsR5
+ HxiaSaMqOiq7zTWCHl0SU8YnfWKfBh8Rau+7AdBfO00MPF7tCs1D/nW7POj3E6RR4+Np
+ fvCuO5qo5WDIrHNgR2CL6kUZfBP+V1HA6e8McptspXkKcsXDJxDCi4edsDzua71ZCdsc
+ +4OwL01JdMDficT9qtIHihX0x/W6TZ9kchFmNVS7QjKblCnpR3QuWPYoEoJ+v/3u6fYa
+ QOFbuZzbGa1IvMe1rUEXsXulOD4ZUJMSU3Kl2PS5ECL2v5n5gPqxEJQCa3zcxsXR88pG
+ ZHPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JlLGVu1MR8+UuiAegXarHtWa4HEkEy/RYhkYzFlbvXY=;
- b=M8Jdo7iJ2VcLfE/Ma88+VH0yG31sAm2LAo7I3JpAMEt5+U7QBvm4CeCeMOU2iqBgcd
- wtpZO3NnvGnLrbeTbhjM75RsrZzA9xsEUZY50/mqOVGavK7A59/0kKJzIk0K7Ch7iLzF
- wumnVrCudUvcfIeioNjzTepnyP24HsiLMIz7X3jgxtm3Kvfk9Avx74AdRwPsNNELOL5b
- IxdICQ6XPtvH3RNzEyuCD8gY7ZfP+0E7gtx3gCbTkqaqkjjJv2attsPK4HtNWbgTBCBW
- Ph5LikxjsigzD2zE5nNZrnCqo5sk6MhuZZSEtdlxjgLQAZ3r1X1Od1JB610iW88NLnjN
- 39SQ==
-X-Gm-Message-State: APjAAAWlpvEJMSTzjGHvGFH65Sy2SXrHXcSFN2fCxzmsQ5ZtD1rrZjDt
- 5TxJwZyBvIttJNDX/OaxBJudWf9hRMHKoHrEuearvw==
-X-Google-Smtp-Source: APXvYqxogIHGqBOdu6sWKC8OPFYLTmId6R8++f1ll6BBJQZiilHLawTtKDJjEvWuwuknD1c/pQWgDnQyRrG9Z/uC8iY=
-X-Received: by 2002:aca:49c2:: with SMTP id w185mr9199116oia.163.1571420746929; 
- Fri, 18 Oct 2019 10:45:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EExBny+oAa/2RvpDTj0xViQxKJSM6o83jutlTagIpwU=;
+ b=XOiGNherXt8KTVN8r/CoFT2BXlj0kE9rvTG9KQj7WbUfLj8SZ/u8hfEaH3E3kxsuLx
+ 9sHocId7eDLdt5pC1zhGy5Ioa1LVqraFlOcnoQEAlDq9m+IVHElaRzi32mcrLVLJFFmm
+ kLPMxOihc/BBVYr+/gS4Ks7Bv6aAb9dyX44O+rX+2bq0iC9SLki372xVzZXnqXYjP1S0
+ 3B7Ylngn1ozb91SIjtqxC0d56CNxKAzCRHluevTrlxxU9dV0M8WIvfL2A0ClgwE5z+Fp
+ MvjVBfIoieVxSTN/CvMxQgcQudj41+fDn2hHcBKkWbAdJC8Hk2p+Nc32iR+7Vlogyrqt
+ jOHg==
+X-Gm-Message-State: APjAAAVsALiqBTI+ig6yp/r0cq+dRVB+GUBuSo0Nj6PKxuSzKvTVha1X
+ BfAU8vrrJaBFwtsM+uxSDUuqHznC0R8=
+X-Google-Smtp-Source: APXvYqzLQUC6hh/IqxoPtGDjyO1VhA5GgyP8xz1xzWcTx/3ot4w+5tTZnPHPfizhpflbjIvQy1ggDw==
+X-Received: by 2002:a62:b616:: with SMTP id j22mr8036487pff.55.1571420682064; 
+ Fri, 18 Oct 2019 10:44:42 -0700 (PDT)
+Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
+ [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2019 10:44:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 08/22] target/arm: Split out rebuild_hflags_aprofile
+Date: Fri, 18 Oct 2019 10:44:17 -0700
+Message-Id: <20191018174431.1784-9-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191018174431.1784-1-richard.henderson@linaro.org>
+References: <20191018174431.1784-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
- <20191018154212.13458-7-marcandre.lureau@redhat.com>
-In-Reply-To: <20191018154212.13458-7-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Oct 2019 18:45:35 +0100
-Message-ID: <CAFEAcA-6Qes3_aiDF7a+GJQssDSJyiJeyjO9Y96=i9z+bmtipA@mail.gmail.com>
-Subject: Re: [PATCH 06/14] leon3: replace PROP_PTR with PROP_LINK
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,114 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 16:43, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> "set_pil_in" and "set_pil_in" are used to set a callback, but have a
-> single user and cannot be modified by the user.
->
-> Simplify the code by calling directly into leon3_set_pil_in(), and use
-> a "cpu" link property.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/intc/grlib_irqmp.c | 20 ++++++--------------
->  hw/sparc/leon3.c      |  7 +++----
->  target/sparc/cpu.h    |  1 +
->  3 files changed, 10 insertions(+), 18 deletions(-)
->
-> diff --git a/hw/intc/grlib_irqmp.c b/hw/intc/grlib_irqmp.c
-> index bc78e1a14f..34b7e1b4e1 100644
-> --- a/hw/intc/grlib_irqmp.c
-> +++ b/hw/intc/grlib_irqmp.c
-> @@ -58,10 +58,8 @@ typedef struct IRQMP {
->
->      MemoryRegion iomem;
->
-> -    void *set_pil_in;
-> -    void *set_pil_in_opaque;
-> -
->      IRQMPState *state;
-> +    SPARCCPU *cpu;
->  } IRQMP;
->
->  struct IRQMPState {
-> @@ -82,7 +80,6 @@ static void grlib_irqmp_check_irqs(IRQMPState *state)
->      uint32_t      pend   =3D 0;
->      uint32_t      level0 =3D 0;
->      uint32_t      level1 =3D 0;
-> -    set_pil_in_fn set_pil_in;
->
->      assert(state !=3D NULL);
->      assert(state->parent !=3D NULL);
-> @@ -97,13 +94,11 @@ static void grlib_irqmp_check_irqs(IRQMPState *state)
->      trace_grlib_irqmp_check_irqs(state->pending, state->force[0],
->                                   state->mask[0], level1, level0);
->
-> -    set_pil_in =3D (set_pil_in_fn)state->parent->set_pil_in;
-> -
->      /* Trigger level1 interrupt first and level0 if there is no level1 *=
-/
->      if (level1 !=3D 0) {
-> -        set_pil_in(state->parent->set_pil_in_opaque, level1);
-> +        leon3_set_pil_in(state->parent->cpu, level1);
->      } else {
-> -        set_pil_in(state->parent->set_pil_in_opaque, level0);
-> +        leon3_set_pil_in(state->parent->cpu, level0);
->      }
->  }
->
-> @@ -348,14 +343,13 @@ static void grlib_irqmp_realize(DeviceState *dev, E=
-rror **errp)
->      IRQMP *irqmp =3D GRLIB_IRQMP(dev);
->
->          /* Check parameters */
-> -    if (irqmp->set_pil_in =3D=3D NULL) {
-> -        error_setg(errp, "set_pil_in cannot be NULL.");
-> +    if (irqmp->cpu =3D=3D NULL) {
-> +        error_setg(errp, "cpu cannot be NULL.");
->      }
->  }
+Create a function to compute the values of the TBFLAG_ANY bits
+that will be cached, and are used by A-profile.
 
->  static Property grlib_irqmp_properties[] =3D {
-> -    DEFINE_PROP_PTR("set_pil_in", IRQMP, set_pil_in),
-> -    DEFINE_PROP_PTR("set_pil_in_opaque", IRQMP, set_pil_in_opaque),
-> +    DEFINE_PROP_LINK("cpu", IRQMP, cpu, TYPE_SPARC_CPU, SPARCCPU *),
->      DEFINE_PROP_END_OF_LIST(),
->  };
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-This is using ptr properties to define a callback
-mechanism where the device says "call the callback
-function, passing it an opaque cookie and a
-32-bit value". We already have a generic mechanism
-for doing that, which is the qemu_irq. So we should
-just use that instead of adding a link property between
-the interrupt controller and the CPU.
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d1cd54cc93..ddd21edfcf 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11106,18 +11106,28 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
+     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
+ 
++static uint32_t rebuild_hflags_aprofile(CPUARMState *env)
++{
++    int flags = 0;
++
++    flags = FIELD_DP32(flags, TBFLAG_ANY, DEBUG_TARGET_EL,
++                       arm_debug_target_el(env));
++    return flags;
++}
++
+ static uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el,
+                                    ARMMMUIdx mmu_idx)
+ {
+-    return rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
++    uint32_t flags = rebuild_hflags_aprofile(env);
++    return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
+ 
+ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+                                    ARMMMUIdx mmu_idx)
+ {
++    uint32_t flags = rebuild_hflags_aprofile(env);
+     ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
+     ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
+-    uint32_t flags = 0;
+     uint64_t sctlr;
+     int tbii, tbid;
+ 
+@@ -11262,12 +11272,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+         }
+     }
+ 
+-    if (!arm_feature(env, ARM_FEATURE_M)) {
+-        int target_el = arm_debug_target_el(env);
+-
+-        flags = FIELD_DP32(flags, TBFLAG_ANY, DEBUG_TARGET_EL, target_el);
+-    }
+-
+     *pflags = flags;
+     *cs_base = 0;
+ }
+-- 
+2.17.1
 
-(Bonus further cleanup: the code currently in
-leon3_set_pil_in() should probably be part of the
-SPARC CPU object itself, as a handler for an inbound
-gpio line, as then you could just wire the qemu_irq
-from the interrupt controller to the CPU. But you
-can leave it as ad-hoc code in leon3.c for now.)
-
-thanks
--- PMM
 
