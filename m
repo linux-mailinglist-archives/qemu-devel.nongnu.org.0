@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B76CDCBFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:54:13 +0200 (CEST)
-Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71A2DCC08
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:56:42 +0200 (CEST)
+Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLVW0-0005es-5F
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53968)
+	id 1iLVYP-0008Ad-TW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iLVUu-0004kk-NW
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:53:05 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLVXO-0007XZ-Fg
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:55:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iLVUt-0001dC-Fb
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:53:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43754)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1iLVUp-0001bV-Nm; Fri, 18 Oct 2019 12:52:59 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4EFA22EF175;
- Fri, 18 Oct 2019 16:52:58 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-198.ams2.redhat.com
- [10.36.117.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C676F600C4;
- Fri, 18 Oct 2019 16:52:54 +0000 (UTC)
-Date: Fri, 18 Oct 2019 18:52:53 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH] iotests: Skip read-only cases in 118 when run as root
-Message-ID: <20191018165253.GI6122@localhost.localdomain>
-References: <20191018115127.2671-1-kwolf@redhat.com>
- <a810971a-639e-e7dc-d5e6-6b0bb524079b@redhat.com>
- <20191018142720.GH6122@localhost.localdomain>
- <69055f0f-70a3-2a94-01f8-82fe3e8bca7b@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iLVXN-0002aF-Ei
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:55:38 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45102)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLVXN-0002Zu-7Y
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:55:37 -0400
+Received: by mail-oi1-x244.google.com with SMTP id o205so5750838oib.12
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 09:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KIqYcN4FSabwWJ3EPSLj/Q3uwagcQXwMI+yuJRNBrF4=;
+ b=nkdj+3a6EqPpqBX6Avm4dz4XEK12yBIae31nzHYYwk3fPN/vhIQ7Deg6a3ozdbNdkD
+ 5pQmOMIR3p79vPSw+NrghEjmqBCumybY8lYob+WnHnORYdmjiFB2yzflW8OtXtpFXy7E
+ oMqJoc+Nb9/XVJVZWfoalnnKt4JwtQG4P2LeOAtAXRHon8NWW/O9KaJiE/P5zFtWPcR6
+ IGfLx2ttOEVU//pEIU/ATYde00YjTWZZrSMz+iNNAWwuGZmF1xAqqJ3o3fhzu6yK3b9p
+ h95HNjqDHcWgZvHfRpvgDJo/hhQ0aTvcnbiqCCCKVAS+ZD2Wd16VyDJdHDlrsL4bvCJi
+ qWqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KIqYcN4FSabwWJ3EPSLj/Q3uwagcQXwMI+yuJRNBrF4=;
+ b=GgOl6xghE1zBv3WN9Uhvu84FoIMWccC5ov3x0Gmtm0troLTw45n3jmMjcMVQjcTuHe
+ 1fVuNAemTDlW0Ue0k4BleP6jD4cJyvn8AJCvgK9hYB0PPjHN8rsddwhjRGs1mMQLDu/z
+ SAc1RyDBelh7StacjQY+xrLtVYlsieRwWPwcisjMBK/wRsVVDpOQrVPFhhUx8mrZoCSd
+ xauFITLr0WIHlp917HB9faHMzhiCmWUqxT9/zHGxkmGtOQ/8Uqa6SgAndEX+toEVOKjw
+ l9dzotHbR8PMdr14Z5itMSVK3fEsmsgnF5klBTPHBO37blSpF/JxIJmFrC30tJxIt2a7
+ GqgQ==
+X-Gm-Message-State: APjAAAWMEF5mzLqUSYUN3bFb611HG2oK/dgFvCYVZyVef3dHiy68NB26
+ F+MvezhpMX2gWyVVrJykKjQIwVWicW2KUsn/9uT2GA==
+X-Google-Smtp-Source: APXvYqxPZIORjCrvEFySfHZsOED5mv9vJ5F6QpbljcIRhR8mwKMsZ/d69y9x/HcoluyRYNJEHUGa8cHxhtGchEIwidQ=
+X-Received: by 2002:aca:2b08:: with SMTP id i8mr8477417oik.146.1571417736275; 
+ Fri, 18 Oct 2019 09:55:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="7iMSBzlTiPOCCT2k"
-Content-Disposition: inline
-In-Reply-To: <69055f0f-70a3-2a94-01f8-82fe3e8bca7b@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 18 Oct 2019 16:52:58 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
+ <20191018154212.13458-11-marcandre.lureau@redhat.com>
+In-Reply-To: <20191018154212.13458-11-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 17:55:25 +0100
+Message-ID: <CAFEAcA_0EFdyxfVgnyH=O7HSoZUi7xDLaNRyXt0dRCE7Dr2x6w@mail.gmail.com>
+Subject: Re: [PATCH 10/14] omap-intc: remove PROP_PTR
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,94 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 18 Oct 2019 at 16:43, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Since clock are not QOM objects, replace PROP_PTR of clocks with
+> setters methods.
+>
+> (in theory there should probably be different methods for omap1 &
+> omap2 intc, but this is left as a future improvement)
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+> diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
+> index 2fda996648..6b7897ba27 100644
+> --- a/include/hw/arm/omap.h
+> +++ b/include/hw/arm/omap.h
+> @@ -67,6 +67,16 @@ void omap_clk_setrate(omap_clk clk, int divide, int mu=
+ltiply);
+>  int64_t omap_clk_getrate(omap_clk clk);
+>  void omap_clk_reparent(omap_clk clk, omap_clk parent);
+>
+> +/* omap_intc.c */
+> +#define TYPE_OMAP_INTC "common-omap-intc"
+> +#define OMAP_INTC(obj)                                              \
+> +    OBJECT_CHECK(omap_intr_handler, (obj), TYPE_OMAP_INTC)
+> +
+> +typedef struct omap_intr_handler_s omap_intr_handler;
+> +
 
---7iMSBzlTiPOCCT2k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you add
+/*
+ * TODO: Ideally we should have a clock framework that
+ * let us wire these clocks up with QOM properties or links.
+ */
 
-Am 18.10.2019 um 17:00 hat Max Reitz geschrieben:
-> On 18.10.19 16:27, Kevin Wolf wrote:
-> > Am 18.10.2019 um 14:59 hat Philippe Mathieu-Daud=C3=A9 geschrieben:
-> >> Hi Kevin,
-> >>
-> >> On 10/18/19 1:51 PM, Kevin Wolf wrote:
-> >>> Some tests in 118 use chmod to remove write permissions from the file
-> >>> and assume that the image can indeed not be opened read-write
-> >>> afterwards. This doesn't work when the test is run as root, because r=
-oot
-> >>> can still open the file as writable even when the permission bit isn't
-> >>> set.
-> >>>
-> >>> Introduce a @skip_if_root decorator and use it in 118 to skip the tes=
-ts
-> >>> in question when the script is run as root.
-> >>>
-> >>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> >>> ---
-> >>>   tests/qemu-iotests/118        |  3 +++
-> >>>   tests/qemu-iotests/iotests.py | 10 ++++++++++
-> >>>   2 files changed, 13 insertions(+)
-> >>>
-> >>> diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
-> >>> index ea0b326ae0..9eff46d189 100755
-> >>> --- a/tests/qemu-iotests/118
-> >>> +++ b/tests/qemu-iotests/118
-> >>> @@ -446,6 +446,7 @@ class TestChangeReadOnly(ChangeBaseClass):
-> >>>           self.assert_qmp(result, 'return[0]/inserted/ro', True)
-> >>>           self.assert_qmp(result, 'return[0]/inserted/image/filename'=
-, new_img)
-> >>> +    @iotests.skip_if_root
-> >>
-> >> Why not have case_notrun() return 'reason' and use:
-> >>
-> >> @unittest.skipIf(os.getuid() =3D=3D 0, case_notrun("cannot be run as r=
-oot"))
-> >=20
-> > Because we can't skip test cases using unittest functionality, it
-> > results in different output (the test is marked as 's' instead of '.'
-> > and a message '(skipped=3Dn)' is added), which means failure for
-> > qemu-iotests.
->=20
-> Not arguing that we should use unittest skipping here, but my =E2=80=9CSe=
-lfish
-> patches=E2=80=9D series allows it:
->=20
-> https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg03423.html
->=20
-> The advantage is that using unittest skipping works in setUp, too.
+> +void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk);
+> +void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk);
+> +
 
-Ah, good to know. If this had already been in master, I might have
-chosen a simple function call iotests.skip_if_root() inside the test
-function instead of using a decorator. But in the end, I don't think it
-makes a big difference in this case.
+then
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Kevin
-
---7iMSBzlTiPOCCT2k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdqe3lAAoJEH8JsnLIjy/WWXEP/2AzbqgIORtc1BdIZhHW7769
-fWrG0U142x56D3T433YoWuj7lIcfBh3kEJ9IFb0ae1ZnCbgiRq87ce2hngGV65/P
-l6byhWdulo7P/J5EqcWW8us1Kd1/sjkOeqEjqQFex13zx0Igsq+f4OXLlrzlISog
-7VVwdST6LKcI5Qyti0Opquq3yxxuVeUI1QTYON0dCRQhOS8b3bg4CYWa8Etr09vT
-LhN6+OTDaIRcxXLZ7SvMvCRYjGlzBuBSbJM+KnJnGcNb23SPKiuYW97UMhjcy56s
-1Gr3nksJg+UMXPh96njuwJFE6TTKwVv5ZadA4nIk4ZMhCpWAXFloas94/pw8uXGH
-Ro4cKxGmfoIHCjEIl/UfwH9NYiPR9x4IkTYUySR6kNIo7nwWmIKO7FG+h297l4kF
-c+72TaK2yisOSCbsrbxC36GSL1I5bgERcg3k3CWbOVvw/QSPFuMqKRlrqASuJMPO
-woxc4N2YZoqPS5c1FDvhKITo4IC+lm76ITOepARqTjWmjDSoI7Scn2MZRtvXbfEz
-1sspwRD+wwVICrijRZhJaiXGSxgPTR+DEa6gCgBtHheZ1pfsL1Z8Uyv7aNy/yvlC
-JPwHHeIzyQqaQCFiBtGtzWpcCneiz5hm/cnkvboQBx2huj70doAHVliKDB6bocfL
-2WKYnbotVa/Js2NqrcEA
-=8Uj+
------END PGP SIGNATURE-----
-
---7iMSBzlTiPOCCT2k--
+thanks
+-- PMM
 
