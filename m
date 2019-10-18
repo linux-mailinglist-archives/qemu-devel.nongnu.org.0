@@ -2,46 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3DEDD03D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 22:28:47 +0200 (CEST)
-Received: from localhost ([::1]:45814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5836ADD049
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 22:30:47 +0200 (CEST)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLYre-0006y5-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 16:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48273)
+	id 1iLYta-0000xv-9N
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 16:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48726)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iLYla-0007mv-1k
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:22:31 -0400
+ (envelope-from <eblake@redhat.com>) id 1iLYri-0007wn-OU
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:28:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iLYlY-000618-TR
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:22:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43112)
+ (envelope-from <eblake@redhat.com>) id 1iLYrh-0000gD-Ei
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:28:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36948)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iLYlY-00060w-LX
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:22:28 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iLYrh-0000fg-8b
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:28:49 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E4BD38E3C7;
- Fri, 18 Oct 2019 20:22:27 +0000 (UTC)
-Received: from localhost (ovpn-116-92.ams2.redhat.com [10.36.116.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 556405D70E;
- Fri, 18 Oct 2019 20:22:20 +0000 (UTC)
-From: Jens Freimann <jfreimann@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] vfio: unplug failover primary device before migration
-Date: Fri, 18 Oct 2019 22:20:40 +0200
-Message-Id: <20191018202040.30349-12-jfreimann@redhat.com>
-In-Reply-To: <20191018202040.30349-1-jfreimann@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 30A3F11A2D;
+ Fri, 18 Oct 2019 20:28:48 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA82F5DAAE;
+ Fri, 18 Oct 2019 20:28:36 +0000 (UTC)
+Subject: Re: [PATCH 05/11] qapi: add unplug primary event
+To: Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org
 References: <20191018202040.30349-1-jfreimann@redhat.com>
+ <20191018202040.30349-6-jfreimann@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <186357a6-3b91-51eb-1daf-2ea9ef6071f5@redhat.com>
+Date: Fri, 18 Oct 2019 15:28:36 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20191018202040.30349-6-jfreimann@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 18 Oct 2019 20:22:27 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.28]); Fri, 18 Oct 2019 20:28:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -63,128 +68,46 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As usual block all vfio-pci devices from being migrated, but make an
-exception for failover primary devices. This is achieved by setting
-unmigratable to 0 but also add a migration blocker for all vfio-pci
-devices except failover primary devices. These will be unplugged before
-migration happens by the migration handler of the corresponding
-virtio-net standby device.
+On 10/18/19 3:20 PM, Jens Freimann wrote:
+> This event is emitted when we sent a request to unplug a
+> failover primary device from the Guest OS and it includes the
+> device id of the primary device.
+> 
+> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+> ---
+>   qapi/migration.json | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+> 
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 82feb5bd39..52e69e2868 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1448,3 +1448,22 @@
+>   # Since: 3.0
+>   ##
+>   { 'command': 'migrate-pause', 'allow-oob': true }
+> +
+> +##
+> +# @UNPLUG_PRIMARY:
+> +#
+> +# Emitted from source side of a migration when migration state is
+> +# WAIT_UNPLUG. Device was unplugged by guest operating system.
+> +# Device resources in QEMU are kept on standby to be able to re-plug it in case
+> +# of migration failure.
+> +#
+> +# @device_id: QEMU device id of the unplugged device
+> +#
+> +# Since: 4.2
+> +#
+> +# Example:
+> +#   {"event": "UNPLUG_PRIMARY", "data": {"device_id": "hostdev0"} }
 
-Signed-off-by: Jens Freimann <jfreimann@redhat.com>
----
- hw/vfio/pci.c | 31 +++++++++++++++++++++++++------
- hw/vfio/pci.h |  1 +
- 2 files changed, 26 insertions(+), 6 deletions(-)
+Unless there is a strong reason in favor of 'device_id' (such as 
+consistency with a similar event), our naming convention prefers this to 
+be 'device-id'.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 12fac39804..a15b83c6b6 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -40,6 +40,9 @@
- #include "pci.h"
- #include "trace.h"
- #include "qapi/error.h"
-+#include "migration/blocker.h"
-+#include "qemu/option.h"
-+#include "qemu/option_int.h"
-=20
- #define TYPE_VFIO_PCI "vfio-pci"
- #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
-@@ -2712,12 +2715,26 @@ static void vfio_realize(PCIDevice *pdev, Error *=
-*errp)
-     int i, ret;
-     bool is_mdev;
-=20
-+    if (!pdev->net_failover_pair_id) {
-+        error_setg(&vdev->migration_blocker,
-+                "VFIO device doesn't support migration");
-+        ret =3D migrate_add_blocker(vdev->migration_blocker, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            goto error;
-+        }
-+    } else {
-+            pdev->qdev.allow_unplug_during_migration =3D true;
-+    }
-+
-     if (!vdev->vbasedev.sysfsdev) {
-         if (!(~vdev->host.domain || ~vdev->host.bus ||
-               ~vdev->host.slot || ~vdev->host.function)) {
-             error_setg(errp, "No provided host device");
-             error_append_hint(errp, "Use -device vfio-pci,host=3DDDDD:BB=
-:DD.F "
-                               "or -device vfio-pci,sysfsdev=3DPATH_TO_DE=
-VICE\n");
-+            migrate_del_blocker(vdev->migration_blocker);
-+            error_free(vdev->migration_blocker);
-             return;
-         }
-         vdev->vbasedev.sysfsdev =3D
-@@ -2729,6 +2746,8 @@ static void vfio_realize(PCIDevice *pdev, Error **e=
-rrp)
-     if (stat(vdev->vbasedev.sysfsdev, &st) < 0) {
-         error_setg_errno(errp, errno, "no such host device");
-         error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.sysfsdev);
-+        migrate_del_blocker(vdev->migration_blocker);
-+        error_free(vdev->migration_blocker);
-         return;
-     }
-=20
-@@ -3008,6 +3027,8 @@ out_teardown:
-     vfio_bars_exit(vdev);
- error:
-     error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-+    migrate_del_blocker(vdev->migration_blocker);
-+    error_free(vdev->migration_blocker);
- }
-=20
- static void vfio_instance_finalize(Object *obj)
-@@ -3019,6 +3040,10 @@ static void vfio_instance_finalize(Object *obj)
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-     g_free(vdev->rom);
-+    if (vdev->migration_blocker) {
-+        migrate_del_blocker(vdev->migration_blocker);
-+        error_free(vdev->migration_blocker);
-+    }
-     /*
-      * XXX Leaking igd_opregion is not an oversight, we can't remove the
-      * fw_cfg entry therefore leaking this allocation seems like the saf=
-est
-@@ -3151,11 +3176,6 @@ static Property vfio_pci_dev_properties[] =3D {
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
--static const VMStateDescription vfio_pci_vmstate =3D {
--    .name =3D "vfio-pci",
--    .unmigratable =3D 1,
--};
--
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -3163,7 +3183,6 @@ static void vfio_pci_dev_class_init(ObjectClass *kl=
-ass, void *data)
-=20
-     dc->reset =3D vfio_pci_reset;
-     dc->props =3D vfio_pci_dev_properties;
--    dc->vmsd =3D &vfio_pci_vmstate;
-     dc->desc =3D "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize =3D vfio_realize;
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 834a90d646..b329d50338 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -168,6 +168,7 @@ typedef struct VFIOPCIDevice {
-     bool no_vfio_ioeventfd;
-     bool enable_ramfb;
-     VFIODisplay *dpy;
-+    Error *migration_blocker;
- } VFIOPCIDevice;
-=20
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len);
---=20
-2.21.0
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
