@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD7BDC6FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:11:23 +0200 (CEST)
-Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751F6DC716
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:16:05 +0200 (CEST)
+Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLSyQ-0005aU-B4
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57331)
+	id 1iLT2y-0001UY-HO
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:16:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59065)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iLSpa-0002F1-Kx
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:02:21 -0400
+ (envelope-from <eblake@redhat.com>) id 1iLT14-0008V9-Sp
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:14:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iLSpX-0002nW-Sr
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:02:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57984)
+ (envelope-from <eblake@redhat.com>) id 1iLT13-0000eA-8n
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:14:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57202)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1iLSpU-0002kN-U1; Fri, 18 Oct 2019 10:02:09 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1iLT0w-0000c1-BT; Fri, 18 Oct 2019 10:13:59 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F089030738B5;
- Fri, 18 Oct 2019 14:02:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4760E3082B02;
+ Fri, 18 Oct 2019 14:13:57 +0000 (UTC)
 Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37AB460925;
- Fri, 18 Oct 2019 14:02:07 +0000 (UTC)
-Subject: Re: [PATCH v8 2/3] docs: define padding for qcow2 header
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191018094758.7124-1-vsementsov@virtuozzo.com>
- <20191018094758.7124-3-vsementsov@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E4C7E10013A1;
+ Fri, 18 Oct 2019 14:13:56 +0000 (UTC)
+Subject: Re: [PATCH] qemu-img.texi: Describe data_file and data_file_raw
+To: Han Han <hhan@redhat.com>, qemu-devel@nongnu.org,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20191018095924.4409-1-hhan@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <019c2493-25c1-9e54-1f5d-84bb003e98b1@redhat.com>
-Date: Fri, 18 Oct 2019 09:02:06 -0500
+Message-ID: <adf045c3-895c-ccc4-8cf8-1fd2ead496f1@redhat.com>
+Date: Fri, 18 Oct 2019 09:13:56 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191018094758.7124-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20191018095924.4409-1-hhan@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 18 Oct 2019 14:02:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 18 Oct 2019 14:13:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -62,47 +62,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- dplotnikov@virtuozzo.com, den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/19 4:47 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Header extensions ends are already defined to be multiply of 8. Let's
-> gently ask for header length to be a multiply of 8 too, when we have
-> some additional fields. Requiring this may be considered as an
-> incompatible change, so the padding is optional. Actually, padding is
-> allowed before this patch (due to definition of additional fields),
-> the only actual change is "SHOULD" word.
+[cc qemu-block]
 
-Too weak. I've already argued that this should be mandatory, and that we 
-are not breaking backwards compatibility, but merely clarifying what has 
-already been implicit by the fact that header extensions are required to 
-be 8-byte size multiple (which makes no sense unless they are also 
-8-byte aligned).
-
+On 10/18/19 4:59 AM, Han Han wrote:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1763105
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Han Han <hhan@redhat.com>
 > ---
->   docs/interop/qcow2.txt | 5 +++++
->   1 file changed, 5 insertions(+)
+>   qemu-img.texi | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 > 
-> diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-> index 4709f3bb30..b971e59b1a 100644
-> --- a/docs/interop/qcow2.txt
-> +++ b/docs/interop/qcow2.txt
-> @@ -185,6 +185,11 @@ which is covered by @header_length must be zeroed.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> diff --git a/qemu-img.texi b/qemu-img.texi
+> index b5156d6316..44596c2d93 100644
+> --- a/qemu-img.texi
+> +++ b/qemu-img.texi
+> @@ -763,6 +763,16 @@ file which is COW and has data blocks already, it couldn't be changed to NOCOW
+>   by setting @code{nocow=on}. One can issue @code{lsattr filename} to check if
+>   the NOCOW flag is set or not (Capital 'C' is NOCOW flag).
 >   
->           < ... No additional fields in the header currently ... >
->   
-> +Header padding
-> +        If @header_length is larger than 104, software SHOULD make it a
-> +        multiply of 8, adding zero-padding after additional fields. Still the
-> +        padding is optional and may be absent in the image.
+> +@item data_file
+> +File name of data file that is stored in the image and used as a default for
+> +opening the image. If the option is used, qcow2 file only stores the metadata
+> +of the image.
 > +
->   Directly after the image header, optional sections called header extensions can
->   be stored. Each extension has a structure like the following:
+> +@item data_file_raw
+> +This option requires @option{data_file}. If this option is set to @code{on},
+> +qemu will always keep the external data file consistent as a standalone
+> +read-only raw image. Default value is @code{off}.
+> +
+>   @end table
 >   
+>   @item Other
 > 
 
 -- 
