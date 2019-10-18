@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99C5DC9C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:51:47 +0200 (CEST)
-Received: from localhost ([::1]:42204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6507EDCA13
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:59:30 +0200 (CEST)
+Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUXa-000070-BD
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44789)
+	id 1iLUf3-00027v-6f
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iLUQH-0002AY-A4
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:44:14 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1iLUaO-0005zg-1d
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iLUQF-0007tH-Vf
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:44:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47404)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iLUQD-0007qX-7B; Fri, 18 Oct 2019 11:44:09 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 407B810DCC9F;
- Fri, 18 Oct 2019 15:44:08 +0000 (UTC)
-Received: from localhost (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27CBF5D9CA;
- Fri, 18 Oct 2019 15:44:01 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] Remove QDEV_PROP_PTR
-Date: Fri, 18 Oct 2019 17:42:12 +0200
-Message-Id: <20191018154212.13458-15-marcandre.lureau@redhat.com>
-In-Reply-To: <20191018154212.13458-1-marcandre.lureau@redhat.com>
-References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iLUaM-0007vR-DD
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:39 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44784)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iLUaL-0007uC-51
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:54:38 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z9so6796139wrl.11
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 08:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=EsxKVD/646QdrOyId90stplzTbEBMqQ5c3CQ4aWyxr8=;
+ b=fiwI0jDIW3gcOZyas8BQ5j2p84VMLn6X4bIMNdCbVbxv7Gg2aVBbcWZ2zYA8C6xHC3
+ xGLpD1gnmO4R6piM3q1FTwvXMRXjKA0Pj0vM5MdkBJy7XzU3I5oRdXQu6wO3RU1I8GMQ
+ 8oyhjLTPgcp29hfxIzUG86lZe6Thc7GIRbDbQo992XAuVrD0dZzPEnjGm1mAZutsb0lk
+ fOiq4CJcUmQg7lDW+tW/604adu3Z1Z/itOb9ewbfP/MiyHAcx8y2XDugW7R+wNhmKC1V
+ d+bOKsjze6hl6sw9fW83mnqdB94+gGY9dIuqfHVYQ7t8OF18bVYDu1F0/NX7Ct9mILTR
+ YbJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=EsxKVD/646QdrOyId90stplzTbEBMqQ5c3CQ4aWyxr8=;
+ b=f6iIldvB57jmVxDpjVNGVBe1vCPRLDmPdyZlT0pO6i6qWr+dF1a0TGoAAD+RapqzQh
+ +S7r/h4GWlUotrWharX0dQqPtB9d0evlr4rz9MrfUtFHICTB+BnP8Ponhyw0ez8BsEmy
+ 8JX0MAd+cu6q3z4k3bFkspd1QlGHlWFQg3KyuXG0CpP/4+w1YZgc6avnSYSuI44eo47v
+ 6qTYzo0aesSE30+wZNSoPv5Vu/uEP16NhX9Oi5do+AJlVS/LEdUV3hlOjW9IzpxiNLpN
+ JpGmmq5xr+9vx7l53PKlw/ueVz2r2reomRgIfxlVugUNIxHLROMMxkECWpSTi/HuBWUm
+ 9cjg==
+X-Gm-Message-State: APjAAAXIOs8YApbGClsTCWo4RJKrG7hw1h735vLR5A6nvK+Ww3yhKmOD
+ aiWFDYWyEXYo8DDb5TiUxHNOgw==
+X-Google-Smtp-Source: APXvYqzEqIA87lmOYdg55cw071pPNmI9tuxuXp+jL5s+kF8j5ue1unSYTSpxirzmeF6S2KcHSWlqsw==
+X-Received: by 2002:adf:a516:: with SMTP id i22mr9137412wrb.273.1571414075363; 
+ Fri, 18 Oct 2019 08:54:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q22sm5197506wmj.31.2019.10.18.08.54.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2019 08:54:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0C4AF1FF87;
+ Fri, 18 Oct 2019 16:54:34 +0100 (BST)
+References: <20191017131615.19660-1-alex.bennee@linaro.org>
+ <20191017131615.19660-38-alex.bennee@linaro.org>
+ <20191018153214.GE42857@RDU-FVFX20TUHV2H>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH  v6 37/54] plugin: expand the plugin_init function to
+ include an info block
+In-reply-to: <20191018153214.GE42857@RDU-FVFX20TUHV2H>
+Date: Fri, 18 Oct 2019 16:54:34 +0100
+Message-ID: <87wod2nj5x.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
- (mx1.redhat.com [10.5.110.64]); Fri, 18 Oct 2019 15:44:08 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,119 +84,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "robert.foley@futurewei.com" <robert.foley@futurewei.com>,
+ "cota@braap.org" <cota@braap.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peter.puhov@futurewei.com" <peter.puhov@futurewei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No longer used in the tree. The comment about user_creatable is still
-quite relevant, but there is already a similar comment in qdev-core.h.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- hw/core/qdev-properties.c    | 18 ------------------
- include/hw/qdev-properties.h | 22 ----------------------
- 2 files changed, 40 deletions(-)
+Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index ac28890e5a..6ca7697599 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -501,13 +501,6 @@ const PropertyInfo qdev_prop_string =3D {
-     .set   =3D set_string,
- };
-=20
--/* --- pointer --- */
--
--/* Not a proper property, just for dirty hacks.  TODO Remove it!  */
--const PropertyInfo qdev_prop_ptr =3D {
--    .name  =3D "ptr",
--};
--
- /* --- mac address --- */
-=20
- /*
-@@ -1165,17 +1158,6 @@ void qdev_prop_set_enum(DeviceState *dev, const ch=
-ar *name, int value)
-                             name, &error_abort);
- }
-=20
--void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value)
--{
--    Property *prop;
--    void **ptr;
--
--    prop =3D qdev_prop_find(dev, name);
--    assert(prop && prop->info =3D=3D &qdev_prop_ptr);
--    ptr =3D qdev_get_prop_ptr(dev, prop);
--    *ptr =3D value;
--}
--
- static GPtrArray *global_props(void)
- {
-     static GPtrArray *gp;
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 16837ab5dd..a90a9cec80 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -18,7 +18,6 @@ extern const PropertyInfo qdev_prop_size;
- extern const PropertyInfo qdev_prop_string;
- extern const PropertyInfo qdev_prop_chr;
- extern const PropertyInfo qdev_prop_tpm;
--extern const PropertyInfo qdev_prop_ptr;
- extern const PropertyInfo qdev_prop_macaddr;
- extern const PropertyInfo qdev_prop_on_off_auto;
- extern const PropertyInfo qdev_prop_losttickpolicy;
-@@ -171,25 +170,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
- #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-=20
--/*
-- * Please avoid pointer properties.  If you must use them, you must
-- * cover them in their device's class init function as follows:
-- *
-- * - If the property must be set, the device cannot be used with
-- *   device_add, so add code like this:
-- *   |* Reason: pointer property "NAME-OF-YOUR-PROP" *|
-- *   DeviceClass *dc =3D DEVICE_CLASS(class);
-- *   dc->user_creatable =3D false;
-- *
-- * - If the property may safely remain null, document it like this:
-- *   |*
-- *    * Note: pointer property "interrupt_vector" may remain null, thus
-- *    * no need for dc->user_creatable =3D false;
-- *    *|
-- */
--#define DEFINE_PROP_PTR(_n, _s, _f)             \
--    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, void*)
--
- #define DEFINE_PROP_CHR(_n, _s, _f)             \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
- #define DEFINE_PROP_STRING(_n, _s, _f)             \
-@@ -262,8 +242,6 @@ void qdev_prop_set_drive(DeviceState *dev, const char=
- *name,
- void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
-                            const uint8_t *value);
- void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
--/* FIXME: Remove opaque pointer properties.  */
--void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value);
-=20
- void qdev_prop_register_global(GlobalProperty *prop);
- int qdev_prop_check_globals(void);
---=20
-2.23.0.606.g08da6496b6
+> On Oct 17 14:15, Alex Benn=C3=A9e wrote:
+>> This provides a limited amount of info to plugins about the guest
+>> system that will allow them to make some additional decisions on
+>> setup.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>
+>> ---
+>> v6
+>>   - split and move to pre example plugins
+>>   - checkpatch fixes
+>> ---
+>>  include/qemu/qemu-plugin.h | 26 ++++++++++++++++++++++++--
+>>  plugins/loader.c           | 23 +++++++++++++++++++----
+>>  2 files changed, 43 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+>> index c213d1dd19..784f1dfc3d 100644
+>> --- a/include/qemu/qemu-plugin.h
+>> +++ b/include/qemu/qemu-plugin.h
+>> @@ -38,9 +38,27 @@
+>>
+>>  typedef uint64_t qemu_plugin_id_t;
+>>
+>> +typedef struct {
+>> +    /* string describing architecture */
+>
+> Might be worth noting that this is set to the value of TARGET_NAME qemu
+> was built with, and pointing to documentation about the possible values
+> it may hold.
 
+OK.
+
+>> +    const char *target_name;
+>> +    /* is this a full system emulation? */
+>> +    bool system_emulation;
+>
+> It seems that 'system_emulation' is meant primarily in opposition to
+> user-mode. I'm wondering if this could/should this be an enum of the
+> execution mode being used to allow for future expansion? Or, if your
+> intention here is mostly to allow the user to detect when the *_vcpus
+> variables are valid, could it be renamed or commented differently to
+> make that link more clear?
+
+The only other operating mode that's ever been mooted is softmmu-user
+(and no implementation has been done so far). Even then I don't think
+that is a distinction that should be reported to the plugin as we are
+trying not to leak implementation details.
+
+But yes the practical upshot is for system emulation you at least have
+sort of bounded size for how many threads you may have running.
+
+>
+>> +    union {
+>> +        /*
+>> +         * smp_vcpus may change if vCPUs can be hot-plugged, max_vcpus
+>> +         * is the system-wide limit.
+>> +         */
+>> +        struct {
+>> +            int smp_vcpus;
+>> +            int max_vcpus;
+>> +        } system;
+>> +    };
+>> +} qemu_info_t;
+>
+> [...]
+>
+>> @@ -241,11 +245,22 @@ static void plugin_desc_free(struct qemu_plugin_de=
+sc *desc)
+>>  int qemu_plugin_load_list(QemuPluginList *head)
+>>  {
+>>      struct qemu_plugin_desc *desc, *next;
+>> +    g_autofree qemu_info_t *info =3D g_new0(qemu_info_t, 1);
+>> +
+>> +    info->target_name =3D TARGET_NAME;
+>> +#ifndef CONFIG_USER_ONLY
+>> +    MachineState *ms =3D MACHINE(qdev_get_machine());
+>> +    info->system_emulation =3D true;
+>> +    info->system.smp_vcpus =3D ms->smp.cpus;
+>> +    info->system.max_vcpus =3D ms->smp.max_cpus;
+>> +#else
+>> +    info->system_emulation =3D false;
+>
+> Thinking "out loud" here - I wonder if it would be helpful to set the
+> *_vcpus variables even for user mode here. It might allow unconditional
+> allocation of "per-cpu" structures that the plugin might need - without
+> first needing to check whether the *_vcpus variables were valid.
+
+but what too? It would certainly be wrong because any user-space process
+could create (and destroy) thousands of threads.
+
+We could consider just asking plugins to deal with threads with their
+own __thread variables but in that case we'd need to expose some sort of
+thread exit/cleanup method so they can collect data from threads and
+safely place it somewhere else - but I suspect that is a hairy
+programming model to impose on plugins.
+
+So far all the example plugins have just used locks to serialise things
+and it's not been too bad. I guess we could do with an example that
+tries to use this information to get an idea of how grungy the interface
+is. Perhaps exposing the vCPUs at this point is pointless and we should
+just stick to TARGET_NAME for now?
+
+>
+> -Aaron
+
+
+--
+Alex Benn=C3=A9e
 
