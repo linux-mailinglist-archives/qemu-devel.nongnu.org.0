@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF06CDCC1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:00:48 +0200 (CEST)
-Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AD6DCC2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:04:36 +0200 (CEST)
+Received: from localhost ([::1]:43540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLVcN-0002XJ-NM
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54730)
+	id 1iLVg3-0005US-ND
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54797)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iLVa4-0001F9-1i
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:58:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLVaW-0001XF-9q
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:58:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iLVZy-0003us-QR
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:58:21 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46105)
+ (envelope-from <peter.maydell@linaro.org>) id 1iLVaT-0004E7-PY
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:58:51 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35854)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iLVZy-0003sP-Ku
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:58:18 -0400
-Received: by mail-ot1-x343.google.com with SMTP id 89so5513476oth.13
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 09:58:16 -0700 (PDT)
+ id 1iLVaT-0004Df-Hy
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:58:49 -0400
+Received: by mail-oi1-x241.google.com with SMTP id k20so5801575oih.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 09:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=6Vw5JEKY7XK+klh3K7KSH90DzcAkWBFboMgSM3fJzrM=;
- b=lxaF4xje6lcouaosLDnZySZ5fBy1TcoNQAIlCnOLH5LRSTA2qIQCQkEQjR+gKFFQ75
- xrYAL1Fj4iNsEyVaZUcnMmCnp/wmbsZxuFQNljgh1EBKPKQ4pmu7cLdC2Ov9DAOjxidT
- xkH8+Ur/oxxQ+UpDmkDoJmKH9Hd38rZ4gYm6vXMPHDYY2ubc5w6s+Q6XE6D+TWdBF5Vg
- ONrtRWrWwhWg3Ks/0aYVG8i2mapsmofeBOnkZxMf7EmcjypJgagVmn8EtZk3dvDBkLgl
- 8jdjremQCufHb5hCj4FPjOhF70Aii48739VxN4JBJFJpSs2tS3KhNqpbVrzqCb+2dkxw
- jzTw==
+ bh=wofiPsvRbp+QeTuDJUj+hUidGtWOPEsWdjPIhzLcOjE=;
+ b=fgu6jw0b2ZfeC1V0TyPDQ9QaoHHk5U6pUbGOp4mkaoiin4AhxPLxKk2DOAEMDrIrjB
+ qQOR1FNKHus87x5NqFlA85vhytXYERIr7QW2UA0LEKbxpuM8H9B5d8daLTSn4nNNYlRs
+ svoMUNxd+83444gFkfzxGm5ssgWx+z4OFrCQh6zhx/res+OKP6PhVVq0CpJIR4OMwQeT
+ +0P1/GRMlJcZE3lB12wLyTtwktJ/AKd6W5BT0XTsHWSGF13toRv3b8s5DtOCwOCCsR0K
+ uikzwNZCzvPS89GfEbPa0tSPoInwXZj0wRhd8g8YcEVKCHtvzLP2aqdeCTKyWtbtiVZk
+ sWHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Vw5JEKY7XK+klh3K7KSH90DzcAkWBFboMgSM3fJzrM=;
- b=KotReqPSgGcU8cjUqa9hWO0xSxfWPIIVaqm+KqW0++sDYg+iaqCaDRSPGcA619eVWO
- OB1PLl+KI36NakGbcejXpkmwQdvo+z9/zhzipyha6rU40kDTVORppO1oL7oRxuGKzjbl
- B45zjz7ZlKHowYegnlJuxqAfqIYHsXgaxSsglBO4SeGKES/W/++OCMRjwYV7jEbpme5k
- MFG+qoDHgOFwDEsCXK8x2Fym3Bnerv+iERzE+l+uxCePXwIqZVsG8vRy6jUqHzQWjKz3
- 2sn1OMrFUcFJOjHZjJU78dhg4nGRPFkDjbWC6gEyy3D0nAxZs8FQy9elkjLwWnku/vFK
- DrtA==
-X-Gm-Message-State: APjAAAVPCtRCwqvYjIhiEaqa5oAf0EBeYVj9o+wzxU2zBlqyZUveuV7P
- x63lnI7TTZ8EkO1gkFeeUezI1T9e5M2OOb06m9KrHg==
-X-Google-Smtp-Source: APXvYqxkcsoqCta1MhtmAKTy73mVp3pS7kqGfbGzBj4nNg94RPrdBk8cXyfcW4j38k+2v+8oNLGJmXmcL2sGERpQbFE=
-X-Received: by 2002:a05:6830:4c1:: with SMTP id
- s1mr8796928otd.232.1571417895348; 
- Fri, 18 Oct 2019 09:58:15 -0700 (PDT)
+ bh=wofiPsvRbp+QeTuDJUj+hUidGtWOPEsWdjPIhzLcOjE=;
+ b=HNeypa0ffysvEdeSXySdQmEcKt+B6kXI88AGo8ODrSrZrB32t4DQbMNeFmOFdpRhXk
+ UV5tIYxwovJExY7gYTCocWygwOb5meeQ0PzAVT5oZt92paHK7XNKqbiPWtofZ9uC9gE9
+ Niu+maw7zCl6o5O5LDKL6X1Ag7gZ24oW12px6DgZx25XlD8H13RawWpsFfi0Lrkxj5b4
+ Crd4gi50ExJgc/04QW51MapvCA64IQs4n0soqckPmJmlc1Yut4bqpuA9opunFLv1LdYI
+ JjEdbpc16YV8haXU5KyBcJpbIAZeKgp65+1t8wkYkKSJYA+B5NbVJkUeWzeC7VvB2ZJU
+ berQ==
+X-Gm-Message-State: APjAAAWFE40I58Z+C9srJeFX7jS5y+Vw0mwOQu3ZH/Y2hB8aeUGM0wVJ
+ AzW97uCJUxDItF988wOmLCAd/miKEm1gaMSKd5z4PQ==
+X-Google-Smtp-Source: APXvYqzlMfM2Mga9T9UOMNK4pKBvtv4DCQL1UvU/IJdy4J524Aff+sTX/ac1lEUGzJUCqkEOLFekXDsBunVDjYRyNaQ=
+X-Received: by 2002:a05:6808:9:: with SMTP id u9mr8956761oic.98.1571417928577; 
+ Fri, 18 Oct 2019 09:58:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
- <20191018154212.13458-13-marcandre.lureau@redhat.com>
-In-Reply-To: <20191018154212.13458-13-marcandre.lureau@redhat.com>
+ <20191018154212.13458-14-marcandre.lureau@redhat.com>
+In-Reply-To: <20191018154212.13458-14-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Oct 2019 17:58:04 +0100
-Message-ID: <CAFEAcA-Sf=rc89R+H3VwHwB52RW=BfA2VU70-OcNPx=MJD+zaA@mail.gmail.com>
-Subject: Re: [PATCH 12/14] omap-gpio: remove PROP_PTR
+Date: Fri, 18 Oct 2019 17:58:37 +0100
+Message-ID: <CAFEAcA9KYviP8YQeD5YaYR5pL_-S=C2cn23pLSdX=j_6=3qqmQ@mail.gmail.com>
+Subject: Re: [PATCH 13/14] qdev: remove PROP_MEMORY_REGION
 To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,29 +91,36 @@ Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 16:43, Marc-Andr=C3=A9 Lureau
+On Fri, 18 Oct 2019 at 16:44, Marc-Andr=C3=A9 Lureau
 <marcandre.lureau@redhat.com> wrote:
 >
-> Since clock are not QOM objects, replace PROP_PTR of clocks with
-> setters methods.
+> PROP_MEMORY_REGION was a derivative of PROP_PTR, added in commit
+> ed03d749f3f513b8fb0287757cfda2cb6825f063 (qdev: add MemoryRegion
+> property) and thankfully no longer needed since commit
+> 3eff40dbf44896a8180c86c84dbdefb2eb173fbe (hw/misc: Remove
+> mmio_interface device).
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> -/* Using qdev pointer properties for the clocks is not ideal.
-> - * qdev should support a generic means of defining a 'port' with
-> - * an arbitrary interface for connecting two devices. Then we
-> - * could reframe the omap clock API in terms of clock ports,
-> - * and get some type safety. For now the best qdev provides is
-> - * passing an arbitrary pointer.
-> - * (It's not possible to pass in the string which is the clock
-> - * name, because this device does not have the necessary information
-> - * (ie the struct omap_mpu_state_s*) to do the clockname to pointer
-> - * translation.)
-> - */
-
-Ah, here's what's effectively a todo comment that you could
-repurpose/adapt/move.
+> ---
+>  include/hw/qdev-properties.h | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+> index c6a8cb5516..16837ab5dd 100644
+> --- a/include/hw/qdev-properties.h
+> +++ b/include/hw/qdev-properties.h
+> @@ -216,8 +216,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+>      DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
+>  #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
+>      DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAdd=
+ress)
+> -#define DEFINE_PROP_MEMORY_REGION(_n, _s, _f)             \
+> -    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, MemoryRegion *)
+>  #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
+>      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_off_auto_pcibar, \
+>                          OffAutoPCIBAR)
+> --
+> 2.23.0.606.g08da6496b6
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
