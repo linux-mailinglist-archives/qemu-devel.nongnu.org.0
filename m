@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CEFDC76E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:34:17 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAA6DC779
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:36:45 +0200 (CEST)
+Received: from localhost ([::1]:41070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLTKZ-0001so-SU
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
+	id 1iLTMy-000570-E2
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLTIM-0000Dc-Q4
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:31:59 -0400
+ (envelope-from <eblake@redhat.com>) id 1iLTLg-0004JL-BV
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:35:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLTIL-0002jQ-IN
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:31:58 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40858)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLTIL-0002im-8K
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:31:57 -0400
-Received: by mail-pl1-x642.google.com with SMTP id d22so2944616pll.7
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 07:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=B90KVt3jBppnWmU62RN/VdEMzjr3PF5TC8yDKeKv6q8=;
- b=pHM/13WJuOtRzI2+FNWXWDzFVbsG/+6v4bfrD/EbLdeWeNbeHDqBnCngr4ERgTYDUY
- 1JajSoaKMWDT1F8993D8vUhHUl8HlFu8OwqEeXoNTFE8/lUyQSbGYeNrZty/EFpiGqU+
- nNAr6ftvDLqp/eLKrX0q/bkuYB4CokvcHl1Rrfym+4sW+4FYuHIBdroxR0Cdma9AX3LB
- 56jaqYaZ5PZ+c1hNf5cMImmv+pnXT+fvw3RQzGoipJks3uOjoktzwtZNTguF7LF76/hP
- utUZH0qY4eX2JMPIs6o2x7QdfYKgZBb9UgMFWgJDmDRVZpcdI4gjuvK9aCIfbX+ELn8k
- GhQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=B90KVt3jBppnWmU62RN/VdEMzjr3PF5TC8yDKeKv6q8=;
- b=kllUxWKOZr4zhatRpn0f5QmgmeHltW3vuEx8CBnQlQcTybqDiHhQvArO7BksfWlGik
- b8EduVBK0YcD3VcpDgf4BCoc57x1yPsLhFs6z16M6/IjPKd90aQHdmlCoe/gB3qleBoc
- k1SP/9pe1b2rc8YjoIA9+M5zihXd4go2JQ0e4Kgx1r2UWFhOxVcB29pr6Bmuubx9qMoT
- qG/3CmxC8wB4w9YUuZ20mtTZGvqSkP6LQ2z51HU0cB2XD7qRIDIarAKObGoSlKodeOQ2
- gniZiJQPYQYKpeArM4boGXLRlhVoBt3pkD5/47RRgm/saxcOyDqdaK/ralhyzML9ulJR
- +FVQ==
-X-Gm-Message-State: APjAAAWOTeZEjJt5h2XgUjYnC5i/7OoWtzeo1ZaHxuxw9DlPKpl/0Zxp
- BeNo8spzIXR/D/9b7wZQVrbGxw==
-X-Google-Smtp-Source: APXvYqx02359Skj7druvT5XYT6CRLUe3njy3RZ+oNJ41g5ZjrJ4OyukplXqBh1yhigIwYeL/Of7tRg==
-X-Received: by 2002:a17:902:b70f:: with SMTP id
- d15mr10306833pls.210.1571409114650; 
- Fri, 18 Oct 2019 07:31:54 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id t11sm5927106pjy.10.2019.10.18.07.31.53
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 18 Oct 2019 07:31:53 -0700 (PDT)
-Subject: Re: [PATCH v7 19/20] target/arm: Rebuild hflags for M-profile.
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191017185110.539-1-richard.henderson@linaro.org>
- <20191017185110.539-20-richard.henderson@linaro.org>
- <CAFEAcA9oJ0P-g87caLKyT1mS2k7YhtNXAOhSgXuMy0bCGwX0WA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <aa753ee9-40ce-d6c8-801f-eda74d76fd3d@linaro.org>
-Date: Fri, 18 Oct 2019 07:31:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <eblake@redhat.com>) id 1iLTLf-0003nS-Av
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:35:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57612)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iLTLc-0003mU-WB; Fri, 18 Oct 2019 10:35:21 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3130510C093F;
+ Fri, 18 Oct 2019 14:35:20 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 801FA60BF1;
+ Fri, 18 Oct 2019 14:35:19 +0000 (UTC)
+Subject: Re: [PATCH] blockdev: modify blockdev-change-medium to change
+ non-removable device
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-block@nongnu.org
+References: <20191018120950.26849-1-dplotnikov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <7bdd4dcf-da43-6169-382f-32b248ec72bb@redhat.com>
+Date: Fri, 18 Oct 2019 09:35:18 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9oJ0P-g87caLKyT1mS2k7YhtNXAOhSgXuMy0bCGwX0WA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191018120950.26849-1-dplotnikov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Fri, 18 Oct 2019 14:35:20 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,51 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, den@virtuozzo.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/19 5:25 AM, Peter Maydell wrote:
-> On Thu, 17 Oct 2019 at 19:51, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Continue setting, but not relying upon, env->hflags.
->>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->> v7: Add rebuilds for v7m_msr and nvic_writel to v7m.ccr.
->> ---
->>  hw/intc/armv7m_nvic.c  | 1 +
->>  target/arm/m_helper.c  | 6 ++++++
->>  target/arm/translate.c | 5 ++++-
->>  3 files changed, 11 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
->> index 8e93e51e81..a3993e7b72 100644
->> --- a/hw/intc/armv7m_nvic.c
->> +++ b/hw/intc/armv7m_nvic.c
->> @@ -1604,6 +1604,7 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
->>          }
->>
->>          cpu->env.v7m.ccr[attrs.secure] = value;
->> +        arm_rebuild_hflags(&cpu->env);
->>          break;
->>      case 0xd24: /* System Handler Control and State (SHCSR) */
->>          if (!arm_feature(&cpu->env, ARM_FEATURE_V7)) {
+On 10/18/19 7:09 AM, Denis Plotnikov wrote:
+> The modification is useful to workaround exclusive file access restrictions,
+> e.g. to implement VM migration with shared disk stored on a storage with
+> the exclusive file opening model: a destination VM is started waiting for
+> incomming migration with a fake image drive, and later, on the last migration
+> phase, the fake image file is replaced with the real one.
 > 
-> This seems fragile -- we have to remember to add in
-> a call to arm_rebuild_hflags() for every individual
-> case of a memory-mapped system register that we choose
-> to cache in tb flags. It doesn't seem consistent with
-> the choice for A-profile to rebuild hflags for pretty
-> much any sysreg write. Maybe it would be better to just
-> always rebuild hflags at the end of nvic_sysreg_write() ?
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> ---
 
-I thought about that, but there were too many returns out of the middle.  I
-suppose a wrapper function would take care of that.
+> +++ b/qapi/block-core.json
+> @@ -4769,6 +4769,8 @@
+>   # @read-only-mode:  change the read-only mode of the device; defaults
+>   #                   to 'retain'
+>   #
+> +# @medium-name:     drive-name when changing the media in non-removable devices
+> +#                   ignored when changing media in removable devices
+
+s/devices ignored/devices. Ignored/
+
+Missing a '(since 4.2)' tag.
 
 
-r~
-
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
