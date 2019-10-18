@@ -2,70 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D4ADC5CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:09:46 +0200 (CEST)
-Received: from localhost ([::1]:39718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4391DDC5D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:15:36 +0200 (CEST)
+Received: from localhost ([::1]:39832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLS0n-0005Cw-3K
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47719)
+	id 1iLS6Q-0000lb-RM
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:15:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLRyz-0003eD-9x
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:07:54 -0400
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1iLO07-0006Lr-F1
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:52:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLRyx-00018o-Pu
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:07:53 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44876)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iLRyx-00018a-KH
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:07:51 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w6so5117346oie.11
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 06:07:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=cU4Le2uZN2kUygkoBT99G2cJi+hgVIxtf8QhGpCMiEo=;
- b=OBaQgQ2KuZ4Z/Luu2xRAFlzj9GQN1HN6NYo3HIriFNyItnkhmrI7okgnhy/X0zVPHd
- qN29vaLB8hrqIE87dfIE5V+VO5E6OONt7AXZdl9uEiEdghweeNmy3crphyuuWlOoVZ4J
- hbnU5NKo9CZuYkB5WRiR1V2doWDGOzfe6tNpe6MCkVXVS/6U5WcKFeRs2LU0TnpwFZbF
- oXG9Qq9zg0c9gHiawzeH2xWb3NBWipZbH4eqYPojXovEzAAZlW/Sbf3rOyEQPKooYAs+
- WpAtApjsgLK+dwBW1Pgb3tCsLJYoZ9MmB9n/fSGUUycolaYQDIev1h/acGC54+4hkpys
- 0cgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=cU4Le2uZN2kUygkoBT99G2cJi+hgVIxtf8QhGpCMiEo=;
- b=fxVBL/Bdsx4CO4wcQINmCJ0VuSTM5y6EZQgIU0pVh5O3PqMIkNmwxYQnN6UIB6CCts
- hMFLJW/xSTPq79cDmsMr+KVibezhcITgrZPeMf79GeHycbLezWdMa1/OHD+XWf5s+d7V
- UqIBy2q4G3FONlYfCRqYZHOnYkV11li6PTpJC3Dmk2IjdMRDsf6Y++24SxXo+7lBzucF
- DDThVPc2xcpi07L/3m41+bvDluMybc59JaIzrNSmlHGl4D1YYDYOIIzA9oi/deTQZNxp
- VEvdrkioIqff5LX5Abb7niip1LlXYqwYsKm0n+QcpIZeECxl2//Zjt5twnsKmHJdPFsL
- b0Sg==
-X-Gm-Message-State: APjAAAU5JKyFtNhiJa817L4fN1+0yW7pEkJrYgacOOSQTLXbCPinEX7O
- c3yVG9VHoiGglwjzokh+UsLApQDmo8822ssNIm0=
-X-Google-Smtp-Source: APXvYqwZGyTi4q7XpMcPyzImyjrjoHWQ3o+TY3SryW5ivIhXH+dde0+zRINx8KZo+OAbACDK762fpZb0UJAuHbhYDKw=
-X-Received: by 2002:aca:4e56:: with SMTP id c83mr8024184oib.53.1571404070902; 
- Fri, 18 Oct 2019 06:07:50 -0700 (PDT)
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1iLO05-0002VI-Mr
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:52:46 -0400
+Received: from esa9.fujitsucc.c3s2.iphmx.com ([68.232.159.90]:13950)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1iLO05-0002TW-93
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 04:52:45 -0400
+IronPort-SDR: TvwyDs5hKwW0xLB8/gway/boXHO/hd+oTz9eqYUaw31e8kKT/w5cc+Eh3tCy/HgiW70lskYjvS
+ tizczSTZDR2e4DaGPxLYJQ4qPZMze+7YdzQELL38JwDwjWoCa2Ixv1l8sOj8qN4DayoyR3ukgH
+ KBdz5CIsWWEcHwAjeR3BfjTiOcN2ZQYrVY5fym83W7jU7lxY9hlM8RBbKWYPyYSHQsFXPm6ctu
+ AlcLEOfUtFSjCb/zafXssksTMidbssIq1UNyk8ReedKCPPKI8nSzD61mrzBgyQRnipHWE0mBgL
+ Jy0=
+X-IronPort-AV: E=McAfee;i="6000,8403,9413"; a="6984672"
+X-IronPort-AV: E=Sophos;i="5.67,311,1566831600"; 
+   d="scan'208";a="6984672"
+Received: from mail-os2jpn01lp2058.outbound.protection.outlook.com (HELO
+ JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.58])
+ by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA384;
+ 18 Oct 2019 17:52:39 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GWTCnz8FMvrfKYtmfhvcXNH4U5haMAnkdXM4vSDI36+qBahaQz7slF9aXjt+TYN5EGSDhfPrAPASJqiuEJ4bs0F22Egoc6Uimfd9gqaBRGHCqCxoa4FRmV8RiBZXY8t3G/EzFTlICWmw4kdO/zsLeUB5u0IVhRcLyNrepxwGn5pyCDnWNBpCMQPUlpj1PDTi4HqXIR1tP7QqM9nrPf4oc+ZGOeoXGYmuRb0a3fjBmeqqUlG/S6c3WCog7ZFE/7Cbu3wZo5OXcdy/xciI50BNV1+FK2U1fScHeuuGnnG+sWxYdsKogRIj13BesdRWRiXJK+hDdd8r/aguXQHi3NuKCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=juc6GNuKcyXpuUYv6naPnNX7n61FrJvqDNyd1qQNmfA=;
+ b=KimEBl+s/AGELrwV90u0mcNjqnfEB3DIpZPyTJpuV0KRpQDzLsGXfyoCzTk1fqkRoINKEebOZauEvTppVFbrI28u8pw44i6rQ3brabQCDugD9twIpdGvPoLfpcztF+n4+Qojlo+uO+vlgdzpYUSknpocunTgFNJvRUlZJCb2N5uaCrTU1RRQzEAhYkKvwitt5/4Fi5CgDhba5XvZ6Fbx6K7LJ38/j5bB2P2Jvw/2lCCyW7ut2QJXcXpBqzyEks1Wmux9qYBlrvxTJWs8ImdXumDvr+tcQWXQHS1oV0OEPnxlGOPXRLWeLmF/fCtVrnftGJpzDjj4YaLuYPs0FZIVIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=juc6GNuKcyXpuUYv6naPnNX7n61FrJvqDNyd1qQNmfA=;
+ b=VxpFG6ulXvLPv0wY1dGqQV50D0kntB5kNCtxWOGgj3Yxsk0Xu7wcWevT0ue3eaM9NBdjBeHMb0ESj7qUr1dR313nmGrFGx/lX7pApiLO6pfWymeT1QfmnTB0rRKATBj2O0CQc4sutuKKxr3Q1/qB77mrZIGUSMyBdL8LUsnKnRE=
+Received: from OSBPR01MB3783.jpnprd01.prod.outlook.com (20.178.96.203) by
+ OSBPR01MB3975.jpnprd01.prod.outlook.com (20.178.98.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.19; Fri, 18 Oct 2019 08:52:35 +0000
+Received: from OSBPR01MB3783.jpnprd01.prod.outlook.com
+ ([fe80::4cef:c2a5:21f3:9f3c]) by OSBPR01MB3783.jpnprd01.prod.outlook.com
+ ([fe80::4cef:c2a5:21f3:9f3c%5]) with mapi id 15.20.2347.024; Fri, 18 Oct 2019
+ 08:52:35 +0000
+From: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>
+To: 'Miklos Szeredi' <mszeredi@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>
+Subject: RE: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
+Thread-Topic: [Virtio-fs] [PATCH 0/2] virtiofsd: Two fix for xattr operation
+Thread-Index: AQHVhAzKQZ3C+LAwOU6GUtVH7zwjF6denLQAgAAV7YCAAE/kgIAACs2AgADyiACAAAqG4A==
+Date: Fri, 18 Oct 2019 08:51:20 +0000
+Deferred-Delivery: Fri, 18 Oct 2019 08:52:18 +0000
+Message-ID: <OSBPR01MB37835DC3A2F179AFD3A9074BE56C0@OSBPR01MB3783.jpnprd01.prod.outlook.com>
+References: <20191016103754.2047-1-misono.tomohiro@jp.fujitsu.com>
+ <20191017100528.GA24790@stefanha-x1.localdomain>
+ <CAOssrKfR=sfE1RzOXzvPbdQg-g7i5-f8W9y8bWFnO=gyJ2VMsg@mail.gmail.com>
+ <20191017160953.GC1266@stefanha-x1.localdomain>
+ <CAOssrKejcfVWXw6Nu1owyEeofTdVp6BNx4bL91ma2g7bg9-nmg@mail.gmail.com>
+ <CAOssrKdbAT5s=CYG6PBtE6OYdqgwG8vp9T6QMJpwZ7X3tKjPmg@mail.gmail.com>
+In-Reply-To: <CAOssrKdbAT5s=CYG6PBtE6OYdqgwG8vp9T6QMJpwZ7X3tKjPmg@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-shieldmailcheckerpolicyversion: FJ-ISEC-20181130-VDI-enc
+x-shieldmailcheckermailid: 0e05e2926b934e8183c712e3e83f4af2
+x-securitypolicycheck: OK by SHieldMailChecker v2.6.2
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=misono.tomohiro@fujitsu.com; 
+x-originating-ip: [114.160.30.213]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ccc9d58b-0f65-41f4-ba00-08d753a885a3
+x-ms-traffictypediagnostic: OSBPR01MB3975:
+x-microsoft-antispam-prvs: <OSBPR01MB39751303780B5974797FA206E56C0@OSBPR01MB3975.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01949FE337
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(346002)(396003)(136003)(39860400002)(366004)(189003)(199004)(66556008)(66946007)(71200400001)(71190400001)(26005)(102836004)(11346002)(446003)(2906002)(25786009)(476003)(6666004)(186003)(478600001)(14454004)(66476007)(64756008)(316002)(76116006)(66446008)(9686003)(256004)(55016002)(8676002)(229853002)(74316002)(5024004)(486006)(6246003)(305945005)(8936002)(54906003)(7736002)(86362001)(81156014)(6436002)(52536014)(76176011)(7696005)(99286004)(3846002)(85182001)(5660300002)(66066001)(6116002)(33656002)(81166006)(110136005)(4326008)(6506007)(4744005)(777600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:OSBPR01MB3975;
+ H:OSBPR01MB3783.jpnprd01.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dlpnj+GNdAqdQ+thxSKWqIDCCJNRUnMEAyAH+4jTeO31yrydu1s82CEfnutAqisAWBrbpPPA1TkGcHr3RbgBEo4vHx1rCpLj8iR6ityE0WqnX0DJZjBkhOcx+lWYM9cKNQ2UnazlPxND251GCcZbvVjhCIhjtSLb5Y17m0GLiGaqD43ykkNJvaNrDIYbSnVzMCYQDUN7jcRQCBy6vFsKyV88WqSD7LPVjxP9TcOy/OxBusXEE1sWmfYBjZigy14mhjncjcrn+j5Z4ur6PtroR6DODaHfd3tVOyykkvetEeRjJLfjvD+5R3N0fOwF8P0L5IOlZOIi6HVQyCJr0lJo1eZ7wwX6jA3XIZ42HoDNaWus5RJ4OuBf2lx8CVTboQMZMEBrha+bt8FWFKTWh4TYslaa0rUZRo3qToiApJl3p6E=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 18 Oct 2019 06:07:50
- -0700 (PDT)
-In-Reply-To: <e149d24f-8d77-4126-8fc8-012b114dfe37@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-27-philmd@redhat.com>
- <CAL1e-=jVr+idQKNdOGSrODeq7XU-0JcCFTwapqk9-JvAKxk6Pw@mail.gmail.com>
- <e149d24f-8d77-4126-8fc8-012b114dfe37@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 18 Oct 2019 15:07:50 +0200
-Message-ID: <CAL1e-=iOhZATK3M4Qv8GXCtW8frSj7Jw5vGkJPUiz2G3Fh7BTw@mail.gmail.com>
-Subject: Re: [PATCH 26/32] hw/pci-host/piix: Move RCR_IOPORT register
- definition
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000071e34205952f058c"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccc9d58b-0f65-41f4-ba00-08d753a885a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2019 08:52:35.6985 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fVBwK4TLvsKzNfvy1859fXJZwJCB8esb4U3pU/ZxsTm02AoMdJc0hcQHMSveojBaBz1DKO43XRMn2iV2LF+l7/MmEzl09rz7F/HLWAedn+k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3975
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.159.90
+X-Mailman-Approved-At: Fri, 18 Oct 2019 09:12:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,284 +122,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000071e34205952f058c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Friday, October 18, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
->
-wrote:
-
-> On 10/18/19 11:19 AM, Aleksandar Markovic wrote:
->
->> On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com
->> <mailto:philmd@redhat.com>> wrote:
->>
->>     From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org <mailto:f4bug@ams=
-at.org
->> >>
->>
->>     The RCR_IOPORT register belongs to the PIIX chipset.
->>     Move the definition to "piix.h".
->>
->>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
->>     <mailto:philmd@redhat.com>>
->>     ---
->>       hw/pci-host/piix.c            | 1 +
->>       include/hw/i386/pc.h          | 6 ------
->>       include/hw/southbridge/piix.h | 6 ++++++
->>       3 files changed, 7 insertions(+), 6 deletions(-)
->>
->>
->> Does it make sense to add prefix PIIX_ or a similar one to the register
->> name?
->>
->
-> Good idea, it will make the comment in hw/i386/acpi-build.c:213 cleaner:
-
-
-Correct. Let's than add PIIX_ prefix.
-
-Thanks in advance.
-
-A.
-
-
-
->     /* The above need not be conditional on machine type because the rese=
-t
-> port
->      * happens to be the same on PIIX (pc) and ICH9 (q35). */
->     QEMU_BUILD_BUG_ON(ICH9_RST_CNT_IOPORT !=3D RCR_IOPORT);
->
->
->> In any case:
->>
->> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com <mailto:
->> amarkovic@wavecomp.com>>
->>
->
-> Thanks!
->
->
->>     diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
->>     index 3292703de7..3770575c1a 100644
->>     --- a/hw/pci-host/piix.c
->>     +++ b/hw/pci-host/piix.c
->>     @@ -27,6 +27,7 @@
->>       #include "hw/irq.h"
->>       #include "hw/pci/pci.h"
->>       #include "hw/pci/pci_host.h"
->>     +#include "hw/southbridge/piix.h"
->>       #include "hw/qdev-properties.h"
->>       #include "hw/isa/isa.h"
->>       #include "hw/sysbus.h"
->>     diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->>     index 183326d9fe..1c20b96571 100644
->>     --- a/include/hw/i386/pc.h
->>     +++ b/include/hw/i386/pc.h
->>     @@ -257,12 +257,6 @@ typedef struct PCII440FXState PCII440FXState;
->>
->>       #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE
->>     "igd-passthrough-i440FX"
->>
->>     -/*
->>     - * Reset Control Register: PCI-accessible ISA-Compatible Register
->>     at address
->>     - * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0,
->>     8086:7000).
->>     - */
->>     -#define RCR_IOPORT 0xcf9
->>     -
->>       PCIBus *i440fx_init(const char *host_type, const char *pci_type,
->>                           PCII440FXState **pi440fx_state, int *piix_devf=
-n,
->>                           ISABus **isa_bus, qemu_irq *pic,
->>     diff --git a/include/hw/southbridge/piix.h
->>     b/include/hw/southbridge/piix.h
->>     index add352456b..79ebe0089b 100644
->>     --- a/include/hw/southbridge/piix.h
->>     +++ b/include/hw/southbridge/piix.h
->>     @@ -18,6 +18,12 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn,
->>     uint32_t smb_io_base,
->>                             qemu_irq sci_irq, qemu_irq smi_irq,
->>                             int smm_enabled, DeviceState **piix4_pm);
->>
->>     +/*
->>     + * Reset Control Register: PCI-accessible ISA-Compatible Register
->>     at address
->>     + * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0,
->>     8086:7000).
->>     + */
->>     +#define RCR_IOPORT 0xcf9
->>     +
->>       extern PCIDevice *piix4_dev;
->>
->>       DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
->>     --     2.21.0
->>
->>
->>
-
---00000000000071e34205952f058c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Friday, October 18, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hre=
-f=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">On 10/18/19 11:19 AM, Aleksandar Markovic wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"ma=
-ilto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a> &lt;mailto:=
-<a href=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a=
->&gt;&gt; wrote:<br>
-<br>
-=C2=A0 =C2=A0 From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
-@amsat.org" target=3D"_blank">f4bug@amsat.org</a> &lt;mailto:<a href=3D"mai=
-lto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;&gt;<br>
-<br>
-=C2=A0 =C2=A0 The RCR_IOPORT register belongs to the PIIX chipset.<br>
-=C2=A0 =C2=A0 Move the definition to &quot;piix.h&quot;.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mai=
-lto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a><br>
-=C2=A0 =C2=A0 &lt;mailto:<a href=3D"mailto:philmd@redhat.com" target=3D"_bl=
-ank">philmd@redhat.com</a>&gt;&gt;<br>
-=C2=A0 =C2=A0 ---<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0hw/pci-host/piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 1 +<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/i386/pc.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 6 ------<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/southbridge/piix.<wbr>h | 6 ++++++<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A03 files changed, 7 insertions(+), 6 deletions(-)<=
-br>
-<br>
-<br>
-Does it make sense to add prefix PIIX_ or a similar one to the register nam=
-e?<br>
-</blockquote>
-<br>
-Good idea, it will make the comment in hw/i386/acpi-build.c:213 cleaner:</b=
-lockquote><div><br></div><div>Correct. Let&#39;s than add PIIX_ prefix.</di=
-v><div><br></div><div>Thanks in advance.</div><div><br></div><div>A.</div><=
-div><br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-=C2=A0 =C2=A0 /* The above need not be conditional on machine type because =
-the reset port<br>
-=C2=A0 =C2=A0 =C2=A0* happens to be the same on PIIX (pc) and ICH9 (q35). *=
-/<br>
-=C2=A0 =C2=A0 QEMU_BUILD_BUG_ON(ICH9_RST_CNT<wbr>_IOPORT !=3D RCR_IOPORT);<=
-br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-In any case:<br>
-<br>
-Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavecomp.c=
-om" target=3D"_blank">amarkovic@wavecomp.com</a> &lt;mailto:<a href=3D"mail=
-to:amarkovic@wavecomp.com" target=3D"_blank">amarkovic@wavecomp.com</a><wbr=
->&gt;&gt;<br>
-</blockquote>
-<br>
-Thanks!<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-=C2=A0 =C2=A0 diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c<br>
-=C2=A0 =C2=A0 index 3292703de7..3770575c1a 100644<br>
-=C2=A0 =C2=A0 --- a/hw/pci-host/piix.c<br>
-=C2=A0 =C2=A0 +++ b/hw/pci-host/piix.c<br>
-=C2=A0 =C2=A0 @@ -27,6 +27,7 @@<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#include &quot;hw/irq.h&quot;<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#include &quot;hw/pci/pci_host.h&quot;<br>
-=C2=A0 =C2=A0 +#include &quot;hw/southbridge/piix.h&quot;<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#include &quot;hw/isa/isa.h&quot;<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#include &quot;hw/sysbus.h&quot;<br>
-=C2=A0 =C2=A0 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
-=C2=A0 =C2=A0 index 183326d9fe..1c20b96571 100644<br>
-=C2=A0 =C2=A0 --- a/include/hw/i386/pc.h<br>
-=C2=A0 =C2=A0 +++ b/include/hw/i386/pc.h<br>
-=C2=A0 =C2=A0 @@ -257,12 +257,6 @@ typedef struct PCII440FXState PCII440FXS=
-tate;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0#define TYPE_IGD_PASSTHROUGH_I440FX_PC<wbr>I_DEVI=
-CE<br>
-=C2=A0 =C2=A0 &quot;igd-passthrough-i440FX&quot;<br>
-<br>
-=C2=A0 =C2=A0 -/*<br>
-=C2=A0 =C2=A0 - * Reset Control Register: PCI-accessible ISA-Compatible Reg=
-ister<br>
-=C2=A0 =C2=A0 at address<br>
-=C2=A0 =C2=A0 - * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function=
- 0,<br>
-=C2=A0 =C2=A0 8086:7000).<br>
-=C2=A0 =C2=A0 - */<br>
-=C2=A0 =C2=A0 -#define RCR_IOPORT 0xcf9<br>
-=C2=A0 =C2=A0 -<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0PCIBus *i440fx_init(const char *host_type, const =
-char *pci_type,<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0PCII440FXState **pi440fx_state, int *piix_devfn,<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0ISABus **isa_bus, qemu_irq *pic,<br>
-=C2=A0 =C2=A0 diff --git a/include/hw/southbridge/piix.<wbr>h<br>
-=C2=A0 =C2=A0 b/include/hw/southbridge/piix.<wbr>h<br>
-=C2=A0 =C2=A0 index add352456b..79ebe0089b 100644<br>
-=C2=A0 =C2=A0 --- a/include/hw/southbridge/piix.<wbr>h<br>
-=C2=A0 =C2=A0 +++ b/include/hw/southbridge/piix.<wbr>h<br>
-=C2=A0 =C2=A0 @@ -18,6 +18,12 @@ I2CBus *piix4_pm_init(PCIBus *bus, int dev=
-fn,<br>
-=C2=A0 =C2=A0 uint32_t smb_io_base,<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_irq sci_irq, qemu_irq smi_irq,<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0int smm_enabled, DeviceState **piix4_pm);<br>
-<br>
-=C2=A0 =C2=A0 +/*<br>
-=C2=A0 =C2=A0 + * Reset Control Register: PCI-accessible ISA-Compatible Reg=
-ister<br>
-=C2=A0 =C2=A0 at address<br>
-=C2=A0 =C2=A0 + * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function=
- 0,<br>
-=C2=A0 =C2=A0 8086:7000).<br>
-=C2=A0 =C2=A0 + */<br>
-=C2=A0 =C2=A0 +#define RCR_IOPORT 0xcf9<br>
-=C2=A0 =C2=A0 +<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0extern PCIDevice *piix4_dev;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0=C2=A0DeviceState *piix4_create(PCIBus *pci_bus, ISABus=
- **isa_bus,<br>
-=C2=A0 =C2=A0 --=C2=A0 =C2=A0 =C2=A02.21.0<br>
-<br>
-<br>
-</blockquote>
-</blockquote>
-
---00000000000071e34205952f058c--
+PiA+IEV2ZW4gc2ltcGxlcjogYWxsb3cgT19QQVRIIGRlc2NyaXB0b3JzIGZvciBmKnhhdHRyKCku
+DQo+IA0KPiBBdHRhY2hlZCBwYXRjaC4gIFdpbGwgcG9zdCBzaG9ydGx5Lg0KPiANCj4gSG93ZXZl
+ciwgSSB0aGluayBpdCB3b3VsZCBtYWtlIHNlbnNlIHRvIGZpeCB2aXJ0aW9mc2QgYXMgd2VsbCwg
+YXMgdGhpcyB3aWxsIHRha2UgdGltZSB0byBwZXJjb2xhdGUgZG93biwgZXZlbiBpZiBBbCBkb2Vz
+bid0IGZpbmQNCj4gYW55dGhpbmcgd3Jvbmcgd2l0aCBpdC4NCg0KVGhhbmtzIGZvciB5b3UgY29t
+bWVudHMuDQoNClRob3VnaCBJJ20gc3RpbGwgbGVhcm5pbmcgdmlydGlvZnNkIGNvZGUsIGlmIG5v
+Ym9keSB3aWxsIHRyeSBJJ20gd2lsbGluZyB0byB3b3JrIG9uIHRoaXMuDQoNCj4gRG9pbmcgdW5z
+aGFyZShDTE9ORV9GUykgYWZ0ZXIgdGhyZWFkIHN0YXJ0dXAgc2VlbXMgc2FmZSwgdGhvdWdoIG11
+c3QgYmUgY2FyZWZ1bCB0byBjaGFuZ2UgdGhlIHdvcmtpbmcgZGlyZWN0b3J5IHRvIHRoZSByb290
+IG9mDQo+IHRoZSBtb3VudA0KPiAqYmVmb3JlKiBzdGFydGluZyBhbnkgdGhyZWFkcy4NCg0KSSB0
+aGluayB3b3JraW5nIGRpcmVjdHJ5IGlzIGNoYW5nZWQgaW4gc2V0dXBfc2FuZGJveCgpIC0+IHNl
+dHVwX21vdW50X25hbWVzcGFjZSgpIC0+IHNldHVwX3Bpdm90X3Jvb3QoKS4NClNvLCBjYW4gd2Ug
+anVzdCBhZGQgdW5zaGFyZShDTE9ORV9GUykgaW4gZnZfcXVldWVfd29ya2VyKCk/DQoNClNvcnJ5
+IGlmIEknbSB0b3RhbGx5IG1pc3VuZGVyc3Rvb2QgdGhlIHNpdHVhdGlvbi4NCg0KVGhhbmtzLA0K
+TWlzb25vDQo=
 
