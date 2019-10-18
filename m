@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E20DCFF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 22:24:34 +0200 (CEST)
-Received: from localhost ([::1]:45774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F82DD018
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 22:27:24 +0200 (CEST)
+Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLYnY-0001Zj-NV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 16:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48154)
+	id 1iLYqJ-0004UL-PZ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 16:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iLYkn-0006bE-KV
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:21:42 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1iLYkp-0006ek-OC
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:21:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iLYkm-0005oP-Iw
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:21:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42948)
+ (envelope-from <jfreimann@redhat.com>) id 1iLYko-0005pA-RI
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:21:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37142)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iLYkm-0005o6-Dr
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:21:40 -0400
+ id 1iLYko-0005ov-MA
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 16:21:42 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A83BA8E3C0;
- Fri, 18 Oct 2019 20:21:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E4AE38A1C8F;
+ Fri, 18 Oct 2019 20:21:41 +0000 (UTC)
 Received: from localhost (ovpn-116-92.ams2.redhat.com [10.36.116.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27DCC60BF4;
- Fri, 18 Oct 2019 20:21:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76F7960BF4;
+ Fri, 18 Oct 2019 20:21:41 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] qapi: add unplug primary event
-Date: Fri, 18 Oct 2019 22:20:34 +0200
-Message-Id: <20191018202040.30349-6-jfreimann@redhat.com>
+Subject: [PATCH 06/11] qapi: add failover negotiated event
+Date: Fri, 18 Oct 2019 22:20:35 +0200
+Message-Id: <20191018202040.30349-7-jfreimann@redhat.com>
 In-Reply-To: <20191018202040.30349-1-jfreimann@redhat.com>
 References: <20191018202040.30349-1-jfreimann@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 18 Oct 2019 20:21:39 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.69]); Fri, 18 Oct 2019 20:21:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,43 +63,41 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This event is emitted when we sent a request to unplug a
-failover primary device from the Guest OS and it includes the
-device id of the primary device.
+This event is sent to let libvirt know that VIRTIO_NET_F_STANDBY
+feature was not negotiated during virtio feature negotiation. If this
+event is received it means any primary devices hotplugged before
+this were were never really added to QEMU devices.
 
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
 ---
- qapi/migration.json | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ qapi/net.json | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 82feb5bd39..52e69e2868 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1448,3 +1448,22 @@
- # Since: 3.0
+diff --git a/qapi/net.json b/qapi/net.json
+index 728990f4fb..8c5f3f1fb2 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -737,3 +737,19 @@
  ##
- { 'command': 'migrate-pause', 'allow-oob': true }
+ { 'command': 'announce-self', 'boxed': true,
+   'data' : 'AnnounceParameters'}
 +
 +##
-+# @UNPLUG_PRIMARY:
++# @FAILOVER_NEGOTIATED:
 +#
-+# Emitted from source side of a migration when migration state is
-+# WAIT_UNPLUG. Device was unplugged by guest operating system.
-+# Device resources in QEMU are kept on standby to be able to re-plug it =
-in case
-+# of migration failure.
-+#
-+# @device_id: QEMU device id of the unplugged device
++# Emitted when VIRTIO_NET_F_STANDBY was negotiated during feature negoti=
+ation
 +#
 +# Since: 4.2
 +#
 +# Example:
-+#   {"event": "UNPLUG_PRIMARY", "data": {"device_id": "hostdev0"} }
++#
++# <- { "event": "FAILOVER_NEGOTIATED",
++#      "data": {} }
 +#
 +##
-+{ 'event': 'UNPLUG_PRIMARY',
-+  'data': { 'device_id': 'str' } }
++{ 'event': 'FAILOVER_NEGOTIATED',
++  'data': {} }
 --=20
 2.21.0
 
