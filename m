@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99CFDC6A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:56:43 +0200 (CEST)
-Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D09DC6B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:59:06 +0200 (CEST)
+Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLSkE-0004RS-M5
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55097)
+	id 1iLSmX-0006cC-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLSdp-00059P-23
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:50:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1iLSeO-000661-W5
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:50:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLSdn-0006M9-Lq
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:50:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50686)
+ (envelope-from <philmd@redhat.com>) id 1iLSeN-0006iN-Ko
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:50:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49476)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSdn-0006Lt-DK
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:50:03 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSeN-0006hu-CV
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:50:39 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 739A33086E23;
- Fri, 18 Oct 2019 13:50:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8635951EF6;
+ Fri, 18 Oct 2019 13:50:38 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E81460BF1;
- Fri, 18 Oct 2019 13:49:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AE1360BF1;
+ Fri, 18 Oct 2019 13:50:25 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/20] hw/isa/piix4: Move piix4_create() to hw/isa/piix4.c
-Date: Fri, 18 Oct 2019 15:47:45 +0200
-Message-Id: <20191018134754.16362-12-philmd@redhat.com>
+Subject: [PATCH v2 14/20] hw/pci-host/piix: Move RCR_IOPORT register definition
+Date: Fri, 18 Oct 2019 15:47:48 +0200
+Message-Id: <20191018134754.16362-15-philmd@redhat.com>
 In-Reply-To: <20191018134754.16362-1-philmd@redhat.com>
 References: <20191018134754.16362-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 18 Oct 2019 13:50:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 18 Oct 2019 13:50:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,162 +73,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Now that we properly refactored the piix4_create() function, let's
-move it to hw/isa/piix4.c where it belongs, so it can be reused
-on other places.
+The RCR_IOPORT register belongs to the PIIX chipset.
+Move the definition to "piix.h", and prepend the PIIX prefix.
 
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/isa/piix4.c                | 30 ++++++++++++++++++++++++++++++
- hw/mips/gt64xxx_pci.c         |  1 +
- hw/mips/mips_malta.c          | 28 ----------------------------
- include/hw/i386/pc.h          |  2 --
- include/hw/southbridge/piix.h |  6 ++++++
- 5 files changed, 37 insertions(+), 30 deletions(-)
+v2: prepend PIIX prefix (Aleksandar)
+---
+ hw/i386/acpi-build.c          | 2 +-
+ hw/pci-host/piix.c            | 7 ++++---
+ include/hw/i386/pc.h          | 6 ------
+ include/hw/southbridge/piix.h | 6 ++++++
+ 4 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index b35b8a5f71..f4644b63cc 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -27,12 +27,14 @@
- #include "qapi/error.h"
- #include "hw/irq.h"
- #include "hw/i386/pc.h"
-+#include "hw/southbridge/piix.h"
- #include "hw/pci/pci.h"
- #include "hw/isa/isa.h"
- #include "hw/sysbus.h"
- #include "hw/dma/i8257.h"
- #include "hw/timer/i8254.h"
- #include "hw/timer/mc146818rtc.h"
-+#include "hw/ide.h"
- #include "migration/vmstate.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-@@ -237,3 +239,31 @@ static void piix4_register_types(void)
- }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 56c427f772..478ca29874 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -209,7 +209,7 @@ static void acpi_get_pm_info(MachineState *machine, A=
+cpiPmInfo *pm)
 =20
- type_init(piix4_register_types)
-+
-+DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
-+                          I2CBus **smbus, size_t ide_buses)
-+{
-+    size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;
-+    DriveInfo **hd;
-+    PCIDevice *pci;
-+    DeviceState *dev;
-+
-+    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
-+                                          true, TYPE_PIIX4_PCI_DEVICE);
-+    dev =3D DEVICE(pci);
-+    if (isa_bus) {
-+        *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-+    }
-+
-+    hd =3D g_new(DriveInfo *, ide_drives);
-+    ide_drive_get(hd, ide_drives);
-+    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
-+    g_free(hd);
-+    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
-+    if (smbus) {
-+        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
-+                               isa_get_irq(NULL, 9), NULL, 0, NULL);
-+   }
-+
-+    return dev;
-+}
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index f325bd6c1c..c277398c0d 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -28,6 +28,7 @@
- #include "hw/mips/mips.h"
+     /* The above need not be conditional on machine type because the res=
+et port
+      * happens to be the same on PIIX (pc) and ICH9 (q35). */
+-    QEMU_BUILD_BUG_ON(ICH9_RST_CNT_IOPORT !=3D RCR_IOPORT);
++    QEMU_BUILD_BUG_ON(ICH9_RST_CNT_IOPORT !=3D PIIX_RCR_IOPORT);
+=20
+     /* Fill in optional s3/s4 related properties */
+     o =3D object_property_get_qobject(obj, ACPI_PM_PROP_S3_DISABLED, NUL=
+L);
+diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
+index 3292703de7..6548d9a4b5 100644
+--- a/hw/pci-host/piix.c
++++ b/hw/pci-host/piix.c
+@@ -27,6 +27,7 @@
+ #include "hw/irq.h"
  #include "hw/pci/pci.h"
  #include "hw/pci/pci_host.h"
 +#include "hw/southbridge/piix.h"
- #include "migration/vmstate.h"
- #include "hw/i386/pc.h"
- #include "hw/irq.h"
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 0d4312840b..477a4725c0 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -1210,34 +1210,6 @@ static void mips_create_cpu(MachineState *ms, Malt=
-aState *s,
-     }
- }
+ #include "hw/qdev-properties.h"
+ #include "hw/isa/isa.h"
+ #include "hw/sysbus.h"
+@@ -87,7 +88,7 @@ typedef struct PIIX3State {
+     /* Reset Control Register contents */
+     uint8_t rcr;
 =20
--static DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
--                                 I2CBus **smbus, size_t ide_buses)
--{
--    const size_t ide_drives =3D ide_buses * MAX_IDE_DEVS;
--    DriveInfo **hd;
--    PCIDevice *pci;
--    DeviceState *dev;
--
--    pci =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),
--                                          true, TYPE_PIIX4_PCI_DEVICE);
--    dev =3D DEVICE(pci);
--    if (isa_bus) {
--        *isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
--    }
--
--    hd =3D g_new(DriveInfo *, ide_drives);
--    ide_drive_get(hd, ide_drives);
--    pci_piix4_ide_init(pci_bus, hd, pci->devfn + 1);
--    g_free(hd);
--    pci_create_simple(pci_bus, pci->devfn + 2, "piix4-usb-uhci");
--    if (smbus) {
--        *smbus =3D piix4_pm_init(pci_bus, pci->devfn + 3, 0x1100,
--                               isa_get_irq(NULL, 9), NULL, 0, NULL);
--   }
--
--    return dev;
--}
--
- static
- void mips_malta_init(MachineState *machine)
- {
+-    /* IO memory region for Reset Control Register (RCR_IOPORT) */
++    /* IO memory region for Reset Control Register (PIIX_RCR_IOPORT) */
+     MemoryRegion rcr_mem;
+ } PIIX3State;
+=20
+@@ -695,8 +696,8 @@ static void piix3_realize(PCIDevice *dev, Error **err=
+p)
+=20
+     memory_region_init_io(&d->rcr_mem, OBJECT(dev), &rcr_ops, d,
+                           "piix3-reset-control", 1);
+-    memory_region_add_subregion_overlap(pci_address_space_io(dev), RCR_I=
+OPORT,
+-                                        &d->rcr_mem, 1);
++    memory_region_add_subregion_overlap(pci_address_space_io(dev),
++                                        PIIX_RCR_IOPORT, &d->rcr_mem, 1)=
+;
+=20
+     qemu_register_reset(piix3_reset, d);
+ }
 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index cf922fd162..848078bacc 100644
+index 848078bacc..2628de8b72 100644
 --- a/include/hw/i386/pc.h
 +++ b/include/hw/i386/pc.h
-@@ -278,8 +278,6 @@ PCIBus *i440fx_init(const char *host_type, const char=
- *pci_type,
-                     MemoryRegion *ram_memory);
+@@ -260,12 +260,6 @@ typedef struct PCII440FXState PCII440FXState;
 =20
- PCIBus *find_i440fx(void);
--/* piix4.c */
--extern PCIDevice *piix4_dev;
+ #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
 =20
- /* pc_sysfw.c */
- void pc_system_flash_create(PCMachineState *pcms);
+-/*
+- * Reset Control Register: PCI-accessible ISA-Compatible Register at add=
+ress
+- * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0, 8086:700=
+0).
+- */
+-#define RCR_IOPORT 0xcf9
+-
+ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+                     PCII440FXState **pi440fx_state, int *piix_devfn,
+                     ISABus **isa_bus, qemu_irq *pic,
 diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.=
 h
-index b8ce26fec4..add352456b 100644
+index add352456b..e49d4a6bbe 100644
 --- a/include/hw/southbridge/piix.h
 +++ b/include/hw/southbridge/piix.h
-@@ -2,6 +2,7 @@
-  * QEMU PIIX South Bridge Emulation
-  *
-  * Copyright (c) 2006 Fabrice Bellard
-+ * Copyright (c) 2018 Herv=C3=A9 Poussineau
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-  * See the COPYING file in the top-level directory.
-@@ -17,4 +18,9 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t =
-smb_io_base,
+@@ -18,6 +18,12 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t=
+ smb_io_base,
                        qemu_irq sci_irq, qemu_irq smi_irq,
                        int smm_enabled, DeviceState **piix4_pm);
 =20
-+extern PCIDevice *piix4_dev;
++/*
++ * Reset Control Register: PCI-accessible ISA-Compatible Register at add=
+ress
++ * 0xcf9, provided by the PCI/ISA bridge (PIIX3 PCI function 0, 8086:700=
+0).
++ */
++#define PIIX_RCR_IOPORT 0xcf9
 +
-+DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
-+                          I2CBus **smbus, size_t ide_buses);
-+
- #endif
+ extern PCIDevice *piix4_dev;
+=20
+ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus,
 --=20
 2.21.0
 
