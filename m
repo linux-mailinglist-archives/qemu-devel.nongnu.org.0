@@ -2,64 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230EFDC8DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:38:10 +0200 (CEST)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A360ADC93D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:45:20 +0200 (CEST)
+Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUKO-0006cP-LK
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:38:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43434)
+	id 1iLURL-0001uk-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iLUJ5-0005r0-Hz
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:36:48 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iLUOc-0008CD-K7
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iLUJ3-0000ub-Vv
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:36:47 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:40211)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iLUJ3-0000sp-Qq
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:36:45 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id k9so5555843oib.7
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 08:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tkU2JoAZAI0BuIIsuGv3Szrk251yw8Yg0yCV9Lh/kkE=;
- b=XiPApjjhXDsyKfGQ6lbOy7vGn48kFsWwfycyCC3wGUtx/wLHgwhQI9WYgcSis1gliU
- B42aAcLZHjS5Dcm0o8AuqdJAemQ8exbJOJo+lk/pRmhx2h86PPEXpogb8RButSQFFjuY
- O+8nONUqM4NXczY5mkRDyTG543cZZTojwU5MXsSgDZliSA8iTZxGF9k1NoXp8A/BwMwI
- DHijB5aM5fDq9W/vFeWCMzx02F/03mjyfEUwPp+bqMIoWCyqTzE53UFKA9saNXtE5W9m
- nkpaJJl4TTWw5UeRR/ClPw8y8NQwn7Pr2Z9vINpO1jOpFpCf/kkk7Q3fZp7CtBWNkEoZ
- lFOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tkU2JoAZAI0BuIIsuGv3Szrk251yw8Yg0yCV9Lh/kkE=;
- b=Fe7NDSadsG912wwoBQMQ4ohggfKPzuJWldD3foztK7+WZRsiBYL7ld8VAezq7Vqbhu
- 9FQg4sAgAa+xVHlP4ZDaHiIWxLclS0rbbSlKRuFT/fmgZkSMQVjR7XZb9/F+XN0ezIOP
- rlRqLtJnyl0pU+FRC5XI/LhLEzlVkILv9djnw6ferzx9FKVTnHihku4DsxJrCQL5MLlf
- sAkti24jLM8LbW3ctmKw0ZJaZbwKBjanH22VZMNzpc1GO57AyGKHXz8rR/0z2l8XMr47
- fyA8DsHXzTFsl9fAoxrDxEDQ+Gw4tau/inl+A0HO/S8/jPxnvKhL/atNTnsm39XZ4gcV
- G//Q==
-X-Gm-Message-State: APjAAAVcPY0b258wM7EAnfmNMDl0xsAn6rGjkbM99FB1nMFnACJJ9mJS
- S6F6448FpkgFkMQNJDhNoYF2ZXowi8CfJ0HSu6/J+Q==
-X-Google-Smtp-Source: APXvYqz9NZzolbLlSzusm07bMNfcX8HIde+qJI/L4n9EYws5ULtaPoXOAKJTWPsZYoOrU3SURMVyBHg7gOqm2srP8kk=
-X-Received: by 2002:aca:3b41:: with SMTP id i62mr8200228oia.48.1571413004656; 
- Fri, 18 Oct 2019 08:36:44 -0700 (PDT)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iLUOb-0006AJ-Cp
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:42:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47250)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1iLUOX-00066Q-Pc; Fri, 18 Oct 2019 11:42:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F1EA430B1B72;
+ Fri, 18 Oct 2019 15:42:20 +0000 (UTC)
+Received: from localhost (ovpn-112-40.ams2.redhat.com [10.36.112.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BD4658B9;
+ Fri, 18 Oct 2019 15:42:13 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/14] Clean-ups: remove QDEV_PROP_PTR
+Date: Fri, 18 Oct 2019 17:41:58 +0200
+Message-Id: <20191018154212.13458-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20191018074144.24071-1-kraxel@redhat.com>
-In-Reply-To: <20191018074144.24071-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Oct 2019 16:36:32 +0100
-Message-ID: <CAFEAcA8dB+yuJCoqfW4rEfDeZ-gBsGALuGb+Hz=deWpWzoqFSw@mail.gmail.com>
-Subject: Re: [PULL 00/13] Audio 20191018 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::22f
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 18 Oct 2019 15:42:24 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +54,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 08:43, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit f22f553efffd083ff624be116726f843a39f1148:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20191013' into staging (2019-10-17 16:48:56 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/audio-20191018-pull-request
->
-> for you to fetch changes up to 0cf13e367a99dd1abefc46ec94b4c1a80c678f61:
->
->   paaudio: fix channel order for usb-audio 5.1 and 7.1 streams (2019-10-18 08:14:05 +0200)
->
-> ----------------------------------------------------------------
-> audio: bugfixes, pa connection and stream naming.
-> audio: 5.1/7.1 support for alsa, pa and usb-audio.
->
+Hi,
 
+QDEV_PROP_PTR is marked in multiple places as "FIXME/TODO/remove
+me". In most cases, it can be easily replaced with QDEV_PROP_LINK when
+the pointer points to an Object.
 
-Applied, thanks.
+There are a few places where such substitution isn't possible. For
+those places, it seems reasonable to use a specific setter method
+instead, and keep the user_creatable =3D false. It is the case for OMAP
+clocks, and smbus-eeprom initial data pointer. Improving that
+situation is left for a future improvement.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+Marc-Andr=C3=A9 Lureau (14):
+  sm501: replace PROP_PTR with PROP_LINK
+  vmmouse: replace PROP_PTR with PROP_LINK
+  lance: replace PROP_PTR with PROP_LINK
+  etraxfs: remove PROP_PTR usage
+  dp8393x: replace PROP_PTR with PROP_LINK
+  leon3: replace PROP_PTR with PROP_LINK
+  RFC: mips/cps: fix setting saar property
+  cris: replace PROP_PTR with PROP_LINK for interrupt vector
+  smbus-eeprom: remove PROP_PTR
+  omap-intc: remove PROP_PTR
+  omap-i2c: remove PROP_PTR
+  omap-gpio: remove PROP_PTR
+  qdev: remove PROP_MEMORY_REGION
+  Remove QDEV_PROP_PTR
 
--- PMM
+ hw/arm/omap1.c               |  8 +++----
+ hw/arm/omap2.c               | 25 ++++++++++-----------
+ hw/core/qdev-properties.c    | 18 ----------------
+ hw/cris/axis_dev88.c         |  4 +---
+ hw/display/sm501.c           |  5 +++--
+ hw/dma/sparc32_dma.c         |  2 +-
+ hw/gpio/omap_gpio.c          | 42 +++++++++++++-----------------------
+ hw/i2c/omap_i2c.c            | 19 ++++++++++------
+ hw/i2c/smbus_eeprom.c        | 17 +++++++--------
+ hw/i386/pc.c                 |  6 +++---
+ hw/i386/vmmouse.c            |  8 +++----
+ hw/input/pckbd.c             |  8 +++----
+ hw/intc/Makefile.objs        |  2 +-
+ hw/intc/etraxfs_pic.c        | 18 ++++++----------
+ hw/intc/grlib_irqmp.c        | 20 ++++++-----------
+ hw/intc/omap_intc.c          | 17 +++++++++------
+ hw/mips/cps.c                |  2 +-
+ hw/mips/mips_jazz.c          |  3 ++-
+ hw/net/dp8393x.c             |  7 +++---
+ hw/net/etraxfs_eth.c         | 35 ++++++++++++++++++++----------
+ hw/net/lance.c               |  5 ++---
+ hw/net/pcnet-pci.c           |  2 +-
+ hw/net/pcnet.h               |  2 +-
+ hw/sh4/r2d.c                 |  3 ++-
+ hw/sparc/leon3.c             |  7 +++---
+ include/hw/arm/omap.h        | 36 +++++++++++++++++++++++++++++++
+ include/hw/cris/etraxfs.h    | 20 +++--------------
+ include/hw/input/i8042.h     |  4 +++-
+ include/hw/qdev-properties.h | 24 ---------------------
+ target/sparc/cpu.h           |  1 +
+ 30 files changed, 172 insertions(+), 198 deletions(-)
+
+--=20
+2.23.0.606.g08da6496b6
+
 
