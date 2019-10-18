@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C28DDC6D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:04:14 +0200 (CEST)
-Received: from localhost ([::1]:40514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09D3DC6E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:06:35 +0200 (CEST)
+Received: from localhost ([::1]:40556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLSrU-00037C-Ix
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:04:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56856)
+	id 1iLStm-0006WQ-8O
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLSnJ-0008M5-1j
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:54 -0400
+ (envelope-from <philmd@redhat.com>) id 1iLSnN-0008Rm-48
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLSnH-0001st-W7
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54072)
+ (envelope-from <philmd@redhat.com>) id 1iLSnL-0001vf-Vk
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSnH-0001sk-QZ
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:51 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSnL-0001vS-Nl
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:55 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0F318757C2;
- Fri, 18 Oct 2019 13:59:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EBD2A18C4287;
+ Fri, 18 Oct 2019 13:59:54 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A3736012A;
- Fri, 18 Oct 2019 13:59:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8320A60566;
+ Fri, 18 Oct 2019 13:59:51 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] hw/i386/pc: Move gsi_state creation code
-Date: Fri, 18 Oct 2019 15:59:08 +0200
-Message-Id: <20191018135910.24286-4-philmd@redhat.com>
+Subject: [PATCH 4/5] hw/i386/pc: Extract pc_i8259_create()
+Date: Fri, 18 Oct 2019 15:59:09 +0200
+Message-Id: <20191018135910.24286-5-philmd@redhat.com>
 In-Reply-To: <20191018135910.24286-1-philmd@redhat.com>
 References: <20191018135910.24286-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 18 Oct 2019 13:59:51 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 18 Oct 2019 13:59:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,42 +63,124 @@ Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code block related to IRQ starts few lines later. Move
-the comment and the pc_gsi_create() invocation where we start
-to use the IRQs.
+The i8259 creation code is common to all PC machines, extract the
+common code.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: reword comment (Aleksandar)
----
- hw/i386/pc_q35.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/i386/pc.c         | 19 +++++++++++++++++++
+ hw/i386/pc_piix.c    | 13 +------------
+ hw/i386/pc_q35.c     | 14 +-------------
+ include/hw/i386/pc.h |  1 +
+ 4 files changed, 22 insertions(+), 25 deletions(-)
 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 21efde33a5..16703c5edb 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1981,6 +1981,25 @@ void pc_nic_init(PCMachineClass *pcmc, ISABus *isa=
+_bus, PCIBus *pci_bus)
+     rom_reset_order_override();
+ }
+=20
++void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs)
++{
++    qemu_irq *i8259;
++
++    if (kvm_pic_in_kernel()) {
++        i8259 =3D kvm_i8259_init(isa_bus);
++    } else if (xen_enabled()) {
++        i8259 =3D xen_interrupt_controller_init();
++    } else {
++        i8259 =3D i8259_init(isa_bus, pc_allocate_cpu_irq());
++    }
++
++    for (size_t i =3D 0; i < ISA_NUM_IRQS; i++) {
++        i8259_irqs[i] =3D i8259[i];
++    }
++
++    g_free(i8259);
++}
++
+ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
+ {
+     DeviceState *dev;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 47bdc64f64..1200ac6c0b 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -82,7 +82,6 @@ static void pc_init1(MachineState *machine,
+     ISABus *isa_bus;
+     PCII440FXState *i440fx_state;
+     int piix3_devfn =3D -1;
+-    qemu_irq *i8259;
+     qemu_irq smi_irq;
+     GSIState *gsi_state;
+     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+@@ -215,18 +214,8 @@ static void pc_init1(MachineState *machine,
+     }
+     isa_bus_irqs(isa_bus, pcms->gsi);
+=20
+-    if (kvm_pic_in_kernel()) {
+-        i8259 =3D kvm_i8259_init(isa_bus);
+-    } else if (xen_enabled()) {
+-        i8259 =3D xen_interrupt_controller_init();
+-    } else {
+-        i8259 =3D i8259_init(isa_bus, pc_allocate_cpu_irq());
+-    }
++    pc_i8259_create(isa_bus, gsi_state->i8259_irq);
+=20
+-    for (i =3D 0; i < ISA_NUM_IRQS; i++) {
+-        gsi_state->i8259_irq[i] =3D i8259[i];
+-    }
+-    g_free(i8259);
+     if (pcmc->pci_enabled) {
+         ioapic_init_gsi(gsi_state, "i440fx");
+     }
 diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 52261962b8..6d096eff28 100644
+index 6d096eff28..f4fb9a02ba 100644
 --- a/hw/i386/pc_q35.c
 +++ b/hw/i386/pc_q35.c
-@@ -209,9 +209,6 @@ static void pc_q35_init(MachineState *machine)
-                        rom_memory, &ram_memory);
-     }
+@@ -128,7 +128,6 @@ static void pc_q35_init(MachineState *machine)
+     MemoryRegion *ram_memory;
+     GSIState *gsi_state;
+     ISABus *isa_bus;
+-    qemu_irq *i8259;
+     int i;
+     ICH9LPCState *ich9_lpc;
+     PCIDevice *ahci;
+@@ -255,18 +254,7 @@ static void pc_q35_init(MachineState *machine)
+     pci_bus_set_route_irq_fn(host_bus, ich9_route_intx_pin_to_irq);
+     isa_bus =3D ich9_lpc->isa_bus;
 =20
--    /* irq lines */
--    gsi_state =3D pc_gsi_create(&pcms->gsi, pcmc->pci_enabled);
+-    if (kvm_pic_in_kernel()) {
+-        i8259 =3D kvm_i8259_init(isa_bus);
+-    } else if (xen_enabled()) {
+-        i8259 =3D xen_interrupt_controller_init();
+-    } else {
+-        i8259 =3D i8259_init(isa_bus, pc_allocate_cpu_irq());
+-    }
 -
-     /* create pci host bus */
-     q35_host =3D Q35_HOST_DEVICE(qdev_create(NULL, TYPE_Q35_HOST_DEVICE)=
-);
+-    for (i =3D 0; i < ISA_NUM_IRQS; i++) {
+-        gsi_state->i8259_irq[i] =3D i8259[i];
+-    }
+-    g_free(i8259);
++    pc_i8259_create(isa_bus, gsi_state->i8259_irq);
 =20
-@@ -245,6 +242,9 @@ static void pc_q35_init(MachineState *machine)
-     object_property_set_link(OBJECT(machine), OBJECT(lpc),
-                              PC_MACHINE_ACPI_DEVICE_PROP, &error_abort);
+     if (pcmc->pci_enabled) {
+         ioapic_init_gsi(gsi_state, "q35");
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 9ad417cef0..06126034ae 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -239,6 +239,7 @@ void pc_pci_device_init(PCIBus *pci_bus);
 =20
-+    /* irq lines */
-+    gsi_state =3D pc_gsi_create(&pcms->gsi, pcmc->pci_enabled);
-+
-     ich9_lpc =3D ICH9_LPC_DEVICE(lpc);
-     lpc_dev =3D DEVICE(lpc);
-     for (i =3D 0; i < GSI_NUM_PINS; i++) {
+ typedef void (*cpu_set_smm_t)(int smm, void *arg);
+=20
++void pc_i8259_create(ISABus *isa_bus, qemu_irq *i8259_irqs);
+ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
+=20
+ ISADevice *pc_find_fdc0(void);
 --=20
 2.21.0
 
