@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF087DC7C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:50:54 +0200 (CEST)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBED7DC7CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:53:19 +0200 (CEST)
+Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLTae-00006O-SJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36407)
+	id 1iLTd0-0002ll-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLTYa-0007AS-R4
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:48:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLTZz-0000Ih-Uh
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:50:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLTYY-00025i-GZ
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:48:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:7201)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLTYX-00024u-OD
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:48:42 -0400
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BA1C17EBBD
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 14:48:40 +0000 (UTC)
-Received: by mail-wm1-f72.google.com with SMTP id o128so5063764wmo.1
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 07:48:40 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1iLTZy-0002cz-MX
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:50:11 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38812)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLTZy-0002cf-Eb
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:50:10 -0400
+Received: by mail-oi1-x241.google.com with SMTP id d140so1127036oib.5
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 07:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lkCsWf/uuu/qdKFvNKTwUrfpKbLIs7U3HQYRpVg9+tQ=;
+ b=rZM04pFYiuq2groX3GfVdEVnB04jSJNV6+w+DP8I6nkCluaf/2n+cFemCQeKR8uR4e
+ 0h2nxKA2dMxHOx0jVBdvMLI5HwzsSqKYvmyWL2+jZwyF3H2EGh4UnOraG4OSDOEyqvEO
+ VfBbjEs6z8VHLDTT5pDOwD/GAIaWBiV8BmfFhxPmpTHZPLt8OS8AetbpiR/f8Q/gLlrg
+ TbT2b9oRGbLHs59MivZkrlPmetzVj3PmstAMBzNB3UMyvn39GKX/fOzqZEC9Z/P2oSkO
+ wAC+Coi0bI4vgLjFKpph6Y15jG3lhE4gm163Es/H1VSJCauXPo3BWphewOpwCv2YXyR1
+ 0vUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cZN9s9L8r9niF23MrvL5IG8jaedcfH9gMuNiubfVR8Q=;
- b=NxCmPiu7Dbf2DjdLku0250WVenV81BJgLx1yqV6ZR1fCvbf9BHQtGW7ctKw+v72J5M
- 4JMES1k9oPSWAPz42W0i/rpdd2JeXeb5cBZufotUmf0mDBR4pw3fqsCR4QsSDvoVruRH
- 05sKw4H9ERP77L0ZLpVFcABmcEYrsp+nd9Ddxc32SAaOhySu3NbpAe6G1wunHULuV+os
- pmoMV9xrUWxeghMQJIKGNXDHGMu0RtMT3gNMWmxJ/yMeC7MnEqo1TDkuuDeFWsBBF9lk
- StEHNXfJ0h1KBcVw8uv5RqsNKTFsBJO26hlao0/IhOXuRUfOpZLIeDtH63ZXsUTI7J+J
- 5yGw==
-X-Gm-Message-State: APjAAAWwimTzxtp+9flXETl41AFPF0leLdTtXTg+07GyN7vKMCp2K/Yc
- ZrXhnIATCGtPE4OPlPFX/ujWR/qfsQ/BPxv2RbOL/zO5ZJAnzkYxA5ZTXP15eLQ+BKiZi5q6hpa
- +4CF+Nz4jsOnxzVo=
-X-Received: by 2002:adf:e40c:: with SMTP id g12mr8617930wrm.216.1571410119461; 
- Fri, 18 Oct 2019 07:48:39 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyfBik8qlzvmojjNT0mZ5L+LQ8T6fgiFeR1TuZRqo5QKfEHaiib6wOKAm4s8biv4j5+G5vCUw==
-X-Received: by 2002:adf:e40c:: with SMTP id g12mr8617903wrm.216.1571410119254; 
- Fri, 18 Oct 2019 07:48:39 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-88-21-201.staticip.rima-tde.net.
- [88.21.201.14])
- by smtp.gmail.com with ESMTPSA id u83sm12703335wme.0.2019.10.18.07.48.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Oct 2019 07:48:38 -0700 (PDT)
-Subject: Re: [PATCH 0/5] hw/arm/exynos4210: Add acceptance tests to the
- SMDKC210 board
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20191005154748.21718-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6ac9df42-a928-0d45-4aa5-3155a1a3ceaa@redhat.com>
-Date: Fri, 18 Oct 2019 16:48:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lkCsWf/uuu/qdKFvNKTwUrfpKbLIs7U3HQYRpVg9+tQ=;
+ b=BrHNkuJKTn2rzK2EpKsZwPdcilO0nJKNdc/7nPyiGCBVH7dPtYluiMy5iziwqxzzT4
+ Tb5wXPte6ud+01+micibnTm5lleIWI0UOAhFhyV0hvi6uQv+H3gUDbsyXK/jqzwlrjTz
+ EgqZX9O6wMi/b4lMnzzbdD+1b8DnNsml5mfNJYehGQ7cUKaI8FTSZb3usllLfaXwUNnr
+ WaYVeI9ALPJkzDopK2uFHeRG7Y2+YaYEqTlH/VMgS5YfgnDVuU2Qrj32Z6ih83hiDUJ0
+ W/0ru2th162sYd1jVOloLSeEuZvgev1aMuOwrjuoCqNhkgp08Wd99miW2lXO9pDyXRcS
+ P1mg==
+X-Gm-Message-State: APjAAAVU5UWDo/HYdzoSYcxZeLIARQRpSpIk7Pp4XjFNnfkttiQZcSed
+ p4Fo8QLZ53xjtSy8XounCtdTdjk0UVZA4ZxtG+E/1A==
+X-Google-Smtp-Source: APXvYqzS07+ooCAxIz4mPlsSu9feik5VL9XlkTEITNSgMiJGqyiOvi4/xNVY1xEWkWdU9UM+W2q1ttL6Kc7ZVjxJO98=
+X-Received: by 2002:a54:4e83:: with SMTP id c3mr8517084oiy.170.1571410209515; 
+ Fri, 18 Oct 2019 07:50:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191005154748.21718-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.132.183.28
+References: <20191017185110.539-1-richard.henderson@linaro.org>
+ <20191017185110.539-18-richard.henderson@linaro.org>
+ <CAFEAcA8h9CN_qarQdfXRonE8KYO2=s+Jh_o+LFs9qk9M20pweA@mail.gmail.com>
+ <16af4176-3acd-14bf-5399-31e5bb882120@linaro.org>
+In-Reply-To: <16af4176-3acd-14bf-5399-31e5bb882120@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Oct 2019 15:49:58 +0100
+Message-ID: <CAFEAcA-Fwx8+miMAHrRT2xwA9U6v3BbSMAt3YUQCOzba3wUEVA@mail.gmail.com>
+Subject: Re: [PATCH v7 17/20] target/arm: Rebuild hflags at MSR writes
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,99 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Fr=c3=a9d=c3=a9ric_Basse?= <contact@fredericb.info>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Evgeny Voevodin <e.voevodin@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
- Dmitry Solodkiy <d.solodkiy@samsung.com>, Cleber Rosa <crosa@redhat.com>,
- Maksim Kozlov <m.kozlov@samsung.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On Fri, 18 Oct 2019 at 15:30, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/18/19 5:32 AM, Peter Maydell wrote:
+> > On Thu, 17 Oct 2019 at 19:51, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> > Why only rebuild hflags if !ARM_CP_SUPPRESS_TB_END ?
+> > For instance on the Xscale CPUs we set SUPPRESS_TB_END for the SCTLR,
+> > but some of the SCTLR bits are cached in hflags, right? Do we somehow
+> > arrange to rebuild the hflags when the TB does eventually end ?
+>
+> No, we don't.  I assumed that all registers which change TB flags would in fact
+> end the TB.
+>
+> Why did we suppress tb end for Xscale?
 
-On 10/5/19 5:47 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi all,
->=20
-> Yesterday Peter Maydell asked on IRC if I had any working Exynos4
-> image. I looked at some old backuped notes and could boot Guenter
-> initrd with BusyBox.
-> I'll use this cover letter to share my notes, they might help to
-> have this board fully usable again.
->=20
-> This board is listed as "Odd Fixes". Since we have it covered, I
-> thought it was worthwhile to have it covered by tests to avoid
-> more regressions.
->=20
-> Fr=C3=A9d=C3=A9ric Basse used this board last year:
-> https://fredericb.info/2018/03/emulating-exynos-4210-bootrom-in-qemu.ht=
-ml
->=20
-> I'll have a look a these particular commits he added:
->=20
-> - https://github.com/frederic/qemu-exynos-bootrom/commit/9be5c9f2253dbc=
-04ee
->=20
->     sd: add sd clock support to SDHC_CLKCON
->=20
-> - https://github.com/frederic/qemu-exynos-bootrom/commit/6f045949ee2fde=
-c624
->=20
->     sd: always reply to ACMD41 (SD_APP_OP_COND)
->=20
-> Guenter also carries on this patch:
->=20
-> - https://github.com/groeck/qemu/commit/0a80543cc910d
->=20
->    hw/timer/exynos4210_mct: Initialize timer before starting it
->=20
->    When booting a recent Linux kernel, the qemu message "Timer with per=
-iod
->    zero, disabling" is seen, apparently because a timer is started befo=
-re
->    being initialized.  Fix the problem by initializing the offending ti=
-mer
->    before starting it.
->=20
-> It might also be interesting to use Krzysztof's initramfs image:
-> https://github.com/krzk/tools/blob/master/run-qemu.sh#L29
->=20
-> The 1st test added works fine, however the 2nd (SD card) is not
-> reliable so it is disabled. We might need to adapt the ADMA patch
-> Igor sent once:
-> https://patchwork.ozlabs.org/patch/181854/
->=20
-> If you want to run the Avocado tests, you need these other patches
-> pending review:
->=20
-> - https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg06439.html
->    "tests/boot_linux_console: Extract the gunzip() helper"
->=20
-> - https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg06438.html
->    "python/qemu/machine: Allow to use other serial consoles than defaul=
-t"
->    (only for the 2nd disabled test)
->=20
-> Regards,
->=20
-> Phil.
->=20
-> Based-on: 20190926173428.10713-16-f4bug@amsat.org
->=20
-> Philippe Mathieu-Daud=C3=A9 (5):
->    tests/boot_linux_console: Add initrd test for the Exynos4210
->    hw/sd/sdhci: Add a comment to distinct the i.MX eSDHC functions
->    hw/sd/sdhci: Add dummy Samsung SDHCI controller
->    hw/arm/exynos4210: Use the Samsung s3c SDHCI controller
->    tests/boot_linux_console: Add sdcard test for the Exynos4210
+The comment in helper.c explains:
+            /* Normally we would always end the TB on an SCTLR write, but Linux
+             * arch/arm/mach-pxa/sleep.S expects two instructions following
+             * an MMU enable to execute from cache.  Imitate this behaviour.
+             */
 
-Can you take patches 2-4 from this series? (C part, not Python).
-All these patches have been reviewed.
+This refers to an older version of the kernel code than the current one:
+https://elixir.bootlin.com/linux/v2.6.11/source/arch/arm/mach-pxa/sleep.S#L166
+which assumed that the two insns after the SCTLR write that enables
+the MMU run from cache and so don't need to actually be accessible
+via the addresses that the pre-MMU-enable code runs from.
+This bit of kernel magic eventually went away with commit 4f5ad99bb5331c57
+(kernel v2.6.39) which converted the PXA to use the generic suspend/resume
+support, which presumably handles the enable-the-MMU transition in a more
+sensible fashion where the address it's executing from is valid
+both before and after the MMU is enabled.
 
-Thanks,
-
-Phil.
+thanks
+-- PMM
 
