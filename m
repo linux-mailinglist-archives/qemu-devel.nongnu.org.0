@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85782DC775
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:35:00 +0200 (CEST)
-Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E487DC76D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:34:09 +0200 (CEST)
+Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLTLH-0003Hg-Kb
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33289)
+	id 1iLTKR-0001mA-Sq
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLTHN-0007on-80
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:30:58 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1iLTIJ-0000BD-30
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:31:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLTHL-0002Tt-Qo
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:30:56 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41420)
+ (envelope-from <peter.maydell@linaro.org>) id 1iLTIH-0002iJ-Qe
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:31:55 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33590)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLTHK-0002RG-VC
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:30:55 -0400
-Received: by mail-pg1-x541.google.com with SMTP id t3so3477693pga.8
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 07:30:54 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iLTIH-0002gj-Ja
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:31:53 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b9so6534462wrs.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 07:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fU1NueAD/s8135/rW4pdQWedNLJY8vsK60SBCyhq5rA=;
- b=ZO/d5YctePpGmfSUHwohzPBgSO0wyT7wggiByGXsIgmrd4AFfMX8Mpo33Wov4Pv8e2
- WXyW6w4aD5/VDEW0UU+9NaV5oMtbPA9yjyyin3ivsHT4A6I6Vu250SIALK4+0Qj21ISE
- 557MkMCmu3kZDyX1ql7wxGqhpTjfq21FXsjJprgmi0aym+R8Z6OjU7tmL5UNtgpfnaqS
- kP84KuusKybE1ej6XXfZO6BRr6doukbWWs2EU0QE9ouOgKqFOMQ2eTGl5rQFx3VeTuRf
- vgNTbHFfPyhuFHun8dCZ4NN7HXZCE7ph1cuIZkYRFh8gZktSvLAcF4OG9Phog+/ybnd+
- Oncw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M/re3SutNLZ5EZ1/qaqbg2V+z7g6WDXA7WOt1KwyO2M=;
+ b=E3evIrKVfb6VrDkAdbWiUVhX3s2jIKvEViOPVwEssmNHw6sfxVOFYEpVasdjy+Br0X
+ itZen4j1ZzInbcWg1zkoO6gdOaiO918AXKi4bBC4YCFA/ooPd3hLsoTdtRDttKdSA+aj
+ O3HzOfiOEfHdrbzqiTwfS2WxEgIc7FWZjFnvjI5HSyfHl05x+D8cO/sntPG/Hkc2CQQE
+ hUiyS73w/YTLENmo3hz0zDZ+KSUvYXA6JMcT28UONktKbAnErs+v6QHUmNiclznDlLSc
+ 2TxhjIgUROg7cNdwKTJcgUpbETg686qFvuTtzGyKILibtc9t7zC8OPm/rs3tbzxV6IpD
+ NowQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fU1NueAD/s8135/rW4pdQWedNLJY8vsK60SBCyhq5rA=;
- b=bYtTHRBcIMiVPmbnqCAPZefFwEXJcWcNFup7FlCXlkxNhxEOLxYYC7EkQSjxxxhg2E
- LFnFuV4TtCVIq1aXKpyVQ6GkuoJTbJfz/8f8kjvwWG1vkKuFnjAk6iZhdA7QHlC/NCHj
- WT4o2gNujhPYNaT2vc1//Bw3rI4OmWkLBRwhXtbEPO1iVt402+GLBh4az57+AR8jOuc/
- +fKkAP7A1OuOu6GoeH3ohmO+KpEcuZI0UfrZJYy9vynjgUHCujomsnK/hMXrNMoxazn0
- 7XpqikG5u0jiePgq73Ie1N7b8gCxmF04O6XcisKso2LAcvQjDiSf2hsQY6WS3Pir6f/2
- styw==
-X-Gm-Message-State: APjAAAUiyh2QdCvBP5ksJ8NAfW5ak8aPOcN2u+yE9e9gy30gytKM8DZR
- 6jf+NZdp7OOX/gO9F5IaPT9Rjg==
-X-Google-Smtp-Source: APXvYqwoYLPbj51Vx9GMd29PjPF1Eicodg1AAisXNDSpYIU0EIxAPlYEfFsFroABjoKcEuBJH72NFg==
-X-Received: by 2002:a63:c1:: with SMTP id 184mr10515080pga.224.1571409053273; 
- Fri, 18 Oct 2019 07:30:53 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n23sm6180925pff.137.2019.10.18.07.30.51
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 18 Oct 2019 07:30:52 -0700 (PDT)
-Subject: Re: [PATCH v7 17/20] target/arm: Rebuild hflags at MSR writes
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191017185110.539-1-richard.henderson@linaro.org>
- <20191017185110.539-18-richard.henderson@linaro.org>
- <CAFEAcA8h9CN_qarQdfXRonE8KYO2=s+Jh_o+LFs9qk9M20pweA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <16af4176-3acd-14bf-5399-31e5bb882120@linaro.org>
-Date: Fri, 18 Oct 2019 07:30:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ bh=M/re3SutNLZ5EZ1/qaqbg2V+z7g6WDXA7WOt1KwyO2M=;
+ b=bKaDVdvZ7x3rbW7jGoQKkgwnuKNkhRCPSXwPFFcBsBLs0/QILyX9KQNCOnxKtPNuua
+ GCDLda7/ue3yZtwj07Coj0mbIBno2N9YaPgsbnFDuX9sBuATjpetGGoj0mgHF/01rlxq
+ GZ3MGa/Be8gH6K/lZnwwbTGVp+u7HKVowvjMPTUdz+RuikJ1JkKq8/76V/yvL8vWin97
+ 9Ln7AQdI6WoQs9SMBAso+x2d7yp/pv0qW66e9xTJYJtci0TWVELM1e/cz3Ltde7jY/Cq
+ C/ElKrFdJdmn7jIiQEQjqKFAY6g0cFGsA+HZAyfjmmA+gXnTERANRA/EwtSVlFgloAKc
+ tBbg==
+X-Gm-Message-State: APjAAAXXo4SO8h0Wn72xTvug6+shOHcU1L1SM6Cn2e1ErUL2J9ITI4Nu
+ pEbSq16Es+9oYa+WNiQxjFYWhA==
+X-Google-Smtp-Source: APXvYqwQFM/bV7E9o7GF8b9y808ZUuX/067kGQxiGwou0V8k/OJijC/RZAi4n/zyKilRcGxTSjqglQ==
+X-Received: by 2002:adf:e8c6:: with SMTP id k6mr8170164wrn.78.1571409111850;
+ Fri, 18 Oct 2019 07:31:51 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id e17sm5537915wma.15.2019.10.18.07.31.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Oct 2019 07:31:51 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/timer/exynos4210_mct: Initialize ptimer before starting it
+Date: Fri, 18 Oct 2019 15:31:49 +0100
+Message-Id: <20191018143149.9216-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8h9CN_qarQdfXRonE8KYO2=s+Jh_o+LFs9qk9M20pweA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,61 +76,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/19 5:32 AM, Peter Maydell wrote:
-> On Thu, 17 Oct 2019 at 19:51, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Continue setting, but not relying upon, env->hflags.
->>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  target/arm/translate-a64.c | 13 +++++++++++--
->>  target/arm/translate.c     | 28 +++++++++++++++++++++++-----
->>  2 files changed, 34 insertions(+), 7 deletions(-)
->> @@ -7068,14 +7070,30 @@ static int disas_coproc_insn(DisasContext *s, uint32_t insn)
->>              }
->>          }
->>
->> -        if ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) && (ri->type & ARM_CP_IO)) {
->> -            /* I/O operations must end the TB here (whether read or write) */
->> -            gen_lookup_tb(s);
->> -        } else if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
->> -            /* We default to ending the TB on a coprocessor register write,
->> +        /* I/O operations must end the TB here (whether read or write) */
->> +        need_exit_tb = ((tb_cflags(s->base.tb) & CF_USE_ICOUNT) &&
->> +                        (ri->type & ARM_CP_IO));
->> +
->> +        if (!isread && !(ri->type & ARM_CP_SUPPRESS_TB_END)) {
->> +            /*
->> +             * A write to any coprocessor regiser that ends a TB
-> 
-> (typo: "register")
-> 
->> +             * must rebuild the hflags for the next TB.
->> +             */
->> +            TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
->> +            if (arm_dc_feature(s, ARM_FEATURE_M)) {
->> +                gen_helper_rebuild_hflags_m32(cpu_env, tcg_el);
->> +            } else {
->> +                gen_helper_rebuild_hflags_a32(cpu_env, tcg_el);
->> +            }
->> +            tcg_temp_free_i32(tcg_el);
-> 
-> Why only rebuild hflags if !ARM_CP_SUPPRESS_TB_END ?
-> For instance on the Xscale CPUs we set SUPPRESS_TB_END for the SCTLR,
-> but some of the SCTLR bits are cached in hflags, right? Do we somehow
-> arrange to rebuild the hflags when the TB does eventually end ?
+From: Guenter Roeck <linux@roeck-us.net>
 
-No, we don't.  I assumed that all registers which change TB flags would in fact
-end the TB.
+When booting a recent Linux kernel, the qemu message "Timer with delta
+zero, disabling" is seen, apparently because a ptimer is started before
+being initialized.  Fix the problem by initializing the offending ptimer
+before starting it.
 
-Why did we suppress tb end for Xscale?
+The bug is effectively harmless in the old QEMUBH setup
+because the sequence of events is:
+ * the delta zero means the timer expires immediately
+ * ptimer_reload() arranges for exynos4210_gfrc_event() to be called
+ * ptimer_reload() notices the zero delta and disables the timer
+ * later, the QEMUBH runs, and exynos4210_gfrc_event() correctly
+   configures the timer and restarts it
 
+In the new transaction based API the bug is still harmless,
+but differences of when the callback function runs mean the
+message is not printed any more:
+ * ptimer_run() does nothing as it's inside a transaction block
+ * ptimer_transaction_commit() sees it has work to do and
+   calls ptimer_reload()
+ * the zero delta means the timer expires immediately
+ * ptimer_reload() calls exynos4210_gfrc_event() directly
+ * exynos4210_gfrc_event() configures the timer
+ * the delta is no longer zero so ptimer_reload() doesn't complain
+   (the zero-delta test is after the trigger-callback in
+   the ptimer_reload() function)
 
-r~
+Regardless, the behaviour here was not intentional, and we should
+just program the ptimer correctly to start with.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+[PMM: Expansion/clarification of the commit message:
+ the message is about a zero delta, not a zero period;
+ added detail to the commit message of the analysis of what
+ is happening and why the kernel boots even with the message;
+ added note that the message goes away with the new ptimer API]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Philippe pointed me at this bugfix from Guenter. At one point
+in my working on the ptimer API changes I thought this bugfix
+would be necessary as a prerequisite, but in fact the issue
+was in my ptimer changes, and it just happened that fixing
+the MCT bug was a workaround for my bug. Even though the
+ptimer API changes actually coincidentally now suppress the
+annoying message about a zero delta, the behaviour is definitely
+not intentional, and since I spent the time working through the
+analysis of what was actually going on here I don't want
+to waste it :-)
+---
+ hw/timer/exynos4210_mct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+index 72257584145..944120aea59 100644
+--- a/hw/timer/exynos4210_mct.c
++++ b/hw/timer/exynos4210_mct.c
+@@ -1254,7 +1254,7 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+         /* Start FRC if transition from disabled to enabled */
+         if ((value & G_TCON_TIMER_ENABLE) > (old_val &
+                 G_TCON_TIMER_ENABLE)) {
+-            exynos4210_gfrc_start(&s->g_timer);
++            exynos4210_gfrc_restart(s);
+         }
+         if ((value & G_TCON_TIMER_ENABLE) < (old_val &
+                 G_TCON_TIMER_ENABLE)) {
+-- 
+2.20.1
+
 
