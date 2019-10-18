@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A33DC9EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:55:55 +0200 (CEST)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99C5DC9C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:51:47 +0200 (CEST)
+Received: from localhost ([::1]:42204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUba-00071C-MH
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44739)
+	id 1iLUXa-000070-BD
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iLUQ8-0001w2-9d
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:44:05 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iLUQH-0002AY-A4
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:44:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iLUQ7-0007mv-Ay
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:44:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47740)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iLUQF-0007tH-Vf
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:44:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47404)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iLUQ5-0007kJ-6I; Fri, 18 Oct 2019 11:44:01 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1iLUQD-0007qX-7B; Fri, 18 Oct 2019 11:44:09 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 395AE3071D9E;
- Fri, 18 Oct 2019 15:44:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 407B810DCC9F;
+ Fri, 18 Oct 2019 15:44:08 +0000 (UTC)
 Received: from localhost (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDF7160BF4;
- Fri, 18 Oct 2019 15:43:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27CBF5D9CA;
+ Fri, 18 Oct 2019 15:44:01 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/14] qdev: remove PROP_MEMORY_REGION
-Date: Fri, 18 Oct 2019 17:42:11 +0200
-Message-Id: <20191018154212.13458-14-marcandre.lureau@redhat.com>
+Subject: [PATCH 14/14] Remove QDEV_PROP_PTR
+Date: Fri, 18 Oct 2019 17:42:12 +0200
+Message-Id: <20191018154212.13458-15-marcandre.lureau@redhat.com>
 In-Reply-To: <20191018154212.13458-1-marcandre.lureau@redhat.com>
 References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 18 Oct 2019 15:44:00 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.64]); Fri, 18 Oct 2019 15:44:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -74,31 +74,100 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PROP_MEMORY_REGION was a derivative of PROP_PTR, added in commit
-ed03d749f3f513b8fb0287757cfda2cb6825f063 (qdev: add MemoryRegion
-property) and thankfully no longer needed since commit
-3eff40dbf44896a8180c86c84dbdefb2eb173fbe (hw/misc: Remove
-mmio_interface device).
+No longer used in the tree. The comment about user_creatable is still
+quite relevant, but there is already a similar comment in qdev-core.h.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/hw/qdev-properties.h | 2 --
- 1 file changed, 2 deletions(-)
+ hw/core/qdev-properties.c    | 18 ------------------
+ include/hw/qdev-properties.h | 22 ----------------------
+ 2 files changed, 40 deletions(-)
 
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index ac28890e5a..6ca7697599 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -501,13 +501,6 @@ const PropertyInfo qdev_prop_string =3D {
+     .set   =3D set_string,
+ };
+=20
+-/* --- pointer --- */
+-
+-/* Not a proper property, just for dirty hacks.  TODO Remove it!  */
+-const PropertyInfo qdev_prop_ptr =3D {
+-    .name  =3D "ptr",
+-};
+-
+ /* --- mac address --- */
+=20
+ /*
+@@ -1165,17 +1158,6 @@ void qdev_prop_set_enum(DeviceState *dev, const ch=
+ar *name, int value)
+                             name, &error_abort);
+ }
+=20
+-void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value)
+-{
+-    Property *prop;
+-    void **ptr;
+-
+-    prop =3D qdev_prop_find(dev, name);
+-    assert(prop && prop->info =3D=3D &qdev_prop_ptr);
+-    ptr =3D qdev_get_prop_ptr(dev, prop);
+-    *ptr =3D value;
+-}
+-
+ static GPtrArray *global_props(void)
+ {
+     static GPtrArray *gp;
 diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index c6a8cb5516..16837ab5dd 100644
+index 16837ab5dd..a90a9cec80 100644
 --- a/include/hw/qdev-properties.h
 +++ b/include/hw/qdev-properties.h
-@@ -216,8 +216,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
-     DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
- #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAdd=
-ress)
--#define DEFINE_PROP_MEMORY_REGION(_n, _s, _f)             \
--    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, MemoryRegion *)
- #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_off_auto_pcibar, \
-                         OffAutoPCIBAR)
+@@ -18,7 +18,6 @@ extern const PropertyInfo qdev_prop_size;
+ extern const PropertyInfo qdev_prop_string;
+ extern const PropertyInfo qdev_prop_chr;
+ extern const PropertyInfo qdev_prop_tpm;
+-extern const PropertyInfo qdev_prop_ptr;
+ extern const PropertyInfo qdev_prop_macaddr;
+ extern const PropertyInfo qdev_prop_on_off_auto;
+ extern const PropertyInfo qdev_prop_losttickpolicy;
+@@ -171,25 +170,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+ #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
+=20
+-/*
+- * Please avoid pointer properties.  If you must use them, you must
+- * cover them in their device's class init function as follows:
+- *
+- * - If the property must be set, the device cannot be used with
+- *   device_add, so add code like this:
+- *   |* Reason: pointer property "NAME-OF-YOUR-PROP" *|
+- *   DeviceClass *dc =3D DEVICE_CLASS(class);
+- *   dc->user_creatable =3D false;
+- *
+- * - If the property may safely remain null, document it like this:
+- *   |*
+- *    * Note: pointer property "interrupt_vector" may remain null, thus
+- *    * no need for dc->user_creatable =3D false;
+- *    *|
+- */
+-#define DEFINE_PROP_PTR(_n, _s, _f)             \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, void*)
+-
+ #define DEFINE_PROP_CHR(_n, _s, _f)             \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
+ #define DEFINE_PROP_STRING(_n, _s, _f)             \
+@@ -262,8 +242,6 @@ void qdev_prop_set_drive(DeviceState *dev, const char=
+ *name,
+ void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
+                            const uint8_t *value);
+ void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
+-/* FIXME: Remove opaque pointer properties.  */
+-void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value);
+=20
+ void qdev_prop_register_global(GlobalProperty *prop);
+ int qdev_prop_check_globals(void);
 --=20
 2.23.0.606.g08da6496b6
 
