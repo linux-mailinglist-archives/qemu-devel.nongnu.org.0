@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFA2DC0EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:29:55 +0200 (CEST)
-Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E50DC115
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 11:33:34 +0200 (CEST)
+Received: from localhost ([::1]:37050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLOa2-0008SW-Pe
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46234)
+	id 1iLOdY-0002h6-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 05:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLOY2-0006vd-5Y
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:27:52 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1iLOax-0001CV-9Z
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iLOY0-00058u-9J
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:27:50 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39466)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iLOY0-00058W-3P
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:27:48 -0400
-Received: by mail-ot1-x344.google.com with SMTP id s22so4398150otr.6
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 02:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=pUEiwwQjLt2xYtGo8SnML1+NaFafEWCmpGE3KBmhDn0=;
- b=eriAxyZteyVB4WtHCAzvWmaRQhkwM0uMDCK+my7Yjf1sn5WRYrPsA4yUc1qT++2uFQ
- bC4MFJbyEZVmSl0s7mc45RfXkjObw1xFrD33nZSb7vW5t9FqxrAD3S+vqktS3FSMElnZ
- qOqE7TOWMm43Cv0wsL/OHgEugzOxQKlQNLJMjkeEZLatlwH7T0BYyuGpwv4Ywd4qNtmi
- IRfxoT7kRuBmf1OHbfIOHASJGhHDCW0RKwLq5309ORgkG3ms/HL/RA+trH6uU0GH1Yz9
- DNCg08rLd1AWKa6COhUoL6OBM/jGXo9w9Jrj+Y6D2F5DCHjBNv+VnQSJ6BshlxL9H2Te
- xz2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=pUEiwwQjLt2xYtGo8SnML1+NaFafEWCmpGE3KBmhDn0=;
- b=rDEaV6qyUvPbNA+vHi5vir45datokj+t/1/6Gg2qnl9kkbcsrV0DsljFvUoQzgDz78
- jlH+iRAZgYxJrKfdUGDm0/H2C/wjaqkWFsqKFEvwDiQJXwaKTQHH6TG8MOCBSdw745wv
- z+pBjraIatu9vjPrmQu+1p7l/Zeuq9ArClwWmNoGFuJ6xnnI42uKi/4YZdf/G14Ce4vK
- NS/LGuIUlK5LZUtXY/owoE/vSF4EYpjMWHAAgP99fxa6/3Pudd293iSllDcFnrosn4op
- V22jO5LuF0l/N7B0gY/lnNooTjGZ7cCsKAX8ImPyUmzrPiJcO7LF94AC8icMr5RJTS0h
- gFpg==
-X-Gm-Message-State: APjAAAVCnqHzARbwWe6PboRbwWMINFMk2yhfdXx5jubCoNWk+MgMA3Bd
- oXmbdjPCfh3h+1LN4r3CegYr36JgrGOfWeFat7B0cg==
-X-Google-Smtp-Source: APXvYqxLUhgmO8EKAWDeaK/wSUnVVwy1YBz5OXY5mIPd5Mh9un+34aA9PHp1kh0TApObn8a+hdslUGrfDw9XYkfzfOo=
-X-Received: by 2002:a9d:4f0f:: with SMTP id d15mr6463206otl.64.1571390867071; 
- Fri, 18 Oct 2019 02:27:47 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1iLOav-0006ea-12
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 05:30:51 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33205 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iLOat-0006cS-Bj; Fri, 18 Oct 2019 05:30:48 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 46vgkT5Xbfz9sPT; Fri, 18 Oct 2019 20:30:41 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1571391041;
+ bh=9mHfDxRqy/b9QPNQWRKx2tBTm3r53ToBquM3HQA8+ok=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NtgeFg41z8a4zPD/cTrAnj8jximwltxPHwYq/PwemlxZGDQPKtpCkU3D0CrpikSzM
+ f5pfNOywwQDJ9jkPgaRuxSCyCFfM1f88sUo9S6H0n1/JHAhihe/ZyAonunGuh6hTeC
+ 0BqPIvkFxb4lwtIIvqa+f+xW1ZU+XQKNt+NPFgSk=
+Date: Fri, 18 Oct 2019 13:47:07 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/2] spapr: Introduce a interrupt presenter reset handler
+Message-ID: <20191018024707.GB2000@umbus.fritz.box>
+References: <20191017144241.12522-1-clg@kaod.org>
+ <20191017144241.12522-2-clg@kaod.org>
 MIME-Version: 1.0
-Received: by 2002:a9d:340a:0:0:0:0:0 with HTTP; Fri, 18 Oct 2019 02:27:46
- -0700 (PDT)
-In-Reply-To: <20191015162705.28087-29-philmd@redhat.com>
-References: <20191015162705.28087-1-philmd@redhat.com>
- <20191015162705.28087-29-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 18 Oct 2019 11:27:46 +0200
-Message-ID: <CAL1e-=ioYVfXb1JEwM58BKt+wQ4bV82QnqiTD2uX65aJpVmdYw@mail.gmail.com>
-Subject: Re: [PATCH 28/32] hw/pci-host/piix: Move i440FX declarations to
- hw/pci-host/i440fx.h
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006f688a05952bf23b"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PmA2V3Z32TCmWXqI"
+Content-Disposition: inline
+In-Reply-To: <20191017144241.12522-2-clg@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,406 +56,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006f688a05952bf23b
-Content-Type: text/plain; charset="UTF-8"
+
+--PmA2V3Z32TCmWXqI
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m>
-wrote:
+On Thu, Oct 17, 2019 at 04:42:40PM +0200, C=E9dric Le Goater wrote:
+> The interrupt presenters are not reseted today.
 
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> The hw/pci-host/piix.c contains a mix of PIIX3 and i440FX chipsets
-> functions. To be able to split it, we need to export some
-> declarations first.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I don't think that's accurate.  We register reset handlers for both
+ICP and TCTX already.  We might not be resetting in quite the right
+order, but this will need a clearer description of what's changing.
+
+Also, with this patch as is, I think we'll reset twice (once from the
+registered handler, once via the cpu).
+
+> Extend the sPAPR IRQ
+> backend with a new cpu_intc_reset() handler which will be called by
+> the CPU reset handler.
+>=20
+> spapr_realize_vcpu() is modified to call the CPU reset only after the
+> the intc presenter has been created.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  MAINTAINERS                  |  1 +
->  hw/acpi/pcihp.c              |  2 +-
->  hw/i386/pc_piix.c            |  1 +
->  hw/pci-host/piix.c           |  1 +
->  include/hw/i386/pc.h         | 22 ---------------------
->  include/hw/pci-host/i440fx.h | 37 ++++++++++++++++++++++++++++++++++++
->  stubs/pci-host-piix.c        |  3 ++-
->  7 files changed, 43 insertions(+), 24 deletions(-)
->  create mode 100644 include/hw/pci-host/i440fx.h
->
->
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-
-
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 556f58bd8c..adf059a164 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1228,6 +1228,7 @@ F: hw/i386/
->  F: hw/pci-host/piix.c
->  F: hw/pci-host/q35.c
->  F: hw/pci-host/pam.c
-> +F: include/hw/pci-host/i440fx.h
->  F: include/hw/pci-host/q35.h
->  F: include/hw/pci-host/pam.h
->  F: hw/isa/lpc_ich9.c
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index 82d295b6e8..8413348a33 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -27,7 +27,7 @@
->  #include "qemu/osdep.h"
->  #include "hw/acpi/pcihp.h"
->
-> -#include "hw/i386/pc.h"
-> +#include "hw/pci-host/i440fx.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/pci_bridge.h"
->  #include "hw/acpi/acpi.h"
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 5b35ff04c7..8ac4bf12ca 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -29,6 +29,7 @@
->  #include "hw/loader.h"
->  #include "hw/i386/pc.h"
->  #include "hw/i386/apic.h"
-> +#include "hw/pci-host/i440fx.h"
->  #include "hw/southbridge/piix.h"
->  #include "hw/display/ramfb.h"
->  #include "hw/firmware/smbios.h"
-> diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c
-> index a450fc726e..0b5da5bc94 100644
-> --- a/hw/pci-host/piix.c
-> +++ b/hw/pci-host/piix.c
-> @@ -27,6 +27,7 @@
->  #include "hw/irq.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/pci_host.h"
-> +#include "hw/pci-host/i440fx.h"
->  #include "hw/southbridge/piix.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/isa/isa.h"
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 1c20b96571..cead2828de 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -248,28 +248,6 @@ int cmos_get_fd_drive_type(FloppyDriveType fd0);
->  /* hpet.c */
->  extern int no_hpet;
->
-> -/* piix_pci.c */
-> -struct PCII440FXState;
-> -typedef struct PCII440FXState PCII440FXState;
-> -
-> -#define TYPE_I440FX_PCI_HOST_BRIDGE "i440FX-pcihost"
-> -#define TYPE_I440FX_PCI_DEVICE "i440FX"
-> -
-> -#define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
-> -
-> -PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-> -                    PCII440FXState **pi440fx_state, int *piix_devfn,
-> -                    ISABus **isa_bus, qemu_irq *pic,
-> -                    MemoryRegion *address_space_mem,
-> -                    MemoryRegion *address_space_io,
-> -                    ram_addr_t ram_size,
-> -                    ram_addr_t below_4g_mem_size,
-> -                    ram_addr_t above_4g_mem_size,
-> -                    MemoryRegion *pci_memory,
-> -                    MemoryRegion *ram_memory);
-> -
-> -PCIBus *find_i440fx(void);
-> -
->  /* pc_sysfw.c */
->  void pc_system_flash_create(PCMachineState *pcms);
->  void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion
-> *rom_memory);
-> diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-> new file mode 100644
-> index 0000000000..e327f9bf87
-> --- /dev/null
-> +++ b/include/hw/pci-host/i440fx.h
-> @@ -0,0 +1,37 @@
-> +/*
-> + * QEMU i440FX North Bridge Emulation
-> + *
-> + * Copyright (c) 2006 Fabrice Bellard
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#ifndef HW_PCI_I440FX_H
-> +#define HW_PCI_I440FX_H
-> +
-> +#include "hw/hw.h"
-> +#include "hw/pci/pci_bus.h"
-> +
-> +typedef struct PCII440FXState PCII440FXState;
-> +
-> +#define TYPE_I440FX_PCI_HOST_BRIDGE "i440FX-pcihost"
-> +#define TYPE_I440FX_PCI_DEVICE "i440FX"
-> +
-> +#define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
-> +
-> +PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-> +                    PCII440FXState **pi440fx_state, int *piix_devfn,
-> +                    ISABus **isa_bus, qemu_irq *pic,
-> +                    MemoryRegion *address_space_mem,
-> +                    MemoryRegion *address_space_io,
-> +                    ram_addr_t ram_size,
-> +                    ram_addr_t below_4g_mem_size,
-> +                    ram_addr_t above_4g_mem_size,
-> +                    MemoryRegion *pci_memory,
-> +                    MemoryRegion *ram_memory);
-> +
-> +PCIBus *find_i440fx(void);
-> +
-> +#endif
-> diff --git a/stubs/pci-host-piix.c b/stubs/pci-host-piix.c
-> index 6ed81b1f21..93975adbfe 100644
-> --- a/stubs/pci-host-piix.c
-> +++ b/stubs/pci-host-piix.c
-> @@ -1,5 +1,6 @@
->  #include "qemu/osdep.h"
-> -#include "hw/i386/pc.h"
-> +#include "hw/pci-host/i440fx.h"
-> +
->  PCIBus *find_i440fx(void)
+>  include/hw/ppc/spapr_irq.h |  4 ++++
+>  include/hw/ppc/xics.h      |  1 +
+>  include/hw/ppc/xive.h      |  1 +
+>  hw/intc/spapr_xive.c       |  8 ++++++++
+>  hw/intc/xics.c             |  5 +++++
+>  hw/intc/xics_spapr.c       |  8 ++++++++
+>  hw/intc/xive.c             | 11 ++++++++---
+>  hw/ppc/spapr_cpu_core.c    |  8 ++++++--
+>  hw/ppc/spapr_irq.c         | 21 +++++++++++++++++++++
+>  9 files changed, 62 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> index 5e150a667902..78327496c102 100644
+> --- a/include/hw/ppc/spapr_irq.h
+> +++ b/include/hw/ppc/spapr_irq.h
+> @@ -52,6 +52,8 @@ typedef struct SpaprInterruptControllerClass {
+>       */
+>      int (*cpu_intc_create)(SpaprInterruptController *intc,
+>                              PowerPCCPU *cpu, Error **errp);
+> +    int (*cpu_intc_reset)(SpaprInterruptController *intc, PowerPCCPU *cp=
+u,
+> +                          Error **errp);
+>      int (*claim_irq)(SpaprInterruptController *intc, int irq, bool lsi,
+>                       Error **errp);
+>      void (*free_irq)(SpaprInterruptController *intc, int irq);
+> @@ -68,6 +70,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *sp=
+apr);
+> =20
+>  int spapr_irq_cpu_intc_create(SpaprMachineState *spapr,
+>                                PowerPCCPU *cpu, Error **errp);
+> +int spapr_irq_cpu_intc_reset(SpaprMachineState *spapr,
+> +                             PowerPCCPU *cpu, Error **errp);
+>  void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon);
+>  void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
+>                    void *fdt, uint32_t phandle);
+> diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+> index 1e6a9300eb2b..602173c12250 100644
+> --- a/include/hw/ppc/xics.h
+> +++ b/include/hw/ppc/xics.h
+> @@ -161,6 +161,7 @@ void icp_set_mfrr(ICPState *icp, uint8_t mfrr);
+>  uint32_t icp_accept(ICPState *ss);
+>  uint32_t icp_ipoll(ICPState *ss, uint32_t *mfrr);
+>  void icp_eoi(ICPState *icp, uint32_t xirr);
+> +void icp_reset(ICPState *icp);
+> =20
+>  void ics_write_xive(ICSState *ics, int nr, int server,
+>                      uint8_t priority, uint8_t saved_priority);
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index fd3319bd3202..99381639f50c 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -415,6 +415,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
+set, unsigned size);
+> =20
+>  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+>  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+> +void xive_tctx_reset(XiveTCTX *tctx);
+> =20
+>  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
 >  {
->      return NULL;
-> --
-> 2.21.0
->
->
->
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index ba32d2cc5b0f..0c3acf1a4192 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -553,6 +553,13 @@ static int spapr_xive_cpu_intc_create(SpaprInterrupt=
+Controller *intc,
+>      return 0;
+>  }
+> =20
+> +static int spapr_xive_cpu_intc_reset(SpaprInterruptController *intc,
+> +                                     PowerPCCPU *cpu, Error **errp)
+> +{
+> +    xive_tctx_reset(spapr_cpu_state(cpu)->tctx);
+> +    return 0;
+> +}
+> +
+>  static void spapr_xive_set_irq(SpaprInterruptController *intc, int irq, =
+int val)
+>  {
+>      SpaprXive *xive =3D SPAPR_XIVE(intc);
+> @@ -697,6 +704,7 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+>      sicc->activate =3D spapr_xive_activate;
+>      sicc->deactivate =3D spapr_xive_deactivate;
+>      sicc->cpu_intc_create =3D spapr_xive_cpu_intc_create;
+> +    sicc->cpu_intc_reset =3D spapr_xive_cpu_intc_reset;
+>      sicc->claim_irq =3D spapr_xive_claim_irq;
+>      sicc->free_irq =3D spapr_xive_free_irq;
+>      sicc->set_irq =3D spapr_xive_set_irq;
+> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> index b5ac408f7b74..652771d6a5a5 100644
+> --- a/hw/intc/xics.c
+> +++ b/hw/intc/xics.c
+> @@ -295,6 +295,11 @@ static void icp_reset_handler(void *dev)
+>      }
+>  }
+> =20
+> +void icp_reset(ICPState *icp)
+> +{
+> +    icp_reset_handler(icp);
+> +}
+> +
+>  static void icp_realize(DeviceState *dev, Error **errp)
+>  {
+>      ICPState *icp =3D ICP(dev);
+> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> index 4f64b9a9fc66..c0b2a576effe 100644
+> --- a/hw/intc/xics_spapr.c
+> +++ b/hw/intc/xics_spapr.c
+> @@ -346,6 +346,13 @@ static int xics_spapr_cpu_intc_create(SpaprInterrupt=
+Controller *intc,
+>      return 0;
+>  }
+> =20
+> +static int xics_spapr_cpu_intc_reset(SpaprInterruptController *intc,
+> +                                     PowerPCCPU *cpu, Error **errp)
+> +{
+> +    icp_reset(spapr_cpu_state(cpu)->icp);
+> +    return 0;
+> +}
+> +
+>  static int xics_spapr_claim_irq(SpaprInterruptController *intc, int irq,
+>                                  bool lsi, Error **errp)
+>  {
+> @@ -433,6 +440,7 @@ static void ics_spapr_class_init(ObjectClass *klass, =
+void *data)
+>      sicc->activate =3D xics_spapr_activate;
+>      sicc->deactivate =3D xics_spapr_deactivate;
+>      sicc->cpu_intc_create =3D xics_spapr_cpu_intc_create;
+> +    sicc->cpu_intc_reset =3D xics_spapr_cpu_intc_reset;
+>      sicc->claim_irq =3D xics_spapr_claim_irq;
+>      sicc->free_irq =3D xics_spapr_free_irq;
+>      sicc->set_irq =3D xics_spapr_set_irq;
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index d420c6571e14..0ae3f9b1efe4 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -547,7 +547,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor=
+ *mon)
+>      }
+>  }
+> =20
+> -static void xive_tctx_reset(void *dev)
+> +static void xive_tctx_reset_handler(void *dev)
+>  {
+>      XiveTCTX *tctx =3D XIVE_TCTX(dev);
+> =20
+> @@ -568,6 +568,11 @@ static void xive_tctx_reset(void *dev)
+>          ipb_to_pipr(tctx->regs[TM_QW3_HV_PHYS + TM_IPB]);
+>  }
+> =20
+> +void xive_tctx_reset(XiveTCTX *tctx)
+> +{
+> +    xive_tctx_reset_handler(tctx);
+> +}
+> +
+>  static void xive_tctx_realize(DeviceState *dev, Error **errp)
+>  {
+>      XiveTCTX *tctx =3D XIVE_TCTX(dev);
+> @@ -608,12 +613,12 @@ static void xive_tctx_realize(DeviceState *dev, Err=
+or **errp)
+>          }
+>      }
+> =20
+> -    qemu_register_reset(xive_tctx_reset, dev);
+> +    qemu_register_reset(xive_tctx_reset_handler, dev);
+>  }
+> =20
+>  static void xive_tctx_unrealize(DeviceState *dev, Error **errp)
+>  {
+> -    qemu_unregister_reset(xive_tctx_reset, dev);
+> +    qemu_unregister_reset(xive_tctx_reset_handler, dev);
+>  }
+> =20
+>  static int vmstate_xive_tctx_pre_save(void *opaque)
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 3e4302c7d596..416aa75e5fba 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -33,6 +33,7 @@ static void spapr_cpu_reset(void *opaque)
+>      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+>      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+>      target_ulong lpcr;
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> =20
+>      cpu_reset(cs);
+> =20
+> @@ -77,9 +78,11 @@ static void spapr_cpu_reset(void *opaque)
+>      spapr_cpu->dtl_addr =3D 0;
+>      spapr_cpu->dtl_size =3D 0;
+> =20
+> -    spapr_caps_cpu_apply(SPAPR_MACHINE(qdev_get_machine()), cpu);
+> +    spapr_caps_cpu_apply(spapr, cpu);
+> =20
+>      kvm_check_mmu(cpu, &error_fatal);
+> +
+> +    spapr_irq_cpu_intc_reset(spapr, cpu, &error_fatal);
+>  }
+> =20
+>  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target=
+_ulong r3)
+> @@ -235,12 +238,13 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+>      kvmppc_set_papr(cpu);
+> =20
+>      qemu_register_reset(spapr_cpu_reset, cpu);
+> -    spapr_cpu_reset(cpu);
+> =20
+>      if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
+>          goto error_unregister;
+>      }
+> =20
+> +    spapr_cpu_reset(cpu);
+> +
+>      if (!sc->pre_3_0_migration) {
+>          vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+>                           cpu->machine_data);
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index bb91c61fa000..5d2b64029cd5 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -220,6 +220,27 @@ int spapr_irq_cpu_intc_create(SpaprMachineState *spa=
+pr,
+>      return 0;
+>  }
+> =20
+> +int spapr_irq_cpu_intc_reset(SpaprMachineState *spapr,
+> +                             PowerPCCPU *cpu, Error **errp)
+> +{
+> +    SpaprInterruptController *intcs[] =3D ALL_INTCS(spapr);
+> +    int i;
+> +    int rc;
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(intcs); i++) {
+> +        SpaprInterruptController *intc =3D intcs[i];
+> +        if (intc) {
+> +            SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_GET_CLASS=
+(intc);
+> +            rc =3D sicc->cpu_intc_reset(intc, cpu, errp);
+> +            if (rc < 0) {
+> +                return rc;
+> +            }
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static void spapr_set_irq(void *opaque, int irq, int level)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(opaque);
 
---0000000000006f688a05952bf23b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-<br><br>On Tuesday, October 15, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
-ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"ma=
-ilto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>
-<br>
-The hw/pci-host/piix.c contains a mix of PIIX3 and i440FX chipsets<br>
-functions. To be able to split it, we need to export some<br>
-declarations first.<br>
-<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
-hat.com">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 1 +<br>
-=C2=A0hw/acpi/pcihp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 2 +-<br>
-=C2=A0hw/i386/pc_piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 =
-+<br>
-=C2=A0hw/pci-host/piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 =
-+<br>
-=C2=A0include/hw/i386/pc.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 22 ----------=
------------<br>
-=C2=A0include/hw/pci-host/i440fx.h | 37 ++++++++++++++++++++++++++++++<wbr>=
-++++++<br>
-=C2=A0stubs/pci-host-piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 ++-<br>
-=C2=A07 files changed, 43 insertions(+), 24 deletions(-)<br>
-=C2=A0create mode 100644 include/hw/pci-host/i440fx.h<br>
-<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
-t-size:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovi=
-c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
-yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
-m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
-08392334px">&gt;</span><br></div><div><br></div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 556f58bd8c..adf059a164 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -1228,6 +1228,7 @@ F: hw/i386/<br>
-=C2=A0F: hw/pci-host/piix.c<br>
-=C2=A0F: hw/pci-host/q35.c<br>
-=C2=A0F: hw/pci-host/pam.c<br>
-+F: include/hw/pci-host/i440fx.h<br>
-=C2=A0F: include/hw/pci-host/q35.h<br>
-=C2=A0F: include/hw/pci-host/pam.h<br>
-=C2=A0F: hw/isa/lpc_ich9.c<br>
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c<br>
-index 82d295b6e8..8413348a33 100644<br>
---- a/hw/acpi/pcihp.c<br>
-+++ b/hw/acpi/pcihp.c<br>
-@@ -27,7 +27,7 @@<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &quot;hw/acpi/pcihp.h&quot;<br>
-<br>
--#include &quot;hw/i386/pc.h&quot;<br>
-+#include &quot;hw/pci-host/i440fx.h&quot;<br>
-=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
-=C2=A0#include &quot;hw/pci/pci_bridge.h&quot;<br>
-=C2=A0#include &quot;hw/acpi/acpi.h&quot;<br>
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c<br>
-index 5b35ff04c7..8ac4bf12ca 100644<br>
---- a/hw/i386/pc_piix.c<br>
-+++ b/hw/i386/pc_piix.c<br>
-@@ -29,6 +29,7 @@<br>
-=C2=A0#include &quot;hw/loader.h&quot;<br>
-=C2=A0#include &quot;hw/i386/pc.h&quot;<br>
-=C2=A0#include &quot;hw/i386/apic.h&quot;<br>
-+#include &quot;hw/pci-host/i440fx.h&quot;<br>
-=C2=A0#include &quot;hw/southbridge/piix.h&quot;<br>
-=C2=A0#include &quot;hw/display/ramfb.h&quot;<br>
-=C2=A0#include &quot;hw/firmware/smbios.h&quot;<br>
-diff --git a/hw/pci-host/piix.c b/hw/pci-host/piix.c<br>
-index a450fc726e..0b5da5bc94 100644<br>
---- a/hw/pci-host/piix.c<br>
-+++ b/hw/pci-host/piix.c<br>
-@@ -27,6 +27,7 @@<br>
-=C2=A0#include &quot;hw/irq.h&quot;<br>
-=C2=A0#include &quot;hw/pci/pci.h&quot;<br>
-=C2=A0#include &quot;hw/pci/pci_host.h&quot;<br>
-+#include &quot;hw/pci-host/i440fx.h&quot;<br>
-=C2=A0#include &quot;hw/southbridge/piix.h&quot;<br>
-=C2=A0#include &quot;hw/qdev-properties.h&quot;<br>
-=C2=A0#include &quot;hw/isa/isa.h&quot;<br>
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h<br>
-index 1c20b96571..cead2828de 100644<br>
---- a/include/hw/i386/pc.h<br>
-+++ b/include/hw/i386/pc.h<br>
-@@ -248,28 +248,6 @@ int cmos_get_fd_drive_type(<wbr>FloppyDriveType fd0);<=
-br>
-=C2=A0/* hpet.c */<br>
-=C2=A0extern int no_hpet;<br>
-<br>
--/* piix_pci.c */<br>
--struct PCII440FXState;<br>
--typedef struct PCII440FXState PCII440FXState;<br>
--<br>
--#define TYPE_I440FX_PCI_HOST_BRIDGE &quot;i440FX-pcihost&quot;<br>
--#define TYPE_I440FX_PCI_DEVICE &quot;i440FX&quot;<br>
--<br>
--#define TYPE_IGD_PASSTHROUGH_I440FX_<wbr>PCI_DEVICE &quot;igd-passthrough-=
-i440FX&quot;<br>
--<br>
--PCIBus *i440fx_init(const char *host_type, const char *pci_type,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PCII=
-440FXState **pi440fx_state, int *piix_devfn,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISAB=
-us **isa_bus, qemu_irq *pic,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *address_space_mem,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *address_space_io,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ram_=
-addr_t ram_size,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ram_=
-addr_t below_4g_mem_size,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ram_=
-addr_t above_4g_mem_size,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *pci_memory,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *ram_memory);<br>
--<br>
--PCIBus *find_i440fx(void);<br>
--<br>
-=C2=A0/* pc_sysfw.c */<br>
-=C2=A0void pc_system_flash_create(<wbr>PCMachineState *pcms);<br>
-=C2=A0void pc_system_firmware_init(<wbr>PCMachineState *pcms, MemoryRegion =
-*rom_memory);<br>
-diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h<br=
->
-new file mode 100644<br>
-index 0000000000..e327f9bf87<br>
---- /dev/null<br>
-+++ b/include/hw/pci-host/i440fx.h<br>
-@@ -0,0 +1,37 @@<br>
-+/*<br>
-+ * QEMU i440FX North Bridge Emulation<br>
-+ *<br>
-+ * Copyright (c) 2006 Fabrice Bellard<br>
-+ *<br>
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.<br>
-+ * See the COPYING file in the top-level directory.<br>
-+ *<br>
-+ */<br>
-+<br>
-+#ifndef HW_PCI_I440FX_H<br>
-+#define HW_PCI_I440FX_H<br>
-+<br>
-+#include &quot;hw/hw.h&quot;<br>
-+#include &quot;hw/pci/pci_bus.h&quot;<br>
-+<br>
-+typedef struct PCII440FXState PCII440FXState;<br>
-+<br>
-+#define TYPE_I440FX_PCI_HOST_BRIDGE &quot;i440FX-pcihost&quot;<br>
-+#define TYPE_I440FX_PCI_DEVICE &quot;i440FX&quot;<br>
-+<br>
-+#define TYPE_IGD_PASSTHROUGH_I440FX_<wbr>PCI_DEVICE &quot;igd-passthrough-=
-i440FX&quot;<br>
-+<br>
-+PCIBus *i440fx_init(const char *host_type, const char *pci_type,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PCII=
-440FXState **pi440fx_state, int *piix_devfn,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISAB=
-us **isa_bus, qemu_irq *pic,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *address_space_mem,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *address_space_io,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ram_=
-addr_t ram_size,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ram_=
-addr_t below_4g_mem_size,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ram_=
-addr_t above_4g_mem_size,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *pci_memory,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Memo=
-ryRegion *ram_memory);<br>
-+<br>
-+PCIBus *find_i440fx(void);<br>
-+<br>
-+#endif<br>
-diff --git a/stubs/pci-host-piix.c b/stubs/pci-host-piix.c<br>
-index 6ed81b1f21..93975adbfe 100644<br>
---- a/stubs/pci-host-piix.c<br>
-+++ b/stubs/pci-host-piix.c<br>
-@@ -1,5 +1,6 @@<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
--#include &quot;hw/i386/pc.h&quot;<br>
-+#include &quot;hw/pci-host/i440fx.h&quot;<br>
-+<br>
-=C2=A0PCIBus *find_i440fx(void)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote>
+--PmA2V3Z32TCmWXqI
+Content-Type: application/pgp-signature; name="signature.asc"
 
---0000000000006f688a05952bf23b--
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2pJ6gACgkQbDjKyiDZ
+s5Kw3xAAsJMOTR9TTROriB5LD/mPLrGWSBDHTFsVROvd524nda+63YC4y91319Zi
+gOK1I33swu9d7K6qd5+hwO1QXgr+0zQDxaJDkiEc5Js3hDi5ewFXs3pqL8JgsLEo
+dvOy1XnKJqgHjbd5kRzo4noGKw4X2L0uabiSsexI2IeDl/GrvbHLuaEata8Ri89+
+XS4qidk/N6K2JQkMKUwquT9vMccqXaSS19oxaOJGm8FLxGUEKbD0tgdB46eUyeRL
+G/vdl7qnDTFIG82r+kqy6K9gV2J/A43DKnkxG9W7NSHewOtxJdgfP249rrrxTf4h
+/5NfrrjzdGNCkoOmJLdhz66oeRYI9lmCCo2J2A1l+lPheMd6sjWFXU44t+elOZ2M
+2qNNqcDcqcvpvwZBZo5RtgA3qLEQApEqu21SDzuCK3fCkmRtNm5i1rW78EuLcZvv
+tzjfv5HbMpsOEPAm9Ch13TJiw3J3ku4d3ydXDvltKebMWpdKOezHo+IP4HFN5Ztp
+RouFjrKLJ/0rFt4V/LkTsf1HQZiubTLy6Ys3yBk/3nJDLUmMzN02QPO7cACrkDfx
+Gg18FLmJElLtQLXtJ4/faKfEoCb2pzd7kxwFd63vGRdWCL+vhcxJUJDIl6d+OICx
+kN8gRIQB3gEmiFU4V+QK/dpazhdB7+SDHP3DdDA64ZIKvd5LEs8=
+=nbmt
+-----END PGP SIGNATURE-----
+
+--PmA2V3Z32TCmWXqI--
 
