@@ -2,46 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28040DC72A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:19:43 +0200 (CEST)
-Received: from localhost ([::1]:40752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD7BDC6FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 16:11:23 +0200 (CEST)
+Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLT6U-000551-7V
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56833)
+	id 1iLSyQ-0005aU-B4
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 10:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57331)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLSnG-0008Is-Er
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:51 -0400
+ (envelope-from <eblake@redhat.com>) id 1iLSpa-0002F1-Kx
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:02:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLSnF-0001s8-Ff
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39470)
+ (envelope-from <eblake@redhat.com>) id 1iLSpX-0002nW-Sr
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 10:02:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57984)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSnF-0001rh-6M
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:59:49 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1iLSpU-0002kN-U1; Fri, 18 Oct 2019 10:02:09 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C014C3071D9F;
- Fri, 18 Oct 2019 13:59:47 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 669E560566;
- Fri, 18 Oct 2019 13:59:33 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/i386/pc: Reduce gsi_handler scope
-Date: Fri, 18 Oct 2019 15:59:07 +0200
-Message-Id: <20191018135910.24286-3-philmd@redhat.com>
-In-Reply-To: <20191018135910.24286-1-philmd@redhat.com>
-References: <20191018135910.24286-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id F089030738B5;
+ Fri, 18 Oct 2019 14:02:07 +0000 (UTC)
+Received: from [10.3.116.168] (ovpn-116-168.phx2.redhat.com [10.3.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37AB460925;
+ Fri, 18 Oct 2019 14:02:07 +0000 (UTC)
+Subject: Re: [PATCH v8 2/3] docs: define padding for qcow2 header
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191018094758.7124-1-vsementsov@virtuozzo.com>
+ <20191018094758.7124-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <019c2493-25c1-9e54-1f5d-84bb003e98b1@redhat.com>
+Date: Fri, 18 Oct 2019 09:02:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20191018094758.7124-3-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 18 Oct 2019 13:59:47 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.40]); Fri, 18 Oct 2019 14:02:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -56,53 +62,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ dplotnikov@virtuozzo.com, den@openvz.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pc_gsi_create() is the single function that uses gsi_handler.
-Make it a static variable.
+On 10/18/19 4:47 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Header extensions ends are already defined to be multiply of 8. Let's
+> gently ask for header length to be a multiply of 8 too, when we have
+> some additional fields. Requiring this may be considered as an
+> incompatible change, so the padding is optional. Actually, padding is
+> allowed before this patch (due to definition of additional fields),
+> the only actual change is "SHOULD" word.
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/i386/pc.c         | 2 +-
- include/hw/i386/pc.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+Too weak. I've already argued that this should be mandatory, and that we 
+are not breaking backwards compatibility, but merely clarifying what has 
+already been implicit by the fact that header extensions are required to 
+be 8-byte size multiple (which makes no sense unless they are also 
+8-byte aligned).
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e3e191a811..21efde33a5 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -346,7 +346,7 @@ GlobalProperty pc_compat_1_4[] =3D {
- };
- const size_t pc_compat_1_4_len =3D G_N_ELEMENTS(pc_compat_1_4);
-=20
--void gsi_handler(void *opaque, int n, int level)
-+static void gsi_handler(void *opaque, int n, int level)
- {
-     GSIState *s =3D opaque;
-=20
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 53b2243788..9ad417cef0 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -176,8 +176,6 @@ typedef struct GSIState {
-     qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
- } GSIState;
-=20
--void gsi_handler(void *opaque, int n, int level);
--
- GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
-=20
- /* vmport.c */
---=20
-2.21.0
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   docs/interop/qcow2.txt | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
+> index 4709f3bb30..b971e59b1a 100644
+> --- a/docs/interop/qcow2.txt
+> +++ b/docs/interop/qcow2.txt
+> @@ -185,6 +185,11 @@ which is covered by @header_length must be zeroed.
+>   
+>           < ... No additional fields in the header currently ... >
+>   
+> +Header padding
+> +        If @header_length is larger than 104, software SHOULD make it a
+> +        multiply of 8, adding zero-padding after additional fields. Still the
+> +        padding is optional and may be absent in the image.
+> +
+>   Directly after the image header, optional sections called header extensions can
+>   be stored. Each extension has a structure like the following:
+>   
+> 
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
