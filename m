@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BACFDCD05
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:49:29 +0200 (CEST)
-Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AF6DCD19
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:55:02 +0200 (CEST)
+Received: from localhost ([::1]:44364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWNT-0001LU-Lv
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:49:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59147)
+	id 1iLWSr-00088j-9W
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59071)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWIu-0006Sy-7g
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:45 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWIr-0005P0-R0
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:44 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43728)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLWIp-0005Ml-OC
+ (envelope-from <alistair23@gmail.com>) id 1iLWIp-0006PA-OB
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:41 -0400
-Received: by mail-pg1-x544.google.com with SMTP id i32so3742545pgl.10
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mDaUYtXyoxKyQ6YIW+CzLKUl72EI9Ve9jhEUulKMydM=;
- b=kFYtkl62zY6PW+luGe9TZwJ7mEStN2EUGHwVIjT7YnMEr1NtqavFgtXVKH1l+75sRf
- 1ixz+lv/bl0D/bRyYRBsTHb+7WsT4RNjKbWXP7fVV9sMRjqJvhARthjNdfKF3iyI15Qj
- KkhU6VJHJuNpAJ+XUJc7L/fuUnwey4LH/EfXazpVwvmdAnTYfS5zlwxSQty/70HflDcn
- 96Q3ng07ztaLWfHXYuUBYQmjl0dE8dZkiLbPLd6fZCaUkFmTgmecEBiGl5PlwkGSx8lk
- gsGpcqeE/7A/7A7LeInXQBB1+nbSrAtMHj+wpSgLVEp2hTyW7wR4A+Qh5NkrCBu+/H5G
- bECQ==
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alistair23@gmail.com>) id 1iLWIn-0005M9-Vb
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:39 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39447)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iLWIn-0005KV-NQ; Fri, 18 Oct 2019 13:44:37 -0400
+Received: by mail-lj1-x242.google.com with SMTP id y3so7058199ljj.6;
+ Fri, 18 Oct 2019 10:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N6l0akIILUO/kYUgAyjPb4Ghk7rY8V+k5NeOQBSDm5E=;
+ b=OrzDDv0WDz3MgbWa+wnO39mcqy3HnXGWuN4TF5MLBqSJnQIQ6M76wVxVTZFAtITbeG
+ 9CFDGrdK1gw+YgkDSi+5NuJBoSPZTkSzOYVYHN9qxXeXw4qztS2HmFxjHFpTptY7sNdU
+ k7Vjw1cIB3ASLiHaAhYsaz+rY1oau5pyY7BcOGGogYizO9GhaD1AaGd/5e9+wQxhj6fU
+ nsHLnxMnpgMxC1aGlbU+f1LGQm4E1rmB0Ed+5Q5FgHxXv21eJX6yohCWV91ZOU5LS+wX
+ fLyTpr7iEALPwA2ty/RIxBtaA58v3XDo5DCjNK/UEl4P+xR1+u0Xai+KSYAG13BKfsiP
+ 6ieA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mDaUYtXyoxKyQ6YIW+CzLKUl72EI9Ve9jhEUulKMydM=;
- b=YdR4Gy59ovE0psWW40T/baMwtwgeZHiIDEWZCzQPF6qAh35mNxforYKSEDVwCRauDd
- 5gEG0ym8XBKwpTjmX8TOfZGytdd9jdSoeEZpIyGcpD6OZDIwHPmYTtXxqVdCOBJ8tXgg
- du96rCg9LWG+mFf4u93dLeWz/L8dRQJA+7NBa19svZ93Y1GFOuKA/d9bjv5Wz3BJGcK8
- Ijk1GjJFsdocydO5zXlYOguLLxWt/83+A+29LhHLdG/8oNEDxAgTfP440MvWnCZp/F93
- URUd+60FAZkvlR6GjdGZzCJdFTI0diy3jhRlV9O7hpWqJY4xdgMY0DGhdRpjNviEPwfn
- XJbg==
-X-Gm-Message-State: APjAAAU9Nfjf/dy9fId9yxHEKHgp/I+XMtfZUsdBiK/bR6YYjxRXvem0
- Y+9iAzJHoEI/rUPxLkZXy1ZtOCc02dA=
-X-Google-Smtp-Source: APXvYqxRGk3ekGXtet2DVt9zA+r68xusBL9gqOdmANCfXFgpOwZQpd6bqYj20/Z44zuU89An8IU5rQ==
-X-Received: by 2002:a17:90a:aa97:: with SMTP id
- l23mr12570299pjq.7.1571420678183; 
- Fri, 18 Oct 2019 10:44:38 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 10:44:37 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 05/22] target/arm: Split out rebuild_hflags_m32
-Date: Fri, 18 Oct 2019 10:44:14 -0700
-Message-Id: <20191018174431.1784-6-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191018174431.1784-1-richard.henderson@linaro.org>
-References: <20191018174431.1784-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N6l0akIILUO/kYUgAyjPb4Ghk7rY8V+k5NeOQBSDm5E=;
+ b=mM7ENptIWMrdh+gx3rmc9MljeQewDdmzZO2dauZANpLCcwchcOVRcfkwoWjKVy/0Nc
+ Zbf4DveM7y+l1zVUyoBqvnlJWJPdQXOL/5m06QJxZPiorjHB50IjCVDSxzmAuFT+Foa9
+ ZTlrIPd/U/AJxI4DNps4+AhTBK0Xm1sne1Vw2hpf7XK9sYLFLwSwq4cbppV5RoSX06yu
+ R+e4cpFKw0XgmSCdLrxMC6HPsDyh3MEZJbUNqC8HPd9dNvgWFJ0+KL2Sl9VwZc/FYdMV
+ MqGJ8M9bbytU6j6IzB5gE4NccZnPmDd7Pl+C7ROPWEtF/d2Ye571VFBnkDqkCcpTNZHg
+ 9wwA==
+X-Gm-Message-State: APjAAAXvEYL00hktNmLoegPdEw9kxnzTJFHrXbSECHBGU0Ywmjsgy52+
+ bsUQN+dIdQ7k+6bo+5tx94/78/drEIygDTOGOTA=
+X-Google-Smtp-Source: APXvYqzyVbGUuhbt7y2XK5319htfkqUEsl99Xt/ndSeYf//b5M8OhEWjxV/v/4xEWfFq2ib1MhsEuFA65hxdbcz/S2k=
+X-Received: by 2002:a2e:b17b:: with SMTP id a27mr6865043ljm.7.1571420675500;
+ Fri, 18 Oct 2019 10:44:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <34350af3b53fadc50bfe4f1fbc452c7d3a8fe8f7.1570572202.git.alistair.francis@wdc.com>
+ <mhng-55b18e6b-d882-4d24-a4af-2cbecd403a49@palmer-si-x1c4>
+In-Reply-To: <mhng-55b18e6b-d882-4d24-a4af-2cbecd403a49@palmer-si-x1c4>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 18 Oct 2019 10:44:09 -0700
+Message-ID: <CAKmqyKPmKc2hhNkVrDgZerXVzyCyrS4WJjMY8fRKf8MNAwmLKg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] target/riscv: Remove atomic accesses to MIP CSR
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,90 +71,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a function to compute the values of the TBFLAG_A32 bits
-that will be cached, and are used by M-profile.
+On Fri, Oct 18, 2019 at 9:51 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> On Tue, 08 Oct 2019 15:04:18 PDT (-0700), Alistair Francis wrote:
+> > Instead of relying on atomics to access the MIP register let's update
+> > our helper function to instead just lock the IO mutex thread before
+> > writing. This follows the same concept as used in PPC for handling
+> > interrupts
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  target/riscv/cpu.c        |  5 ++--
+> >  target/riscv/cpu.h        |  9 --------
+> >  target/riscv/cpu_helper.c | 48 +++++++++++++++------------------------
+> >  target/riscv/csr.c        |  2 +-
+> >  4 files changed, 21 insertions(+), 43 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index f13e298a36..e09dd7aa23 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -224,8 +224,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> >  #ifndef CONFIG_USER_ONLY
+> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
+> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", env->mstatus);
+> > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ",
+> > -                 (target_ulong)atomic_read(&env->mip));
+> > +    qemu_fprintf(f, " %s 0x%x\n", "mip     ", env->mip);
+> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
+> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
+> >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
+> > @@ -275,7 +274,7 @@ static bool riscv_cpu_has_work(CPUState *cs)
+> >       * Definition of the WFI instruction requires it to ignore the privilege
+> >       * mode and delegation registers, but respect individual enables
+> >       */
+> > -    return (atomic_read(&env->mip) & env->mie) != 0;
+> > +    return (env->mip & env->mie) != 0;
+> >  #else
+> >      return true;
+> >  #endif
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 124ed33ee4..a71473b243 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -121,15 +121,6 @@ struct CPURISCVState {
+> >      target_ulong mhartid;
+> >      target_ulong mstatus;
+> >
+> > -    /*
+> > -     * CAUTION! Unlike the rest of this struct, mip is accessed asynchonously
+> > -     * by I/O threads. It should be read with atomic_read. It should be updated
+> > -     * using riscv_cpu_update_mip with the iothread mutex held. The iothread
+> > -     * mutex must be held because mip must be consistent with the CPU inturrept
+> > -     * state. riscv_cpu_update_mip calls cpu_interrupt or cpu_reset_interrupt
+> > -     * wuth the invariant that CPU_INTERRUPT_HARD is set iff mip is non-zero.
+> > -     * mip is 32-bits to allow atomic_read on 32-bit hosts.
+> > -     */
+> >      uint32_t mip;
+> >      uint32_t miclaim;
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 87dd6a6ece..4334978c2e 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -19,6 +19,7 @@
+> >
+> >  #include "qemu/osdep.h"
+> >  #include "qemu/log.h"
+> > +#include "qemu/main-loop.h"
+> >  #include "cpu.h"
+> >  #include "exec/exec-all.h"
+> >  #include "tcg-op.h"
+> > @@ -38,7 +39,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+> >  {
+> >      target_ulong mstatus_mie = get_field(env->mstatus, MSTATUS_MIE);
+> >      target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
+> > -    target_ulong pending = atomic_read(&env->mip) & env->mie;
+> > +    target_ulong pending = env->mip & env->mie;
+> >      target_ulong mie = env->priv < PRV_M || (env->priv == PRV_M && mstatus_mie);
+> >      target_ulong sie = env->priv < PRV_S || (env->priv == PRV_S && mstatus_sie);
+> >      target_ulong irqs = (pending & ~env->mideleg & -mie) |
+> > @@ -92,42 +93,29 @@ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+> >      }
+> >  }
+> >
+> > -struct CpuAsyncInfo {
+> > -    uint32_t new_mip;
+> > -};
+> > -
+> > -static void riscv_cpu_update_mip_irqs_async(CPUState *target_cpu_state,
+> > -                                            run_on_cpu_data data)
+> > -{
+> > -    struct CpuAsyncInfo *info = (struct CpuAsyncInfo *) data.host_ptr;
+> > -
+> > -    if (info->new_mip) {
+> > -        cpu_interrupt(target_cpu_state, CPU_INTERRUPT_HARD);
+> > -    } else {
+> > -        cpu_reset_interrupt(target_cpu_state, CPU_INTERRUPT_HARD);
+> > -    }
+> > -
+> > -    g_free(info);
+> > -}
+> > -
+> >  uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
+> >  {
+> >      CPURISCVState *env = &cpu->env;
+> >      CPUState *cs = CPU(cpu);
+> > -    struct CpuAsyncInfo *info;
+> > -    uint32_t old, new, cmp = atomic_read(&env->mip);
+> > +    uint32_t old = env->mip;
+> > +    bool locked = false;
+> > +
+> > +    if (!qemu_mutex_iothread_locked()) {
+> > +        locked = true;
+> > +        qemu_mutex_lock_iothread();
+> > +    }
+>
+> I must be lost here, because I have no idea what this is trying to do.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/helper.c | 45 ++++++++++++++++++++++++++++++---------------
- 1 file changed, 30 insertions(+), 15 deletions(-)
+We lock the QEMU IO Thread before we trigger an interrupt. This way we
+can call it from the PLIC.
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 4c65476d93..d4303420da 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11083,6 +11083,29 @@ static uint32_t rebuild_hflags_common_32(CPUARMState *env, int fp_el,
-     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
- }
- 
-+static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
-+                                   ARMMMUIdx mmu_idx)
-+{
-+    uint32_t flags = 0;
-+
-+    if (arm_v7m_is_handler_mode(env)) {
-+        flags = FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
-+    }
-+
-+    /*
-+     * v8M always applies stack limit checks unless CCR.STKOFHFNMIGN
-+     * is suppressing them because the requested execution priority
-+     * is less than 0.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_V8) &&
-+        !((mmu_idx & ARM_MMU_IDX_M_NEGPRI) &&
-+          (env->v7m.ccr[env->v7m.secure] & R_V7M_CCR_STKOFHFNMIGN_MASK))) {
-+        flags = FIELD_DP32(flags, TBFLAG_A32, STACKCHECK, 1);
-+    }
-+
-+    return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
-+}
-+
- static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-                                    ARMMMUIdx mmu_idx)
- {
-@@ -11168,7 +11191,13 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-         }
-     } else {
-         *pc = env->regs[15];
--        flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
-+
-+        if (arm_feature(env, ARM_FEATURE_M)) {
-+            flags = rebuild_hflags_m32(env, fp_el, mmu_idx);
-+        } else {
-+            flags = rebuild_hflags_common_32(env, fp_el, mmu_idx, 0);
-+        }
-+
-         flags = FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
-         flags = FIELD_DP32(flags, TBFLAG_A32, VECLEN, env->vfp.vec_len);
-         flags = FIELD_DP32(flags, TBFLAG_A32, VECSTRIDE, env->vfp.vec_stride);
-@@ -11204,20 +11233,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-         }
-     }
- 
--    if (arm_v7m_is_handler_mode(env)) {
--        flags = FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
--    }
--
--    /* v8M always applies stack limit checks unless CCR.STKOFHFNMIGN is
--     * suppressing them because the requested execution priority is less than 0.
--     */
--    if (arm_feature(env, ARM_FEATURE_V8) &&
--        arm_feature(env, ARM_FEATURE_M) &&
--        !((mmu_idx  & ARM_MMU_IDX_M_NEGPRI) &&
--          (env->v7m.ccr[env->v7m.secure] & R_V7M_CCR_STKOFHFNMIGN_MASK))) {
--        flags = FIELD_DP32(flags, TBFLAG_A32, STACKCHECK, 1);
--    }
--
-     if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
-         FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S) != env->v7m.secure) {
-         flags = FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1);
--- 
-2.17.1
+Alistair
 
+>
+> > -    do {
+> > -        old = cmp;
+> > -        new = (old & ~mask) | (value & mask);
+> > -        cmp = atomic_cmpxchg(&env->mip, old, new);
+> > -    } while (old != cmp);
+> > +    env->mip = (env->mip & ~mask) | (value & mask);
+> >
+> > -    info = g_new(struct CpuAsyncInfo, 1);
+> > -    info->new_mip = new;
+> > +    if (env->mip) {
+> > +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+> > +    } else {
+> > +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> > +    }
+> >
+> > -    async_run_on_cpu(cs, riscv_cpu_update_mip_irqs_async,
+> > -                     RUN_ON_CPU_HOST_PTR(info));
+> > +    if (locked) {
+> > +        qemu_mutex_unlock_iothread();
+> > +    }
+> >
+> >      return old;
+> >  }
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index f767ad24be..db0cc6ef55 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -579,7 +579,7 @@ static int rmw_mip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+> >      if (mask) {
+> >          old_mip = riscv_cpu_update_mip(cpu, mask, (new_value & mask));
+> >      } else {
+> > -        old_mip = atomic_read(&env->mip);
+> > +        old_mip = env->mip;
+> >      }
+> >
+> >      if (ret_value) {
 
