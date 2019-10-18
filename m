@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA787DCC88
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:23:00 +0200 (CEST)
-Received: from localhost ([::1]:43731 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12AA9DCC91
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:24:34 +0200 (CEST)
+Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLVxq-0001Hr-Rh
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57141)
+	id 1iLVzM-0003so-RZ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iLVw1-0000EM-SE
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:21:07 -0400
+ (envelope-from <clg@kaod.org>) id 1iLVxa-00023h-BZ
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:22:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iLVw0-0007Dc-F8
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:21:05 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41679)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iLVw0-00078w-2R
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:21:04 -0400
-Received: by mail-ot1-x343.google.com with SMTP id g13so5585471otp.8
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KYFHr2QH+Mh8sUuSrEf+c+4lYoqdIymj+MmvPuItesU=;
- b=JLfRrk7W9WegyYQL3RpcfDgOHDsxh50BxlSGmzyKAvn72XSwA2Hagwy1Hy9C7lYxwW
- BTY2XG2MZdRCqDjqD/AAQKftYU4bIaAO8wl2bsEkPGlpXx9kX6HgP8tb0l2HJXppqHu8
- y0lwuItzsVXpoIThs+0HGSGFfKGOTTial+TL8S178RibZe+LTSyOuCCeUaslwh2N9zIS
- dMwqBegbQbP+A2PPlwgzLw1hfCO9Rz2rf2v5Bo+e9S3dSsHtXE2xFbXp4wZrZSEVgfCB
- Hyo+6drruyGnH4PpKcDxKNsTckIEd9BNRsk6LW9iWY1r9WSSayMVs0hlbU1hdGTtFjqS
- Jo/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KYFHr2QH+Mh8sUuSrEf+c+4lYoqdIymj+MmvPuItesU=;
- b=syAL7O2O1KUiRrXGEMIDHh/95vU9jiNigqkzMtmOR3qMJ5p04JnVBE0bAf8q6sflma
- oBmyXPJTenc/+POltHq47YFoaU/wwqVmqjZll0rYrFompxIXPuf9SiqIvWJ2UPwxA9r5
- dDBpUgvzMLxrYSdOswSmTuvsHWWCPzevhh1q0YFXQCxSA7CHDWnvXc5fxByLQU2OUY8A
- HQYjBbF/UPyf9piG92uChY9sxlqa7tIpjJYKD0U5qaZUzxyl662BzGwrGUYEuXRxw5OX
- XedQV1/RH2nVtc8VOTZ+0wCxH1inDG0UXtQDTFqNv4aKQM+Q7CfDKwTEgyTPY+s1xxoM
- L+Vg==
-X-Gm-Message-State: APjAAAXE47FWvNP10lohIeTB+ApZjEixzaudJ05qkJCEmXj1meAE87Vd
- l3CUzVwsIo4QyDmQgSygnyPyNIRco7IiHtO6Yj1dig==
-X-Google-Smtp-Source: APXvYqxeTb2SHB9vdw+WOBt9sIrAFzETBm+EU38sKBIYhyEZC/PfXwqo62bpnq7GGBlZTijMF1xtWIt8YzFKJGRmijU=
-X-Received: by 2002:a9d:708e:: with SMTP id l14mr8582067otj.135.1571419251924; 
- Fri, 18 Oct 2019 10:20:51 -0700 (PDT)
+ (envelope-from <clg@kaod.org>) id 1iLVxZ-0007j5-4v
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:22:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60324
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iLVxY-0007iR-VE
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:22:41 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9IHKvOM028653
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 13:22:39 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vqf6xe2ca-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 13:22:38 -0400
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <clg@kaod.org>;
+ Fri, 18 Oct 2019 18:22:37 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 18 Oct 2019 18:22:35 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x9IHMYtx55181376
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Oct 2019 17:22:34 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 524F64C040;
+ Fri, 18 Oct 2019 17:22:34 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3E36E4C046;
+ Fri, 18 Oct 2019 17:22:34 +0000 (GMT)
+Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 18 Oct 2019 17:22:34 +0000 (GMT)
+Received: from yukon.kaod.org.com (sig-9-145-27-7.uk.ibm.com [9.145.27.7])
+ by smtp.tls.ibm.com (Postfix) with ESMTP id 635C22201BC;
+ Fri, 18 Oct 2019 19:22:33 +0200 (CEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v2 0/2] spapr: interrupt presenter fixes
+Date: Fri, 18 Oct 2019 19:22:17 +0200
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
- <20191018154212.13458-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20191018154212.13458-10-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Oct 2019 18:20:40 +0100
-Message-ID: <CAFEAcA-4A=SyrxsMwN0_HzSi89JAYZz8KzuDWh8O47X_WF0NtQ@mail.gmail.com>
-Subject: Re: [PATCH 09/14] smbus-eeprom: remove PROP_PTR
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+x-cbid: 19101817-0028-0000-0000-000003AB589F
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101817-0029-0000-0000-0000246D7A99
+Message-Id: <20191018172219.10039-1-clg@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-18_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=599 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910180154
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id x9IHKvOM028653
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,106 +93,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 16:43, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Instead, set the initial data field directly. Since it is only 256
-> bytes, let's simply copy it to avoid invalid pointers issues.
+Hello,
 
-(Commit message says you copy the 256 bytes, but the code
-doesn't seem to do any copying?)
+The interrupt presenters are created by a machine handler at the core
+level and are reseted independently. This is not consistent and it
+raises some issues when it comes to handle hot-plugged CPUs. These are
+reseted from the realize handler of the core and the presenters are
+not. This is less of an issue in XICS, although a zero MFFR could be a
+concern, but in XIVE, the OS CAM line is not set and this breaks the
+presenting algorithm. The current code has workarounds which need a
+global cleanup.
 
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Extend the sPAPR IRQ backend with a new cpu_intc_reset() handler which
+will be called by the CPU reset handler and remove the XiveTCTX reset
+handler which is redundant.
 
-Ah, the smbus code. Corey had a go at cleaning this up
-a while back; I can't remember if we found a reason why
-we had to keep the weird use of a pointer property here, or
-if we just wanted to avoid dragging yet another thing into
-an already large patchset.
+Set the OS CAM line when the interrupt presenter of the sPAPR core is
+reseted. This will also cover the case of hot-plugged CPUs.
 
-What we're actually trying to set up here is always 256
-bytes of data. What's the right way to pass a QOM device
-a small chunk of data like that?
 
-> ---
->  hw/i2c/smbus_eeprom.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
-> index 54c86a0112..533c728b3b 100644
-> --- a/hw/i2c/smbus_eeprom.c
-> +++ b/hw/i2c/smbus_eeprom.c
-> @@ -44,7 +44,7 @@
->  typedef struct SMBusEEPROMDevice {
->      SMBusDevice smbusdev;
->      uint8_t data[SMBUS_EEPROM_SIZE];
-> -    void *init_data;
-> +    uint8_t *init_data;
->      uint8_t offset;
->      bool accessed;
->  } SMBusEEPROMDevice;
-> @@ -129,14 +129,14 @@ static void smbus_eeprom_reset(DeviceState *dev)
->
->  static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
->  {
-> +    SMBusEEPROMDevice *eeprom =3D SMBUS_EEPROM(dev);
-> +
->      smbus_eeprom_reset(dev);
-> +    if (eeprom->init_data =3D=3D NULL) {
-> +        error_setg(errp, "init_data cannot be NULL");
-> +    }
->  }
->
-> -static Property smbus_eeprom_properties[] =3D {
-> -    DEFINE_PROP_PTR("data", SMBusEEPROMDevice, init_data),
-> -    DEFINE_PROP_END_OF_LIST(),
-> -};
-> -
->  static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -146,9 +146,8 @@ static void smbus_eeprom_class_initfn(ObjectClass *kl=
-ass, void *data)
->      dc->reset =3D smbus_eeprom_reset;
->      sc->receive_byte =3D eeprom_receive_byte;
->      sc->write_data =3D eeprom_write_data;
-> -    dc->props =3D smbus_eeprom_properties;
->      dc->vmsd =3D &vmstate_smbus_eeprom;
-> -    /* Reason: pointer property "data" */
-> +    /* Reason: init_data */
->      dc->user_creatable =3D false;
->  }
->
-> @@ -172,7 +171,7 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t add=
-ress, uint8_t *eeprom_buf)
->
->      dev =3D qdev_create((BusState *) smbus, TYPE_SMBUS_EEPROM);
->      qdev_prop_set_uint8(dev, "address", address);
-> -    qdev_prop_set_ptr(dev, "data", eeprom_buf);
-> +    SMBUS_EEPROM(dev)->init_data =3D eeprom_buf;
->      qdev_init_nofail(dev);
->  }
->
-> --
-> 2.23.0.606.g08da6496b6
+These changes do not address the root problem: the reset of the core
+at realize time which hides the fact that hot-plugged CPUs are not
+reseted. Anyhow, they do fix the presenter reset and remove a
+workaround of workaround in the case of XIVE.
 
-thanks
--- PMM
+Thanks,
+
+C.
+
+Changes inv v2:
+
+ - removed property
+ - simplified reset handlers
+
+C=C3=A9dric Le Goater (2):
+  spapr: Introduce a interrupt presenter reset handler
+  spapr/xive: Set the OS CAM line at reset
+
+ include/hw/ppc/spapr_irq.h  |  2 ++
+ include/hw/ppc/spapr_xive.h |  1 -
+ include/hw/ppc/xics.h       |  1 +
+ include/hw/ppc/xive.h       |  1 +
+ hw/intc/spapr_xive.c        | 25 ++++++++++---------------
+ hw/intc/xics.c              |  8 ++------
+ hw/intc/xics_spapr.c        |  7 +++++++
+ hw/intc/xive.c              | 12 +-----------
+ hw/ppc/spapr_cpu_core.c     | 14 ++++++++++----
+ hw/ppc/spapr_irq.c          | 14 ++++++++++++++
+ 10 files changed, 48 insertions(+), 37 deletions(-)
+
+--=20
+2.21.0
+
 
