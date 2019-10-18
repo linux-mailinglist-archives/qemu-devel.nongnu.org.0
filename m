@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F96DCA36
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:03:35 +0200 (CEST)
-Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12779DCA5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:09:45 +0200 (CEST)
+Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUiz-0005Kv-9K
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:03:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47197)
+	id 1iLUox-000520-QI
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:09:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47309)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iLUf4-0003Ri-GJ
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:59:31 -0400
+ (envelope-from <samuel.thibault@gnu.org>) id 1iLUfy-0004UK-0K
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:00:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iLUf3-0002fp-9i
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:59:30 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45574)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iLUf3-0002fC-3b
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:59:29 -0400
-Received: by mail-oi1-x244.google.com with SMTP id o205so5597110oib.12
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 08:59:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rI19fQfi1soXk94bvmbxspVOx+LD4mjimJcvoV3KteI=;
- b=nkvaaZd0EvQYu/0NgQzGjB5RrGnooI+jyLuOt7nDTYRNFWoSguLexjlwisYd4BapON
- NDUSue6A3fdJiaHJBnB+trGvaYZEFRzgGqEnN9/qdGZjebnyPnwebYbBwg3gyBdBJCKE
- AkXApj5SrF5qDw3qyEJBUg1YJJIPhHkfPJs8+Gg956dovEtehmujkIkteRCPDq6yOgi7
- eVY/sjBeDAiTKZhhRVoGgL0r//AJjercLyIHNUd8jkdZNmPUJPKTLI3DtpiZHEUiyzoK
- Sd8Kc7qHjSdqW8lgillUgc06NImzdM1f3mbPa/vQLu/pnxrs1pwfMZJlggktl8jB4ouB
- 8/wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rI19fQfi1soXk94bvmbxspVOx+LD4mjimJcvoV3KteI=;
- b=gJpOoX/uJ9KxMpmI5bo8Gx9xk6B+gogY//ssierKu93sXUdYqBl/xIBsfPdfSUy2a4
- gXJeFEiksm0TXlBbAx5YA2tjnHE2O0lZHn9xjC7zkRekJMYe6Z9ZEN4H4/YcB8Z74jfx
- cDCfKfZdY2GRKMwumfbb0mWnYVPWfL+suNOY0TMLAz/mVm5C363+9Xq0hy9LJ60YcJAe
- OUUqzQMbUfgZLNu9vxiAmXfb2Y14sYqBplkNW/beoM6gno9Nr7h9KZplI6baQGhBTdru
- dCyfXx0k7QV8XUJyDOaM8M4K/B3KG2KFxoMhSWHG6cZBEGsXCWgZBtWFThFimYvrlc+X
- IZvg==
-X-Gm-Message-State: APjAAAXzzKm6TUpQjfs7w3Fjd1eOCBjaKGGGpLWFSoFsaeOQnLm3GJv8
- BAizNCyRxsxGWKtqHHy4r2KNaraKfLy2IRFT/mKYBA==
-X-Google-Smtp-Source: APXvYqz7lYNiF5Z1+BLE5ifZujMcnlC275r3asx/YuR8ZBN3JZ2c03oYDz+0uyUPu7/Q/+e6OJapvUI+Uv26ucQpMcg=
-X-Received: by 2002:aca:3b41:: with SMTP id i62mr8278208oia.48.1571414368065; 
- Fri, 18 Oct 2019 08:59:28 -0700 (PDT)
+ (envelope-from <samuel.thibault@gnu.org>) id 1iLUfv-00032X-NL
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:00:25 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:13604)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <samuel.thibault@gnu.org>)
+ id 1iLUfu-00031p-So
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 12:00:23 -0400
+X-IronPort-AV: E=Sophos;i="5.67,312,1566856800"; d="scan'208";a="323214373"
+Received: from unknown (HELO function) ([193.50.111.121])
+ by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Oct 2019 18:00:20 +0200
+Received: from samy by function with local (Exim 4.92.2)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1iLUfr-0006xf-Sk; Fri, 18 Oct 2019 18:00:19 +0200
+Date: Fri, 18 Oct 2019 18:00:19 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: Python 2 and test/vm/netbsd
+Message-ID: <20191018160019.he52tpvjqolzgswg@function>
+References: <20191016030021.GD4084@habkost.net>
+ <a83d518a-6e39-0017-203d-2ee3d61935ca@redhat.com>
+ <20191016224124.GF4084@habkost.net>
+ <20191017220541.GJ4084@habkost.net>
+ <20191017225548.GL4084@habkost.net>
+ <20191018104439.c2tojlvi2c5zzesi@sirius.home.kraxel.org>
+ <20191018142940.GN4084@habkost.net>
+ <a0c2df74-360b-79de-132e-f4d5be5bfc12@redhat.com>
 MIME-Version: 1.0
-References: <20191018154212.13458-1-marcandre.lureau@redhat.com>
- <20191018154212.13458-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20191018154212.13458-5-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 18 Oct 2019 16:59:16 +0100
-Message-ID: <CAFEAcA-Qaq0W-4kpRGSQTxzH1LZ3znoxZo6Fnd4NmnnE4O_G9w@mail.gmail.com>
-Subject: Re: [PATCH 04/14] etraxfs: remove PROP_PTR usage
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a0c2df74-360b-79de-132e-f4d5be5bfc12@redhat.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 192.134.164.104
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,104 +62,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 16:42, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> etraxfs_dma_client are not Object, so can't be exposed to user with
-> QOM path. Let's remove property usage and move the constructor to the
-> .c unit, simplifying some code on the way.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Philippe Mathieu-Daudé, le ven. 18 oct. 2019 16:58:00 +0200, a ecrit:
+> On 10/18/19 4:29 PM, Eduardo Habkost wrote:
+> > On Fri, Oct 18, 2019 at 12:44:39PM +0200, Gerd Hoffmann wrote:
+> > >    Hi,
+> > > 
+> > > > > Running with V=1, I see packages being downloaded at reasonable speeds, but
+> > > > > there's a huge interval (of various minutes) between each package download.
+> > > > 
+> > > > I've found the cause for the slowness I'm seeing: for each file
+> > > > being downloaded, the guest spents at least 75 seconds trying to
+> > > > connect to the IPv6 address of ftp.NetBSD.org, before trying
+> > > > IPv4.
+> > > 
+> > > Ah, that nicely explains why it worked just fine for me.  First, I have
+> > > a local proxy configured so the installer isn't going to connect to
+> > > ftp.NetBSD.org directly.  Second I have IPv6 connectivity.
+> > > 
+> > > > I don't know if this is a NetBSD bug, or a slirp bug.
+> > > 
+> > > Both I'd say ...
+> > > 
+> > > First, by default slirp should not send IPv6 router announcements
+> > > to the user network if the host has no IPv6 connectivity.
+> > > 
+> > > Second, the recommended way to connect is to try ipv4 and ipv6 in
+> > > parallel, then use whatever connects first.  Web browsers typically
+> > > do it that way.  wget and curl don't do that though, they try one
+> > > address after the other, and I guess this is where the delay comes
+> > > from ...
+> > 
+> > In addition to that, the connect() error should be generating a
+> > ICMP6_UNREACH message, and I'd expect the NetBSD guest to notice
+> > it instead of waiting for timeout.
+> 
+> Is this missing in SLiRP?
 
-> +
-> +/* Instantiate an ETRAXFS Ethernet MAC.  */
-> +DeviceState *
-> +etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-> +                 struct etraxfs_dma_client *dma_out,
-> +                 struct etraxfs_dma_client *dma_in)
-> +{
-> +    DeviceState *dev;
-> +    qemu_check_nic_model(nd, "fseth");
-> +
-> +    dev =3D qdev_create(NULL, "etraxfs-eth");
-> +    qdev_set_nic_properties(dev, nd);
-> +    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
-> +    ETRAX_FS_ETH(dev)->dma_out =3D dma_out;
-> +    ETRAX_FS_ETH(dev)->dma_in =3D dma_in;
-> +    qdev_init_nofail(dev);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-> +
-> +    return dev;
-> +}
-> +
->  static const TypeInfo etraxfs_eth_info =3D {
->      .name          =3D TYPE_ETRAX_FS_ETH,
->      .parent        =3D TYPE_SYS_BUS_DEVICE,
-> diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
-> index aa146a2cd8..403e7f95e6 100644
-> --- a/include/hw/cris/etraxfs.h
-> +++ b/include/hw/cris/etraxfs.h
-> @@ -30,23 +30,9 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/sysbus.h"
->
-> -/* Instantiate an ETRAXFS Ethernet MAC.  */
-> -static inline DeviceState *
-> -etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-> -                 void *dma_out, void *dma_in)
-> -{
-> -    DeviceState *dev;
-> -    qemu_check_nic_model(nd, "fseth");
-> -
-> -    dev =3D qdev_create(NULL, "etraxfs-eth");
-> -    qdev_set_nic_properties(dev, nd);
-> -    qdev_prop_set_uint32(dev, "phyaddr", phyaddr);
-> -    qdev_prop_set_ptr(dev, "dma_out", dma_out);
-> -    qdev_prop_set_ptr(dev, "dma_in", dma_in);
-> -    qdev_init_nofail(dev);
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-> -    return dev;
-> -}
-> +DeviceState *etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-> +                              struct etraxfs_dma_client *dma_out,
-> +                              struct etraxfs_dma_client *dma_in);
+It was implemented at the time of introduction of IPv6 in SLIRP. Perhaps
+NetBSD has a slightly different behavior which makes the implementation
+fail to notice the error.
 
-
-I don't think this is an improvement -- it's taking a step
-back in the direction of "you need to call a funny _init
-function to initialize a device". You should be able to
-create devices using generic qdev functions.
-
-What we're actually connecting here is 'etraxfs_dma_client'
-struct pointers between the devices like this ethernet
-device and the DMA controller. The connection is currently
-done via a pointer property because we don't have a more
-QOM-like way to do it, but if we want to get rid of the
-pointer property we need to actually implement the more
-QOM-like mechanism, not go backwards from having devices
-connected via properties.
-
-(Similar comments apply for the omap clock connections.
-In that case the answer might be Damien's clock framework
-API, eventually.)
-
-thanks
--- PMM
+Samuel
 
