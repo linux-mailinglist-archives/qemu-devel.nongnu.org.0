@@ -2,46 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94262DBB1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 02:54:13 +0200 (CEST)
-Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9B7DBB2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 03:02:09 +0200 (CEST)
+Received: from localhost ([::1]:34470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLGWy-0001RF-Kw
-	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 20:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49303)
+	id 1iLGed-0003gq-VG
+	for lists+qemu-devel@lfdr.de; Thu, 17 Oct 2019 21:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iLGSN-0004TW-5v
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 20:49:28 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1iLGdg-0003Fi-AU
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 21:01:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1iLGSL-0001C4-RF
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 20:49:27 -0400
-Received: from mga06.intel.com ([134.134.136.31]:15620)
+ (envelope-from <tao3.xu@intel.com>) id 1iLGde-0007h7-Cy
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 21:01:07 -0400
+Received: from mga04.intel.com ([192.55.52.120]:34671)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1iLGSL-00010g-Jt
- for qemu-devel@nongnu.org; Thu, 17 Oct 2019 20:49:25 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iLGde-0007dr-5c
+ for qemu-devel@nongnu.org; Thu, 17 Oct 2019 21:01:06 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2019 17:49:25 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2019 18:00:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,309,1566889200"; d="scan'208";a="199552647"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga003.jf.intel.com with ESMTP; 17 Oct 2019 17:49:24 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: quintela@redhat.com,
-	dgilbert@redhat.com
-Subject: [PATCH 6/6] migration/postcopy: enable compress during postcopy
-Date: Fri, 18 Oct 2019 08:48:50 +0800
-Message-Id: <20191018004850.9888-7-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191018004850.9888-1-richardw.yang@linux.intel.com>
-References: <20191018004850.9888-1-richardw.yang@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.67,309,1566889200"; d="scan'208";a="347933114"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.130])
+ ([10.239.196.130])
+ by orsmga004.jf.intel.com with ESMTP; 17 Oct 2019 18:00:09 -0700
+Subject: Re: [PATCH RESEND v6 1/2] x86/cpu: Add support for
+ UMONITOR/UMWAIT/TPAUSE
+From: Tao Xu <tao3.xu@intel.com>
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>
+References: <20191011074103.30393-1-tao3.xu@intel.com>
+ <20191011074103.30393-2-tao3.xu@intel.com>
+ <1731d87f-f07a-916f-90a7-346b593d821e@intel.com>
+Message-ID: <60857ac6-ec04-2197-235c-d20600001a02@intel.com>
+Date: Fri, 18 Oct 2019 09:00:08 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <1731d87f-f07a-916f-90a7-346b593d821e@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.31
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,123 +60,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Liu,
+ Jingqi" <jingqi.liu@intel.com>, "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-postcopy requires to place a whole host page, while migration thread
-migrate memory in target page size. This makes postcopy need to collect
-all target pages in one host page before placing via userfaultfd.
-
-To enable compress during postcopy, there are two problems to solve:
-
-    1. Random order for target page arrival
-    2. Target pages in one host page arrives without interrupt by target
-       page from other host page
-
-The first one is handled by previous cleanup patch.
-
-This patch handles the second one by:
-
-    1. Flush compress thread for each host page
-    2. Wait for decompress thread for before placing host page
-
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
----
- migration/migration.c | 11 -----------
- migration/ram.c       | 28 +++++++++++++++++++++++++++-
- 2 files changed, 27 insertions(+), 12 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index 3febd0f8f3..72e53e2249 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1000,17 +1000,6 @@ static bool migrate_caps_check(bool *cap_list,
- #endif
- 
-     if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
--        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
--            /* The decompression threads asynchronously write into RAM
--             * rather than use the atomic copies needed to avoid
--             * userfaulting.  It should be possible to fix the decompression
--             * threads for compatibility in future.
--             */
--            error_setg(errp, "Postcopy is not currently compatible "
--                       "with compression");
--            return false;
--        }
--
-         /* This check is reasonably expensive, so only when it's being
-          * set the first time, also it's only the destination that needs
-          * special support.
-diff --git a/migration/ram.c b/migration/ram.c
-index da0596411c..1403978d75 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3449,6 +3449,14 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- 
-             rs->target_page_count += pages;
- 
-+            /*
-+             * During postcopy, it is necessary to make sure one whole host
-+             * page is sent in one chunk.
-+             */
-+            if (migrate_postcopy_ram()) {
-+                flush_compressed_data(rs);
-+            }
-+
-             /*
-              * we want to check in the 1st loop, just in case it was the 1st
-              * time and we had to sync the dirty bitmap.
-@@ -4025,6 +4033,7 @@ static int ram_load_postcopy(QEMUFile *f)
-         void *place_source = NULL;
-         RAMBlock *block = NULL;
-         uint8_t ch;
-+        int len;
- 
-         addr = qemu_get_be64(f);
- 
-@@ -4042,7 +4051,8 @@ static int ram_load_postcopy(QEMUFile *f)
- 
-         trace_ram_load_postcopy_loop((uint64_t)addr, flags);
-         place_needed = false;
--        if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE)) {
-+        if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-+                     RAM_SAVE_FLAG_COMPRESS_PAGE)) {
-             block = ram_block_from_stream(f, flags);
- 
-             host = host_from_ram_block_offset(block, addr);
-@@ -4114,6 +4124,17 @@ static int ram_load_postcopy(QEMUFile *f)
-                                          TARGET_PAGE_SIZE);
-             }
-             break;
-+        case RAM_SAVE_FLAG_COMPRESS_PAGE:
-+            all_zero = false;
-+            len = qemu_get_be32(f);
-+            if (len < 0 || len > compressBound(TARGET_PAGE_SIZE)) {
-+                error_report("Invalid compressed data length: %d", len);
-+                ret = -EINVAL;
-+                break;
-+            }
-+            decompress_data_with_multi_threads(f, page_buffer, len);
-+            break;
-+
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
-             multifd_recv_sync_main();
-@@ -4125,6 +4146,11 @@ static int ram_load_postcopy(QEMUFile *f)
-             break;
-         }
- 
-+        /* Got the whole host page, wait for decompress before placing. */
-+        if (place_needed) {
-+            ret |= wait_for_decompress_done();
-+        }
-+
-         /* Detect for any possible file errors */
-         if (!ret && qemu_file_get_error(f)) {
-             ret = qemu_file_get_error(f);
--- 
-2.17.1
+Hi Paolo,
+Ping :)
+On 10/11/2019 3:49 PM, Tao Xu wrote:
+> On 10/11/2019 3:41 PM, Xu, Tao3 wrote:
+> [...]
+>> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+>> index 11b9c854b5..a465c893b5 100644
+>> --- a/target/i386/kvm.c
+>> +++ b/target/i386/kvm.c
+>> @@ -401,6 +401,12 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState 
+>> *s, uint32_t function,
+>>           if (host_tsx_blacklisted()) {
+>>               ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+>>           }
+>> +    } else if (function == 7 && index == 0 && reg == R_ECX) {
+>> +        if (enable_cpu_pm) {
+>> +            ret |= CPUID_7_0_ECX_WAITPKG;
+>> +        } else {
+>> +            ret &= ~CPUID_7_0_ECX_WAITPKG;
+>> +        }
+> 
+> Hi Paolo,
+> 
+> I am sorry because I realize in KVM side, I keep cpuid mask WAITPKG as 0:
+> 
+> F(CLDEMOTE) | F(MOVDIRI) | F(MOVDIR64B) | 0 /*WAITPKG*/;
+> 
+> Therefore in QEMU side, we need to add CPUID_7_0_ECX_WAITPKG when 
+> enable_cpu_pm is on. Otherwise, QEMU can't get this CPUID.
+> 
+> Could you review this part again? Thank you very much!
+> 
+> Tao
 
 
