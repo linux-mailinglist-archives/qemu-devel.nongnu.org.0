@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597DEDCD42
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:04:02 +0200 (CEST)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E3EDCD5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:07:29 +0200 (CEST)
+Received: from localhost ([::1]:44622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWbX-0000Ds-8J
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
+	id 1iLWet-0004UH-Rk
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59547)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWJ9-0006rE-3c
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWJC-0006wS-6Z
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iLWJ7-0005dw-Vz
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:58 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40071)
+ (envelope-from <richard.henderson@linaro.org>) id 1iLWJA-0005gO-QP
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:01 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33304)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iLWJ7-0005dQ-Qz
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:44:57 -0400
-Received: by mail-pg1-x543.google.com with SMTP id e13so3750371pga.7
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:44:57 -0700 (PDT)
+ id 1iLWJA-0005fm-Kt
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:45:00 -0400
+Received: by mail-pf1-x441.google.com with SMTP id q10so4340457pfl.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 10:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4z2zPWedOviyKqg3qmIWn8g3R8jv2yS1u67ka41eHWc=;
- b=nI0rWgGQzrA9U6zEdQj3b1jl+SAttb9L65Ev0KMFewggAH/JgNkTbBgKH5FUFPaVUk
- yT77aBDq1capTDD5XBJ0kHvzCdLzW6UtviyBLhNXknkCHDTIdwRE8n4wPP/ipPvq42lN
- huTPPuL9IbYNLT2RuvJF2FZm+rZf1BQUIvcsqi+l1ne7UiawUsAaimf2vg27SEVhGf2Y
- +wu4VSTc9ZZovdt++QjjrMcI3FwGjhB9l1KOmwFPGGedB55xqNd0bG3gyY2o/8br/beF
- RsaaHHn7Symv/XgyQANNCF1A4200J3lPZGuMZYYgVaGIvAb3DJl4GBKNwIs0/ZH65EE3
- JFWg==
+ bh=X22okviioTNDt7zI04Hhn7/Ba9cdRHpUwnG0LrTV7qc=;
+ b=Uvo+O8B5nhB1hCuO8tXl8IgS+fjESYIng+bYLuPYt0ykIXNCI9m9GMcqDYYKDAKUKA
+ B7NgaY+lnBS5CbCpqcZccKMYBn9koqvBa6866Y8ApTyAAH+4mUVRGAKNhEwRrnUmE5Sg
+ GcoVkm338NIhcWuUElXc2hMzpc0a73HGAdUeC55c7a0KTnUWQFFeoVD2Z6z/U8mq70Q8
+ meuefAnx0EK/BAeNBVRQDbWW2m0g+J3ZMpQZ59xkw+IcR66NyyykpZoM+gXWKxIjbUa7
+ YZSxTyooCpviez/XFSKbT+Gej1f2p8N6ODFg1jmHiLx5sJGGGWtn4zz81uP1FoLWuh7D
+ cMZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=4z2zPWedOviyKqg3qmIWn8g3R8jv2yS1u67ka41eHWc=;
- b=isAgvnkhVpwRsNGRp77zdYWxQG5oaGtr0p0zrWzJ+9jOLtF9EwXC6Xo56SFZFZxUKj
- 53Q31mTPcqkxA8zkYNDcBhtomBDUiWJs2nggl1zMy977UYKB+KPfIAncrLjZ60kXePbt
- h9e4WHoubPL/rf3N6xN2RpZYB8tJZovuedxngDUlv6mVUjo8phX8oItCWQtJ/ay25FfM
- /ozWc7tys9L7FTQ/MYWHFHTm07E43UffD8ztZdnrMycdql56zgT6I5kq3XB0ustK2jCi
- N77HJ2JrU3aHxaxbLiUqJ0R+qUtn1SnWvqSjVKOVXfujMTB2cFZbgoEqWF34gW7Aq3Ag
- lydQ==
-X-Gm-Message-State: APjAAAUq+iqxGajxnijP54MR83oYzIi2uIxxNtR91MAgswy6RiCf/7dw
- Dsuxrg98gUM0WNyjLGZmhsM8FUYMch4=
-X-Google-Smtp-Source: APXvYqwxy1zRvO52BhYb3sT+8Kuovf6j5LDyQQBtrjSUB7osj1rB9wryaNlqvorPcNxjV43eQGd0HQ==
-X-Received: by 2002:a63:ff54:: with SMTP id s20mr9314597pgk.398.1571420696525; 
- Fri, 18 Oct 2019 10:44:56 -0700 (PDT)
+ bh=X22okviioTNDt7zI04Hhn7/Ba9cdRHpUwnG0LrTV7qc=;
+ b=BirXQzCuSv3Z3FW+HAEU/fk944JJvFkip6fqjJ8fyxfUo4aDKSaB4CNYazlwdiVs9i
+ lKlPMD6R2QBPen+qaPyzWAPJSJ6ykkEbIc0zfdZwbk3f6C1xc8Ckk//3oDEdyHld29v2
+ U2k0bWfgRpd3ZQM7kroROjvm8Gr/Xauey4qrSdhMTLtXPDtWXKM0RaoqJfeQyLUreQKW
+ rhAPe3ekY3PsLPiHqGUhnG32o92NsEaH8xv/K6mFlip6wrvnXGwpn+DFTwsu/Rc1pD5p
+ q1tP/LHC4xKv550+4+88D6n06xVrH+gCR0/K+6S2/q/RiZ/LKN6NhPT9diP4H4zcjThR
+ IcDg==
+X-Gm-Message-State: APjAAAWnGVJ7xPu/ACOwVaM5MaRffX01o2WymN61BqTZjlqrzdQ4Lm/x
+ e1/PuKYt2RdPFBQh12tMrJBCivBVS9U=
+X-Google-Smtp-Source: APXvYqxEiMHTFWd0+8+Jjwot2B4GNA7AKnYndljV5p2qZvznW7FluKoKIk5gs03JrCesOj8KQEDmxA==
+X-Received: by 2002:a17:90a:f311:: with SMTP id
+ ca17mr12070981pjb.112.1571420699116; 
+ Fri, 18 Oct 2019 10:44:59 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.55
+ by smtp.gmail.com with ESMTPSA id d20sm7857534pfq.88.2019.10.18.10.44.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 10:44:55 -0700 (PDT)
+ Fri, 18 Oct 2019 10:44:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 19/22] target/arm: Rebuild hflags at Xscale SCTLR writes
-Date: Fri, 18 Oct 2019 10:44:28 -0700
-Message-Id: <20191018174431.1784-20-richard.henderson@linaro.org>
+Subject: [PATCH v8 21/22] target/arm: Rebuild hflags for M-profile NVIC
+Date: Fri, 18 Oct 2019 10:44:30 -0700
+Message-Id: <20191018174431.1784-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191018174431.1784-1-richard.henderson@linaro.org>
 References: <20191018174431.1784-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,32 +82,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Continue setting, but not relying upon, env->hflags.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/intc/armv7m_nvic.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index aae7b62458..c55783e540 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4174,6 +4174,16 @@ static void sctlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     /* ??? Lots of these bits are not implemented.  */
-     /* This may enable/disable the MMU, so do a TLB flush.  */
-     tlb_flush(CPU(cpu));
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 8e93e51e81..e8c74f9eba 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -2251,7 +2251,7 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+             }
+         }
+         nvic_irq_update(s);
+-        return MEMTX_OK;
++        goto exit_ok;
+     case 0x200 ... 0x23f: /* NVIC Set pend */
+         /* the special logic in armv7m_nvic_set_pending()
+          * is not needed since IRQs are never escalated
+@@ -2269,9 +2269,9 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+             }
+         }
+         nvic_irq_update(s);
+-        return MEMTX_OK;
++        goto exit_ok;
+     case 0x300 ... 0x33f: /* NVIC Active */
+-        return MEMTX_OK; /* R/O */
++        goto exit_ok; /* R/O */
+     case 0x400 ... 0x5ef: /* NVIC Priority */
+         startvec = (offset - 0x400) + NVIC_FIRST_IRQ; /* vector # */
+ 
+@@ -2281,10 +2281,10 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+             }
+         }
+         nvic_irq_update(s);
+-        return MEMTX_OK;
++        goto exit_ok;
+     case 0xd18 ... 0xd1b: /* System Handler Priority (SHPR1) */
+         if (!arm_feature(&s->cpu->env, ARM_FEATURE_M_MAIN)) {
+-            return MEMTX_OK;
++            goto exit_ok;
+         }
+         /* fall through */
+     case 0xd1c ... 0xd23: /* System Handler Priority (SHPR2, SHPR3) */
+@@ -2299,10 +2299,10 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+             set_prio(s, hdlidx, sbank, newprio);
+         }
+         nvic_irq_update(s);
+-        return MEMTX_OK;
++        goto exit_ok;
+     case 0xd28 ... 0xd2b: /* Configurable Fault Status (CFSR) */
+         if (!arm_feature(&s->cpu->env, ARM_FEATURE_M_MAIN)) {
+-            return MEMTX_OK;
++            goto exit_ok;
+         }
+         /* All bits are W1C, so construct 32 bit value with 0s in
+          * the parts not written by the access size
+@@ -2322,15 +2322,19 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+              */
+             s->cpu->env.v7m.cfsr[M_REG_NS] &= ~(value & R_V7M_CFSR_BFSR_MASK);
+         }
+-        return MEMTX_OK;
++        goto exit_ok;
+     }
+     if (size == 4) {
+         nvic_writel(s, offset, value, attrs);
+-        return MEMTX_OK;
++        goto exit_ok;
+     }
+     qemu_log_mask(LOG_GUEST_ERROR,
+                   "NVIC: Bad write of size %d at offset 0x%x\n", size, offset);
+     /* This is UNPREDICTABLE; treat as RAZ/WI */
 +
-+    if (ri->type & ARM_CP_SUPPRESS_TB_END) {
-+        /*
-+         * Normally we would always end the TB on an SCTLR write; see the
-+         * comment in ARMCPRegInfo sctlr initialization below for why Xscale
-+         * is special.  Setting ARM_CP_SUPPRESS_TB_END also stops the rebuild
-+         * of hflags from the translator, so do it here.
-+         */
-+        arm_rebuild_hflags(env);
-+    }
++ exit_ok:
++    /* Ensure any changes made are reflected in the cached hflags.  */
++    arm_rebuild_hflags(&s->cpu->env);
+     return MEMTX_OK;
  }
  
- static CPAccessResult fpexc32_access(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.17.1
 
