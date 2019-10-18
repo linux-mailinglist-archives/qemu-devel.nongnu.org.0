@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8904BDCA15
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:59:42 +0200 (CEST)
-Received: from localhost ([::1]:42338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA8EDCA39
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 18:03:52 +0200 (CEST)
+Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLUfF-0002Py-3V
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46886)
+	id 1iLUjH-0005um-QX
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 12:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46399)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iLUcN-0000Yd-45
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:56:44 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iLUXd-0001XE-Cu
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:51:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iLUcL-0000ya-PW
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:56:42 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34614)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iLUcL-0000xh-IC
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:56:41 -0400
-Received: by mail-wr1-x441.google.com with SMTP id t16so1686187wrr.1
- for <qemu-devel@nongnu.org>; Fri, 18 Oct 2019 08:56:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Y+Myqfhf2aMdRcDvSgdf44eOFjdUDOf+Xb6lNHTRiDI=;
- b=TBXaLDiFRA2P6IzaVHca6I3Fep70DX7ttPr3+46Mg3N6jFbygLo/S4omf2m2LL1iS6
- WjieD2oA6Xr/3yKRAtuteuuEdugu9WkYMNQL0xvT6qI5ZRsEZuc9RIYyv7xkb8C/BE4A
- YMzbYMypIZjvEJV6Up8WB6TFXNwAKk0ZI2rc2vVQd9SbbVA+9U7tIm3WSWikk+YiRImL
- C0P9efpIltsQF8ig8iYaj/io3kXyENEXETw7zF+4VAMQ33tGhLYs7LTPVhryJzfWpp7v
- hriJRhJbOaIuYmxDCYiIAWc/b6NhSp388BDKbovftbluxHpqSNtHU+dL7bt7NPwzIqPN
- UDaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Y+Myqfhf2aMdRcDvSgdf44eOFjdUDOf+Xb6lNHTRiDI=;
- b=qB2iFdg12JAF0ezYEj+ll9QxSL5Z6U50RBf74lOmmYgRTlZ7WwIKMVJEaaRCiAQipO
- 3/LT3f5qMe0axTTKGDmUsPSi6l5vfrh8i4RXtEgLAwPbd4oECwvCG1pGNT7RwRAzMoWI
- Ae8AXM0yp8wPsARuA5NImim+6ULgcN9QilDkNrf7xyUt1IkTz6K92in9tkMNjSaCUVVp
- EoeDN2r6r4oZUIDiwaZ7YKlcq6w5lZ4NpwSLheM7FPhi99/otfBceWEyPtuUvtSAPoKN
- vq2N1l/FqrUnXuwhN/z12oj33EnIp5vKB497crz3Wdh2nURKwTdtklzmau8oeSqRMjWk
- FUsQ==
-X-Gm-Message-State: APjAAAVF5ZwyOuZWHJdLhaWyViM0GK5GFYlmQl4TohECs5fVHmcHxAEZ
- 8twNJc96n60pzlcrFGBT0wBiwg==
-X-Google-Smtp-Source: APXvYqzpP2KkPZ1TBLAlRxJPIDwBWZ8er2a6XreyLRtvmHEjTNEgTvEJs6E/RyhBhAH5dT39Ezq5uw==
-X-Received: by 2002:adf:94e2:: with SMTP id 89mr7597687wrr.259.1571414200184; 
- Fri, 18 Oct 2019 08:56:40 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u11sm5612208wmd.32.2019.10.18.08.56.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Oct 2019 08:56:39 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D22551FF87;
- Fri, 18 Oct 2019 16:56:38 +0100 (BST)
-References: <20191007160450.3619-1-philmd@redhat.com>
- <4fbafa72-321c-2062-f97e-502616ec6c32@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] .travis.yml: Test the release tarball
-In-reply-to: <4fbafa72-321c-2062-f97e-502616ec6c32@redhat.com>
-Date: Fri, 18 Oct 2019 16:56:38 +0100
-Message-ID: <87v9smnj2h.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iLUXb-0005XI-Qq
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:51:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35040)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1iLUXY-0005UY-VF; Fri, 18 Oct 2019 11:51:45 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 337A7862E;
+ Fri, 18 Oct 2019 15:51:44 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A8C75D9CA;
+ Fri, 18 Oct 2019 15:51:38 +0000 (UTC)
+Subject: Re: [PATCH v2 4/5] block/mirror: support unaligned write in active
+ mirror
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191011090711.19940-1-vsementsov@virtuozzo.com>
+ <20191011090711.19940-5-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <676ed62d-6aba-f655-2a56-13b0652e7229@redhat.com>
+Date: Fri, 18 Oct 2019 17:51:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+In-Reply-To: <20191011090711.19940-5-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Fri, 18 Oct 2019 15:51:44 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,79 +86,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>
+Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY
+Content-Type: multipart/mixed; boundary="xBoHyglF77WJl69U2lJrKl6jkfNidJifP"
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+--xBoHyglF77WJl69U2lJrKl6jkfNidJifP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> ping?
+On 11.10.19 11:07, Vladimir Sementsov-Ogievskiy wrote:
+> Prior 9adc1cb49af8d do_sync_target_write had a bug: it reset aligned-up=
 
-I've pulled it into testing/next to play but I was wondering if it was
-worth it given how infrequently it would run...
+> region in the dirty bitmap, which means that we may not copy some bytes=
 
+> and assume them copied, which actually leads to producing corrupted
+> target.
+>=20
+> So 9adc1cb49af8d forced dirty bitmap granularity to be
+> request_alignment for mirror-top filter, so we are not working with
+> unaligned requests. However forcing large alignment obviously decreases=
 
->
-> On 10/7/19 6:04 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> Add a job to generate the release tarball and build/install few
->> QEMU targets from it.
->> Ideally we should build the 'efi' target from the 'roms' directory,
->> but it is too time consuming.
->> This job is only triggered when a tag starting with 'v' is pushed,
->> which is the case with release candidate tags.
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> v2: addressed mdroth comments
->> This job is quick enough: Ran for 16 min 33 sec
->> https://travis-ci.org/philmd/qemu/jobs/594565293
->> Based-on: <20191007133540.30623-1-philmd@redhat.com>
->> pull request including "Fix tarball builds of UEFI/EDK2 firmware"
->> https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg02734.html
->> ---
->>   .travis.yml | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->> diff --git a/.travis.yml b/.travis.yml
->> index d0b9e099b9..d881ea0849 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -339,3 +339,26 @@ matrix:
->>           - CONFIG=3D"--target-list=3Dxtensa-softmmu,arm-softmmu,aarch64=
--softmmu,alpha-softmmu"
->>           - TEST_CMD=3D"make -j3 check-tcg V=3D1"
->>           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
->> +
->> +
->> +    # Release builds
->> +    # The make-release script expect a QEMU version, so our tag must st=
-art with a 'v'.
->> +    # This is the case when release candidate tags are created.
->> +    - if: tag IS present AND tag =3D~ /^v\d+\.\d+(\.\d+)?(-\S*)?$/
->> +      env:
->> +        # We want to build from the release tarball
->> +        - BUILD_DIR=3D"release/build/dir" SRC_DIR=3D"../../.."
->> +        - BASE_CONFIG=3D"--prefix=3D$PWD/dist"
->> +        - CONFIG=3D"--target-list=3Dx86_64-softmmu,aarch64-softmmu,arme=
-b-linux-user,ppc-linux-user"
->> +        - TEST_CMD=3D"make install -j3"
->> +        - QEMU_VERSION=3D"${TRAVIS_TAG:1}"
->> +        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-default"
->> +      before_script:
->> +        - command -v ccache && ccache --zero-stats
->> +        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
->> +      script:
->> +        - make -C ${SRC_DIR} qemu-${QEMU_VERSION}.tar.bz2
->> +        - ls -l ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2
->> +        - tar -xf ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2 && cd qemu-${=
-QEMU_VERSION}
->> +        - ./configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && e=
-xit 1; }
->> +        - make install
->>
+> performance of unaligned requests.
+>=20
+> This commit provides another solution for the problem: if unaligned
+> padding is already dirty, we can safely ignore it, as
+> 1. It's dirty, it will be copied by mirror_iteration anyway
+> 2. It's dirty, so skipping it now we don't increase dirtiness of the
+>    bitmap and therefore don't damage "synchronicity" of the
+>    write-blocking mirror.
+>=20
+> If unaligned padding is not dirty, we just write it, no reason to touch=
+
+> dirty bitmap if we succeed (on failure we'll set the whole region
+> ofcourse, but we loss "synchronicity" on failure anyway).
+>=20
+> Note: we need to disable dirty_bitmap, otherwise we will not be able to=
+
+> see in do_sync_target_write bitmap state before current operation. We
+> may of course check dirty bitmap before the operation in
+> bdrv_mirror_top_do_write and remember it, but we don't need active
+> dirty bitmap for write-blocking mirror anyway.
+>=20
+> New code-path is unused until the following commit reverts
+> 9adc1cb49af8d.
+>=20
+> Suggested-by: Denis V. Lunev <den@openvz.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/mirror.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++---=
+
+>  1 file changed, 68 insertions(+), 3 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---
-Alex Benn=C3=A9e
+--xBoHyglF77WJl69U2lJrKl6jkfNidJifP--
+
+--87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2p34kACgkQ9AfbAGHV
+z0BZIAgAhjs/2R7lRvicJGfg/2SJcncQGljfDhfBiRsu+MZXW1fnmQNKsYpeb8fZ
+gb+LTiv5HzvOBVBqca138qd3k28VcU8/lz0rNrKQD4AEYHEq2RcnoJLf3GOAqfa8
+ATMaI2AUMkZh/zPl8iV8Zd4oIlSbn/3LEsfho5sptL8nKqnBeBgHVqY5cAKV9O3d
+5SLjaKIO6O1/Z6+qV0hlodc2xjPrYgbwdCUku4jutexP7W3yfVujU8eUg8G+cC9H
+3nf0RA4Pj3TcJJKPPx4HKp0RV7RlAC8QMx5Ru7sjk+DHPp41x4ScxOi1wsj/cMPI
+qN6RKgyx1J9jkuh9+A1Ueh9Ov4SGvQ==
+=K4nr
+-----END PGP SIGNATURE-----
+
+--87o18NaFVW7pwLHFDd6TdY7dMnnP8wKMY--
 
