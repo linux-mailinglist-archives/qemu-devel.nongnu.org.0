@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DDCDC831
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:13:33 +0200 (CEST)
-Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04D1DC82D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 17:13:04 +0200 (CEST)
+Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLTwa-0001Vo-34
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39049)
+	id 1iLTw7-000122-95
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 11:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iLTrA-0006iM-LA
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:58 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1iLTrA-0006i2-2X
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iLTr8-0000GQ-PT
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:56 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:38582)
+ (envelope-from <damien.hedde@greensocs.com>) id 1iLTr8-0000GG-OU
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 11:07:55 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38632)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iLTr4-0000B3-HI; Fri, 18 Oct 2019 11:07:51 -0400
+ id 1iLTr5-0000Bb-3T; Fri, 18 Oct 2019 11:07:51 -0400
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 704BE96EF0;
- Fri, 18 Oct 2019 15:07:46 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 8F51196F50;
+ Fri, 18 Oct 2019 15:07:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1571411267;
+ s=mail; t=1571411270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uVZEjVjf5RkbOzKuBwII7TJZpvbTBPo7Ayc+WX9Uv0Q=;
- b=eUopk+ASRZQmQL+cpP1uSfZChRMXiUIxX8Qkm348DJGLe8K4raBgX9q/g7iM7ZqjTzPd4i
- JWMkrf/h96/cDLie0UUhzmKf4Os1IVr2ZF24VirTBVDvRtYTCP0Xysjb9+Do+D48hxEKQI
- /UM6YBeIZglNk59Rim7HYiT+hG4pDyw=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zfp9zlChmuFK1Pa2AVwC8e4Fq2eoeBhB8UD5of7fOMs=;
+ b=PBwy97xzkwO5a+WE8Uw44NrivQqmB6ffNzafEeuQfl8sehIeNzjrBr/GYcI+vFLhTATFFt
+ l2WdumD/scex6A/CLEelHaClHtbN5ZPYPvkb4uNtqHWdrsk62RhpZsO5f03l9Qy7E7IuLW
+ v1lDjra5z0hJWGKNRYlgJDxzKaMoZwU=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/13] Multi-phase reset mechanism
-Date: Fri, 18 Oct 2019 17:06:17 +0200
-Message-Id: <20191018150630.31099-1-damien.hedde@greensocs.com>
+Subject: [PATCH v5 02/13] hw/core/qdev: add trace events to help with
+ resettable transition
+Date: Fri, 18 Oct 2019 17:06:19 +0200
+Message-Id: <20191018150630.31099-3-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191018150630.31099-1-damien.hedde@greensocs.com>
+References: <20191018150630.31099-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1571411267;
+ s=mail; t=1571411270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uVZEjVjf5RkbOzKuBwII7TJZpvbTBPo7Ayc+WX9Uv0Q=;
- b=Mav+uUqQnveDlUlxVrQvCBj+Kw0Sk0VladuSyY/ifSVNjj4RWUThPSszOZJP9BWuNYpMp8
- aR43yXl19rnQX0jGdtwswFSNdvUY/t31ptjQunm/N1R1Z+cB4nonGX794UOwhZ4ecFozGk
- KJZkMY/PoYuDzPz4xmHDfUpoda9PkME=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1571411267; a=rsa-sha256; cv=none;
- b=EGYlgA1M/i+/169sG32BFdflGqKn0bvVxz70TyTjDjWc+X5Emelr7LlESlnWLkTpJSHPS1
- OvjbjXZtz3HcvNIcg0e2khBiKpR24tYxJloEt2yFHxmmvTsRwu6Y3LwxHfJ0AbxgjlTexb
- mUfaXnowI5y6DZeKoydtqb342Q8XkUU=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zfp9zlChmuFK1Pa2AVwC8e4Fq2eoeBhB8UD5of7fOMs=;
+ b=mESurmyKi15E7+sjU1odZZIJeXpGvKmr2vXUGCJNUOGVl63oaWILcJRkKOHwbl3AfFOe3/
+ 4y/+83014ICrz6f6uscPHY2T8Aa0DVd2AmURoe7EDugpBO8ueTnb2RXWkaE8O6SMjx8h95
+ Hz39UGcezTQnZ8+gJVAvzx1YQ6Lsc7g=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1571411270; a=rsa-sha256; cv=none;
+ b=ccxL60ncAMyHElXbkVU63rvERbdZAc1My1LAvQOJcMd77zQFJ78pI72WZk1B5AeEEMp1s9
+ nQqRU7YLAsn0Tq/TQEyYZm7jjaVzPcmwyPdHJgF3JZuMTTdy/8rGHd0uk6e2/9hmeRxbQJ
+ Xo42DMAB9xHNTmG4Md/u0J+jKt7MnHI=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -80,109 +84,119 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Adds trace events to reset procedure and when updating the parent
+bus of a device.
 
-The purpose of this series is to split the current reset procedure
-into multiple phases. This will help to solve some ordering
-difficulties we have during reset. Previous version can be found here:
-https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg04359.html
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ hw/core/qdev.c       | 27 ++++++++++++++++++++++++---
+ hw/core/trace-events |  9 +++++++++
+ 2 files changed, 33 insertions(+), 3 deletions(-)
 
-This series adds resettable interface and transitions base Device and
-Bus classes (sysbus subclasses are ok too). It provides new reset
-functions but does not switch anymore the old functions
-(device_reset() and qdev/qbus_reset_all()) to resettable interface.
-These functions keep the exact same behavior as before.
-
-The series also transition the main reset handlers registration which
-has no impact until devices and buses are transitioned.
-
-I think this version is way better regarding the transition from the
-legacy to the resettable interface than the previous one.
-After this series, the plan is then to transition devices, buses and
-legacy reset call sites. Devices and buses have to be transitioned
-from mother class to daughter classes order but until the final
-(daughter) class is transitioned, old monolitic reset behavior will
-be kept for this class.
-
-Changes v4 -> v5:
-  + various improvement in the resettable interface (regarding
-    transition, robustness and several reset types)
-  + better handling of transition from legacy reset to resettable
-  + device hotplug and parent bus 'hot' change support
-  + improved doc with examples and converted to rst format
-
-Regarding the Resettable interface changes and how to handle more
-reset types, please read patch 3 message.
-
-The series is organized as follows:
-Patch 1 is unmodified. Patch 2 adds some utility trace events.
-Patches 3 to 8 adds resettable api in devices and buses. Patch 9 adds
-some documentation. Patches 10 and 11 transition the call sites of
-qemu_register_reset(qdev/qbus_reset_all_fn, ...).
-
-Apart from patch 7 about hotplug which is really a rfc. I think other
-patches are in pretty good shape.
-Patch 3 and 4 are quite big but I don't think it make much sense to
-split them. I could give it a try if you think it will ease reviews.
-Note that depending on what name we choose for device/bus reset
-functions (see patch 8), we may finally don't need patch 1.
-
-I've also added patches 12 and 13 which handle the raspi sd card
-reparenting. I'm not sure they fit well in this series but at some
-point in this development I thought they had to be before patch 9
-(finally it is not the case). Since I had to develop some specific
-resettable support just for this case , I kept them as an example
-of what transition a device is. Note that patch 13 handle the only
-reset parent change (tricky) case I found (apart from hotplug).
-
-Thanks for your feedback,
-Damien
-
-Damien Hedde (13):
-  add device_legacy_reset function to prepare for reset api change
-  hw/core/qdev: add trace events to help with resettable transition
-  hw/core: create Resettable QOM interface
-  hw/core: add Resettable support to BusClass and DeviceClass
-  hw/core/resettable: add support for changing parent
-  hw/core/qdev: handle parent bus change regarding resettable
-  hw/core/qdev: update hotplug reset regarding resettable
-  hw/core: deprecate old reset functions and introduce new ones
-  docs/devel/reset.txt: add doc about Resettable interface
-  vl: replace deprecated qbus_reset_all registration
-  hw/s390x/ipl: replace deprecated qdev_reset_all registration
-  hw/gpio/bcm2835_gpio: Isolate sdbus reparenting
-  hw/gpio/bcm2835_gpio: Update to resettable
-
- Makefile.objs            |   1 +
- docs/devel/reset.rst     | 282 ++++++++++++++++++++++++++++++++++++++
- hw/audio/intel-hda.c     |   2 +-
- hw/core/Makefile.objs    |   1 +
- hw/core/bus.c            | 102 ++++++++++++++
- hw/core/qdev.c           | 156 +++++++++++++++++++--
- hw/core/resettable.c     | 289 +++++++++++++++++++++++++++++++++++++++
- hw/core/trace-events     |  27 ++++
- hw/gpio/bcm2835_gpio.c   |  31 +++--
- hw/hyperv/hyperv.c       |   2 +-
- hw/i386/pc.c             |   2 +-
- hw/ide/microdrive.c      |   8 +-
- hw/intc/spapr_xive.c     |   2 +-
- hw/ppc/pnv_psi.c         |   2 +-
- hw/ppc/spapr_pci.c       |   2 +-
- hw/ppc/spapr_vio.c       |   2 +-
- hw/s390x/ipl.c           |  10 +-
- hw/s390x/s390-pci-inst.c |   2 +-
- hw/scsi/vmw_pvscsi.c     |   2 +-
- hw/sd/omap_mmc.c         |   2 +-
- hw/sd/pl181.c            |   2 +-
- include/hw/qdev-core.h   |  58 +++++++-
- include/hw/resettable.h  | 224 ++++++++++++++++++++++++++++++
- tests/Makefile.include   |   1 +
- vl.c                     |  10 +-
- 25 files changed, 1185 insertions(+), 37 deletions(-)
- create mode 100644 docs/devel/reset.rst
- create mode 100644 hw/core/resettable.c
- create mode 100644 include/hw/resettable.h
-
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 60be2f2fef..f230063189 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -38,6 +38,7 @@
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
++#include "trace.h"
+=20
+ bool qdev_hotplug =3D false;
+ static bool qdev_hot_added =3D false;
+@@ -98,7 +99,9 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bu=
+s)
+     bool replugging =3D dev->parent_bus !=3D NULL;
+=20
+     if (replugging) {
+-        /* Keep a reference to the device while it's not plugged into
++        trace_qdev_update_parent_bus(dev, dev->parent_bus, bus);
++        /*
++         * Keep a reference to the device while it's not plugged into
+          * any bus, to avoid it potentially evaporating when it is
+          * dereffed in bus_remove_child().
+          */
+@@ -272,6 +275,18 @@ HotplugHandler *qdev_get_hotplug_handler(DeviceState=
+ *dev)
+     return hotplug_ctrl;
+ }
+=20
++static int qdev_prereset(DeviceState *dev, void *opaque)
++{
++    trace_qdev_reset_tree(dev, object_get_typename(OBJECT(dev)));
++    return 0;
++}
++
++static int qbus_prereset(BusState *bus, void *opaque)
++{
++    trace_qbus_reset_tree(bus, object_get_typename(OBJECT(bus)));
++    return 0;
++}
++
+ static int qdev_reset_one(DeviceState *dev, void *opaque)
+ {
+     device_legacy_reset(dev);
+@@ -282,6 +297,7 @@ static int qdev_reset_one(DeviceState *dev, void *opa=
+que)
+ static int qbus_reset_one(BusState *bus, void *opaque)
+ {
+     BusClass *bc =3D BUS_GET_CLASS(bus);
++    trace_qbus_reset(bus, object_get_typename(OBJECT(bus)));
+     if (bc->reset) {
+         bc->reset(bus);
+     }
+@@ -290,7 +306,9 @@ static int qbus_reset_one(BusState *bus, void *opaque=
+)
+=20
+ void qdev_reset_all(DeviceState *dev)
+ {
+-    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_one, =
+NULL);
++    trace_qdev_reset_all(dev, object_get_typename(OBJECT(dev)));
++    qdev_walk_children(dev, qdev_prereset, qbus_prereset,
++                       qdev_reset_one, qbus_reset_one, NULL);
+ }
+=20
+ void qdev_reset_all_fn(void *opaque)
+@@ -300,7 +318,9 @@ void qdev_reset_all_fn(void *opaque)
+=20
+ void qbus_reset_all(BusState *bus)
+ {
+-    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_one, =
+NULL);
++    trace_qbus_reset_all(bus, object_get_typename(OBJECT(bus)));
++    qbus_walk_children(bus, qdev_prereset, qbus_prereset,
++                       qdev_reset_one, qbus_reset_one, NULL);
+ }
+=20
+ void qbus_reset_all_fn(void *opaque)
+@@ -1108,6 +1128,7 @@ void device_legacy_reset(DeviceState *dev)
+ {
+     DeviceClass *klass =3D DEVICE_GET_CLASS(dev);
+=20
++    trace_qdev_reset(dev, object_get_typename(OBJECT(dev)));
+     if (klass->reset) {
+         klass->reset(dev);
+     }
+diff --git a/hw/core/trace-events b/hw/core/trace-events
+index fe47a9c8cb..1a669be0ea 100644
+--- a/hw/core/trace-events
++++ b/hw/core/trace-events
+@@ -1,2 +1,11 @@
+ # loader.c
+ loader_write_rom(const char *name, uint64_t gpa, uint64_t size, bool isr=
+om) "%s: @0x%"PRIx64" size=3D0x%"PRIx64" ROM=3D%d"
++
++# qdev.c
++qdev_reset(void *obj, const char *objtype) "obj=3D%p(%s)"
++qdev_reset_all(void *obj, const char *objtype) "obj=3D%p(%s)"
++qdev_reset_tree(void *obj, const char *objtype) "obj=3D%p(%s)"
++qbus_reset(void *obj, const char *objtype) "obj=3D%p(%s)"
++qbus_reset_all(void *obj, const char *objtype) "obj=3D%p(%s)"
++qbus_reset_tree(void *obj, const char *objtype) "obj=3D%p(%s)"
++qdev_update_parent_bus(void *obj, void *oldp, void *newp) "obj=3D%p old_=
+parent=3D%p new_parent=3D%p"
 --=20
 2.23.0
 
