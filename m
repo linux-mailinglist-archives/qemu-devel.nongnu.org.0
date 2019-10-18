@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839EDDCDD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:20:28 +0200 (CEST)
-Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6BADCDE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 20:23:43 +0200 (CEST)
+Received: from localhost ([::1]:44904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLWrT-0001n3-2D
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
+	id 1iLWuc-0007By-Ev
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 14:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1iLWpJ-00088r-AC
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:14 -0400
+ (envelope-from <david@redhat.com>) id 1iLWpJ-00089Y-Ry
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1iLWpI-0001yl-3F
+ (envelope-from <david@redhat.com>) id 1iLWpH-0001yN-LA
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 14:18:13 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:38799)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1iLWpF-0001vV-BQ; Fri, 18 Oct 2019 14:18:09 -0400
-Received: by mail-pg1-x544.google.com with SMTP id w3so3801971pgt.5;
- Fri, 18 Oct 2019 11:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=h+ePRCwOeiDPPJVeh/ZGICTBIB7KHXv/C5hT8+LC3Vw=;
- b=ryj+Wck6Vm38zaZUuMiOmMaA7otw33+UC1sfy1W7rlO3EpzS/OeaVf1Mpb8XpYLD9R
- zUf3alKS/W8SgDJ6U4/W9yyrgyGA8NPSPqcIxpx/8nsJD8y7jjl2N+45yGvg4FmQldNu
- Xtf4QqZWz2X4PvLZ4VpHAI2HyNsGLMjlO8uSqi//9r8jxmAybYtPmmk++FAtHgvl/vO7
- SFN0yqn8xHlWeONyRPm3D0o3S9UBN6PR9VDZyo4A9i6hFBNTm36xmyGntopVv6Q5+2di
- HRBuMqFF67Fz1VURIIWtyPG7Ultq/2NRKV2NgP6OJbgS8xQjuWfzaKvNpBvKUAJvktrl
- W9Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=h+ePRCwOeiDPPJVeh/ZGICTBIB7KHXv/C5hT8+LC3Vw=;
- b=KLIWXFuSFvGHnGj5nH4NVBoGQZE8nHiaGVAtDYBJZ/UcxtluQSbmWjjsB3gxi4e19v
- E/A8d9Vr9WfjcL8ZCecuLqVJxtYspQeW9sPU5jZ1PiBCYwXy+bJJ0o1kkevCDZqs//Ev
- W2dxroLdQlri7zlY+kCW4TLxdROjE1ggjlTMEpR5wONE7V6iZ6RA1K6E2D2vOVqOSCIJ
- 2jegu6MIQQ95AB3AEDHxdEyxq9BteaxQ3QOsepHDky6uWm/BrTlZbs26ggYGm5iPJb+p
- HjIoNnEq0yT5EUjhOz9onJo2qvqMOt0CEy28eSZOimm0+0o4VBSw8JVKPCA0iRdTKBLA
- 74GA==
-X-Gm-Message-State: APjAAAVkyv1bsqTqzXWrP0bmR7gD7qQscemw1x9excRfD1LEjG2XDuEG
- 66OfPEFNzJ3SnR9Slo+bBrU=
-X-Google-Smtp-Source: APXvYqzvvgKaO+MzFGfN053hZm237NokC/GD7RVs6k+OJFAa4EyNf2cmm9KWLMJWryJGmTySkE9bjg==
-X-Received: by 2002:a63:eb52:: with SMTP id b18mr11149577pgk.205.1571422687887; 
- Fri, 18 Oct 2019 11:18:07 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id f185sm9122431pfb.183.2019.10.18.11.18.05
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 18 Oct 2019 11:18:06 -0700 (PDT)
-Date: Fri, 18 Oct 2019 11:18:04 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/timer/exynos4210_mct: Initialize ptimer before
- starting it
-Message-ID: <20191018181804.GA29037@roeck-us.net>
-References: <20191018143149.9216-1-peter.maydell@linaro.org>
+Received: from mx1.redhat.com ([209.132.183.28]:46254)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>)
+ id 1iLWpH-0001xT-Ax; Fri, 18 Oct 2019 14:18:11 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8D0FC18C8906;
+ Fri, 18 Oct 2019 18:18:10 +0000 (UTC)
+Received: from [10.36.116.69] (ovpn-116-69.ams2.redhat.com [10.36.116.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13D6119C7F;
+ Fri, 18 Oct 2019 18:18:08 +0000 (UTC)
+Subject: Re: [PATCH v1 4/6] s390x/tcg: Fix VECTOR SUBTRACT COMPUTE BORROW
+ INDICATION
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20191018161044.6983-1-david@redhat.com>
+ <20191018161044.6983-5-david@redhat.com>
+ <d12a5c30-1953-7586-97d4-883131ac0b40@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <be613a08-a62e-c10d-5c5d-8b334e8f0985@redhat.com>
+Date: Fri, 18 Oct 2019 20:18:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191018143149.9216-1-peter.maydell@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+In-Reply-To: <d12a5c30-1953-7586-97d4-883131ac0b40@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.70]); Fri, 18 Oct 2019 18:18:10 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,85 +63,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 18, 2019 at 03:31:49PM +0100, Peter Maydell wrote:
-> From: Guenter Roeck <linux@roeck-us.net>
+On 18.10.19 19:41, David Hildenbrand wrote:
+> On 18.10.19 18:10, David Hildenbrand wrote:
+>> Looks like my idea of what a "borrow" is was wrong. We are dealing with
+>> unsigned numbers. A subtraction is simply an addition with the bitwise
+>> complement. If we get a carry during the addition, that's the borrow.
+>> "The operands are treated as unsigned binary integers."
+>>
+>> This is nice, as we can reuse the VECTOR ADD COMPUTE CARRY functions
+>> and avoid helpers, all we have to do is compute the bitwise complement.
+>>
+>> Fixes: 1ee2d7ba72f6 ("s390x/tcg: Implement VECTOR SUBTRACT COMPUTE BORROW INDICATION")
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>    target/s390x/helper.h           |  2 --
+>>    target/s390x/translate_vx.inc.c | 45 ++++++++++++++++++++++++---------
+>>    target/s390x/vec_int_helper.c   | 16 ------------
+>>    3 files changed, 33 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+>> index 56e8149866..ca1e08100a 100644
+>> --- a/target/s390x/helper.h
+>> +++ b/target/s390x/helper.h
+>> @@ -207,8 +207,6 @@ DEF_HELPER_FLAGS_4(gvec_verim16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+>>    DEF_HELPER_FLAGS_4(gvec_vsl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+>>    DEF_HELPER_FLAGS_4(gvec_vsra, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+>>    DEF_HELPER_FLAGS_4(gvec_vsrl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+>> -DEF_HELPER_FLAGS_4(gvec_vscbi8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+>> -DEF_HELPER_FLAGS_4(gvec_vscbi16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+>>    DEF_HELPER_4(gvec_vtm, void, ptr, cptr, env, i32)
+>>    
+>>    /* === Vector String Instructions === */
+>> diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
+>> index 5ce7bfb0af..40bcc1604e 100644
+>> --- a/target/s390x/translate_vx.inc.c
+>> +++ b/target/s390x/translate_vx.inc.c
+>> @@ -2130,14 +2130,40 @@ static DisasJumpType op_vs(DisasContext *s, DisasOps *o)
+>>        return DISAS_NEXT;
+>>    }
+>>    
+>> +static void gen_scbi8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+>> +{
+>> +    TCGv_i64 t = tcg_temp_new_i64();
+>> +
+>> +    tcg_gen_not_i64(t, b);
+>> +    gen_acc(d, a, t, ES_8);
+>> +    tcg_temp_free_i64(t);
+>> +}
 > 
-> When booting a recent Linux kernel, the qemu message "Timer with delta
-> zero, disabling" is seen, apparently because a ptimer is started before
-> being initialized.  Fix the problem by initializing the offending ptimer
-> before starting it.
+> BTW, I would have thought that we need the 2nd complement in all these
+> cases. However, the description of the other functions confused me
+> (VECTOR SUBTRACT WITH BORROW INDICATION) - add bitwise complement and
+> add the borrow.
 > 
-> The bug is effectively harmless in the old QEMUBH setup
-> because the sequence of events is:
->  * the delta zero means the timer expires immediately
->  * ptimer_reload() arranges for exynos4210_gfrc_event() to be called
->  * ptimer_reload() notices the zero delta and disables the timer
->  * later, the QEMUBH runs, and exynos4210_gfrc_event() correctly
->    configures the timer and restarts it
+> This passes my test cases (that are verified against real HW), but I am
+> not sure if I check all the corner cases.
 > 
-> In the new transaction based API the bug is still harmless,
-> but differences of when the callback function runs mean the
-> message is not printed any more:
->  * ptimer_run() does nothing as it's inside a transaction block
->  * ptimer_transaction_commit() sees it has work to do and
->    calls ptimer_reload()
->  * the zero delta means the timer expires immediately
->  * ptimer_reload() calls exynos4210_gfrc_event() directly
->  * exynos4210_gfrc_event() configures the timer
->  * the delta is no longer zero so ptimer_reload() doesn't complain
->    (the zero-delta test is after the trigger-callback in
->    the ptimer_reload() function)
+> @Richard, do you have any idea how to do it the right way for this
+> instruction?
 > 
-> Regardless, the behaviour here was not intentional, and we should
-> just program the ptimer correctly to start with.
-> 
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> [PMM: Expansion/clarification of the commit message:
->  the message is about a zero delta, not a zero period;
->  added detail to the commit message of the analysis of what
->  is happening and why the kernel boots even with the message;
->  added note that the message goes away with the new ptimer API]
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Philippe pointed me at this bugfix from Guenter. At one point
-> in my working on the ptimer API changes I thought this bugfix
-> would be necessary as a prerequisite, but in fact the issue
-> was in my ptimer changes, and it just happened that fixing
-> the MCT bug was a workaround for my bug. Even though the
-> ptimer API changes actually coincidentally now suppress the
-> annoying message about a zero delta, the behaviour is definitely
-> not intentional, and since I spent the time working through the
-> analysis of what was actually going on here I don't want
-> to waste it :-)
-> ---
 
-Thanks a lot for picking this up, and for the great analysis!
+My impression was right. A simple "0-0" test makes this visible. The 
+other two fixes seem to be correct, though.
 
-Guenter
+Will rework.
 
->  hw/timer/exynos4210_mct.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
-> index 72257584145..944120aea59 100644
-> --- a/hw/timer/exynos4210_mct.c
-> +++ b/hw/timer/exynos4210_mct.c
-> @@ -1254,7 +1254,7 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
->          /* Start FRC if transition from disabled to enabled */
->          if ((value & G_TCON_TIMER_ENABLE) > (old_val &
->                  G_TCON_TIMER_ENABLE)) {
-> -            exynos4210_gfrc_start(&s->g_timer);
-> +            exynos4210_gfrc_restart(s);
->          }
->          if ((value & G_TCON_TIMER_ENABLE) < (old_val &
->                  G_TCON_TIMER_ENABLE)) {
-> -- 
-> 2.20.1
-> 
+-- 
+
+Thanks,
+
+David / dhildenb
 
