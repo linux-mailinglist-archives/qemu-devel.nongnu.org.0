@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32695DCC5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:12:37 +0200 (CEST)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE17DCC6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 19:14:42 +0200 (CEST)
+Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLVno-0003gM-8Y
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56141)
+	id 1iLVpp-0005w7-JP
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 13:14:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iLVkF-0000jB-HQ
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:08:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1iLVom-0005Cs-NB
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:13:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iLVkE-0002mX-Fb
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:08:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48244)
+ (envelope-from <mreitz@redhat.com>) id 1iLVol-0004YB-G9
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 13:13:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43986)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1iLVkC-0002iJ-2p; Fri, 18 Oct 2019 13:08:52 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1iLVoi-0004Wu-I3; Fri, 18 Oct 2019 13:13:32 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3FD1E2D6A0F;
- Fri, 18 Oct 2019 17:08:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AC59810C094D;
+ Fri, 18 Oct 2019 17:13:31 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 569BA19C7F;
- Fri, 18 Oct 2019 17:08:46 +0000 (UTC)
-Subject: Re: [PATCH 4/5] iotests: Skip "make check-block" if QEMU does not
- support virtio-blk
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D2295C22F;
+ Fri, 18 Oct 2019 17:13:19 +0000 (UTC)
+Subject: Re: [PATCH 5/5] iotests: Enable more tests in the 'auto' group to
+ improve test coverage
 To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
 References: <20191011145047.19051-1-thuth@redhat.com>
- <20191011145047.19051-5-thuth@redhat.com>
+ <20191011145047.19051-6-thuth@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -59,18 +59,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d3f83068-d512-4a57-cf9a-ddc7370614a0@redhat.com>
-Date: Fri, 18 Oct 2019 19:08:45 +0200
+Message-ID: <23740662-98cf-d394-be3d-a8d1d2db4e66@redhat.com>
+Date: Fri, 18 Oct 2019 19:13:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191011145047.19051-5-thuth@redhat.com>
+In-Reply-To: <20191011145047.19051-6-thuth@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="WRd9LoDzEH3TtX2dy3fefcc4Ez7FDLYO3"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 18 Oct 2019 17:08:51 +0000 (UTC)
+ boundary="fctKoyDvfuJPnx4Np1Z6chR7iHhEFy3nc"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.66]); Fri, 18 Oct 2019 17:13:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -91,81 +91,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WRd9LoDzEH3TtX2dy3fefcc4Ez7FDLYO3
-Content-Type: multipart/mixed; boundary="ysKrFdKSEllybvdIBryRpKvINTdfWBAsc"
+--fctKoyDvfuJPnx4Np1Z6chR7iHhEFy3nc
+Content-Type: multipart/mixed; boundary="YA0WifJj5Rsq09znvqmywBlABKy39xgGL"
 
---ysKrFdKSEllybvdIBryRpKvINTdfWBAsc
+--YA0WifJj5Rsq09znvqmywBlABKy39xgGL
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 11.10.19 16:50, Thomas Huth wrote:
-> The next patch is going to add some python-based tests to the "auto"
-> group, and these tests require virtio-blk to work properly. Running
-> iotests without virtio-blk likely does not make too much sense anyway,
-> so instead of adding a check for the availability of virtio-blk to each=
-
-> and every test (which does not sound very appealing), let's rather add
-> a check for this at the top level in the check-block.sh script instead
-> (so that it is possible to run "make check" without the "check-block"
-> part for qemu-system-tricore for example).
+> According to Kevin, tests 030, 040 and 041 are among the most valuable
+> tests that we have, so we should always run them if possible, even if
+> they take a little bit longer.
+>=20
+> According to Max, it would be good to have a test for iothreads and
+> migration. 127 and 256 seem to be good candidates for iothreads. For
+> migration, let's enable 091, 181, 183, and 203 (which also tests
+> iothreads).
 >=20
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  tests/check-block.sh | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tests/check-block.sh b/tests/check-block.sh
-> index 679aedec50..7582347ec2 100755
-> --- a/tests/check-block.sh
-> +++ b/tests/check-block.sh
-> @@ -26,10 +26,24 @@ if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/=
-dev/null ; then
->      exit 0
->  fi
-> =20
-> -if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-> +if [ -n "$QEMU_PROG" ]; then
-> +    qemu_prog=3D"$QEMU_PROG"
-> +else
-> +    for binary in *-softmmu/qemu-system-* ; do
-> +        if [ -x "$binary" ]; then
-> +            qemu_prog=3D"$binary"
-> +            break
-> +        fi
-> +    done
-> +fi
-> +if [ -z "$qemu_prog" ]; then
->      echo "No qemu-system binary available =3D=3D> Not running the qemu=
--iotests."
->      exit 0
->  fi
-> +if ! "$qemu_prog" -M none -device help | grep virtio-blk >/dev/null 2>=
-&1 ; then
+>  tests/qemu-iotests/group | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 
-Maybe grep -q?
+I=E2=80=99m not sure whether I=E2=80=99ve recently seen intermittent fail=
+ures in one of
+91, 181, or 183, so I=E2=80=99ll have to look into that again.
+
+In the meantime:
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---ysKrFdKSEllybvdIBryRpKvINTdfWBAsc--
+--YA0WifJj5Rsq09znvqmywBlABKy39xgGL--
 
---WRd9LoDzEH3TtX2dy3fefcc4Ez7FDLYO3
+--fctKoyDvfuJPnx4Np1Z6chR7iHhEFy3nc
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2p8Z0ACgkQ9AfbAGHV
-z0CY+Qf+MMVZi4aJgRKJCVSg3jVecIJedEVx1yOdZvGEHp+LCcI9VkY4Bx72Uszg
-kn3v/24C+d7DMynec7IgUaIE7aeUX2/LVLWtSu3S7JcCzy+X5q0QaddcmmY/7sEt
-fSRLw5Vv/l+3rLBWEvgYJXVX/dTuNrhQaUUJzoe9q6ceI/yCBT5rYdf8wv8ElYR7
-9XaOdGkihWT2s5tMgHw1F8P882mCsCVS2Yb3+Hyd/OKWEo+7LkSn1jBis0+SeTxO
-IU2bYh765o+1/fJkIp8HsoFQyBMgmbR8bkyPZbLDwYM7XRg3CmaF9TRHcXUhTMDk
-ybVhyv6g2r9BVuiH/4jP9hWLxiiTEQ==
-=eUjV
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl2p8q0ACgkQ9AfbAGHV
+z0CG2wf/TAF/T4Vi7IFs4U5JWW66UIFZjzgLI072NT0qRu9tJEbnELYd+MRa7VAs
+AgW2xDqi/9YhFm5ynvNgrFCDh8X3JeNr56T6+ZrikMk827IjIk7K1BnbVzqeYZaP
+MttXH/4UqMCpqWfS7QJgRHJRyDKeoppEKqAU5k749vo0NWfiJpf5dqjaxJJu9woW
+vJfALfgeGJIOUC2lo1WVpGhzopK9/LkWk6Qbae8QJVfIqVAwWLFxu6oQjnkJCX5h
+5dT4Psi+k5GpZu1KNf7/TOjAp02yLoe6KARdVPZBaS0BakLCU1sRGkro1+jtrOMt
+mbposdEDAThEW7E4XEtpBBUkam4jdA==
+=8QLs
 -----END PGP SIGNATURE-----
 
---WRd9LoDzEH3TtX2dy3fefcc4Ez7FDLYO3--
+--fctKoyDvfuJPnx4Np1Z6chR7iHhEFy3nc--
 
