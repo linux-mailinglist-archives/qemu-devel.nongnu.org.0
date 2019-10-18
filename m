@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F10DC2A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 12:19:52 +0200 (CEST)
-Received: from localhost ([::1]:37546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EC5DC2A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 12:19:50 +0200 (CEST)
+Received: from localhost ([::1]:37544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLPMN-0007ID-PU
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 06:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53269)
+	id 1iLPML-0007Ec-A5
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 06:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iLPJt-0005N6-4C
+ (envelope-from <kraxel@redhat.com>) id 1iLPJt-0005N7-6q
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:17:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iLPJs-0002Vt-3g
+ (envelope-from <kraxel@redhat.com>) id 1iLPJs-0002W4-68
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:17:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58922)
+Received: from mx1.redhat.com ([209.132.183.28]:35126)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iLPJr-0002V4-UI
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iLPJs-0002V5-08
  for qemu-devel@nongnu.org; Fri, 18 Oct 2019 06:17:16 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 19357307C656;
+ by mx1.redhat.com (Postfix) with ESMTPS id 2668518C426B;
  Fri, 18 Oct 2019 10:17:15 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com
  [10.36.116.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4EBE81001B03;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B1F15D9CA;
  Fri, 18 Oct 2019 10:17:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3CA449D26; Fri, 18 Oct 2019 12:17:11 +0200 (CEST)
+ id 454D89D31; Fri, 18 Oct 2019 12:17:11 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] curses: use the bit mask constants provided by curses
-Date: Fri, 18 Oct 2019 12:17:09 +0200
-Message-Id: <20191018101711.24105-3-kraxel@redhat.com>
+Subject: [PULL 3/4] curses: correctly pass the color pair to setcchar()
+Date: Fri, 18 Oct 2019 12:17:10 +0200
+Message-Id: <20191018101711.24105-4-kraxel@redhat.com>
 In-Reply-To: <20191018101711.24105-1-kraxel@redhat.com>
 References: <20191018101711.24105-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 18 Oct 2019 10:17:15 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2
+ (mx1.redhat.com [10.5.110.62]); Fri, 18 Oct 2019 10:17:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.132.183.28
@@ -66,37 +63,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matthew Kilgore <mattkilgore12@gmail.com>
 
-The curses API provides the A_ATTRIBUTES and A_CHARTEXT bit masks for
-getting the attributes and character parts of a chtype, respectively. We
-should use provided constants instead of using 0xff.
+The current code does not correctly pass the color pair information to
+setcchar(), it instead always passes zero. This results in the curses
+output always being in white on black.
+
+This patch fixes this by using PAIR_NUMBER() to retrieve the color pair
+number from the chtype value, and then passes that value as an argument
+to setcchar().
 
 Signed-off-by: Matthew Kilgore <mattkilgore12@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Tested-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Message-id: 20191004035338.25601-2-mattkilgore12@gmail.com
+Message-id: 20191004035338.25601-3-mattkilgore12@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/curses.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ui/curses.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/ui/curses.c b/ui/curses.c
-index ec281125acbd..84003f56a323 100644
+index 84003f56a323..3a1b71451c93 100644
 --- a/ui/curses.c
 +++ b/ui/curses.c
-@@ -75,8 +75,8 @@ static void curses_update(DisplayChangeListener *dcl,
-     line =3D screen + y * width;
-     for (h +=3D y; y < h; y ++, line +=3D width) {
-         for (x =3D 0; x < width; x++) {
--            chtype ch =3D line[x] & 0xff;
--            chtype at =3D line[x] & ~0xff;
-+            chtype ch =3D line[x] & A_CHARTEXT;
-+            chtype at =3D line[x] & A_ATTRIBUTES;
-             ret =3D getcchar(&vga_to_curses[ch], wch, &attrs, &colors, N=
-ULL);
-             if (ret =3D=3D ERR || wch[0] =3D=3D 0) {
-                 wch[0] =3D ch;
---=20
+@@ -77,12 +77,14 @@ static void curses_update(DisplayChangeListener *dcl,
+         for (x = 0; x < width; x++) {
+             chtype ch = line[x] & A_CHARTEXT;
+             chtype at = line[x] & A_ATTRIBUTES;
++            short color_pair = PAIR_NUMBER(line[x]);
++
+             ret = getcchar(&vga_to_curses[ch], wch, &attrs, &colors, NULL);
+             if (ret == ERR || wch[0] == 0) {
+                 wch[0] = ch;
+                 wch[1] = 0;
+             }
+-            setcchar(&curses_line[x], wch, at, 0, NULL);
++            setcchar(&curses_line[x], wch, at, color_pair, NULL);
+         }
+         mvwadd_wchnstr(screenpad, y, 0, curses_line, width);
+     }
+-- 
 2.18.1
 
 
