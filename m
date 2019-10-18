@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2B4DC63F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:37:43 +0200 (CEST)
-Received: from localhost ([::1]:40104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCC6DC646
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Oct 2019 15:38:55 +0200 (CEST)
+Received: from localhost ([::1]:40124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iLSRp-0008EB-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52809)
+	id 1iLST0-0001oi-Dc
+	for lists+qemu-devel@lfdr.de; Fri, 18 Oct 2019 09:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iLSQG-00073i-Sl
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:36:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1iLSQO-00076P-6P
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:36:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iLSQF-0007X7-8N
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:36:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53420)
+ (envelope-from <philmd@redhat.com>) id 1iLSQI-0007aC-Am
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:36:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56828)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSQE-0007WZ-71
- for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:36:02 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iLSQH-0007Yg-PT
+ for qemu-devel@nongnu.org; Fri, 18 Oct 2019 09:36:06 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 56B2C30789A0;
- Fri, 18 Oct 2019 13:36:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 071E810F12;
+ Fri, 18 Oct 2019 13:36:05 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DEA93CC8;
- Fri, 18 Oct 2019 13:35:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 082D1194BE;
+ Fri, 18 Oct 2019 13:36:01 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] mc146818rtc: move structure to header file
-Date: Fri, 18 Oct 2019 15:35:44 +0200
-Message-Id: <20191018133547.10936-2-philmd@redhat.com>
+Subject: [PATCH 2/4] mc146818rtc: Move RTC_ISA_IRQ definition
+Date: Fri, 18 Oct 2019 15:35:45 +0200
+Message-Id: <20191018133547.10936-3-philmd@redhat.com>
 In-Reply-To: <20191018133547.10936-1-philmd@redhat.com>
 References: <20191018133547.10936-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 18 Oct 2019 13:36:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Fri, 18 Oct 2019 13:36:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -58,120 +58,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-We are now able to embed a timer in another object.
+The ISA default number for the RTC devices is not related to its
+registers neither. Move this definition to "hw/timer/mc146818rtc.h".
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-Message-Id: <20171216090228.28505-4-hpoussin@reactos.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/timer/mc146818rtc.c         | 30 ------------------------------
- include/hw/timer/mc146818rtc.h | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 30 deletions(-)
+ include/hw/timer/mc146818rtc.h      | 2 ++
+ include/hw/timer/mc146818rtc_regs.h | 2 --
+ tests/rtc-test.c                    | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/mc146818rtc.c b/hw/timer/mc146818rtc.c
-index 6cb378751b..e40b54e743 100644
---- a/hw/timer/mc146818rtc.c
-+++ b/hw/timer/mc146818rtc.c
-@@ -71,36 +71,6 @@
- #define RTC_CLOCK_RATE            32768
- #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
-=20
--#define MC146818_RTC(obj) OBJECT_CHECK(RTCState, (obj), TYPE_MC146818_RT=
-C)
--
--typedef struct RTCState {
--    ISADevice parent_obj;
--
--    MemoryRegion io;
--    MemoryRegion coalesced_io;
--    uint8_t cmos_data[128];
--    uint8_t cmos_index;
--    int32_t base_year;
--    uint64_t base_rtc;
--    uint64_t last_update;
--    int64_t offset;
--    qemu_irq irq;
--    int it_shift;
--    /* periodic timer */
--    QEMUTimer *periodic_timer;
--    int64_t next_periodic_time;
--    /* update-ended timer */
--    QEMUTimer *update_timer;
--    uint64_t next_alarm_time;
--    uint16_t irq_reinject_on_ack_count;
--    uint32_t irq_coalesced;
--    uint32_t period;
--    QEMUTimer *coalesced_timer;
--    LostTickPolicy lost_tick_policy;
--    Notifier suspend_notifier;
--    QLIST_ENTRY(RTCState) link;
--} RTCState;
--
- static void rtc_set_time(RTCState *s);
- static void rtc_update_time(RTCState *s);
- static void rtc_set_cmos(RTCState *s, const struct tm *tm);
 diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/mc146818rt=
 c.h
-index fe6ed63f71..0f1c886e5b 100644
+index 0f1c886e5b..17761cf6d9 100644
 --- a/include/hw/timer/mc146818rtc.h
 +++ b/include/hw/timer/mc146818rtc.h
-@@ -1,10 +1,43 @@
- #ifndef MC146818RTC_H
- #define MC146818RTC_H
+@@ -39,6 +39,8 @@ typedef struct RTCState {
+     QLIST_ENTRY(RTCState) link;
+ } RTCState;
 =20
-+#include "qapi/qapi-types-misc.h"
-+#include "qemu/queue.h"
-+#include "qemu/timer.h"
- #include "hw/isa/isa.h"
- #include "hw/timer/mc146818rtc_regs.h"
-=20
- #define TYPE_MC146818_RTC "mc146818rtc"
-+#define MC146818_RTC(obj) OBJECT_CHECK(RTCState, (obj), TYPE_MC146818_RT=
-C)
++#define RTC_ISA_IRQ 8
 +
-+typedef struct RTCState {
-+    ISADevice parent_obj;
-+
-+    MemoryRegion io;
-+    MemoryRegion coalesced_io;
-+    uint8_t cmos_data[128];
-+    uint8_t cmos_index;
-+    int32_t base_year;
-+    uint64_t base_rtc;
-+    uint64_t last_update;
-+    int64_t offset;
-+    qemu_irq irq;
-+    int it_shift;
-+    /* periodic timer */
-+    QEMUTimer *periodic_timer;
-+    int64_t next_periodic_time;
-+    /* update-ended timer */
-+    QEMUTimer *update_timer;
-+    uint64_t next_alarm_time;
-+    uint16_t irq_reinject_on_ack_count;
-+    uint32_t irq_coalesced;
-+    uint32_t period;
-+    QEMUTimer *coalesced_timer;
-+    Notifier clock_reset_notifier;
-+    LostTickPolicy lost_tick_policy;
-+    Notifier suspend_notifier;
-+    QLIST_ENTRY(RTCState) link;
-+} RTCState;
-=20
  ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
                               qemu_irq intercept_irq);
+ void rtc_set_memory(ISADevice *dev, int addr, int val);
+diff --git a/include/hw/timer/mc146818rtc_regs.h b/include/hw/timer/mc146=
+818rtc_regs.h
+index bfbb57e570..631f71cfd9 100644
+--- a/include/hw/timer/mc146818rtc_regs.h
++++ b/include/hw/timer/mc146818rtc_regs.h
+@@ -27,8 +27,6 @@
+=20
+ #include "qemu/timer.h"
+=20
+-#define RTC_ISA_IRQ 8
+-
+ #define RTC_SECONDS             0
+ #define RTC_SECONDS_ALARM       1
+ #define RTC_MINUTES             2
+diff --git a/tests/rtc-test.c b/tests/rtc-test.c
+index 6309b0ef6c..18f895690f 100644
+--- a/tests/rtc-test.c
++++ b/tests/rtc-test.c
+@@ -15,6 +15,7 @@
+=20
+ #include "libqtest-single.h"
+ #include "qemu/timer.h"
++#include "hw/timer/mc146818rtc.h"
+ #include "hw/timer/mc146818rtc_regs.h"
+=20
+ #define UIP_HOLD_LENGTH           (8 * NANOSECONDS_PER_SECOND / 32768)
 --=20
 2.21.0
 
